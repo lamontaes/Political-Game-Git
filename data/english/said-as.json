@@ -147,8 +147,7 @@
   },
   "relation": {
     "yours": "your {relation} {given}",
-    "mine": "my {relation} {given}",
-    "possessive": "{name}'s"
+    "mine": "my {relation} {given}"
   },
   "outsideJob": {
     "about": "A job the residents engine fills in for a commuter, held with the outside market that stands in for work out of town: its title (\"Works outside the town\") is a placeholder, never said as a job.",

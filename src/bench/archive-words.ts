@@ -1,4 +1,5 @@
 import type { EntityId } from "../core2/kernel/brands";
+import { capitalFirst, fullNameOf } from "../english/plain-words.mjs";
 import { spokenDate } from "../core2/kernel/dates";
 import {
   followersOf,
@@ -308,14 +309,13 @@ function worded(
   const composed = composeNewsStory(packet, kind, turn);
   if (!composed.headline && !composed.lede) return null;
   // A headline or sentence opens with a capital, whatever fact starts it.
-  const opened = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
   return {
-    ...(composed.headline ? { headline: opened(composed.headline) } : {}),
-    ...(composed.lede ? { lede: opened(composed.lede) } : {}),
+    ...(composed.headline ? { headline: capitalFirst(composed.headline) } : {}),
+    ...(composed.lede ? { lede: capitalFirst(composed.lede) } : {}),
     // The story's body as print sets it: the lede, then each sentence the
     // record gives it, so News prints a story, not only a brief.
     ...(composed.paragraphs && composed.paragraphs.length > 1
-      ? { paragraphs: composed.paragraphs.map(opened) }
+      ? { paragraphs: composed.paragraphs.map((text) => capitalFirst(text)) }
       : {}),
     ...(composed.brief ? { brief: true as const } : {}),
     sourceRecordIds: composed.sourceRecordIds,
@@ -338,7 +338,7 @@ export function wordOwnResult(
   const ids = [record.id] as EntityId[];
   const facts: Record<string, StoryFact> = {
     name: {
-      text: `${person.givenName} ${person.familyName}`,
+      text: fullNameOf(person),
       sourceRecordIds: [...ids, person.id as EntityId],
     },
     [race.won ? "won" : "lost"]: { text: "yes", sourceRecordIds: ids },

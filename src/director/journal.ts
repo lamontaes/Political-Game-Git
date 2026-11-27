@@ -36,7 +36,6 @@ import {
   journalEntry,
   journalRows,
   metRelation,
-  possessivePronoun,
   relationPhrase,
   saysOffice,
   seatSaid,
@@ -71,6 +70,8 @@ import {
 } from "../core2/past";
 import { pastParameter } from "../core2/past-module";
 import { moneySaid } from "../english/count-words";
+import { possessiveOf } from "../english/pronoun-words";
+import { fullNameOf, listWords } from "../english/plain-words.mjs";
 
 import { spanSaid } from "../english/span-words";
 import type { CallbackLink, Moment } from "./types";
@@ -270,12 +271,6 @@ function employerName(
         sourceRecordIds: [...recordIds, org.id],
       }
     : undefined;
-}
-
-function listOf(items: readonly string[]): string {
-  return items.length < P.two + one
-    ? items.join(" and ")
-    : `${items.slice(zero, -one).join(", ")} and ${items.at(-one)}`;
 }
 
 /**
@@ -1157,7 +1152,7 @@ export function composeJournal(
     const first = !named.has(id);
     named.add(id);
     return {
-      text: first ? `${row.givenName} ${row.familyName}` : row.givenName,
+      text: first ? fullNameOf(row) : row.givenName,
       sourceRecordIds: [known?.sourceFactId ?? id],
     };
   };
@@ -1294,8 +1289,8 @@ export function composeJournal(
         facts["moved-with"] = {
           text:
             new Set(children.map((child) => child.phrase)).size === one
-              ? `${children[zero]!.phrase}${children.length > one ? "s" : ""} ${listOf(children.map((child) => child.name))}`
-              : listOf(children.map((child) => child.text)),
+              ? `${children[zero]!.phrase}${children.length > one ? "s" : ""} ${listWords(children.map((child) => child.name))}`
+              : listWords(children.map((child) => child.text)),
           sourceRecordIds: children.flatMap((child) => [child.fact, child.id]),
         };
       facts["age-then"] = ageThen(person.birthDate, person.id);
@@ -1466,9 +1461,12 @@ export function composeJournal(
               sourceRecordIds: [...said.sourceRecordIds, otherId],
             }
           : said;
-      // Their recorded gender picks the possessive, as it picks "father".
+      // Their own recorded pronouns pick the possessive; gender only when no set is recorded.
       facts.their = {
-        text: possessivePronoun(row?.looks?.gender ?? "other", words),
+        text: possessiveOf({
+          pronouns: row?.looks?.pronouns,
+          gender: row?.looks?.gender,
+        }),
         sourceRecordIds: said.sourceRecordIds,
       };
       if (row) {
@@ -1521,8 +1519,8 @@ export function composeJournal(
       facts.named = {
         text:
           phrases.size === one
-            ? `${members[zero]!.phrase}s ${listOf(names)}`
-            : listOf(members.map((m) => `${m.phrase} ${m.name}`)),
+            ? `${members[zero]!.phrase}s ${listWords(names)}`
+            : listWords(members.map((m) => `${m.phrase} ${m.name}`)),
         sourceRecordIds: members.flatMap((m) => [m.factId, m.id]),
       };
     }
@@ -1775,11 +1773,7 @@ export function composeJournal(
         !!text &&
         moment.counterpartIds.some((other) => {
           const row = core.people.get(other);
-          return (
-            !!row &&
-            (text === row.givenName ||
-              text === `${row.givenName} ${row.familyName}`)
-          );
+          return !!row && (text === row.givenName || text === fullNameOf(row));
         })
       );
     };

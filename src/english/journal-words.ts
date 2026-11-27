@@ -7,6 +7,7 @@
  * look-backs, a broad event that reached the person), renders it from the
  * record facts, and names relatives the way the person would.
  */
+import { capitalFirst } from "./plain-words.mjs";
 import { P } from "../core2/parameters";
 import type { PersonId } from "../core2/types";
 import {
@@ -131,7 +132,6 @@ export interface JournalRows {
   relationWords: JournalWords["relationWords"];
   kinAddress?: JournalWords["kinAddress"];
   possessive: JournalWords["possessive"];
-  possessivePronoun: JournalWords["possessivePronoun"];
   metRelations?: JournalWords["metRelations"];
   countWords: JournalWords["countWords"];
   manyTimes: string;
@@ -155,8 +155,6 @@ export interface JournalWords {
   >;
   /** The possessive each surface names relatives with ("my", "your"). */
   possessive: Readonly<Record<string, string>>;
-  /** The possessive for someone by their recorded gender ("his", "her", "their"). */
-  possessivePronoun: Readonly<Record<string, string>>;
   /**
    * The family relations of someone the person met (a partner), whom a
    * look-back may name and revise ("I did not know then what Susan would
@@ -287,14 +285,6 @@ export function metRelation(
   words: JournalWords = JOURNAL_WORDS,
 ): boolean {
   return (words.metRelations ?? []).includes(relation);
-}
-
-/** "his", "her" or "their", by the person's recorded gender. */
-export function possessivePronoun(
-  gender: string,
-  words: JournalWords = JOURNAL_WORDS,
-): string {
-  return words.possessivePronoun[gender] ?? words.possessivePronoun.other!;
 }
 
 /** A bill as the journal names it: its form's word and its number ("Ordinance 2027-3"). */
@@ -541,7 +531,7 @@ export function wordJournalLine(request: {
   // A line or title starts with a capital, whatever its first slot holds.
   return {
     ...result,
-    text: result.text.charAt(zero).toUpperCase() + result.text.slice(one),
+    text: capitalFirst(result.text),
   };
 }
 

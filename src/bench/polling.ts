@@ -1,3 +1,4 @@
+import { fullNameOf } from "../english/plain-words.mjs";
 import { backdropFor, peopleHere } from "./scene";
 import type { CoreState } from "../core2/types";
 import type { PollingVisit } from "../director/polling-place";
@@ -16,7 +17,7 @@ export function pollingScene(core: CoreState, visit: PollingVisit) {
     const row = core.people.get(id)!;
     return {
       id,
-      name: `${row.givenName} ${row.familyName}`,
+      name: fullNameOf(row),
       reason:
         id === visit.record.personId
           ? ("you" as const)

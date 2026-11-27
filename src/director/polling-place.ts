@@ -17,6 +17,7 @@
  * from no hand-written bank: the screen shows the ballot's record data and
  * control names.
  */
+import { fullNameOf } from "../english/plain-words.mjs";
 import { coreAPI } from "../core2/state";
 import {
   ELECTIONS_MODULE_ID,
@@ -131,7 +132,7 @@ function pollingContest(
   const ticket = ticketOfficeContest(api, contest);
   const nameOf = (personId: string) => {
     const person = core.people.get(personId);
-    return person ? `${person.givenName} ${person.familyName}` : null;
+    return person ? fullNameOf(person) : null;
   };
   const mates = filings.flatMap((filing) => {
     const mate = ticket ? runningMateOf(api, filing, ticket) : null;

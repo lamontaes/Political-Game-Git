@@ -60,11 +60,6 @@ export function stateInSentence(name: string): string {
   return /Islands$|^District of /.test(name) ? `the ${name}` : name;
 }
 
-/** The possessive of a name: "Chen's", "Chandler Builders'". */
-export function possessive(name: string): string {
-  return name.endsWith("s") ? `${name}'` : `${name}'s`;
-}
-
 /** A date as people say it: the year only when it is not this year. The one rule is day-words.ts `dateSaid`. */
 export function spokenDate(iso: string, today: string): string {
   return dateSaid(iso, today);

@@ -26,6 +26,7 @@
  * The research behind the rows is docs/research/speech-structure-2026-11-12.md.
  * Nothing here reads a dice roll; ties go by name.
  */
+import { fullNameOf } from "../english/plain-words.mjs";
 import { factsMadeWith } from "./life-news";
 import { coreAPI } from "../core2/state";
 import { historyOf } from "../core2/past";
@@ -261,7 +262,7 @@ export function packet(
 }
 
 function fullName(person: PersonState): string {
-  return `${person.givenName} ${person.familyName}`;
+  return fullNameOf(person);
 }
 
 /** The opening month and the same month a year before, from the macro engine's record. */

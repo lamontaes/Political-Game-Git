@@ -1,3 +1,4 @@
+import { fullNameOf } from "../english/plain-words.mjs";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 import { casesOpenFor, handleCase } from "../core2/modules/offices";
@@ -14,7 +15,7 @@ export function officeCases(core: CoreState, officialId: string) {
     return {
       id: row.id,
       personId: row.personId,
-      name: person ? `${person.givenName} ${person.familyName}` : "",
+      name: person ? fullNameOf(person) : "",
       problem: row.problem,
       respondBy: row.respondBy,
     };

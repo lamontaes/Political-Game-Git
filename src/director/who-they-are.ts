@@ -23,6 +23,7 @@
  * `relationFacts`), family, a partner or a housemate: the first name says
  * enough there.
  */
+import { fullNameOf } from "../english/plain-words.mjs";
 import { historyOf } from "../core2/past";
 import { officeSaid } from "./cause-facts";
 import { metRecords, relationFacts, type MetRecord } from "./relation-facts";
@@ -208,7 +209,7 @@ function staffOf(
     );
     const name = words
       ? `${words.before} ${official.givenName} ${official.familyName}`
-      : `${official.givenName} ${official.familyName}`;
+      : fullNameOf(official);
     return {
       kind: "staff",
       stage: "aide",

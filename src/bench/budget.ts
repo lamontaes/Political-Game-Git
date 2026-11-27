@@ -1,3 +1,4 @@
+import { fullNameOf } from "../english/plain-words.mjs";
 import { governmentProperName } from "../core2/government-proper-name";
 import { townGovernment } from "../core2/output-number-readers";
 import { coreAPI } from "../core2/state";
@@ -221,8 +222,8 @@ function headsOf(core: CoreState, governmentId: string, level: string) {
     if (line === "administration" || heads.has(line)) continue;
     const person = core.people.get(row.holderId);
     const name = person
-      ? `${person.givenName} ${person.familyName}`
-      : row.identity && `${row.identity.givenName} ${row.identity.familyName}`;
+      ? fullNameOf(person)
+      : row.identity && fullNameOf(row.identity);
     if (name) heads.set(line, name);
   }
   return heads;
@@ -251,7 +252,7 @@ function chiefOf(core: CoreState, governmentId: string, viewerId: string) {
       facePlace(core, viewerId),
     );
     return {
-      name: `${row.identity.givenName} ${row.identity.familyName}`,
+      name: fullNameOf(row.identity),
       title: office.title ?? null,
       party: row.party,
       cardId,

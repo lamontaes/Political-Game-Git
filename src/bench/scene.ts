@@ -1,3 +1,4 @@
+import { fullNameOf } from "../english/plain-words.mjs";
 import { historyOf } from "../core2/past";
 import { servingTermsOf } from "../core2/modules/offices";
 import { roleWord } from "./card";
@@ -881,7 +882,7 @@ export function benchScene(
             : id === targetId
               ? "act"
               : "household";
-      return { id, name: `${person.givenName} ${person.familyName}`, reason };
+      return { id, name: fullNameOf(person), reason };
     }),
   );
   return {

@@ -1,109 +1,30 @@
 {
   "about": "Copies of a person's name, pronoun or date built outside the one function (tests/guards/english/pieces-one-place.test.ts; the CTO's story audit, Nov 26, rows C1 to C6). Per file and kind; the count only shrinks.",
   "copies": {
-    "src/bench/archive-words.ts": {
-      "name": 1
-    },
-    "src/bench/budget.ts": {
-      "name": 3
-    },
-    "src/bench/calendar.ts": {
-      "name": 1
-    },
-    "src/bench/campaign.ts": {
-      "name": 8
-    },
-    "src/bench/card.ts": {
-      "name": 7,
-      "pronoun": 2
-    },
-    "src/bench/changes.ts": {
-      "name": 1
-    },
-    "src/bench/dev-mode.ts": {
-      "name": 12
-    },
-    "src/bench/dev-views/address-parts.ts": {
-      "name": 1
+    "src/bench/appearance.ts": {
+      "capital": 1
     },
     "src/bench/dev-views/opening.ts": {
-      "name": 4
-    },
-    "src/bench/dev-views/scene-trace.ts": {
       "name": 1
     },
-    "src/bench/dev-views/who-named.ts": {
-      "name": 1
-    },
-    "src/bench/dev-why.ts": {
-      "name": 2
-    },
-    "src/bench/election-night.ts": {
-      "name": 1
-    },
-    "src/bench/filing.ts": {
-      "name": 4
-    },
-    "src/bench/government-bodies.ts": {
-      "name": 1
-    },
-    "src/bench/government.ts": {
-      "name": 4
-    },
-    "src/bench/handler.ts": {
-      "name": 3
-    },
-    "src/bench/last-time.ts": {
-      "name": 1
-    },
-    "src/bench/law-did.ts": {
-      "name": 1
-    },
-    "src/bench/legislature.ts": {
-      "name": 2
-    },
-    "src/bench/map.ts": {
-      "name": 1
-    },
-    "src/bench/montage.ts": {
-      "name": 1
-    },
-    "src/bench/office-cases.ts": {
-      "name": 1
-    },
-    "src/bench/officeholders.ts": {
-      "name": 1
-    },
-    "src/bench/places.ts": {
-      "name": 3
+    "src/bench/patch-notes.ts": {
+      "capital": 1
     },
     "src/bench/play.mjs": {
-      "date": 1
-    },
-    "src/bench/polling.ts": {
-      "name": 1
+      "date": 1,
+      "capital": 2
     },
     "src/bench/printed-words.ts": {
-      "name": 4,
       "date": 1
     },
-    "src/bench/results.ts": {
-      "name": 2
-    },
-    "src/bench/scene.ts": {
-      "name": 1
-    },
     "src/bench/story.ts": {
-      "name": 2
+      "name": 1
     },
     "src/bench/ui/calendar.mjs": {
       "date": 1
     },
     "src/bench/ui/dev-address-parts.mjs": {
       "date": 1
-    },
-    "src/bench/ui/dev-bill-card.mjs": {
-      "name": 1
     },
     "src/bench/ui/dev-bills.mjs": {
       "name": 1
@@ -114,63 +35,35 @@
     "src/bench/ui/dev-who-named.mjs": {
       "date": 1
     },
-    "src/bench/world.ts": {
-      "name": 1
-    },
-    "src/director/bring-it-up.ts": {
-      "name": 1
-    },
-    "src/director/cause-facts.ts": {
-      "name": 1
+    "src/bench/words.ts": {
+      "capital": 2
     },
     "src/director/conversation.ts": {
       "name": 2,
-      "pronoun": 2
-    },
-    "src/director/door-facts.ts": {
-      "name": 1
-    },
-    "src/director/filing-visit.ts": {
-      "name": 2
-    },
-    "src/director/journal.ts": {
-      "name": 2
+      "pronoun": 2,
+      "capital": 1
     },
     "src/director/opening-story.ts": {
-      "name": 3
-    },
-    "src/director/polling-place.ts": {
       "name": 1
     },
     "src/director/purpose-scene.ts": {
-      "name": 7
+      "name": 7,
+      "list": 3
     },
     "src/director/scene-talk.ts": {
       "name": 1
     },
     "src/director/scene.ts": {
-      "name": 3
-    },
-    "src/director/sitting.ts": {
-      "name": 1
-    },
-    "src/director/speech-outline.ts": {
-      "name": 1
-    },
-    "src/director/tooling/director-year.ts": {
       "name": 1
     },
     "src/director/who-they-are.ts": {
-      "name": 2
-    },
-    "src/director/words.ts": {
-      "date": 1
+      "name": 1
     },
     "src/english/composed-checks.ts": {
       "date": 1
     },
-    "src/english/move-fit.ts": {
-      "pronoun": 2
+    "src/english/group-names.ts": {
+      "capital": 1
     }
   }
 }

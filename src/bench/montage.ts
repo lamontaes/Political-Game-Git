@@ -1,3 +1,4 @@
+import { fullNameOf } from "../english/plain-words.mjs";
 import { keyPeopleOf } from "../core2/modules/people";
 import { partsOf, type SaidSentence } from "../director/address-render";
 import type { CoreState, PersonId } from "../core2/types";
@@ -212,7 +213,7 @@ export function addressMontage(
 ): MontageBeat[] {
   const named = (id: string) => {
     const row = core.people.get(id as PersonId);
-    return row ? `${row.givenName} ${row.familyName}` : null;
+    return row ? fullNameOf(row) : null;
   };
   const speaker = named(speakerId);
   const pictureOf = (kind: BeatKind, turn: number) => {

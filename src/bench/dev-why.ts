@@ -18,6 +18,7 @@
  *   - a state of the country tier: its people and jobs, the part its played
  *     town and county hold in full and the rest, which add to the state's.
  */
+import { fullNameOf } from "../english/plain-words.mjs";
 import { historyOf } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import { raceReadFacts } from "../director/race-turnout-facts";
@@ -91,7 +92,7 @@ const payments = (n: number) => `${n} ${n === 1 ? "payment" : "payments"}`;
 const number = (value: number) => Math.round(value * 1000) / 1000;
 const nameOf = (core: CoreState, id: string) => {
   const person = core.people.get(id);
-  return person ? `${person.givenName} ${person.familyName}` : id;
+  return person ? fullNameOf(person) : id;
 };
 
 // ---- A business closing ----------------------------------------------------
@@ -823,7 +824,7 @@ function racePanels(
         const person = core.people.get(id as never);
         const rows = rowsOf(raceReadFacts(core, contestId, id), raceKeys);
         return {
-          title: `Against the polls: ${person ? `${person.givenName} ${person.familyName}` : id}`,
+          title: `Against the polls: ${person ? fullNameOf(person) : id}`,
           rows,
           ...(rows.length
             ? {}

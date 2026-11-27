@@ -1,3 +1,4 @@
+import { fullNameOf } from "../english/plain-words.mjs";
 import { raceTitle } from "./race-words";
 import { coreAPI } from "../core2/state";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
@@ -201,7 +202,7 @@ export function openBenchFilingVisit(
       ...(first && person
         ? {
             first: {
-              name: `${person.givenName} ${person.familyName}`,
+              name: fullNameOf(person),
               recordId: first.id,
               filedOn: first.filedOn,
             },
@@ -249,9 +250,7 @@ export function openBenchFilingVisit(
           // themselves; the district is in the title, never said twice.
           seat: sameDay.length > 1 ? String(sameDay.indexOf(i) + 1) : null,
           electionDate: row.electionDate,
-          holder: holder
-            ? `${holder.identity.givenName} ${holder.identity.familyName}`
-            : null,
+          holder: holder ? fullNameOf(holder.identity) : null,
         },
       ];
     }),
@@ -313,7 +312,7 @@ export function openBenchFilingVisit(
   const cast: { id: string; name: string; reason: StageReason }[] = [
     {
       id: playerId,
-      name: `${player.givenName} ${player.familyName}`,
+      name: fullNameOf(player),
       reason: "you",
     },
   ];
@@ -321,7 +320,7 @@ export function openBenchFilingVisit(
     const row = core.people.get(clerk)!;
     cast.push({
       id: clerk,
-      name: `${row.givenName} ${row.familyName}`,
+      name: fullNameOf(row),
       reason: "clerk",
     });
   }

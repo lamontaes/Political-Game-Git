@@ -19,6 +19,7 @@
  *   election this office was on, from the voting engine's ballot rows; set only
  *   where such a ballot is on record.
  */
+import { fullNameOf } from "../english/plain-words.mjs";
 import {
   CONTEST_HELD,
   ELECTIONS_MODULE_ID,
@@ -96,11 +97,7 @@ export function doorReads(
     if (rival && person) {
       // Said as the plain full name: a first mention would add the rival's
       // office as an appositive, which a question about them does not carry.
-      facts.rival = fact(`${person.givenName} ${person.familyName}`, [
-        contestId,
-        rival.id,
-        person.id,
-      ]);
+      facts.rival = fact(fullNameOf(person), [contestId, rival.id, person.id]);
       if (
         petitionOf(api, rival.id) &&
         petitionSignerIds(api, rival.id).has(residentId)

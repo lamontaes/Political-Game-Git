@@ -22,6 +22,7 @@
  * for them. A question the asker cannot put in words is
  * left unanswered, and only then does the filed platform stand in.
  */
+import { fullNameOf } from "../english/plain-words.mjs";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -315,7 +316,7 @@ function askingFor(
   let named: Fact | undefined;
   if (rival && other) {
     named = {
-      text: `${other.givenName} ${other.familyName}`,
+      text: fullNameOf(other),
       sourceRecordIds: [rival.filing.id, other.id],
     };
     facts.rival = named;

@@ -1,3 +1,4 @@
+import { fullNameOf } from "../english/plain-words.mjs";
 import { coreAPI } from "../core2/state";
 import { makeIsoDate } from "../core2/kernel/dates";
 import { AMOUNT_SERIES, lawChain, lawHere } from "../core2/modules/laws";
@@ -58,10 +59,10 @@ function terms(core: CoreState) {
 /** A person's or a named official's name, by their key. */
 export function personName(core: CoreState, key: string): string {
   const person = core.people.get(key);
-  if (person) return `${person.givenName} ${person.familyName}`;
+  if (person) return fullNameOf(person);
   const term = terms(core).get(key.replace(/^official:/, "")) as
     TermRow | undefined;
-  return term ? `${term.identity.givenName} ${term.identity.familyName}` : key;
+  return term ? fullNameOf(term.identity) : key;
 }
 
 /** The bodies the person sits on (more than one seat), with their colleagues. */

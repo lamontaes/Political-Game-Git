@@ -9,6 +9,7 @@
  * narrator's words are the director's (`src/director/election-day.ts`);
  * the screen shows the count's numbers and names as record data.
  */
+import { fullNameOf } from "../english/plain-words.mjs";
 import type { PollingVisit } from "../director/polling-place";
 import { electionDayLine, type DayFact } from "../director/election-day";
 import {
@@ -56,7 +57,7 @@ function townName(api: CoreAPI): string | null {
 
 function nameOf(api: CoreAPI, id: string): string | null {
   const who = candidateIdentity(api, id);
-  return who ? `${who.givenName} ${who.familyName}` : null;
+  return who ? fullNameOf(who) : null;
 }
 
 /** The player's own filing on a ballot that day, if they are a candidate. */

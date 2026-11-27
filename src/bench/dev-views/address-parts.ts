@@ -8,6 +8,7 @@
  * address's own record through the one function every view says it with (address-render.ts), so
  * what dev mode shows is what was said. Reads only; spends no time.
  */
+import { fullNameOf } from "../../english/plain-words.mjs";
 import { historyOf } from "../../core2/past";
 import type { DevView } from "../dev-views";
 import { ADDRESS_FACT } from "../../director/opening-facts";
@@ -37,7 +38,7 @@ const view: DevView = {
       const core = mode.core;
       const nameOf = (id: string) => {
         const person = core.people.get(id);
-        return person ? `${person.givenName} ${person.familyName}` : id;
+        return person ? fullNameOf(person) : id;
       };
       const addresses = historyOf(core, { nation: true }, { from: "played" })
         .flatMap((event) => core.durableLog.get(event.id as never) ?? [])

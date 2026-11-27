@@ -6,6 +6,7 @@
  * the contest's record facts in their slots; a piece whose facts the moment
  * lacks is left out, and a moment no piece fits says nothing.
  */
+import { capitalFirst } from "../english/plain-words.mjs";
 import { P } from "../core2/parameters";
 import { wordSceneMove, type Fact } from "../english/scene-talk-words";
 
@@ -60,7 +61,7 @@ export function electionDayLine(
   });
   if (!worded || !("text" in worded)) return null;
   return {
-    text: worded.text.charAt(zero).toUpperCase() + worded.text.slice(one),
+    text: capitalFirst(worded.text),
     sourceRecordIds: [
       ...new Set([
         ...moment.recordIds,

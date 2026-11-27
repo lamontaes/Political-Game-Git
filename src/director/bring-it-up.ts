@@ -43,7 +43,8 @@ import {
 import rowsJson from "./data/bring-it-up-rows.json" with { type: "json" };
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { seatFact } from "./sitting-ties";
-import { organizationName, possessive } from "../english/words";
+import { fullNameOf, possessive } from "../english/plain-words.mjs";
+import { organizationName } from "../english/words";
 
 /** `data/bring-it-up-rows.json`: the structure, holding no sentences. */
 export interface BringRows {
@@ -203,7 +204,7 @@ function nameOf(core: Readonly<CoreState>, id: string): string | null {
   const org = core.organizations.get(id);
   if (org) return organizationName(org);
   const person = core.people.get(id);
-  return person ? `${person.givenName} ${person.familyName}` : null;
+  return person ? fullNameOf(person) : null;
 }
 
 /** The vote on the listener's own bill a story printed, and how it came out. */

@@ -1,3 +1,4 @@
+import { fullNameOf } from "../english/plain-words.mjs";
 import { purposeScene } from "../director/purpose-scene";
 import { composeScene } from "../director/scene";
 import { openConversation } from "../director/conversation";
@@ -908,7 +909,7 @@ function* benchWorldStages(
         throw new Error(`Resident references do not resolve: ${person.id}`);
       return {
         id: person.id,
-        name: `${person.givenName} ${person.familyName}`,
+        name: fullNameOf(person),
         age: ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)),
         householdId: person.householdId,
         ...(person.jobId ? { jobId: person.jobId } : {}),

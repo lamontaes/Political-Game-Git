@@ -13,6 +13,7 @@
  * raise from a lower one reads differently from a cut.
  */
 import { spokenDate } from "../core2/kernel/dates";
+import { capitalFirst, listWords } from "./plain-words.mjs";
 import { properName } from "./words";
 import { billTitleOf, spokenDesignation } from "./bill-names";
 import sectionsJson from "../../data/english/bill-sections.json" with { type: "json" };
@@ -127,8 +128,6 @@ const fill = (template: string, slots: Record<string, string | number>) =>
   template.replace(/\{(\w+)\}/g, (_all, slot: string) =>
     String(slots[slot] ?? ""),
   );
-const upperFirst = (text: string) =>
-  text.charAt(0).toUpperCase() + text.slice(1);
 
 /** An amount of money as it is said: "$250", "$12.50". */
 export const dollars = (minor: number) =>
@@ -284,11 +283,6 @@ function wordsOf(
   return null;
 }
 
-const joinWords = (names: readonly string[], joiner: string) =>
-  names.length <= 1
-    ? (names[0] ?? "")
-    : `${names.slice(0, -1).join(", ")} ${joiner} ${names.at(-1)}`;
-
 /**
  * The bill's title and text. Null when a provision has no words in the
  * data (a budget line, or a policy the catalog gained): the caller records
@@ -313,7 +307,7 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
     ...new Set(words.filter((w) => w.repeal).map((w) => w.subject)),
   ];
   const repealPhrase = fill(form.repealPurpose, {
-    subject: joinWords(repealed, BILL_SECTIONS.joiners.subjects),
+    subject: listWords(repealed, BILL_SECTIONS.joiners.subjects),
   });
   const headings: string[] = [];
   for (const w of words) {
@@ -323,7 +317,7 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
   // Each purpose after the first carries its own "to" ("to raise X, to raise Y
   // and to repeal Z"), so a long heading never drops a verb's "to".
   const title = fill(form.title, {
-    purpose: joinWords(
+    purpose: listWords(
       headings.map((h, i) =>
         i > 0 && i < headings.length - 1 ? `to ${h}` : h,
       ),
@@ -347,7 +341,7 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
       {
         number: i + 1,
         enacting,
-        text: whole && i === 0 ? upperFirst(w.clause) : w.clause,
+        text: whole && i === 0 ? capitalFirst(w.clause) : w.clause,
       },
     );
     // A phase-in's steps each name their own day, so the paper never reads as
@@ -385,7 +379,7 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
     sections,
     effective,
     text: [
-      upperFirst(title),
+      capitalFirst(title),
       ...(shortTitle ? [shortTitle] : []),
       ...sections,
       ...(effective ? [effective] : []),

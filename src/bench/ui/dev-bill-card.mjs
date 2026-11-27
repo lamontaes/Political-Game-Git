@@ -2,6 +2,7 @@
 // votes, the margin, then Introduce, Hold the vote, Sign, Veto or Override. Every press goes
 // through the game's own routes (/api/dev/introduce, /api/dev/decide), which cast each member's
 // vote and run the executive's decision as the game does. Control names and member names only.
+import { fullNameOf } from "../../english/plain-words.mjs";
 import { sendDevRequest as send } from "./dev-request.mjs";
 
 import { el } from "./dom.mjs";
@@ -88,7 +89,7 @@ export async function devBillCard({
             row.replaceChildren(
               el("span", {
                 className: "name",
-                textContent: `${m.givenName} ${m.familyName}`,
+                textContent: fullNameOf(m),
               }),
               ...pair,
             );

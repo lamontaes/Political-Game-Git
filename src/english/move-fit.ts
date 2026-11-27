@@ -6,6 +6,8 @@
  * and the move; this chooses the pieces that can voice it.
  */
 
+import { pronounKeyOf } from "./pronoun-words";
+
 /** The parts of a mined wording the fit reads. */
 export interface FitMove {
   key: string;
@@ -20,11 +22,6 @@ export interface FitMove {
 
 const RELATION_IN_TEXT = /\b(wife|husband|[a-z]+)\b/gi;
 
-/** The pronoun a person is spoken of with; anyone else is "they". */
-export function pronounFor(gender: string | undefined): "he" | "she" | "they" {
-  return gender === "male" ? "he" : gender === "female" ? "she" : "they";
-}
-
 /**
  * The wordings that fit the person a line speaks of and the facts the moment
  * has. `relationWords` is every word that names a relative; `relationWord` is
@@ -34,14 +31,14 @@ export function fitMoves<T extends FitMove>(
   moves: readonly T[] | undefined,
   context: {
     /** Whether the line speaks of a person, and their gender if so. */
-    about: { gender?: string } | undefined;
+    about: { gender?: string; pronouns?: string } | undefined;
     relationWord: string | undefined;
     relationWords: ReadonlySet<string>;
     facts: Readonly<Record<string, unknown>>;
   },
 ): T[] | undefined {
   if (!moves) return undefined;
-  const pronoun = pronounFor(context.about?.gender);
+  const pronoun = pronounKeyOf(context.about ?? {});
   return moves.filter((move) => {
     if (move.requiresFacts?.some((key) => !context.facts[key])) return false;
     if (move.excludesFacts?.some((key) => context.facts[key])) return false;

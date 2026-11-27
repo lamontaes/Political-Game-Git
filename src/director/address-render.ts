@@ -10,6 +10,7 @@
  * so the words never change after it was given and never differ by who reads
  * them.
  */
+import { capitalFirst } from "../english/plain-words.mjs";
 import { historyOf } from "../core2/past";
 import { SENTENCE_WORDS } from "../english/english-composition";
 import {
@@ -75,7 +76,7 @@ export function sentenceText(
     const first = /^[^\s,]+/.exec(filled)?.[P.zero] ?? "";
     const piece =
       !text || /[.!?]["”]?$/.test(text)
-        ? filled.charAt(P.zero).toUpperCase() + filled.slice(P.one)
+        ? capitalFirst(filled)
         : /,$/.test(text) && SENTENCE_WORDS.has(first)
           ? filled.charAt(P.zero).toLowerCase() + filled.slice(P.one)
           : filled;

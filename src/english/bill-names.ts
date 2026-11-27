@@ -7,6 +7,7 @@
  * Act or Ordinance word comes from the bill's own form, and the sentence is
  * composed by the legislation bank.
  */
+import { listWords } from "./plain-words.mjs";
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
 
 /** What a budget line is for, as people say it: the bill catalog's budget row, its purpose for a raise or its repeal purpose for a cut. */
@@ -204,15 +205,6 @@ export function budgetSectionSaid(
     .replace("{amount}", amount);
 }
 
-/** Items in a list as American English writes them: "a", "a and b", "a, b, and c". */
-export function joinList(
-  items: readonly string[],
-  conjunction: string,
-): string {
-  if (items.length < 3) return items.join(` ${conjunction} `);
-  return `${items.slice(0, -1).join(", ")}, ${conjunction} ${items.at(-1)}`;
-}
-
 /**
  * A bill's title composed from all its sections: the name of its first named
  * section, and a long-title purpose that joins every named section's purpose
@@ -252,7 +244,7 @@ export function billTitleOf(
   });
   return {
     ...first,
-    purpose: joinList(
+    purpose: listWords(
       sections.map((row) => row.purpose),
       book.list.conjunction,
     ),

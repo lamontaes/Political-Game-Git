@@ -9,6 +9,7 @@
  * with no record for its slots is never offered.
  */
 // stopgapId: SG-WORDS-player-speech-not-planned
+import { capitalFirst } from "../english/plain-words.mjs";
 import { schoolsAttended } from "../core2/past";
 import { jobHeldSince } from "./life-news";
 import {
@@ -34,7 +35,12 @@ import {
   questionName,
   questionTopic,
 } from "../english/policy-names";
-import { numberWord, organizationName, properName, spoken } from "../english/words";
+import {
+  numberWord,
+  organizationName,
+  properName,
+  spoken,
+} from "../english/words";
 
 export type SpeechStage = "opener" | "core" | "closer";
 /** Opener, two parts at the core, closer. */
@@ -121,9 +127,6 @@ function factsOf(
     };
   return facts;
 }
-
-const capitalized = (text: string) =>
-  text.charAt(P.zero).toUpperCase() + text.slice(P.one);
 
 /** The records behind only the facts a line copied. */
 const usedIds = (
@@ -217,7 +220,7 @@ function corePool(
           sourceRecordIds: [build.speakerId],
         },
         goal: {
-          text: capitalized(questionName(stand.question)!),
+          text: capitalFirst(questionName(stand.question)!),
           sourceRecordIds: [build.speakerId],
         },
       },

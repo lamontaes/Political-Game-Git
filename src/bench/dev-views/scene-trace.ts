@@ -16,6 +16,7 @@
  *    on the record; a forced scene is never a played one for a Words stamp.
  * Who each person in a scene is named as is the "who is named" view's (who-named), not read here.
  */
+import { fullNameOf } from "../../english/plain-words.mjs";
 import { lineByKey, linesForPurpose } from "../../english/line-register";
 import { applyCoreEvent } from "../../core2/state";
 import { addDays, makeIsoDate } from "../../core2/kernel/dates";
@@ -47,7 +48,7 @@ const OWN_RECIPES = ["death", "illness", "layoff", "quit"];
 const MOMENTS = 20;
 
 const personLabel = (person?: { givenName: string; familyName: string }) =>
-  person ? `${person.givenName} ${person.familyName}` : undefined;
+  person ? fullNameOf(person) : undefined;
 
 const view: DevView = {
   name: "scene-trace",

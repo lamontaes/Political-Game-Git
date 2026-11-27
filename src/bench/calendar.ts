@@ -1,3 +1,4 @@
+import { fullNameOf } from "../english/plain-words.mjs";
 import { historyOf } from "../core2/past";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { CLOSENESS, familyFactsOf } from "../core2/modules/people";
@@ -199,7 +200,7 @@ export function calendarItems(
     ]) {
       const date = `${year}${other.birthDate.slice(4)}`;
       const line = screenLineByMove("calendar", "birthday", "plain", {
-        name: `${other.givenName} ${other.familyName}`,
+        name: fullNameOf(other),
       });
       if (inWindow(date) && line)
         items.push({

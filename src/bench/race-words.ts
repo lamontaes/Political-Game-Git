@@ -23,12 +23,6 @@ const variantsOf = (move: string): Variant[] =>
     text: part.text.replace(/\{(\w+)\}/g, "{{$1}}"),
   }));
 
-/** "Ann, Bo and Cy": a list of names the way people say it. */
-export function nameList(names: readonly string[]): string {
-  if (names.length < 2) return names[0] ?? "";
-  return `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
-}
-
 /** Whole dollars, as people write a price. */
 export const dollarsOf = (minor: number): string =>
   (minor / 100).toLocaleString("en-US", {

@@ -1,3 +1,4 @@
+import { fullNameOf } from "../english/plain-words.mjs";
 import type { CoreAPI } from "../core2/types";
 import { incumbentOf } from "../core2/modules/elections";
 
@@ -12,7 +13,7 @@ export function lastTimeOf(api: CoreAPI, contestId: string) {
   if (!term?.elected) return null;
   return {
     date: term.elected.date,
-    winner: `${term.identity.givenName} ${term.identity.familyName}`,
+    winner: fullNameOf(term.identity),
     winnerId: term.personId,
     party: term.party,
     sharePercent: Math.round(term.elected.share * 100),

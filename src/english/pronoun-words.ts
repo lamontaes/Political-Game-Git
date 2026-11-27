@@ -22,3 +22,29 @@ export function pronounSetOfGender(
 ): string | undefined {
   return gender ? BY_GENDER[gender] : undefined;
 }
+
+/** What a line needs to know to speak of someone: their recorded pronoun set, else their gender. */
+export interface PronounSource {
+  readonly pronouns?: string | undefined;
+  readonly gender?: string | undefined;
+}
+
+/**
+ * The pronoun a person is spoken of with, by their own recorded set and only
+ * then by gender (owner: "avoid the pronoun or use the person's own"). "they"
+ * when the record holds neither he nor she.
+ */
+export function pronounKeyOf(person: PronounSource): "he" | "she" | "they" {
+  const lower = pronounWords(
+    person.pronouns ?? pronounSetOfGender(person.gender),
+  )?.lower;
+  return lower === "he" || lower === "she" ? lower : "they";
+}
+
+/** Their possessive in a sentence: "his", "her", or "their" when the record holds no set. */
+export function possessiveOf(person: PronounSource): string {
+  return (
+    pronounWords(person.pronouns ?? pronounSetOfGender(person.gender))
+      ?.possessive ?? "their"
+  );
+}

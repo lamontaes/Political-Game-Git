@@ -75,6 +75,7 @@ import {
   timeWords,
   moneyWords,
   MONTH_NAMES,
+  listWords,
 } from "../english/plain-words.mjs";
 /** A government's sum in a readable unit ("$5.2 trillion", "$48,300"). */
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
@@ -2855,12 +2856,7 @@ function closedOfficeWords(race, labels) {
   if (!line || !race.barWhy.instead.length) return labels.refusal[race.bar];
   return line
     .replace("{office}", race.title)
-    .replace(
-      "{instead}",
-      new Intl.ListFormat("en-US", { type: "disjunction" }).format(
-        race.barWhy.instead,
-      ),
-    );
+    .replace("{instead}", listWords(race.barWhy.instead, "or"));
 }
 
 // ---- The person card: only what you could know about them ----

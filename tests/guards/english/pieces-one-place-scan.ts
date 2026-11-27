@@ -7,12 +7,16 @@ const ROOT = path.resolve(import.meta.dirname, "..", "..", "..");
 
 /** The files that are the one place for each piece; they may build it. */
 export const ALLOWED: Record<Kind, string[]> = {
-  name: ["src/english/said-as.ts"],
+  name: ["src/english/plain-words.mjs"],
   pronoun: ["src/english/said-as.ts", "src/english/pronoun-words.ts"],
   date: ["src/english/day-words.ts", "src/english/plain-words.mjs"],
+  list: ["src/english/plain-words.mjs"],
+  capital: ["src/english/plain-words.mjs"],
+  possessive: ["src/english/plain-words.mjs"],
 };
 
-export type Kind = "name" | "pronoun" | "date";
+export type Kind =
+  "name" | "pronoun" | "date" | "list" | "capital" | "possessive";
 
 const PATTERNS: Record<Kind, RegExp> = {
   // `${a.givenName} ${a.familyName}` or the same joined with " "
@@ -22,6 +26,13 @@ const PATTERNS: Record<Kind, RegExp> = {
     /===\s*"(?:fe)?male"\s*\?\s*"(?:he|she|his|her|him|himself|herself)"/g,
   // a month list or the platform's date formatter
   date: /\.toLocaleDateString\(|const\s+MONTH(?:_NAMES|S)\s*(?::[^=]+)?=\s*\[/g,
+  // a list joined by hand ("a, b and c"), or the platform's list formatter, which writes a serial comma
+  list: /\.slice\((?:P\.)?(?:zero|0), -(?:P\.)?(?:one|1)\)\.join\(", "\)|Intl\.ListFormat/g,
+  // a first letter raised by hand
+  capital:
+    /\.charAt\((?:P\.)?(?:zero|0)\)\.toUpperCase\(\)|\[0\]!?\.toUpperCase\(\)/g,
+  // a possessive made by hand: name ending in s gets an apostrophe only
+  possessive: /\.endsWith\("s"\)\s*\?\s*`\$\{[^}]+\}'`/g,
 };
 
 function sources(): string[] {

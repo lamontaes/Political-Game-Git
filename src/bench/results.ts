@@ -1,3 +1,4 @@
+import { fullNameOf } from "../english/plain-words.mjs";
 import { coreAPI } from "../core2/state";
 import {
   ballotOf,
@@ -27,7 +28,7 @@ const ELECTIONS = "core2-elections-v1";
 /** A candidate's name from the records: a resident, an official's term, or a drawn challenger. */
 function candidateName(api: CoreAPI, id: string): string {
   const who = candidateIdentity(api, id);
-  return who ? `${who.givenName} ${who.familyName}` : id;
+  return who ? fullNameOf(who) : id;
 }
 
 /**
@@ -307,7 +308,7 @@ export function resultsScene(core: CoreState, playerId: string) {
     const row = core.people.get(id)!;
     return {
       id,
-      name: `${row.givenName} ${row.familyName}`,
+      name: fullNameOf(row),
       reason: id === playerId ? ("you" as const) : ("household" as const),
     };
   });

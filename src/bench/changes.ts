@@ -1,5 +1,6 @@
 // "What changed": each law that took effect while you played, and who in town
 // it reached, from the law-reach records. Read-only.
+import { fullNameOf } from "../english/plain-words.mjs";
 import { historyOf } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import { reachedBy } from "../core2/law-reach/host";
@@ -84,9 +85,7 @@ function lawsTook(core: CoreState, personId: string) {
         const person = core.people.get(row.personId);
         return {
           personId: row.personId,
-          name: person
-            ? `${person.givenName} ${person.familyName}`
-            : row.personId,
+          name: person ? fullNameOf(person) : row.personId,
           what: row.what,
         };
       });
