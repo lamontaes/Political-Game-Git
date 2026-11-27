@@ -1,0 +1,584 @@
+{
+  "part": "W2 filing",
+  "scenes": [
+    {
+      "place": "Monroe, Louisiana (2251410)",
+      "runSeed": "pk27",
+      "draw": 0,
+      "race": "contest:seat:gus2025:127842:council:0:2026-04-07",
+      "counter": [
+        {
+          "step": "the counter opens",
+          "lines": [
+            {
+              "n": 1,
+              "speaker": "clerk",
+              "text": "Spencer Valentine, with the clerk of court. If you're running in Monroe, you're in the right spot.",
+              "elements": []
+            }
+          ],
+          "offered": [
+            "[pick] It's alderman I'm after.",
+            "[pick] I want the papers for mayor."
+          ],
+          "taken": ""
+        },
+        {
+          "step": "the race is picked",
+          "lines": [
+            {
+              "n": 1,
+              "speaker": "clerk",
+              "text": "Spencer Valentine, with the clerk of court. If you're running in Monroe, you're in the right spot.",
+              "elements": []
+            },
+            {
+              "n": 2,
+              "speaker": "player",
+              "text": "It's alderman I'm after.",
+              "elements": []
+            },
+            {
+              "n": 3,
+              "speaker": "clerk",
+              "text": "We have three candidates for alderman so far, and Meghan Reyes filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on April 7, 2026. The Monroe Board of Aldermen meets, argues it out and votes. You'd be one of the votes. Everything has to be back to me by January 13, 2026.",
+              "elements": []
+            }
+          ],
+          "offered": [
+            "[file] Alright, Spencer. Let's get the papers for alderman done.",
+            "[ask] Has anyone else filed for alderman yet?",
+            "[ask] Is the field for alderman stacked before I even file?",
+            "[leave] Let me hold off, Spencer. I'll be back before January 13, 2026."
+          ],
+          "taken": "pick:contest:seat:gus2025:127842:council:0:2026-04-07"
+        },
+        {
+          "step": "a question asked",
+          "lines": [
+            {
+              "n": 1,
+              "speaker": "clerk",
+              "text": "Spencer Valentine, with the clerk of court. If you're running in Monroe, you're in the right spot.",
+              "elements": []
+            },
+            {
+              "n": 2,
+              "speaker": "player",
+              "text": "It's alderman I'm after.",
+              "elements": []
+            },
+            {
+              "n": 3,
+              "speaker": "clerk",
+              "text": "We have three candidates for alderman so far, and Meghan Reyes filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on April 7, 2026. The Monroe Board of Aldermen meets, argues it out and votes. You'd be one of the votes. Everything has to be back to me by January 13, 2026.",
+              "elements": []
+            },
+            {
+              "n": 4,
+              "speaker": "player",
+              "text": "Has anyone else filed for alderman yet?",
+              "elements": []
+            },
+            {
+              "n": 5,
+              "speaker": "clerk",
+              "text": "Meghan Reyes was the first in for alderman, a few days ago.",
+              "elements": []
+            }
+          ],
+          "offered": [
+            "[file] Good to know. File me for alderman anyway.",
+            "[leave] I'll sleep on that, Spencer, and come back before January 13, 2026."
+          ],
+          "taken": "say:1"
+        },
+        {
+          "step": "filed",
+          "lines": [
+            {
+              "n": 1,
+              "speaker": "clerk",
+              "text": "Spencer Valentine, with the clerk of court. If you're running in Monroe, you're in the right spot.",
+              "elements": []
+            },
+            {
+              "n": 2,
+              "speaker": "player",
+              "text": "It's alderman I'm after.",
+              "elements": []
+            },
+            {
+              "n": 3,
+              "speaker": "clerk",
+              "text": "We have three candidates for alderman so far, and Meghan Reyes filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on April 7, 2026. The Monroe Board of Aldermen meets, argues it out and votes. You'd be one of the votes. Everything has to be back to me by January 13, 2026.",
+              "elements": []
+            },
+            {
+              "n": 4,
+              "speaker": "player",
+              "text": "Has anyone else filed for alderman yet?",
+              "elements": []
+            },
+            {
+              "n": 5,
+              "speaker": "clerk",
+              "text": "Meghan Reyes was the first in for alderman, a few days ago.",
+              "elements": []
+            },
+            {
+              "n": 6,
+              "speaker": "player",
+              "text": "Good to know. File me for alderman anyway.",
+              "elements": []
+            },
+            {
+              "n": 7,
+              "speaker": "clerk",
+              "text": "You're in. Alderman now has you and three others.",
+              "elements": []
+            }
+          ],
+          "offered": [],
+          "taken": "file"
+        }
+      ],
+      "petition": {
+        "narration": "You don't need signatures for the Monroe Board of Aldermen. Your name goes on the ballot for April 7, 2026. Have you run a campaign before?",
+        "replies": [
+          {
+            "offered": "Good. Then I'm on the ballot for April 7, 2026.",
+            "move": "agree",
+            "then": [
+              {
+                "speaker": "the clerk",
+                "text": "Then you're as good as on the ballot. See you on April 7, 2026."
+              }
+            ]
+          },
+          {
+            "offered": "Not yet. Where do I even start with the Monroe Board of Aldermen?",
+            "move": "ask",
+            "then": [
+              {
+                "speaker": "the clerk",
+                "text": "You don't need signatures, so start by knocking on doors and talking to people. Then comes money, and Monroe Observer sells ad space and covers the race."
+              }
+            ]
+          },
+          {
+            "offered": "I'll go tell people I'm running for the Monroe Board of Aldermen.",
+            "move": "leave",
+            "then": []
+          }
+        ]
+      }
+    },
+    {
+      "place": "Boneau, Montana (3008162)",
+      "runSeed": "pk27",
+      "draw": 1,
+      "race": "contest:seat:US-MT:us-senate:0:2026-11-03",
+      "counter": [
+        {
+          "step": "the counter opens",
+          "lines": [
+            {
+              "n": 1,
+              "speaker": "clerk",
+              "text": "Amanda Sheppard, with the Secretary of State. If you're running in Montana, you're in the right spot.",
+              "elements": []
+            }
+          ],
+          "offered": [
+            "[pick] It's the U.S. Senate I'm after.",
+            "[pick] I'd like to be on the ballot for Congress in the 2nd District.",
+            "[pick] I'd like to file for the state Senate in the 16th District.",
+            "[pick] It's the state House in the 32nd District I'm after."
+          ],
+          "taken": ""
+        },
+        {
+          "step": "the race is picked",
+          "lines": [
+            {
+              "n": 1,
+              "speaker": "clerk",
+              "text": "Amanda Sheppard, with the Secretary of State. If you're running in Montana, you're in the right spot.",
+              "elements": []
+            },
+            {
+              "n": 2,
+              "speaker": "player",
+              "text": "It's the U.S. Senate I'm after.",
+              "elements": []
+            },
+            {
+              "n": 3,
+              "speaker": "clerk",
+              "text": "We have four candidates for the U.S. Senate so far, and Jason Gill filed first a few days ago. It's a 6-year term, and the election is on November 3. I can print what the U.S. Senate does for you, so you know the job before you sign. The last day to file is March 4, and I can't bend that date for anyone.",
+              "elements": []
+            }
+          ],
+          "offered": [
+            "[file] Alright, Amanda. Let's get the papers for the U.S. Senate done.",
+            "[ask] Is the U.S. Senate contested, or am I walking into it alone?",
+            "[ask] Don't tell me the U.S. Senate is already taken.",
+            "[leave] Let me hold off, Amanda. I'll be back before March 4."
+          ],
+          "taken": "pick:contest:seat:US-MT:us-senate:0:2026-11-03"
+        },
+        {
+          "step": "a question asked",
+          "lines": [
+            {
+              "n": 1,
+              "speaker": "clerk",
+              "text": "Amanda Sheppard, with the Secretary of State. If you're running in Montana, you're in the right spot.",
+              "elements": []
+            },
+            {
+              "n": 2,
+              "speaker": "player",
+              "text": "It's the U.S. Senate I'm after.",
+              "elements": []
+            },
+            {
+              "n": 3,
+              "speaker": "clerk",
+              "text": "We have four candidates for the U.S. Senate so far, and Jason Gill filed first a few days ago. It's a 6-year term, and the election is on November 3. I can print what the U.S. Senate does for you, so you know the job before you sign. The last day to file is March 4, and I can't bend that date for anyone.",
+              "elements": []
+            },
+            {
+              "n": 4,
+              "speaker": "player",
+              "text": "Is the U.S. Senate contested, or am I walking into it alone?",
+              "elements": []
+            },
+            {
+              "n": 5,
+              "speaker": "clerk",
+              "text": "Jason Gill was the first in for the U.S. Senate, a few days ago.",
+              "elements": []
+            }
+          ],
+          "offered": [
+            "[file] Good to know. File me for the U.S. Senate anyway.",
+            "[leave] I'll sleep on that, Amanda, and come back before March 4."
+          ],
+          "taken": "say:1"
+        },
+        {
+          "step": "filed",
+          "lines": [
+            {
+              "n": 1,
+              "speaker": "clerk",
+              "text": "Amanda Sheppard, with the Secretary of State. If you're running in Montana, you're in the right spot.",
+              "elements": []
+            },
+            {
+              "n": 2,
+              "speaker": "player",
+              "text": "It's the U.S. Senate I'm after.",
+              "elements": []
+            },
+            {
+              "n": 3,
+              "speaker": "clerk",
+              "text": "We have four candidates for the U.S. Senate so far, and Jason Gill filed first a few days ago. It's a 6-year term, and the election is on November 3. I can print what the U.S. Senate does for you, so you know the job before you sign. The last day to file is March 4, and I can't bend that date for anyone.",
+              "elements": []
+            },
+            {
+              "n": 4,
+              "speaker": "player",
+              "text": "Is the U.S. Senate contested, or am I walking into it alone?",
+              "elements": []
+            },
+            {
+              "n": 5,
+              "speaker": "clerk",
+              "text": "Jason Gill was the first in for the U.S. Senate, a few days ago.",
+              "elements": []
+            },
+            {
+              "n": 6,
+              "speaker": "player",
+              "text": "Good to know. File me for the U.S. Senate anyway.",
+              "elements": []
+            },
+            {
+              "n": 7,
+              "speaker": "clerk",
+              "text": "Done. Your name goes on the list for the U.S. Senate next to Jason Gill's.",
+              "elements": []
+            }
+          ],
+          "offered": [],
+          "taken": "file"
+        }
+      ],
+      "petition": {
+        "narration": "This race has its own petition: 13,735 signatures, due March 4.",
+        "replies": [
+          {
+            "offered": "Understood. I'll bring the 13,735 signatures to this counter.",
+            "move": "agree",
+            "then": [
+              {
+                "speaker": "the clerk",
+                "text": "Good. Go over each name before March 4. I only take the ones that hold up."
+              }
+            ]
+          },
+          {
+            "offered": "What if I'm short by March 4?",
+            "move": "ask",
+            "then": [
+              {
+                "speaker": "the clerk",
+                "text": "Then your name stays off the ballot for the U.S. Senate. That's the rule, and I can't change it."
+              }
+            ]
+          },
+          {
+            "offered": "That many signatures just to run for the U.S. Senate?",
+            "move": "confront",
+            "then": [
+              {
+                "speaker": "the clerk",
+                "text": "The law sets the number and the day, March 4. I just count them."
+              }
+            ]
+          },
+          {
+            "offered": "I'll start with the people I know in Boneau.",
+            "move": "leave",
+            "then": []
+          }
+        ]
+      }
+    },
+    {
+      "place": "Onenoa, American Samoa (territory:AS:onenoa)",
+      "runSeed": "pk27",
+      "draw": 2,
+      "race": "contest:seat:US-AS:us-house:at-large:2026-11-03",
+      "counter": [
+        {
+          "step": "the counter opens",
+          "lines": [
+            {
+              "n": 1,
+              "speaker": "clerk",
+              "text": "Jason Hendricks, with the American Samoa Election Office. If you're running in American Samoa, you're in the right spot.",
+              "elements": []
+            }
+          ],
+          "offered": [
+            "[pick] I'm here to run for delegate.",
+            "[pick] I want the papers for the state Senate.",
+            "[pick] I'd like to file for the state Senate.",
+            "[pick] I'd like to file for the state Senate.",
+            "[pick] I'm here to run for the state Senate.",
+            "[pick] It's the state Senate I'm after.",
+            "[pick] I'd like to file for the state Senate.",
+            "[pick] I'm here to run for the state Senate.",
+            "[pick] It's the state Senate I'm after.",
+            "[pick] I'd like to file for the state Senate.",
+            "[pick] I'm here to run for the state Senate.",
+            "[pick] I'd like to file for the state Senate.",
+            "[pick] I'm here to run for the state Senate.",
+            "[pick] It's the state Senate I'm after.",
+            "[pick] I'd like to file for the state Senate.",
+            "[pick] It's the state Senate I'm after.",
+            "[pick] I'd like to be on the ballot for the state Senate.",
+            "[pick] I'm here to run for the state Senate.",
+            "[pick] I'd like to be on the ballot for the state Senate.",
+            "[pick] It's the state House I'm after.",
+            "[pick] I want the papers for the state House.",
+            "[pick] I'm here to run for the state House.",
+            "[pick] I'd like to file for the state House.",
+            "[pick] It's the state House I'm after.",
+            "[pick] I'm here to run for the state House.",
+            "[pick] I'd like to be on the ballot for the state House.",
+            "[pick] I'd like to be on the ballot for the state House.",
+            "[pick] I'd like to file for the state House.",
+            "[pick] It's the state House I'm after.",
+            "[pick] I want the papers for the state House.",
+            "[pick] I'd like to file for the state House.",
+            "[pick] I'm here to run for the state House.",
+            "[pick] I'd like to be on the ballot for the state House.",
+            "[pick] It's the state House I'm after.",
+            "[pick] I'd like to file for the state House.",
+            "[pick] I'd like to be on the ballot for the state House.",
+            "[pick] I'd like to be on the ballot for the state House.",
+            "[pick] I'd like to file for the state House.",
+            "[pick] I'd like to file for the state House.",
+            "[pick] I'd like to be on the ballot for the state House."
+          ],
+          "taken": ""
+        },
+        {
+          "step": "the race is picked",
+          "lines": [
+            {
+              "n": 1,
+              "speaker": "clerk",
+              "text": "Jason Hendricks, with the American Samoa Election Office. If you're running in American Samoa, you're in the right spot.",
+              "elements": []
+            },
+            {
+              "n": 2,
+              "speaker": "player",
+              "text": "I'm here to run for delegate.",
+              "elements": []
+            },
+            {
+              "n": 3,
+              "speaker": "clerk",
+              "text": "We have one candidate for delegate so far, and Jeffrey Roach filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on November 3. You'd speak for Onenoa and the rest of the district in Washington and vote on what the House takes up. You have until September 1. After that I can't take it, whatever happened.",
+              "elements": []
+            }
+          ],
+          "offered": [
+            "[file] Alright, Jason. Let's get the papers for delegate done.",
+            "[ask] Has anyone else filed for delegate yet?",
+            "[ask] Don't tell me delegate is already taken.",
+            "[leave] Let me hold off, Jason. I'll be back before September 1."
+          ],
+          "taken": "pick:contest:seat:US-AS:us-house:at-large:2026-11-03"
+        },
+        {
+          "step": "a question asked",
+          "lines": [
+            {
+              "n": 1,
+              "speaker": "clerk",
+              "text": "Jason Hendricks, with the American Samoa Election Office. If you're running in American Samoa, you're in the right spot.",
+              "elements": []
+            },
+            {
+              "n": 2,
+              "speaker": "player",
+              "text": "I'm here to run for delegate.",
+              "elements": []
+            },
+            {
+              "n": 3,
+              "speaker": "clerk",
+              "text": "We have one candidate for delegate so far, and Jeffrey Roach filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on November 3. You'd speak for Onenoa and the rest of the district in Washington and vote on what the House takes up. You have until September 1. After that I can't take it, whatever happened.",
+              "elements": []
+            },
+            {
+              "n": 4,
+              "speaker": "player",
+              "text": "Has anyone else filed for delegate yet?",
+              "elements": []
+            },
+            {
+              "n": 5,
+              "speaker": "clerk",
+              "text": "Jeffrey Roach was the first in for delegate, a few days ago.",
+              "elements": []
+            }
+          ],
+          "offered": [
+            "[file] That doesn't change my mind. Let's file for delegate.",
+            "[leave] I'll sleep on that, Jason, and come back before September 1."
+          ],
+          "taken": "say:1"
+        },
+        {
+          "step": "filed",
+          "lines": [
+            {
+              "n": 1,
+              "speaker": "clerk",
+              "text": "Jason Hendricks, with the American Samoa Election Office. If you're running in American Samoa, you're in the right spot.",
+              "elements": []
+            },
+            {
+              "n": 2,
+              "speaker": "player",
+              "text": "I'm here to run for delegate.",
+              "elements": []
+            },
+            {
+              "n": 3,
+              "speaker": "clerk",
+              "text": "We have one candidate for delegate so far, and Jeffrey Roach filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on November 3. You'd speak for Onenoa and the rest of the district in Washington and vote on what the House takes up. You have until September 1. After that I can't take it, whatever happened.",
+              "elements": []
+            },
+            {
+              "n": 4,
+              "speaker": "player",
+              "text": "Has anyone else filed for delegate yet?",
+              "elements": []
+            },
+            {
+              "n": 5,
+              "speaker": "clerk",
+              "text": "Jeffrey Roach was the first in for delegate, a few days ago.",
+              "elements": []
+            },
+            {
+              "n": 6,
+              "speaker": "player",
+              "text": "That doesn't change my mind. Let's file for delegate.",
+              "elements": []
+            },
+            {
+              "n": 7,
+              "speaker": "clerk",
+              "text": "Done. Your name goes on the list for delegate next to Jeffrey Roach's.",
+              "elements": []
+            }
+          ],
+          "offered": [],
+          "taken": "file"
+        }
+      ],
+      "petition": {
+        "narration": "You'll need 300 signatures by September 1, and I only count the ones that hold up. Have you done this before?",
+        "replies": [
+          {
+            "offered": "Yes, I know how it works. I'll handle delegate myself.",
+            "move": "agree",
+            "then": [
+              {
+                "speaker": "the clerk",
+                "text": "Good. Go over each name before September 1. I only take the ones that hold up."
+              }
+            ]
+          },
+          {
+            "offered": "Not yet. Where do I even start with delegate?",
+            "move": "ask",
+            "then": [
+              {
+                "speaker": "the clerk",
+                "text": "Signatures first, and doors are the surest way to get them. Money comes next: a campaign buys ad space in Onenoa Messenger, and its reporters cover who's running."
+              }
+            ]
+          },
+          {
+            "offered": "Who decided delegate takes that many?",
+            "move": "confront",
+            "then": [
+              {
+                "speaker": "the clerk",
+                "text": "That's the law's number, not mine, and September 1 is the law's day too."
+              }
+            ]
+          },
+          {
+            "offered": "I'll start with the people I know in Onenoa.",
+            "move": "leave",
+            "then": []
+          }
+        ]
+      }
+    }
+  ]
+}

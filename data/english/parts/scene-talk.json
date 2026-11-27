@@ -74817,7 +74817,7 @@
       "key": "scene-talk.follow-answer.start-with-the-signatures-knock-on-doors-and-set-up-a-table-where-people-shop-af",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Start with the signatures. Knock on doors, and set up a table where people shop. After that comes money, and {outlet} sells ad space and sends reporters to cover the race.",
+      "text": "Start with the signatures. Knock on doors, and set up a table where people shop. After that comes money, and the {outlet} sells ad space and sends reporters to cover the race.",
       "uses": [
         {
           "subject": "scene",
@@ -74849,7 +74849,7 @@
       "key": "scene-talk.follow-answer.signatures-first-and-doors-are-the-surest-way-to-get-them-money-comes-next-a-cam",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Signatures first, and doors are the surest way to get them. Money comes next: a campaign buys ad space in {outlet}, and its reporters cover who's running.",
+      "text": "Signatures first, and doors are the surest way to get them. Money comes next: a campaign buys ad space in the {outlet}, and its reporters cover who's running.",
       "uses": [
         {
           "subject": "scene",
@@ -74945,7 +74945,7 @@
       "key": "scene-talk.follow-answer.you-don-t-need-signatures-so-start-by-knocking-on-doors-and-talking-to-people-th",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "You don't need signatures, so start by knocking on doors and talking to people. Then comes money, and {outlet} sells ad space and covers the race.",
+      "text": "You don't need signatures, so start by knocking on doors and talking to people. Then comes money, and the {outlet} sells ad space and covers the race.",
       "uses": [
         {
           "subject": "scene",
