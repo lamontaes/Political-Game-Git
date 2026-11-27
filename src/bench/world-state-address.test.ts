@@ -60,10 +60,16 @@ describe.each(PINNED)(
           .moduleState(OFFICES_MODULE_ID)
           .table("terms")
           .rows() as unknown as {
+          id: string;
+          officeId: string;
           seatId?: string;
           personId?: string;
           status: string;
         }[];
+        const termOf = (holderId: string) =>
+          terms.find(
+            (t) => t.personId === holderId || `official:${t.id}` === holderId,
+          )!;
         const president = terms.find(
           (t) => t.seatId === "seat:US:president" && t.status === "serving",
         )?.personId;
@@ -77,13 +83,17 @@ describe.each(PINNED)(
             process.env.ACTS_OUT,
             `${place.name} ${w.core.date} governors ${JSON.stringify(governors.map((g) => [g.holderId.slice(-6), g.date]))} joint ${JSON.stringify(joint.map((j) => j.date))}\n`,
           );
-        // The sessions of January 2025 convened before the world's first day
-        // (the opening lacks last year's address: pool item
-        // gov-opening-lacks-last-years-address), so the first governors'
-        // addresses are 2026's, one per governor, each on its own state's day.
-        expect(new Set(governors.map((g) => g.holderId)).size, place.name).toBe(
-          governors.length,
-        );
+        // One address a year per governor, each on its own state's day: a
+        // session that convened before the world's first day had its 2025
+        // address before it (the opening lacks last year's address: pool item
+        // gov-opening-lacks-last-years-address), and one that convenes after
+        // it gives 2025's in the world. Another place's governor nobody has
+        // opened gives it by their term's key (`memberKey`), unbuilt.
+        expect(
+          new Set(governors.map((g) => `${g.holderId}:${g.date.slice(0, 4)}`))
+            .size,
+          place.name,
+        ).toBe(governors.length);
         // Every state's governor is accounted for by the world's own record:
         // the governor gave it, or the session calendar table says the state's
         // legislature does not meet in 2026.
@@ -98,11 +108,9 @@ describe.each(PINNED)(
               "governor",
         );
         const gaveStates = new Set(
-          governors.map((g) =>
-            jurisdictionOf(
-              terms.find((t) => t.personId === g.holderId)!.officeId,
-            ),
-          ),
+          governors
+            .filter((g) => g.date >= "2026-01")
+            .map((g) => jurisdictionOf(termOf(g.holderId).officeId)),
         );
         const states = new Set(
           servingGovernors.map((t) => jurisdictionOf(t.officeId)),
@@ -134,13 +142,17 @@ describe.each(PINNED)(
         for (const g of governors) {
           const held = (
             terms as unknown as {
+              id: string;
               personId?: string;
               seatId?: string;
               startDate: string;
               endDate: string | null;
               status: string;
             }[]
-          ).filter((t) => t.personId === g.holderId);
+          ).filter(
+            (t) =>
+              t.personId === g.holderId || `official:${t.id}` === g.holderId,
+          );
           expect(
             held.some(
               (t) =>
@@ -153,7 +165,7 @@ describe.each(PINNED)(
         expect(gaveStates.size, place.name).toBeGreaterThan(40);
         expect(other, place.name).toEqual([]);
         expect(
-          governors.every((g) => g.date >= "2026-01"),
+          governors.every((g) => g.date >= gameStartDate()),
           place.name,
         ).toBe(true);
         expect(
@@ -201,12 +213,19 @@ describe("another state's governor keeps only the result of the address", () => 
     const terms = api
       .moduleState(OFFICES_MODULE_ID)
       .table("terms")
-      .rows() as unknown as { personId?: string; officeId: string }[];
+      .rows() as unknown as {
+      id: string;
+      personId?: string;
+      officeId: string;
+    }[];
     const ownState = lawChain(api).stateKey;
+    // A holder nobody has opened is read by their term's key (`memberKey`).
     const stateOf = (holderId: string) =>
       (
         offices.get(
-          terms.find((t) => t.personId === holderId)!.officeId,
+          terms.find(
+            (t) => t.personId === holderId || `official:${t.id}` === holderId,
+          )!.officeId,
         ) as unknown as { jurisdiction: string }
       ).jurisdiction;
     const outside = governors.filter((g) => stateOf(g.holderId) !== ownState);
