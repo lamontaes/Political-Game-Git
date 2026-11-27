@@ -39,7 +39,7 @@ import { bookkeeping } from "../bookkeeping";
 import { depositsHeld, withdrawSavings } from "./budgets";
 import { transferCash } from "../budgets-treasury";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
-import { COUNTED_PLACE_PREFIX, type CountedHousehold } from "../counted-groups";
+import { realPlaceOf, type CountedHousehold } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import { awardYearMinor } from "../household-income";
 import { unplacedPoolOf, type ResidentFlowInput } from "../residents";
@@ -2659,9 +2659,7 @@ function countedCaseWeight(api: CoreAPI, householdId: string): number {
 function payCounsel(api: CoreAPI, caseId: string, caseSite: string) {
   const c = core(api);
   // A counted household's place is the town's counted tier (`counted:<town>`); its case is the town's like a full household's.
-  const placeId = caseSite.startsWith(COUNTED_PLACE_PREFIX)
-    ? caseSite.slice(COUNTED_PLACE_PREFIX.length)
-    : caseSite;
+  const placeId = realPlaceOf(caseSite);
   const row = store(api).table("counsel").get(placeId) as
     { inForce?: boolean; fundedById?: string } | undefined;
   const statute =
