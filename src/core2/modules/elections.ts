@@ -84,7 +84,6 @@ import { seatParty } from "../candidate-pool";
 import {
   answerVacancyOffer,
   governorTicketStage,
-  OFFICES_MODULE_ID,
   registerVacancyOffer,
   servingTermsOf,
   townSeats,
@@ -98,6 +97,7 @@ import {
   termsOfPerson,
   officeById,
   termById,
+  townOffices,
 } from "./offices";
 import { stableHash } from "../kernel/ids";
 import { placeStateKey } from "../place-map";
@@ -1596,10 +1596,7 @@ export function playerMayFileForKind(
  */
 function townLocalKinds(api: CoreAPI): readonly string[] {
   return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .query("byTown", [true]) as unknown as {
+    townOffices(api) as unknown as {
       level: string;
       kind: string;
     }[]
@@ -1771,14 +1768,13 @@ export function notYourOfficeWhy(
     return null;
   const contest = table(api, "contests").get(contestId) as unknown as
     ContestRow | undefined;
-  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   const office = contest
-    ? (offices.get(contest.officeId) as PlayerSeatOffice | undefined)
+    ? (officeById(api, contest.officeId) as PlayerSeatOffice | undefined)
     : undefined;
   if (!office) return null;
   // The home's own local offices, in id order: the town's, its township's and its county's.
   const own = (
-    offices.query("byTown", [true]) as unknown as {
+    townOffices(api) as unknown as {
       id: string;
       level: string;
       kind: string;

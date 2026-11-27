@@ -688,6 +688,26 @@ export function termOnSeat(api: CoreAPI, seatId: string): TermRow | undefined {
   return servingTermsOnSeat(api, seatId)[0];
 }
 
+/** The terms a seat's holders have left (a seat's history, newest by end date), none where the seat never had a holder. */
+export function endedTermsOnSeat(
+  api: CoreAPI,
+  seatId: string,
+): readonly TermRow[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  return table(api, "terms").query("bySeatStatus", [
+    seatId,
+    "ended",
+  ]) as unknown as TermRow[];
+}
+
+/** The offices that cover the town: its own, its township's and its county's (the `byTown` index). */
+export function townOffices(api: CoreAPI): readonly OfficeInput[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  return table(api, "offices").query("byTown", [
+    true,
+  ]) as unknown as OfficeInput[];
+}
+
 /** A vacancy by its id, or undefined where there is none. */
 export function vacancyById(
   api: CoreAPI,

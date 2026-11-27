@@ -16,6 +16,8 @@
  *   terms   .query("byOfficeStatus", [o, "serving"])   servingTermsOfOffice(api, o)
  *   terms   .query("byStatus", ["serving"])            servingTerms(api)
  *   offices .query("byJurisdiction", [j]) officesInJurisdiction(api, j)
+ *   offices .query("byTown", [true])      townOffices(api)
+ *   terms   .query("bySeatStatus", [s, "ended"])      endedTermsOnSeat(api, s)
  *   seats   .query("byOffice", [o])       officeSeats(api, o)
  *   offices/seats/terms .rows()           allOffices / allSeats / allTerms (api)
  *
@@ -100,6 +102,24 @@ function doorFor(
     SERVING(keys[0]!)
   )
     return { name: "servingTerms", make: (api) => `servingTerms(${api})` };
+  if (
+    table === "terms" &&
+    index === "bySeatStatus" &&
+    keys.length === 2 &&
+    ts.isStringLiteral(keys[1]!) &&
+    keys[1]!.text === "ended"
+  )
+    return {
+      name: "endedTermsOnSeat",
+      make: (api) => `endedTermsOnSeat(${api}, ${k[0]})`,
+    };
+  if (
+    table === "offices" &&
+    index === "byTown" &&
+    keys.length === 1 &&
+    keys[0]!.kind === ts.SyntaxKind.TrueKeyword
+  )
+    return { name: "townOffices", make: (api) => `townOffices(${api})` };
   if (table === "offices" && index === "byJurisdiction" && keys.length === 1)
     return {
       name: "officesInJurisdiction",
