@@ -176,6 +176,35 @@
         "scene-talk.follow-answer.short-ill-have-a-real-count-by-count-by"
       ],
       "restoredFrom": "scene-talk.follow-answer.short-i-ll-have-a-real-count-by-friday"
+    },
+    {
+      "i": 19,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Thank you all for being here.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "speech-stages.stage-opener.thank-you-all-for-being-here-in-place"
+      ],
+      "restoredFrom": "speech-stages.stage-opener.thank-you-all-for-being-here"
+    },
+    {
+      "i": 20,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Let's get to work.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["speech-stages.stage-closer.let-s-get-to-work-place"],
+      "restoredFrom": "speech-stages.stage-closer.let-s-get-to-work"
+    },
+    {
+      "i": 21,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Thank you all.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["speech-stages.stage-closer.thank-you-all-place"],
+      "restoredFrom": "speech-stages.stage-closer.thank-you-all"
     }
   ]
 }

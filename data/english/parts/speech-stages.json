@@ -532,6 +532,72 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-opener.thank-you-all-for-being-here-in-place",
+      "move": "stage-opener",
+      "kind": "spoken",
+      "text": "Thank you all for being here in {place}.",
+      "uses": [
+        {
+          "move": "stage-opener",
+          "subject": "stage",
+          "role": "opener",
+          "choice": "opener"
+        }
+      ],
+      "tag": {
+        "move": "greet"
+      },
+      "origin": "authored",
+      "author": "Story (W5, restoring a liked line)",
+      "date": "2026-11-27",
+      "restoredFrom": "speech-stages.stage-opener.thank-you-all-for-being-here",
+      "elements": ["crisis-opening-with-thanks"]
+    },
+    {
+      "key": "speech-stages.stage-closer.let-s-get-to-work-place",
+      "move": "stage-closer",
+      "kind": "spoken",
+      "text": "Let's get to work, {place}.",
+      "uses": [
+        {
+          "move": "stage-closer",
+          "subject": "stage",
+          "role": "closer",
+          "choice": "closer"
+        }
+      ],
+      "tag": {
+        "move": "close"
+      },
+      "origin": "authored",
+      "author": "Story (W5, restoring a liked line)",
+      "date": "2026-11-27",
+      "restoredFrom": "speech-stages.stage-closer.let-s-get-to-work",
+      "elements": ["sots-close-states-intent-to-serve-the-term"]
+    },
+    {
+      "key": "speech-stages.stage-closer.thank-you-all-place",
+      "move": "stage-closer",
+      "kind": "spoken",
+      "text": "Thank you all, {place}.",
+      "uses": [
+        {
+          "move": "stage-closer",
+          "subject": "stage",
+          "role": "closer",
+          "choice": "closer"
+        }
+      ],
+      "tag": {
+        "move": "close"
+      },
+      "origin": "authored",
+      "author": "Story (W5, restoring a liked line)",
+      "date": "2026-11-27",
+      "restoredFrom": "speech-stages.stage-closer.thank-you-all",
+      "elements": ["crisis-opening-with-thanks"]
     }
   ]
 }
