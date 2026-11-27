@@ -73555,66 +73555,6 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.state-tell.next-comes-the-petition-you-need-signatures-signatures-from-voters-here-and-they",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Next comes the petition. You need {signatures} signatures from voters here, and they're due back to me by {due}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-petition",
-          "key": "filed",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["signatures", "due", "first-filing"],
-          "excludesFacts": ["no-petition"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "tell",
-        "key": "filed"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "petition-struck-names-decide-it"
-      ]
-    },
-    {
-      "key": "scene-talk.state-tell.now-the-signatures-signatures-of-them-from-voters-here-and-i-need-them-by-due",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Now the signatures: {signatures} of them, from voters here, and I need them by {due}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-petition",
-          "key": "filed",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["signatures", "due", "first-filing"],
-          "excludesFacts": ["no-petition"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "tell",
-        "key": "filed"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "petition-struck-names-decide-it"
-      ]
-    },
-    {
       "key": "scene-talk.state-tell.you-ll-need-signatures-valid-signatures-by-due-collect-a-few-extra-because-i-str",
       "move": "state-tell",
       "kind": "spoken",
@@ -73628,7 +73568,7 @@
           "move": "tell",
           "role": "asker",
           "requiresFacts": ["signatures", "due"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition", "first-filing"]
         }
       ],
       "bearing": "firm",
@@ -73658,7 +73598,7 @@
           "move": "tell",
           "role": "asker",
           "requiresFacts": ["signatures", "due"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition", "first-filing"]
         }
       ],
       "bearing": "firm",
@@ -73689,7 +73629,7 @@
           "move": "tell",
           "role": "asker",
           "requiresFacts": ["signatures", "due"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition", "first-filing"]
         }
       ],
       "bearing": "calm",
@@ -73719,7 +73659,7 @@
           "move": "tell",
           "role": "asker",
           "requiresFacts": ["signatures", "due", "repeat-filing"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition", "first-filing"]
         }
       ],
       "bearing": "calm",
@@ -73749,7 +73689,7 @@
           "move": "tell",
           "role": "asker",
           "requiresFacts": ["one-signature", "due"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition", "first-filing"]
         }
       ],
       "bearing": "calm",
@@ -73779,7 +73719,7 @@
           "move": "tell",
           "role": "asker",
           "requiresFacts": ["one-signature", "due"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition", "first-filing"]
         }
       ],
       "bearing": "calm",
@@ -73808,7 +73748,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["no-petition", "vote-day"]
+          "requiresFacts": ["no-petition", "vote-day"],
+          "excludesFacts": ["first-filing"]
         }
       ],
       "bearing": "calm",
@@ -73834,7 +73775,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["no-petition", "vote-day", "office"]
+          "requiresFacts": ["no-petition", "vote-day", "office"],
+          "excludesFacts": ["first-filing"]
         }
       ],
       "bearing": "warm",
@@ -73861,7 +73803,7 @@
           "move": "agree",
           "role": "asked",
           "requiresFacts": ["due"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition", "first-filing"]
         }
       ],
       "bearing": "firm",
@@ -73888,7 +73830,7 @@
           "move": "agree",
           "role": "asked",
           "requiresFacts": ["due"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition", "first-filing"]
         }
       ],
       "bearing": "hopeful",
@@ -73915,7 +73857,7 @@
           "move": "agree",
           "role": "asked",
           "requiresFacts": ["signatures"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition", "first-filing"]
         }
       ],
       "bearing": "calm",
@@ -73968,7 +73910,7 @@
           "move": "ask",
           "role": "asked",
           "requiresFacts": ["due", "signatures"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition", "first-filing"]
         }
       ],
       "bearing": "curious",
@@ -73995,7 +73937,7 @@
           "move": "ask",
           "role": "asked",
           "requiresFacts": ["due", "place"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition", "first-filing"]
         }
       ],
       "bearing": "curious",
@@ -74378,7 +74320,8 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["signatures"]
+          "requiresFacts": ["signatures"],
+          "excludesFacts": ["first-filing"]
         }
       ],
       "bearing": "calm",
@@ -74408,7 +74351,8 @@
           "move": "answer",
           "role": "asker",
           "after": "scene-talk.reply-ask.what-if-i-m-short-by-due",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["office"],
+          "excludesFacts": ["first-filing"]
         }
       ],
       "bearing": "calm",
@@ -74439,7 +74383,8 @@
           "move": "answer",
           "role": "asker",
           "after": "scene-talk.reply-ask.can-anybody-sign-or-only-voters-in-place",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["place"],
+          "excludesFacts": ["first-filing"]
         }
       ],
       "bearing": "calm",
@@ -74469,7 +74414,8 @@
           "move": "answer",
           "role": "asker",
           "after": "scene-talk.reply-ask.will-i-know-before-vote-day-that-i-m-on",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["office"],
+          "excludesFacts": ["first-filing"]
         }
       ],
       "bearing": "calm",
@@ -74537,6 +74483,586 @@
         "key": "filed"
       },
       "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.state-tell.next-comes-the-petition-signatures-signatures-from-voters-here-due-back-to-me-by",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Next comes the petition: {signatures} signatures from voters here, due back to me by {due}. Have you run a campaign before?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["signatures", "due", "first-filing"],
+          "excludesFacts": ["no-petition"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.you-ll-need-signatures-signatures-by-due-and-i-only-count-the-ones-that-hold-up",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You'll need {signatures} signatures by {due}, and I only count the ones that hold up. Have you done this before?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["signatures", "due", "first-filing"],
+          "excludesFacts": ["no-petition"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.now-the-signatures-signatures-of-them-from-voters-here-by-due-have-you-run-a-cam",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Now the signatures: {signatures} of them, from voters here, by {due}. Have you run a campaign before, or should I walk you through it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["signatures", "due", "first-filing"],
+          "excludesFacts": ["no-petition"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.this-one-needs-a-single-signature-from-a-voter-here-due-due-have-you-run-a-campa",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "This one needs a single signature from a voter here, due {due}. Have you run a campaign before?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["one-signature", "due", "first-filing"],
+          "excludesFacts": ["no-petition"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.there-s-no-petition-for-this-one-and-the-vote-is-vote-day-have-you-done-this-bef",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "There's no petition for this one, and the vote is {vote-day}. Have you done this before?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["no-petition", "vote-day", "first-filing"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "no-fee-then-a-petition",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.you-don-t-need-signatures-for-office-your-name-goes-on-the-ballot-for-vote-day-h",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You don't need signatures for {office}. Your name goes on the ballot for {vote-day}. Have you run a campaign before?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["no-petition", "vote-day", "office", "first-filing"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "no-fee-then-a-petition",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.no-i-haven-t-walk-me-through-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "No, I haven't. Walk me through {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.not-yet-where-do-i-even-start-with-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Not yet. Where do I even start with {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.i-haven-t-done-this-before-what-comes-first-for-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "I haven't done this before. What comes first for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "office"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-have-i-ll-bring-what-you-need-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I have. I'll bring what you need for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-know-how-it-works-i-ll-handle-office-myself",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, I know how it works. I'll handle {office} myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.start-with-the-signatures-knock-on-doors-and-set-up-a-table-where-people-shop-af",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Start with the signatures. Knock on doors, and set up a table where people shop. After that comes money, and {outlet} sells ad space and sends reporters to cover the race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["first-filing", "signatures", "outlet"],
+          "excludesFacts": ["no-petition"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.signatures-first-and-doors-are-the-surest-way-to-get-them-money-comes-next-a-cam",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Signatures first, and doors are the surest way to get them. Money comes next: a campaign buys ad space in {outlet}, and its reporters cover who's running.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["first-filing", "signatures", "outlet"],
+          "excludesFacts": ["no-petition"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.start-with-the-signatures-knock-on-doors-set-up-a-table-where-people-shop-and-as",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Start with the signatures. Knock on doors, set up a table where people shop, and ask your friends to sign. Money comes after that, for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["first-filing", "signatures", "office"],
+          "excludesFacts": ["no-petition", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.doors-first-signatures-come-one-neighbor-at-a-time-then-you-ll-want-money-and-a",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Doors first: signatures come one neighbor at a time. Then you'll want money, and a way to reach the voters who don't answer for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["first-filing", "signatures", "office"],
+          "excludesFacts": ["no-petition", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.you-don-t-need-signatures-so-start-with-the-doors-and-talk-to-people-then-comes",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You don't need signatures, so start with the doors and talk to people. Then comes money, and {outlet} sells ad space and covers the race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["first-filing", "no-petition", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "no-fee-then-a-petition",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.there-s-nothing-to-collect-for-office-so-start-with-the-doors-and-talk-to-voters",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "There's nothing to collect for {office}, so start with the doors and talk to voters. Money comes next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["first-filing", "no-petition", "office"],
+          "excludesFacts": ["outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "no-fee-then-a-petition",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.thanks-that-helps-i-ll-start-with-the-doors-in-place",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Thanks, that helps. I'll start with the doors in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["first-filing", "place"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.thanks-i-ll-start-on-office-tomorrow",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Thanks. I'll start on {office} tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["first-filing", "office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
     }
   ]
 }
