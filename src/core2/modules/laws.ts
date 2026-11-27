@@ -75,7 +75,7 @@ export { webReach, webFactorFor } from "../outcome-web-reach";
 // The town's modeled people (named and counted), for the screens.
 export { townFacts, townStatePlaces } from "../law-reach/group-b-people";
 /** Who a law reached, by key, for the speeches that say what a law did. */
-export { reachedBy, reachOn } from "../law-reach/host";
+export { openLawReach, reachedBy, reachOn } from "../law-reach/host";
 export {
   assistanceIncomeByHousehold,
   ssiIncomeByHousehold,
