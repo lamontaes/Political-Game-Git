@@ -144,8 +144,7 @@ interface OpeningRow {
   readonly recordId?: string;
 }
 
-type OpeningSubject =
-  "town" | "person" | "household" | "business" | "office";
+type OpeningSubject = "town" | "person" | "household" | "business" | "office";
 
 export interface OpeningView {
   readonly subject: OpeningSubject;

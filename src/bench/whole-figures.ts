@@ -9,14 +9,7 @@ import type { CoreState } from "../core2/types";
 import rules from "./data/whole-figures.json" with { type: "json" };
 import { orgPlace } from "./scene";
 import { originShares } from "../core2/opening-origin";
-import {
-  colorParts,
-  lookKey,
-  packFigures,
-  packPerson,
-  type PackFigure,
-  type PackPerson,
-} from "./people-pack";
+import { packPerson, type PackPerson } from "./people-pack";
 import {
   bustFor,
   bustOfLook,
@@ -28,9 +21,8 @@ import {
   type BustPerson,
   type PersonBust,
 } from "./bust";
-import { frontUrl, type Plate, type PlateSpot } from "./mannequin-plates";
+
 import { parameter } from "../core2/parameters";
-import type { Occluder } from "./occluders";
 
 export type AgeBand = "child" | "teen" | "adult" | "older";
 
@@ -149,21 +141,6 @@ export function packPersonOf(who: FigurePerson): PackPerson | null {
     null
   );
 }
-
-// stopgapId: SG-PLAY-people-everyday-falls-back-to-work
-/**
- * The dresses someone wears here, most fitting first: an official at a
- * government place a formal look, someone at their own workplace a business
- * one, anyone else everyday clothes (the kit); each falls back to the others
- * where the pack paints no figure in the spot's pose.
- */
-function dressesFor(
-  core: CoreState,
-  who: FigurePerson,
-  place: string,
-): readonly string[] {
-  return rules.dressOrder[dressKindFor(core, who, place)];
-}
 /** How someone is dressed here: as an official at a government place, for their own work at their workplace, or everyday. */
 function dressKindFor(
   core: CoreState,
@@ -205,106 +182,3 @@ export function bustOf(
     older,
   );
 }
-/**
- * The person's figure in a pose: each dress in turn, and in a dress their
- * own look (set once from their seed); among
- * those, the one turned most nearly as the spot faces, then on the same seat.
- */
-function figureIn(
-  person: PackPerson,
-  who: FigurePerson,
-  dresses: readonly string[],
-  fits: (row: PackFigure) => boolean,
-  rank: (a: PackFigure, b: PackFigure) => number,
-): PackFigure | null {
-  const mine = packFigures().filter(
-    (row) => row.person === person.id && fits(row),
-  );
-  const seed = who.seed ?? who.id;
-  // In each dress, their own look set once from their seed.
-  const groups = dresses.map((dress) => {
-    const rows = mine.filter((row) => row.dress === dress);
-    const looks = [
-      ...new Set(
-        packFigures()
-          .filter((row) => row.person === person.id && row.dress === dress)
-          .map(lookKey),
-      ),
-    ].sort();
-    const own = looks.length
-      ? looks[mixed(`${seed}:${dress}`) % looks.length]
-      : undefined;
-    const worn = rows.filter((row) => lookKey(row) === own);
-    return worn.length ? worn : rows;
-  });
-  const rows = groups.find((group) => group.length);
-  return rows ? [...rows].sort(rank)[0]! : null;
-}
-
-/**
- * A figure holding something is drawn only where that thing belongs (owner,
- * Oct 29: phones at a rally or on the street, paper at a hearing or the
- * address desk, pen and paper at a desk; never at home), read from
- * src/bench/data/whole-figures.json `propPlaces`; one holding nothing goes anywhere.
- */
-const PROP_PLACES: Readonly<Record<string, readonly string[]>> =
-  rules.propPlaces;
-const propHere = (figure: PackFigure, place: string) =>
-  !figure.prop || (PROP_PLACES[figure.prop] ?? []).includes(place);
-
-const turnApart = (a: number, b: number) => {
-  const d = Math.abs(a - b) % 360;
-  return d > 180 ? 360 - d : d;
-};
-const byId = (a: PackFigure, b: PackFigure) => (a.id < b.id ? -1 : 1);
-
-// stopgapId: SG-PLAY-people-pack-six
-// stopgapId: SG-PLAY-people-pack-v4-pose-gaps
-
-/**
- * The color each recolorable part is painted: one of the person's palette
- * set once from their seed; someone 65 or
- * older has gray hair where the palette has it.
- */
-function colorsFor(
-  who: FigurePerson,
-  person: PackPerson,
-  band: AgeBand,
-): Record<string, string> {
-  const seed = who.seed ?? who.id;
-  return Object.fromEntries(
-    colorParts(person).map((part) => {
-      const names = Object.keys(person.palettes[part]!);
-      if (
-        part === "hair" &&
-        band === "older" &&
-        names.includes(rules.olderHair)
-      )
-        return [part, rules.olderHair];
-      return [part, names[mixed(`${seed}:${part}`) % names.length]!];
-    }),
-  );
-}
-
-/** A soft contact shadow on the floor, in percent of the picture. */
-interface ContactShadow {
-  leftPercent: number;
-  topPercent: number;
-  widthPercent: number;
-  heightPercent: number;
-}
-interface FigureBox {
-  leftPercent: number;
-  topPercent: number;
-  widthPercent: number;
-  heightPercent: number;
-  /** The furniture the plate paints in front of the mannequin, drawn back over the person; none where nothing is. */
-  occluder: Occluder | null;
-  /** Under the feet of someone standing; none for someone seated. */
-  shadow: ContactShadow | null;
-}
-
-// Presentation, TUNABLE by eye: a standing person's contact shadow is this
-// many head widths wide and this flat.
-const SHADOW_HEADS = 2;
-const SHADOW_FLATNESS = 0.22;
