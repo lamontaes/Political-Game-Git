@@ -426,7 +426,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["address-gives-the-president-little-change-in-approval"]
     },
     {
       "key": "news.law-amount-passed.a-new-place-law-passed-date-raises-the-measure-from",
@@ -1680,7 +1681,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["resident-brings-the-winning-ballot-to-budget-review"]
     },
     {
       "key": "news.organization-closed.subject-shut-down-in-year",
@@ -2140,7 +2142,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "low-resurfacing-bid-comes-to-the-council-table",
+        "council-funds-plate-readers-but-holds-their-use"
+      ]
     },
     {
       "key": "news.roll-call.designation-was-approved-count",
@@ -2162,7 +2168,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "low-resurfacing-bid-comes-to-the-council-table",
+        "council-funds-plate-readers-but-holds-their-use"
+      ]
     },
     {
       "key": "news.roll-call.members-passed-designation-by-count",
@@ -2184,7 +2194,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "low-resurfacing-bid-comes-to-the-council-table",
+        "council-funds-plate-readers-but-holds-their-use"
+      ]
     },
     {
       "key": "news.roll-call.designation-was-defeated-count",
@@ -2206,7 +2220,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "hear-two-deposit-bills-take-two-rolls",
+        "reporter-calls-on-a-recorded-no"
+      ]
     },
     {
       "key": "news.roll-call.members-voted-down-the-law-count",
@@ -2228,7 +2246,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "hear-two-deposit-bills-take-two-rolls",
+        "reporter-calls-on-a-recorded-no"
+      ]
     },
     {
       "key": "news.roll-call.the-law-did-not-pass-count",
@@ -2250,7 +2272,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "hear-two-deposit-bills-take-two-rolls",
+        "reporter-calls-on-a-recorded-no"
+      ]
     },
     {
       "key": "news.committee.the-committee-committee-sent-designation-to-the-floor-count",
@@ -2272,7 +2298,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["unopposed-through-committee-and-floor"]
     },
     {
       "key": "news.committee.the-committee-committee-turned-down-designation-count",
@@ -2541,7 +2568,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-b7-01-are-you-still-with-us"]
     },
     {
       "key": "news.signed.on-date-name-vetoed-the-law",
@@ -2563,7 +2591,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-b7-01-are-you-still-with-us"]
     },
     {
       "key": "news.signed.the-law-became-law-on-date-without-a-signature-from",
@@ -2873,7 +2902,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["resident-brings-the-winning-ballot-to-budget-review"]
     },
     {
       "key": "news.budget-adopted.purpose-gets-money-in-the-budget-for-place",
@@ -2894,7 +2924,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["resident-brings-the-winning-ballot-to-budget-review"]
     },
     {
       "key": "news.budget-adopted.place-adopted-a-budget-with-money-for-purpose",
@@ -4389,7 +4420,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-c31-the-recall-against-you"]
     },
     {
       "key": "news.recall.name-stays-in-office-after-the-recall-vote-count",
@@ -4478,7 +4510,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["party-caucus-fills-the-seat"]
     },
     {
       "key": "news.party-chair.the-party-party-picked-name-to-run-the-party",
@@ -4499,7 +4532,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["party-caucus-fills-the-seat"]
     },
     {
       "key": "news.charged.name-faces-a-charge-of-crime",
@@ -5294,7 +5328,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["dark-money-is-alleged-in-a-race"]
     },
     {
       "key": "news.ad.subject-was-behind-ads-this-month",
@@ -5336,7 +5371,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["dark-money-is-alleged-in-a-race"]
     },
     {
       "key": "news.eviction.a-family-in-place-lost-its-home-to-eviction-on",
@@ -5710,7 +5746,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.letter.name-of-place-wrote-the-paper-to-back-the-law",
@@ -5954,7 +5991,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "lede-packs-the-career-arc",
+        "retiring-teacher-finds-her-classroom-bare"
+      ]
     },
     {
       "key": "news.retirement.name-of-place-stopped-working-for-good-on-date",
@@ -5976,7 +6017,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.retirement.name-stopped-working-for-good-on-date",
@@ -5997,7 +6039,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.retirement.name-left-government-for-good-on-date",
@@ -6019,7 +6062,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.retirement.name-has-retired-after-years-years-in-the-service-of",
@@ -6041,7 +6085,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "lede-packs-the-career-arc",
+        "second-retiree-side-item-gives-a-second-close"
+      ]
     },
     {
       "key": "news.anniversary.subject-first-opened-in-place-years-years-ago-this-week",
@@ -6245,7 +6293,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["sotu-opens-on-economic-figures"]
     },
     {
       "key": "news.address.joblessness-nationwide-stands-at-unemployment-rate-percent",
@@ -6267,7 +6316,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["sotu-opens-on-economic-figures"]
     },
     {
       "key": "news.address.pay-has-gone-up-wage-growth-percent-in-a-year",
@@ -6289,7 +6339,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["sotu-opens-on-economic-figures"]
     },
     {
       "key": "news.address.wages-rose-wage-growth-percent-over-the-last-year",
@@ -6311,7 +6362,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["sotu-opens-on-economic-figures"]
     },
     {
       "key": "news.address.name-put-it-this-way-quote",
@@ -6457,7 +6509,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-c31-the-recall-against-you"]
     },
     {
       "key": "news.disaster.place-is-covered-by-a-federal-disaster-declaration-after-the",
@@ -7391,7 +7444,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.exposed.name-has-again-voted-on-a-contract-for-firm-the",
@@ -7413,7 +7467,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.took-office.a-new-post-from-place-has-been-sworn-in",
@@ -7997,7 +8052,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["authority-before-floodwater"]
     },
     {
       "key": "news.succession.name-is-now-office",
@@ -8044,7 +8100,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["successor-slipped-in-at-the-thanks"]
     },
     {
       "key": "news.recall-reply.name-sat-down-with-the-recall-petitioners-and-listened",
@@ -8260,7 +8317,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-c01-your-own-party-overrides-you"]
     },
     {
       "key": "news.item-veto.name-used-the-line-item-veto-to-remove-one-item",
@@ -8282,7 +8340,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-c01-your-own-party-overrides-you"]
     },
     {
       "key": "news.hearing.number-residents-spoke-at-the-hearing-on-the-budget-designation",
@@ -9486,7 +9545,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["party-caucus-fills-the-seat", "vacant-seat-second-ballot"]
     },
     {
       "key": "news.vacancy-election.the-special-election-will-be-held-when",
@@ -10204,7 +10264,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "police-log-by-day-with-type-time-and-block",
+        "cluster-of-break-ins-links-the-lead-to-the-log"
+      ]
     },
     {
       "key": "news.crime.property-was-vandalized-in-place-on-date",
@@ -10297,7 +10361,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.a-person-in-place-was-assaulted-on-date",
@@ -10342,7 +10407,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.graduation.graduates-of-the-number-seniors-in-place-finished-school",
@@ -11369,7 +11435,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["local-athlete-earns-a-college-sports-story"]
     },
     {
       "key": "news.honor.name-signed-with-a-division-i-team",
@@ -11391,7 +11458,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["local-athlete-earns-a-college-sports-story"]
     },
     {
       "key": "news.honor.a-senior-from-place-signed-with-a-division-i-team",
@@ -12056,7 +12124,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-opens-on-a-scene"]
     },
     {
       "key": "news.closing-account.the-business-had-been-in-town-for-years-years",
@@ -13160,7 +13229,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "pattern-b7-01-are-you-still-with-us",
+        "member-asked-for-a-vote-stays-undecided-until-the-floor"
+      ]
     },
     {
       "key": "news.signed-next.the-bill-returns-to-the-body-where-an-override-vote",
@@ -13182,7 +13255,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "pattern-b7-01-are-you-still-with-us",
+        "member-asked-for-a-vote-stays-undecided-until-the-floor"
+      ]
     },
     {
       "key": "news.signed-next.the-body-passed-it-and-the-deadline-went-by-with",
@@ -13339,7 +13416,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["unopposed-through-committee-and-floor"]
     },
     {
       "key": "news.committee-next.the-bill-goes-to-the-floor-of-the-body",
@@ -13361,7 +13439,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["unopposed-through-committee-and-floor"]
     },
     {
       "key": "news.vacancy-fill.the-seat-has-been-empty-since-since-and-the-rules",
@@ -13566,7 +13645,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-b7-08-send-it-to-study"]
     },
     {
       "key": "news.study-next.the-committee-has-until-until-to-report",
@@ -13588,7 +13668,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-b7-08-send-it-to-study"]
     },
     {
       "key": "news.study-reported.the-committee-on-designation-reported-on-date-that-most-members",
@@ -15547,7 +15628,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["opening-lede-on-the-owners-long-wish"]
     },
     {
       "key": "news.organization.opened.the-business-is-owner-s",
@@ -15767,7 +15849,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.retirement.years-years-at-employer-came-to-an-end",
@@ -15789,7 +15872,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "lede-packs-the-career-arc",
+        "retiring-teacher-finds-her-classroom-bare"
+      ]
     },
     {
       "key": "news.retirement.name-spent-years-years-at-employer",
@@ -15811,7 +15898,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "lede-packs-the-career-arc",
+        "retiring-teacher-finds-her-classroom-bare"
+      ]
     },
     {
       "key": "news.retirement.name-gave-government-years-years",
@@ -15833,7 +15924,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.retirement.name-worked-years-years-for-government",
@@ -15855,7 +15947,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.retirement.name-lives-in-place",
@@ -15944,7 +16037,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "lede-packs-the-career-arc",
+        "retiring-teacher-finds-her-classroom-bare"
+      ]
     },
     {
       "key": "news.retirement.it-ended-years-years-in-the-job",
@@ -15967,7 +16064,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "lede-packs-the-career-arc",
+        "retiring-teacher-finds-her-classroom-bare"
+      ]
     },
     {
       "key": "news.retirement.name-worked-years-years-in-the-position",
@@ -15990,7 +16091,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.organization.opened.owner-has-opened-subject-in-place",
@@ -16012,7 +16114,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "opening-lede-on-the-place-and-month",
+        "opening-lede-on-the-owners-long-wish"
+      ]
     },
     {
       "key": "news.organization.opened.subject-has-opened-in-place",
@@ -16034,7 +16140,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "opening-lede-on-the-place-and-month",
+        "opening-lede-on-the-owners-long-wish"
+      ]
     },
     {
       "key": "news.honor.the-regional-bee-comes-soon",
@@ -16432,7 +16542,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["address-gives-the-president-little-change-in-approval"]
     }
   ]
 }
