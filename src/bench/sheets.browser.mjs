@@ -3,7 +3,7 @@
 // record id and no missing value ("undefined", "NaN").
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
+import { startLife } from "../../tests/support/start-life.mjs";
 const RECORD_ID =
   /\b(?:[a-z][a-z-]*_[0-9a-f]{8,}|[a-z][a-z-]*(?::[A-Za-z0-9._@-]+){2,})\b/;
 const MISSING = /\b(?:undefined|NaN|null)\b/;

@@ -39,7 +39,11 @@ import {
   type Fact,
   type Said,
 } from "../english/conversation-words";
-import { questionAbout, questionTo } from "../english/question-names";
+import {
+  questionAbout,
+  questionPlainWords,
+  questionTo,
+} from "../english/question-names";
 import rulesFile from "./data/sittings.json" with { type: "json" };
 import type {
   Conversation,
@@ -278,6 +282,13 @@ function askingFor(
   };
   const to = questionTo(question);
   if (to) facts.to = { text: to, sourceRecordIds: cited };
+  // Each side's own reason on the question (question-names.json `reasons`),
+  // so a stand in the interview says why (pre-grade, Nov 25: "I'm opposed to
+  // {about}." gave none). A line names the side whose reason it says.
+  const plainWords = questionPlainWords(question);
+  for (const key of ["reason-for", "reason-against"] as const)
+    if (plainWords[key])
+      facts[key] = { text: plainWords[key], sourceRecordIds: cited };
   // Their stand is the platform they filed, else a vote of theirs or their
   // own view; with none of those they have none, and the sitting never states
   // one for them. It only decides which side is offered first: the player is

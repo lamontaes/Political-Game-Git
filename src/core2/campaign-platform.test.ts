@@ -35,7 +35,7 @@ import { lawChain } from "./modules/laws";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { townStand } from "./modules/press";
-import { sidesByAgreement } from "./campaign-platform-test-kit";
+import { sidesByAgreement } from "../../tests/support/campaign-platform-test-kit";
 import { agreementWith, countedStanceProfile } from "./modules/views";
 
 /** The views engine's readers the shares are counted by. */

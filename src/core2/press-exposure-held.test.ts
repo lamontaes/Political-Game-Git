@@ -31,7 +31,7 @@ import {
 import { NEWS_MODULE_ID } from "./modules/news";
 import { coreAPI } from "./state";
 import type { PersonId } from "./types";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const PLACE = "1930630";
 const SEED = "reporters-call-1";

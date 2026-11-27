@@ -10,7 +10,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { endRecipientIncomeAtDeath } from "./finance-state";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore, createLifeCore } from "./life";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import type { CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");

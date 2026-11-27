@@ -17,7 +17,7 @@ import { townSeats } from "../core2/modules/offices";
 import { fileCandidacy, openContests } from "../core2/modules/elections";
 import { campaignFor, giftOf } from "../core2/modules/campaigns";
 import { campaignDay, campaignView } from "./campaign";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??

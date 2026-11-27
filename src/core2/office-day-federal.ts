@@ -63,7 +63,7 @@ import {
   type OfficeEffectHandler,
 } from "./office-day-registry";
 import { COMMITTEES, committeeRoster, leaderOf } from "./modules/leadership";
-import { candidateStance } from "./campaign-stances";
+import { candidateStance } from "./modules/campaigns";
 import { filingWindowOpens } from "./modules/candidacy";
 import { partySide } from "./appointments";
 import {
