@@ -137,7 +137,7 @@ try {
     "tsx",
     "--input-type=module",
     "-e",
-    `import {censusOpeningInput,openingInputBudget} from './src/core2/tooling/opening-input-budget.ts';import registry from './src/core2/tooling/opening-input-budgets.json' with {type:'json'};const actual=openingInputBudget(censusOpeningInput({people:[{}],padding:'x'.repeat(Math.ceil(registry.openingInputMaxBytesPerResident.value)*2)}),registry);if(actual.passed)throw Error('Oversized input accepted');console.log(JSON.stringify(actual));`,
+    `import {censusOpeningInput,openingInputBudget} from './scripts/core2/tooling/opening-input-budget.ts';import registry from './scripts/core2/tooling/opening-input-budgets.json' with {type:'json'};const actual=openingInputBudget(censusOpeningInput({people:[{}],padding:'x'.repeat(Math.ceil(registry.openingInputMaxBytesPerResident.value)*2)}),registry);if(actual.passed)throw Error('Oversized input accepted');console.log(JSON.stringify(actual));`,
   ]);
   result = {
     schema: "m0-performance-proof-v1",

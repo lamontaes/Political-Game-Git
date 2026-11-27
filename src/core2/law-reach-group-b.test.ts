@@ -7,8 +7,8 @@
  */
 import { appliedOn } from "./law-reach/applied";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { govReport } from "./gov-test-report";
-import { repealStartingAnswers } from "./law-test-start";
+import { govReport } from "../../scripts/core2/gov-test-report";
+import { repealStartingAnswers } from "../../tests/support/law-test-start";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";

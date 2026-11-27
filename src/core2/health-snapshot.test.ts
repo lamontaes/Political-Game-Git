@@ -6,7 +6,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore, createLifeCore } from "./life";
 import { createHealthModule, healthReport } from "./modules/health";
 import { restoreWorld, snapshotWorld, uncoveredModules } from "./snapshot";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const place = drawPlace(seed, "health-snapshot");

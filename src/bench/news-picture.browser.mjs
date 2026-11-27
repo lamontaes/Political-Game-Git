@@ -10,7 +10,7 @@
 // Connecticut, the owner's Nov 8 repro, is 0944690).
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
+import { startLife } from "../../tests/support/start-life.mjs";
 
 const [shots] = process.argv.slice(2);
 const WEEKS = 4;

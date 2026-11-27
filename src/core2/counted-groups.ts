@@ -14,7 +14,7 @@
  */
 import { ageInYears } from "./kernel/dates";
 import { stopgap } from "./stopgaps";
-import type { FinanceContractInput } from "./finance-types";
+import type { FinanceContractInput } from "./modules/finance";
 import type { ResidentHouseholdRecord } from "./residents";
 import type {
   GroupQuartersType,

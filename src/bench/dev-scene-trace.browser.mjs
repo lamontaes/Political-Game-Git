@@ -6,8 +6,8 @@
 //   node src/bench/dev-scene-trace.browser.mjs [screenshot.png]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { devModeOn } from "./dev-setup.mjs";
-import { playOpening } from "./start-life.mjs";
+import { devModeOn } from "../../tests/support/dev-setup.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
 
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? undefined,
