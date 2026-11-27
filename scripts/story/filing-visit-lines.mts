@@ -76,6 +76,15 @@ for (let draw = 0, done = 0; done < places && draw < places * 6; draw += 1) {
         if (pick) {
           state = chooseAtCounter(core, state, pick.key);
           show("after picking the race");
+          // A question or a challenge, then the filing itself, the way a player would.
+          for (const control of ["ask", "file"] as const) {
+            const next = state.visit.choices.find(
+              (row) => row.control === control,
+            );
+            if (!next) continue;
+            state = chooseAtCounter(core, state, next.key);
+            show(`after ${control}`);
+          }
         }
         shown = true;
         done += 1;
