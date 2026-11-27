@@ -28,11 +28,14 @@ import type { Parameter } from "../parameters";
 import type {
   CoreAPI,
   CoreEventInput,
+  CoreEventListener,
   CoreModule,
+  CoreRelationshipListener,
   CoreState,
   KnownFact,
   PersonId,
   PersonState,
+  RelationshipChangeNotice,
 } from "../types";
 import { believesClaim, claimFit } from "../heard-claims";
 import { registerDerivedCache, registerWorldMapPart } from "../snapshot";
@@ -650,21 +653,271 @@ const NEWS_HISTORY: HistorySource = {
   },
 };
 
+type Tellable = (
+  api: CoreAPI,
+  personId: PersonId,
+  since: string,
+) => Iterable<{
+  readonly storyId: string;
+  readonly storyDate: string;
+}>;
+
+/** A public record no press covers becomes a story, and the people it reached already know it. */
+const storePublicRecord: CoreEventListener = (api, event, learnedBy) => {
+  // Where the press runs, its reporters decide what becomes a story.
+  if (api.state.modules.has(PRESS_MODULE_ID)) return;
+  if (!event.publicRecord || stories(api).get(event.id)) return;
+  const story: Story = {
+    id: event.id,
+    outletId: `outlet:${event.placeId}`,
+    kind: event.kind,
+    date: event.date,
+    placeId: event.placeId,
+    facts: event.facts ?? {},
+  };
+  stories(api).put(story as unknown as { id: string });
+  // The people the event itself reached already know it.
+  for (const id of learnedBy) hear(api, id, story, "perceived", event.id);
+  scheduleDeliveries(
+    api,
+    story,
+    readersOf(api, event.placeId),
+    new Set(learnedBy),
+  );
+};
+
+interface ContactNews {
+  readonly recents: ReturnType<typeof recentOf>;
+  readonly refusals: ReturnType<typeof refused>;
+  readonly table: ReturnType<typeof stories>;
+  readonly since: string;
+}
+
+/** One side of a contact tells the other the stories they owe, as far as the other takes them in. */
+function tellOneWay(
+  api: CoreAPI,
+  tellable: Tellable,
+  notice: Readonly<RelationshipChangeNotice>,
+  teller: PersonId,
+  listener: PersonId,
+  { recents, refusals, table, since }: ContactNews,
+): void {
+  // How many stories they pass on leans on every trait they have.
+  const tellerPerson = api.state.people.get(teller);
+  const toTell = storiesToTell(
+    api,
+    teller,
+    storiesOwedAtContact(api, tellerPerson),
+  );
+  // Nothing owed at this contact: the telling would stop at once.
+  if (toTell <= api.parameter("zero")) return;
+  // Whether the listener takes a told story in is theirs to decide:
+  // the benefit of the doubt, more for a teller they are close to and
+  // a story that argues as they already lean, against their own lean
+  // toward doubting. Decided once for each side a story argues.
+  const listenerPerson = api.state.people.get(listener);
+  const believed = new Map<string, boolean>();
+  let passed = api.parameter("zero");
+  for (const entry of tellable(api, teller, since)) {
+    if (passed >= toTell || entry.storyDate < since) break;
+    // Already heard: hear() would refuse it too, without the lookup.
+    if (recents.get(listener)?.ids.has(entry.storyId)) continue;
+    const refusal = `${listener}:${entry.storyId}`;
+    if (refusals.has(refusal)) continue;
+    const story = table.get(entry.storyId) as unknown as Story;
+    const side = `${story.topic ?? ""}|${story.desiredChange ?? ""}`;
+    let believes = believed.get(side);
+    if (believes === undefined) {
+      believes = listenerPerson
+        ? believesClaim(api.state, listenerPerson, {
+            tellerId: teller,
+            fit: claimFit(
+              api,
+              listenerPerson,
+              story.topic,
+              story.desiredChange,
+            ),
+          })
+        : true;
+      believed.set(side, believes);
+    }
+    if (!believes) {
+      // Told, and not taken in; the paper can still reach them.
+      refusals.add(refusal);
+      passed += api.parameter("one");
+    } else if (hear(api, listener, story, "told", notice.relationshipId))
+      passed += api.parameter("one");
+  }
+}
+
+/** Only a contact that happened today carries news between the two, and only when one of them has heard something. */
+const carryNewsAtContact =
+  (tellable: Tellable): CoreRelationshipListener =>
+  (api, notice) => {
+    // Only a contact that happened today carries news between the two, and
+    // only when one of them has heard something.
+    if (notice.date !== api.state.date) return;
+    const counts = countsOf(api);
+    if (!counts.get(notice.actorId) && !counts.get(notice.otherId)) return;
+    const recents = recentOf(api);
+    const refusals = refused(api);
+    const table = stories(api);
+    const maxAge = n(api, "newsMaxAgeDays");
+    // A story still fresh today was heard on or after its own date, so only
+    // what the teller heard within the story life is read (same order).
+    const since = addDays(makeIsoDate(api.state.date), -maxAge);
+    const { actorId, otherId } = notice;
+    // Each tells the other in turn, the actor first.
+    for (let turn = 0; turn < 2; turn++)
+      tellOneWay(
+        api,
+        tellable,
+        notice,
+        turn === 0 ? actorId : otherId,
+        turn === 0 ? otherId : actorId,
+        { recents, refusals, table, since },
+      );
+  };
+
+/** Today's due deliveries are heard; returns each story's readers. */
+function deliverToday(api: CoreAPI): Map<string, PersonId[]> {
+  const readers = new Map<string, PersonId[]>();
+  for (const row of deliveries(api).query("byDate", [api.state.date])) {
+    const story = stories(api).get(row.storyId as string) as unknown as Story;
+    if (story && hear(api, row.personId as string, story, "public", story.id))
+      readers.set(story.id, [
+        ...(readers.get(story.id) ?? []),
+        row.personId as string,
+      ]);
+    deliveries(api).remove(row.id);
+  }
+  return readers;
+}
+
+/** The readers of one printed story today take in what it argued. */
+function readStory(
+  api: CoreAPI,
+  storyId: string,
+  ids: readonly PersonId[],
+): void {
+  const story = stories(api).get(storyId) as unknown as Story;
+  const alive = ids.filter((id) => api.state.people.get(id)?.alive);
+  const read = (
+    id: string,
+    topic: string | undefined,
+    desiredChange: string | undefined,
+    witnessIds: readonly PersonId[],
+    facts: Readonly<Record<string, string>>,
+  ) => {
+    const event: CoreEventInput = {
+      id,
+      date: api.state.date,
+      kind: NEWS_READ,
+      personIds: [],
+      witnessIds: [...witnessIds],
+      placeId: story.placeId,
+      ...(topic ? { topic } : {}),
+      desiredChange,
+      ...(story.moodImpulse === undefined
+        ? {}
+        : { moodImpulse: story.moodImpulse }),
+      facts: {
+        ...facts,
+        learnedFrom: newsKey(story.id),
+        // What a reader can bring up: which outlet printed this story.
+        // One fact per story read, so a second story from the same
+        // outlet on the same day does not replace the first.
+        ...(story.kind === "press.printed"
+          ? { [`${newsKey(story.id)}:outlet`]: story.outletId }
+          : {}),
+      },
+      source: {
+        tag: "SOURCED",
+        citation: `Story ${story.id}, read by its outlet's followers`,
+        asOf: api.state.date,
+      },
+    };
+    api.emit(event);
+    return event;
+  };
+  // A month's move in the town's conditions argues no change of its
+  // own: each reader takes each condition it reports as a reason for
+  // the side their own view already holds on the question that
+  // condition ties to. A reader with no side on a
+  // question has none to strengthen. The readers already hold the
+  // story's facts; what they take from reading it is its source, whose
+  // case it was and (added by read) which outlet printed it.
+  const questions = story.desiredChange ? [] : conditionQuestions(story.facts);
+  if (questions.length) {
+    const zero = api.parameter("zero");
+    const carried = Object.fromEntries(
+      Object.entries(story.facts).filter(([key]) => key === VIEWS_SPEAKER_KEY),
+    );
+    for (const question of questions) {
+      const sides = new Map<string, PersonId[]>();
+      for (const id of alive) {
+        const view = viewOf(api, id);
+        const current = view ? viewOn(api, id, question, view.lean) : zero;
+        if (current === zero) continue;
+        const side = current > zero ? "enact" : "repeal";
+        sides.set(side, [...(sides.get(side) ?? []), id]);
+      }
+      for (const [side, witnessIds] of [...sides].sort((a, b) =>
+        a[0].localeCompare(b[0]),
+      ))
+        read(
+          `${NEWS_READ}:${story.id}:${api.state.date}:${side}:${question}`,
+          question,
+          side,
+          witnessIds,
+          carried,
+        );
+    }
+    return;
+  }
+  // A story argues a change on a policy question; a law taking effect
+  // is also read and remembered with no side to take, so a reader can
+  // bring up the law in town, and so is a report of a bribe taken by a
+  // named official (the story names the crime and the official), so the
+  // people who read it can ask the official about it.
+  const reportsBribe = !!story.facts.crimeId && !!story.facts.officialId;
+  // A story of a national public event (the President's address, a
+  // nomination, the month's approval) is read with no side too, so a
+  // reader can bring it up later: its record is the nation's, by the
+  // level the wire read from the record's own fields (press-desk.ts).
+  const national = story.facts.wireLevel === "nation";
+  if (
+    !national &&
+    (!story.topic ||
+      (!story.desiredChange && !story.facts.lawId && !reportsBribe))
+  )
+    return;
+  const event = read(
+    `${NEWS_READ}:${story.id}:${api.state.date}`,
+    story.topic,
+    story.desiredChange,
+    alive,
+    story.facts,
+  );
+  if (story.desiredChange)
+    for (const reader of (
+      api.state.modules.get(PRESS_MODULE_ID) as CountedNewsModule | undefined
+    )?.countedNewsAudience?.(api, story.id, alive.length) ?? [])
+      hearCountedNews(
+        api,
+        reader,
+        event,
+        event.facts?.[VIEWS_SPEAKER_KEY],
+        newsKey(story.id),
+      );
+}
+
 /**
  * The news module. `tellable` lists the stories a teller can pass on, each
  * by its id and date, newest first; tests swap in the full rescan
  * (`storiesHeard`) to check both tell the same.
  */
-export function createNewsModule(
-  tellable: (
-    api: CoreAPI,
-    personId: PersonId,
-    since: string,
-  ) => Iterable<{
-    readonly storyId: string;
-    readonly storyDate: string;
-  }> = recentList,
-): CoreModule {
+export function createNewsModule(tellable: Tellable = recentList): CoreModule {
   const module: CoreModule = {
     id: NEWS_MODULE_ID,
     history: NEWS_HISTORY,
@@ -679,235 +932,18 @@ export function createNewsModule(
       },
     },
     eventKinds: ["*"],
-    onEvent(api, event, learnedBy) {
-      // Where the press runs, its reporters decide what becomes a story.
-      if (api.state.modules.has(PRESS_MODULE_ID)) return;
-      if (!event.publicRecord || stories(api).get(event.id)) return;
-      const story: Story = {
-        id: event.id,
-        outletId: `outlet:${event.placeId}`,
-        kind: event.kind,
-        date: event.date,
-        placeId: event.placeId,
-        facts: event.facts ?? {},
-      };
-      stories(api).put(story as unknown as { id: string });
-      // The people the event itself reached already know it.
-      for (const id of learnedBy) hear(api, id, story, "perceived", event.id);
-      scheduleDeliveries(
-        api,
-        story,
-        readersOf(api, event.placeId),
-        new Set(learnedBy),
-      );
-    },
+    onEvent: storePublicRecord,
     relationshipKinds: ["*"],
-    onRelationshipChange(api, notice) {
-      // Only a contact that happened today carries news between the two, and
-      // only when one of them has heard something.
-      if (notice.date !== api.state.date) return;
-      const counts = countsOf(api);
-      if (!counts.get(notice.actorId) && !counts.get(notice.otherId)) return;
-      const recents = recentOf(api);
-      const refusals = refused(api);
-      const table = stories(api);
-      const maxAge = n(api, "newsMaxAgeDays");
-      // A story still fresh today was heard on or after its own date, so only
-      // what the teller heard within the story life is read (same order).
-      const since = addDays(makeIsoDate(api.state.date), -maxAge);
-      const { actorId, otherId } = notice;
-      // Each tells the other in turn, the actor first.
-      for (let turn = 0; turn < 2; turn++) {
-        const teller = turn === 0 ? actorId : otherId;
-        const listener = turn === 0 ? otherId : actorId;
-        // How many stories they pass on leans on every trait they have.
-        const tellerPerson = api.state.people.get(teller);
-        const toTell = storiesToTell(
-          api,
-          teller,
-          storiesOwedAtContact(api, tellerPerson),
-        );
-        // Nothing owed at this contact: the telling would stop at once.
-        if (toTell <= api.parameter("zero")) continue;
-        // Whether the listener takes a told story in is theirs to decide:
-        // the benefit of the doubt, more for a teller they are close to and
-        // a story that argues as they already lean, against their own lean
-        // toward doubting. Decided once for each side a story argues.
-        const listenerPerson = api.state.people.get(listener);
-        const believed = new Map<string, boolean>();
-        let passed = api.parameter("zero");
-        for (const entry of tellable(api, teller, since)) {
-          if (passed >= toTell || entry.storyDate < since) break;
-          // Already heard: hear() would refuse it too, without the lookup.
-          if (recents.get(listener)?.ids.has(entry.storyId)) continue;
-          const refusal = `${listener}:${entry.storyId}`;
-          if (refusals.has(refusal)) continue;
-          const story = table.get(entry.storyId) as unknown as Story;
-          const side = `${story.topic ?? ""}|${story.desiredChange ?? ""}`;
-          let believes = believed.get(side);
-          if (believes === undefined) {
-            believes = listenerPerson
-              ? believesClaim(api.state, listenerPerson, {
-                  tellerId: teller,
-                  fit: claimFit(
-                    api,
-                    listenerPerson,
-                    story.topic,
-                    story.desiredChange,
-                  ),
-                })
-              : true;
-            believed.set(side, believes);
-          }
-          if (!believes) {
-            // Told, and not taken in; the paper can still reach them.
-            refusals.add(refusal);
-            passed += api.parameter("one");
-          } else if (hear(api, listener, story, "told", notice.relationshipId))
-            passed += api.parameter("one");
-        }
-      }
-    },
+    onRelationshipChange: carryNewsAtContact(tellable),
     onAfterDay(api) {
       if (api.state.date.endsWith("-01")) forgetOldNews(api);
-      const readers = new Map<string, PersonId[]>();
-      for (const row of deliveries(api).query("byDate", [api.state.date])) {
-        const story = stories(api).get(
-          row.storyId as string,
-        ) as unknown as Story;
-        if (
-          story &&
-          hear(api, row.personId as string, story, "public", story.id)
-        )
-          readers.set(story.id, [
-            ...(readers.get(story.id) ?? []),
-            row.personId as string,
-          ]);
-        deliveries(api).remove(row.id);
-      }
+      const readers = deliverToday(api);
       // Today's readers of a printed story take in what it argued.
       // stopgapId: SG-PEOPLE-counted-readers-stories (condition-story direction and retained-person transfers remain unfinished)
       for (const [storyId, ids] of [...readers].sort((a, b) =>
         a[0].localeCompare(b[0]),
-      )) {
-        const story = stories(api).get(storyId) as unknown as Story;
-        const alive = ids.filter((id) => api.state.people.get(id)?.alive);
-        const read = (
-          id: string,
-          topic: string | undefined,
-          desiredChange: string | undefined,
-          witnessIds: readonly PersonId[],
-          facts: Readonly<Record<string, string>>,
-        ) => {
-          const event: CoreEventInput = {
-            id,
-            date: api.state.date,
-            kind: NEWS_READ,
-            personIds: [],
-            witnessIds: [...witnessIds],
-            placeId: story.placeId,
-            ...(topic ? { topic } : {}),
-            desiredChange,
-            ...(story.moodImpulse === undefined
-              ? {}
-              : { moodImpulse: story.moodImpulse }),
-            facts: {
-              ...facts,
-              learnedFrom: newsKey(story.id),
-              // What a reader can bring up: which outlet printed this story.
-              // One fact per story read, so a second story from the same
-              // outlet on the same day does not replace the first.
-              ...(story.kind === "press.printed"
-                ? { [`${newsKey(story.id)}:outlet`]: story.outletId }
-                : {}),
-            },
-            source: {
-              tag: "SOURCED",
-              citation: `Story ${story.id}, read by its outlet's followers`,
-              asOf: api.state.date,
-            },
-          };
-          api.emit(event);
-          return event;
-        };
-        // A month's move in the town's conditions argues no change of its
-        // own: each reader takes each condition it reports as a reason for
-        // the side their own view already holds on the question that
-        // condition ties to. A reader with no side on a
-        // question has none to strengthen. The readers already hold the
-        // story's facts; what they take from reading it is its source, whose
-        // case it was and (added by read) which outlet printed it.
-        const questions = story.desiredChange
-          ? []
-          : conditionQuestions(story.facts);
-        if (questions.length) {
-          const zero = api.parameter("zero");
-          const carried = Object.fromEntries(
-            Object.entries(story.facts).filter(
-              ([key]) => key === VIEWS_SPEAKER_KEY,
-            ),
-          );
-          for (const question of questions) {
-            const sides = new Map<string, PersonId[]>();
-            for (const id of alive) {
-              const view = viewOf(api, id);
-              const current = view
-                ? viewOn(api, id, question, view.lean)
-                : zero;
-              if (current === zero) continue;
-              const side = current > zero ? "enact" : "repeal";
-              sides.set(side, [...(sides.get(side) ?? []), id]);
-            }
-            for (const [side, witnessIds] of [...sides].sort((a, b) =>
-              a[0].localeCompare(b[0]),
-            ))
-              read(
-                `${NEWS_READ}:${story.id}:${api.state.date}:${side}:${question}`,
-                question,
-                side,
-                witnessIds,
-                carried,
-              );
-          }
-          continue;
-        }
-        // A story argues a change on a policy question; a law taking effect
-        // is also read and remembered with no side to take, so a reader can
-        // bring up the law in town, and so is a report of a bribe taken by a
-        // named official (the story names the crime and the official), so the
-        // people who read it can ask the official about it.
-        const reportsBribe = !!story.facts.crimeId && !!story.facts.officialId;
-        // A story of a national public event (the President's address, a
-        // nomination, the month's approval) is read with no side too, so a
-        // reader can bring it up later: its record is the nation's, by the
-        // level the wire read from the record's own fields (press-desk.ts).
-        const national = story.facts.wireLevel === "nation";
-        if (
-          !national &&
-          (!story.topic ||
-            (!story.desiredChange && !story.facts.lawId && !reportsBribe))
-        )
-          continue;
-        const event = read(
-          `${NEWS_READ}:${story.id}:${api.state.date}`,
-          story.topic,
-          story.desiredChange,
-          alive,
-          story.facts,
-        );
-        if (story.desiredChange)
-          for (const reader of (
-            api.state.modules.get(PRESS_MODULE_ID) as
-              CountedNewsModule | undefined
-          )?.countedNewsAudience?.(api, story.id, alive.length) ?? [])
-            hearCountedNews(
-              api,
-              reader,
-              event,
-              event.facts?.[VIEWS_SPEAKER_KEY],
-              newsKey(story.id),
-            );
-      }
+      ))
+        readStory(api, storyId, ids);
     },
   };
   return module;
