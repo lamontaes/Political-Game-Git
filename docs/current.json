@@ -1867,6 +1867,24 @@
       "now": "tests/source/household-mix.test.ts holds its derivation",
       "when": "2026-11-27",
       "why": "Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code."
+    },
+    {
+      "old": "src/core2/bill-numbering-styles.generated.ts",
+      "now": "src/core2/data/legislature/bill-numbering-styles.json, locked to the research by src/core2/bill-numbering-styles.test.ts",
+      "when": "2026-11-27",
+      "why": "Content is data (Lawmaking item 2): the game imports the data file, and the derivation lives in the research scripts with a lock test, not a generator that writes code."
+    },
+    {
+      "old": "scripts/research/export-bill-numbering-styles.ts",
+      "now": "scripts/research/read-bill-numbering-styles.ts (reads the research; the lock test compares it to the data file)",
+      "when": "2026-11-27",
+      "why": "Content is data (Lawmaking item 2): the game imports the data file, and the derivation lives in the research scripts with a lock test, not a generator that writes code."
+    },
+    {
+      "old": "src/core2/bill-numbering-derivation.ts",
+      "now": "src/core2/bill-numbering-style.ts (types and defaults the game uses) and scripts/research/bill-numbering-derivation.ts (the derivation)",
+      "when": "2026-11-27",
+      "why": "Content is data (Lawmaking item 2): the game imports the data file, and the derivation lives in the research scripts with a lock test, not a generator that writes code."
     }
   ]
 }

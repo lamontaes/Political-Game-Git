@@ -145,7 +145,7 @@ describe("research data has a reader", () => {
         .get("data/research/outcome-web/links.json")
         ?.some((reader) => reader.file === "src/core2/outcome-web-model.ts"),
     ).toBe(true);
-    // export-bill-numbering-styles reads the numbering table by its path.
+    // read-bill-numbering-styles reads the numbering table by its path.
     expect(
       readers
         .get("data/research/bill-numbering-starts.json")
