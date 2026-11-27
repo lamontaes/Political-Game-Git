@@ -937,6 +937,9 @@
 /src/core2/pre-start.ts @lamontaes
 /src/core2/shared-history.ts @lamontaes
 /src/core2/find-age.test.ts @lamontaes
+/src/core2/history-acts-graduations.test.ts @lamontaes
+/src/core2/history-causes.test.ts @lamontaes
+/src/core2/history-mattered.test.ts @lamontaes
 /src/core2/life-kinds-told.test.ts @lamontaes
 /src/core2/life-record-elsewhere.test.ts @lamontaes
 /src/core2/past.test.ts @lamontaes
