@@ -18,7 +18,11 @@ import { JOBS_MODULE_ID } from "./modules/jobs";
 import { residentsRuntime } from "./modules/residents";
 import { countedHeadsOf, countedJobHeads } from "./residents-economy";
 import { coreAPI, fillInPerson } from "./state";
-import { absenceRate, joltsRate, turnoverReport } from "../../scripts/core2/turnover-check";
+import {
+  absenceRate,
+  joltsRate,
+  turnoverReport,
+} from "../../scripts/core2/turnover-check";
 
 const seed = process.env.TURNOVER_SEED ?? randomBytes(8).toString("hex");
 

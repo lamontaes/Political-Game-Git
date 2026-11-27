@@ -7,14 +7,10 @@
  */
 import type { CoreAPI, CoreState } from "./types";
 import { residentsRuntime } from "./modules/residents";
-import { BUSINESS_MODULE_ID } from "./business-module-id";
 import { EMPLOYER_TAXES_MODULE_ID } from "./modules/budgets";
-import {
-  employerArrears,
-  profitTaxArrears,
-  type EmployerTaxRecord,
-  type ProfitTaxRecord,
-} from "./budgets-treasury";
+import { employerArrears, profitTaxArrears } from "./budgets-treasury";
+import { employerTaxRecordsOf, profitTaxRecordsOf } from "./budgets-reads";
+import { outsideCostRecordIds } from "./business-reads";
 
 export interface BusinessBooksView {
   readonly organizationId: string;
@@ -53,29 +49,17 @@ export function businessBooksView(
   if (!books) return undefined;
   let taxesPaid = 0;
   const recordIds: string[] = [organizationId];
-  if (core.modules.has(EMPLOYER_TAXES_MODULE_ID)) {
-    const state = api.moduleState(EMPLOYER_TAXES_MODULE_ID);
-    for (const row of state
-      .table("shares")
-      .query("byEmployer", [organizationId]) as unknown as EmployerTaxRecord[])
-      taxesPaid += row.paidMinor;
-    for (const row of state
-      .table("profits")
-      .query("byBusiness", [organizationId]) as unknown as ProfitTaxRecord[]) {
-      taxesPaid += row.paidMinor;
-      recordIds.push(row.id);
-    }
+  for (const row of employerTaxRecordsOf(api, organizationId))
+    taxesPaid += row.paidMinor;
+  for (const row of profitTaxRecordsOf(api, organizationId)) {
+    taxesPaid += row.paidMinor;
+    recordIds.push(row.id);
   }
   const outside =
     residentsRuntime(core)?.flows.get(`outside-costs:${organizationId}`)
       ?.outsidePaidMinor ?? 0;
   // The months' records of what was paid to suppliers outside the town.
-  if (core.modules.has(BUSINESS_MODULE_ID))
-    for (const row of api
-      .moduleState(BUSINESS_MODULE_ID)
-      .table("outsideCosts")
-      .query("byOrganization", [organizationId]) as unknown as { id: string }[])
-      recordIds.push(row.id);
+  recordIds.push(...outsideCostRecordIds(api, organizationId));
   const facility = books.creditFacilityId
     ? core.finance.facilities.get(books.creditFacilityId)
     : undefined;
