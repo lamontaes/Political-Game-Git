@@ -13,7 +13,12 @@
 import { lastMetOnRow } from "../core2/closeness";
 import { SPEECH_OCCASION_KIND, familyFactsOf } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
-import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  allTerms,
+  officeById,
+  termsOfPerson,
+} from "../core2/modules/offices";
 import { OFFICE_DAY_MODULE_ID, stopsOf } from "../core2/modules/office-day";
 import { CAMPAIGN_ACTS } from "../core2/modules/campaigns";
 import { ELECTIONS_MODULE_ID, contestPassed } from "../core2/modules/elections";
@@ -150,12 +155,9 @@ export function receives(
 function serving(core: Readonly<CoreState>, personId: PersonId): boolean {
   const api = coreAPI(core as CoreState);
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
-  return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("byPerson", [personId]) as unknown as { status: string }[]
-  ).some((term) => term.status === "serving");
+  return (termsOfPerson(api, personId) as unknown as { status: string }[]).some(
+    (term) => term.status === "serving",
+  );
 }
 
 export interface SituationType {
@@ -718,16 +720,15 @@ function seatSetting(
 ): { kind: string; recordId: string; seat: true } | undefined {
   const api = coreAPI(core as CoreState);
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
-  const state = api.moduleState(OFFICES_MODULE_ID);
   const term = (
-    state.table("terms").rows() as unknown as {
+    allTerms(api) as unknown as {
       personId: string;
       officeId: string;
       status: string;
     }[]
   ).find((row) => row.personId === subject.id && row.status === "serving");
   const office = term
-    ? (state.table("offices").get(term.officeId) as unknown as
+    ? (officeById(api, term.officeId) as unknown as
         { jurisdiction: string } | undefined)
     : undefined;
   const seat = office

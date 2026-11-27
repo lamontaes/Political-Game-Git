@@ -15,6 +15,7 @@
  * ways) stay shared after loading, and the rebuilt world's own tables are
  * refilled in place, since engines check both.
  */
+import { fieldsOf } from "./module-fields";
 import {
   moduleStateStores,
   type ModuleStateSnapshot,
@@ -408,6 +409,8 @@ export function restoreWorld(core: CoreState, snapshot: WorldSnapshot): void {
     if (id in savedParts) part.restore(core, savedParts[id]);
     else part.missing?.(core);
   for (const map of derivedCaches) map.delete(core);
+  for (const caches of fieldsOf(core, "derivedCaches"))
+    for (const map of caches()) map.delete(core);
   for (const reset of restoreResets) reset();
 }
 
