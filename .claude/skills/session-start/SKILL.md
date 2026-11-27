@@ -12,6 +12,11 @@ description: >
 
 **The loop is one page: `docs/pool/START-A-BUILDER.md` (owner, Nov 10).** It says how to take work (`npm run pool -- next --model <level> --agent <name>`), how to read the item, what to run, what goes on the item's pull request, how to hand off and what you never do. Follow it. This skill keeps only what that page does not say.
 
+## Two rules for every session (owner, Nov 26)
+
+- **Use the advisor liberally.** "be liberal with your, Fable advisor button that you can press, because it does not use Fable usage... take full advantage of it." Call it before each change and design choice, whenever a result surprises you, and before "done". It costs no usage.
+- **Game logic only.** "I only want game logic in these files. They all have to do something." src/ holds only code the game runs. Tests, checks, dev tooling, kits, fixtures and notes go outside it, and a file nothing runs is deleted.
+
 ## Open
 
 1. **Look first** (`look-first`; `.agents/rules/smart-and-look-first.md`). Before building, fixing, filing or asking, run the search. A found ruling is built and cited, never asked again. A question to the owner ends with the reading line, or it is sent back.
