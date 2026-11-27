@@ -72,6 +72,7 @@ import {
   termStartInYear,
 } from "../elections-calendar";
 import { MOVED_AWAY_EVENT } from "./moves";
+import type { OfficialRow } from "./officials";
 import { localOfficesForPlace, type OfficeInput } from "../offices-local";
 import {
   federalOffices,
@@ -714,6 +715,94 @@ export function openVacancies(
     (status) =>
       vacancies.query("byStatus", [status]) as unknown as VacancyRow[],
   );
+}
+
+// The officials engine imports this entry, so its rows are read by module id here.
+const OFFICIALS_ID = "core2-officials-v1";
+
+/** Who holds a seat now, from both stores that answer it. */
+export interface SeatHolder {
+  readonly seatId: string;
+  /**
+   * The holder's person id: the term's own, or the one the officials engine
+   * seated (a named official's term carries none until they are filled in).
+   * Null when a term serves with no person yet and no official sits there.
+   */
+  readonly personId: string | null;
+  /** The offices engine's serving term for the seat, where it keeps one. */
+  readonly term: TermRow | null;
+  /** The officials engine's seated row (another place's member), where it holds the seat. */
+  readonly official: OfficialRow | null;
+}
+
+function seatedOfficial(api: CoreAPI, seatId: string): OfficialRow | null {
+  if (!api.state.modules.has(OFFICIALS_ID)) return null;
+  return (
+    (
+      api
+        .moduleState(OFFICIALS_ID)
+        .table("officials")
+        .query("bySeat", [seatId]) as unknown as OfficialRow[]
+    ).find((row) => row.ended === null) ?? null
+  );
+}
+
+/**
+ * Who holds a seat: the offices engine's serving term and the officials
+ * engine's seated row, joined, or null for a seat nobody holds. A pure read:
+ * a named official is not filled in as a person here (`holderOf` does that).
+ */
+export function whoHolds(api: CoreAPI, seatId: string): SeatHolder | null {
+  const term = api.state.modules.has(OFFICES_MODULE_ID)
+    ? ((table(api, "terms").query("bySeatStatus", [seatId, "serving"])[0] ??
+        null) as TermRow | null)
+    : null;
+  const official = seatedOfficial(api, seatId);
+  if (!term && !official) return null;
+  return {
+    seatId,
+    personId: term?.personId ?? official?.id ?? null,
+    term,
+    official,
+  };
+}
+
+/** The seat ids a person holds now, through either store. */
+export function seatsHeldBy(api: CoreAPI, personId: string): readonly string[] {
+  const seats = new Set(servingTermsOf(api, personId).map((t) => t.seatId));
+  if (api.state.modules.has(OFFICIALS_ID)) {
+    const row = api
+      .moduleState(OFFICIALS_ID)
+      .table("officials")
+      .get(personId) as unknown as OfficialRow | undefined;
+    if (row && row.ended === null) seats.add(row.seatId);
+  }
+  return [...seats];
+}
+
+const officeholdersByCore = new WeakMap<
+  CoreState,
+  { date: string; ids: Set<string> }
+>();
+
+/**
+ * Every person who holds a seat today, through either store: the officials
+ * engine's seated members and the offices engine's serving terms that name
+ * a person. Kept for the day, so a reader asking per person stays cheap.
+ */
+export function officeholderIds(api: CoreAPI): ReadonlySet<string> {
+  const core = api.state as CoreState;
+  const held = officeholdersByCore.get(core);
+  if (held?.date === core.date) return held.ids;
+  const ids = new Set<string>();
+  if (core.modules.has(OFFICIALS_ID))
+    for (const row of api.moduleState(OFFICIALS_ID).table("officials").rows())
+      if (row.ended === null) ids.add(row.id as string);
+  if (core.modules.has(OFFICES_MODULE_ID))
+    for (const row of table(api, "terms").query("byStatus", ["serving"]))
+      if (typeof row.personId === "string") ids.add(row.personId);
+  officeholdersByCore.set(core, { date: core.date, ids });
+  return ids;
 }
 
 /**
