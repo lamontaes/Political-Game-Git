@@ -1,0 +1,29 @@
+{
+  "id": "door-neighbor-asked-by-neighbor",
+  "kind": "voice",
+  "summary": "Where the caller is a neighbor, the ask reads less like a script and more like a favor.",
+  "realLife": "A phone-banking guide for local races says a neighbor asking feels less scripted than a campaign call.",
+  "sources": [
+    "CallHub, phone banking for local elections: https://callhub.io/blog/phone-banking/phone-banking-local-election/"
+  ],
+  "fits": ["campaign"],
+  "slots": ["first"],
+  "gates": ["acquainted"],
+  "weights": {
+    "volunteer": 0.6
+  },
+  "inGame": "volunteer-offered record with closeness weighed; relationFacts",
+  "usedBy": ["offer-help"],
+  "turns": [
+    {
+      "turn": "A stranger asks and it reads as a script",
+      "pull": "the stranger fact",
+      "writes": "a short decline"
+    },
+    {
+      "turn": "The neighbor has history with the candidate that sours the ask",
+      "pull": "refused-before",
+      "writes": "a pressed or refused offer"
+    }
+  ]
+}
