@@ -11,6 +11,8 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { budgetLinePick, officeView } from "../bench/office";
 import { buildBenchWorld } from "../bench/world";
+import { countedResidents } from "./electorate";
+import { MEETINGS_MODULE_ID, type RemarkRow } from "./modules/meetings";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -19,9 +21,9 @@ import { contractFor } from "./modules/contracts";
 import { lawChain } from "./modules/laws";
 import spendingData from "./data/budgets/treasury-spending.json" with { type: "json" };
 import {
-  BUDGETS_MODULE_ID,
   budgetPriorities,
   budgetsOf,
+  enactedBudgetChanges,
   governments,
 } from "./modules/budgets";
 import {
@@ -176,14 +178,8 @@ it("the executive's budget act opens in its season and its changes are what the 
     ).toEqual([`priorities:${city.id}`]);
     // Sent: the act is not offered again this season.
     expect(budgetProposalDue(api, officeHost, mayorId), where).toBeNull();
-    // What each line fell short at the last close before the year starts:
-    // the first month under the new budget pays it on top of its twelfth.
     advanceCore(core, addDays(makeIsoDate(next), -1));
-    const arrearsBefore =
-      (
-        api.moduleState(BUDGETS_MODULE_ID).table("arrears").get(city.id) as
-          { lines: Record<string, number> } | undefined
-      )?.lines ?? {};
+    const carriedChange = enactedBudgetChanges(api, city.id)[line] ?? 0;
     // The council votes the budget at the year's start with the executive's changes in its bill.
     advanceCore(core, addDays(makeIsoDate(next), 1));
     // The budget bill the council voted carries the executive's line change, sponsored by the executive.
@@ -221,9 +217,20 @@ it("the executive's budget act opens in its season and its changes are what the 
     expect(hearing!.billId, `${where}: the vote is on the heard bill`).toBe(
       bill!.id,
     );
-    // Every speaker at it is a person on the record of the bill they spoke on.
+    // The hearing names the people who spoke on this bill, in either tier.
+    const remarks = api
+      .moduleState(MEETINGS_MODULE_ID)
+      .table("remarks")
+      .query("byBill", [bill!.id]) as unknown as RemarkRow[];
+    expect(hearing!.speakerIds, where).toEqual(
+      [...new Set(remarks.map((remark) => remark.personId))].sort(),
+    );
+    const countedIds = new Set(countedResidents(core).map(({ id }) => id));
     for (const id of hearing!.speakerIds)
-      expect(api.state.people.has(id), `${where} speaker ${id}`).toBe(true);
+      expect(
+        api.state.people.has(id) || countedIds.has(id),
+        `${where} speaker ${id}`,
+      ).toBe(true);
     // The priorities are spent once the budget is voted.
     expect(budgetPriorities(api, city.id), where).toBeNull();
     const adopted = budgetsOf(api, city.id).find(
@@ -237,7 +244,6 @@ it("the executive's budget act opens in its season and its changes are what the 
     expect(adopted, `${where}: the ${fiscalYear} budget adopted`).toBeDefined();
     // The treasury reads the passed budget when it pays: the first month
     // closed under it pays the line's twelfth plus what it fell short before.
-    const owedBefore = arrearsBefore[line] ?? 0;
     const paidUnder = () =>
       treasuryMonthsOf(api, city.id).find((m) => m.budgetId === adopted!.id);
     for (let day = 0; day < 45 && !paidUnder(); day += 1)
@@ -248,9 +254,16 @@ it("the executive's budget act opens in its season and its changes are what the 
       `${where}: a treasury month under ${adopted!.id}`,
     ).toBeDefined();
     const paidLine = month!.lines[line]!;
-    // The change the council passed on the line is what moved it: the line
-    // in force is last year's plus the passed change, and the month below
-    // pays the twelfth of that line.
+    const precedingClose = [...treasuryMonthsOf(api, city.id)]
+      .filter((m) => m.date < month!.date)
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .at(-1);
+    expect(
+      precedingClose,
+      `${where}: the close before ${month!.id}`,
+    ).toBeDefined();
+    const owedBefore = precedingClose!.lines[line]?.shortMinor ?? 0;
+    // Isolate this bill from the new year's rebasing and inherited changes.
     const passed =
       (
         api
@@ -273,11 +286,14 @@ it("the executive's budget act opens in its season and its changes are what the 
     // The line as the budget in force carries it at the close (an act may
     // have amended it since the vote; the treasury reads it then).
     const inForce = budgetsOf(api, city.id).find((b) => b.id === adopted!.id)!;
-    expect(
-      (inForce.spendingMinor[line] ?? 0) -
-        (oldBudget!.spendingMinor[line] ?? 0),
-      `${where}: ${line} moved by the passed change`,
-    ).toBe(passed);
+    const base = adopted!.baseSpendingMinor?.[line];
+    expect(base, where).toBeDefined();
+    const withoutPassageAtAdoption =
+      Math.max(0, base! + carriedChange) +
+      (adopted!.passThroughMinor?.[line] ?? 0);
+    expect(adopted!.spendingMinor[line], where).toBe(
+      withoutPassageAtAdoption + passed,
+    );
     expect(passed, `${where}: a change on ${line} passed`).not.toBe(0);
     expect(paidLine.dueMinor, `${where}: ${month!.id} ${line}`).toBe(
       Math.round(
@@ -285,9 +301,8 @@ it("the executive's budget act opens in its season and its changes are what the 
       ) + owedBefore,
     );
     // The money the amended line paid out: the line's purchases go to the
-    // town firm the body awarded the work, a share of the line in force (a
-    // city buys for the whole town); last year's line would have bought less
-    // or more by the passed change.
+    // town firm the body awarded the work, a share of the line in force.
+    // Compare this year's same line without this bill, not last year's budget.
     const purchased = PROVIDERS[line]!.purchasedShare.value;
     const bought = (due: number) =>
       Math.min(
@@ -296,7 +311,7 @@ it("the executive's budget act opens in its season and its changes are what the 
       );
     const oldDue =
       Math.round(
-        (oldBudget!.spendingMinor[line] ?? 0) /
+        ((inForce.spendingMinor[line] ?? 0) - passed) /
           treasuryParameter("monthsPerYear"),
       ) + owedBefore;
     const award = contractFor(api, city.id, line);
@@ -333,7 +348,7 @@ it("the executive's budget act opens in its season and its changes are what the 
       Math.abs(paidLine.providersMinor - bought(paidLine.dueMinor) * share),
       `${where}: ${paymentId} is ${share} of what ${line} buys`,
     ).toBeLessThanOrEqual(rounding);
-    // Under last year's line the same share would have paid the firm less
+    // Without the bill the same share would have paid the firm less
     // (or more, for a cut) by more than the rounding.
     const moved = (bought(paidLine.dueMinor) - bought(oldDue)) * share;
     expect(
@@ -426,7 +441,12 @@ it("the executive's budget act opens in its season and its changes are what the 
     expect(person!.gained, `${where}: ${person!.receiptId}`).toBeGreaterThan(0);
     // The rest of the year: the amended line stays in force and every month
     // under it pays the firm its purchases.
-    advanceCore(core, addDays(gameStartDate(), 365));
+    const endOfBudgetYear = addDays(
+      makeIsoDate(`${fiscalYear + 1}-${city.fiscalYearStart}`),
+      -1,
+    );
+    expect(core.date <= endOfBudgetYear, where).toBe(true);
+    if (core.date < endOfBudgetYear) advanceCore(core, endOfBudgetYear);
     const under = treasuryMonthsOf(api, city.id).filter(
       (m) => m.budgetId === adopted!.id,
     );
@@ -442,7 +462,7 @@ it("the executive's budget act opens in its season and its changes are what the 
       ),
     );
     process.stdout.write(
-      `${where}: mayor ${mayorId} sent priorities:${city.id}; ${hearing!.id} on ${hearing!.heldOn} with ${hearing!.speakerIds.length} speakers; bill ${bill!.id} (hooks once: ${ran.join(", ")}); adopted ${adopted!.id} with ${line} from ${oldBudget!.spendingMinor[line]} to ${inForce.spendingMinor[line]} (passed change ${passed}, proposed 1000000); ${month!.id} paid ${line} due ${paidLine.dueMinor} (last year's line ${oldDue}; in town ${paidLine.inTownMinor}, providers ${paidLine.providersMinor}, ${share.toFixed(4)} of the ${bought(paidLine.dueMinor)} the line buys, against ${Math.floor(bought(oldDue) * share)} under last year's line, outside ${paidLine.outsideMinor}) by ${paymentId} to ${firm} (${award!.id}, ${award!.basis}); reached ${person!.personId} (${person!.personId === owner ? "owner" : "worker"}) by ${person!.via}: journal ${person!.receiptId} raised their balance ${person!.gained}${person!.via === "payroll" ? "" : ` (profit kept ${person!.profit})`}; to ${core.date}: ${paidMonths.length} of ${under.length} months under ${adopted!.id} paid ${firm}${tried.length ? `; drawn before: ${tried.join("; ")}` : ""}\n`,
+      `${where}: mayor ${mayorId} sent priorities:${city.id}; ${hearing!.id} on ${hearing!.heldOn} with ${hearing!.speakerIds.length} speakers; bill ${bill!.id} (hooks once: ${ran.join(", ")}); adopted ${adopted!.id} with ${line} from ${oldBudget!.spendingMinor[line]} to ${inForce.spendingMinor[line]} (passed change ${passed}, proposed 1000000); ${month!.id} paid ${line} due ${paidLine.dueMinor} (without the bill ${oldDue}; in town ${paidLine.inTownMinor}, providers ${paidLine.providersMinor}, ${share.toFixed(4)} of the ${bought(paidLine.dueMinor)} the line buys, against ${Math.floor(bought(oldDue) * share)} without the bill, outside ${paidLine.outsideMinor}) by ${paymentId} to ${firm} (${award!.id}, ${award!.basis}); reached ${person!.personId} (${person!.personId === owner ? "owner" : "worker"}) by ${person!.via}: journal ${person!.receiptId} raised their balance ${person!.gained}${person!.via === "payroll" ? "" : ` (profit kept ${person!.profit})`}; to ${core.date}: ${paidMonths.length} of ${under.length} months under ${adopted!.id} paid ${firm}${tried.length ? `; drawn before: ${tried.join("; ")}` : ""}\n`,
     );
     return;
   }
@@ -554,15 +574,15 @@ const AMEND_DRAWS = 14;
 /**
  * A council amends only where its members back the line change weakly, which
  * is rare (none in 14 places drawn on one random seed), so the case starts
- * from the place a measured run found amending: Ortley, South Dakota, where
- * the council cut the mayor's +1,000,000 to half. Places drawn from the seed
+ * from the place a measured run found amending: Everly, Iowa, where
+ * the council cut the mayor's administration raise three times. Places drawn from the seed
  * follow it if it ever stops amending.
  */
 const AMENDING = {
-  key: "4647660",
-  seed: "ad21e095df9375889ae526b13cc8d8a0c45d0d59ba33c7f0bd3bb98e12f86348",
-  name: "Ortley",
-  state: "US-SD",
+  key: "1926175",
+  seed: "2619e726ba86d6111c212e6ec0cacf27dd726aaa21efe419072e7fa3b97b898a",
+  name: "Everly",
+  state: "US-IA",
 };
 
 it("as mayor, a budget the council amends is voted at the amended amount, and the amended line is what the treasury pays", () => {
@@ -601,18 +621,22 @@ it("as mayor, a budget the council amends is voted at the amended amount, and th
       `${where}: the season opened on ${open}`,
     ).not.toBeNull();
     const spending = budgetsOf(api, city.id)[0]!.spendingMinor;
-    const line = Object.keys(spending).sort(
-      (a, b) => spending[b]! - spending[a]! || a.localeCompare(b),
-    )[0];
+    const line =
+      draw === 0
+        ? "administration"
+        : Object.keys(spending).sort(
+            (a, b) => spending[b]! - spending[a]! || a.localeCompare(b),
+          )[0];
     if (!line) {
       tried.push(`${where}: the city budget has no lines`);
       continue;
     }
+    const requested = draw === 0 ? Math.floor(spending[line]! / 2) : 1_000_000;
     // The player's route, as in the case above.
-    budgetLinePick(core, mayorId, line, 1_000_000);
+    budgetLinePick(core, mayorId, line, requested);
     officeActHandlers(officeHost)["propose-budget"]!(api, mayorId, {} as never);
     expect(budgetPriorities(api, city.id)?.changes, where).toEqual({
-      [line]: 1_000_000,
+      [line]: requested,
     });
     advanceCore(core, addDays(makeIsoDate(next), 1));
     const adopted = budgetsOf(api, city.id).find(
@@ -646,8 +670,10 @@ it("as mayor, a budget the council amends is voted at the amended amount, and th
       .get(hearing!.billId) as unknown as BillRow;
     expect(bill.sponsorId, where).toBe(mayorId);
     // The amended amount: what the vote reduced it to, which is not what was sent.
-    const amended = 1_000_000 / 2 ** halved.times;
-    expect(amended, where).toBeLessThan(1_000_000);
+    let amended = requested;
+    for (let round = 0; round < halved.times; round++)
+      amended = Math.round(amended / 2);
+    expect(amended, where).toBeLessThan(requested);
     // The bill the council voted carries the amended amount, not the one sent
     // (the sent amount is the one the mayor's priorities held, asserted above).
     expect(
@@ -694,7 +720,7 @@ it("as mayor, a budget the council amends is voted at the amended amount, and th
       ),
     );
     process.stdout.write(
-      `BUDGET AMENDED ${where}: mayor ${mayorId} sent ${line} +1000000 in hearing ${hearing!.id} on bill ${bill.id}; ${adopted!.id} (${adopted!.adoptedBy}) passed +${amended}; ${month!.id} owes ${month!.lines[line]!.dueMinor} on ${line}\n`,
+      `BUDGET AMENDED ${where}: mayor ${mayorId} sent ${line} +${requested} in hearing ${hearing!.id} on bill ${bill.id}; ${adopted!.id} (${adopted!.adoptedBy}) passed +${amended}; ${month!.id} owes ${month!.lines[line]!.dueMinor} on ${line}\n`,
     );
     return;
   }
