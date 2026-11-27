@@ -96,19 +96,17 @@ describe(`an offer left for an official (seed ${seed})`, () => {
     expect(vote).not.toMatch(/contract|bid/);
   });
 
-  it("offers four replies that are four stances, never three words for one answer", () => {
+  it("offers five replies that are five stances, never three words for one answer", () => {
     const talk = compose({
       ...cast,
       "favor-contract": fact("contract"),
       contract: fact("the road contract"),
     });
     const moves = talk.tree.replies.map((reply) => reply.line.move).sort();
-    // No reply says nothing (owner, Nov 25: the stall and leave moves are gone):
-    // leaving is the screen's own Leave control.
-    expect(moves).toEqual(["accept", "confront", "lie", "refuse"]);
+    expect(moves).toEqual(["accept", "confront", "lie", "refuse", "stall"]);
     expect(
       new Set(talk.tree.replies.map((reply) => reply.line.text)).size,
-    ).toBe(4);
+    ).toBe(5);
   });
 
   it("reaches every way the owner's corruption ruling lets it end", () => {
@@ -119,7 +117,13 @@ describe(`an offer left for an official (seed ${seed})`, () => {
       source: fact("the town clerk"),
       "knows-truth": fact("yes"),
     });
-    for (const id of ["took-it", "handed-back", "reported", "caught"])
+    for (const id of [
+      "took-it",
+      "handed-back",
+      "reported",
+      "put-off",
+      "caught",
+    ])
       expect(talk.endingCounts[id] ?? 0, id).toBeGreaterThan(0);
   });
 
