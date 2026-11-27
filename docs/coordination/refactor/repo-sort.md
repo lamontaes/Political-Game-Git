@@ -6,7 +6,7 @@ To refresh this repository snapshot, build the client and stage the Play API inv
 
 ```sh
 npm exec -- vite build
-PLAY_API_SHIPPED_FILES="$PWD/dist/play-api-shipped-files.json" node desktop/scripts/build-play-api.mjs
+PLAY_API_SHIPPED_FILES="$PWD/test-results/play-api-shipped-files.json" node desktop/scripts/build-play-api.mjs
 node scripts/cleanup/repo-sort.mjs
 ```
 

@@ -14,7 +14,7 @@ const input = process.argv[2] ?? "dist/shipped-files.json";
 const { files: bundled } = JSON.parse(readFileSync(input, "utf8"));
 if (!Array.isArray(bundled) || !bundled.includes("src/bench/play.html"))
   throw new Error("Expected a shipping manifest from the actual game build");
-const apiInput = process.argv[3] ?? "dist/play-api-shipped-files.json";
+const apiInput = process.argv[3] ?? "test-results/play-api-shipped-files.json";
 const { files: apiFiles } = JSON.parse(readFileSync(apiInput, "utf8"));
 if (!Array.isArray(apiFiles) || !apiFiles.includes("src/bench/handler.ts"))
   throw new Error(
