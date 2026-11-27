@@ -79,10 +79,20 @@ People has 11, elections 8, offices 6, lawmaking 20, economy 13 and world 3. The
 - **The world-build crash** (Wheeling, Missouri; Upham, North Dakota): the legislating reader listed bodies before its engine opened. Core's #10764 fixes it with a test.
 - **Reach-ins' stack (#10701)** carries the train once, at 850cc6b1 (the merge three sessions each made identically, plus a one-line test import fix). Anything stacked on it branches from that head.
 
-## Known reds before plugging (Nov 27, 5:19 a.m.)
+## Entries widened for now (narrow them in Core item 11)
+
+Tonight the CTO approved more entry files than one front door per engine, so no count rose during a family split. These are stopgaps: "reach-in count 0" isn't met by widening. Core item 11 brings each engine back to one front door.
+
+- **justice:** justice-law.ts and firearm-ownership.ts (Lawmaking #10786), beside justice, federal-courts, police-patrol, justice-reads, crime and corruption.
+- **finance:** the seven finance files other families import today, not modules/finance.ts alone (Economy #10784).
+- **budgets:** purchase-tax.ts (Economy #10784).
+- **elections:** campaign-views, electorate and parties as entries (Elections #10732), and the extra entries kept at 4:06 a.m.
+
+## Known reds before plugging (Nov 27, 6:10 a.m.)
 
 Read these first, so a red the finisher sees isn't mistaken for its own:
 
+- **main's full suite is very red.** At 8e1fa6be, 8 of its 12 parts had finished (Heavy checks run 45942424683) and every one failed: 213 test files failed in those 8. The list is cto-notes/overnight/main-8e1fa6be-full-suite-fails.txt on the CTO's Mac. It includes president-orders, law-wiring-justice and the housing tests. A train lands when it adds no failing file to main's list.
 - **main's housing red** (known since Nov 26).
 - **main's ui-look crash at some places** (`page.evaluate: ... reading 'setAttribute'`; Charlo, Montana, on main; Redford, Texas, on the train). Screens is fixing it.
 - **school-outcomes at Hackleburg, Alabama** (seed 5d329c70fa987cb9): a household income of 9.5 million from one job. People is checking whether main has it too.
