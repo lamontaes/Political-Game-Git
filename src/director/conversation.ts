@@ -6822,15 +6822,55 @@ function offerChoicesOrClose(
     endConversation(core, conversation, data);
 }
 
-function offerChoices(
+/**
+ * What the replies to a line are drawn from: the facts they are worded with,
+ * the moves the bank has for the line, the subjects between the two that a
+ * reply may turn to, and what the replies already offered have taken.
+ */
+interface Menu {
+  core: Readonly<CoreState>;
+  conversation: Conversation;
+  data: ConversationData;
+  last: LastLine;
+  facts: Facts;
+  stage: string;
+  turn: number;
+  between: readonly Subject[];
+  /** The subjects an earlier reply on this menu already raises. */
+  taken: Set<string>;
+  /** The texts and pieces already offered, on any pass. */
+  seen: Set<string>;
+  /** A question was put to the player: it is answered before anything is asked back. */
+  putQuestion: boolean;
+  /** The question's own move, from the bank piece that asked it. */
+  askedMove: string | undefined;
+  /** The replies the rules name as answering that question. */
+  fitting: readonly string[] | undefined;
+  /** The subject a reply that raises one turns to, if any is left. */
+  target: (raises: string) => Subject | undefined;
+  /** One choice per move, worded from every mined wording of it. */
+  groups: Map<string, MenuGroup>;
+  answerBank: string;
+}
+
+type MenuGroup = { key: string; raises?: string; from?: WordingPick["from"] };
+
+/** One reply as the engine's reply step takes it: its words, and the choice it offers. */
+type Offered = {
+  text: string;
+  parts: readonly string[];
+  subject: Subject | undefined;
+  choice: ConversationChoice;
+};
+
+/** What the replies to the line before them are drawn from. */
+function menuFor(
   core: Readonly<CoreState>,
   conversation: Conversation,
   data: ConversationData,
-): void {
+): Menu {
   const { playerId, otherId } = conversation;
   const last = conversation.last!;
-  conversation.choices = [];
-  conversation.lies = [];
   const own = playerFacts(
     core,
     playerId,
@@ -6866,20 +6906,7 @@ function offerChoices(
     // Their workplace once it has been named, as people say it: "there"
     // (round 11, rule 74: never "worked at work?").
     there: { text: "there", sourceRecordIds: [otherId] },
-    // News of their own life: each fact the telling just said is marked
-    // `told-<fact>`, so a reply that would ask it again ("How?" after "It
-    // was a car crash.") is held back (`excludesFacts`; W1's strict review).
-    ...(answerLeavesOutTold(last.kind)
-      ? Object.fromEntries(
-          (conversation.lines.at(-one)?.wording?.facts ?? []).map((key) => [
-            `told-${key}`,
-            { text: "yes", sourceRecordIds: [otherId] },
-          ]),
-        )
-      : {}),
   };
-  const stage = own.stage ?? last.stage;
-  const turn = conversation.lines.length;
   const between = subjectsBetween(
     core,
     playerId,
@@ -6899,284 +6926,350 @@ function offerChoices(
   // A question put to the player is answered before anything is asked back
   // (owner, Oct 29): no reply to it opens with a question of its own.
   const said = conversation.lines.at(-one);
-  const putQuestion = !!said && asksQuestion(said);
-  // The question's own move, from the bank piece that asked it, and the
-  // replies that answer it, where the rules name them.
   const askedMove = said?.wording?.parts.at(-one)?.split(".")[one];
-  const fitting = askedMove ? data.answersTo?.[askedMove] : undefined;
   // A reply's second move follows from its first (owner, batch 6): turning
   // the same question back ("I'm from here. And you?"), or asking about their
   // work after naming yours. Never an unrelated subject tacked on.
   const follows = data.follows[last.kind.replace(/-new$/, "")] ?? [];
-  const target = (raises: string): Subject | undefined =>
-    replyTarget({ raises, follows, last: last.subject, unused, taken });
-  // One choice per move, worded from every mined wording of it.
-  type Group = { key: string; raises?: string; from?: WordingPick["from"] };
-  type Offered = {
-    text: string;
-    parts: readonly string[];
-    subject: Subject | undefined;
-    choice: ConversationChoice;
-  };
   // To a promise brought up, only the answers its kind and the player's
   // traits offer (promise-talk.ts promiseAnswers).
   const promise = promiseOfRaised(last.subject);
   const promised = promise && promiseAnswers(core, promise, playerId);
-  const groups = new Map<string, Group>(
-    conversationMoves(last.kind, "answers", data)
-      .filter((move) => !promised || promised.includes(move.key))
-      .map((move) => [move.key, move]),
-  );
-  const seen = new Set<string>();
-  const answerBank = `conversation:${last.kind}:answers`;
-  const answerWith = (
-    group: Group,
-    momentKey: string,
-    statementsOnly = false,
-  ) =>
-    worded(
-      core,
-      data,
-      playerId,
-      last.kind,
-      "answers",
-      {
-        keys: [group.key],
-        ...(group.from ? { from: group.from } : {}),
-        ...(statementsOnly ? { statementsOnly } : {}),
-      },
-      facts,
-      `${playerId}:${otherId}:${turn}:${momentKey}`,
-      stage,
-      last.subject,
-    );
-  // One reply for a move, worded from the bank: what it is made of, the
-  // choice it offers, or null where it is not offered. The engine's reply step
-  // takes it from there (dedupe, the order, what a taken subject leaves).
-  const wordChoice = (
-    choiceKey: string,
-    group: Group,
-    raised?: Subject,
-    bank = answerBank,
-    // A further wording of the same move (when a first one said what another did).
-    again = "",
-    statementsOnly = false,
-  ): Offered | null => {
-    // Each raised subject has its own moment, so brief answers vary.
-    const answer = answerWith(
-      group,
-      raised ? `${choiceKey}:${raised.id}${again}` : `${choiceKey}${again}`,
-      statementsOnly,
-    );
-    if (!answer) return null;
-    // The replies the rules name for a line's move are its only replies:
-    // after a question, and after news told with the teller's stand, which
-    // is answered by agreeing, disagreeing or asking why, never a bare
-    // "Wow." or "Really?" (owner, Nov 12: "the just non-replies").
-    if (!replyAnswersAsk({ putQuestion, askedMove, fitting, choiceKey }))
-      return null;
-    // What the reply raises is only offered where it has something to say
-    // (the engine's rule).
-    const theirs = raised ? replyFacts(core, otherId, raised) : undefined;
-    if (
-      !replyHasMatter({
-        raised: !raised
-          ? "none"
-          : raised === last.subject
-            ? "turned-back"
-            : "other",
-        alreadyAnswered:
-          !!raised && alreadyAnswered(conversation, theirs?.facts ?? {}),
-        otherHasAnswer: !!theirs,
-        asks: answer.asks,
-        raisesAsMove: !!group.raises,
-      })
-    )
-      return null;
-    // What the reply is made of: the answer, the plain answer it is said
-    // after (the move named plain, or the one the rules name for the
-    // question: asked about someone both know, when the player saw them, or
-    // that they have not), and the line that raises another subject.
-    const plain = answer.afterPlain
-      ? ([...plainAnswersOf(last.kind), "plain"]
-          .map((key) => groups.get(key) && answerWith(groups.get(key)!, key))
-          .find(Boolean) ?? null)
-      : null;
-    const raisedLine =
-      raised && raised !== last.subject
-        ? words(
-            core,
-            data,
-            playerId,
-            raised.kind,
-            "raise",
-            ALL,
-            raised.facts,
-            `${playerId}:${otherId}:${turn}:${raised.id}:raise`,
-            "default",
-            raised,
-          )
-        : undefined;
-    const shaped = shapeReply({
-      answer,
-      afterPlain: answer.afterPlain,
-      plain,
-      ...(raisedLine !== undefined ? { raised: { line: raisedLine } } : {}),
-    });
-    if (!shaped) return null;
-    const { head, tail } = shaped;
-    // A reply that ends on a question is offered only where the other person
-    // can answer it (owner, Oct 29: "Did you see the President's address?"
-    // answered "Oh, okay. What about you?"): it raises a subject they have,
-    // asks them to tell more, or makes a move the talk answers (a request, a
-    // plea to be left alone, a reaction). Else a wording that asks nothing
-    // stands in, or the reply is not offered.
-    const asksLast = tail ? asksQuestion(tail) : answer.asks;
-    const answerable =
-      isNewsSubject(last.subject.kind) ||
-      // What say() reads: the raised subject between them, and the other
-      // person's own words for it.
-      (!!raised &&
-        between.some((row) => row.id === raised.id) &&
-        !!replyFacts(core, otherId, raised)) ||
-      !!data.tells?.[last.kind]?.[choiceKey] ||
-      // Every reply to the address's point is answered, in composed words,
-      // and so is asking someone why they stand where they do.
-      (last.kind === POINT && pointAnswerable(last.facts, choiceKey)) ||
-      (last.kind === "own-view" && ownViewWhy(choiceKey)) ||
-      // A day's own subject answers every reply, in composed words.
-      dayBack(last.kind) ||
-      // A question turned back the asker's give-back answers ("Why do you
-      // ask?" "Just wondering. I saw her last week.").
-      !!giveBackStage(last.kind, choiceKey) ||
-      replyMoveAnswerable(replyMoveOf(last.kind, choiceKey));
-    // A slot that opens a sentence is said with a capital, as every line is.
-    const text = sentenceStarts(joinedReply(head, tail));
-    const opensAsking = asksQuestion({
-      text: text.match(/^[^.?!]*[.?!]/)?.[zero] ?? text,
-    });
-    const verdict = replyVerdict({
-      asksLast,
-      answerable,
-      putQuestion,
-      opensAsking,
-      statementsOnly,
-      raisesSubject: !!raised,
-    });
-    if (verdict === "retry-as-statement")
-      return wordChoice(choiceKey, group, raised, bank, again, true);
-    if (verdict !== "offer") return null;
-    return {
-      text,
-      parts: head.wording.parts,
-      subject: raised,
-      choice: {
-        key: `${turn}:${choiceKey}${raised ? `:${raised.id}` : ""}${again}`,
-        move: choiceKey,
-        text,
-        answers: last.subject.id,
-        ...(raised ? { raises: raised.id } : {}),
-        lie: false,
-        sourceRecordIds: [
-          ...new Set([
-            ...head.sourceRecordIds,
-            ...(tail?.sourceRecordIds ?? []),
-          ]),
-        ],
-        wording: {
-          bank,
-          parts: [...head.wording.parts, ...(tail?.wording.parts ?? [])],
-          stage,
-          facts: [
-            ...new Set([...head.wording.facts, ...(tail?.wording.facts ?? [])]),
-          ],
-        },
-        ...(tail
-          ? {
-              tail: {
-                text: tail.text,
-                sourceRecordIds: tail.sourceRecordIds,
-                parts: tail.wording.parts,
-              },
-            }
-          : {}),
-      },
-    };
+  return {
+    core,
+    conversation,
+    data,
+    last,
+    facts,
+    stage: own.stage ?? last.stage,
+    turn: conversation.lines.length,
+    between,
+    taken,
+    seen: new Set<string>(),
+    putQuestion: !!said && asksQuestion(said),
+    askedMove,
+    fitting: askedMove ? data.answersTo?.[askedMove] : undefined,
+    target: (raises) =>
+      replyTarget({ raises, follows, last: last.subject, unused, taken }),
+    groups: new Map<string, MenuGroup>(
+      conversationMoves(last.kind, "answers", data)
+        .filter((move) => !promised || promised.includes(move.key))
+        .map((move) => [move.key, move]),
+    ),
+    answerBank: `conversation:${last.kind}:answers`,
   };
-  // Every reply the bank words for this line: each move said plainly, and
-  // carried on to the subject it leads to, and each way of taking it in
-  // ("Okay.", "Right."). What the player already told is not offered again.
+}
+
+/** One reply for a move, said with the bank's wording of the move. */
+function answerWith(
+  menu: Menu,
+  group: MenuGroup,
+  momentKey: string,
+  statementsOnly = false,
+) {
+  const { core, data, conversation, last, facts, stage, turn } = menu;
+  return worded(
+    core,
+    data,
+    conversation.playerId,
+    last.kind,
+    "answers",
+    {
+      keys: [group.key],
+      ...(group.from ? { from: group.from } : {}),
+      ...(statementsOnly ? { statementsOnly } : {}),
+    },
+    facts,
+    `${conversation.playerId}:${conversation.otherId}:${turn}:${momentKey}`,
+    stage,
+    last.subject,
+  );
+}
+
+/**
+ * One reply for a move, worded from the bank: what it is made of, the choice
+ * it offers, or null where it is not offered. The engine's reply step takes
+ * it from there (dedupe, the order, what a taken subject leaves).
+ */
+function wordChoice(
+  menu: Menu,
+  choiceKey: string,
+  group: MenuGroup,
+  raised?: Subject,
+  bank = menu.answerBank,
+  // A further wording of the same move (when a first one said what another did).
+  again = "",
+  statementsOnly = false,
+): Offered | null {
+  const {
+    core,
+    data,
+    conversation,
+    last,
+    stage,
+    turn,
+    between,
+    putQuestion,
+    askedMove,
+    fitting,
+    groups,
+  } = menu;
+  const { playerId, otherId } = conversation;
+  // Each raised subject has its own moment, so brief answers vary.
+  const answer = answerWith(
+    menu,
+    group,
+    raised ? `${choiceKey}:${raised.id}${again}` : `${choiceKey}${again}`,
+    statementsOnly,
+  );
+  if (!answer) return null;
+  // The replies the rules name for a line's move are its only replies:
+  // after a question, and after news told with the teller's stand, which
+  // is answered by agreeing, disagreeing or asking why, never a bare
+  // "Wow." or "Really?" (owner, Nov 12: "the just non-replies").
+  if (!replyAnswersAsk({ putQuestion, askedMove, fitting, choiceKey }))
+    return null;
+  // What the reply raises is only offered where it has something to say
+  // (the engine's rule).
+  const theirs = raised ? replyFacts(core, otherId, raised) : undefined;
+  if (
+    !replyHasMatter({
+      raised: !raised
+        ? "none"
+        : raised === last.subject
+          ? "turned-back"
+          : "other",
+      alreadyAnswered:
+        !!raised && alreadyAnswered(conversation, theirs?.facts ?? {}),
+      otherHasAnswer: !!theirs,
+      asks: answer.asks,
+      raisesAsMove: !!group.raises,
+    })
+  )
+    return null;
+  // What the reply is made of: the answer, the plain answer it is said
+  // after (the move named plain, or the one the rules name for the
+  // question: asked about someone both know, when the player saw them, or
+  // that they have not), and the line that raises another subject.
+  const plain = answer.afterPlain
+    ? ([...plainAnswersOf(last.kind), "plain"]
+        .map(
+          (key) => groups.get(key) && answerWith(menu, groups.get(key)!, key),
+        )
+        .find(Boolean) ?? null)
+    : null;
+  const raisedLine =
+    raised && raised !== last.subject
+      ? words(
+          core,
+          data,
+          playerId,
+          raised.kind,
+          "raise",
+          ALL,
+          raised.facts,
+          `${playerId}:${otherId}:${turn}:${raised.id}:raise`,
+          "default",
+          raised,
+        )
+      : undefined;
+  const shaped = shapeReply({
+    answer,
+    afterPlain: answer.afterPlain,
+    plain,
+    ...(raisedLine !== undefined ? { raised: { line: raisedLine } } : {}),
+  });
+  if (!shaped) return null;
+  const { head, tail } = shaped;
+  // A reply that ends on a question is offered only where the other person
+  // can answer it (owner, Oct 29: "Did you see the President's address?"
+  // answered "Oh, okay. What about you?"): it raises a subject they have,
+  // asks them to tell more, or makes a move the talk answers (a request, a
+  // plea to be left alone, a reaction). Else a wording that asks nothing
+  // stands in, or the reply is not offered.
+  const asksLast = tail ? asksQuestion(tail) : answer.asks;
+  const answerable =
+    isNewsSubject(last.subject.kind) ||
+    // What say() reads: the raised subject between them, and the other
+    // person's own words for it.
+    (!!raised &&
+      between.some((row) => row.id === raised.id) &&
+      !!replyFacts(core, otherId, raised)) ||
+    !!data.tells?.[last.kind]?.[choiceKey] ||
+    // Every reply to the address's point is answered, in composed words,
+    // and so is asking someone why they stand where they do.
+    (last.kind === POINT && pointAnswerable(last.facts, choiceKey)) ||
+    (last.kind === "own-view" && ownViewWhy(choiceKey)) ||
+    // A day's own subject answers every reply, in composed words.
+    dayBack(last.kind) ||
+    // A question turned back the asker's give-back answers ("Why do you
+    // ask?" "Just wondering. I saw her last week.").
+    !!giveBackStage(last.kind, choiceKey) ||
+    replyMoveAnswerable(replyMoveOf(last.kind, choiceKey));
+  // A slot that opens a sentence is said with a capital, as every line is.
+  const text = sentenceStarts(joinedReply(head, tail));
+  const opensAsking = asksQuestion({
+    text: text.match(/^[^.?!]*[.?!]/)?.[zero] ?? text,
+  });
+  const verdict = replyVerdict({
+    asksLast,
+    answerable,
+    putQuestion,
+    opensAsking,
+    statementsOnly,
+    raisesSubject: !!raised,
+  });
+  if (verdict === "retry-as-statement")
+    return wordChoice(menu, choiceKey, group, raised, bank, again, true);
+  if (verdict !== "offer") return null;
+  return {
+    text,
+    parts: head.wording.parts,
+    subject: raised,
+    choice: {
+      key: `${turn}:${choiceKey}${raised ? `:${raised.id}` : ""}${again}`,
+      move: choiceKey,
+      text,
+      answers: last.subject.id,
+      ...(raised ? { raises: raised.id } : {}),
+      lie: false,
+      sourceRecordIds: [
+        ...new Set([...head.sourceRecordIds, ...(tail?.sourceRecordIds ?? [])]),
+      ],
+      wording: {
+        bank,
+        parts: [...head.wording.parts, ...(tail?.wording.parts ?? [])],
+        stage,
+        facts: [
+          ...new Set([...head.wording.facts, ...(tail?.wording.facts ?? [])]),
+        ],
+      },
+      ...(tail
+        ? {
+            tail: {
+              text: tail.text,
+              sourceRecordIds: tail.sourceRecordIds,
+              parts: tail.wording.parts,
+            },
+          }
+        : {}),
+    },
+  };
+}
+
+/**
+ * The replies a pass offers: the engine's reply step takes what a candidate
+ * words; a line offered already, on any pass, is not offered again, and the
+ * subject a reply took is not taken by the next.
+ */
+function offerSome<C extends { choiceKey: string }>(
+  menu: Menu,
+  candidates: Iterable<C>,
+  word: (next: C) => Offered | null,
+): void {
+  for (const reply of replyStep({
+    candidates,
+    limit: Infinity,
+    word,
+    seen: menu.seen,
+    onOffered: (line) => {
+      if (line.subject) menu.taken.add(line.subject.id);
+    },
+  })) {
+    menu.seen.add(reply.text);
+    if (reply.parts[zero]) menu.seen.add(reply.parts[zero]!);
+    menu.conversation.choices.push(reply.choice);
+  }
+}
+
+/**
+ * Every reply the bank words for this line: each move said plainly, and
+ * carried on to the subject it leads to (a pass, then up to three more in
+ * other wordings while the menu is short). What the player already told is not
+ * offered again.
+ */
+function offerWorded(menu: Menu): void {
+  const { core, data, conversation, last } = menu;
+  const { playerId } = conversation;
   const told = OWN_OF[last.kind];
   const wanted = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
-  // The engine's reply step offers what a candidate words; a line offered
-  // already, on any pass, is not offered again, and the subject a reply took
-  // is not taken by the next.
-  const offerSome = <C extends { choiceKey: string }>(
-    candidates: Iterable<C>,
-    word: (next: C) => Offered | null,
-  ): void => {
-    for (const reply of replyStep({
-      candidates,
-      limit: Infinity,
-      word,
-      seen,
-      onOffered: (line) => {
-        if (line.subject) taken.add(line.subject.id);
-      },
-    })) {
-      seen.add(reply.text);
-      if (reply.parts[zero]) seen.add(reply.parts[zero]!);
-      conversation.choices.push(reply.choice);
-    }
-  };
-  const offer = (again: string) =>
-    offerSome(
-      replyCandidates(
-        groups,
-        again,
-        (choiceKey) =>
-          replyAvailable({
-            choiceKey,
-            alreadyTold:
-              !!told && conversation.used.includes(`${told}:${playerId}`),
-            tellKind: data.tells?.[last.kind]?.[choiceKey],
-            tellable: (kind) => !!tellable(core, conversation, data, kind),
-          }),
-        target,
-      ),
-      (next) =>
-        wordChoice(next.choiceKey, next.group, next.subject, answerBank, again),
-    );
   fillMenu({
     wanted,
     count: () => conversation.choices.length,
-    offerPass: offer,
-  });
-  // "Okay." and "All right." take in a statement; they are not an answer to a
-  // question ("How's Keanu?"), and each reply moves the talk.
-  const question = conversation.lines.at(-one);
-  // A bare "Okay." never answers bad news either: it does not continue the talk.
-  // Nor the address's point: each reply there is a move about what was said.
-  if (
-    question?.act !== "ask" &&
-    !(question && asksQuestion(question)) &&
-    !isNewsSubject(last.subject.kind) &&
-    last.kind !== POINT
-  ) {
-    offerSome(
-      conversationMoves("ack", "reply", data).map((move) => ({
-        choiceKey: `ack:${move.key}`,
-        group: { ...move, from: { subject: "ack", part: "reply" } } as Group,
-      })),
-      (next) =>
-        wordChoice(
-          next.choiceKey,
-          next.group,
-          undefined,
-          "conversation:ack:reply",
+    offerPass: (again) =>
+      offerSome(
+        menu,
+        replyCandidates(
+          menu.groups,
+          again,
+          (choiceKey) =>
+            replyAvailable({
+              choiceKey,
+              alreadyTold:
+                !!told && conversation.used.includes(`${told}:${playerId}`),
+              tellKind: data.tells?.[last.kind]?.[choiceKey],
+              tellable: (kind) => !!tellable(core, conversation, data, kind),
+            }),
+          menu.target,
         ),
-    );
-  }
+        (next) =>
+          wordChoice(
+            menu,
+            next.choiceKey,
+            next.group,
+            next.subject,
+            menu.answerBank,
+            again,
+          ),
+      ),
+  });
+}
+
+/**
+ * Each way of taking a statement in ("Okay.", "Right."): not an answer to a
+ * question ("How's Keanu?"), and each reply moves the talk. A bare "Okay."
+ * never answers bad news either, nor the address's point: each reply there is
+ * a move about what was said.
+ */
+function offerTakingIn(menu: Menu): void {
+  const { data, conversation, last } = menu;
+  const question = conversation.lines.at(-one);
+  if (
+    question?.act === "ask" ||
+    (question && asksQuestion(question)) ||
+    isNewsSubject(last.subject.kind) ||
+    last.kind === POINT
+  )
+    return;
+  offerSome(
+    menu,
+    conversationMoves("ack", "reply", data).map((move) => ({
+      choiceKey: `ack:${move.key}`,
+      group: { ...move, from: { subject: "ack", part: "reply" } } as MenuGroup,
+    })),
+    (next) =>
+      wordChoice(
+        menu,
+        next.choiceKey,
+        next.group,
+        undefined,
+        "conversation:ack:reply",
+      ),
+  );
+}
+
+function offerChoices(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  data: ConversationData,
+): void {
+  const { playerId, otherId } = conversation;
+  conversation.choices = [];
+  conversation.lies = [];
+  const menu = menuFor(core, conversation, data);
+  const { last, facts, turn } = menu;
+  offerWorded(menu);
+  offerTakingIn(menu);
   // The other person's last line, by the move it made: a question asks.
   const before = conversation.lines.at(-one);
   conversation.choices = shapeMenu(core, playerId, conversation.choices, {
