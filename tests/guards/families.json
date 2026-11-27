@@ -216,7 +216,8 @@
         "src/core2/modules/federal-courts.ts",
         "src/core2/laws-in-force.ts",
         "src/core2/modules/police-patrol.ts",
-        "src/core2/outcome-web-reach.ts"
+        "src/core2/outcome-web-reach.ts",
+        "src/core2/outcome-web-model.ts"
       ],
       "paths": [
         "src/core2/modules/laws.ts",
