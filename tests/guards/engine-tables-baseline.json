@@ -5,6 +5,7 @@
       "people": 1
     },
     "src/bench/bill-stage.ts": {
+      "bodies": 4,
       "executive": 2
     },
     "src/bench/budget.ts": {
@@ -15,6 +16,7 @@
       "elections": 1
     },
     "src/bench/campaign.ts": {
+      "bodies": 1,
       "elections": 11,
       "executive": 2
     },
@@ -22,23 +24,36 @@
       "executive": 4,
       "people": 1
     },
+    "src/bench/changes.ts": {
+      "laws": 2
+    },
     "src/bench/dev-force-legislature.ts": {
+      "bodies": 1,
       "executive": 2
     },
     "src/bench/dev-industries.ts": {
       "dynamic": 1
     },
+    "src/bench/dev-law-industries.ts": {
+      "bodies": 1,
+      "laws": 1
+    },
     "src/bench/dev-mode.ts": {
+      "bodies": 10,
       "dynamic": 1,
       "elections": 1,
       "executive": 4,
       "jobs-businesses": 2,
+      "laws": 9,
       "people": 2
     },
     "src/bench/dev-trace.ts": {
       "dynamic": 2,
       "elections": 2,
       "news": 1
+    },
+    "src/bench/dev-views/budget-amendments.ts": {
+      "bodies": 1
     },
     "src/bench/dev-views/dev-closing.ts": {
       "jobs-businesses": 4
@@ -55,7 +70,8 @@
     },
     "src/bench/dev-why.ts": {
       "dynamic": 1,
-      "jobs-businesses": 1
+      "jobs-businesses": 1,
+      "laws": 1
     },
     "src/bench/election-night.ts": {
       "elections": 2
@@ -65,6 +81,7 @@
       "executive": 1
     },
     "src/bench/government-bodies.ts": {
+      "bodies": 2,
       "elections": 1,
       "executive": 3
     },
@@ -76,15 +93,18 @@
       "laws": 1
     },
     "src/bench/legislature.ts": {
+      "bodies": 1,
       "executive": 6
     },
     "src/bench/map.ts": {
       "elections": 1
     },
     "src/bench/news-picture.ts": {
+      "bodies": 1,
       "executive": 1
     },
     "src/bench/office.ts": {
+      "bodies": 1,
       "executive": 1
     },
     "src/bench/officeholders.ts": {
@@ -99,10 +119,12 @@
     "src/bench/printed-words.ts": {
       "dynamic": 1,
       "jobs-businesses": 1,
+      "laws": 2,
       "news": 2
     },
     "src/bench/reached.ts": {
       "elections": 3,
+      "laws": 1,
       "news": 1
     },
     "src/bench/results.ts": {
@@ -111,6 +133,9 @@
     "src/bench/scene.ts": {
       "executive": 2,
       "people": 1
+    },
+    "src/bench/states.ts": {
+      "laws": 2
     },
     "src/core2/board-appointer.ts": {
       "executive": 1
@@ -238,7 +263,8 @@
     "src/core2/modules/legislature.ts": {
       "budgets": 2,
       "elections": 2,
-      "executive": 14
+      "executive": 14,
+      "laws": 3
     },
     "src/core2/modules/meetings.ts": {
       "elections": 4
@@ -301,7 +327,8 @@
     },
     "src/core2/modules/world-legislating.ts": {
       "executive": 5,
-      "jobs-businesses": 1
+      "jobs-businesses": 1,
+      "laws": 1
     },
     "src/core2/modules/world-metrics.ts": {
       "dynamic": 1,
