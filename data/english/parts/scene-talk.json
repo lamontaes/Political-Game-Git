@@ -72983,10 +72983,10 @@
       "elements": ["mayor-wins-by-dozens-and-the-recount-grows-it"]
     },
     {
-      "key": "scene-talk.narrate-returns-step.where-reports-a-tie-lead-votes-each",
+      "key": "scene-talk.narrate-returns-step.where-is-tied-lead-to-lead",
       "move": "narrate-returns-step",
       "kind": "spoken",
-      "text": "{where} reports a tie, {lead} votes each.",
+      "text": "{where} is tied, {lead} to {lead}.",
       "uses": [
         {
           "subject": "scene",
