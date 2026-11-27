@@ -112,6 +112,7 @@ const paramUsedBy = fn.parameters.map(() => new Set<number>());
 
 // Which steps read each local, and whether a later step assigns it.
 const readBy = new Map<string, Set<number>>();
+const assignedInClosure = new Set<string>();
 const fail = (why: string): never => {
   throw new Error(`refused: ${why}`);
 };
@@ -144,6 +145,26 @@ const visit = (node: ts.Node, step: number, stmt: ts.Statement) => {
         (ts.isVariableDeclaration(node.parent) && node.parent.name === node) ||
         (ts.isBindingElement(node.parent) && node.parent.name === node) ||
         (ts.isFunctionDeclaration(node.parent) && node.parent.name === node);
+      if (!isDeclaration) {
+        const parent = node.parent;
+        const assignedHere =
+          (ts.isBinaryExpression(parent) &&
+            parent.left === node &&
+            parent.operatorToken.kind >= ts.SyntaxKind.FirstAssignment &&
+            parent.operatorToken.kind <= ts.SyntaxKind.LastAssignment) ||
+          ((ts.isPrefixUnaryExpression(parent) ||
+            ts.isPostfixUnaryExpression(parent)) &&
+            (parent.operator === ts.SyntaxKind.PlusPlusToken ||
+              parent.operator === ts.SyntaxKind.MinusMinusToken));
+        if (assignedHere) {
+          for (
+            let q: ts.Node | undefined = node.parent;
+            q && q !== stmt;
+            q = q.parent
+          )
+            if (ts.isFunctionLike(q)) assignedInClosure.add(name);
+        }
+      }
       if (!isDeclaration && step !== made) {
         if (step < made)
           fail(`${name} is read in an earlier step than the one making it`);
@@ -166,6 +187,11 @@ const visit = (node: ts.Node, step: number, stmt: ts.Statement) => {
   node.forEachChild((child) => visit(child, step, stmt));
 };
 for (const stmt of statements) visit(stmt, stepOf(stmt), stmt);
+for (const name of assignedInClosure)
+  if (readBy.has(name))
+    fail(
+      `${name} is assigned inside a closure and read by a later step, so a copy handed on would go stale`,
+    );
 
 // Build the steps.
 const params = fn.parameters.map((p) => p.getText(source));
