@@ -364,7 +364,8 @@ describe(`the SNAP work requirement is the benefit's, not the web's (seed ${seed
 // ---------------------------------------------------------------------------
 // The links no engine owns. Each stays unwired for one reason: no engine
 // names its outcome, so none can multiply its own rate (or a cost or price it
-// computes) by the web's factor. The stopgap row for each is open.
+// computes) by the web's factor. The owner dropped these follow-up mechanics
+// on Nov 10, leaving the existing estimates as the game's answer.
 
 const UNWIRED: ReadonlyArray<{
   readonly outcome: string;
@@ -399,13 +400,16 @@ const UNWIRED: ReadonlyArray<{
 ];
 
 describe("links no engine owns stay unwired, each for one reason", () => {
-  const open = new Map(
-    (stopgaps as unknown as { id: string; status: string }[]).map((row) => [
-      row.id,
-      row.status,
-    ]),
+  const registered = new Map(
+    (
+      stopgaps as unknown as {
+        id: string;
+        status: string;
+        resolvedAt?: string;
+      }[]
+    ).map((row) => [row.id, row]),
   );
-  it("names every unwired link, its open stopgap and the missing engine", () => {
+  it("names every unwired link and why no engine reads it", () => {
     for (const row of UNWIRED) {
       for (const key of row.links) {
         const found = link(key);
@@ -427,9 +431,13 @@ describe("links no engine owns stay unwired, each for one reason", () => {
         `${row.outcome} is now named by an engine: wire ${row.links.join(", ")} through webReach and take it off this list`,
       ).toEqual([]);
     }
-    // The stopgap rows that carry each reason are open.
-    for (const row of UNWIRED)
-      if (row.stopgap) expect(open.get(row.stopgap), row.stopgap).toBe("open");
+    // Resolution is a ruling about scope, not evidence of an engine reader.
+    for (const row of UNWIRED) {
+      if (!row.stopgap) continue;
+      const stopgap = registered.get(row.stopgap);
+      expect(stopgap?.status, row.stopgap).toBe("resolved");
+      expect(stopgap?.resolvedAt, row.stopgap).toBe("2026-11-10");
+    }
   });
 
   it("finds only the federal treasury borrowing", () => {
