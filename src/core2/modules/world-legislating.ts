@@ -116,10 +116,6 @@ import {
   reachesTown,
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
-  registerFloorDateReader,
-  registerFloorCalendarer,
-  registerSittingReader,
-  registerWeeklyFloorReader,
   settledness,
   sittingContactHours,
   tasteForChange,
@@ -229,6 +225,13 @@ export const WORLD_LEGISLATING_MODULE: CoreModule = {
     },
   },
   onCalendarWork: (api, work) => onWork(api, work),
+  // What the legislature reads from the world's legislating: when a body sits
+  // next, which week's floor days, the floor date a bill is on and the one it
+  // is given.
+  sittingReader: nextSitting,
+  weeklyFloorReader: weeklyFloorOn,
+  floorDateReader: floorDateOf,
+  floorCalendarer: projectedFloorDate,
 };
 
 /** Register the module and put the state's session ends on the calendar. */
@@ -237,10 +240,6 @@ export function openWorldLegislating(
   /** Only this legislature sits (a past pass for the played state: no Congress, no other state). */
   only?: string,
 ): void {
-  registerSittingReader(nextSitting);
-  registerWeeklyFloorReader(weeklyFloorOn);
-  registerFloorDateReader(floorDateOf);
-  registerFloorCalendarer(projectedFloorDate);
   registerSittingCalendar(SITTING_CALENDAR);
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID))
     registerModule(core, WORLD_LEGISLATING_MODULE);
