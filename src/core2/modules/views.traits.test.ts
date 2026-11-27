@@ -13,7 +13,11 @@ import { createLifeCore } from "../life";
 import { buildPopulation } from "../population";
 import { coreAPI } from "../state";
 import { decisionLean } from "../trait-decisions";
-import { weightOf, withTraitWeight, RUN_SEED } from "../trait-test-kit";
+import {
+  weightOf,
+  withTraitWeight,
+  RUN_SEED,
+} from "../../../tests/support/trait-test-kit";
 import { drawPlace } from "../../../tests/golden-path/place";
 import { deliverSpeech, speechModule, type Retelling } from "./speech";
 import { standingWith, viewOf, viewsModule } from "./views";

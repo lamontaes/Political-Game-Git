@@ -1,9 +1,9 @@
 import { raceTitle } from "./race-words";
 import { coreAPI } from "../core2/state";
-import { filingClerkFor } from "../core2/modules/filing-clerk";
+import { filingClerkFor } from "../core2/modules/campaigns";
 import { workSpansOf } from "./places";
 import officeHours from "./data/office-hours.json" with { type: "json" };
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { addDays, makeIsoDate, weekdayOf } from "../core2/kernel/dates";
 import {
   ballot,
   checkEligibility,
@@ -19,8 +19,8 @@ import {
   PARTIES_MODULE_ID,
   partiesHere,
   partyTie,
-} from "../core2/modules/parties";
-import { contestPositions } from "../core2/contest-positions";
+} from "../core2/modules/elections";
+import { contestPositions } from "../core2/modules/campaigns";
 import { seatHolder } from "../core2/modules/voting";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
@@ -448,7 +448,7 @@ function assumedSpans(
   date: string,
 ): { startMinute: number; endMinute: number }[] {
   const hours = officeHours.estimated;
-  const weekday = new Date(`${date}T12:00:00Z`).getUTCDay();
+  const weekday = weekdayOf(date);
   return hours.weekdays.includes(weekday)
     ? [{ startMinute: hours.opensMinute, endMinute: hours.closesMinute }]
     : [];
