@@ -63,6 +63,7 @@ import {
   type Story,
 } from "./modules/news";
 import { allCountryStates, allMacroMonths, macroMonthAt } from "./macro-reads";
+import { lawRowById } from "./modules/laws-reads";
 export { cutRibbon, ribbonsToCut } from "./modules/projects";
 export { employerArrears, profitTaxArrears } from "./modules/employer-taxes";
 export type {
@@ -2371,8 +2372,7 @@ function landOn(
   });
   const lawId = measureId?.split("#")[0] ?? "";
   const law = lawId
-    ? (api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as unknown as
-        { series?: string } | undefined)
+    ? (lawRowById(api, lawId) as unknown as { series?: string } | undefined)
     : undefined;
   const row: LandedRow = {
     id,

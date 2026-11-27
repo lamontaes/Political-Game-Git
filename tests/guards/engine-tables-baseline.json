@@ -140,13 +140,6 @@
     "src/core2/board-appointer.ts": {
       "executive": 1
     },
-    "src/core2/budgets-treasury.ts": {
-      "jobs-businesses": 3,
-      "laws": 1
-    },
-    "src/core2/business-books-view.ts": {
-      "budgets": 1
-    },
     "src/core2/campaign-day.ts": {
       "bodies": 1
     },
@@ -209,8 +202,7 @@
       "dynamic": 1
     },
     "src/core2/modules/budgets.ts": {
-      "executive": 1,
-      "laws": 2
+      "executive": 1
     },
     "src/core2/modules/campaigns.ts": {
       "bodies": 1,
@@ -282,12 +274,6 @@
       "clock-places": 1,
       "dynamic": 2,
       "elections": 2
-    },
-    "src/core2/modules/outside-budgets.ts": {
-      "jobs-businesses": 1
-    },
-    "src/core2/modules/place-prices.ts": {
-      "laws": 1
     },
     "src/core2/modules/press.ts": {
       "elections": 14,
@@ -394,9 +380,6 @@
       "elections": 1,
       "executive": 2
     },
-    "src/core2/question-wages.ts": {
-      "laws": 2
-    },
     "src/core2/race-places.ts": {
       "executive": 3
     },
@@ -409,9 +392,6 @@
     },
     "src/core2/state.ts": {
       "dynamic": 2
-    },
-    "src/core2/tax-index.ts": {
-      "jobs-businesses": 1
     },
     "src/core2/term-read.ts": {
       "jobs-businesses": 3

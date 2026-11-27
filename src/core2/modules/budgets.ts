@@ -105,6 +105,7 @@ import {
 import { syncServiceCharges } from "../budgets-service-charges";
 export { chargedServicesOf } from "../budgets-service-charges";
 import { isFeeLevelSeries } from "../fee-levels";
+import { lawRowById, storedLawRowsOfSeries } from "./laws-reads";
 
 export {
   budgetInForce,
@@ -566,8 +567,8 @@ const BUDGETS_MODULE: PreStartModule = {
  */
 function lawMeasureOf(api: CoreAPI, id: string): string | null {
   if (!id.startsWith("law:")) return id;
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-  const row = (laws.get(id) ?? laws.get(id.split("#")[0]!)) as unknown as
+  const row = (lawRowById(api, id) ??
+    lawRowById(api, id.split("#")[0]!)) as unknown as
     { terms?: { enactedBy?: unknown } } | undefined;
   const measure = row?.terms?.enactedBy;
   return measure ? String(measure) : null;
@@ -2176,10 +2177,7 @@ function residentLaw(
     }
     // stopgapId: SG-WORLD-withholding-residence-law
     api.stopgap("SG-WORLD-withholding-residence-law");
-    const recorded = api
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .query("bySeriesOnly", [series]) as unknown as readonly LawRowInput[];
+    const recorded = storedLawRowsOfSeries(api, series);
     const seen = new Set(recorded.map((r) => r.id));
     return resolveLawInForce({
       series,

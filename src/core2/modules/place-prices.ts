@@ -52,6 +52,7 @@ import type {
   KnownFact,
   Source,
 } from "../types";
+import { lawRowById } from "./laws-reads";
 
 export const PLACE_PRICES_MODULE_ID = "place-prices";
 export const PRICES_PARAMETERS = pricesParameters as unknown as Readonly<
@@ -835,8 +836,7 @@ function learnOnHearing(api: CoreAPI, personId: string, story: Story): void {
   // The price rule a law sets is written at the first bill after it takes
   // effect, often after its story ran, so the law's question decides.
   const series = (
-    api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as unknown as
-      { series?: string } | undefined
+    lawRowById(api, lawId) as unknown as { series?: string } | undefined
   )?.series;
   if (
     !series ||

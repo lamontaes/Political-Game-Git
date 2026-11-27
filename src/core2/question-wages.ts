@@ -19,11 +19,10 @@ import {
   enactLaw,
   lawChain,
   lawInForce,
-  LAWS_MODULE_ID,
   yesLevels,
 } from "./modules/laws";
-import type { LawRowInput } from "./laws-in-force";
 import type { CoreAPI } from "./types";
+import { lawRowById, storedLawRowsOfSeries } from "./modules/laws-reads";
 
 export const FEDERAL_KEY =
   "us-federal-positions:labor-commerce.raise-federal-minimum-wage";
@@ -162,12 +161,7 @@ function repealedAt(
   jurisdiction: string,
   question: string,
 ): boolean {
-  const rows = (
-    api
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .query("bySeries", [jurisdiction, question]) as unknown as LawRowInput[]
-  )
+  const rows = [...storedLawRowsOfSeries(api, question, jurisdiction)]
     .filter((r) => r.effectiveDate <= api.state.date)
     .sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate));
   return rows.at(-1)?.value === 0 && rows.some((r) => r.value === 1);
@@ -186,7 +180,7 @@ export function holdFederalWage(
   // nothing else writes.
   const centurys =
     (
-      api.moduleState(LAWS_MODULE_ID).table("laws").get(change.lawId) as
+      lawRowById(api, change.lawId) as
         { terms?: { centuryRecordId?: string } } | undefined
     )?.terms?.centuryRecordId !== undefined;
   if (standing && change.lawId.endsWith(":starting") && !centurys) return;
