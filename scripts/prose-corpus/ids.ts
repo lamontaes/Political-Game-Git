@@ -1,4 +1,4 @@
-import type { ProseDomain, ProseRecord } from "./types";
+import type { ProseDomain } from "./types";
 
 /**
  * Semantic coordinates, not positions.
@@ -62,71 +62,6 @@ export function proseId(input: {
   const stableKey = checkSegment("stable key", input.stableKey, COMPOUND);
   const field = checkSegment("field", input.field, COMPOUND);
   return `prose:${domain}:${bank}:${stableKey}#${field}`;
-}
-
-interface ParsedProseId {
-  readonly domain: string;
-  readonly bank: string;
-  readonly stableKey: string;
-  readonly field: string;
-}
-
-function parseProseId(id: string): ParsedProseId | null {
-  const hash = id.indexOf("#");
-  if (!id.startsWith("prose:") || hash < 0) return null;
-  const head = id.slice("prose:".length, hash);
-  const field = id.slice(hash + 1);
-  const firstColon = head.indexOf(":");
-  const secondColon = head.indexOf(":", firstColon + 1);
-  if (firstColon < 0 || secondColon < 0) return null;
-  return {
-    domain: head.slice(0, firstColon),
-    bank: head.slice(firstColon + 1, secondColon),
-    stableKey: head.slice(secondColon + 1),
-    field,
-  };
-}
-
-interface IdCollision {
-  readonly id: string;
-  readonly sources: readonly string[];
-}
-
-/**
- * Two records may never share an ID. Fails closed.
- *
- * Identical *text* at two semantic locations is fine and expected — two banks
- * can legitimately both say "You could let it go." — and each keeps its own
- * ID. What is never fine is two records claiming the same coordinates, because
- * then an owner's mark is ambiguous and a differential report cannot tell
- * which one changed.
- */
-function findIdCollisions(
-  records: readonly ProseRecord[],
-): readonly IdCollision[] {
-  const byId = new Map<string, string[]>();
-  for (const record of records) {
-    const where = `${record.sourcePath}:${record.stableKey}#${record.field}`;
-    const existing = byId.get(record.id);
-    if (existing) existing.push(where);
-    else byId.set(record.id, [where]);
-  }
-  const collisions: IdCollision[] = [];
-  for (const [id, sources] of byId) {
-    if (sources.length > 1) collisions.push({ id, sources: [...sources] });
-  }
-  return collisions.sort((left, right) => (left.id < right.id ? -1 : 1));
-}
-
-function assertNoIdCollisions(records: readonly ProseRecord[]): void {
-  const collisions = findIdCollisions(records);
-  if (collisions.length === 0) return;
-  const detail = collisions
-    .map((entry) => `  ${entry.id}\n    ${entry.sources.join("\n    ")}`)
-    .join("\n");
-  throw new Error(
-    `${collisions.length} prose ID collision(s). Semantic coordinates must be unique:\n${detail}`,
-  );
 }
 
 /** Slot names a template expects: `{self}`, `{role:colleague}`, `{place}`. */

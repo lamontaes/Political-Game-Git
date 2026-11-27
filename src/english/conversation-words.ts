@@ -72,20 +72,6 @@ export interface ConversationWords {
 }
 /** The mined words, read by default. */
 export const CONVERSATION_WORDS = MINED_CONVERSATION;
-/** Whether a piece of the bank serves a subject (or its reply), by a use of its own. */
-function pieceServes(key: string, subject: string): boolean {
-  return CONVERSATION_BANK.parts.some(
-    (part) =>
-      part.key === key &&
-      part.uses.some(
-        (use) =>
-          use.subject === subject ||
-          use.subject === `${subject}-reply` ||
-          // A subject told in composed words (`<subject>-say`).
-          use.subject === `${subject}-say`,
-      ),
-  );
-}
 
 /** Which mined sentences made a line, for grading and the screen. */
 export interface Wording {

@@ -41,6 +41,21 @@ export default tseslint.config(
     },
   },
   {
+    files: [
+      "scripts/cleanup/*.mjs",
+      "scripts/guards/no-doc-proof-images*.mjs",
+      "scripts/heavy/suite-times.mjs",
+    ],
+    languageOptions: {
+      globals: {
+        Buffer: "readonly",
+        URL: "readonly",
+        console: "readonly",
+        process: "readonly",
+      },
+    },
+  },
+  {
     // The source substrate is evidence; the running game is truth. Nothing that
     // runs the game may read source records directly — a fact reaches the world
     // through a named one-way adapter or not at all.

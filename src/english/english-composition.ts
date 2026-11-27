@@ -216,26 +216,6 @@ export function partKey(
   return `${bank.key}:${part}:${variantKey}`;
 }
 
-/** Tag a saved event with the part keys of the line it records. */
-const LINE_PARTS_TAG_PREFIX = "english.line-parts.v1:";
-
-function linePartsTag(parts: readonly ComposedPart[]): string {
-  return `${LINE_PARTS_TAG_PREFIX}${JSON.stringify(parts.map((part) => part.partKey))}`;
-}
-
-function linePartsOf(tags: readonly string[]): readonly string[] | null {
-  const tag = tags.find((entry) => entry.startsWith(LINE_PARTS_TAG_PREFIX));
-  if (!tag) return null;
-  try {
-    const keys = JSON.parse(tag.slice(LINE_PARTS_TAG_PREFIX.length));
-    return Array.isArray(keys) && keys.every((key) => typeof key === "string")
-      ? keys
-      : null;
-  } catch {
-    return null;
-  }
-}
-
 /**
  * Saying no takes work (Pomerantz 1984; Heritage 1984). Declining and putting
  * off an answer carry a reason, and a speaker who is not at odds with the

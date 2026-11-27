@@ -158,17 +158,6 @@ function congressionalLinesSetFor(
   return selectDatedSet(catalog.congressional.dated, stateFips, asOf);
 }
 
-/** The relationship vintage the congressional join reads for a state on a date. */
-function congressionalRelationVintageFor(
-  stateFips: string,
-  asOf?: string | null,
-): string {
-  return (
-    congressionalLinesSetFor(stateFips, asOf)?.vintage ??
-    CD_PLACE_RELATION_VINTAGE
-  );
-}
-
 /**
  * `asOf` is the game date (YYYY-MM-DD). Give it wherever the game has a date:
  * a state whose U.S. House lines changed answers from the lines in force then.
