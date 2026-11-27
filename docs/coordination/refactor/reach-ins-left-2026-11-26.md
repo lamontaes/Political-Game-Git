@@ -480,3 +480,15 @@ The largest cycle holds 218 files (main: 214 at the start of the stack; the stac
 - **`death-cause.ts`: cut** by reading `webReach` and `webDayCache` from `outcome-web-reach.ts`, where they live, instead of through `laws-in-force.ts` and `modules/laws.ts`.
 - **`counted-income-fifth.ts`: not cut.** Its two names come through `modules/laws.ts` from `law-reach/group-b-money.ts` and `group-b-veterans.ts`, and both of those import `modules/residents.ts`, which imports `counted-income-fifth.ts` back. It waits on the residents cut above.
 - **Facades read for what they hide:** 107 imports inside the big cycle read a name through another file's `export ... from`; 17 of them read it from a file in the same engine or from an entry file, and those now import the file that holds the name (mostly `outcome-web-reach.ts`, now an entry of the laws engine). The other 90 would turn into reach-ins and stay.
+
+## Nov 27: the 288 reach-ins left, and why the front door costs a cycle edge
+
+The codemod found 114 more moves that load and typecheck (reach-ins 295 to about 190). Applying all of them raised the cycles from 1,182 edges to 1,345, because each moved import now ends on a heavy front-door file that sits in the big cycle. The two guards both may only shrink, so I did not take that set. With the codemod's strict mode (a move is refused when it would close a cycle) 24 moves load; 18 of those put a re-export on a front door that adds cycle edges (`modules/meetings.ts` alone adds 4), so the set shipped as `reach-19` is the six that add none: reach-ins 295 to 288, cycles unchanged at 1,182.
+
+The codemod's count at the top of `reach-18` (275 reach-ins in the 12 engines it covers; the 13th, past, is skipped by design), by cause:
+
+- **119 can move** (114 load clean). They move only when the cycle behind their front door is cut first, or when the cycle guard's baseline is allowed to rise by about 160 edges. That trade is between two standing checks; both stay as strict as before.
+- **130 sit in files the skip lists name** (history readers, Past and Day One's `opening-*`, `past-*` and `electorate-century*`, the Talk engines, and the files `tsconfig.node.json` lists, which may not import outside that list).
+- **17 are read while their module loads**, and stay until the load order changes.
+- **6 are default, namespace or JSON imports** and **3** have no editable entry without a name clash.
+- The codemod also wanted to add re-exports to `modules/business.ts` and edit `housing-assistance.ts`; both are on the goal's skip list, so those edits were reverted and their importers kept their old imports.
