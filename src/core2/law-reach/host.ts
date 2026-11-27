@@ -21,6 +21,7 @@ import {
 import type { LawRowInput } from "../laws-starting";
 import { inForceOn } from "../laws-in-force";
 import { reassertStandingLineLaws, registerLawReach } from "./index";
+import { reachALineAdditions } from "./group-a-money";
 import { REACH_A_MODULE_ID } from "./group-a-records-constants";
 import {
   REACH_B_MODULE_ID,
@@ -46,6 +47,8 @@ export const LAW_REACH_HOST: CoreModule = {
   onEvent: (api, event) => runHandlers(api, event),
   // The laws that set a budget line's level, which the treasury reads at each close.
   standingLineLaws: reassertStandingLineLaws,
+  // The laws that raised a line by their own amount, so the treasury can record whom their share of the line pays.
+  lineAdditions: reachALineAdditions,
 };
 
 export function openLawReach(core: CoreState): void {

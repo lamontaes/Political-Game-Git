@@ -20,7 +20,6 @@
  *   each government's account through the journal on payday.
  */
 import { taxIndexOf } from "../tax-index";
-import { budgetPassThroughs } from "../budgets-line-payers";
 import type { GovernmentLevel } from "../government-level";
 import { corePlaceByKey } from "../place-lookup";
 import { placeLocalGovernmentUnits } from "./executive";
@@ -97,6 +96,7 @@ import {
   openOutsideAccountOf,
   sameGovernment,
   landTaxChange,
+  grantPassThrough,
 } from "../budgets-treasury";
 import {
   federalJurisdictionId,
@@ -466,6 +466,8 @@ function budgetHistory(
 const BUDGETS_MODULE: PreStartModule = {
   id: BUDGETS_MODULE_ID,
   preStart: { phase: "government", run: budgetHistory },
+  // What a bill that moved a federal grant line adds to the line a state, county or town spends that grant on.
+  budgetPassThrough: grantPassThrough,
   state: {
     schemaVersion: 1,
     tables: {
@@ -1667,7 +1669,7 @@ function passThroughOf(
   revenueMinor: Readonly<Record<string, number>>,
 ): Record<string, number> {
   const out: Record<string, number> = {};
-  for (const through of budgetPassThroughs)
+  for (const through of fieldsOf(api.state, "budgetPassThrough"))
     for (const [line, delta] of Object.entries(through(api, gov, revenueMinor)))
       if (delta !== 0) out[line] = (out[line] ?? 0) + delta;
   return out;
