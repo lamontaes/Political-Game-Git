@@ -2,7 +2,22 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 5715,
-  "no": {},
-  "yesHash": "0vtbor0xb53"
+  "judged": 5733,
+  "no": {
+    "03qnynxpjek": {
+      "keys": [
+        "scene-talk.follow-threaten.then-i-ll-find-a-candidate-who-listens-on-bill",
+        "scene-talk.reply-agree.you-re-right-to-ask-again-i-m-your-side-bill"
+      ],
+      "why": "'You're right to ask again' answers an ask, but the donor just made a threat, so the reply responds to a line that was not said."
+    },
+    "0tckfjjdc6m": {
+      "keys": [
+        "scene-talk.follow-threaten.then-i-ll-find-a-candidate-who-listens-on-bill",
+        "scene-talk.reply-leave.say-hello-to-everyone-at-employer-for-me-i-have-to-go"
+      ],
+      "why": "A cheery 'say hello to everyone at the employer' ignores the donor's threat and reads as if nothing hostile was said, so the exit does not answer it."
+    }
+  },
+  "yesHash": "2aj8au220mr"
 }
