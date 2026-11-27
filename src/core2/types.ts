@@ -1150,6 +1150,20 @@ export interface CoreModule {
    */
   snapshotParts?: Readonly<Record<string, SnapshotPart>>;
   /**
+   * A runtime kept in a WeakMap keyed by the world, saved as one part by id;
+   * with `rebuild`, a save that holds no such part gets one built from its
+   * records. Same reading as `snapshotParts`.
+   */
+  worldMapParts?: Readonly<
+    Record<
+      string,
+      {
+        readonly map: WeakMap<CoreState, unknown>;
+        readonly rebuild?: (core: CoreState) => unknown;
+      }
+    >
+  >;
+  /**
    * Caches this engine keeps keyed by the world and built from the world's
    * records: a restore refills the same world in place, so each is cleared at
    * the end of every restore and built again on first read. A function, read
