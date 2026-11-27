@@ -37,6 +37,7 @@ import {
 } from "../core2/modules/elections";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
+import { composeCampaignSpeech } from "../director/local-speeches";
 import { dwellingKind } from "../core2/modules/housing";
 import { promisesOf, votesCast } from "../core2/modules/people";
 import {
@@ -59,7 +60,7 @@ import {
 import {
   beginSpeech,
   chooseSpeechPart,
-  speechText,
+  speechAsGiven,
   type SpeechBuild,
 } from "../director/speech-builder";
 import { campaignParameter } from "../core2/campaign-data";
@@ -1232,10 +1233,37 @@ export function speechGive(
   const venue = scenePlaces.speechPlaces.includes(input.venue)
     ? input.venue
     : scenePlaces.speechPlaces[0]!;
+  // The one planner says what the stands the player picked come to: one theme, the stand and its reason,
+  // the ask. What it says is what the speech records, so a stand it left out is never counted as said.
+  const filing = api
+    .moduleState(ELECTIONS)
+    .table("filings")
+    .get(input.filingId) as unknown as FilingRow | undefined;
+  const contest = filing
+    ? (api
+        .moduleState(ELECTIONS)
+        .table("contests")
+        .get(filing.contestId) as unknown as ContestRow | undefined)
+    : undefined;
+  const planned =
+    filing && contest
+      ? composeCampaignSpeech(
+          core,
+          personId as PersonId,
+          contest.officeId,
+          filing.party ?? null,
+          [...stands.keys()],
+        )
+      : null;
+  const said = planned
+    ? [...stands.values()].filter((stand) =>
+        planned.asks.includes(stand.question),
+      )
+    : [...stands.values()];
   const causes = giveSpeech(api, {
     filingId: input.filingId,
     venue,
-    statements: [...stands.values()],
+    statements: said,
   });
   // Those it reached heard it as a speech and each decided whether to retell it.
   const retold = retellingsOf(
@@ -1244,7 +1272,7 @@ export function speechGive(
   ).filter((row) => row.retold).length;
   return {
     ...summary(causes),
-    text: speechText(build),
+    text: speechAsGiven(build, planned),
     retold,
     scene: speechScene(core, personId, venue, causes),
   };

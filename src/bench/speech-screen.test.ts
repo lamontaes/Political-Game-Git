@@ -153,9 +153,10 @@ const run = (drawSeed: string): string | null => {
         filingId: filed.id,
         venue: scenePlaces.speechPlaces[0]!,
       });
-      expect(said.text, where).toBe(
-        speech.picked.map((row) => row.text).join(" "),
-      );
+      // The player's opener and closer stand at the ends of the speech; between them the one planner
+      // says one theme and the ask from the stands they picked (so a stand it leaves out is not said).
+      expect(said.text.startsWith(speech.picked[0]!.text), where).toBe(true);
+      expect(said.text.endsWith(speech.picked.at(-1)!.text), where).toBe(true);
       expect(said.scene.place, where).toBe(scenePlaces.speechPlaces[0]);
       if (said.reached) {
         filing = filed;
