@@ -1,0 +1,65 @@
+{
+  "week": ["pressWeek"],
+  "open": ["openPress", "enrollPressEmployers"],
+  "exposure": [
+    "runExposure",
+    "tipOff",
+    "conflictBeat",
+    "leakToReporter",
+    "weighTip",
+    "writeProfile"
+  ],
+  "briefs": [
+    "milestones",
+    "letters",
+    "policeLog",
+    "schoolResults",
+    "policeLogComparison",
+    "policeLogWhy"
+  ],
+  "interviews": [
+    "requestInterview",
+    "answerInterview",
+    "interviewsFor",
+    "declineInterview",
+    "attackOutlet",
+    "inviteDay",
+    "invitation",
+    "answerInvitation",
+    "keepComment",
+    "reportConcession",
+    "accepted",
+    "refuse",
+    "snubbed"
+  ],
+  "stories": [
+    "publish",
+    "checkClaim",
+    "writeArchiveStory",
+    "printedStoryOf",
+    "storiesPrinted"
+  ],
+  "staffing": [
+    "refreshPressStaff",
+    "reassessSharedMarkets",
+    "reviewOutletRevenue",
+    "pressPeopleLive"
+  ],
+  "desk-reads": ["deskContext"],
+  "__place": {
+    "MEDIA": "outlets",
+    "outletMedium": "outlets",
+    "outletTelling": "outlets",
+    "closedNewspapers": "outlets",
+    "setFollow": "outlets",
+    "openHouseholdOutlets": "outlets",
+    "lastVoteOn": "interviews",
+    "platformAnswers": "interviews",
+    "standsOnRecord": "interviews",
+    "StandOnRecord": "interviews",
+    "exposedFinding": "exposure",
+    "ExposedFinding": "exposure"
+  },
+  "ids": ["PRESS_MODULE_ID"],
+  "__leaves": ["ids"]
+}

@@ -20,9 +20,9 @@
  * unbought; it is never a debt. Each seller's sale goes through the sales tax
  * at the seller's place, so sales-tax laws still collect.
  */
-import { transfer } from "./accounts";
+import { transfer } from "./budgets-treasury";
 import { daysBetween, makeIsoDate } from "./kernel/dates";
-import type { FinanceContractInput } from "./finance-types";
+import type { FinanceContractInput } from "./modules/finance";
 import type { CoreAPI, CoreState, IsoDate, Source } from "./types";
 
 export const EVERYDAY_LIVING_KIND = "household.everyday-living";

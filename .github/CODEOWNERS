@@ -49,6 +49,7 @@
 /src/core2/gov-rules/person-identity.ts @lamontaes
 /src/core2/government-level.ts @lamontaes
 /src/core2/fee-levels.ts @lamontaes
+/src/core2/retain-log.ts @lamontaes
 /src/core2/bug-report.test.ts @lamontaes
 /src/core2/condition-pack.test.ts @lamontaes
 /src/core2/factory-core-v1.test.ts @lamontaes
@@ -89,6 +90,7 @@
 /src/core2/gov-test-clock.ts @lamontaes
 /src/core2/campaign-data.ts @lamontaes
 /src/core2/modules/national-opinion.ts @lamontaes
+/src/core2/modules/candidacy-constants.ts @lamontaes
 /src/core2/at-large-choices.test.ts @lamontaes
 /src/core2/at-large-race.test.ts @lamontaes
 /src/core2/ballot-dead-candidate.test.ts @lamontaes
@@ -423,6 +425,8 @@
 /src/core2/jobs-web.ts @lamontaes
 /src/core2/term-read.ts @lamontaes
 /src/core2/modules/federal-courts.ts @lamontaes
+/src/core2/law-reach/group-a-records-constants.ts @lamontaes
+/src/core2/law-reach/group-b-store-constants.ts @lamontaes
 /src/core2/aide-pay-market.test.ts @lamontaes
 /src/core2/amounts-read-the-law.test.ts @lamontaes
 /src/core2/benefits-paid-at-the-close.test.ts @lamontaes
@@ -632,6 +636,7 @@
 /src/core2/cost-of-living.ts @lamontaes
 /src/core2/living-cost-split.ts @lamontaes
 /src/core2/pay-by-quarter.ts @lamontaes
+/src/core2/modules/macro-constants.ts @lamontaes
 /src/core2/away-workers-turnover.test.ts @lamontaes
 /src/core2/cannabis-sales-law.test.ts @lamontaes
 /src/core2/civic-inputs-clerk-staff.test.ts @lamontaes
@@ -770,6 +775,9 @@
 /src/core2/life-stakes.ts @lamontaes
 /src/core2/coverage-module-id.ts @lamontaes
 /src/core2/modules/promises.ts @lamontaes
+/src/core2/housing-construction-constants.ts @lamontaes
+/src/core2/modules/views-constants.ts @lamontaes
+/src/core2/residents-constants.ts @lamontaes
 /src/core2/attack-grudge.test.ts @lamontaes
 /src/core2/audit-18-data.test.ts @lamontaes
 /src/core2/back-to-the-counts.test.ts @lamontaes
@@ -971,6 +979,7 @@
 /src/core2/modules/national-events.ts @lamontaes
 /src/core2/national-disaster-event.ts @lamontaes
 /src/core2/modules/climate.ts @lamontaes
+/src/core2/national-disaster-record.ts @lamontaes
 /src/core2/agreement-jobs-free.test.ts @lamontaes
 /src/core2/appointment-names-appointer.test.ts @lamontaes
 /src/core2/appointment-record-appointee.test.ts @lamontaes
@@ -1047,8 +1056,10 @@
 /src/core2/modules/news.ts @lamontaes
 /src/core2/modules/press.ts @lamontaes
 /src/core2/press-*.ts @lamontaes
+/src/core2/modules/press-*.ts @lamontaes
 /src/core2/outcome-news.ts @lamontaes
 /src/core2/modules/news-listeners.ts @lamontaes
+/src/core2/outcome-news-constants.ts @lamontaes
 /src/core2/law-knowledge.test.ts @lamontaes
 /src/core2/modules/news.traits.test.ts @lamontaes
 /src/core2/modules/press.traits.test.ts @lamontaes

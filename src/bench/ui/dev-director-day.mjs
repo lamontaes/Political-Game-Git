@@ -74,7 +74,7 @@ function countsNode(table, title, labelOf) {
   );
 }
 
-export const slots = {
+const slots = {
   calendar: ({ labels, send }) => {
     const trace = traceBox(labels.trace);
     const date = el("input", { type: "date" });

@@ -5,7 +5,7 @@
  * lists sit in their own file with no value imports so an engine can register
  * while it loads, whatever order the modules load in.
  */
-import type { CoreAPI, PersonId } from "../types";
+import type { CoreAPI, CoreModule, PersonId } from "../types";
 import type { Story } from "./news";
 import type { CountedNewsAudience } from "./views";
 
@@ -19,19 +19,16 @@ export function onStoryHeard(listener: HeardListener): void {
   if (!heardListeners.includes(listener)) heardListeners.push(listener);
 }
 
-type CountedNewsSource = (
+export type CountedNewsSource = (
   api: CoreAPI,
   storyId: string,
   namedReaders: number,
 ) => readonly CountedNewsAudience[];
-let countedNewsSource: CountedNewsSource | undefined;
-/** The press supplies recorded audience mass; news owns delivery time. */
-export function registerCountedNewsSource(source: CountedNewsSource): void {
-  if (countedNewsSource && countedNewsSource !== source)
-    throw new Error("Counted news already has an audience source");
-  countedNewsSource = source;
-}
-/** The audience source the press registered, if any. */
-export function countedNewsSourceOf(): CountedNewsSource | undefined {
-  return countedNewsSource;
+/**
+ * The press module carries the recorded audience mass of a story as a field
+ * of its own; news reads it off the installed module when a story is heard,
+ * and owns the delivery time. Press imports news, so news cannot import it.
+ */
+export interface CountedNewsModule extends CoreModule {
+  countedNewsAudience?: CountedNewsSource;
 }

@@ -16,7 +16,7 @@
  * Each story's deliveries are scheduled once, when it is recorded, and read by
  * date, so no day scans the whole town.
  */
-import { countedNewsSourceOf, heardListeners } from "./news-listeners";
+import { heardListeners, type CountedNewsModule } from "./news-listeners";
 import type { HistoryModule, HistoryRow, HistorySource } from "../past";
 import { moduleState } from "../module-state";
 import { addDays, makeIsoDate } from "../kernel/dates";
@@ -585,6 +585,12 @@ export function printStory(
   return scheduleDeliveries(api, story, readerIds, new Set(), new Set(atOnce));
 }
 
+/** Every story the news engine has been given to tell (the dev views read it); none where the engine is not installed. */
+export function newsStories(api: CoreAPI): readonly StoryRecord[] {
+  if (!api.state.modules.has(NEWS_MODULE_ID)) return [];
+  return stories(api).rows() as unknown as StoryRecord[];
+}
+
 /** A story the paper printed, as the one history reader tells it. */
 function storyHistory(core: CoreState, row: StoryRecord): HistoryRow {
   const facts: Record<string, string> = {};
@@ -606,7 +612,7 @@ function storyHistory(core: CoreState, row: StoryRecord): HistoryRow {
   };
 }
 
-interface StoryRecord {
+export interface StoryRecord {
   readonly id: string;
   readonly kind: string;
   readonly date: string;
@@ -888,11 +894,10 @@ export function createNewsModule(
           story.facts,
         );
         if (story.desiredChange)
-          for (const reader of countedNewsSourceOf()?.(
-            api,
-            story.id,
-            alive.length,
-          ) ?? [])
+          for (const reader of (
+            api.state.modules.get(PRESS_MODULE_ID) as
+              CountedNewsModule | undefined
+          )?.countedNewsAudience?.(api, story.id, alive.length) ?? [])
             hearCountedNews(
               api,
               reader,
