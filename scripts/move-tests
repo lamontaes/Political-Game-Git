@@ -27,6 +27,8 @@ const records = fs.existsSync("docs/current.json")
 const isRecord = (file) =>
   // The pool index is written on main only (the pool guard refuses a branch's copy).
   file === "docs/pool/INDEX.md" ||
+  // #10716's ledger of what it moved; it keeps the old paths on purpose.
+  file === "scripts/core/move-workshop-moves.json" ||
   // Its fixtures name old test paths on purpose, as input to the report it checks.
   file === "scripts/heavy/suite-times.test.ts" ||
   records.some((r) => (r.endsWith("/") ? file.startsWith(r) : file === r));
