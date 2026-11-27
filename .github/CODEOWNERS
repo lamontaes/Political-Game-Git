@@ -924,6 +924,7 @@
 /src/core2/sibling-births.test.ts @lamontaes
 /src/core2/sibling-names.test.ts @lamontaes
 /src/core2/sitting-closeness.test.ts @lamontaes
+/src/core2/sitting-unowned-body.test.ts @lamontaes
 /src/core2/social-security-line-poverty.test.ts @lamontaes
 /src/core2/speech-retellings-fold.test.ts @lamontaes
 /src/core2/speech.test.ts @lamontaes

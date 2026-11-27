@@ -834,7 +834,8 @@
         "src/core2/modules/promises.ts",
         "src/core2/modules/views-constants.ts",
         "src/core2/sitting-closeness.ts",
-        "src/core2/trait-lean.ts"
+        "src/core2/trait-lean.ts",
+        "src/core2/counted-income-fifth.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -1076,6 +1077,7 @@
         "src/core2/sibling-births.test.ts",
         "src/core2/sibling-names.test.ts",
         "src/core2/sitting-closeness.test.ts",
+        "src/core2/sitting-unowned-body.test.ts",
         "src/core2/social-security-line-poverty.test.ts",
         "src/core2/speech-retellings-fold.test.ts",
         "src/core2/speech.test.ts",
