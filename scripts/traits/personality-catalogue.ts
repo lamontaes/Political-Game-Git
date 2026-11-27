@@ -33,7 +33,7 @@ const TARGET = new URL(
 );
 
 /** The received scales that are the build's own five under their own names. */
-export const BOUND_TO_THE_FIVE = [
+const BOUND_TO_THE_FIVE = [
   "deliberation",
   "reliability",
   "conflict",
@@ -41,7 +41,7 @@ export const BOUND_TO_THE_FIVE = [
 ] as const;
 
 /** Qualities retired by Lamontae's September 26 personality decision. */
-export const RETIRED_QUALITIES = [
+const RETIRED_QUALITIES = [
   "social-contact-preference",
   "ownership-of-duties",
   "facet-reserved",

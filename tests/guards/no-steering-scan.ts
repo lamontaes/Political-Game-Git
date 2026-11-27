@@ -10,7 +10,7 @@ const ROOT = path.resolve(import.meta.dirname, "../..");
 export const ROLES = ["coefficient", "level", "opening", "law"] as const;
 
 /** Step code: shipped core2 code that runs on the calendar, not tests, types, tooling or data. */
-export function isStepCode(file: string): boolean {
+function isStepCode(file: string): boolean {
   return (
     /^src\/core2\/.*\.ts$/.test(file) &&
     !/\.(test|spec)\.ts$/.test(file) &&

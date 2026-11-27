@@ -109,7 +109,7 @@ export const ALLOWED_PHRASES: readonly {
  * spelling is the recorded wording and not the game's own copy. Entries limit
  * the exemption to named rule patterns where the file is otherwise player copy.
  */
-export const ALLOWED_FILES: readonly {
+const ALLOWED_FILES: readonly {
   readonly file: RegExp;
   readonly words?: RegExp;
   readonly reason: string;

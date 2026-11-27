@@ -15,7 +15,7 @@
 import { BRITISH_IDIOM } from "../prose-eval/british-idiom.mjs";
 
 /** Spelling families the game-copy list does not carry. Word-bounded. */
-export const BRITISH_SPELLING = [
+const BRITISH_SPELLING = [
   {
     pattern:
       /\b(col|fav|hon|lab|behavi|neighb|harb|rum|hum|flav|vap|sav|endeav|parl|arm|vig|splend|tum|od|rig)our(s|ed|ing|ite|ites|able|ably|hood|hoods|ful|less|er|ers|al|ist|ists)?\b/i,

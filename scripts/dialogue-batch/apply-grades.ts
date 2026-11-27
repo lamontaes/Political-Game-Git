@@ -41,11 +41,11 @@ import {
 export const VOICE_VERDICT = 0.25;
 
 export const BATCH_DIR = "data/english/batches";
-export const GRADE_DIR = "data/english/grades";
+const GRADE_DIR = "data/english/grades";
 export const LEDGER_FILE = "data/english/part-grades.json";
 
 /** A variant a multi-axis batch shows beside a line, differing on one axis. */
-export interface BatchFileVariant {
+interface BatchFileVariant {
   /** Its number on the page, from 1. */
   readonly n: number;
   readonly axis: string;
@@ -53,7 +53,7 @@ export interface BatchFileVariant {
 }
 
 /** One line of a bench item with the features the calibration table folds. */
-export interface BatchFileLine {
+interface BatchFileLine {
   /** Its number in the item, from 1. */
   readonly n: number;
   readonly parts: readonly string[];
@@ -69,7 +69,7 @@ export interface BatchFileLine {
   readonly lie?: boolean;
 }
 
-export interface BatchFileItem {
+interface BatchFileItem {
   readonly i: number;
   readonly parts: readonly string[];
   /** A bench item's lines, each graded on its own. */
@@ -84,7 +84,7 @@ export interface BatchFile {
   readonly items: readonly BatchFileItem[];
 }
 
-export interface GradeFileRow {
+interface GradeFileRow {
   readonly i?: number;
   readonly n?: number;
   readonly grade?: string;
@@ -102,7 +102,7 @@ export interface GradeFileRow {
   readonly parts?: readonly string[];
 }
 
-export interface GradeFile {
+interface GradeFile {
   readonly batch?: string;
   readonly grades?: readonly GradeFileRow[];
   readonly items?: readonly GradeFileRow[];
@@ -139,7 +139,7 @@ function rowsOf(grades: unknown): readonly GradeFileRow[] {
   );
 }
 
-export function ownerGrade(row: GradeFileRow, where: string): OwnerGrade {
+function ownerGrade(row: GradeFileRow, where: string): OwnerGrade {
   const word = (row.grade ?? row.verdict ?? "").trim().toLowerCase();
   const grade = GRADE_WORDS[word];
   if (grade) return grade;
@@ -217,7 +217,7 @@ function foldAxes(
 }
 
 /** A grade in the bench shape: numeric axes on one line of an item. */
-export function isBenchGrade(row: GradeFileRow): boolean {
+function isBenchGrade(row: GradeFileRow): boolean {
   return (
     row.axes !== undefined &&
     Object.values(row.axes).some((value) => typeof value === "number")
@@ -288,7 +288,7 @@ export function foldGrades(graded: readonly GradedBatch[]): PartGradeLedger {
   return { schema: "english-part-grades/1", batches, parts: sorted };
 }
 
-export const CALIBRATION_FILE = "data/english/calibration.json";
+const CALIBRATION_FILE = "data/english/calibration.json";
 
 const addRunning = (
   table: Record<string, RunningGrade>,
@@ -314,7 +314,7 @@ const clamp = (value: number, low: number, high: number) =>
  * naturalness moves the move pair. Pure; returns a new table. Weights only,
  * and none of them is a grade of a line.
  */
-export function foldCalibration(
+function foldCalibration(
   graded: readonly GradedBatch[],
   base: CalibrationTable,
 ): CalibrationTable {
@@ -419,14 +419,14 @@ export function foldCalibration(
   return { ...base, folded, traits, registers, movePairs };
 }
 
-export const COVERAGE_FILE = "data/english/coverage.json";
+const COVERAGE_FILE = "data/english/coverage.json";
 
 /** How many graded items each axis has in each kind of text (CTO 2:23 p.m. Oct 8). */
 export type GradedCoverage = Readonly<
   Record<string, Readonly<Record<string, number>>>
 >;
 
-export interface CoverageBatchItem extends BatchFileItem {
+interface CoverageBatchItem extends BatchFileItem {
   readonly axis?: string;
   readonly kind?: string;
 }
@@ -508,7 +508,7 @@ export function sumGradedCoverage(
  * ledger (`withVoiceGrades`); the ledger's fold of whole-line grades leaves
  * the file alone.
  */
-export function isSpanGradeFile(path: string): boolean {
+function isSpanGradeFile(path: string): boolean {
   const rows = rowsOf(JSON.parse(readFileSync(path, "utf8")));
   return (
     rows.length > 0 &&

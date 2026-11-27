@@ -39,7 +39,7 @@ export type ProseDomain =
  * the same as a player reaching it. A synthetic catalog, a development route
  * and an authoring fixture are all reachable by a test and by nobody playing.
  */
-export type ProseReachability =
+type ProseReachability =
   | "PLAYER_REACHABLE"
   | "WITHHELD_BY_GROUNDING"
   | "DEV_FIXTURE_ONLY"
@@ -66,10 +66,10 @@ export type ProseSurface =
   | "quiet";
 
 /** Whether the stored text is what a player sees, or a template with slots. */
-export type ProseRealization = "static" | "templated";
+type ProseRealization = "static" | "templated";
 
 /** One canonical fact the text's claims are licensed by. */
-export interface ProseGroundingRef {
+interface ProseGroundingRef {
   /** `age`, `role:colleague`, `fact:has-work` — the bank's own vocabulary. */
   readonly key: string;
   /** What the bank says this requires, verbatim where it says it. */
@@ -126,15 +126,4 @@ export interface ProseRecord {
    * changing the sentence, so it is versioned beside it.
    */
   readonly contextRevision: string;
-}
-
-/** A realized line seen in a transcript, linked back to its template. */
-export interface ProseRealizationRecord {
-  /** The template this came from, or null when no template could be matched. */
-  readonly templateId: string | null;
-  readonly text: string;
-  /** Stable digest of the realized text, for comparison across runs. */
-  readonly textHash: string;
-  readonly seedKey: string;
-  readonly beatOrdinal: number;
 }

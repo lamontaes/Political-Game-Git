@@ -47,8 +47,7 @@ export interface ChangeDeclaration {
 }
 
 /** A `## ` section of `PATCH_NOTES.md`, as parsed. */
-export type NotesSectionKind =
-  "intro" | "unreleased" | "candidate" | "accepted";
+type NotesSectionKind = "intro" | "unreleased" | "candidate" | "accepted";
 
 export interface NotesSection {
   readonly kind: NotesSectionKind;
@@ -63,7 +62,7 @@ export interface ParsedNotes {
 }
 
 /** What a release event decided to do. */
-export type ReleaseOutcome = "no-op" | "release" | "blocked";
+type ReleaseOutcome = "no-op" | "release" | "blocked";
 
 export interface ReleasePlan {
   readonly outcome: ReleaseOutcome;
