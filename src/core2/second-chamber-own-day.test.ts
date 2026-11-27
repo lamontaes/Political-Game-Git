@@ -3,8 +3,8 @@
  * laws-second-chamber-takes-the-bill-on-its-own-day). Played in the bench
  * world at Ciales, Puerto Rico (drawPlace("bill-stages-state:0",
  * "bill-stages"), pinned): the player sits in the House and drafts four bills;
- * the chairs are set to hear them and every senator to vote for them, as dev
- * mode may cast. A bill the House
+ * the chairs and chamber choices are set through the developer vote path.
+ * A bill the House
  * carries waits for the Senate's own sitting a week on: no Senate vote falls on
  * the House's day, the bill card names the Senate, and the Senate's committee
  * and roll come on their own later days. A bill the House turns down never
@@ -29,6 +29,8 @@ import {
   members,
   votesOn,
 } from "./modules/legislature";
+import { floorDateOf } from "./modules/world-legislating";
+import { lawInForce } from "./modules/laws";
 import { townSeats } from "./modules/offices";
 import { coreAPI } from "./state";
 import type { PersonId } from "./types";
@@ -53,22 +55,46 @@ it("a bill the House passes waits for the Senate's own sitting, at Ciales, Puert
     .sort();
   core.playerId = seated[0]! as PersonId;
   const ids: string[] = [];
-  for (const question of seatView(core, core.playerId).questions.slice(0, 4)) {
+  const floorDates = new Map<string, string>();
+  const questions = seatView(core, core.playerId).questions.slice(0, 3);
+  const bills = [
+    ...questions.map((question) => ({
+      question,
+      value: lawInForce(api, question).value === 1 ? 0 : 1,
+    })),
+    // A distinct amount, not a yes/no position that another bill may settle
+    // before this House hears it.
+    {
+      series: "minimum-wage",
+      value: (lawInForce(api, "minimum-wage").value ?? 0) + 135,
+    },
+  ];
+  for (const fields of bills) {
     const bill = seatAct(core, core.playerId, {
       kind: "draft",
       officeId: house,
-      question,
-      value: 1,
+      ...fields,
     }) as { id: string };
     ids.push(bill.id);
+    const date = floorDateOf(api, bill.id);
+    expect(
+      date,
+      `${bill.id}: the House record names a floor week`,
+    ).not.toBeNull();
+    floorDates.set(bill.id, date!);
     castChairHearing(api, bill.id, house, true);
     castChairHearing(api, bill.id, senate, true);
   }
-  // The Senate is for every bill (each senator's vote cast as a dev may), so the bill reaches
-  // the Senate floor; the House votes its own positions.
-  for (const id of ids)
+  expect(ids).toHaveLength(4);
+  const rejected = ids.at(-1)!;
+  // The fixture needs an actual House passage and rejection independently
+  // of which policy the generated House happens to favor.
+  for (const id of ids) {
+    for (const term of members(api, house))
+      castMemberVote(api, id, memberKey(term), id === rejected ? "no" : "yes");
     for (const term of members(api, senate))
-      castMemberVote(api, id, memberKey(term), "yes", false);
+      castMemberVote(api, id, memberKey(term), "yes");
+  }
   // Each bill's roll days by chamber, from the legislative-vote records.
   const rolls = new Map<string, Map<string, string>>();
   api.subscribeEvents("second-chamber-test", ["legislative-vote"], (_, e) => {
@@ -79,8 +105,10 @@ it("a bill the House passes waits for the Senate's own sitting, at Ciales, Puert
     rolls.set(facts.billId, days);
   });
   let waited: { id: string; crossed: string; booked: string } | undefined;
-  for (let day = 1; day <= 45; day += 1) {
-    advanceCore(core, addDays(makeIsoDate(gameStartDate()), day));
+  const lastHouseWeek = [...floorDates.values()].sort().at(-1)!;
+  const lastDay = addDays(makeIsoDate(lastHouseWeek), 21);
+  while (core.date < lastDay) {
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
     for (const id of ids) {
       const bill = billOf(api, id);
       if (waited || bill.status !== "drafted" || !bill.chambersPassed?.length)
@@ -92,7 +120,9 @@ it("a bill the House passes waits for the Senate's own sitting, at Ciales, Puert
       };
       // The day the House carried it: no Senate roll, the card names the Senate.
       expect(bill.chambersPassed[0]!.chamber).toBe(house);
-      expect(waited.booked > waited.crossed, JSON.stringify(waited)).toBe(true);
+      expect(waited.booked, JSON.stringify(waited)).toBe(
+        addDays(makeIsoDate(waited.crossed), 7),
+      );
       expect(
         (votesOn(api, id) as unknown as { chamber?: string }[]).some(
           (v) => v.chamber === senate,
@@ -105,7 +135,12 @@ it("a bill the House passes waits for the Senate's own sitting, at Ciales, Puert
       });
       expect(billPageView(core, id).where.bodyTitle).toBe("Senate");
     }
-    if (waited && core.date > waited.booked) break;
+    if (
+      waited &&
+      core.date > waited.booked &&
+      billOf(api, rejected).status === "failed"
+    )
+      break;
   }
   expect(waited, "a bill the House carried").toBeTruthy();
   const { id, crossed, booked } = waited!;
@@ -130,6 +165,23 @@ it("a bill the House passes waits for the Senate's own sitting, at Ciales, Puert
   console.log(
     `${place.name} (${place.key}): ${billOf(api, id).number} House ${crossed}, Senate committee ${senateCommittee!.date}, Senate sitting ${booked}, ended ${billOf(api, id).status}`,
   );
+  // The negative witness must actually lose a vote in the House.
+  expect(billOf(api, rejected).status).toBe("failed");
+  expect(billOf(api, rejected).chambersPassed ?? []).toEqual([]);
+  const rejectedCommittee = committeeRecords(api, rejected).find(
+    (c) => c.chamber === house,
+  );
+  expect(rejectedCommittee, rejected).toBeDefined();
+  expect(rejectedCommittee!.heard, rejected).toBe(true);
+  expect(rejectedCommittee!.reported, rejected).toBe(false);
+  expect(rejectedCommittee!.memberIds.length, rejected).toBeGreaterThan(0);
+  expect(billEnding(api, rejected)).toEqual({
+    how: "committee-lost",
+    chamber: house,
+    committee: rejectedCommittee!.committee,
+    yes: 0,
+    no: rejectedCommittee!.memberIds.length,
+  });
   // A bill the House turned down never reached the Senate.
   for (const other of ids) {
     const bill = billOf(api, other);
