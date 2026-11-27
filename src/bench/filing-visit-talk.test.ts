@@ -183,7 +183,7 @@ it(`a first visit asks for the papers, the player says only what they chose, and
     for (const row of state.visit.choices)
       if (row.control === "file")
         expect(row.text, where).toContain(
-          seatSaid(contest.seat!, { first: false }),
+          seatSaid(contest.seat!, { first: false, asMember: true }),
         );
       else
         expect(row.text, where).not.toContain(
