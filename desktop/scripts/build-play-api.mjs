@@ -140,11 +140,13 @@ for (const source of needed) {
       if (!entry.isDirectory())
         shipped.add(asRepoPath(path.join(entry.parentPath, entry.name)));
 }
-if (inventoryPath)
+if (inventoryPath) {
+  mkdirSync(path.dirname(path.resolve(inventoryPath)), { recursive: true });
   writeFileSync(
     inventoryPath,
     JSON.stringify({ files: [...shipped].sort() }, null, 2) + "\n",
   );
+}
 console.log(
   `Play API bundled: ${path.relative(repoRoot, outDir)} (${needed.size} runtime lookups, ${copied} loose files).`,
 );
