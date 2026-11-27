@@ -4707,7 +4707,7 @@
     }
   },
   "home": {
-    "note": "The families of a home conversation the exchange engine answers by the arcs file's own rows (talk merge plan, slice 2). Where someone says where they stand (`ownView`), the player may ask why (`why`) or agree or disagree (`takes`): the answer to why is composed under `backSubject`, the answer to a take under `takeSubject` by the reply's move, carrying the facts in `takeCarries` that the talk already holds. The replies a home talk offers (`menu`): the replies that answer a question by the move of the line that asked it (`answersTo`), the subjects a reply may go on to raise (`follows`), what the other person tells when the player asks for more (`tells`), the lines whose replies never name the same record twice on one screen (`namesOnce`), and the topics a main topic may lead on to (`related`);  `standsTold` names the lines that tell a stand without asking, whose replies are still `answersTo`'s own. What move each answer the player gives makes (`replyMoves`, by the line's kind, then the choice) is what the `talk` purpose answers it by: a choice not listed is a plain answer, a choice that only takes their line in (`notes`) gets no answer back, and the replies a talk answers (`answerable`) are offered even when they end on a question. Where someone asks the player a small question (`giveBack`), the asker gives their own answer back after the player's: `kinds` are the questions, `answers` the player's moves a give-back answers and its stage for each, `plain` the moves that are the plain answer, and `covers` the raised kinds a give-back already told. Where someone tells news (`news`), a reply that takes a side (`sides`) is learned by everyone who heard it, and the answer is composed under `backSubject`; when the player answers a printed story the neighbor asked about with one of `tellsStand`, the neighbor says where they stand under `standSubject`. A day's own subject (their shift, news of their life) is answered back by the reply's move in composed words under `<kind>-back`; `omitsTold` names the kinds whose telling says figures the answer must not say again (W1's strict review, Nov 12: \"basically saying the same thing\"), and the figures: what the telling said is left out of the answer and marked `told-<fact>`, so the answer says what comes next.",
+    "note": "The families of a home conversation the exchange engine answers by the arcs file's own rows (talk merge plan, slice 2). Where someone says where they stand (`ownView`), the player may ask why (`why`) or agree or disagree (`takes`): the answer to why is composed under `backSubject`, the answer to a take under `takeSubject` by the reply's move, carrying the facts in `takeCarries` that the talk already holds. The replies a home talk offers (`menu`): the replies that answer a question by the move of the line that asked it (`answersTo`), the subjects a reply may go on to raise (`follows`), what the other person tells when the player asks for more (`tells`), the lines whose replies never name the same record twice on one screen (`namesOnce`), and the topics a main topic may lead on to (`related`);  What a talk opens with when no recorded event leads (`topics.openingOrder`: what they share, then the player's work or home, the day's news, the address while it is recent, the quiet day last) and the subjects a person tells as news of their own life, a reaction to which is never answered with small talk (`topics.newsSubjects`). `standsTold` names the lines that tell a stand without asking, whose replies are still `answersTo`'s own. What move each answer the player gives makes (`replyMoves`, by the line's kind, then the choice) is what the `talk` purpose answers it by: a choice not listed is a plain answer, a choice that only takes their line in (`notes`) gets no answer back, and the replies a talk answers (`answerable`) are offered even when they end on a question. Where someone asks the player a small question (`giveBack`), the asker gives their own answer back after the player's: `kinds` are the questions, `answers` the player's moves a give-back answers and its stage for each, `plain` the moves that are the plain answer, and `covers` the raised kinds a give-back already told. Where someone tells news (`news`), a reply that takes a side (`sides`) is learned by everyone who heard it, and the answer is composed under `backSubject`; when the player answers a printed story the neighbor asked about with one of `tellsStand`, the neighbor says where they stand under `standSubject`. A day's own subject (their shift, news of their life) is answered back by the reply's move in composed words under `<kind>-back`; `omitsTold` names the kinds whose telling says figures the answer must not say again (W1's strict review, Nov 12: \"basically saying the same thing\"), and the figures: what the telling said is left out of the answer and marked `told-<fact>`, so the answer says what comes next.",
     "ownView": {
       "why": "why",
       "takes": ["agree", "disagree"],
@@ -4720,6 +4720,40 @@
       "standSubject": "news-ask",
       "sides": ["for", "against"],
       "tellsStand": ["yes", "no", "react"]
+    },
+    "topics": {
+      "openingOrder": [
+        "here",
+        "shared-school",
+        "shared-work",
+        "own-work",
+        "home",
+        "kin",
+        "address",
+        "player-day",
+        "player-news",
+        "government-news",
+        "rent-due",
+        "news-touch",
+        "work-done",
+        "work-day",
+        "school-missed",
+        "quiet"
+      ],
+      "newsSubjects": [
+        "job-lost",
+        "eviction",
+        "victimization",
+        "death-news",
+        "illness-news",
+        "prison-news",
+        "job-new",
+        "job-new-detail",
+        "job-new-told",
+        "promise-kept",
+        "promise-broken",
+        "veto"
+      ]
     },
     "standsTold": ["news-ask-core"],
     "menu": {

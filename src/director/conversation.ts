@@ -170,6 +170,8 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  isNewsSubject,
+  openingOrder,
   firstWorded,
   fillMenu,
   replyVerdict,
@@ -271,12 +273,7 @@ import {
   promiseSaid,
   promiseSubject,
 } from "./promise-talk";
-import {
-  VETO_SUBJECT,
-  answerVeto,
-  vetoOfRaised,
-  vetoSubject,
-} from "./veto-talk";
+import { answerVeto, vetoOfRaised, vetoSubject } from "./veto-talk";
 import {
   learnView,
   learnViewQuestion,
@@ -5573,38 +5570,6 @@ function otherRaises(
   return false;
 }
 
-/**
- * What the place and the occasion open with when no recorded event leads:
- * what they share, then the player's work or home, then the day's news, the
- * President's address while it is recent (at home, where relatives don't
- * talk about work or home, the address is what the evening gives), and last
- * the quiet day itself.
- */
-const OPENING_ORDER = [
-  // A stranger says who they are first.
-  "here",
-  "shared-school",
-  "shared-work",
-  "own-work",
-  "home",
-  // A relative the listener has not met, by name, with their town or work
-  // (owner, Nov 11: "This introduces people to their world").
-  "kin",
-  "address",
-  // What the player did today, from its record, asked by someone at home.
-  "player-day",
-  // Their own day, from its record (the shift, the rent coming due),
-  // before the day itself; the player's own news first of these.
-  "player-news",
-  "government-news",
-  "rent-due",
-  "news-touch",
-  "work-done",
-  "work-day",
-  "school-missed",
-  "quiet",
-];
-
 /** The prefix of a federal policy question's id (the bill catalog's federal positions). */
 const FEDERAL_QUESTION = "us-federal-positions:";
 
@@ -5687,25 +5652,6 @@ const talkedKeyPrefix = (playerId: PersonId) => `talk:${playerId}:topic:`;
 const talkedKey = (playerId: PersonId, topic: string) =>
   `${talkedKeyPrefix(playerId)}${topic}`;
 
-/** The subjects a person tells as news of their own life; a reaction to one is never answered with small talk. */
-const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
-  "job-lost",
-  "eviction",
-  "victimization",
-  "death-news",
-  "illness-news",
-  "prison-news",
-  "job-new",
-  "job-new-detail",
-  "job-new-told",
-  // A promise made to them, kept or broken, between the two of them
-  // (promise-talk.ts): told before the day's news, until it is said.
-  "promise-kept",
-  "promise-broken",
-  // A veto of a bill they sponsored, said by the sponsor (veto-talk.ts).
-  VETO_SUBJECT,
-]);
-
 /** The reply pieces that ask who is behind a story (conversation-rules.json askedWho). */
 const ASKED_WHO: ReadonlySet<string> = new Set(
   (CONVERSATION_RULES as unknown as { askedWho: { pieces: string[] } }).askedWho
@@ -5733,7 +5679,7 @@ function carryOn(
   const main = conversation.topics[zero];
   const related = main ? (data.related[subjectKindOf(main)] ?? []) : [];
   // Asked to sit a while, they bring up what they have, as a talk opens.
-  const next = options.quietly && !related.length ? OPENING_ORDER : related;
+  const next = options.quietly && !related.length ? openingOrder() : related;
   if (
     conversation.topics.length > one ||
     !otherAsks(core, conversation, data, next)
@@ -5911,7 +5857,7 @@ function mainTopic(
     // weighs only the book's floor and a story with a stand weighs more).
     // A talk a scene opens keeps to its occasion.
     const hard =
-      !occasion && !asks && NEWS_SUBJECTS.has(subject.kind) && weight > zero;
+      !occasion && !asks && isNewsSubject(subject.kind) && weight > zero;
     if (
       weight > zero &&
       (!best ||
@@ -6004,7 +5950,7 @@ function raiseBroughtNews(
     !!told &&
     subjectsBetween(core, otherId, playerId, conversation.director).some(
       (row) =>
-        NEWS_SUBJECTS.has(row.kind) &&
+        isNewsSubject(row.kind) &&
         !!data.otherRaises[row.kind] &&
         !talked.has(row.id) &&
         !talked.has(`${otherId}>${row.id}`) &&
@@ -6260,7 +6206,7 @@ function openConversationNow(
       conversation,
     ).some(
       (subject) =>
-        NEWS_SUBJECTS.has(subject.kind) &&
+        isNewsSubject(subject.kind) &&
         subject.id === `${subject.kind}:${occasion!.causeId}` &&
         !!data.otherRaises[subject.kind],
     );
@@ -6319,7 +6265,7 @@ function openConversationNow(
   // the talk doesn't turn to small talk instead.
   if (
     !opened &&
-    (occasion || !otherAsks(core, conversation, data, OPENING_ORDER))
+    (occasion || !otherAsks(core, conversation, data, openingOrder()))
   ) {
     // Hello and goodbye with nothing between is not a talk (owner, Oct 24:
     // "that should be going to the hi, have a good day. That makes no
@@ -7111,7 +7057,7 @@ function offerChoices(
     // stands in, or the reply is not offered.
     const asksLast = tail ? asksQuestion(tail) : answer.asks;
     const answerable =
-      NEWS_SUBJECTS.has(last.subject.kind) ||
+      isNewsSubject(last.subject.kind) ||
       // What say() reads: the raised subject between them, and the other
       // person's own words for it.
       (!!raised &&
@@ -7212,7 +7158,7 @@ function offerChoices(
   if (
     question?.act !== "ask" &&
     !(question && asksQuestion(question)) &&
-    !NEWS_SUBJECTS.has(last.subject.kind) &&
+    !isNewsSubject(last.subject.kind) &&
     last.kind !== POINT
   ) {
     for (const move of conversationMoves("ack", "reply", data))
@@ -7707,9 +7653,7 @@ function endConversation(
         conversation.lines.indexOf(lastFromOther) <
           conversation.lines.length - one,
       housemates: housemate,
-      hardNews: NEWS_SUBJECTS.has(
-        subjectKindOf(conversation.topics[zero] ?? ""),
-      ),
+      hardNews: isNewsSubject(subjectKindOf(conversation.topics[zero] ?? "")),
     })
   )
     return;
@@ -8189,7 +8133,7 @@ function sayNow(
   }
   if (
     !raised &&
-    NEWS_SUBJECTS.has(subjectKindOf(conversation.topics[zero] ?? ""))
+    isNewsSubject(subjectKindOf(conversation.topics[zero] ?? ""))
   ) {
     // Bad news told and reacted to (comfort, a reaction, a plain answer): the
     // teller never answers with small-talk "Huh."; they carry on to the one

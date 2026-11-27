@@ -222,6 +222,10 @@ const HOME = (
         notes: readonly string[];
       } & Readonly<Record<string, unknown>>;
       standsTold: readonly string[];
+      topics: {
+        openingOrder: readonly string[];
+        newsSubjects: readonly string[];
+      };
       giveBack: {
         kinds: readonly string[];
         answers: Readonly<Record<string, unknown>>;
@@ -1474,6 +1478,16 @@ export function firstWorded<L>(tries: readonly (() => L | null)[]): L | null {
     if (line) return line;
   }
   return null;
+}
+
+/** What a talk opens with when no recorded event leads, in order: what they share, the player's work or home, the day's news, the address while it is recent, the quiet day last. */
+export function openingOrder(): readonly string[] {
+  return HOME.topics.openingOrder;
+}
+
+/** Whether a subject is news of a person's own life (a job lost, an eviction, a death): a reaction to one is never answered with small talk. */
+export function isNewsSubject(kind: string): boolean {
+  return HOME.topics.newsSubjects.includes(kind);
 }
 
 /** One reply a home talk may offer, as the menu reads it. */
