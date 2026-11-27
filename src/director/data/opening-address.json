@@ -134,6 +134,11 @@
       "tag": "TUNABLE",
       "spread": "2 to 5"
     },
+    "disasterStatesNamed": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "spread": "2 to 4"
+    },
     "howFacts": ["run-mild", "run-steady", "run-sharp"],
     "rows": {
       "hard-run": {

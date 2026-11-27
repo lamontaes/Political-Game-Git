@@ -161,3 +161,15 @@ A gap under one percent of spending is what a budget officer calls balanced; che
 ## `bodyHold.note`
 
 The closes that say whether the speaker's party holds the body (the Words lead, Nov 16): a governor's body is the state's legislature, every chamber in `stateChambers` (the officials engine's seats); a local head's is their government's council or board (the offices engine's serving terms). Held means more than half the serving members in every chamber share the speaker's party; lacking means some chamber's half is not theirs. A speaker with no party says neither. Either body is said by the word its record's name holds (local-address.ts bodySaid): a chamber by its office kind, a council or board by its name.
+
+## `themeWordings.about`
+
+A theme's plain wordings, chosen by the speaker's traits (src/director/theme-words.ts): the full phrase for a studious or duty-bound speaker, the short name for a practical or skeptical one, the people it touches for a nurturing one. Each fits after "on", "about" and "was". TUNABLE wording, read in the composed addresses and diaries.
+
+## `nationWords.about`
+
+The country's name as a national address says it (the Story lead, Nov 24: a blessing or a send-off names the country, and no place record holds the nation's name). `nation` is the short name a speaker blesses; `nation-full` the formal one.
+
+## `themeShortPlural.about`
+
+Themes whose short name is plural ("hard times", "taxes"): the fact theme-short-plural is set with them, so a line whose verb agrees with {theme-short} is written for one number or the other (the pre-grade of Nov 24: "If hard times matters").

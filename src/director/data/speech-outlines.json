@@ -412,6 +412,94 @@
     "world": "our place in the world",
     "trade": "trade and the jobs it brings"
   },
+  "themeWordings": {
+    "transit": [
+      "how people get around",
+      "getting around",
+      "buses, roads and the trip to work"
+    ],
+    "taxes": [
+      "what families pay in taxes",
+      "the taxes families pay",
+      "the tax bill"
+    ],
+    "health": [
+      "what health care costs",
+      "the cost of health care",
+      "care when people get sick"
+    ],
+    "safety-net": [
+      "how we help people through hard times",
+      "help for people in hard times",
+      "families who fall on hard times"
+    ],
+    "schools": ["our schools", "the schools", "what our kids learn"],
+    "budget": [
+      "how we pay our bills",
+      "the budget",
+      "what we spend and what we owe"
+    ],
+    "housing": [
+      "the cost of a place to live",
+      "rent and housing",
+      "a home people can afford"
+    ],
+    "wages": ["what work pays", "pay for a day's work", "wages"],
+    "self-rule": [
+      "who makes the rules where you live",
+      "local control",
+      "who decides for our towns"
+    ],
+    "unions": ["workers and their unions", "unions", "workers who organize"],
+    "justice": [
+      "how we keep people safe and treat them fairly",
+      "public safety",
+      "safe streets and fair courts"
+    ],
+    "consumers": [
+      "how families are treated when they buy and borrow",
+      "fair lending",
+      "a fair deal for borrowers"
+    ],
+    "energy": [
+      "the power we use and what it costs",
+      "energy",
+      "the power bill"
+    ],
+    "land": ["our land and water", "land and water", "the land we share"],
+    "immigration": [
+      "who comes to this country",
+      "immigration",
+      "the border and who comes in"
+    ],
+    "guns": ["guns and safety at home", "guns", "gun safety"],
+    "elections": [
+      "how we run our elections",
+      "our elections",
+      "how we count the vote"
+    ],
+    "ethics": [
+      "trust in government",
+      "honest government",
+      "whether people can trust us"
+    ],
+    "civil-rights": [
+      "fair treatment at work and at home",
+      "fair treatment",
+      "equal treatment under the law"
+    ],
+    "abortion": ["abortion"],
+    "world": [
+      "our place in the world",
+      "the wider world",
+      "how we stand with other countries"
+    ],
+    "trade": [
+      "trade and the jobs it brings",
+      "trade",
+      "what we buy and sell abroad"
+    ]
+  },
   "themeShort": {
     "transit": "getting around",
     "taxes": "taxes",
@@ -435,6 +523,10 @@
     "abortion": "abortion",
     "world": "the wider world",
     "trade": "trade"
+  },
+  "nationWords": {
+    "nation": "America",
+    "nation-full": "the United States"
   },
   "todaySlots": ["", "-second", "-third"],
   "todaySlotsAbout": "The slot endings of the first, second and third wordings of how a question stands today ({today}, {today-second}, {today-third}); a slot name holds no digit, so the bank test's no-figure check reads its text. A fourth wording is not offered: the bank says three.",
@@ -462,6 +554,18 @@
   ],
   "themeShortNoOn": {
     "themes": ["safety-net"]
+  },
+  "themeShortPlural": {
+    "themes": [
+      "taxes",
+      "safety-net",
+      "schools",
+      "self-rule",
+      "unions",
+      "land",
+      "guns",
+      "elections"
+    ]
   },
   "themeShortWords": {
     "value": 3,

@@ -1,0 +1,30 @@
+{
+  "id": "volunteer-comes-in-out-of-character",
+  "kind": "moment",
+  "summary": "A person who does not usually do politics signs up to knock doors for a candidate they believe in.",
+  "realLife": "A volunteer wrote about doing something out of character by canvassing for a state senate candidate in a rural county.",
+  "sources": [
+    "Hoptown Chronicle, the human side of canvassing in a small town: https://hoptownchronicle.org/?p=87258",
+    "Copper Courier, a volunteer who is an introvert on the campaign trail: https://coppercourier.com/news/elections/volunteer-campaign-introvert/"
+  ],
+  "fits": ["campaign"],
+  "slots": ["first", "office"],
+  "gates": ["acquainted"],
+  "weights": {
+    "volunteer": 0.8
+  },
+  "inGame": "volunteer-offered record (weighed by liking, closeness and work hours)",
+  "usedBy": ["offer-help"],
+  "turns": [
+    {
+      "turn": "A regular volunteer returns for another race",
+      "pull": "a helped-before record",
+      "writes": "a quick yes"
+    },
+    {
+      "turn": "The volunteer backs out after the first door",
+      "pull": "low resilience",
+      "writes": "a left campaign and a quiet note"
+    }
+  ]
+}

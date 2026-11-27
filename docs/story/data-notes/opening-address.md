@@ -89,3 +89,7 @@ A disaster this week weighs four points of a run, falling to nothing over the di
 ## `stories.rows.scandal.weight.note`
 
 A reported bribe in the speaker's own body weighs three points of a run.
+
+## `stories.disasterStatesNamed.note`
+
+The most states a President names where a year's disaster of one kind struck, before the line says many places instead (the owner, Nov 24, P26: name the storms and places).
