@@ -2277,9 +2277,12 @@ function fillVacancy(
   const appoint = (reached: string): VacancyRow => {
     // Not `appointerWeighing`/`nominateAndConfirm` (OF6a, measured Nov 27): those rank a named
     // list of candidates for one appointer's loyalty and merit and send the pick to a confirming
-    // body. A local seat's appointer is the governing body and its pool is every resident of the
-    // town (counted adults too), so the pick is the best suited resident (`suitedResidents`) who
-    // accepts by their own decision; no party, acquaintance or confirmation is weighed here.
+    // body. A town's or county's seat is filled by its governing body from every resident of the
+    // town (counted adults too): the best suited resident (`suitedResidents`) who accepts by their
+    // own decision; no party, acquaintance or confirmation is weighed here. The island areas'
+    // own laws name another appointer (the CNMI council's seats: the Mayor) and are filled the
+    // same way; where one official appoints, `appointerWeighing` would be the rule, which is
+    // not built here (a behavior change, with its own proof).
     // A seat the offices engine keeps no term for: the record of the fill
     // is all it writes; the officials engine seats the new member from it.
     if (vacancy.unheld) {
