@@ -153,6 +153,17 @@
       "measuredMilliseconds": 360000
     },
     {
+      "id": "M0-14",
+      "milestone": "M0",
+      "title": "The golden path as the play screen plays it, headless",
+      "golden_path": "all",
+      "package": "M0-bench",
+      "test": "In a place drawn from all 56 and a seed nobody chose, the player files for the real office, campaigns, and the election night comes; then a resident officeholder drafts a bill and the body votes. The check prints the furthest step reached and fails if none is reached or the life is not the one life.",
+      "command": "node --max-old-space-size=8192 --import tsx tests/golden-path/path-check.ts",
+      "passes": false,
+      "longRunning": true
+    },
+    {
       "id": "M1-01",
       "milestone": "M1",
       "title": "Laws in force, every level",
