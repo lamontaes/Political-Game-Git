@@ -9,7 +9,11 @@
  */
 import { drawPlace } from "../../../tests/golden-path/place";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { drawnRaceWorld, RUN_SEED, weightOf } from "../trait-test-kit";
+import {
+  drawnRaceWorld,
+  RUN_SEED,
+  weightOf,
+} from "../../../tests/support/trait-test-kit";
 import { acceptCase, PRESS_MODULE_ID, type InterviewRow } from "./press";
 import type { CoreAPI, CoreState } from "../types";
 import { setKeepEveryonesWhy } from "../why-kept";

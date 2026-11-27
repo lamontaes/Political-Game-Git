@@ -19,6 +19,6 @@ claimed-at: 2026-11-08T09:04:51.598Z
 
 **Done when.** In three drawn places that sit in a consolidated city-county or a county with no government unit (named with seeds), the player's local government is the body that really governs it and its offices exist in the offices table; resolveLawInForce sends the place's local questions to that body.
 
-**Files.** src/core2/gov-rules/place-slots.ts, src/core2/reference/government-units.ts, src/core2/modules/offices.ts, data/research/local-government
+**Files.** scripts/core2/place-slots.ts, src/core2/reference/government-units.ts, src/core2/modules/offices.ts, data/research/local-government
 
 **Notes.** TODO

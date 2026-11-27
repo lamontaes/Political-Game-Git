@@ -1,3 +1,4 @@
+import { lastDayOfMonth } from "../../core2/kernel/dates";
 export type DateValue = string;
 
 type YearlyDay =
@@ -184,7 +185,7 @@ function dayInYear(year: number, day: YearlyDay): DateValue {
     const first = new Date(Date.UTC(year, day.month - 1, 1)).getUTCDay();
     date = 1 + ((day.weekday - first + 7) % 7) + (day.nth - 1) * 7;
   } else {
-    const lastDate = new Date(Date.UTC(year, day.month, 0)).getUTCDate();
+    const lastDate = lastDayOfMonth(year, day.month);
     const last = new Date(Date.UTC(year, day.month - 1, lastDate)).getUTCDay();
     date = lastDate - ((last - day.weekday + 7) % 7);
   }
@@ -214,7 +215,7 @@ function addMonths(date: DateValue, months: number): DateValue {
   const index = month - 1 + months;
   const targetYear = year + Math.floor(index / 12);
   const targetMonth = (index % 12) + 1;
-  const lastDay = new Date(Date.UTC(targetYear, targetMonth, 0)).getUTCDate();
+  const lastDay = lastDayOfMonth(targetYear, targetMonth);
   return dateFromParts(targetYear, targetMonth, Math.min(day, lastDay));
 }
 

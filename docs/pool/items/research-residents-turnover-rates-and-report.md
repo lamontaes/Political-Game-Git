@@ -18,6 +18,6 @@ source: added with npm run pool -- add
 
 **Done when.** Every JOLTS turnover table and the CPS absence reference table carries a sourced citation and a range across its industry rows. A one-year buildBenchWorld in a drawn place reports all four weighted turnover rates with its full seed and job-change record ids. Weighted employment and event-time quantity stay correct when a counted worker is filled in, as positive generated-world tests show. The research reader, tripwire and calibration guards pass or document exact clean-main failures; the original cadence item stays open for a comparable CPS absence report.
 
-**Files.** data/research/people/jolts-cps-turnover-absence-2025.json, src/core2/turnover-check.ts, src/core2/residents-turnover-bands.test.ts
+**Files.** data/research/people/jolts-cps-turnover-absence-2025.json, scripts/core2/turnover-check.ts, src/core2/residents-turnover-bands.test.ts
 
 **Notes.** TODO

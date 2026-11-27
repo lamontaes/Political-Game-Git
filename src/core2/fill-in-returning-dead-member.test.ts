@@ -6,7 +6,7 @@ import { isDemoted } from "./counted-groups";
 import { demoteHousehold } from "./modules/counted-demotion";
 import { removeCountedPerson, residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson } from "./state";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "fill-in-returning-dead-member");

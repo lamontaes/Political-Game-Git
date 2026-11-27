@@ -67,7 +67,7 @@ import { expectedRenterHouseholds } from "../../src/core2/modules/housing";
 import type { CoreModule, CoreState } from "../../src/core2/types";
 import policies from "../../scripts/core2-guard/policies.json" with { type: "json" };
 
-/** The bench's opening day (src/bench/m0-check.ts). */
+/** The bench's opening day (scripts/bench/m0-check.ts). */
 const OPENING_DATE = gameStartDate();
 const nightly = process.env.GOLDEN_PATH_MODE === "nightly";
 /** The runner's own draw for its first world, so its receipt names the place that ran. */

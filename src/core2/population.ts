@@ -75,7 +75,7 @@ import {
 import {
   placeGovernmentOrganizations,
   placeLocalGovernmentUnits,
-} from "./gov-rules/local-governments";
+} from "./modules/executive";
 import {
   groupQuartersProfileOf,
   outsideLaborForce,

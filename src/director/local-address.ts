@@ -41,7 +41,7 @@ import { contestPositions } from "../core2/modules/campaigns";
 import { presidingOfficer } from "../core2/modules/legislature";
 import { governmentProperName } from "../core2/government-proper-name";
 import { officeWords } from "../english/said-as";
-import { markWordsStopgap } from "./stopgaps";
+import { markWordsStopgap } from "../core2/stopgaps";
 import { recordAddressResponse } from "./address-response";
 import type { OpeningSpeechKind } from "../english/english-opening-speech";
 import localData from "./data/local-address.json" with { type: "json" };

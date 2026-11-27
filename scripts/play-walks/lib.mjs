@@ -5,7 +5,7 @@
 // it asserts nothing. See the skill `play-walks`.
 import { mkdirSync, writeFileSync } from "node:fs";
 import { chromium } from "playwright";
-import { startLife } from "../../src/bench/start-life.mjs";
+import { startLife } from "../../tests/support/start-life.mjs";
 
 const BASE = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 

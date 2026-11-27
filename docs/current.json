@@ -1696,7 +1696,7 @@
     },
     {
       "old": "src/core2/data/stopgaps.json",
-      "now": "split into one register file per family under src/core2/data/stopgaps/, with the director's own at src/director/data/stopgaps.json (tooling-stopgaps-register-per-family)",
+      "now": "split into one register file per family under src/core2/data/stopgaps/, (tooling-stopgaps-register-per-family); the director's rows moved into those family files on Nov 26 (map row 9)",
       "when": "2026-11-24",
       "why": "The single register file was split into family files; the move script still names the old one."
     },
@@ -1840,19 +1840,19 @@
     },
     {
       "old": "src/core2/personality-catalogue.generated.ts",
-      "now": "src/core2/data/personality-scales.json, locked to its research answer by tests/personality-catalogue-data.test.ts",
+      "now": "src/core2/data/personality-scales.json, locked to its research answer by tests/personality-scales-data.test.ts",
       "when": "2026-11-27",
       "why": "Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code."
     },
     {
       "old": "scripts/traits/personality-catalogue.ts",
-      "now": "tests/personality-catalogue-data.test.ts holds its derivation",
+      "now": "tests/personality-scales-data.test.ts holds its derivation",
       "when": "2026-11-27",
       "why": "Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code."
     },
     {
       "old": "tests/personality-catalogue-generated.test.ts",
-      "now": "tests/personality-catalogue-data.test.ts",
+      "now": "tests/personality-scales-data.test.ts",
       "when": "2026-11-27",
       "why": "Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code."
     },
@@ -1867,6 +1867,330 @@
       "now": "tests/source/household-mix.test.ts holds its derivation",
       "when": "2026-11-27",
       "why": "Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code."
+    },
+    {
+      "old": "src/core2/retain-log.ts",
+      "now": "src/core2/decision-detail.ts holds the one record log",
+      "when": "2026-11-27",
+      "why": "One record-log module (Core item 6): the retaining log and the decision detail were two files for one log."
+    },
+    {
+      "old": "src/core2/tooling/",
+      "now": "scripts/core2/tooling/ (generated-world.ts is src/core2/generated-world.ts, past-sessions.ts is src/core2/past-sessions.ts, money-watch.ts is src/bench/dev-money-watch.ts, test-days.ts and world-with.ts are in tests/support/, fixtures/event-inputs.json is tests/fixtures/event-inputs.json)",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/dev-setup.mjs",
+      "now": "tests/support/dev-setup.mjs",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/integration-heads.json",
+      "now": "scripts/bench/integration-heads.json",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/jump-end-check.test.ts",
+      "now": "scripts/bench/jump-end-check.test.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/jump-end-check.ts",
+      "now": "scripts/bench/jump-end-check.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/m0-check.ts",
+      "now": "scripts/bench/m0-check.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/m1-10-check.ts",
+      "now": "scripts/bench/m1-10-check.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/m1-11-check.ts",
+      "now": "scripts/bench/m1-11-check.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/m1-11-named.test.ts",
+      "now": "scripts/bench/m1-11-named.test.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/m1-11-named.ts",
+      "now": "scripts/bench/m1-11-named.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/m1-11-occurred.test.ts",
+      "now": "scripts/bench/m1-11-occurred.test.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/m1-11-occurred.ts",
+      "now": "scripts/bench/m1-11-occurred.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/m1-12-check.ts",
+      "now": "scripts/bench/m1-12-check.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/m1-13-check.ts",
+      "now": "scripts/bench/m1-13-check.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/m1-14-check.ts",
+      "now": "scripts/bench/m1-14-check.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/m2-03-check.ts",
+      "now": "scripts/bench/m2-03-check.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/m2-10-check.ts",
+      "now": "scripts/bench/m2-10-check.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/m2-10-seating.test.ts",
+      "now": "scripts/bench/m2-10-seating.test.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/m2-10-seating.ts",
+      "now": "scripts/bench/m2-10-seating.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/path-check-step-11.test.ts",
+      "now": "tests/golden-path/path-check-step-11.test.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/path-check.ts",
+      "now": "tests/golden-path/path-check.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/start-life.mjs",
+      "now": "tests/support/start-life.mjs",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/store-shots.mjs",
+      "now": "scripts/bench/store-shots.mjs",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/ui-look-scan.mjs",
+      "now": "tests/support/ui-look-scan.mjs",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/verify.mjs",
+      "now": "scripts/bench/verify.mjs",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/bug-report.ts",
+      "now": "scripts/core2/bug-report.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/campaign-incumbent-response-test-kit.ts",
+      "now": "tests/support/campaign-incumbent-response-test-kit.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/campaign-petition-kit.ts",
+      "now": "tests/support/campaign-petition-kit.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/campaign-platform-test-kit.ts",
+      "now": "tests/support/campaign-platform-test-kit.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/campaign-race-test-kit.ts",
+      "now": "tests/support/campaign-race-test-kit.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/circle-turnover-check.ts",
+      "now": "scripts/core2/circle-turnover-check.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/core-pieces-fixture.ts",
+      "now": "tests/support/core-pieces-fixture.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/counted-moves-balance-kit.ts",
+      "now": "tests/support/counted-moves-balance-kit.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/gov-rules/place-slots.ts",
+      "now": "scripts/core2/place-slots.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/gov-test-clock.ts",
+      "now": "tests/support/gov-test-clock.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/gov-test-report.ts",
+      "now": "scripts/core2/gov-test-report.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/housing-sale-buyer-fixture.ts",
+      "now": "tests/support/housing-sale-buyer-fixture.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/justice-chain.ts",
+      "now": "scripts/core2/justice-chain.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/law-test-start.ts",
+      "now": "tests/support/law-test-start.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/money-traits-kit.ts",
+      "now": "tests/support/money-traits-kit.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/record-test-kit.ts",
+      "now": "tests/support/record-test-kit.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/resident-adults-test-kit.ts",
+      "now": "tests/support/resident-adults-test-kit.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/session-law-audit.ts",
+      "now": "scripts/core2/session-law-audit.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/tooling/fixtures/event-inputs.json",
+      "now": "tests/fixtures/event-inputs.json",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/tooling/generated-world.ts",
+      "now": "src/core2/generated-world.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/tooling/money-watch.ts",
+      "now": "src/bench/dev-money-watch.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/tooling/past-sessions.ts",
+      "now": "src/core2/past-sessions.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/tooling/test-days.ts",
+      "now": "tests/support/test-days.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/tooling/world-with.ts",
+      "now": "tests/support/world-with.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/trait-pairs.ts",
+      "now": "scripts/core2/trait-pairs.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/trait-test-kit.ts",
+      "now": "tests/support/trait-test-kit.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/turnover-check.ts",
+      "now": "scripts/core2/turnover-check.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/tooling/tsconfig.json",
+      "now": "nothing: no file read it, and its include no longer meant anything",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
     },
     {
       "old": "src/core2/gov-rules/invented-person-age.ts",
