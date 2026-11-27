@@ -7,7 +7,7 @@ const ROOT = path.resolve(import.meta.dirname, "..", "..", "..");
 
 /** The files that are the one place for each piece; they may build it. */
 export const ALLOWED: Record<Kind, string[]> = {
-  name: ["src/english/plain-words.mjs"],
+  name: ["src/english/said-as.ts", "src/english/plain-words.mjs"],
   pronoun: ["src/english/said-as.ts", "src/english/pronoun-words.ts"],
   date: ["src/english/day-words.ts", "src/english/plain-words.mjs"],
   list: ["src/english/plain-words.mjs"],
@@ -20,7 +20,7 @@ export type Kind =
 
 const PATTERNS: Record<Kind, RegExp> = {
   // `${a.givenName} ${a.familyName}` or the same joined with " "
-  name: /\$\{[^}]*\bgivenName\}\s*\$\{[^}]*\bfamilyName\}|\bgivenName\s*\+\s*" "\s*\+|\bgivenName,\s*[\w.!?]*familyName\s*\]\s*\.join\(/g,
+  name: /\$\{[^}]*\bgivenName\}\s*\$\{[^}]*\bfamilyName\}|\bgivenName\s*\+\s*" "\s*\+|\bfullNameOf\(|\bgivenName,\s*[\w.!?]*familyName\s*\]\s*\.join\(/g,
   // a gender test that picks the word: === "male" ? "he" (or his, him, her)
   pronoun:
     /===\s*"(?:fe)?male"\s*\?\s*"(?:he|she|his|her|him|himself|herself)"/g,

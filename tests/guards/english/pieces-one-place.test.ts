@@ -7,8 +7,10 @@ import { ALLOWED, copies, type Kind } from "./pieces-one-place-scan";
  * Nov 26, rows C1 to C6; owner, Nov 26: "It's all just going to be called story
  * now"). A person's name, a pronoun and a date are each said by one function
  * in src/english, and every other file asks it:
- *  - a person's name: `fullNameOf` in plain-words.mjs joins it, and said-as.ts
- *    (`saidAs`, `personSlot`, `nameOnceThen`) decides how a text says them;
+ *  - a person's name: said-as.ts (`saidAs`, `personSlot`, `nameOnceThen`) decides
+ *    how a text says them; `fullNameOf` in plain-words.mjs only joins it, so a
+ *    call to it outside said-as.ts is still a name built by hand, counted until
+ *    the text asks said-as for the person;
  *  - a pronoun: said-as.ts and pronoun-words.ts (the owner: "avoid the
  *    pronoun or use the person's own", so never by gender alone);
  *  - a date: day-words.ts for speech ("June 7th"), plain-words.mjs for
