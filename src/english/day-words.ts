@@ -21,10 +21,18 @@ export function ordinalDay(day: number): string {
   return `${day}${suffix}`;
 }
 
-/** The date alone, as people say it in passing: "June 7th". */
-export function dateSaid(iso: string): string {
+/**
+ * The date alone, as people say it in passing: "June 7th". Given today's date,
+ * a day in another year says its year ("June 7th, 2024"); the one rule for a
+ * spoken date (CTO, Nov 26, audit row C4; written dates are plain-words').
+ */
+export function dateSaid(iso: string, today?: string): string {
   const month = data.months[Number(iso.slice(5, 7)) - 1];
-  return month ? `${month} ${ordinalDay(Number(iso.slice(8, 10)))}` : iso;
+  if (!month) return iso;
+  const said = `${month} ${ordinalDay(Number(iso.slice(8, 10)))}`;
+  return today && iso.slice(0, 4) !== today.slice(0, 4)
+    ? `${said}, ${iso.slice(0, 4)}`
+    : said;
 }
 
 /** The day as a scene opens on it: "First thing on June 7th". */

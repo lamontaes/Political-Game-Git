@@ -3,6 +3,7 @@ import { governmentProperName } from "../core2/government-proper-name";
 import { P } from "../core2/parameters";
 import { OUTSIDE_MARKET_KIND } from "../core2/modules/jobs";
 import type { OrganizationInput } from "../core2/types";
+import { dateSaid } from "./day-words";
 import { employerSaidAs } from "./said-as";
 import SPOKEN_WHEN from "../director/data/spoken-when.json" with { type: "json" };
 
@@ -64,17 +65,9 @@ export function possessive(name: string): string {
   return name.endsWith("s") ? `${name}'` : `${name}'s`;
 }
 
-/** A date as people say it: the year only when it is not this year. */
+/** A date as people say it: the year only when it is not this year. The one rule is day-words.ts `dateSaid`. */
 export function spokenDate(iso: string, today: string): string {
-  const sameYear =
-    iso.slice(P.zero, iso.indexOf("-")) ===
-    today.slice(P.zero, today.indexOf("-"));
-  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    ...(sameYear ? {} : { year: "numeric" as const }),
-    timeZone: "UTC",
-  });
+  return dateSaid(iso, today);
 }
 
 /**
