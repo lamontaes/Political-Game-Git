@@ -41,6 +41,7 @@ import { transferCash } from "../world-transfer";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
 import { COUNTED_PLACE_PREFIX, type CountedHousehold } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
+import { awardYearMinor } from "../household-income";
 import { unplacedPoolOf, type ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
 import { formerHome } from "../housing-former-home";
@@ -550,15 +551,37 @@ function groupDwellings(
   });
 }
 
-/** Annual pay of a household's members from their recorded current jobs. */
+/**
+ * What a household has coming in a day on the opening's records: its members'
+ * recorded current jobs plus the income awards paid to it (retirement,
+ * survivors; `household-income.ts`). The award is the part a household living
+ * on retirement has, so it is ranked and priced by what it is paid and not as
+ * one that earns nothing.
+ */
 function householdIncome(
   jobs: readonly JobInput[],
   memberIds: readonly string[],
+  awardsDaily: number,
 ): number {
   const members = new Set(memberIds);
-  return jobs
-    .filter((job) => members.has(job.personId) && job.endsAt === undefined)
-    .reduce((sum, job) => sum + job.wageDailyMinor, 0);
+  return (
+    jobs
+      .filter((job) => members.has(job.personId) && job.endsAt === undefined)
+      .reduce((sum, job) => sum + job.wageDailyMinor, 0) + awardsDaily
+  );
+}
+
+/** The daily pay of the income awards among `contracts`, by the household each is paid to. */
+function awardsDailyByHousehold(
+  contracts: readonly FinanceContractInput[],
+): ReadonlyMap<string, number> {
+  const out = new Map<string, number>();
+  for (const row of contracts) {
+    const home = row.recipientIncome?.householdId;
+    if (home)
+      out.set(home, (out.get(home) ?? 0) + awardYearMinor(row) / DAYS_PER_YEAR);
+  }
+  return out;
 }
 
 /**
@@ -658,6 +681,7 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
   const [medianRent] = rentValueOf(town.county, input.seed);
   if (!tenure || !medianRent) return input;
   const people = new Map(input.people.map((row) => [row.id, row]));
+  const fullAwards = awardsDailyByHousehold(input.finance?.contracts ?? []);
   const oldestOf = (births: readonly string[]) =>
     Math.min(...births.map((date) => Number(date.slice(0, 4))));
   const unplaced = input.residents
@@ -676,7 +700,11 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
         id: row.id,
         counted: false,
         memberIds: row.memberIds,
-        income: householdIncome(input.jobs, row.memberIds),
+        income: householdIncome(
+          input.jobs,
+          row.memberIds,
+          fullAwards.get(row.id) ?? 0,
+        ),
         oldest: oldestOf(
           row.memberIds.map((id) => people.get(id)?.birthDate ?? "9999"),
         ),
@@ -699,7 +727,11 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
         // What the household will be paid, as the residents' opening counts it:
         // its recorded jobs and its share of the place's unplaced workers.
         income:
-          householdIncome(row.jobs, row.household.memberIds) +
+          householdIncome(
+            row.jobs,
+            row.household.memberIds,
+            awardsDailyByHousehold(row.contracts).get(row.household.id) ?? 0,
+          ) +
           ((unplaced?.workers.get(row.household.id) ?? 0) *
             (unplaced?.payByPool.get(
               unplacedPoolOf(row.household.placeId, false),
@@ -994,6 +1026,14 @@ function openMissingHomes(api: CoreAPI): void {
       (place ? mapCountyGeoid(place.key) : undefined) ??
       (stateCounty ? `${stateCounty.slice(0, 2)}000` : `${NATION}:${usps}`);
     const memberIds = new Set(households.flatMap((row) => row.memberIds));
+    const homeIds = new Set(households.map((row) => row.id));
+    const liveAwards = [...c.finance.contracts.values()].filter(
+      (row) =>
+        !row.endedAt &&
+        row.recipientIncome &&
+        homeIds.has(row.recipientIncome.householdId),
+    ) as unknown as FinanceContractInput[];
+    const fullAwards = awardsDailyByHousehold(liveAwards);
     const input: CoreInput = {
       seed: c.seed,
       startedAt: makeIsoDate(c.date),
@@ -1013,7 +1053,10 @@ function openMissingHomes(api: CoreAPI): void {
       jobs: jobs.filter((row) => memberIds.has(row.personId)),
       organizations: [...c.organizations.values()],
       finance: {
-        contracts: [],
+        // The income awards its households are paid, so a retired household
+        // is ranked and priced by them (`householdIncome`); only newly made
+        // leases and mortgages are added to the world from what comes back.
+        contracts: liveAwards,
         facilities: [],
         businesses: [...c.finance.businesses.values()],
         gaps: [],
@@ -1069,7 +1112,11 @@ function openMissingHomes(api: CoreAPI): void {
       county,
       households.map((row) => ({
         ...row,
-        income: householdIncome(input.jobs, row.memberIds),
+        income: householdIncome(
+          input.jobs,
+          row.memberIds,
+          fullAwards.get(row.id) ?? 0,
+        ),
       })),
       dwellings,
     ))
