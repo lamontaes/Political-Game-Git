@@ -374,7 +374,6 @@
         "src/core2/official-living.ts",
         "src/core2/executive-term-limits.ts",
         "src/core2/appointments.ts",
-        "src/core2/central-bank-*.ts",
         "src/core2/outside-governments.ts",
         "src/core2/government-jurisdictions.ts",
         "src/core2/government-proper-name.ts",
@@ -776,6 +775,19 @@
         "src/core2/credit-reads.ts",
         "src/core2/prices-reads.ts",
         "src/core2/job-lifecycle.ts",
+        "src/core2/central-bank-appointments.ts",
+        "src/core2/central-bank-board.ts",
+        "src/core2/work-payroll-cash.ts",
+        "src/core2/work-payroll-dispatch.ts",
+        "src/core2/cost-of-living.ts",
+        "src/core2/business-books.ts",
+        "src/core2/living-cost-split.ts",
+        "src/core2/public-work-pay.ts",
+        "src/core2/opening-outside-market.ts",
+        "src/core2/opening-public-owner.ts",
+        "src/core2/opening-customer-qualification.ts",
+        "src/core2/opening-customers.ts",
+        "src/core2/opening-customer-geography.ts",
         "src/core2/work-reads.ts"
       ],
       "paths": [
@@ -871,7 +883,8 @@
         "src/core2/wholesale-outside-buyers.test.ts",
         "src/core2/work.test.ts",
         "src/core2/closure-credit-line.test.ts",
-        "src/core2/public-hire-authority.test.ts"
+        "src/core2/public-hire-authority.test.ts",
+        "src/core2/central-bank-*.ts"
       ]
     },
     {
