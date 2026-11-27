@@ -21,7 +21,7 @@ import {
   playerMayFileFor,
 } from "../core2/modules/elections";
 import { lawChain } from "../core2/modules/laws";
-import { coreAPI } from "../core2/state";
+import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 
 // Pinned (pinned-tests): the place that draw 5 of seed t1 gives, a place with a race the player can enter and a manager who offers.
@@ -114,6 +114,28 @@ it(`the campaign board's team lists the manager and the volunteers from the camp
       );
       continue;
     }
+    // An offer is not a hire. Check the board before the player answers, then
+    // let the engine handle the same recorded agreement a scene would write.
+    const before = campaignView(core, me).campaigns.find(
+      (row) => row.filing.id === filingId,
+    );
+    expect(
+      before,
+      `${where}: pending offer has no campaign board`,
+    ).toBeTruthy();
+    expect(
+      before!.team.staff.map((member) => member.id),
+      `${where}: ${offer.id} staffed before acceptance`,
+    ).not.toContain(offer.helper);
+    applyCoreEvent(core, {
+      id: `scene-reply:test:${offer.id}`,
+      date: core.date,
+      kind: "scene.reply",
+      personIds: [me],
+      placeId: core.people.get(me)!.placeId,
+      facts: { typeKey: "manager-offer", causeId: offer.id, move: "agree" },
+      source: { tag: "SOURCED", citation: "test", asOf: core.date },
+    });
     const campaign = campaignFor(api, filingId);
     const view = campaignView(core, me).campaigns.find(
       (row) => row.filing.id === filingId,
