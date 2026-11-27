@@ -11,7 +11,10 @@
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
-import { townPeople, yearsOf } from "./counted-moves-balance-kit";
+import {
+  townPeople,
+  yearsOf,
+} from "../../tests/support/counted-moves-balance-kit";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";

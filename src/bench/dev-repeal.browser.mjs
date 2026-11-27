@@ -11,7 +11,7 @@
 import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
 import { chromium } from "playwright";
-import { devModeOn } from "./dev-setup.mjs";
+import { devModeOn } from "../../tests/support/dev-setup.mjs";
 
 const SEED = "3ce25319db8dc798de341066399b70e7baea6bfc0a3ff07fb957f8d73f740178";
 const PLACE_KEY = "0164656";

@@ -17,7 +17,7 @@ claimed-at: 2026-11-04T20:03:37.036Z
 
 **Rules.** One rule, all 56 places: a territory place reads its own county-equivalent medians through the same lookup as a state's county, never a named territory branch.
 
-**Done when.** node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-05-check.ts with GOLDEN_PATH_SEED and GOLDEN_PATH_PLACE_KEY for Lomas, Puerto Rico (above) passes its rent and value clauses, and a drawn place in another territory with county-equivalent data passes them too, named with seeds in the PR body. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
+**Done when.** node --max-old-space-size=8192 --import tsx scripts/core2/tooling/m1-05-check.ts with GOLDEN_PATH_SEED and GOLDEN_PATH_PLACE_KEY for Lomas, Puerto Rico (above) passes its rent and value clauses, and a drawn place in another territory with county-equivalent data passes them too, named with seeds in the PR body. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
 
 **Files.** src/core2/modules/housing.ts, src/core2/data/housing/housing.json
 

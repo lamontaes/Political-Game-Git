@@ -15,7 +15,7 @@ Each was one or two presses from the opening. Each would have been the first thi
 
 ## The walks
 
-They live in `scripts/play-walks/` and share `scripts/play-walks/lib.mjs`. Each takes a folder for its pictures and log, starts a new life through the one helper every browser check uses (`src/bench/start-life.mjs`), and prints the log at the end.
+They live in `scripts/play-walks/` and share `scripts/play-walks/lib.mjs`. Each takes a folder for its pictures and log, starts a new life through the one helper every browser check uses (`tests/support/start-life.mjs`), and prints the log at the end.
 
 | Walk           | What it plays                                                                                                                                                                                      | Run                                                     |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |

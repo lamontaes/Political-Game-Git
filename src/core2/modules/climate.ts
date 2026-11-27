@@ -32,7 +32,7 @@ import { seededUnit } from "../seeded";
 import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { stateLawInForce } from "./laws";
-import { carriedLink, WEB_LINKS } from "./outcome-web";
+import { carriedLink, WEB_LINKS } from "../outcome-web-model";
 import { residentsOf, STATES } from "./budgets";
 
 export const CLIMATE_MODULE_ID = "climate";
@@ -270,7 +270,7 @@ export function hazardRate(
 }
 
 /** The last day FEMA's record of real disasters covers: after it the climate's hazard levels make the weather. */
-export const RECORD_END: string = history.recordEnd;
+export { RECORD_END } from "../national-disaster-record";
 
 /** The hazard a FEMA incident type belongs to (flood, storm or wildfire), or none. */
 export function hazardOfIncident(incidentType: string): Hazard | undefined {

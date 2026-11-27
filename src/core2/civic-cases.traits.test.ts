@@ -13,7 +13,7 @@ import { closenessBetween } from "./closeness";
 import { gameStartDate } from "./game-start";
 import { believesClaim } from "./heard-claims";
 import { pairKey } from "./kernel/ids";
-import { RUN_SEED } from "./trait-test-kit";
+import { RUN_SEED } from "../../tests/support/trait-test-kit";
 import type { PersonState } from "./types";
 
 describe("conversation.believe-claim reads the teller's closeness and the claim's fit", () => {

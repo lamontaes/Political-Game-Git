@@ -8,13 +8,13 @@
 import type { CoreAPI, CoreState } from "./types";
 import { residentsRuntime } from "./modules/residents";
 import { BUSINESS_MODULE_ID } from "./business-module-id";
+import { EMPLOYER_TAXES_MODULE_ID } from "./modules/budgets";
 import {
-  EMPLOYER_TAXES_MODULE_ID,
   employerArrears,
   profitTaxArrears,
   type EmployerTaxRecord,
   type ProfitTaxRecord,
-} from "./modules/employer-taxes";
+} from "./budgets-treasury";
 
 export interface BusinessBooksView {
   readonly organizationId: string;
