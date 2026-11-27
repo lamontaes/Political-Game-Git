@@ -115,7 +115,7 @@ import {
   type GenderIdentityKey,
 } from "./gov-rules/person-identity";
 import { birthCohortGivenName } from "./gov-rules/given-name-cohorts";
-import { inventedPersonBirthDate } from "./gov-rules/invented-person-age";
+import { inventedPersonBirthDate } from "./person-invented-age";
 import { SeededRng } from "./kernel/rng";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";

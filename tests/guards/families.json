@@ -771,6 +771,7 @@
       "id": "people",
       "name": "Households and people",
       "entry": [
+        "src/core2/person-invented-age.ts",
         "src/core2/modules/people.ts",
         "src/core2/modules/residents.ts",
         "src/core2/modules/life.ts",
