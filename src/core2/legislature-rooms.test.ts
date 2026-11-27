@@ -19,7 +19,8 @@
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
-import { halfLifeDays, sittingHoursByBody } from "./closeness";
+import { halfLifeDays } from "./closeness";
+import { sittingHoursByBody } from "./sitting-closeness";
 import { knownAmong } from "./encounters";
 import { gameStartDate } from "./game-start";
 import { makeIsoDate } from "./kernel/dates";

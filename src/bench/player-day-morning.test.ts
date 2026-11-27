@@ -21,7 +21,7 @@ import type { CoreState } from "../core2/types";
 import { fileCandidacy, openContests } from "../core2/modules/elections";
 import { campaignDay } from "./campaign";
 import { applyChosenPerson } from "./creator";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??

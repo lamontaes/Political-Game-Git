@@ -3,12 +3,12 @@ import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 /** Attendance and earned wages only. Cash settlement belongs to the recorded payday. */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { FinanceReadGuard } from "./finance-plan";
+import { FinanceReadGuard } from "./budgets-treasury";
 import {
   isExplicitlyControlledPersonV1,
   snapshotExplicitControlV1,
 } from "./player-control-state-v1";
-import { carryTraitScores } from "./choice";
+import { carryTraitScores } from "./trait-lean";
 import { workWeekStart } from "./modules/work";
 import { validateDatedWorkResult } from "./work-state";
 import {

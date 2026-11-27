@@ -120,6 +120,6 @@ function industriesLines(t, send, opening) {
 }
 
 /** Where the view draws (ui/dev-views.mjs): the bill card, after the money check. */
-export const slots = {
+const slots = {
   "bill-card": ({ labels, send }) => industriesLines(labels, send),
 };

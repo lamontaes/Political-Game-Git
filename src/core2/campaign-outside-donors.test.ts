@@ -34,7 +34,7 @@ import {
   type ContestRow,
 } from "./modules/elections";
 import { coreAPI } from "./state";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // A named place and world seed where the whole chain holds: a wide race, a
 // filer who can buy a poll, outside gifts and polls (found by drawing with

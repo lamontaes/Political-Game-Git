@@ -13,7 +13,7 @@
  */
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { yearsOf } from "./counted-moves-balance-kit";
+import { yearsOf } from "../../tests/support/counted-moves-balance-kit";
 
 it("a small territory keeps its people within 1.5 percent a year (Futiga, American Samoa, drawn from the seed dpA)", () => {
   const place = drawPlace("dpA", "drift-played");
