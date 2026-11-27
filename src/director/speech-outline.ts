@@ -2008,14 +2008,16 @@ function asidesOf(
 }
 
 /**
- * Plan a speech of one kind from its outline row and the world: the one
- * planner for the President's, a governor's and a mayor's address.
+ * Read what an address of this kind is about from the world and the speaker: the row,
+ * the speaker's stands, the theme and its points, the kind of address, the worst
+ * condition it answers, the story it opens on and the figures it may carry. The
+ * first step of `planSpeech`; it only reads, and returns what the later steps use.
  */
-export function planSpeech(
+function readAddress(
   core: CoreState,
   kindKey: string,
   speaker: OutlineSpeaker,
-): SpeechPlan {
+) {
   const row = outlineOf(kindKey);
   const kind = row.bank;
   // A kind said at any level (a floor speech, a campaign speech) takes the
@@ -2204,6 +2206,71 @@ export function planSpeech(
       ]),
     ),
   };
+  return {
+    row,
+    kind,
+    level,
+    person,
+    voice,
+    federal,
+    country,
+    official,
+    local,
+    theme,
+    firstYear,
+    addressKind,
+    crisis,
+    response,
+    story,
+    pointStands,
+    asks,
+    turnsTo,
+    themeLead,
+    themeName,
+    themeCited,
+    topicOf,
+    points,
+    themeFacts,
+    kindFact,
+  };
+}
+
+/**
+ * Plan a speech of one kind from its outline row and the world: the one
+ * planner for the President's, a governor's and a mayor's address.
+ */
+export function planSpeech(
+  core: CoreState,
+  kindKey: string,
+  speaker: OutlineSpeaker,
+): SpeechPlan {
+  const {
+    row,
+    kind,
+    level,
+    person,
+    voice,
+    federal,
+    country,
+    official,
+    local,
+    theme,
+    firstYear,
+    addressKind,
+    crisis,
+    response,
+    story,
+    pointStands,
+    asks,
+    turnsTo,
+    themeLead,
+    themeName,
+    themeCited,
+    topicOf,
+    points,
+    themeFacts,
+    kindFact,
+  } = readAddress(core, kindKey, speaker);
   const move = (
     role: string,
     options: { topic?: string; required?: boolean } = {},
