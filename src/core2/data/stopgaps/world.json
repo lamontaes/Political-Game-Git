@@ -1128,5 +1128,17 @@
     "addedAt": "2026-11-27",
     "replacement": "A weekday and a date by event from the research pass on each town's own festivals (pool item world-community-calendar part 1), read from the table.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-community-event-no-reader",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/community-events.ts",
+    "line": 218,
+    "whatItFakes": "The town's community events are kept as rows and handed out by the one history reader (by place, asked for by the kind community-event), but no screen, paper story, director scene or campaign day asks for them yet, so a player does not see an event.",
+    "why": "The words and the scene patterns are Story's, the paper's reading is the press desk's, and the campaign venue is the campaign day's (Elections'); none of them could take it in this change.",
+    "addedBy": "World session",
+    "addedAt": "2026-11-27",
+    "replacement": "Pool item world-community-calendar-part-4-paper-and-journal-read-them: the paper prints the town's events, the Journal and the director read them, and the campaign day offers one as a place to speak.",
+    "status": "open"
   }
 ]

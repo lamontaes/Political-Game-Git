@@ -151,13 +151,16 @@ function sourceOf(event: CommunityEvent, asOf: IsoDate): Source {
   };
 }
 
-function writeEvent(api: CoreAPI, payload: Record<string, unknown>): void {
+function writeEvent(
+  api: CoreAPI,
+  payload: Record<string, unknown>,
+  date: string = api.state.date,
+): void {
   const event = communityEventsFor(String(payload["placeType"])).find(
     (row) => row.id === payload["eventId"],
   );
   if (!event) return;
   const days = Number((event.rule as { days?: number })["days"] ?? 1);
-  const date = api.state.date;
   const id = `community-event:${payload["placeId"]}:${event.id}:${date}`;
   const row: CommunityEventRow = {
     id,
@@ -212,6 +215,7 @@ function historyOf(core: CoreState, row: CommunityEventRow): HistoryRow {
   };
 }
 
+// stopgapId: SG-WORLD-community-event-no-reader
 const COMMUNITY_EVENTS_HISTORY: HistorySource = {
   id: COMMUNITY_EVENTS_MODULE_ID,
   rows(core, scope, ask) {
@@ -259,6 +263,19 @@ export const COMMUNITY_EVENTS_MODULE: CoreModule & HistoryModule = {
 export function openCommunityEvents(state: CoreState): void {
   if (state.modules.has(COMMUNITY_EVENTS_MODULE_ID)) return;
   registerModule(state, COMMUNITY_EVENTS_MODULE);
+  // The events this year and last year have already been held on a world's first day.
+  const api = coreAPI(state);
+  const placeKey = state.placeMetadata?.placeKey;
+  const placeId = placeJurisdictionId(placeKey);
+  if (placeKey && placeId) {
+    const placeType = communityPlaceType(placeKey);
+    const year = Number(state.date.slice(0, 4));
+    for (const event of communityEventsFor(placeType))
+      for (const y of [year - 1, year])
+        for (const date of startDatesOf(event.rule, y))
+          if (date <= state.date)
+            writeEvent(api, { eventId: event.id, placeId, placeType }, date);
+  }
   // The rest of this year's events are booked tomorrow; each later year's on its January 1st.
   scheduleBooking(state, addDays(makeIsoDate(state.date), 1));
 }

@@ -1076,9 +1076,9 @@
     {
       "table": "core2-community-events-v1.events",
       "level": "town (people and places)",
-      "call": "flow-only",
-      "filledBy": "year 1",
-      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+      "call": "stock",
+      "filledBy": "day 0",
+      "reason": "The town's events already held this year and last: the module writes them at open from the same table that books the rest."
     },
     {
       "table": "core2-patrol-v1.months",
