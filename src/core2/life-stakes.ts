@@ -213,7 +213,7 @@ export function fullLifeStake(
   const working = age >= WORKING_FROM && age < WORKING_TO;
   const job = openJob(core, person);
   const employer = job ? core.organizations.get(job.organizationId) : undefined;
-  const plan = planReaders()?.fullPlan(core, person.householdId, person.id);
+  const plan = planReaders(core).fullPlan(core, person.householdId, person.id);
   const lease = core.finance.contracts.get(`lease:${person.householdId}`);
   const home = core.households.get(person.householdId);
   const youngChild = (home?.memberIds ?? []).some((id) => {
@@ -302,7 +302,8 @@ export function countedLifeStake(
     ? Math.max(0, workless - h.unplacedWorkers) / workless
     : 0;
   const underMedicare = ages.filter((age) => age < WORKING_TO).length;
-  const covered = planReaders()?.countedCovered(core, h.id, h.placeId) ?? null;
+  const covered =
+    planReaders(core).countedCovered(core, h.id, h.placeId) ?? null;
   const uncovered =
     covered === null
       ? reference("noPrivatePlan")

@@ -51,6 +51,7 @@ import {
   reachTable,
   rowsOf,
 } from "./group-b-store";
+import { ASSISTANCE_INCOME_ROW } from "./group-b-store-constants";
 import type { ModuleRow } from "../module-data";
 import {
   budgetInForce,
@@ -845,30 +846,11 @@ export function assistanceIncomeByHousehold(
   const row = getRow<{ monthlyByHousehold: Record<string, number> }>(
     coreAPI(core),
     "taken",
-    "assist|budget-line:welfareAndMedicaid",
+    ASSISTANCE_INCOME_ROW,
   );
   for (const [id, monthly] of Object.entries(row?.monthlyByHousehold ?? {}))
     out.set(id, monthly * reachParameter("monthsPerYear"));
   return out;
-}
-
-/**
- * What the welfare line pays one household a year, read from the same record
- * (a lookup, never the whole map): the counted households' income reads it a
- * household at a time.
- */
-export function assistanceIncomeOf(
-  core: CoreState,
-  householdId: string,
-): number {
-  if (!core.modules.has(REACH_B_MODULE_ID)) return 0;
-  const row = getRow<{ monthlyByHousehold: Record<string, number> }>(
-    coreAPI(core),
-    "taken",
-    "assist|budget-line:welfareAndMedicaid",
-  );
-  const monthly = row?.monthlyByHousehold?.[householdId];
-  return monthly === undefined ? 0 : monthly * reachParameter("monthsPerYear");
 }
 
 /**
