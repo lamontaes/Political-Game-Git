@@ -247,6 +247,7 @@ for (const row of rows) {
       /^(?:src\/english|src\/director)\//.test(file) &&
       /["'`]/.test(statement.getText(ast));
     const gone =
+      !/^(?:scripts|tests)\//.test(file) &&
       !authoringText &&
       !protectedDoc &&
       (pure || literal) &&
