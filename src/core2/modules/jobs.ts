@@ -95,6 +95,7 @@ import {
 import { livesElsewhere } from "./people";
 import {
   findPerQuarter,
+  historyOf,
   layoffPerQuarter,
   workAgeFactor,
   workLeans,
@@ -3824,9 +3825,14 @@ export function schoolingOn(
         : "some-college"
       : "no-college";
   }
+  // The education record they were built with, through the one history
+  // reader; someone still counted has none, and reads their profile.
   return (
-    (person.pastFacts?.find((row) => row.kind === PROFILE_FACT_KINDS.education)
-      ?.facts?.level as string | undefined) ??
+    (historyOf(
+      c,
+      { person: personId as PersonId },
+      { kinds: [PROFILE_FACT_KINDS.education], from: "built" },
+    )[0]?.facts?.level as string | undefined) ??
     profileFor(person, c.seed, makeIsoDate(date))?.education
   );
 }
