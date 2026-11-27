@@ -15,7 +15,7 @@ import taxData from "./data/housing/property-tax.json" with { type: "json" };
 import { countedHouseholdStands, countedPayment } from "./counted-money";
 import { lawApplied } from "./law-reach/applied";
 import type { ModuleTable } from "./module-state";
-import { isoDateFromParts } from "./kernel/dates";
+import { isoDateFromParts, lastDayOfMonth } from "./kernel/dates";
 import { townOutsideOf } from "./opening-outside-market";
 import { placeStateKey } from "./place-map";
 import { transferCash } from "./world-transfer";
@@ -96,7 +96,7 @@ export function propertyTaxDueDates(usps: string): PropertyTaxDueDates {
 
 /** The calendar date one due date falls on in a year (an nth weekday counts 1 = Monday, "last" is the month's last day). */
 function dueDateIn(year: number, due: PropertyTaxDueDate): string {
-  const lastDay = new Date(Date.UTC(year, due.month, 0)).getUTCDate();
+  const lastDay = lastDayOfMonth(year, due.month);
   if ("day" in due)
     return isoDateFromParts(
       year,

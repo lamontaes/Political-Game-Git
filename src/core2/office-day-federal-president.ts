@@ -18,7 +18,7 @@ import {
 import { placeStateKey } from "./place-map";
 import type { CoreAPI } from "./types";
 import type { ModuleRow } from "./module-data";
-import { makeIsoDate } from "./kernel/dates";
+import { makeIsoDate, weekdayOf } from "./kernel/dates";
 import { closenessBetween } from "./closeness";
 import { candidateStance } from "./campaign-stances";
 import {
@@ -733,7 +733,7 @@ export function dailyBrief(
 }
 
 const isWeekday = (date: string) => {
-  const day = new Date(`${date}T00:00:00Z`).getUTCDay();
+  const day = weekdayOf(date);
   return day !== 0 && day !== 6;
 };
 /** The player gives a duty while they live its day, which the record dates the day before. */

@@ -7,7 +7,7 @@
  */
 import { inCustody } from "./modules/justice";
 import { outsideLaborForce } from "./gov-rules/place-population";
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, weekdayOf } from "./kernel/dates";
 import { governmentPayrollTerms } from "./opening-payroll-calendar";
 import type { WorkPayrollCalendarInput } from "./work-pay-period";
 import { WORK_PATTERNS, type Weekday } from "./work-patterns";
@@ -308,8 +308,7 @@ function publicOfficeBasis(api: CoreAPI, employerId: string): Basis {
   const pattern = WORK_PATTERNS["public-office"];
   const shift = pattern.shifts[0]!;
   const startsAt = addDays(makeIsoDate(api.state.date), 1);
-  const weekday = (offset: number) =>
-    new Date(`${addDays(startsAt, offset)}T12:00:00Z`).getUTCDay();
+  const weekday = (offset: number) => weekdayOf(addDays(startsAt, offset));
   const days = api.parameter("daysPerWeek");
   const slots: WorkScheduleSlot[] = [];
   for (let offset = 0; offset < days; offset += 1)

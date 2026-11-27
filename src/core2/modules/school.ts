@@ -8,7 +8,13 @@
  * or the town itself where a world opened without that step.
  * Attending takes a school day's hours and is recorded for the day.
  */
-import { ageInYears } from "../kernel/dates";
+import {
+  ageInYears,
+  weekdayOf,
+  daysBetween,
+  makeIsoDate,
+  nthWeekdayOfMonth,
+} from "../kernel/dates";
 import data from "../data/school-days.json" with { type: "json" };
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 import stateDays from "../../../data/research/people/state-instructional-days-2018.json" with { type: "json" };
@@ -53,7 +59,7 @@ const ageOn = ageInYears;
 
 /** A weekday inside the base school year, outside its recorded breaks. */
 function onBaseCalendar(date: string): boolean {
-  const day = new Date(`${date}T00:00:00Z`).getUTCDay();
+  const day = weekdayOf(date);
   if (day === 0 || day === 6) return false;
   const md = date.slice(5);
   const inYear =
@@ -141,18 +147,14 @@ function onHoliday(
   row: { month: number; weekday: number; nth: number; days: number },
 ): boolean {
   const year = Number(date.slice(0, 4));
-  let day: number;
-  if (row.nth > 0) {
-    const first = new Date(Date.UTC(year, row.month - 1, 1)).getUTCDay();
-    day = 1 + ((row.weekday - first + 7) % 7) + (row.nth - 1) * 7;
-  } else {
-    const lastDate = new Date(Date.UTC(year, row.month, 0));
-    day =
-      lastDate.getUTCDate() - ((lastDate.getUTCDay() - row.weekday + 7) % 7);
-  }
-  const start = Date.UTC(year, row.month - 1, day);
-  const at = Date.parse(`${date}T00:00:00Z`);
-  return at >= start && at < start + row.days * 86_400_000;
+  const start = nthWeekdayOfMonth(
+    year,
+    row.month,
+    row.weekday,
+    row.nth > 0 ? row.nth : -1,
+  );
+  const since = daysBetween(start, makeIsoDate(date));
+  return since >= 0 && since < row.days;
 }
 
 const table = (api: CoreAPI) =>

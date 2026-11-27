@@ -48,7 +48,7 @@ import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { lineForPost, registerLinePayments } from "./budgets-treasury";
 import { outsideGovernment } from "./outside-governments";
 import { stableHash, pairKey } from "./kernel/ids";
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, weekdayOf } from "./kernel/dates";
 import {
   appointStatePost,
   statePostsToFill,
@@ -325,7 +325,7 @@ export interface StateDayEntry {
   };
 }
 
-const weekday = (date: string) => new Date(`${date}T00:00:00Z`).getUTCDay(); // 0 Sunday .. 6 Saturday
+const weekday = (date: string) => weekdayOf(date); // 0 Sunday .. 6 Saturday
 
 function windowsOf(stateKey: string, year: number) {
   const row = sessionYear(stateKey, year);
