@@ -3,6 +3,7 @@
 One section per running session. A session's /goal points at its section here. The section is the whole job: no follow-up goals.
 
 **Every session follows check-in.md** (this folder):
+
 - builders only; never block;
 - read #10377 with `?since=`;
 - "typecheck clean" means `npm run typecheck`;
@@ -11,6 +12,7 @@ One section per running session. A session's /goal points at its section here. T
 **Branch from `train/nov26-c`** until PR #10682 lands, then from main.
 
 **How words land** (the owner's rulings of Nov 8, 9, 11, 24 and 26, in OWNER-DECISIONS):
+
 - in batches;
 - a part counts once it passes the sameness gate and pre-grade and plays right at three drawn places;
 - one words PR with its scenes before and after;
@@ -18,10 +20,12 @@ One section per running session. A session's /goal points at its section here. T
 - he grades small batches by voice and never approves line by line.
 
 **Game logic only** (owner, Nov 26: "I only want game logic in these files. They all have to do something"). src/ holds only code the game runs. A file nothing runs is deleted.
+
 - **Dev mode (Advanced) is game** (owner, Nov 26: "dev mode is a part of the game... when you click advanced... so that everything can be tested in-game by playing the game... it should use everything the same. It just has different permissions"). Its panels go through the same engines and front doors as play, with permission to do more. They never use a back door.
 - Tests, checks and proofs (the m0 and m1 checks), measurement tooling, test kits, fixtures and notes live outside src/.
 
 **The engines, laid out like a real game** (the CTO's call, Nov 26; the owner: "format this like a real game... I just want you to build this correctly"):
+
 - **Core** is the runtime: kernel, state, record, clock, plug, choice engine, starting and saving a world, and the play server.
 - **The simulation engines** are people, elections, jobs and businesses, laws, budgets, legislative bodies, executives, news, clock and places, and the past.
 - **Story** is what's said and what happens in a scene (the English engine, the director, scenes and words). That includes scene places like the clerk's office.
@@ -41,6 +45,7 @@ One section per running session. A session's /goal points at its section here. T
 The English engine, the director, scenes and words are one engine, Story. The audit is story-2026-11-26.md in this folder (rows C1 to C11, G1 to G6, the screens, the skills). The Story split session finishes porting #10390 and Talk engines finishes its last fix, then both stop. Build on what they land.
 
 ### Engine items, in order
+
 - **E1. One family.** Merge `director` and `english` into `story` in tests/guards/families.json. Regenerate CODEOWNERS with scripts/guards/codeowners.ts. AGENTS.md and the docs say "Story".
 - **E2. The pieces** (C1 to C6), in src/english, each shown before and after at three drawn places:
   - a person's name through said-as.ts (`personSlot`, `nameOnceThen`), never an id (scene-talk.ts:1759, card.ts:119);
@@ -56,13 +61,15 @@ The English engine, the director, scenes and words are one engine, Story. The au
   - `story`: words-engine, scene-producers, scene-pictures and press-desk-reach;
   - `story-writer`: story-writer, civic-prose, scenes-from-life, speech-writer, journal-writer and news-writer;
   - `story-check`: pre-grade, words-stamp-read and scene-standard.
-  player-screen-text stays with screens, and lives goes to the people engine. Keep every owner quote and rule, with the .agents mirrors and AGENTS.md list.
+    player-screen-text stays with screens, and lives goes to the people engine. Keep every owner quote and rule, with the .agents mirrors and AGENTS.md list.
 - **E7. Long functions as named steps,** structure only, with the records digest identical: `planSpeech` (speech-outline.ts:2014, 992 lines), `composeBlocks` (opening-story.ts:323), `composeScene` (scene.ts:110), `householdMoments` (journal.ts:328) and printed-words' longest. Then `offerChoices` and `sayNow` (conversation.ts) after Talk engines posts "done".
 - **E8. Map row 4.** The Journal's remaining moment builders take the reader's events as they are.
 - **E9. The player's speech through the one planner** (C8, `SG-WORDS-player-speech-not-planned`), once the split's outline planner lands.
 
 ### Words, after E2 (so lines are built on the final pieces)
+
 Every scene comes from a real-lives pattern (docs/story/scene-patterns.json) and the element bank (docs/story/elements/). His words already live in the repo, so read .claude/skills/story-writer/references/his-words.md and everything it indexes first. Write many versions per slot, chosen by the facts of the moment. Every scene writes back (a promise, a stand, a volunteer, a donor, a vote). Never change or delete a line he graded. No job dialogue.
+
 - **W1. Deciding to run and announcing it,** many ways (owner, Nov 17): a word to a friend, the party office, a public moment, just asking for votes. Who heard is part of it.
 - **W2. Filing:** the office, the forms, the fee or signatures, who's there, what goes wrong.
 - **W3. The campaign:** door knocking, donors, volunteers, endorsements ("Campaign first", Nov 25).
@@ -70,11 +77,12 @@ Every scene comes from a real-lives pattern (docs/story/scene-patterns.json) and
 - **W5. Speeches:**
   - the addresses a player hears (outline rows in data/english/outlines.json, using only facts `planSpeech` gives; a new fact is an engine item);
   - the player's own speeches (announcement, stump, debate, victory, concession) in data/english/parts/speech-stages.json.
-  One theme, a plain stand, and points that build.
+    One theme, a plain stand, and points that build.
 - **W6. Elements for the 9,249 untied bank lines** (tests/guards/english/line-register-baseline.json `unelementedBankLines`), biggest banks first. Never delete them (his Nov 25 ruling).
 - **The packet:** after each part, play three drawn lives and write docs/grading/<date>-<part>/packet.json (each scene's cast, lines numbered, replies offered and taken, what followed, element ids). Post the path on #10377 for the CTO's grading page.
 
 **Rules:**
+
 - No new systems: point copies at the one function.
 - Never edit bank lines he graded; never loosen a check.
 - Structure-only items keep the digest identical. Items that change what players read show before and after.
@@ -86,6 +94,7 @@ Every scene comes from a real-lives pattern (docs/story/scene-patterns.json) and
 ## Talk engines (finishing)
 
 Its merge is done (#10664). Its last two jobs:
+
 1. **The 13 type errors** in conversation.ts:7020 to 7098 (`shapeReply`'s `L` is inferred as `{ asks: boolean }`). Type it on the newest head (c59b72cb), prove it with `npm run typecheck`, and post `ready #10664 <head>`.
 2. **The story split's talk delta.** Port onto the engine each change story/first-evening made to conversation.ts, scene-talk.ts, purpose-scene.ts and purpose-arcs.json since the merge base ea60e9eb: the reply-moves removal, reason-for and reason-against, and the planner-told address talk. The split posts the list. If it hasn't within an hour, read those four files' diffs yourself. Prove it with the dumps, the tests and the full typecheck.
 
@@ -102,6 +111,7 @@ Its queue is done. Confirm its last commits (b0c8c64f) are in train/nov26-c (`gi
 ## Story split (finishing)
 
 Port #10390 (story/first-evening; 273 files since ea60e9eb; the ledger on claude/loving-euler-mx46dm) in its pieces:
+
 1. **Piece 0 first:** the sameness gate (scripts/sameness), the liked-lines-stay and bank-elements guards, and the packet scripts (first-evening-packet.ts, housemate-talk-counts.ts).
 2. The outline planner, the address, person history and loading, the Journal, the news, and the elements data.
 3. **The talk piece goes to Talk engines:** post its change list on #10377, and don't build it yourself.
@@ -114,7 +124,8 @@ Port #10390 (story/first-evening; 273 files since ea60e9eb; the ledger on claude
 
 ## Past and Day One
 
-Files: modules/jobs.ts, modules/business.ts, jobs-elsewhere.ts, opening-*, past-* and electorate-century*. In order:
+Files: modules/jobs.ts, modules/business.ts, jobs-elsewhere.ts, the jobs, employers, offices and century `opening-*` files, past-* and electorate-century*, plus `buildPopulation`'s job half (population.ts) for item 5. The 12 people opening files (kin, partnership, income, income-funding, personality, upbringing, key-people, private-tuition, profile, people, ties, public-schools) are the People engine's (people-2026-11-26.md; adjusted Nov 27). In order:
+
 1. **Item 5, slice 1:** the century runs the place's own offices (mayor, council or board, county offices) from the place's office rows, from 1925. The digest may move for local seats, not state or federal. Post local results against real ones: incumbents re-elected, party splits by lean, term lengths and staggers. Then slices 2 and 3 (the local bodies' prior bills through the bill engine; the race records from the century's rows), then delete past-elections.ts and past-laws.ts.
 2. **The business engine:** closures and openings to Census BDS (about 8 to 9% closing and 9 to 10% opening a year), at their cause.
 3. **The small-town openings case** (jobs-elsewhere.ts): commuters apply to nearby towns' postings.
@@ -136,21 +147,23 @@ The owner: "the core is where engines plug in, and it can also be very friendly 
 **Start** once train #10682 has landed green and Reach-ins' stack has landed. Branch from main. Reach-ins folds into this session: its open items (the residents runtime map, the cycle cuts, the reach-ins left) are part of items 8 to 10.
 
 **Items, safest first:**
-1. **Measure, then guard,** one engine opening another's module table (`moduleState`), and rows edited in place. The guard's baseline may only shrink (K8).
-2. **The workshop out of the core,** by a re-runnable script coordinated with Cleanup's test mover (K9): src/core2/tooling into scripts/, the test kits and fixtures (`*-test-kit.ts`, `*-kit.ts`, `*-fixture.ts`, law-test-start.ts) into tests/support, and bug-report.ts and gov-test-report.ts into scripts/. money-watch.ts and past-sessions.ts go to the screens' dev folder. Widen the game-only guard's test pattern to catch kits and fixtures.
-3. **One `core` family** in tests/guards/families.json: the shared kernel, plus life.ts (the day loop), the record log and the reader. Give the 11 orphan files (src/districts, src/rules/laws, src/release) their families. Coordinate with Story's #10683, which made `story`.
+
+1. **Measure, then guard,** one engine opening another's module table (`moduleState`), and rows edited in place. The guard's baseline may only shrink (K8). It starts with the people engine's opens in both directions, measured in people-2026-11-26.md P5 (adjusted Nov 27).
+2. **The workshop out of the core,** by a re-runnable script coordinated with Cleanup's test mover (K9): src/core2/tooling into scripts/, the test kits and fixtures (`*-test-kit.ts`, `*-kit.ts`, `*-fixture.ts`, law-test-start.ts) into tests/support, and bug-report.ts and gov-test-report.ts into scripts/. money-watch.ts and past-sessions.ts go to the screens' dev folder. Also trait-pairs.ts, turnover-check.ts and circle-turnover-check.ts, which no game file imports (people P11; adjusted Nov 27). Widen the game-only guard's test pattern to catch kits and fixtures.
+3. **One `core` family** in tests/guards/families.json: the shared kernel, plus life.ts (the day loop), the record log, the reader and the cash journal (journal.ts and journal-state.ts, filed under people today; renamed cash-journal*.ts by the move script; people P12, adjusted Nov 27). Give the 11 orphan files (src/districts, src/rules/laws, src/release) their families. Coordinate with Story's #10683, which made `story`.
 4. **The missing date helpers in the kernel** (weekday of a date, the nth weekday of a month, the last day of a month), with every copy pointed at the kernel (K10): elections-calendar.ts, school.ts, voting.ts, finance-state.ts, work-pay-period.ts, and the rest of the 95 files' date sums. Formatting is left as it is. The kernel's `spokenDate` (dates.ts:113) goes to Story's day-words, in step with Story's E2.
 5. **A determinism guard:** no `Math.random`, `randomBytes`, `randomUUID`, `Date.now`, `performance.now` or argument-less `new Date()` in game code outside dev panels, the play server and scripts (K11).
 6. **The record log as one module:** `retainLog` and decision-detail.ts's condense and forget steps (`durableLog.set` :274, `forgetEntry` :411) together, with the reader beside them. pre-start.ts becomes a `module.history` source like every other engine, so the reader imports no engine. `HistorySource` joins `CoreModule` (K3, K4).
 7. **Cross-engine writes through the owner's door:** official-pay.ts:476 (jobs), officials.ts:988 (background people), civic-inputs.ts:157 (public organizations) (K8).
 8. **Fill-in out of state.ts:** `fillInPerson`, `fillInIdentity`, `promoteHusk`, `openOpeningPeerTies` and the 16 person-building imports go to the people engine behind a hook (K7). Then choice.ts calls the act path without `coreAPI` (Reach-ins' choice.ts to state.ts cycle, 14 edges).
 9. **One way to start a world:** `newGame` (saves.ts:186) takes the whole recipe (the place draw with `passOver`, the pre-start, the opening warm-up, the player). The screens' `buildBenchWorld` (src/bench/world.ts:434) and the replay both call it. Coordinate the warm-up with Past and Day One (K5).
-10. **The engine list as data:** the modules life.ts installs come from one list, and the direct calls (`affectAt`, `withGrief`, `admitResidents`, `openingWorkCommitments`) go through hooks. Reach-ins' cycle and reach-in items are finished here; the cycle baseline goes down.
+10. **The engine list as data:** the modules life.ts installs come from one list, and the direct calls (`affectAt`, `withGrief`, `admitResidents`, `openingWorkCommitments`) go through hooks. Reach-ins' cycle and reach-in items are finished here; the cycle baseline goes down. The people engine's 11 side registries (people P9) move onto the hook shape this item defines, by the People session. Measured for the final review: 74 `register*` functions game-wide (adjusted Nov 27).
 11. **Last, or the Opus finisher's:**
     - the front door split (K6), where money and work operations move behind the budgets and jobs engines' doors, the cash journal stays core as the one money ledger, `coreAPI`'s builder (state.ts:881) is split by area, and the subject hooks leave `CoreModule`;
     - then one folder per engine, by a re-runnable move script, after the other sessions land.
 
 **Rules:**
+
 - Structure only: the fixed-seed records digest is identical, and `npm run typecheck` is clean.
 - Wide moves are re-runnable scripts.
 - No new systems and no new registry: `registerModule` and `core.modules` are the registry.
@@ -164,11 +177,58 @@ The owner: "the core is where engines plug in, and it can also be very friendly 
 ## Reach-ins (finishing; folds into Core)
 
 Its stack is the core's ground floor.
+
 1. Merge `train/nov26-c` into the stack's top, keeping both sides' intent. Prove it with `npm run typecheck`, the families and cycle guards, and the records digest, then post the head.
 2. Finish the slice in hand: the reach-18 cuts.
 3. Post "Reach-ins: done", listing what's left: the residents runtime map, the cycle edges and the 298 reach-ins, each with its cause. Those become the Core session's items 8 to 10.
 
 Then stop.
+---
+
+## People (proposed Nov 27; waiting for the owner's approval)
+
+The audit is people-2026-11-26.md in this folder (rows P1 to P13).
+
+**Start** once train #10682 has landed. Branch from main.
+
+- Items 1 to 5 wait on nothing else.
+- Item 6 waits for Core item 1 and Story's E4. Item 7 waits for Core item 3. Item 8 waits for Core items 8 and 10.
+- Leave people.ts, person-life.ts, modules/record.ts, modules/counted-moves.ts and household-cost.ts alone until the Story split lands #10390's engine half.
+- Leave population.ts's job half alone until Past and Day One's item 5 lands.
+
+**Items, safest first:**
+
+1. **Delete the old trait system (P2)** with every reference, and rewrite docs/systems/traits.md to the live route. Proof: the digest is identical.
+2. **Content as data (P3).** Digest identical.
+3. **Long functions to named steps (P10),** skipping the files held above. Digest identical.
+4. **One household income (P1).** A behavior change. Proof: the digest diff explained, plus three seeded towns' home values and rents for retired households, before and after, against the Census medians.
+5. **One "how I feel about you" read (P4),** in its two steps. A behavior change. Proof: a seeded test where a grudge holder is moved less by the speaker, and two members who sit together are moved by their sittings.
+6. **People's doors (P5, P6):**
+   - the entries list in families.json;
+   - outside callers through the doors, by one re-runnable script;
+   - the opens in both directions through the owners' doors.
+
+   Core item 1's baseline only shrinks.
+
+7. **Housing as its own engine (P7):** a family in families.json, with its doors. No folder move.
+8. **The ladder (P8, P9):**
+   - one husk maker and one promote;
+   - fill-in's job and office parts through those engines' own fill-in hooks;
+   - demotion as a state on the person, after its place-id readers are measured;
+   - the 11 side registries onto Core's hook.
+
+**Rules:**
+
+- Structure-only items keep the fixed-seed records digest identical and `npm run typecheck` clean.
+- Behavior items carry their proof.
+- No new systems and no new registry.
+- Never loosen a check.
+- Never edit bank lines.
+- Wide moves are re-runnable scripts.
+- Use the Fable advisor liberally; it doesn't use Fable usage.
+
+**Done when** 1 to 8 are each built, or listed with why.
+
 ---
 
 ## Cleanup (Codex, unchanged)
