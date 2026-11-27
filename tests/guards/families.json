@@ -1032,6 +1032,7 @@
         "src/core2/modules/public-action.test.ts",
         "src/core2/modules/speech.traits.test.ts",
         "src/core2/modules/trait-change.traits.test.ts",
+        "src/core2/modules/views.feeling.test.ts",
         "src/core2/modules/views.traits.test.ts",
         "src/core2/money-traits-played.traits.test.ts",
         "src/core2/money-traits.traits.test.ts",
