@@ -176,6 +176,15 @@
         "scene-talk.follow-answer.short-ill-have-a-real-count-by-count-by"
       ],
       "restoredFrom": "scene-talk.follow-answer.short-i-ll-have-a-real-count-by-friday"
+    },
+    {
+      "i": 19,
+      "grade": "good",
+      "by": "owner (graded the old piece); carried to the live piece that says the same words, Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "I had no job after {lost_employer}.",
+      "note": "The bank already holds these words under another key; the grade moves to it.",
+      "parts": ["journal.memoir-hard.i-had-no-job-after-lost-employer"],
+      "restoredFrom": "journal.memoir-hard.that-was-tough"
     }
   ]
 }

@@ -8517,6 +8517,54 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.honor.name-signs-to-play-at-a-division-i-school",
+      "move": "honor",
+      "kind": "written",
+      "text": "{name} signs to play at a Division I school",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "headline",
+          "role": "honor",
+          "choice": "headline",
+          "requiresFacts": ["signing", "one", "name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["local-athlete-earns-a-college-sports-story"],
+      "restoredOn": "2026-11-27"
+    },
+    {
+      "key": "headlines.honor.number-place-seniors-sign-with-division-i-programs",
+      "move": "honor",
+      "kind": "written",
+      "text": "{number} {place} seniors sign with Division I programs",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "headline",
+          "role": "honor",
+          "choice": "headline",
+          "requiresFacts": ["signing", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["local-athlete-earns-a-college-sports-story"],
+      "restoredOn": "2026-11-27"
     }
   ]
 }
