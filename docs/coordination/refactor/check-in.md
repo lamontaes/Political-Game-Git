@@ -49,6 +49,10 @@
 - **Asking the CTO:** put "CTO?" at the start of the line that holds the question, and keep working on the next item; never wait for the answer. With no answer in 60 minutes, decide by the owner's rulings and the assignments file, and post what you decided and why.
 - **Waiting for a go:** a session told to wait checks the crew thread about every 30 minutes for a line starting "CTO: GO <its name>", and does nothing else until it appears. Use whatever wake-up your session has (a loop or wake-up tool). Then read this page, AGENTS.md, its section of the assignments file and the map that line names, fresh, and start.
 - **When a usage limit stops you:** set your next wake for two minutes after your account's next reset, then carry on where you stopped and post that you're back.
+- **Keep working (Nov 27).** When one item waits on another PR or session, start your next item. Never end a turn just to wait, and never reply "nothing has changed" in a loop. If your list is truly done, post "<name>: done" once, then check the thread every 30 minutes for new work.
+- **A standing wake is only for coming back after a usage limit.** A wake set for "3:22 a.m. and every 5 hours" is never a schedule to sleep on. Between wakes, keep working.
+- **Answers to you come in a comment of their own, starting "CTO: <your name>".** An update from the owner comes as a full /goal: do the whole goal.
+- **Landing:** a train lands when it adds no failing test that main lacks, compared by test name and first error (owner, Nov 27). Before it lands, make your open PRs merge cleanly on the newest train or fold head the CTO names.
 
 **Reading the crew thread (Nov 26, 10:25 p.m.: a session missed four CTO lines and looped "no new CTO line" for an hour):** #10377 has over 900 comments, and GitHub returns the oldest first, so page 1 is from Nov 24. Read new comments with a time filter:
 
