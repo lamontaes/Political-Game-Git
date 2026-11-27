@@ -2,10 +2,9 @@
  * Pool item gov-empty-ballot-stay-out-and-late-vacancy. An incumbent who
  * stands down leaves an open seat: they weigh standing again before anyone
  * else weighs the seat, and everyone after them weighs it as one, citing the
- * decision that opened it. In St. Johnsbury, Vermont (pinned, where the
- * county treasurer stood down and nobody ran), the seat then carries a
- * filing; and in places drawn from all 56, every seat whose incumbent stood
- * down is weighed as open.
+ * decision that opened it. In pinned St. Johnsbury, Vermont, the Caledonia-Essex
+ * House seat carries a filing; in places drawn from all 56, every seat whose
+ * incumbent stood down is weighed as open.
  */
 import { createHash, randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -21,6 +20,7 @@ import {
   type CandidacyDecision,
 } from "./modules/candidacy";
 import { ballot, ELECTIONS_MODULE_ID } from "./modules/elections";
+import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
@@ -50,12 +50,13 @@ function decisions(core: CoreState): CandidacyDecision[] {
 }
 
 /**
- * Every seat whose incumbent stood down: every other decision on it weighs
- * an open seat and cites the stand-down.
+ * Every seat whose incumbent stood down: every other decision on it weighs an
+ * open seat and cites the refusal by the holder at the time of the decision.
  * Returns the stand-downs found.
  */
 function openSeatsHold(core: CoreState, where: string): CandidacyDecision[] {
   const rows = decisions(core);
+  const terms = coreAPI(core).moduleState(OFFICES_MODULE_ID).table("terms");
   const stoodDown = rows.filter(
     (row) => row.reasons.standAgain !== undefined && !row.run,
   );
@@ -63,13 +64,31 @@ function openSeatsHold(core: CoreState, where: string): CandidacyDecision[] {
     const others = rows.filter(
       (row) => row.contestId === down.contestId && row.id !== down.id,
     );
-    // The incumbent weighs the seat again when filing opens, so their row
-    // can be dated after a decision that already cited their stand-down.
+    // A preserved earlier decision can cite another incumbent's term, not
+    // a later holder's decision. Dates alone do not excuse a missing source:
+    // the same incumbent can revisit their own decision at filing.
     for (const row of others) {
       expect(row.reasons.openSeat, `${where}: ${row.id}'s open-seat pull`).toBe(
         OPEN_SEAT,
       );
-      expect(row.sourceIds, `${where}: ${row.id}'s sources`).toContain(down.id);
+      const downTerm = down.sourceIds.find((id) => id.startsWith("term:"));
+      const rowTerm = row.sourceIds.find((id) => id.startsWith("term:"));
+      if (downTerm && rowTerm && rowTerm !== downTerm && row.date < down.date) {
+        const earlier = terms.get(rowTerm) as unknown as TermRow | undefined;
+        const successor = terms.get(downTerm) as unknown as TermRow | undefined;
+        expect(earlier?.personId, `${where}: earlier holder`).toBeTruthy();
+        expect(successor?.personId).toBe(down.personId);
+        expect(earlier?.seatId).toBe(successor?.seatId);
+        expect(earlier!.startDate < successor!.startDate).toBe(true);
+        expect(
+          row.sourceIds.filter((id) => id.startsWith(`${row.contestId}:`)),
+          `${where}: ${row.id}'s earlier decision`,
+        ).toEqual([`${row.contestId}:${earlier!.personId}`]);
+      } else {
+        expect(row.sourceIds, `${where}: ${row.id}'s sources`).toContain(
+          down.id,
+        );
+      }
     }
   }
   return stoodDown;
