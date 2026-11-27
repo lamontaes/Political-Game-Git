@@ -114,17 +114,48 @@ Files: modules/jobs.ts, modules/business.ts, jobs-elsewhere.ts, opening-*, past-
 
 ---
 
-## Reach-ins (unchanged)
+## Core (approved by the owner, Nov 26, about 11:15 p.m.)
 
-Its current goal stands:
-- the three single-function cycle cuts;
-- the residents runtime map;
-- the 298 reach-ins by cause;
-- the outcome web's read;
-- the stack note.
+The owner: "the core is where engines plug in, and it can also be very friendly for modders." The audit is core-2026-11-26.md in this folder (rows K1 to K13).
 
-**First**, merge `train/nov26-c` into the stack's top, prove it with `npm run typecheck`, the guards and the digest, and post the head.
+**What the core is:** the kernel (ids, dates, draws, fixed-point money, hashing), one game state with an owner for every part, one record (the write path, the event bus and the reader), the clock (the day loop and advancing), the plug (`CoreModule` and `registerModule`), parameters and data, starting and saving a world, and the choice engine. It imports no engine. Engines plug in.
 
+**Start** once train #10682 has landed green and Reach-ins' stack has landed. Branch from main. Reach-ins folds into this session: its open items (the residents runtime map, the cycle cuts, the reach-ins left) are part of items 8 to 10.
+
+**Items, safest first:**
+1. **Measure, then guard,** one engine opening another's module table (`moduleState`), and rows edited in place. The guard's baseline may only shrink (K8).
+2. **The workshop out of the core,** by a re-runnable script coordinated with Cleanup's test mover (K9): src/core2/tooling into scripts/, the test kits and fixtures (`*-test-kit.ts`, `*-kit.ts`, `*-fixture.ts`, law-test-start.ts) into tests/support, and bug-report.ts and gov-test-report.ts into scripts/. money-watch.ts and past-sessions.ts go to the screens' dev folder. Widen the game-only guard's test pattern to catch kits and fixtures.
+3. **One `core` family** in tests/guards/families.json: the shared kernel, plus life.ts (the day loop), the record log and the reader. Give the 11 orphan files (src/districts, src/rules/laws, src/release) their families. Coordinate with Story's #10683, which made `story`.
+4. **The missing date helpers in the kernel** (weekday of a date, the nth weekday of a month, the last day of a month), with every copy pointed at the kernel (K10): elections-calendar.ts, school.ts, voting.ts, finance-state.ts, work-pay-period.ts, and the rest of the 95 files' date sums. Formatting is left as it is. The kernel's `spokenDate` (dates.ts:113) goes to Story's day-words, in step with Story's E2.
+5. **A determinism guard:** no `Math.random`, `randomBytes`, `randomUUID`, `Date.now`, `performance.now` or argument-less `new Date()` in game code outside dev panels, the play server and scripts (K11).
+6. **The record log as one module:** `retainLog` and decision-detail.ts's condense and forget steps (`durableLog.set` :274, `forgetEntry` :411) together, with the reader beside them. pre-start.ts becomes a `module.history` source like every other engine, so the reader imports no engine. `HistorySource` joins `CoreModule` (K3, K4).
+7. **Cross-engine writes through the owner's door:** official-pay.ts:476 (jobs), officials.ts:988 (background people), civic-inputs.ts:157 (public organizations) (K8).
+8. **Fill-in out of state.ts:** `fillInPerson`, `fillInIdentity`, `promoteHusk`, `openOpeningPeerTies` and the 16 person-building imports go to the people engine behind a hook (K7). Then choice.ts calls the act path without `coreAPI` (Reach-ins' choice.ts to state.ts cycle, 14 edges).
+9. **One way to start a world:** `newGame` (saves.ts:186) takes the whole recipe (the place draw with `passOver`, the pre-start, the opening warm-up, the player). The screens' `buildBenchWorld` (src/bench/world.ts:434) and the replay both call it. Coordinate the warm-up with Past and Day One (K5).
+10. **The engine list as data:** the modules life.ts installs come from one list, and the direct calls (`affectAt`, `withGrief`, `admitResidents`, `openingWorkCommitments`) go through hooks. Reach-ins' cycle and reach-in items are finished here; the cycle baseline goes down.
+11. **Last, or the Opus finisher's:**
+    - the front door split (K6), where money and work operations move behind the budgets and jobs engines' doors, the cash journal stays core as the one money ledger, `coreAPI`'s builder (state.ts:881) is split by area, and the subject hooks leave `CoreModule`;
+    - then one folder per engine, by a re-runnable move script, after the other sessions land.
+
+**Rules:**
+- Structure only: the fixed-seed records digest is identical, and `npm run typecheck` is clean.
+- Wide moves are re-runnable scripts.
+- No new systems and no new registry: `registerModule` and `core.modules` are the registry.
+- Never loosen a check.
+- Saves don't matter yet (his ruling), so don't hold a change for save compatibility.
+
+**Done when** 1 to 10 are each built, or listed with why. Item 11 is built or handed to the Opus finisher with a plan.
+
+---
+
+## Reach-ins (finishing; folds into Core)
+
+Its stack is the core's ground floor.
+1. Merge `train/nov26-c` into the stack's top, keeping both sides' intent. Prove it with `npm run typecheck`, the families and cycle guards, and the records digest, then post the head.
+2. Finish the slice in hand: the reach-18 cuts.
+3. Post "Reach-ins: done", listing what's left: the residents runtime map, the cycle edges and the 298 reach-ins, each with its cause. Those become the Core session's items 8 to 10.
+
+Then stop.
 ---
 
 ## Cleanup (Codex, unchanged)
