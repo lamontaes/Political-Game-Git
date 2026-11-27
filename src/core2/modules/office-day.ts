@@ -1,4 +1,4 @@
-import type { ItemVetoSelection } from "../state-item-veto";
+import type { ItemVetoSelection } from "./legislature";
 /**
  * The officeholder's day (office play, OFFICE-LOCAL; one engine for every
  * level, `docs/packages/office-play.md`).

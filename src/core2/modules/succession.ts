@@ -25,7 +25,7 @@ import { nominateAndConfirm, partySide } from "../appointments";
 import { boardAppointer } from "../board-appointer";
 import { registerBoardAppointer } from "../central-bank-appointments";
 import { campaignParameter } from "../campaign-data";
-import { NATIVITY_FACT } from "../nativity";
+import { NATIVITY_FACT } from "./health";
 import {
   OFFICES_MODULE_ID,
   registerSuccessorProvider,

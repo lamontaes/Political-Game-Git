@@ -43,7 +43,8 @@ import {
   registerOfficeTime,
   type OfficeTime,
 } from "./modules/work";
-import { personLean, personStance } from "./campaign-views";
+import { personLean } from "./modules/campaigns";
+import { personStance } from "./modules/elections";
 import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { lineForPost, registerLinePayments } from "./budgets-treasury";
 import { outsideGovernment } from "./outside-governments";

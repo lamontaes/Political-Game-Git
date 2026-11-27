@@ -1,4 +1,4 @@
-import { PAST_WORK_SPELL } from "../past-work";
+import { PAST_WORK_SPELL } from "../past";
 import { historyOf } from "../past";
 import { workedToday } from "./jobs";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
@@ -75,7 +75,7 @@ import {
   type NominationReasons,
 } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
-import { personLean } from "../campaign-views";
+import { personLean } from "./campaigns";
 import { appointeeHourlyMinor } from "../town-labor-pay";
 import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
