@@ -8,6 +8,11 @@
  * governments, and the federal one holds the town's share). Each payday is a gross
  * paycheck from the treasury, and the taxes the law in force says come out
  * of it go to each government with a treasury, as for any paycheck.
+ * One payer per seat (OF6b, measured Nov 27: two played places over a year, no
+ * person or seat on both lists): this module pays the officials the officials
+ * engine seats (a term whose holder is a named official), and a local seat
+ * held by a town resident (a term that names a person) is paid by the office
+ * day's stipends and payroll (`office-day-pay.ts`, `reviewOfficeJobs`).
  * Salaries come from `data/research/offices/official-salaries-2026.json`:
  * a governor's is sourced, the rest are estimates with a spread; an office
  * the table lacks (an auditor, a public service commissioner) is paid the
