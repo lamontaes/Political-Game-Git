@@ -537,6 +537,79 @@ export function servingTermsOf(
   ).filter((term) => term.status === "serving");
 }
 
+/** An office by its id (its title, level, jurisdiction and rule), or undefined where there is none. */
+export function officeById(
+  api: CoreAPI,
+  officeId: string,
+): OfficeInput | undefined {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
+  return table(api, "offices").get(officeId) as unknown as
+    OfficeInput | undefined;
+}
+
+/** A seat by its id, or undefined where there is none. */
+export function seatById(api: CoreAPI, seatId: string): SeatInput | undefined {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
+  return table(api, "seats").get(seatId) as unknown as SeatInput | undefined;
+}
+
+/** The office a seat belongs to, or undefined where the seat or its office is unknown. */
+export function officeOfSeat(
+  api: CoreAPI,
+  seatId: string,
+): OfficeInput | undefined {
+  const seat = seatById(api, seatId);
+  return seat ? officeById(api, seat.officeId) : undefined;
+}
+
+/** A term by its id (serving or ended), or undefined where there is none. */
+export function termById(api: CoreAPI, termId: string): TermRow | undefined {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
+  return table(api, "terms").get(termId) as unknown as TermRow | undefined;
+}
+
+/** Every term a person has held or holds, serving and ended (`servingTermsOf` is the ones still serving). */
+export function termsOfPerson(
+  api: CoreAPI,
+  personId: string,
+): readonly TermRow[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  return table(api, "terms").query("byPerson", [
+    personId,
+  ]) as unknown as TermRow[];
+}
+
+/** A vacancy by its id, or undefined where there is none. */
+export function vacancyById(
+  api: CoreAPI,
+  vacancyId: string,
+): VacancyRow | undefined {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
+  return table(api, "vacancies").get(vacancyId) as unknown as
+    VacancyRow | undefined;
+}
+
+/**
+ * The seats that stand empty now: a vacancy not yet filled, by default
+ * whichever way it is waiting to be (open, offered to someone, or awaiting
+ * its special election); `statuses` narrows it.
+ */
+export function openVacancies(
+  api: CoreAPI,
+  statuses: readonly VacancyRow["status"][] = [
+    "open",
+    "offered",
+    "awaiting-election",
+  ],
+): readonly VacancyRow[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  const vacancies = table(api, "vacancies");
+  return statuses.flatMap(
+    (status) =>
+      vacancies.query("byStatus", [status]) as unknown as VacancyRow[],
+  );
+}
+
 /**
  * Whether a holder who moved to `destination` (a county or state
  * jurisdiction) still lives where the office serves: a state or
