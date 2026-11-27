@@ -70272,6 +70272,171 @@
       }
     },
     {
+      "key": "scene-talk.open-greet.can-we-close-the-door-it-s-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Can we close the door? It's about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "bribe-offer",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "key": "favor-asked",
+          "requiresFacts": ["bill", "favor-vote"],
+          "excludesFacts": ["read-public"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.open-greet.can-we-close-the-door"
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-keep-this-short-it-s-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll keep this short. It's about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "bribe-offer",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "key": "favor-asked",
+          "requiresFacts": ["bill", "favor-vote"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.open-greet.i-ll-keep-this-short"
+    },
+    {
+      "key": "scene-talk.open-greet.i-wanted-to-thank-you-in-person-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I wanted to thank you in person about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "bribe-offer",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "key": "favor-asked",
+          "requiresFacts": ["bill", "favor-vote"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.open-greet.i-wanted-to-thank-you-in-person"
+    },
+    {
+      "key": "scene-talk.reply-refuse.a-thank-you-doesn-t-weigh-bribe-weight-take-it-back",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "A thank-you doesn't weigh {bribe-weight}. Take it back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "bribe-offer",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "key": "favor-asked",
+          "after": "deflect",
+          "requiresFacts": ["bribe-weight"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      },
+      "elements": ["turning-down-an-offer-politely-keeps-the-door-open"],
+      "restoredFrom": "scene-talk.reply-refuse.a-thank-you-doesn-t-weigh-that-much-take-it-back"
+    },
+    {
+      "key": "scene-talk.reply-refuse.a-thank-you-is-a-card-bribe-weight-is-not-a-card",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "A thank-you is a card. {bribe-weight} is not a card.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "bribe-offer",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "key": "favor-asked",
+          "after": "deflect",
+          "requiresFacts": ["bribe-weight"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      },
+      "elements": ["turning-down-an-offer-politely-keeps-the-door-open"],
+      "restoredFrom": "scene-talk.reply-refuse.a-thank-you-is-a-card-this-is-not-a-card"
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-for-any-price-and-not-on-bill",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not for any price, and not on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "bribe-offer",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      },
+      "elements": ["turning-down-an-offer-politely-keeps-the-door-open"],
+      "restoredFrom": "scene-talk.reply-refuse.not-for-any-price"
+    },
+    {
       "key": "scene-talk.close-accept.don-t-make-me-chase-you-about-office",
       "move": "close-accept",
       "kind": "spoken",
@@ -70982,60 +71147,6 @@
       "restoredFrom": "scene-talk.reply-answer.then-say-we-didn-t-buy-it-we-knocked-it-door-by-door"
     },
     {
-      "key": "scene-talk.reply-request.i-can-t-run-for-office-alone-i-need-help-with-phones-and-door-knocking-and-hones",
-      "move": "reply-request",
-      "kind": "spoken",
-      "text": "I can't run for {office} alone. I need help with phones and door knocking. And honestly, I need someone to keep me honest.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "step": "reply",
-          "move": "request",
-          "role": "asked",
-          "key": "news-received",
-          "requiresFacts": ["stake-money", "office"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (restoring a liked line, batch 1)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "request",
-        "key": "news-received"
-      },
-      "elements": ["family-asks-who-covers-the-kids"],
-      "restoredFrom": "scene-talk.reply-request.i-cant-do-this-alone-i-need-help-with-phones-and-door-knocking-and-hon"
-    },
-    {
-      "key": "scene-talk.state-ask.can-we-even-afford-this-run-for-office-it-s-not-like-we-have-a-ton-of-savings-ri",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Can we even afford this run for {office}? It's not like we have a ton of savings, right? How much does this even cost?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "key": "news-received",
-          "requiresFacts": ["stake-money", "office"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (restoring a liked line, batch 1)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      },
-      "elements": ["family-asks-who-covers-the-kids"],
-      "restoredFrom": "scene-talk.state-ask.can-we-even-afford-this-its-not-like-we-have-a-ton-of-savings-right-ho"
-    },
-    {
       "key": "scene-talk.state-accept-terms.alright-i-ll-see-about-office",
       "move": "state-accept-terms",
       "kind": "spoken",
@@ -71114,171 +71225,6 @@
         "key": "routine"
       },
       "elements": ["a-first-race-lost-then-governor"]
-    },
-    {
-      "key": "scene-talk.open-greet.can-we-close-the-door-it-s-about-bill",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Can we close the door? It's about {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "bribe-offer",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "key": "favor-asked",
-          "requiresFacts": ["bill", "favor-vote"],
-          "excludesFacts": ["read-public"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (restoring a liked line, batch 1)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      },
-      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
-      "restoredFrom": "scene-talk.open-greet.can-we-close-the-door"
-    },
-    {
-      "key": "scene-talk.open-greet.i-ll-keep-this-short-it-s-about-bill",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I'll keep this short. It's about {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "bribe-offer",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "key": "favor-asked",
-          "requiresFacts": ["bill", "favor-vote"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (restoring a liked line, batch 1)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      },
-      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
-      "restoredFrom": "scene-talk.open-greet.i-ll-keep-this-short"
-    },
-    {
-      "key": "scene-talk.open-greet.i-wanted-to-thank-you-in-person-about-bill",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I wanted to thank you in person about {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "bribe-offer",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "key": "favor-asked",
-          "requiresFacts": ["bill", "favor-vote"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (restoring a liked line, batch 1)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      },
-      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
-      "restoredFrom": "scene-talk.open-greet.i-wanted-to-thank-you-in-person"
-    },
-    {
-      "key": "scene-talk.reply-refuse.a-thank-you-doesn-t-weigh-bribe-weight-take-it-back",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "A thank-you doesn't weigh {bribe-weight}. Take it back.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "bribe-offer",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "key": "favor-asked",
-          "after": "deflect",
-          "requiresFacts": ["bribe-weight"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (restoring a liked line, batch 1)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "refuse",
-        "key": "favor-asked"
-      },
-      "elements": ["turning-down-an-offer-politely-keeps-the-door-open"],
-      "restoredFrom": "scene-talk.reply-refuse.a-thank-you-doesn-t-weigh-that-much-take-it-back"
-    },
-    {
-      "key": "scene-talk.reply-refuse.a-thank-you-is-a-card-bribe-weight-is-not-a-card",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "A thank-you is a card. {bribe-weight} is not a card.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "bribe-offer",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "key": "favor-asked",
-          "after": "deflect",
-          "requiresFacts": ["bribe-weight"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (restoring a liked line, batch 1)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "refuse",
-        "key": "favor-asked"
-      },
-      "elements": ["turning-down-an-offer-politely-keeps-the-door-open"],
-      "restoredFrom": "scene-talk.reply-refuse.a-thank-you-is-a-card-this-is-not-a-card"
-    },
-    {
-      "key": "scene-talk.reply-refuse.not-for-any-price-and-not-on-bill",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "Not for any price, and not on {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "bribe-offer",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "key": "favor-asked",
-          "requiresFacts": ["bill"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (restoring a liked line, batch 1)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "refuse",
-        "key": "favor-asked"
-      },
-      "elements": ["turning-down-an-offer-politely-keeps-the-door-open"],
-      "restoredFrom": "scene-talk.reply-refuse.not-for-any-price"
     }
   ]
 }

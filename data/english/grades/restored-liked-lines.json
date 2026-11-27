@@ -181,281 +181,13 @@
       "i": 19,
       "grade": "good",
       "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "Don't make me chase you.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": ["scene-talk.close-accept.don-t-make-me-chase-you-about-office"],
-      "restoredFrom": "scene-talk.close-accept.don-t-make-me-chase-you"
-    },
-    {
-      "i": 20,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "Tomorrow, then. Don't make me chase you.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.close-accept.tomorrow-then-don-t-make-me-chase-you-about-office"
-      ],
-      "restoredFrom": "scene-talk.close-accept.tomorrow-then-don-t-make-me-chase-you"
-    },
-    {
-      "i": 21,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "How could I say no?",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": ["scene-talk.reply-agree.how-could-i-say-no-i-ll-take-office"],
-      "restoredFrom": "scene-talk.reply-agree.how-could-i-say-no"
-    },
-    {
-      "i": 22,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "I slept on worse. Fine. Yes.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.reply-agree.i-slept-on-worse-fine-yes-i-ll-take-office"
-      ],
-      "restoredFrom": "scene-talk.reply-agree.i-slept-on-worse-fine-yes"
-    },
-    {
-      "i": 23,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "When you put it like that, yes.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.reply-agree.when-you-put-it-like-that-yes-i-ll-take-office"
-      ],
-      "restoredFrom": "scene-talk.reply-agree.when-you-put-it-like-that-yes"
-    },
-    {
-      "i": 24,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "Why me? We've never met.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": ["scene-talk.reply-ask.why-me-for-office-we-ve-never-met"],
-      "restoredFrom": "scene-talk.reply-ask.why-me-we-ve-never-met"
-    },
-    {
-      "i": 25,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "Let me sleep on it. I'll call you Tuesday.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.reply-leave.let-me-sleep-on-office-i-ll-call-you-tuesday"
-      ],
-      "restoredFrom": "scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-tuesday"
-    },
-    {
-      "i": 26,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "Meet me halfway, and we have a deal.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.follow-bargain.meet-me-halfway-on-bill-and-we-have-a-deal"
-      ],
-      "restoredFrom": "scene-talk.follow-bargain.meet-me-halfway-and-we-have-a-deal"
-    },
-    {
-      "i": 27,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "I wish I could, but I can't.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.reply-decline.i-wish-i-could-back-bill-but-i-can-t"
-      ],
-      "restoredFrom": "scene-talk.reply-decline.i-wish-i-could-but-i-can-t"
-    },
-    {
-      "i": 28,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "Alright. Put it on the calendar. I'd rather have the argument in the open.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.reply-relent.alright-put-bill-on-the-calendar-i-d-rather-have-the-argument-in-the-open"
-      ],
-      "restoredFrom": "scene-talk.reply-relent.all-right-put-it-on-the-calendar-i-d-rather-have-the-argument-in-the-open"
-    },
-    {
-      "i": 29,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "Alright, you've made your case. Put it on the calendar. I'd rather have this argument out in the open.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.reply-relent.alright-you-ve-made-your-case-put-bill-on-the-calendar-i-d-rather-have-this-argu"
-      ],
-      "restoredFrom": "scene-talk.reply-relent.alright-youve-made-your-case-put-it-on-the-calendar-id-rather-have-thi"
-    },
-    {
-      "i": 30,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "You've worn me down. I'll set the date.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.reply-relent.you-ve-worn-me-down-i-ll-set-the-date-for-bill"
-      ],
-      "restoredFrom": "scene-talk.reply-relent.you-ve-worn-me-down-i-ll-set-the-date"
-    },
-    {
-      "i": 31,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "Thank you. That's all we ask.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": ["scene-talk.close-thank.thank-you-that-s-all-we-ask-on-bill"],
-      "restoredFrom": "scene-talk.close-thank.thank-you-that-s-all-we-ask"
-    },
-    {
-      "i": 32,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "I'll call you after I talk to the council chair.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.reply-leave.i-ll-call-you-about-cut-after-i-talk-to-the-council-chair"
-      ],
-      "restoredFrom": "scene-talk.reply-leave.i-ll-call-you-after-i-talk-to-the-council-chair"
-    },
-    {
-      "i": 33,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "Let me sleep on it before I answer.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.reply-leave.let-me-sleep-on-that-cut-of-cut-before-i-answer"
-      ],
-      "restoredFrom": "scene-talk.reply-leave.let-me-sleep-on-it-before-i-answer"
-    },
-    {
-      "i": 34,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "This is not the end.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": ["scene-talk.reply-promise.this-is-not-the-end-for-office"],
-      "restoredFrom": "scene-talk.reply-promise.this-is-not-the-end"
-    },
-    {
-      "i": 35,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "We will be back.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": ["scene-talk.reply-promise.we-will-be-back-for-office"],
-      "restoredFrom": "scene-talk.reply-promise.we-will-be-back"
-    },
-    {
-      "i": 36,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "We didn't win.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": ["scene-talk.reply-tell.we-didn-t-win-office"],
-      "restoredFrom": "scene-talk.reply-tell.we-didnt-win"
-    },
-    {
-      "i": 37,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "Thank you for everything.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.reply-thank.thank-you-for-everything-you-did-for-office"
-      ],
-      "restoredFrom": "scene-talk.reply-thank.thank-you-for-everything"
-    },
-    {
-      "i": 38,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "You came up short this time.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.narrate-returns-mine.you-came-up-short-this-time-against-winner"
-      ],
-      "restoredFrom": "scene-talk.narrate-returns-mine.you-came-up-short-this-time"
-    },
-    {
-      "i": 39,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "I'm honored.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": ["scene-talk.reply-answer.i-m-honored-to-win-office"],
-      "restoredFrom": "scene-talk.reply-answer.im-honored"
-    },
-    {
-      "i": 40,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "Then say we didn't buy it. We knocked it, door by door.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.reply-answer.then-say-we-didn-t-buy-it-we-won-office-door-by-door"
-      ],
-      "restoredFrom": "scene-talk.reply-answer.then-say-we-didn-t-buy-it-we-knocked-it-door-by-door"
-    },
-    {
-      "i": 41,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "I can't do this alone. I need help with phones and door knocking. And honestly, I need someone to keep me honest.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.reply-request.i-can-t-run-for-office-alone-i-need-help-with-phones-and-door-knocking-and-hones"
-      ],
-      "restoredFrom": "scene-talk.reply-request.i-cant-do-this-alone-i-need-help-with-phones-and-door-knocking-and-hon"
-    },
-    {
-      "i": 42,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "Can we even afford this? It's not like we have a ton of savings, right? How much does this even cost?",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.state-ask.can-we-even-afford-this-run-for-office-it-s-not-like-we-have-a-ton-of-savings-ri"
-      ],
-      "restoredFrom": "scene-talk.state-ask.can-we-even-afford-this-its-not-like-we-have-a-ton-of-savings-right-ho"
-    },
-    {
-      "i": 43,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "Alright.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": ["scene-talk.state-accept-terms.alright-i-ll-see-about-office"],
-      "restoredFrom": "scene-talk.state-accept-terms.all-right"
-    },
-    {
-      "i": 44,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "They taped it to the door on a Thursday. I've read it nine times, and I still don't know who I'm supposed to call.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.state-request.they-taped-it-to-the-door-on-a-thursday-and-it-says-owed-i-ve-read-it-nine-times"
-      ],
-      "restoredFrom": "scene-talk.state-request.they-taped-it-to-the-door-on-a-thursday-i-ve-read-it-nine-times-and-i-still-don"
-    },
-    {
-      "i": 45,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
       "line": "Can we close the door?",
       "note": "The old line had no insert; this piece says it with one.",
       "parts": ["scene-talk.open-greet.can-we-close-the-door-it-s-about-bill"],
       "restoredFrom": "scene-talk.open-greet.can-we-close-the-door"
     },
     {
-      "i": 46,
+      "i": 20,
       "grade": "good",
       "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
       "line": "I'll keep this short.",
@@ -464,7 +196,7 @@
       "restoredFrom": "scene-talk.open-greet.i-ll-keep-this-short"
     },
     {
-      "i": 47,
+      "i": 21,
       "grade": "good",
       "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
       "line": "I wanted to thank you in person.",
@@ -475,7 +207,7 @@
       "restoredFrom": "scene-talk.open-greet.i-wanted-to-thank-you-in-person"
     },
     {
-      "i": 48,
+      "i": 22,
       "grade": "good",
       "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
       "line": "A thank-you doesn't weigh that much. Take it back.",
@@ -486,7 +218,7 @@
       "restoredFrom": "scene-talk.reply-refuse.a-thank-you-doesn-t-weigh-that-much-take-it-back"
     },
     {
-      "i": 49,
+      "i": 23,
       "grade": "good",
       "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
       "line": "A thank-you is a card. This is not a card.",
@@ -497,13 +229,259 @@
       "restoredFrom": "scene-talk.reply-refuse.a-thank-you-is-a-card-this-is-not-a-card"
     },
     {
-      "i": 50,
+      "i": 24,
       "grade": "good",
       "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
       "line": "Not for any price.",
       "note": "The old line had no insert; this piece says it with one.",
       "parts": ["scene-talk.reply-refuse.not-for-any-price-and-not-on-bill"],
       "restoredFrom": "scene-talk.reply-refuse.not-for-any-price"
+    },
+    {
+      "i": 25,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Don't make me chase you.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["scene-talk.close-accept.don-t-make-me-chase-you-about-office"],
+      "restoredFrom": "scene-talk.close-accept.don-t-make-me-chase-you"
+    },
+    {
+      "i": 26,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Tomorrow, then. Don't make me chase you.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.close-accept.tomorrow-then-don-t-make-me-chase-you-about-office"
+      ],
+      "restoredFrom": "scene-talk.close-accept.tomorrow-then-don-t-make-me-chase-you"
+    },
+    {
+      "i": 27,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "How could I say no?",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["scene-talk.reply-agree.how-could-i-say-no-i-ll-take-office"],
+      "restoredFrom": "scene-talk.reply-agree.how-could-i-say-no"
+    },
+    {
+      "i": 28,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "I slept on worse. Fine. Yes.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-agree.i-slept-on-worse-fine-yes-i-ll-take-office"
+      ],
+      "restoredFrom": "scene-talk.reply-agree.i-slept-on-worse-fine-yes"
+    },
+    {
+      "i": 29,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "When you put it like that, yes.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-agree.when-you-put-it-like-that-yes-i-ll-take-office"
+      ],
+      "restoredFrom": "scene-talk.reply-agree.when-you-put-it-like-that-yes"
+    },
+    {
+      "i": 30,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Why me? We've never met.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["scene-talk.reply-ask.why-me-for-office-we-ve-never-met"],
+      "restoredFrom": "scene-talk.reply-ask.why-me-we-ve-never-met"
+    },
+    {
+      "i": 31,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Let me sleep on it. I'll call you Tuesday.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-leave.let-me-sleep-on-office-i-ll-call-you-tuesday"
+      ],
+      "restoredFrom": "scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-tuesday"
+    },
+    {
+      "i": 32,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Meet me halfway, and we have a deal.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.follow-bargain.meet-me-halfway-on-bill-and-we-have-a-deal"
+      ],
+      "restoredFrom": "scene-talk.follow-bargain.meet-me-halfway-and-we-have-a-deal"
+    },
+    {
+      "i": 33,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "I wish I could, but I can't.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-decline.i-wish-i-could-back-bill-but-i-can-t"
+      ],
+      "restoredFrom": "scene-talk.reply-decline.i-wish-i-could-but-i-can-t"
+    },
+    {
+      "i": 34,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Alright. Put it on the calendar. I'd rather have the argument in the open.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-relent.alright-put-bill-on-the-calendar-i-d-rather-have-the-argument-in-the-open"
+      ],
+      "restoredFrom": "scene-talk.reply-relent.all-right-put-it-on-the-calendar-i-d-rather-have-the-argument-in-the-open"
+    },
+    {
+      "i": 35,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Alright, you've made your case. Put it on the calendar. I'd rather have this argument out in the open.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-relent.alright-you-ve-made-your-case-put-bill-on-the-calendar-i-d-rather-have-this-argu"
+      ],
+      "restoredFrom": "scene-talk.reply-relent.alright-youve-made-your-case-put-it-on-the-calendar-id-rather-have-thi"
+    },
+    {
+      "i": 36,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "You've worn me down. I'll set the date.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-relent.you-ve-worn-me-down-i-ll-set-the-date-for-bill"
+      ],
+      "restoredFrom": "scene-talk.reply-relent.you-ve-worn-me-down-i-ll-set-the-date"
+    },
+    {
+      "i": 37,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Thank you. That's all we ask.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["scene-talk.close-thank.thank-you-that-s-all-we-ask-on-bill"],
+      "restoredFrom": "scene-talk.close-thank.thank-you-that-s-all-we-ask"
+    },
+    {
+      "i": 38,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "I'll call you after I talk to the council chair.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-leave.i-ll-call-you-about-cut-after-i-talk-to-the-council-chair"
+      ],
+      "restoredFrom": "scene-talk.reply-leave.i-ll-call-you-after-i-talk-to-the-council-chair"
+    },
+    {
+      "i": 39,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Let me sleep on it before I answer.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-leave.let-me-sleep-on-that-cut-of-cut-before-i-answer"
+      ],
+      "restoredFrom": "scene-talk.reply-leave.let-me-sleep-on-it-before-i-answer"
+    },
+    {
+      "i": 40,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "This is not the end.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["scene-talk.reply-promise.this-is-not-the-end-for-office"],
+      "restoredFrom": "scene-talk.reply-promise.this-is-not-the-end"
+    },
+    {
+      "i": 41,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "We will be back.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["scene-talk.reply-promise.we-will-be-back-for-office"],
+      "restoredFrom": "scene-talk.reply-promise.we-will-be-back"
+    },
+    {
+      "i": 42,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "We didn't win.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["scene-talk.reply-tell.we-didn-t-win-office"],
+      "restoredFrom": "scene-talk.reply-tell.we-didnt-win"
+    },
+    {
+      "i": 43,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Thank you for everything.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-thank.thank-you-for-everything-you-did-for-office"
+      ],
+      "restoredFrom": "scene-talk.reply-thank.thank-you-for-everything"
+    },
+    {
+      "i": 44,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "You came up short this time.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.narrate-returns-mine.you-came-up-short-this-time-against-winner"
+      ],
+      "restoredFrom": "scene-talk.narrate-returns-mine.you-came-up-short-this-time"
+    },
+    {
+      "i": 45,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "I'm honored.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["scene-talk.reply-answer.i-m-honored-to-win-office"],
+      "restoredFrom": "scene-talk.reply-answer.im-honored"
+    },
+    {
+      "i": 46,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Then say we didn't buy it. We knocked it, door by door.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-answer.then-say-we-didn-t-buy-it-we-won-office-door-by-door"
+      ],
+      "restoredFrom": "scene-talk.reply-answer.then-say-we-didn-t-buy-it-we-knocked-it-door-by-door"
+    },
+    {
+      "i": 47,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Alright.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["scene-talk.state-accept-terms.alright-i-ll-see-about-office"],
+      "restoredFrom": "scene-talk.state-accept-terms.all-right"
+    },
+    {
+      "i": 48,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "They taped it to the door on a Thursday. I've read it nine times, and I still don't know who I'm supposed to call.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.state-request.they-taped-it-to-the-door-on-a-thursday-and-it-says-owed-i-ve-read-it-nine-times"
+      ],
+      "restoredFrom": "scene-talk.state-request.they-taped-it-to-the-door-on-a-thursday-i-ve-read-it-nine-times-and-i-still-don"
     }
   ]
 }
