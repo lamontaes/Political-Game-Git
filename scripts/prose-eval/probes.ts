@@ -16,9 +16,9 @@ export interface GroundingProbe {
   output: string;
 }
 
-export const PROBE_DIR = join(import.meta.dirname, "fixtures", "grounding");
+const PROBE_DIR = join(import.meta.dirname, "fixtures", "grounding");
 
-export function parseProbe(name: string, text: string): GroundingProbe {
+function parseProbe(name: string, text: string): GroundingProbe {
   const idMatch = /^#\s*probe:\s*(.+)$/m.exec(text);
   const expectMatch = /^expect:\s*(PASS|FAIL)\s*(\S+)?\s*$/m.exec(text);
   if (!idMatch || !expectMatch) {

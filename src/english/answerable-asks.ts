@@ -55,7 +55,7 @@ export function askClass(text: string): AskClass {
 }
 
 /** Whether a line asks, or invites a question ("Ask me anything about it."). */
-export const asksOrInvites = (line: SceneTalkLine): boolean =>
+const asksOrInvites = (line: SceneTalkLine): boolean =>
   line.asks || INVITES.test(line.text);
 
 /** The record facts a line's parts are guarded on (`requiresFacts`, `onlyWhen`). */

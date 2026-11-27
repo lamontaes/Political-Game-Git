@@ -25,7 +25,7 @@ import {
  * any level in the jurisdiction. Whoever decides to run files with the place's filing office,
  * on a platform from their own views.
  */
-import { votesOf } from "./record";
+import { votesCast } from "./record";
 import { leanOf } from "./legislature";
 import { viewOn } from "./views";
 import { bookkeeping } from "../bookkeeping";
@@ -405,7 +405,7 @@ function recordGapOf(
 ): number {
   const zero = api.parameter("zero");
   if (!contest.incumbentId || contest.incumbentId === person.id) return zero;
-  const votes = votesOf(api, contest.incumbentId);
+  const votes = votesCast(api.state as CoreState, contest.incumbentId);
   if (!votes.length) return zero;
   const lean = leanOf(api, person.id, counted ? person : undefined);
   return Math.min(

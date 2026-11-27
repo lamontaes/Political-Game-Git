@@ -100,7 +100,7 @@ function foreignTo(key: string | undefined) {
 }
 
 /** How long after a law reaches a target its own payment shows: past it, the twin worlds' drift does. */
-export const OWN_WINDOW_DAYS = 92;
+const OWN_WINDOW_DAYS = 92;
 /**
  * How many reached targets must get a payment of one kind and direction for
  * it to be the law's: one in twenty, and two wherever two or more were

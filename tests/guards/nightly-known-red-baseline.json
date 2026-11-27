@@ -1,10 +1,13 @@
 [
   "scripts/dialogue-batch/batch-three.test.ts",
   "scripts/law-wiring/check-levels.test.ts",
+  "src/bench/campaign-team.test.ts",
   "src/bench/dev-acceptance.test.ts",
   "src/bench/dev-run-year.test.ts",
   "src/bench/dev-who-named.test.ts",
+  "src/bench/eligible-on.test.ts",
   "src/bench/endorsement-played.test.ts",
+  "src/bench/executive-bill-menu.test.ts",
   "src/bench/filing-rule-office.test.ts",
   "src/bench/filing-walkthrough.test.ts",
   "src/bench/first-evening-talk-goes-on.test.ts",

@@ -10,7 +10,7 @@ Written by the CTO (Fable) on the owner's word, Oct 15, night. Three Codex sessi
 - Proof is a one-year run of the played world (`buildBenchWorld`, every module installed, a place and seed you did not choose), with the record ids of the people reached, in the PR body. A unit test on a small world proves nothing about play.
 - Every shortcut is a registered stopgap in `src/core2/data/stopgaps.json` (removed) with a marker in the code; an owner's call is kind `owner-decision`, under **OWNER DECISIONS NEEDED** at the top of the PR body and in `OWNER-DECISIONS.md`.
 - The owner does not read PR bodies. The PR body's first lines say what he can play now, in plain words.
-- When your assignment is done, take the first unclaimed item from the pool below: write your branch name beside it in `docs/coordination/BOARD.md` under "Pool claims" in a one-line commit on `main`-bound branch `pool/claims`, or, if that conflicts, in your PR body's first line. Then keep going until usage runs out.
+- When your assignment is done, take the first unclaimed item from the pool below: write your branch name beside it in `docs/archive/2026-10-23/coordination/BOARD.md` under "Pool claims" in a one-line commit on `main`-bound branch `pool/claims`, or, if that conflicts, in your PR body's first line. Then keep going until usage runs out.
 
 ## Session A: law-link, every law reaches a named person (`law/*`)
 
