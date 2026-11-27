@@ -77,6 +77,9 @@ import type {
   PersonState,
   Source,
 } from "../types";
+export { NATIVITY_FACT } from "../nativity";
+export { ageOn } from "../counted-groups";
+export { fundGroups } from "../counted-money";
 export {
   countedHouseholdSavings,
   countedPayment,

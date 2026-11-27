@@ -4,7 +4,7 @@
  * story director is created separately because the screens read its ledger.
  */
 import { DEFAULT_DATA } from "../core2/data";
-import { corruptionModule } from "../core2/modules/corruption";
+import { corruptionModule } from "../core2/laws-in-force";
 import {
   createDrivesModule,
   DEFAULT_DRIVES_DATA,

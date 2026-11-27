@@ -62,6 +62,7 @@ import {
   storiesHeard,
   type Story,
 } from "./modules/news";
+export { cutRibbon, ribbonsToCut } from "./modules/projects";
 export { employerArrears, profitTaxArrears } from "./modules/employer-taxes";
 export type {
   EmployerTaxRecord,
