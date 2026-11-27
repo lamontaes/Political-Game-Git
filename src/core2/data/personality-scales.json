@@ -1,5 +1,5 @@
 {
-  "note": "The personality catalog's scales: what a person may be known for. Derived from the received research answer named in `source`; `tests/personality-catalogue-data.test.ts` re-derives them from it and fails when the two disagree. The wording is part of every save that holds a quality, so a revision belongs in a new pack version, not a rewrite of personality-v1.",
+  "note": "The personality catalog's scales: what a person may be known for. Derived from the received research answer named in `source`; `tests/personality-scales-data.test.ts` re-derives them from it and fails when the two disagree. The wording is part of every save that holds a quality, so a revision belongs in a new pack version, not a rewrite of personality-v1.",
   "source": "docs/research/chatgpt-answers/2026-09-22-depth2/personality-scale-dispositions.json",
   "sourceFileSha256": "c4c4d22220375765fd97adfc2362c1f22f36e197aa6cf1d042b0229347d0cdff",
   "sourceCatalogueSha256": "868726452fc66ead40a7c5eec601f2a2fe6962ca0a31582009187c01177fbf14",
