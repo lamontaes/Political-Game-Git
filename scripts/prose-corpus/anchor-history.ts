@@ -462,14 +462,6 @@ export function issuedDigest(issuances: Iterable<AnchorIssuance>): string {
     .slice(0, 16);
 }
 
-/** Digest of an id-only list. Retained only to validate inherited v1 files. */
-function issuedDigestV1(issued: Iterable<string>): string {
-  return createHash("sha256")
-    .update(sortIssued(issued).join(" "))
-    .digest("hex")
-    .slice(0, 16);
-}
-
 /* -------------------------------------------------------------------------- */
 /* Exact issued membership, compactly                                         */
 /* -------------------------------------------------------------------------- */
@@ -716,45 +708,6 @@ function readIssuance(entry: unknown, path: string): AnchorIssuance {
   return { id, site: read("site"), text: read("text") };
 }
 
-/** An inherited id-only ledger, read for migration only. */
-function loadAnchorLedgerV1(
-  path: string = LEDGER_FILE,
-): { readonly note: string; readonly issued: readonly string[] } | null {
-  if (!existsSync(path)) return null;
-  const parsed = readJson(path);
-  if (!isRecord(parsed)) {
-    throw new AnchorHistoryError(`${path} is not a JSON object.`);
-  }
-  if (parsed.schema !== LEDGER_SCHEMA_V1) {
-    throw new AnchorHistoryError(
-      `${path} declares schema ${JSON.stringify(parsed.schema ?? null)}, not the id-only schema ${LEDGER_SCHEMA_V1} this migration reads.`,
-    );
-  }
-  if (typeof parsed.note !== "string") {
-    throw new AnchorHistoryError(`${path} has no string \`note\`.`);
-  }
-  if (!Array.isArray(parsed.issued)) {
-    throw new AnchorHistoryError(
-      `${path} has no \`issued\` array (found ${JSON.stringify(parsed.issued ?? null)}). Established allocation history is required and is never defaulted to empty.`,
-    );
-  }
-  const bad = parsed.issued.filter((entry) => !isAnchorId(entry));
-  if (bad.length > 0) {
-    throw new AnchorHistoryError(
-      `${path} lists ${bad.length} entry/entries that are not anchor ids, e.g. ${JSON.stringify(bad[0] ?? null)}.`,
-    );
-  }
-  const issued = parsed.issued as string[];
-  if (new Set(issued).size !== issued.length) {
-    const seen = new Set<string>();
-    const repeated = issued.find((id) => seen.size === seen.add(id).size);
-    throw new AnchorHistoryError(
-      `${path} lists ${JSON.stringify(repeated ?? null)} more than once. This file is written de-duplicated; a repeat means it was hand-edited or hand-merged.`,
-    );
-  }
-  return { note: parsed.note, issued: sortIssued(issued) };
-}
-
 export function loadAnchorBaseline(
   path: string = BASELINE_FILE,
 ): AnchorBaseline | null {
@@ -852,53 +805,6 @@ export function loadAnchorBaseline(
     digest: parsed.digest,
     highWater,
     issuedIndexes,
-  };
-}
-
-/** An inherited checkpoint without exact membership, read for migration only. */
-function loadAnchorBaselineV1(path: string = BASELINE_FILE): {
-  readonly note: string;
-  readonly count: number;
-  readonly digest: string;
-  readonly highWater: Readonly<Record<string, number>>;
-} | null {
-  if (!existsSync(path)) return null;
-  const parsed = readJson(path);
-  if (!isRecord(parsed)) {
-    throw new AnchorHistoryError(`${path} is not a JSON object.`);
-  }
-  if (parsed.schema !== BASELINE_SCHEMA_V1) {
-    throw new AnchorHistoryError(
-      `${path} declares schema ${JSON.stringify(parsed.schema ?? null)}, not the schema ${BASELINE_SCHEMA_V1} this migration reads.`,
-    );
-  }
-  if (
-    typeof parsed.note !== "string" ||
-    typeof parsed.count !== "number" ||
-    !Number.isInteger(parsed.count) ||
-    parsed.count < 0 ||
-    typeof parsed.digest !== "string" ||
-    !/^[0-9a-f]{16}$/.test(parsed.digest) ||
-    !isRecord(parsed.highWater)
-  ) {
-    throw new AnchorHistoryError(
-      `${path} is not a well-formed schema ${BASELINE_SCHEMA_V1} checkpoint, so it cannot be migrated. Restore it from version control.`,
-    );
-  }
-  const highWater: Record<string, number> = {};
-  for (const [symbol, mark] of Object.entries(parsed.highWater)) {
-    if (typeof mark !== "number" || !Number.isInteger(mark) || mark < 0) {
-      throw new AnchorHistoryError(
-        `${path} records a non-integer high-water mark for ${symbol}: ${JSON.stringify(mark)}.`,
-      );
-    }
-    highWater[symbol] = mark;
-  }
-  return {
-    note: parsed.note,
-    count: parsed.count,
-    digest: parsed.digest,
-    highWater,
   };
 }
 
@@ -1325,10 +1231,4 @@ export function assertMonotonicAdvance(input: {
         )}\n  A regression is never converted into a new accepted baseline. Restore the pair from version control.`,
     );
   }
-}
-
-function describeHistoryProblems(problems: readonly HistoryProblem[]): string {
-  return problems
-    .map((problem) => `  [${problem.kind}] ${problem.detail}`)
-    .join("\n");
 }

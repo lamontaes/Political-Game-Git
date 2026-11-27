@@ -102,10 +102,9 @@ export default defineConfig({
       // Immutable private pack authoring snapshots also use node:test.
       // Their original validators run with Node, not through Vitest discovery.
       "art/authoring/**",
-      // These three use `node:test` and run with `node --test` (see package.json
+      // These use `node:test` and run with `node --test` (see package.json
       // and the workflows), so Vitest finds no suite in them.
       "scripts/secrets/scan-tracked-secrets.test.mjs",
-      "scripts/trait-effects/generate-manifest.test.mjs",
       "src/bench/place-selection.test.mjs",
       // The year-long platform calibration reads drawn places' played years
       // (about six minutes each) until its estimate is tight enough to judge

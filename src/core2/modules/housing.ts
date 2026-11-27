@@ -30,6 +30,7 @@ import {
 } from "../kernel/dates";
 import countyNeighbors from "../data/housing/county-neighbors.json" with { type: "json" };
 import { decisionLean } from "../trait-decisions";
+import evictionSteps from "../../../data/research/housing/eviction-steps-2026.json" with { type: "json" };
 import housingData from "../data/housing/housing.json" with { type: "json" };
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -136,8 +137,40 @@ export const NOTICE_SERVED_EVENT = "housing.notice-served";
 export const HOUSING_PARAMETERS = housingParameters as unknown as Readonly<
   Record<string, Parameter>
 >;
-type Steps = (typeof housingData.eviction)[keyof typeof housingData.eviction];
-const EVICTION = housingData.eviction as Record<string, Steps>;
+/** A place's eviction steps, as the engine reads them. */
+export interface Steps {
+  readonly noticeDays: number;
+  readonly cureAllowed: boolean;
+  readonly gracePeriodDays: number;
+  readonly hearingDays: number;
+  readonly stayDays: number;
+  readonly statute: string;
+  readonly confidence: string;
+  readonly estimatedFields: readonly string[];
+}
+/**
+ * Each place's eviction steps by its two-letter code, from the one research
+ * record of them (data/research/housing/eviction-steps-2026.json, reconciled
+ * with the statute reads; CTO, Nov 26, 9:14 p.m.: one source, no hand copy).
+ */
+export const EVICTION_STEPS: Readonly<Record<string, Steps>> =
+  Object.fromEntries(
+    Object.entries(
+      evictionSteps.places as unknown as Record<string, Steps>,
+    ).map(([key, place]) => [
+      key.replace(/^US-/, ""),
+      {
+        noticeDays: place.noticeDays,
+        cureAllowed: place.cureAllowed,
+        gracePeriodDays: place.gracePeriodDays,
+        hearingDays: place.hearingDays,
+        stayDays: place.stayDays,
+        statute: place.statute,
+        confidence: place.confidence,
+        estimatedFields: place.estimatedFields,
+      },
+    ]),
+  );
 const RENT_VALUE = housingData.countyRentValue as unknown as Record<
   string,
   [number | null, number | null]
@@ -1078,7 +1111,7 @@ function steps(
   api: CoreAPI,
   usps = api.state.placeMetadata?.housingState ?? "",
 ): Steps & { usps: string } {
-  const row = EVICTION[usps];
+  const row = EVICTION_STEPS[usps];
   if (!row) throw new Error("No recorded eviction steps for this place.");
   // Steps below "high" confidence are recalled, not read from the statute text yet.
   if (row.confidence !== "high") stopgap("SG-WORLD-housing-eviction-steps");
@@ -1099,7 +1132,7 @@ function householdSteps(
     home?.usps ?? api.state.placeMetadata?.housingState ?? "",
   );
   // A national-only address has no recorded state eviction law.
-  return EVICTION[usps] ? steps(api, usps) : undefined;
+  return EVICTION_STEPS[usps] ? steps(api, usps) : undefined;
 }
 
 function schedule(
@@ -1814,7 +1847,7 @@ function gracePeriods(api: CoreAPI): ReadonlySet<number> {
     if (row.usps) states.add(String(row.usps));
   const graces = new Set<number>();
   for (const usps of states)
-    if (EVICTION[usps]) graces.add(steps(api, usps).gracePeriodDays);
+    if (EVICTION_STEPS[usps]) graces.add(steps(api, usps).gracePeriodDays);
   return graces;
 }
 

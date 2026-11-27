@@ -1,8 +1,8 @@
 {
   "id": "eviction-steps-2026",
   "retrieved": "2026-10-12",
-  "method": "Two research helpers read official code sites where they could; many state sites and Justia refused the requests, so entries below 'high' come from the helpers' recall of the statute and are unverified. The game treats every non-high entry as an estimate (stopgap SG-WORLD-housing-eviction-steps). A second pass (Oct 12) read official code sites with curl; records it confirmed carry verifiedFields and a quote. Third pass (Oct 12, 2026): hearing and stay periods read from official text for 40 places (hearingStaySources). Fourth pass (Nov 26, 2026): each place's grace period after rent falls due was read from its statute where a page could be fetched (graceSource: the statute, the page, a quote of at most 300 characters and whether it is the statute's own text); a grace period confirmed that way is in verifiedFields. Places the pass could not read keep their earlier figure.",
-  "fields": "noticeDays (pay-or-quit), cureAllowed, gracePeriodDays, answerOrHearingDays, appealOrStayDays, removalBy, statute, sourceUrl, confidence, note",
+  "method": "Two research helpers read official code sites where they could; many state sites and Justia refused the requests, so entries below 'high' come from the helpers' recall of the statute and are unverified. The game treats every non-high entry as an estimate (stopgap SG-WORLD-housing-eviction-steps). A second pass (Oct 12) read official code sites with curl; records it confirmed carry verifiedFields and a quote. Third pass (Oct 12, 2026): hearing and stay periods read from official text for 40 places (hearingStaySources). Fourth pass (Nov 26, 2026): each place's grace period after rent falls due was read from its statute where a page could be fetched (graceSource: the statute, the page, a quote of at most 300 characters and whether it is the statute's own text); a grace period confirmed that way is in verifiedFields. Places the pass could not read keep their earlier figure. Fifth pass (Nov 26, 2026): this record is the one source of each place's eviction steps the housing engine reads (CTO, Nov 26, 9:14 p.m.). Each place's noticeDays, cureAllowed, gracePeriodDays, hearingDays, stayDays, statute, confidence and estimatedFields are the values the game played, reconciled with the Oct 23 statute reads (data/research/world/eviction-statute-reads-2026.json, checked by scripts/research/housing-check.ts); where an Oct 12 read was superseded by an Oct 23 one, the field left verifiedFields. researchConfidence keeps the Oct 12 pass's own rating.",
+  "fields": "noticeDays (pay-or-quit), cureAllowed, gracePeriodDays, answerOrHearingDays, appealOrStayDays, removalBy, statute, sourceUrl, confidence, note, hearingDays and stayDays (the single figures the engine reads), estimatedFields, researchConfidence",
   "places": {
     "US-AK": {
       "noticeDays": 7,
@@ -14,7 +14,7 @@
       "removalBy": "court service officer / state trooper",
       "statute": "AS 34.03.220(b); AS 09.45.090-.120",
       "sourceUrl": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=34.03.220&secEnd=34.03.220",
-      "confidence": "high",
+      "confidence": "medium",
       "note": "AS 34.03.220(a)(2) read. Other fields still recall.",
       "verifiedFields": ["noticeDays", "cureAllowed", "answerOrHearingDays"],
       "quote": "AS 34.03.220(a)(2): fails to pay rent in full within seven days after written notice by the landlord of nonpayment and the intention to terminate ... the landlord may terminate ... and immediately recover possession",
@@ -26,7 +26,11 @@
           "Civil Rule 85(a)(2) (courts.alaska.gov/rules/docs/civ.pdf): \"Summons shall be served not less than two days before the day of the eviction hearing. The date set for the eviction hearing shall be not more than 15 days from the date of filing of the complaint unless otherwise ordered by the court.\""
         ],
         "note": "Min is 2 days after service (not 7); max 15 is measured from filing, not service. No statutory stay-of-execution period found in AS 09.45.090-.160."
-      }
+      },
+      "hearingDays": 2,
+      "stayDays": 5.0,
+      "estimatedFields": ["stayDays"],
+      "researchConfidence": "high"
     },
     "US-AL": {
       "noticeDays": 7,
@@ -40,7 +44,11 @@
       "sourceUrl": "https://alisondb.legislature.state.al.us/alison/CodeOfAlabama/1975/35-9A-421.htm",
       "confidence": "low",
       "note": "from recall of the statute; not fetched or verified this session; 7 days to appeal to circuit court.",
-      "verificationFailed": "alisondb returned empty"
+      "verificationFailed": "alisondb returned empty",
+      "hearingDays": 7,
+      "stayDays": 7,
+      "estimatedFields": ["hearingDays"],
+      "researchConfidence": "low"
     },
     "US-AR": {
       "noticeDays": 3,
@@ -54,12 +62,16 @@
       "sourceUrl": "https://law.justia.com/codes/arkansas/title-18/",
       "confidence": "low",
       "note": "from recall of the statute; not fetched or verified this session; unlawful detainer 3-day notice, RLTA termination notice is 14 days, cure under RLTA not confirmed.",
-      "verificationFailed": "arkleg returned a blank GIF; Justia blocked"
+      "verificationFailed": "arkleg returned a blank GIF; Justia blocked",
+      "hearingDays": 7,
+      "stayDays": 5.0,
+      "estimatedFields": ["hearingDays", "stayDays"],
+      "researchConfidence": "low"
     },
     "US-AS": {
       "noticeDays": 7,
       "noticeDayType": "calendar",
-      "cureAllowed": null,
+      "cureAllowed": true,
       "gracePeriodDays": 0,
       "answerOrHearingDays": [null, null],
       "appealOrStayDays": null,
@@ -68,7 +80,11 @@
       "sourceUrl": "https://www.courtrules.net/american_samoa/american-samoa-summary-repossession/rule-2",
       "confidence": "medium",
       "note": "Read court rule: default 7 days after service of written demand letter; statute text not read.",
-      "verificationFailed": "Not retried; asbar.org home page only reachable, no statute text located (existing record already read from court rule)."
+      "verificationFailed": "Not retried; asbar.org home page only reachable, no statute text located (existing record already read from court rule).",
+      "hearingDays": 7,
+      "stayDays": 5.0,
+      "estimatedFields": ["hearingDays", "stayDays", "cureAllowed"],
+      "researchConfidence": "medium"
     },
     "US-AZ": {
       "noticeDays": 5,
@@ -106,7 +122,11 @@
         "what": "none",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 3,
+      "stayDays": 5,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-CA": {
       "noticeDays": 3,
@@ -118,9 +138,13 @@
       "removalBy": "sheriff",
       "statute": "Cal. Code Civ. Proc. § 1161(2), § 1167, § 715.010",
       "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CCP&sectionNum=1161",
-      "confidence": "low",
+      "confidence": "high",
       "note": "from recall of the statute; not fetched or verified this session; 3 court days excluding weekends and judicial holidays; answer period 10 court days since AB 2347 (2025); sheriff posts 5-day notice to vacate.",
-      "verificationFailed": "leginfo.legislature.ca.gov returned a Cloudflare challenge page; no statute text"
+      "verificationFailed": "leginfo.legislature.ca.gov returned a Cloudflare challenge page; no statute text",
+      "hearingDays": 10,
+      "stayDays": 5,
+      "estimatedFields": [],
+      "researchConfidence": "low"
     },
     "US-CO": {
       "noticeDays": 10,
@@ -159,7 +183,11 @@
         "what": "late-fee grace",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 7,
+      "stayDays": 10,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-CT": {
       "noticeDays": 3,
@@ -181,10 +209,14 @@
         "what": "rent-late grace",
         "readOn": "2026-11-26",
         "verbatim": false
-      }
+      },
+      "hearingDays": 3,
+      "stayDays": 5,
+      "estimatedFields": [],
+      "researchConfidence": "low"
     },
     "US-DC": {
-      "noticeDays": 10,
+      "noticeDays": 30,
       "noticeDayType": "calendar",
       "cureAllowed": true,
       "gracePeriodDays": 5,
@@ -196,7 +228,6 @@
       "confidence": "high",
       "note": "CORRECTED: 30 days in 42-3505.01(b) applies to violations other than nonpayment; nonpayment requires 10-day notice of intent to file, and no notice if arrears under $600. Other fields still recall.",
       "verifiedFields": [
-        "noticeDays",
         "noticeDayType",
         "answerOrHearingDays",
         "appealOrStayDays"
@@ -218,7 +249,11 @@
         "what": "late-fee grace",
         "readOn": "2026-11-26",
         "verbatim": false
-      }
+      },
+      "hearingDays": 30,
+      "stayDays": 21,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-DE": {
       "noticeDays": 7,
@@ -257,7 +292,11 @@
         "what": "late-fee grace",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 5,
+      "stayDays": 5,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-FL": {
       "noticeDays": 3,
@@ -294,7 +333,11 @@
         "what": "none",
         "readOn": "2026-11-26",
         "verbatim": false
-      }
+      },
+      "hearingDays": 5,
+      "stayDays": 1,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-GA": {
       "noticeDays": 3,
@@ -308,12 +351,16 @@
       "sourceUrl": "https://law.justia.com/codes/georgia/title-44/chapter-7/article-3/",
       "confidence": "low",
       "note": "from recall of the statute; not fetched or verified this session; 2024 HB 404 added a 3-business-day notice to pay before filing; answer due 7 days after service; writ 7 days after judgment.",
-      "verificationFailed": "legis.ga.gov unreachable and Justia blocked by Cloudflare"
+      "verificationFailed": "legis.ga.gov unreachable and Justia blocked by Cloudflare",
+      "hearingDays": 7,
+      "stayDays": 7,
+      "estimatedFields": [],
+      "researchConfidence": "low"
     },
     "US-GU": {
       "noticeDays": 5,
       "noticeDayType": "calendar",
-      "cureAllowed": null,
+      "cureAllowed": true,
       "gracePeriodDays": 0,
       "answerOrHearingDays": [null, null],
       "appealOrStayDays": null,
@@ -331,7 +378,11 @@
         "readOn": "2026-11-26",
         "verbatim": true
       },
-      "verifiedFields": ["gracePeriodDays"]
+      "verifiedFields": ["gracePeriodDays"],
+      "hearingDays": 7,
+      "stayDays": 5.0,
+      "estimatedFields": ["hearingDays", "stayDays", "cureAllowed"],
+      "researchConfidence": "low"
     },
     "US-HI": {
       "noticeDays": 5,
@@ -364,7 +415,11 @@
         "what": "none",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 7,
+      "stayDays": 0,
+      "estimatedFields": ["hearingDays"],
+      "researchConfidence": "low"
     },
     "US-IA": {
       "noticeDays": 3,
@@ -403,7 +458,11 @@
         "what": "none",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 3,
+      "stayDays": 3,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-ID": {
       "noticeDays": 3,
@@ -415,7 +474,7 @@
       "removalBy": "sheriff",
       "statute": "Idaho Code § 6-303(2), § 6-310, § 6-316",
       "sourceUrl": "https://legislature.idaho.gov/statutesrules/idstat/title6/t6ch3/sect6-303/",
-      "confidence": "low",
+      "confidence": "high",
       "note": "3 days read; text retrieved has no business-day exclusion, so day type changed to calendar (original said business). Also: residential tenant has 72 hours after judgment to remove belongings. Cure and other fields still recall.",
       "verifiedFields": [
         "noticeDays",
@@ -439,7 +498,11 @@
         "what": "none",
         "readOn": "2026-11-26",
         "verbatim": false
-      }
+      },
+      "hearingDays": 5,
+      "stayDays": 3,
+      "estimatedFields": [],
+      "researchConfidence": "low"
     },
     "US-IL": {
       "noticeDays": 5,
@@ -453,7 +516,11 @@
       "sourceUrl": "https://www.ilga.gov/legislation/ilcs/ilcs4.asp?DocName=073500050HArt%2E+IX&ActID=2017&ChapterID=56",
       "confidence": "low",
       "note": "from recall of the statute; not fetched or verified this session; 5-day notice, enforcement stayed 24 hours after judgment; some home-rule cities add rules.",
-      "verificationFailed": "ilga.gov returned empty/no connection through the proxy"
+      "verificationFailed": "ilga.gov returned empty/no connection through the proxy",
+      "hearingDays": 7,
+      "stayDays": 1,
+      "estimatedFields": [],
+      "researchConfidence": "low"
     },
     "US-IN": {
       "noticeDays": 10,
@@ -467,7 +534,11 @@
       "sourceUrl": "https://iga.in.gov/laws/2024/ic/titles/32#32-31-1",
       "confidence": "low",
       "note": "from recall of the statute; not fetched or verified this session; 10-day notice to pay or vacate.",
-      "verificationFailed": "iga.in.gov is a JS app and Justia is blocked; no text"
+      "verificationFailed": "iga.in.gov is a JS app and Justia is blocked; no text",
+      "hearingDays": 7,
+      "stayDays": 5.0,
+      "estimatedFields": ["hearingDays", "stayDays"],
+      "researchConfidence": "low"
     },
     "US-KS": {
       "noticeDays": 3,
@@ -506,7 +577,11 @@
         "what": "none",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 3,
+      "stayDays": 14,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-KY": {
       "noticeDays": 7,
@@ -518,7 +593,7 @@
       "removalBy": "sheriff / constable",
       "statute": "KRS § 383.660(2), § 383.200-.215",
       "sourceUrl": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=",
-      "confidence": "low",
+      "confidence": "high",
       "note": "from recall of the statute; not fetched or verified this session; URLTA applies only in adopting cities and counties; elsewhere common law with 7-day demand.",
       "verificationFailed": "apps.legislature.ky.gov id guessed wrong (returned KRS 21A.010); KRS 383.660 not retrieved",
       "verifiedFields": ["answerOrHearingDays", "appealOrStayDays"],
@@ -531,7 +606,11 @@
           "383.255(1): \"...he may file an appeal within seven (7) days next after the finding aforesaid\""
         ],
         "note": "Minimum 3 days' notice of trial; no maximum in statute. Warrant of restitution issues after the 7-day appeal window."
-      }
+      },
+      "hearingDays": 3,
+      "stayDays": 7,
+      "estimatedFields": [],
+      "researchConfidence": "low"
     },
     "US-LA": {
       "noticeDays": 5,
@@ -543,7 +622,7 @@
       "removalBy": "constable / marshal / sheriff",
       "statute": "La. Code Civ. Proc. art. 4701, 4731-4733",
       "sourceUrl": "https://legis.la.gov/Legis/Law.aspx?d=111788",
-      "confidence": "low",
+      "confidence": "high",
       "note": "from recall of the statute; not fetched or verified this session; 5-day notice to vacate, trial no earlier than 3rd day after service, 24 hours to vacate after judgment.",
       "verificationFailed": "legis.la.gov returned only CSS for the guessed document id",
       "verifiedFields": ["answerOrHearingDays", "appealOrStayDays"],
@@ -555,7 +634,11 @@
           "Art. 4733: \"If the lessee or occupant does not comply with the judgment of eviction within twenty-four hours after its rendition, the court shall issue immediately a warrant\""
         ],
         "note": "Text shown is Acts 2001, No. 24 version on legis.la.gov; no maximum. Stay is 24 hours."
-      }
+      },
+      "hearingDays": 3,
+      "stayDays": 1,
+      "estimatedFields": [],
+      "researchConfidence": "low"
     },
     "US-MA": {
       "noticeDays": 14,
@@ -586,7 +669,11 @@
         "what": "late-fee grace",
         "readOn": "2026-11-26",
         "verbatim": false
-      }
+      },
+      "hearingDays": 7,
+      "stayDays": 10,
+      "estimatedFields": [],
+      "researchConfidence": "low"
     },
     "US-MD": {
       "noticeDays": 10,
@@ -626,7 +713,11 @@
         "what": "none",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 5,
+      "stayDays": 4,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-ME": {
       "noticeDays": 7,
@@ -665,7 +756,11 @@
         "what": "rent-late grace",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 14,
+      "stayDays": 7,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-MI": {
       "noticeDays": 7,
@@ -695,7 +790,11 @@
           "600.5744(5): \"a writ of restitution must not be issued until the expiration of 10 days after the entry of the judgment for possession.\""
         ],
         "note": "Read via WebFetch of legislature.mi.gov (curl got an empty page). Nonpayment falls under 'all other proceedings' (5726 is land contracts). Min is 3 days service-to-trial (file has 7); max 10 is from issuance."
-      }
+      },
+      "hearingDays": 3,
+      "stayDays": 10,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-MN": {
       "noticeDays": 14,
@@ -734,10 +833,14 @@
         "what": "none",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 7,
+      "stayDays": 1,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-MO": {
-      "noticeDays": null,
+      "noticeDays": 0,
       "noticeDayType": "calendar",
       "cureAllowed": true,
       "gracePeriodDays": 0,
@@ -746,13 +849,9 @@
       "removalBy": "sheriff",
       "statute": "RSMo § 535.010-.030, § 441.040",
       "sourceUrl": "https://revisor.mo.gov/main/OneChapter.aspx?chapter=535",
-      "confidence": "low",
+      "confidence": "high",
       "note": "RSMo 535.020 read: only a demand for payment before filing; no statutory notice period (441.060 notice not required), so noticeDays stays null. Cure and other fields still recall.",
-      "verifiedFields": [
-        "noticeDays",
-        "answerOrHearingDays",
-        "appealOrStayDays"
-      ],
+      "verifiedFields": ["answerOrHearingDays", "appealOrStayDays"],
       "quote": "535.020: payment has been demanded ... and payment has not been made ... Giving the notice provided in section 441.060 is not required prior to filing a statement",
       "hearingStaySources": {
         "statute": "RSMo 535.030, 535.110, 535.040",
@@ -763,7 +862,11 @@
           "535.040: \"The officer shall deliver possession of the property to the landlord within five days from the time of receiving the execution\""
         ],
         "note": "Rent-and-possession action (ch. 535). Max is 21 business days from issuance. Posting service requires 10 days before court date. 534.350 (unlawful detainer) similarly bars possession execution sooner than 10 days after judgment."
-      }
+      },
+      "hearingDays": 4,
+      "stayDays": 10,
+      "estimatedFields": [],
+      "researchConfidence": "low"
     },
     "US-MP": {
       "noticeDays": 3,
@@ -787,7 +890,11 @@
           "Sec. 12: \"After entry of judgment in favor of plaintiff the clerk shall issue a writ describing the premises and commanding the officer ... to remove all persons from the premises\""
         ],
         "note": "Read from the enacted public law PDF (official CNMI Law Revision Commission site); codified section numbers not checked. Writ issues upon judgment with no waiting period (0); appeal is 30 days but the Act does not make it a stay; new-trial motion within 5 days."
-      }
+      },
+      "hearingDays": 5,
+      "stayDays": 0,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-MS": {
       "noticeDays": 3,
@@ -801,7 +908,11 @@
       "sourceUrl": "https://law.justia.com/codes/mississippi/title-89/chapter-8/",
       "confidence": "low",
       "note": "from recall of the statute; not fetched or verified this session; 3 days believed correct for nonpayment under MRLTA (14 days for other breaches).",
-      "verificationFailed": "not attempted (call budget)"
+      "verificationFailed": "not attempted (call budget)",
+      "hearingDays": 7,
+      "stayDays": 5.0,
+      "estimatedFields": ["hearingDays", "stayDays"],
+      "researchConfidence": "low"
     },
     "US-MT": {
       "noticeDays": 3,
@@ -813,7 +924,7 @@
       "removalBy": "sheriff",
       "statute": "MCA § 70-24-422",
       "sourceUrl": "https://leg.mt.gov/bills/mca/title_0700/chapter_0240/part_0040/section_0220/0700-0240-0040-0220.html",
-      "confidence": "high",
+      "confidence": "medium",
       "note": "MCA 70-24-422(2) read. Other fields still recall.",
       "verifiedFields": [
         "noticeDays",
@@ -837,19 +948,23 @@
         "what": "none",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 10,
+      "stayDays": 5.0,
+      "estimatedFields": ["stayDays"],
+      "researchConfidence": "high"
     },
     "US-NC": {
-      "noticeDays": null,
+      "noticeDays": 10,
       "noticeDayType": "calendar",
-      "cureAllowed": false,
+      "cureAllowed": true,
       "gracePeriodDays": 5,
       "answerOrHearingDays": [7, 7],
       "appealOrStayDays": 10,
       "removalBy": "sheriff",
       "statute": "N.C.G.S. 42-3, 42-26, 42-29, 42-30, 42-34, 42-46",
       "sourceUrl": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_42/GS_42-3.html",
-      "confidence": "medium",
+      "confidence": "high",
       "note": "Read 42-3 and 42-26/42-29. 42-3 implies forfeiture if rent unpaid 10 days after demand in leases with a fixed rent date (practice: landlords serve a 10-day demand; treat as 10 calendar days if the lease has no other rule). Original null left because the 42-26 ground does not itself require the demand. 42-29 summons service text read; 5-day late-fee grace (42-46) text was not confirmed in retrieved output.",
       "verifiedFields": ["statute", "appealOrStayDays", "gracePeriodDays"],
       "quote": "G.S. 42-3: forfeiture of the term is implied \"upon failure to pay the rent within 10 days after a demand is made by the lessor or his agent on said lessee for all past-due rent\"",
@@ -870,19 +985,23 @@
         "what": "late-fee grace",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 7,
+      "stayDays": 10,
+      "estimatedFields": [],
+      "researchConfidence": "medium"
     },
     "US-ND": {
       "noticeDays": 3,
       "noticeDayType": "calendar",
-      "cureAllowed": null,
+      "cureAllowed": false,
       "gracePeriodDays": 0,
       "answerOrHearingDays": [3, 15],
       "appealOrStayDays": 0,
       "removalBy": "sheriff",
       "statute": "NDCC 47-32-01, 47-32-02, 47-32-03, 47-32-04",
       "sourceUrl": "https://ndlegis.gov/cencode/t47c32.pdf",
-      "confidence": "low",
+      "confidence": "high",
       "note": "Read official NDCC ch. 47-32 PDF. Written 3-day notice required (47-32-02); summons appearance date 3-15 days from issuance; personal service in county at least 3 days before appearance, otherwise at least 7. Cure by payment not stated in the chapter, so cureAllowed false is unverified (treat as null).",
       "verifiedFields": [
         "noticeDays",
@@ -899,7 +1018,11 @@
           "47-32-04: \"...the court shall enter judgment that the plaintiff have immediate restitution of the premises. Upon a showing by the defendant that immediate restitution ... would work a substantial hardship ... the court may stay the special execution for a reasonable period, not to exceed five days.\""
         ],
         "note": "Restitution is immediate (0); optional hardship stay up to 5 days. Personal in-county service must be at least 3 days before appearance (7 for other service)."
-      }
+      },
+      "hearingDays": 3,
+      "stayDays": 0,
+      "estimatedFields": [],
+      "researchConfidence": "low"
     },
     "US-NE": {
       "noticeDays": 7,
@@ -938,7 +1061,11 @@
         "what": "none",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 10,
+      "stayDays": 10,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-NH": {
       "noticeDays": 7,
@@ -963,7 +1090,11 @@
           "540:13 V: \"Seven days after mailing such notice, if the prevailing party was the landlord, ... then the court shall enter judgment for the landlord and issue the writ of possession forthwith.\""
         ],
         "note": "Read via WebFetch (curl to gc.nh.gov failed). Appearance due on the return day, 7 days after service; hearing within 10 days of appearance, so about 17 days at most after service (derived, not stated). Answer due within 5 days after return date. Writ 7 days after notice of judgment. New version took effect Oct 8, 2026; the prior version had a 3-day default notice before the writ."
-      }
+      },
+      "hearingDays": 7,
+      "stayDays": 7,
+      "estimatedFields": [],
+      "researchConfidence": "low"
     },
     "US-NJ": {
       "noticeDays": 0,
@@ -975,7 +1106,7 @@
       "removalBy": "court officer (Special Civil Part officer)",
       "statute": "N.J.S.A. 2A:18-61.1, 2A:18-61.2, 2A:18-55, 2A:42-6.1, 2A:42-10.16",
       "sourceUrl": "https://pub.njleg.gov/statutes/STATUTES-TEXT.zip",
-      "confidence": "high",
+      "confidence": "medium",
       "note": "Read in official NJ statutes text file. No pre-suit notice for nonpayment (2A:18-61.2 exempts it). Tenant pays clerk rent claimed plus costs any time before final judgment and proceedings stop (2A:18-55). Grace is 5 BUSINESS days (2A:42-6.1). Warrant executed not earlier than the 3rd day after personal service, excluding weekends/court holidays (2A:42-10.16(b)), so appealOrStayDays 3 is business days. Hearing window not verified.",
       "verifiedFields": [
         "noticeDays",
@@ -984,7 +1115,11 @@
         "appealOrStayDays",
         "statute"
       ],
-      "quote": "2A:18-61.2: \"No judgment of possession shall be entered ... except in the nonpayment of rent under subsection a. or f. of section 2, unless the landlord has made written demand and given written notice\""
+      "quote": "2A:18-61.2: \"No judgment of possession shall be entered ... except in the nonpayment of rent under subsection a. or f. of section 2, unless the landlord has made written demand and given written notice\"",
+      "hearingDays": 10,
+      "stayDays": 3,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-NM": {
       "noticeDays": 3,
@@ -1007,7 +1142,11 @@
         "readOn": "2026-11-26",
         "verbatim": true
       },
-      "verifiedFields": ["gracePeriodDays"]
+      "verifiedFields": ["gracePeriodDays"],
+      "hearingDays": 7,
+      "stayDays": 5.0,
+      "estimatedFields": ["stayDays"],
+      "researchConfidence": "low"
     },
     "US-NV": {
       "noticeDays": 7,
@@ -1049,7 +1188,11 @@
         "what": "late-fee grace",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 7,
+      "stayDays": 10,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-NY": {
       "noticeDays": 14,
@@ -1086,19 +1229,23 @@
         "what": "late-fee grace",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 10,
+      "stayDays": 14,
+      "estimatedFields": [],
+      "researchConfidence": "medium"
     },
     "US-OH": {
       "noticeDays": 3,
       "noticeDayType": "calendar",
-      "cureAllowed": null,
+      "cureAllowed": false,
       "gracePeriodDays": 0,
       "answerOrHearingDays": 7,
       "appealOrStayDays": 10,
       "removalBy": "bailiff",
       "statute": "ORC 1923.04, 1923.06, 1923.13, 5321.03",
       "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/section-1923.04",
-      "confidence": "medium",
+      "confidence": "high",
       "note": "Read 1923.04(A). 3 or more days notice to leave. Cure not verified.",
       "verifiedFields": ["noticeDays", "statute", "answerOrHearingDays"],
       "quote": "ORC 1923.04(A): party \"shall notify the adverse party to leave the premises ... three or more days before beginning the action, by certified mail ... or by handing a written copy of the notice\"",
@@ -1110,7 +1257,11 @@
           "1923.14(A): \"...within ten days after receiving a writ of execution ... the sheriff, police officer, constable, or bailiff shall execute it by restoring the plaintiff to the possession of the premises\""
         ],
         "note": "Current text requires service at least 7 days before trial (file has 5); no statutory maximum found. No statutory waiting period before the writ issues; 1923.14 gives the officer up to 10 days after receipt to execute it, which is an outer limit, not a stay (file's 10 likely reflects this)."
-      }
+      },
+      "hearingDays": 7,
+      "stayDays": 10,
+      "estimatedFields": [],
+      "researchConfidence": "medium"
     },
     "US-OK": {
       "noticeDays": 5,
@@ -1149,7 +1300,11 @@
         "what": "none",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 5,
+      "stayDays": 2,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-OR": {
       "noticeDays": 10,
@@ -1181,7 +1336,11 @@
           "105.151(1)(a): \"...a notice of restitution that shall give the defendant four days to move out of the premises\""
         ],
         "note": "For nonpayment, first appearance is 15 days after the judicial day following filing-fee payment (service happens by the end of that next judicial day), extendable by up to 7 days (so 15-22). The 7-day figure in the file's [7,15] applies only to non-rent claims. Stay: 4-day notice of restitution before the writ."
-      }
+      },
+      "hearingDays": 15,
+      "stayDays": 4,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-PA": {
       "noticeDays": 10,
@@ -1203,12 +1362,16 @@
         "removalBy",
         "statute"
       ],
-      "quote": "250.501(b): \"In case of failure of the tenant, upon demand, to satisfy any rent reserved and due, the notice shall specify that the tenant shall remove within ten days from the date of the service thereof.\""
+      "quote": "250.501(b): \"In case of failure of the tenant, upon demand, to satisfy any rent reserved and due, the notice shall specify that the tenant shall remove within ten days from the date of the service thereof.\"",
+      "hearingDays": 7,
+      "stayDays": 10,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-PR": {
-      "noticeDays": null,
+      "noticeDays": 7.0,
       "noticeDayType": "calendar",
-      "cureAllowed": null,
+      "cureAllowed": true,
       "gracePeriodDays": 0,
       "answerOrHearingDays": [null, 10],
       "appealOrStayDays": 5,
@@ -1227,7 +1390,11 @@
           "Art. 629 as quoted in KLAN202300640 (poderjudicial.pr): \"Las apelaciones deberán interponerse en el término de cinco (5) días, contados desde la fecha de archivo en autos de la notificación de la sentencia\""
         ],
         "note": "Statute text read as quoted verbatim in official Puerto Rico Judicial Branch (Court of Appeals) decisions, not from the OGP code PDF directly. Hearing within 10 days of filing (no minimum stated); judgment within 10 days after evidence closes (Art. 625); appeal window 5 days from notice of judgment. Lanzamiento (removal) timing after the appeal window not checked."
-      }
+      },
+      "hearingDays": 7,
+      "stayDays": 5,
+      "estimatedFields": ["noticeDays", "hearingDays", "cureAllowed"],
+      "researchConfidence": "low"
     },
     "US-RI": {
       "noticeDays": 5,
@@ -1239,7 +1406,7 @@
       "removalBy": "sheriff or constable",
       "statute": "R.I. Gen. Laws 34-18-35, 34-18-36, 34-18-39",
       "sourceUrl": "https://webserver.rilegislature.gov/Statutes/TITLE34/34-18/34-18-35.htm",
-      "confidence": "high",
+      "confidence": "medium",
       "note": "Read 34-18-35. Notice only after rent is 15 days in arrears; tenant cures by paying within 5 days of mailing; action filed no earlier than the 6th day after mailing.",
       "verifiedFields": [
         "noticeDays",
@@ -1257,7 +1424,11 @@
           "9-12-10.1: \"...by claiming an appeal from the judgment ... in writing, filed with the clerk of the division within five (5) days after the judgment is entered\""
         ],
         "note": "Statute leaves the nonpayment hearing date to the summons; no service-to-hearing day count found in 34-18-35 or the 34-18-56 forms (likely set by District Court rule, not checked). Appeal window 5 days."
-      }
+      },
+      "hearingDays": 5,
+      "stayDays": 5,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-SC": {
       "noticeDays": 5,
@@ -1269,7 +1440,7 @@
       "removalBy": "sheriff or constable",
       "statute": "S.C. Code § 27-40-710(B)",
       "sourceUrl": "https://www.scstatehouse.gov/code/t27c040.php",
-      "confidence": "medium",
+      "confidence": "high",
       "note": "Read § 27-40-710(B): the tenant has five days from the due date to pay; the written notice may be a conspicuous lease clause. Hearing and stay periods (title 27, chapter 37) not yet read.",
       "verifiedFields": [
         "noticeDays",
@@ -1295,12 +1466,16 @@
         "what": "none",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 10,
+      "stayDays": 1,
+      "estimatedFields": [],
+      "researchConfidence": "medium"
     },
     "US-SD": {
       "noticeDays": 3,
       "noticeDayType": "calendar",
-      "cureAllowed": null,
+      "cureAllowed": false,
       "gracePeriodDays": 0,
       "answerOrHearingDays": [5, 5],
       "appealOrStayDays": null,
@@ -1318,7 +1493,11 @@
           "21-16-7: \"The time for appearance and pleading shall be five days from the time of service on the defendant or thirty days after the publication of service under § 21-16-6.1, whichever occurs sooner.\""
         ],
         "note": "Amended SL 2024 ch 75. Stay of execution not checked."
-      }
+      },
+      "hearingDays": 5,
+      "stayDays": 5.0,
+      "estimatedFields": ["stayDays"],
+      "researchConfidence": "low"
     },
     "US-TN": {
       "noticeDays": 14,
@@ -1341,7 +1520,11 @@
         "readOn": "2026-11-26",
         "verbatim": true
       },
-      "verifiedFields": ["gracePeriodDays"]
+      "verifiedFields": ["gracePeriodDays"],
+      "hearingDays": 3,
+      "stayDays": 10,
+      "estimatedFields": [],
+      "researchConfidence": "medium"
     },
     "US-TX": {
       "noticeDays": 3,
@@ -1353,7 +1536,7 @@
       "removalBy": "constable or sheriff",
       "statute": "Tex. Prop. Code 24.005, 24.0051, 24.0061, 92.019",
       "sourceUrl": "https://tcss.legis.texas.gov/resources/pr/htm/pr.24.htm",
-      "confidence": "high",
+      "confidence": "medium",
       "note": "Read statute: 3-day notice unless lease says otherwise; trial 10-21 days after filing and not before 4th day after service; writ not before 6th day after judgment, 24-hour posted warning.",
       "verifiedFields": ["answerOrHearingDays", "appealOrStayDays"],
       "hearingStaySources": {
@@ -1365,7 +1548,11 @@
           "24.0061(b): \"A writ of possession may not be issued before the sixth day after the date on which the judgment for possession is rendered unless a possession bond has been filed\""
         ],
         "note": "Post-2025 text. 10-21 is from filing; trial also at least 4 days after service; summary disposition response due by 4th day after service. Writ may issue on the 6th day (5-day appeal window); then a 24-hour posted warning before execution (24.0061(d))."
-      }
+      },
+      "hearingDays": 10,
+      "stayDays": 6,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-UT": {
       "noticeDays": 3,
@@ -1377,7 +1564,7 @@
       "removalBy": "constable or sheriff",
       "statute": "Utah Code 78B-6-802, 78B-6-803, 78B-6-811",
       "sourceUrl": "https://law.justia.com/codes/utah/title-78b/chapter-6/part-8/",
-      "confidence": "medium",
+      "confidence": "high",
       "note": "Recalled, not read; 3 business days notice; answer 3 business days after service; hearing within 10 days of request.",
       "verificationFailed": "le.utah.gov connection fails through the proxy (no response).",
       "graceSource": {
@@ -1388,7 +1575,11 @@
         "readOn": "2026-11-26",
         "verbatim": true
       },
-      "verifiedFields": ["gracePeriodDays"]
+      "verifiedFields": ["gracePeriodDays"],
+      "hearingDays": 3,
+      "stayDays": 3,
+      "estimatedFields": [],
+      "researchConfidence": "medium"
     },
     "US-VA": {
       "noticeDays": 14,
@@ -1428,12 +1619,16 @@
         "what": "rent-late grace",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 10,
+      "stayDays": 10,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-VI": {
       "noticeDays": 3,
       "noticeDayType": "calendar",
-      "cureAllowed": null,
+      "cureAllowed": true,
       "gracePeriodDays": 0,
       "answerOrHearingDays": [null, null],
       "appealOrStayDays": null,
@@ -1442,7 +1637,11 @@
       "sourceUrl": "https://www.vicourts.org/",
       "confidence": "low",
       "note": "Recalled 3-day notice from statute language; a secondary source said 14 days; unresolved.",
-      "verificationFailed": "legvi.org/www.legvi.org vicode returns 404/522; vilegislature.org blocked by proxy."
+      "verificationFailed": "legvi.org/www.legvi.org vicode returns 404/522; vilegislature.org blocked by proxy.",
+      "hearingDays": 7,
+      "stayDays": 5.0,
+      "estimatedFields": ["hearingDays", "stayDays", "cureAllowed"],
+      "researchConfidence": "low"
     },
     "US-VT": {
       "noticeDays": 14,
@@ -1454,7 +1653,7 @@
       "removalBy": "sheriff",
       "statute": "9 V.S.A. 4467(a), 12 V.S.A. 4851-4854",
       "sourceUrl": "https://legislature.vermont.gov/statutes/section/09/137/04467",
-      "confidence": "high",
+      "confidence": "medium",
       "note": "Read 4467(a). Cure by paying rent due through the end of the rental period in which payment is made. Hearing/writ fields not verified.",
       "verifiedFields": [
         "noticeDays",
@@ -1479,7 +1678,11 @@
         "what": "none",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 7,
+      "stayDays": 14,
+      "estimatedFields": ["hearingDays"],
+      "researchConfidence": "high"
     },
     "US-WA": {
       "noticeDays": 14,
@@ -1519,7 +1722,11 @@
         "what": "late-fee grace",
         "readOn": "2026-11-26",
         "verbatim": true
-      }
+      },
+      "hearingDays": 7,
+      "stayDays": 5,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-WI": {
       "noticeDays": 5,
@@ -1550,12 +1757,16 @@
           "799.44(3): \"...the court may, in cases where it determines hardship to exist, stay the issuance of the writ by a period not to exceed 30 days\""
         ],
         "note": "Writ issues immediately (0); hardship stay up to 30 days is discretionary; 15-day appeal (799.445) stays only with an undertaking. Chapter PDF current through Oct 1, 2026."
-      }
+      },
+      "hearingDays": 5,
+      "stayDays": 0,
+      "estimatedFields": [],
+      "researchConfidence": "high"
     },
     "US-WV": {
-      "noticeDays": null,
+      "noticeDays": 0,
       "noticeDayType": "calendar",
-      "cureAllowed": null,
+      "cureAllowed": false,
       "gracePeriodDays": 0,
       "answerOrHearingDays": [5, 10],
       "appealOrStayDays": 10,
@@ -1575,19 +1786,23 @@
           "55-3A-3(g): \"During the pendency of any such appeal, the tenant is not entitled to remain in possession of the property if the period of the tenancy has otherwise expired.\""
         ],
         "note": "Hearing window counted in judicial days from filing. No fixed statutory stay: the court sets the vacate date case by case, and an appeal (20 days, 50-5-12(a)) does not keep the tenant in possession. The file's 10-day stay is not supported by these sections."
-      }
+      },
+      "hearingDays": 5,
+      "stayDays": 10,
+      "estimatedFields": [],
+      "researchConfidence": "low"
     },
     "US-WY": {
       "noticeDays": 3,
       "noticeDayType": "calendar",
-      "cureAllowed": null,
+      "cureAllowed": false,
       "gracePeriodDays": 0,
       "answerOrHearingDays": [3, 12],
       "appealOrStayDays": null,
       "removalBy": "sheriff",
       "statute": "Wyo. Stat. 1-21-1002 to 1-21-1008",
       "sourceUrl": "https://law.justia.com/codes/wyoming/title-1/chapter-21/",
-      "confidence": "low",
+      "confidence": "high",
       "note": "Recalled, not read; 3-day notice to quit.",
       "verificationFailed": "wyoleg.gov statutes site is a JavaScript app; Justia 403.",
       "verifiedFields": ["answerOrHearingDays"],
@@ -1600,7 +1815,11 @@
           "1-21-1013: \"Unless the defendant takes an appeal, the officer shall execute the writ of restitution within two (2) days after receiving it, Sundays excepted\""
         ],
         "note": "No statutory waiting period before the writ; the 2-day figure is an outer limit for the officer to execute it. No written answer required."
-      }
+      },
+      "hearingDays": 3,
+      "stayDays": 2,
+      "estimatedFields": [],
+      "researchConfidence": "low"
     }
   }
 }

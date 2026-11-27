@@ -562,6 +562,8 @@ function* benchWorldStages(
     placeStateKey(place.key) ?? undefined,
     // The played state's last sitting before day one runs through the real bill engine (row 14).
     lastSittingBefore(placeStateKey(place.key) ?? "", startDate),
+    // The town's own offices (its mayor, council and county) run from 1925 beside the legislatures.
+    { key: place.key, geoid: place.sourceGeoid ?? place.key },
   );
   const minimumPeople = settings.population ?? options.minimumPeople;
   // With no birthday chosen the player is the default age, 18.
