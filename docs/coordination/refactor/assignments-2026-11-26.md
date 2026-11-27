@@ -152,7 +152,7 @@ The owner: "the core is where engines plug in, and it can also be very friendly 
 **Items, safest first:**
 
 1. **Measure, then guard,** one engine opening another's module table (`moduleState`), and rows edited in place. The guard's baseline may only shrink (K8). It starts with the people engine's opens in both directions, measured in people-2026-11-26.md P5 (adjusted Nov 27). The screens' 157 table reads (92 game screens, 53 dev, 12 checks) are in it too (adjusted Nov 27).
-2. **The workshop out of the core,** by a re-runnable script coordinated with Cleanup's test mover (K9): src/core2/tooling into scripts/, the test kits and fixtures (`*-test-kit.ts`, `*-kit.ts`, `*-fixture.ts`, law-test-start.ts) into tests/support, and bug-report.ts and gov-test-report.ts into scripts/. money-watch.ts and past-sessions.ts go to the screens' dev folder. Also trait-pairs.ts, turnover-check.ts and circle-turnover-check.ts, which no game file imports (people P11; adjusted Nov 27). Widen the game-only guard's test pattern to catch kits and fixtures. The screens' milestone proofs and tools (screens SC6) go with the same script (adjusted Nov 27). Also gov-test-clock.ts (elections EL8; adjusted Nov 27).
+2. **The workshop out of the core,** by a re-runnable script coordinated with Cleanup's test mover (K9): src/core2/tooling into scripts/, the test kits and fixtures (`*-test-kit.ts`, `*-kit.ts`, `*-fixture.ts`, law-test-start.ts) into tests/support, and bug-report.ts and gov-test-report.ts into scripts/. money-watch.ts and past-sessions.ts go to the screens' dev folder. Also trait-pairs.ts, turnover-check.ts and circle-turnover-check.ts, which no game file imports (people P11; adjusted Nov 27). Widen the game-only guard's test pattern to catch kits and fixtures. The screens' milestone proofs and tools (screens SC6) go with the same script (adjusted Nov 27). Also gov-test-clock.ts (elections EL8; adjusted Nov 27). Also gov-rules/place-slots.ts (only a tooling check and a test use it; offices map; adjusted Nov 27).
 3. **One `core` family** in tests/guards/families.json: the shared kernel, plus life.ts (the day loop), the record log, the reader and the cash journal (journal.ts and journal-state.ts, filed under people today; renamed cash-journal*.ts by the move script; people P12, adjusted Nov 27). Give the 11 orphan files (src/districts, src/rules/laws, src/release) their families. Coordinate with Story's #10683, which made `story`.
 4. **The missing date helpers in the kernel** (weekday of a date, the nth weekday of a month, the last day of a month), with every copy pointed at the kernel (K10): elections-calendar.ts, school.ts, voting.ts, finance-state.ts, work-pay-period.ts, and the rest of the 95 files' date sums. Formatting is left as it is. The kernel's `spokenDate` (dates.ts:113) goes to Story's day-words, in step with Story's E2.
 5. **A determinism guard:** no `Math.random`, `randomBytes`, `randomUUID`, `Date.now`, `performance.now` or argument-less `new Date()` in game code outside dev panels, the play server and scripts (K11).
@@ -199,6 +199,8 @@ The audit is people-2026-11-26.md in this folder (rows P1 to P13).
 - Leave people.ts, person-life.ts, modules/record.ts, modules/counted-moves.ts and household-cost.ts alone until the Story split lands #10390's engine half.
 - Leave population.ts's job half alone until Past and Day One's item 5 lands.
 
+**Adjusted Nov 27, about 2 a.m. (the offices map):** item 6's "who serves" reads switch to the Offices session's door. Item 7's housing split follows OF1's order: housing's doors first, readers onto them, then the split, so no baseline rises. gov-rules/invented-person-age.ts joins the people family (a person-generation rule).
+
 **Items, safest first:**
 
 1. **Delete the old trait system (P2)** with every reference, and rewrite docs/systems/traits.md to the live route. Proof: the digest is identical.
@@ -242,6 +244,8 @@ The audit is screens-2026-11-27.md in this folder (rows SC1 to SC8).
 
 **Adjusted Nov 27 (elections map):** your offices door adds the elections map's queries (an office by id, a term by id, open vacancies, a person's terms, a seat's office and an office's seats). The elections door (a contest, its filings, its result, the races open to a person) is the Elections session's; switch your elections reads to it when it lands, instead of adding your own.
 
+**Adjusted Nov 27, about 2 a.m. (the offices map):** the offices door is the Offices session's now, so it comes off your door list. Switch your office reads when it lands; don't build it.
+
 **Items, safest first:**
 
 1. **Dev mode in the installed game (SC1),** in its four steps. The packaged-app smoke test is the proof. handler.ts's mount goes now; the CTO's train reconciles it with the Story split.
@@ -279,6 +283,8 @@ The audit is elections-2026-11-27.md in this folder (rows EL1 to EL9).
 
 **Start now.** Branch from train/nov27-a (#10699) until it lands, then main.
 
+**Adjusted Nov 27, about 2 a.m. (the offices map):** item 5's office reads switch to the Offices session's door. The elections door stays yours.
+
 **Items, safest first:**
 
 1. **Party identity to its own leaf file (EL1),** with appointments.ts re-exporting. Digest identical.
@@ -299,6 +305,36 @@ The audit is elections-2026-11-27.md in this folder (rows EL1 to EL9).
 - Use the Fable advisor liberally; it doesn't use Fable usage.
 
 **Done when** 1 to 7 are each built, or listed with why.
+
+---
+
+## Offices (decided by the CTO under the owner's full ownership, Nov 27)
+
+The audit is offices-2026-11-27.md in this folder (rows OF1 to OF8). The executive family splits into `offices` (seats) and `governing` (the officeholder's day); this session builds both.
+
+**Start** when "CTO: GO Offices" is posted. Branch from train/nov27-a (#10699). Items 1 and 2 add new doors and can start at once; from item 3 on, wait until Reach-ins' stack (#10701) is in the train, because it changes 12 of these files.
+
+**Items, safest first:**
+
+1. **The offices door (OF2):** an office by id, a term by id, a person's terms, a seat's office and open vacancies, added once beside the doors that exist.
+2. **One "who holds" door over both stores (OF3).** moves.ts:404-432 switches to it.
+3. **Governing onto the doors:** its 33 table opens through the doors, and the six seats files it reaches become entries.
+4. **The family split (OF1),** which then adds nothing to any baseline.
+5. **Readers switch to the doors:** elections, screens and the director's (Story's) files first, then the rest. Core item 1's baseline only shrinks.
+6. **The two measurements (OF6),** each settled with its reason.
+7. **Long functions as named steps (OF8),** structure only.
+8. **The six registries onto Core's hook (OF4),** after Core item 10.
+
+**Rules:**
+
+- Structure only, except OF6 if it changes who is picked or paid: then a behavior PR with proof.
+- The fixed-seed records digest is identical, and `npm run typecheck` is clean.
+- No new systems and no new registry.
+- Never loosen a check. No baseline rises: doors come before the split.
+- Never edit bank lines.
+- Use the Fable advisor liberally; it doesn't use Fable usage.
+
+**Done when** 1 to 8 are each built, or listed with why.
 
 ---
 
