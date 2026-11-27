@@ -16,7 +16,8 @@
  * Each story's deliveries are scheduled once, when it is recorded, and read by
  * date, so no day scans the whole town.
  */
-import { heardListeners, type CountedNewsModule } from "./news-listeners";
+import type { CountedNewsModule } from "./news-listeners";
+import { carriersOf } from "../module-fields";
 import type { HistoryRow, HistorySource } from "../past";
 import { moduleState } from "../module-state";
 import { addDays, makeIsoDate } from "../kernel/dates";
@@ -454,7 +455,8 @@ function hear(
         personId,
       });
   }
-  for (const listener of heardListeners) listener(api, personId, story);
+  for (const carrier of carriersOf(api.state, "onStoryHeard"))
+    carrier.onStoryHeard!(api, personId, story);
   return true;
 }
 
