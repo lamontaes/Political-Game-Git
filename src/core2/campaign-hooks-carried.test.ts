@@ -15,6 +15,8 @@ import {
 import { coreAPI } from "./state";
 import type { PersonId } from "./types";
 import { buildBenchWorld } from "../bench/world";
+import { councilElectionMethod } from "./gov-rules/council-election-method";
+import { allGovernmentUnits } from "./reference/government-units";
 
 /**
  * What the voting module hands the engines that cannot import it, shown by the
@@ -34,6 +36,20 @@ import { buildBenchWorld } from "../bench/world";
  */
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const PLACES = 8;
+/** A world that opens after the November 2026 races' filing closed and before their election day (the date `closed-town-race-at-opening` uses). */
+const CLOSED_AT_OPENING = "2026-10-12";
+/** Places whose charter elects council seats by ward (the research the council method reads). */
+const wardPlaces = new Set(
+  allGovernmentUnits()
+    .filter((unit) => {
+      if (unit.unitType !== "municipality" || !unit.functionalActive)
+        return false;
+      const method = councilElectionMethod(unit);
+      return method?.basis === "charter" && method.wardSeats > 0;
+    })
+    .map((unit) => unit.placeGeoid)
+    .filter((key): key is string => !!key),
+);
 const WEEKS = 52;
 
 describe("the voting module's hooks reach the engines that read them", () => {
@@ -43,7 +59,7 @@ describe("the voting module's hooks reach the engines that read them", () => {
     for (let attempt = 0; attempt < PLACES; attempt += 1) {
       const place = drawPlace(seed, `hooks-closed:${attempt}`);
       const where = `${place.name} (${place.key}), seed ${place.seed}`;
-      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      const { core } = buildBenchWorld(place.seed, CLOSED_AT_OPENING, {
         twoLevel: true,
         placeKey: place.key,
       });
@@ -83,7 +99,9 @@ describe("the voting module's hooks reach the engines that read them", () => {
     setBookkeeping(false);
     const passedOver: string[] = [];
     for (let attempt = 0; attempt < PLACES; attempt += 1) {
-      const place = drawPlace(seed, `hooks-ward:${attempt}`);
+      const place = drawPlace(seed, `hooks-ward:${attempt}`, (key) =>
+        wardPlaces.has(key),
+      );
       const where = `${place.name} (${place.key}), seed ${place.seed}`;
       const { core, playerId } = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
