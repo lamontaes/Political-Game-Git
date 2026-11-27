@@ -14,6 +14,7 @@
  */
 import type { MacroParameter } from "./macro-model";
 import type { CoreAPI } from "./types";
+import { carriersOf } from "./module-fields";
 
 export const COUNTRY_SECTORS = [
   "construction",
@@ -870,14 +871,14 @@ export type CountryFlowsReader = (api: CoreAPI) => {
   readonly states: readonly CountryState[];
   readonly flows: readonly CountryFlow[];
 };
-let flowsReader: CountryFlowsReader | null = null;
-/** The economy engine names its reader of the tier's flows (it reads modules the movers' engine cannot import). */
-export function registerCountryFlowsReader(reader: CountryFlowsReader): void {
-  flowsReader = reader;
-}
 /** The tier's states and flows now; empty before the economy opens or where it does not run. */
 export function countryFlowsIn(api: CoreAPI): ReturnType<CountryFlowsReader> {
-  return flowsReader?.(api) ?? { states: [], flows: [] };
+  // The economy's module carries its reader of the tier's flows (`countryFlows`; it reads modules the movers' engine cannot import).
+  const carrier = carriersOf(api.state, "countryFlows")[0];
+  return (
+    (carrier?.countryFlows?.(api) as
+      ReturnType<CountryFlowsReader> | undefined) ?? { states: [], flows: [] }
+  );
 }
 
 const CELL_COUNTS = ["people", "workers", "seekers", "cash"] as const;
