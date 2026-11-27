@@ -19,6 +19,7 @@ import { fileCandidacy, openContests } from "../core2/modules/elections";
 import { lawChain } from "../core2/modules/laws";
 import { stancesOf } from "../core2/modules/views";
 import { SPEECH_STAGES } from "../director/speech-builder";
+import { composeCampaignSpeech } from "../director/local-speeches";
 import {
   campaignView,
   speechBegin,
@@ -149,12 +150,36 @@ const run = (drawSeed: string): string | null => {
         where,
       ).toThrow();
 
+      // What the one planner says of the stands they picked, composed before the speech is given.
+      const contestRow = api
+        .moduleState("core2-elections-v1")
+        .table("contests")
+        .get(filed.contestId) as unknown as { officeId: string };
+      const planned = composeCampaignSpeech(
+        core,
+        speakerId as never,
+        contestRow.officeId,
+        (filed as { party?: string | null }).party ?? null,
+        speech.picked.flatMap((row) => (row.stand ? [row.stand.question] : [])),
+      );
       const said = speechGive(core, speakerId, speech, {
         filingId: filed.id,
         venue: scenePlaces.speechPlaces[0]!,
       });
       // The player's opener and closer stand at the ends of the speech; between them the one planner
       // says one theme and the ask from the stands they picked (so a stand it leaves out is not said).
+      // The planner speaks for a town's race; above the town it has nothing to say yet
+      // (SG-WORDS-floor-speech-state-chambers), and the speech is the parts as picked.
+      const theme = planned?.sentences.find((row) => row.section === "theme");
+      if (theme)
+        expect(
+          said.text,
+          `the planner's theme is in the speech: ${where}`,
+        ).toContain(theme.text);
+      else
+        expect(said.text, where).toBe(
+          speech.picked.map((row) => row.text).join(" "),
+        );
       expect(said.text.startsWith(speech.picked[0]!.text), where).toBe(true);
       expect(said.text.endsWith(speech.picked.at(-1)!.text), where).toBe(true);
       expect(said.scene.place, where).toBe(scenePlaces.speechPlaces[0]);

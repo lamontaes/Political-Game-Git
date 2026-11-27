@@ -345,6 +345,8 @@ export function speechOfRecord(
                   speakerId,
                   race.contest.officeId,
                   race.filing.party ?? null,
+                  // The stand this record is a statement of: the speech a scene plays is the one they gave on it.
+                  record.topic ? [record.topic] : undefined,
                 )
               : null;
           })()

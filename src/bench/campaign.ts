@@ -1245,8 +1245,9 @@ export function speechGive(
         .table("contests")
         .get(filing.contestId) as unknown as ContestRow | undefined)
     : undefined;
+  // With no stand picked there is nothing to plan, and the speech is the parts as picked.
   const planned =
-    filing && contest
+    filing && contest && stands.size
       ? composeCampaignSpeech(
           core,
           personId as PersonId,
@@ -1255,10 +1256,12 @@ export function speechGive(
           [...stands.keys()],
         )
       : null;
-  const said = planned
-    ? [...stands.values()].filter((stand) =>
-        planned.asks.includes(stand.question),
-      )
+  // What the plan says is what the speech records: each point's question and the side it takes.
+  const said: Stance[] = planned
+    ? planned.points.map((point) => ({
+        question: point.question,
+        position: point.side === "for" ? 1 : -1,
+      }))
     : [...stands.values()];
   const causes = giveSpeech(api, {
     filingId: input.filingId,

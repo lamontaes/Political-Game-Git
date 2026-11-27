@@ -930,10 +930,10 @@
     "file": "src/director/speech-builder.ts",
     "line": 1,
     "whatItFakes": "The player's own campaign speech is planned by the one outline planner from the stands they pick (one theme, the stand and its reason, the ask), but its opener, closer and credentials (work, home, children, school) are still the stage builder's own parts, said as they were picked, and a player seated on a town body has no floor speech of their own.",
-    "why": "The graded stage lines cannot be deleted (a rewrite never deletes a line the owner graded good), so the stage builder keeps the ends of the speech until the owner rules on moving those lines into the planner's own banks; the planner says the middle (E9, Nov 27).",
+    "why": "E9 step 1 (Nov 27): the planner composes the middle of the player's speech from the stands they pick, between the stage builder's opener and closer. The stage lines are not graded (no current key has a grade entry), so the rest is buildable: stages that offer the planner's points, the stage pieces deleted, the floor-day speech.",
     "addedBy": "Words builder (Opus), Nov 12",
     "addedAt": "2026-11-12",
-    "replacement": "Move the graded opener, closer and credential lines into the planner's campaign-speech pieces, keeping every key and grade, and delete the builder's reading of them; on a town body's floor day, offer the player composeFloorSpeech.",
+    "replacement": "Stages offer the planner's points for the player's stands, wordSpeechPart and the speech-stages bank are deleted, the planner says the greeting and the close, and on a town body's floor day the player is offered composeFloorSpeech.",
     "status": "open"
   },
   {
