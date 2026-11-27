@@ -1,0 +1,26 @@
+# Loving, New Mexico (3544420), seed d1ef254b96157871fa107765d9300048c2d5d9e252b59d2ae19b810ed8cc83be, asked on 2025-07-22: Daniel Mueller (filing:contest:seat:gus2025:109322:council:0:2025-11-04:person_1ee2f914179de084)
+narrator: Daniel asks for a minute of your time.
+asker: We don't know each other well. Your word carries here. I'm asking for it.
+  > [agree] You have my endorsement.
+      asker: Thank you. I'll tell people.
+        (ends: resolved)
+  > [decline] I'm not endorsing anyone in this race.
+      asker: Can I ask why?
+      > [relent] I don't have a good reason. You have my endorsement.
+          asker: Thank you. I'll tell people.
+            (ends: resolved)
+      > [refuse] The answer is no. It isn't about you.
+          asker: Alright. I heard you.
+            (ends: refused)
+  > [stall] Give me a few days. I'll have an answer.
+      asker: A few days is a long time in a race.
+      > [agree] Then you have it. Tell people.
+          asker: Thank you. I'll tell people.
+            (ends: resolved)
+      > [refuse] Then the answer is no.
+          asker: Alright. I heard you.
+            (ends: refused)
+      > [deflect] A few days. That's all I'm asking.
+          asker: A few days. Then I'm coming back.
+            (ends: resolved)
+GAPS: ask-endorsement/menu/ask after root of a request has no ask reply | ask-endorsement/reply/deflect after press | ask-endorsement/reply/relent after press
