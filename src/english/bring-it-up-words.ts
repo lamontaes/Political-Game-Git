@@ -39,7 +39,7 @@ export type LeanSide = "with" | "against";
 /** How a vote on a bill came out. */
 export type BillOutcome = "passed" | "failed";
 /** The default words are the mined bank's. */
-export const BRING_IT_UP_WORDS: BringWords = bringWordsFromBank();
+const BRING_IT_UP_WORDS: BringWords = bringWordsFromBank();
 
 /**
  * A line the speaker says: the change (by its event kind), or the blame (how

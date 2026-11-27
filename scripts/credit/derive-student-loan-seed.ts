@@ -47,7 +47,7 @@ export const AGE_BANDS = {
 } as const;
 
 /** Each band's share of the balances in the age rows, rounded to four places. */
-export function balanceShares(source: Source): Record<string, number> {
+function balanceShares(source: Source): Record<string, number> {
   const rows = Object.entries(AGE_BANDS).map(([band, suffix]) => [
     suffix,
     Number(source.balanceByAgeTrillionUsd[band]),

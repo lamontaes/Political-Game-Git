@@ -340,7 +340,7 @@ function gradedGood(): Set<string> {
  * engine that should read it (each has a pool item naming that scene). Any
  * other unread bank is a leftover to delete.
  */
-export function unreadBanksByGrade(): {
+function unreadBanksByGrade(): {
   goodWaitingForReader: string[];
   unreadBanks: string[];
 } {
@@ -366,7 +366,7 @@ export function unreadBanksByGrade(): {
  * yet. Printed, never failed on: element pull requests merge before their
  * turns are written (CTO, Nov 24: "add turns before or after merging").
  */
-export function elementsWithoutTurns(): { elements: number; noTurns: number } {
+function elementsWithoutTurns(): { elements: number; noTurns: number } {
   const dir = path.join(ROOT, "docs/story/elements");
   let statDir = false;
   try {
