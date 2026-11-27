@@ -34,7 +34,7 @@ import {
   pastSessionLaws,
 } from "../core2/past-sessions";
 import type { EntityId } from "../core2/kernel/brands";
-import { coreAPI } from "../core2/state";
+import { coreAPI, registerModule } from "../core2/state";
 import { openStartingCircle } from "../core2/modules/people";
 import { openOffices } from "../core2/modules/offices";
 import {
@@ -52,6 +52,7 @@ import { openOutsideBudgets } from "../core2/budgets-treasury";
 import { openOfficialPay } from "../core2/modules/executive";
 import { openCrime } from "../core2/modules/justice";
 import { openPatrol } from "../core2/modules/police-patrol";
+import { openCommunityEvents } from "../core2/modules/community-events";
 import { openCoverage } from "../core2/modules/coverage";
 import { openHomelessCount } from "../core2/modules/coverage";
 import { openGrievance } from "../core2/modules/people";
@@ -71,7 +72,7 @@ import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/campaigns";
 import { openPublicAction } from "../core2/modules/health";
 import { openNationalOpinion } from "../core2/modules/national-opinion";
-import { openFederalCourts } from "../core2/modules/federal-courts";
+import { FEDERAL_COURTS_MODULE } from "../core2/modules/federal-courts";
 import { openNationalEvents } from "../core2/modules/national-events";
 import {
   openSittingSessions,
@@ -85,11 +86,11 @@ import { officeDayData, openOfficeDay } from "../core2/modules/president-acts";
 import { openPresidentActs } from "../core2/modules/president-acts";
 import { openCases } from "../core2/modules/executive";
 import { openJustice } from "../core2/modules/justice";
-import { openPublicSafety } from "../core2/modules/public-safety";
+import { PUBLIC_SAFETY_MODULE } from "../core2/modules/public-safety";
 import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/modules/coverage";
-import type { CoreInput, CoreState } from "../core2/types";
+import type { CoreInput, CoreModule, CoreState } from "../core2/types";
 import { OPENING_KIN } from "../core2/opening-kin";
 import { scaleFirmsToCensus } from "../core2/modules/business";
 import { collapseToTwoLevels, fullPeople } from "../core2/modules/health";
@@ -367,6 +368,8 @@ export type BuildStage =
   | "done";
 type BuildOptions = {
   placeKey?: string;
+  /** Told the start place the moment the build settles on it (the loading card says where it is). */
+  onPlace?: (place: { displayName: string; withinName: string | null }) => void;
   /**
    * Places a new game's draw already found no player in (every adult in group
    * quarters), each with its reason: the draw passes them over and takes the
@@ -527,6 +530,19 @@ function censusScale(population: CoreInput): number {
   return real !== undefined && real > sample ? real / sample : 1;
 }
 
+/**
+ * The engines a stage of the world builder installs, in order: each installed
+ * once, then its own `worldOpen` run (the engine's opening records). The list
+ * is data the builder holds; an engine does not install itself.
+ */
+function installEngines(core: CoreState, engines: readonly CoreModule[]): void {
+  for (const engine of engines) {
+    if (core.modules.has(engine.id)) continue;
+    registerModule(core, engine);
+    engine.worldOpen?.(core);
+  }
+}
+
 function* benchWorldStages(
   seed: string,
   date: string,
@@ -548,6 +564,7 @@ function* benchWorldStages(
         ),
       );
   if (!place) throw new Error(`Unknown place key: ${options.placeKey}`);
+  options.onPlace?.(place);
   const settings = options.settings ?? {};
   checkWorldSettings(settings);
   // Day one from the century or from today's real record (CTO line 6935086070 on #9747, point 5).
@@ -558,6 +575,8 @@ function* benchWorldStages(
     placeStateKey(place.key) ?? undefined,
     // The played state's last sitting before day one runs through the real bill engine (row 14).
     lastSittingBefore(placeStateKey(place.key) ?? "", startDate),
+    // The town's own offices (its mayor, council and county) run from 1925 beside the legislatures.
+    { key: place.key, geoid: place.sourceGeoid ?? place.key },
   );
   const minimumPeople = settings.population ?? options.minimumPeople;
   // With no birthday chosen the player is the default age, 18.
@@ -806,6 +825,8 @@ function* benchWorldStages(
   openCrime(core);
   // The hours the police line pays its staff, a row per place and month.
   openPatrol(core);
+  // The town's year of community events, booked on the calendar.
+  openCommunityEvents(core);
   openEstates(core);
   openEmployerTaxes(core);
   yield "legislature";
@@ -853,10 +874,9 @@ function* benchWorldStages(
   openPresidentActs(core);
   // Prosecutors, trials and prisons: reads the corruption engine's records.
   openJustice(core);
-  // Ordinary crime, courts, jail, firearm laws and fire service.
-  openPublicSafety(core);
-  // The federal courts as a national flow and stock, from the Commission and the Bureau.
-  openFederalCourts(core);
+  // Ordinary crime, courts, jail, firearm laws and fire service; then the
+  // federal courts as a national flow and stock, from the Commission and the Bureau.
+  installEngines(core, [PUBLIC_SAFETY_MODULE, FEDERAL_COURTS_MODULE]);
   yield "history";
   // The world has a past (OPUS-CORE): prior elections, voting records, law
   // histories, the year's news and what the public knows, before day one.
