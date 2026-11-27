@@ -6,6 +6,7 @@
  *
  *   node scripts/elections/lower-families-baseline.mjs
  */
+/* global process, console */
 import { spawnSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 
