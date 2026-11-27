@@ -12,7 +12,10 @@ import { buildBenchWorld } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
 import { makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "../../src/core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../../src/core2/modules/elections";
 import { residentsRuntime } from "../../src/core2/modules/residents";
 import { coreAPI } from "../../src/core2/state";
 import {

@@ -1,15 +1,14 @@
 /** The budgets engine's front door for reads: a government's row, an adopted budget, a reserve sweep and a firm's employer taxes. Each function answers one question; none returns a table. */
-import {
-  BUDGETS_MODULE_ID,
-  type BudgetRow,
-  type GovernmentRow,
-} from "./modules/budgets";
-import {
-  EMPLOYER_TAXES_MODULE_ID,
-  type EmployerTaxRecord,
-  type ProfitTaxRecord,
+import type { BudgetRow, GovernmentRow } from "./modules/budgets";
+import type {
+  EmployerTaxRecord,
+  ProfitTaxRecord,
 } from "./modules/employer-taxes";
 import type { CoreAPI, CoreState } from "./types";
+
+/** The module ids, written here (the engines' own files name the same strings) so a door reads the tables without loading the engines. A door that named the wrong table fails `economy-reads.test.ts`, which reads each door in a played world. */
+const BUDGETS_MODULE_ID = "core2-budgets-v1";
+const EMPLOYER_TAXES_MODULE_ID = "core2-employer-taxes-v1";
 
 function store(api: CoreAPI) {
   return api.moduleState(BUDGETS_MODULE_ID);

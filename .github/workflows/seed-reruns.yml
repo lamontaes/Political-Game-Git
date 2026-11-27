@@ -1,0 +1,117 @@
+name: Seed re-runs
+# Re-runs chosen test files at chosen seeds on two commits, so a train's landing
+# table (each failure seen only on the train, re-run at its seed on main and on
+# the train) runs about 20 at a time on GitHub's runners instead of 2 on one
+# machine (owner, Nov 27, 2026: "Yes, build it").
+#
+# Inputs:
+#   cases: a JSON list, each {"file": "src/core2/x.test.ts", "env": {"NAME": "value"}}.
+#          env carries the seed the test reads (for example GOLDEN_PATH_SEED).
+#   base:  the commit or branch to compare against (main).
+#   head:  the commit or branch under test (the train).
+# The "table" job writes one row per file to the run's summary: base, head, and
+# TRAIN-ONLY where the file fails on head and passes on base.
+on:
+  workflow_dispatch:
+    inputs:
+      cases:
+        description: 'JSON list of {"file": path, "env": {NAME: value}}'
+        required: true
+      base:
+        description: Commit or branch to compare against
+        required: true
+        default: main
+      head:
+        description: Commit or branch under test
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: seed-reruns-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  rerun:
+    name: ${{ matrix.side }} ${{ matrix.case.file }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        case: ${{ fromJSON(inputs.cases) }}
+        side: [base, head]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ matrix.side == 'base' && inputs.base || inputs.head }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+      - run: npm ci
+      - name: Run the test file at its seed
+        env:
+          OCD_STORAGE_OVERRIDE: "cloud session, owner approved Oct 14"
+          CASE_ENV: ${{ toJSON(matrix.case.env) }}
+          CASE_FILE: ${{ matrix.case.file }}
+          SIDE: ${{ matrix.side }}
+          RESULT: ${{ runner.temp }}/result.json
+        run: |
+          node -e '
+            const env = JSON.parse(process.env.CASE_ENV || "{}") || {};
+            const q = (v) => "'"'"'" + String(v).replace(/'"'"'/g, "'"'"'\\'"'"''"'"'") + "'"'"'";
+            for (const [k, v] of Object.entries(env)) {
+              if (!/^[A-Z][A-Z0-9_]*$/.test(k)) throw new Error("not an environment name: " + k);
+              console.log("export " + k + "=" + q(v));
+            }
+          ' > "$RUNNER_TEMP/case-env.sh"
+          . "$RUNNER_TEMP/case-env.sh"
+          set +e
+          npx vitest run "$CASE_FILE" --reporter=default > "$RUNNER_TEMP/out.txt" 2>&1
+          code=$?
+          set -e
+          tail -60 "$RUNNER_TEMP/out.txt"
+          if [ "$code" -eq 0 ]; then result=PASS; else result=FAIL; fi
+          first=$(grep -m1 -E "AssertionError|TypeError|Error:" "$RUNNER_TEMP/out.txt" | sed 's/\x1b\[[0-9;]*m//g' | cut -c1-160 || true)
+          node -e 'require("fs").writeFileSync(process.env.RESULT, JSON.stringify({file: process.env.CASE_FILE, side: process.env.SIDE, result: process.argv[1], first: process.argv[2]}))' "$result" "$first"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: result-${{ strategy.job-index }}
+          path: ${{ runner.temp }}/result.json
+          if-no-files-found: warn
+
+  table:
+    name: table
+    needs: rerun
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: result-*
+          path: results
+      - name: Write the table
+        run: |
+          node -e '
+            const fs = require("fs"), path = require("path");
+            const rows = {};
+            const walk = (d) => { if (!fs.existsSync(d)) return; for (const f of fs.readdirSync(d)) {
+              const p = path.join(d, f);
+              if (fs.statSync(p).isDirectory()) walk(p);
+              else if (f === "result.json") { const r = JSON.parse(fs.readFileSync(p, "utf8"));
+                (rows[r.file] ??= {})[r.side] = r; } } };
+            walk("results");
+            const lines = ["| file | base | head | |", "| --- | --- | --- | --- |"];
+            let only = 0;
+            for (const [file, r] of Object.entries(rows).sort()) {
+              const b = r.base?.result ?? "none", h = r.head?.result ?? "none";
+              const flag = h === "FAIL" && b === "PASS" ? "TRAIN-ONLY: " + (r.head.first || "") : "";
+              if (flag) only++;
+              lines.push(`| ${file} | ${b} | ${h} | ${flag.replace(/\|/g, "/")} |`);
+            }
+            lines.push("", `${Object.keys(rows).length} files; ${only} fail only on head.`);
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join("\n") + "\n");
+            console.log(lines.join("\n"));
+          '

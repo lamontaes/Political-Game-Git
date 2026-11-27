@@ -27,6 +27,7 @@ import {
 } from "./modules/offices";
 import {
   ELECTIONS_MODULE_ID,
+  atLargeGroup,
   ballot,
   openElections,
   type ContestRow,
@@ -333,8 +334,11 @@ describe("terms end on schedule, vacancies open, and the player votes", () => {
     )!;
     expect(own.voted).toBe(false);
     expect(own.choice).toBeNull();
-    // A ballot marked by hand counts as marked.
-    const third = races[2];
+    // A ballot marked by hand counts as marked, in a race of its own: a seat
+    // that shares the second race's at-large field was counted with it, and
+    // counting it again would seat its winner twice.
+    const counted = new Set(atLargeGroup(api, races[1]!).map((c) => c.id));
+    const third = races.slice(2).find((c) => !counted.has(c.id));
     if (third) {
       const candidate = ballot(api, third.id)[0];
       castBallot(api, voter!.voterId, third.id, candidate?.personId ?? null);
