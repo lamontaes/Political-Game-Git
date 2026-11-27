@@ -402,8 +402,7 @@ for (const file of tracked) {
     !/^(?:src|public|art|data)\//.test(file) ||
     // A note in the game folder names its test commands in prose; code and word banks stay as written.
     /\.md$/.test(file) ||
-    destination !== file ||
-    file === "src/bench/m1-10-check.ts"
+    destination !== file
   )
     after = after
       .replace(explicit, (match) => redirects.get(match) ?? match)

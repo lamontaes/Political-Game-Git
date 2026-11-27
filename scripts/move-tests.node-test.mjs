@@ -43,7 +43,8 @@ test("moves relative test imports and source imports, preserves paths, and rerun
       ].join("\n"),
     );
     write("docs/demo.md", "`src/demo/value.test.ts`\n");
-    write("src/bench/m1-10-check.ts", "// See src/demo/value.test.ts.\n");
+    write("scripts/tool.ts", "// See src/demo/value.test.ts.\n");
+    write("src/demo/game.ts", "// See src/demo/value.test.ts.\n");
     write("tsconfig.node.json", '{\n  "include": ["src/demo/**/*.ts"]\n}\n');
     write(
       "src/demo/kit.ts",
@@ -63,9 +64,11 @@ test("moves relative test imports and source imports, preserves paths, and rerun
     assert.match(moved, /src\/demo\/value\.test\.ts", import\.meta\.url/);
     assert.equal(read("docs/demo.md"), "`tests/src/demo/value.test.ts`\n");
     assert.equal(
-      read("src/bench/m1-10-check.ts"),
+      read("scripts/tool.ts"),
       "// See tests/src/demo/value.test.ts.\n",
     );
+    // Game code keeps its comments as written; only tools and notes follow the move.
+    assert.equal(read("src/demo/game.ts"), "// See src/demo/value.test.ts.\n");
     assert.match(
       read("tsconfig.node.json"),
       /"tests\/src\/demo\/\*\*\/\*\.ts"/,
