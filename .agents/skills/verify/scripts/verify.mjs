@@ -9,7 +9,7 @@
 //    branch changed against --base (changed tests, zero-dice, zero-real-data, old-imports, pool, skill-ops).
 // 2. Every guard: npm run guards, with CHANGED_FILES set the way the CI guards job sets it.
 // 3. With --screen: starts the bench (src/bench/server.ts) headless when nothing answers on port 3000,
-//    starts a new life in a drawn place through src/bench/start-life.mjs, turns dev mode on with --dev,
+//    starts a new life in a drawn place through tests/support/start-life.mjs, turns dev mode on with --dev,
 //    opens each screen by its ring tab and button names, and saves a 1440x900 screenshot of each.
 //
 // Prints one line per stage (PASS, FAIL, SKIPPED or DID NOT RUN) and a Verified: line for the PR stamp;
@@ -157,10 +157,10 @@ async function screens(list) {
     return;
   }
   const { startLife } = await import(
-    pathToFileURL(join(ROOT, "src/bench/start-life.mjs")).href
+    pathToFileURL(join(ROOT, "tests/support/start-life.mjs")).href
   );
   const { devModeOn } = await import(
-    pathToFileURL(join(ROOT, "src/bench/dev-setup.mjs")).href
+    pathToFileURL(join(ROOT, "tests/support/dev-setup.mjs")).href
   );
   let browser;
   try {

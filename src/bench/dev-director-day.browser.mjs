@@ -2,8 +2,8 @@
 // Dev mode's director's day (src/bench/dev-views/director-day.ts) in a played life: Sheridan WY (5669845), seed 7. Runs the world until a day has a held scene, opens that day on the Calendar's dev panel and opens the cause in the trace box. Run against a fresh bench: node src/bench/dev-director-day.browser.mjs [screenshot.png]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { devModeOn } from "./dev-setup.mjs";
-import { playOpening } from "./start-life.mjs";
+import { devModeOn } from "../../tests/support/dev-setup.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
 const port = process.env.BENCH_PORT ?? 3000;
 const browser = await chromium.launch({
   args: ["--disable-dev-shm-usage", "--disable-gpu"],

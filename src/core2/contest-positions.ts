@@ -32,7 +32,7 @@ import { LAWS_MODULE_ID } from "./modules/laws";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { levelMayDecide } from "./modules/world-legislating";
 import { stanceReader } from "./campaign-stances";
-import type { OfficeLevel } from "./offices-local";
+import type { OfficeLevel } from "./modules/offices";
 import type { CoreAPI } from "./types";
 import localRecords from "./data/campaigns/local-question-records.json" with { type: "json" };
 import officeAreas from "./data/campaigns/office-areas.json" with { type: "json" };

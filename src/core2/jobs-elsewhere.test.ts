@@ -13,7 +13,7 @@ import {
 import { PAST_WORK_SPELL } from "./past-work";
 import { coreAPI, registerModule } from "./state";
 import { drawPlace } from "../../tests/golden-path/place";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import type { CoreEventInput } from "./types";
 
 // Every life is simulated (owner, Nov 1, 2026). People living elsewhere work

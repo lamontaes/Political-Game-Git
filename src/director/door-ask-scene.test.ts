@@ -25,7 +25,7 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 import { viewQuestionKey } from "./view-learned";
 import type { TreeNode } from "./scene-talk";
 import type { ScheduleEntry } from "./scheduling";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // A door the player's own canvass knocks, where the resident's agreement is
 // the day's strongest, plays as the player's ask: the player asks for their

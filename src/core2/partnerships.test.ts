@@ -7,7 +7,7 @@ import { partnershipsModule, UNION_FACT } from "./modules/partnerships";
 import { partneringPerYear, partnershipGeo } from "./opening-partnership";
 import { coreAPI, registerModule } from "./state";
 import { drawPlace } from "../../tests/golden-path/place";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import type { CoreEventInput, PersonId } from "./types";
 
 // Every life is simulated (owner, Nov 1, 2026). People living elsewhere

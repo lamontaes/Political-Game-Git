@@ -57,7 +57,7 @@ import type {
   Source,
 } from "../types";
 import { nextMeeting } from "./offices";
-import { registerSittingCalendar, type SittingDay } from "../closeness";
+import { registerSittingCalendar, type SittingDay } from "../sitting-closeness";
 import {
   addDays,
   makeIsoDate,
@@ -65,11 +65,8 @@ import {
 } from "../kernel/dates";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
-import {
-  campaignParameter,
-  personStance,
-  PLATFORM_QUESTIONS,
-} from "./elections";
+import { personStance } from "./elections";
+import { campaignParameter, PLATFORM_QUESTIONS } from "../campaign-data";
 import {
   enactLaw,
   lastEnactment,
@@ -97,7 +94,7 @@ import { seededUnit } from "../seeded";
 import { countryStateMonth, countryStates } from "./macro";
 import type { OfficeLevel } from "./offices";
 import { partySide } from "./offices";
-import { decisionLean, termOfLean } from "./people";
+import { decisionLean, termOfLean } from "../trait-decisions";
 import {
   authorityFor,
   beyondPower,

@@ -87,7 +87,7 @@ function drawsTable(recording, labels) {
   return el("table", { className: "dev-opening-table" }, head, ...rows);
 }
 
-export const slots = {
+const slots = {
   // On a person's card (the "person" slot, PR #9628): how that person opened, without the picker.
   async person({ personId, labels, send }) {
     const trace = traceBox(labels.trace);
