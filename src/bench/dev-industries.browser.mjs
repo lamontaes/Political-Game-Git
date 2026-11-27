@@ -1,7 +1,7 @@
 /* global process, console, URL */
 // Dev mode's Industries panel on the Calendar: every industry in the town with its staff and books;
 // a click on an industry lists its businesses by name, and a click on a business lists its months
-// with each record opening in Trace. No "[object Object]", no raw kind ids, no "null".
+// with each record, and each law it paid under, opening in Trace. No "[object Object]", no raw kind ids, no "null".
 // Run against a fresh bench: node src/bench/dev-industries.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
@@ -59,13 +59,22 @@ try {
   const months = page.locator(".dev-industry-months tr").nth(1);
   await months.waitFor();
   console.log(await page.locator(".dev-industry-months").innerText());
-  await page.locator(".dev-industry-months .id").first().click();
+  await page.locator(".dev-industry-months td:last-child .id").first().click();
   await page.waitForTimeout(1000);
   const trace = await page.locator(".dev-trace").innerText();
   assert.ok(
     trace.includes("business-trading:"),
     "the month's Trace did not open",
   );
+  // A law a month paid under opens in Trace too.
+  const law = page.locator(".dev-industry-months td:nth-last-child(5) .id");
+  if ((await law.count()) > 0) {
+    await law.first().click();
+    await page.waitForTimeout(1000);
+    const lawTrace = await page.locator(".dev-trace").innerText();
+    console.log(lawTrace.split("\n").slice(0, 6).join("\n"));
+    assert.ok(lawTrace.includes("law:"), "the law's Trace did not open");
+  }
   if (shots) {
     await page.locator(".dev-industry-businesses").scrollIntoViewIfNeeded();
     await page.screenshot({ path: `${shots}/dev-industries-1440x900.png` });

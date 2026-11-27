@@ -1,6 +1,6 @@
 // Dev mode's Industries panel: every industry in the town (its businesses open and closed, staff,
 // sales, payroll, profit and cash since the opening); pick one for its businesses by name; pick a
-// business for its months (sales, payroll, costs, law duties, people hired and let go), each record
+// business for its months (sales, payroll, costs, staff, what it paid under each law or tax with the law behind it, people hired and let go), each record
 // opening in Trace. It reads one tally (src/bench/dev-industries.ts) through its view's routes
 // (src/bench/dev-views/industries.ts); it writes nothing and spends no time. Words are control names and record data only.
 import { el } from "./dom.mjs";
@@ -35,7 +35,24 @@ async function devIndustriesPanel({ labels, send }) {
           { name: labels.sales, value: (m) => money(m.salesMinor) },
           { name: labels.payroll, value: (m) => money(m.payrollMinor) },
           { name: labels.allCosts, value: (m) => money(m.costsMinor) },
-          { name: labels.duties, value: (m) => money(m.complianceMinor) },
+          {
+            name: labels.staff,
+            value: (m) => (m.staff === undefined ? "" : count(m.staff)),
+          },
+          {
+            name: labels.charges,
+            value: (m) =>
+              el(
+                "span",
+                {},
+                ...m.charges.flatMap((charge, i) => [
+                  `${i ? "; " : ""}${labels.chargeKinds[charge.kind] ?? labels.chargeKinds["*"]} ${money(charge.minor)}${charge.weighed ? "" : ` (${labels.notWeighed})`}`,
+                  ...charge.lawIds.map((id) =>
+                    idLink(id, open, ` ${labels.lawRecord}`),
+                  ),
+                ]),
+              ),
+          },
           { name: labels.hired, value: (m) => count(m.hired) },
           { name: labels.letGo, value: (m) => count(m.letGo) },
           { name: labels.left, value: (m) => count(m.left) },

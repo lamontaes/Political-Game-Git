@@ -3,8 +3,8 @@
  * Dev mode's Industries page reads one tally: every business by its kind, its staff and its
  * books, and one business month by month from the business engine's trading records and the
  * jobs engine's change records. Pinned: Center, North Dakota (3813180), seed ilt-3813180, a
- * small town whose utility holds most of its jobs. Its body runs 11.2 s alone and 13.9 s beside three
- * other files; the limit is 30 s.
+ * small town whose utility holds most of its jobs. Its body runs 14.5 s alone and 19.7 s beside three
+ * other files; the limit is 40 s.
  */
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "./world";
@@ -35,7 +35,7 @@ const where = `${world.place.displayName} (${placeKey}), seed ${seed}`;
 describe(`dev industries: ${where}`, () => {
   it(
     "tallies the town's businesses by kind and shows one month by month",
-    { timeout: 30_000 },
+    { timeout: 40_000 },
     () => {
       dev.advance(addDays(makeIsoDate(world.core.date), 95));
       const api = coreAPI(world.core);
@@ -74,6 +74,33 @@ describe(`dev industries: ${where}`, () => {
         0,
       );
       expect(outside, where).toBeGreaterThan(0);
+      // What each month paid under laws and taxes is its trading record's, with the law rows behind it.
+      const trading = api
+        .moduleState("business")
+        .table("trading")
+        .rows() as unknown as {
+        id: string;
+        charges?: { kind: string; minor: number; lawIds: string[] }[];
+        staff?: number;
+      }[];
+      const paid = view.months.flatMap((m) => m.charges);
+      for (const m of view.months) {
+        const row = trading.find((r) => r.id === m.id)!;
+        const law = (row.charges ?? []).filter(
+          (c) =>
+            !["wages", "supplies", "outside-costs"].includes(c.kind) &&
+            c.minor !== 0,
+        );
+        expect(m.charges, `${where}: ${m.id}`).toEqual(law);
+        expect(m.staff, `${where}: ${m.id}`).toBe(row.staff);
+      }
+      process.stderr.write(
+        `${where}: charges ${JSON.stringify(paid.slice(0, 4))}\n`,
+      );
+      expect(
+        paid.some((c) => c.minor > 0 && c.lawIds.length > 0),
+        `${where}: no month paid a charge under a named law`,
+      ).toBe(true);
     },
   );
 });

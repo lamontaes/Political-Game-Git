@@ -13,6 +13,7 @@ import {
   businessBooksView,
   businessesIn,
   sectorOfKind,
+  type BusinessMonthCharge,
 } from "../core2/modules/business";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { residentsRuntime } from "../core2/modules/residents";
@@ -177,7 +178,14 @@ export interface IndustryBusinessMonth {
   readonly salesMinor: number;
   readonly payrollMinor: number;
   readonly costsMinor: number;
-  readonly complianceMinor: number;
+  /**
+   * What the month paid under laws and taxes, by kind, with the law rows behind each and whether the
+   * staffing and closing decisions weighed it (the trading row's charges; wages, supplies and outside
+   * costs are the other columns).
+   */
+  readonly charges: readonly BusinessMonthCharge[];
+  /** Staff at the month's end, as the trading row keeps it. */
+  readonly staff?: number;
   readonly lossMonths: number;
   /** People hired, and let go (layoffs, staff cuts, a closing), by the jobs engine's change records. */
   readonly hired: number;
@@ -207,6 +215,8 @@ const rowsOf = (api: CoreAPI, moduleId: string, name: string): Row[] =>
 
 const LET_GO = new Set(["layoff", "staff-shed", "closure"]);
 const LEFT = new Set(["quit", "left-work"]);
+/** The month's costs that are not paid under a law or tax: their own columns. */
+const NOT_LAW = new Set(["wages", "supplies", "outside-costs"]);
 
 /** One business month by month, from the records the business and jobs engines keep. */
 export function industryBusiness(
@@ -238,7 +248,10 @@ export function industryBusiness(
       salesMinor: Number(row.salesMinor),
       payrollMinor: Number(row.payrollMinor),
       costsMinor: Number(row.costsMinor),
-      complianceMinor: Number(row.complianceMinor),
+      charges: ((row.charges ?? []) as BusinessMonthCharge[]).filter(
+        (charge) => !NOT_LAW.has(charge.kind) && charge.minor !== 0,
+      ),
+      ...(row.staff === undefined ? {} : { staff: Number(row.staff) }),
       lossMonths: Number(row.lossMonths),
       hired: heads((kind) => kind === "hire"),
       letGo: heads((kind) => LET_GO.has(kind)),
