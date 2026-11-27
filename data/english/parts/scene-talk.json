@@ -1774,7 +1774,11 @@
       "tag": {
         "move": "press",
         "key": "routine"
-      }
+      },
+      "elements": [
+        "reporter-calls-on-a-recorded-no",
+        "explain-vote-by-district-opinion"
+      ]
     },
     {
       "key": "scene-talk.follow-press.people-will-want-to-hear-it-from-you-not-from-me",
@@ -1809,7 +1813,11 @@
       "tag": {
         "move": "press",
         "key": "routine"
-      }
+      },
+      "elements": [
+        "reporter-calls-on-a-recorded-no",
+        "explain-vote-by-district-opinion"
+      ]
     },
     {
       "key": "scene-talk.reply-stall.ask-me-thursday",
@@ -5332,7 +5340,8 @@
       "tag": {
         "move": "plea",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["new-assignment-after-leadership-vote"]
     },
     {
       "key": "scene-talk.follow-accept.then-we-re-even-and-i-won-t-bring-up-earlier-again",
@@ -5358,7 +5367,8 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["new-assignment-after-leadership-vote"]
     },
     {
       "key": "scene-talk.follow-threaten.i-ll-remember-earlier-the-next-time-you-need-one",
@@ -6860,7 +6870,8 @@
       "tag": {
         "move": "bargain",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["new-assignment-after-leadership-vote"]
     },
     {
       "key": "scene-talk.follow-bargain.what-if-section-price-section-came-down-by-half",
@@ -7912,7 +7923,8 @@
         "of": "donor-ask-close-accept",
         "part": "core",
         "required": true
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
       "key": "scene-talk.reply-decline.i-ve-made-up-my-mind-on-about-and-a-check-won-t-change-it",
@@ -8761,7 +8773,11 @@
       "tag": {
         "move": "confront",
         "key": "threat"
-      }
+      },
+      "elements": [
+        "earlier-witness-can-expose-a-false-account",
+        "sharp-answer-after-second-press"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.then-that-goes-in-the-story-the-way-you-said-it",
@@ -8848,7 +8864,8 @@
       "tag": {
         "move": "ask",
         "key": "threat"
-      }
+      },
+      "elements": ["reporter-calls-on-a-recorded-no"]
     },
     {
       "key": "scene-talk.reply-answer.i-couldn-t-say-no-to-someone-that-close-to-me",
@@ -9015,7 +9032,8 @@
       "tag": {
         "move": "press",
         "key": "threat"
-      }
+      },
+      "elements": ["reporter-names-the-allegation"]
     },
     {
       "key": "scene-talk.reply-lie.those-papers-are-wrong",
@@ -9177,7 +9195,8 @@
       "tag": {
         "move": "answer",
         "key": "threat"
-      }
+      },
+      "elements": ["quote-refusal-ends-interview"]
     },
     {
       "key": "scene-talk.reply-confess.alright-i-should-have-stepped-aside",
@@ -9295,7 +9314,8 @@
       "tag": {
         "move": "ask",
         "key": "threat"
-      }
+      },
+      "elements": ["sharp-answer-after-second-press"]
     },
     {
       "key": "scene-talk.state-ask.we-re-running-a-story-that-contract-went-to-firm-relative-owns-it-and-li",
@@ -10090,7 +10110,8 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["new-assignment-after-leadership-vote"]
     },
     {
       "key": "scene-talk.follow-press.i-can-t-wait-long-people-are-deciding-now",
@@ -10925,7 +10946,8 @@
       "tag": {
         "move": "press",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
     },
     {
       "key": "scene-talk.follow-press.then-start-knocking-they-ve-already-been-here",
@@ -10950,7 +10972,8 @@
       "tag": {
         "move": "press",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-a30-stay-on-your-message"]
     },
     {
       "key": "scene-talk.follow-answer.opponent-is-for-about",
@@ -11493,7 +11516,8 @@
       "tag": {
         "move": "thank",
         "key": "threat"
-      }
+      },
+      "elements": ["authority-before-floodwater"]
     },
     {
       "key": "scene-talk.follow-answer.it-puts-the-state-on-record-as-acting-if-federal-aid-comes-it-comes",
@@ -12166,7 +12190,11 @@
       "tag": {
         "move": "refuse",
         "key": "serve-asked"
-      }
+      },
+      "elements": [
+        "member-asked-for-a-vote-stays-undecided-until-the-floor",
+        "a-question-counted-as-a-pledge"
+      ]
     },
     {
       "key": "scene-talk.follow-refuse.i-can-t-promise-that-i-d-be-lying-to-you",
@@ -12192,7 +12220,11 @@
       "tag": {
         "move": "refuse",
         "key": "serve-asked"
-      }
+      },
+      "elements": [
+        "member-asked-for-a-vote-stays-undecided-until-the-floor",
+        "a-question-counted-as-a-pledge"
+      ]
     },
     {
       "key": "scene-talk.reply-agree.then-yes-i-ll-run-with-you",
@@ -13969,7 +14001,11 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-b7-01-are-you-still-with-us",
+        "member-asked-for-a-vote-stays-undecided-until-the-floor"
+      ]
     },
     {
       "key": "scene-talk.follow-threaten.then-don-t-come-to-me-on-their-bill",
@@ -15470,7 +15506,8 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["pattern-b7-11-no-and-then-again"]
     },
     {
       "key": "scene-talk.follow-accept.fine-forget-bill-came-up-between-us",
@@ -15734,7 +15771,8 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["pattern-b7-11-no-and-then-again"]
     },
     {
       "key": "scene-talk.close-press.don-t-take-too-long-contract-won-t-wait",
@@ -16366,7 +16404,8 @@
       "tag": {
         "move": "plea",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-11-no-and-then-again"]
     },
     {
       "key": "scene-talk.follow-plea.please-without-contract-i-lose-what-i-have",
@@ -16468,7 +16507,8 @@
       "tag": {
         "move": "press",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-11-no-and-then-again"]
     },
     {
       "key": "scene-talk.follow-press.contract-isn-t-going-away-and-neither-am-i",
@@ -16493,7 +16533,8 @@
       "tag": {
         "move": "press",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-11-no-and-then-again"]
     },
     {
       "key": "scene-talk.follow-threaten.someday-you-ll-want-someone-to-remember-how-contract-went",
@@ -16619,7 +16660,8 @@
       "tag": {
         "move": "accept",
         "key": "threat"
-      }
+      },
+      "elements": ["name-the-favor-before-making-the-offer"]
     },
     {
       "key": "scene-talk.close-accept.then-we-re-done-contract-goes-how-it-goes",
@@ -16976,7 +17018,8 @@
       "tag": {
         "move": "confront",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
       "key": "scene-talk.follow-threaten.i-ve-asked-twice-about-bill-i-won-t-ask-a-third-time",
@@ -17054,7 +17097,8 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
       "key": "scene-talk.follow-press.tell-me-what-would-change-your-mind-on-bill",
@@ -17080,7 +17124,8 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.follow-thank.an-answer-at-last-on-bill-thank-you",
@@ -17132,7 +17177,8 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
       "key": "scene-talk.follow-threaten.the-next-check-finds-somebody-who-returns-calls-on-bill",
@@ -17184,7 +17230,8 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
       "key": "scene-talk.follow-press.that-s-a-start-on-bill-i-came-for-a-yes",
@@ -17210,7 +17257,8 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
       "key": "scene-talk.follow-accept.fine-i-ll-bring-what-i-have-on-bill-don-t-make-me-wait",
@@ -17930,7 +17978,8 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
       "key": "scene-talk.close-press.i-ll-call-again-before-bill-moves-have-an-answer",
@@ -18013,7 +18062,8 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
       "key": "scene-talk.close-accept.then-we-see-bill-differently-i-ll-make-my-case-elsewhere",
@@ -18039,7 +18089,8 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
       "key": "scene-talk.close-thank.thank-you-employer-will-hear-that-you-listened",
@@ -18066,7 +18117,8 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
       "key": "scene-talk.close-thank.thank-you-for-listening-on-bill",
@@ -18093,7 +18145,8 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
       "key": "scene-talk.follow-answer.source-checked-the-committee-s-own-record-on-bill",
@@ -18368,7 +18421,8 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
       "key": "scene-talk.follow-press.bill-was-just-filed-tell-me-which-way-you-re-leaning",
@@ -18450,7 +18504,8 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
       "key": "scene-talk.follow-accept.don-t-apologize-i-ll-find-another-way-on-bill",
@@ -18476,7 +18531,8 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
       "key": "scene-talk.follow-accept.alright-i-ll-bring-people-who-live-with-bill",
@@ -21217,7 +21273,8 @@
       "tag": {
         "move": "thank",
         "key": "door"
-      }
+      },
+      "elements": ["neighbor-with-a-clipboard"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-that-helps-me-get-on-the-ballot-for-office",
@@ -21242,7 +21299,8 @@
       "tag": {
         "move": "thank",
         "key": "door"
-      }
+      },
+      "elements": ["neighbor-with-a-clipboard"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-that-s-one-more-before-due",
@@ -21318,7 +21376,11 @@
       "tag": {
         "move": "thank",
         "key": "door"
-      }
+      },
+      "elements": [
+        "petition-short-by-a-few-names",
+        "petition-struck-names-decide-it"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.thanks-that-means-more-coming-from-you-i-ll-earn-it-before-vote-day",
@@ -21684,7 +21746,8 @@
       "tag": {
         "move": "press",
         "key": "door"
-      }
+      },
+      "elements": ["neighbor-with-a-clipboard"]
     },
     {
       "key": "scene-talk.follow-press.it-takes-a-minute-i-need-names-by-due",
@@ -21710,7 +21773,11 @@
       "tag": {
         "move": "press",
         "key": "door"
-      }
+      },
+      "elements": [
+        "petition-the-hustle-before-the-deadline",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
@@ -23307,7 +23374,8 @@
       "tag": {
         "move": "press",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.follow-press.fair-what-s-holding-you-back-on-cause",
@@ -25631,7 +25699,8 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["quote-refusal-ends-interview"]
     },
     {
       "key": "scene-talk.close-accept.understood-then",
@@ -25656,7 +25725,8 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["quote-refusal-ends-interview"]
     },
     {
       "key": "scene-talk.close-accept.your-decision",
@@ -25681,7 +25751,8 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["quote-refusal-ends-interview"]
     },
     {
       "key": "scene-talk.close-warn.we-ll-cover-the-race-for-office-either-way",
@@ -25732,7 +25803,11 @@
       "tag": {
         "move": "warn",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "a-challenger-skips-the-debate-and-the-incumbent-faces-an-empty-chair",
+        "empty-chair-gets-the-stage"
+      ]
     },
     {
       "key": "scene-talk.close-warn.we-ll-still-report-on-office",
@@ -26927,7 +27002,8 @@
       "tag": {
         "move": "thank",
         "key": "loss"
-      }
+      },
+      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
     },
     {
       "key": "scene-talk.follow-thank.it-matters",
@@ -27893,7 +27969,8 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["pattern-b19-who-gets-on-the-stage"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-that-puts-you-in-the-office-debate",
@@ -27917,7 +27994,8 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["pattern-b19-who-gets-on-the-stage"]
     },
     {
       "key": "scene-talk.follow-thank.glad-to-hear-it-the-office-debate-is-set",
@@ -28018,7 +28096,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "a-challenger-skips-the-debate-and-the-incumbent-faces-an-empty-chair",
+        "incumbent-will-do-one-debate-and-it-is-the-chamber's"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.understood-outlet-will-keep-the-debate-moving",
@@ -28268,7 +28350,10 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "a-challenger-skips-the-debate-and-the-incumbent-faces-an-empty-chair"
+      ]
     },
     {
       "key": "scene-talk.close-accept.we-ll-move-on",
@@ -28293,7 +28378,11 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "a-challenger-skips-the-debate-and-the-incumbent-faces-an-empty-chair",
+        "forum-with-one-candidate-is-canceled"
+      ]
     },
     {
       "key": "scene-talk.close-accept.your-choice",
@@ -28318,7 +28407,10 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "a-challenger-skips-the-debate-and-the-incumbent-faces-an-empty-chair"
+      ]
     },
     {
       "key": "scene-talk.close-warn.the-debate-for-office-will-go-on-regardless",
@@ -29318,7 +29410,8 @@
       "tag": {
         "move": "press",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-press.can-you-tell-me-anything-i-can-say-to-child",
@@ -29343,7 +29436,8 @@
       "tag": {
         "move": "press",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-press.i-don-t-want-to-push-but-child-is-going-to-ask-do-we-have-a-plan-yet",
@@ -29393,7 +29487,8 @@
       "tag": {
         "move": "press",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-press.we-waited-away-and-i-need-to-know-where-we-stand",
@@ -29418,7 +29513,8 @@
       "tag": {
         "move": "press",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-press.i-don-t-want-to-rush-you-after-away-but-where-do-we-stand",
@@ -29443,7 +29539,8 @@
       "tag": {
         "move": "press",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-press.i-don-t-want-to-push-but-child-is-on-my-mind",
@@ -29468,7 +29565,8 @@
       "tag": {
         "move": "press",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-press.could-you-tell-me-where-i-stand-with-child",
@@ -29493,7 +29591,8 @@
       "tag": {
         "move": "press",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-press.i-know-it-s-a-lot-i-just-want-to-see-child-soon",
@@ -29518,7 +29617,8 @@
       "tag": {
         "move": "press",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-press.i-can-wait-but-after-away-i-d-like-to-know-what-to-expect",
@@ -29543,7 +29643,8 @@
       "tag": {
         "move": "press",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-press.i-know-i-m-asking-a-lot-after-away-could-you-tell-me-where-i-stand",
@@ -29568,7 +29669,8 @@
       "tag": {
         "move": "press",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-press.i-understand-but-where-do-i-go-after-away-if-not-here",
@@ -29593,7 +29695,8 @@
       "tag": {
         "move": "press",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-accept.understood-child-and-i-will-be-here",
@@ -29993,7 +30096,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-answer.it-isn-t-about-child",
@@ -30613,7 +30717,8 @@
       "tag": {
         "move": "promise",
         "key": "diploma"
-      }
+      },
+      "elements": ["pattern-b5-07-the-day-after-the-threshold"]
     },
     {
       "key": "scene-talk.follow-promise.whatever-you-choose",
@@ -30861,7 +30966,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-thank.child-will-be-glad-you-said-that",
@@ -30911,7 +31017,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-thank.after-away-hearing-that-means-a-lot",
@@ -30936,7 +31043,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-thank.i-m-glad-you-said-that-after-away",
@@ -30961,7 +31069,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-thank.away-was-long-and-i-m-glad-it-s-over",
@@ -30986,7 +31095,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.reply-decline.i-m-not-ready",
@@ -33197,7 +33307,8 @@
       "tag": {
         "move": "press",
         "key": "diploma"
-      }
+      },
+      "elements": ["pattern-b5-07-the-day-after-the-threshold"]
     },
     {
       "key": "scene-talk.follow-press.what-comes-first",
@@ -33230,7 +33341,8 @@
       "tag": {
         "move": "press",
         "key": "diploma"
-      }
+      },
+      "elements": ["pattern-b5-07-the-day-after-the-threshold"]
     },
     {
       "key": "scene-talk.follow-press.and-then-what",
@@ -33459,7 +33571,8 @@
       "tag": {
         "move": "thank",
         "key": "diploma"
-      }
+      },
+      "elements": ["pattern-b5-07-the-day-after-the-threshold"]
     },
     {
       "key": "scene-talk.close-thank.i-m-glad",
@@ -37457,7 +37570,8 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["pattern-b5-05-under-one-roof-or-not"]
     },
     {
       "key": "scene-talk.follow-thank.i-m-so-happy",
@@ -39183,7 +39297,8 @@
       "tag": {
         "move": "press",
         "key": "loss"
-      }
+      },
+      "elements": ["pattern-b6-01-the-one-who-is-far-away"]
     },
     {
       "key": "scene-talk.follow-answer.start-with-how-absent-is-you-don-t-have-to-start-with-the-old-things",
@@ -39376,7 +39491,8 @@
       "tag": {
         "move": "thank",
         "key": "loss"
-      }
+      },
+      "elements": ["pattern-b6-01-the-one-who-is-far-away"]
     },
     {
       "key": "scene-talk.follow-thank.i-m-glad-it-ll-mean-a-lot-to-absent",
@@ -39402,7 +39518,8 @@
       "tag": {
         "move": "thank",
         "key": "loss"
-      }
+      },
+      "elements": ["pattern-b6-01-the-one-who-is-far-away"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-absent-will-be-glad-to-hear-from-you",
@@ -39428,7 +39545,8 @@
       "tag": {
         "move": "thank",
         "key": "loss"
-      }
+      },
+      "elements": ["pattern-b6-01-the-one-who-is-far-away"]
     },
     {
       "key": "scene-talk.reply-decline.that-s-not-mine-to-fix-absent-knows-where-i-am",
@@ -41902,7 +42020,8 @@
       "tag": {
         "move": "thank",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names"]
     },
     {
       "key": "scene-talk.follow-thank.good-due-is-the-last-day-for-the-sheets-so-make-the-most-of-it",
@@ -41958,7 +42077,8 @@
       "tag": {
         "move": "thank",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names"]
     },
     {
       "key": "scene-talk.narrate-narrate.the-petition-for-office-lies-between-you-with-white-space-left-on-it",
@@ -42713,7 +42833,8 @@
       "tag": {
         "move": "press",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-c24-sick-in-office"]
     },
     {
       "key": "scene-talk.follow-press.relative-should-hear-it-soon",
@@ -42995,7 +43116,8 @@
       "tag": {
         "move": "thank",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
     },
     {
       "key": "scene-talk.follow-thank.that-helps",
@@ -44610,7 +44732,8 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["after-a-bad-loss-the-spouse-is-asked-before-running-again"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-is-on-the-phone",
@@ -47403,7 +47526,8 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["coffee-with-a-friend-considering-a-run"]
     },
     {
       "key": "scene-talk.follow-press.please-think-again-the-race-for-office-is-a-lot-of-work",
@@ -47427,7 +47551,8 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["spouse-calls-a-run-a-huge-sacrifice"]
     },
     {
       "key": "scene-talk.follow-press.it-s-a-lot-running-for-office-by-yourself",
@@ -47688,7 +47813,8 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["after-a-bad-loss-the-spouse-is-asked-before-running-again"]
     },
     {
       "key": "scene-talk.close-accept.that-s-your-right",
@@ -49912,7 +50038,8 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["pattern-b5-05-under-one-roof-or-not"]
     },
     {
       "key": "scene-talk.follow-thank.asked-has-family-will-be-relieved-to-hear-it",
@@ -52371,7 +52498,8 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["pattern-b5-08-the-call-with-an-offer"]
     },
     {
       "key": "scene-talk.close-thank.thanks-again-we-ll-see-you-at-employer",
@@ -52395,7 +52523,8 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["pattern-b5-08-the-call-with-an-offer"]
     },
     {
       "key": "scene-talk.close-accept.all-right-i-won-t-call-about-position-again",
@@ -52524,7 +52653,8 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["decline-without-bragging-about-another-job"]
     },
     {
       "key": "scene-talk.follow-accept.that-s-fine-i-ll-offer-position-to-someone-else",
@@ -52549,7 +52679,8 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["a-rival-offer-or-low-pay-makes-an-employer-lose-its-pick"]
     },
     {
       "key": "scene-talk.follow-accept.i-understand-employer-wishes-you-well",
@@ -52574,7 +52705,8 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["decline-without-bragging-about-another-job"]
     },
     {
       "key": "scene-talk.follow-press.i-understand-you-want-time-employer-can-wait-until-deadline-but-not-much-past-it",
@@ -52600,7 +52732,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-deadline-one-to-two-days-fair",
+        "pattern-b5-08-the-call-with-an-offer"
+      ]
     },
     {
       "key": "scene-talk.follow-press.take-a-moment-before-you-decide-position-is-a-good-job-and-we-picked-you",
@@ -52625,7 +52761,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-deadline-one-to-two-days-fair",
+        "pattern-b5-08-the-call-with-an-offer"
+      ]
     },
     {
       "key": "scene-talk.follow-press.the-job-at-employer-is-still-yours-until-deadline-if-you-change-your-mind",
@@ -52651,7 +52791,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-deadline-one-to-two-days-fair",
+        "pattern-b5-08-the-call-with-an-offer"
+      ]
     },
     {
       "key": "scene-talk.follow-press.is-there-something-about-position-that-s-holding-you-back",
@@ -52676,7 +52820,8 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["pattern-b5-08-the-call-with-an-offer"]
     },
     {
       "key": "scene-talk.follow-thank.i-m-glad-you-said-yes-the-people-at-employer-will-be-too",
@@ -52700,7 +52845,11 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "acceptance-restates-the-terms",
+        "pattern-b5-08-the-call-with-an-offer"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.welcome-aboard-employer-is-lucky-to-have-you",
@@ -52796,7 +52945,11 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "acceptance-restates-the-terms",
+        "pattern-b5-08-the-call-with-an-offer"
+      ]
     },
     {
       "key": "scene-talk.reply-leave.this-isn-t-a-good-moment-to-decide-about-employer-i-m-sorry",
@@ -54828,7 +54981,8 @@
       "tag": {
         "move": "thank",
         "key": "no-diploma"
-      }
+      },
+      "elements": ["pattern-b5-07-the-day-after-the-threshold"]
     },
     {
       "key": "scene-talk.follow-thank.good-thank-you",
@@ -54903,7 +55057,8 @@
       "tag": {
         "move": "press",
         "key": "no-diploma"
-      }
+      },
+      "elements": ["pattern-b5-07-the-day-after-the-threshold"]
     },
     {
       "key": "scene-talk.follow-press.pick-a-day-to-call-school-short-even-a-small-one",
@@ -54928,7 +55083,8 @@
       "tag": {
         "move": "press",
         "key": "no-diploma"
-      }
+      },
+      "elements": ["pattern-b5-07-the-day-after-the-threshold"]
     },
     {
       "key": "scene-talk.follow-press.first-step",
@@ -55057,7 +55213,8 @@
       "tag": {
         "move": "promise",
         "key": "no-diploma"
-      }
+      },
+      "elements": ["pattern-b5-07-the-day-after-the-threshold"]
     },
     {
       "key": "scene-talk.close-promise.a-plan-together",
@@ -56449,7 +56606,8 @@
       "tag": {
         "move": "confront",
         "key": "arrival"
-      }
+      },
+      "elements": ["unwritten-routines-nobody-explains"]
     },
     {
       "key": "scene-talk.follow-confront.say-it-but-not-in-front-of-the-crew-at-workplace",
@@ -56499,7 +56657,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.follow-thank.thanks-i-appreciate-you-saying-that-as-position",
@@ -56524,7 +56683,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["a-mentor-gives-the-newcomer-a-person-to-ask"]
     },
     {
       "key": "scene-talk.follow-thank.thanks-that-means-a-lot-on-day-one-at-workplace",
@@ -56549,7 +56709,11 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "pattern-b6-02-the-new-face-in-the-room"
+      ]
     },
     {
       "key": "scene-talk.close-thank.thanks-for-being-easy-to-work-with-at-workplace",
@@ -56627,7 +56791,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["new-hire-asks-for-an-introduction-note"]
     },
     {
       "key": "scene-talk.close-promise.i-ll-look-out-for-you-your-first-week-at-workplace",
@@ -59899,7 +60064,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-i-want-child-to-see-me-steady",
@@ -59924,7 +60090,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-child-won-t-see-me-waste-this",
@@ -59949,7 +60116,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-after-away-i-didn-t-expect-this",
@@ -59974,7 +60142,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-away-taught-me-what-a-roof-is-worth",
@@ -59999,7 +60168,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.follow-thank.after-away-inside-a-bed-means-more-than-you-know-thank-you",
@@ -60024,7 +60194,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-talk.reply-leave.i-can-t",
@@ -62162,7 +62333,8 @@
       "tag": {
         "move": "accept",
         "key": "loss"
-      }
+      },
+      "elements": ["severance-paid-as-salary-continuation"]
     },
     {
       "key": "scene-talk.follow-accept.i-ll-see-what-i-can-do-about-the-terms-at-workplace",
@@ -62187,7 +62359,8 @@
       "tag": {
         "move": "accept",
         "key": "loss"
-      }
+      },
+      "elements": ["severance-paid-as-salary-continuation"]
     },
     {
       "key": "scene-talk.follow-refuse.i-asked-and-they-won-t-change-the-terms-at-workplace",
@@ -62237,7 +62410,8 @@
       "tag": {
         "move": "refuse",
         "key": "loss"
-      }
+      },
+      "elements": ["severance-agreement-handed-over-at-meeting"]
     },
     {
       "key": "scene-talk.follow-refuse.i-asked-and-they-said-no-the-offer-stands-at-workplace",
@@ -62461,7 +62635,8 @@
       "tag": {
         "move": "promise",
         "key": "loss"
-      }
+      },
+      "elements": ["references-and-other-openings-offered"]
     },
     {
       "key": "scene-talk.follow-promise.i-ll-tell-anyone-who-asks-you-worked-well-at-workplace",
@@ -62486,7 +62661,8 @@
       "tag": {
         "move": "promise",
         "key": "loss"
-      }
+      },
+      "elements": ["references-and-other-openings-offered"]
     },
     {
       "key": "scene-talk.follow-promise.i-ll-vouch-for-you-to-anyone-hiring-for-work-as-position",
@@ -62511,7 +62687,8 @@
       "tag": {
         "move": "promise",
         "key": "loss"
-      }
+      },
+      "elements": ["references-and-other-openings-offered"]
     },
     {
       "key": "scene-talk.reply-ask.who-decided-this-at-workplace-and-when",
@@ -63368,7 +63545,8 @@
       "tag": {
         "move": "promise",
         "key": "loss"
-      }
+      },
+      "elements": ["severance-agreement-handed-over-at-meeting"]
     },
     {
       "key": "scene-talk.close-promise.you-have-my-word-on-the-reference-for-work-as-position",
@@ -63559,7 +63737,8 @@
       "tag": {
         "move": "warn",
         "key": "loss"
-      }
+      },
+      "elements": ["severance-agreement-handed-over-at-meeting"]
     },
     {
       "key": "scene-talk.close-press.i-do-need-your-answer-on-the-terms-at-workplace-soon",
@@ -64444,7 +64623,8 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["asking-a-friend-for-a-lead-after-a-layoff"]
     },
     {
       "key": "scene-talk.follow-accept.that-s-alright-i-ll-keep-looking-since-i-left-workplace",
@@ -64494,7 +64674,8 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["asking-a-friend-for-a-lead-after-a-layoff"]
     },
     {
       "key": "scene-talk.follow-thank.thanks-that-s-more-than-i-got-at-workplace",
@@ -64544,7 +64725,8 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["references-and-other-openings-offered"]
     },
     {
       "key": "scene-talk.follow-press.tell-them-what-i-did-at-workplace",
@@ -64569,7 +64751,12 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "a-referred-hire-stays-longer-than-others",
+        "asking-a-friend-for-a-lead-after-a-layoff",
+        "pattern-a10-the-mentor-who-makes-a-call"
+      ]
     },
     {
       "key": "scene-talk.follow-press.if-i-apply-mention-my-work-as-position",
@@ -64594,7 +64781,12 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "a-referred-hire-stays-longer-than-others",
+        "asking-a-friend-for-a-lead-after-a-layoff",
+        "pattern-a10-the-mentor-who-makes-a-call"
+      ]
     },
     {
       "key": "scene-talk.follow-press.i-ll-apply-vouch-for-my-time-at-workplace",
@@ -64619,7 +64811,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "a-referred-hire-stays-longer-than-others",
+        "asking-a-friend-for-a-lead-after-a-layoff"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.i-worked-as-position-at-employer-and-i-d-do-it-again",
@@ -64933,7 +65129,8 @@
       "tag": {
         "move": "promise",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["asking-a-friend-for-a-lead-after-a-layoff"]
     },
     {
       "key": "scene-talk.close-accept.i-understand-sorry-to-ask-about-work-as-position",
@@ -65038,7 +65235,8 @@
       "tag": {
         "move": "warn",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["asking-a-friend-for-a-lead-after-a-layoff"]
     },
     {
       "key": "scene-talk.close-warn.this-can-t-wait-long-now-that-i-ve-left-workplace",
@@ -66913,7 +67111,11 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-b7-01-are-you-still-with-us",
+        "member-asked-for-a-vote-stays-undecided-until-the-floor"
+      ]
     },
     {
       "key": "scene-talk.follow-press.that-doesn-t-answer-me-about-bill-where-do-you-stand",
@@ -67072,7 +67274,11 @@
       "tag": {
         "move": "press",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-c38-the-promise-and-the-bill-on-your-desk",
+        "a-question-counted-as-a-pledge"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.i-ll-take-another-look-at-section-section-of-bill",
@@ -67135,7 +67341,11 @@
       "tag": {
         "move": "press",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-c38-the-promise-and-the-bill-on-your-desk",
+        "a-question-counted-as-a-pledge"
+      ]
     },
     {
       "key": "scene-talk.follow-plea.i-m-counting-on-you-for-bill-please-don-t-leave-me-short",
@@ -67201,7 +67411,11 @@
       "tag": {
         "move": "thank",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "family-asks-who-covers-the-kids",
+        "the-children-were-brought-out-for-every-campaign"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.i-needed-to-hear-that-we-ve-been-telling-child-what-running-for-office",
@@ -67227,7 +67441,11 @@
       "tag": {
         "move": "thank",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "family-asks-who-covers-the-kids",
+        "wife-says-daughters-get-a-vote-too"
+      ]
     },
     {
       "key": "scene-talk.follow-promise.then-i-ll-take-child-on-the-nights-you-re-at-the-meetings",
@@ -67253,7 +67471,11 @@
       "tag": {
         "move": "promise",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "family-asks-who-covers-the-kids",
+        "a-spouse-handles-the-kids-while-the-legislature-sits"
+      ]
     },
     {
       "key": "scene-talk.follow-decline.i-can-t-take-child-every-night-and-you-know-it",
@@ -67359,7 +67581,11 @@
       "tag": {
         "move": "press",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "family-asks-who-covers-the-kids",
+        "a-spouse-handles-the-kids-while-the-legislature-sits"
+      ]
     },
     {
       "key": "scene-talk.follow-plea.please-just-tell-me-where-child-fits-if-you-run-for-office",
@@ -67385,7 +67611,11 @@
       "tag": {
         "move": "plea",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "a-mother-asks-her-teenage-daughter-before-running",
+        "spouse-calls-a-run-a-huge-sacrifice"
+      ]
     },
     {
       "key": "scene-talk.reply-apologize.i-m-sorry-i-should-have-told-you-i-was-running-for-office-before-it-go",
@@ -67915,7 +68145,8 @@
       "tag": {
         "move": "promise",
         "key": "loss"
-      }
+      },
+      "elements": ["references-and-other-openings-offered"]
     },
     {
       "key": "scene-talk.follow-promise.you-ll-get-one",
@@ -67940,7 +68171,8 @@
       "tag": {
         "move": "promise",
         "key": "loss"
-      }
+      },
+      "elements": ["references-and-other-openings-offered"]
     },
     {
       "key": "scene-talk.close-warn.time-s-short",
@@ -68402,7 +68634,8 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["asking-a-friend-for-a-lead-after-a-layoff"]
     },
     {
       "key": "scene-talk.close-thank.much-appreciated",
@@ -68631,7 +68864,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "reporter-seeks-an-unscheduled-interview",
+        "deadline-behind-request-for-comment"
+      ]
     },
     {
       "key": "scene-talk.follow-press.the-invitation-from-outlet-stands",
@@ -68655,7 +68892,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "reporter-seeks-an-unscheduled-interview",
+        "deadline-behind-request-for-comment"
+      ]
     },
     {
       "key": "scene-talk.follow-press.we-d-still-like-your-side-for-outlet",
@@ -68679,7 +68920,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "reporter-seeks-an-unscheduled-interview",
+        "deadline-behind-request-for-comment"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.understood-outlet-will-leave-it-for-now",
@@ -68931,7 +69176,8 @@
       "tag": {
         "move": "promise",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["asking-a-friend-for-a-lead-after-a-layoff"]
     },
     {
       "key": "scene-talk.state-request.will-you-visit",
@@ -70422,7 +70668,8 @@
       "tag": {
         "move": "press",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.follow-press.words-are-easy",
@@ -70500,7 +70747,8 @@
       "tag": {
         "move": "press",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.follow-press.prove-it",
