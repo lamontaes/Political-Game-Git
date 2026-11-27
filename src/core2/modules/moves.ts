@@ -32,6 +32,7 @@
  * there is the same dated record, witnessed by their relatives in town; it
  * moves no money and fills nobody in (two-level population).
  */
+import { DAYS_PER_YEAR } from "../household-income";
 import { MOVED_AWAY_EVENT } from "../moved-away-event";
 import { worldRateFactor } from "../world-base-rates";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
@@ -539,7 +540,7 @@ export function householdIncome(
   const ids: string[] = [];
   const wages: { personId: string; minor: number }[] = [];
   let minor = api.parameter("zero");
-  const perMonth = m(api, "movesDaysPerYear") / api.parameter("monthsPerYear");
+  const perMonth = DAYS_PER_YEAR / api.parameter("monthsPerYear");
   for (const id of core.households.get(householdId)?.memberIds ?? []) {
     const member = core.people.get(id);
     if (!member?.alive) continue;

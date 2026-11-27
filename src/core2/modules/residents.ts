@@ -113,7 +113,8 @@ import {
   workersByGroup,
 } from "../counted-money";
 
-export const DAYS_PER_YEAR = 365;
+import { DAYS_PER_YEAR } from "../household-income";
+export { DAYS_PER_YEAR };
 
 /** Whether a person was returned to the counts (counted-groups.ts); screens and tools read it here. */
 export { isDemoted } from "../counted-groups";
