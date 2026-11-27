@@ -10,7 +10,7 @@ import { bookkeeping } from "./bookkeeping";
 import { kindLean, traitLean } from "./trait-lean";
 import { affectAt } from "./emotion";
 import { parameter, parameterValues } from "./parameters";
-import { retainLog } from "./retain-log";
+import { retainLog } from "./decision-detail";
 import { stopgap } from "./stopgaps";
 import { decisionKinds } from "./trait-decision-table";
 import { probeCallerSite, traitProbe } from "./trait-probe";

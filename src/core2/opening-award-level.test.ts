@@ -9,8 +9,8 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { daysAfterStart } from "./tooling/test-days";
-import { generatedOpening } from "./tooling/generated-world";
+import { daysAfterStart } from "../../tests/support/test-days";
+import { generatedOpening } from "./generated-world";
 import { advanceCore, createLifeCore } from "./life";
 import { amendBudget, governments, openBudgets } from "./modules/budgets";
 import { budgetInForce } from "./budgets-treasury";
