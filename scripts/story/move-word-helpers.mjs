@@ -10,6 +10,7 @@
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import process from "node:process";
 
 const ROOT = path.resolve(import.meta.dirname, "..", "..");
 const MOVES = [
@@ -19,9 +20,13 @@ const MOVES = [
 const OLD = "src/director/words";
 const NEW = "src/english/words";
 
+/** The files this run moved: their own imports were written for where they stood. */
+const movedNow = new Map();
 for (const [from, to] of MOVES)
-  if (existsSync(path.join(ROOT, from)) && !existsSync(path.join(ROOT, to)))
+  if (existsSync(path.join(ROOT, from)) && !existsSync(path.join(ROOT, to))) {
     execFileSync("git", ["mv", from, to], { cwd: ROOT });
+    movedNow.set(to, from);
+  }
 
 const files = execFileSync(
   "git",
@@ -43,7 +48,7 @@ const resolved = (file, spec) =>
 let changed = 0;
 for (const file of files) {
   // A moved file's own imports are read from where it stood, and written from where it stands.
-  const wasAt = MOVES.find(([, to]) => to === file)?.[0] ?? file;
+  const wasAt = movedNow.get(file) ?? file;
   const text = readFileSync(path.join(ROOT, file), "utf8");
   const next = text.replace(
     /(from\s+|import\(\s*|vi\.mock\(\s*|require\(\s*)(["'])(\.{1,2}\/[^"']*)\2/g,
@@ -60,6 +65,6 @@ for (const file of files) {
     changed += 1;
   }
 }
-console.log(
-  `${changed} files changed; every import of ${OLD} now names ${NEW}`,
+process.stdout.write(
+  `${changed} files changed; every import of ${OLD} now names ${NEW}\n`,
 );
