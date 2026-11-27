@@ -1226,14 +1226,28 @@
       "entry": [
         "src/director/*.ts",
         "src/english/*.ts",
-        "src/english/plain-words.mjs"
+        "src/english/plain-words.mjs",
+        "src/bench/archive-words.ts",
+        "src/bench/guide-terms.ts",
+        "src/bench/printed-words.ts",
+        "src/bench/race-words.ts",
+        "src/bench/words.ts"
       ],
       "paths": [
         "src/director/**",
         "src/core2/speech-afterward-pledge.test.ts",
         "src/english/**",
         "data/english/**",
-        "src/core2/speech-craft.test.ts"
+        "src/core2/speech-craft.test.ts",
+        "src/bench/archive-words.ts",
+        "src/bench/archive-words.test.ts",
+        "src/bench/guide-terms.ts",
+        "src/bench/guide-terms.test.ts",
+        "src/bench/printed-words.ts",
+        "src/bench/printed-words.test.ts",
+        "src/bench/race-words.ts",
+        "src/bench/race-words.test.ts",
+        "src/bench/words.ts"
       ]
     },
     {
