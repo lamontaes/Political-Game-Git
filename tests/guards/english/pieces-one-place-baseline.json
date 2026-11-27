@@ -5,8 +5,7 @@
       "capital": 1
     },
     "src/bench/archive-words.ts": {
-      "name": 1,
-      "capital": 1
+      "name": 1
     },
     "src/bench/budget.ts": {
       "name": 3
@@ -18,9 +17,7 @@
       "name": 8
     },
     "src/bench/card.ts": {
-      "name": 7,
-      "pronoun": 2,
-      "capital": 1
+      "name": 7
     },
     "src/bench/changes.ts": {
       "name": 1
@@ -87,7 +84,6 @@
     },
     "src/bench/play.mjs": {
       "date": 1,
-      "list": 1,
       "capital": 2
     },
     "src/bench/polling.ts": {
@@ -96,9 +92,6 @@
     "src/bench/printed-words.ts": {
       "name": 4,
       "date": 1
-    },
-    "src/bench/race-words.ts": {
-      "list": 1
     },
     "src/bench/results.ts": {
       "name": 2
@@ -133,9 +126,6 @@
     "src/bench/world.ts": {
       "name": 1
     },
-    "src/director/address-render.ts": {
-      "capital": 1
-    },
     "src/director/bring-it-up.ts": {
       "name": 1
     },
@@ -150,15 +140,11 @@
     "src/director/door-facts.ts": {
       "name": 1
     },
-    "src/director/election-day.ts": {
-      "capital": 1
-    },
     "src/director/filing-visit.ts": {
       "name": 2
     },
     "src/director/journal.ts": {
-      "name": 2,
-      "list": 1
+      "name": 2
     },
     "src/director/opening-story.ts": {
       "name": 3
@@ -179,9 +165,6 @@
     "src/director/sitting.ts": {
       "name": 1
     },
-    "src/director/speech-builder.ts": {
-      "capital": 1
-    },
     "src/director/speech-outline.ts": {
       "name": 1
     },
@@ -191,36 +174,10 @@
     "src/director/who-they-are.ts": {
       "name": 2
     },
-    "src/director/words.ts": {
-      "date": 1,
-      "possessive": 1
-    },
-    "src/english/bank-line.ts": {
-      "capital": 1
-    },
-    "src/english/bill-names.ts": {
-      "list": 1
-    },
-    "src/english/bill-sections.ts": {
-      "list": 1,
-      "capital": 1
-    },
     "src/english/composed-checks.ts": {
       "date": 1
     },
     "src/english/group-names.ts": {
-      "capital": 1
-    },
-    "src/english/journal-words.ts": {
-      "capital": 1
-    },
-    "src/english/move-fit.ts": {
-      "pronoun": 2
-    },
-    "src/english/said-as.ts": {
-      "capital": 1
-    },
-    "src/english/scene-words.ts": {
       "capital": 1
     }
   }
