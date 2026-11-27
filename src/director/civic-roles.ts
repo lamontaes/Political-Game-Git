@@ -33,9 +33,13 @@ import {
   votesOn,
   type BillRow as LegislatureBill,
 } from "../core2/modules/legislature";
-import type { BoardMember } from "../core2/modules/executive";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
-import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+  officesInJurisdiction,
+  servingTermsOnSeat,
+} from "../core2/modules/offices";
 import {
   LEADERSHIP_MODULE_ID,
   presidingOfficer,
@@ -44,7 +48,7 @@ import {
   CAMPAIGNS_MODULE_ID,
   type CampaignRow,
 } from "../core2/modules/campaigns";
-import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
+import { ELECTIONS_MODULE_ID, filingOf } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/campaigns";
 import { localClerkFor } from "../core2/modules/candidacy";
 import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
@@ -61,7 +65,11 @@ import {
   meetingsOn,
 } from "../core2/modules/elections";
 import { retellingsOf } from "../core2/modules/health";
-import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
+import {
+  PRESS_MODULE_ID,
+  outletsHere,
+  interviewOf,
+} from "../core2/modules/press";
 import { MEETINGS_MODULE_ID } from "../core2/modules/meetings";
 import {
   VOTING_MODULE_ID,
@@ -72,6 +80,8 @@ import { P } from "../core2/parameters";
 import { colleagues, outgoingHolder, swornOffice } from "./swearing-in";
 import { markWordsStopgap } from "../core2/stopgaps";
 import type { Moment } from "./types";
+import { billById, townHallById } from "../core2/modules/bodies-reads";
+import { boardSeatOf } from "../core2/macro-reads";
 
 const zero = P.zero;
 
@@ -126,10 +136,9 @@ function oathGiver(
  * in outside any body (a governor): its first chamber, by id, that has one.
  */
 function chamberPresiding(api: CoreAPI, jurisdiction: string): string | null {
-  const offices = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .query("byJurisdiction", [jurisdiction]) as unknown as { id: string }[];
+  const offices = officesInJurisdiction(api, jurisdiction) as unknown as {
+    id: string;
+  }[];
   for (const office of [...offices].sort((a, b) => a.id.localeCompare(b.id))) {
     if (!bodyOf(api, office.id)?.kind.startsWith("legislature-")) continue;
     const id = presidingOfficer(api, office.id);
@@ -187,14 +196,12 @@ const FILED_PREFIX = "candidate-filed:";
 
 /** A filing moment's cause is the filing (or its announcement) or the contest itself. */
 function contestOfFiling(api: CoreAPI, causeId: string): string {
-  const filing = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("filings")
-    .get(
-      causeId.startsWith(FILED_PREFIX)
-        ? causeId.slice(FILED_PREFIX.length)
-        : causeId,
-    ) as unknown as { contestId: string } | undefined;
+  const filing = filingOf(
+    api,
+    causeId.startsWith(FILED_PREFIX)
+      ? causeId.slice(FILED_PREFIX.length)
+      : causeId,
+  ) as unknown as { contestId: string } | undefined;
   return filing?.contestId ?? causeId;
 }
 
@@ -229,10 +236,8 @@ function billOf(
   moment: Moment,
 ): BillRow | undefined {
   const named = api.state.durableLog.get(moment.causeId)?.facts?.billId;
-  return api
-    .moduleState(LEGISLATURE_MODULE_ID)
-    .table("bills")
-    .get(named || moment.causeId) as unknown as BillRow | undefined;
+  return billById(api, named || moment.causeId) as unknown as
+    BillRow | undefined;
 }
 
 /**
@@ -328,11 +333,10 @@ export function civicFill(
       if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
       // The interview the cause is, or the one its record names.
       const facts = core.durableLog.get(moment.causeId)?.facts;
-      const row = api
-        .moduleState(PRESS_MODULE_ID)
-        .table("interviews")
-        .get(facts?.interviewId || moment.causeId) as unknown as
-        InterviewRow | undefined;
+      const row = interviewOf(
+        api,
+        facts?.interviewId || moment.causeId,
+      ) as unknown as InterviewRow | undefined;
       if (row) return free(living(core, [row.reporterId ?? null]));
       // A story's own outlet: the outlet its record names covers it.
       const named = facts?.outletId
@@ -345,12 +349,7 @@ export function civicFill(
         return free(living(core, named.reporterIds)).sort().slice(zero, one);
       // A public act (a signing, a veto) is covered by the town's own
       // outlet: its first reporter living.
-      const outlets = (
-        api
-          .moduleState(PRESS_MODULE_ID)
-          .table("outlets")
-          .rows() as unknown as OutletRow[]
-      )
+      const outlets = outletsHere(api)
         .filter((outlet) => outlet.tier !== "national")
         .sort((a, b) => a.id.localeCompare(b.id));
       return free(
@@ -378,10 +377,8 @@ export function civicFill(
         core.durableLog.get(moment.causeId)?.facts?.billId ??
         /(?:^|:)(?<bill>bill:.+)$/.exec(moment.causeId)?.groups?.bill;
       if (typeof billId !== "string" || !billId) return [];
-      const bill = api
-        .moduleState(LEGISLATURE_MODULE_ID)
-        .table("bills")
-        .get(billId) as unknown as LegislatureBill | undefined;
+      const bill = billById(api, billId) as unknown as
+        LegislatureBill | undefined;
       if (!bill) return [];
       const tier = billReach(api, bill).federal ? "national" : "local";
       return free(
@@ -494,10 +491,7 @@ export function civicFill(
       if (!api.state.modules.has(MEETINGS_MODULE_ID)) return [];
       const id = core.durableLog.get(moment.causeId)?.facts?.townHallId;
       if (typeof id !== "string" || !id) return [];
-      const row = api
-        .moduleState(MEETINGS_MODULE_ID)
-        .table("townHalls")
-        .get(id) as unknown as
+      const row = townHallById(api, id) as unknown as
         { questions: readonly { askedBy: string }[] } | undefined;
       return free(
         living(core, [
@@ -515,21 +509,13 @@ export function civicFill(
       // announces it. A reserve bank president is reappointed by the bank
       // itself, with no one to announce it.
       if (!api.state.modules.has(MACRO_MODULE_ID)) return [];
-      const seat = (
-        api
-          .moduleState(MACRO_MODULE_ID)
-          .table("members")
-          .query("all", [true]) as unknown as BoardMember[]
-      ).find((row) => row.personId === moment.personId);
+      const seat = boardSeatOf(api, moment.personId);
       if (seat?.seatKind !== "governor") return [];
       if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-      const [term] = api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("bySeatStatus", [
-          "seat:US:president",
-          "serving",
-        ]) as unknown as TermRow[];
+      const [term] = servingTermsOnSeat(
+        api,
+        "seat:US:president",
+      ) as unknown as TermRow[];
       const president = term?.personId;
       return free(living(core, [president ?? null]));
     }
@@ -546,10 +532,7 @@ export function civicFill(
       if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
       const remark = remarkOf(core, moment.causeId);
       const bill = remark
-        ? (api
-            .moduleState(LEGISLATURE_MODULE_ID)
-            .table("bills")
-            .get(remark.billId) as unknown as BillRow | undefined)
+        ? (billById(api, remark.billId) as unknown as BillRow | undefined)
         : undefined;
       if (!bill) return [];
       return members(api, bill.bodyOfficeId)

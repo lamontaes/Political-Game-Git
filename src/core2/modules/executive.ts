@@ -59,7 +59,14 @@ import type {
 } from "../types";
 import type { ModuleRow } from "../module-data";
 import { answerIn, enactLaw, lawChain, lawInForce } from "./laws";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
+import {
+  officesInJurisdiction,
+  servingTermsOf,
+  termById,
+  termOnSeat,
+  townSeats,
+  type TermRow,
+} from "./offices";
 import {
   appointerWeighing,
   nominateAndConfirm,
@@ -114,7 +121,6 @@ export type {
 } from "../central-bank-board";
 export type { BoardAppointer } from "../central-bank-appointments";
 export { placeGovernmentOrganizations } from "../gov-rules/local-governments";
-export { inventedPersonBirthDate } from "../gov-rules/invented-person-age";
 export { municipiosForPlace } from "../gov-rules/county-governing-body-rules";
 export { openOfficialPay } from "./official-pay";
 export { openCases } from "./constituent-cases";
@@ -1132,15 +1138,7 @@ function appointStateCabinet(
   )?.holder;
   if (!governor) return;
   const side = partySide(governor.party);
-  const senate = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .query("byJurisdiction", [state]) as unknown as {
-      id: string;
-      kind: string;
-    }[]
-  ).find(
+  const senate = officesInJurisdiction(api, state).find(
     (o) =>
       o.kind === "legislature-upper" || o.kind === "legislature-unicameral",
   );
@@ -1563,7 +1561,6 @@ function stateNominationInput(
   spec: { readonly key: string; readonly confirmedBy: string },
 ) {
   const state = lawChain(api).stateKey;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   // Anyone who holds an appointed post now, in this state or any other
   // government (a federal cabinet officer), this post's own holder among them:
   // naming the person who holds it already is not filling it.
@@ -1585,11 +1582,7 @@ function stateNominationInput(
         // who serves now as a state or federal official, could not take it.
         livesInState(person.placeId, state) &&
         officialOf(api, person.id)?.ended !== null &&
-        !(
-          offices
-            .table("terms")
-            .query("byPerson", [person.id]) as unknown as TermRow[]
-        ).some((t) => t.status === "serving") &&
+        servingTermsOf(api, person.id).length === 0 &&
         !workedToday(api.state as CoreState, person),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
@@ -1602,13 +1595,7 @@ function stateNominationInput(
     throw new Error(
       "The nominee must be a living adult who holds no other office.",
     );
-  const senate = (
-    offices.table("offices").query("byJurisdiction", [state]) as unknown as {
-      id: string;
-      kind: string;
-      title: string;
-    }[]
-  ).find(
+  const senate = officesInJurisdiction(api, state).find(
     (o) =>
       o.kind === "legislature-upper" || o.kind === "legislature-unicameral",
   );
@@ -1908,16 +1895,7 @@ const FEDERAL_ORDERS = (
 
 /** The person who holds the president's seat today, if the seat is held. */
 export function sittingPresidentId(api: CoreAPI): string | null {
-  return (
-    (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("bySeatStatus", ["seat:US:president", "serving"]) as unknown as {
-        personId: string;
-      }[]
-    )[0]?.personId ?? null
-  );
+  return termOnSeat(api, "seat:US:president")?.personId ?? null;
 }
 
 /** The federal orders a President may issue that an engine reads (the keys). */
@@ -2458,11 +2436,7 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const state = lawChain(api).stateKey;
   const cabinet = appointmentsIn(api, state);
   const before = cabinet[0]
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(cabinet[0].appointedBy.slice("official:".length)) as unknown as
-        TermRow | undefined)
+    ? termById(api, cabinet[0].appointedBy.slice("official:".length))
     : undefined;
   const worldSeed = (
     table(api, "review").get("seed") as unknown as

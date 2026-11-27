@@ -138,6 +138,16 @@ import { newsItems } from "./calendar";
 import { personWorkOf } from "../core2/person-work";
 import { CIRCUMSTANCES } from "../director/circumstance";
 import { causeMatches, SITUATION_LIBRARY } from "../director/scheduling";
+import {
+  allLawRows,
+  lawRowById,
+  storedLawRowsOfSeries,
+} from "../core2/modules/laws-reads";
+import {
+  allBills,
+  billById,
+  memberChoiceOn,
+} from "../core2/modules/bodies-reads";
 
 /** The mark every dev-mode write carries. */
 /** The events a run can stop on, each as the record kinds the game logs when it happens. */
@@ -346,10 +356,7 @@ export function devModeMarks(core: CoreState): readonly string[] {
   ))
     out.push(row.id);
   if (has(core, LAWS_MODULE_ID))
-    for (const row of coreAPI(core)
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .rows() as unknown as LawRowInput[])
+    for (const row of allLawRows(coreAPI(core)) as unknown as LawRowInput[])
       if (row.terms?.provenance === DEV_MODE) out.push(row.id);
   return out;
 }
@@ -391,10 +398,7 @@ export function lawSeriesCatalog(api: CoreAPI): readonly string[] {
     ...Object.keys(REACH_A_POLICIES),
     ...GROUP_B_KEYS.filter((key) => !key.startsWith("budget-line:")),
   ]);
-  for (const row of api
-    .moduleState(LAWS_MODULE_ID)
-    .table("laws")
-    .rows() as unknown as LawRowInput[])
+  for (const row of allLawRows(api) as unknown as LawRowInput[])
     out.add(row.series);
   return [...out].sort();
 }
@@ -574,7 +578,6 @@ export class DevMode {
   laws() {
     const api = this.api;
     const chain = lawChain(api);
-    const table = api.moduleState(LAWS_MODULE_ID).table("laws");
     const date = this.core.date;
     return {
       date,
@@ -590,10 +593,11 @@ export class DevMode {
           doctrine: LAW_SERIES[series] ?? null,
           combined: answer?.value ?? null,
           levels: chain.levels.map(({ level, jurisdiction }) => {
-            const rows = table.query("bySeries", [
-              jurisdiction,
+            const rows = storedLawRowsOfSeries(
+              api,
               series,
-            ]) as unknown as LawRowInput[];
+              jurisdiction,
+            ) as unknown as LawRowInput[];
             const row = levelRow(rows, date);
             return {
               level,
@@ -660,10 +664,7 @@ export class DevMode {
     const unit =
       input.unit ??
       (
-        api
-          .moduleState(LAWS_MODULE_ID)
-          .table("laws")
-          .query("bySeriesOnly", [input.series]) as unknown as LawRowInput[]
+        storedLawRowsOfSeries(api, input.series) as unknown as LawRowInput[]
       ).find((row) => row.unit)?.unit ??
       (input.series === PUBLIC_PAY_FLOOR ? PUBLIC_PAY_FLOOR_UNIT : undefined);
     wholeMoney(unit, value);
@@ -708,10 +709,7 @@ export class DevMode {
     if (!has(this.core, LAWS_MODULE_ID)) return [];
     const before = addDays(makeIsoDate(row.effectiveDate), -1);
     return (
-      this.api
-        .moduleState(LAWS_MODULE_ID)
-        .table("laws")
-        .query("bySeriesOnly", [row.series]) as unknown as LawRowInput[]
+      storedLawRowsOfSeries(this.api, row.series) as unknown as LawRowInput[]
     ).filter(
       (other) =>
         other.id !== row.id &&
@@ -776,16 +774,10 @@ export class DevMode {
    */
   billOutcome(billId: string) {
     const api = this.api;
-    const bill = api
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("bills")
-      .get(billId) as unknown as BillRow | undefined;
+    const bill = billById(api, billId) as unknown as BillRow | undefined;
     if (!bill) throw new Error("No such bill.");
     const rows = has(this.core, LAWS_MODULE_ID)
-      ? (api
-          .moduleState(LAWS_MODULE_ID)
-          .table("laws")
-          .rows() as unknown as LawRowInput[])
+      ? (allLawRows(api) as unknown as LawRowInput[])
       : [];
     const laws = rows.filter((row) =>
       // The bill's own id where the law row keeps it; else the body's designation.
@@ -1052,10 +1044,8 @@ export class DevMode {
     if (!has(this.core, LEGISLATURE_MODULE_ID)) return [];
     const api = this.api;
     const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
-    const choices = api.moduleState(LEGISLATURE_MODULE_ID).table("choices");
     // Every bill as the legislature's history tells it (`bill.introduced`),
     // each opened by its id.
-    const bills = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
     return (
       (
         historyOf(
@@ -1063,7 +1053,7 @@ export class DevMode {
           { nation: true },
           { kinds: [BILL_INTRODUCED] },
         ).flatMap((event) => {
-          const bill = bills.get(event.id);
+          const bill = billById(api, event.id);
           return bill ? [bill] : [];
         }) as unknown as {
           id: string;
@@ -1100,7 +1090,7 @@ export class DevMode {
               familyName: term.identity.familyName,
               vote:
                 (
-                  choices.get(`${bill.id}|${key}`) as
+                  memberChoiceOn(api, bill.id, key) as
                     { vote?: string } | undefined
                 )?.vote ?? null,
             };
@@ -1167,10 +1157,8 @@ export class DevMode {
     let provisions: Provision[];
     let sponsorId = input.sponsorId;
     if (input.billId) {
-      const shown = this.api
-        .moduleState(LEGISLATURE_MODULE_ID)
-        .table("bills")
-        .get(input.billId) as unknown as BillRow | undefined;
+      const shown = billById(this.api, input.billId) as unknown as
+        BillRow | undefined;
       if (!shown) throw new Error("No such bill.");
       provisions = shown.provisions.map((p) => ({ ...p }));
       const roster = members(this.api, input.bodyOfficeId);
@@ -1209,10 +1197,7 @@ export class DevMode {
       wholeMoney(
         input.unit ??
           (
-            this.api
-              .moduleState(LAWS_MODULE_ID)
-              .table("laws")
-              .query("bySeriesOnly", [series]) as unknown as LawRowInput[]
+            storedLawRowsOfSeries(this.api, series) as unknown as LawRowInput[]
           ).find((row) => row.unit)?.unit,
         value,
       );
@@ -1268,8 +1253,7 @@ export class DevMode {
     } = {},
   ) {
     const api = this.api;
-    const table = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
-    const bill = table.get(billId) as unknown as BillRow | undefined;
+    const bill = billById(api, billId) as unknown as BillRow | undefined;
     if (!bill) throw new Error("No such bill.");
     const tallies: {
       chamber: string;
@@ -1313,12 +1297,11 @@ export class DevMode {
       // stands as named: dev mode never overwrites the player's press (Account lead, Nov 16).
       const player = this.player?.personId ?? (api.state as CoreState).playerId;
       const pressed = player
-        ? (api
-            .moduleState(LEGISLATURE_MODULE_ID)
-            .table("choices")
-            .get(
-              `${billId}|${player}${override ? "|override" : ""}`,
-            ) as unknown as { vote?: string } | undefined)
+        ? (memberChoiceOn(
+            api,
+            billId,
+            `${player}${override ? "|override" : ""}`,
+          ) as unknown as { vote?: string } | undefined)
         : undefined;
       const named: Readonly<Record<string, "yes" | "no" | "abstain">> = {
         ...(options.votes ?? {}),
@@ -2007,10 +1990,7 @@ export class DevMode {
   /** Who has a say on a bill: the members of each chamber it passes through and the executive who signs it. */
   billDeciders(billId: string) {
     const api = this.api;
-    const bill = api
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("bills")
-      .get(billId) as unknown as BillRow | undefined;
+    const bill = billById(api, billId) as unknown as BillRow | undefined;
     if (!bill) throw new Error("No such bill.");
     const out: { personId: string; name: string; body: string }[] = [];
     for (const chamber of chambersOf(api, bill)) {
@@ -2127,10 +2107,7 @@ export class DevMode {
    * "what members told you" have something to read. The sponsor is the one who learns.
    */
   learnStakes(billId: string, memberId?: string) {
-    const bill = this.api
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("bills")
-      .get(billId) as unknown as BillRow | undefined;
+    const bill = billById(this.api, billId) as unknown as BillRow | undefined;
     if (!bill) throw new Error(`No bill ${billId}.`);
     const told = (
       memberId
@@ -2449,10 +2426,7 @@ export class DevMode {
         : null;
     const billRows = () =>
       billEvent && has(this.core, LEGISLATURE_MODULE_ID)
-        ? (this.api
-            .moduleState(LEGISLATURE_MODULE_ID)
-            .table("bills")
-            .rows() as unknown as BillRow[])
+        ? (allBills(this.api) as unknown as BillRow[])
         : [];
     const statusBefore = new Map(billRows().map((b) => [b.id, b.status]));
     const billsEnded = () => {
@@ -2553,8 +2527,7 @@ export class DevMode {
   private voteDown(series: readonly string[], done: Set<string>) {
     if (!has(this.core, LEGISLATURE_MODULE_ID)) return;
     const api = this.api;
-    const bills = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
-    for (const bill of bills.rows() as unknown as BillRow[]) {
+    for (const bill of allBills(api) as unknown as BillRow[]) {
       if (bill.status !== "drafted" || done.has(bill.id)) continue;
       if (
         !bill.provisions.some((p) =>
@@ -2701,11 +2674,11 @@ export class DevMode {
    */
   private lawsOn(personId: string, householdId: string) {
     const api = this.api;
-    const laws = has(this.core, LAWS_MODULE_ID)
-      ? api.moduleState(LAWS_MODULE_ID).table("laws")
-      : null;
+    const hasLaws = has(this.core, LAWS_MODULE_ID);
     const reached = reachOn(api, personId).map((row) => {
-      const law = laws?.get(row.lawId) as unknown as LawRowInput | undefined;
+      const law = (hasLaws
+        ? lawRowById(api, row.lawId)
+        : undefined) as unknown as LawRowInput | undefined;
       return {
         ...row,
         law: law
@@ -2824,13 +2797,12 @@ export class DevMode {
     const byYear = new Map<string, { ids: string[]; states: Set<string> }>();
     // The law rows as the laws engine's history tells them (`law.statute`),
     // each opened by its id.
-    const laws = this.api.moduleState("core2-laws-v1").table("laws");
     const rows = historyOf(
       this.core,
       { nation: true },
       { kinds: [LAW_STATUTE] },
     ).flatMap((event) => {
-      const row = laws.get(event.facts?.lawId ?? "");
+      const row = lawRowById(this.api, event.facts?.lawId ?? "");
       return row ? [row] : [];
     }) as unknown as {
       id: string;

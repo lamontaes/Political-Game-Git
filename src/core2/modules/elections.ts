@@ -17,6 +17,7 @@
  * charged. The filing becomes a record; an unmet rule comes back as
  * structured reasons the English engine words.
  */
+import { carriersOf } from "../module-fields";
 import { countyPlaceOfWorld } from "../electorate-places";
 import { bookkeeping } from "../bookkeeping";
 import { registerElectorate } from "../electorate";
@@ -84,13 +85,20 @@ import { seatParty } from "../candidate-pool";
 import {
   answerVacancyOffer,
   governorTicketStage,
-  OFFICES_MODULE_ID,
   registerVacancyOffer,
+  servingTermsOf,
   townSeats,
   type GovernorTicketStage,
   type OfficeInput,
   type SeatInput,
   type TermRow,
+  vacancyById,
+  seatById,
+  servingTermsOnSeat,
+  termsOfPerson,
+  officeById,
+  termById,
+  townOffices,
 } from "./offices";
 import { stableHash } from "../kernel/ids";
 import { placeStateKey } from "../place-map";
@@ -1156,15 +1164,7 @@ const offerSeatToPlayer = (
   if (!playerMayFileForKind(office.kind, townLocalKinds(api))) return false;
   // One seat at a time: a player serving in an office is not offered another, as the body's own pick
   // passes over anyone serving.
-  if (
-    (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("byPerson", [player.id]) as unknown as TermRow[]
-    ).some((term) => term.status === "serving")
-  )
-    return false;
+  if (servingTermsOf(api, player.id).length > 0) return false;
   const district = (seat as { district?: string | null }).district;
   if (
     district &&
@@ -1390,10 +1390,8 @@ export function specialContestFor(
   if (!entry || !entry.office.elected) return null;
   const family = officeFamily(entry.office);
   const { stateKey } = town(api);
-  const vacancy = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("vacancies")
-    .get(race.vacancyId) as unknown as { since: string } | undefined;
+  const vacancy = vacancyById(api, race.vacancyId) as unknown as
+    { since: string } | undefined;
   // The election day is the state's law for this office (or the estimate);
   // a town's filing closes by its own state rule where read.
   const day = specialElectionDate({
@@ -1514,11 +1512,10 @@ export function atLargeGroup(
   api: CoreAPI,
   contest: ContestRow,
 ): readonly ContestRow[] {
-  const seatsTable = api.moduleState(OFFICES_MODULE_ID).table("seats");
   const atLarge = (row: ContestRow) =>
     !row.special &&
     !row.primaryDate &&
-    !(seatsTable.get(row.seatId) as { district?: string | null } | undefined)
+    !(seatById(api, row.seatId) as { district?: string | null } | undefined)
       ?.district;
   if (!atLarge(contest)) return [contest];
   const group = (
@@ -1600,10 +1597,7 @@ export function playerMayFileForKind(
  */
 function townLocalKinds(api: CoreAPI): readonly string[] {
   return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .query("byTown", [true]) as unknown as {
+    townOffices(api) as unknown as {
       level: string;
       kind: string;
     }[]
@@ -1700,12 +1694,11 @@ export function playerFilingBar(
   const contest = table(api, "contests").get(contestId) as unknown as
     ContestRow | undefined;
   if (!contest) return "not-your-office";
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const office = offices.table("offices").get(contest.officeId) as
+  const office = officeById(api, contest.officeId) as
     PlayerSeatOffice | undefined;
   if (!playerMayFileForKind(office?.kind ?? "", localKinds))
     return "not-your-office";
-  const seat = offices.table("seats").get(contest.seatId) as
+  const seat = seatById(api, contest.seatId) as
     { coversTown?: boolean; district?: string | null } | undefined;
   if (seat?.coversTown === false) return "not-your-town";
   const takes = (other: ContestRow) =>
@@ -1746,7 +1739,7 @@ export function playerFilingBar(
   // open, and runs against the whole field for all of its seats.
   const atLarge = sameDay
     .filter((other) => {
-      const s = offices.table("seats").get(other.seatId) as
+      const s = seatById(api, other.seatId) as
         { district?: string | null; index?: number } | undefined;
       return !s?.district && takes(other);
     })
@@ -1776,14 +1769,13 @@ export function notYourOfficeWhy(
     return null;
   const contest = table(api, "contests").get(contestId) as unknown as
     ContestRow | undefined;
-  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   const office = contest
-    ? (offices.get(contest.officeId) as PlayerSeatOffice | undefined)
+    ? (officeById(api, contest.officeId) as PlayerSeatOffice | undefined)
     : undefined;
   if (!office) return null;
   // The home's own local offices, in id order: the town's, its township's and its county's.
   const own = (
-    offices.query("byTown", [true]) as unknown as {
+    townOffices(api) as unknown as {
       id: string;
       level: string;
       kind: string;
@@ -1821,10 +1813,9 @@ export function seatIsAnotherDistrict(
   const contest = table(api, "contests").get(contestId) as unknown as
     ContestRow | undefined;
   if (!contest) return false;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const office = offices.table("offices").get(contest.officeId) as
+  const office = officeById(api, contest.officeId) as
     PlayerSeatOffice | undefined;
-  const seat = offices.table("seats").get(contest.seatId) as
+  const seat = seatById(api, contest.seatId) as
     { district?: string | null } | undefined;
   if (!office || !seat?.district || !LOCAL_LEVELS.has(office.level ?? ""))
     return false;
@@ -1895,6 +1886,11 @@ export function filingsInContest(
   ]) as unknown as FilingRow[];
 }
 
+/** Every contest, as the records stand (the calendar, filing and the count read them one by one). */
+export function allContests(api: CoreAPI): readonly ContestRow[] {
+  return table(api, "contests").rows() as unknown as ContestRow[];
+}
+
 /** Every filing a person has made or announced, in any status. */
 export function filingsOfPerson(
   api: CoreAPI,
@@ -1946,19 +1942,15 @@ export function filingOfficeFor(
 /**
  * The ward a ward seat represents and the ward a person lives in, null for an
  * at-large seat or a person whose home is not placed. The voting engine holds
- * the town's wards and registers the lookup.
+ * the town's wards and carries the lookup as the module's `wardResidency`.
  */
-let wardResidency:
-  | ((
-      api: CoreAPI,
-      contest: ContestRow,
-      person: Readonly<PersonState>,
-    ) => { readonly seatWard: number; readonly homeWard: number } | null)
-  | null = null;
-export function registerWardResidency(
-  lookup: NonNullable<typeof wardResidency>,
-): void {
-  wardResidency = lookup;
+function wardResidencyOf(
+  api: CoreAPI,
+  contest: ContestRow,
+  person: Readonly<PersonState>,
+): { readonly seatWard: number; readonly homeWard: number } | null {
+  const carrier = carriersOf(api.state, "wardResidency")[0];
+  return carrier?.wardResidency!(api, contest, person) ?? null;
 }
 
 /** The day someone born on `birthDate` turns `years` (a February 29 birthday counts on March 1 in a common year). */
@@ -1992,15 +1984,9 @@ function servesSeat(
   contest: Pick<ContestRow, "seatId">,
   personId: string,
 ): boolean {
-  return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [
-        contest.seatId,
-        "serving",
-      ]) as unknown as TermRow[]
-  ).some((t) => t.personId === personId);
+  return (servingTermsOnSeat(api, contest.seatId) as unknown as TermRow[]).some(
+    (t) => t.personId === personId,
+  );
 }
 
 /**
@@ -2116,9 +2102,7 @@ export function checkEligibility(
   // come from the English engine.
   // stopgapId: SG-GOV-ward-residency
   const wards =
-    resident && !holdsSeat
-      ? (wardResidency?.(api, contest, person) ?? null)
-      : null;
+    resident && !holdsSeat ? wardResidencyOf(api, contest, person) : null;
   if (wards !== null) {
     api.stopgap("SG-GOV-ward-residency");
     checks.push({
@@ -2141,12 +2125,9 @@ export function checkEligibility(
   if (party && party !== "party" && api.state.modules.has(PARTIES_MODULE_ID)) {
     const tie = partyTie(api, personId);
     // An officeholder elected or appointed under the label is its member.
-    const held = (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("byPerson", [personId]) as unknown as TermRow[]
-    ).some((t) => partyName(t.party) === partyName(party));
+    const held = (termsOfPerson(api, personId) as unknown as TermRow[]).some(
+      (t) => partyName(t.party) === partyName(party),
+    );
     const member =
       held || (tie?.tie === "party" && partyIdFor(api, party) === tie.partyId);
     checks.push({
@@ -2576,10 +2557,7 @@ function contestOffice(
   api: CoreAPI,
   contest: Pick<ContestRow, "officeId">,
 ): { readonly kind: string; readonly jurisdiction: string } | undefined {
-  return api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(contest.officeId) as unknown as
+  return officeById(api, contest.officeId) as unknown as
     { readonly kind: string; readonly jurisdiction: string } | undefined;
 }
 
@@ -2920,10 +2898,7 @@ export function keepPetitionCheck(
 
 /** The term serving on a seat today, or null. */
 function servingTerm(api: CoreAPI, seatId: string): TermRow | null {
-  return (api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .query("bySeatStatus", [seatId, "serving"])[0] ?? null) as TermRow | null;
+  return (servingTermsOnSeat(api, seatId)[0] ?? null) as TermRow | null;
 }
 
 /**
@@ -2962,10 +2937,7 @@ export function incumbentOf(api: CoreAPI, contestId: string): TermRow | null {
   const found = table(api, "contests").get(contestId) as unknown as ContestRow;
   const contest = syncIncumbent(api, found);
   return contest.incumbentTermId
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(contest.incumbentTermId) as unknown as TermRow)
+    ? (termById(api, contest.incumbentTermId) as unknown as TermRow)
     : null;
 }
 
@@ -2980,8 +2952,12 @@ export {
   countyOf,
   countyPlaceIdOf,
   countyPlaceOfWorld,
+  cpsAgeBand,
+  cpsTurnout,
   statePlaces,
   townBodyParties,
   townRightShare,
 } from "../electorate-places";
 export { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./ballot-measures";
+/** The party a person files under (candidate-pool.ts), the elections family's face for readers outside it. */
+export { partyOf } from "../candidate-pool";
