@@ -1,0 +1,20 @@
+---
+id: writer-b-deposit-floor
+impact: none
+---
+
+The floor scene can identify whether a single-question bill would start a policy or end a law the debating government has in force. Members can refer to people the committee heard on the bill and the side recorded for each witness. The draft includes floor questions about how customers learn the last return date and how a dealer collects the final reimbursement. Members can voice a reservation and hear what the sponsor would check before a vote. The draft links sponsor statements to questions, agreements and objections about the same concern, from the space behind a grocery counter to the price a school club can get for its cans. The live debate closes when the bill fails or the recorded chamber has voted.
+
+The review draft follows the store’s final claim and a school club’s trip budget through a question, agreement or objection. The member can also hear how a shopper checks a bottle at the shelf or how a missed bus changes the cost of a checkout delay. Earlier floor lines also draw their bill, issue or presiding officer from the record. Each of the eight openings against repeal now has replies tied to its own concern and answers tied to the member’s choice. Members opposing repeal can open those exchanges from the shop, the plant, the household or the school club, with the replies following the concern they raised. Members can ask who will buy a bale of plastic or reimburse a store’s last refund and hear an answer about that problem without reading the bill number aloud.
+
+When a member objects to starting a bottle deposit, a colleague can follow up on the concern the member raised. A question about a shared pickup can lead to a driver's load sheet, and a question about overlapping delivery routes can lead to how the grocer recovers a refund. For each of those six concerns, members can open the debate in three ways. Each opening has two questions, each with two possible answers. A colleague can also agree or object on the same point, and the speaker can follow up on that reply. After the opening speaker addresses the chair, the colleague can take up the concern directly and the speaker can answer. Whether the proposal would start or end a deposit, members can discuss the refund, the pickup route and the handling allowance without reading the bill number aloud. A member whose constituents favor starting a deposit can explain that vote through the work of collecting, marking or returning the bottles. After a colleague backs the proposal, the member can ask who will sign for a mixed pickup, who will staff a shared counter or how a shopper will recognize the refundable bottle at home. Members agreeing with a deposit can give their own reason, from a club collecting empties to a grocer recovering a refund across delivery routes. The next reply can address the reason the colleague gave.
+
+A member whose own bill would start a bottle deposit can explain why they brought it to the floor. Three repeal lines distinguish a member's position on the refund from the identity of the sponsor.
+
+A colleague supporting the sponsor's deposit bill can pick up the concern the sponsor just raised. The sponsor can answer the colleague about the same school collection, store, delivery route or buyer.
+
+The committee keeps the single policy question and direction its witnesses heard before markup. A floor member can cite those witnesses after an edit that preserves the question and direction. If an amendment reverses the policy or replaces it with another subject, the floor scene drops that attribution. For older hearings, a retained witness address can establish which policy and side the witness spoke for.
+
+When a colleague asks the sponsor how a new bottle deposit would work, the sponsor can answer the question about the school collection, grocery counter, pickup route, washing plant or distributor's claim.
+
+On the floor, a colleague can question what a mill would pay for plastic it still has to grind or where a driver can take empty bottles after the local bottler closes.

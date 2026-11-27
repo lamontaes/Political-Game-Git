@@ -13,12 +13,17 @@
  */
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import {
+  billJurisdiction,
   billOf,
+  type BillRow,
+  committeeRecords,
   LEGISLATURE_MODULE_ID,
   memberPosition,
   bodyReach,
   members,
 } from "../core2/modules/legislature";
+import { SPEECH_HEARD, SPEECH_OCCASION_ID } from "../core2/modules/speech";
+import { billValueInForce } from "../core2/laws-bill-values";
 import { P } from "../core2/parameters";
 import rules from "./data/scene-talk-rules.json" with { type: "json" };
 import { coreAPI } from "../core2/state";
@@ -76,12 +81,26 @@ export function publicReason(
   return publicReasons(position, speaksFor, wroteIt)[P.zero] ?? "own-view";
 }
 
+/** A floor record can outlive the roll or the bill it was called for. */
+export function floorDebateStillOpen(
+  bill: Pick<BillRow, "status" | "bodyOfficeId" | "chambersPassed">,
+  chamber: string | undefined,
+): boolean {
+  return (
+    bill.status === "drafted" &&
+    !bill.chambersPassed?.some(
+      (roll) => roll.chamber === (chamber ?? bill.bodyOfficeId),
+    )
+  );
+}
+
 export function floorDebateFacts(
   core: Readonly<CoreState>,
   facts: Record<string, Fact>,
   said: Readonly<Record<string, string>>,
   causeId: string,
   speakerId: PersonId,
+  listenerId?: PersonId,
 ): void {
   if (!said.billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return;
   const api = coreAPI(core as CoreState);
@@ -100,6 +119,79 @@ export function floorDebateFacts(
             >
           )[section.line]?.name.toLowerCase()
         : undefined;
+  // A speaker's position on a package does not establish a position on each
+  // clause. For a single question, use the value the legislature would enact.
+  if (
+    floorDebateStillOpen(bill, said.chamber) &&
+    bill.provisions.length === 1 &&
+    section?.kind === "policy-question" &&
+    section.question
+  ) {
+    const jurisdiction = billJurisdiction(api, bill);
+    const before = billValueInForce(api, section, jurisdiction);
+    const enacting = section.value > P.zero;
+    // Ending a refund presupposes this government's own active law. A
+    // repeated yes vote likewise gives stores no new collection duty.
+    const changes = enacting
+      ? (before.value ?? P.zero) <= P.zero
+      : before.row?.jurisdiction === jurisdiction &&
+        (before.value ?? P.zero) > P.zero;
+    if (changes) {
+      const direction = enacting ? "enact" : "repeal";
+      facts[`proposes-${direction}:${section.question}`] = {
+        text: "yes",
+        sourceRecordIds: before.recordId ? [...cited, before.recordId] : cited,
+      };
+      const hearing = committeeRecords(api, bill.id).find(
+        (record) =>
+          record.chamber === said.chamber &&
+          record.heard &&
+          record.date <= core.date,
+      );
+      if (
+        hearing?.witnesses &&
+        (hearing.policyHeard === undefined ||
+          (hearing.policyHeard?.question === section.question &&
+            hearing.policyHeard.enact === enacting))
+      ) {
+        for (const witness of hearing.witnesses) {
+          if (witness.stake !== "for" && witness.stake !== "against") continue;
+          const key =
+            witness.stake === "for" ? "hearing-supporter" : "hearing-opponent";
+          const person = core.people.get(witness.personId);
+          if (
+            !person?.alive ||
+            person.id === speakerId ||
+            person.id === listenerId ||
+            facts[key]
+          )
+            continue;
+          const witnessSources = [...cited, hearing.id, person.id];
+          if (hearing.policyHeard === undefined) {
+            // Older hearings lack the snapshot. A retained address can still identify the side heard.
+            const address = core.durableLog.get(
+              `speech:hearing:${bill.id}:${hearing.chamber}:${person.id}`,
+            );
+            const desiredChange =
+              enacting === (witness.stake === "for") ? "enact" : "repeal";
+            if (
+              address?.kind !== SPEECH_HEARD ||
+              address.facts?.[SPEECH_OCCASION_ID] !== hearing.id ||
+              !address.personIds.includes(person.id) ||
+              address.topic !== section.question ||
+              address.desiredChange !== desiredChange
+            )
+              continue;
+            witnessSources.push(address.id);
+          }
+          facts[key] = {
+            text: `${person.givenName} ${person.familyName}`,
+            sourceRecordIds: witnessSources,
+          };
+        }
+      }
+    }
+  }
   if (about) facts.issue = { text: about, sourceRecordIds: cited };
   if (bill.sponsorId === speakerId)
     facts["speaker-wrote-it"] = { text: "yes", sourceRecordIds: cited };
