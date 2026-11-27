@@ -12,7 +12,6 @@ import { incompatibleOffices } from "../office-incompatibility";
 import {
   historyOf,
   PRIOR_ELECTION,
-  type HistoryModule,
   type HistoryRow,
   type HistorySource,
 } from "../past";
@@ -371,7 +370,7 @@ const OFFICES_HISTORY: HistorySource = {
   },
 };
 
-export const OFFICES_MODULE: PreStartModule & HistoryModule = {
+export const OFFICES_MODULE: PreStartModule = {
   id: OFFICES_MODULE_ID,
   // A plain field, not a getter: the finance engine's read check walks the
   // modules and refuses an accessor (src/core2/finance-plan.ts, directRead).
@@ -435,6 +434,29 @@ const source = (citation: string, date: string, estimate: boolean): Source =>
 
 function table(api: CoreAPI, name: string) {
   return api.moduleState(OFFICES_MODULE_ID).table(name);
+}
+
+/**
+ * A term the offices engine seated with no record of its race (the federal
+ * executive's) keeps the race the century held for it, so its share is read
+ * from the term like every other seat's. The offices engine's own write.
+ */
+export function recordTermElection(
+  api: CoreAPI,
+  term: TermRow,
+  elected: { readonly date: string; readonly share: number },
+): void {
+  table(api, "terms").put({ ...term, elected } as unknown as ModuleRow);
+}
+
+/** The year a seat next stands for election, moved on after a race is won. */
+export function setSeatElectionYear(
+  api: CoreAPI,
+  seatId: string,
+  electionYear: number,
+): void {
+  const seat = table(api, "seats").get(seatId);
+  if (seat) table(api, "seats").put({ ...seat, electionYear });
 }
 
 /**

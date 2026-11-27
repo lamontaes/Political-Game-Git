@@ -14,7 +14,7 @@ const dollars = (minor) =>
     maximumFractionDigits: 0,
   });
 
-export const slots = {
+const slots = {
   async calendar({ labels, send }) {
     const plans = await send("health-plans");
     if (!plans) return null;

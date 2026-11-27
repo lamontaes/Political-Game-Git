@@ -25,7 +25,7 @@ CTO calls on its open questions:
 - Upper Witter Gulch's election year measured 114.5, 121.2 and 118.8 seconds on three runs. Year 1 went from 51.7 to 37.6 s when other states' officials stopped being simulated in full (#7359).
 - Montpelier, Vermont finishes four years at 105, 260, 197 and 1,012 seconds, ending at 7.7 GB against the 8 GB limit. The election year adds 1.45 million records: campaign folded causes (94,150 to 595,258), relationships (43,366 to 241,231) and the durable log. Memory there is path-dependent: one course finishes, another runs out (pool item `core-speed-montpelier-snap-scope-memory`, and `#7360`, `#7361`).
 - The CTO narrowed his Oct 30 rule on Nov 8: a folded cause keeps its own row only for the player's circle and the people in focus; everyone else's first-hearing fact points at the summary row. State Sessions (CTO's account) is building that cut tonight and then stops; you take over speed after its final report.
-- Tools: `npm run bench`, `speed:year` (for example `--years 4 --exclusive`), `src/core2/tooling/world-drift.ts`, `docs/reports/place-map-speed-2026-11-05.md`, the `core-long-run-*` and `core-speed-*` pool items.
+- Tools: `npm run bench`, `speed:year` (for example `--years 4 --exclusive`), `scripts/core2/tooling/world-drift.ts`, `docs/reports/place-map-speed-2026-11-05.md`, the `core-long-run-*` and `core-speed-*` pool items.
 
 ## How
 

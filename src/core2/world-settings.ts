@@ -1,4 +1,4 @@
-import { CUSTOM_ECONOMY_KEY } from "./modules/macro";
+import { CUSTOM_ECONOMY_KEY } from "./modules/macro-constants";
 import type { CoreInput } from "./types";
 
 /** Population, past, civic records, the player's peers and circle, then the economy. */

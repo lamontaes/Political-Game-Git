@@ -7,7 +7,7 @@
  */
 import { afterAll, beforeAll, describe, it } from "vitest";
 import { setKeepEveryonesWhy } from "./why-kept";
-import { scenario } from "./record-test-kit";
+import { scenario } from "../../tests/support/record-test-kit";
 
 describe("M4-06 the record follows you, the rival's own turn", () => {
   let keptBefore = false;

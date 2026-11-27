@@ -9,8 +9,11 @@
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { drawPlace } from "../../scripts/core2-year/place.ts";
-import { finishTalk } from "./start-life.mjs";
-import { devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
+import { finishTalk } from "../../tests/support/start-life.mjs";
+import {
+  devModeOn,
+  devRunUntilMayFile,
+} from "../../tests/support/dev-setup.mjs";
 // The run is pinned: BENCH_SEED names the seed the places are drawn from, and
 // without it the check runs the seed below, which draws Hampstead, Maryland
 // and a race that files straight onto the ballot (a petition race reaches it
