@@ -36,12 +36,16 @@ const send = (message) =>
     ? process.parentPort.postMessage(message)
     : process.send(message);
 
-async function answer({ id, method, url }) {
+async function answer({ id, method, url, body }) {
   try {
-    // Developer routes stay off: this is the installed game.
-    const reply = await benchRequest(method, new URL(url), {
-      developer: false,
-    });
+    // The developer's build route stays off: this is the installed game. Dev mode's own routes
+    // answer once the player turns dev mode on in Options (handler.ts), the same as in the bench.
+    const reply = await benchRequest(
+      method,
+      new URL(url),
+      { developer: false },
+      body,
+    );
     send({ id, reply });
   } catch (error) {
     send({

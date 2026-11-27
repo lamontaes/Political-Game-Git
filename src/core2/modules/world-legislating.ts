@@ -68,6 +68,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { personStance } from "./elections";
 import { campaignParameter, PLATFORM_QUESTIONS } from "../campaign-data";
+import { fieldsOf } from "../module-fields";
 import {
   enactLaw,
   lastEnactment,
@@ -116,10 +117,6 @@ import {
   reachesTown,
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
-  registerFloorDateReader,
-  registerFloorCalendarer,
-  registerSittingReader,
-  registerWeeklyFloorReader,
   settledness,
   sittingContactHours,
   tasteForChange,
@@ -134,28 +131,10 @@ import {
  * the clock) and takes the filed bills onto the meeting's agenda, voting them
  * when the meeting closes. Without it, filings are voted as they are filed.
  */
-type MeetingHold = (api: CoreAPI, officeId: string) => boolean;
-type FiledAgenda = (
-  api: CoreAPI,
-  officeId: string,
-  meetingDate: string,
-  billIds: readonly string[],
-) => void;
-type BillIntroduced = (api: CoreAPI, billId: string) => void;
-let billIntroduced: BillIntroduced | null = null;
-/** Called as each member's filed change becomes a bill in their chamber. */
-export function registerBillIntroduced(hook: BillIntroduced): void {
-  billIntroduced = hook;
-}
-let meetingHold: MeetingHold | null = null;
-let filedAgenda: FiledAgenda | null = null;
-export function registerMeetingHold(
-  hold: MeetingHold,
-  filed: FiledAgenda,
-): void {
-  meetingHold = hold;
-  filedAgenda = filed;
-}
+
+/** The office day's say on whether a body's meeting is held and what it does with the agenda filed for it, if its module is installed. */
+const meetingHold = (api: CoreAPI) =>
+  fieldsOf(api.state as CoreState, "meetingHold")[0];
 
 const QUESTION_SCOPES = questionScopes.questions as Readonly<
   Record<string, { levels: readonly string[] }>
@@ -229,6 +208,13 @@ export const WORLD_LEGISLATING_MODULE: CoreModule = {
     },
   },
   onCalendarWork: (api, work) => onWork(api, work),
+  // What the legislature reads from the world's legislating: when a body sits
+  // next, which week's floor days, the floor date a bill is on and the one it
+  // is given.
+  sittingReader: nextSitting,
+  weeklyFloorReader: weeklyFloorOn,
+  floorDateReader: floorDateOf,
+  floorCalendarer: projectedFloorDate,
 };
 
 /** Register the module and put the state's session ends on the calendar. */
@@ -237,10 +223,6 @@ export function openWorldLegislating(
   /** Only this legislature sits (a past pass for the played state: no Congress, no other state). */
   only?: string,
 ): void {
-  registerSittingReader(nextSitting);
-  registerWeeklyFloorReader(weeklyFloorOn);
-  registerFloorDateReader(floorDateOf);
-  registerFloorCalendarer(projectedFloorDate);
   registerSittingCalendar(SITTING_CALENDAR);
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID))
     registerModule(core, WORLD_LEGISLATING_MODULE);
@@ -992,7 +974,7 @@ function holdSession(
     });
   });
   if (input.holdFor && input.body)
-    filedAgenda?.(api, input.body.id, input.holdFor, heldIds);
+    meetingHold(api)?.filed(api, input.body.id, input.holdFor, heldIds);
   api
     .moduleState(WORLD_LEGISLATING_MODULE_ID)
     .table("sessions")
@@ -2176,7 +2158,8 @@ function introduce(api: CoreAPI, sessionId: string, index: number): void {
       i === index ? { ...f, billId: bill.id } : f,
     ),
   } as unknown as ModuleRow);
-  billIntroduced?.(api, bill.id);
+  for (const hook of fieldsOf(api.state as CoreState, "billIntroduced"))
+    hook(api, bill.id);
 }
 
 /** The chamber a member sits in: a state member's own office, a member of Congress's House or Senate. */
@@ -2270,14 +2253,10 @@ function sessionBillOf(
  * the floor and has not since granted it. The office day that keeps the
  * leader's answers registers it (office-day-state `askLeaderForHearing`).
  */
-let leaderRefused: ((api: CoreAPI, billId: string) => boolean) | undefined;
-export function registerLeaderRefusalReader(
-  reader: (api: CoreAPI, billId: string) => boolean,
-): void {
-  leaderRefused = reader;
-}
 const refusedByLeader = (api: CoreAPI, billId: string): boolean =>
-  leaderRefused?.(api, billId) ?? false;
+  fieldsOf(api.state as CoreState, "leaderRefusalReader").some((reads) =>
+    reads(api, billId),
+  );
 
 /** A bill waiting on a session's floor, with the filing that brought it if any. */
 interface Queued {
@@ -2615,7 +2594,7 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const meetingDate = work.sourceRecordIds[1] ?? api.state.date;
   // On the eve, a world with no agenda to keep the filings on (no office-day
   // module) files on the day.
-  if (meetingDate > api.state.date && !meetingHold?.(api, officeId)) {
+  if (meetingDate > api.state.date && !meetingHold(api)?.hold(api, officeId)) {
     api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID).schedule({
       key: `${work.key}:day`,
       date: makeIsoDate(meetingDate),
@@ -2629,7 +2608,8 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   // Filed the day before, or on the day for a meeting with under a day's
   // notice: a meeting still on the books takes its filings onto the agenda
   // (and may stop the player) and votes them when it meets.
-  const hold = meetingDate >= api.state.date && !!meetingHold?.(api, officeId);
+  const hold =
+    meetingDate >= api.state.date && !!meetingHold(api)?.hold(api, officeId);
   const body: Body = { id: officeId, members: members(api, officeId) };
   // The presiding member the body elected, else the most senior.
   const presiding = presidingOfficer(api, officeId);

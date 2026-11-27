@@ -113,7 +113,8 @@ import {
   workersByGroup,
 } from "../counted-money";
 
-export const DAYS_PER_YEAR = 365;
+import { DAYS_PER_YEAR } from "../household-income";
+export { DAYS_PER_YEAR };
 
 /** Whether a person was returned to the counts (counted-groups.ts); screens and tools read it here. */
 export { isDemoted } from "../counted-groups";
@@ -329,6 +330,8 @@ registerSnapshotPart("core2-residents", {
       households: new CountedHouseholdMap(store),
       householdOfPerson: new CountedPersonHouseholdMap(store),
     };
+    // The hook is the engine's, not the save's: it moves the restored runtime's own pool.
+    store.weightHook = (h, delta) => moveUnplacedPay(restored, h, delta);
     runtimes.set(core, restored);
     coreOfRuntime.set(restored, core);
   },
@@ -3235,6 +3238,20 @@ export function countedHouseholdJobChanged(
   const store = rt.store;
   const h = store.households[store.household[m]!]!;
   const others = h.jobs.filter((row) => row.id !== job.id);
+  // A member hired into a recorded job was one of the working-age members
+  // without one whom the household's out-of-town workers are shared among, so
+  // their share leaves with the hire: the same writer as a member who leaves
+  // working age. Left on, the household's income counted their pay twice (the
+  // new job and the share), and a fill-in, which hands over only the jobs,
+  // dropped it and moved the household's income fifth (school-outcomes,
+  // Hackleburg, Alabama, seed 5d329c70fa987cb9).
+  if (
+    job.endsAt === undefined &&
+    !others.some(
+      (row) => row.personId === job.personId && row.endsAt === undefined,
+    )
+  )
+    leaveUnplacedWork(rt, h, m, core.date, false);
   h.jobs = job.endsAt === undefined ? [...others, job] : others;
   if (commitment) {
     h.workCommitments = [
