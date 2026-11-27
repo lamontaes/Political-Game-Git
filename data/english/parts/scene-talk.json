@@ -70785,10 +70785,10 @@
       "restoredFrom": "scene-talk.open-greet.mind-if-i-ask-you-a-few-things"
     },
     {
-      "key": "scene-talk.reply-answer.even-then-bill-is-the-right-call",
+      "key": "scene-talk.reply-answer.even-if-it-costs-me-votes-bill-is-the-right-call",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Even then. {bill} is the right call.",
+      "text": "Even if it costs me votes. {bill} is the right call.",
       "uses": [
         {
           "subject": "scene",
