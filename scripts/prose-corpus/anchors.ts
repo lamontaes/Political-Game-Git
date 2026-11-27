@@ -47,8 +47,8 @@ import type { ScannedLiteral } from "./scan";
  */
 
 /** One third of the coupled authoritative set; see `anchor-history.ts`. */
-export const ANCHOR_FILE = ANCHOR_PATHS.anchors;
-export const ANCHOR_SCHEMA = 1;
+const ANCHOR_FILE = ANCHOR_PATHS.anchors;
+const ANCHOR_SCHEMA = 1;
 
 export interface ComputedAnchor {
   /** Minted once, never recomputed. Survives rewording. */
@@ -113,7 +113,7 @@ export function siteOf(anchor: ComputedAnchor): string {
 }
 
 /** The live sidecar reduced to what allocation history can be checked against. */
-export function liveBindingsOf(
+function liveBindingsOf(
   anchors: readonly ComputedAnchor[],
 ): LiveBinding[] {
   return anchors.map((anchor) => ({
@@ -124,7 +124,7 @@ export function liveBindingsOf(
 }
 
 /** True when the sidecar file is actually present. */
-export function anchorFileExists(path: string = ANCHOR_FILE): boolean {
+function anchorFileExists(path: string = ANCHOR_FILE): boolean {
   return existsSync(path);
 }
 
@@ -286,7 +286,7 @@ export function loadAnchorFile(path: string = ANCHOR_FILE): AnchorFile {
   };
 }
 
-export function writeAnchorFile(
+function writeAnchorFile(
   file: AnchorFile,
   path: string = ANCHOR_FILE,
 ): void {
@@ -303,7 +303,7 @@ export function writeAnchorFile(
 /* Matching                                                                    */
 /* -------------------------------------------------------------------------- */
 
-export interface AnchorMatch {
+interface AnchorMatch {
   readonly literal: ScannedLiteral;
   readonly anchor: ComputedAnchor;
   /** True when the anchor's recorded text is exactly this literal's. */

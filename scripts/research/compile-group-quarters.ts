@@ -656,7 +656,7 @@ const median = (values: readonly number[]): number => {
 };
 const round3 = (n: number) => Math.round(n * 1000) / 1000;
 
-export async function compileGroupQuarters(downloads: string) {
+async function compileGroupQuarters(downloads: string) {
   const localities = localityUnits();
   const census = new Map<string, CensusUnit>();
   const blocksByState = new Map<string, CensusUnit[]>();

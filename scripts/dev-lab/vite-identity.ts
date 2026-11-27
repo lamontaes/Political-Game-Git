@@ -3,7 +3,7 @@ import type { Plugin } from "vite";
 import { sourceIdentity } from "./identity";
 
 /** Public version fields match VERSION-AUTO1's package/revision contract. */
-export function publicBuildIdentity(
+function publicBuildIdentity(
   root: string,
   identity = sourceIdentity(root),
 ) {
