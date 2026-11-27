@@ -17,14 +17,15 @@
  * (SG-CORE-counted-unkeyed-money).
  */
 import { taxIndexOf } from "./tax-index";
-import { depositsHeld, transferSplit } from "./accounts";
+import { depositsHeld } from "./modules/budgets";
+import { transferSplit } from "./budgets-treasury";
 import {
   PAID_LEAVE_KEY,
   paidLeaveProgram,
   paidLeavePremium,
-} from "./paid-leave";
-import { withholdingFor } from "./tax-withholding";
-import { recordIncomeTaxApplied } from "./tax-applied";
+} from "./laws-in-force";
+import { withholdingFor } from "./budgets-treasury";
+import { recordIncomeTaxApplied } from "./budgets-treasury";
 import {
   BUDGETS_MODULE_ID,
   governments,

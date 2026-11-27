@@ -44,7 +44,7 @@ import {
 } from "./modules/elections";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 /**
  * The place the first test follows, pinned (it drew six places at run time and

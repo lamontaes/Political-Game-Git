@@ -34,7 +34,7 @@ import {
   type ToldSentence,
 } from "../english/outline-planner";
 import { officeWords } from "../english/said-as";
-import { saidPersonOf } from "./said-person";
+import { officeKindSaid } from "./said-office";
 import type { OpeningSentence } from "./opening-story";
 import {
   outlineOf,
@@ -168,14 +168,7 @@ export function addressFacts(
   // The Vice President by office and name, as the said-as reader words an office.
   const vp = national ? facts["vice-president"] : undefined;
   const vpId = vp?.sourceRecordIds[P.zero];
-  const vpOffice = vpId
-    ? officeWords(
-        saidPersonOf(core, vpId, {
-          speakerId: person.id,
-          listenerId: person.id,
-        }).officeKind,
-      )
-    : undefined;
+  const vpOffice = vpId ? officeWords(officeKindSaid(core, vpId)) : undefined;
   if (vp && vpOffice)
     facts["the-vice-president"] = fact(
       [vpOffice.before, vp.text].join(" "),

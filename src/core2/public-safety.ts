@@ -32,9 +32,10 @@
  * or group's recorded facts.
  */
 import parameters from "./data/public-safety/parameters.json" with { type: "json" };
-import { ageOn } from "./counted-groups";
+import { ageOn } from "./modules/health";
 import { parameter } from "./parameters";
-import { fundBalance, fundGroups, fundOf } from "./counted-money";
+import { fundBalance, fundGroups } from "./modules/health";
+import { fundOf } from "./modules/residents";
 import { isNoncitizen } from "./modules/people";
 import { citizenShareOf } from "./modules/voting";
 import {

@@ -13,7 +13,7 @@
  * doubter still believes a trusted friend and a trusting person can doubt a
  * stranger who argues against them: the case slides, no trait decides alone.
  */
-import { personLean } from "./campaign-views";
+import { personLean } from "./modules/campaigns";
 import { closenessBetween } from "./closeness";
 import { viewOn } from "./modules/views";
 import { parameter } from "./parameters";

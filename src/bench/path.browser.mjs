@@ -5,7 +5,7 @@
 // modules (the bench's own reading, /api/progress).
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
+import { startLife } from "../../tests/support/start-life.mjs";
 
 const base = process.env.BENCH_URL ?? "http://localhost:3000";
 const browser = await chromium.launch({
