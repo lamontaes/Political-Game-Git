@@ -34,3 +34,5 @@
 **Wide changes are scripts:** a change across many files that other sessions are editing (moving files, stripping comments, renaming) is a re-runnable script plus its output. The CTO re-runs it on main after the other branches land.
 
 **Cloud sessions see only GitHub:** name repo paths and branches only, never a path on the owner's Mac.
+
+**"Typecheck clean" means `npm run typecheck`** (scripts/dev-lab/typecheck.ts plus the test-import check), never `tsc -p tsconfig.node.json` alone. The partial check misses the files the game builds. On Nov 26 it let two heads into a train that failed the package jobs.
