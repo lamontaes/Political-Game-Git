@@ -1871,6 +1871,51 @@ export function playerContests(api: CoreAPI): readonly ContestRow[] {
   );
 }
 
+/** A contest by its id, as its record stands; none for an id that is not one. */
+export function contestOf(
+  api: CoreAPI,
+  contestId: string,
+): ContestRow | undefined {
+  return table(api, "contests").get(contestId) as unknown as
+    ContestRow | undefined;
+}
+
+/** Every filing a person has made or announced, in any status. */
+export function filingsOfPerson(
+  api: CoreAPI,
+  personId: string,
+): readonly FilingRow[] {
+  return table(api, "filings").query("byPerson", [
+    personId,
+  ]) as unknown as FilingRow[];
+}
+
+/**
+ * The races a person may file for today, the filing counter's choices: the
+ * contests open for filing that the player-offices rule offers (`playerContests`),
+ * less any race the person already stands in (a filing petitioning or on the
+ * ballot, so a race filed in is never offered again). With `filedWith`, only
+ * the races whose filings that office takes. No eligibility check is made here;
+ * `checkEligibility` answers that for each race.
+ */
+export function racesOpenTo(
+  api: CoreAPI,
+  personId: string,
+  filedWith?: string,
+): readonly ContestRow[] {
+  const standingIn = new Set(
+    filingsOfPerson(api, personId)
+      .filter(standing)
+      .map((row) => row.contestId),
+  );
+  return playerContests(api).filter(
+    (row) =>
+      !standingIn.has(row.id) &&
+      (filedWith === undefined ||
+        filingOfficeFor(api, row.id).filedWith === filedWith),
+  );
+}
+
 /** Where a contest's filings are taken, and what that place requires. */
 export function filingOfficeFor(
   api: CoreAPI,
