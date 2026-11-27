@@ -1,4 +1,4 @@
-# What Screens built and what is left (Nov 27, 2026, 7:50 a.m. ET)
+# What Screens built and what is left (Nov 27, 2026, updated 12:15 p.m. ET)
 
 The Screens session's goal was items 1 to 8 of its section in `assignments-2026-11-26.md`. "Built" here means an open pull request, because the goal forbids merging. Each item is built, or listed with the file, the pull request or door it needs, and the command to run.
 
@@ -17,7 +17,6 @@ The Screens session's goal was items 1 to 8 of its section in `assignments-2026-
 ## Not built, and why
 
 - **2. Not-game out.** Core's `scripts/core/move-workshop.ts` (branch `core/2-workshop-out`, #10716) already moves the milestone proofs, verify, store-shots, integration-heads and path-check. Nothing for Screens to build twice. The three browser-test helpers move with Cleanup's test mover.
-- **4. `personCardNode` stays in play.mjs.** `tests/guards/person-card-headings.test.ts` reads its body there; a check is never edited without a CTO line. To move it: change that guard to read `src/bench/ui/person-card-screen.mjs`, add its row back in `scripts/screens/split-client.mjs`, and run the script.
 - **6. Imports after Story takes the word files.** Story did not move the files: the five word files are story paths and entries in `tests/guards/families.json` (#10683), so Screens' imports of them are entry imports and nothing needs rewriting. The one piece left is `lineName` in `src/bench/budget.ts`: its only importers are `office.ts` (Screens) and `printed-words.ts` (Story). Story lifts it into `words.ts` with `printed-words.ts`, and Screens changes `office.ts`'s one import in the same step.
 - **7. Doors that do not exist yet** (each is its engine session's):
   - Offices: an `incompatibilitiesOf(api)` door for the incompatibilities table (`src/bench/legislature.ts`).
@@ -27,7 +26,7 @@ The Screens session's goal was items 1 to 8 of its section in `assignments-2026-
   - World: the rest of the news reads.
   - Story's files (`card.ts`, `scene.ts`, `dev-mode.ts`, `government-bodies.ts`, `campaign.ts`, `bill-stage.ts`, `printed-words.ts`, `reached.ts`, `law-did.ts`, `states.ts`, `results.ts`, `changes.ts`, `dev-why.ts`) open tables the engines now have doors for. Switch them in the Story split, or run the same steps (stack on the door branch, replace the open, typecheck, hash the view before and after).
   - Record detail by id (`law-did.ts:85-90`, `states.ts:45-48`, `results.ts:171-175`) uses Core's `recordOf` and `historyEvent` once those files are free.
-- **8. The one golden path.** Two parts wait. (a) path-check's walk joins the CI suite: after Core's #10716 lands, add `tests/golden-path/path-check.ts` as a feature row with its command in `docs/roadmap/features.json`, which the golden-path runner (`tests/golden-path/runner.mjs`) reads. (b) The dev panel reads its steps from that list instead of the fixed text in `src/bench/progress.ts` (Story's file, with 13 player-text lines the English engine should hold). Follow through Core's door (`dev-mode.ts:1006-1026`) needs Core to name the door for the player's circle; asked on #10377.
+- **8. The dev panel reads its steps from features.json (8b).** Approved once (8a) is decided; (8a) is built (#10841). It is in `src/bench/progress.ts`, Story's file with 13 player-text lines the English engine should hold, so it waits for Story's split. The first run of M0-14 reaches no step at Sterling, Michigan ("no open seat, first council race"), a finding for whoever owns the walk. Follow through Core's door (`dev-mode.ts:1006-1026`) needs Core to name the door for the player's circle.
 
 ## How to re-run what is scripted
 
