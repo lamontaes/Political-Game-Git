@@ -1,3 +1,49 @@
+/** The votes each candidate got, highest first, and the seats the race filled. */
+function countOf(
+  core: Readonly<CoreState>,
+  resultId: string,
+  /** A count that kept its totals under `votes` (a primary's) reads from there too. */
+  orVotes = false,
+): { totals: Record<string, number>; votes: number[]; seats: number } {
+  let totals: Record<string, number> = {};
+  try {
+    totals = JSON.parse(
+      String(
+        core.durableLog.get(resultId)?.facts?.totals ??
+          (orVotes ? core.durableLog.get(resultId)?.facts?.votes : undefined) ??
+          "{}",
+      ),
+    ) as Record<string, number>;
+  } catch {
+    totals = {};
+  }
+  const votes = Object.values(totals)
+    .map(Number)
+    .filter(Number.isFinite)
+    .sort((a, b) => b - a);
+  const seats = Math.max(
+    P.one,
+    Number(core.durableLog.get(resultId)?.facts?.seats ?? P.one) || P.one,
+  );
+  return { totals, votes, seats };
+}
+
+/**
+ * The votes a candidate who lost came short by: the gap to the last winning
+ * seat (the winner, where one seat was filled). The count the scenes say once
+ * and the size words read are this one gap.
+ */
+export function votesShort(
+  core: Readonly<CoreState>,
+  resultId: string,
+  loserId: string,
+): number {
+  const { totals, votes, seats } = countOf(core, resultId, true);
+  const own = Number(totals[loserId] ?? P.zero);
+  const cutoff = votes[Math.min(seats, votes.length) - P.one] ?? own;
+  return Math.max(P.zero, cutoff - own);
+}
+
 /**
  * The one margin function: how a race was decided, read from its result
  * record. The Journal says one's own race by it ("We won, but it was
@@ -19,17 +65,7 @@ export function raceMargin(
   core: Readonly<CoreState>,
   resultId: string,
 ): RaceMargin {
-  let votes: number[] = [];
-  try {
-    votes = Object.values(
-      JSON.parse(String(core.durableLog.get(resultId)?.facts?.totals ?? "{}")),
-    )
-      .map(Number)
-      .filter(Number.isFinite)
-      .sort((a, b) => b - a);
-  } catch {
-    votes = [];
-  }
+  const { votes } = countOf(core, resultId);
   if (votes.length === P.one) return "alone";
   const cast = votes.reduce((sum, count) => sum + count, P.zero);
   if (votes.length < P.two || !(cast > P.zero)) return "middle";
