@@ -1,6 +1,6 @@
 import { raceTitle } from "./race-words";
 import { coreAPI } from "../core2/state";
-import { filingClerkFor } from "../core2/modules/filing-clerk";
+import { filingClerkFor } from "../core2/modules/campaigns";
 import { workSpansOf } from "./places";
 import officeHours from "./data/office-hours.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -18,8 +18,8 @@ import {
   PARTIES_MODULE_ID,
   partiesHere,
   partyTie,
-} from "../core2/modules/parties";
-import { contestPositions } from "../core2/contest-positions";
+} from "../core2/modules/elections";
+import { contestPositions } from "../core2/modules/campaigns";
 import { seatHolder } from "../core2/modules/voting";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {

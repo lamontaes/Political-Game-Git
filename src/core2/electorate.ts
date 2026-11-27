@@ -41,7 +41,7 @@ import { VIEWS_KEYS } from "./views-keys";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import { coreAPI } from "./state";
 import { reportOutcome } from "./trait-decisions";
-import { traitProbe } from "./trait-probe";
+import { traitProbe } from "./trait-decisions";
 import type { GroupQuartersType } from "./group-quarters-types";
 import type { CoreState } from "./types";
 

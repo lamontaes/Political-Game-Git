@@ -21,19 +21,21 @@ import { parameter, type Parameter } from "../parameters";
 import { residentsRuntime } from "./residents";
 import { ageOfMajority } from "../age-of-majority";
 import { notifySalesReceipt } from "./finance";
-import { countedPayment } from "../counted-money";
+import { countedPayment } from "./health";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { firmCharged } from "../business-charges";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
-import { webLevel, webReach, type Subject } from "../outcome-web-reach";
-import { baseOf } from "../outcome-web-model";
+import { type Subject } from "../laws-in-force";
+import { webLevel } from "../outcome-web-reach";
+import { webReach } from "../outcome-web-reach";
+import { baseOf } from "../laws-in-force";
 import { placeStateKey } from "../place-map";
 import { incomeBandOn } from "./residents";
-import { registerPricesWebGaps } from "./prices-web-gaps";
+import { registerPricesWebGaps } from "../laws-in-force";
 import { sha256Hex } from "../kernel/sha256";
-import { transferCash } from "../world-transfer";
+import { transferCash } from "../budgets-treasury";
 import { newsKey, storiesHeard, type Story } from "./news";
 import { onStoryHeard } from "./news-listeners";
 import { onTaxWithheld, TAX_LAW_SERIES } from "../tax-listeners";
@@ -41,6 +43,7 @@ import {
   endAppliedBy,
   lawApplied,
   type AppliedTarget,
+  emitLawEffectLearned,
 } from "../law-reach/applied";
 import type {
   CoreAPI,
@@ -878,11 +881,9 @@ function emitLearned(
     -1,
     Math.min(1, moved / Math.max(input.monthlyEarningsMinor, Math.abs(moved))),
   );
-  api.emit({
+  emitLawEffectLearned(api, {
     id: `event:law.effect-learned:${api.state.date}:${personId}:${lawId}`,
-    date: api.state.date,
-    kind: "law.effect-learned",
-    personIds: [personId],
+    personId,
     placeId: person.placeId,
     topic: input.key,
     desiredChange: moved < 0 ? "repeal" : "enact",
@@ -895,7 +896,6 @@ function emitLearned(
       priceRuleId: input.ruleId,
       movedMinor: String(moved),
     },
-    publicRecord: false,
     source: {
       tag: "SOURCED",
       citation: `Learned from ${storyId} that ${lawId} changed what they pay`,

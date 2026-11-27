@@ -23,6 +23,64 @@ import type { LawChain, LawLevelName, LawRowInput } from "./laws-starting";
 import { lawChainForPlace, startingLawRows } from "./laws-starting";
 import { parameter as p } from "./parameters";
 import { governmentUnit } from "./reference/government-units";
+export { corruptionModule } from "./modules/corruption";
+export { countedWeight } from "./law-reach/pay-reach";
+export { webLevel } from "./outcome-web-reach";
+export { registerPricesWebGaps } from "./modules/prices-web-gaps";
+export { publicPayFloorHourly } from "./public-pay-floor";
+export {
+  mechanicRow,
+  putMechanic,
+  reachTable,
+  tomorrow,
+} from "./law-reach/group-a-records";
+export type { MechanicRow } from "./law-reach/group-a-records";
+/** Group A's parameter reader (the legal reach's table). `reachParameter` below is group B's; the two read different tables. */
+export { reachParameter as groupAReachParameter } from "./law-reach/group-a-records";
+export { recordHomeRule } from "./policy-authority";
+export {
+  DEATH_WEB_REFRESH_DAY,
+  deathWebFactor,
+  markWaitingHealthLinks,
+  youthCannabisWeb,
+} from "./health-web";
+export {
+  PAID_LEAVE_KEY,
+  paidLeavePremium,
+  paidLeaveProgram,
+} from "./paid-leave";
+export { webDayCache } from "./outcome-web-reach";
+export {
+  GOVERNMENT_HEIR,
+  assessEstateTaxes,
+  assessInheritanceTax,
+} from "./laws-death-taxes";
+export type { DeathTax } from "./laws-death-taxes";
+export { startingSocialSecurityAges } from "./social-security-law";
+export type { SocialSecurityAges } from "./social-security-law";
+export { baseOf } from "./outcome-web-model";
+export { crimeChange } from "./modules/crime";
+export {
+  applyElectionLaws,
+  automaticRegistrationInForce,
+  barredFromVoting,
+  electionLawTurnoutCost,
+  lobbyingBarredUntil,
+  prisonPartOfBarredShare,
+  prisonersBarredHere,
+  recordRedistricting,
+  revolvingDoorFor,
+  sameDayRegistrationInForce,
+} from "./law-reach/group-a-voting";
+export { groupBPolicy } from "./law-reach/group-b";
+export { jobsAt } from "./law-reach/group-b-money";
+export { reachParameter } from "./law-reach/group-b-people";
+export { scandalsOf, settleBribes } from "./modules/corruption";
+export type { Subject, WebPart } from "./outcome-web-reach";
+export { wantedFacts } from "./modules/corruption";
+export type { CrimeRecord } from "./modules/corruption";
+export { CRIME_EVENT, CRIME_MODULE_ID } from "./modules/crime";
+export { WIRED_INTO } from "./outcome-web-model";
 export { lawChainForPlace } from "./laws-starting";
 export type { LawChain } from "./laws-starting";
 
