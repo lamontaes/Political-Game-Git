@@ -11,7 +11,7 @@ import { mkdirSync } from "node:fs";
 const { chromium } = createRequire(import.meta.url)("playwright");
 const out = process.argv[2];
 const repo = "/home/user/Political-Game-Git";
-const { startLife } = await import(`${repo}/src/bench/start-life.mjs`);
+const { startLife } = await import(`${repo}/tests/support/start-life.mjs`);
 mkdirSync(out, { recursive: true });
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });

@@ -33,8 +33,13 @@ import type {
 } from "./types";
 import type { ModuleRow } from "./module-data";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
-import { OFFICIALS_MODULE_ID, type OfficialRow } from "./modules/officials";
+import {
+  OFFICES_MODULE_ID,
+  officeById,
+  servingTermsOf,
+  type TermRow,
+} from "./modules/offices";
+import { officialOf } from "./modules/officials";
 import {
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
@@ -63,7 +68,7 @@ import {
   type OfficeEffectHandler,
 } from "./office-day-registry";
 import { COMMITTEES, committeeRoster, leaderOf } from "./modules/leadership";
-import { candidateStance } from "./campaign-stances";
+import { candidateStance } from "./modules/campaigns";
 import { filingWindowOpens } from "./modules/candidacy";
 import { partySide } from "./appointments";
 import {
@@ -245,13 +250,8 @@ export function federalSeatOf(
   personId: string,
 ): { term: TermRow; kind: FederalSeatKind; stateKey: string } | null {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  for (const term of offices
-    .table("terms")
-    .query("byPerson", [personId]) as unknown as TermRow[]) {
-    if (term.status !== "serving") continue;
-    const office = offices.table("offices").get(term.officeId) as unknown as
-      { kind: string; jurisdiction: string } | undefined;
+  for (const term of servingTermsOf(api, personId)) {
+    const office = officeById(api, term.officeId);
     const kind = office ? seatKind(office.kind) : null;
     if (kind) return { term, kind, stateKey: office!.jurisdiction };
   }
@@ -308,10 +308,7 @@ export function floorOn(api: CoreAPI, date: string): readonly string[] {
 function chamberOfBill(api: CoreAPI, bodyOfficeId: string): string | null {
   if (bodyOfficeId === FEDERAL_HOUSE || bodyOfficeId === FEDERAL_SENATE)
     return bodyOfficeId;
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(bodyOfficeId) as unknown as { kind: string } | undefined;
+  const office = officeById(api, bodyOfficeId);
   if (!office) return null;
   if (office.kind === "us-senate") return FEDERAL_SENATE;
   return office.kind.startsWith("us-house") ? FEDERAL_HOUSE : null;
@@ -448,16 +445,7 @@ export function whipAsk(
   const mine = partySide(seat.term.party);
   if (mine === 0) return null;
   const sideOf = (id: string | null) =>
-    id
-      ? partySide(
-          (
-            api
-              .moduleState(OFFICIALS_MODULE_ID)
-              .table("officials")
-              .get(id) as unknown as OfficialRow | undefined
-          )?.party,
-        )
-      : 0;
+    id ? partySide(officialOf(api, id)?.party) : 0;
   const posted = (posts: readonly string[]) =>
     posts
       .map((post) => ({ post, id: leaderOf(api, body, post) }))

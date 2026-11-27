@@ -144,7 +144,7 @@ The remaining class (c) work alone is about 14 profiled seconds, a third of BEFO
 ## Method
 
 - Cloud container only. Worktrees at BEFORE and AFTER; `npm ci` once, shared by both (the lockfiles are identical). One process at a time: warm-up, measured 1, measured 2, each BEFORE then AFTER.
-- Command: `node --max-old-space-size=8192 --import tsx src/core2/tooling/drives-proof.ts --timing-only base --days 31`. Build time is the script's stderr line; simulate time is its `seconds` field.
+- Command: `node --max-old-space-size=8192 --import tsx scripts/core2/tooling/drives-proof.ts --timing-only base --days 31`. Build time is the script's stderr line; simulate time is its `seconds` field.
 - Profile: the same command with `--cpu-prof`, outputs outside the repo. My summary scripts are in this branch under `docs/reports/2026-10-10-core2-slowdown-profile-tools/`. Self time comes from sample deltas; total time counts each function once per sample.
 - Counts and read origins came from a scratch worktree with counters added. That copy was reset and never committed. No game code changed, and `pool/P8-part-1` and `pool/P10-part-1` were not touched.
 - The AFTER + P8 check was an uncommitted merge in a scratch worktree. It merged cleanly and changed `finance-plan.ts` by four lines.
@@ -230,9 +230,9 @@ Seconds in the profiled run. File and line come from the AFTER tree; a few share
 | 1   | (root) :0                                               |     42.4 |   103.1 |   +60.6 |
 | 2   | evaluate :0                                             |     34.4 |    86.0 |   +51.6 |
 | 3   | run (node:internal/modules/esm/module_job)              |     34.4 |    86.0 |   +51.6 |
-| 4   | main `src/core2/tooling/drives-proof.ts:268`            |     33.7 |    85.4 |   +51.7 |
-| 5   | (anonymous) `src/core2/tooling/drives-proof.ts`         |     33.7 |    85.4 |   +51.7 |
-| 6   | run `src/core2/tooling/drives-proof.ts:50`              |     27.5 |    78.8 |   +51.3 |
+| 4   | main `scripts/core2/tooling/drives-proof.ts:268`            |     33.7 |    85.4 |   +51.7 |
+| 5   | (anonymous) `scripts/core2/tooling/drives-proof.ts`         |     33.7 |    85.4 |   +51.7 |
+| 6   | run `scripts/core2/tooling/drives-proof.ts:50`              |     27.5 |    78.8 |   +51.3 |
 | 7   | advanceCore `src/core2/life.ts:276`                     |     27.1 |    78.3 |   +51.2 |
 | 8   | runScheduledWork `src/core2/modules/work.ts:307`        |      1.8 |    54.3 |   +52.5 |
 | 9   | settleWorkResult `src/core2/state.ts:724`               |      0.8 |    51.5 |   +50.7 |

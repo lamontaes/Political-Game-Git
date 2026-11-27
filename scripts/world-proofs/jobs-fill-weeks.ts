@@ -68,7 +68,7 @@ for (const job of picked)
     lawId: "jobs-fill-weeks",
   });
 process.stdout.write(
-  `place ${placeKey}, seed ${seed}: ${held.length} jobs held by the town\'s own people, ${laidOff} ended, ${posted} positions posted\n`,
+  `place ${placeKey}, seed ${seed}: ${held.length} jobs held by the town's own people, ${laidOff} ended, ${posted} positions posted\n`,
 );
 const started = performance.now();
 for (let week = 1; week <= weeks; week += 1) {

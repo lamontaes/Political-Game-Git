@@ -16,7 +16,6 @@ import { historyOf } from "../past";
 import {
   PAST_LAW_ENACTED,
   SESSION_FACT,
-  type HistoryModule,
   type HistoryRow,
   type HistorySource,
 } from "../past-module";
@@ -102,7 +101,11 @@ export {
   type CoverageSpell,
 } from "../law-reach/group-b-money";
 
-export const LAWS_MODULE_ID = "core2-laws-v1";
+// The module id lives with the read doors (laws-reads.ts), which import nothing
+// at run time, so a reader can use the doors without joining the laws engine's
+// import ring.
+export { LAWS_MODULE_ID } from "./laws-reads";
+import { LAWS_MODULE_ID } from "./laws-reads";
 const CHAIN_ID = "chain";
 /** The count of laws enacted in play, across every series: their order. */
 const ORDER_ID = "enactment-order";
@@ -225,7 +228,7 @@ const LAWS_HISTORY: HistorySource = {
   },
 };
 
-export const LAWS_MODULE: PreStartModule & HistoryModule = {
+export const LAWS_MODULE: PreStartModule = {
   // A law's dated changes before day one are its statutes, read through the
   // one history reader (`law.statute`); no copy is kept in the past's table.
   history: LAWS_HISTORY,

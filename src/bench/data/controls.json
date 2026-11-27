@@ -105,7 +105,7 @@
     "cabinet": "Appointing the cabinet",
     "workings": "Opening the press, courts and meetings",
     "history": "Writing the country's history",
-    "warmup": "Letting the country, the state and the town run two months on their own before your first evening.",
+    "warmup": "Giving the world a head start",
     "opening": "Preparing the opening"
   },
   "worldSettings": {
@@ -281,6 +281,10 @@
     "furthest": "Furthest step",
     "none": "none",
     "step": "Step",
+    "specs": "Specs",
+    "specPasses": "passes",
+    "specNot": "not yet",
+    "wholePath": "Whole path",
     "label": "Label",
     "status": "Status",
     "evidence": "Evidence",
