@@ -402,28 +402,22 @@
       "name": "Budgets, taxes and public money",
       "entry": [
         "src/core2/modules/budgets.ts",
-        "src/core2/modules/finance.ts",
         "src/core2/budgets-treasury.ts",
         "src/core2/budgets-reads.ts",
         "src/core2/tax-index.ts",
-        "src/core2/tax-listeners.ts"
+        "src/core2/tax-listeners.ts",
+        "src/core2/modules/purchase-tax.ts"
       ],
       "paths": [
         "src/core2/modules/budgets.ts",
-        "src/core2/modules/finance.ts",
         "src/core2/modules/projects.ts",
         "src/core2/modules/contracts.ts",
         "src/core2/modules/purchase-tax.ts",
         "src/core2/modules/employer-taxes.ts",
         "src/core2/budget-*.ts",
         "src/core2/budgets-*.ts",
-        "src/core2/finance-*.ts",
         "src/core2/tax-*.ts",
-        "src/core2/accounts.ts",
-        "src/core2/act-cash.ts",
-        "src/core2/cash-host.ts",
         "src/core2/school-budget-line.ts",
-        "src/core2/starting-cash.ts",
         "src/core2/world-transfer.ts",
         "src/core2/modules/outside-budgets.ts",
         "src/core2/accounts.test.ts",
@@ -462,6 +456,29 @@
         "src/core2/treasury-cut-cash-limited.test.ts",
         "src/core2/treasury-government-match.test.ts",
         "src/core2/treasury-outside-account.test.ts"
+      ]
+    },
+    {
+      "id": "finance",
+      "name": "People's and firms' money: accounts, cash and plans",
+      "entry": [
+        "src/core2/modules/finance.ts",
+        "src/core2/accounts.ts",
+        "src/core2/starting-cash.ts",
+        "src/core2/finance-types.ts",
+        "src/core2/finance-plan.ts",
+        "src/core2/finance-state.ts",
+        "src/core2/finance-cash.ts",
+        "src/core2/cash-host.ts",
+        "src/core2/act-cash.ts"
+      ],
+      "paths": [
+        "src/core2/modules/finance.ts",
+        "src/core2/finance-*.ts",
+        "src/core2/accounts.ts",
+        "src/core2/act-cash.ts",
+        "src/core2/cash-host.ts",
+        "src/core2/starting-cash.ts"
       ]
     },
     {
