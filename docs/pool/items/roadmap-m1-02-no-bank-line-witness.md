@@ -21,7 +21,7 @@ claimed-at:
 
 **Time box.** 3 hours. Model: Sonnet, no helpers.
 
-**Files.** src/core2/tooling/m1-02-check.ts, src/core2/modules/macro.ts, docs/roadmap/features.json
+**Files.** scripts/core2/tooling/m1-02-check.ts, src/core2/modules/macro.ts, docs/roadmap/features.json
 
 **Notes.** Found by Merger 3 on PR #5875. Seed f9afc43813e78125cca0f168c33cbd5ddf89e39bb1618c86fa21ce1cbe9ce361; place 3148060; 2025-01-20 start through two years; townBankLines 0, repricings 0. Same output on clean main and integrated PR.
 

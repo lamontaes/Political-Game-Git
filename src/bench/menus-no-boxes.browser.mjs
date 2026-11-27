@@ -7,7 +7,7 @@
 // side, a ring shadow, or a pseudo-element that paints a 1 px line. Controls (buttons, fields)
 // are judged by their own states (buttons.browser.mjs), so they are left out here.
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
+import { startLife } from "../../tests/support/start-life.mjs";
 
 const shots = process.env.MENU_SHOTS;
 const SCREENS = [

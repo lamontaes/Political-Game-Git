@@ -2629,11 +2629,7 @@ export function effectiveRule(
     ...base,
     kind: "days-after-adoption",
     days,
-    date: new Date(
-      Date.parse(`${api.state.date}T00:00:00Z`) + days * 86_400_000,
-    )
-      .toISOString()
-      .slice(0, 10),
+    date: addDays(makeIsoDate(api.state.date), days),
     cite: "campaigns parameter ordinanceEffectiveDays",
   };
 }
