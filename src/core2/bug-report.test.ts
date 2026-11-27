@@ -1,9 +1,9 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { bugReport, replayBugReport } from "./bug-report";
+import { bugReport, replayBugReport } from "../../scripts/core2/bug-report";
 import { newGame, registerCommand, runCommand } from "./saves";
-import { daysAfterStart } from "./tooling/test-days";
+import { daysAfterStart } from "../../tests/support/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-bug-report");

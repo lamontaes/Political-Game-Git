@@ -1,5 +1,5 @@
 /** Opening-only import of the town's generated schedules. Runtime work never reads the draft. */
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, weekdayOf } from "./kernel/dates";
 import type { EntityId } from "./kernel/brands";
 import { draftOrganizationProfiles, type OpeningDraft } from "./opening-draft";
 import { townWorkplaceFor } from "./town-workplaces";
@@ -221,7 +221,7 @@ function scheduleAtHours(
     Math.min(p("daysPerWeek"), Math.round(target / shiftMinutes)),
   );
   const weekday = (offset: number) =>
-    new Date(`${addDays(makeIsoDate(openedAt), offset)}T12:00:00Z`).getUTCDay();
+    weekdayOf(addDays(makeIsoDate(openedAt), offset));
   const slot = (offsetDays: number): WorkScheduleSlot => ({
     offsetDays,
     startMinute: base.startMinute,

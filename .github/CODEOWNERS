@@ -3,47 +3,16 @@
 # One engine per mechanic: each block is one engine family (docs/design/guards.md).
 
 # The shared kernel
-/src/core2/kernel/** @lamontaes
-/src/core2/bookkeeping.ts @lamontaes
 /src/core2/reference/** @lamontaes
-/src/core2/data/** @lamontaes
-/src/core2/tooling/** @lamontaes
-/src/core2/types.ts @lamontaes
-/src/core2/state.ts @lamontaes
 /src/core2/opening-draft.ts @lamontaes
 /src/core2/appearance.ts @lamontaes
-/src/core2/parameters.ts @lamontaes
-/src/core2/stopgaps.ts @lamontaes
-/src/core2/seeded.ts @lamontaes
 /src/core2/world-base-rates.ts @lamontaes
 /src/core2/scene-replies.ts @lamontaes
 /src/core2/shares.ts @lamontaes
-/src/core2/world-draw.ts @lamontaes
 /src/core2/union-rate.ts @lamontaes
-/src/core2/module-*.ts @lamontaes
-/src/core2/saves.ts @lamontaes
-/src/core2/snapshot.ts @lamontaes
-/src/core2/saved-trace-v1.ts @lamontaes
-/src/core2/why-kept.ts @lamontaes
-/src/core2/decision-detail.ts @lamontaes
-/src/core2/choice.ts @lamontaes
-/src/core2/compact-choice.ts @lamontaes
 /src/core2/condition-pack.ts @lamontaes
-/src/core2/core-pieces-fixture.ts @lamontaes
-/src/core2/data.ts @lamontaes
-/src/core2/bug-report.ts @lamontaes
-/src/core2/gov-test-report.ts @lamontaes
-/src/core2/law-test-start.ts @lamontaes
-/src/core2/resident-adults-test-kit.ts @lamontaes
-/src/core2/record-test-kit.ts @lamontaes
-/src/core2/campaign-incumbent-response-test-kit.ts @lamontaes
-/src/core2/counted-moves-balance-kit.ts @lamontaes
-/src/core2/free-block.ts @lamontaes
-/src/core2/focus.ts @lamontaes
 /src/core2/gov-rules/place-population.ts @lamontaes
 /src/core2/group-quarters-types.ts @lamontaes
-/src/core2/stopgap-families.ts @lamontaes
-/src/core2/stopgaps-folder.ts @lamontaes
 /src/core2/gov-rules/names-data.ts @lamontaes
 /src/core2/gov-rules/given-name-cohorts.ts @lamontaes
 /src/core2/gov-rules/person-identity.ts @lamontaes
@@ -56,6 +25,38 @@
 /src/core2/snapshot-seal.test.ts @lamontaes
 /src/core2/stopgaps-register.test.ts @lamontaes
 /src/core2/world-base-rates.test.ts @lamontaes
+/src/core2/generated-world.ts @lamontaes
+/src/core2/past-sessions.ts @lamontaes
+
+# Core: the kernel, one state, the record, the clock, the plug, parameters, the choice engine, starting and saving a world (core)
+/src/core2/kernel/** @lamontaes
+/src/core2/bookkeeping.ts @lamontaes
+/src/core2/data/** @lamontaes
+/src/core2/types.ts @lamontaes
+/src/core2/state.ts @lamontaes
+/src/core2/parameters.ts @lamontaes
+/src/core2/stopgaps.ts @lamontaes
+/src/core2/stopgap-families.ts @lamontaes
+/src/core2/stopgaps-folder.ts @lamontaes
+/src/core2/seeded.ts @lamontaes
+/src/core2/module-*.ts @lamontaes
+/src/core2/saves.ts @lamontaes
+/src/core2/snapshot.ts @lamontaes
+/src/core2/saved-trace-v1.ts @lamontaes
+/src/core2/why-kept.ts @lamontaes
+/src/core2/decision-detail.ts @lamontaes
+/src/core2/choice.ts @lamontaes
+/src/core2/compact-choice.ts @lamontaes
+/src/core2/data.ts @lamontaes
+/src/core2/free-block.ts @lamontaes
+/src/core2/focus.ts @lamontaes
+/src/core2/world-draw.ts @lamontaes
+/src/core2/life.ts @lamontaes
+/src/core2/past-history.ts @lamontaes
+/src/core2/journal.ts @lamontaes
+/src/core2/journal-state.ts @lamontaes
+/src/core2/cash-host.ts @lamontaes
+/src/core2/trait-lean.ts @lamontaes
 
 # Elections and campaigns (elections)
 /src/core2/modules/elections.ts @lamontaes
@@ -72,6 +73,12 @@
 /src/core2/modules/parties.ts @lamontaes
 /src/core2/modules/interest-groups.ts @lamontaes
 /src/core2/ballot-order.ts @lamontaes
+/src/core2/party-sides.ts @lamontaes
+/src/core2/gov-rules/county-election-calendar.ts @lamontaes
+/src/core2/gov-rules/town-election-calendar.ts @lamontaes
+/src/core2/gov-rules/municipal-ballot-rules.ts @lamontaes
+/src/core2/gov-rules/municipal-election-rule-packs.ts @lamontaes
+/src/core2/gov-rules/municipal-election-rules.ts @lamontaes
 /src/core2/campaign-*.ts @lamontaes
 /src/core2/candidate-*.ts @lamontaes
 /src/core2/contest-positions.ts @lamontaes
@@ -84,9 +91,7 @@
 /src/core2/place-leans.ts @lamontaes
 /src/core2/voting-module-id.ts @lamontaes
 /src/core2/turnout*.ts @lamontaes
-/src/core2/civic-inputs.ts @lamontaes
 /src/core2/membership-dues.ts @lamontaes
-/src/core2/gov-test-clock.ts @lamontaes
 /src/core2/campaign-data.ts @lamontaes
 /src/core2/modules/national-opinion.ts @lamontaes
 /src/core2/modules/candidacy-constants.ts @lamontaes
@@ -207,6 +212,7 @@
 /src/core2/world-races-fold.test.ts @lamontaes
 /src/core2/world-races-no-district.test.ts @lamontaes
 /src/core2/world-races.test.ts @lamontaes
+/src/core2/election-winner-names.test.ts @lamontaes
 
 # Legislative bodies (bodies)
 /src/core2/modules/legislature.ts @lamontaes
@@ -214,10 +220,11 @@
 /src/core2/modules/world-legislating.ts @lamontaes
 /src/core2/modules/leadership.ts @lamontaes
 /src/core2/modules/world-panels.ts @lamontaes
+/src/core2/modules/bodies-reads.ts @lamontaes
+/src/core2/modules/bodies-reads.test.ts @lamontaes
 /src/core2/legislature-*.ts @lamontaes
 /src/core2/bill-*.ts @lamontaes
 /src/core2/board-appointer.ts @lamontaes
-/src/core2/session-law-audit.ts @lamontaes
 /src/core2/state-session-calendar.ts @lamontaes
 /src/core2/state-item-veto.ts @lamontaes
 /src/core2/board-appointer.test.ts @lamontaes
@@ -261,6 +268,12 @@
 /src/core2/town-hall-question-seat.test.ts @lamontaes
 /src/core2/unemployment-program-reversal.test.ts @lamontaes
 /src/core2/world-legislating-federal.test.ts @lamontaes
+/src/core2/ask-waits-for-the-chair.test.ts @lamontaes
+/src/core2/bargaining-price.test.ts @lamontaes
+/src/core2/floor-every-bill.test.ts @lamontaes
+/src/core2/record-vote-per-question.test.ts @lamontaes
+/src/core2/second-chamber-own-day.test.ts @lamontaes
+/src/core2/sitting-focus.test.ts @lamontaes
 
 # Executives and offices (executive)
 /src/core2/modules/executive.ts @lamontaes
@@ -340,26 +353,23 @@
 /src/core2/town-seat-party.test.ts @lamontaes
 /src/core2/township-board-terms.test.ts @lamontaes
 /src/core2/wide-races.test.ts @lamontaes
+/src/core2/civic-inputs.ts @lamontaes
+/src/core2/staff-dismissal-after-attendance.test.ts @lamontaes
+/src/core2/staff-player-clock.test.ts @lamontaes
+/src/core2/succession.test.ts @lamontaes
 
 # Budgets, taxes and public money (budgets)
 /src/core2/modules/budgets.ts @lamontaes
-/src/core2/modules/finance.ts @lamontaes
 /src/core2/modules/projects.ts @lamontaes
 /src/core2/modules/contracts.ts @lamontaes
 /src/core2/modules/purchase-tax.ts @lamontaes
 /src/core2/modules/employer-taxes.ts @lamontaes
 /src/core2/budget-*.ts @lamontaes
 /src/core2/budgets-*.ts @lamontaes
-/src/core2/finance-*.ts @lamontaes
 /src/core2/tax-*.ts @lamontaes
-/src/core2/accounts.ts @lamontaes
-/src/core2/act-cash.ts @lamontaes
-/src/core2/cash-host.ts @lamontaes
 /src/core2/school-budget-line.ts @lamontaes
-/src/core2/starting-cash.ts @lamontaes
 /src/core2/world-transfer.ts @lamontaes
 /src/core2/modules/outside-budgets.ts @lamontaes
-/src/core2/accounts.test.ts @lamontaes
 /src/core2/bank-deposits.test.ts @lamontaes
 /src/core2/bookkeeping.test.ts @lamontaes
 /src/core2/budgets.test.ts @lamontaes
@@ -395,6 +405,14 @@
 /src/core2/treasury-cut-cash-limited.test.ts @lamontaes
 /src/core2/treasury-government-match.test.ts @lamontaes
 /src/core2/treasury-outside-account.test.ts @lamontaes
+/src/core2/act-cash.ts @lamontaes
+
+# People's and firms' money: accounts, cash and plans (finance)
+/src/core2/modules/finance.ts @lamontaes
+/src/core2/finance-*.ts @lamontaes
+/src/core2/accounts.ts @lamontaes
+/src/core2/starting-cash.ts @lamontaes
+/src/core2/accounts.test.ts @lamontaes
 
 # Laws, justice and their effects (laws)
 /src/core2/modules/laws.ts @lamontaes
@@ -404,6 +422,10 @@
 /src/core2/modules/police-patrol.ts @lamontaes
 /src/core2/modules/corruption.ts @lamontaes
 /src/core2/modules/outcome-web.ts @lamontaes
+/src/core2/modules/laws-reads.ts @lamontaes
+/src/core2/modules/laws-reads.test.ts @lamontaes
+/src/core2/modules/justice-reads.ts @lamontaes
+/src/core2/modules/outcome-web-reads.ts @lamontaes
 /src/core2/modules/prices-web-gaps.ts @lamontaes
 /src/core2/law-reach/** @lamontaes
 /src/core2/laws-*.ts @lamontaes
@@ -587,6 +609,7 @@
 /src/core2/withholding-outside-governments.test.ts @lamontaes
 /src/core2/withholding-zero-rate.test.ts @lamontaes
 /src/core2/world-legislating.test.ts @lamontaes
+/src/rules/laws/** @lamontaes
 
 # Jobs, businesses and the economy (jobs-businesses)
 /src/core2/shared-time.ts @lamontaes
@@ -629,13 +652,18 @@
 /src/core2/question-wages.ts @lamontaes
 /src/core2/legacy-wage-counters.ts @lamontaes
 /src/core2/macro-model.ts @lamontaes
+/src/core2/macro-reads.ts @lamontaes
 /src/core2/regional-model.ts @lamontaes
+/src/core2/regional-reads.ts @lamontaes
 /src/core2/credit-deposits.ts @lamontaes
+/src/core2/credit-reads.ts @lamontaes
+/src/core2/prices-reads.ts @lamontaes
 /src/core2/commuting-shares.ts @lamontaes
 /src/core2/cost-of-living.ts @lamontaes
 /src/core2/living-cost-split.ts @lamontaes
 /src/core2/pay-by-quarter.ts @lamontaes
 /src/core2/modules/macro-constants.ts @lamontaes
+/src/core2/economy-reads.test.ts @lamontaes
 /src/core2/away-workers-turnover.test.ts @lamontaes
 /src/core2/cannabis-sales-law.test.ts @lamontaes
 /src/core2/civic-inputs-clerk-staff.test.ts @lamontaes
@@ -675,6 +703,8 @@
 /src/core2/unfilled-opening-pay.test.ts @lamontaes
 /src/core2/wholesale-outside-buyers.test.ts @lamontaes
 /src/core2/work.test.ts @lamontaes
+/src/core2/closure-credit-line.test.ts @lamontaes
+/src/core2/public-hire-authority.test.ts @lamontaes
 
 # Households and people (people)
 /src/core2/modules/people.ts @lamontaes
@@ -748,13 +778,8 @@
 /src/core2/retirement-claim.ts @lamontaes
 /src/core2/resting-stress.ts @lamontaes
 /src/core2/representative-sample.ts @lamontaes
-/src/core2/money-traits-kit.ts @lamontaes
 /src/core2/town-households.ts @lamontaes
 /src/core2/world-poverty.ts @lamontaes
-/src/core2/circle-turnover-check.ts @lamontaes
-/src/core2/turnover-check.ts @lamontaes
-/src/core2/journal-state.ts @lamontaes
-/src/core2/journal.ts @lamontaes
 /src/core2/heard-claims.ts @lamontaes
 /src/core2/home-distance.ts @lamontaes
 /src/core2/sibling-names.ts @lamontaes
@@ -870,6 +895,7 @@
 /src/core2/modules/public-action.test.ts @lamontaes
 /src/core2/modules/speech.traits.test.ts @lamontaes
 /src/core2/modules/trait-change.traits.test.ts @lamontaes
+/src/core2/modules/views.feeling.test.ts @lamontaes
 /src/core2/modules/views.traits.test.ts @lamontaes
 /src/core2/money-traits-played.traits.test.ts @lamontaes
 /src/core2/money-traits.traits.test.ts @lamontaes
@@ -916,6 +942,7 @@
 /src/core2/sibling-births.test.ts @lamontaes
 /src/core2/sibling-names.test.ts @lamontaes
 /src/core2/sitting-closeness.test.ts @lamontaes
+/src/core2/owner-doors.test.ts @lamontaes
 /src/core2/sitting-unowned-body.test.ts @lamontaes
 /src/core2/social-security-line-poverty.test.ts @lamontaes
 /src/core2/speech-retellings-fold.test.ts @lamontaes
@@ -935,6 +962,11 @@
 /src/core2/vote-outcome-recorded.test.ts @lamontaes
 /src/core2/world-game.test.ts @lamontaes
 /src/core2/world-poverty.test.ts @lamontaes
+/src/core2/fill-in-pooled-flows.test.ts @lamontaes
+/src/core2/journal-fold.test.ts @lamontaes
+/src/core2/medical-payer-parts.test.ts @lamontaes
+/src/core2/moves-minors.test.ts @lamontaes
+/src/core2/rerate-counted-job.test.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes
@@ -954,6 +986,10 @@
 /src/core2/pre-start-people.test.ts @lamontaes
 /src/core2/pre-start.test.ts @lamontaes
 /src/core2/shared-history-past.test.ts @lamontaes
+/src/core2/day-zero.test.ts @lamontaes
+/src/core2/pre-start-government.test.ts @lamontaes
+/src/core2/relatives-elsewhere-past.test.ts @lamontaes
+/src/core2/whole-past.test.ts @lamontaes
 
 # The clock, the world and places (clock-places)
 /src/core2/modules/world.ts @lamontaes
@@ -962,7 +998,6 @@
 /src/core2/output-numbers.ts @lamontaes
 /src/core2/output-number-readers.ts @lamontaes
 /src/core2/modules/disasters.ts @lamontaes
-/src/core2/life.ts @lamontaes
 /src/core2/calendar.ts @lamontaes
 /src/core2/game-start.ts @lamontaes
 /src/core2/places.ts @lamontaes
@@ -971,6 +1006,7 @@
 /src/core2/age-of-majority.ts @lamontaes
 /src/core2/coarse-place.ts @lamontaes
 /src/core2/community-events-table.ts @lamontaes
+/src/core2/modules/community-events.ts @lamontaes
 /src/core2/world-settings.ts @lamontaes
 /src/core2/player-*.ts @lamontaes
 /src/core2/opening-*.ts @lamontaes
@@ -992,6 +1028,7 @@
 /src/core2/closure-by-choice.test.ts @lamontaes
 /src/core2/coarse-place.test.ts @lamontaes
 /src/core2/community-events-table.test.ts @lamontaes
+/src/core2/community-events.test.ts @lamontaes
 /src/core2/controlled-sources-released.test.ts @lamontaes
 /src/core2/country-part-counts.test.ts @lamontaes
 /src/core2/credit-applicants-place.test.ts @lamontaes
@@ -1050,11 +1087,14 @@
 /src/core2/world-economy-setting.test.ts @lamontaes
 /src/core2/world-metrics-resident-rate.test.ts @lamontaes
 /src/core2/world-settings.test.ts @lamontaes
+/src/districts/** @lamontaes
+/src/maps/** @lamontaes
 
 # News and the press (news)
 /src/core2/modules/news.ts @lamontaes
 /src/core2/modules/press.ts @lamontaes
 /src/core2/press-*.ts @lamontaes
+/src/core2/ad-outlet-per-world.test.ts @lamontaes
 /src/core2/outcome-news.ts @lamontaes
 /src/core2/modules/news-listeners.ts @lamontaes
 /src/core2/outcome-news-constants.ts @lamontaes
@@ -1079,27 +1119,8 @@
 
 # Screens and the UI kit (screens)
 /src/bench/** @lamontaes
-/src/core2/ask-waits-for-the-chair.test.ts @lamontaes
-/src/core2/bargaining-price.test.ts @lamontaes
-/src/core2/closure-credit-line.test.ts @lamontaes
-/src/core2/day-zero.test.ts @lamontaes
-/src/core2/election-winner-names.test.ts @lamontaes
-/src/core2/fill-in-pooled-flows.test.ts @lamontaes
-/src/core2/floor-every-bill.test.ts @lamontaes
-/src/core2/journal-fold.test.ts @lamontaes
-/src/core2/medical-payer-parts.test.ts @lamontaes
-/src/core2/moves-minors.test.ts @lamontaes
-/src/core2/pre-start-government.test.ts @lamontaes
-/src/core2/public-hire-authority.test.ts @lamontaes
-/src/core2/record-vote-per-question.test.ts @lamontaes
-/src/core2/relatives-elsewhere-past.test.ts @lamontaes
-/src/core2/rerate-counted-job.test.ts @lamontaes
-/src/core2/second-chamber-own-day.test.ts @lamontaes
-/src/core2/sitting-focus.test.ts @lamontaes
-/src/core2/staff-dismissal-after-attendance.test.ts @lamontaes
-/src/core2/staff-player-clock.test.ts @lamontaes
-/src/core2/succession.test.ts @lamontaes
-/src/core2/whole-past.test.ts @lamontaes
+/src/release/** @lamontaes
+/desktop/** @lamontaes
 
 # Owner-protected: the instructions, the workflows and the checks that judge every change (CTO, Nov 17, on issue 9747)
 /AGENTS.md @lamontaes

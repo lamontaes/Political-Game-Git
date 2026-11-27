@@ -6,7 +6,7 @@
 // Run against a fresh bench: node src/bench/person-card-close.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
+import { startLife } from "../../tests/support/start-life.mjs";
 
 const shots = process.argv[2];
 const browser = await chromium.launch({

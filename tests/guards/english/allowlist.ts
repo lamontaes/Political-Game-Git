@@ -218,7 +218,4 @@ export const KNOWN_HITS: Readonly<Record<string, number>> = {
  * Player strings that already carried an ISO date or a raw record value when
  * the player-text guard first ran, by file and count. Only goes down.
  */
-export const KNOWN_DEVELOPER_TEXT: Readonly<Record<string, number>> = {
-  // A seating check's failure lines, named like a screen file.
-  "src/bench/m2-10-seating.ts": 2,
-};
+export const KNOWN_DEVELOPER_TEXT: Readonly<Record<string, number>> = {};

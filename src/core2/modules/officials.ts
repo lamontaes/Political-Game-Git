@@ -30,6 +30,7 @@ import {
   registerHuskIdentity,
   registerHuskPromoter,
   registerUnbuiltHolders,
+  recordBackgroundPerson,
 } from "../husk-promoters";
 import type { RecordedIdentity } from "../state";
 import type {
@@ -74,6 +75,7 @@ import { researchedHolderParty } from "../offices-holder-parties";
 // The Elections family reads the researched holder party through this entry.
 export { researchedHolderParty } from "../offices-holder-parties";
 export { partySide } from "../appointments";
+export { drawOfficialIdentity } from "../officials-identity";
 import {
   electedWithGovernorOnTicket,
   isOutsideOffice,
@@ -984,8 +986,7 @@ function recordHusk(
   identity: Omit<RecordedIdentity, "source">,
   asOf: string,
 ): void {
-  if (core.people.has(identity.id) || core.husks.has(identity.id)) return;
-  core.husks.set(identity.id, {
+  recordBackgroundPerson(core, {
     id: identity.id,
     givenName: identity.givenName,
     familyName: identity.familyName,
@@ -995,7 +996,7 @@ function recordHusk(
     birthDate: identity.birthDate,
     familyIds: [],
     source: source(asOf),
-  } as never);
+  });
 }
 
 /**

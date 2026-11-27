@@ -1125,6 +1125,22 @@ export interface CoreModule {
    */
 
   /**
+   * The outlet that sells ad time and its followers (the press engine's), read
+   * by the campaign engine's ad audience in place of a global the press sets
+   * when it opens; null where the world has none. World's request, Nov 27.
+   */
+  adOutlet?(api: CoreAPI): {
+    organizationId: string;
+    followerIds: readonly string[];
+    countedFollowers: number;
+  } | null;
+  /**
+   * The engine's own opening records, run once by the world builder right
+   * after it installs the engine into a world (the builder holds the list of
+   * engines and the stage each opens in; an engine does not install itself).
+   */
+  worldOpen?: (core: CoreState) => void;
+  /**
    * Caches this engine keeps keyed by the world and built from the world's
    * records: a restore refills the same world in place, so each is cleared at
    * the end of every restore and built again on first read. A function, read

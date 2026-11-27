@@ -5,7 +5,7 @@
  * as the player gets it (buildBenchWorld, two-level, every module), the
  * player turns 18, files for the soonest council race they may file for at
  * the office that takes it, and campaigns every week to election day the way
- * `src/bench/path-check.ts` plays it: three evenings at the doors, an evening
+ * `tests/golden-path/path-check.ts` plays it: three evenings at the doors, an evening
  * of calls, then the week's one evening at a rented venue and, every other
  * week, a donor meeting. A forum and an event rent the same venue for the same
  * price, so the venue evening is a forum until one has been held and in every
