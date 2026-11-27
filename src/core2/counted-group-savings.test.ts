@@ -27,7 +27,7 @@ import {
   worldCoreData,
 } from "./modules/world";
 import { coreAPI } from "./state";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 
 it("a counted household's cash and bank savings are one share of its group's money, on day 1 and a month on (Staples, Connecticut)", () => {
   const place = drawPlace("probe-a", "exit-a");

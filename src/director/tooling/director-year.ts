@@ -4,7 +4,7 @@
  * cloud environment, never on the owner's Mac.
  *
  * Input: a prepared core input written by the core's measurement tool
- * (`npx tsx src/core2/tooling/measure.ts --mode opening
+ * (`npx tsx scripts/core2/tooling/measure.ts --mode opening
  * --prepared-input-output <file>`), so the town, seed and player are the
  * core's own. Finance is bound the same way the core's finance year binds it.
  *
@@ -30,7 +30,7 @@ import type {
   PersonId,
 } from "../../core2/types";
 import { createDirector, type Director } from "../ledger";
-import { openDirectorStopgapCount } from "../stopgaps";
+import { openStopgapCount } from "../../core2/stopgaps";
 
 interface Options {
   input: string;
@@ -335,7 +335,7 @@ async function main() {
     seconds: result.seconds,
     memory: { before: result.before, after: result.after },
     directorStopgapHits: [...result.director.ledger.stopgapHits].sort(),
-    openDirectorStopgaps: openDirectorStopgapCount(),
+    openStopgaps: openStopgapCount(),
     lives: detailed.map((id) =>
       lifeSummary(result.core, result.director, id, result.traces.get(id)),
     ),

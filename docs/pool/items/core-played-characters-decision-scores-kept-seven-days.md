@@ -35,6 +35,6 @@ branch: claude/pool-core-played-characters-decision-scores-kept-seven-days
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/decision-detail.ts, src/bench/m0-check.ts
+**Files.** src/core2/decision-detail.ts, scripts/bench/m0-check.ts
 
 **Notes.** Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:56 UTC) on branch claude/pool-core-played-characters-decision-scores-kept-seven-days.
