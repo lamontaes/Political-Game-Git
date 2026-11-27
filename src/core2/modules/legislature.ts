@@ -5985,6 +5985,232 @@ function floorAmendments(
   }
 }
 
+/** One round of floor amendments on a bill: the bill as amended so far and the support it has. */
+interface AmendmentRun {
+  api: CoreAPI;
+  chamber: string;
+  stage: "committee" | "floor";
+  playerId: string | null | undefined;
+  /** The members who may be dealt with (everyone seated but the player). */
+  roll: string[];
+  /** The yes votes the bill needs. */
+  need: number;
+  current: BillRow;
+  yes: number;
+  totals: Map<string, number>;
+  /** A vote already cast is that member's vote: their own choice, a promise kept, or a decision made for them. */
+  cast: Map<string, "yes" | "no" | "abstain">;
+}
+
+/** Whether a member backs the bill: by the vote they cast, else by their total. */
+function amendmentBacks(run: AmendmentRun, k: string, total: number): boolean {
+  return run.cast.has(k) ? run.cast.get(k) === "yes" : total > 0;
+}
+
+/** Each member's total on the bill as it stands, and how many back it. */
+function recountSupport(run: AmendmentRun): number {
+  for (const k of run.roll)
+    run.totals.set(k, positionOn(run.api, run.current, k).total);
+  return run.roll.filter((k) => amendmentBacks(run, k, run.totals.get(k)!))
+    .length;
+}
+
+/** A section added to the bill, with both sides' reasons and the public record of the amendment. */
+function adoptSection(
+  run: AmendmentRun,
+  section: Provision,
+  memberId: string,
+  kind: "trade-amendment" | "poison-pill",
+): void {
+  const { api, chamber, stage } = run;
+  const supportBefore = run.yes;
+  const memberBefore = run.totals.get(memberId)!;
+  const sponsorBefore = positionOn(
+    api,
+    run.current,
+    run.current.sponsorId,
+  ).total;
+  run.current = {
+    ...run.current,
+    ...checkedText(api, run.current.bodyOfficeId, [
+      ...run.current.provisions,
+      section,
+    ]),
+    deals: [
+      ...run.current.deals,
+      {
+        memberId,
+        kind,
+        terms: `add ${section.question} ${section.value > 0 ? "yes" : "no"}`,
+        date: api.state.date,
+        status: "accepted",
+        stage,
+        chamber,
+      },
+    ],
+  };
+  run.yes = recountSupport(run);
+  // Both sides' reasons, now that the section is in.
+  run.current = {
+    ...run.current,
+    deals: run.current.deals.map((d, i) =>
+      i === run.current.deals.length - 1
+        ? {
+            ...d,
+            reasons: {
+              member: {
+                before: memberBefore,
+                after: run.totals.get(memberId)!,
+              },
+              sponsor: {
+                before: sponsorBefore,
+                after: positionOn(api, run.current, run.current.sponsorId)
+                  .total,
+              },
+              support: { before: supportBefore, after: run.yes },
+            },
+          }
+        : d,
+    ),
+  };
+  // The emit may change what a position reads: the kept positions go with it.
+  positionMemo?.clear();
+  api.emit({
+    id: `bill-amendment:${run.current.id}:${chamber}:${stage}:${run.current.provisions.length - 1}`,
+    date: api.state.date,
+    kind: "bill-amendment",
+    personIds: [memberId, run.current.sponsorId].filter((id) =>
+      api.state.people.has(id),
+    ),
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Amendment to ${run.current.number}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      billId: run.current.id,
+      number: run.current.number,
+      level: billReach(api, run.current).level,
+      chamber,
+      stage,
+      supportBefore: String(supportBefore),
+      supportAfter: String(run.yes),
+      memberBefore: String(memberBefore),
+      memberAfter: String(run.totals.get(memberId)!),
+      movedBy: memberId,
+      kind,
+      question: section.question!,
+      direction: section.value > 0 ? "yes" : "no",
+      // The section's number in the bill as amended, counted from one.
+      section: String(run.current.provisions.length),
+    },
+  });
+}
+
+/** A trade: the sponsor (the player deals for themselves) gives a holdout their own section for their vote. */
+function tradeAmendments(run: AmendmentRun): void {
+  const { api } = run;
+  // A trade: the sponsor (the player deals for themselves) gives a holdout
+  // their own section for their vote.
+  if (run.yes < run.need && run.current.sponsorId !== run.playerId) {
+    const holdouts = run.roll
+      .filter(
+        (k) =>
+          k !== run.current.sponsorId &&
+          !run.cast.has(k) &&
+          run.totals.get(k)! <= 0,
+      )
+      .sort(
+        (a, b) => run.totals.get(b)! - run.totals.get(a)! || a.localeCompare(b),
+      );
+    for (const k of holdouts) {
+      if (run.yes >= run.need) break;
+      // An earlier section may already have won this member over.
+      if (run.totals.get(k)! > 0) continue;
+      const [section] = ownSections(api, run.current, k, 1);
+      if (!section) continue;
+      const amended: BillRow = {
+        ...run.current,
+        provisions: [...run.current.provisions, section],
+      };
+      // The sponsor gives it only while they, and everyone they have
+      // already traded with, still back the bill with it.
+      const bound = [
+        run.current.sponsorId,
+        ...run.current.deals
+          .filter((d) => d.kind === "trade-amendment")
+          .map((d) => d.memberId),
+      ];
+      if (bound.some((m) => positionOn(api, amended, m).total <= 0)) continue;
+      if (positionOn(api, amended, k).total <= 0) continue;
+      // A section others dislike can cost the bill more votes than the
+      // holdout brings: the sponsor trades only to end with more support.
+      const backing = run.roll.filter((m) =>
+        amendmentBacks(run, m, positionOn(api, amended, m).total),
+      ).length;
+      if (backing <= run.yes) continue;
+      adoptSection(run, section, k, "trade-amendment");
+    }
+  }
+}
+
+/** A poison pill, from the member most against a bill that would pass. */
+function poisonPill(run: AmendmentRun): void {
+  const { api } = run;
+  // A poison pill, from the member most against a bill that would pass.
+  if (run.yes >= run.need) {
+    const proposer = run.roll
+      .filter((k) => !run.cast.has(k) && run.totals.get(k)! < 0)
+      .sort(
+        (a, b) => run.totals.get(a)! - run.totals.get(b)! || a.localeCompare(b),
+      )[0];
+    if (proposer) {
+      let best: { section: Provision; left: number } | null = null;
+      for (const section of ownSections(
+        api,
+        run.current,
+        proposer,
+        campaignParameter("pillCandidates"),
+      )) {
+        const amended: BillRow = {
+          ...run.current,
+          provisions: [...run.current.provisions, section],
+        };
+        // A section that would win the mover over isn't a pill: it's a
+        // bill they'd back.
+        if (positionOn(api, amended, proposer).total > 0) continue;
+        let forIt = 0;
+        let left = 0;
+        for (const k of run.roll) {
+          const after = positionOn(api, amended, k).total;
+          // Opponents back what sinks the bill; backers vote the section
+          // on whether it leaves them liking the bill as much. A member
+          // whose vote is cast votes the section the way they vote the bill.
+          if (
+            run.cast.has(k)
+              ? run.cast.get(k) !== "yes"
+              : run.totals.get(k)! <= 0 || after >= run.totals.get(k)!
+          )
+            forIt += 1;
+          if (amendmentBacks(run, k, after)) left += 1;
+        }
+        if (
+          forIt * 2 > run.roll.length &&
+          left < run.need &&
+          (!best || left < best.left)
+        )
+          best = { section, left };
+      }
+      if (best && movesPill(api, proposer, -run.totals.get(proposer)!)) {
+        adoptSection(run, best.section, proposer, "poison-pill");
+      }
+    }
+  }
+}
+
 function floorAmendmentsRun(
   api: CoreAPI,
   bill: BillRow,
@@ -6002,8 +6228,18 @@ function floorAmendmentsRun(
     bill;
   if (roll.length < 3) return start;
   const need = Math.floor(roll.length / 2) + 1;
-  let current = start;
-  const totals = new Map<string, number>();
+  const run: AmendmentRun = {
+    api,
+    chamber,
+    stage,
+    playerId,
+    roll,
+    need,
+    current: start,
+    yes: 0,
+    totals: new Map<string, number>(),
+    cast: new Map<string, "yes" | "no" | "abstain">(),
+  };
   // A vote already cast is that member's vote: their own choice, a promise
   // kept, or a decision made for them (`castMemberVote`, the row the roll
   // call reads). It counts as cast, nobody trades a section for it, and its
@@ -6011,189 +6247,17 @@ function floorAmendmentsRun(
   // short of votes, and adds nothing to the bill (Fable audit, Nov 9, 2026:
   // a bill passed with every vote cast still left the body carrying a second,
   // unrelated section, in 35 of 40 bills in Congress).
-  const cast = new Map<string, "yes" | "no" | "abstain">();
-  for (const k of roll) {
+  for (const k of run.roll) {
     const chosen = table(api, "choices").get(`${bill.id}|${k}`) as unknown as
       { vote?: "yes" | "no" | "abstain" } | undefined;
-    if (chosen?.vote) cast.set(k, chosen.vote);
+    if (chosen?.vote) run.cast.set(k, chosen.vote);
   }
-  const backs = (k: string, total: number) =>
-    cast.has(k) ? cast.get(k) === "yes" : total > 0;
-  const recount = () => {
-    for (const k of roll) totals.set(k, positionOn(api, current, k).total);
-    return roll.filter((k) => backs(k, totals.get(k)!)).length;
-  };
-  let yes = recount();
-  const adopt = (
-    section: Provision,
-    memberId: string,
-    kind: "trade-amendment" | "poison-pill",
-  ) => {
-    const supportBefore = yes;
-    const memberBefore = totals.get(memberId)!;
-    const sponsorBefore = positionOn(api, current, current.sponsorId).total;
-    current = {
-      ...current,
-      ...checkedText(api, current.bodyOfficeId, [
-        ...current.provisions,
-        section,
-      ]),
-      deals: [
-        ...current.deals,
-        {
-          memberId,
-          kind,
-          terms: `add ${section.question} ${section.value > 0 ? "yes" : "no"}`,
-          date: api.state.date,
-          status: "accepted",
-          stage,
-          chamber,
-        },
-      ],
-    };
-    yes = recount();
-    // Both sides' reasons, now that the section is in.
-    current = {
-      ...current,
-      deals: current.deals.map((d, i) =>
-        i === current.deals.length - 1
-          ? {
-              ...d,
-              reasons: {
-                member: { before: memberBefore, after: totals.get(memberId)! },
-                sponsor: {
-                  before: sponsorBefore,
-                  after: positionOn(api, current, current.sponsorId).total,
-                },
-                support: { before: supportBefore, after: yes },
-              },
-            }
-          : d,
-      ),
-    };
-    // The emit may change what a position reads: the kept positions go with it.
-    positionMemo?.clear();
-    api.emit({
-      id: `bill-amendment:${current.id}:${chamber}:${stage}:${current.provisions.length - 1}`,
-      date: api.state.date,
-      kind: "bill-amendment",
-      personIds: [memberId, current.sponsorId].filter((id) =>
-        api.state.people.has(id),
-      ),
-      placeId: lawChain(api).townPlaceId,
-      source: {
-        tag: "SOURCED",
-        citation: `Amendment to ${current.number}`,
-        asOf: api.state.date,
-      },
-      publicRecord: true,
-      news: true,
-      facts: {
-        billId: current.id,
-        number: current.number,
-        level: billReach(api, current).level,
-        chamber,
-        stage,
-        supportBefore: String(supportBefore),
-        supportAfter: String(yes),
-        memberBefore: String(memberBefore),
-        memberAfter: String(totals.get(memberId)!),
-        movedBy: memberId,
-        kind,
-        question: section.question!,
-        direction: section.value > 0 ? "yes" : "no",
-        // The section's number in the bill as amended, counted from one.
-        section: String(current.provisions.length),
-      },
-    });
-  };
-  // A trade: the sponsor (the player deals for themselves) gives a holdout
-  // their own section for their vote.
-  if (yes < need && current.sponsorId !== playerId) {
-    const holdouts = roll
-      .filter(
-        (k) => k !== current.sponsorId && !cast.has(k) && totals.get(k)! <= 0,
-      )
-      .sort((a, b) => totals.get(b)! - totals.get(a)! || a.localeCompare(b));
-    for (const k of holdouts) {
-      if (yes >= need) break;
-      // An earlier section may already have won this member over.
-      if (totals.get(k)! > 0) continue;
-      const [section] = ownSections(api, current, k, 1);
-      if (!section) continue;
-      const amended: BillRow = {
-        ...current,
-        provisions: [...current.provisions, section],
-      };
-      // The sponsor gives it only while they, and everyone they have
-      // already traded with, still back the bill with it.
-      const bound = [
-        current.sponsorId,
-        ...current.deals
-          .filter((d) => d.kind === "trade-amendment")
-          .map((d) => d.memberId),
-      ];
-      if (bound.some((m) => positionOn(api, amended, m).total <= 0)) continue;
-      if (positionOn(api, amended, k).total <= 0) continue;
-      // A section others dislike can cost the bill more votes than the
-      // holdout brings: the sponsor trades only to end with more support.
-      const backing = roll.filter((m) =>
-        backs(m, positionOn(api, amended, m).total),
-      ).length;
-      if (backing <= yes) continue;
-      adopt(section, k, "trade-amendment");
-    }
-  }
-  // A poison pill, from the member most against a bill that would pass.
-  if (yes >= need) {
-    const proposer = roll
-      .filter((k) => !cast.has(k) && totals.get(k)! < 0)
-      .sort((a, b) => totals.get(a)! - totals.get(b)! || a.localeCompare(b))[0];
-    if (proposer) {
-      let best: { section: Provision; left: number } | null = null;
-      for (const section of ownSections(
-        api,
-        current,
-        proposer,
-        campaignParameter("pillCandidates"),
-      )) {
-        const amended: BillRow = {
-          ...current,
-          provisions: [...current.provisions, section],
-        };
-        // A section that would win the mover over isn't a pill: it's a
-        // bill they'd back.
-        if (positionOn(api, amended, proposer).total > 0) continue;
-        let forIt = 0;
-        let left = 0;
-        for (const k of roll) {
-          const after = positionOn(api, amended, k).total;
-          // Opponents back what sinks the bill; backers vote the section
-          // on whether it leaves them liking the bill as much. A member
-          // whose vote is cast votes the section the way they vote the bill.
-          if (
-            cast.has(k)
-              ? cast.get(k) !== "yes"
-              : totals.get(k)! <= 0 || after >= totals.get(k)!
-          )
-            forIt += 1;
-          if (backs(k, after)) left += 1;
-        }
-        if (
-          forIt * 2 > roll.length &&
-          left < need &&
-          (!best || left < best.left)
-        )
-          best = { section, left };
-      }
-      if (best && movesPill(api, proposer, -totals.get(proposer)!)) {
-        adopt(best.section, proposer, "poison-pill");
-      }
-    }
-  }
-  if (current !== start)
-    table(api, "bills").put(current as unknown as ModuleRow);
-  return current;
+  run.yes = recountSupport(run);
+  tradeAmendments(run);
+  poisonPill(run);
+  if (run.current !== start)
+    table(api, "bills").put(run.current as unknown as ModuleRow);
+  return run.current;
 }
 
 /**
