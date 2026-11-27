@@ -1,3 +1,4 @@
+import type { SnapshotPart } from "./snapshot";
 import type { HistorySource } from "./past-history";
 import type { GroupQuartersType } from "./group-quarters-types";
 import type { PurchaseTaxInput } from "./modules/purchase-tax";
@@ -1140,6 +1141,14 @@ export interface CoreModule {
    * engines and the stage each opens in; an engine does not install itself).
    */
   worldOpen?: (core: CoreState) => void;
+  /**
+   * Runtime state this engine keeps outside its tables and the core's records
+   * (a WeakMap keyed by the world, say), by part id: saved with the world and
+   * put back by `restoreWorld`. Read off the installed modules, so an engine
+   * whose module is installed after a restore does not get its part back;
+   * parts of engines installed on first use stay registered by id.
+   */
+  snapshotParts?: Readonly<Record<string, SnapshotPart>>;
   /**
    * Caches this engine keeps keyed by the world and built from the world's
    * records: a restore refills the same world in place, so each is cleared at
