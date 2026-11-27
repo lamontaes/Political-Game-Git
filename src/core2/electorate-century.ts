@@ -50,7 +50,7 @@ import {
   townEligibleVoters,
 } from "./electorate-places";
 import { seededUnit } from "./seeded";
-import { pastParameter } from "./past-module";
+import { pastParameter } from "./past-parameter";
 import senateClasses from "../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import { readinessOf } from "./turnout";
 import { gameStartDate } from "./game-start";

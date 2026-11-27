@@ -806,7 +806,8 @@
         "src/core2/modules/promises.ts",
         "src/core2/modules/views-constants.ts",
         "src/core2/sitting-closeness.ts",
-        "src/core2/trait-lean.ts"
+        "src/core2/trait-lean.ts",
+        "src/core2/counted-income-fifth.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -1071,7 +1072,11 @@
     {
       "id": "past",
       "name": "The past before the start",
-      "entry": ["src/core2/past.ts", "src/core2/past-module.ts"],
+      "entry": [
+        "src/core2/past.ts",
+        "src/core2/past-module.ts",
+        "src/core2/past-parameter.ts"
+      ],
       "paths": [
         "src/core2/past.ts",
         "src/core2/past-*.ts",
