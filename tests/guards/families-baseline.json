@@ -110,7 +110,7 @@
     "src/core2/press-staff.ts": 1,
     "src/core2/residents.ts": 3,
     "src/core2/right-to-work-dues.ts": 1,
-    "src/core2/town-households.ts": 0,
+    "src/core2/town-households.ts": 1,
     "src/core2/wage-floor.ts": 1,
     "src/core2/world-transfer.ts": 2,
     "src/director/conversation.ts": 3,
