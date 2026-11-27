@@ -14,6 +14,7 @@ import {
   raceScope,
   standingPool,
 } from "../candidate-pool";
+import { workFromHome } from "../places";
 import { drawStateHome } from "../places";
 import type { CoreAPI, CoreState, PersonId, PlaceId } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -36,6 +37,7 @@ import {
   electedWithGovernorOnTicket,
   unheldVacancyWon,
   type TermRow,
+  setSeatElectionYear,
 } from "./offices";
 import {
   INDEPENDENT,
@@ -52,7 +54,6 @@ import {
   seatHolder,
   table,
   town,
-  workFromHome,
 } from "./voting-base";
 import type { ResultRow } from "./voting-base";
 import type {
@@ -800,13 +801,12 @@ export function seatRaceWinner(api: CoreAPI, raceId: string): void {
       : {}),
   });
   if (race.special) return;
-  const seatRow = offices.table("seats").get(race.seatId) as unknown as
-    { electionYear?: number } | undefined;
-  if (seatRow && years)
-    offices.table("seats").put({
-      ...seatRow,
-      electionYear: Number(race.date.slice(0, 4)) + years,
-    } as unknown as ModuleRow);
+  if (years)
+    setSeatElectionYear(
+      api,
+      race.seatId,
+      Number(race.date.slice(0, 4)) + years,
+    );
 }
 
 export function racesOf(api: CoreAPI): readonly RaceRow[] {

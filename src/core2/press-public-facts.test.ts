@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { piecesInput, piecesSource } from "./core-pieces-fixture";
+import {
+  piecesInput,
+  piecesSource,
+} from "../../tests/support/core-pieces-fixture";
 import { createLifeCore, advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { viewsModule, VIEWS_MODULE_ID } from "./modules/views";

@@ -19,6 +19,7 @@ import {
   type SampleVoter,
 } from "../electorate";
 import { VOTING_MODULE_ID } from "../voting-module-id";
+import { barredFromVoting } from "../laws-in-force";
 import { readinessOf } from "../turnout";
 import { leanedByKinds } from "../trait-decisions";
 import type { CoreAPI, CoreState } from "../types";
@@ -45,7 +46,6 @@ import {
 import { candidateFacts, incumbentLeanOf } from "./voting-appeal";
 import {
   ageOn,
-  barredFromVoting,
   drawOfficialIdentity,
   electionsParameter,
   openNextCycle,

@@ -9,17 +9,6 @@ import {
   type CountedVoter,
 } from "../electorate";
 import { VOTING_MODULE_ID } from "../voting-module-id";
-import {
-  applyElectionLaws,
-  barredFromVoting,
-  prisonPartOfBarredShare,
-  prisonersBarredHere,
-  recordRedistricting,
-  electionLawTurnoutCost,
-  automaticRegistrationInForce,
-  sameDayRegistrationInForce,
-} from "../law-reach/group-a-voting";
-import { workFromHome } from "../coarse-place";
 import type { CoreAPI, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { LifeStake } from "../life-stake-rule";
@@ -42,27 +31,14 @@ import {
 } from "./record";
 import { CANDIDACY_MODULE_ID } from "./candidacy";
 import { type CandidateReasons } from "../electorate-inputs";
-import { scandalsOf } from "./corruption";
 import { fileStandingCandidates } from "./voting-primary";
 import type { TurnoutDecision, TurnoutRecordRow } from "./voting-turnout";
-export {
-  applyElectionLaws,
-  automaticRegistrationInForce,
-  barredFromVoting,
-  electionLawTurnoutCost,
-  prisonPartOfBarredShare,
-  prisonersBarredHere,
-  recordRedistricting,
-  sameDayRegistrationInForce,
-};
-export { workFromHome };
 export { holdoverRule };
 export { caseWarmthsOf };
 export { drawOfficialIdentity };
 export { caucusSide, nationalParty, partySide };
 export { promisesOf, recordAppeal, votesCast };
 export type { RecordReason };
-export { scandalsOf };
 
 export function electionsParameter(key: string): number {
   const row = (

@@ -13,8 +13,8 @@ import type {
  * own scale rather than one end of a shared one.
  *
  * The scales come from `docs/research/chatgpt-answers/2026-09-22-depth2/personality-scale-dispositions.json`,
- * received whole and kept as the data file `data/personality-scales.json`,
- * which `tests/personality-catalogue-data.test.ts` re-derives from the
+ * received whole and kept as the data file `src/core2/data/personality-scales.json`,
+ * which `tests/personality-scales-data.test.ts` re-derives from the
  * received answer and fails on when the two disagree. That file maps every catalog
  * word to exactly one scale. Four scales mean what the five already mean
  * (deliberation, reliability, conflict and risk) and are left out here, so

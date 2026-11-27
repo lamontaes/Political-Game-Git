@@ -4,6 +4,7 @@
  * Split out of voting.ts by scripts/elections/split-module.ts (structure only);
  * voting.ts re-exports every export of this file by name.
  */
+import { addDays, makeIsoDate, nthWeekdayOfMonth } from "../kernel/dates";
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import contingentData from "../data/elections/contingent-election.json" with { type: "json" };
 import electorsData from "../data/elections/electoral-votes.json" with { type: "json" };
@@ -153,10 +154,7 @@ export function raceWork(
 const SPECIAL_KIND = "special-race";
 
 /** The winner takes the seat the day after the count. */
-export const dayAfter = (date: string) =>
-  new Date(Date.parse(`${date}T00:00:00Z`) + 86_400_000)
-    .toISOString()
-    .slice(0, 10);
+export const dayAfter = (date: string) => addDays(makeIsoDate(date), 1);
 
 /**
  * What a seat outside the town is, for a special election: its office's kind
@@ -382,18 +380,8 @@ export function specialCandidates(
 
 /** The first Tuesday after the second Wednesday in December. */
 export function electorsMeet(year: number): string {
-  let wednesdays = 0;
-  for (let day = 1; day <= 31; day += 1) {
-    const d = new Date(Date.UTC(year, 11, day));
-    if (d.getUTCDay() === 3) wednesdays += 1;
-    if (wednesdays === 2 && d.getUTCDay() === 3) {
-      for (let next = day + 1; next <= day + 7; next += 1) {
-        const t = new Date(Date.UTC(year, 11, next));
-        if (t.getUTCDay() === 2) return t.toISOString().slice(0, 10);
-      }
-    }
-  }
-  throw new Error(`No electors' day in ${year}`);
+  // The Tuesday after a Wednesday is six days on.
+  return addDays(nthWeekdayOfMonth(year, 12, 3, 2), 6);
 }
 
 export interface PresidentialRow {

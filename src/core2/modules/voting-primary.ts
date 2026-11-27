@@ -12,6 +12,7 @@ import {
   countedEndorsed,
   type CountedVoter,
 } from "../electorate";
+import { barredFromVoting } from "../laws-in-force";
 import { interestOf } from "../turnout";
 import type { CoreAPI, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -46,7 +47,6 @@ import {
 } from "./voting-appeal";
 import {
   ageOn,
-  barredFromVoting,
   nationalParty,
   partySide,
   slug,

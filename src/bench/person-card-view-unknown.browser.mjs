@@ -9,7 +9,7 @@
 // node src/bench/person-card-view-unknown.browser.mjs
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
 
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? undefined,

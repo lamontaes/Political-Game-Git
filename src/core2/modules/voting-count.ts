@@ -16,6 +16,11 @@ import {
   type CountedVoter,
 } from "../electorate";
 import { VOTING_MODULE_ID } from "../voting-module-id";
+import {
+  applyElectionLaws,
+  prisonPartOfBarredShare,
+  prisonersBarredHere,
+} from "../laws-in-force";
 import { breakElectionTie } from "../election-ties";
 import { decisionLean, leanedYes } from "../trait-decisions";
 import type { CoreAPI, CoreState } from "../types";
@@ -64,12 +69,9 @@ import {
 } from "./voting-appeal";
 import {
   ageOn,
-  applyElectionLaws,
   holdoverRule,
   holds,
   openNextCycle,
-  prisonPartOfBarredShare,
-  prisonersBarredHere,
   recordChosenVote,
   seatHolder,
   table,

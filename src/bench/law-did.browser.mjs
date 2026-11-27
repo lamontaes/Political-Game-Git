@@ -12,8 +12,8 @@
 // PLACE_KEY and SEED replay one world (the audit's: PLACE_KEY=2845160 SEED=7df73e53cd67).
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
-import { devModeOn } from "./dev-setup.mjs";
+import { startLife } from "../../tests/support/start-life.mjs";
+import { devModeOn } from "../../tests/support/dev-setup.mjs";
 
 const [shots] = process.argv.slice(2);
 /** The town's own bodies that may set a property tax, nearest first. */

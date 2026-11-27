@@ -381,6 +381,482 @@ function dateInYear(rng: SeededRng, year: number): IsoDate {
   );
 }
 
+/** What every household's kin are drawn against: the options, the output and the date arithmetic the whole build shares. */
+interface KinContext {
+  readonly options: OpeningKinOptions;
+  readonly out: OpeningKin;
+  readonly startedAt: ReturnType<typeof makeIsoDate>;
+  readonly adultAge: number;
+  readonly archiveDays: number;
+  readonly interval: number;
+  readonly minParentAge: number;
+  readonly maxMotherAge: number;
+  readonly yearsBetween: (r: SeededRng, from: number, to: number) => number;
+  readonly afterYears: (date: string, years: number) => IsoDate;
+  readonly ageAt: (date: string) => number;
+  readonly ageOf: (row: Dated) => number;
+  readonly parentBornBefore: (
+    birthDate: IsoDate,
+    childBirth: IsoDate,
+  ) => IsoDate;
+  readonly relate: (
+    a: Dated,
+    b: Dated,
+    aToB: KinRelation,
+    bToA: KinRelation,
+  ) => void;
+  readonly addParents: (childId: PersonId, parents: readonly Dated[]) => void;
+  readonly parentOf: (
+    parent: Dated,
+    child: Dated,
+    relation: KinRelation,
+  ) => void;
+}
+
+/** One household's kin: the shared context, the household, its own draws and the steps that make its relatives. */
+interface KinHousehold extends KinContext {
+  readonly household: KinHouseholdInput;
+  readonly rng: SeededRng;
+  readonly adults: KinHouseholdInput["members"];
+  readonly children: KinHouseholdInput["members"];
+  readonly nameKin: KinNamer;
+  readonly stayed: (
+    key: string,
+    age: number,
+    fromAge?: number,
+    given?: number,
+  ) => boolean;
+  readonly newHome: (key: string, local: boolean) => Home;
+  readonly homeOf: (person: KinPerson) => Home;
+  readonly makePerson: (
+    key: string,
+    gender: string,
+    birthDate: IsoDate,
+    familyName: string | null,
+    home: Home,
+    takenGivenNames?: readonly string[],
+  ) => KinPerson;
+  readonly drawnGender: (r: SeededRng) => string;
+}
+
+/** Each adult's family of origin: living parents and siblings. */
+function kinOfOrigins(house: KinHousehold) {
+  const {
+    addParents,
+    adultAge,
+    adults,
+    afterYears,
+    ageAt,
+    ageOf,
+    archiveDays,
+    children,
+    drawnGender,
+    household,
+    interval,
+    makePerson,
+    maxMotherAge,
+    minParentAge,
+    nameKin,
+    newHome,
+    options,
+    out,
+    parentBornBefore,
+    parentOf,
+    relate,
+    rng,
+    startedAt,
+    stayed,
+    yearsBetween,
+  } = house;
+  adults.forEach((adult, index) => {
+    const r = rng.fork(`origin:${index}`);
+    const birthYear = yearOfDate(adult.birthDate);
+    const age = ageOf(adult);
+    const firstAge = Math.max(
+      minParentAge,
+      firstBirthAge(birthYear) + normal(r) * p("kinFirstBirthAgeSdYears"),
+    );
+    const motherCohort = Math.round(birthYear - firstAge - interval);
+    const sibship = drawCount(r, completedRow(motherCohort), p("one"), true);
+    const order = r.integer(p("one"), sibship + p("one"));
+    const sr0 = r.fork("spacing");
+    const oldestBirth =
+      order === p("one")
+        ? adult.birthDate
+        : afterYears(adult.birthDate, yearsBetween(sr0, order, p("one")));
+    const motherAge = Math.min(
+      maxMotherAge,
+      firstAge + yearsBetween(sr0, p("one"), order),
+    );
+    // A partner who joined the household brought their own birth surname.
+    let lineName: string | null =
+      household.couple && index === p("one") ? null : adult.familyName;
+    const outside = options.bornOutside?.(adult.id);
+    const parentsNear =
+      !outside &&
+      stayed(
+        `origin:${index}`,
+        age,
+        adultAge,
+        options.bornOutside ? (options.bornInStateShare ?? p("one")) : p("one"),
+      );
+    const parentsHome = newHome(`origin:${index}:parents`, parentsNear);
+    out.birthplaces.set(
+      adult.id,
+      outside ?? (parentsNear ? options.townId : parentsHome.row.placeId),
+    );
+    // A marriage that ended leaves the father in a home of his own.
+    const married = age + yearsBetween(sr0, p("one"), order);
+    const apart = r.fork("marriage").next() >= marriageIntact(married);
+    const parents: KinPerson[] = [];
+    for (const [role, gender, parentAge] of [
+      ["father", MALE, motherAge + p("kinPaternalAgeGapYears")],
+      ["mother", FEMALE, motherAge],
+    ] as const) {
+      const pr = r.fork(role);
+      const draw = pr.next();
+      const parentBirth = parentBornBefore(
+        dateInYear(pr, birthYear - Math.round(parentAge)),
+        oldestBirth,
+      );
+      const ageAtBirth = ageOnDate(parentBirth, adult.birthDate);
+      const currentAge = ageAt(parentBirth);
+      if (
+        !survivesAt(
+          draw,
+          gender,
+          yearOfDate(parentBirth),
+          ageAtBirth,
+          currentAge,
+        )
+      ) {
+        const through = diedInWindow(
+          draw,
+          gender,
+          yearOfDate(parentBirth),
+          ageAtBirth,
+          currentAge,
+          archiveDays / p("daysPerMeanYear"),
+        );
+        if (through !== null) {
+          const stableKey = `${household.stableKey}:kin:origin:${index}:${role}`;
+          const birthDate = parentBirth;
+          const named = nameKin({
+            stableKey,
+            gender,
+            birthDate,
+            familyName: lineName,
+          });
+          out.deaths.push({
+            personId: createStableId(
+              "person",
+              `${options.worldId}:${stableKey}`,
+            ),
+            survivorId: adult.id,
+            relation: role,
+            stableKey,
+            givenName: named.givenName,
+            familyName: named.familyName,
+            birthDate,
+            gender,
+            date: addDays(
+              addDays(startedAt, -archiveDays),
+              Math.round(through * archiveDays),
+            ),
+          });
+        }
+        continue;
+      }
+      const sinceGrown = parentAge + Math.max(age - adultAge, p("zero"));
+      const parent = makePerson(
+        `origin:${index}:${role}`,
+        gender,
+        parentBirth,
+        lineName,
+        apart && role === "father"
+          ? newHome(
+              `origin:${index}:${role}`,
+              parentsNear &&
+                stayed(`origin:${index}:${role}`, parentAge + age, sinceGrown),
+            )
+          : parentsHome,
+      );
+      lineName = parent.familyName;
+      parents.push(parent);
+      parentOf(parent, adult, R.parent);
+      for (const child of children)
+        relate(parent, child, R.grandparent, R.grandchild);
+    }
+    addParents(adult.id, parents);
+    // Parents still married live together as partners, so the engines
+    // that read couples (moves, births) see them as one (every life is
+    // simulated, owner, Nov 1).
+    if (!apart && parents.length === p("two")) {
+      const [a, b] = [...parents].sort((x, y) => x.id.localeCompare(y.id));
+      out.partnerLinks.push({
+        id: createStableId(
+          "kinship",
+          `${options.worldId}:opening-kin:partner:${a!.id}:${b!.id}`,
+        ),
+        personIds: [a!.id, b!.id],
+      });
+    }
+    const siblingNames = adult.givenName ? [adult.givenName] : [];
+    for (let j = p("one"); j <= sibship; j += p("one")) {
+      if (j === order) continue;
+      const sr = r.fork(`sibling:${j}`);
+      const birthDate = afterYears(
+        adult.birthDate,
+        yearsBetween(sr0, order, j),
+      );
+      if (birthDate > startedAt) continue;
+      const gender = drawnGender(sr.fork("identity"));
+      if (
+        !survives(
+          sr,
+          gender,
+          yearOfDate(birthDate),
+          p("zero"),
+          ageAt(birthDate),
+        )
+      )
+        continue;
+      // A minor sibling lives with their parents; an adult stays near them unless they moved away.
+      const siblingAge = ageAt(birthDate);
+      const sibling = makePerson(
+        `origin:${index}:sibling:${j}`,
+        gender,
+        birthDate,
+        lineName,
+        siblingAge < adultAge &&
+          parents.some((row) => row.householdId === parentsHome.row.id)
+          ? parentsHome
+          : newHome(
+              `origin:${index}:sibling:${j}`,
+              stayed(`origin:${index}:sibling:${j}`, siblingAge)
+                ? parentsNear
+                : false,
+            ),
+        siblingNames,
+      );
+      siblingNames.push(sibling.givenName);
+      relate(sibling, adult, R.sibling, R.sibling);
+      for (const child of children)
+        relate(sibling, child, R.auntUncle, R.nieceNephew);
+      addParents(sibling.id, parents);
+      for (const parent of parents) parentOf(parent, sibling, R.parent);
+    }
+  });
+}
+
+/** Children born to each parent unit who live elsewhere, and their children. */
+function kinElsewhere(house: KinHousehold) {
+  const {
+    startedAt,
+    adultAge,
+    minParentAge,
+    maxMotherAge,
+    yearsBetween,
+    afterYears,
+    ageAt,
+    ageOf,
+    parentBornBefore,
+    relate,
+    addParents,
+    parentOf,
+    household,
+    rng,
+    adults,
+    children,
+    nameKin,
+    stayed,
+    newHome,
+    homeOf,
+    makePerson,
+    drawnGender,
+  } = house;
+  const units = household.couple
+    ? [{ key: "couple", parents: adults, here: children }]
+    : adults.map((adult, index) => ({
+        key: `adult:${index}`,
+        parents: [adult],
+        here: index === p("zero") ? children : [],
+      }));
+  for (const unit of units) {
+    if (!unit.parents.length) continue;
+    const dr = rng.fork(`descendants:${unit.key}`);
+    const reference =
+      unit.parents.find((row) => row.gender === FEMALE) ??
+      unit.parents[p("zero")]!;
+    const refYear = yearOfDate(reference.birthDate);
+    const shift =
+      reference.gender === FEMALE
+        ? p("zero")
+        : p("kinMaleFertilityAgeShiftYears");
+    const total = drawCount(
+      dr,
+      fertilityRowForAge(ageOf(reference) - shift, refYear + shift),
+      unit.here.length,
+      false,
+    );
+    const familyName = unit.parents[p("zero")]!.familyName;
+    let otherParent: KinPerson | undefined;
+    let otherParentDrawn = false;
+    const other = () => {
+      if (household.couple || otherParentDrawn) return otherParent;
+      otherParentDrawn = true;
+      const or = dr.fork("other-parent");
+      const gender = reference.gender === MALE ? FEMALE : MALE;
+      const gap = p("kinPaternalAgeGapYears");
+      let birthDate = dateInYear(
+        or,
+        refYear + Math.round(gender === MALE ? -gap : gap),
+      );
+      for (const child of unit.here)
+        birthDate = parentBornBefore(birthDate, child.birthDate);
+      if (
+        !survives(
+          or,
+          gender,
+          yearOfDate(birthDate),
+          p("zero"),
+          ageAt(birthDate),
+        )
+      )
+        return undefined;
+      otherParent = makePerson(
+        `${unit.key}:other-parent`,
+        gender,
+        birthDate,
+        null,
+        newHome(
+          `${unit.key}:other-parent`,
+          stayed(`${unit.key}:other-parent`, ageAt(birthDate)),
+        ),
+      );
+      return otherParent;
+    };
+    for (const child of unit.here) {
+      const second = other();
+      addParents(child.id, second ? [...unit.parents, second] : unit.parents);
+      if (second) parentOf(second, child, R.otherParent);
+    }
+    const oldestRow = unit.here.length
+      ? unit.here.reduce((a, b) => (a.birthDate <= b.birthDate ? a : b))
+      : undefined;
+    const oldest = oldestRow ? yearOfDate(oldestRow.birthDate) : undefined;
+    const firstYear =
+      oldest ?? refYear + Math.round(firstBirthAge(refYear) + shift);
+    const spacing = dr.fork("spacing");
+    // The first child of a family with no one here yet is placed in a year;
+    // every other child is a drawn gap before or after a child already placed.
+    const anchorDate: IsoDate =
+      oldestRow?.birthDate ?? dateInYear(dr.fork("anchor"), firstYear);
+    const childNames = unit.here.flatMap((child) => child.givenName ?? []);
+    for (let i = p("one"); i <= total - unit.here.length; i += p("one")) {
+      const cr = dr.fork(`child:${i}`);
+      const birthDate =
+        oldest === undefined
+          ? afterYears(anchorDate, yearsBetween(spacing, p("one"), i))
+          : afterYears(anchorDate, yearsBetween(spacing, i, p("zero")));
+      const year = yearOfDate(birthDate);
+      const parentAge = year - refYear - shift;
+      if (parentAge < minParentAge || parentAge > maxMotherAge) continue;
+      if (birthDate > startedAt) continue;
+      const childAge = ageAt(birthDate);
+      // A couple's minor children live with them. When parents part, the
+      // mother keeps the minor children (the data's custody note), so only a
+      // single father's minor children can live elsewhere, with their mother.
+      if (
+        childAge < adultAge &&
+        (household.couple || reference.gender === FEMALE || !other())
+      )
+        continue;
+      // A child living elsewhere must fit every recorded parent's actual
+      // birthday, including the younger partner and an absent parent.
+      if (
+        [...unit.parents, ...(otherParent ? [otherParent] : [])].some(
+          (parent) => ageOnDate(parent.birthDate, birthDate) < minParentAge,
+        )
+      )
+        continue;
+      const gender = drawnGender(cr.fork("identity"));
+      if (!survives(cr, gender, year, p("zero"), childAge)) continue;
+      const child = makePerson(
+        `${unit.key}:child:${i}`,
+        gender,
+        birthDate,
+        familyName,
+        childAge < adultAge
+          ? homeOf(otherParent!)
+          : newHome(
+              `${unit.key}:child:${i}`,
+              stayed(`${unit.key}:child:${i}`, childAge),
+            ),
+        childNames,
+      );
+      childNames.push(child.givenName);
+      for (const parent of unit.parents) parentOf(parent, child, R.parent);
+      if (otherParent) parentOf(otherParent, child, R.otherParent);
+      addParents(
+        child.id,
+        otherParent ? [...unit.parents, otherParent] : unit.parents,
+      );
+      for (const sibling of unit.here)
+        relate(child, sibling, R.sibling, R.sibling);
+      if (childAge < adultAge) continue;
+      const gshift =
+        gender === FEMALE ? p("zero") : p("kinMaleFertilityAgeShiftYears");
+      const grandchildren = drawCount(
+        cr,
+        fertilityRowForAge(childAge - gshift, year + gshift),
+        p("zero"),
+        false,
+      );
+      const gfirst = year + Math.round(firstBirthAge(year) + gshift);
+      // A daughter's children share their father's surname, drawn once.
+      const gfamily =
+        gender === MALE || grandchildren === p("zero")
+          ? child.familyName
+          : nameKin({
+              stableKey: `${child.stableKey}:children-father`,
+              gender: MALE,
+              birthDate: child.birthDate,
+              familyName: null,
+            }).familyName;
+      const grandchildNames: string[] = [];
+      for (let g = p("one"); g <= grandchildren; g += p("one")) {
+        const gr = cr.fork(`grandchild:${g}`);
+        const gspacing = cr.fork("grandchild-spacing");
+        const gdate =
+          g === p("one")
+            ? dateInYear(gr, gfirst)
+            : afterYears(
+                dateInYear(cr.fork(`grandchild:${p("one")}`), gfirst),
+                yearsBetween(gspacing, p("one"), g),
+              );
+        const gyear = yearOfDate(gdate);
+        if (gdate > startedAt || gyear - year - gshift > maxMotherAge) continue;
+        const ggender = drawnGender(gr.fork("identity"));
+        if (!survives(gr, ggender, gyear, p("zero"), ageAt(gdate))) continue;
+        const grandchild = makePerson(
+          `${unit.key}:child:${i}:grandchild:${g}`,
+          ggender,
+          gdate,
+          gfamily,
+          homeOf(child),
+          grandchildNames,
+        );
+        grandchildNames.push(grandchild.givenName);
+        parentOf(child, grandchild, R.parent);
+        addParents(grandchild.id, [child]);
+        for (const parent of unit.parents)
+          relate(parent, grandchild, R.grandparent, R.grandchild);
+      }
+    }
+  }
+}
+
 export function buildOpeningKin(
   households: readonly KinHouseholdInput[],
   options: OpeningKinOptions,
@@ -464,6 +940,25 @@ export function buildOpeningKin(
   const parentOf = (parent: Dated, child: Dated, relation: KinRelation) => {
     relate(parent, child, relation, R.child);
     linkParent(parent, child);
+  };
+
+  const kin: KinContext = {
+    options,
+    out,
+    startedAt,
+    adultAge,
+    archiveDays,
+    interval,
+    minParentAge,
+    maxMotherAge,
+    yearsBetween,
+    afterYears,
+    ageAt,
+    ageOf,
+    parentBornBefore,
+    relate,
+    addParents,
+    parentOf,
   };
 
   for (const household of households) {
@@ -570,375 +1065,21 @@ export function buildOpeningKin(
     };
     const drawnGender = (r: SeededRng) => generatePersonIdentity(r).gender;
 
-    // Each adult's family of origin: living parents and siblings.
-    adults.forEach((adult, index) => {
-      const r = rng.fork(`origin:${index}`);
-      const birthYear = yearOfDate(adult.birthDate);
-      const age = ageOf(adult);
-      const firstAge = Math.max(
-        minParentAge,
-        firstBirthAge(birthYear) + normal(r) * p("kinFirstBirthAgeSdYears"),
-      );
-      const motherCohort = Math.round(birthYear - firstAge - interval);
-      const sibship = drawCount(r, completedRow(motherCohort), p("one"), true);
-      const order = r.integer(p("one"), sibship + p("one"));
-      const sr0 = r.fork("spacing");
-      const oldestBirth =
-        order === p("one")
-          ? adult.birthDate
-          : afterYears(adult.birthDate, yearsBetween(sr0, order, p("one")));
-      const motherAge = Math.min(
-        maxMotherAge,
-        firstAge + yearsBetween(sr0, p("one"), order),
-      );
-      // A partner who joined the household brought their own birth surname.
-      let lineName: string | null =
-        household.couple && index === p("one") ? null : adult.familyName;
-      const outside = options.bornOutside?.(adult.id);
-      const parentsNear =
-        !outside &&
-        stayed(
-          `origin:${index}`,
-          age,
-          adultAge,
-          options.bornOutside
-            ? (options.bornInStateShare ?? p("one"))
-            : p("one"),
-        );
-      const parentsHome = newHome(`origin:${index}:parents`, parentsNear);
-      out.birthplaces.set(
-        adult.id,
-        outside ?? (parentsNear ? options.townId : parentsHome.row.placeId),
-      );
-      // A marriage that ended leaves the father in a home of his own.
-      const married = age + yearsBetween(sr0, p("one"), order);
-      const apart = r.fork("marriage").next() >= marriageIntact(married);
-      const parents: KinPerson[] = [];
-      for (const [role, gender, parentAge] of [
-        ["father", MALE, motherAge + p("kinPaternalAgeGapYears")],
-        ["mother", FEMALE, motherAge],
-      ] as const) {
-        const pr = r.fork(role);
-        const draw = pr.next();
-        const parentBirth = parentBornBefore(
-          dateInYear(pr, birthYear - Math.round(parentAge)),
-          oldestBirth,
-        );
-        const ageAtBirth = ageOnDate(parentBirth, adult.birthDate);
-        const currentAge = ageAt(parentBirth);
-        if (
-          !survivesAt(
-            draw,
-            gender,
-            yearOfDate(parentBirth),
-            ageAtBirth,
-            currentAge,
-          )
-        ) {
-          const through = diedInWindow(
-            draw,
-            gender,
-            yearOfDate(parentBirth),
-            ageAtBirth,
-            currentAge,
-            archiveDays / p("daysPerMeanYear"),
-          );
-          if (through !== null) {
-            const stableKey = `${household.stableKey}:kin:origin:${index}:${role}`;
-            const birthDate = parentBirth;
-            const named = nameKin({
-              stableKey,
-              gender,
-              birthDate,
-              familyName: lineName,
-            });
-            out.deaths.push({
-              personId: createStableId(
-                "person",
-                `${options.worldId}:${stableKey}`,
-              ),
-              survivorId: adult.id,
-              relation: role,
-              stableKey,
-              givenName: named.givenName,
-              familyName: named.familyName,
-              birthDate,
-              gender,
-              date: addDays(
-                addDays(startedAt, -archiveDays),
-                Math.round(through * archiveDays),
-              ),
-            });
-          }
-          continue;
-        }
-        const sinceGrown = parentAge + Math.max(age - adultAge, p("zero"));
-        const parent = makePerson(
-          `origin:${index}:${role}`,
-          gender,
-          parentBirth,
-          lineName,
-          apart && role === "father"
-            ? newHome(
-                `origin:${index}:${role}`,
-                parentsNear &&
-                  stayed(
-                    `origin:${index}:${role}`,
-                    parentAge + age,
-                    sinceGrown,
-                  ),
-              )
-            : parentsHome,
-        );
-        lineName = parent.familyName;
-        parents.push(parent);
-        parentOf(parent, adult, R.parent);
-        for (const child of children)
-          relate(parent, child, R.grandparent, R.grandchild);
-      }
-      addParents(adult.id, parents);
-      // Parents still married live together as partners, so the engines
-      // that read couples (moves, births) see them as one (every life is
-      // simulated, owner, Nov 1).
-      if (!apart && parents.length === p("two")) {
-        const [a, b] = [...parents].sort((x, y) => x.id.localeCompare(y.id));
-        out.partnerLinks.push({
-          id: createStableId(
-            "kinship",
-            `${options.worldId}:opening-kin:partner:${a!.id}:${b!.id}`,
-          ),
-          personIds: [a!.id, b!.id],
-        });
-      }
-      const siblingNames = adult.givenName ? [adult.givenName] : [];
-      for (let j = p("one"); j <= sibship; j += p("one")) {
-        if (j === order) continue;
-        const sr = r.fork(`sibling:${j}`);
-        const birthDate = afterYears(
-          adult.birthDate,
-          yearsBetween(sr0, order, j),
-        );
-        if (birthDate > startedAt) continue;
-        const gender = drawnGender(sr.fork("identity"));
-        if (
-          !survives(
-            sr,
-            gender,
-            yearOfDate(birthDate),
-            p("zero"),
-            ageAt(birthDate),
-          )
-        )
-          continue;
-        // A minor sibling lives with their parents; an adult stays near them unless they moved away.
-        const siblingAge = ageAt(birthDate);
-        const sibling = makePerson(
-          `origin:${index}:sibling:${j}`,
-          gender,
-          birthDate,
-          lineName,
-          siblingAge < adultAge &&
-            parents.some((row) => row.householdId === parentsHome.row.id)
-            ? parentsHome
-            : newHome(
-                `origin:${index}:sibling:${j}`,
-                stayed(`origin:${index}:sibling:${j}`, siblingAge)
-                  ? parentsNear
-                  : false,
-              ),
-          siblingNames,
-        );
-        siblingNames.push(sibling.givenName);
-        relate(sibling, adult, R.sibling, R.sibling);
-        for (const child of children)
-          relate(sibling, child, R.auntUncle, R.nieceNephew);
-        addParents(sibling.id, parents);
-        for (const parent of parents) parentOf(parent, sibling, R.parent);
-      }
-    });
-
-    // Children born to each parent unit who live elsewhere, and their children.
-    const units = household.couple
-      ? [{ key: "couple", parents: adults, here: children }]
-      : adults.map((adult, index) => ({
-          key: `adult:${index}`,
-          parents: [adult],
-          here: index === p("zero") ? children : [],
-        }));
-    for (const unit of units) {
-      if (!unit.parents.length) continue;
-      const dr = rng.fork(`descendants:${unit.key}`);
-      const reference =
-        unit.parents.find((row) => row.gender === FEMALE) ??
-        unit.parents[p("zero")]!;
-      const refYear = yearOfDate(reference.birthDate);
-      const shift =
-        reference.gender === FEMALE
-          ? p("zero")
-          : p("kinMaleFertilityAgeShiftYears");
-      const total = drawCount(
-        dr,
-        fertilityRowForAge(ageOf(reference) - shift, refYear + shift),
-        unit.here.length,
-        false,
-      );
-      const familyName = unit.parents[p("zero")]!.familyName;
-      let otherParent: KinPerson | undefined;
-      let otherParentDrawn = false;
-      const other = () => {
-        if (household.couple || otherParentDrawn) return otherParent;
-        otherParentDrawn = true;
-        const or = dr.fork("other-parent");
-        const gender = reference.gender === MALE ? FEMALE : MALE;
-        const gap = p("kinPaternalAgeGapYears");
-        let birthDate = dateInYear(
-          or,
-          refYear + Math.round(gender === MALE ? -gap : gap),
-        );
-        for (const child of unit.here)
-          birthDate = parentBornBefore(birthDate, child.birthDate);
-        if (
-          !survives(
-            or,
-            gender,
-            yearOfDate(birthDate),
-            p("zero"),
-            ageAt(birthDate),
-          )
-        )
-          return undefined;
-        otherParent = makePerson(
-          `${unit.key}:other-parent`,
-          gender,
-          birthDate,
-          null,
-          newHome(
-            `${unit.key}:other-parent`,
-            stayed(`${unit.key}:other-parent`, ageAt(birthDate)),
-          ),
-        );
-        return otherParent;
-      };
-      for (const child of unit.here) {
-        const second = other();
-        addParents(child.id, second ? [...unit.parents, second] : unit.parents);
-        if (second) parentOf(second, child, R.otherParent);
-      }
-      const oldestRow = unit.here.length
-        ? unit.here.reduce((a, b) => (a.birthDate <= b.birthDate ? a : b))
-        : undefined;
-      const oldest = oldestRow ? yearOfDate(oldestRow.birthDate) : undefined;
-      const firstYear =
-        oldest ?? refYear + Math.round(firstBirthAge(refYear) + shift);
-      const spacing = dr.fork("spacing");
-      // The first child of a family with no one here yet is placed in a year;
-      // every other child is a drawn gap before or after a child already placed.
-      const anchorDate: IsoDate =
-        oldestRow?.birthDate ?? dateInYear(dr.fork("anchor"), firstYear);
-      const childNames = unit.here.flatMap((child) => child.givenName ?? []);
-      for (let i = p("one"); i <= total - unit.here.length; i += p("one")) {
-        const cr = dr.fork(`child:${i}`);
-        const birthDate =
-          oldest === undefined
-            ? afterYears(anchorDate, yearsBetween(spacing, p("one"), i))
-            : afterYears(anchorDate, yearsBetween(spacing, i, p("zero")));
-        const year = yearOfDate(birthDate);
-        const parentAge = year - refYear - shift;
-        if (parentAge < minParentAge || parentAge > maxMotherAge) continue;
-        if (birthDate > startedAt) continue;
-        const childAge = ageAt(birthDate);
-        // A couple's minor children live with them. When parents part, the
-        // mother keeps the minor children (the data's custody note), so only a
-        // single father's minor children can live elsewhere, with their mother.
-        if (
-          childAge < adultAge &&
-          (household.couple || reference.gender === FEMALE || !other())
-        )
-          continue;
-        // A child living elsewhere must fit every recorded parent's actual
-        // birthday, including the younger partner and an absent parent.
-        if (
-          [...unit.parents, ...(otherParent ? [otherParent] : [])].some(
-            (parent) => ageOnDate(parent.birthDate, birthDate) < minParentAge,
-          )
-        )
-          continue;
-        const gender = drawnGender(cr.fork("identity"));
-        if (!survives(cr, gender, year, p("zero"), childAge)) continue;
-        const child = makePerson(
-          `${unit.key}:child:${i}`,
-          gender,
-          birthDate,
-          familyName,
-          childAge < adultAge
-            ? homeOf(otherParent!)
-            : newHome(
-                `${unit.key}:child:${i}`,
-                stayed(`${unit.key}:child:${i}`, childAge),
-              ),
-          childNames,
-        );
-        childNames.push(child.givenName);
-        for (const parent of unit.parents) parentOf(parent, child, R.parent);
-        if (otherParent) parentOf(otherParent, child, R.otherParent);
-        addParents(
-          child.id,
-          otherParent ? [...unit.parents, otherParent] : unit.parents,
-        );
-        for (const sibling of unit.here)
-          relate(child, sibling, R.sibling, R.sibling);
-        if (childAge < adultAge) continue;
-        const gshift =
-          gender === FEMALE ? p("zero") : p("kinMaleFertilityAgeShiftYears");
-        const grandchildren = drawCount(
-          cr,
-          fertilityRowForAge(childAge - gshift, year + gshift),
-          p("zero"),
-          false,
-        );
-        const gfirst = year + Math.round(firstBirthAge(year) + gshift);
-        // A daughter's children share their father's surname, drawn once.
-        const gfamily =
-          gender === MALE || grandchildren === p("zero")
-            ? child.familyName
-            : nameKin({
-                stableKey: `${child.stableKey}:children-father`,
-                gender: MALE,
-                birthDate: child.birthDate,
-                familyName: null,
-              }).familyName;
-        const grandchildNames: string[] = [];
-        for (let g = p("one"); g <= grandchildren; g += p("one")) {
-          const gr = cr.fork(`grandchild:${g}`);
-          const gspacing = cr.fork("grandchild-spacing");
-          const gdate =
-            g === p("one")
-              ? dateInYear(gr, gfirst)
-              : afterYears(
-                  dateInYear(cr.fork(`grandchild:${p("one")}`), gfirst),
-                  yearsBetween(gspacing, p("one"), g),
-                );
-          const gyear = yearOfDate(gdate);
-          if (gdate > startedAt || gyear - year - gshift > maxMotherAge)
-            continue;
-          const ggender = drawnGender(gr.fork("identity"));
-          if (!survives(gr, ggender, gyear, p("zero"), ageAt(gdate))) continue;
-          const grandchild = makePerson(
-            `${unit.key}:child:${i}:grandchild:${g}`,
-            ggender,
-            gdate,
-            gfamily,
-            homeOf(child),
-            grandchildNames,
-          );
-          grandchildNames.push(grandchild.givenName);
-          parentOf(child, grandchild, R.parent);
-          addParents(grandchild.id, [child]);
-          for (const parent of unit.parents)
-            relate(parent, grandchild, R.grandparent, R.grandchild);
-        }
-      }
-    }
+    const house: KinHousehold = {
+      ...kin,
+      household,
+      rng,
+      adults,
+      children,
+      nameKin,
+      stayed,
+      newHome,
+      homeOf,
+      makePerson,
+      drawnGender,
+    };
+    kinOfOrigins(house);
+    kinElsewhere(house);
   }
   out.households = out.households.filter(
     (row) => row.memberIds.length > p("zero"),
