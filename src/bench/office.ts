@@ -450,7 +450,7 @@ export function officeStops(
   const api = coreAPI(core);
   const row = seatSwitches(api, personId).find((r) => r.key === key);
   if (!row) throw new Error("Your seat has no such stop.");
-  const known = stopKinds();
+  const known = stopKinds(core);
   setStops(
     api,
     personId,

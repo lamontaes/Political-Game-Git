@@ -139,24 +139,12 @@ import {
   stopsOf,
   officeHost,
 } from "./modules/office-day";
-import { registerOfficeActs, registerStopKinds } from "./office-day-registry";
+import { registerOfficeActs } from "./office-day-registry";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 
 const controlled = (api: CoreAPI) =>
   snapshotExplicitControlV1(api.state).personId ??
   (api.state as CoreState).playerId;
-registerStopKinds([
-  { kind: "own-hearing", byDefault: true },
-  { kind: "state-of-the-state", byDefault: true },
-  // A vote on the floor of the player's own chamber: the engine never votes for the player.
-  { kind: "state-floor-vote", byDefault: true },
-  // An order the governor's staff brings for signature: issued or set aside by the player, not the character.
-  { kind: "executive-order", byDefault: true },
-  // A cabinet post that stands open: the governor the player plays names who fills it.
-  { kind: "appointment", byDefault: true },
-  // The state budget the governor sends the legislature: the player writes the lines, the character does not.
-  { kind: "budget-proposal", byDefault: true },
-]);
 
 // ---------------------------------------------------------------- data
 
@@ -1908,6 +1896,19 @@ export function voteOnStateFloor(
 
 export const OFFICE_DAY_STATE_MODULE: CoreModule = {
   id: OFFICE_DAY_STATE_MODULE_ID,
+  // What the state day adds to what may stop the player.
+  stopKinds: [
+    { kind: "own-hearing", byDefault: true },
+    { kind: "state-of-the-state", byDefault: true },
+    // A vote on the floor of the player's own chamber: the engine never votes for the player.
+    { kind: "state-floor-vote", byDefault: true },
+    // An order the governor's staff brings for signature: issued or set aside by the player, not the character.
+    { kind: "executive-order", byDefault: true },
+    // A cabinet post that stands open: the governor the player plays names who fills it.
+    { kind: "appointment", byDefault: true },
+    // The state budget the governor sends the legislature: the player writes the lines, the character does not.
+    { kind: "budget-proposal", byDefault: true },
+  ],
   state: {
     schemaVersion: 1,
     tables: {

@@ -631,7 +631,7 @@ export const ELECTIONS_MODULE: CoreModule = {
   history: CENTURY_HISTORY,
   // A town seat the law fills by appointment may be offered to the player first
   // (once the town is opened: `openElections` writes its town row).
-  vacancyOffer: (api, input) =>
+  vacancyOffer: (api, input: Parameters<typeof offerSeatToPlayer>[1]) =>
     table(api, "town").get("town") !== undefined &&
     offerSeatToPlayer(api, input),
   state: {
