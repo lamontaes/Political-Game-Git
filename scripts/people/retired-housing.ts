@@ -83,10 +83,23 @@ for (const seed of seeds) {
   // places in the played town; the table also holds the places around it.
   const inTown = (householdId: string) =>
     (core.households.get(householdId)?.placeId ?? townId) === townId;
+  // The opening's own list of homes, which the owners' median is set on.
+  const listed = (
+    JSON.parse(core.placeMetadata?.housingDwellings ?? "[]") as [
+      string,
+      string,
+      number,
+    ][]
+  )
+    .filter((row) => row[1] === "own")
+    .map((row) => ({ value: row[2], weight: 1 }));
   const pick = (tenure: "own" | "rent", only?: Set<string>) =>
     rows
       .filter(
-        (row) => row.tenure === tenure && (!only || only.has(row.householdId)),
+        (row) =>
+          row.tenure === tenure &&
+          inTown(row.householdId) &&
+          (!only || only.has(row.householdId)),
       )
       .map((row) => ({
         value: (tenure === "own" ? row.valueMinor : row.rentMinor) ?? 0,
@@ -104,6 +117,7 @@ for (const seed of seeds) {
       key: drawn.key,
       targetValueDollars: targetValue === null ? null : Math.round(targetValue),
       targetRentDollars: targetRent === null ? null : Math.round(targetRent),
+      openingListOwnerMedianDollars: Math.round(median(listed) / 100),
       households: rows.filter((row) => inTown(row.householdId)).length,
       retiredHouseholds: rows.filter(
         (row) => inTown(row.householdId) && retired.has(row.householdId),
