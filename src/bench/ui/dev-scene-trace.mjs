@@ -100,7 +100,7 @@ async function moments({ labels, send }) {
   return box;
 }
 
-const slots = {
+export const slots = {
   /** The Calendar sheet's dev panels, after Run, Scene and Campaign. */
   async calendar(context) {
     const box = el("section", undefined, "dev-scene-trace");

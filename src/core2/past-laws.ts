@@ -22,12 +22,13 @@
 import type { GovernmentLevel } from "./government-level";
 import provisionQuestions from "../../data/research/legislature/provision-questions.json" with { type: "json" };
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
-import { POLICY_QUESTIONS } from "./policy-answers";
 import { questionAxis } from "./campaign-views";
 import { memberSupportAt } from "./officials-roster";
 import {
   LAWS_MODULE_ID,
   policyAuthority,
+  POLICY_QUESTIONS,
+  type LawRowInput,
   type PolicyLevel,
 } from "./modules/laws";
 import { centuryLaw } from "./modules/elections";
@@ -38,7 +39,6 @@ import {
   recordPastVote,
   type VoteRecordRow,
 } from "./modules/record";
-import type { LawRowInput } from "./laws-starting";
 import type { TermRow } from "./modules/offices";
 import {
   CHAMBER_KINDS,
