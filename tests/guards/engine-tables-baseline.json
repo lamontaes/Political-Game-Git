@@ -291,10 +291,8 @@
       "laws": 1
     },
     "src/core2/modules/press.ts": {
-      "elections": 14,
-      "executive": 4,
-      "jobs-businesses": 5,
-      "laws": 6,
+      "elections": 7,
+      "jobs-businesses": 1,
       "people": 2
     },
     "src/core2/modules/public-action.ts": {
@@ -358,7 +356,7 @@
       "jobs-businesses": 2
     },
     "src/core2/past-bodies.ts": {
-      "executive": 2
+      "executive": 1
     },
     "src/core2/past-elections.ts": {
       "elections": 1,
@@ -391,11 +389,6 @@
     "src/core2/press-money.ts": {
       "dynamic": 4
     },
-    "src/core2/press-topics.ts": {
-      "bodies": 3,
-      "elections": 1,
-      "executive": 2
-    },
     "src/core2/question-wages.ts": {
       "laws": 2
     },
@@ -422,7 +415,6 @@
       "jobs-businesses": 1
     },
     "src/director/arc-variant.ts": {
-      "bodies": 1,
       "dynamic": 3
     },
     "src/director/bring-it-up.ts": {
@@ -433,17 +425,11 @@
       "executive": 2
     },
     "src/director/circumstance.ts": {
-      "bodies": 2,
-      "elections": 3,
-      "executive": 1,
       "news": 1
     },
     "src/director/civic-roles.ts": {
-      "bodies": 4,
-      "elections": 3,
-      "executive": 2,
-      "jobs-businesses": 1,
-      "news": 3
+      "elections": 2,
+      "news": 1
     },
     "src/director/constituent-help-facts.ts": {
       "executive": 1,
@@ -465,17 +451,10 @@
       "elections": 1
     },
     "src/director/doors.ts": {
-      "elections": 6
+      "elections": 2
     },
     "src/director/family-stake.ts": {
       "elections": 1
-    },
-    "src/director/floor-debate-facts.ts": {
-      "executive": 1
-    },
-    "src/director/journal-later.ts": {
-      "bodies": 1,
-      "executive": 1
     },
     "src/director/journal.ts": {
       "bodies": 2,
@@ -498,13 +477,7 @@
       "news": 2
     },
     "src/director/race-turnout-facts.ts": {
-      "elections": 4
-    },
-    "src/director/remark.ts": {
-      "bodies": 1
-    },
-    "src/director/scheduling.ts": {
-      "executive": 2
+      "elections": 1
     },
     "src/director/school.ts": {
       "people": 1
@@ -518,14 +491,8 @@
       "jobs-businesses": 2,
       "laws": 2
     },
-    "src/director/swearing-in.ts": {
-      "executive": 3
-    },
     "src/director/veto-talk.ts": {
       "executive": 2
-    },
-    "src/director/vote-stand-facts.ts": {
-      "executive": 1
     },
     "src/director/who-they-are.ts": {
       "executive": 4
