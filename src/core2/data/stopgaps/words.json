@@ -744,7 +744,8 @@
     "addedBy": "the Story lead, Nov 24",
     "addedAt": "2026-11-24",
     "replacement": "Each address kind gets its outline row and pieces in the planner's bank, and composeBlocks, pointShapes and the old opening-speech pieces are deleted.",
-    "status": "open"
+    "status": "open",
+    "area": "director"
   },
   {
     "id": "SG-WORDS-chapter-opener-awaits-outline",
@@ -756,6 +757,7 @@
     "addedBy": "Story helper, for the Story lead, Nov 24",
     "addedAt": "2026-11-24",
     "replacement": "The Journal writer fills outline-journal for every chapter-opening move, every chapter-opening moment goes through the planner, and the row composer's opener lines and this fallback are deleted.",
-    "status": "open"
+    "status": "open",
+    "area": "director"
   }
 ]
