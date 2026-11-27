@@ -12,6 +12,7 @@ import {
 } from "./budgets-reads";
 import {
   allBusinessOwners,
+  businessOpened,
   allTradingMonths,
   businessFoundings,
   outsideCostRecordIds,
@@ -122,6 +123,10 @@ describe(`the economy's read doors match what the engines keep (seed ${seed})`, 
       tables.table("positions").size,
     );
     expect(allJobChanges(api).length, where).toBe(tables.table("changes").size);
+    expect(businessOpened(api), where).toBe(
+      api.moduleState("business").table("state").get("business:state") !==
+        undefined,
+    );
     expect(allBusinessOwners(api).length, where).toBe(
       api.moduleState("business").table("owners").size,
     );
