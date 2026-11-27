@@ -19,6 +19,8 @@ One section per running session. A session's /goal points at its section here. T
 
 **Merging is the CTO's.** Sessions never merge.
 
+**Use the advisor liberally** (owner, Nov 26, 10:47 p.m.: "be liberal with your, Fable advisor button that you can press, because it does not use Fable usage... take full advantage of it"). It costs no Fable usage. Call it before each PR, before every design choice, when a result surprises you, and before you post "done". Tonight it caught claims resting on headers, wrong counts and unproven fixes before they went out.
+
 ---
 
 ## Story (one session; the owner: "It's all just going to be called story now")
