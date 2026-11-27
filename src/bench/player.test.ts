@@ -16,14 +16,12 @@ const source = {
   asOf: "2020-01-01",
   citation: "Explicit bench adapter edge fixture",
 };
-/**
- * The fixture world. A household's contact on the first day is a scene that
- * stops time (tieMet in src/director/scheduling.ts: a tie turned with someone
- * met that day), so a case that needs a quiet week sets the player's own scene
- * setting to allow no scene kind (setSceneFilter), leaving only the stops the
- * case registers.
- */
-function fixture(birthDate = "1980-01-01", scenes = true) {
+/** The edge fixture can publish a witnessed death through the director. */
+function fixture(
+  birthDate = "1980-01-01",
+  scenes = true,
+  witnessedDeath = false,
+) {
   const input: CoreInput = {
     seed: "bench-adapter-edge-fixture",
     startedAt: "2021-01-01",
@@ -40,7 +38,7 @@ function fixture(birthDate = "1980-01-01", scenes = true) {
         liquidMinor: 0,
         livingCostDailyMinor: 0,
         source,
-        familyIds: [],
+        familyIds: witnessedDeath ? ["mourner"] : [],
         knownIds: [],
       },
       {
@@ -58,9 +56,35 @@ function fixture(birthDate = "1980-01-01", scenes = true) {
         familyIds: [],
         knownIds: [],
       },
+      ...(witnessedDeath
+        ? [
+            {
+              id: "mourner",
+              givenName: "Third",
+              familyName: "Resident",
+              birthDate: "1984-02-01",
+              placeId: "place",
+              householdId: "home",
+              tier: "weekly" as const,
+              traits: {},
+              liquidMinor: 0,
+              livingCostDailyMinor: 0,
+              source,
+              familyIds: ["other"],
+              knownIds: ["other"],
+            },
+          ]
+        : []),
     ],
     households: [
-      { id: "home", placeId: "place", memberIds: ["person", "other"], source },
+      {
+        id: "home",
+        placeId: "place",
+        memberIds: witnessedDeath
+          ? ["person", "other", "mourner"]
+          : ["person", "other"],
+        source,
+      },
     ],
     organizations: [],
     jobs: [],
@@ -71,7 +95,26 @@ function fixture(birthDate = "1980-01-01", scenes = true) {
   };
   const director = createDirector();
   const core = createLifeCore(input, {
-    modules: [director.module, { id: "fixture-offer-owner" }],
+    modules: [
+      director.module,
+      {
+        id: "fixture-offer-owner",
+        onAfterDay(api) {
+          if (!witnessedDeath || api.state.date !== "2021-01-02") return;
+          api.emit({
+            id: "life.death:fixture:other",
+            date: api.state.date,
+            kind: "life.death",
+            personIds: ["other"],
+            witnessIds: ["person"],
+            placeId: "place",
+            moodImpulse: -1,
+            stressImpulse: 1,
+            source,
+          });
+        },
+      },
+    ],
   });
   director.start(core);
   if (!scenes) director.setSceneFilter("person", [], "2021-01-01");
@@ -149,19 +192,31 @@ describe("bench public player adapter", () => {
     expect(result.packet.at).toEqual(at);
     expect(result.selfChosen.length).toBeGreaterThan(0);
   });
-  it("a household's contact on the first day is a scene that stops the week there; a player who allows no scenes has a quiet week", () => {
-    const loud = fixture();
+  it("routine household contact leaves the clock alone, but a witnessed death stops the week unless scenes are off", () => {
+    const routine = fixture().player.advance("week");
+    expect(routine.packet.kind).toBe("complete");
+    expect(routine.packet.at.date).toBe("2021-01-09");
+
+    const loud = fixture("1980-01-01", true, true);
     const stopped = loud.player.advance("week");
     expect(stopped.packet.kind).toBe("stop");
-    expect(stopped.packet.at.date).toBe("2021-01-03");
-    // The stop is the director's interrupt for that contact, by record id.
     if (stopped.packet.kind !== "stop") throw new Error("Expected a stop");
+    const book = loud.director.ledger.people.get("person")!;
+    const moment = book.moments.find(
+      (row) => row.causeId === "life.death:fixture:other",
+    );
+    expect(moment?.date).toBe("2021-01-02");
+    const entry = book.schedule.find((row) => row.momentId === moment!.id);
+    expect(entry?.bindings.some((row) => row.typeKey === "funeral")).toBe(true);
+    expect(entry?.interrupt).toBe(true);
     expect(stopped.packet.stop.modules[0]).toMatchObject({
       moduleId: "p13-story-director",
-      recordId: "person:2021-01-02:other:person",
+      recordId: moment!.id,
       kind: "interrupt",
     });
-    const quiet = fixture("1980-01-01", false).player.advance("week");
+    expect(stopped.packet.at).toEqual(entry!.stop!.at);
+
+    const quiet = fixture("1980-01-01", false, true).player.advance("week");
     expect(quiet.packet.kind).toBe("complete");
     expect(quiet.packet.at.date).toBe("2021-01-09");
   });
