@@ -4,7 +4,7 @@
  * question, and a named identity for someone who held a seat before them.
  */
 import { drawOfficialIdentity, memberSupportAt } from "./modules/officials";
-import { questionAxis } from "./modules/campaigns";
+import { questionAxis } from "./campaign-views";
 import {
   FEDERAL_HOUSE,
   FEDERAL_SENATE,

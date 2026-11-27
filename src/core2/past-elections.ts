@@ -35,7 +35,7 @@ import {
   recordTermElection,
 } from "./modules/offices";
 import { officialOf } from "./modules/officials";
-import { POLICY_QUESTIONS } from "./modules/laws";
+import { POLICY_QUESTIONS } from "./policy-answers";
 import type { ModuleRow } from "./module-data";
 import {
   pastIdentityName,

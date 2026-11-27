@@ -27,7 +27,8 @@ import { addDays, ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
 import { decisionLean, traitLeanBetween } from "./trait-decisions";
 import jobsJson from "./data/jobs/jobs.json" with { type: "json" };
 import veterans from "./data/past/veterans-acs-2024.json" with { type: "json" };
-import { countedHeadcountOf, profileFor } from "./modules/people";
+import { profileFor } from "./opening-profile";
+import { countedHeadcountOf } from "./residents-economy";
 import { placeStateKey } from "./place-map";
 import { SeededRng } from "./kernel/rng";
 import {
