@@ -6,7 +6,7 @@
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { chooseTrailAct } from "./trail-act.mjs";
-import { fileWhenFilingOpens } from "./start-life.mjs";
+import { fileWhenFilingOpens } from "../../tests/support/start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 
 const shots = process.argv[2];

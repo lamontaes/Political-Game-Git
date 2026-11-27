@@ -2,47 +2,16 @@
   "about": "One engine per mechanic: every source file belongs to one engine family, and a file of one family reaches another family only through that family's entry files (its src/core2/modules file, or the folder's index). Paths are globs from the repository root; ** crosses folders, * does not. shared is the kernel every family may import. .github/CODEOWNERS is written from this file (scripts/guards/codeowners.ts); protected lists the instructions, workflows, guards and baselines the owner reviews, which are not a family. The guard is tests/guards/families.test.ts; docs/design/guards.md explains it.",
   "owner": "@lamontaes",
   "shared": [
-    "src/core2/kernel/**",
-    "src/core2/bookkeeping.ts",
     "src/core2/reference/**",
-    "src/core2/data/**",
-    "src/core2/tooling/**",
-    "src/core2/types.ts",
-    "src/core2/state.ts",
     "src/core2/opening-draft.ts",
     "src/core2/appearance.ts",
-    "src/core2/parameters.ts",
-    "src/core2/stopgaps.ts",
-    "src/core2/seeded.ts",
     "src/core2/world-base-rates.ts",
     "src/core2/scene-replies.ts",
     "src/core2/shares.ts",
-    "src/core2/world-draw.ts",
     "src/core2/union-rate.ts",
-    "src/core2/module-*.ts",
-    "src/core2/saves.ts",
-    "src/core2/snapshot.ts",
-    "src/core2/saved-trace-v1.ts",
-    "src/core2/why-kept.ts",
-    "src/core2/decision-detail.ts",
-    "src/core2/choice.ts",
-    "src/core2/compact-choice.ts",
     "src/core2/condition-pack.ts",
-    "src/core2/core-pieces-fixture.ts",
-    "src/core2/data.ts",
-    "src/core2/bug-report.ts",
-    "src/core2/gov-test-report.ts",
-    "src/core2/law-test-start.ts",
-    "src/core2/resident-adults-test-kit.ts",
-    "src/core2/record-test-kit.ts",
-    "src/core2/campaign-incumbent-response-test-kit.ts",
-    "src/core2/counted-moves-balance-kit.ts",
-    "src/core2/free-block.ts",
-    "src/core2/focus.ts",
     "src/core2/gov-rules/place-population.ts",
     "src/core2/group-quarters-types.ts",
-    "src/core2/stopgap-families.ts",
-    "src/core2/stopgaps-folder.ts",
     "src/core2/gov-rules/names-data.ts",
     "src/core2/gov-rules/given-name-cohorts.ts",
     "src/core2/gov-rules/person-identity.ts",
@@ -54,7 +23,9 @@
     "src/core2/pair-key.test.ts",
     "src/core2/snapshot-seal.test.ts",
     "src/core2/stopgaps-register.test.ts",
-    "src/core2/world-base-rates.test.ts"
+    "src/core2/world-base-rates.test.ts",
+    "src/core2/generated-world.ts",
+    "src/core2/past-sessions.ts"
   ],
   "protected": [
     "AGENTS.md",
@@ -73,6 +44,70 @@
   ],
   "families": [
     {
+      "id": "core",
+      "name": "Core: the kernel, one state, the record, the clock, the plug, parameters, the choice engine, starting and saving a world",
+      "entry": [
+        "src/core2/kernel/**",
+        "src/core2/bookkeeping.ts",
+        "src/core2/data/**",
+        "src/core2/types.ts",
+        "src/core2/state.ts",
+        "src/core2/parameters.ts",
+        "src/core2/stopgaps.ts",
+        "src/core2/stopgap-families.ts",
+        "src/core2/stopgaps-folder.ts",
+        "src/core2/seeded.ts",
+        "src/core2/module-*.ts",
+        "src/core2/saves.ts",
+        "src/core2/snapshot.ts",
+        "src/core2/saved-trace-v1.ts",
+        "src/core2/why-kept.ts",
+        "src/core2/decision-detail.ts",
+        "src/core2/choice.ts",
+        "src/core2/compact-choice.ts",
+        "src/core2/data.ts",
+        "src/core2/free-block.ts",
+        "src/core2/focus.ts",
+        "src/core2/world-draw.ts",
+        "src/core2/life.ts",
+        "src/core2/past-history.ts",
+        "src/core2/journal.ts",
+        "src/core2/journal-state.ts",
+        "src/core2/cash-host.ts",
+        "src/core2/trait-lean.ts"
+      ],
+      "paths": [
+        "src/core2/kernel/**",
+        "src/core2/bookkeeping.ts",
+        "src/core2/data/**",
+        "src/core2/types.ts",
+        "src/core2/state.ts",
+        "src/core2/parameters.ts",
+        "src/core2/stopgaps.ts",
+        "src/core2/stopgap-families.ts",
+        "src/core2/stopgaps-folder.ts",
+        "src/core2/seeded.ts",
+        "src/core2/module-*.ts",
+        "src/core2/saves.ts",
+        "src/core2/snapshot.ts",
+        "src/core2/saved-trace-v1.ts",
+        "src/core2/why-kept.ts",
+        "src/core2/decision-detail.ts",
+        "src/core2/choice.ts",
+        "src/core2/compact-choice.ts",
+        "src/core2/data.ts",
+        "src/core2/free-block.ts",
+        "src/core2/focus.ts",
+        "src/core2/world-draw.ts",
+        "src/core2/life.ts",
+        "src/core2/past-history.ts",
+        "src/core2/journal.ts",
+        "src/core2/journal-state.ts",
+        "src/core2/cash-host.ts",
+        "src/core2/trait-lean.ts"
+      ]
+    },
+    {
       "id": "elections",
       "name": "Elections and campaigns",
       "entry": [
@@ -84,7 +119,8 @@
         "src/core2/modules/national-opinion.ts",
         "src/core2/modules/serve-asks.ts",
         "src/core2/filing-rule-office.ts",
-        "src/core2/voting-module-id.ts"
+        "src/core2/voting-module-id.ts",
+        "src/core2/modules/candidacy-constants.ts"
       ],
       "paths": [
         "src/core2/modules/elections.ts",
@@ -113,11 +149,10 @@
         "src/core2/place-leans.ts",
         "src/core2/voting-module-id.ts",
         "src/core2/turnout*.ts",
-        "src/core2/civic-inputs.ts",
         "src/core2/membership-dues.ts",
-        "src/core2/gov-test-clock.ts",
         "src/core2/campaign-data.ts",
         "src/core2/modules/national-opinion.ts",
+        "src/core2/modules/candidacy-constants.ts",
         "src/core2/at-large-choices.test.ts",
         "src/core2/at-large-race.test.ts",
         "src/core2/ballot-dead-candidate.test.ts",
@@ -254,7 +289,6 @@
         "src/core2/legislature-*.ts",
         "src/core2/bill-*.ts",
         "src/core2/board-appointer.ts",
-        "src/core2/session-law-audit.ts",
         "src/core2/state-session-calendar.ts",
         "src/core2/state-item-veto.ts",
         "src/core2/board-appointer.test.ts",
@@ -312,7 +346,8 @@
         "src/core2/modules/staff.ts",
         "src/core2/government-jurisdictions.ts",
         "src/core2/government-proper-name.ts",
-        "src/core2/offices-executives.ts"
+        "src/core2/offices-executives.ts",
+        "src/core2/civic-inputs.ts"
       ],
       "paths": [
         "src/core2/modules/executive.ts",
@@ -391,7 +426,8 @@
         "src/core2/term-start-true-day.test.ts",
         "src/core2/town-seat-party.test.ts",
         "src/core2/township-board-terms.test.ts",
-        "src/core2/wide-races.test.ts"
+        "src/core2/wide-races.test.ts",
+        "src/core2/civic-inputs.ts"
       ]
     },
     {
@@ -417,7 +453,6 @@
         "src/core2/tax-*.ts",
         "src/core2/accounts.ts",
         "src/core2/act-cash.ts",
-        "src/core2/cash-host.ts",
         "src/core2/school-budget-line.ts",
         "src/core2/starting-cash.ts",
         "src/core2/world-transfer.ts",
@@ -470,7 +505,10 @@
         "src/core2/law-reach/applied.ts",
         "src/core2/modules/federal-courts.ts",
         "src/core2/laws-in-force.ts",
-        "src/core2/modules/police-patrol.ts"
+        "src/core2/modules/police-patrol.ts",
+        "src/core2/outcome-web-reach.ts",
+        "src/core2/outcome-web-model.ts",
+        "src/rules/laws/**"
       ],
       "paths": [
         "src/core2/modules/laws.ts",
@@ -500,6 +538,8 @@
         "src/core2/jobs-web.ts",
         "src/core2/term-read.ts",
         "src/core2/modules/federal-courts.ts",
+        "src/core2/law-reach/group-a-records-constants.ts",
+        "src/core2/law-reach/group-b-store-constants.ts",
         "src/core2/aide-pay-market.test.ts",
         "src/core2/amounts-read-the-law.test.ts",
         "src/core2/benefits-paid-at-the-close.test.ts",
@@ -660,7 +700,8 @@
         "src/core2/withholding-nonresident-local.test.ts",
         "src/core2/withholding-outside-governments.test.ts",
         "src/core2/withholding-zero-rate.test.ts",
-        "src/core2/world-legislating.test.ts"
+        "src/core2/world-legislating.test.ts",
+        "src/rules/laws/**"
       ]
     },
     {
@@ -677,7 +718,9 @@
         "src/core2/modules/regional.ts",
         "src/core2/macro-model.ts",
         "src/core2/work-spans-v1.ts",
-        "src/core2/town-labor-pay.ts"
+        "src/core2/town-labor-pay.ts",
+        "src/core2/modules/macro-constants.ts",
+        "src/core2/job-lifecycle.ts"
       ],
       "paths": [
         "src/core2/shared-time.ts",
@@ -726,6 +769,7 @@
         "src/core2/cost-of-living.ts",
         "src/core2/living-cost-split.ts",
         "src/core2/pay-by-quarter.ts",
+        "src/core2/modules/macro-constants.ts",
         "src/core2/away-workers-turnover.test.ts",
         "src/core2/cannabis-sales-law.test.ts",
         "src/core2/civic-inputs-clerk-staff.test.ts",
@@ -794,7 +838,10 @@
         "src/core2/home-distance.ts",
         "src/core2/life-stake-rule.ts",
         "src/core2/coverage-module-id.ts",
-        "src/core2/modules/promises.ts"
+        "src/core2/modules/promises.ts",
+        "src/core2/modules/views-constants.ts",
+        "src/core2/sitting-closeness.ts",
+        "src/core2/counted-income-fifth.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -868,13 +915,8 @@
         "src/core2/retirement-claim.ts",
         "src/core2/resting-stress.ts",
         "src/core2/representative-sample.ts",
-        "src/core2/money-traits-kit.ts",
         "src/core2/town-households.ts",
         "src/core2/world-poverty.ts",
-        "src/core2/circle-turnover-check.ts",
-        "src/core2/turnover-check.ts",
-        "src/core2/journal-state.ts",
-        "src/core2/journal.ts",
         "src/core2/heard-claims.ts",
         "src/core2/home-distance.ts",
         "src/core2/sibling-names.ts",
@@ -894,6 +936,9 @@
         "src/core2/life-stakes.ts",
         "src/core2/coverage-module-id.ts",
         "src/core2/modules/promises.ts",
+        "src/core2/housing-construction-constants.ts",
+        "src/core2/modules/views-constants.ts",
+        "src/core2/residents-constants.ts",
         "src/core2/attack-grudge.test.ts",
         "src/core2/audit-18-data.test.ts",
         "src/core2/back-to-the-counts.test.ts",
@@ -1033,6 +1078,8 @@
         "src/core2/sibling-births.test.ts",
         "src/core2/sibling-names.test.ts",
         "src/core2/sitting-closeness.test.ts",
+        "src/core2/owner-doors.test.ts",
+        "src/core2/sitting-unowned-body.test.ts",
         "src/core2/social-security-line-poverty.test.ts",
         "src/core2/speech-retellings-fold.test.ts",
         "src/core2/speech.test.ts",
@@ -1083,7 +1130,6 @@
       "entry": [
         "src/core2/modules/world.ts",
         "src/core2/modules/community-events.ts",
-        "src/core2/life.ts",
         "src/core2/places.ts",
         "src/core2/place-map.ts",
         "src/core2/place-lookup.ts",
@@ -1098,7 +1144,9 @@
         "src/core2/game-start.ts",
         "src/core2/output-numbers.ts",
         "src/core2/output-number-readers.ts",
-        "src/core2/player-warm-up.ts"
+        "src/core2/player-warm-up.ts",
+        "src/core2/national-disaster-record.ts",
+        "src/districts/**"
       ],
       "paths": [
         "src/core2/modules/world.ts",
@@ -1107,7 +1155,6 @@
         "src/core2/output-numbers.ts",
         "src/core2/output-number-readers.ts",
         "src/core2/modules/disasters.ts",
-        "src/core2/life.ts",
         "src/core2/calendar.ts",
         "src/core2/game-start.ts",
         "src/core2/places.ts",
@@ -1124,6 +1171,7 @@
         "src/core2/modules/national-events.ts",
         "src/core2/national-disaster-event.ts",
         "src/core2/modules/climate.ts",
+        "src/core2/national-disaster-record.ts",
         "src/core2/agreement-jobs-free.test.ts",
         "src/core2/appointment-names-appointer.test.ts",
         "src/core2/appointment-record-appointee.test.ts",
@@ -1195,7 +1243,8 @@
         "src/core2/utility-staff-paid.test.ts",
         "src/core2/world-economy-setting.test.ts",
         "src/core2/world-metrics-resident-rate.test.ts",
-        "src/core2/world-settings.test.ts"
+        "src/core2/world-settings.test.ts",
+        "src/districts/**"
       ]
     },
     {
@@ -1212,6 +1261,7 @@
         "src/core2/press-*.ts",
         "src/core2/outcome-news.ts",
         "src/core2/modules/news-listeners.ts",
+        "src/core2/outcome-news-constants.ts",
         "src/core2/law-knowledge.test.ts",
         "src/core2/modules/news.traits.test.ts",
         "src/core2/modules/press.traits.test.ts",
@@ -1265,7 +1315,8 @@
         "src/core2/staff-dismissal-after-attendance.test.ts",
         "src/core2/staff-player-clock.test.ts",
         "src/core2/succession.test.ts",
-        "src/core2/whole-past.test.ts"
+        "src/core2/whole-past.test.ts",
+        "src/release/**"
       ]
     }
   ]

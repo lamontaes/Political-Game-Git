@@ -36,7 +36,7 @@ import { openPress } from "./modules/press";
 import { viewsModule } from "./modules/views";
 import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const START = "2026-01-05";
 /**

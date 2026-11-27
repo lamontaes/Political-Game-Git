@@ -21,7 +21,7 @@ import {
   openBallotMeasures,
 } from "./ballot-measures";
 import { decisionLean } from "../trait-decisions";
-import { weightOf } from "../trait-test-kit";
+import { weightOf } from "../../../tests/support/trait-test-kit";
 import measures from "../data/elections/ballot-measures.json" with { type: "json" };
 import { searchCorePlaces } from "../place-lookup";
 

@@ -26,7 +26,7 @@ import {
   type CommunityEvent,
 } from "../community-events-table";
 import { placeJurisdictionId } from "../place-map";
-import type { HistoryModule, HistoryRow, HistorySource } from "../past";
+import type { HistoryRow, HistorySource } from "../past";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, IsoDate, Source } from "../types";
 
@@ -241,7 +241,7 @@ const COMMUNITY_EVENTS_HISTORY: HistorySource = {
   },
 };
 
-export const COMMUNITY_EVENTS_MODULE: CoreModule & HistoryModule = {
+export const COMMUNITY_EVENTS_MODULE: CoreModule = {
   id: COMMUNITY_EVENTS_MODULE_ID,
   // A plain field, not a getter (the finance engine's read check refuses an accessor).
   history: COMMUNITY_EVENTS_HISTORY,

@@ -23,7 +23,7 @@ import {
 } from "../regional-model";
 import type { EntityId } from "../kernel/brands";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
-import { disasterJobsLossShare } from "./national-events";
+import { disasterJobsLossShare } from "../national-disaster-record";
 
 export const REGIONAL_MODULE_ID = "regional";
 export const REGIONAL_PARAMETERS = regionalParameters as unknown as Readonly<
