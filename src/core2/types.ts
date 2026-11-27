@@ -1019,6 +1019,16 @@ export interface CoreModule {
   };
   /** Once the core is made, in install order: this engine's part of opening the world (the opening ties, the counted residents admitted). */
   onOpen?: (core: CoreState, input: CoreInput) => void;
+  /**
+   * Who is still in the wider population, as this engine holds them: a
+   * counted person's record by id, or nothing. The shared chooser asks every
+   * installed engine in install order (`countedPersonOf`), so the core never
+   * imports the engine that keeps the counts.
+   */
+  countedPerson?: (
+    core: CoreState,
+    personId: PersonId,
+  ) => PersonInput | undefined;
   /** Dated institutional work, before day hooks; emits/effects use the canonical API. */
   onCalendarWork?: (api: CoreAPI, work: Readonly<ModuleCalendarWork>) => void;
   /**

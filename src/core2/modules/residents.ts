@@ -3,7 +3,6 @@
  * retirement income from outside, and household purchases at local firms.
  * Each occurrence is one balanced journal entry; nothing scans the world.
  */
-import { registerCountedPersonSource } from "../counted-actor";
 import { addDays, dateAtAge, makeIsoDate } from "../kernel/dates";
 import {
   advanceCadence,
@@ -1865,8 +1864,6 @@ export function residentFacts(
   return store.factsOf(m);
 }
 
-registerCountedPersonSource(residentPerson);
-
 /** Whether a counted (or filled-in) person was in the opening's counts, so has a past before it. */
 export function countedSinceOpening(
   core: CoreState,
@@ -2571,6 +2568,7 @@ export function residentWageShortfall(
 }
 
 export const RESIDENTS_MODULE: CoreModule = {
+  countedPerson: residentPerson,
   id: RESIDENTS_MODULE_ID,
   // The counted people the opening records are admitted once the core exists.
   onOpen: (core, input) => {
