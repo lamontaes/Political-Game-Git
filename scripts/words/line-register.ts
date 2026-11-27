@@ -183,9 +183,8 @@ function readerFiles(): string[] {
       path.join(ROOT, dir),
       (file) =>
         /\.(?:tsx?|mjs)$/.test(file) &&
-        !/\.(?:test|spec|browser)\./.test(file) &&
-        !/\.d\.ts$/.test(file) &&
-        !DEVELOPER_FILE.test(relative(file)),
+        !namedDeveloper(relative(file)) &&
+        !drivesABrowser(relative(file)),
     ),
   );
 }
@@ -268,6 +267,24 @@ export function sentenceShaped(text: string): boolean {
   );
 }
 
+/** A test, browser-test, type or developer file, by its name. */
+const namedDeveloper = (file: string) =>
+  /\.(?:test|spec|browser)\./.test(file) ||
+  /\.d\.ts$/.test(file) ||
+  DEVELOPER_FILE.test(file);
+
+/**
+ * A file that drives a browser for a developer, proved by its code, not its
+ * name: it imports Playwright, which no page can load and no game server
+ * imports. (Being named only by tests proves nothing: the bench loads some
+ * files by a computed path, as dev-views.mjs does.)
+ */
+export function drivesABrowser(file: string): boolean {
+  return /from\s*["'](?:@playwright\/test|playwright)["']/.test(
+    readFileSync(path.join(ROOT, file), "utf8"),
+  );
+}
+
 /** Code lines: sentence-shaped literals per file in the player-text folders. */
 export function codeLines(): Record<string, number> {
   const out: Record<string, number> = {};
@@ -276,9 +293,8 @@ export function codeLines(): Record<string, number> {
       path.join(ROOT, dir),
       (file) =>
         /\.(?:tsx?|mjs)$/.test(file) &&
-        !/\.(?:test|spec|browser)\./.test(file) &&
-        !/\.d\.ts$/.test(file) &&
-        !DEVELOPER_FILE.test(relative(file)),
+        !namedDeveloper(relative(file)) &&
+        !drivesABrowser(relative(file)),
     )) {
       const count = literals(readFileSync(file, "utf8"), relative(file)).filter(
         sentenceShaped,

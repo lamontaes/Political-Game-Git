@@ -66,6 +66,24 @@
       "name": "placeRuleProblems",
       "reason": "A line rule's problems in the bank files; read only by its test and the line-rules guard.",
       "reads": []
+    },
+    {
+      "file": "src/english/composed-checks.ts",
+      "name": "COMPOSED_CHECKS",
+      "reason": "The composed-text checks by rule id; run only by the words scripts and tests over composed samples, so a break's why is never said.",
+      "reads": []
+    },
+    {
+      "file": "src/english/composed-checks.ts",
+      "name": "organizationNamedOnce",
+      "reason": "One composed-text check, read only through COMPOSED_CHECKS.",
+      "reads": []
+    },
+    {
+      "file": "src/english/composed-checks.ts",
+      "name": "runComposedRules",
+      "reason": "Runs the composed checks over a sample; read only by the words script composed.ts and the composed-rules guard.",
+      "reads": []
     }
   ]
 }
