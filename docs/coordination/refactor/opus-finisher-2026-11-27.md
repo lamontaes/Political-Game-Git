@@ -89,6 +89,13 @@ Tonight the CTO approved more entry files than one front door per engine, so no 
 - **finance:** the seven finance files other families import today, not modules/finance.ts alone (Economy #10784).
 - **budgets:** purchase-tax.ts (Economy #10784).
 - **elections:** campaign-views, electorate and parties as entries (Elections #10732), and the extra entries kept at 4:06 a.m.
+- **core and people (Core #10734, #10781, #10792, #10752):** counted-income-fifth.ts (people); civic-inputs.ts (executive), pre-start.ts, shared-history.ts and finance-state.ts; job-lifecycle.ts (jobs); the cash journal as core entries.
+
+## Moves held for breaking the rings (no baseline rises, 8:21 a.m.)
+
+- **World #10803:** press.ts split by concern (+58 cycle edges, +12 ring files). It comes after the ring around ./press is broken.
+- **Core #10792:** item 8's fill-in as its own file (+4 edges, +1 ring file), and its two `core.jobs` writes go through jobs' door (item 7).
+- **Core #10752:** `modules/official-pay.ts` reaching jobs' door through `job-lifecycle.ts` (+1 edge).
 
 ## Known reds before plugging (Nov 27, 6:10 a.m.)
 
