@@ -20,7 +20,7 @@ import { setBookkeeping } from "../bookkeeping";
 import { cpsRegistered } from "../electorate-places";
 import { addressKeyOf } from "../electorate-registration";
 import { gameStartDate } from "../game-start";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { advanceCore } from "../life";
 import { automaticRegistrationInForce } from "../law-reach/group-a-voting";
 import { coreAPI } from "../state";
@@ -102,10 +102,10 @@ function leavers(api: CoreAPI, count: number): PersonState[] {
     const others = members
       .filter((id) => id !== person.id)
       .map((id) => core.people.get(id)!);
+    // The engine refuses a split that leaves only children, by the exact day
+    // (`changeHouseholdV1`), so an adult here is alive and of age today.
     const grown = (p: PersonState) =>
-      core.date.slice(0, 4) > p.birthDate.slice(0, 4) &&
-      Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >=
-        adultAge;
+      p.alive && ageOnDate(p.birthDate, core.date) >= adultAge;
     if (!grown(person) || !others.length || !others.some(grown)) continue;
     // Nobody else in the household has already left it for a household of their own.
     if (out.some((o) => o.householdId === person.householdId)) continue;
