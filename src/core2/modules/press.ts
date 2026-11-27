@@ -71,7 +71,6 @@ import {
   townShareOfRace,
   makeStatements,
   touchImpression,
-  registerAdOutlet,
   parsePlatform,
   contestPositions,
   outletWeighsRace,
@@ -415,6 +414,8 @@ export function worldOutletCounts(
 
 const PRESS_MODULE: CoreModule & CountedNewsModule = {
   id: PRESS_MODULE_ID,
+  // The outlet that sells ad time: the campaign engine reads it off this module.
+  adOutlet,
   // A plain field: news reads it off the installed module.
   countedNewsAudience,
   state: {
@@ -822,7 +823,6 @@ function outletMoneyDeps(api: CoreAPI): OutletMoneyDeps {
  * audience's spending.
  */
 export function openPress(core: CoreState): readonly OutletRow[] {
-  registerAdOutlet(adOutlet);
   if (core.modules.has(PRESS_MODULE_ID)) return outletsHere(coreAPI(core));
   registerModule(core, PRESS_MODULE);
   const api = coreAPI(core);
