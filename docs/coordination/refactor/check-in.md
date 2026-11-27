@@ -42,3 +42,5 @@
     gh api "repos/lamontaes/Political-Game-Git/issues/10377/comments?since=<your last check-in, UTC, like 2026-11-27T02:00:00Z>&per_page=100"
 
 Then read every line starting "CTO:" for your session's name. **If an hour passes with no CTO line for you, never loop on "nothing changed".** Take the next item in your queue, or the next open row of the refactor map nobody holds, and build it.
+
+**Use the advisor liberally** (owner, Nov 26, 10:47 p.m.: "be liberal with your, Fable advisor button that you can press, because it does not use Fable usage... take full advantage of it"). It costs no Fable usage. Call it before each PR, before every design choice, when a result surprises you, and before you post "done". Tonight it caught claims resting on headers, wrong counts and unproven fixes before they went out.
