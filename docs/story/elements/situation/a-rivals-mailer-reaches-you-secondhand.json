@@ -1,0 +1,30 @@
+{
+  "id": "a-rivals-mailer-reaches-you-secondhand",
+  "kind": "situation",
+  "summary": "A candidate learns what a rival's side mailed about them from someone who received it, not from the rival.",
+  "realLife": "In Sandy, Utah, mailers aimed at a council candidate went to residents first, and the town's mayor then called them illegal. The targeted candidate dealt with them after neighbors had seen them.",
+  "sources": [
+    "KSL, Sandy calling for an end to illegal mailers targeting a candidate for City Council: https://www.ksl.com/article/50762369/sandy-calling-for-an-end-to-illegal-mailers-targeting-a-candidate-for-city-council",
+    "KPBS, candidates trade attack mailers and texts in San Diego council races: https://www.kpbs.org/news/2020/oct/22/candidates-trade-attack-mailers-texts-san-diego-ci"
+  ],
+  "fits": ["campaign", "home"],
+  "slots": ["opponent", "issue", "name"],
+  "gates": ["how-message"],
+  "weights": {
+    "rival-word": 1.0
+  },
+  "inGame": "rival-message circumstance and rival-word scene: how-message and how-canvass facts, the rival's message record, the teller's tie to the player; needs: a mailer as a kind of message in the campaigns engine",
+  "usedBy": ["rival-word"],
+  "turns": [
+    {
+      "turn": "The candidate hears it from the rival's own side at a forum",
+      "pull": "a debate sitting",
+      "writes": "a confrontation instead of a passed-on word"
+    },
+    {
+      "turn": "Nobody tells the candidate and they learn from the paper",
+      "pull": "a thin circle",
+      "writes": "a news story and a late answer"
+    }
+  ]
+}

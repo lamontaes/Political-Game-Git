@@ -36,7 +36,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
-import { advanceToRaceFiling } from "./gov-test-clock";
+import { advanceToRaceFiling } from "../../tests/support/gov-test-clock";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { decisionLean, decisionTraitWeight } from "./trait-decisions";
 import type { CoreAPI, CoreState, PersonState } from "./types";

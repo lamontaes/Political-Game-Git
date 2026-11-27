@@ -18,7 +18,7 @@ import {
 import { petitionSigners } from "../core2/modules/elections";
 import { campaignDay } from "./campaign";
 import { buildBenchWorld } from "./world";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // Owner, Nov 14 (decision card "Switch to asking for votes"): once the petition
 // holds what a campaign gathers (the clerk's count plus the cushion), the

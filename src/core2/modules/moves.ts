@@ -32,6 +32,7 @@
  * there is the same dated record, witnessed by their relatives in town; it
  * moves no money and fills nobody in (two-level population).
  */
+import { DAYS_PER_YEAR } from "../household-income";
 import { MOVED_AWAY_EVENT } from "../moved-away-event";
 import { worldRateFactor } from "../world-base-rates";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
@@ -49,7 +50,7 @@ import {
 } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
 import { sellHome } from "../housing-sale";
-import { endLivingPlan } from "../cost-of-living";
+import { endLivingPlan } from "./business";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { currentCloseness } from "../closeness";
 import {
@@ -57,7 +58,8 @@ import {
   destinationWeights,
   placeLeavingConditions,
 } from "./counted-moves";
-import { webReach, type Subject } from "../outcome-web-reach";
+import { webReach } from "../outcome-web-reach";
+import { type Subject } from "../laws-in-force";
 import { registerModule } from "../state";
 import { isDemoted } from "../counted-groups";
 import { townPlaceOf } from "./residents";
@@ -538,7 +540,7 @@ export function householdIncome(
   const ids: string[] = [];
   const wages: { personId: string; minor: number }[] = [];
   let minor = api.parameter("zero");
-  const perMonth = m(api, "movesDaysPerYear") / api.parameter("monthsPerYear");
+  const perMonth = DAYS_PER_YEAR / api.parameter("monthsPerYear");
   for (const id of core.households.get(householdId)?.memberIds ?? []) {
     const member = core.people.get(id);
     if (!member?.alive) continue;
@@ -794,8 +796,8 @@ function action(id: string, leaving: boolean): ActionDefinition {
     ],
   };
 }
-export const MOVE_AWAY = action("move-away", true);
-export const STAY_PUT = action("stay-put", false);
+const MOVE_AWAY = action("move-away", true);
+const STAY_PUT = action("stay-put", false);
 
 /** Where they go: a relative living elsewhere, else the state the destination weighing ranks highest, else their own state. */
 function destinationFor(
