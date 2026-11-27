@@ -1,8 +1,9 @@
 /**
  * Where the views engine's life term reads health plans from: the coverage
- * engine registers its readers here when it loads, so the life term never
- * imports the coverage engine (whose own imports lead back to the views).
- * Absent readers mean the plan is not known, read as the nation's average.
+ * engine carries its readers as its module's `planReaders`, so the life term
+ * never imports the coverage engine (whose own imports lead back to the
+ * views). Absent readers mean the plan is not known, read as the nation's
+ * average.
  */
 import type { CoreState } from "./types";
 
@@ -25,12 +26,15 @@ export interface PlanReaders {
   ) => number | null;
 }
 
-let readers: PlanReaders | undefined;
+/** Where the coverage engine is not installed, no plan is known. */
+const NO_COVERAGE: PlanReaders = {
+  fullPlan: () => null,
+  countedCovered: () => null,
+};
 
-export function registerPlanReaders(next: PlanReaders): void {
-  readers = next;
-}
-
-export function planReaders(): PlanReaders | undefined {
-  return readers;
+/** The plan readers the coverage engine carries as its module's `planReaders`, or readers that know no plan. */
+export function planReaders(core: CoreState): PlanReaders {
+  for (const module of core.modules.values())
+    if (module.planReaders) return module.planReaders;
+  return NO_COVERAGE;
 }

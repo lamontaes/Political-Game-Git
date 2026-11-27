@@ -1,4 +1,5 @@
 import type { HistorySource } from "./past-history";
+import type { PlanReaders } from "./life-plan-readers";
 import type { GroupQuartersType } from "./group-quarters-types";
 import type { PurchaseTaxInput } from "./modules/purchase-tax";
 import type { MarketEntry } from "./modules/residents";
@@ -1029,6 +1030,13 @@ export interface CoreModule {
     core: CoreState,
     personId: PersonId,
   ) => PersonInput | undefined;
+  /**
+   * Who holds a health plan, as this engine keeps it: a full person's plan
+   * and how many of a counted household's people a plan covers. The views
+   * engine's life term reads them through `planReaders(core)`, so it never
+   * imports the engine that keeps the plans.
+   */
+  planReaders?: PlanReaders;
   /** Dated institutional work, before day hooks; emits/effects use the canonical API. */
   onCalendarWork?: (api: CoreAPI, work: Readonly<ModuleCalendarWork>) => void;
   /**
