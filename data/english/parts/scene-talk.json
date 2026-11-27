@@ -70428,10 +70428,10 @@
       "elements": ["victory-opponent-thanked-by-office-not-name"]
     },
     {
-      "key": "scene-talk.state-ask.do-you-thank-opponent-tonight-by-name-or-by-the-office-they-ran-for-or-leave-the",
+      "key": "scene-talk.state-ask.do-you-thank-opponent-in-the-speech-by-name-or-by-the-office-they-ran-for-or-lea",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "Do you thank {opponent} tonight, by name or by the office they ran for, or leave them out?",
+      "text": "Do you thank {opponent} in the speech, by name or by the office they ran for, or leave them out?",
       "uses": [
         {
           "subject": "scene",
@@ -70771,10 +70771,10 @@
       "elements": ["victory-opponent-thanked-by-office-not-name"]
     },
     {
-      "key": "scene-talk.reply-boast.tonight-i-want-to-say-the-voters-sent-a-message-to-opponent",
+      "key": "scene-talk.reply-boast.i-want-to-say-in-the-speech-that-the-voters-sent-a-message-to-opponent",
       "move": "reply-boast",
       "kind": "spoken",
-      "text": "Tonight I want to say the voters sent a message to {opponent}.",
+      "text": "I want to say in the speech that the voters sent a message to {opponent}.",
       "uses": [
         {
           "subject": "scene",
@@ -71013,10 +71013,10 @@
       "elements": ["victory-first-act-is-about-what-people-pay"]
     },
     {
-      "key": "scene-talk.follow-press.tonight-is-the-wrong-time-to-leave-opponent-out-the-room-will-notice",
+      "key": "scene-talk.follow-press.this-is-the-wrong-time-to-leave-opponent-out-the-room-will-notice",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Tonight is the wrong time to leave {opponent} out. The room will notice.",
+      "text": "This is the wrong time to leave {opponent} out. The room will notice.",
       "uses": [
         {
           "subject": "scene",
@@ -71207,10 +71207,10 @@
       "elements": ["victory-opponent-thanked-by-office-not-name"]
     },
     {
-      "key": "scene-talk.close-thank.i-m-proud-of-how-you-ran-for-office-go-give-them-a-good-night",
+      "key": "scene-talk.close-thank.i-m-proud-of-how-you-ran-for-office-go-give-them-a-good-speech",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "I'm proud of how you ran for {office}. Go give them a good night.",
+      "text": "I'm proud of how you ran for {office}. Go give them a good speech.",
       "uses": [
         {
           "subject": "scene",
@@ -71604,10 +71604,10 @@
       "elements": ["close-count-ends-in-a-concession"]
     },
     {
-      "key": "scene-talk.reply-refuse.not-tonight-i-m-not-calling-opponent-until-the-count-is-certain",
+      "key": "scene-talk.reply-refuse.not-yet-i-m-not-calling-opponent-until-the-count-is-certain",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "Not tonight. I'm not calling {opponent} until the count is certain.",
+      "text": "Not yet. I'm not calling {opponent} until the count is certain.",
       "uses": [
         {
           "subject": "scene",
@@ -71959,10 +71959,10 @@
       "elements": ["close-count-ends-in-a-concession"]
     },
     {
-      "key": "scene-talk.follow-press.people-are-watching-what-you-do-tonight-and-they-remember-who-called-opponent-an",
+      "key": "scene-talk.follow-press.people-are-watching-what-you-do-now-and-they-remember-who-called-opponent-and-wh",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "People are watching what you do tonight, and they remember who called {opponent} and who didn't.",
+      "text": "People are watching what you do now, and they remember who called {opponent} and who didn't.",
       "uses": [
         {
           "subject": "scene",
