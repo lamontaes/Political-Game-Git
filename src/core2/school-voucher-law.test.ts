@@ -117,13 +117,25 @@ it("pays the state's share of town private tuition while the law stands, and sto
           opened.length,
       );
       expect(monthly, where).toBeLessThanOrEqual(tuitionBefore * 2);
+      // The law's monthly review opens each group's voucher on the first of the
+      // month and its first payment falls on the group's own due day: wait out
+      // the last of those days, then every opened voucher has paid.
+      const lastDue = opened
+        .map((row) => api.accounts().obligation(row.obligationId)!.firstDueAt)
+        .sort()
+        .at(-1)!;
+      while (core.date < lastDue)
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
       let paid = 0;
       for (const row of opened) {
         expect(row.governmentId, where).toBe(state);
         expect(row.line, where).toBe("schools");
         const obligation = api.accounts().obligation(row.obligationId)!;
         expect(obligation.endedAt, where).toBeUndefined();
-        expect(obligation.paidMinor, where).toBeGreaterThan(0);
+        expect(
+          obligation.paidMinor,
+          `${where} ${row.obligationId} (first due ${obligation.firstDueAt}, today ${core.date})`,
+        ).toBeGreaterThan(0);
         paid += obligation.paidMinor;
       }
       expect(paid, where).toBeGreaterThan(0);
