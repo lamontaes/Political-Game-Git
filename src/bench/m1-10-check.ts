@@ -22,9 +22,9 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
-import { coreAPI } from "../core2/state";
+import { coreAPI, registerModule } from "../core2/state";
+import type { StanceListener } from "../core2/stance-listeners";
 import {
-  registerStanceListener,
   stancesOf,
   viewOf,
   viewsModule,
@@ -81,7 +81,7 @@ viewsModule.onEvent = (api, event, learnedBy) => {
     current = null;
   }
 };
-registerStanceListener((api, personId, topic) => {
+const stanceListener: StanceListener = (api, personId, topic) => {
   const stance = stancesOf(api, personId).find((s) => s.topic === topic);
   const key = `${personId}:${topic}`;
   const prior = seen.get(key) ?? { side: "", strength: 0 };
@@ -105,7 +105,7 @@ registerStanceListener((api, personId, topic) => {
     sideBefore: prior.side,
     desiredChange: side,
   });
-});
+};
 
 setBookkeeping(false);
 const w = buildBenchWorld(seed, gameStartDate(), {
@@ -114,6 +114,8 @@ const w = buildBenchWorld(seed, gameStartDate(), {
 });
 const { core } = w;
 const api = coreAPI(core);
+// The check listens as an engine does: a module that carries a `stanceListener`.
+registerModule(core, { id: "check-stance-listener", stanceListener });
 const where = `${w.place.displayName} (${w.place.key}), seed ${seed}`;
 const town = core.people.get(w.playerId!)!.placeId;
 for (const person of core.people.values())
