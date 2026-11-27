@@ -13,7 +13,17 @@ import { gameStartDate } from "./game-start";
 import { coreAPI } from "./state";
 import {
   OFFICES_MODULE_ID,
+  allOffices,
+  allSeats,
+  allTerms,
   officeById,
+  officeSeats,
+  officesInJurisdiction,
+  servingTerms,
+  servingTermsOfOffice,
+  servingTermsOnSeat,
+  termCount,
+  termOnSeat,
   officeOfSeat,
   openVacancies,
   seatById,
@@ -72,6 +82,38 @@ it(
       mine.filter((t) => t.status === "serving").map((t) => t.id),
       where,
     ).toEqual(servingTermsOf(api, named!.personId!).map((t) => t.id));
+
+    // The whole-table and indexed reads answer what the tables answer, in the table's order.
+    const raw = (name: string) => offices.table(name).rows();
+    expect(allOffices(api), where).toEqual(raw("offices"));
+    expect(allSeats(api), where).toEqual(raw("seats"));
+    expect(allTerms(api), where).toEqual(raw("terms"));
+    expect(termCount(api), where).toBe(offices.table("terms").size);
+    expect(servingTerms(api), where).toEqual(
+      offices.table("terms").query("byStatus", ["serving"]),
+    );
+    const state = (allOffices(api).find((o) => o.level === "state") ??
+      undefined)!;
+    expect(state, where).toBeDefined();
+    expect(officesInJurisdiction(api, state.jurisdiction), where).toEqual(
+      offices.table("offices").query("byJurisdiction", [state.jurisdiction]),
+    );
+    expect(officeSeats(api, state.id), where).toEqual(
+      offices.table("seats").query("byOffice", [state.id]),
+    );
+    expect(servingTermsOfOffice(api, state.id), where).toEqual(
+      offices.table("terms").query("byOfficeStatus", [state.id, "serving"]),
+    );
+    for (const term of terms
+      .filter((t) => t.status === "serving")
+      .slice(0, 200)) {
+      expect(servingTermsOnSeat(api, term.seatId), where).toEqual(
+        offices.table("terms").query("bySeatStatus", [term.seatId, "serving"]),
+      );
+      expect(termOnSeat(api, term.seatId)?.id, where).toBe(term.id);
+    }
+    expect(officesInJurisdiction(api, "none"), where).toEqual([]);
+    expect(termOnSeat(api, "seat:none"), where).toBeUndefined();
 
     // Vacancies: by id, and the unfilled ones.
     const vacancies = offices
