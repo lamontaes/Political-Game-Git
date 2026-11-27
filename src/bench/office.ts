@@ -59,7 +59,6 @@ import {
   billOf,
   bodyOf,
   learnedStakesOf,
-  LEGISLATURE_MODULE_ID,
   memberKey,
   members,
   votesOn,
@@ -106,6 +105,7 @@ import { budgetProposalDue } from "../core2/modules/office-day";
 import { budgetsOf, governmentOfJurisdiction } from "../core2/modules/budgets";
 import { lineName } from "./budget";
 import { headsExecutive } from "../core2/offices-executives";
+import { allBills } from "../core2/modules/bodies-reads";
 
 /** A bill as the meeting and the desk show it: its real name, number, sponsor, remarks and votes; its sections are on the paper (Read the bill). */
 export function billItem(core: CoreState, bill: BillRow) {
@@ -719,12 +719,7 @@ const DEALS = ["favor", "back-their-item"] as const;
 
 /** The player's own bills drafted and waiting for a vote. */
 function pendingBills(api: ReturnType<typeof coreAPI>, personId: string) {
-  return (
-    api
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("bills")
-      .rows() as unknown as BillRow[]
-  )
+  return (allBills(api) as unknown as BillRow[])
     .filter((b) => b.sponsorId === personId && b.status === "drafted")
     .sort((a, b) => a.id.localeCompare(b.id));
 }
