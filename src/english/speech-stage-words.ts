@@ -20,13 +20,13 @@ export type { Fact };
 const BANK = stagesJson as unknown as { parts: BankPart[] };
 
 /** The bank's version, for the renderer's stable pick. */
-export const SPEECH_STAGES_VERSION = "words-speech-stages-v1";
+const SPEECH_STAGES_VERSION = "words-speech-stages-v1";
 
 /**
  * The pieces that may word one stage role ("opener", "core:work", ...), as
  * renderer variants: every piece the owner's grades leave in.
  */
-export function speechStageVariants(role: string): Variant[] {
+function speechStageVariants(role: string): Variant[] {
   return admittedParts(BANK.parts, (part) =>
     part.uses.some((use) => use.subject === "stage" && use.role === role),
   ).map((part) => ({

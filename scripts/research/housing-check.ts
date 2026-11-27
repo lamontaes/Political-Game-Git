@@ -4,7 +4,8 @@
  *
  * - eviction steps: every field read from a place's statute text
  *   (data/research/world/eviction-statute-reads-2026.json) is the value in
- *   the place's row of src/core2/data/housing/housing.json, every read is
+ *   the place's eviction steps the housing engine reads (EVICTION_STEPS,
+ *   from data/research/housing/eviction-steps-2026.json), every read is
  *   the law in force on the game's opening day (a later change is kept as a
  *   dated laterLaw row the engine does not read yet), and a row is "high"
  *   confidence exactly when all four of its steps were read.
@@ -29,6 +30,7 @@
  * Run: node --import tsx scripts/research/housing-check.ts
  */
 import housing from "../../src/core2/data/housing/housing.json" with { type: "json" };
+import { EVICTION_STEPS } from "../../src/core2/modules/housing";
 import foreclosureData from "../../src/core2/data/housing/foreclosure.json" with { type: "json" };
 import shelterData from "../../src/core2/data/housing/shelter-beds.json" with { type: "json" };
 import evictionReads from "../../data/research/world/eviction-statute-reads-2026.json" with { type: "json" };
@@ -66,7 +68,7 @@ interface EvictionPlace {
 }
 
 function checkEviction(): void {
-  const rows = housing.eviction as unknown as Record<
+  const rows = EVICTION_STEPS as unknown as Record<
     string,
     Record<string, unknown> & { confidence: string; estimatedFields: string[] }
   >;
@@ -80,7 +82,7 @@ function checkEviction(): void {
   for (const [usps, place] of Object.entries(places)) {
     const row = rows[usps];
     if (!row) {
-      fail(`eviction: ${usps} has no row in housing.json`);
+      fail(`eviction: ${usps} has no eviction steps`);
       continue;
     }
     for (const read of place.readOct23) {
@@ -88,7 +90,7 @@ function checkEviction(): void {
         fail(`eviction: ${usps} ${read.field} lacks a quote, URL or statute`);
       if (row[read.field] !== read.value)
         fail(
-          `eviction: ${usps} ${read.field} is ${String(row[read.field])} in housing.json, read ${String(read.value)}`,
+          `eviction: ${usps} ${read.field} is ${String(row[read.field])} in the eviction steps, read ${String(read.value)}`,
         );
       if (row.estimatedFields.includes(read.field))
         fail(`eviction: ${usps} ${read.field} read but still estimated`);

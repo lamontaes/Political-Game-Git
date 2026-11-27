@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
-export type PlaceholderPath = "money" | "law" | "government" | "other";
+type PlaceholderPath = "money" | "law" | "government" | "other";
 
 /**
  * The three ways the code says a number is not a researched fact. A line can
@@ -59,7 +59,7 @@ const KIND_PATTERNS: readonly (readonly [MarkerKind, RegExp])[] = [
   ["unresearched", /unresearched|not researched/i],
 ];
 
-export function markerKinds(line: string): MarkerKind[] {
+function markerKinds(line: string): MarkerKind[] {
   return KIND_PATTERNS.filter(([, pattern]) => pattern.test(line)).map(
     ([kind]) => kind,
   );
