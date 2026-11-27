@@ -30,7 +30,7 @@ import type {
   PersonId,
   Source,
 } from "../types";
-import type { HistoryModule, HistoryRow, HistorySource } from "../past";
+import type { HistoryRow, HistorySource } from "../past";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain, lawInForce } from "./laws";
@@ -253,7 +253,7 @@ const OFFICE_DAY_HISTORY: HistorySource = {
   },
 };
 
-export const OFFICE_DAY_MODULE: CoreModule & HistoryModule = {
+export const OFFICE_DAY_MODULE: CoreModule = {
   id: OFFICE_DAY_MODULE_ID,
   // A plain field, not a getter: the finance engine's read check walks the
   // modules and refuses an accessor (src/core2/finance-plan.ts, directRead).
@@ -549,9 +549,7 @@ const nextMeeting = (api: CoreAPI, officeId: string, after: string) =>
   nextOnRule(api, officeId, after, lawChain(api).countyGeoids[0]);
 
 const dayOffset = (date: string, days: number) =>
-  new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000)
-    .toISOString()
-    .slice(0, 10);
+  addDays(makeIsoDate(date), days);
 
 /**
  * Put the body's next meeting after `after` on the calendar: the agenda is

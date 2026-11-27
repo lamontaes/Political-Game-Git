@@ -15,7 +15,7 @@ import {
 } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
-import { queueRelationshipDetail } from "./decision-detail";
+import { index, queueRelationshipDetail, retainLog } from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
 import { isExperiencedKey, queueExperience } from "./knowledge-retention";
 import { queueEventId } from "./event-id-retention";
@@ -35,7 +35,6 @@ import { rehourCountedJobs, rerateCountedJobs } from "./residents-economy";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
 import { forgetTraitLean } from "./trait-lean";
-import { index, retainLog } from "./retain-log";
 export { retainLog };
 import { giveHealthRecord } from "./modules/health";
 import { pastForLater } from "./pre-start";

@@ -6,7 +6,7 @@
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { govReport } from "./gov-test-report";
+import { govReport } from "../../scripts/core2/gov-test-report";
 import { buildBenchWorld } from "../bench/world";
 import { coreAPI } from "./state";
 import { personLean } from "./campaign-views";

@@ -72,10 +72,24 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/families.test.ts"),
   },
   {
+    id: "engine-tables",
+    rule: "One engine does not open another engine's records: no new module table opened, row put or removed, state map written or state row edited in place from another family; the counts only shrink.",
+    readMore:
+      "scripts/guards/engine-tables.ts, its header; tests/guards/engine-tables-baseline.json",
+    command: vitest("tests/guards/engine-tables.test.ts"),
+  },
+  {
     id: "duplicate-exports",
     rule: "Two engine families must not define an exported function with the same name and body.",
     readMore: "docs/design/guards.md, One engine per mechanic",
     command: vitest("tests/guards/duplicate-exports.test.ts"),
+  },
+  {
+    id: "core-imports-no-engine",
+    rule: "The core imports no engine; engines plug in: no file of the core family imports a file of an engine family, and the counts only shrink.",
+    readMore:
+      "tests/guards/core-imports-no-engine.test.ts, its header; tests/guards/families.json, the core family",
+    command: vitest("tests/guards/core-imports-no-engine.test.ts"),
   },
   {
     id: "two-seeds-differ",
@@ -103,6 +117,13 @@ export const GUARDS: readonly Guard[] = [
     readMore:
       "tests/guards/one-history-proxies.json, its about line; docs/coordination/OWNER-DECISIONS.md, One history",
     command: vitest("tests/guards/one-history.test.ts"),
+  },
+  {
+    id: "determinism",
+    rule: "Determinism holds: game code reads no Math.random, randomBytes, randomUUID, Date.now, performance.now or argument-less new Date() outside the dev panels and the play server; the tools still in src only shrink.",
+    readMore:
+      "tests/guards/determinism.test.ts, its header; the core audit, row K11",
+    command: vitest("tests/guards/determinism.test.ts"),
   },
   {
     id: "scene-pictures",

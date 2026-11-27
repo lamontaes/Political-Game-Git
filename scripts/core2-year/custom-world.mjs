@@ -11,7 +11,7 @@ const args = process.argv.slice(2);
 const value = (name, fallback) =>
   args.includes(name) ? args[args.indexOf(name) + 1] : fallback;
 const at = (path) => import(pathToFileURL(resolve(process.cwd(), path)).href);
-const { generatedOpening } = await at("src/core2/tooling/generated-world.ts");
+const { generatedOpening } = await at("src/core2/generated-world.ts");
 const { drawPlace } = await at("scripts/core2-year/place.ts");
 const { createLifeCore, advanceCore } = await at("src/core2/life.ts");
 const { corePlaceByKey } = await at("src/core2/place-lookup.ts");

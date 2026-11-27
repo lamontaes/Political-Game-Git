@@ -57,12 +57,7 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
-import {
-  historyOf,
-  type HistoryModule,
-  type HistoryRow,
-  type HistorySource,
-} from "../past";
+import { historyOf, type HistoryRow, type HistorySource } from "../past";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { personLean } from "./campaigns";
@@ -464,7 +459,7 @@ export function sponsoredBills(core: CoreState, personId: string): BillRow[] {
     );
 }
 
-export const LEGISLATURE_MODULE: CoreModule & HistoryModule = {
+export const LEGISLATURE_MODULE: CoreModule = {
   id: LEGISLATURE_MODULE_ID,
   history: BILLS_HISTORY,
   state: {
@@ -2634,11 +2629,7 @@ export function effectiveRule(
     ...base,
     kind: "days-after-adoption",
     days,
-    date: new Date(
-      Date.parse(`${api.state.date}T00:00:00Z`) + days * 86_400_000,
-    )
-      .toISOString()
-      .slice(0, 10),
+    date: addDays(makeIsoDate(api.state.date), days),
     cite: "campaigns parameter ordinanceEffectiveDays",
   };
 }

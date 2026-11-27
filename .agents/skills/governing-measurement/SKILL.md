@@ -16,7 +16,7 @@ Phase A's done-when is a count over drawn places (path-check wins a council seat
 
 ## Path-check runners
 
-- **What it is.** `src/bench/path-check.ts` is the headless New Game life. It files where the player may, campaigns, votes and governs, and prints a log. The diagnostic lines are TALLY (totals, named and counted), PLEDGES (door yeses and how they voted), APPEAL (each part of the vote, averaged, for the player and the leading rival), INCUMBENTS (per level: held, ran, won, contested, won contested), and PETITION-DAY and PETITION-DUE on stderr. One place takes 25 to 60 minutes and 6 to 8 GB.
+- **What it is.** `tests/golden-path/path-check.ts` is the headless New Game life. It files where the player may, campaigns, votes and governs, and prints a log. The diagnostic lines are TALLY (totals, named and counted), PLEDGES (door yeses and how they voted), APPEAL (each part of the vote, averaged, for the player and the leading rival), INCUMBENTS (per level: held, ran, won, contested, won contested), and PETITION-DAY and PETITION-DUE on stderr. One place takes 25 to 60 minutes and 6 to 8 GB.
 - **Measurement branches.** `governing/measure-mN` is current main, plus the open PRs being measured, plus diagnostic-only commits cherry-picked onto it. It is never a PR. Name its head in every brief.
 - **The brief, exactly** (send the commands, not a description):
   1. `git fetch origin <branch> && git checkout <branch> && git reset --hard origin/<branch>`, then check that `git log -1 --format=%h` prints the head you named.

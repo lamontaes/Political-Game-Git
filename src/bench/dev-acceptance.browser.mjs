@@ -9,7 +9,7 @@
 import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
 import { chromium } from "playwright";
-import { devModeOn } from "./dev-setup.mjs";
+import { devModeOn } from "../../tests/support/dev-setup.mjs";
 const SHOTS = process.env.SHOTS_DIR;
 if (SHOTS) mkdirSync(SHOTS, { recursive: true });
 const browser = await chromium.launch({
