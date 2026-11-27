@@ -1912,7 +1912,9 @@ export function layOff(
     personIds: full ? [job.personId] : [],
     placeId,
     source: source(api, "A layoff decided from the business's books."),
-    publicRecord: false,
+    // An employer's decision about a group (a staff cut, a closure) is the town's news; one worker
+    // let go by the turnover pull (the everyday JOLTS pace) is not, and stays private.
+    publicRecord: values.turnoverPull === undefined,
     topic: organizationId,
     // Being fired is a life change (Holmes and Rahe, 47 units); how hard it
     // lands is the person's own appraisal (emotion.ts reads their traits).
