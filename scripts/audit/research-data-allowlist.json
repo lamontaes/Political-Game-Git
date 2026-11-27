@@ -14,6 +14,10 @@
       "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
     },
     {
+      "file": "data/research/business/bds-job-flows-2023.json",
+      "reason": "Census BDS 2023 job creation and destruction by firm size: raw calibration evidence that business openings and closings are checked against (assignments: Past and Day One, item 2). Its only reader, a proof script, was retired on the train (a51bc9e8); no game code reads the table."
+    },
+    {
       "file": "data/research/business/roadmap-r8-PR.json",
       "reason": "Raw BDS business-dynamics rows for Puerto Rico, the evidence the business-opening and closing rates cite (docs/research/requests/businesses-owners-and-wealth.json). Its only readers were the roadmap M1-08 check, which since 622a9b251e tests openings and closings by record and no longer reads the state's BDS rates."
     },
@@ -143,7 +147,7 @@
     },
     {
       "prefix": "data/research/housing/",
-      "files": 7,
+      "files": 6,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {

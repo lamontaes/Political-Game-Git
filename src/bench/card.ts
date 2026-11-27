@@ -1,5 +1,5 @@
 import { governmentProperName } from "../core2/government-proper-name";
-import { servingTermsOf } from "../core2/modules/offices";
+import { servingTermsOf, TERM_HELD } from "../core2/modules/offices";
 import {
   jobTitleSaid,
   officeInSentence,
@@ -465,19 +465,39 @@ function historyLines(
       });
   // An official's earlier terms of the same seat, each on its own term record.
   if (other.id.startsWith("official:")) {
-    const rows = coreAPI(core)
-      .moduleState(OFFICES)
-      .table("terms")
-      .rows() as unknown as TermLike[];
-    const own = rows.find(
-      (row) => row.id === other.id.slice("official:".length),
-    );
-    if (own)
+    const terms = coreAPI(core).moduleState(OFFICES).table("terms");
+    const own = terms.get(other.id.slice("official:".length)) as unknown as
+      TermLike | undefined;
+    if (own) {
+      // Their terms as the history tells them: the seat's, and the person's
+      // own in any other seat (a President's years as vice president), each
+      // opened by its id.
+      const ids = new Set(
+        [
+          ...historyOf(
+            core,
+            { nation: true },
+            { kinds: [TERM_HELD], about: own.seatId },
+          ),
+          ...(own.personId
+            ? historyOf(
+                core,
+                { person: own.personId as PersonId },
+                { kinds: [TERM_HELD] },
+              )
+            : []),
+        ].map((event) => event.id),
+      );
+      const rows = [...ids].flatMap((id) => {
+        const term = terms.get(id) as unknown as TermLike | undefined;
+        return term ? [term] : [];
+      });
       lines.push(
         ...officialLines(core, rows, own).filter(
           (line) => line.recordId !== own.id,
         ),
       );
+    }
   }
   return lines;
 }

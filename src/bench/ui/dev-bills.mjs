@@ -1,8 +1,8 @@
-/* global fetch */
 // Dev mode's bills, on the Government tab: pick a body and a member, introduce a bill through the
 // game's own drafting, then pass or defeat it at a margin you pick (every member votes through the
 // game's own vote), with the executive signing, vetoing or deciding as the game does, and an
 // override margin for a veto. Words are control names and record data only.
+import { sendDevRequest as send } from "./dev-request.mjs";
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { select, numberBox, statusLine } from "./fields.mjs";
@@ -20,16 +20,6 @@ export const devPanelsRow = (...sections) =>
 
 /** The last result line, kept across the sheet's redraws. */
 let lastResult = "";
-
-async function send(path, input) {
-  const response = await fetch(`/api/dev/${path}`, {
-    method: input ? "POST" : "GET",
-    ...(input ? { body: JSON.stringify(input) } : {}),
-  });
-  const value = await response.json();
-  if (!response.ok) throw new Error(value.error);
-  return value;
-}
 
 /** The bills panel. `labels` is controls.devBills; `onDone()` refreshes the game's screens. */
 export async function devBillsPanel({ labels, onDone }) {

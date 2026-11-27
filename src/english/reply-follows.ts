@@ -45,7 +45,7 @@ export function tableOf(
 }
 
 /** The store's "no" verdicts (each about [line before, reply]) as reply to lines before. */
-export function replyTableOf(
+function replyTableOf(
   no: Readonly<Record<string, NoVerdict>>,
 ): ReplyFollowsTable {
   const byReply: Record<string, string[]> = {};

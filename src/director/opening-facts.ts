@@ -49,6 +49,8 @@ export interface AddressPoint {
   readonly to: string;
   /** Whether the President is for it or against it; a year point has no stance to stand against. */
   readonly stance?: "for" | "against";
+  /** Whether the law the point is about is already in force, so a listener says keep or undo, never pass (pre-grade, Nov 24). */
+  readonly inForce?: boolean;
   /** The ids the address's sentences on it stand on. */
   readonly sourceRecordIds: readonly string[];
 }
@@ -62,6 +64,7 @@ interface PointSentence {
     readonly about: string;
     readonly to: string;
     readonly stance: "for" | "against";
+    readonly inForce?: boolean;
   };
 }
 
@@ -97,6 +100,7 @@ export function addressPoints(opening: {
       about?: string;
       to?: string;
       stance?: "for" | "against";
+      inForce?: boolean;
       ids: Set<string>;
     }
   >();
@@ -124,6 +128,11 @@ export function addressPoints(opening: {
       : sentence.facts.includes("stance-against")
         ? "against"
         : sentence.stand?.stance;
+    row.inForce ??= sentence.facts.includes("law-in-force")
+      ? true
+      : sentence.facts.includes("law-not-in-force")
+        ? false
+        : sentence.stand?.inForce;
   }
   // The outline's own record of each point fills what the sentences left
   // out: a speech that only asks to be held to a question names no stance
@@ -160,6 +169,7 @@ export function addressPoints(opening: {
               about: row.about,
               to: row.to,
               stance: row.stance,
+              ...(row.inForce !== undefined ? { inForce: row.inForce } : {}),
               sourceRecordIds: [...row.ids],
             },
           ]

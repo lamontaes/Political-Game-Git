@@ -3,7 +3,6 @@ import { existsSync, readFileSync } from "node:fs";
 import {
   ANCHOR_PATHS,
   AnchorHistoryError,
-  atomicWriteFile,
   isAnchorId,
   issuanceOf,
   siteDigest,
@@ -12,7 +11,6 @@ import {
   unrecoverableIssuance,
   type AllocationHistory,
   type AnchorIssuance,
-  type LiveBinding,
 } from "./anchor-history";
 import type { ScannedLiteral } from "./scan";
 
@@ -47,8 +45,8 @@ import type { ScannedLiteral } from "./scan";
  */
 
 /** One third of the coupled authoritative set; see `anchor-history.ts`. */
-export const ANCHOR_FILE = ANCHOR_PATHS.anchors;
-export const ANCHOR_SCHEMA = 1;
+const ANCHOR_FILE = ANCHOR_PATHS.anchors;
+const ANCHOR_SCHEMA = 1;
 
 export interface ComputedAnchor {
   /** Minted once, never recomputed. Survives rewording. */
@@ -110,22 +108,6 @@ export function contextRevisionOf(
  */
 export function siteOf(anchor: ComputedAnchor): string {
   return siteDigest(anchor.sourcePath, anchor.symbol, anchor.occurrence);
-}
-
-/** The live sidecar reduced to what allocation history can be checked against. */
-export function liveBindingsOf(
-  anchors: readonly ComputedAnchor[],
-): LiveBinding[] {
-  return anchors.map((anchor) => ({
-    id: anchor.anchor,
-    site: siteOf(anchor),
-    where: `${anchor.sourcePath} ${anchor.symbol} #${anchor.occurrence}`,
-  }));
-}
-
-/** True when the sidecar file is actually present. */
-export function anchorFileExists(path: string = ANCHOR_FILE): boolean {
-  return existsSync(path);
 }
 
 /**
@@ -286,24 +268,11 @@ export function loadAnchorFile(path: string = ANCHOR_FILE): AnchorFile {
   };
 }
 
-export function writeAnchorFile(
-  file: AnchorFile,
-  path: string = ANCHOR_FILE,
-): void {
-  const ordered = [...file.anchors].sort((left, right) =>
-    left.anchor < right.anchor ? -1 : left.anchor > right.anchor ? 1 : 0,
-  );
-  atomicWriteFile(
-    path,
-    `${JSON.stringify({ ...file, anchors: ordered }, null, 2)}\n`,
-  );
-}
-
 /* -------------------------------------------------------------------------- */
 /* Matching                                                                    */
 /* -------------------------------------------------------------------------- */
 
-export interface AnchorMatch {
+interface AnchorMatch {
   readonly literal: ScannedLiteral;
   readonly anchor: ComputedAnchor;
   /** True when the anchor's recorded text is exactly this literal's. */

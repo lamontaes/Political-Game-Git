@@ -29,7 +29,7 @@ export function parseVersion(text: string): SemanticVersion {
   };
 }
 
-export function formatVersion(version: SemanticVersion): string {
+function formatVersion(version: SemanticVersion): string {
   return `${version.major}.${version.minor}.${version.patch}`;
 }
 

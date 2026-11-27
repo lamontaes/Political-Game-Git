@@ -272,18 +272,6 @@
       "what": "Every picture the game draws"
     },
     {
-      "path": "calendar-day.png",
-      "what": "Written by the calendar browser check; the slim-down moves its output out of the top level"
-    },
-    {
-      "path": "calendar-holidays-hidden.png",
-      "what": "Written by the calendar browser check; the slim-down moves its output out of the top level"
-    },
-    {
-      "path": "calendar-today.png",
-      "what": "Written by the calendar browser check; the slim-down moves its output out of the top level"
-    },
-    {
       "path": "data",
       "what": "The words banks, the research data and the source files the world is built from"
     },
@@ -1813,6 +1801,72 @@
       "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
       "when": "2026-11-24",
       "why": "The line-register guard's comment named this test; it is not in the repository."
+    },
+    {
+      "old": "calendar-day.png",
+      "now": "Generated calendar proof in the ignored test-results directory",
+      "when": "2026-11-27",
+      "why": "Review captures belong to their pull requests, not the repository."
+    },
+    {
+      "old": "calendar-holidays-hidden.png",
+      "now": "Generated calendar proof in the ignored test-results directory",
+      "when": "2026-11-27",
+      "why": "Review captures belong to their pull requests, not the repository."
+    },
+    {
+      "old": "calendar-today.png",
+      "now": "Generated calendar proof in the ignored test-results directory",
+      "when": "2026-11-27",
+      "why": "Review captures belong to their pull requests, not the repository."
+    },
+    {
+      "old": "src/core2/trait-effects",
+      "now": "data/content/trait-act-pulls.json and data/content/trait-decisions.json, read by src/core2/choice.ts and src/core2/trait-decisions.ts",
+      "when": "2026-11-27",
+      "why": "The old trait-effects system was read by nothing in play; a trait reaches decisions through data/content/trait-act-pulls.json and data/content/trait-decisions.json (docs/systems/traits.md)."
+    },
+    {
+      "old": "scripts/trait-effects",
+      "now": "nothing stands in its place: it generated the index of src/core2/trait-effects, deleted with it",
+      "when": "2026-11-27",
+      "why": "The old trait-effects system was read by nothing in play; a trait reaches decisions through data/content/trait-act-pulls.json and data/content/trait-decisions.json (docs/systems/traits.md)."
+    },
+    {
+      "old": "data/content/decision-option-acts.json",
+      "now": "data/content/trait-decisions.json holds each decision's options and the act kinds each expresses",
+      "when": "2026-11-27",
+      "why": "The old trait-effects system was read by nothing in play; a trait reaches decisions through data/content/trait-act-pulls.json and data/content/trait-decisions.json (docs/systems/traits.md)."
+    },
+    {
+      "old": "src/core2/personality-catalogue.generated.ts",
+      "now": "src/core2/data/personality-scales.json, locked to its research answer by tests/personality-catalogue-data.test.ts",
+      "when": "2026-11-27",
+      "why": "Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code."
+    },
+    {
+      "old": "scripts/traits/personality-catalogue.ts",
+      "now": "tests/personality-catalogue-data.test.ts holds its derivation",
+      "when": "2026-11-27",
+      "why": "Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code."
+    },
+    {
+      "old": "tests/personality-catalogue-generated.test.ts",
+      "now": "tests/personality-catalogue-data.test.ts",
+      "when": "2026-11-27",
+      "why": "Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code."
+    },
+    {
+      "old": "src/core2/household-mix.generated.ts",
+      "now": "src/core2/data/household-mix.json, locked to the Census extracts by tests/source/household-mix.test.ts",
+      "when": "2026-11-27",
+      "why": "Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code."
+    },
+    {
+      "old": "scripts/source/regional-money/export-household-mix.ts",
+      "now": "tests/source/household-mix.test.ts holds its derivation",
+      "when": "2026-11-27",
+      "why": "Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code."
     }
   ]
 }

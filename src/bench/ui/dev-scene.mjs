@@ -1,7 +1,8 @@
-/* global fetch */
 // Dev mode's Scenes panel, on the Calendar beside Run until: every situation type the director
 // stages, under what dev mode can do for it (bring it about now, run the world until its cause
 // record comes, or nothing yet). Control names and record data only.
+import { sendDevRequest as send } from "./dev-request.mjs";
+
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { select, statusLine } from "./fields.mjs";
@@ -11,16 +12,6 @@ function stateRow(state, buttons) {
   const row = el("div", { className: "acts" }, ...buttons);
   row.dataset.state = state;
   return row;
-}
-
-async function send(path, input) {
-  const response = await fetch(`/api/dev/${path}`, {
-    method: input ? "POST" : "GET",
-    ...(input ? { body: JSON.stringify(input) } : {}),
-  });
-  const value = await response.json();
-  if (!response.ok) throw new Error(value.error);
-  return value;
 }
 
 /** The last result line, kept across the sheet's redraws. */

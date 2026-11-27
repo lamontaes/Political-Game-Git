@@ -1,0 +1,31 @@
+{
+  "id": "the-census-hands-each-state-its-population-for-redrawing-districts",
+  "kind": "detail",
+  "summary": "After each census the Census Bureau gives each state its population counts, and the state redraws its districts.",
+  "realLife": "Public Law 94-171 requires the Census Bureau to furnish population tabulations to each state, which the states use to redraw their districts; the Bureau's redistricting program delivers them to state officials.",
+  "sources": [
+    "U.S. Census Bureau, Decennial Census P.L. 94-171 Redistricting Data: https://www.census.gov/programs-surveys/decennial-census/about/rdo/summary-files.html",
+    "U.S. Census Bureau, Redistricting Data Program Management: https://www.census.gov/programs-surveys/decennial-census/about/rdo/program-management.html"
+  ],
+  "fits": ["loading"],
+  "slots": ["state"],
+  "gates": [],
+  "weights": {},
+  "inGame": "the elections module's district rows, read by the loading screen's progress step for elections (loading-steps.elections).",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A state redraws its districts between censuses.",
+      "pulledBy": "a state law or a court order",
+      "writesBack": "new district rows with a date that is not a census year"
+    },
+    {
+      "turn": "partial",
+      "what": "A state keeps its old lines after a census.",
+      "pulledBy": "a population change too small to move any line",
+      "writesBack": "district rows unchanged across the census"
+    }
+  ],
+  "issues": ["none"]
+}

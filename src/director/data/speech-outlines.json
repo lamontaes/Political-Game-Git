@@ -443,6 +443,95 @@
     "world": "our place in the world",
     "trade": "trade and the jobs it brings"
   },
+  "themeWordings": {
+    "about": "A theme's plain wordings, chosen by the speaker's traits (src/director/theme-words.ts): the full phrase for a studious or duty-bound speaker, the short name for a practical or skeptical one, the people it touches for a nurturing one. Each fits after \"on\", \"about\" and \"was\". TUNABLE wording, read in the composed addresses and diaries.",
+    "transit": [
+      "how people get around",
+      "getting around",
+      "buses, roads and the trip to work"
+    ],
+    "taxes": [
+      "what families pay in taxes",
+      "the taxes families pay",
+      "the tax bill"
+    ],
+    "health": [
+      "what health care costs",
+      "the cost of health care",
+      "care when people get sick"
+    ],
+    "safety-net": [
+      "how we help people through hard times",
+      "help for people in hard times",
+      "families who fall on hard times"
+    ],
+    "schools": ["our schools", "the schools", "what our kids learn"],
+    "budget": [
+      "how we pay our bills",
+      "the budget",
+      "what we spend and what we owe"
+    ],
+    "housing": [
+      "the cost of a place to live",
+      "rent and housing",
+      "a home people can afford"
+    ],
+    "wages": ["what work pays", "pay for a day's work", "wages"],
+    "self-rule": [
+      "who makes the rules where you live",
+      "local control",
+      "who decides for our towns"
+    ],
+    "unions": ["workers and their unions", "unions", "workers who organize"],
+    "justice": [
+      "how we keep people safe and treat them fairly",
+      "public safety",
+      "safe streets and fair courts"
+    ],
+    "consumers": [
+      "how families are treated when they buy and borrow",
+      "fair lending",
+      "a fair deal for borrowers"
+    ],
+    "energy": [
+      "the power we use and what it costs",
+      "energy",
+      "the power bill"
+    ],
+    "land": ["our land and water", "land and water", "the land we share"],
+    "immigration": [
+      "who comes to this country",
+      "immigration",
+      "the border and who comes in"
+    ],
+    "guns": ["guns and safety at home", "guns", "gun safety"],
+    "elections": [
+      "how we run our elections",
+      "our elections",
+      "how we count the vote"
+    ],
+    "ethics": [
+      "trust in government",
+      "honest government",
+      "whether people can trust us"
+    ],
+    "civil-rights": [
+      "fair treatment at work and at home",
+      "fair treatment",
+      "equal treatment under the law"
+    ],
+    "abortion": ["abortion"],
+    "world": [
+      "our place in the world",
+      "the wider world",
+      "how we stand with other countries"
+    ],
+    "trade": [
+      "trade and the jobs it brings",
+      "trade",
+      "what we buy and sell abroad"
+    ]
+  },
   "themeShort": {
     "about": "A theme said short, for a frame that names it after the speech has said it in full (a close): at most themeShortWords words (src/director/speech-closes-fit.test.ts). TUNABLE wording, checked by reading the closes.",
     "transit": "getting around",
@@ -467,6 +556,11 @@
     "abortion": "abortion",
     "world": "the wider world",
     "trade": "trade"
+  },
+  "nationWords": {
+    "about": "The country's name as a national address says it (the Story lead, Nov 24: a blessing or a send-off names the country, and no place record holds the nation's name). `nation` is the short name a speaker blesses; `nation-full` the formal one.",
+    "nation": "America",
+    "nation-full": "the United States"
   },
   "todaySlots": ["", "-second", "-third"],
   "todaySlotsAbout": "The slot endings of the first, second and third wordings of how a question stands today ({today}, {today-second}, {today-third}); a slot name holds no digit, so the bank test's no-figure check reads its text. A fourth wording is not offered: the bank says three.",
@@ -495,6 +589,19 @@
   "themeShortNoOn": {
     "about": "Themes whose short name does not read after \"On\" (the words lead, Nov 14, round 4): a close for one of them says no theme tag. A tag (\"On X, ...\") is said at most once in an address, so a close that follows a meaning line says none either.",
     "themes": ["safety-net"]
+  },
+  "themeShortPlural": {
+    "about": "Themes whose short name is plural (\"hard times\", \"taxes\"): the fact theme-short-plural is set with them, so a line whose verb agrees with {theme-short} is written for one number or the other (the pre-grade of Nov 24: \"If hard times matters\").",
+    "themes": [
+      "taxes",
+      "safety-net",
+      "schools",
+      "self-rule",
+      "unions",
+      "land",
+      "guns",
+      "elections"
+    ]
   },
   "themeShortWords": {
     "value": 3,

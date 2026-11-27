@@ -1,1 +1,0 @@
-release:check — docs/release/changes/ci-changed-tests-only.md: player-facing prose contains merge bookkeeping ("merge"). Internal identifiers belong in the traceability ledger, not in patch notes.
