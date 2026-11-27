@@ -46,6 +46,7 @@ import { revenueGivenUp } from "../budgets-treasury";
 import { townConcernShare } from "./meetings";
 import { sessionPlaceKeys, sessionYear } from "../state-session-calendar";
 import { stateActEffectiveDate } from "./laws";
+import { lawRowById } from "./laws-reads";
 import { leaderOf, presidingOfficer } from "./leadership";
 import { officialOf, officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";
@@ -57,7 +58,7 @@ import type {
   Source,
 } from "../types";
 import { nextMeeting } from "./offices";
-import { registerSittingCalendar, type SittingDay } from "../closeness";
+import { registerSittingCalendar, type SittingDay } from "../sitting-closeness";
 import {
   addDays,
   makeIsoDate,
@@ -65,11 +66,8 @@ import {
 } from "../kernel/dates";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
-import {
-  campaignParameter,
-  personStance,
-  PLATFORM_QUESTIONS,
-} from "./elections";
+import { personStance } from "./elections";
+import { campaignParameter, PLATFORM_QUESTIONS } from "../campaign-data";
 import {
   enactLaw,
   lastEnactment,
@@ -80,7 +78,6 @@ import {
   questionSettled,
   type SettledQuestion,
 } from "./laws";
-import type { LawRowInput } from "./laws";
 import stateReach from "../data/places/state-reach.json" with { type: "json" };
 import {
   OFFICES_MODULE_ID,
@@ -97,7 +94,7 @@ import { seededUnit } from "../seeded";
 import { countryStateMonth, countryStates } from "./macro";
 import type { OfficeLevel } from "./offices";
 import { partySide } from "./offices";
-import { decisionLean, termOfLean } from "./people";
+import { decisionLean, termOfLean } from "../trait-decisions";
 import {
   authorityFor,
   beyondPower,
@@ -2110,8 +2107,7 @@ export function rollCallOf(
       }
     | undefined;
   if (seen) return seen;
-  const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
-    LawRowInput | undefined;
+  const row = lawRowById(api, lawId);
   const terms = row?.terms;
   if (!row || typeof terms?.session !== "string") return null;
   const count = String(terms.chambers ?? "").split("/")[chamberIndex];

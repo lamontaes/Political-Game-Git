@@ -31,12 +31,12 @@ import perDiemRows from "./data/office-day/state-legislator-per-diem.json" with 
 import { sessionYear, type SessionWindow } from "./state-session-calendar";
 import { registerModule } from "./state";
 import { decisionLean, leanedTerm } from "./trait-decisions";
+import { closenessBetween } from "./closeness";
 import {
-  closenessBetween,
   registerSittingCalendar,
   type SittingCalendar,
   type SittingDay,
-} from "./closeness";
+} from "./sitting-closeness";
 import { roomTime } from "./modules/people";
 import {
   chargeOfficeHours,
@@ -109,7 +109,7 @@ import {
   handleCase,
   ownCaseDecision,
 } from "./modules/constituent-cases";
-import { deliverSpeech, SPEECH_MODULE_ID } from "./modules/speech";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./modules/people";
 import {
   registerBillIntroduced,
   registerLeaderRefusalReader,

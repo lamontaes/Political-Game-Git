@@ -5,7 +5,7 @@
  * holds; the reason is the id's leading part.
  */
 import { countedPayment } from "./counted-money";
-import { RESIDENTS_KIND } from "./residents";
+import { RESIDENTS_KIND } from "./residents-constants";
 import type { CoreAPI, CoreState, PersonId, Source } from "./types";
 
 /** Moves `amountMinor` from one owner's cash to another's; never more than the payer holds. */

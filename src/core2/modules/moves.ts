@@ -49,7 +49,7 @@ import {
 } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
 import { sellHome } from "../housing-sale";
-import { endLivingPlan } from "../cost-of-living";
+import { endLivingPlan } from "./business";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { currentCloseness } from "../closeness";
 import {
@@ -57,7 +57,8 @@ import {
   destinationWeights,
   placeLeavingConditions,
 } from "./counted-moves";
-import { webReach, type Subject } from "../outcome-web-reach";
+import { webReach } from "../outcome-web-reach";
+import { type Subject } from "../laws-in-force";
 import { registerModule } from "../state";
 import { isDemoted } from "../counted-groups";
 import { townPlaceOf } from "./residents";
@@ -794,8 +795,8 @@ function action(id: string, leaving: boolean): ActionDefinition {
     ],
   };
 }
-export const MOVE_AWAY = action("move-away", true);
-export const STAY_PUT = action("stay-put", false);
+const MOVE_AWAY = action("move-away", true);
+const STAY_PUT = action("stay-put", false);
 
 /** Where they go: a relative living elsewhere, else the state the destination weighing ranks highest, else their own state. */
 function destinationFor(
