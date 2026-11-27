@@ -101,7 +101,11 @@ export {
   type CoverageSpell,
 } from "../law-reach/group-b-money";
 
-export const LAWS_MODULE_ID = "core2-laws-v1";
+// The module id lives with the read doors (laws-reads.ts), which import nothing
+// at run time, so a reader can use the doors without joining the laws engine's
+// import ring.
+export { LAWS_MODULE_ID } from "./laws-reads";
+import { LAWS_MODULE_ID } from "./laws-reads";
 const CHAIN_ID = "chain";
 /** The count of laws enacted in play, across every series: their order. */
 const ORDER_ID = "enactment-order";

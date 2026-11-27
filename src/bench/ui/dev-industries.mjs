@@ -133,4 +133,4 @@ async function devIndustriesPanel({ labels, send }) {
 }
 
 /** Its place: the Calendar sheet's dev panels (src/bench/ui/dev-views.mjs). */
-const slots = { calendar: devIndustriesPanel };
+export const slots = { calendar: devIndustriesPanel };
