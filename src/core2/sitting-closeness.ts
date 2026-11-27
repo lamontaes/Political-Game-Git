@@ -260,7 +260,12 @@ function nearestInService(
 function bodyToday(k: Kept, officeId: string): BodyToday {
   const held = k.today.get(officeId);
   if (held) return held;
-  const reader = readerFor(k.api, officeId)!;
+  const reader = readerFor(k.api, officeId);
+  // A body no installed engine reads yet (a world still being built lists a
+  // person's bodies before the engine that keeps them opens) has no seats
+  // here. It is not kept: the day's reads after the engine opens see the body.
+  if (!reader)
+    return { since: new Map(), earliest: k.date, known: new Map(), perDay: 0 };
   const seats = reader.seats(k.api, officeId);
   const body: BodyToday = {
     since: new Map(seats.map((s) => [s.personId, s.since] as const)),

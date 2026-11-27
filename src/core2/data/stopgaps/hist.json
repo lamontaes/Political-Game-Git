@@ -221,17 +221,6 @@
     "status": "open"
   },
   {
-    "id": "SG-HIST-century-local-leans",
-    "kind": "partial-model",
-    "file": "src/core2/electorate-century.ts",
-    "whatItFakes": "The played town's own offices (its mayor, council and county) stand where their state stands, moved by a seeded shift of the district spread, and are counted as a two-side race, not at the town's or county's own presidential vote or as the nonpartisan contests most of them are.",
-    "why": "The century runs states and districts only; a town's and a county's own vote history is not read into it, and a local seat carries no party label (a by-party body's day-one parties come from the town's lean, townBodyParties).",
-    "addedBy": "Past and Day One (claude/relaxed-darwin-g3rxyw-century-local)",
-    "addedAt": "2026-11-27",
-    "replacement": "The century counting the town and county places (their own 2024 results as the anchor for relationships only, not for levels), with nonpartisan seats counted without a party side.",
-    "status": "open"
-  },
-  {
     "id": "SG-HIST-century-district-sizes",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/electorate-century.ts",
