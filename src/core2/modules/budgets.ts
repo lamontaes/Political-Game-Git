@@ -20,7 +20,6 @@
  *   each government's account through the journal on payday.
  */
 import { taxIndexOf } from "../tax-index";
-import { budgetPassThroughs } from "../budgets-line-payers";
 import type { GovernmentLevel } from "../government-level";
 import { corePlaceByKey } from "../place-lookup";
 import { placeLocalGovernmentUnits } from "./executive";
@@ -96,6 +95,7 @@ import {
   openOutsideAccountOf,
   sameGovernment,
   landTaxChange,
+  grantPassThrough,
 } from "../budgets-treasury";
 import {
   federalJurisdictionId,
@@ -104,6 +104,7 @@ import {
 import { syncServiceCharges } from "../budgets-service-charges";
 export { chargedServicesOf } from "../budgets-service-charges";
 import { isFeeLevelSeries } from "../fee-levels";
+import { carriersOf, fieldsOf } from "../module-fields";
 
 export {
   budgetInForce,
@@ -466,6 +467,8 @@ const BUDGETS_MODULE: PreStartModule = {
   // The property tax terms in force, from the law, for the housing engine's bills.
   propertyTax: (api, placeId) => propertyTaxTerms(api, placeId),
   preStart: { phase: "government", run: budgetHistory },
+  // What a bill that moved a federal grant line adds to the line a state, county or town spends that grant on.
+  budgetPassThrough: grantPassThrough,
   state: {
     schemaVersion: 1,
     tables: {
@@ -1114,11 +1117,10 @@ function scheduleOutsideRevenue(api: CoreAPI, after: string): void {
  * Laws that set a budget line's level (a dedicated levy, a share of one line
  * moved to another) are read by the treasury each month it closes and each
  * year a budget is adopted, so the line it pays is the line the law in force
- * sets. Law reach registers what runs them.
+ * sets. The law reach's module carries what runs them (`standingLineLaws`).
  */
-let standingLineLaws: ((api: CoreAPI) => void) | null = null;
-export function registerStandingLineLaws(run: (api: CoreAPI) => void): void {
-  standingLineLaws = run;
+function runStandingLineLaws(api: CoreAPI): void {
+  for (const run of fieldsOf(api.state, "standingLineLaws")) run(api);
 }
 
 /**
@@ -1130,22 +1132,15 @@ export function registerStandingLineLaws(run: (api: CoreAPI) => void): void {
 function closeMonth(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "outside-revenue") return;
   remitPropertyTax(api, work.source);
-  standingLineLaws?.(api);
+  runStandingLineLaws(api);
   // stopgapId: SG-GOV-outside-revenue-monthly
   api.stopgap("SG-GOV-outside-revenue-monthly");
   closeTreasuries(api, work.source);
   // Standing programs a law has a treasury pay each month (a state's
-  // redistricting commission), registered by the engines that apply them.
-  for (const pay of monthlyPrograms) pay(api, work.source);
+  // redistricting commission), carried (`monthlyProgram`) by the modules of the engines that apply them.
+  for (const pay of fieldsOf(api.state, "monthlyProgram"))
+    pay(api, work.source);
   scheduleOutsideRevenue(api, api.state.date);
-}
-
-const monthlyPrograms: ((api: CoreAPI, source: Source) => void)[] = [];
-/** An engine registers a program its law has a treasury pay at each month's close. */
-export function registerMonthlyProgram(
-  pay: (api: CoreAPI, source: Source) => void,
-): void {
-  if (!monthlyPrograms.includes(pay)) monthlyPrograms.push(pay);
 }
 
 const GROCERY_EXEMPTION =
@@ -1667,7 +1662,7 @@ function passThroughOf(
   revenueMinor: Readonly<Record<string, number>>,
 ): Record<string, number> {
   const out: Record<string, number> = {};
-  for (const through of budgetPassThroughs)
+  for (const through of fieldsOf(api.state, "budgetPassThrough"))
     for (const [line, delta] of Object.entries(through(api, gov, revenueMinor)))
       if (delta !== 0) out[line] = (out[line] ?? 0) + delta;
   return out;
@@ -1937,23 +1932,18 @@ export function putBudget(api: CoreAPI, budget: BudgetRow): void {
   table(api, "budgets").put(budget as unknown as ModuleRow);
 }
 
-let councilBudgetVote:
-  ((api: CoreAPI, gov: GovernmentRow, fy: number) => BudgetRow | null) | null =
-  null;
-/** The legislature engine registers how a council votes its budget. */
-export function registerBudgetVote(
-  vote: (api: CoreAPI, gov: GovernmentRow, fy: number) => BudgetRow | null,
-): void {
-  councilBudgetVote = vote;
-}
-
-let councilBudgetHearing:
-  ((api: CoreAPI, gov: GovernmentRow, fy: number) => void) | null = null;
-/** The legislature engine registers how a council holds its public hearing on the budget it will vote. */
-export function registerBudgetHearing(
-  hearing: (api: CoreAPI, gov: GovernmentRow, fy: number) => void,
-): void {
-  councilBudgetHearing = hearing;
+/** How a council votes its budget: the legislature's module carries it (`budgetVote`), the first carrier answers. */
+function councilBudgetVote(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): BudgetRow | null {
+  const voted = carriersOf(api.state, "budgetVote")[0]?.budgetVote?.(
+    api,
+    gov,
+    fy,
+  );
+  return (voted as BudgetRow | null | undefined) ?? null;
 }
 
 /** The day a government's public hearing on its next budget falls: the hearing lead before the year starts. */
@@ -1992,20 +1982,12 @@ function holdBudgetHearing(
   const gov = table(api, "governments").get(
     work.sourceRecordIds[0]!,
   ) as unknown as GovernmentRow;
-  councilBudgetHearing?.(
+  // The legislature's module carries how a council holds its public hearing on the budget it will vote (`budgetHearing`).
+  carriersOf(api.state, "budgetHearing")[0]?.budgetHearing?.(
     api,
     gov,
     fiscalYearOf(api.state.date, gov.fiscalYearStart) + 1,
   );
-}
-
-let budgetVoteWaits:
-  ((api: CoreAPI, gov: GovernmentRow, fy: number) => boolean) | null = null;
-/** The legislature engine says when a body's meeting votes the year's budget instead of the calendar. */
-export function registerBudgetVoteWaits(
-  waits: (api: CoreAPI, gov: GovernmentRow, fy: number) => boolean,
-): void {
-  budgetVoteWaits = waits;
 }
 
 function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
@@ -2015,7 +1997,11 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   ) as unknown as GovernmentRow;
   const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
   // A body that meets votes its budget at its meeting that day (or already has).
-  if (budgetVoteWaits?.(api, gov, fy)) return;
+  // The legislature's module says when a body's meeting votes the year's budget instead of the calendar (`budgetVoteWaits`).
+  if (
+    carriersOf(api.state, "budgetVoteWaits")[0]?.budgetVoteWaits?.(api, gov, fy)
+  )
+    return;
   adoptYear(api, gov, fy, work.source);
 }
 
@@ -2043,7 +2029,7 @@ function adoptYear(
 ): void {
   // The town's council votes its own budget where the legislature engine runs.
   const enactedBefore = { ...enactedBudgetChanges(api, gov.id) };
-  const voted = councilBudgetVote?.(api, gov, fy) ?? null;
+  const voted = councilBudgetVote(api, gov, fy);
   let budget: BudgetRow;
   if (voted) budget = voted;
   else {
@@ -2052,7 +2038,7 @@ function adoptYear(
     budget = carriedBudget(api, gov, fy, { kind: "rule" });
   }
   // The year's budget carries what the laws that set a line's level say.
-  standingLineLaws?.(api);
+  runStandingLineLaws(api);
   // The notice names who adopted it: the body's vote, or the carry-forward rule.
   api.emit({
     id: `budget-adopted:${budget.id}`,

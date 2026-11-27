@@ -37,7 +37,7 @@ import {
 
 // Screens read a full person's circumstances through the views engine.
 export { fullLifeStake };
-import { stableHash, pairKey } from "../kernel/ids";
+import { stableHash } from "../kernel/ids";
 import { livedQuestion } from "./press";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
@@ -49,7 +49,7 @@ import {
   type StanceProfile,
 } from "./campaigns";
 import { personStance } from "./elections";
-import { currentCloseness } from "../closeness";
+import { feelingBetween } from "../closeness";
 import viewsJson from "../data/views/views.json" with { type: "json" };
 import drivesJson from "../data/drives.json" with { type: "json" };
 import type {
@@ -721,7 +721,8 @@ function direction(desiredChange: string): number {
 /**
  * A speaker's standing with a listener on a question, 0 to 1: how near their
  * views are (people trust those who think as they do), how close the two are
- * today, whether they share a party (half for anyone not tied to one), and
+ * today (less any grudge the listener holds, and never below none), whether
+ * they share a party (half for anyone not tied to one), and
  * how the speaker has voted on the question before (half with no record).
  * Each part slides; the weights are the views table's.
  */
@@ -783,12 +784,13 @@ export function standingWith(
       withTerm ? trust : nearTrust,
     );
   }
-  const tie =
-    groupCloseness === undefined
-      ? api.state.relationships.get(pairKey(listener.id, speakerId))
-      : undefined;
+  // How the listener feels about the speaker: the one read (the tie row, the
+  // hours other engines register for two people with no tie row, such as
+  // members who sit together, less the listener's grudge), floored at none so
+  // the term stays 0 to 1 inside its fitted weight.
   const closeness =
-    groupCloseness ?? (tie ? currentCloseness(api.state, tie) : v("zero"));
+    groupCloseness ??
+    Math.max(v("zero"), feelingBetween(api.state, listener.id, speakerId));
   const partyOf = (id: string) =>
     api.state.modules.has(PARTIES_STORE)
       ? ((

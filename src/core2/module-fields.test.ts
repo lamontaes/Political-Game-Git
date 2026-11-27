@@ -55,6 +55,8 @@ const FIELDS: (keyof CoreModule)[] = [
   "specialElections",
   "stopKinds",
   "boardAppointer",
+  "worldOpen",
+  "adOutlet",
 ];
 
 function world(): CoreState {
