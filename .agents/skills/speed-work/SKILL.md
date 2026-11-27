@@ -44,6 +44,7 @@ description: >
 - A behavior change (not a cut) gives the records proof's count of differing tables and why, and compares the item's own records one by one against main. On Nov 1 the evicted-counted change differed in 287 tables, because thousands fewer people were filled in, but the first removal day's 140 case ids and placements matched main exactly.
 - Pin one main for a batch of units, so one main baseline proof serves all of them. A unit stacked on another branch is proved against that branch's own proof, so only its own tables differ.
 - When a checker suspects a branch makes a test that fails by draw fail more often, prove it in the checker's own places: `speed:year --place <key> --years 1 --proof-out` on main and on the branch, one pair per place. Equal digests in every place settle it, and say more than rerunning the test (Nov 1: the drives branch in four places).
+- A byte-identical one-year proof covers only the paths its one world takes: on Nov 27 (Lawmaking 5) an import swapped to a same-named function (`reachParameter` exists in both law reach group A's records and group B's people file) read the wrong table, the proof stayed identical, and the `daily-register` guard failed with "Unknown law-reach parameter". After swapping an import where the name exists in more than one file, run the guards, not only the proof.
 
 ## Find exact cuts
 
