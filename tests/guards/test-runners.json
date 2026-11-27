@@ -12,11 +12,6 @@
       "reason": "node:test file; Vitest finds no suite in it."
     },
     {
-      "covers": "scripts/trait-effects/generate-manifest.test.mjs",
-      "runBy": "test:trait-effects",
-      "reason": "node:test file; Vitest finds no suite in it."
-    },
-    {
       "covers": "src/bench/place-selection.test.mjs",
       "runBy": "test:place-selection",
       "reason": "node:test file; Vitest finds no suite in it."
