@@ -317,176 +317,26 @@ export function placeLabel(placeId: string | undefined): string | null {
   return name ? stateInSentence(name) : null;
 }
 
+type HouseholdSetup = ReturnType<typeof householdSetup>;
+type SchoolRow = ReturnType<typeof schoolsAttended>[number];
+
 /**
- * The household's own story, read from the records the engines ran for the
- * years before the start (owner, Oct 28, 2026: "simulate to the birth
- * year"): the day the person and their partner set up home and the day their
- * parents did (`family.partnered`, the people engine), where the family came
- * from (the place of their recorded birth), a parent's new job they were old
- * enough to remember (the working-life run), the first school they attended
- * (the school engine's run), what the household's earners do now (their
- * jobs' records), and each parent and sibling the family records name. Each
- * moment cites its record's id; the place is named from the place records,
- * and a person only the writer knows by name is skipped.
+ * What each earner in the household does for work now, from the one reader the card and Travel
+ * tell it from, and what a parent's job meant to the person. The last step of `householdMoments`.
  */
-function householdMoments(
+function earnerMoments(
   core: Readonly<CoreState>,
   person: PersonState,
-): JournalMoment[] {
-  const history = (kind: string, personId: PersonId) =>
-    pastOf(core, personId, [kind]);
-  const made = madeWith(core, person.id);
-  // Each relative once, from the first family fact that names them.
-  const toldOf = new Set<string>();
-  const parentIds = new Set(
-    made
-      .filter((fact) =>
-        ["family:parent", "family:other-parent"].includes(fact.kind),
-      )
-      .map((fact) => fact.facts?.otherPersonId),
-  );
-  // The parents or siblings of one story, told together as one moment.
-  const familyGroups = new Map<string, PersonId[]>();
-  for (const fact of made) {
-    const id = fact.facts?.otherPersonId as PersonId | undefined;
-    const kin = id ? core.people.get(id) : undefined;
-    const parent = ["family:parent", "family:other-parent"].includes(fact.kind);
-    if (!kin?.alive || !(parent || fact.kind === "family:sibling")) continue;
-    const category = familyCategory(person, kin, parent);
-    const group = familyGroups.get(category) ?? [];
-    if (!group.includes(id!)) group.push(id!);
-    familyGroups.set(category, group);
-  }
-  const bornOn = makeIsoDate(person.birthDate);
-  const base = (id: string, date: string) => ({
-    id,
-    date: date as IsoDate,
-    causeId: id,
-    causeFactId: id,
-    hindsight: zero,
-    impact: zero,
-    echoes: [] as Moment["echoes"],
-  });
-  const placeOf = (placeId: string | undefined, recordId: string): Facts => {
-    const text = placeLabel(placeId);
-    return text ? { place: { text, sourceRecordIds: [recordId] } } : {};
-  };
-  const moments: JournalMoment[] = [];
-  // Each parent from the day the person was born: those who raised them at
-  // home together, or the one who lived apart, by the household each is in.
-  // Brothers and sisters by their birth against the person's own, older
-  // ones together and younger ones together.
-  for (const fact of made) {
-    const otherId = fact.facts?.otherPersonId;
-    const relative = otherId ? core.people.get(otherId) : undefined;
-    const parent = ["family:parent", "family:other-parent"].includes(fact.kind);
-    if (
-      !relative?.alive ||
-      !(parent || fact.kind === "family:sibling") ||
-      toldOf.has(relative.id)
-    )
-      continue;
-    const category = familyCategory(person, relative, parent);
-    const group = familyGroups.get(category) ?? [];
-    group.forEach((id) => toldOf.add(id));
-    const born = relative.birthDate > bornOn ? relative.birthDate : bornOn;
-    moments.push({
-      ...base(fact.id, fact.kind === "family:sibling" ? born : bornOn),
-      // Several brothers and sisters have their own wordings (plural verbs).
-      causeKind:
-        group.length > one && category.startsWith("household:sibling-")
-          ? category.replace("sibling-", "siblings-")
-          : category,
-      counterpartIds: group,
-      beat: "roots",
-    });
-  }
-  // Their own birth, where the run's record puts their family that day: the
-  // story starts there (owner, Oct 27: "written like a story from birth").
-  for (const row of history("person.birth", person.id)) {
-    const actFacts = placeOf(row.placeId, row.id);
-    if (actFacts.place)
-      moments.push({
-        ...base(row.id, row.date),
-        causeKind: "person.birth",
-        counterpartIds: [],
-        selfNamed: true,
-        actFacts,
-        beat: "roots",
-      });
-  }
-  // The day they and their partner set up home, where their records put
-  // them then.
-  for (const row of history(FAMILY_PARTNERED, person.id)) {
-    const otherId = row.personIds?.find((id) => id !== person.id);
-    const actFacts = placeOf(row.placeId, row.id);
-    if (otherId && actFacts.place)
-      moments.push({
-        ...base(row.id, row.date),
-        causeKind: "household:partners-met",
-        counterpartIds: [otherId],
-        actFacts,
-      });
-  }
-  // The day their parents set up home, told to their child.
-  const parents = [...parentIds].filter((id): id is string => !!id);
-  const parentsMet = parents.length
-    ? history(FAMILY_PARTNERED, parents[zero] as PersonId).find((row) =>
-        parents.every((id) => row.personIds?.includes(id as PersonId)),
-      )
-    : undefined;
-  if (parentsMet) {
-    const actFacts = placeOf(parentsMet.placeId, parentsMet.id);
-    if (actFacts.place)
-      moments.push({
-        ...base(parentsMet.id, parentsMet.date),
-        causeKind: "household:parents-met:where-they-lived",
-        counterpartIds: [],
-        actFacts,
-        beat: "roots",
-      });
-  }
-  // The day they came to the county, from the moves engine's run before the
-  // start (told as their own move, to where they live now).
-  for (const row of history(PERSON_MOVED_IN, person.id))
-    moments.push({
-      ...base(row.id, row.date),
-      causeKind: "moved",
-      counterpartIds: [],
-      selfNamed: true,
-    });
-  // The working-life run's spells the person was old enough to remember and
-  // still a child at home for: a relative's start or move is told inside the
-  // one sentence about that relative's work (lead, Nov 11: "one sentence per
-  // person").
-  const remembers = addDays(
-    bornOn,
-    Math.round(
-      pastParameter(null, "pastEarliestMemoryAge") * P.daysPerMeanYear,
-    ),
-  );
-  const grown = addDays(bornOn, Math.round(P.votingAge * P.daysPerMeanYear));
-  // The first school they attended, and the high school when it was another
-  // school, told by the school's own record ("When I was 5, I started at
-  // ..."); a school with no record of its own goes unnamed and untold.
-  const schools = schoolsAttended(core, person.id).filter((row) => row.name);
-  const first = schools.find((row) => row.stage === "elementary");
-  const high = schools.find(
-    (row) => row.stage === "high" && row.schoolId !== first?.schoolId,
-  );
-  for (const school of [first, high])
-    if (school && school.date < core.startedAt)
-      moments.push({
-        ...base(school.recordId, school.date),
-        causeKind: `household:school-started:${school.stage}`,
-        counterpartIds: [],
-        actFacts: {
-          school: {
-            text: properName(school.name!),
-            sourceRecordIds: [school.recordId, school.schoolId],
-          },
-        },
-      });
+  s: HouseholdSetup,
+  c: {
+    parents: string[];
+    remembers: IsoDate;
+    grown: IsoDate;
+    first: SchoolRow | undefined;
+  },
+) {
+  const { parentIds, bornOn, base, moments } = s;
+  const { remembers, grown } = c;
   // What each earner in the household does for work now: the job they held
   // on day one and each office they serve in, from the one reader the card
   // and Travel tell it from (`personWorkOf`), so the journal never says a
@@ -642,7 +492,237 @@ function householdMoments(
       },
     });
   }
-  return moments;
+}
+
+/**
+ * The spells of the working-life run the person was old enough to remember, and the first school
+ * they attended and the high school when it was another: the third step of `householdMoments`.
+ */
+function schoolMoments(
+  core: Readonly<CoreState>,
+  person: PersonState,
+  s: HouseholdSetup,
+) {
+  const { bornOn, base, moments } = s;
+  // The working-life run's spells the person was old enough to remember and
+  // still a child at home for: a relative's start or move is told inside the
+  // one sentence about that relative's work (lead, Nov 11: "one sentence per
+  // person").
+  const remembers = addDays(
+    bornOn,
+    Math.round(
+      pastParameter(null, "pastEarliestMemoryAge") * P.daysPerMeanYear,
+    ),
+  );
+  const grown = addDays(bornOn, Math.round(P.votingAge * P.daysPerMeanYear));
+  // The first school they attended, and the high school when it was another
+  // school, told by the school's own record ("When I was 5, I started at
+  // ..."); a school with no record of its own goes unnamed and untold.
+  const schools = schoolsAttended(core, person.id).filter((row) => row.name);
+  const first = schools.find((row) => row.stage === "elementary");
+  const high = schools.find(
+    (row) => row.stage === "high" && row.schoolId !== first?.schoolId,
+  );
+  for (const school of [first, high])
+    if (school && school.date < core.startedAt)
+      moments.push({
+        ...base(school.recordId, school.date),
+        causeKind: `household:school-started:${school.stage}`,
+        counterpartIds: [],
+        actFacts: {
+          school: {
+            text: properName(school.name!),
+            sourceRecordIds: [school.recordId, school.schoolId],
+          },
+        },
+      });
+  return { remembers, grown, first };
+}
+
+/**
+ * Each parent from the day the person was born, the brothers and sisters, the partner and where
+ * they moved in from: the second step of `householdMoments`.
+ */
+function familyMoments(
+  core: Readonly<CoreState>,
+  person: PersonState,
+  s: HouseholdSetup,
+) {
+  const {
+    history,
+    made,
+    toldOf,
+    parentIds,
+    familyGroups,
+    bornOn,
+    base,
+    placeOf,
+    moments,
+  } = s;
+  // Each parent from the day the person was born: those who raised them at
+  // home together, or the one who lived apart, by the household each is in.
+  // Brothers and sisters by their birth against the person's own, older
+  // ones together and younger ones together.
+  for (const fact of made) {
+    const otherId = fact.facts?.otherPersonId;
+    const relative = otherId ? core.people.get(otherId) : undefined;
+    const parent = ["family:parent", "family:other-parent"].includes(fact.kind);
+    if (
+      !relative?.alive ||
+      !(parent || fact.kind === "family:sibling") ||
+      toldOf.has(relative.id)
+    )
+      continue;
+    const category = familyCategory(person, relative, parent);
+    const group = familyGroups.get(category) ?? [];
+    group.forEach((id) => toldOf.add(id));
+    const born = relative.birthDate > bornOn ? relative.birthDate : bornOn;
+    moments.push({
+      ...base(fact.id, fact.kind === "family:sibling" ? born : bornOn),
+      // Several brothers and sisters have their own wordings (plural verbs).
+      causeKind:
+        group.length > one && category.startsWith("household:sibling-")
+          ? category.replace("sibling-", "siblings-")
+          : category,
+      counterpartIds: group,
+      beat: "roots",
+    });
+  }
+  // Their own birth, where the run's record puts their family that day: the
+  // story starts there (owner, Oct 27: "written like a story from birth").
+  for (const row of history("person.birth", person.id)) {
+    const actFacts = placeOf(row.placeId, row.id);
+    if (actFacts.place)
+      moments.push({
+        ...base(row.id, row.date),
+        causeKind: "person.birth",
+        counterpartIds: [],
+        selfNamed: true,
+        actFacts,
+        beat: "roots",
+      });
+  }
+  // The day they and their partner set up home, where their records put
+  // them then.
+  for (const row of history(FAMILY_PARTNERED, person.id)) {
+    const otherId = row.personIds?.find((id) => id !== person.id);
+    const actFacts = placeOf(row.placeId, row.id);
+    if (otherId && actFacts.place)
+      moments.push({
+        ...base(row.id, row.date),
+        causeKind: "household:partners-met",
+        counterpartIds: [otherId],
+        actFacts,
+      });
+  }
+  // The day their parents set up home, told to their child.
+  const parents = [...parentIds].filter((id): id is string => !!id);
+  const parentsMet = parents.length
+    ? history(FAMILY_PARTNERED, parents[zero] as PersonId).find((row) =>
+        parents.every((id) => row.personIds?.includes(id as PersonId)),
+      )
+    : undefined;
+  if (parentsMet) {
+    const actFacts = placeOf(parentsMet.placeId, parentsMet.id);
+    if (actFacts.place)
+      moments.push({
+        ...base(parentsMet.id, parentsMet.date),
+        causeKind: "household:parents-met:where-they-lived",
+        counterpartIds: [],
+        actFacts,
+        beat: "roots",
+      });
+  }
+  // The day they came to the county, from the moves engine's run before the
+  // start (told as their own move, to where they live now).
+  for (const row of history(PERSON_MOVED_IN, person.id))
+    moments.push({
+      ...base(row.id, row.date),
+      causeKind: "moved",
+      counterpartIds: [],
+      selfNamed: true,
+    });
+  return { parents };
+}
+
+/**
+ * What every step of `householdMoments` shares: the person's history, what they were made with,
+ * the relatives told so far and the list of moments the steps add to. The first step.
+ */
+function householdSetup(core: Readonly<CoreState>, person: PersonState) {
+  const history = (kind: string, personId: PersonId) =>
+    pastOf(core, personId, [kind]);
+  const made = madeWith(core, person.id);
+  // Each relative once, from the first family fact that names them.
+  const toldOf = new Set<string>();
+  const parentIds = new Set(
+    made
+      .filter((fact) =>
+        ["family:parent", "family:other-parent"].includes(fact.kind),
+      )
+      .map((fact) => fact.facts?.otherPersonId),
+  );
+  // The parents or siblings of one story, told together as one moment.
+  const familyGroups = new Map<string, PersonId[]>();
+  for (const fact of made) {
+    const id = fact.facts?.otherPersonId as PersonId | undefined;
+    const kin = id ? core.people.get(id) : undefined;
+    const parent = ["family:parent", "family:other-parent"].includes(fact.kind);
+    if (!kin?.alive || !(parent || fact.kind === "family:sibling")) continue;
+    const category = familyCategory(person, kin, parent);
+    const group = familyGroups.get(category) ?? [];
+    if (!group.includes(id!)) group.push(id!);
+    familyGroups.set(category, group);
+  }
+  const bornOn = makeIsoDate(person.birthDate);
+  const base = (id: string, date: string) => ({
+    id,
+    date: date as IsoDate,
+    causeId: id,
+    causeFactId: id,
+    hindsight: zero,
+    impact: zero,
+    echoes: [] as Moment["echoes"],
+  });
+  const placeOf = (placeId: string | undefined, recordId: string): Facts => {
+    const text = placeLabel(placeId);
+    return text ? { place: { text, sourceRecordIds: [recordId] } } : {};
+  };
+  const moments: JournalMoment[] = [];
+  return {
+    history,
+    made,
+    toldOf,
+    parentIds,
+    familyGroups,
+    bornOn,
+    base,
+    placeOf,
+    moments,
+  };
+}
+
+/**
+ * The household's own story, read from the records the engines ran for the
+ * years before the start (owner, Oct 28, 2026: "simulate to the birth
+ * year"): the day the person and their partner set up home and the day their
+ * parents did (`family.partnered`, the people engine), where the family came
+ * from (the place of their recorded birth), a parent's new job they were old
+ * enough to remember (the working-life run), the first school they attended
+ * (the school engine's run), what the household's earners do now (their
+ * jobs' records), and each parent and sibling the family records name. Each
+ * moment cites its record's id; the place is named from the place records,
+ * and a person only the writer knows by name is skipped.
+ */
+function householdMoments(
+  core: Readonly<CoreState>,
+  person: PersonState,
+): JournalMoment[] {
+  const s = householdSetup(core, person);
+  const { parents } = familyMoments(core, person, s);
+  const { remembers, grown, first } = schoolMoments(core, person, s);
+  earnerMoments(core, person, s, { parents, remembers, grown, first });
+  return s.moments;
 }
 
 /**
