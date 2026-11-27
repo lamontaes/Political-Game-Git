@@ -1,8 +1,8 @@
 {
   "opens": {
     "src/bench/bank.ts": {
-      "jobs-businesses": 1,
-      "people": 1
+      "homes": 1,
+      "jobs-businesses": 1
     },
     "src/bench/bill-stage.ts": {
       "bodies": 4,
@@ -22,7 +22,7 @@
     },
     "src/bench/card.ts": {
       "executive": 4,
-      "people": 1
+      "homes": 1
     },
     "src/bench/changes.ts": {
       "laws": 2
@@ -132,10 +132,13 @@
     },
     "src/bench/scene.ts": {
       "executive": 2,
-      "people": 1
+      "homes": 1
     },
     "src/bench/states.ts": {
       "laws": 2
+    },
+    "src/core2/births-plan.ts": {
+      "homes": 1
     },
     "src/core2/board-appointer.ts": {
       "executive": 1
@@ -166,6 +169,9 @@
     },
     "src/core2/electorate-inputs.ts": {
       "executive": 2
+    },
+    "src/core2/estates.ts": {
+      "homes": 1
     },
     "src/core2/gov-measures.ts": {
       "elections": 2,
@@ -226,16 +232,18 @@
     "src/core2/modules/counted-demotion.ts": {
       "elections": 2,
       "executive": 1,
+      "homes": 1,
       "jobs-businesses": 1
     },
     "src/core2/modules/counted-moves.ts": {
+      "homes": 1,
       "jobs-businesses": 1
     },
     "src/core2/modules/credit.ts": {
-      "people": 1
+      "homes": 1
     },
     "src/core2/modules/crime.ts": {
-      "people": 1
+      "homes": 1
     },
     "src/core2/modules/elections.ts": {
       "executive": 12
@@ -270,7 +278,8 @@
       "elections": 4
     },
     "src/core2/modules/moves.ts": {
-      "executive": 2
+      "executive": 2,
+      "homes": 1
     },
     "src/core2/modules/national-opinion.ts": {
       "executive": 2,
@@ -286,6 +295,9 @@
     },
     "src/core2/modules/outside-budgets.ts": {
       "jobs-businesses": 1
+    },
+    "src/core2/modules/partnerships.ts": {
+      "homes": 1
     },
     "src/core2/modules/place-prices.ts": {
       "laws": 1
@@ -332,14 +344,14 @@
     },
     "src/core2/modules/world-metrics.ts": {
       "dynamic": 1,
-      "jobs-businesses": 1,
-      "people": 2
+      "homes": 2,
+      "jobs-businesses": 1
     },
     "src/core2/modules/world-panels.ts": {
       "clock-places": 1,
       "dynamic": 1,
-      "jobs-businesses": 1,
-      "people": 1
+      "homes": 1,
+      "jobs-businesses": 1
     },
     "src/core2/office-day-acts.ts": {
       "bodies": 2
@@ -447,16 +459,16 @@
     },
     "src/director/constituent-help-facts.ts": {
       "executive": 1,
-      "jobs-businesses": 1,
-      "people": 1
+      "homes": 1,
+      "jobs-businesses": 1
     },
     "src/director/conversation.ts": {
       "bodies": 1,
       "executive": 2,
+      "homes": 1,
       "jobs-businesses": 1,
       "laws": 1,
-      "news": 1,
-      "people": 1
+      "news": 1
     },
     "src/director/custody-facts.ts": {
       "laws": 2

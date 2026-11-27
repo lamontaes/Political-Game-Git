@@ -894,7 +894,8 @@
         "src/core2/modules/counted-moves.ts",
         "src/core2/modules/views-constants.ts",
         "src/core2/sitting-closeness.ts",
-        "src/core2/counted-income-fifth.ts"
+        "src/core2/counted-income-fifth.ts",
+        "src/core2/household-income.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
