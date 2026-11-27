@@ -330,6 +330,8 @@ registerSnapshotPart("core2-residents", {
       households: new CountedHouseholdMap(store),
       householdOfPerson: new CountedPersonHouseholdMap(store),
     };
+    // The hook is the engine's, not the save's: it moves the restored runtime's own pool.
+    store.weightHook = (h, delta) => moveUnplacedPay(restored, h, delta);
     runtimes.set(core, restored);
     coreOfRuntime.set(restored, core);
   },
