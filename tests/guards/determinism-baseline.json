@@ -8,6 +8,11 @@
   "src/bench/path-check.ts": {
     "performance.now": 2
   },
+  "src/bench/verify.mjs": {
+    "new Date()": 2,
+    "randomUUID": 1,
+    "randomInt": 3
+  },
   "src/core2/campaign-incumbent-response-test-kit.ts": {
     "randomBytes": 1
   },

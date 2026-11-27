@@ -72,13 +72,6 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/families.test.ts"),
   },
   {
-    id: "determinism",
-    rule: "Determinism holds: game code reads no Math.random, randomBytes, randomUUID, Date.now, performance.now or argument-less new Date() outside the dev panels and the play server; the tools still in src only shrink.",
-    readMore:
-      "tests/guards/determinism.test.ts, its header; docs/coordination/OWNER-DECISIONS.md, Oct 30 01:55 (a country's year)",
-    command: vitest("tests/guards/determinism.test.ts"),
-  },
-  {
     id: "two-seeds-differ",
     rule: "Realistic, not real: no statistic but law opens on its published value, and two worlds never open on the same one; the known copies only shrink.",
     readMore:
@@ -104,6 +97,13 @@ export const GUARDS: readonly Guard[] = [
     readMore:
       "tests/guards/one-history-proxies.json, its about line; docs/coordination/OWNER-DECISIONS.md, One history",
     command: vitest("tests/guards/one-history.test.ts"),
+  },
+  {
+    id: "determinism",
+    rule: "Determinism holds: game code reads no Math.random, randomBytes, randomUUID, Date.now, performance.now or argument-less new Date() outside the dev panels and the play server; the tools still in src only shrink.",
+    readMore:
+      "tests/guards/determinism.test.ts, its header; the core audit, row K11",
+    command: vitest("tests/guards/determinism.test.ts"),
   },
   {
     id: "scene-pictures",
