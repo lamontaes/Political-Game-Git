@@ -75,3 +75,21 @@ SAME means the first error matched on both nights (a fixed break). diff means it
 | SAME | other-error | `src/director/time-of-day.test.ts` | RangeError: Invalid array length |
 | SAME | assertion | `src/english/opening-speech-ties.test.ts` | AssertionError: expected [ …(44) ] to deeply equal [] |
 | SAME | assertion | `tests/levers-and-powers-catalog.test.ts` | AssertionError: run node --import tsx scripts/research/placeholder-ledger.ts: expected [ 'src/core2/death-cause.ts:253' ] to deeply equal [] |
+
+## Owners, by Past and Day One (Nov 26, 5:50 p.m. ET; each file mapped to the family `tests/guards/families.json` gives its own source path)
+
+**Mine, fixed (#10672):** `opening-key-people`, `opening-terms-in-office`, `past-justice`, `partner-from-counts`. Not mine though named "opening-": `src/english/opening-speech-ties.test.ts` (The English engine; Story's words).
+
+| Owning engine | Files |
+| --- | --- |
+| The story director (15) | bring-it-up-two-stories, conversation-home-lines, eviction-leads-the-talk, eviction-talk-words, job-lost-talk-played, law-effect-scene, notice-home-scene, outlet-ask-talk, press-comment-after-vote, press-comment-context, press-scenes, scene-says-past-its-opener, talk-silence-heard, tie-history-scenes, time-of-day |
+| Screens and the UI kit (13) | bench/campaign-team, dev-acceptance, dev-run-year, dev-who-named, eligible-on, endorsement-played, executive-bill-menu, filing-rule-office, filing-walkthrough, first-evening-talk-goes-on, player, race-result-stories, scene-places |
+| Laws, justice and their effects (6) | justice-player, law-reach/budget-line-credit-by-law, law-reach/school-aid, law-reach/veterans-reach, outcome-web-health-waiting, outcome-web-public-finance |
+| Households and people (3) | births-full-web, housing-counted-evicted, trait-coverage |
+| Executives and offices (2) | office-budget-season-chain, office-day-budget-season |
+| The clock, the world and places (1) | world-settings |
+| The past before the start (1) | pre-start (the History reader's own file) |
+| Budgets, Legislative bodies, News and the press, Jobs (one each) | budget-line-schools-staffing, legislature-rooms, press-amount-law, work-closeness |
+| No family (22): the guard assigns source files and skips test files, so these tests sit on files the table does not cover | candidacy-open-seat, clean-air-law, congress-federal-position-bills, corruption-calibration, disasters-no-market, federal-courts, law-knowledge, modules/health.traits, national-answer-law, president-orders, second-chamber-own-day, small-town-treasury-payroll, speech-afterward-pledge, staff-dismissal-after-attendance, staff-hire-employed, staff-player-clock, two-level-elections, world-races-no-district, scripts/dialogue-batch/batch-three, scripts/law-wiring/check-levels, tests/levers-and-powers-catalog |
+
+None of the 66 traces to Past and Day One's files. **`work-closeness` and `job-lost-talk-played` read the jobs engine's records**; the staffing fix in #10678 changes how many layoffs and closures a played year holds, so a session fixing either should run it on main and on #10678's branch before reading a red as its own. Of 725 test files, 73 resolve to a family by their subject's name; the family guard checks source files only (`tests/guards/families.test.ts`, `sources()`), so a test has no owner until the guard is widened: a proposal is on #10377.
