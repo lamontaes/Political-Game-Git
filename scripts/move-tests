@@ -233,7 +233,7 @@ const noteRewrites = new Map([
         '"scripts/bench/m0-check.ts", "scripts/bench/m1-10-check.ts", "scripts/bench/verify.mjs", "src/bench/whole-figures.ts"',
       ],
       [
-        /new URL\(\s*`\.\/\$\{file\}`,\s*new URL\(\s*"[^"]*voting-age-row\.test\.ts",\s*import\.meta\.url,?\s*\)\s*\.href,?\s*\)/g,
+        /new URL\(\s*`\.\/\$\{file\}`,\s*\(?\s*new URL\(\s*"[^"]*voting-age-row\.test\.ts",\s*import\.meta\.url,?\s*\)\s*\.href\s*\)?,?\s*\)/g,
         "new URL(`../../../${file}`, import.meta.url)",
       ],
     ],
