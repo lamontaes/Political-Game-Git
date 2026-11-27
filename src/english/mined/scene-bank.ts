@@ -27,6 +27,8 @@ interface Use {
   settings?: string[];
   /** Facts or marks a line is said only with ("evening" for "The day is done.", a ballot for "I voted for"), though it names none. */
   requiresFacts?: string[];
+  /** Facts a line is never said with (the date-only arrival on the night of an address). */
+  excludesFacts?: string[];
 }
 interface MinedPart extends BankPart<Use> {
   /** The manner the wording carries, for the speaker's trait pulls. */
@@ -72,6 +74,9 @@ function variants(bank: Bank, subject: string, role: string, staged = false) {
       ...(part.bearing ? { bearing: part.bearing, pieceKey: part.key } : {}),
       ...(use?.settings ? { settings: use.settings } : {}),
       ...(use?.requiresFacts ? { requiresFacts: use.requiresFacts } : {}),
+      ...(use?.excludesFacts?.length
+        ? { excludesFacts: use.excludesFacts }
+        : {}),
     };
   });
 }

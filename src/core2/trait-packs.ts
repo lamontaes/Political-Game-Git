@@ -587,14 +587,6 @@ export function loadTraitPacks(
   };
 }
 
-/** The resolved leans for one decision, or none. Pure. */
-export function leansForDecision(
-  registry: TraitRegistry,
-  decisionId: string,
-): readonly TraitLeanRow[] {
-  return registry.leans.get(decisionId) ?? [];
-}
-
 /** A report a person can read, for the load log and for a failing test. */
 export function describeTraitLoad(report: TraitLoadReport): string {
   const lines: string[] = [];

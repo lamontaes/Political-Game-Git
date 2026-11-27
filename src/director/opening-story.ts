@@ -29,6 +29,12 @@ import { addressAiring } from "./address-airing";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { PRESIDENT_FACT } from "../core2/officials-president";
+import {
+  addressTelling,
+  presidentSpeaker,
+  toldSentences,
+  type AddressTellingKind,
+} from "./address-telling";
 import type { CoreState, PersonId, PersonState } from "../core2/types";
 import {
   composeAddress,
@@ -64,7 +70,6 @@ import type { AddressKind } from "./address-kind";
 import {
   SHAPE,
   packet,
-  planSpeech,
   type Block,
   type Facts,
   type PlannedPoint,
@@ -94,6 +99,8 @@ export interface OpeningSentence {
   readonly facts: readonly string[];
   /** The bank pieces it was joined from, by key. */
   readonly pieces: readonly string[];
+  /** The outline section it was told in ("greeting", "occasion", "story", ...), where the one planner told it. */
+  readonly section?: string;
   /** What each of those facts said in the sentence, the figure or name filled in. */
   readonly values: Readonly<Record<string, string>>;
   /** A slot's bare name where the fact keeps one ("Jose Salgado" for "Jose Salgado, the town clerk,"). */
@@ -109,6 +116,8 @@ export interface OpeningSentence {
     readonly about: string;
     readonly to: string;
     readonly stance: "for" | "against";
+    /** Whether the law the question is about is already in force. */
+    readonly inForce?: boolean;
   };
 }
 
@@ -258,7 +267,7 @@ function composeAddressOf(
   core: CoreState,
   president: PersonState,
   official: OfficialRow,
-  kind: OpeningSpeechKind,
+  kind: AddressTellingKind,
 ): {
   sentences: OpeningSentence[];
   addressKind: AddressKind;
@@ -267,13 +276,27 @@ function composeAddressOf(
   asks: readonly string[];
   points: readonly PlannedPoint[];
 } | null {
-  const plan = planSpeech(core, kind, {
-    person: president,
-    official,
-    jurisdiction: "US",
-    serviceStart: official.serviceStart,
-  });
-  const sentences = composeBlocks(core, president, plan.blocks);
+  // The inaugural and the State of the Union are told through the one
+  // outline planner (the Story lead, Nov 24). Where the State of the Union's
+  // outline bank cannot yet say a required section, the old composer stands
+  // in (SG-WORDS-addresses-await-outline).
+  const telling = addressTelling(
+    core,
+    kind,
+    presidentSpeaker(president, official),
+    kind === "inaugural"
+      ? `${INAUGURATION_EVENT}:${core.date}`
+      : `${OPENING_ADDRESS_EVENT}:${core.date}`,
+  );
+  const { plan } = telling;
+  const told = toldSentences(telling);
+  // The inaugural has no stand-in: its bank says every required section.
+  if (!told && kind !== "inaugural")
+    // stopgapId: SG-WORDS-addresses-await-outline
+    markWordsStopgap("SG-WORDS-addresses-await-outline");
+  const sentences =
+    told ??
+    (kind === "inaugural" ? null : composeBlocks(core, president, plan.blocks));
   return sentences
     ? {
         sentences,
@@ -803,7 +826,7 @@ export function composeOpeningStory(
   if (!player || !official || !president) return null;
   // Inaugural only when the offices engine recorded the taking of office
   // today (recordInauguration); every other opening is the address to Congress.
-  const kind: OpeningSpeechKind = core.eventIds.has(
+  const kind: AddressTellingKind = core.eventIds.has(
     `${INAUGURATION_EVENT}:${core.date}`,
   )
     ? "inaugural"
@@ -818,7 +841,14 @@ export function composeOpeningStory(
   const home = pastFact(PRESIDENT_FACT.homeState);
   const prior = pastFact(PRESIDENT_FACT.priorOffice);
   const elected = pastFact(PRESIDENT_FACT.elected);
+  // The line people remember is the President's own stand, where the
+  // address takes one: never the other side's view it answers (a news story
+  // quoted "You'll hear plenty of folks… say we ought to raise the retirement
+  // age" from a President against it).
   const remembered =
+    sentences.find(
+      (row) => !!row.values["stance-for"] || !!row.values["stance-against"],
+    ) ??
     sentences.find(
       (row) => row.level === "congress" && row.sourceRecordIds.length > P.one,
     ) ??
