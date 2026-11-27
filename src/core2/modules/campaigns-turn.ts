@@ -15,7 +15,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import { daysBetweenText as daysBetween } from "../kernel/dates";
 import { campaignParameter } from "../campaign-data";
 import { obligationsOwedTo } from "./legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, type TermRow, termById } from "./offices";
 import { answerInterview, candidateAnswers } from "./press";
 import {
   ballot,
@@ -962,10 +962,8 @@ function holdsTheSeat(
     : undefined;
   if (!contest?.incumbentTermId || !api.state.modules.has(OFFICES_MODULE_ID))
     return false;
-  const term = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .get(contest.incumbentTermId) as unknown as TermRow | undefined;
+  const term = termById(api, contest.incumbentTermId) as unknown as
+    TermRow | undefined;
   return term?.status === "serving" && term.personId === personId;
 }
 

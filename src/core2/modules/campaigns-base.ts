@@ -17,7 +17,12 @@ import { contestPositions } from "../contest-positions";
 import { causeGroupsIn } from "./drives";
 import { promisesOf, recordAppeal, votesCast } from "./record";
 import { areasAnswered, jurisdictionTermRead, lawChain } from "./laws";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+  termById,
+  officeById,
+} from "./offices";
 import {
   atLargeGroup,
   ballot,
@@ -518,11 +523,9 @@ function recordTilted(
     : undefined;
   if (!filing || !contest?.incumbentTermId) return shares;
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return shares;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const term = offices
-    .table("terms")
-    .get(contest.incumbentTermId) as unknown as TermRow | undefined;
-  const office = offices.table("offices").get(contest.officeId) as unknown as
+  const term = termById(api, contest.incumbentTermId) as unknown as
+    TermRow | undefined;
+  const office = officeById(api, contest.officeId) as unknown as
     { jurisdiction?: string } | undefined;
   if (!term || !office?.jurisdiction) return shares;
   // A state's or the country's office is read where it serves; a town's, a
