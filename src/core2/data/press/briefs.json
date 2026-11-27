@@ -13,7 +13,8 @@
     "person.milestone-birthday",
     "organization.anniversary",
     "person.retired",
-    "election-notice"
+    "election-notice",
+    "work.job-lost"
   ],
   "townWide": [
     "crime.month",
