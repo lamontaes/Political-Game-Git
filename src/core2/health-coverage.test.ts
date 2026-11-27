@@ -81,7 +81,38 @@ it(`coverage records and a monthly premium in ${place.name} [${place.key}], seed
   );
   expect(paid.length, `${where}: premiums paid`).toBeGreaterThan(0);
   const outside = outsideAccountOf(api)!;
-  for (const row of paid) {
+  // Every payment cites a record (the one-history rule). A person filled in from
+  // a counted record after the 1st takes that record's month as it was: the
+  // counted group paid it as one, so the row cites the counted record, not a
+  // journal entry (`putPlans`, carried). Every row the named person paid on the
+  // 1st is held to its journal below.
+  const firstOfMonth = `${core.date.slice(0, 7)}-01`;
+  const paidOnTheFirst = (row: CoverageRow) =>
+    premiums.has(`premium:${row.personId}:${firstOfMonth}`);
+  for (const row of paid)
+    expect(
+      row.lastJournalId ?? row.lastPaidFromRecordId,
+      `${where} ${row.id}: cites a journal entry or its counted record`,
+    ).toBeTruthy();
+  for (const row of paid.filter((r) => !paidOnTheFirst(r))) {
+    expect(
+      row.from > firstOfMonth,
+      `${where} ${row.id}: carried, not paid`,
+    ).toBe(true);
+    expect(
+      api
+        .moduleState(COVERAGE_MODULE_ID)
+        .table("countedCoverage")
+        .get(row.lastPaidFromRecordId!),
+      `${where} ${row.id}: the counted record it cites`,
+    ).toBeDefined();
+  }
+  const paidByThem = paid.filter(paidOnTheFirst);
+  expect(
+    paidByThem.length,
+    `${where}: premiums paid from own accounts`,
+  ).toBeGreaterThan(0);
+  for (const row of paidByThem) {
     expect(row.lastDueMinor, `${where} ${row.id}`).toBe(
       row.premiumMonthlyMinor,
     );

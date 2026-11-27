@@ -100,6 +100,11 @@ export interface CoverageRow {
   readonly lastPaidMinor: number;
   /** The cash journal record of the last premium paid, if any was. */
   readonly lastJournalId: string | null;
+  /**
+   * The counted coverage record whose paid month this row carries, when a counted group
+   * paid it as one and no journal entry names it (a person filled in after the 1st).
+   */
+  readonly lastPaidFromRecordId?: string;
   /** What the policyholder's plan was decided from (planScores), for dev mode's trace. */
   readonly reasons?: PlanReasons;
   readonly source: Source;
@@ -769,7 +774,11 @@ function putPlans(
   /** What a record being handed over already owed and paid (a counted record's last month). */
   carried: ReadonlyMap<
     string,
-    { readonly lastDueMinor: number; readonly lastPaidMinor: number }
+    {
+      readonly lastDueMinor: number;
+      readonly lastPaidMinor: number;
+      readonly recordId: string;
+    }
   > = new Map(),
   reasons: ReadonlyMap<string, PlanReasons> = new Map(),
 ): void {
@@ -796,6 +805,9 @@ function putPlans(
       lastDueMinor: carried.get(personId)?.lastDueMinor ?? 0,
       lastPaidMinor: carried.get(personId)?.lastPaidMinor ?? 0,
       lastJournalId: null,
+      ...(carried.get(personId)?.lastPaidMinor
+        ? { lastPaidFromRecordId: carried.get(personId)!.recordId }
+        : {}),
       ...(plan.plan === "employer" && reasons.has(personId)
         ? { reasons: reasons.get(personId)! }
         : {}),
@@ -881,6 +893,7 @@ function handOff(api: CoreAPI, householdId: string): void {
               {
                 lastDueMinor: counted.lastDueMinor,
                 lastPaidMinor: counted.lastPaidMinor,
+                recordId: counted.id,
               },
             ],
           ]
@@ -921,8 +934,11 @@ function payPremiums(api: CoreAPI): void {
       partial: true,
       source: { ...row.source, asOf: today },
     });
+    // A journal entry names this month's payment now, not the counted record's.
+    const { lastPaidFromRecordId: _carried, ...paidRow } = row;
+    void _carried;
     table(api).put({
-      ...row,
+      ...paidRow,
       lastDueMinor: row.premiumMonthlyMinor,
       lastPaidMinor: receipt.paidMinor,
       lastJournalId:
