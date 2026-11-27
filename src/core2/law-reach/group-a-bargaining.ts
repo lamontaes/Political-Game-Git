@@ -29,6 +29,7 @@ import {
 import type { LawLevelName } from "../laws-starting";
 import type { CoreAPI, CoreState, Source } from "../types";
 import { jobsAt } from "./group-b-money";
+import { payReach } from "./pay-reach";
 import type { PolicyHandler } from "./host";
 import { onReachCalendar } from "./reach-workers";
 import {
@@ -170,6 +171,13 @@ onReachCalendar(KIND, (api, work) => {
         "A unit's pay follows the growth of its employer's budget line.",
     };
     let raised = 0;
+    // Whom the contract reached, recorded as the law's reach: a named worker by person, the counted workers of an employer as one group with their count.
+    const reach = payReach(api, {
+      key: KEY,
+      lawId: yes[0]!.lawId,
+      engine: REACH_A_MODULE_ID,
+      what: "bargained-raise",
+    });
     // The first named worker raised, so the contract can be followed to a person.
     let sample: { jobId: string; from: number; to: number } | undefined;
     for (const job of jobs) {
@@ -177,11 +185,15 @@ onReachCalendar(KIND, (api, work) => {
       const from = job.hourlyMinor!;
       const to = Math.round(from * (1 + growth));
       if (to <= from) continue;
+      // The daily pay the raise adds, read before the re-rate changes the job.
+      const addedDaily = Math.round(job.wageDailyMinor * (to / from - 1));
       api.rerateJob(job.id, to, source);
+      reach.add(job, addedDaily);
       raised += 1;
       if (!sample && core.jobs.has(job.id))
         sample = { jobId: job.id, from, to };
     }
+    reach.flush();
     putMechanic(api, {
       id,
       key: KEY,
