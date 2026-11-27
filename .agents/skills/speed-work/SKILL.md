@@ -130,3 +130,4 @@ Read each file here when its moment comes:
 - `references/memory.md`: before you fold or drop a table for memory, and when a long run runs out of memory.
 - `references/heavy-runs.md`: before a long, memory-heavy run in a cloud container.
 - `references/cadence-and-summaries.md`: before you make an engine step daily or keep a growing table.
+- Nov 27 (Core, 4 cores and 15 GB): the records proof (an 8 GB heap) run beside a typecheck or a vitest run was killed by the kernel (exit 137, "killed for lack of memory"). Run one heavy command at a time; a calendar test that took 90 to 850 seconds beside the proof timed out and proved nothing.
