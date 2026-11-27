@@ -2,7 +2,36 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 5715,
-  "no": {},
-  "yesHash": "0vtbor0xb53"
+  "judged": 5743,
+  "no": {
+    "076n2g8u95b": {
+      "keys": [
+        "scene-talk.state-ask.can-we-even-afford-this-campaign-for-office-it-s-not-like-we-have-a-ton-of-savin",
+        "scene-talk.reply-tell.i-ve-thought-about-office-for-a-long-time-i-m-ready"
+      ],
+      "why": "Says they have long thought about the office; does not answer the question about cost."
+    },
+    "18326eh8c3l": {
+      "keys": [
+        "scene-talk.state-ask.can-we-even-afford-this-campaign-for-office-it-s-not-like-we-have-a-ton-of-savin",
+        "scene-talk.reply-apologize.i-m-sorry-i-should-have-told-you-i-was-running-for-office-before-it-go"
+      ],
+      "why": "Apologizing for not telling them does not answer the question of what the campaign costs."
+    },
+    "1cu9vil0ayv": {
+      "keys": [
+        "scene-talk.state-ask.can-we-even-afford-this-campaign-for-office-it-s-not-like-we-have-a-ton-of-savin",
+        "scene-talk.reply-tell.office-needs-someone-who-ll-show-up-i-think-that-s-me"
+      ],
+      "why": "Explains why they are running rather than answering whether it is affordable."
+    },
+    "2f2pjc43ruq": {
+      "keys": [
+        "scene-talk.state-ask.can-we-even-afford-this-campaign-for-office-it-s-not-like-we-have-a-ton-of-savin",
+        "scene-talk.reply-tell.somebody-has-to-run-for-office-why-not-me"
+      ],
+      "why": "Explains why they are running rather than answering whether it is affordable."
+    }
+  },
+  "yesHash": "294rxck6033"
 }

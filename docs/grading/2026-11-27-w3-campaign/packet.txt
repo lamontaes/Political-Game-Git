@@ -1,0 +1,85 @@
+
+## the volunteers' ask (stand-in cause: the housing bill)
+  narrator: Pat Rivera stops you on the sidewalk with a clipboard about the housing bill.
+  asker: We're meeting about the housing bill. I'd like you there, and we need people who'll actually show up.
+  > [ask] Who else is in on the housing bill?
+      asker: Mostly it's showing up, and bringing one friend who cares about the housing bill.
+      > [agree] That I can do. Put me down for the housing bill.
+          asker: Good. We'll save you a chair for the housing bill.
+            (ends: resolved)
+      > [decline] That's more than I can give the housing bill. Sorry.
+          asker: Fair enough. My door's open if you change your mind about the housing bill.
+            (ends: refused)
+      > [leave] Let me check my calendar and call you about the housing bill.
+            (close, open) Go on. I'll leave a flyer about the housing bill in your mailbox.
+  > [agree] I'm in. The housing bill is worth my time.
+      asker: That's all I ask. Thank you for standing with the housing bill.
+        (ends: resolved)
+  > [decline] I can't give the housing bill the time it needs.
+      asker: Fair enough. My door's open if you change your mind about the housing bill.
+        (ends: refused)
+  > [deflect] Let me see what my week looks like before I promise anything on the housing bill.
+      asker: Then come the first time you can. We'll be at the housing bill for a while.
+      > [agree] Alright. One meeting about the housing bill, then we'll see.
+          asker: Good. We'll save you a chair for the housing bill.
+            (ends: resolved)
+      > [decline] I'll think about the housing bill. That's the honest answer.
+          asker: Fair enough. My door's open if you change your mind about the housing bill.
+            (ends: refused)
+      > [leave] I've got to go. I'll think about the housing bill.
+            (close, open) Go on. I'll leave a flyer about the housing bill in your mailbox.
+
+## the volunteers' ask (stand-in cause: the school levy)
+  narrator: Pat Rivera stops you on the sidewalk with a clipboard about the school levy.
+  asker: We're meeting about the school levy. I'd like you there, and we need people who'll actually show up.
+  > [ask] Who else is in on the school levy?
+      asker: Mostly it's showing up, and bringing one friend who cares about the school levy.
+      > [agree] That I can do. Put me down for the school levy.
+          asker: Good. We'll save you a chair for the school levy.
+            (ends: resolved)
+      > [decline] That's more than I can give the school levy. Sorry.
+          asker: Fair enough. My door's open if you change your mind about the school levy.
+            (ends: refused)
+      > [leave] Let me check my calendar and call you about the school levy.
+            (close, open) Go on. I'll leave a flyer about the school levy in your mailbox.
+  > [agree] I'm in. The school levy is worth my time.
+      asker: That's all I ask. Thank you for standing with the school levy.
+        (ends: resolved)
+  > [decline] I can't give the school levy the time it needs.
+      asker: Fair enough. My door's open if you change your mind about the school levy.
+        (ends: refused)
+  > [deflect] Let me see what my week looks like before I promise anything on the school levy.
+      asker: Then come the first time you can. We'll be at the school levy for a while.
+      > [agree] Alright. One meeting about the school levy, then we'll see.
+          asker: Good. We'll save you a chair for the school levy.
+            (ends: resolved)
+      > [decline] I'll think about the school levy. That's the honest answer.
+          asker: Fair enough. My door's open if you change your mind about the school levy.
+            (ends: refused)
+      > [leave] I've got to go. I'll think about the school levy.
+            (close, open) Go on. I'll leave a flyer about the school levy in your mailbox.
+
+## the family's money question (stand-in: council seat)
+  narrator: The month's bills are spread across the table. What the paychecks don't cover, the savings can carry for three months. The race runs six months.
+  asker: Can we even afford this campaign for the city council? It's not like we have a ton of savings, right? How much does this even cost?
+  > [tell] The city council needs someone who'll show up. I think that's me.
+      asker: And if it doesn't last the six months?
+      > [tell] Somebody has to run for the city council. Why not me?
+            (ends: resolved)
+      > [apologize] I'm sorry. I should have told you I was running for the city council before it got around.
+            (ends: resolved)
+  > [request] I can't do this alone. I need help with phones and door knocking for the city council. And honestly, I need someone to keep me honest.
+      asker: Then put me on the phones for the city council. Somebody has to keep you honest.
+        (ends: open)
+  > [deflect] I'd rather not talk about running for the city council right now.
+      asker: Please, just tell me where Jordan fits if you run for the city council.
+      > [tell] Somebody has to run for the city council. Why not me?
+          asker: And if it doesn't last the six months?
+          > [tell] I've thought about the city council for a long time. I'm ready.
+                (ends: resolved)
+      > [apologize] I'm sorry. I should have told you I was running for the city council before it got around.
+            (ends: resolved)
+  > [comfort] We'll make it through six months. I won't spend what we need to live on.
+      asker: I needed to hear that. We've been telling Jordan what running for the city council will mean.
+        (ends: resolved)
+  GAPS: family-filing/follow/apologize after scene-talk.reply-apologize.i-m-sorry-i-should-have-told-you-i-was-running-for-office-before-it-go | family-filing/reply/accept after promise | family-filing/reply/leave after plea | family-filing/reply/leave after promise | family-filing/reply/promise after plea | family-filing/reply/request after ask | family-filing/reply/thank after promise

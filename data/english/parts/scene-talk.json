@@ -70270,6 +70270,1187 @@
         "move": "warn",
         "key": "routine"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-catches-you-outside-the-library-with-a-stack-of-flyers-about-cause",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} catches you outside the library with a stack of flyers about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-waiting-by-your-gate-with-a-sign-up-sheet-for-cause",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is waiting by your gate with a sign-up sheet for {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stops-you-on-the-sidewalk-with-a-clipboard-about-cause",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stops you on the sidewalk with a clipboard about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.open-greet.just-the-person-i-was-hoping-to-see-about-cause",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Just the person I was hoping to see about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.open-greet.have-you-got-a-minute-it-s-about-cause",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Have you got a minute? It's about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-be-quick-it-s-about-cause",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll be quick. It's about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.state-request.we-re-meeting-about-cause-i-d-like-you-there-and-we-need-people-who-ll-actually",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We're meeting about {cause}. I'd like you there, and we need people who'll actually show up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "asked-by-someone-already-involved-the-volunteer-says-yes",
+        "pastor-recruits-by-saying-someone-has-to-step-up"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.somebody-has-to-step-up-on-cause-and-i-thought-of-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Somebody has to step up on {cause}, and I thought of you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.state-request.a-few-of-us-are-knocking-on-doors-about-cause-saturday-morning-walk-a-block-or-t",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "A few of us are knocking on doors about {cause} Saturday morning. Walk a block or two with us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.state-request.we-ve-got-a-letter-about-cause-and-your-name-on-it-would-get-it-read",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We've got a letter about {cause}, and your name on it would get it read.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-that-look-like-for-me-on-cause",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would that look like for me on {cause}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-you-need-from-me-on-cause",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you need from me on {cause}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.reply-ask.who-else-is-in-on-cause",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who else is in on {cause}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.reply-agree.count-me-in-on-cause",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Count me in on {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-put-me-down-for-cause",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. Put me down for {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-in-cause-is-worth-my-time",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm in. {cause} is worth my time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-glad-somebody-s-doing-something-about-cause-it-s-not-my-fight",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm glad somebody's doing something about {cause}. It's not my fight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-give-cause-the-time-it-needs",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't give {cause} the time it needs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-see-what-my-week-looks-like-before-i-promise-anything-on-cause",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me see what my week looks like before I promise anything on {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-m-not-sure-i-m-the-right-person-for-cause",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm not sure I'm the right person for {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.follow-answer.sign-up-sheets-phone-calls-and-a-few-words-at-a-meeting-about-cause-if-you-re-up",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Sign-up sheets, phone calls, and a few words at a meeting about {cause} if you're up for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.follow-answer.mostly-it-s-showing-up-and-bringing-one-friend-who-cares-about-cause",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Mostly it's showing up, and bringing one friend who cares about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "asked-by-someone-already-involved-the-volunteer-says-yes",
+        "pastor-recruits-by-saying-someone-has-to-step-up"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-all-i-ask-thank-you-for-standing-with-cause",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's all I ask. Thank you for standing with {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.follow-thank.good-we-ll-save-you-a-chair-for-cause",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. We'll save you a chair for {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.follow-press.it-touches-everyone-sooner-or-later-cause-included",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "It touches everyone sooner or later, {cause} included.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.follow-press.then-come-the-first-time-you-can-we-ll-be-at-cause-for-a-while",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then come the first time you can. We'll be at {cause} for a while.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "deflect",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-my-door-s-open-if-you-change-your-mind-about-cause",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. My door's open if you change your mind about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.reply-agree.that-i-can-do-put-me-down-for-cause",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That I can do. Put me down for {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.reply-decline.that-s-more-than-i-can-give-cause-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "That's more than I can give {cause}. Sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-check-my-calendar-and-call-you-about-cause",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me check my calendar and call you about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-one-meeting-about-cause-then-we-ll-see",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. One meeting about {cause}, then we'll see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ll-think-about-cause-that-s-the-honest-answer",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'll think about {cause}. That's the honest answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ve-got-to-go-i-ll-think-about-cause",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I've got to go. I'll think about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.close-thank.see-you-there-then-thanks-for-taking-on-cause",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "See you there, then. Thanks for taking on {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-send-you-the-details-about-cause-soon",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll send you the details about {cause} soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.close-accept.understood-my-door-s-open-if-you-change-your-mind-about-cause",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Understood. My door's open if you change your mind about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "outcome": "refused",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W3, restoring a liked line)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"],
+      "restoredFrom": "scene-talk.close-accept.understood-my-door-s-open-if-you-change-your-mind"
+    },
+    {
+      "key": "scene-talk.close-accept.alright-thanks-for-listening-about-cause",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright, thanks for listening about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "outcome": "refused",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W3, restoring a liked line)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"],
+      "restoredFrom": "scene-talk.close-accept.all-right-thanks-for-listening"
+    },
+    {
+      "key": "scene-talk.close-warn.suit-yourself-we-ll-be-at-it-on-cause-either-way",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Suit yourself. We'll be at it on {cause} either way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "refused",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.close-press.think-it-over-we-ll-keep-at-cause",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think it over. We'll keep at {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "outcome": "open",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-wait-too-long-cause-won-t-wait-for-us",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't wait too long. {cause} won't wait for us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "open",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-i-ll-leave-a-flyer-about-cause-in-your-mailbox",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on. I'll leave a flyer about {cause} in your mailbox.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "elements": ["asked-by-someone-already-involved-the-volunteer-says-yes"]
+    },
+    {
+      "key": "scene-talk.state-ask.can-we-even-afford-this-campaign-for-office-it-s-not-like-we-have-a-ton-of-savin",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Can we even afford this campaign for {office}? It's not like we have a ton of savings, right? How much does this even cost?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["stake-money", "office"],
+          "excludesFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W3, restoring a liked line)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      },
+      "elements": ["home-equity-is-the-savings-and-the-race-uses-it-up"],
+      "restoredFrom": "scene-talk.state-ask.can-we-even-afford-this-its-not-like-we-have-a-ton-of-savings-right-ho"
+    },
+    {
+      "key": "scene-talk.reply-request.i-can-t-do-this-alone-i-need-help-with-phones-and-door-knocking-for-office-and-h",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "I can't do this alone. I need help with phones and door knocking for {office}. And honestly, I need someone to keep me honest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "after": "scene-talk.state-ask.can-we-even-afford-this-campaign-for-office-it-s-not-like-we-have-a-ton-of-savin",
+          "requiresFacts": ["stake-money", "office"],
+          "excludesFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story (W3, restoring a liked line)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      },
+      "elements": ["spouse-calls-a-run-a-huge-sacrifice"],
+      "restoredFrom": "scene-talk.reply-request.i-cant-do-this-alone-i-need-help-with-phones-and-door-knocking-and-hon"
+    },
+    {
+      "key": "scene-talk.follow-promise.then-put-me-on-the-phones-for-office-somebody-has-to-keep-you-honest",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Then put me on the phones for {office}. Somebody has to keep you honest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "after": "scene-talk.reply-request.i-can-t-do-this-alone-i-need-help-with-phones-and-door-knocking-for-office-and-h",
+          "requiresFacts": ["stake-money", "office"],
+          "excludesFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W3, the campaign)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      },
+      "elements": ["spouse-calls-a-run-a-huge-sacrifice"]
     }
   ]
 }

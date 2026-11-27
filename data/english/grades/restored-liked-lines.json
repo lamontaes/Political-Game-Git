@@ -176,6 +176,50 @@
         "scene-talk.follow-answer.short-ill-have-a-real-count-by-count-by"
       ],
       "restoredFrom": "scene-talk.follow-answer.short-i-ll-have-a-real-count-by-friday"
+    },
+    {
+      "i": 19,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Understood. My door's open if you change your mind.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.close-accept.understood-my-door-s-open-if-you-change-your-mind-about-cause"
+      ],
+      "restoredFrom": "scene-talk.close-accept.understood-my-door-s-open-if-you-change-your-mind"
+    },
+    {
+      "i": 20,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "All right, thanks for listening.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.close-accept.alright-thanks-for-listening-about-cause"
+      ],
+      "restoredFrom": "scene-talk.close-accept.all-right-thanks-for-listening"
+    },
+    {
+      "i": 21,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Can we even afford this? It's not like we have a ton of savings, right? How much does this even cost?",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.state-ask.can-we-even-afford-this-campaign-for-office-it-s-not-like-we-have-a-ton-of-savin"
+      ],
+      "restoredFrom": "scene-talk.state-ask.can-we-even-afford-this-its-not-like-we-have-a-ton-of-savings-right-ho"
+    },
+    {
+      "i": 22,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "I can't do this alone. I need help with phones and door knocking. And honestly, I need someone to keep me honest.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-request.i-can-t-do-this-alone-i-need-help-with-phones-and-door-knocking-for-office-and-h"
+      ],
+      "restoredFrom": "scene-talk.reply-request.i-cant-do-this-alone-i-need-help-with-phones-and-door-knocking-and-hon"
     }
   ]
 }
