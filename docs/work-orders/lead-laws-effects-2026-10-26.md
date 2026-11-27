@@ -12,11 +12,11 @@ The owner, Oct 26: one engine lead for laws and effects together, on one checker
 
 ## The three matrices and where they stand on main (f6ca0f680)
 
-| Matrix                | File, built by                                                                                                                                     | Count on main                                                      |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| Laws, nine links      | `docs/reports/law-wiring-matrix.json` and `law-wiring-table.md`, by `scripts/law-wiring/matrix.ts` over the runs of `scripts/law-wiring/check.ts`  | 46 of 89 laws wired on all nine links (39 partly, 4 stopgapped)    |
+| Matrix                | File, built by                                                                                                                                           | Count on main                                                      |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Laws, nine links      | `docs/reports/law-wiring-matrix.json` and `law-wiring-table.md`, by `scripts/law-wiring/matrix.ts` over the runs of `scripts/law-wiring/check.ts`        | 46 of 89 laws wired on all nine links (39 partly, 4 stopgapped)    |
 | Effects, eight points | `docs/reports/effect-web-matrix-2026-10-20.json`, by `scripts/outcome-web/effect-matrix.ts` and the twins in `tests/src/core2/outcome-web-twins.test.ts` | 140 of 237 links reach someone; 0 neither reach nor name a stopgap |
-| Traits, decisions run | `docs/reports/trait-wiring-2026-10-20.json`, by `scripts/traits/trait-wiring-audit.ts` and `trait-wiring-matrix.ts`                                | 57 of 82 decisions ran in the played year; 25 never ran            |
+| Traits, decisions run | `docs/reports/trait-wiring-2026-10-20.json`, by `scripts/traits/trait-wiring-audit.ts` and `trait-wiring-matrix.ts`                                      | 57 of 82 decisions ran in the played year; 25 never ran            |
 
 Counts are read from these files, never from memory or a PR body.
 

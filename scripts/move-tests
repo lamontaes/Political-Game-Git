@@ -434,7 +434,7 @@ for (const file of tracked) {
     });
   else if (
     after !== before &&
-    /\.(?:[cm]?[jt]sx?|json|ya?ml)$/.test(file) &&
+    /\.(?:[cm]?[jt]sx?|json|ya?ml|md)$/.test(file) &&
     (await prettier.check(before, { ...formatOptions, filepath: file }))
   )
     // A file that was already formatted stays formatted after its paths change.
@@ -452,6 +452,54 @@ for (const { file, destination, after } of changes) {
     fs.renameSync(file, destination);
   }
   fs.writeFileSync(destination, after);
+}
+// After both scripts have run: a file that was prettier-clean at the base and is not clean now is
+// formatted again (a path that grew widens a table, an import list wraps). Files that were never clean stay as they were.
+const formatSince = process.argv.indexOf("--format-since");
+if (!dryRun && formatSince !== -1) {
+  const base = process.argv[formatSince + 1];
+  if (!base) throw new Error("--format-since needs a commit");
+  const rows = execFileSync(
+    "git",
+    ["diff", "-M", "--name-status", "-z", "--diff-filter=AMR", base],
+    { encoding: "utf8", maxBuffer: 256 * 1024 * 1024 },
+  )
+    .split("\0")
+    .filter(Boolean);
+  let formatted = 0;
+  for (let i = 0; i < rows.length;) {
+    const renamed = rows[i].startsWith("R");
+    const [from, to] = renamed
+      ? [rows[i + 1], rows[i + 2]]
+      : [rows[i + 1], rows[i + 1]];
+    i += renamed ? 3 : 2;
+    if (
+      !/\.(?:[cm]?[jt]sx?|json|ya?ml|md)$/.test(to) ||
+      !fs.existsSync(to) ||
+      isRecord(to)
+    )
+      continue;
+    let old;
+    try {
+      old = execFileSync("git", ["show", `${base}:${from}`], {
+        encoding: "utf8",
+        maxBuffer: 256 * 1024 * 1024,
+        stdio: ["ignore", "pipe", "ignore"],
+      });
+    } catch {
+      continue;
+    }
+    const now = fs.readFileSync(to, "utf8");
+    const options = { ...formatOptions, filepath: to };
+    if (
+      (await prettier.check(old, { ...options, filepath: from })) &&
+      !(await prettier.check(now, options))
+    ) {
+      fs.writeFileSync(to, await prettier.format(now, options));
+      formatted++;
+    }
+  }
+  console.log(`Formatted ${formatted} files that were clean at ${base}.`);
 }
 // CODEOWNERS is written from the families file, so it follows the paths that moved.
 if (!dryRun && fs.existsSync("scripts/guards/codeowners.ts"))
