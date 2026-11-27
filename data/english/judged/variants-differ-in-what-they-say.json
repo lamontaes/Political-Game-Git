@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 27,
+  "judged": 26,
   "no": {
     "007eyoz0umj": {
       "keys": [
@@ -130,5 +130,5 @@
       "why": "Both lines have {name} come asking about the vote on {bill}, differing only in setting with no fact to choose the setting."
     }
   },
-  "yesHash": "0dawpr2fjlo"
+  "yesHash": "1e4db2bb0y4"
 }

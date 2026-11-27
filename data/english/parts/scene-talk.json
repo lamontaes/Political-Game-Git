@@ -70270,6 +70270,282 @@
         "move": "warn",
         "key": "routine"
       }
+    },
+    {
+      "key": "scene-talk.follow-defer.then-take-the-time-you-need-on-bill-i-ve-asked-before-and-i-won-t-ask-a-third-time-before-the-roll",
+      "move": "follow-defer",
+      "kind": "spoken",
+      "text": "Then take the time you need on {bill}. I've asked before, and I won't ask a third time before the roll.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "requiresFacts": ["bill", "asked-before"],
+          "after": "stall"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "defer",
+        "key": "vote-wanted"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.follow-defer.read-it-again-i-m-asking-a-second-time-on-bill-and-i-d-rather-have-a-real-answer-than-a-quick-one",
+      "move": "follow-defer",
+      "kind": "spoken",
+      "text": "Read it again. I'm asking a second time on {bill}, and I'd rather have a real answer than a quick one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "requiresFacts": ["bill", "asked-before"],
+          "after": "stall"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "defer",
+        "key": "vote-wanted"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-leave-bill-with-you-you-ve-heard-me-twice-now",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll leave {bill} with you. You've heard me twice now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["bill", "asked-before"],
+          "after": "stall"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-i-won-t-press-you-again-on-bill-i-asked-before-and-i-ll-count-the-roll-as-it-comes",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. I won't press you again on {bill}. I asked before, and I'll count the roll as it comes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["bill", "asked-before"],
+          "after": "stall"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-told-you-before-my-district-is-against-about-asking-twice-doesn-t-change-that",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I told you before: my district is against {about}. Asking twice doesn't change that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "requiresFacts": ["asked-before", "read-town-against-bill", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-ve-been-against-about-too-long-to-turn-on-it-now-you-asked-before-and-it-s-still-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I've been against {about} too long to turn on it now. You asked before, and it's still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "requiresFacts": ["asked-before", "stand-against", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.you-asked-before-and-i-said-no-on-bill-nothing-has-changed-since-then",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "You asked before, and I said no on {bill}. Nothing has changed since then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "requiresFacts": ["asked-before", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-relent.you-came-back-about-bill-so-i-looked-at-it-again-put-me-down-yes",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "You came back about {bill}, so I looked at it again. Put me down yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "requiresFacts": ["asked-before", "bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-asked-first-about-a-bill-on-said-before-and-first-voted-no-the-vote-on-bill-is-tomorrow",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You asked {first} about a bill on {said} before, and {first} voted no. The vote on {bill} is tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-sought",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": [
+            "asked-before",
+            "said",
+            "bill",
+            "vote-tomorrow",
+            "first"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-sought"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-today-first-voted-against-your-last-bill-on-said-and-you-ask-again",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "The vote on {bill} is today. {first} voted against your last bill on {said}, and you ask again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-sought",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": [
+            "asked-before",
+            "said",
+            "bill",
+            "vote-today",
+            "first"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-sought"
+      },
+      "elements": ["official-declines-to-endorse"]
     }
   ]
 }
