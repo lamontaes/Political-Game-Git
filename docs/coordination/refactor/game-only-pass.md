@@ -6,7 +6,7 @@
 
 **What it does, each step on its own branch:**
 
-1. **Tests out of the game folder.** Move every `*.test.ts`, `*.spec.ts` and `*.browser.mjs` (1,734 test files on Nov 26), and the browser tests' helpers src/bench/start-life.mjs, dev-setup.mjs and ui-look-scan.mjs (added Nov 27, screens SC6), out of `src/` into a `tests/` tree that mirrors the paths. Update `vite.config.ts` test includes, the workflows' test-file filters (validate's "changed test files" step, heavy's shards, the unrun-files list), `tests/guards`, the skills and the docs that name test paths. `src/` keeps only game code.
+1. **Tests out of the game folder.** Move every `*.test.ts`, `*.spec.ts` and `*.browser.mjs` (1,734 test files on Nov 26), and the browser tests' helpers src/bench/start-life.mjs, dev-setup.mjs and ui-look-scan.mjs (added Nov 27, screens SC6), and src/core2/census-scale-closures-support.ts, which imports vitest (economy EC5), out of `src/` into a `tests/` tree that mirrors the paths. Update `vite.config.ts` test includes, the workflows' test-file filters (validate's "changed test files" step, heavy's shards, the unrun-files list), `tests/guards`, the skills and the docs that name test paths. `src/` keeps only game code.
 2. **Notes out of the code.** Strip owner quotes, dates, CTO-line ids, PR numbers and attributions from comments in `src/`.
    - **Keep:** stopgap markers (`stopgap(...)`, `SG-...` ids) and short comments that say what a line does or why, in plain words.
    - **Move** any ruling a comment carried that isn't already recorded into `docs/coordination/OWNER-DECISIONS.md` first, so nothing he said is lost.

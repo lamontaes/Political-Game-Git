@@ -136,8 +136,9 @@ Files: modules/jobs.ts, modules/business.ts, jobs-elsewhere.ts, the jobs, employ
 
 8. **Doors the screens need (adjusted Nov 27):** read-only queries in modules/jobs.ts and the business engine for positions, player applications, seekers and trading, when Screens asks on #10377 (screens-2026-11-27.md, the door list).
 9. **civic-inputs.ts joins your opening files** (elections EL9; adjusted Nov 27): it generates the world's civic institutions on day one. Its write into public organizations is Core item 7's.
+10. **Economy's notes for you (adjusted Nov 27, economy map):** item 3 wires commuting-shares.ts (the commuting data, built and tested but unused) or it's deleted. After your feature work, as a listed item: `buildOpeningCustomers` (opening-customers.ts:280, 1,712 lines), `createOpeningFinance` (opening-finance.ts:94, 1,093), and jobs.ts's `runWeek` and `reviewEmployers` become named steps, structure only.
 
-**Done when** 1 to 9 are each built as PRs with proof, or listed with why.
+**Done when** 1 to 10 are each built as PRs with proof, or listed with why.
 
 ---
 
@@ -152,7 +153,7 @@ The owner: "the core is where engines plug in, and it can also be very friendly 
 **Items, safest first:**
 
 1. **Measure, then guard,** one engine opening another's module table (`moduleState`), and rows edited in place. The guard's baseline may only shrink (K8). It starts with the people engine's opens in both directions, measured in people-2026-11-26.md P5 (adjusted Nov 27). The screens' 157 table reads (92 game screens, 53 dev, 12 checks) are in it too (adjusted Nov 27).
-2. **The workshop out of the core,** by a re-runnable script coordinated with Cleanup's test mover (K9): src/core2/tooling into scripts/, the test kits and fixtures (`*-test-kit.ts`, `*-kit.ts`, `*-fixture.ts`, law-test-start.ts) into tests/support, and bug-report.ts and gov-test-report.ts into scripts/. money-watch.ts and past-sessions.ts go to the screens' dev folder. Also trait-pairs.ts, turnover-check.ts and circle-turnover-check.ts, which no game file imports (people P11; adjusted Nov 27). Widen the game-only guard's test pattern to catch kits and fixtures. The screens' milestone proofs and tools (screens SC6) go with the same script (adjusted Nov 27). Also gov-test-clock.ts (elections EL8; adjusted Nov 27). Also gov-rules/place-slots.ts (only a tooling check and a test use it; offices map; adjusted Nov 27). Also justice-chain.ts and session-law-audit.ts (lawmaking LW7; adjusted Nov 27).
+2. **The workshop out of the core,** by a re-runnable script coordinated with Cleanup's test mover (K9): src/core2/tooling into scripts/, the test kits and fixtures (`*-test-kit.ts`, `*-kit.ts`, `*-fixture.ts`, law-test-start.ts) into tests/support, and bug-report.ts and gov-test-report.ts into scripts/. money-watch.ts and past-sessions.ts go to the screens' dev folder. Also trait-pairs.ts, turnover-check.ts and circle-turnover-check.ts, which no game file imports (people P11; adjusted Nov 27). Widen the game-only guard's test pattern to catch kits and fixtures. The screens' milestone proofs and tools (screens SC6) go with the same script (adjusted Nov 27). Also gov-test-clock.ts (elections EL8; adjusted Nov 27). Also gov-rules/place-slots.ts (only a tooling check and a test use it; offices map; adjusted Nov 27). Also justice-chain.ts and session-law-audit.ts (lawmaking LW7; adjusted Nov 27). Also opening-staffing.ts (economy EC5; adjusted Nov 27).
 3. **One `core` family** in tests/guards/families.json: the shared kernel, plus life.ts (the day loop), the record log, the reader and the cash journal (journal.ts and journal-state.ts, filed under people today; renamed cash-journal*.ts by the move script; people P12, adjusted Nov 27). Give the 11 orphan files (src/districts, src/rules/laws, src/release) their families. Coordinate with Story's #10683, which made `story`.
 4. **The missing date helpers in the kernel** (weekday of a date, the nth weekday of a month, the last day of a month), with every copy pointed at the kernel (K10): elections-calendar.ts, school.ts, voting.ts, finance-state.ts, work-pay-period.ts, and the rest of the 95 files' date sums. Formatting is left as it is. The kernel's `spokenDate` (dates.ts:113) goes to Story's day-words, in step with Story's E2.
 5. **A determinism guard:** no `Math.random`, `randomBytes`, `randomUUID`, `Date.now`, `performance.now` or argument-less `new Date()` in game code outside dev panels, the play server and scripts (K11).
@@ -161,7 +162,7 @@ The owner: "the core is where engines plug in, and it can also be very friendly 
 8. **Fill-in out of state.ts:** `fillInPerson`, `fillInIdentity`, `promoteHusk`, `openOpeningPeerTies` and the 16 person-building imports go to the people engine behind a hook (K7). Then choice.ts calls the act path without `coreAPI` (Reach-ins' choice.ts to state.ts cycle, 14 edges).
 9. **One way to start a world:** `newGame` (saves.ts:186) takes the whole recipe (the place draw with `passOver`, the pre-start, the opening warm-up, the player). The screens' `buildBenchWorld` (src/bench/world.ts:434) and the replay both call it. Coordinate the warm-up with Past and Day One (K5). The play server's session operations (start a life, load, save, advance) are Core's doors; the route table itself stays in Screens (screens SC4; adjusted Nov 27).
 10. **The engine list as data:** the modules life.ts installs come from one list, and the direct calls (`affectAt`, `withGrief`, `admitResidents`, `openingWorkCommitments`) go through hooks. Reach-ins' cycle and reach-in items are finished here; the cycle baseline goes down. The people engine's 11 side registries (people P9) move onto the hook shape this item defines, by the People session. Measured for the final review: 74 `register*` functions game-wide (adjusted Nov 27).
-11. **Last, or the Opus finisher's:**
+11. **Last, or the Opus finisher's:** (Adjusted Nov 27, economy EC1: finance contracts and credit move behind the new `finance` engine's door, not budgets'.)
     - the front door split (K6), where money and work operations move behind the budgets and jobs engines' doors, the cash journal stays core as the one money ledger, `coreAPI`'s builder (state.ts:881) is split by area, and the subject hooks leave `CoreModule`;
     - then one folder per engine, by a re-runnable move script, after the other sessions land.
 
@@ -366,6 +367,34 @@ The audit is lawmaking-2026-11-27.md in this folder (rows LW1 to LW8). Justice s
 - Use the Fable advisor liberally; it doesn't use Fable usage.
 
 **Done when** 1 to 7 are each built, or listed with why.
+
+---
+
+## Economy (decided by the CTO under the owner's full ownership, Nov 27)
+
+The audit is economy-2026-11-27.md in this folder (rows EC1 to EC5). People's and firms' money splits out of budgets as its own engine, `finance`; this session builds both.
+
+**Start** when "CTO: GO Economy" is posted. Branch from the branch that line names.
+
+**Items, safest first:**
+
+1. **Not game out (EC5).** The central bank board joins macro in Economy's own families.json branch.
+2. **Doors (EC2),** after #10701 is in the train: work, finance, credit, the national economy and prices, and budgets each get the read doors their consumers open tables for today. Post them, so each consumer switches its own files.
+3. **The finance split (EC1),** doors first, proved by the guards with no count up.
+4. **Long functions as named steps (EC4),** Economy's own, structure only.
+5. **The side registries onto Core's hook (EC3),** after Core item 10.
+
+**Rules:**
+
+- Structure only. The fixed-seed records digest is identical, and `npm run typecheck` is clean.
+- Never edit Past and Day One's files.
+- No new systems and no new registry.
+- Never loosen a check.
+- Never edit bank lines.
+- Wide moves are re-runnable scripts.
+- Use the Fable advisor liberally; it doesn't use Fable usage.
+
+**Done when** 1 to 5 are each built, or listed with why.
 
 ---
 
