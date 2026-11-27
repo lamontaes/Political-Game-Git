@@ -18,7 +18,7 @@ import { jobSaid, memberOfBody, seatSaid } from "../english/journal-words";
 import { spanSaid } from "../english/span-words";
 import type { Fact } from "../english/scene-words";
 import { billName, lawName, lawTopic } from "./journal";
-import { organizationName } from "./words";
+import { organizationName } from "../english/words";
 import { titleInSentence } from "./filing-visit";
 
 interface OfficeRow {

@@ -5,7 +5,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { schoolsOf } from "./words";
 import { schoolNameWords } from "../english/school-names";
-import { properName } from "../director/words";
+import { properName } from "../english/words";
 import institutions from "../../data/research/places/local-institutions.json" with { type: "json" };
 
 // Who you are lists a person's schools by the names people write

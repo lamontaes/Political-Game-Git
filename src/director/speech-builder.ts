@@ -34,7 +34,7 @@ import {
   questionName,
   questionTopic,
 } from "../english/policy-names";
-import { numberWord, organizationName, properName, spoken } from "./words";
+import { numberWord, organizationName, properName, spoken } from "../english/words";
 
 export type SpeechStage = "opener" | "core" | "closer";
 /** Opener, two parts at the core, closer. */

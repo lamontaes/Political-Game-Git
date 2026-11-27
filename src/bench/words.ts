@@ -2,7 +2,7 @@
 import { admittedParts } from "../english/bank-parts";
 import { questionAbout } from "../english/question-names";
 import { JOURNAL_WORDS } from "../english/journal-words";
-import { properName } from "../director/words";
+import { properName } from "../english/words";
 import { schoolNameWords } from "../english/school-names";
 import type { CoreState } from "../core2/types";
 import { schoolsAttended } from "../core2/past";

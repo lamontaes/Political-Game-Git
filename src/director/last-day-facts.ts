@@ -8,7 +8,7 @@ import { SCHOOL_FINISHED } from "../core2/past";
 import type { CoreState } from "../core2/types";
 import { withArticle } from "../english/journal-words";
 import type { NewsFact } from "./life-news";
-import { organizationName } from "./words";
+import { organizationName } from "../english/words";
 
 /** The situation type that reads these facts. */
 export const LAST_DAY_TYPE = "last-day";

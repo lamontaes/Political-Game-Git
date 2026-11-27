@@ -73,7 +73,7 @@ import {
   isOutsideMarket,
   spokenDate as dateSaid,
   stateInSentence,
-} from "../director/words";
+} from "../english/words";
 import { seatSaid } from "../english/journal-words";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { officeInSentence, personWorkOf, workHeld } from "../core2/person-work";

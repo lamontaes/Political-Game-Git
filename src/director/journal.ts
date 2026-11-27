@@ -57,7 +57,7 @@ import {
   properName,
   spokenDate,
   stateInSentence,
-} from "./words";
+} from "../english/words";
 import { graduationResults, schoolResult } from "./school";
 import {
   PAST_WORK_OUT,

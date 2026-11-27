@@ -17,7 +17,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { OUTSIDE_MARKET_KIND } from "../core2/modules/jobs";
-import { employerWords, isOutsideMarket } from "./words";
+import { employerWords, isOutsideMarket } from "../english/words";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const DRAWS = 6;

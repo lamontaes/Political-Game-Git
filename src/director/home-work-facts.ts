@@ -26,7 +26,7 @@ import { sayableJobTitle } from "../english/said-as";
 import { SPOKEN_DAYS_PER_YEAR, spanSaid } from "../english/span-words";
 import { jobHeldSince, type NewsFact } from "./life-news";
 import { schoolResult } from "./school";
-import { employerWords, organizationName } from "./words";
+import { employerWords, organizationName } from "../english/words";
 import { schoolShortSaid, workplaceSaid } from "../english/workplace-words";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../core2/modules/business";
 

@@ -78,7 +78,7 @@ import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
 import { measureSaid, policyNames } from "./words";
 import { placeLabel } from "../director/journal";
-import { isOutsideMarket, stateInSentence } from "../director/words";
+import { isOutsideMarket, stateInSentence } from "../english/words";
 import { beatenRunnerUp, VOTING_MODULE_ID } from "../core2/modules/voting";
 
 /**

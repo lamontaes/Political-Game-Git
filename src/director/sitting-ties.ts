@@ -8,7 +8,7 @@ import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { outletsHere } from "../core2/modules/press";
 import type { Facts } from "./sitting";
-import { organizationName, properName } from "./words";
+import { organizationName, properName } from "../english/words";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { seatSaid } from "../english/journal-words";

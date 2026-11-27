@@ -43,7 +43,7 @@ import {
 import rowsJson from "./data/bring-it-up-rows.json" with { type: "json" };
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { seatFact } from "./sitting-ties";
-import { organizationName, possessive } from "./words";
+import { organizationName, possessive } from "../english/words";
 
 /** `data/bring-it-up-rows.json`: the structure, holding no sentences. */
 export interface BringRows {

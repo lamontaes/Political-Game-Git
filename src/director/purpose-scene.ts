@@ -246,7 +246,7 @@ import {
   spoken,
   spokenDate,
   stateInSentence,
-} from "./words";
+} from "../english/words";
 import {
   learnView,
   learnViewQuestion,

@@ -43,7 +43,7 @@ import { OPENING_KIN } from "../core2/opening-kin";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { PARTIES_MODULE_ID } from "../core2/modules/parties";
-import { properName } from "../director/words";
+import { properName } from "../english/words";
 
 describe("the New game creator", () => {
   // Nov 17: "a few different head shapes ... 2 or 3 more shades" (#10070).

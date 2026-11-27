@@ -22,7 +22,7 @@ import {
   type PurposeType,
   type TreeNode,
 } from "./scene-talk";
-import { spoken, spokenDate, spokenWhen, stateInSentence } from "./words";
+import { spoken, spokenDate, spokenWhen, stateInSentence } from "../english/words";
 import {
   wordSceneMove,
   type Fact,

@@ -1819,6 +1819,12 @@
       "now": "Generated calendar proof in the ignored test-results directory",
       "when": "2026-11-27",
       "why": "Review captures belong to their pull requests, not the repository."
+    },
+    {
+      "old": "src/director/words.ts (and words.test.ts)",
+      "now": "src/english/words.ts (and words.test.ts); moved by scripts/story/move-word-helpers.mjs",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): a proper name, a spoken date, a possessive and an employer's name are said by the English engine, not by a helper file in the director."
     }
   ]
 }
