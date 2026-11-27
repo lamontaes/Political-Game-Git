@@ -67,6 +67,9 @@ const FEDERAL_KEYS: Readonly<Record<string, string>> = {
   "vice-president": "vicePresident",
   "us-senate": "senator",
   "us-house": "representative",
+  // A cabinet secretary is paid at the Executive Schedule's Level I by the
+  // federal government, not as the played state's treasurer by its treasury.
+  "cabinet-secretary": "cabinetSecretary",
 };
 const STATE_KEYS: Readonly<Record<string, string>> = {
   governor: "governor",
@@ -182,7 +185,7 @@ export function officialSalary(
     return typeof dollars === "number"
       ? {
           annualMinor: dollars * 100,
-          citation: `${federal}: ${TABLE.federal.source}`,
+          citation: `${federal}: ${TABLE.federal[`${federal}Source`] ?? TABLE.federal.source}`,
           tag: "SOURCED",
         }
       : null;

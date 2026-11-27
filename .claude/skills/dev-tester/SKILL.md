@@ -46,6 +46,8 @@ Scripts live in `scripts/dev-tests/` (`law-run.ts`, `money-by-label.ts`, `twin.t
 - **Before a twin pair, read the drawn place's starting law for that policy.** If the law is already in force at the start, enacting it changes nothing and the pair is not a pair (Spring Lake Park MN already had ban-the-box as its starting law, Nov 9, so both worlds ranked the same 153 applicants under it). Draw again until the starting law is the other way.
 - **A test for a rare case searches draws, then fails by name, never skips or passes (CTO, Nov 16, `done-proof`).** When no drawn place has the case, throw with every draw's place and count (`drawn-place-tests`, rule 5); a case the world never makes is a finding, so file an item. With cases, assert on every one. Search more draws first (up to about twelve), and stage a case that is still too rare through the game's own path (`executive.test.ts` teens test, Nov 9, #8035: small American Samoa places had none in four draws).
 
+Use the shared `sendDevRequest` in `src/bench/ui/dev-request.mjs` for panels with the standard JSON request and error handling. Panels keep their own controls and display logic.
+
 The address-parts and who-named Calendar panels share their local-noon record dates and trace buttons in `src/bench/ui/dev-view.mjs`. The general UTC screen formatter uses a different invalid-date and timestamp rule.
 
 ## Tracing belongs in dev mode (owner, Nov 16: "all this stuff that you're tracing, if it's not already being traced by the dev mode, it should be being traced by that. So be sure you add that capability. Again, this dev mode is essentially doing all of that tracing, but in the game. So you don't have to look at the code every time.")

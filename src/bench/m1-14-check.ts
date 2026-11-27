@@ -15,6 +15,8 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
 import { preStartHistory } from "../core2/pre-start";
+import { historyOf } from "../core2/past";
+import { LAW_STATUTE } from "../core2/modules/laws";
 import { worldPublishedMonth } from "../core2/macro-model";
 import { governments } from "../core2/modules/budgets";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -107,8 +109,14 @@ check(
 );
 
 // 4. Laws in force show their dated changes before the start.
-const lawPhases = preStartHistory(core, { kind: "law.phase" });
-const levels = new Set(lawPhases.map((row) => String(row.facts.level)));
+// A law's dated changes before the start are its statutes, through the one
+// history reader.
+const lawPhases = historyOf(
+  core,
+  { nation: true },
+  { kinds: [LAW_STATUTE] },
+).filter((row) => row.date < core.startedAt);
+const levels = new Set(lawPhases.map((row) => String(row.facts?.level)));
 check(
   lawPhases.length > 0,
   `${where}: no law shows a dated change before the start`,

@@ -38,5 +38,7 @@ describe.each(["partner-counts-a", "partner-counts-b"])("(%s)", (salt) => {
     // Age 34 is the third band; the others are untouched.
     expect(before[2]! - after[2]!).toBe(1);
     for (const band of [0, 1, 3, 4]) expect(after[band]).toBe(before[band]);
-  });
+    // A world build and a 40-day advance take about 31 s in a drawn place; the 30 s default cuts it
+    // (Glenburn ND and Notus ID, alone and together).
+  }, 120_000);
 });
