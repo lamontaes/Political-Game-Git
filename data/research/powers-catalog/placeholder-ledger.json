@@ -3,14 +3,14 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 5,
+    "markers": 4,
     "byKind": {
-      "placeholder": 4,
+      "placeholder": 3,
       "blanket": 0,
       "unresearched": 1
     },
     "byPath": {
-      "other": 5
+      "other": 4
     },
     "withoutQuestion": 1,
     "questionNotFiled": 2,
@@ -36,21 +36,12 @@
       "researchQuestionFiled": false
     },
     {
-      "file": "src/core2/death-causes.ts",
-      "line": 66,
+      "file": "src/core2/death-cause.ts",
+      "line": 253,
       "text": "* PLACEHOLDER(research: how-long-a-serious-illness-lasts-by-age). How many",
       "kinds": ["placeholder"],
       "path": "other",
       "researchQuestionId": "how-long-a-serious-illness-lasts-by-age",
-      "researchQuestionFiled": true
-    },
-    {
-      "file": "src/core2/death-causes.ts",
-      "line": 81,
-      "text": "* PLACEHOLDER(research: causes-of-death-by-age). The share of the remaining",
-      "kinds": ["placeholder"],
-      "path": "other",
-      "researchQuestionId": "causes-of-death-by-age",
       "researchQuestionFiled": true
     },
     {
