@@ -76053,10 +76053,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.follow-answer.opponent-was-the-first-in-for-seat-when",
+      "key": "scene-talk.follow-answer.opponent-was-the-first-in-for-seat-when-and-that-makes-filed-so-far-so-far",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{opponent} was the first in for {seat}, {when}.",
+      "text": "{opponent} was the first in for {seat}, {when}, and that makes {filed-so-far} so far.",
       "uses": [
         {
           "subject": "scene",
@@ -76066,7 +76066,7 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["opponent", "when", "seat"]
+          "requiresFacts": ["opponent", "when", "seat", "filed-so-far"]
         }
       ],
       "bearing": "calm",
@@ -76308,10 +76308,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.follow-accept.done-your-name-goes-on-the-list-for-seat-next-to-opponent-s",
+      "key": "scene-talk.follow-accept.done-your-name-goes-on-the-list-for-seat-behind-opponent-who-filed-first",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Done. Your name goes on the list for {seat} next to {opponent}'s.",
+      "text": "Done. Your name goes on the list for {seat}, behind {opponent}, who filed first.",
       "uses": [
         {
           "subject": "scene",

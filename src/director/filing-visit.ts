@@ -31,7 +31,11 @@ import {
 import { dayOpening } from "../english/day-words";
 import { filedSaid, filedSoFarSaid } from "../english/count-words";
 import { seatSaid, type SeatRecord } from "../english/journal-words";
-import { agencyHeadSaid, counterSaid } from "../english/said-as";
+import {
+  agencyHeadSaid,
+  agencyNameSaid,
+  counterSaid,
+} from "../english/said-as";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { placeCounty } from "../core2/place-map";
 import { describesByRule } from "../core2/filing-rule-office";
@@ -177,7 +181,7 @@ export function openFilingVisit(
           return said
             ? {
                 where: {
-                  text: named ? said : titleInSentence(said),
+                  text: named ? agencyNameSaid(said) : titleInSentence(said),
                   sourceRecordIds: contests.map((row) => row.id),
                 },
               }
