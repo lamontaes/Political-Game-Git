@@ -7,20 +7,16 @@ import { ageBandOf } from "../../../src/bench/whole-figures";
 import parameters from "../../../src/core2/data/parameters.json";
 
 const sites = [
-  "m0-check.ts",
-  "m1-10-check.ts",
-  "verify.mjs",
-  "whole-figures.ts",
+  "scripts/bench/m0-check.ts",
+  "scripts/bench/m1-10-check.ts",
+  "scripts/bench/verify.mjs",
+  "src/bench/whole-figures.ts",
 ];
 
 it("no bench check or figure types the age of majority", () => {
   for (const file of sites) {
     const text = readFileSync(
-      new URL(
-        `./${file}`,
-        new URL("../../../src/bench/voting-age-row.test.ts", import.meta.url)
-          .href,
-      ),
+      new URL(`../../../${file}`, import.meta.url),
       "utf8",
     );
     expect(
