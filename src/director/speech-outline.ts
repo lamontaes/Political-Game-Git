@@ -2509,6 +2509,96 @@ function plannedPointsOf(
 }
 
 /**
+ * The facts the close of an address may carry: its hour, the ask said in it, whether the
+ * speaker's party holds the body, and what the first point would change and why, each only
+ * if it says something the speech has not said (rule 41). A step of `planSpeech`.
+ */
+function closeFactsOf(c: {
+  readonly closing: AddressRead["pointStands"][number] | undefined;
+  readonly planned: readonly PlannedPoint[];
+  readonly pointStands: AddressRead["pointStands"];
+  readonly theme: AddressRead["theme"];
+  readonly asks: AddressRead["asks"];
+  readonly spoken: readonly string[];
+  readonly closeHour: Facts;
+  readonly bodyHold: Facts;
+  /** Whether a tag ("On X, ...") has been said already in the address. */
+  readonly tag: { said: boolean };
+}): Facts {
+  const {
+    closing,
+    planned,
+    pointStands,
+    theme,
+    asks,
+    spoken,
+    closeHour,
+    bodyHold,
+    tag,
+  } = c;
+  const first = closing;
+  const plan = first ? planned[pointStands.indexOf(first)] : undefined;
+  if (!first) return {};
+  const side = first.stance > P.zero ? "for" : "against";
+  const cited = `question:${first.question}`;
+  const changes = first.stance > P.zero !== first.law.inForce;
+  const after = changes
+    ? questionToday(first.question, !first.law.inForce, side)
+    : null;
+  const reason = questionReasons(first.question, side).reason;
+  const short = theme ? OUTLINES.themeShort[theme] : undefined;
+  // A close says something new (rule 41): nothing that shares most of its
+  // words with what the speech said already, the ask included.
+  const said = SUBJECT_WORDS.of(
+    [
+      ...spoken,
+      ...pointStands.flatMap((stand) => [
+        questionTo(stand.question),
+        questionAbout(stand.question),
+        questionSide(stand.question, "for"),
+        questionSide(stand.question, "against"),
+      ]),
+    ]
+      .filter(Boolean)
+      .join(" "),
+  );
+  const sayingNew = (text: string) =>
+    SUBJECT_WORDS.of(text).filter((word) => said.includes(word)).length <
+    OUTLINES.theme.closeSharedWordsLeast.value;
+  return {
+    // The address's own hour, an ask said in it, and whether the speaker's
+    // party holds the body (the Words lead's closes, Nov 16).
+    ...closeHour,
+    ...(asks.length
+      ? {
+          asked: fact("yes", cited),
+          // Which side the ask took, so a close that holds the speaker to
+          // it says the side the speech asked for (CTO, Nov 19).
+          [`asked-${side}`]: fact("yes", cited),
+          // The ask's own question by its name, said in the close.
+          ...(questionAbout(first.question)
+            ? { "asked-about": fact(questionAbout(first.question)!, cited) }
+            : {}),
+        }
+      : {}),
+    ...bodyHold,
+    ...(after && sayingNew(after) && !(plan?.todays ?? []).includes(after)
+      ? { "first-after": fact(clauseOf(after), cited, first.law.id) }
+      : {}),
+    ...(reason && sayingNew(reason) && !plan?.belief
+      ? { "first-reason": fact(reason, cited) }
+      : {}),
+    // A tag ("On X, ...") is said once in an address: not after a meaning
+    // line, and not for a theme that does not sit after "On" (round 4).
+    ...(short &&
+    !tag.said &&
+    !OUTLINES.themeShortNoOn.themes.includes(theme ?? "")
+      ? { "theme-short": fact(short, cited) }
+      : {}),
+  };
+}
+
+/**
  * Plan a speech of one kind from its outline row and the world: the one
  * planner for the President's, a governor's and a mayor's address.
  */
@@ -2596,7 +2686,7 @@ export function planSpeech(
       shapesUsed,
     },
   );
-  let tagSaid = false;
+  const tag = { said: false };
   const closing = turnsTo[P.zero] ?? themeLead ?? pointStands[P.zero];
   // The hour the kind is given at (rule 141): a close says good night only
   // in the evening.
@@ -2605,68 +2695,18 @@ export function planSpeech(
       ? { evening: fact("yes", `${kindKey}:minute`) }
       : {};
   const bodyHold: Facts = federal ? {} : bodyHoldFacts(core, level, speaker);
-  const closeFacts = (): Facts => {
-    const first = closing;
-    const plan = first ? planned[pointStands.indexOf(first)] : undefined;
-    if (!first) return {};
-    const side = first.stance > P.zero ? "for" : "against";
-    const cited = `question:${first.question}`;
-    const changes = first.stance > P.zero !== first.law.inForce;
-    const after = changes
-      ? questionToday(first.question, !first.law.inForce, side)
-      : null;
-    const reason = questionReasons(first.question, side).reason;
-    const short = theme ? OUTLINES.themeShort[theme] : undefined;
-    // A close says something new (rule 41): nothing that shares most of its
-    // words with what the speech said already, the ask included.
-    const said = SUBJECT_WORDS.of(
-      [
-        ...spoken,
-        ...pointStands.flatMap((stand) => [
-          questionTo(stand.question),
-          questionAbout(stand.question),
-          questionSide(stand.question, "for"),
-          questionSide(stand.question, "against"),
-        ]),
-      ]
-        .filter(Boolean)
-        .join(" "),
-    );
-    const sayingNew = (text: string) =>
-      SUBJECT_WORDS.of(text).filter((word) => said.includes(word)).length <
-      OUTLINES.theme.closeSharedWordsLeast.value;
-    return {
-      // The address's own hour, an ask said in it, and whether the speaker's
-      // party holds the body (the Words lead's closes, Nov 16).
-      ...closeHour,
-      ...(asks.length
-        ? {
-            asked: fact("yes", cited),
-            // Which side the ask took, so a close that holds the speaker to
-            // it says the side the speech asked for (CTO, Nov 19).
-            [`asked-${side}`]: fact("yes", cited),
-            // The ask's own question by its name, said in the close.
-            ...(questionAbout(first.question)
-              ? { "asked-about": fact(questionAbout(first.question)!, cited) }
-              : {}),
-          }
-        : {}),
-      ...bodyHold,
-      ...(after && sayingNew(after) && !(plan?.todays ?? []).includes(after)
-        ? { "first-after": fact(clauseOf(after), cited, first.law.id) }
-        : {}),
-      ...(reason && sayingNew(reason) && !plan?.belief
-        ? { "first-reason": fact(reason, cited) }
-        : {}),
-      // A tag ("On X, ...") is said once in an address: not after a meaning
-      // line, and not for a theme that does not sit after "On" (round 4).
-      ...(short &&
-      !tagSaid &&
-      !OUTLINES.themeShortNoOn.themes.includes(theme ?? "")
-        ? { "theme-short": fact(short, cited) }
-        : {}),
-    };
-  };
+  const closeFacts = (): Facts =>
+    closeFactsOf({
+      closing,
+      planned,
+      pointStands,
+      theme,
+      asks,
+      spoken,
+      closeHour,
+      bodyHold,
+      tag,
+    });
   /**
    * A crisis or combative address's first point: the term's worst condition, said with
    * its fact. Over the years the speaker has held office where the bank says
@@ -2682,7 +2722,7 @@ export function planSpeech(
       context[`context-${topic}`] && bankSaysContext(topic)
         ? move("context", { topic })
         : null;
-    if (told) tagSaid = true;
+    if (told) tag.said = true;
     return {
       key: `crisis-${topic}`,
       level: "country",
@@ -2939,7 +2979,7 @@ export function planSpeech(
             spanAgrees(topic, figuredFacts);
           // A meaning line leads with the address's one tag (round 4).
           if (topic && (figuredFacts["context-years"] || !yearsSaid) && trouble)
-            tagSaid = true;
+            tag.said = true;
           const figureMoves =
             topic && (figuredFacts["context-years"] || !yearsSaid)
               ? [
