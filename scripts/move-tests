@@ -345,6 +345,19 @@ function mirrorNodeTypechecks(contents) {
       mirrors.map((entry) => "    " + JSON.stringify(entry) + ",").join("\n"),
   );
 }
+// A helper that moved out of src was typechecked there by the app project; it keeps its place in that check.
+function keepHelpersTypechecked(contents) {
+  const config = JSON.parse(contents);
+  const helpers = [...moves.values(), ...redirects.values()].filter(
+    (file) => file.startsWith("tests/support/") && /\.tsx?$/.test(file),
+  );
+  const missing = [...new Set(helpers)].filter(
+    (file) => !config.files.includes(file),
+  );
+  if (!missing.length) return contents;
+  config.files = [...config.files, ...missing.sort()];
+  return JSON.stringify(config, null, 2) + "\n";
+}
 function dropLeftTheGame(contents) {
   const data = JSON.parse(contents);
   const gone = (name) => name.startsWith("tests/");
@@ -397,6 +410,7 @@ for (const file of tracked) {
     }
   }
   if (file === "tsconfig.node.json") after = mirrorNodeTypechecks(after);
+  if (file === "tsconfig.app.json") after = keepHelpersTypechecked(after);
   // The family baseline counts game files; a helper that left the game leaves its counts.
   if (file === "tests/guards/families-baseline.json")
     after = dropLeftTheGame(after);
