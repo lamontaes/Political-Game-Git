@@ -123,7 +123,11 @@ export function inOrderParagraphs(lines, groups) {
   const paragraphs = [];
   let last;
   for (const line of lines) {
-    const group = at.get(line.kind) ?? groups.length;
+    // A stretch of life told as one telling is a paragraph of its own.
+    const group =
+      line.stretch !== undefined
+        ? `stretch ${line.stretch}`
+        : (at.get(line.kind) ?? groups.length);
     if (!paragraphs.length || group !== last) paragraphs.push([]);
     paragraphs.at(-1).push(line);
     last = group;

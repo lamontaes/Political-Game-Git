@@ -2,6 +2,7 @@ import { MEETINGS_MODULE_ID, type RemarkRow } from "../core2/modules/meetings";
 import { SPEECH_OCCASION_ID } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
+import { remarkById } from "../core2/modules/bodies-reads";
 
 /**
  * The public comment a heard speech was, from the meetings engine's own
@@ -17,9 +18,7 @@ export function remarkOf(
   const id = core.durableLog.get(causeId)?.facts?.[SPEECH_OCCASION_ID];
   if (typeof id !== "string" || !id) return null;
   return (
-    (coreAPI(core as CoreState)
-      .moduleState(MEETINGS_MODULE_ID)
-      .table("remarks")
-      .get(id) as unknown as RemarkRow | undefined) ?? null
+    (remarkById(coreAPI(core as CoreState), id) as unknown as
+      RemarkRow | undefined) ?? null
   );
 }

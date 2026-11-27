@@ -204,8 +204,11 @@ import { officeholders } from "./officeholders";
 import { lawChanges } from "./changes";
 import { patchNoteReleases } from "./patch-notes";
 import { governmentMap } from "./map";
+import { handleDev } from "./dev-api";
 import { actionNames, budgetLineNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
+import { loadingStepLines } from "../english/loading-step-words";
+import { spoken, stateInSentence } from "../director/words";
 
 // This is a reference to engine-owned state, not a parallel state or writer.
 /** Everything the play server holds between requests, in one place. */
@@ -232,6 +235,8 @@ interface ServerState {
   speechBuild: SpeechBuild | undefined;
   /** What the loading screen plays, from the world being built (loading.ts). */
   loadingPeek: LoadingStory | null;
+  /** The loading card's dry lines for the build in progress, with its place said in them. */
+  loadingLines: Record<string, string[]> | null;
   /** Where the build is, for the loading screen's polls. */
   buildProgress: { stage: string; done: number; total: number };
   /** The opening, prepared during loading. */
@@ -258,6 +263,7 @@ const state: ServerState = {
   canvassedOn: new Set<string>(),
   speechBuild: undefined,
   loadingPeek: null,
+  loadingLines: null,
   buildProgress: { stage: "done", done: 0, total: 0 },
   opening: undefined,
   marker: undefined,
@@ -430,6 +436,8 @@ function gapMarker(): DevMode {
 /** The world the developer view reads (dev-api.ts), the same engine state. */
 export function benchWorld() {
   return {
+    // Where dev mode keeps its proofs and trace reports: a folder beside the saves, which the save list never reads.
+    folder: join(saveFolder(), "dev-mode"),
     core: state.core,
     director: state.director,
     player: state.player,
@@ -461,6 +469,14 @@ export interface BenchRequestOptions {
 }
 // The play page never calls these; they are the bench's developer view.
 const DEVELOPER_ROUTES = new Set(["/api/build"]);
+
+/**
+ * Dev mode's permission (owner, Nov 26: "dev mode is a part of the game... It just has different permissions").
+ * The page's Options checkbox sends it (POST /api/devmode) when it changes and when the page loads; the
+ * play server answers /api/dev/* only while it is on, or for the developer's bench. Kept outside the
+ * world's state so a new life does not turn it off.
+ */
+let devPermission = false;
 
 const NEWSPAPER_ART = /^\/art\/newspaper\/([a-z0-9-]+\.jpg)$/;
 
@@ -498,6 +514,7 @@ const ROUTES: readonly Route[] = [
         const chosen = url.searchParams.get("person")
           ? readChosenPerson(url.searchParams.get("person")!)
           : undefined;
+        state.loadingLines = null;
         // Every game opens on the one start date (owner, Oct 14, 2026).
         const world = await buildBenchWorldInStages(
           url.searchParams.get("seed") ?? "",
@@ -505,6 +522,15 @@ const ROUTES: readonly Route[] = [
           {
             twoLevel: true,
             warmUpDays: OPENING_WARMUP_DAYS,
+            // The loading card's dry lines name the place being built.
+            onPlace: (place) => {
+              state.loadingLines = loadingStepLines({
+                place: spoken(place),
+                ...(place.withinName
+                  ? { state: stateInSentence(place.withinName) }
+                  : {}),
+              });
+            },
             // Who the player is, chosen before the world's first weeks run.
             ...(chosen
               ? {
@@ -1303,7 +1329,12 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/newlife/progress",
     run: async ({ send }) => {
-      send(200, { ...state.buildProgress, story: state.loadingPeek !== null });
+      send(200, {
+        ...state.buildProgress,
+        story: state.loadingPeek !== null,
+        // The dry line pool of each step, with the start place said in it.
+        lines: state.loadingLines ?? {},
+      });
       return;
     },
   },
@@ -3035,7 +3066,12 @@ registerCommand<{ method: string; url: string }>(BENCH_REQUEST, () => {
   throw new Error("A bench request replays through the bench (replayLife).");
 });
 /** Requests that write files or load a save, not the world: never recorded. */
-const UNRECORDED = new Set(["/api/grade", "/api/gap", "/api/load"]);
+const UNRECORDED = new Set([
+  "/api/grade",
+  "/api/gap",
+  "/api/load",
+  "/api/devmode",
+]);
 
 /**
  * The folder the saves are kept in, one file per life: OCD_SAVE_DIR, which
@@ -3175,21 +3211,24 @@ export async function benchRequest(
   method: string,
   url: URL,
   options: BenchRequestOptions,
+  body = "",
 ): Promise<BenchReply> {
   // What the request may change: the date it ran on and who is full yet.
   const was = state.core;
   const date = state.core?.date;
   const filled = state.core ? fillInCount(state.core) : 0;
-  const reply = await answerRequest(method, url, options);
+  const reply = await answerRequest(method, url, options, body);
   // Every request the player makes that can change the world is recorded:
-  // every POST under /api/ but the two that write files, and a read that
+  // every POST under /api/ but the ones that write files (and dev mode's own, which a replay never runs), and a read that
   // filled someone in (a person card of someone in the counts).
   const posted =
     method === "POST" &&
     url.pathname.startsWith("/api/") &&
-    !UNRECORDED.has(url.pathname);
+    !UNRECORDED.has(url.pathname) &&
+    !url.pathname.startsWith("/api/dev/");
   const filledIn =
     method === "GET" &&
+    !url.pathname.startsWith("/api/dev/") &&
     state.core !== undefined &&
     state.core === was &&
     fillInCount(state.core) > filled;
@@ -3226,6 +3265,7 @@ async function answerRequest(
   method: string,
   url: URL,
   options: BenchRequestOptions,
+  body: string,
 ): Promise<BenchReply> {
   // A game is being played: figures handed out are drawn ahead from now on.
   drawAheadOn();
@@ -3250,6 +3290,26 @@ async function answerRequest(
     if (!options.developer && DEVELOPER_ROUTES.has(url.pathname)) {
       send(404, { error: "Unknown bench route." });
       return reply;
+    }
+    if (method === "POST" && url.pathname === "/api/devmode") {
+      devPermission = url.searchParams.get("on") === "1";
+      send(200, { on: devPermission });
+      return reply;
+    }
+    if (url.pathname.startsWith("/api/dev/")) {
+      if (!options.developer && !devPermission) {
+        send(403, { error: "Turn on dev mode in Options first." });
+        return reply;
+      }
+      // Dev mode's own routes (dev-api.ts) and the views' (dev-views.ts), through the same engines as play.
+      // stopgapId: SG-SCREENS-dev-days-not-saved
+      const devRequest = {
+        method,
+        async *[Symbol.asyncIterator]() {
+          yield body;
+        },
+      };
+      if (await handleDev(devRequest, url, send, benchWorld)) return reply;
     }
     const route = ROUTES.find((candidate) => candidate.match({ request, url }));
     if (route) await route.run({ request, url, options, send, response });
