@@ -25,11 +25,7 @@ import { initialPersonState } from "../person-state";
 import { fillInPerson, resolveOperation } from "../state";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
 import type { CashJournalPostedMarker } from "../journal-state";
-import {
-  declareSnapshotCovered,
-  registerDerivedCache,
-  registerWorldMapPart,
-} from "../snapshot";
+import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
 import type {
   ActOffer,
   ActionDefinition,
@@ -1933,6 +1929,7 @@ export function createDrivesModule(
 ): CoreModule {
   return {
     id: DRIVES_MODULE_ID,
+    derivedCaches: () => [causeGroupIds],
     // One row per cause group, replaced each month: what its counted giving was made of.
     state: { schemaVersion: 1, tables: { [COUNTED_GIVING_TABLE]: {} } },
     // A donation is paid through the cash journal from this module's own canonical record.
@@ -2629,7 +2626,6 @@ const causeGroupIds = new WeakMap<
   CoreState,
   { size: number; ids: readonly string[] }
 >();
-registerDerivedCache(causeGroupIds);
 
 /**
  * The cause groups founded in a place, read-only. The founder and the change
