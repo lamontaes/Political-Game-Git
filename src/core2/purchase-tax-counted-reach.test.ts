@@ -6,6 +6,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { appliedOn } from "./law-reach/applied";
+import { lawInForce } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
 
@@ -20,7 +21,12 @@ const KEYS = [
 ];
 
 describe(`sales tax counted reach (seed ${seed})`, () => {
-  it("never stands for more people than the town's counted residents", () => {
+  it("never stands for more people than the town's counted residents, and writes no reach where no sales tax is in force", () => {
+    // Whether the place taxes sales is read from its own law record (a rate
+    // above zero at a city, county, township or state level, not set aside),
+    // before the rows are looked at: a place with the tax must write counted
+    // reach rows, and a place with none (a gross receipts tax instead) must
+    // write none. No place is passed over for what it wrote.
     const places = [
       { name: "Prescott, Michigan", key: "2666300", seed: "a91c03e7d2b84f10" },
       drawPlace(`${seed}:0`, "purchase-tax-reach"),
@@ -33,11 +39,26 @@ describe(`sales tax counted reach (seed ${seed})`, () => {
       });
       const core = world.core;
       const api = coreAPI(core);
-      advanceCore(core, addDays(makeIsoDate(core.date), 40));
-      const whole =
-        residentsRuntime(core)?.store.weightedPeople(
-          [...core.visiblePlaceIds][0]!,
-        ) ?? 0;
+      // A row counts the people its household stood for on the day it was
+      // written, and the town's counted people move in the 40 days (households
+      // are filled in as staff and leave the counts), so the reach is held to
+      // the most counted people the town had on any day of the window, not to
+      // the town at the end of it.
+      const town = [...core.visiblePlaceIds][0]!;
+      const peopleToday = () =>
+        residentsRuntime(core)?.store.weightedPeople(town) ?? 0;
+      let whole = peopleToday();
+      for (let day = 0; day < 40; day += 1) {
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+        whole = Math.max(whole, peopleToday());
+      }
+      const taxed = lawInForce(api, "sales-tax").levels.some(
+        (l) =>
+          l.row &&
+          !l.setAside &&
+          l.level !== "federal" &&
+          (l.row.value ?? 0) > 0,
+      );
       let witnessed = 0;
       for (const key of KEYS) {
         const rows = appliedOn(api, key).filter((r) => r.target === "group");
@@ -48,14 +69,23 @@ describe(`sales tax counted reach (seed ${seed})`, () => {
           witnessed += 1;
           expect(
             people,
-            `${where}: ${key} (${lawId}) counted groups stand for ${people} of ${whole} counted people`,
+            `${where}: ${key} (${lawId}) counted groups stand for ${people} of at most ${whole} counted people`,
           ).toBeLessThanOrEqual(whole);
         }
       }
-      expect(
-        witnessed,
-        `${where}: counted sales-tax reach rows`,
-      ).toBeGreaterThan(0);
+      process.stdout.write(
+        `purchase-tax-counted-reach: ${where}: sales tax in force ${taxed}, ${witnessed} counted reach rows\n`,
+      );
+      if (taxed)
+        expect(
+          witnessed,
+          `${where}: a sales tax is in force, counted sales-tax reach rows`,
+        ).toBeGreaterThan(0);
+      else
+        expect(
+          witnessed,
+          `${where}: no sales tax in force, so no counted reach rows`,
+        ).toBe(0);
     }
   }, 900_000);
 });
