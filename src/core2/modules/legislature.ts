@@ -7543,6 +7543,153 @@ export function sectionDates(
  * after enactment unless it names a date; a state act by its state's default
  * rule. Each section's date is `sectionDates`.
  */
+/** What the steps of `enact` share: the bill, the body it passed in, how its rows are cited and the terms its act records. */
+interface EnactContext {
+  api: CoreAPI;
+  bill: BillRow;
+  jurisdiction: string;
+  level: ReturnType<typeof effectiveRule>["level"];
+  citation: string;
+  estimate: boolean;
+  terms: Record<string, unknown> | undefined;
+}
+
+/** A section that repeals a law series: the repeal takes effect on the section's date. */
+function repealSeriesStep(
+  ctx: EnactContext,
+  provision: Provision & { series: string },
+  effectiveDate: string,
+): void {
+  const { api, bill, jurisdiction, level, citation, terms } = ctx;
+  repealLaw(api, {
+    jurisdiction,
+    level,
+    series: provision.series,
+    effectiveDate,
+    measureId: bill.number,
+    citation,
+    terms: { ...(terms ?? {}), repealedByBill: bill.id },
+  });
+}
+
+/** A section that sets a law's amount: the bill sets the amount, never the unit. */
+function enactAmountStep(
+  ctx: EnactContext,
+  provision: Provision & { series: string },
+  effectiveDate: string,
+): void {
+  const { api, bill, jurisdiction, level, citation, estimate, terms } = ctx;
+  const current = amendedRow(api, provision.series, jurisdiction, level);
+  const shaped = shapedRate(current, provision);
+  enactLaw(api, {
+    jurisdiction,
+    level,
+    series: provision.series,
+    value: provision.value,
+    // A bill sets the law's amount, never its unit: a section that names
+    // no unit amends the law in the law's own unit.
+    unit:
+      shaped?.unit ??
+      provision.unit ??
+      current?.unit ??
+      (provision.series === "minimum-wage" ? "minor/hour" : "percent"),
+    effectiveDate,
+    measureId: bill.number,
+    citation,
+    estimate,
+    // The bill itself, not only its number: numbers repeat across bodies
+    // and sessions, and a recall or the record finds the bill by this.
+    terms: {
+      ...amendedTerms(current, shaped?.terms),
+      ...(terms ?? {}),
+      enactedByBill: bill.id,
+    },
+  });
+}
+
+/** A section that changes a budget line: the line is amended the day the bill becomes law. */
+function enactBudgetLineStep(
+  ctx: EnactContext,
+  provision: Provision & { line: string },
+  enactedValue: number,
+): void {
+  const { bill, jurisdiction } = ctx;
+  const { api } = ctx;
+  // stopgapId: SG-LEGISLATURE-dated-budget-line-amended-on-enactment
+  // A budget section's own date is not read yet: the line is amended
+  // the day the bill becomes law, whatever date the section names.
+  amendBudget(api, {
+    governmentId: jurisdiction,
+    line: provision.line,
+    deltaMinor: enactedValue,
+    measureId: bill.number,
+    carry: true,
+  });
+  if (provision.requestId && provision.recipientId)
+    payProjectGrant(api, {
+      requestId: provision.requestId,
+      fromGovernmentId: jurisdiction,
+      amountMinor: enactedValue,
+      measureId: bill.number,
+    });
+}
+
+/**
+ * A section that answers a policy question: the repeat it records where it only
+ * restates what is already law at this level, else null after writing the law.
+ */
+function enactQuestionStep(
+  ctx: EnactContext,
+  provision: Provision & { question: string },
+  effectiveDate: string,
+): NonNullable<BillRow["repeats"]>[number] | null {
+  const { api, bill, jurisdiction, level, citation, estimate, terms } = ctx;
+  const question = policySeriesAtLevel(provision.question, level);
+  // A section that only repeats what is already law at this level (in
+  // force, or passed earlier and waiting on its date) changes nothing: it
+  // writes no new law and the act records the row it repeats. A bill's
+  // sections are written when it passes, not when they were added, so
+  // another bill may have made the same law in between.
+  const settled = questionSettled(
+    api,
+    jurisdiction,
+    question,
+    provision.value,
+    bill.id,
+    effectiveDate,
+  );
+  if (
+    settled &&
+    (settled.why === "restates-in-force" || settled.why === "restates-pending")
+  ) {
+    return { question: provision.question, ...settled };
+  }
+  enactLaw(api, {
+    jurisdiction,
+    level,
+    series: question,
+    value: provision.value > 0 ? 1 : 0,
+    effectiveDate,
+    measureId: bill.number,
+    citation,
+    estimate,
+    // The bill itself, not only its number: numbers repeat across bodies
+    // and sessions, and a recall or the record finds the bill by this.
+    terms: {
+      ...(terms ?? {}),
+      enactedByBill: bill.id,
+      // How strongly the sponsor holds the question (their own record or
+      // views), for a reader that needs the rate or size they would
+      // write: a flat tax that replaces a graduated one is read from it.
+      sponsorStance:
+        Math.round(
+          memberStanceOn(api, bill.sponsorId, provision.question) * 1000,
+        ) / 1000,
+    },
+  });
+  return null;
+}
+
 function enact(
   api: CoreAPI,
   bill: BillRow,
@@ -7584,6 +7731,15 @@ function enact(
       }
     | undefined;
   const repeats: NonNullable<BillRow["repeats"]>[number][] = [];
+  const ctx: EnactContext = {
+    api,
+    bill,
+    jurisdiction,
+    level,
+    citation,
+    estimate,
+    terms,
+  };
   const dates = sectionDates(
     bill.provisions,
     api.state.date,
@@ -7608,110 +7764,32 @@ function enact(
       provision.series &&
       provision.repeal
     ) {
-      repealLaw(api, {
-        jurisdiction,
-        level,
-        series: provision.series,
-        effectiveDate,
-        measureId: bill.number,
-        citation,
-        terms: { ...(terms ?? {}), repealedByBill: bill.id },
-      });
-      continue;
-    }
-    if (provision.kind === "law-amount" && provision.series) {
-      const current = amendedRow(api, provision.series, jurisdiction, level);
-      const shaped = shapedRate(current, provision);
-      enactLaw(api, {
-        jurisdiction,
-        level,
-        series: provision.series,
-        value: provision.value,
-        // A bill sets the law's amount, never its unit: a section that names
-        // no unit amends the law in the law's own unit.
-        unit:
-          shaped?.unit ??
-          provision.unit ??
-          current?.unit ??
-          (provision.series === "minimum-wage" ? "minor/hour" : "percent"),
-        effectiveDate,
-        measureId: bill.number,
-        citation,
-        estimate,
-        // The bill itself, not only its number: numbers repeat across bodies
-        // and sessions, and a recall or the record finds the bill by this.
-        terms: {
-          ...amendedTerms(current, shaped?.terms),
-          ...(terms ?? {}),
-          enactedByBill: bill.id,
-        },
-      });
-    }
-    if (provision.kind === "budget-line" && provision.line) {
-      // stopgapId: SG-LEGISLATURE-dated-budget-line-amended-on-enactment
-      // A budget section's own date is not read yet: the line is amended
-      // the day the bill becomes law, whatever date the section names.
-      amendBudget(api, {
-        governmentId: jurisdiction,
-        line: provision.line,
-        deltaMinor: enactedValue,
-        measureId: bill.number,
-        carry: true,
-      });
-      if (provision.requestId && provision.recipientId)
-        payProjectGrant(api, {
-          requestId: provision.requestId,
-          fromGovernmentId: jurisdiction,
-          amountMinor: enactedValue,
-          measureId: bill.number,
-        });
-    }
-    if (provision.kind === "policy-question" && provision.question) {
-      const question = policySeriesAtLevel(provision.question, level);
-      // A section that only repeats what is already law at this level (in
-      // force, or passed earlier and waiting on its date) changes nothing: it
-      // writes no new law and the act records the row it repeats. A bill's
-      // sections are written when it passes, not when they were added, so
-      // another bill may have made the same law in between.
-      const settled = questionSettled(
-        api,
-        jurisdiction,
-        question,
-        provision.value,
-        bill.id,
+      repealSeriesStep(
+        ctx,
+        provision as Provision & { series: string },
         effectiveDate,
       );
-      if (
-        settled &&
-        (settled.why === "restates-in-force" ||
-          settled.why === "restates-pending")
-      ) {
-        repeats.push({ question: provision.question, ...settled });
-        continue;
-      }
-      enactLaw(api, {
-        jurisdiction,
-        level,
-        series: question,
-        value: provision.value > 0 ? 1 : 0,
+      continue;
+    }
+    if (provision.kind === "law-amount" && provision.series)
+      enactAmountStep(
+        ctx,
+        provision as Provision & { series: string },
         effectiveDate,
-        measureId: bill.number,
-        citation,
-        estimate,
-        // The bill itself, not only its number: numbers repeat across bodies
-        // and sessions, and a recall or the record finds the bill by this.
-        terms: {
-          ...(terms ?? {}),
-          enactedByBill: bill.id,
-          // How strongly the sponsor holds the question (their own record or
-          // views), for a reader that needs the rate or size they would
-          // write: a flat tax that replaces a graduated one is read from it.
-          sponsorStance:
-            Math.round(
-              memberStanceOn(api, bill.sponsorId, provision.question) * 1000,
-            ) / 1000,
-        },
-      });
+      );
+    if (provision.kind === "budget-line" && provision.line)
+      enactBudgetLineStep(
+        ctx,
+        provision as Provision & { line: string },
+        enactedValue,
+      );
+    if (provision.kind === "policy-question" && provision.question) {
+      const repeat = enactQuestionStep(
+        ctx,
+        provision as Provision & { question: string },
+        effectiveDate,
+      );
+      if (repeat) repeats.push(repeat);
     }
   }
   const next: BillRow = {
