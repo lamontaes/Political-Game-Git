@@ -1334,7 +1334,6 @@
       "kind": "written",
       "elements": [
         "pattern-a02-the-seat-comes-to-you",
-        "pattern-a25-the-seat-your-patron-leaves",
         "narrow-loss-then-a-clear-win-in-the-rematch"
       ]
     },
@@ -1362,7 +1361,6 @@
       "kind": "written",
       "elements": [
         "pattern-a02-the-seat-comes-to-you",
-        "pattern-a25-the-seat-your-patron-leaves",
         "narrow-loss-then-a-clear-win-in-the-rematch"
       ]
     },
@@ -1615,10 +1613,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-b41-the-oath",
-        "pattern-b44-your-first-vote-is-the-big-one"
-      ]
+      "elements": ["pattern-b41-the-oath"]
     },
     {
       "key": "person-history.story.office.entered.third.w2",
@@ -1628,10 +1623,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-b41-the-oath",
-        "pattern-b44-your-first-vote-is-the-big-one"
-      ]
+      "elements": ["pattern-b41-the-oath"]
     },
     {
       "key": "person-history.story.office.entered.third.w3",
@@ -1641,10 +1633,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-b41-the-oath",
-        "pattern-b44-your-first-vote-is-the-big-one"
-      ]
+      "elements": ["pattern-b41-the-oath"]
     },
     {
       "key": "person-history.story.office.entered.third.w4",
@@ -1664,10 +1653,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-b41-the-oath",
-        "pattern-b44-your-first-vote-is-the-big-one"
-      ]
+      "elements": ["pattern-b41-the-oath"]
     },
     {
       "key": "person-history.story.office.entered.they.w2",
@@ -1677,10 +1663,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-b41-the-oath",
-        "pattern-b44-your-first-vote-is-the-big-one"
-      ]
+      "elements": ["pattern-b41-the-oath"]
     },
     {
       "key": "person-history.story.office.entered.they.w3",
@@ -1690,10 +1673,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-b41-the-oath",
-        "pattern-b44-your-first-vote-is-the-big-one"
-      ]
+      "elements": ["pattern-b41-the-oath"]
     },
     {
       "key": "person-history.story.office.entered.they.w4",
@@ -1703,10 +1683,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-b41-the-oath",
-        "pattern-b44-your-first-vote-is-the-big-one"
-      ]
+      "elements": ["pattern-b41-the-oath"]
     },
     {
       "key": "person-history.story.office.entered.i",
@@ -1716,10 +1693,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-b41-the-oath",
-        "pattern-b44-your-first-vote-is-the-big-one"
-      ]
+      "elements": ["pattern-b41-the-oath"]
     },
     {
       "key": "person-history.story.office.entered.i.w2",
@@ -1739,10 +1713,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-b41-the-oath",
-        "pattern-b44-your-first-vote-is-the-big-one"
-      ]
+      "elements": ["pattern-b41-the-oath"]
     },
     {
       "key": "person-history.story.office.entered.i.w4",
@@ -1752,10 +1723,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-b41-the-oath",
-        "pattern-b44-your-first-vote-is-the-big-one"
-      ]
+      "elements": ["pattern-b41-the-oath"]
     },
     {
       "key": "person-history.story.office.entered-again.third",
@@ -2001,8 +1969,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written",
-      "elements": ["marriage-is-the-reason-for-the-move"]
+      "kind": "written"
     },
     {
       "key": "person-history.story.partner.engaged.they",
@@ -2020,8 +1987,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written",
-      "elements": ["marriage-is-the-reason-for-the-move"]
+      "kind": "written"
     },
     {
       "key": "person-history.story.partner.married.third",
@@ -2558,8 +2524,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written",
-      "elements": ["pattern-b5-01-home-with-a-record"]
+      "kind": "written"
     },
     {
       "key": "person-history.story.law.imprisoned.they",
@@ -2577,8 +2542,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written",
-      "elements": ["pattern-b5-01-home-with-a-record"]
+      "kind": "written"
     },
     {
       "key": "person-history.story.law.released.third",
@@ -3356,10 +3320,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-b5-02-the-notice-and-the-days-after",
-        "parents-lose-their-home-when-the-bank-closes"
-      ]
+      "elements": ["parents-lose-their-home-when-the-bank-closes"]
     },
     {
       "key": "person-history.story.home.evicted.they",
@@ -3369,10 +3330,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-b5-02-the-notice-and-the-days-after",
-        "parents-lose-their-home-when-the-bank-closes"
-      ]
+      "elements": ["parents-lose-their-home-when-the-bank-closes"]
     },
     {
       "key": "person-history.story.home.evicted.i",
@@ -3382,10 +3340,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-b5-02-the-notice-and-the-days-after",
-        "parents-lose-their-home-when-the-bank-closes"
-      ]
+      "elements": ["parents-lose-their-home-when-the-bank-closes"]
     },
     {
       "key": "person-history.story.home.damaged.third",
@@ -4291,10 +4246,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "business-closure-reaches-the-negotiating-table",
-        "laid-off-worker-is-blunt-with-a-spouse-brief-with-kids"
-      ]
+      "elements": ["business-closure-reaches-the-negotiating-table"]
     },
     {
       "key": "person-history.story.work.found.third",
@@ -4432,8 +4384,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written",
-      "elements": ["minimum-wage-year-one-modest-hours-slip"]
+      "kind": "written"
     },
     {
       "key": "person-history.story.school.honor.third",
@@ -4499,8 +4450,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "kind": "written"
     },
     {
       "key": "person-history.story.work.out-for.they",
@@ -4539,8 +4489,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "kind": "written"
     },
     {
       "key": "person-history.story.work.out-for.i",
@@ -5378,8 +5327,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written",
-      "elements": ["pattern-a25-the-seat-your-patron-leaves"]
+      "kind": "written"
     },
     {
       "key": "person-history.story.partner.widowed.third.w2",
@@ -5401,8 +5349,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written",
-      "elements": ["pattern-a25-the-seat-your-patron-leaves"]
+      "kind": "written"
     },
     {
       "key": "person-history.story.partner.widowed.they.w2",
@@ -5799,8 +5746,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written",
-      "elements": ["age-of-the-child-when-the-parents-split"]
+      "kind": "written"
     },
     {
       "key": "person-history.story.partner.widowed.parent.third",
@@ -5823,10 +5769,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-a25-the-seat-your-patron-leaves",
-        "pattern-a37-the-seat-and-the-funeral"
-      ]
+      "elements": ["pattern-a37-the-seat-and-the-funeral"]
     },
     {
       "key": "person-history.story.partner.widowed.parent.i",
@@ -5887,11 +5830,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written",
-      "elements": [
-        "pattern-a37-the-seat-and-the-funeral",
-        "pattern-a25-the-seat-your-patron-leaves"
-      ]
+      "kind": "written"
     },
     {
       "key": "person-history.story.partner.died.parent.they",
@@ -5914,10 +5853,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-a37-the-seat-and-the-funeral",
-        "pattern-a25-the-seat-your-patron-leaves"
-      ]
+      "elements": ["pattern-a25-the-seat-your-patron-leaves"]
     },
     {
       "key": "person-history.story.child.born.any",
