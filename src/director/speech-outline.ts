@@ -2376,82 +2376,27 @@ function blocksOf(
 }
 
 /**
- * Plan a speech of one kind from its outline row and the world: the one
- * planner for the President's, a governor's and a mayor's address.
+ * Plan each point of the address: its shape (one per point, in the order the speaker's
+ * traits pull), the speaker's side, how that side describes the question today, the
+ * belief's family and pole, its figure and its name's number. A step of `planSpeech`;
+ * the shapes, beliefs and sayings used so far are filled in as the points are planned.
  */
-export function planSpeech(
+function plannedPointsOf(
   core: CoreState,
-  kindKey: string,
-  speaker: OutlineSpeaker,
-): SpeechPlan {
-  const {
-    row,
-    kind,
-    level,
-    person,
-    voice,
-    federal,
-    country,
-    official,
-    local,
-    theme,
-    firstYear,
-    addressKind,
-    crisis,
-    response,
-    story,
-    pointStands,
-    asks,
-    turnsTo,
-    themeLead,
-    themeName,
-    themeCited,
-    topicOf,
-    points,
-    themeFacts,
-    kindFact,
-  } = readAddress(core, kindKey, speaker);
-  const move = (
-    role: string,
-    options: { topic?: string; required?: boolean } = {},
-  ) => openingMove(kind, voice, role, { ...options, addressKind });
-  // An ask whose belief is folded into it is said by the bank's folded cores
-  // alone, else a plain core would do and the belief would go unsaid (rule 38).
-  const askMove = (join: string | null) => {
-    const plain = move("ask");
-    if (join !== "belief-folded" || !plain) return plain;
-    const folded = plain.bank.parts.core.variants.filter((variant) =>
-      variant.requiresFacts?.includes("belief-folded"),
-    );
-    return folded.length
-      ? {
-          ...plain,
-          bank: {
-            ...plain.bank,
-            parts: { ...plain.bank.parts, core: { variants: folded } },
-          },
-        }
-      : plain;
-  };
-  const party = (official?.party ?? "").toLowerCase();
-  const creedFacts: Facts = official
-    ? {
-        [`party-${PARTY_FACT[party] ?? "other"}`]: fact("yes", official.id),
-      }
-    : {};
-  const asides = asidesOf(person, row.asides);
-  const ownRecord = row.ownRecord && !firstYear;
-
-  // Each point's plan: its shape (one per point, in the order the speaker's
-  // traits pull), the speaker's side, how that side describes the question
-  // today, the belief's family and pole, its figure and its name's number.
-  const order = shapeOrder(person);
-  // The beliefs this speaker said before, in earlier addresses, then here.
-  const beliefsSaid = earlierAddressPieces(core, person.id);
-  const beliefsHere = new Set<string>();
-  // What the points planned so far say, in order.
-  const spoken: string[] = [];
-  const shapesUsed = new Set<string>();
+  read: Pick<
+    AddressRead,
+    "kind" | "person" | "pointStands" | "topicOf" | "voice"
+  >,
+  used: {
+    readonly order: ReturnType<typeof shapeOrder>;
+    readonly beliefsSaid: ReturnType<typeof earlierAddressPieces>;
+    readonly beliefsHere: Set<string>;
+    readonly spoken: string[];
+    readonly shapesUsed: Set<string>;
+  },
+): PlannedPoint[] {
+  const { kind, person, pointStands, topicOf, voice } = read;
+  const { order, beliefsSaid, beliefsHere, spoken, shapesUsed } = used;
   const planned: PlannedPoint[] = pointStands.map((stand, at) => {
     const side = stand.stance > P.zero ? "for" : "against";
     const family = questionFamily(stand.question);
@@ -2560,6 +2505,97 @@ export function planSpeech(
   // answer, or the theme's own lead where the row's one point is the answer;
   // else the first point.
   // Whether a meaning line (which leads with the "On X," tag) is said.
+  return planned;
+}
+
+/**
+ * Plan a speech of one kind from its outline row and the world: the one
+ * planner for the President's, a governor's and a mayor's address.
+ */
+export function planSpeech(
+  core: CoreState,
+  kindKey: string,
+  speaker: OutlineSpeaker,
+): SpeechPlan {
+  const {
+    row,
+    kind,
+    level,
+    person,
+    voice,
+    federal,
+    country,
+    official,
+    local,
+    theme,
+    firstYear,
+    addressKind,
+    crisis,
+    response,
+    story,
+    pointStands,
+    asks,
+    turnsTo,
+    themeLead,
+    themeName,
+    themeCited,
+    topicOf,
+    points,
+    themeFacts,
+    kindFact,
+  } = readAddress(core, kindKey, speaker);
+  const move = (
+    role: string,
+    options: { topic?: string; required?: boolean } = {},
+  ) => openingMove(kind, voice, role, { ...options, addressKind });
+  // An ask whose belief is folded into it is said by the bank's folded cores
+  // alone, else a plain core would do and the belief would go unsaid (rule 38).
+  const askMove = (join: string | null) => {
+    const plain = move("ask");
+    if (join !== "belief-folded" || !plain) return plain;
+    const folded = plain.bank.parts.core.variants.filter((variant) =>
+      variant.requiresFacts?.includes("belief-folded"),
+    );
+    return folded.length
+      ? {
+          ...plain,
+          bank: {
+            ...plain.bank,
+            parts: { ...plain.bank.parts, core: { variants: folded } },
+          },
+        }
+      : plain;
+  };
+  const party = (official?.party ?? "").toLowerCase();
+  const creedFacts: Facts = official
+    ? {
+        [`party-${PARTY_FACT[party] ?? "other"}`]: fact("yes", official.id),
+      }
+    : {};
+  const asides = asidesOf(person, row.asides);
+  const ownRecord = row.ownRecord && !firstYear;
+
+  // Each point's plan: its shape (one per point, in the order the speaker's
+  // traits pull), the speaker's side, how that side describes the question
+  // today, the belief's family and pole, its figure and its name's number.
+  const order = shapeOrder(person);
+  // The beliefs this speaker said before, in earlier addresses, then here.
+  const beliefsSaid = earlierAddressPieces(core, person.id);
+  const beliefsHere = new Set<string>();
+  // What the points planned so far say, in order.
+  const spoken: string[] = [];
+  const shapesUsed = new Set<string>();
+  const planned = plannedPointsOf(
+    core,
+    { kind, person, pointStands, topicOf, voice },
+    {
+      order,
+      beliefsSaid,
+      beliefsHere,
+      spoken,
+      shapesUsed,
+    },
+  );
   let tagSaid = false;
   const closing = turnsTo[P.zero] ?? themeLead ?? pointStands[P.zero];
   // The hour the kind is given at (rule 141): a close says good night only
