@@ -12,7 +12,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { OFFICIAL_PAY_MODULE_ID } from "./modules/official-pay";
 import { placeStateKey } from "./place-map";
 import { coreAPI } from "./state";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // A named official has a household of their own (owner, Oct 16): a living
 // cost from the Consumer Expenditure basket and a studio's rent, savings

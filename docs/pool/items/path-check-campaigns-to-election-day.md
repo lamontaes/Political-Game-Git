@@ -18,8 +18,8 @@ claimed-at: 2026-10-29T22:47:33.134Z
 
 **Rules.** Wire to the world: path-check plays the campaign through the same campaign-day choices and play clock the screen uses, so what it measures is what the owner can play. One rule, all 56 places: it prefers the council kind from the office row's data, never a place name.
 
-**Done when.** In a drawn place with the seed it prints, node --import tsx src/bench/path-check.ts files for a council seat where the place has one, logs a campaign line with weeks, doors, money raised, events and door yes count up to election day, and the election result shows at least one vote for the player, their own.
+**Done when.** In a drawn place with the seed it prints, node --import tsx tests/golden-path/path-check.ts files for a council seat where the place has one, logs a campaign line with weeks, doors, money raised, events and door yes count up to election day, and the election result shows at least one vote for the player, their own.
 
-**Files.** src/bench/path-check.ts
+**Files.** tests/golden-path/path-check.ts
 
 **Notes.** TODO

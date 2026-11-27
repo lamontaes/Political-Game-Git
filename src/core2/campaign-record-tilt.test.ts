@@ -13,7 +13,7 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { advanceToFilingOpen } from "./gov-test-clock";
+import { advanceToFilingOpen } from "../../tests/support/gov-test-clock";
 import { coreAPI } from "./state";
 import { OUTCOME_WEB_MODULE_ID } from "./outcome-web-model";
 import { TERM_MEASURES, areasAnswered } from "./term-read";
@@ -21,7 +21,7 @@ import { platformShares } from "./campaign-stances";
 import { campaignFor } from "./modules/campaigns";
 import { fileCandidacy, openContests } from "./modules/elections";
 import { OFFICES_MODULE_ID } from "./modules/offices";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const SEED = "a7c13e";
 const DRAWS = [0, 1, 2] as const;

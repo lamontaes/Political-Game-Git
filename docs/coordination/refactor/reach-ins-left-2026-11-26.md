@@ -150,8 +150,8 @@
 - `src/core2/population.ts` → `src/core2/town-pay.ts` [jobs-businesses]
 - `src/core2/residents.ts` → `src/core2/finance-plan.ts` [budgets]
 - `src/core2/residents.ts` → `src/core2/work-pay-period.ts` [jobs-businesses]
-- `src/core2/trait-pairs.ts` → `src/bench/world.ts` [screens]
-- `src/core2/trait-test-kit.ts` → `src/bench/world.ts` [screens]
+- `scripts/core2/trait-pairs.ts` → `src/bench/world.ts` [screens]
+- `tests/support/trait-test-kit.ts` → `src/bench/world.ts` [screens]
 
 **a file the History, Past-and-Day-One or Talk sessions own, or a target of theirs (skip lists)** (26):
 
@@ -207,9 +207,9 @@
 - `src/bench/dev-mode.ts` → `src/core2/policy-answers.ts` [laws]
 - `src/bench/dev-mode.ts` → `src/core2/public-pay-floor.ts` [laws]
 - `src/bench/government.ts` → `src/core2/opening-key-people.ts` [people]
-- `src/bench/m0-check.ts` → `src/core2/player-v1.ts` [clock-places]
-- `src/bench/m1-13-check.ts` → `src/core2/modules/counted-moves.ts` [people]
-- `src/bench/m1-14-check.ts` → `src/core2/pre-start.ts` [past]
+- `scripts/bench/m0-check.ts` → `src/core2/player-v1.ts` [clock-places]
+- `scripts/bench/m1-13-check.ts` → `src/core2/modules/counted-moves.ts` [people]
+- `scripts/bench/m1-14-check.ts` → `src/core2/pre-start.ts` [past]
 - `src/bench/printed-words.ts` → `data/english/bill-names.json` [english]
 - `src/bench/printed-words.ts` → `src/core2/appointments.ts` [executive]
 - `src/bench/reached.ts` → `src/core2/law-reach/host.ts` [laws]
@@ -225,9 +225,9 @@
 
 **left as it was: moving it through the other engine's entry broke a load-order check (a file that loads alone on main fails), or the name is read while the module loads, or the entry already exports a different symbol under that name, or it is a default or namespace import** (6):
 
-- `src/bench/m1-11-check.ts` → `src/core2/modules/drives.ts` [people]
-- `src/bench/path-check.ts` → `src/core2/office-day-acts.ts` [executive]
-- `src/bench/path-check.ts` → `src/core2/office-day-state.ts` [executive]
+- `scripts/bench/m1-11-check.ts` → `src/core2/modules/drives.ts` [people]
+- `tests/golden-path/path-check.ts` → `src/core2/office-day-acts.ts` [executive]
+- `tests/golden-path/path-check.ts` → `src/core2/office-day-state.ts` [executive]
 - `src/bench/race-words.ts` → `data/english/parts/campaign-standing.json` [english]
 - `src/bench/words.ts` → `data/english/parts/choice-names.json` [english]
 - `src/bench/world.ts` → `src/core2/modules/public-safety.ts` [laws]

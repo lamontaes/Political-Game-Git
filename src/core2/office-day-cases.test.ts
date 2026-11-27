@@ -12,7 +12,7 @@
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { worldWith } from "./tooling/world-with";
+import { worldWith } from "../../tests/support/world-with";
 import { coreAPI } from "./state";
 import {
   CASES_MODULE_ID,

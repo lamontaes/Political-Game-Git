@@ -1868,11 +1868,7 @@ export function issueOrder(
     throw new Error(`This office can't order ${input.order} here.`);
   const state = lawChain(api).stateKey;
   const authority = policyAuthority(api, ORDERABLE[input.order]!, "state");
-  const tomorrow = new Date(
-    Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
-  )
-    .toISOString()
-    .slice(0, 10);
+  const tomorrow = addDays(makeIsoDate(api.state.date), 1);
   const measureId = `order:${state}:${input.order}:${api.state.date}`;
   // stopgapId: SG-GOV-executive-powers-research
   api.stopgap("SG-GOV-executive-powers-research");
@@ -1948,11 +1944,7 @@ export function issueFederalOrder(
   // Only the person who holds the president's seat issues or revokes a federal order.
   if (input.executiveId !== sittingPresidentId(api))
     throw new Error("Only the sitting President issues a federal order.");
-  const tomorrow = new Date(
-    Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
-  )
-    .toISOString()
-    .slice(0, 10);
+  const tomorrow = addDays(makeIsoDate(api.state.date), 1);
   const measureId = `order:US:${input.order}:${api.state.date}`;
   // stopgapId: SG-NATION-federal-axis-proxy
   api.stopgap("SG-NATION-federal-axis-proxy");

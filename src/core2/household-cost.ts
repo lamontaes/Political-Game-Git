@@ -72,6 +72,3 @@ export function householdDailyCostMinor(i: HouseholdCostInput): number {
     p("daysPerMeanYear");
   return Math.round(Math.max(basketDaily, Math.min(curveDaily, ceilingDaily)));
 }
-
-/** Each full household's yearly income (counted-income-fifth.ts), the people family's face for readers outside it. */
-export { fullHouseholdIncomes } from "./counted-income-fifth";
