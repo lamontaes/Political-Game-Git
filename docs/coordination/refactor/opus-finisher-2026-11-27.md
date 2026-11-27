@@ -84,7 +84,9 @@ People has 11, elections 8, offices 6, lawmaking 20, economy 13 and world 3. The
 Read these first, so a red the finisher sees isn't mistaken for its own:
 
 - **main's housing red** (known since Nov 26).
-- **Random places only:** realistic-not-real row 44 and two-seeds-differ. A past local race's news story cites a 2024 century seat record the century doesn't hold. It came in with #10687 (the century runs the town's offices), and Elections is fixing it.
+- **main's ui-look crash at some places** (`page.evaluate: ... reading 'setAttribute'`; Charlo, Montana, on main; Redford, Texas, on the train). Screens is fixing it.
+- **school-outcomes at Hackleburg, Alabama** (seed 5d329c70fa987cb9): a household income of 9.5 million from one job. People is checking whether main has it too.
+- **Out of the train:** #10687 (the century runs the town's offices), undone by 40277cbf. Its test fails at Marana, Arizona, and its past local races cite century records that don't exist. Its fix starts by reverting 40277cbf.
 - **On #10701's merged head:** legislature-rooms, president-orders, liked-lines-kept (127 lines) and import-cycles (1198 edges against 1191). Core is fixing them at their cause, with no baseline raised.
 
 ## The record of tonight
