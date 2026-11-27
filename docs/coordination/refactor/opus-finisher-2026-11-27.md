@@ -67,6 +67,8 @@ People has 11, elections 8, offices 6, lawmaking 20, economy 13 and world 3. The
   - act-cash.ts and cash-host.ts (Core item 3 decides).
 - **Elections EL9:** serve-asks.ts's move to governing, once its imports are measured.
 - **People P8:** who reads a demoted person's `counted:` place id as a place.
+- **World WO5:** `registerControlledPersonV1` (player-control-state-v1.ts) and `registerModuleStopV1` (player-stops-v1.ts) take `core` and hold one world's state at run time, outside the world's state. Move that state into the owning module where the digest stays identical, or say why not.
+- **The side-registry shape (decided 7:39 a.m.):** a list other engines fill becomes an optional `CoreModule` field, wired into each world at install the way `onRelationshipChange` is (module-notifications.ts). Core builds the fields on #10768. Check that every register\* function left is either moved or listed with why.
 - **Seams between maps** for the all-maps review:
   - each door has one builder;
   - each consumer switches its own files;
@@ -94,6 +96,8 @@ Read these first, so a red the finisher sees isn't mistaken for its own:
 
 - **main's full suite is very red.** At 8e1fa6be, 8 of its 12 parts had finished (Heavy checks run 45942424683) and every one failed: 213 test files failed in those 8. The list is cto-notes/overnight/main-8e1fa6be-full-suite-fails.txt on the CTO's Mac. It includes president-orders, law-wiring-justice and the housing tests. A train lands when it adds no failing file to main's list.
 - **main's housing red** (known since Nov 26).
+- **The filing counter at some places shows no clerk line and no choice** (Miller City, Ohio; Pearlington, Mississippi), so the player can't pick a race. That's a golden-path stop. The Nov 17 cut took the clerk's bank, and Story is writing it new (W2).
+- **When comparing a train with main,** compare test names and first error lines, not only file names: many tests draw a random place. Rerun each failure seen only on the train at its seed on main.
 - **main's ui-look crash at some places** (`page.evaluate: ... reading 'setAttribute'`; Charlo, Montana, on main; Redford, Texas, on the train). Screens is fixing it.
 - **school-outcomes at Hackleburg, Alabama** (seed 5d329c70fa987cb9): a household income of 9.5 million from one job. People is checking whether main has it too.
 - **Out of the train:** #10687 (the century runs the town's offices), undone by 40277cbf. Its test fails at Marana, Arizona, and its past local races cite century records that don't exist. Its fix starts by reverting 40277cbf.
