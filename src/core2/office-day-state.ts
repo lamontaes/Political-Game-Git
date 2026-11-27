@@ -38,11 +38,7 @@ import {
   type SittingDay,
 } from "./sitting-closeness";
 import { roomTime } from "./modules/people";
-import {
-  chargeOfficeHours,
-  registerOfficeTime,
-  type OfficeTime,
-} from "./modules/work";
+import { chargeOfficeHours, type OfficeTime } from "./modules/work";
 import { personLean, personStance } from "./campaign-views";
 import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { lineForPost, registerLinePayments } from "./budgets-treasury";
@@ -1819,6 +1815,8 @@ export function voteOnStateFloor(
 
 export const OFFICE_DAY_STATE_MODULE: CoreModule = {
   id: OFFICE_DAY_STATE_MODULE_ID,
+  // The hours a state legislator's session, committee and caucus days take from their day.
+  officeTime: stateOfficeHoursToday,
   state: {
     schemaVersion: 1,
     tables: {
@@ -1925,7 +1923,6 @@ registerOfficeActs({
 
 export function openOfficeDayState(core: CoreState): void {
   registerSittingCalendar(ROOMS);
-  registerOfficeTime(stateOfficeHoursToday);
   if (!core.modules.has(OFFICE_DAY_STATE_MODULE_ID))
     registerModule(core, OFFICE_DAY_STATE_MODULE);
 }
