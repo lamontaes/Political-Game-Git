@@ -42,9 +42,6 @@ function checkPlace(
   const { core } = buildBenchWorld(placeSeed, gameStartDate(), {
     twoLevel: true,
     placeKey,
-    // An adult of 40: a county office's minimum age is past the default start
-    // age, and a counter opens only for a race its visitor may enter.
-    playerBirthDate: "1985-06-01",
   });
   const api = coreAPI(core);
   const me = core.playerId!;
