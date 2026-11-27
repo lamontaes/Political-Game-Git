@@ -1142,6 +1142,14 @@ export interface CoreModule {
    * wider `unknown` or `object`, so the engine's narrower argument type fits.
    */
 
+  /**
+   * Caches this engine keeps keyed by the world and built from the world's
+   * records: a restore refills the same world in place, so each is cleared at
+   * the end of every restore and built again on first read. A function, read
+   * at restore time, so the file that holds the caches need not have loaded
+   * when the module object is made.
+   */
+  derivedCaches?: () => readonly WeakMap<CoreState, unknown>[];
   /** A counted person's record by id, or nothing; the shared chooser asks every installed engine (`countedPersonOf`). */
   countedPerson?: (
     core: CoreState,

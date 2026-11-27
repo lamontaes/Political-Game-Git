@@ -21,7 +21,7 @@ src/bench/card.ts
 src/bench/family.ts
   -> src/presentation/backdrop-people.ts  [tangle]
   -> src/simulation/dates.ts
-src/bench/m0-check.ts
+scripts/bench/m0-check.ts
   -> src/simulation/dates.ts
   -> src/simulation/life-places.ts  [tangle]
 src/bench/opening.ts
@@ -146,7 +146,7 @@ src/core2/law-reach/group-b-money.ts
   -> src/simulation/dates.ts
 src/core2/law-reach/group-b-people.ts
   -> src/simulation/dates.ts
-src/core2/law-test-start.ts
+tests/support/law-test-start.ts
   -> src/simulation/dates.ts
 src/core2/laws-starting.ts
   -> src/simulation/government-units.ts
@@ -311,10 +311,10 @@ src/core2/population.ts
   -> src/simulation/world.ts  [tangle]
 src/core2/public-payroll.ts
   -> src/simulation/dates.ts
-src/core2/tooling/build-opening-schools.ts
+scripts/core2/tooling/build-opening-schools.ts
   -> src/simulation/government-units.ts
   -> src/simulation/local-institutions-data.ts
-src/core2/tooling/build-place-lookup-data.ts
+scripts/core2/tooling/build-place-lookup-data.ts
   -> src/simulation/demo-jurisdiction-context.ts  [tangle]
   -> src/simulation/legislation-scenarios.ts  [tangle]
   -> src/simulation/legislative-work-key.ts  [tangle]
@@ -322,27 +322,27 @@ src/core2/tooling/build-place-lookup-data.ts
   -> src/simulation/national-counties.generated.ts
   -> src/simulation/seats-of-government.generated.ts
   -> src/simulation/state-reference.ts
-src/core2/tooling/drives-proof.ts
+scripts/core2/tooling/drives-proof.ts
   -> src/simulation/dates.ts
-src/core2/tooling/external-flow-observables.ts
+scripts/core2/tooling/external-flow-observables.ts
   -> src/simulation/dates.ts
-src/core2/tooling/finance-measure.ts
+scripts/core2/tooling/finance-measure.ts
   -> src/simulation/dates.ts
-src/core2/tooling/generated-world.ts
+src/core2/generated-world.ts
   -> src/simulation/history-index.ts  [tangle]
   -> src/simulation/world.ts  [tangle]
-src/core2/tooling/measure.ts
+scripts/core2/tooling/measure.ts
   -> src/simulation/dates.ts
   -> src/simulation/ids.ts
-src/core2/tooling/p15-closeness-receipt.ts
+scripts/core2/tooling/p15-closeness-receipt.ts
   -> src/simulation/dates.ts
-src/core2/tooling/p15-people-receipt.ts
+scripts/core2/tooling/p15-people-receipt.ts
   -> src/simulation/dates.ts
   -> src/simulation/household-mix.ts  [tangle]
   -> src/simulation/life-places.ts  [tangle]
   -> src/simulation/people-trait-definitions.ts  [tangle]
   -> src/simulation/types.ts  [tangle]
-src/core2/tooling/world-prepare.ts
+scripts/core2/tooling/world-prepare.ts
   -> src/simulation/dates.ts
 src/director/conversation.ts
   -> src/simulation/ids.ts

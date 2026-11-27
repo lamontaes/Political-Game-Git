@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { carriersOf, fieldsOf } from "./module-fields";
+import { restoreWorld, snapshotWorld } from "./snapshot";
 import { createCore, registerModule } from "./state";
 import type { CoreInput, CoreModule, CoreState } from "./types";
 
@@ -107,5 +108,17 @@ describe("the fields engines read off the installed modules", () => {
     registerModule(a, { id: "only-a", huskIncome: () => 1 });
     expect(fieldsOf(a, "huskIncome")).toHaveLength(1);
     expect(fieldsOf(b, "huskIncome")).toHaveLength(0);
+  });
+
+  it("clears a module's derived caches at the end of a restore, and leaves another world's alone", () => {
+    const core = world();
+    const other = world();
+    const cache = new WeakMap<CoreState, unknown>();
+    registerModule(core, { id: "cached", derivedCaches: () => [cache] });
+    cache.set(core, "built from records");
+    cache.set(other, "another world");
+    restoreWorld(core, snapshotWorld(core));
+    expect(cache.has(core)).toBe(false);
+    expect(cache.get(other)).toBe("another world");
   });
 });

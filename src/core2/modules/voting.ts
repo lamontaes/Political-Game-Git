@@ -21,7 +21,12 @@
  * writer (`keepCount`) and seated by the one term writer (`seatWinner`).
  */
 import { bookkeeping } from "../bookkeeping";
-import { addDays, ageInYears, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  ageInYears,
+  makeIsoDate,
+  nthWeekdayOfMonth,
+} from "../kernel/dates";
 import {
   countMargin,
   insideRecountMargin,
@@ -193,6 +198,7 @@ import {
   electedWithGovernorOnTicket,
   unheldVacancyWon,
   type TermRow,
+  setSeatElectionYear,
 } from "./offices";
 import {
   INDEPENDENT,
@@ -6250,10 +6256,7 @@ function raceWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 const SPECIAL_KIND = "special-race";
 
 /** The winner takes the seat the day after the count. */
-const dayAfter = (date: string) =>
-  new Date(Date.parse(`${date}T00:00:00Z`) + 86_400_000)
-    .toISOString()
-    .slice(0, 10);
+const dayAfter = (date: string) => addDays(makeIsoDate(date), 1);
 
 /**
  * What a seat outside the town is, for a special election: its office's kind
@@ -6479,18 +6482,8 @@ function specialCandidates(
 
 /** The first Tuesday after the second Wednesday in December. */
 export function electorsMeet(year: number): string {
-  let wednesdays = 0;
-  for (let day = 1; day <= 31; day += 1) {
-    const d = new Date(Date.UTC(year, 11, day));
-    if (d.getUTCDay() === 3) wednesdays += 1;
-    if (wednesdays === 2 && d.getUTCDay() === 3) {
-      for (let next = day + 1; next <= day + 7; next += 1) {
-        const t = new Date(Date.UTC(year, 11, next));
-        if (t.getUTCDay() === 2) return t.toISOString().slice(0, 10);
-      }
-    }
-  }
-  throw new Error(`No electors' day in ${year}`);
+  // The Tuesday after a Wednesday is six days on.
+  return addDays(nthWeekdayOfMonth(year, 12, 3, 2), 6);
 }
 
 export interface PresidentialRow {
@@ -8306,13 +8299,12 @@ function seatRaceWinner(api: CoreAPI, raceId: string): void {
       : {}),
   });
   if (race.special) return;
-  const seatRow = offices.table("seats").get(race.seatId) as unknown as
-    { electionYear?: number } | undefined;
-  if (seatRow && years)
-    offices.table("seats").put({
-      ...seatRow,
-      electionYear: Number(race.date.slice(0, 4)) + years,
-    } as unknown as ModuleRow);
+  if (years)
+    setSeatElectionYear(
+      api,
+      race.seatId,
+      Number(race.date.slice(0, 4)) + years,
+    );
 }
 
 export function racesOf(api: CoreAPI): readonly RaceRow[] {

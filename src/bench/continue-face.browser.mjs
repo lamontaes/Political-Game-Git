@@ -6,7 +6,7 @@
 //   BENCH_PORT=3000 node src/bench/continue-face.browser.mjs [shot.png]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const [shot] = process.argv.slice(2);
 const browser = await chromium.launch({
