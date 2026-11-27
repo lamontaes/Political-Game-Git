@@ -27,7 +27,16 @@ import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-data";
 import { ELECTIONS_MODULE_ID } from "./elections";
 import { CAMPAIGNS_MODULE_ID } from "./campaigns";
-import { isOutsideOffice, OFFICES_MODULE_ID, type TermRow } from "./offices";
+import {
+  isOutsideOffice,
+  type TermRow,
+  servingTermsOnSeat,
+  endedTermsOnSeat,
+  allOffices,
+  allSeats,
+  seatById,
+  officeSeats,
+} from "./offices";
 import { researchedHolderParty } from "./officials";
 import { novemberGeneralElectionDay } from "../elections-calendar";
 import { stateParties } from "./parties";
@@ -384,27 +393,18 @@ export function seatRace(
   },
   year: number,
 ): Race {
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   const house = office.kind === "us-house";
   const stateKey = office.jurisdiction?.startsWith("US-")
     ? office.jurisdiction
     : lawChain(api).stateKey;
-  const holder = (
-    offices
-      .table("terms")
-      .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[]
-  )[0];
+  const holder = (servingTermsOnSeat(api, seat.id) as unknown as TermRow[])[0];
   const code = (seat.district ?? "00").padStart(2, "0");
   // A seat emptied by a death or resignation is the last holder's side: the
   // seat's lean is read from that party, so a special election's even count
   // keeps the seat there instead of naming no winner.
   const lastHolder = holder
     ? undefined
-    : (
-        offices
-          .table("terms")
-          .query("bySeatStatus", [seat.id, "ended"]) as unknown as TermRow[]
-      )
+    : (endedTermsOnSeat(api, seat.id) as unknown as TermRow[])
         .filter((term) => term.party)
         .sort((a, b) => String(a.endDate).localeCompare(String(b.endDate)))
         .at(-1);
@@ -434,11 +434,9 @@ export function seatRace(
 export function racesIn(api: CoreAPI, year: number): readonly Race[] {
   const races: Race[] = [];
   const stateKey = lawChain(api).stateKey;
-  // Seats in the town's own state the town doesn't vote for.
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   const officeRows = new Map(
     (
-      offices.table("offices").rows() as unknown as {
+      allOffices(api) as unknown as {
         id: string;
         kind: string;
         level: string;
@@ -450,7 +448,7 @@ export function racesIn(api: CoreAPI, year: number): readonly Race[] {
     ).map((o) => [o.id, o]),
   );
   const counted = new Map<string, boolean>();
-  for (const seat of offices.table("seats").rows() as unknown as {
+  for (const seat of allSeats(api) as unknown as {
     id: string;
     officeId: string;
     district: string | null;
@@ -572,20 +570,17 @@ function worldRacePlaces(api: CoreAPI, race: Race): readonly ElectoratePlace[] {
     const delegate = statePlaces(usps, api.state.seed, 1)[0];
     return delegate ? [delegate] : [];
   }
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   // A seat the whole state elects (a senator, a governor, an attorney
   // general) is counted over the state's counties.
   const seat = race.offices
-    ? (offices.table("seats").get(race.offices.seatId) as unknown as
+    ? (seatById(api, race.offices.seatId) as unknown as
         { district: string | null } | undefined)
     : undefined;
   if (race.office === "us-senate" || seat?.district === null)
     return statePlaces(usps, api.state.seed);
   const districts = new Set(
     (
-      offices
-        .table("seats")
-        .query("byOffice", [race.offices!.officeId]) as unknown as {
+      officeSeats(api, race.offices!.officeId) as unknown as {
         district: string | null;
       }[]
     ).map((s) => s.district),

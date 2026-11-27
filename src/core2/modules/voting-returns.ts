@@ -32,7 +32,14 @@ import {
   type FilingRow,
 } from "./elections";
 import { townLean } from "./campaigns";
-import { OFFICES_MODULE_ID, seatWinner, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  seatWinner,
+  type TermRow,
+  termById,
+  termsOfPerson,
+  officeById,
+} from "./offices";
 import type { OfficeInput } from "./offices";
 import { termEndAfter } from "../elections-calendar";
 import {
@@ -186,10 +193,7 @@ export function publicReasons(
   const votes = places.reduce((s, p) => s + p.votes2024, 0);
   const right = contestRightShare(api, contest);
   const seat = contest.incumbentTermId
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
+    ? (termById(api, contest.incumbentTermId) as unknown as TermRow | undefined)
     : undefined;
   const conditions = raceConditions(api, {
     federal: contest.level === "federal",
@@ -877,11 +881,7 @@ export function takeOffice(api: CoreAPI, resultId: string): void {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(result.contestId) as unknown as ContestRow;
-  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(contest.officeId) as unknown as OfficeInput;
+  const office = officeById(api, contest.officeId) as unknown as OfficeInput;
   const winner = api.state.people.get(result.winnerId);
   const filing = ballot(api, contest.id).find(
     (f) => f.personId === (result.winnerCandidateId ?? result.winnerId),
@@ -890,7 +890,7 @@ export function takeOffice(api: CoreAPI, resultId: string): void {
   // a person keeps the identity their earlier terms recorded (a drawn
   // official later filled in keeps the gender drawn for them).
   const earlier = winner
-    ? (terms.query("byPerson", [winner.id]) as unknown as TermRow[]).find(
+    ? (termsOfPerson(api, winner.id) as unknown as TermRow[]).find(
         (t) => t.identity.gender !== "recorded",
       )
     : undefined;

@@ -29,7 +29,12 @@ import {
   filledByTickets,
 } from "./elections";
 import { townLean } from "./campaigns";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import {
+  type TermRow,
+  servingTermsOnSeat,
+  termById,
+  seatById,
+} from "./offices";
 import { officialCandidate } from "./officials";
 import { PARTIES_MODULE_ID, joinParty, partiesHere, partyTie } from "./parties";
 import { partyFieldsNominee } from "./candidacy";
@@ -98,16 +103,11 @@ function fileNominees(api: CoreAPI, contest: ContestRow): void {
   // Whoever holds the seat when filing closes: an appointee to a vacancy,
   // never a holder who died or moved away.
   const incumbent =
-    (api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [contest.seatId, "serving"])[0] as unknown as
+    (servingTermsOnSeat(api, contest.seatId)[0] as unknown as
       TermRow | undefined) ??
     (contest.incumbentTermId
-      ? (api
-          .moduleState(OFFICES_MODULE_ID)
-          .table("terms")
-          .get(contest.incumbentTermId) as unknown as TermRow | undefined)
+      ? (termById(api, contest.incumbentTermId) as unknown as
+          TermRow | undefined)
       : undefined);
   // Each nominee stands where the place's records say filings go, on the
   // same rules any candidate meets, and the filing is announced. A full
@@ -141,10 +141,8 @@ function fileNominees(api: CoreAPI, contest: ContestRow): void {
   const partisan =
     incumbent?.party ??
     (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("seats")
-        .get(contest.seatId) as unknown as { party?: string | null } | undefined
+      seatById(api, contest.seatId) as unknown as
+        { party?: string | null } | undefined
     )?.party;
   if (
     (contest.level !== "federal" && contest.level !== "state") ||

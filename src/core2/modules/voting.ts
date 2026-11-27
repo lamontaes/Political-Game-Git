@@ -31,7 +31,7 @@ import {
   registerDoorChoice,
   registerPetitionRoll,
 } from "./campaigns";
-import { OFFICES_MODULE_ID, registerSpecialElections } from "./offices";
+import { registerSpecialElections, officeById, officeSeats } from "./offices";
 import { novemberGeneralElectionDay } from "../elections-calendar";
 import {
   candidacyModule,
@@ -401,7 +401,6 @@ export function lastTownVotesForKind(
 ): { readonly votes: number; readonly recordId: string } | undefined {
   if (!api.state.modules.has(VOTING_MODULE_ID)) return undefined;
   const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
-  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   let best: { votes: number; recordId: string; date: string } | undefined;
   for (const result of api
     .moduleState(VOTING_MODULE_ID)
@@ -410,7 +409,7 @@ export function lastTownVotesForKind(
     const contest = contests.get(result.contestId) as unknown as
       ContestRow | undefined;
     const office = contest
-      ? (offices.get(contest.officeId) as unknown as
+      ? (officeById(api, contest.officeId) as unknown as
           { kind?: string } | undefined)
       : undefined;
     if (office?.kind !== officeKind) continue;
@@ -494,17 +493,12 @@ export function recordedBase(
 // stopgapId: SG-GOV-county-petition-even-districts
 function districtPartOfCounty(api: CoreAPI, contest: ContestRow): number {
   if (contest.family !== "countyOffice") return 1;
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(contest.officeId) as unknown as { districted?: boolean } | undefined;
+  const office = officeById(api, contest.officeId) as unknown as
+    { districted?: boolean } | undefined;
   if (!office?.districted) return 1;
   const districts = new Set(
     (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("seats")
-        .query("byOffice", [contest.officeId]) as unknown as {
+      officeSeats(api, contest.officeId) as unknown as {
         district?: string | null;
       }[]
     ).map((seat) => seat.district ?? ""),
@@ -596,7 +590,6 @@ function namedElectionTurnout(
     return cycleTurnout(`${last}-11-03`).share;
   }
   if (election === "governor" || election === "secretary-of-state") {
-    const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
     const theirs = (
       api
         .moduleState(ELECTIONS_MODULE_ID)
@@ -604,8 +597,10 @@ function namedElectionTurnout(
         .rows() as unknown as ContestRow[]
     ).find(
       (c) =>
-        (offices.get(c.officeId) as unknown as { kind?: string } | undefined)
-          ?.kind === election,
+        (
+          officeById(api, c.officeId) as unknown as
+            { kind?: string } | undefined
+        )?.kind === election,
     );
     return theirs
       ? cycleTurnout(theirs.electionDate).share

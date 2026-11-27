@@ -36,6 +36,9 @@ import {
   electedWithGovernorOnTicket,
   unheldVacancyWon,
   type TermRow,
+  officeById,
+  servingTermsOnSeat,
+  seatById,
 } from "./offices";
 import {
   INDEPENDENT,
@@ -594,10 +597,7 @@ export function decideTicket(
  */
 export function onGovernorTicket(api: CoreAPI, race: Race): boolean {
   if (!race.offices) return false;
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(race.offices.officeId) as unknown as
+  const office = officeById(api, race.offices.officeId) as unknown as
     { kind: string; jurisdiction: string } | undefined;
   return office
     ? electedWithGovernorOnTicket(office.jurisdiction, office.kind)
@@ -616,10 +616,9 @@ export function ticketRace(
   year: number,
 ): RaceRow | null {
   if (!onGovernorTicket(api, race)) return null;
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(race.offices!.officeId) as unknown as { jurisdiction: string };
+  const office = officeById(api, race.offices!.officeId) as unknown as {
+    jurisdiction: string;
+  };
   const governor = table(api, "races").get(
     `race:seat:${office.jurisdiction}:governor:${year}`,
   ) as unknown as RaceRow | undefined;
@@ -714,9 +713,7 @@ export function seatRaceWinner(api: CoreAPI, raceId: string): void {
   // A seat the offices engine holds: the one term writer ends the term and
   // starts the winner's.
   const offices = api.moduleState(OFFICES_MODULE_ID);
-  const serving = offices
-    .table("terms")
-    .query("bySeatStatus", [race.seatId, "serving"]) as unknown as TermRow[];
+  const serving = servingTermsOnSeat(api, race.seatId) as unknown as TermRow[];
   // A nonpartisan seat's holder has no party to compare: the one the places'
   // lean carried last time is re-elected when the lean carries the same side.
   const lastRace = race.nonpartisan
@@ -745,7 +742,7 @@ export function seatRaceWinner(api: CoreAPI, raceId: string): void {
     worldSeed: string;
   };
   const named = race.candidates?.find((c) => c.party === race.winnerParty);
-  const office = offices.table("offices").get(race.offices.officeId) as
+  const office = officeById(api, race.offices.officeId) as
     { readonly title?: string; readonly jurisdiction?: string } | undefined;
   // A new holder lives in the office's own state; a local office's is the
   // town's.
@@ -800,7 +797,7 @@ export function seatRaceWinner(api: CoreAPI, raceId: string): void {
       : {}),
   });
   if (race.special) return;
-  const seatRow = offices.table("seats").get(race.seatId) as unknown as
+  const seatRow = seatById(api, race.seatId) as unknown as
     { electionYear?: number } | undefined;
   if (seatRow && years)
     offices.table("seats").put({

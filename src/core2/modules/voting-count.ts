@@ -33,10 +33,12 @@ import {
 } from "./elections";
 import { townLean } from "./campaigns";
 import {
-  OFFICES_MODULE_ID,
   unfilledTerm,
   repeatSpecialElection,
   type TermRow,
+  termById,
+  officeById,
+  servingTermsOnSeat,
 } from "./offices";
 import { holderOf } from "./officials";
 import type { OfficeInput } from "./offices";
@@ -115,10 +117,7 @@ export function winningPersonId(api: CoreAPI, candidateId: string): string {
   const key = candidateId.startsWith("official:")
     ? candidateId.slice("official:".length)
     : candidateId;
-  const term = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .get(key) as unknown as TermRow | undefined;
+  const term = termById(api, key) as unknown as TermRow | undefined;
   return term ? (holderOf(api, term).personId ?? candidateId) : candidateId;
 }
 
@@ -860,15 +859,10 @@ export function settleCount(
 export function termStartsOn(api: CoreAPI, contest: ContestRow): string {
   const date = api.state.date;
   const incumbent = contest.incumbentTermId
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
+    ? (termById(api, contest.incumbentTermId) as unknown as TermRow | undefined)
     : undefined;
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(contest.officeId) as unknown as OfficeInput | undefined;
+  const office = officeById(api, contest.officeId) as unknown as
+    OfficeInput | undefined;
   return contest.special
     ? date
     : office
@@ -886,18 +880,11 @@ export function resolveEmptyRace(api: CoreAPI, contestId: string): void {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contestId) as unknown as ContestRow;
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(contest.officeId) as unknown as OfficeInput;
+  const office = officeById(api, contest.officeId) as unknown as OfficeInput;
   // A holdover needs someone to hold over: a seat no one holds (an office
   // its law created since the last election) is vacant.
   const method =
-    row.method === "holdover" &&
-    !api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [contest.seatId, "serving"]).length
+    row.method === "holdover" && !servingTermsOnSeat(api, contest.seatId).length
       ? "vacancy"
       : row.method;
   const vacancy =

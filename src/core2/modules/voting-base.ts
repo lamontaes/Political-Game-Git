@@ -31,7 +31,7 @@ import {
   type ContestRow,
 } from "./elections";
 import { caseWarmthsOf } from "./constituent-cases";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { type TermRow, servingTermsOnSeat } from "./offices";
 import { drawOfficialIdentity } from "../officials-identity";
 import { caucusSide, nationalParty, partySide } from "../appointments";
 import {
@@ -372,10 +372,7 @@ export function seatHolder(
   api: CoreAPI,
   contest: Pick<ContestRow, "seatId">,
 ): TermRow | undefined {
-  return api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .query("bySeatStatus", [contest.seatId, "serving"])[0] as unknown as
+  return servingTermsOnSeat(api, contest.seatId)[0] as unknown as
     TermRow | undefined;
 }
 

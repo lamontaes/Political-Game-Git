@@ -41,7 +41,7 @@ import {
   type FilingRow,
 } from "./elections";
 import { CAMPAIGNS_MODULE_ID, townLean } from "./campaigns";
-import { OFFICES_MODULE_ID } from "./offices";
+import { officeSeats } from "./offices";
 import type { SeatInput } from "./offices";
 import { cpsAgeBand, cpsRegistered } from "../electorate-places";
 import {
@@ -475,12 +475,9 @@ const precinctFills = new WeakMap<object, number[]>();
 export function wardsOf(api: CoreAPI, contest: ContestRow): number {
   if (contest.family !== "municipalOffice" || contest.district === null)
     return 0;
-  return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("seats")
-      .query("byOffice", [contest.officeId]) as unknown as SeatInput[]
-  ).filter((s) => s.district !== null).length;
+  return (officeSeats(api, contest.officeId) as unknown as SeatInput[]).filter(
+    (s) => s.district !== null,
+  ).length;
 }
 
 /**

@@ -23,6 +23,10 @@ import {
   townSeats,
   endServingTerms,
   type TermRow,
+  seatById,
+  officeById,
+  vacancyById,
+  servingTermsOnSeat,
 } from "./offices";
 import { lastUnheldParty, researchedHolderParty } from "./officials";
 import { statePlaces } from "../electorate-places";
@@ -180,11 +184,10 @@ function specialSeatKind(
           jurisdiction: unheld.stateKey,
         }
       : null;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const seat = offices.table("seats").get(seatId) as unknown as
+  const seat = seatById(api, seatId) as unknown as
     { coversTown: boolean; officeId: string } | undefined;
   const office = seat
-    ? (offices.table("offices").get(seat.officeId) as unknown as
+    ? (officeById(api, seat.officeId) as unknown as
         | {
             kind: string;
             elected: boolean;
@@ -261,8 +264,7 @@ export function openSpecialRace(
 /** Count a special race on its election day. */
 function decideSpecial(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const [vacancyId, seatId, termEnd] = work.sourceRecordIds;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const vacancy = offices.table("vacancies").get(vacancyId!) as unknown as
+  const vacancy = vacancyById(api, vacancyId!) as unknown as
     | {
         status: string;
         unheld?: { stateKey: string; officeKind: string };
@@ -296,7 +298,7 @@ function decideSpecial(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     );
     return;
   }
-  const seat = offices.table("seats").get(seatId!) as unknown as
+  const seat = seatById(api, seatId!) as unknown as
     | {
         id: string;
         officeId: string;
@@ -305,7 +307,7 @@ function decideSpecial(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       }
     | undefined;
   const office = seat
-    ? (offices.table("offices").get(seat.officeId) as unknown as
+    ? (officeById(api, seat.officeId) as unknown as
         | { kind: string; termYears: number | null; jurisdiction?: string }
         | undefined)
     : undefined;
@@ -342,9 +344,7 @@ export function specialCandidates(
 ): readonly SpecialCandidate[] {
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const holder = (
-    offices
-      .table("terms")
-      .query("bySeatStatus", [race.seatId, "serving"]) as unknown as TermRow[]
+    servingTermsOnSeat(api, race.seatId) as unknown as TermRow[]
   )[0];
   const loaded = offices.table("loaded").get("town") as unknown as {
     worldSeed: string;
@@ -744,7 +744,6 @@ function inaugurate(api: CoreAPI, rowId: string): void {
     PresidentialRow | undefined;
   if (!row) return;
   const offices = api.moduleState(OFFICES_MODULE_ID);
-  const terms = offices.table("terms");
   const loaded = offices.table("loaded").get("town") as unknown as {
     worldSeed: string;
   };
@@ -765,10 +764,7 @@ function inaugurate(api: CoreAPI, rowId: string): void {
     }
     // The running mate isn't the president's relative: no shared family name.
     const president = (
-      terms.query("bySeatStatus", [
-        "seat:US:president",
-        "serving",
-      ]) as unknown as TermRow[]
+      servingTermsOnSeat(api, "seat:US:president") as unknown as TermRow[]
     )[0];
     const drawn = drawOfficialIdentity({
       worldSeed: loaded.worldSeed,
@@ -780,7 +776,7 @@ function inaugurate(api: CoreAPI, rowId: string): void {
         ? { avoidFamilyNames: [president.identity.familyName] }
         : {}),
     });
-    const office = offices.table("offices").get(officeId) as
+    const office = officeById(api, officeId) as
       { readonly title?: string } | undefined;
     seatWinner(api, {
       seatId,
