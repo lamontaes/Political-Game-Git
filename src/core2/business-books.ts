@@ -22,6 +22,8 @@ export interface BusinessKind {
   sector: string | null;
   /** Why the kind belongs to that sector (its NAICS industry and the BLS supersector). */
   sectorSource: string;
+  /** The Census two-digit sector (NAICS) whose usual business size says how much one business of this kind serves; absent on the all-corporations fallback row. */
+  censusSector?: string;
   stopgapIds: readonly string[];
 }
 

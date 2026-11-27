@@ -205,6 +205,44 @@ function addLivingShare(
   plan.monthlyMinor = [...plan.sellers.values()].reduce((n, v) => n + v, 0);
 }
 
+/** One household's spending moved from one seller to another, for the record. */
+export interface EverydayMove {
+  householdId: string;
+  fromId: string;
+  toId: string;
+  monthlyMinor: number;
+}
+
+/**
+ * Households move what they spend at some sellers to another the same day:
+ * `to` names, for a household and the seller it spends at, the seller it goes
+ * to instead (null keeps it where it is). Used when a seller closes (its
+ * customers go to their next regular seller of its kind) and when one opens
+ * (it takes the customers it now stands first for).
+ */
+export function moveEverydaySellers(
+  core: CoreState,
+  fromIds: ReadonlySet<string>,
+  to: (householdId: string, fromId: string) => string | null,
+): EverydayMove[] {
+  const moves: EverydayMove[] = [];
+  for (const plan of core.finance.livingPlans.values())
+    for (const [fromId, amount] of [...plan.sellers]) {
+      if (!fromIds.has(fromId) || amount <= 0) continue;
+      const toId = to(plan.householdId, fromId);
+      if (!toId || toId === fromId) continue;
+      plan.sellers.delete(fromId);
+      plan.sellers.set(toId, (plan.sellers.get(toId) ?? 0) + amount);
+      moves.push({
+        householdId: plan.householdId,
+        fromId,
+        toId,
+        monthlyMinor: amount,
+      });
+    }
+  return moves;
+}
+
 /** The household's plan, if it spends here. */
 export function livingPlan(
   core: CoreState,

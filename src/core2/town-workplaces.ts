@@ -50,8 +50,6 @@ export interface Workplace {
   readonly key: string;
   readonly classification: OrganizationClassification;
   readonly kind: WorkRelationshipKind;
-  /** GAME ASSUMPTION: how many separate employers of this kind a town has. */
-  readonly outlets: number;
   readonly roles: readonly Role[];
   /** Hire into the town's existing organizations of this kind instead. */
   readonly existing?: OrganizationClassification;
@@ -73,7 +71,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "farm",
     classification: "enterprise:agriculture",
     kind: "employment:agriculture",
-    outlets: 2,
     roles: [
       role("Farmworker", "occupation:farmworker", 5, { rigidity: "mixed" }),
       role("Farm manager", "occupation:farm-manager", 1, LEAD),
@@ -83,7 +80,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "quarry",
     classification: "enterprise:mining",
     kind: "employment:mining",
-    outlets: 1,
     roles: [
       role("Equipment operator", "trade:equipment-operator", 3),
       role("Quarry laborer", "occupation:extraction-laborer", 2),
@@ -93,7 +89,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "utility",
     classification: "enterprise:utility",
     kind: "employment:utility",
-    outlets: 1,
     roles: [
       role("Line worker", "trade:line-worker", 3),
       role("Customer service representative", "occupation:customer-service", 2),
@@ -103,7 +98,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "construction",
     classification: "enterprise:construction",
     kind: "employment:construction",
-    outlets: 3,
     roles: [
       role("Carpenter", "trade:carpenter", 3),
       role("Electrician", "trade:electrician", 2),
@@ -115,7 +109,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "manufacturing",
     classification: "enterprise:manufacturing",
     kind: "employment:manufacturing",
-    outlets: 2,
     roles: [
       role("Production worker", "occupation:production-worker", 6),
       role("Machinist", "trade:machinist", 2),
@@ -126,7 +119,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "wholesale",
     classification: "enterprise:wholesale",
     kind: "employment:wholesale",
-    outlets: 1,
     roles: [
       role("Warehouse worker", "occupation:warehouse-worker", 3),
       role("Sales representative", "occupation:sales-representative", 2),
@@ -136,7 +128,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "retail",
     classification: "enterprise:retail",
     kind: "employment:retail",
-    outlets: 3,
     roles: [
       role("Cashier", "occupation:cashier", 4),
       role("Sales associate", "occupation:retail-sales", 4),
@@ -148,7 +139,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "trucking",
     classification: "enterprise:transportation",
     kind: "employment:transportation",
-    outlets: 2,
     roles: [
       role("Truck driver", "occupation:truck-driver", 4, {
         rigidity: "mixed",
@@ -160,7 +150,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "information",
     classification: "enterprise:telecommunications",
     kind: "employment:information",
-    outlets: 1,
     roles: [
       role("Installation technician", "trade:telecom-technician", 2),
       role("Customer service representative", "occupation:customer-service", 2),
@@ -170,7 +159,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "bank",
     classification: "enterprise:banking",
     kind: "employment:finance",
-    outlets: 1,
     roles: [
       role("Bank teller", "occupation:bank-teller", 3),
       role("Loan officer", "profession:loan-officer", 2),
@@ -181,7 +169,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "insurance",
     classification: "enterprise:insurance",
     kind: "employment:finance",
-    outlets: 1,
     roles: [
       role("Insurance agent", "profession:insurance-agent", 2),
       role("Office clerk", "occupation:office-clerk", 1),
@@ -191,7 +178,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "realty",
     classification: "enterprise:real-estate",
     kind: "employment:real-estate",
-    outlets: 1,
     roles: [
       role("Real estate agent", "profession:real-estate-agent", 2),
       role("Property manager", "profession:property-manager", 1),
@@ -201,7 +187,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "professional",
     classification: "enterprise:professional-services",
     kind: "employment:professional-services",
-    outlets: 2,
     roles: [
       role("Accountant", "profession:accountant", 2, { minAge: 22 }),
       role("Attorney", "profession:lawyer", 1, { minAge: 25 }),
@@ -213,7 +198,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "regional-office",
     classification: "enterprise:corporate-office",
     kind: "employment:corporate-office",
-    outlets: 1,
     roles: [
       role("Office manager", "occupation:office-manager", 1),
       role("Business analyst", "profession:business-analyst", 2, {
@@ -225,7 +209,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "building-services",
     classification: "enterprise:building-services",
     kind: "employment:building-services",
-    outlets: 1,
     roles: [
       role("Janitor", "occupation:janitor", 3, { rigidity: "mixed" }),
       role("Landscaper", "occupation:landscaper", 2),
@@ -236,7 +219,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "private-school",
     classification: "service:private-school",
     kind: "employment:education",
-    outlets: 1,
     roles: [
       role("Teacher", "profession:teacher", 3, { minAge: 22 }),
       role("Teacher's aide", "occupation:teacher-assistant", 1),
@@ -246,7 +228,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "hospital",
     classification: "service:hospital",
     kind: "employment:health-care",
-    outlets: 1,
     roles: [
       role("Registered nurse", "profession:registered-nurse", 4, {
         minAge: 21,
@@ -261,7 +242,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "clinic",
     classification: "service:clinic",
     kind: "employment:health-care",
-    outlets: 1,
     roles: [
       role("Nurse", "profession:registered-nurse", 2, { minAge: 21 }),
       role("Medical assistant", "occupation:medical-assistant", 2),
@@ -272,7 +252,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "care-home",
     classification: "service:nursing-home",
     kind: "employment:health-care",
-    outlets: 1,
     roles: [
       role("Home health aide", "occupation:home-health-aide", 3),
       role("Licensed practical nurse", "profession:practical-nurse", 1, {
@@ -284,7 +263,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "recreation",
     classification: "enterprise:recreation",
     kind: "employment:recreation",
-    outlets: 1,
     roles: [
       role("Recreation attendant", "occupation:recreation-attendant", 2),
       role("Fitness trainer", "occupation:fitness-trainer", 1),
@@ -294,7 +272,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "restaurant",
     classification: "enterprise:food-service",
     kind: "employment:food-service",
-    outlets: 3,
     roles: [
       role("Cook", "occupation:cook", 3, { rigidity: "mixed" }),
       role("Server", "service:food-server", 4, { rigidity: "mixed" }),
@@ -306,7 +283,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "inn",
     classification: "enterprise:lodging",
     kind: "employment:lodging",
-    outlets: 1,
     roles: [
       role("Front desk clerk", "occupation:hotel-clerk", 2),
       role("Housekeeper", "occupation:housekeeper", 2),
@@ -316,14 +292,12 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "repair",
     classification: "enterprise:repair",
     kind: "employment:repair",
-    outlets: 1,
     roles: [role("Mechanic", "trade:automotive-mechanic", 3)],
   },
   {
     key: "personal-care",
     classification: "enterprise:personal-services",
     kind: "employment:personal-services",
-    outlets: 1,
     roles: [
       role("Hairstylist", "service:hairstylist", 2),
       role("Barber", "service:barber", 1),
@@ -335,7 +309,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "congregation",
     classification: "community:congregation",
     kind: "employment:religious",
-    outlets: 1,
     existing: "community:congregation",
     roles: [
       role("Pastor", "profession:clergy", 1, { ...LEAD, minAge: 30 }),
@@ -346,14 +319,12 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "organizing",
     classification: "community:organizing-nonprofit",
     kind: "employment:nonprofit",
-    outlets: 1,
     roles: [role("Community organizer", "profession:community-organizer", 1)],
   },
   {
     key: "union",
     classification: "membership:labor-union",
     kind: "employment:labor-union",
-    outlets: 1,
     roles: [
       role("Union representative", "profession:union-representative", 1, {
         minAge: 25,
@@ -364,7 +335,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "party-office",
     classification: "membership:party-chapter",
     kind: "employment:party-staff",
-    outlets: 1,
     existing: "membership:party-chapter",
     roles: [
       role("Party office manager", "occupation:office-manager", 1),
@@ -375,7 +345,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "campaign-staff",
     classification: "enterprise:political-consulting",
     kind: "employment:campaign-staff",
-    outlets: 1,
     roles: [
       role("Campaign field organizer", "profession:political-organizer", 2, {
         rigidity: "flexible",
@@ -392,7 +361,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "public-school",
     classification: "service:school",
     kind: "employment:education",
-    outlets: 1,
     existing: "service:school",
     roles: [
       role("Teacher", "profession:teacher", 6, { minAge: 22 }),
@@ -408,7 +376,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     governmentOffice: "municipal",
     classification: "sector:local-government-office",
     kind: "employment:public-service",
-    outlets: 1,
     roles: [
       role("City clerk", "profession:municipal-clerk", 0, { minAge: 25 }),
       role("City planner", "profession:urban-planner", 0, { minAge: 24 }),
@@ -423,7 +390,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     governmentOffice: "county",
     classification: "sector:local-government-office",
     kind: "employment:public-service",
-    outlets: 1,
     roles: [
       role("County clerk", "profession:county-clerk", 0, { minAge: 30 }),
       role("Deputy county clerk", "occupation:office-clerk", 0),
@@ -433,7 +399,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "police",
     classification: "service:police",
     kind: "employment:public-safety",
-    outlets: 1,
     roles: [
       role("Police officer", "profession:police-officer", 5, {
         minAge: 21,
@@ -446,7 +411,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "fire",
     classification: "service:fire",
     kind: "employment:public-safety",
-    outlets: 1,
     roles: [
       role("Firefighter", "profession:firefighter", 1, { rigidity: "rigid" }),
     ],
@@ -455,7 +419,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "public-works",
     classification: "sector:local-government-office",
     kind: "employment:public-service",
-    outlets: 1,
     roles: [
       role("Maintenance worker", "trade:maintenance-worker", 3),
       role("Equipment operator", "trade:equipment-operator", 1),
@@ -466,7 +429,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "public-health",
     classification: "service:public-health",
     kind: "employment:public-service",
-    outlets: 1,
     roles: [
       role("Public health nurse", "profession:registered-nurse", 2, {
         minAge: 21,
@@ -478,7 +440,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "state-office",
     classification: "sector:state-government-office",
     kind: "employment:public-service",
-    outlets: 1,
     roles: [
       role("State caseworker", "profession:social-worker", 2, { minAge: 22 }),
       role("Office clerk", "occupation:office-clerk", 2),
@@ -489,7 +450,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "post-office",
     classification: "sector:federal-government-office",
     kind: "employment:public-service",
-    outlets: 1,
     roles: [
       role("Mail carrier", "occupation:mail-carrier", 3),
       role("Postal clerk", "occupation:postal-clerk", 1),

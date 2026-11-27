@@ -9,6 +9,7 @@
  * pay the weighted workers a wage bill their sales never planned for.
  */
 import type { CoreInput } from "./types";
+import { kindBusinessSize } from "./town-establishments";
 
 /** The input with every firm of one place sized to the place's scale; the input itself where the scale is one. */
 export function scaleFirmsToCensus(
@@ -23,6 +24,12 @@ export function scaleFirmsToCensus(
       .map((row) => row.id),
   );
   const costContracts = new Set<string>();
+  // Workers each firm opens with, at the place's scale: a firm serves no more
+  // than its kind's usual size, so one that employs more than that has room
+  // for more of its kind in the town (the founding engine reads the room).
+  const staff = new Map<string, number>();
+  for (const job of input.jobs)
+    staff.set(job.organizationId, (staff.get(job.organizationId) ?? 0) + 1);
   const businesses = input.finance.businesses.map((book) => {
     if (!firms.has(book.organizationId)) return book;
     for (const id of book.costContractIds) costContracts.add(id);
@@ -32,7 +39,15 @@ export function scaleFirmsToCensus(
       annualDemandMinor: Math.round(book.annualDemandMinor * scale),
       annualOtherCostsMinor: Math.round(book.annualOtherCostsMinor * scale),
       openingTownIncomeMinor: Math.round(book.openingTownIncomeMinor * scale),
-      capacityMinor: Math.round(book.capacityMinor * scale),
+      capacityMinor: Math.round(
+        book.capacityMinor *
+          scale *
+          Math.min(
+            1,
+            (kindBusinessSize(placeId, book.kindId)?.size ?? Infinity) /
+              Math.max(1, (staff.get(book.organizationId) ?? 1) * scale),
+          ),
+      ),
     };
   });
   return {

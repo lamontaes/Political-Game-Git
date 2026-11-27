@@ -285,3 +285,13 @@ export function countySectorEmployment(
   if (cells) addSectors(out, cells, 1);
   return out;
 }
+
+/**
+ * The private sector a workplace stands for (`SECTOR_WORKPLACES`), or null for
+ * a public or civic workplace no sector lists.
+ */
+export function workplaceSector(key: string): Sector | null {
+  for (const [sector, places] of Object.entries(SECTOR_WORKPLACES))
+    if (places.some(([place]) => place === key)) return sector as Sector;
+  return null;
+}

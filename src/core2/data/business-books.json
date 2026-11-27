@@ -18,7 +18,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors", "SG-P8-farm-sector"],
       "sector": "mining-logging",
-      "sectorSource": "NAICS 11 (agriculture, forestry, fishing) has no sector of its own in the country tier's list; the tier's natural-resources sector, mining-logging, is the nearest (BLS QCEW groups NAICS 11 and 21 as natural resources)."
+      "sectorSource": "NAICS 11 (agriculture, forestry, fishing) has no sector of its own in the country tier's list; the tier's natural-resources sector, mining-logging, is the nearest (BLS QCEW groups NAICS 11 and 21 as natural resources).",
+      "censusSector": "11"
     },
     {
       "id": "quarry",
@@ -31,7 +32,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "mining-logging",
-      "sectorSource": "Industry is NAICS 212 (nonmetallic mineral mining and quarrying), inside NAICS 21 mining, the BLS mining and logging supersector."
+      "sectorSource": "Industry is NAICS 212 (nonmetallic mineral mining and quarrying), inside NAICS 21 mining, the BLS mining and logging supersector.",
+      "censusSector": "21"
     },
     {
       "id": "construction",
@@ -44,7 +46,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "construction",
-      "sectorSource": "Industry is NAICS 23 construction, the BLS construction supersector."
+      "sectorSource": "Industry is NAICS 23 construction, the BLS construction supersector.",
+      "censusSector": "23"
     },
     {
       "id": "manufacturing",
@@ -57,7 +60,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "manufacturing",
-      "sectorSource": "Industry is NAICS 31-33 manufacturing, the BLS manufacturing supersector."
+      "sectorSource": "Industry is NAICS 31-33 manufacturing, the BLS manufacturing supersector.",
+      "censusSector": "31"
     },
     {
       "id": "wholesale",
@@ -70,7 +74,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "trade-transport-utilities",
-      "sectorSource": "Industry is NAICS 42 wholesale trade, in the BLS trade, transportation and utilities supersector."
+      "sectorSource": "Industry is NAICS 42 wholesale trade, in the BLS trade, transportation and utilities supersector.",
+      "censusSector": "42"
     },
     {
       "id": "retail",
@@ -83,7 +88,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "trade-transport-utilities",
-      "sectorSource": "Industry is NAICS 44-45 retail trade, in the BLS trade, transportation and utilities supersector."
+      "sectorSource": "Industry is NAICS 44-45 retail trade, in the BLS trade, transportation and utilities supersector.",
+      "censusSector": "44"
     },
     {
       "id": "trucking",
@@ -96,7 +102,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "trade-transport-utilities",
-      "sectorSource": "Industry is NAICS 484 truck transportation, in the BLS trade, transportation and utilities supersector."
+      "sectorSource": "Industry is NAICS 484 truck transportation, in the BLS trade, transportation and utilities supersector.",
+      "censusSector": "48"
     },
     {
       "id": "information",
@@ -109,7 +116,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "information",
-      "sectorSource": "Industry is telecommunications, NAICS 517, inside NAICS 51 information, the BLS information supersector."
+      "sectorSource": "Industry is telecommunications, NAICS 517, inside NAICS 51 information, the BLS information supersector.",
+      "censusSector": "51"
     },
     {
       "id": "insurance",
@@ -122,7 +130,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "financial",
-      "sectorSource": "Industry is NAICS 5242 insurance agencies and brokerages, inside NAICS 52, the BLS financial activities supersector."
+      "sectorSource": "Industry is NAICS 5242 insurance agencies and brokerages, inside NAICS 52, the BLS financial activities supersector.",
+      "censusSector": "52"
     },
     {
       "id": "realty",
@@ -135,7 +144,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "financial",
-      "sectorSource": "Industry is NAICS 5312 real estate agents and brokers, inside NAICS 53, which the BLS puts in the financial activities supersector."
+      "sectorSource": "Industry is NAICS 5312 real estate agents and brokers, inside NAICS 53, which the BLS puts in the financial activities supersector.",
+      "censusSector": "53"
     },
     {
       "id": "professional",
@@ -148,7 +158,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "professional-business",
-      "sectorSource": "Industry is NAICS 54 professional, scientific and technical services, in the BLS professional and business services supersector."
+      "sectorSource": "Industry is NAICS 54 professional, scientific and technical services, in the BLS professional and business services supersector.",
+      "censusSector": "54"
     },
     {
       "id": "building-services",
@@ -161,7 +172,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "professional-business",
-      "sectorSource": "Industry is NAICS 561 administrative and support services, in the BLS professional and business services supersector."
+      "sectorSource": "Industry is NAICS 561 administrative and support services, in the BLS professional and business services supersector.",
+      "censusSector": "56"
     },
     {
       "id": "private-school",
@@ -174,7 +186,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "education-health",
-      "sectorSource": "Industry is NAICS 61 educational services, in the BLS private education and health services supersector."
+      "sectorSource": "Industry is NAICS 61 educational services, in the BLS private education and health services supersector.",
+      "censusSector": "61"
     },
     {
       "id": "clinic",
@@ -187,7 +200,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "education-health",
-      "sectorSource": "Industry is NAICS 6211 offices of physicians, inside NAICS 62 health care, in the BLS education and health services supersector."
+      "sectorSource": "Industry is NAICS 6211 offices of physicians, inside NAICS 62 health care, in the BLS education and health services supersector.",
+      "censusSector": "62"
     },
     {
       "id": "care-home",
@@ -200,7 +214,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "education-health",
-      "sectorSource": "Industry is NAICS 622-623 hospitals and nursing and residential care, inside NAICS 62, in the BLS education and health services supersector."
+      "sectorSource": "Industry is NAICS 622-623 hospitals and nursing and residential care, inside NAICS 62, in the BLS education and health services supersector.",
+      "censusSector": "62"
     },
     {
       "id": "hospital",
@@ -226,7 +241,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "leisure-hospitality",
-      "sectorSource": "Industry is NAICS 713 amusement, gambling and recreation, inside NAICS 71, the BLS leisure and hospitality supersector."
+      "sectorSource": "Industry is NAICS 713 amusement, gambling and recreation, inside NAICS 71, the BLS leisure and hospitality supersector.",
+      "censusSector": "71"
     },
     {
       "id": "restaurant",
@@ -239,7 +255,8 @@
       "ownPriceElasticityParameter": "businessRestaurantOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "leisure-hospitality",
-      "sectorSource": "Industry is NAICS 722 food services and drinking places, inside NAICS 72, the BLS leisure and hospitality supersector."
+      "sectorSource": "Industry is NAICS 722 food services and drinking places, inside NAICS 72, the BLS leisure and hospitality supersector.",
+      "censusSector": "72"
     },
     {
       "id": "inn",
@@ -252,7 +269,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "leisure-hospitality",
-      "sectorSource": "Industry is NAICS 721 accommodation, inside NAICS 72, the BLS leisure and hospitality supersector."
+      "sectorSource": "Industry is NAICS 721 accommodation, inside NAICS 72, the BLS leisure and hospitality supersector.",
+      "censusSector": "72"
     },
     {
       "id": "repair",
@@ -265,7 +283,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "other-services",
-      "sectorSource": "Industry is NAICS 8111 automotive repair and maintenance, inside NAICS 81, the BLS other services supersector."
+      "sectorSource": "Industry is NAICS 8111 automotive repair and maintenance, inside NAICS 81, the BLS other services supersector.",
+      "censusSector": "81"
     },
     {
       "id": "personal-care",
@@ -278,7 +297,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "other-services",
-      "sectorSource": "Industry is NAICS 812 personal and laundry services, inside NAICS 81, the BLS other services supersector."
+      "sectorSource": "Industry is NAICS 812 personal and laundry services, inside NAICS 81, the BLS other services supersector.",
+      "censusSector": "81"
     },
     {
       "id": "utility",
@@ -291,7 +311,8 @@
       "ownPriceElasticityParameter": "businessOwnPriceElasticity",
       "stopgapIds": ["SG-P8-business-books-priors"],
       "sector": "trade-transport-utilities",
-      "sectorSource": "Industry is NAICS 22 utilities, in the BLS trade, transportation and utilities supersector."
+      "sectorSource": "Industry is NAICS 22 utilities, in the BLS trade, transportation and utilities supersector.",
+      "censusSector": "22"
     },
     {
       "id": "*",
