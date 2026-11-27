@@ -82,9 +82,6 @@ Owner, Nov 11, 2026: "updates all documents so that nothing is pointing at anyth
 | `PATCH_NOTES.md` | The patch notes, written by the release machinery |
 | `README.md` | The front page |
 | `art` | Every picture the game draws |
-| `calendar-day.png` | Written by the calendar browser check; the slim-down moves its output out of the top level |
-| `calendar-holidays-hidden.png` | Written by the calendar browser check; the slim-down moves its output out of the top level |
-| `calendar-today.png` | Written by the calendar browser check; the slim-down moves its output out of the top level |
 | `data` | The words banks, the research data and the source files the world is built from |
 | `deployment` | How a build is published |
 | `desktop` | The desktop build |
@@ -364,3 +361,6 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 | `src/core2/modules/law-reach` | removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed) | 2026-11-24 | The Oct 19 audit named this folder; it is not in the repository. |
 | `scripts/words/w3-news-year.ts` | removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed) | 2026-11-24 | A news study named this script; it is not in the repository. |
 | `tests/guards/english/bank-elements.test.ts` | removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed) | 2026-11-24 | The line-register guard's comment named this test; it is not in the repository. |
+| `calendar-day.png` | Generated calendar proof in the ignored test-results directory | 2026-11-27 | Review captures belong to their pull requests, not the repository. |
+| `calendar-holidays-hidden.png` | Generated calendar proof in the ignored test-results directory | 2026-11-27 | Review captures belong to their pull requests, not the repository. |
+| `calendar-today.png` | Generated calendar proof in the ignored test-results directory | 2026-11-27 | Review captures belong to their pull requests, not the repository. |

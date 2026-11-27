@@ -14,7 +14,7 @@ export interface EngineTextOrigin {
   readonly variant?: string;
 }
 
-export interface RuntimeTextSink {
+interface RuntimeTextSink {
   readonly engine: (text: string, origin: EngineTextOrigin) => void;
   /** The world the player is looking at, so record values can be told apart. */
   readonly world: (world: unknown) => void;

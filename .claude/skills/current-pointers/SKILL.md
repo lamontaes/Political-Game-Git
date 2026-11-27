@@ -40,6 +40,8 @@ Do all of this in the same pull request as the change:
    - `node --import tsx scripts/current/write.ts`
    - `npx vitest run tests/guards/current-pointers.test.ts`
 
+For archived reading links, use the existing archived copy when that is the document being cited. Leave quoted text and the rulings it records intact.
+
 ## When you add something at the top of the repository
 
 Add a `topLevel` row that says what it is. Think first whether it belongs inside a folder that exists; a new top-level folder is rare.

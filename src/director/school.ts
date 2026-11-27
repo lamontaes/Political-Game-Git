@@ -3,24 +3,20 @@
  * attended (its attended table, read through `attendedSchool`), their
  * classmates there, and the year's end
  * (its graduation result, written on the year's last school day for every
- * senior, graduated or not).
+ * senior, graduated or not, read through the one history reader).
  */
 import { SCHOOL_MODULE_ID } from "../core2/school-measures";
-import { attendedSchool, type AttendedRow } from "../core2/past";
+import {
+  attendedSchool,
+  GRADUATION_RESULT,
+  historyEvent,
+  historyOf,
+  type AttendedRow,
+  type HistoryEvent,
+} from "../core2/past";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import type { QueuedRecord } from "./circumstance";
-
-interface ResultRow {
-  id: string;
-  personId: string;
-  measure: string;
-  date: string;
-  passed: boolean;
-  startYear: number;
-}
-
-const GRADUATION = "school.graduation-pct";
 
 function school(core: Readonly<CoreState>) {
   return core.modules.has(SCHOOL_MODULE_ID)
@@ -54,21 +50,37 @@ export function schoolFinished(
   core: Readonly<CoreState>,
   personId: PersonId,
 ): QueuedRecord[] {
-  const results = school(core)?.table("results");
-  if (!results) return [];
-  return (results.query("byPerson", [personId]) as unknown as ResultRow[])
-    .filter((row) => row.measure === GRADUATION && row.date === core.date)
-    .map((row) => ({
-      id: row.id,
+  return graduationsOf(core, personId)
+    .filter((event) => event.date === core.date)
+    .map((event) => ({
+      id: event.id,
       kind: "school.finished",
       direct: true as const,
       personIds: [personId],
       witnessIds: [],
       facts: {
-        passed: String(row.passed),
+        passed: String(event.facts?.passed === "yes"),
         schoolId: attendedSchool(core, personId)?.schoolId ?? "",
       },
     }));
+}
+
+/** A person's graduation results from the one history reader, oldest first. */
+function graduationsOf(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+): HistoryEvent[] {
+  // A copy of the core that carries no module stores (a fixture's) holds no
+  // results to read.
+  try {
+    return historyOf(
+      core as CoreState,
+      { person: personId },
+      { kinds: [GRADUATION_RESULT] },
+    ).sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+  } catch {
+    return [];
+  }
 }
 
 /**
@@ -79,19 +91,11 @@ export function graduationResults(
   core: Readonly<CoreState>,
   personId: PersonId,
 ): { id: string; date: string; passed: boolean }[] {
-  // A copy of the core that carries no module stores (a fixture's) holds no
-  // results to read.
-  let rows: ResultRow[] = [];
-  try {
-    rows = (school(core)?.table("results").query("byPerson", [personId]) ??
-      []) as unknown as ResultRow[];
-  } catch {
-    return [];
-  }
-  return rows
-    .filter((row) => row.measure === GRADUATION)
-    .map((row) => ({ id: row.id, date: row.date, passed: row.passed }))
-    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+  return graduationsOf(core, personId).map((event) => ({
+    id: event.id,
+    date: event.date,
+    passed: event.facts?.passed === "yes",
+  }));
 }
 
 /**
@@ -105,12 +109,13 @@ export function schoolResult(
 ):
   | { passed: boolean; schoolId: string | undefined; personId: PersonId }
   | undefined {
-  const row = school(core)?.table("results").get(id) as unknown as
-    ResultRow | undefined;
-  if (!row || row.measure !== GRADUATION) return undefined;
+  const event = historyEvent(core as CoreState, id);
+  const [personId] = event?.personIds ?? [];
+  if (!event || event.record !== GRADUATION_RESULT || !personId)
+    return undefined;
   return {
-    passed: row.passed,
-    schoolId: attendedSchool(core, row.personId as PersonId)?.schoolId,
-    personId: row.personId as PersonId,
+    passed: event.facts?.passed === "yes",
+    schoolId: attendedSchool(core, personId)?.schoolId,
+    personId,
   };
 }

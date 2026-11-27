@@ -18,8 +18,8 @@
  *     meanwhile;
  * (3) every eviction case on record opened from rent owed (owed at notice
  *     above zero, on a lease that exists) and carries the steps of the
- *     place's law as recorded (the same row of housing.json eviction,
- *     statute text in data/research/housing/eviction-steps-2026.json);
+ *     place's law as recorded (the housing engine's EVICTION_STEPS, built
+ *     from data/research/housing/eviction-steps-2026.json);
  * (4) every case followed those steps in order, each on the day the law's
  *     days give: notice, cure deadline (notice plus the notice days), filing
  *     on the cure deadline, hearing (filing plus the hearing days), judgment
@@ -38,6 +38,7 @@ import history from "../data/macro/history.json" with { type: "json" };
 import regionsData from "../data/regional/regions.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
+  EVICTION_STEPS,
   publishedRentValueOf as rentValueOf,
   townFigures,
 } from "../modules/housing";
@@ -141,7 +142,7 @@ type Case = {
   };
 };
 const cases = housing.table("cases").rows() as unknown as Case[];
-const evictionLaws = housingData.eviction as unknown as Record<
+const evictionLaws = EVICTION_STEPS as unknown as Record<
   string,
   Case["law"] | undefined
 >;

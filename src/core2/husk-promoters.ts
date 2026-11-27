@@ -89,8 +89,12 @@ export interface UnbuiltHolders {
   readonly ids: (core: CoreState) => Iterable<PersonId>;
   /** Whether this engine holds `personId` this way (in office or not). */
   readonly holds: (core: CoreState, personId: PersonId) => boolean;
-  /** Their death, for the engine to write what it leaves. */
-  readonly died: (core: CoreState, personId: PersonId) => void;
+  /** Their death, for the engine to write what it leaves; `deathRecordId` is the death's own record, where one was written. */
+  readonly died: (
+    core: CoreState,
+    personId: PersonId,
+    deathRecordId?: string,
+  ) => void;
 }
 
 const unbuilt: UnbuiltHolders[] = [];
