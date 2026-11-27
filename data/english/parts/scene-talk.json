@@ -73567,7 +73567,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures", "due", "first-filing"]
+          "requiresFacts": ["signatures", "due", "first-filing"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "calm",
@@ -73596,7 +73597,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures", "due", "first-filing"]
+          "requiresFacts": ["signatures", "due", "first-filing"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "calm",
@@ -73625,7 +73627,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures", "due"]
+          "requiresFacts": ["signatures", "due"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "firm",
@@ -73654,7 +73657,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures", "due"]
+          "requiresFacts": ["signatures", "due"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "firm",
@@ -73684,7 +73688,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures", "due"]
+          "requiresFacts": ["signatures", "due"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "calm",
@@ -73713,7 +73718,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures", "due", "repeat-filing"]
+          "requiresFacts": ["signatures", "due", "repeat-filing"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "calm",
@@ -73742,7 +73748,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["one-signature", "due"]
+          "requiresFacts": ["one-signature", "due"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "calm",
@@ -73771,7 +73778,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["one-signature", "due"]
+          "requiresFacts": ["one-signature", "due"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "calm",
@@ -73852,7 +73860,8 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "firm",
@@ -73878,7 +73887,8 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "hopeful",
@@ -73904,7 +73914,8 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["signatures"]
+          "requiresFacts": ["signatures"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "calm",
@@ -73956,7 +73967,8 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["due", "signatures"]
+          "requiresFacts": ["due", "signatures"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "curious",
@@ -73982,7 +73994,8 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["due", "place"]
+          "requiresFacts": ["due", "place"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "curious",
@@ -74034,7 +74047,8 @@
           "step": "reply",
           "move": "confront",
           "role": "asked",
-          "requiresFacts": ["signatures", "office"]
+          "requiresFacts": ["signatures", "office"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "braced",
@@ -74060,7 +74074,8 @@
           "step": "reply",
           "move": "confront",
           "role": "asked",
-          "requiresFacts": ["signatures", "office"]
+          "requiresFacts": ["signatures", "office"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "braced",
@@ -74086,7 +74101,8 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "guarded",
@@ -74138,7 +74154,8 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "requiresFacts": ["due", "place"]
+          "requiresFacts": ["due", "place"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "guarded",
@@ -74165,7 +74182,8 @@
           "move": "leave",
           "role": "asked",
           "after": "answer",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "guarded",
@@ -74192,7 +74210,8 @@
           "move": "leave",
           "role": "asked",
           "after": "answer",
-          "requiresFacts": ["signatures"]
+          "requiresFacts": ["signatures"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "firm",
@@ -74219,7 +74238,8 @@
           "move": "leave",
           "role": "asked",
           "after": "refuse",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "guarded",
@@ -74246,7 +74266,8 @@
           "move": "agree",
           "role": "asked",
           "after": "refuse",
-          "requiresFacts": ["signatures"]
+          "requiresFacts": ["signatures"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "firm",
@@ -74475,7 +74496,8 @@
           "move": "refuse",
           "role": "asker",
           "after": "scene-talk.reply-confront.that-many-signatures-just-to-run-for-office",
-          "requiresFacts": ["signatures", "due"]
+          "requiresFacts": ["signatures", "due"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "calm",
@@ -74502,7 +74524,8 @@
           "move": "refuse",
           "role": "asker",
           "after": "scene-talk.reply-confront.who-decided-office-takes-that-many",
-          "requiresFacts": ["signatures", "due"]
+          "requiresFacts": ["signatures", "due"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "calm",
