@@ -208,7 +208,6 @@
 /src/core2/legislature-*.ts @lamontaes
 /src/core2/bill-*.ts @lamontaes
 /src/core2/board-appointer.ts @lamontaes
-/src/core2/session-law-audit.ts @lamontaes
 /src/core2/state-session-calendar.ts @lamontaes
 /src/core2/state-item-veto.ts @lamontaes
 /src/core2/board-appointer.test.ts @lamontaes

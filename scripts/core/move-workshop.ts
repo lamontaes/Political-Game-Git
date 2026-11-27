@@ -90,10 +90,15 @@ function destination(file: string): string | "delete" | null {
         "trait-pairs.ts",
         "turnover-check.ts",
         "circle-turnover-check.ts",
+        "justice-chain.ts",
+        "session-law-audit.ts",
       ].includes(base)
     )
       return `${REPORTS}${base}`;
   }
+  // Read only by the place-map check (the CTO's line of Nov 27, 1:47 a.m.).
+  if (file === `${CORE}gov-rules/place-slots.ts`)
+    return `${REPORTS}place-slots.ts`;
   if (
     file.startsWith(BENCH) &&
     path.posix.dirname(file) === BENCH.slice(0, -1)

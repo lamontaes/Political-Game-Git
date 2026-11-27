@@ -4,23 +4,23 @@
  * place's name. A slot the files do not hold is `null`: the caller reports it,
  * and nothing fills it with a national number.
  */
-import bodies from "../data/offices/bodies.json" with { type: "json" };
-import fiscalYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
-import stateBudgets from "../../../data/research/money/government-budgets-2026.json" with { type: "json" };
-import { makeIsoDate } from "../kernel/dates";
+import bodies from "../../src/core2/data/offices/bodies.json" with { type: "json" };
+import fiscalYears from "../../src/core2/data/budgets/local-fiscal-years.json" with { type: "json" };
+import stateBudgets from "../../data/research/money/government-budgets-2026.json" with { type: "json" };
+import { makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   countyGovernmentUnit,
   municipioUnit,
-} from "../reference/government-units";
+} from "../../src/core2/reference/government-units";
 import {
   governingPlace,
   placeChain,
   placeRow,
   placeState,
   type PlaceRow,
-} from "../place-map";
-import { resolveMunicipalElectionTiming } from "./municipal-ballot-rules";
-import { nextCountyElection } from "./county-election-calendar";
+} from "../../src/core2/place-map";
+import { resolveMunicipalElectionTiming } from "../../src/core2/gov-rules/municipal-ballot-rules";
+import { nextCountyElection } from "../../src/core2/gov-rules/county-election-calendar";
 
 export interface PlaceSlots {
   /** The laws that bind the place, nearest first: itself, what it sits under, up to the country. */

@@ -3,10 +3,10 @@
  * their level the day each passed, for the tests and checks of pool item
  * laws-session-passes-moot-and-opposite-bills. Read from the law rows alone.
  */
-import type { LawRowInput } from "./laws-starting";
-import { LAWS_MODULE_ID } from "./modules/laws";
-import { POLICY_QUESTIONS } from "./policy-answers";
-import type { CoreAPI } from "./types";
+import type { LawRowInput } from "../../src/core2/laws-starting";
+import { LAWS_MODULE_ID } from "../../src/core2/modules/laws";
+import { POLICY_QUESTIONS } from "../../src/core2/policy-answers";
+import type { CoreAPI } from "../../src/core2/types";
 
 const sequenceOf = (row: LawRowInput) =>
   Number(row.terms?.enactedSequence ?? 0);

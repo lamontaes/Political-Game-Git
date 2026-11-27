@@ -6,7 +6,7 @@
  * news story the event became, and the scandal voters read from it).
  * Reads only; writes nothing.
  */
-import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./modules/corruption";
+import { CORRUPTION_MODULE_ID, type CrimeRecord } from "../../src/core2/modules/corruption";
 import {
   JUSTICE_MODULE_ID,
   type CaseRow,
@@ -16,11 +16,11 @@ import {
   type CustodyRow,
   type InvestigationRow,
   type SentenceRow,
-} from "./modules/justice";
-import { NEWS_MODULE_ID } from "./modules/news";
-import { OFFICES_MODULE_ID } from "./modules/offices";
-import { scandalStoriesOf } from "./modules/voting";
-import type { CoreAPI } from "./types";
+} from "../../src/core2/modules/justice";
+import { NEWS_MODULE_ID } from "../../src/core2/modules/news";
+import { OFFICES_MODULE_ID } from "../../src/core2/modules/offices";
+import { scandalStoriesOf } from "../../src/core2/modules/voting";
+import type { CoreAPI } from "../../src/core2/types";
 
 export interface JusticeChain {
   readonly caseId: string;

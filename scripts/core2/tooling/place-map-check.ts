@@ -6,7 +6,7 @@
  */
 import { writeFileSync } from "node:fs";
 import { allPlaces, placeChain } from "../../../src/core2/place-map";
-import { placeSlots } from "../../../src/core2/gov-rules/place-slots";
+import { placeSlots } from "../place-slots";
 
 const gaps = new Map<string, string[]>();
 const note = (slot: string, name: string) => {

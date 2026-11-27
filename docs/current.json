@@ -2101,6 +2101,24 @@
       "now": "tests/support/gov-test-clock.ts",
       "when": "2026-11-27",
       "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/gov-rules/place-slots.ts",
+      "now": "scripts/core2/place-slots.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/justice-chain.ts",
+      "now": "scripts/core2/justice-chain.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/session-law-audit.ts",
+      "now": "scripts/core2/session-law-audit.ts",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
     }
   ]
 }

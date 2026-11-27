@@ -25,7 +25,7 @@ import {
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { lawChain } from "./modules/laws";
 import { coreAPI } from "./state";
-import { justiceChains } from "./justice-chain";
+import { justiceChains } from "../../scripts/core2/justice-chain";
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
 import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
