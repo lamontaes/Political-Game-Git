@@ -1,0 +1,31 @@
+{
+  "id": "a-narrow-win-leaves-a-town-split",
+  "kind": "moment",
+  "summary": "After a close race, voters who backed the winner are glad and voters who did not say they will wait and see.",
+  "realLife": "A Rochester, Minnesota mayor was elected by just under 700 votes, 1.2 percent. A New York City mayor was elected with nearly half the city's voters not supporting the winner, and the paper asked what those voters do now.",
+  "sources": [
+    "KTTC, Rochester mayoral candidates share reactions to election results: https://www.kttc.com/2026/11/04/rochester-mayoral-candidates-share-reactions-election-results/?outputType=amp",
+    "Yahoo News, Nearly half of NYC voters opposed the winner. What do they do now?: https://www.yahoo.com/news/articles/nearly-half-nyc-voted-against-080017431.html"
+  ],
+  "fits": ["home", "news", "campaign"],
+  "slots": ["{winner}"],
+  "gates": [],
+  "issues": ["none"],
+  "weights": {
+    "race-margin": 0.7
+  },
+  "inGame": "lean-with and lean-against in the bring-it-up rows: the speaker says whether their own ballot went to {winner}.",
+  "turns": [
+    {
+      "turn": "The ballot went to the winner",
+      "pull": "the speaker's recorded vote or lean was for the winner",
+      "writes": "writes glad, and says so in a line"
+    },
+    {
+      "turn": "The ballot did not",
+      "pull": "the speaker's vote or lean was for another",
+      "writes": "writes wait and see, or not happy, and says so in a line"
+    }
+  ],
+  "usedBy": ["lean-with", "lean-against"]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "the-paper-reports-the-council-vote",
+  "kind": "moment",
+  "summary": "A resident brings up what the paper says about a council vote, and the vote went the way the speaker did or did not want.",
+  "realLife": "A Tempe, Arizona parks ordinance passed 7 to 0 at about 1 a.m., after 85 residents spoke against it in public comment. A Provo, Utah rezoning that neighbors opposed passed 5 to 2 after they came to the council meeting. A Laramie, Wyoming zoning ordinance passed 6 to 3 over some residents' worries about the neighborhood's character. Each was reported in the next day's local paper, which is where most neighbors learned how it came out.",
+  "sources": [
+    "Phoenix New Times, Tempe passes controversial new parks ordinance: https://www.phoenixnewtimes.com/news/tempe-passes-controversial-new-parks-ordinance-backlash-22046907/",
+    "BYU Universe, North Timpview residents strongly oppose high-density housing: https://universe.byu.edu/2020/10/07/north-timpview-residents-strongly-oppose-high-density-housing/",
+    "Laramie Reporter, Despite controversy, council passes another affordable housing measure: https://laramiereporter.substack.com/p/despite-controversy-council-passes"
+  ],
+  "fits": ["home", "news", "office"],
+  "slots": ["{subject}", "{topic}"],
+  "gates": [],
+  "issues": ["none"],
+  "weights": {
+    "council-vote": 0.7
+  },
+  "inGame": "change-news (read) and your-bill-passed or failed (act or ordinance) in the bring-it-up rows: the speaker says which paper ran it and what it says about the vote on {topic}.",
+  "turns": [
+    {
+      "turn": "It passed",
+      "pull": "the record shows the bill passed",
+      "writes": "writes the paper's report that it passed, plainly"
+    },
+    {
+      "turn": "It fell short",
+      "pull": "the record shows the bill failed",
+      "writes": "writes the paper's report that it fell short, with a word of sympathy"
+    }
+  ],
+  "usedBy": [
+    "change-news.read-read",
+    "your-bill-passed-ordinance",
+    "your-bill-failed-ordinance",
+    "your-bill-passed-act",
+    "your-bill-failed-act"
+  ]
+}
