@@ -84,7 +84,6 @@
 /src/core2/place-leans.ts @lamontaes
 /src/core2/voting-module-id.ts @lamontaes
 /src/core2/turnout*.ts @lamontaes
-/src/core2/civic-inputs.ts @lamontaes
 /src/core2/membership-dues.ts @lamontaes
 /src/core2/gov-test-clock.ts @lamontaes
 /src/core2/campaign-data.ts @lamontaes
@@ -102,7 +101,6 @@
 /src/core2/candidacy-open-seat.test.ts @lamontaes
 /src/core2/candidacy.test.ts @lamontaes
 /src/core2/carry-ask-played.test.ts @lamontaes
-/src/core2/civic-inputs.test.ts @lamontaes
 /src/core2/civic-joint-use.test.ts @lamontaes
 /src/core2/civic-roles.test.ts @lamontaes
 /src/core2/closed-race-holders.test.ts @lamontaes
@@ -931,6 +929,8 @@
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes
+/src/core2/civic-inputs.test.ts @lamontaes
+/src/core2/civic-inputs.ts @lamontaes
 /src/core2/past-*.ts @lamontaes
 /src/core2/deep-past.ts @lamontaes
 /src/core2/own-past-kinds.ts @lamontaes

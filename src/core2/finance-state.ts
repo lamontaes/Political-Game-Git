@@ -1,4 +1,4 @@
-import { refreshOfficeStaff } from "./modules/campaigns";
+import { refreshOfficeStaff } from "./past";
 import { verifyCurrentWorkPayrollGroup } from "./work-payroll-cash";
 import {
   countedWagesEarned,
