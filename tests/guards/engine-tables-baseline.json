@@ -389,6 +389,9 @@
     "src/core2/press-money.ts": {
       "dynamic": 4
     },
+    "src/core2/press-topics.ts": {
+      "bodies": 3
+    },
     "src/core2/question-wages.ts": {
       "laws": 2
     },
