@@ -31,8 +31,7 @@
     "src/director/scene-talk.ts": 1,
     "src/english/composed-checks.ts": 1,
     "src/english/english-composition.ts": 2,
-    "src/english/grounded-english.ts": 2,
-    "src/english/speech-registers.ts": 1
+    "src/english/grounded-english.ts": 2
   },
   "dataHeldLines": {
     "src/bench/data/controls.json": 624,

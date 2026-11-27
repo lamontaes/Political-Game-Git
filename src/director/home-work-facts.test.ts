@@ -392,6 +392,9 @@ it(`the scenes of home and work life carry the employer, the years, the school, 
       }
       if (
         row.kind === "life.death" &&
+        // A death of someone the world holds: an official known only by
+        // name dies on a record that names no one (health.ts).
+        row.personIds.length > 0 &&
         row.personIds.every((id) => core.people.has(id)) &&
         !seen.has("death: deceased")
       ) {

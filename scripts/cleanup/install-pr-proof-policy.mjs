@@ -68,9 +68,9 @@ const line =
   '          node scripts/guards/no-doc-proof-images.mjs "$base" HEAD';
 edit(
   ".github/workflows/validate.yml",
-  /^          CHANGED_FILES=(.*)$/m,
+  /^ {10}CHANGED_FILES=(.*)$/m,
   readFileSync(".github/workflows/validate.yml", "utf8").match(
-    /^          CHANGED_FILES=.*$/m,
+    /^ {10}CHANGED_FILES=.*$/m,
   )[0] +
     "\n" +
     line,

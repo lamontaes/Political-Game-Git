@@ -111,16 +111,40 @@ The CTO answered the open questions on Nov 26 (4:43 a.m. ET, #10377); the answer
 
 ## Slices, in order
 
-Each slice is a commit on one branch (one growing pull request, `ready` posted per slice), and each is proved by the talk dump (`scripts/words/talk-dump.ts`) on its parent and on its head: scenes, held parts with the lie caught, `answerInTalk`, and the home talks at fixed seeds (first reply, last reply, the scales with the beliefs a lie leaves).
+Each slice is a commit on one branch, proved while building by the talk dump (`scripts/words/talk-dump.ts`) on its parent and on its head: scenes, held parts with the lie caught, `answerInTalk`, and the home talks at fixed seeds (first reply, last reply, the scales with the beliefs a lie leaves). A family is "the engine's" when its rule table is a row of the arcs file (`home.*`, additions only) and the engine's own functions read it; the home talk hands the engine the facts only it knows.
 
 0. **Done.** The dump script.
-1. **Done.** One lean ordering for every pick in scene-talk (`byLean`), nine sites, byte for byte the same dump.
-2. **One family's answer path, end to end.** The family is the day-subject back answer (`sayNow`'s `dayBack` branch: their answer to a reply on a day's own subject, composed as `<kind>-back`). Its candidates and its answer rule become an arc row and engine code; the engine calls the home hook with the same inputs; the branch in `sayNow` is deleted. The pull request names the one rule or table the family now gets from the arc row and the `conversation-rules.json` entry the row replaced. A family that still passes in its own wording, ranking and filters is not merged.
-3. **The other answer families,** one at a time, each deleting its `sayNow` branch: take, give-back, news, own-view. The address's point waits for Story's open item.
-4. **The reply menu.** `offerChoices` and `rankChoices` onto the engine's reply step, rule by rule from R1 to R11, once every kind has moved: it is one generic function, and it can only go when its last caller has.
+1. **Done.** One lean ordering for every pick in scene-talk (`byLean`).
+2. **Done.** The heard-today record (`talk-heard.ts`) and the composed line (`talk-words.ts`) leave `conversation.ts`, moved as they were; the day-subject answer is the engine's (`home.dayBack`, `answerBack`).
+3. **Answer families, one at a time. Done so far:** where someone stands (`home.ownView`, `answerOwnView`), news (`home.news`, `newsLine` and its marks), the asker's give-back (`home.giveBack`, `giveBackLine`), and the table of what move a reply makes (`home.replyMoves`, `replyMoveOf`). **Still in `conversation.ts`:** the promise and veto answers, the generic raised-answer path, and the address's point (which waits for Story's open item).
+4. **The reply menu.** `offerChoices` and `rankChoices` onto the engine's reply step, rule by rule from R1 to R11, once every kind has moved: it is one generic function, and it can only go when its last caller has. The rule tables it reads (`answersTo`, `follows`, `tells`, `namesOnce`, `related`) are part of `ConversationData`, which tests inject, so each moves with its injection point kept.
 5. **The lie.** `lieChoices` onto the engine; the scales set and the belief rows dump identical.
 6. **Open and close.** Greeting, goodbye, phone, hard news, `carryOn`.
 7. **Delete.** The 21 functions, the tables in `conversation-rules.json` that nothing reads, and the tests that only tested them.
+
+## Design for what is left: one reply step
+
+Written Nov 26 after about 30 rule moves and a strict review: the rules now live in the engine and every composed home line goes through its follow step (`followStep`, called by the scene loop in three places and by the home families through `homeLine`), but a home turn does not yet run the scene loop's reply step. What is left in `conversation.ts` is the part that reads records to decide what can be said (the subject gatherers, which stay) and the part that words and records it (which has to become hooks of one step).
+
+**The one step.** For a line, a talk offers replies. Both loops do it: take the candidate moves, word each one, drop a line already offered or said, rank, cut to the menu. The scene loop does it for the arc's `replies`; a home turn does it for the bank's answer moves (`replyCandidates`). They differ in four hooks, and nothing else:
+
+1. **Candidates:** the arc's reply moves, or the bank's answer moves for the line's kind (`replyCandidates`, already the engine's).
+2. **Word:** `wordSceneMove` (scene bank) or the mined bank's composed or plain word (`composedHomeLine`, `words`). Two pickers stay, named hooks.
+3. **Keep:** the scene loop's "not already offered or said on this path" and the home rules already in the engine (`replyAnswersAsk`, `replyOffered`, `replyHasMatter`, `replyAvailable`).
+4. **Rank:** the scene's trait lean (`byLean`) or the home's reach and graded pairs (`shapeMenu`). The CTO's ruling stands: two named ranking hooks, one rule in the end.
+
+**The step's output** is a menu of lines, each with the move it makes, the subject it raises, and the records it cites. The home talk's choice object (`ConversationChoice`) is that line plus its key, and the screen reads it as it does today.
+
+**What stays in `conversation.ts`:** the subject gatherers and the facts they give (what each person can talk about), the topic planner (`mainTopic`, `raiseSubject`'s reading of records), `sayNow`'s record writes (the told event, the lie and the beliefs, the stance learned, the contact time, the promise and veto answers), and the heard-today writes.
+
+**Order of the work, each proved by the dump and the tests it reaches:**
+
+1. A `replyStep` in the engine taking the four hooks, used first by the scene loop in place of its `offered` block (a refactor with the scene dump as proof).
+2. A home turn's `offerChoices` calls it with the home hooks. The wording closures in `offerChoices` (`add`, `answerWith`) become the word hook; the head-plus-tail joined replies stay a feature of the home word hook.
+3. The lie set goes through it as a second menu with the false answers as its candidates.
+4. `sayNow`'s branches become one call to the follow step per family, each family's record write as a hook, in the order veto, own-view why, own-view take, the point, news, day subject, tells, give-back (first match wins, as now).
+
+**Risks:** the menu's order of evaluation (a taken subject must be gone when the next candidate is considered, which `replyCandidates` keeps by being lazy); `sayNow`'s write position relative to its line (event ids and record lists change if it moves); the home talk's choice keys. Each step ships with the dump identical, and the played-talk proofs for the paths the dump does not reach.
 
 ## Work in the same code
 

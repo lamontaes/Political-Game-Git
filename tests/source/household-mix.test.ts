@@ -1,13 +1,17 @@
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+
+import { describe, expect, it } from "vitest";
+
+import mixData from "../../src/core2/data/household-mix.json" with { type: "json" };
+
 /**
- * Export what kinds of households a town has, from the locked ACS tables.
- *
- * Reads the two extracts in `data/source/acs-household-mix/raw/` (U.S. Census
- * Bureau, 2020-2024 American Community Survey 5-year, tables B11001 and
- * B11003; the lock beside them names the full files they were cut from) and
- * writes `src/core2/household-mix.generated.ts`: for the nation, each
- * state and each place, the number of households of the five shapes the town
- * generator draws. Run with `npm run export:household-mix`; `-- --check` fails
- * when the committed output is stale.
+ * What kinds of households a town has is a data file, and this is its lock:
+ * the two locked Census extracts in `data/source/acs-household-mix/raw/` (U.S.
+ * Census Bureau, 2020-2024 American Community Survey 5-year, tables B11001 and
+ * B11003) are hashed against their lock, and every row is derived from them
+ * again and must match the file. A geography with no households, or whose
+ * cells were withheld, is left out.
  *
  * How the tables map to the five shapes (every household lands in exactly one):
  *   alone                 B11001 living alone
@@ -17,12 +21,7 @@
  *   housemates            B11001 nonfamily, not living alone, plus B11003 other
  *                         family with no own children under 18 (siblings,
  *                         a grown child with a parent)
- * A geography with no households, or whose cells were withheld, is left out.
  */
-
-import { readFileSync, writeFileSync } from "node:fs";
-
-export const HOUSEHOLD_MIX_OUTPUT_PATH = "src/core2/household-mix.generated.ts";
 
 const RAW = "data/source/acs-household-mix/raw";
 const LOCK = "data/source/acs-household-mix/regional-artifact-lock.json";
@@ -54,14 +53,10 @@ const key = (geoId: string): string | null => {
   return place ? place[1]! : null;
 };
 
-export function renderHouseholdMixModule(): string {
+function derivedRows(): { rows: (string | number)[][]; withheld: number } {
   const b11001 = table("b11001");
   const b11003 = table("b11003");
-  const lock = JSON.parse(readFileSync(LOCK, "utf8")) as {
-    asOf: string;
-    artifacts: { sha256: string }[];
-  };
-  const entries: string[] = [];
+  const entries: (string | number)[][] = [];
   let withheld = 0;
   for (const geoId of [...b11001.keys()].sort()) {
     const name = key(geoId);
@@ -104,44 +99,37 @@ export function renderHouseholdMixModule(): string {
       withheld += 1;
       continue;
     }
-    entries.push(`${name}:${shapes.join(",")}`);
+    entries.push([name, ...shapes]);
   }
-  const meta = {
-    source:
-      "U.S. Census Bureau, 2020-2024 American Community Survey 5-year, tables B11001 and B11003, nation, states and places.",
-    lockedSha256: lock.artifacts.map((artifact) => artifact.sha256),
-    asOf: lock.asOf,
-    geographies: entries.length,
-    withheld,
+  return { rows: entries, withheld };
+}
+
+describe("the household mix data file", () => {
+  const lock = JSON.parse(readFileSync(LOCK, "utf8")) as {
+    asOf: string;
+    artifacts: { sha256: string; localPath: string }[];
   };
-  return `/**
- * GENERATED — do not edit by hand.
- *
- * Written by \`scripts/source/regional-money/export-household-mix.ts\` from the
- * locked ACS household tables. A geography the survey withheld is absent,
- * never zero.
- */
 
-export const HOUSEHOLD_MIX_META = ${JSON.stringify(meta, null, 2)} as const;
+  it("is locked to the Census extracts it was derived from", () => {
+    for (const artifact of lock.artifacts)
+      expect(
+        createHash("sha256")
+          .update(readFileSync(artifact.localPath))
+          .digest("hex"),
+        artifact.localPath,
+      ).toBe(artifact.sha256);
+    expect(mixData.meta.lockedSha256).toEqual(
+      lock.artifacts.map((artifact) => artifact.sha256),
+    );
+    expect(mixData.meta.asOf).toBe(lock.asOf);
+  });
 
-/**
- * \`geography:alone,couple,couple-with-children,parent-with-children,housemates\`
- * (households of each shape), separated by \`;\`. The geography is \`US\`, a
- * 2-digit state FIPS or a 7-digit place GEOID.
- */
-export const HOUSEHOLD_MIX_ROWS =
-  ${JSON.stringify(entries.join(";"))};
-`;
-}
-
-if (import.meta.url === `file://${process.argv[1]}`) {
-  const output = renderHouseholdMixModule();
-  if (process.argv.includes("--check")) {
-    if (readFileSync(HOUSEHOLD_MIX_OUTPUT_PATH, "utf8") !== output)
-      throw new Error(`Stale ${HOUSEHOLD_MIX_OUTPUT_PATH}`);
-    console.log(`${HOUSEHOLD_MIX_OUTPUT_PATH} is current.`);
-  } else {
-    writeFileSync(HOUSEHOLD_MIX_OUTPUT_PATH, output);
-    console.log(`wrote ${HOUSEHOLD_MIX_OUTPUT_PATH}`);
-  }
-}
+  it("holds exactly the rows the extracts derive", () => {
+    const { rows, withheld } = derivedRows();
+    // Proves the comparison has something to compare.
+    expect(rows.length).toBeGreaterThan(30000);
+    expect(mixData.rows).toEqual(rows);
+    expect(mixData.meta.geographies).toBe(rows.length);
+    expect(mixData.meta.withheld).toBe(withheld);
+  });
+});

@@ -33,7 +33,6 @@ import { join } from "node:path";
  */
 
 const MEASURED_PLACES = ["PR", "GU", "MP", "VI", "AS"] as const;
-type MeasuredPlace = (typeof MEASURED_PLACES)[number];
 
 /** The fewest distinct honorees a name needs before a life can be given it. */
 const MINIMUM_HONOREES = 2;
