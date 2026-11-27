@@ -58,7 +58,7 @@ import { parameter } from "./parameters";
 import { corePlaceByKey } from "./place-lookup";
 import type { ResidentHouseholdRecord } from "./residents";
 import { coreAPI, fillInPerson } from "./state";
-import { monthsAfter } from "./tooling/m1-played-year";
+import { monthsAfter } from "../../scripts/core2/tooling/m1-played-year";
 import {
   GROUP_QUARTERS_TYPES,
   type GroupQuartersType,

@@ -15,9 +15,9 @@ import { retirementClaimAgeMonths } from "./retirement-claim";
 import { startingSocialSecurityAges } from "./social-security-law";
 import { coreAPI, fillInPerson } from "./state";
 import { decisionLean, decisionTraitWeight } from "./trait-decisions";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import type { CoreState } from "./types";
-import { daysAfterStart } from "./tooling/test-days";
+import { daysAfterStart } from "../../tests/support/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-retirement-claims");

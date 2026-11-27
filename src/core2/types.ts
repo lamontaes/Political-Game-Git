@@ -1124,6 +1124,30 @@ export interface CoreModule {
    * wider `unknown` or `object`, so the engine's narrower argument type fits.
    */
 
+  /**
+   * The outlet that sells ad time and its followers (the press engine's), read
+   * by the campaign engine's ad audience in place of a global the press sets
+   * when it opens; null where the world has none. World's request, Nov 27.
+   */
+  adOutlet?(api: CoreAPI): {
+    organizationId: string;
+    followerIds: readonly string[];
+    countedFollowers: number;
+  } | null;
+  /**
+   * The engine's own opening records, run once by the world builder right
+   * after it installs the engine into a world (the builder holds the list of
+   * engines and the stage each opens in; an engine does not install itself).
+   */
+  worldOpen?: (core: CoreState) => void;
+  /**
+   * Caches this engine keeps keyed by the world and built from the world's
+   * records: a restore refills the same world in place, so each is cleared at
+   * the end of every restore and built again on first read. A function, read
+   * at restore time, so the file that holds the caches need not have loaded
+   * when the module object is made.
+   */
+  derivedCaches?: () => readonly WeakMap<CoreState, unknown>[];
   /** A counted person's record by id, or nothing; the shared chooser asks every installed engine (`countedPersonOf`). */
   countedPerson?: (
     core: CoreState,
@@ -1173,6 +1197,171 @@ export interface CoreModule {
   assistanceReader?: (core: CoreState, householdId: string) => number;
   /** Run the moment a person hears a story (the price engine ties a price change to the law the story names). Method form: the engine's `Story` type fits `unknown`. */
   onStoryHeard?(api: CoreAPI, personId: PersonId, story: unknown): void;
+  /**
+   * Economy's twelve (Nov 27). A government's row, a budget row and the like
+   * are the engine's own record types, so the signatures take `unknown` and
+   * the carrier and the reader cast; no engine type is named here. The
+   * reader asks every installed carrier in install order, or the first
+   * where the list says a slot takes one answer.
+   */
+  /** Law-reach's standing line laws, run at the budget's close. */
+  standingLineLaws?: (api: CoreAPI) => void;
+  /** A monthly benefit program the law reach pays; every carrier runs. */
+  monthlyProgram?: (api: CoreAPI, source: Source) => void;
+  /** The body's vote on a government's budget for a fiscal year: the budget row, or null; the first carrier answers. */
+  budgetVote?(api: CoreAPI, gov: unknown, fiscalYear: number): unknown;
+  /** The body's hearing on a budget; the first carrier runs. */
+  budgetHearing?(api: CoreAPI, gov: unknown, fiscalYear: number): void;
+  /** Whether the budget's vote is still waiting on its body; the first carrier answers. */
+  budgetVoteWaits?(api: CoreAPI, gov: unknown, fiscalYear: number): boolean;
+  /** What the law reach pays on each spending line of a government, by line; every carrier adds. */
+  linePayments?(api: CoreAPI, gov: unknown): Record<string, number>;
+  /** What the law reach adds to named spending lines of a government; every carrier adds. */
+  lineAdditions?: {
+    readonly keys: readonly string[];
+    additions(api: CoreAPI, gov: unknown): readonly unknown[];
+  };
+  /** What of a government's revenue passes through to other lines, by line. */
+  budgetPassThrough?(
+    api: CoreAPI,
+    gov: unknown,
+    revenueMinor: Readonly<Record<string, number>>,
+  ): Readonly<Record<string, number>>;
+  /** A fiscal rule the law reach reviews at the treasury's close. */
+  treasuryRule?: (api: CoreAPI) => void;
+  /** How a government's body chooses among bids, and a record of each payment (the contracts module's); the first carrier answers. */
+  contractAwarder?: {
+    award(
+      api: CoreAPI,
+      input: unknown,
+    ): { readonly id: string; readonly organizationId: string } | null;
+    paid(
+      api: CoreAPI,
+      awardId: string,
+      payment: { readonly id: string; readonly amountMinor: number },
+    ): void;
+  };
+  /** The hours an office keeps in a day, by office, with the record they come from; every carrier is summed. */
+  officeTime?(api: CoreAPI): ReadonlyMap<string, unknown>;
+  /** Every state's people and this month's movers, as the economy engine reads them. */
+  countryFlows?(api: CoreAPI): {
+    readonly states: readonly unknown[];
+    readonly flows: readonly unknown[];
+  };
+  /**
+   * Lawmaking's fifteen (Nov 27). Bill rows and actions are the legislature's
+   * own, so they are `unknown` here.
+   */
+  /** What other engines add to a member's reasons, do before a bill's votes or after, and do when the executive acts on a bill. */
+  legislatureHooks?: {
+    positionTerm?(api: CoreAPI, bill: unknown, memberId: string): number;
+    beforeVote?: {
+      readonly name: string;
+      readonly run: (api: CoreAPI, billId: string) => void;
+      /** The hook casts a member's vote: it runs only where the bill is voted, never at a hearing. */
+      readonly castsVote?: boolean;
+    };
+    afterVote?: (api: CoreAPI, billId: string) => void;
+    onDesk?(api: CoreAPI, action: unknown): void;
+  };
+  /** Whether a bill is held up in committee today. */
+  committeeWait?(api: CoreAPI, bill: unknown): boolean;
+  /** The meetings engine: puts a budget on its body's agenda for its vote day, and says whether a meeting today votes it. */
+  budgetMeeting?: {
+    readonly place: (api: CoreAPI, billId: string, date: string) => void;
+    readonly votes: (api: CoreAPI, billId: string) => boolean;
+  };
+  /** The bills a meeting's agenda holds on a date. */
+  meetingAgendaReader?(api: CoreAPI, date: string): readonly string[];
+  /** Who testifies on a question: the people its records show are concerned with it. */
+  hearingWitnesses?(api: CoreAPI, bill: unknown): readonly unknown[];
+  /** The leadership engine seats a chamber's committees and their chairs. */
+  committeeRoster?(
+    api: CoreAPI,
+    chamber: string,
+    committee: string,
+  ): { memberIds: readonly string[]; chairId: string } | null;
+  /** The floor day the world's legislating gives a bill, or null. */
+  floorCalendarer?(api: CoreAPI, billId: string): string | null;
+  /** A body's next sitting after a date, or null. */
+  sittingReader?(
+    api: CoreAPI,
+    bodyOfficeId: string,
+    after?: string,
+  ): unknown | null;
+  /** The date a bill's floor vote is set for, or null. */
+  floorDateReader?(api: CoreAPI, billId: string): string | null;
+  /** The bills the floor takes up in the week of a date. */
+  weeklyFloorReader?(api: CoreAPI, date: string): readonly string[];
+  /** Called as each member's filed change becomes a bill in their chamber. */
+  billIntroduced?(api: CoreAPI, billId: string): void;
+  /** Whether a body meets today, and what it does with an agenda filed for a meeting. */
+  meetingHold?: {
+    hold(api: CoreAPI, officeId: string): boolean;
+    filed(
+      api: CoreAPI,
+      officeId: string,
+      meetingDate: string,
+      billIds: readonly string[],
+    ): void;
+  };
+  /** Whether the House leader's refusal keeps a bill from the floor. */
+  leaderRefusalReader?(api: CoreAPI, billId: string): boolean;
+  /** Why an official has no say over what is asked for (a bill, say), or null; every carrier is asked. */
+  bribeScope?(
+    api: CoreAPI,
+    subjectId: string,
+    officialId: string,
+  ): string | null;
+  /** What a policy does once it is law: one handler per policy key, called when the law in force on that key may have changed. */
+  policyHandlers?: Readonly<
+    Record<string, (api: CoreAPI, change: unknown) => void>
+  >;
+  /**
+   * Offices' five, proposed by Core from the signatures of the register
+   * functions they replace, because Offices has not posted its own (Nov 27):
+   * rename any of them until a registry moves onto it. Terms, seats and
+   * vacancies are the offices engine's own rows, so they are `unknown`. The
+   * level acts kit (`registerOfficeActs`) is a bundle of fields `CoreModule`
+   * already has (`onDay`, `offerProviders`, `effectHandlers`), so it is not a
+   * field here: Offices lists what is left of it.
+   */
+  /** Who succeeds an office kind's holder, by office kind: the person, their party and how they were reached, or null. */
+  successorProviders?: Readonly<
+    Record<
+      string,
+      (
+        api: CoreAPI,
+        input: { readonly seatId: string; readonly previous: unknown },
+      ) => {
+        readonly personId: string;
+        readonly party: string | null;
+        readonly reached: string;
+        readonly then?: () => void;
+      } | null
+    >
+  >;
+  /** Offers a vacant seat to the person this engine answers for (the player, the elections engine); true when taken. */
+  vacancyOffer?(
+    api: CoreAPI,
+    input: {
+      readonly office: unknown;
+      readonly seat: unknown;
+      readonly vacancyId: string;
+      readonly reached: string;
+    },
+  ): boolean;
+  /** Opens a real race for a seat awaiting a special election; true when this engine took the seat. */
+  specialElections?(api: CoreAPI, race: unknown): boolean;
+  /** The moments a level adds to what may stop the player. */
+  stopKinds?: readonly { readonly kind: string; readonly byDefault: boolean }[];
+  /** Picks one of the candidates for a central bank board vacancy and gives its reasons; nothing when no one is confirmed. */
+  boardAppointer?(
+    api: CoreAPI,
+    vacancy: unknown,
+    candidates: readonly unknown[],
+    sitting: readonly unknown[],
+  ): { index: number; reasons: Readonly<Record<string, number>> } | undefined;
   /**
    * What the voting engine gives the campaign, candidacy and elections engines
    * it cannot import (they are read by it): the candidate a resident would vote

@@ -17,7 +17,7 @@ import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import type { ScheduleEntry } from "./scheduling";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // Go on Knock on doors stages the day's porch scene at once (P41): the
 // director's door-ask moment exists on the day of the outing, before the day

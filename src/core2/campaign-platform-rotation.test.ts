@@ -14,7 +14,7 @@
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
-import { advanceToFilingOpen } from "./gov-test-clock";
+import { advanceToFilingOpen } from "../../tests/support/gov-test-clock";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { openLaws } from "./modules/laws";
@@ -42,7 +42,7 @@ import { viewsModule } from "./modules/views";
 import { candidateStance } from "./campaign-stances";
 import { contestPositions } from "./contest-positions";
 import type { CoreAPI, CoreState } from "./types";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const START = "2026-01-05";
 /** Pinned: the run seed and the three salts name three places, the same every run. */

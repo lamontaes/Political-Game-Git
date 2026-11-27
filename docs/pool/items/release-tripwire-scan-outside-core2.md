@@ -17,8 +17,8 @@ claimed-at: 2026-10-20T07:49:58.096Z
 
 **Rules.** Replace, never layer: widen the one scanner, no second one. Report counts per code before and after.
 
-**Done when.** auditCore2Tripwires reads the files the six rows name, reports zero stopgap-location-mismatch and stale-stopgap-entry for them, and a test in src/core2/tooling/tripwires.test.ts places a marker in a src/bench fixture file and finds it.
+**Done when.** auditCore2Tripwires reads the files the six rows name, reports zero stopgap-location-mismatch and stale-stopgap-entry for them, and a test in scripts/core2/tooling/tripwires.test.ts places a marker in a src/bench fixture file and finds it.
 
-**Files.** src/core2/tooling/tripwires.ts, src/core2/tooling/tripwires.test.ts, src/core2/data/stopgaps.json
+**Files.** scripts/core2/tooling/tripwires.ts, scripts/core2/tooling/tripwires.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** TODO

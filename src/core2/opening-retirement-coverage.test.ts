@@ -4,7 +4,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { DEFAULT_OPENING_INCOME_DATA as data } from "./opening-income";
 import { parameter } from "./parameters";
 import { daysBetween, makeIsoDate } from "./kernel/dates";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "opening-retirement-coverage");

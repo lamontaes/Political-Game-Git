@@ -23,7 +23,7 @@ branch: claude/pool-roadmap-m1-flip-proven-three
 
 **What.** M1-01 (laws in force) already reads passes true in docs/roadmap/features.json, so only M1-02 (the national economy and central bank) is left. Its check now draws past a town with no bank, and it passed on Nov 10 in one place. Run it in two more drawn places on main and flip M1-02 to passes true with the runs named. Seen: a rate decision changes what a loan costs in the town, read on the bank's business line in dev mode.
 
-**Cause.** Found in code: src/core2/tooling/m1-02-check.ts (header, lines 13 to 16): the loan-cost clause needs a town with a bank line open at a rate change, and Swanton, Nebraska has no bank, which is why the Oct 24 draw showed zero bank lines and zero repricings. The check now draws further places from all 56 until one has a bank line, and reports every place it tried. Measured by Fable on Nov 10: `GOLDEN_PATH_SEED=m102fable1 GOLDEN_PATH_PLACE_KEY=3148060 node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-02-check.ts` passed with 9 rate changes, 1 bank line in the town and 8 repricings on decision days (run on PR #8246's branch, because main could not load the command that hour). No cause is left to find.
+**Cause.** Found in code: scripts/core2/tooling/m1-02-check.ts (header, lines 13 to 16): the loan-cost clause needs a town with a bank line open at a rate change, and Swanton, Nebraska has no bank, which is why the Oct 24 draw showed zero bank lines and zero repricings. The check now draws further places from all 56 until one has a bank line, and reports every place it tried. Measured by Fable on Nov 10: `GOLDEN_PATH_SEED=m102fable1 GOLDEN_PATH_PLACE_KEY=3148060 node --max-old-space-size=8192 --import tsx scripts/core2/tooling/m1-02-check.ts` passed with 9 rate changes, 1 bank line in the town and 8 repricings on decision days (run on PR #8246's branch, because main could not load the command that hour). No cause is left to find.
 
 **Fix.** On current main, run the M1-02 command from docs/roadmap/features.json with `GOLDEN_PATH_PLACE_KEY=3148060` and Fable's seed, then with two seeds nobody chose, each with the place key `drawPlace` gives for it (scripts/core2-year/place.ts). If all three pass, set M1-02's `passes` to true in docs/roadmap/features.json and change nothing else in the row. Put each run's place, full seed, rate change count, bank line id and repricing record ids in the PR body. If main cannot load the command, or a run fails, stop and write the first stack frame or the failing clause into the Notes. Clause 1 (the real bands) is printed, not tested, by the owner's Nov 8 ruling; say so in the PR body and do not edit the spec's test text.
 
@@ -35,7 +35,7 @@ branch: claude/pool-roadmap-m1-flip-proven-three
 
 **Waits on.** Nothing.
 
-**Files.** docs/roadmap/features.json, src/core2/tooling/m1-02-check.ts
+**Files.** docs/roadmap/features.json, scripts/core2/tooling/m1-02-check.ts
 
 **Notes.** Split by the M0-M2 lead from roadmap-m1-laws-budgets-flags, roadmap-m1-economy-flags and roadmap-m1-people-politics-flags (CTO branch).
 
@@ -51,7 +51,7 @@ M1-01 alone is bounded by roadmap-m1-flip-proven-one for PR #5875. This two-flag
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: flip the flag on the test result, drop the per-spec screenshot; narrow to M1-02.
 
-**Notes (Fable, Nov 10, rerun).** The reason for the empty result is already written in the check's own header: Swanton, Nebraska has no bank, and the check now draws further places until a town has a bank line open at a rate change. Run on Nov 10 with `GOLDEN_PATH_SEED=m102fable1 GOLDEN_PATH_PLACE_KEY=3148060 node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-02-check.ts` on the branch of pull request 8246 (main itself could not load the command that hour): it passed, with 9 rate changes, 1 bank line in the town and 8 repricings on the day of a decision. What is left is this item's own finish line: a second session runs it in two more drawn places and the flag is flipped with the runs named. No cause is left to find.
+**Notes (Fable, Nov 10, rerun).** The reason for the empty result is already written in the check's own header: Swanton, Nebraska has no bank, and the check now draws further places until a town has a bank line open at a rate change. Run on Nov 10 with `GOLDEN_PATH_SEED=m102fable1 GOLDEN_PATH_PLACE_KEY=3148060 node --max-old-space-size=8192 --import tsx scripts/core2/tooling/m1-02-check.ts` on the branch of pull request 8246 (main itself could not load the command that hour): it passed, with 9 rate changes, 1 bank line in the town and 8 repricings on the day of a decision. What is left is this item's own finish line: a second session runs it in two more drawn places and the flag is flipped with the runs named. No cause is left to find.
 
 Cause found (Nov 11, 2026, cause finder for Fable B): confirmed Fable's Nov 10 note against the check's code on main. The empty Swanton result is the check's own documented case, and the check already draws further places. Only the finish line is left, so the item is rewritten for a Sonnet run of three places and the flag flip.
 

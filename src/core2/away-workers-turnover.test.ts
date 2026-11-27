@@ -10,7 +10,7 @@ import { AWAY_WORK_LOST } from "./modules/jobs";
 import { townMetrics } from "./modules/world-metrics";
 import { OUTCOME_WEB_MODULE } from "./modules/outcome-web";
 import { coreAPI } from "./state";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 
 // Pinned places and seeds (skill pinned-tests). The workers who live in town and work out of town lose work by the rule everyone's work is (the state's layoff pace), so a year on the town has some of them out of work and looking, and the town's residents in work read lower than they would if only the town's own jobs ever ended.
 const PLACES: readonly [string, string, number][] = [
