@@ -2739,17 +2739,15 @@ function fillVacancy(
   return scheduleSpecialElection(api, office, seat, vacancy, previous);
 }
 
-type SpecialElectionOpener = (
-  api: CoreAPI,
-  race: {
-    readonly vacancyId: string;
-    readonly seatId: string;
-    readonly electionDate: string;
-    readonly termEnd: string | null;
-    /** A seat the offices engine keeps no term for (another state's member of Congress). */
-    readonly unheld?: VacancyRow["unheld"];
-  },
-) => boolean;
+/** A seat awaiting its special election, as a module's `specialElections` is asked to open a race for it. */
+interface SpecialRace {
+  readonly vacancyId: string;
+  readonly seatId: string;
+  readonly electionDate: string;
+  readonly termEnd: string | null;
+  /** A seat the offices engine keeps no term for (another state's member of Congress). */
+  readonly unheld?: VacancyRow["unheld"];
+}
 /**
  * The answer to an offered seat: a yes seats the person for the rest of the vacated term, with the
  * appointing body's reason; a no fills it as the rule does when nobody is offered it. Returns the
@@ -2813,22 +2811,15 @@ export function answerVacancyOffer(
   return filled;
 }
 
-/** Each engine that opens real races for a seat awaiting a special election, by name. */
-const specialOpeners = new Map<string, SpecialElectionOpener>();
-/** The first engine that takes the seat opens its race; none leaves the stand-in. */
-function specialElections(
-  api: CoreAPI,
-  race: Parameters<SpecialElectionOpener>[1],
-): boolean {
-  for (const open of specialOpeners.values()) if (open(api, race)) return true;
+/**
+ * The first installed module that carries `specialElections` and takes the
+ * seat opens its race (the voting engine: the town's own seats, then the races
+ * the world counts); none leaves the stand-in.
+ */
+function specialElections(api: CoreAPI, race: SpecialRace): boolean {
+  for (const carrier of carriersOf(api.state as CoreState, "specialElections"))
+    if (carrier.specialElections!(api, race)) return true;
   return false;
-}
-/** An engine opens a real race for the seats it counts (the town's own, the world's). */
-export function registerSpecialElections(
-  open: SpecialElectionOpener,
-  name = "town",
-): void {
-  specialOpeners.set(name, open);
 }
 
 /**

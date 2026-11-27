@@ -185,7 +185,6 @@ import { caseWarmthsOf } from "./constituent-cases";
 import {
   isOutsideOffice,
   OFFICES_MODULE_ID,
-  registerSpecialElections,
   seatWinner,
   townSeats,
   endServingTerms,
@@ -478,6 +477,16 @@ export interface CountedBallotRow {
 
 const VOTING_MODULE: CoreModule = {
   id: VOTING_MODULE_ID,
+  // A vacancy's special election runs as a real race: the town's own seats first,
+  // then, where the world's races are open (`openSpecialRace` asks), the seats it counts.
+  specialElections: (api, race: Parameters<typeof openSpecialRace>[1]) => {
+    const contest = specialContestFor(api, race);
+    if (contest) {
+      scheduleContest(api, contest);
+      return true;
+    }
+    return openSpecialRace(api, race);
+  },
   state: {
     schemaVersion: 1,
     tables: {
@@ -580,13 +589,6 @@ export function openVoting(core: CoreState): void {
   // lately and has not yet registered at the new address.
   registrations(api);
   scheduleRegistrationReview(api);
-  // A vacancy's special election runs as a real race.
-  registerSpecialElections((a, race) => {
-    if (!a.state.modules.has(VOTING_MODULE_ID)) return false;
-    const contest = specialContestFor(a, race);
-    if (contest) scheduleContest(a, contest);
-    return contest !== null;
-  });
   // A race whose filing closed before the record began is finished once
   // candidacy has weighed it, so its own runners stand before any stand-in.
   registerClosedContestWeighed(closeAtOpening);
@@ -6116,8 +6118,6 @@ export function openWorldRaces(core: CoreState): void {
     since: core.date,
   } as unknown as ModuleRow);
   rememberOpeningElectorate(api);
-  // A vacancy outside the town is filled by a race the world counts.
-  registerSpecialElections(openSpecialRace, "world-races");
   let year = Number(core.date.slice(0, 4));
   if (novemberGeneralElectionDay(year) <= core.date) year += 1;
   scheduleElection(api, nextRaceYear(api, year));
