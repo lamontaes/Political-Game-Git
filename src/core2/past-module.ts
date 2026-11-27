@@ -26,12 +26,7 @@ import type { ModuleRow } from "./module-data";
 import { residenceOn } from "./past-moves";
 import type { HistoryRecord, PreStartModule } from "./pre-start";
 import type { PastClosureRow } from "./past-business";
-import type {
-  HistoryModule,
-  HistoryRow,
-  HistoryScope,
-  HistorySource,
-} from "./past-history";
+import type { HistoryRow, HistoryScope, HistorySource } from "./past-history";
 
 export const PAST_MODULE_ID = "core2-past-v1";
 
@@ -230,7 +225,7 @@ const PAST_HISTORY: HistorySource = {
   },
 };
 
-export const PAST_MODULE: PreStartModule & HistoryModule = {
+export const PAST_MODULE: PreStartModule = {
   id: PAST_MODULE_ID,
   history: PAST_HISTORY,
   state: {
@@ -312,7 +307,6 @@ export {
   whereOf,
   type HistoryAsk,
   type HistoryEvent,
-  type HistoryModule,
   type HistoryRow,
   type HistoryScope,
   type HistorySource,

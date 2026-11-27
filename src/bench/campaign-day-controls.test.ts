@@ -29,7 +29,7 @@ import { interviewsFor } from "../core2/modules/press";
 import { campaignDayChoices } from "../core2/campaign-day";
 import { campaignAct, campaignDay, campaignView } from "./campaign";
 import controls from "./data/controls.json" with { type: "json" };
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??

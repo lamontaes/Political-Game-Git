@@ -16,7 +16,7 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
 import { advanceCore } from "./life";
-import { advanceToFilingOpen } from "./gov-test-clock";
+import { advanceToFilingOpen } from "../../tests/support/gov-test-clock";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { campaignParameter } from "./campaign-data";
 import { createLifeCore } from "./life";
@@ -63,7 +63,7 @@ import {
 import { stancesOf, VIEWS_MODULE_ID, viewsModule } from "./modules/views";
 import { candidateStance, stanceReader } from "./campaign-stances";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const START = "2026-01-05";
 const runSeed =

@@ -41,7 +41,12 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "./modules/budgets";
-import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
+import {
+  appliedOn,
+  lawApplied,
+  lawNoLongerApplies,
+  emitLawEffectLearned,
+} from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce, webReach } from "./modules/laws";
 import {
   countedRetirementAwards,
@@ -57,6 +62,61 @@ import {
   storiesHeard,
   type Story,
 } from "./modules/news";
+export { cutRibbon, ribbonsToCut } from "./modules/projects";
+export { employerArrears, profitTaxArrears } from "./modules/employer-taxes";
+export type {
+  EmployerTaxRecord,
+  ProfitTaxRecord,
+} from "./modules/employer-taxes";
+export {
+  bankDepositLiability,
+  drawSavingsToCover,
+  moveBankDeposit,
+} from "./accounts";
+export { financeIndex } from "./finance-state";
+export {
+  FinancePlanningSession,
+  guardWorkFinanceResult,
+  prepareWorkFinancePlan,
+} from "./finance-plan";
+export type { PreparedFinancePlan, PreparedWorkFinance } from "./finance-plan";
+export { cashJournalParameters } from "./cash-host";
+export {
+  admitSelectedCashAct,
+  cancelUncompletedCashAct,
+  resolveSelectedCashAct,
+} from "./act-cash";
+export type { CashActSelection } from "./act-cash";
+export {
+  admitCompositeFinanceCreditSources,
+  cancelCompositeFinanceCreditSources,
+  ensureFinanceCashModule,
+  finishCompositeFinanceCreditSources,
+  releaseCompositeFinanceCreditSources,
+  resolveCompositeFinanceCreditSources,
+} from "./finance-cash";
+export type { CreditReceipt } from "./finance-types";
+export { recordIncomeTaxApplied } from "./tax-applied";
+export {
+  businessAvailableCredit,
+  endRecipientIncomeAtDeath,
+  handOverContractsAtDeath,
+} from "./finance-state";
+export type {
+  BusinessBooksState,
+  ResidentWageShortfall,
+} from "./finance-types";
+export { bankDeposit, personOutflowsForMonth } from "./accounts";
+export { openOutsideBudgets } from "./modules/outside-budgets";
+export { openEmployerTaxes } from "./modules/employer-taxes";
+export { openContracts } from "./modules/contracts";
+export { openProjects } from "./modules/projects";
+export { transferCash } from "./world-transfer";
+export { CONTRACTS_MODULE_ID, OWNER_RELATION } from "./modules/contracts";
+export type { ContractAwardRow } from "./modules/contracts";
+export { FinanceReadGuard } from "./finance-plan";
+export { ACCOUNTS_MODULE } from "./accounts";
+export { PURCHASE_TAX_MODULE } from "./modules/purchase-tax";
 export { schoolsLineAboveBase } from "./school-budget-line";
 export { transfer, transferSplit } from "./accounts";
 
@@ -2365,11 +2425,9 @@ function attribute(api: CoreAPI, row: LandedRow): void {
   const person = api.state.people.get(row.personId);
   if (!person?.alive) return;
   const scale = treasuryParameter("benefitChangeImpulseScale");
-  api.emit({
+  emitLawEffectLearned(api, {
     id: `event:law.effect-learned:${api.state.date}:${row.obligationId}`,
-    date: api.state.date,
-    kind: "law.effect-learned",
-    personIds: [row.personId],
+    personId: row.personId,
     placeId: person.placeId,
     topic: row.series,
     desiredChange: row.share < 0 ? "repeal" : "enact",
@@ -2381,7 +2439,6 @@ function attribute(api: CoreAPI, row: LandedRow): void {
       learnedFrom: newsKey(story.id),
       landedId: row.id,
     },
-    publicRecord: false,
     source: {
       tag: "SOURCED",
       citation: `Learned from ${story.id} that ${row.lawId} changed their Social Security`,
