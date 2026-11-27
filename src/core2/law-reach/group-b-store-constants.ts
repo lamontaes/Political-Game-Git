@@ -11,3 +11,11 @@ export const STANDING_BENEFIT_PROGRAMS: readonly string[] = [
   "ssi-federal-benefit-rate",
   "energy-assistance-income-limit",
 ];
+
+/** The federal budget line veterans' benefits are paid from, and its law-reach key. */
+export const VETERANS_LINE = "veterans";
+export const VETERANS_KEY = `budget-line:${VETERANS_LINE}`;
+
+/** The reach's `taken` records of each household's month of veterans' benefits and of welfare assistance. */
+export const VETERANS_INCOME_ROW = `veterans|${VETERANS_KEY}`;
+export const ASSISTANCE_INCOME_ROW = "assist|budget-line:welfareAndMedicaid";

@@ -90,7 +90,10 @@ export { billCatalog } from "../bill-catalog";
 export { openLeadership } from "./leadership";
 export { openSittingSessions, openWorldLegislating } from "./world-legislating";
 
-export const MEETINGS_MODULE_ID = "core2-meetings-v1";
+// The id lives with the read doors (bodies-reads.ts), which import nothing at run
+// time, so a reader can use the doors without joining the import ring.
+export { MEETINGS_MODULE_ID } from "./bodies-reads";
+import { MEETINGS_MODULE_ID } from "./bodies-reads";
 
 interface ParameterRow {
   readonly value: number;

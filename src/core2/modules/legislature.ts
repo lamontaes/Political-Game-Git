@@ -35,6 +35,11 @@ import {
  * OPUS-PEOPLE's and OPUS-PLAY's; these are the engine calls they drive.
  */
 import { policyAuthority } from "./laws";
+import {
+  enactmentRowsOfSeries,
+  lawRowById,
+  storedLawRowsOfSeries,
+} from "./laws-reads";
 import { recordHomeRule } from "../laws-in-force";
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
 import committeeDayData from "../data/legislature/committee-day.json" with { type: "json" };
@@ -72,7 +77,6 @@ import {
   lawInForce,
   billLevelJurisdiction,
   billValueInForce,
-  LAWS_MODULE_ID,
   lawNeedsChange,
   questionSettled,
   type SettledQuestion,
@@ -102,9 +106,6 @@ import {
   departmentRequests,
   enactBudget,
   governments,
-  registerBudgetVote,
-  registerBudgetHearing,
-  registerBudgetVoteWaits,
   adoptBudgetAtMeeting,
   type BudgetRow,
   type GovernmentRow,
@@ -152,7 +153,10 @@ import bodyRows from "../data/offices/bodies.json" with { type: "json" };
 import { headsExecutive } from "../offices-executives";
 import { ELECTIONS_MODULE_ID, worldRoster, type FilingRow } from "./elections";
 
-export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
+// The id lives with the read doors (bodies-reads.ts), which import nothing at run
+// time, so a reader can use the doors without joining the import ring.
+export { LEGISLATURE_MODULE_ID } from "./bodies-reads";
+import { LEGISLATURE_MODULE_ID } from "./bodies-reads";
 
 /** A trial bill, read for members' positions and never put on the record, has no form. */
 const TRIAL_FORM = {
@@ -462,6 +466,13 @@ export function sponsoredBills(core: CoreState, personId: string): BillRow[] {
 export const LEGISLATURE_MODULE: CoreModule = {
   id: LEGISLATURE_MODULE_ID,
   history: BILLS_HISTORY,
+  // What the budgets engine asks of a body: how a council votes its budget, holds its hearing on it, and whether its meeting votes the year's budget instead of the calendar.
+  budgetVote: (api, gov, fiscalYear) =>
+    councilBudget(api, gov as GovernmentRow, fiscalYear),
+  budgetHearing: (api, gov, fiscalYear) =>
+    holdCouncilBudgetHearing(api, gov as GovernmentRow, fiscalYear),
+  budgetVoteWaits: (api, gov, fiscalYear) =>
+    budgetVoteWaits(api, gov as GovernmentRow, fiscalYear),
   state: {
     schemaVersion: 1,
     tables: {
@@ -1202,9 +1213,6 @@ export function governingMembers(
 export function openLegislature(core: CoreState): void {
   if (!core.modules.has(LEGISLATURE_MODULE_ID))
     registerModule(core, LEGISLATURE_MODULE);
-  registerBudgetVote(councilBudget);
-  registerBudgetHearing(holdCouncilBudgetHearing);
-  registerBudgetVoteWaits(budgetVoteWaits);
   // Registered when the legislature opens, never as the file loads: in an
   // import cycle the corruption module's list may not exist yet.
   registerBribeScope(billBribeScope);
@@ -1982,26 +1990,25 @@ export function billStances(
  */
 export function authorityFor(api: CoreAPI, provision: Provision): Authority {
   const chain = lawChain(api);
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
   if (provision.kind === "law-amount" && provision.series === "minimum-wage") {
-    const rows = laws.query("bySeriesOnly", [
+    const rows = storedLawRowsOfSeries(
+      api,
       "local-minimum-wage-authority",
-    ]) as unknown as LawRowInput[];
+    ) as LawRowInput[];
     // A state's grant of authority enacted in play counts too.
-    const enacted = api
-      .moduleState(LAWS_MODULE_ID)
-      .table("enactments")
-      .query("bySeries", [
-        "local-minimum-wage-authority",
-      ]) as unknown as EnactedAuthority[];
+    const enacted = enactmentRowsOfSeries<EnactedAuthority>(
+      api,
+      "local-minimum-wage-authority",
+    ) as EnactedAuthority[];
     const authority = localAuthority(
       rows,
       enacted,
       chain,
       api.state.date,
-      laws.query("bySeriesOnly", [
+      storedLawRowsOfSeries(
+        api,
         LOCAL_WAGE_AUTHORITY_QUESTION,
-      ]) as unknown as LawRowInput[],
+      ) as LawRowInput[],
     );
     return authority.allowed
       ? {
@@ -3131,12 +3138,7 @@ function checkedText(
   // decided it: the state's authority answer or the question that enacted it.
   for (const [i, p] of provisions.entries()) {
     const a = authority[i]!;
-    const decidedBy = a.source
-      ? (api
-          .moduleState(LAWS_MODULE_ID)
-          .table("laws")
-          .get(a.source) as unknown as LawRowInput | undefined)
-      : undefined;
+    const decidedBy = a.source ? lawRowById(api, a.source) : undefined;
     // A question answered no is no law to apply; the state's preemption is
     // the grant series' own row.
     if (
