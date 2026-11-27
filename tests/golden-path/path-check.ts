@@ -27,8 +27,15 @@ import {
 } from "../../src/core2/modules/campaigns";
 import { electionResults } from "../../src/bench/results";
 import { seatAct, seatView } from "../../src/bench/legislature";
-import { officeHost, upcomingMeeting } from "../../src/core2/modules/office-day";
-import { colleagueDeal, leaveHoldsToCharacter, officeView } from "../../src/bench/office";
+import {
+  officeHost,
+  upcomingMeeting,
+} from "../../src/core2/modules/office-day";
+import {
+  colleagueDeal,
+  leaveHoldsToCharacter,
+  officeView,
+} from "../../src/bench/office";
 import { officeActHandlers } from "../../src/core2/office-day-acts";
 import { askLeaderForHearing } from "../../src/core2/office-day-state";
 import { reachedSteps } from "../../src/bench/reached";

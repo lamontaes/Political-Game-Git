@@ -8,7 +8,10 @@
  * signed by hand: every name comes from a person met at a door or asked in
  * the circle, answering for their own reasons.
  */
-import { campaignDayChoices, takeCampaignDayChoice } from "../../src/core2/campaign-day";
+import {
+  campaignDayChoices,
+  takeCampaignDayChoice,
+} from "../../src/core2/campaign-day";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
 import {

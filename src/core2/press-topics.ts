@@ -18,7 +18,7 @@ import {
 import type { OfficeInput } from "./modules/offices";
 import { POLICY_QUESTIONS } from "./modules/laws";
 import { LEGISLATURE_MODULE_ID, type BillRow } from "./modules/legislature";
-import { ELECTIONS_MODULE_ID } from "./modules/elections";
+import { ELECTIONS_MODULE_ID, contestOf } from "./modules/elections";
 
 export type WireLevel = "town" | "county" | "state" | "nation";
 
@@ -129,10 +129,8 @@ function raceLevel(
     !api.state.modules.has(ELECTIONS_MODULE_ID)
   )
     return null;
-  const contest = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("contests")
-    .get(contestId) as unknown as { readonly level?: string } | undefined;
+  const contest = contestOf(api, contestId) as unknown as
+    { readonly level?: string } | undefined;
   return (contest?.level && LEVELS[contest.level]) || null;
 }
 
