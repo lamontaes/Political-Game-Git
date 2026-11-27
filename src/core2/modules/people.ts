@@ -860,7 +860,7 @@ export const PEOPLE_MODULE: PreStartModule = {
   // The acts grief bears on carry its reason because this engine is loaded.
   dataFor: withGrief,
   // Filling a person in: the state calls this engine for it (people-fill-in.ts).
-  fillIn: PEOPLE_FILL_IN,
+  fillIn: () => PEOPLE_FILL_IN,
   // Townspeople open tied to the classmates and coworkers the records name.
   onOpen: (core) => {
     const opening = coreAPI(core);

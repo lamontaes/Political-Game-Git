@@ -85,7 +85,8 @@
         "src/core2/modules/serve-asks.ts",
         "src/core2/filing-rule-office.ts",
         "src/core2/voting-module-id.ts",
-        "src/core2/modules/candidacy-constants.ts"
+        "src/core2/modules/candidacy-constants.ts",
+        "src/core2/civic-inputs.ts"
       ],
       "paths": [
         "src/core2/modules/elections.ts",
@@ -404,7 +405,8 @@
         "src/core2/modules/finance.ts",
         "src/core2/budgets-treasury.ts",
         "src/core2/tax-index.ts",
-        "src/core2/tax-listeners.ts"
+        "src/core2/tax-listeners.ts",
+        "src/core2/finance-state.ts"
       ],
       "paths": [
         "src/core2/modules/budgets.ts",
@@ -1071,7 +1073,12 @@
     {
       "id": "past",
       "name": "The past before the start",
-      "entry": ["src/core2/past.ts", "src/core2/past-module.ts"],
+      "entry": [
+        "src/core2/past.ts",
+        "src/core2/past-module.ts",
+        "src/core2/pre-start.ts",
+        "src/core2/shared-history.ts"
+      ],
       "paths": [
         "src/core2/past.ts",
         "src/core2/past-*.ts",

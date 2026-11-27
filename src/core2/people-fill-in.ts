@@ -632,7 +632,7 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
 }
 
 /** The people engine's fill-in, the plug's `fillIn` hook. */
-export const PEOPLE_FILL_IN: NonNullable<CoreModule["fillIn"]> = {
+export const PEOPLE_FILL_IN: ReturnType<NonNullable<CoreModule["fillIn"]>> = {
   person: fillInPerson,
   personOrFillIn,
   identity: fillInIdentity,

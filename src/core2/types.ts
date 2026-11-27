@@ -1023,9 +1023,11 @@ export interface CoreModule {
    * their household become full people, a husk or a recorded identity is
    * built into one. The state's calls to it (`fillInPerson`, `personOrFillIn`,
    * `fillInIdentity`, `promoteHusk`, `fillInCount`) reach the one module that
-   * carries it, so the state imports none of what a person is built from.
+   * carries it, so the state imports none of what a person is built from. A
+   * function, read when a person is filled in and not as the module is made,
+   * since the engine's file imports the state that reads it.
    */
-  fillIn?: {
+  fillIn?: () => {
     readonly person: (core: CoreState, personId: PersonId) => PersonState;
     readonly personOrFillIn: (
       core: CoreState,

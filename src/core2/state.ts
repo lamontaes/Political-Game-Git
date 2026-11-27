@@ -2301,15 +2301,13 @@ export interface RecordedIdentity {
  * the module that provides it carries it as `fillIn`, and these call it, so
  * the state imports none of what a person is built from.
  */
-const fillInEngines = new WeakMap<
-  CoreState,
-  NonNullable<CoreModule["fillIn"]>
->();
-function fillInEngine(core: CoreState): NonNullable<CoreModule["fillIn"]> {
+type FillInEngine = ReturnType<NonNullable<CoreModule["fillIn"]>>;
+const fillInEngines = new WeakMap<CoreState, FillInEngine>();
+function fillInEngine(core: CoreState): FillInEngine {
   let held = fillInEngines.get(core);
   if (held) return held;
   for (const module of core.modules.values())
-    if (module.fillIn) held = module.fillIn;
+    if (module.fillIn) held = module.fillIn();
   if (!held)
     throw new Error("Filling a person in needs the people engine installed.");
   fillInEngines.set(core, held);
@@ -2337,7 +2335,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
 /** A person built from a recorded identity (an official, a staff member). */
 export function fillInIdentity(
   core: CoreState,
-  identity: Parameters<NonNullable<CoreModule["fillIn"]>["identity"]>[1],
+  identity: RecordedIdentity,
 ): PersonState {
   return fillInEngine(core).identity(core, identity);
 }

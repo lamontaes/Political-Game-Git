@@ -25,6 +25,11 @@ import {
 } from "./opening-public-owner";
 import { parameter as p } from "./parameters";
 import { coreAPI, createCore, promoteHusk } from "./state";
+import { PEOPLE_FILL_IN } from "./people-fill-in";
+
+/** A bare core has no people engine; this module alone carries its fill-in. */
+const FILL_IN = { id: "fill-in-only", fillIn: () => PEOPLE_FILL_IN };
+
 import type {
   CoreAPI,
   CoreInput,
@@ -285,7 +290,11 @@ function buildFixture() {
     calendarDates: [],
     gaps: [],
   };
-  const core = createCore(input, { data: DEFAULT_DATA, observer: true });
+  const core = createCore(input, {
+    modules: [FILL_IN],
+    data: DEFAULT_DATA,
+    observer: true,
+  });
   core.date = dueAt;
   ensureFinanceCashModule(core);
   return { ...base, core, input, original, amountMinor };

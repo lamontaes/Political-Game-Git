@@ -3,6 +3,11 @@ import { describe, expect, it } from "vitest";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION } from "./data";
 import { parameterValues, P } from "./parameters";
 import { coreAPI, createCore, promoteHusk, registerModule } from "./state";
+import { PEOPLE_FILL_IN } from "./people-fill-in";
+
+/** A bare core has no people engine; this module alone carries its fill-in. */
+const FILL_IN = { id: "fill-in-only", fillIn: () => PEOPLE_FILL_IN };
+
 import { cashJournalFieldWrite } from "./journal-state";
 import type {
   CashJournalInput,
@@ -274,7 +279,7 @@ describe("journal facade and canonical owner accounts", () => {
   });
 
   it("gives a promoted actual person one residual while preserving the supplied original cash and established husk", () => {
-    const core = createCore(input()),
+    const core = createCore(input(), { modules: [FILL_IN] }),
       promoted = person(huskId, 777);
     const actor = promoteHusk(core, promoted);
     expect(actor.liquidMinor).toBe(777);
@@ -292,7 +297,7 @@ describe("journal facade and canonical owner accounts", () => {
   });
 
   it("keeps a failed promoted person in its old husk and leaves all owner/account indexes unchanged", () => {
-    const core = createCore(input()),
+    const core = createCore(input(), { modules: [FILL_IN] }),
       api = coreAPI(core);
     api.registerCashAccount({
       id: residual(huskId),
