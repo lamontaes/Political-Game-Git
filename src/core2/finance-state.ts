@@ -10,7 +10,7 @@ import { countedJobsOf } from "./modules/residents";
 import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
 import { ageOnDate, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
-import { webFactorFor } from "./modules/laws";
+import { webFactorFor } from "./outcome-web-reach";
 import { traceWebPriceLaws } from "./modules/outcome-web";
 import { sellerTaxShare } from "./modules/purchase-tax";
 import {

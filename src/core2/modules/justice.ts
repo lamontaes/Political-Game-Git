@@ -72,8 +72,14 @@ import {
   endPretrial,
   type PretrialRow,
 } from "../justice-pretrial";
+export { groupAReachParameter as reachParameter } from "../laws-in-force";
+export { openCrime } from "./crime";
+export { openLawReach } from "./laws";
 
-export const JUSTICE_MODULE_ID = "core2-justice-v1";
+// The id lives with the read doors (justice-reads.ts), which import nothing at run
+// time, so a reader can use the doors without joining the import ring.
+export { JUSTICE_MODULE_ID } from "./justice-reads";
+import { JUSTICE_MODULE_ID } from "./justice-reads";
 const FINE_KIND = "justice-fine";
 
 export interface ComplaintRow {

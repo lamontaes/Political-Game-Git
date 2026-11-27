@@ -19,7 +19,7 @@ import { newsSince, seekerWithoutJob, type NewsFact } from "./life-news";
 import { organizationName } from "./words";
 
 /** The situation type that reads these facts. */
-export const CELEBRATION_TYPE = "celebration";
+const CELEBRATION_TYPE = "celebration";
 
 /** Days back a guest's news (a child born) still counts as news at a celebration. */
 const { newsDays: NEWS_DAYS } = rulesFile.occasionFacts;

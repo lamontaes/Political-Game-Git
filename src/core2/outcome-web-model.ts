@@ -117,7 +117,9 @@ interface BaseDefinition {
 }
 
 /** The web module's id; here so readers of the web need not load the module itself. */
-export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
+// The id lives with the read doors (modules/outcome-web-reads.ts), which import
+// nothing at run time, so a reader can use the doors without joining the ring.
+export { OUTCOME_WEB_MODULE_ID } from "./modules/outcome-web-reads";
 export const WEB_LINKS = (web.links as unknown as readonly WebLink[]).map(
   (link) => (link.readFrom ? { ...link, from: link.readFrom } : link),
 );
@@ -562,4 +564,16 @@ export function coverageTable(): typeof COVERAGE_DATA {
     ),
   );
   return { wired, waiting, measuresWanted };
+}
+
+/**
+ * A researched link's row, for the engine that carries it (the row's
+ * `carriedBy` names that engine): the engine applies the row's size to its
+ * own records and the web does not run the link.
+ */
+export function carriedLink(key: string): WebLink {
+  const link = WEB_LINKS.find((row) => row.key === key);
+  if (!link?.carriedBy || link.size === null)
+    throw new Error(`${key} is not a carried link with a researched size`);
+  return link;
 }

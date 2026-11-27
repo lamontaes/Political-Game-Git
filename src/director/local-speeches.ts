@@ -44,7 +44,7 @@ import {
   type AddressTelling,
 } from "./address-telling";
 import { localSpeaker } from "./local-address";
-import { markWordsStopgap } from "./stopgaps";
+import { markWordsStopgap } from "../core2/stopgaps";
 
 export interface LocalSpeech {
   readonly kind: "floor" | "campaign";

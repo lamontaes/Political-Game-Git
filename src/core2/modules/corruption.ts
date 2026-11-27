@@ -9,10 +9,10 @@
  * party falling out with the other and deciding to tell someone.
  */
 import { scoreOffers, decisionFromScores } from "../choice";
-import { closenessBetween, currentCloseness } from "./people";
-import { decisionKinds } from "./people";
+import { closenessBetween, currentCloseness } from "../closeness";
+import { decisionKinds } from "../trait-decision-table";
 import rows from "../data/corruption/parameters.json" with { type: "json" };
-import { isExplicitlyControlledPersonV1 } from "../life";
+import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import type { CashJournalPosting } from "./people";
 import type { Parameter } from "../parameters";
 import type {
@@ -25,7 +25,10 @@ import type {
   PersonState,
 } from "../types";
 
-export const CORRUPTION_MODULE_ID = "corruption";
+// The id lives with the read doors (justice-reads.ts), which import nothing at run
+// time, so a reader can use the doors without joining the import ring.
+export { CORRUPTION_MODULE_ID } from "./justice-reads";
+import { CORRUPTION_MODULE_ID } from "./justice-reads";
 /** A bribe taken to the press: public record the news carries. */
 export const SCANDAL_REPORTED = "scandal.reported";
 /** A bribe offered to the player's seat: the cause record of the bribe-offer scene. */

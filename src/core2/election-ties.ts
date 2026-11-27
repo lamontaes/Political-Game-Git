@@ -19,7 +19,7 @@ import { pairKey, stableHash } from "./kernel/ids";
 import { bookkeeping } from "./bookkeeping";
 import { campaignParameter, type Stance } from "./campaign-data";
 import { agreementWith } from "./modules/views";
-import { partySide } from "./appointments";
+import { partySide } from "./modules/offices";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
@@ -31,7 +31,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { voterLean } from "./modules/voting";
 import { holderOf, officialLean, officialOf } from "./modules/officials";
 import type { ModuleRow } from "./module-data";
-import type { OfficeInput } from "./offices-local";
+import type { OfficeInput } from "./modules/offices";
 import type { CoreAPI } from "./types";
 import { placeStateKey } from "./place-map";
 

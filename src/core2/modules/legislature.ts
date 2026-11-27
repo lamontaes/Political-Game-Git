@@ -5,7 +5,7 @@ import type {
 import { parsePlatform, townLean } from "./campaigns";
 import { keepsWhy } from "../why-kept";
 import { lawApplied } from "../law-reach/applied";
-import type { OfficeInput } from "../offices-local";
+import type { OfficeInput } from "./offices";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import {
   lineItemVetoOf,
@@ -34,7 +34,13 @@ import {
  * Meeting scenes, committee hearings and the bill paper's screens are
  * OPUS-PEOPLE's and OPUS-PLAY's; these are the engine calls they drive.
  */
-import { policyAuthority, recordHomeRule } from "../policy-authority";
+import { policyAuthority } from "./laws";
+import {
+  enactmentRowsOfSeries,
+  lawRowById,
+  storedLawRowsOfSeries,
+} from "./laws-reads";
+import { recordHomeRule } from "../laws-in-force";
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
 import committeeDayData from "../data/legislature/committee-day.json" with { type: "json" };
 import dischargeData from "../data/legislature/discharge.json" with { type: "json" };
@@ -64,7 +70,8 @@ import {
 } from "../past";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { personLean, personStance } from "../campaign-views";
+import { personLean } from "./campaigns";
+import { personStance } from "./elections";
 import { campaignParameter } from "../campaign-data";
 import {
   enactLaw,
@@ -75,7 +82,6 @@ import {
   lawInForce,
   billLevelJurisdiction,
   billValueInForce,
-  LAWS_MODULE_ID,
   lawNeedsChange,
   questionSettled,
   type SettledQuestion,
@@ -87,15 +93,15 @@ import {
   officeLawJurisdiction,
   type EnactedAuthority,
 } from "../laws-in-force";
-import type { LawRowInput } from "../laws-starting";
+import type { LawRowInput } from "../laws-in-force";
 import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { lastVoteOn, recordVote, type VoteRecordRow } from "./record";
 import { viewOn } from "./views";
 import { carriesRevenue, revenueGivenUp } from "../budgets-treasury";
-import { ownStance } from "../officials-roster";
+import { ownStance } from "./officials";
 import { closenessBetween } from "../closeness";
 import { bribePull, registerBribeScope } from "./corruption";
-import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
 import {
   BUDGETS_MODULE_ID,
   amendBudget,
@@ -112,7 +118,8 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "./budgets";
-import { partyName, partySide } from "../appointments";
+import { partyName } from "./executive";
+import { partySide } from "./offices";
 import {
   atLarge,
   currentOfficial,
@@ -132,7 +139,7 @@ import {
   leanedTerm,
   leanedYes,
 } from "../trait-decisions";
-import { stateActEffectiveDate } from "../state-effective-date";
+import { stateActEffectiveDate } from "./laws";
 import representation from "../data/offices/federal-representation.json" with { type: "json" };
 import proposalData from "../data/legislature/executive-proposal.json" with { type: "json" };
 import vetoWindowData from "../../../data/research/laws/veto-windows-2023.json" with { type: "json" };
@@ -154,7 +161,10 @@ import bodyRows from "../data/offices/bodies.json" with { type: "json" };
 import { headsExecutive } from "../offices-executives";
 import { ELECTIONS_MODULE_ID, worldRoster, type FilingRow } from "./elections";
 
-export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
+// The id lives with the read doors (bodies-reads.ts), which import nothing at run
+// time, so a reader can use the doors without joining the import ring.
+export { LEGISLATURE_MODULE_ID } from "./bodies-reads";
+import { LEGISLATURE_MODULE_ID } from "./bodies-reads";
 
 /** A trial bill, read for members' positions and never put on the record, has no form. */
 const TRIAL_FORM = {
@@ -1984,26 +1994,25 @@ export function billStances(
  */
 export function authorityFor(api: CoreAPI, provision: Provision): Authority {
   const chain = lawChain(api);
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
   if (provision.kind === "law-amount" && provision.series === "minimum-wage") {
-    const rows = laws.query("bySeriesOnly", [
+    const rows = storedLawRowsOfSeries(
+      api,
       "local-minimum-wage-authority",
-    ]) as unknown as LawRowInput[];
+    ) as LawRowInput[];
     // A state's grant of authority enacted in play counts too.
-    const enacted = api
-      .moduleState(LAWS_MODULE_ID)
-      .table("enactments")
-      .query("bySeries", [
-        "local-minimum-wage-authority",
-      ]) as unknown as EnactedAuthority[];
+    const enacted = enactmentRowsOfSeries<EnactedAuthority>(
+      api,
+      "local-minimum-wage-authority",
+    ) as EnactedAuthority[];
     const authority = localAuthority(
       rows,
       enacted,
       chain,
       api.state.date,
-      laws.query("bySeriesOnly", [
+      storedLawRowsOfSeries(
+        api,
         LOCAL_WAGE_AUTHORITY_QUESTION,
-      ]) as unknown as LawRowInput[],
+      ) as LawRowInput[],
     );
     return authority.allowed
       ? {
@@ -3137,12 +3146,7 @@ function checkedText(
   // decided it: the state's authority answer or the question that enacted it.
   for (const [i, p] of provisions.entries()) {
     const a = authority[i]!;
-    const decidedBy = a.source
-      ? (api
-          .moduleState(LAWS_MODULE_ID)
-          .table("laws")
-          .get(a.source) as unknown as LawRowInput | undefined)
-      : undefined;
+    const decidedBy = a.source ? lawRowById(api, a.source) : undefined;
     // A question answered no is no law to apply; the state's preemption is
     // the grant series' own row.
     if (

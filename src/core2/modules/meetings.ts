@@ -42,8 +42,8 @@ import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
 import { residentsRuntime } from "./residents";
-import { isDemoted } from "../counted-groups";
-import { countedResidents } from "../electorate";
+import { isDemoted } from "./residents";
+import { countedResidents } from "./campaigns";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -78,16 +78,22 @@ import {
   type InterviewAnswer,
 } from "./press";
 import { closenessBetween } from "../closeness";
-import { personLean, questionAxis } from "../campaign-views";
+import { personLean, questionAxis } from "./campaigns";
 import { homeDistanceMiles } from "../home-distance";
 import { campaignParameter } from "../campaign-data";
 import { type Stance } from "../campaign-data";
 import { agreementWith, countedLean, viewOn } from "./views";
-import { POLICY_QUESTIONS } from "../policy-answers";
-import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
+import { POLICY_QUESTIONS } from "./laws";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
 import { ENCOUNTERS, meetAtMeeting } from "./people";
+export { billCatalog } from "../bill-catalog";
+export { openLeadership } from "./leadership";
+export { openSittingSessions, openWorldLegislating } from "./world-legislating";
 
-export const MEETINGS_MODULE_ID = "core2-meetings-v1";
+// The id lives with the read doors (bodies-reads.ts), which import nothing at run
+// time, so a reader can use the doors without joining the import ring.
+export { MEETINGS_MODULE_ID } from "./bodies-reads";
+import { MEETINGS_MODULE_ID } from "./bodies-reads";
 
 interface ParameterRow {
   readonly value: number;
@@ -145,7 +151,7 @@ export interface DebateRow {
   readonly audience: number;
 }
 
-export const MEETINGS_MODULE: CoreModule = {
+const MEETINGS_MODULE: CoreModule = {
   id: MEETINGS_MODULE_ID,
   state: {
     schemaVersion: 1,
