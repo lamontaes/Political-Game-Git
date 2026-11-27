@@ -7,10 +7,8 @@
  * the people module's `fillIn` hook (the plug), so the core imports none of
  * the engines this builds a person from.
  */
-import {
-  promoteHusk as promoteHuskOfficial,
-  unbuiltHolderOf,
-} from "./husk-promoters";
+import { promoteFromEngineRecord, unbuiltHolderOf } from "./husk-promoters";
+import { huskOf } from "./person-husk";
 import { refreshOfficeStaff } from "./civic-inputs";
 import { CLOSENESS, openingClosenessHours } from "./closeness";
 import { meetAtWork } from "./encounters";
@@ -107,7 +105,7 @@ export function personOrFillIn(
     !full &&
     (core.husks.has(personId) || unbuiltHolderOf(core, personId) !== undefined)
   ) {
-    const promoted = promoteHuskOfficial(core, personId);
+    const promoted = promoteFromEngineRecord(core, personId);
     if (promoted) return promoted;
   }
   // Someone returned to the counts comes back as the same person.
@@ -176,18 +174,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     const other =
       record.people.find((row) => row.id === id) ?? residentPerson(core, id);
     if (!other) return;
-    core.husks.set(id, {
-      id,
-      givenName: other.givenName,
-      familyName: other.familyName,
-      placeId: other.placeId,
-      ...(other.countyId ? { countyId: other.countyId } : {}),
-      looks: { ...(other.looks ?? {}) },
-      said: [...(other.said ?? [])],
-      birthDate: other.birthDate,
-      familyIds: [...other.familyIds],
-      source: other.source,
-    });
+    core.husks.set(id, huskOf(other));
   };
   const admitted: PersonState[] = [];
   for (const row of record.people) {

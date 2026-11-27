@@ -18,8 +18,8 @@ export function registerHuskPromoter(promoter: Promoter): void {
   if (!promoters.includes(promoter)) promoters.push(promoter);
 }
 
-/** The person built for a husk by the first engine that holds its record, if any. */
-export function promoteHusk(
+/** The person built for a husk by the first engine that holds its record, if any. (The other `promoteHusk`, in `people-fill-in.ts`, builds one from a husk and a full record; this one asks the engines.) */
+export function promoteFromEngineRecord(
   core: CoreState,
   personId: PersonId,
 ): PersonState | undefined {
