@@ -65,6 +65,7 @@ for (const seed of seeds) {
     .table("dwellings")
     .rows() as unknown as {
     householdId: string;
+    kind?: string;
     tenure: string;
     valueMinor?: number;
     rentMinor?: number;
@@ -75,6 +76,16 @@ for (const seed of seeds) {
     core.placeMetadata?.housingCounty ?? "",
     core.seed,
   );
+  // Only the played town's households: the dwellings table also holds the
+  // places opened around it.
+  const townId = core.placeMetadata?.housingTown ?? "";
+  const placeOf = (householdId: string): string | undefined =>
+    core.households.get(householdId)?.placeId ??
+    (() => {
+      const at = rt?.store.householdOf.get(householdId);
+      return at === undefined ? undefined : rt!.store.households[at]!.placeId;
+    })();
+  const inTown = (householdId: string) => placeOf(householdId) === townId;
   const pick = (tenure: "own" | "rent", only?: Set<string>) =>
     rows
       .filter(
@@ -96,9 +107,26 @@ for (const seed of seeds) {
       key: drawn.key,
       targetValueDollars: targetValue === null ? null : Math.round(targetValue),
       targetRentDollars: targetRent === null ? null : Math.round(targetRent),
-      households: rows.length,
-      retiredHouseholds: rows.filter((row) => retired.has(row.householdId))
-        .length,
+      households: rows.filter((row) => inTown(row.householdId)).length,
+      retiredHouseholds: rows.filter(
+        (row) => inTown(row.householdId) && retired.has(row.householdId),
+      ).length,
+      unweightedOwnerMedianDollars: Math.round(
+        median(owners.map((row) => ({ ...row, weight: 1 }))) / 100,
+      ),
+      retiredKinds: Object.fromEntries(
+        [
+          ...rows
+            .filter(
+              (row) => inTown(row.householdId) && retired.has(row.householdId),
+            )
+            .reduce(
+              (m, row) =>
+                m.set(row.kind ?? "?", (m.get(row.kind ?? "?") ?? 0) + 1),
+              new Map<string, number>(),
+            ),
+        ].sort(),
+      ),
       ownerMedianDollars: Math.round(median(owners) / 100),
       retiredOwnerMedianDollars: Math.round(median(retiredOwners) / 100),
       retiredOwners: retiredOwners.length,
