@@ -1020,6 +1020,8 @@ export interface CoreModule {
   };
   /** Once the core is made, in install order: this engine's part of opening the world (the opening ties, the counted residents admitted). */
   onOpen?: (core: CoreState, input: CoreInput) => void;
+  /** Dated institutional work, before day hooks; emits/effects use the canonical API. */
+  onCalendarWork?: (api: CoreAPI, work: Readonly<ModuleCalendarWork>) => void;
   /**
    * What this engine does on the day a person's stance on a topic moves
    * (interest-group membership follows the view). The views engine tells every
@@ -1027,8 +1029,6 @@ export interface CoreModule {
    * engines that act on it.
    */
   stanceListener?: StanceListener;
-  /** Dated institutional work, before day hooks; emits/effects use the canonical API. */
-  onCalendarWork?: (api: CoreAPI, work: Readonly<ModuleCalendarWork>) => void;
   /**
    * The module's table of what it did, read as history by the one reader
    * (src/core2/past-history.ts): who it names, when, and the records that
