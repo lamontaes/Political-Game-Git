@@ -16,7 +16,7 @@ import {
   OUTSIDE_MARKET_KIND,
   outsideMarketAccount,
 } from "./opening-outside-market";
-import type { FinanceContractInput } from "./finance-types";
+import type { FinanceContractInput } from "./modules/finance";
 import { FinanceReadGuard } from "./finance-plan";
 import {
   nextWorkPayrollPeriod,
@@ -45,9 +45,10 @@ import {
   placeNoninstitutionalQuartersShare,
 } from "./gov-rules/place-population";
 import { corePlaceByKey } from "./place-lookup";
+import { RESIDENTS_KIND } from "./residents-constants";
+export { RESIDENTS_KIND };
 
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
-export const RESIDENTS_KIND = "residents";
 
 export type ResidentFlowKind =
   "wages" | "retirement" | "purchase" | "outside-sales" | "outside-costs";

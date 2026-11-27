@@ -1696,7 +1696,7 @@
     },
     {
       "old": "src/core2/data/stopgaps.json",
-      "now": "split into one register file per family under src/core2/data/stopgaps/, with the director's own at src/director/data/stopgaps.json (tooling-stopgaps-register-per-family)",
+      "now": "split into one register file per family under src/core2/data/stopgaps/, (tooling-stopgaps-register-per-family); the director's rows moved into those family files on Nov 26 (map row 9)",
       "when": "2026-11-24",
       "why": "The single register file was split into family files; the move script still names the old one."
     },
@@ -1867,6 +1867,12 @@
       "now": "tests/source/household-mix.test.ts holds its derivation",
       "when": "2026-11-27",
       "why": "Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code."
+    },
+    {
+      "old": "src/core2/retain-log.ts",
+      "now": "src/core2/decision-detail.ts holds the one record log",
+      "when": "2026-11-27",
+      "why": "One record-log module (Core item 6): the retaining log and the decision detail were two files for one log."
     }
   ]
 }

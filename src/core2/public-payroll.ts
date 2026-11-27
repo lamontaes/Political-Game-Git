@@ -20,7 +20,7 @@ import type {
   WorkScheduleSlot,
 } from "./types";
 import { lawInForce } from "./modules/laws";
-import { publicPayFloorHourly } from "./public-pay-floor";
+import { publicPayFloorHourly } from "./laws-in-force";
 
 /** Hours a day in a public post's full-time week. */
 function postHoursPerDay(api: CoreAPI): number {

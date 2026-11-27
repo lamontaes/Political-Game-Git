@@ -30,7 +30,7 @@ import type {
   PersonId,
   Source,
 } from "../types";
-import type { HistoryModule, HistoryRow, HistorySource } from "../past";
+import type { HistoryRow, HistorySource } from "../past";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain, lawInForce } from "./laws";
@@ -108,6 +108,7 @@ import {
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { headsLocalExecutive } from "../offices-executives";
+export { openSuccession } from "./succession";
 
 export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
 
@@ -252,7 +253,7 @@ const OFFICE_DAY_HISTORY: HistorySource = {
   },
 };
 
-export const OFFICE_DAY_MODULE: CoreModule & HistoryModule = {
+export const OFFICE_DAY_MODULE: CoreModule = {
   id: OFFICE_DAY_MODULE_ID,
   // A plain field, not a getter: the finance engine's read check walks the
   // modules and refuses an accessor (src/core2/finance-plan.ts, directRead).

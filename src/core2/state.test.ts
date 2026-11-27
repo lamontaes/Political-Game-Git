@@ -11,6 +11,11 @@ import {
   registerModule,
   resolveOperation,
 } from "./state";
+import { PEOPLE_FILL_IN } from "./people-fill-in";
+
+/** A bare core has no people engine; this module alone carries its fill-in. */
+const FILL_IN = { id: "fill-in-only", fillIn: () => PEOPLE_FILL_IN };
+
 import type { CashJournalPosting, ResolvedCashJournalSource } from "./journal";
 import type {
   ActOffer,
@@ -492,7 +497,7 @@ describe("P8 actor knowledge and inspection privacy", () => {
   );
 
   it("uses the same prior-name contract during promotion and rejects invalid sources before admission", () => {
-    const core = createCore(input());
+    const core = createCore(input(), { modules: [FILL_IN] });
     const bad = promotedPerson({
       knownIdSources: {
         [player]: { sourceFactId: "missing", learnedAt: "1999-01-01" },
@@ -932,7 +937,7 @@ describe("P8 retained husk identity and family continuity", () => {
   ] satisfies readonly (readonly [string, Partial<PersonInput>])[])(
     "rejects a contradictory %s without deleting the retained person",
     (_field, changes) => {
-      const core = createCore(input());
+      const core = createCore(input(), { modules: [FILL_IN] });
       const before = mutableSnapshot(core);
       expect(() => promoteHusk(core, promotedPerson(changes))).toThrow();
       expect(mutableSnapshot(core)).toEqual(before);
@@ -942,7 +947,7 @@ describe("P8 retained husk identity and family continuity", () => {
   );
 
   it("preserves the recorded face, exact quotations, known family and already-learned name on promotion", () => {
-    const core = createCore(input());
+    const core = createCore(input(), { modules: [FILL_IN] });
     const retained = structuredClone(core.husks.get(huskId)!);
     const visibleBefore = inspectPerson(core, player, huskId);
     const promoted = promoteHusk(core, promotedPerson());
@@ -967,7 +972,7 @@ describe("P8 retained husk identity and family continuity", () => {
   ] satisfies readonly Partial<PersonInput>[])(
     "refuses invalid promoted relational evidence atomically: %j",
     (changes) => {
-      const core = createCore(input());
+      const core = createCore(input(), { modules: [FILL_IN] });
       const before = mutableSnapshot(core);
       expect(() => promoteHusk(core, promotedPerson(changes))).toThrow();
       expect(mutableSnapshot(core)).toEqual(before);
@@ -975,7 +980,7 @@ describe("P8 retained husk identity and family continuity", () => {
   );
 
   it("refuses a second promotion and preserves the existing admitted face", () => {
-    const core = createCore(input());
+    const core = createCore(input(), { modules: [FILL_IN] });
     promoteHusk(core, promotedPerson());
     const before = mutableSnapshot(core);
     expect(() => promoteHusk(core, promotedPerson())).toThrow("recorded husk");
@@ -997,7 +1002,7 @@ describe("retained counted family relationships", () => {
         source,
       },
     ];
-    const core = createCore(opening);
+    const core = createCore(opening, { modules: [FILL_IN] });
     const id = [player, huskId].sort().join(":");
     expect(core.relationships.get(id)?.level).toBeGreaterThan(0);
     expect(core.relationshipsByPerson.get(huskId)?.has(id)).toBe(true);

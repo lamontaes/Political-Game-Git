@@ -5,7 +5,7 @@ import { el } from "./dom.mjs";
 
 const money = (minor) => `$${Math.round(minor / 100).toLocaleString("en-US")}`;
 
-export const slots = {
+const slots = {
   panels: async ({ labels, send }) => {
     const data = await send("budget-amendments");
     const room = data.room;

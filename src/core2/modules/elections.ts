@@ -58,7 +58,7 @@ import {
   type CenturySeat,
   type CenturySeatRace,
 } from "../electorate-century";
-import type { HistoryModule, HistoryRow, HistorySource } from "../past";
+import type { HistoryRow, HistorySource } from "../past";
 import { novemberGeneralElectionDay } from "../elections-calendar";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -627,7 +627,7 @@ const CENTURY_HISTORY: HistorySource = {
   },
 };
 
-export const ELECTIONS_MODULE: CoreModule & HistoryModule = {
+export const ELECTIONS_MODULE: CoreModule = {
   id: ELECTIONS_MODULE_ID,
   history: CENTURY_HISTORY,
   state: {

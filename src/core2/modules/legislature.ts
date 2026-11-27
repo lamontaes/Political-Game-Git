@@ -5,7 +5,7 @@ import type {
 import { parsePlatform, townLean } from "./campaigns";
 import { keepsWhy } from "../why-kept";
 import { lawApplied } from "../law-reach/applied";
-import type { OfficeInput } from "../offices-local";
+import type { OfficeInput } from "./offices";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import {
   lineItemVetoOf,
@@ -34,7 +34,8 @@ import {
  * Meeting scenes, committee hearings and the bill paper's screens are
  * OPUS-PEOPLE's and OPUS-PLAY's; these are the engine calls they drive.
  */
-import { policyAuthority, recordHomeRule } from "../policy-authority";
+import { policyAuthority } from "./laws";
+import { recordHomeRule } from "../laws-in-force";
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
 import committeeDayData from "../data/legislature/committee-day.json" with { type: "json" };
 import dischargeData from "../data/legislature/discharge.json" with { type: "json" };
@@ -56,15 +57,11 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
-import {
-  historyOf,
-  type HistoryModule,
-  type HistoryRow,
-  type HistorySource,
-} from "../past";
+import { historyOf, type HistoryRow, type HistorySource } from "../past";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { personLean, personStance } from "../campaign-views";
+import { personLean } from "./campaigns";
+import { personStance } from "./elections";
 import { campaignParameter } from "../campaign-data";
 import {
   enactLaw,
@@ -87,15 +84,15 @@ import {
   officeLawJurisdiction,
   type EnactedAuthority,
 } from "../laws-in-force";
-import type { LawRowInput } from "../laws-starting";
+import type { LawRowInput } from "../laws-in-force";
 import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { lastVoteOn, recordVote, type VoteRecordRow } from "./record";
 import { viewOn } from "./views";
 import { carriesRevenue, revenueGivenUp } from "../budgets-treasury";
-import { ownStance } from "../officials-roster";
+import { ownStance } from "./officials";
 import { closenessBetween } from "../closeness";
 import { bribePull, registerBribeScope } from "./corruption";
-import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
 import {
   BUDGETS_MODULE_ID,
   amendBudget,
@@ -112,7 +109,8 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "./budgets";
-import { partyName, partySide } from "../appointments";
+import { partyName } from "./executive";
+import { partySide } from "./offices";
 import {
   atLarge,
   currentOfficial,
@@ -132,7 +130,7 @@ import {
   leanedTerm,
   leanedYes,
 } from "../trait-decisions";
-import { stateActEffectiveDate } from "../state-effective-date";
+import { stateActEffectiveDate } from "./laws";
 import representation from "../data/offices/federal-representation.json" with { type: "json" };
 import proposalData from "../data/legislature/executive-proposal.json" with { type: "json" };
 import vetoWindowData from "../../../data/research/laws/veto-windows-2023.json" with { type: "json" };
@@ -461,7 +459,7 @@ export function sponsoredBills(core: CoreState, personId: string): BillRow[] {
     );
 }
 
-export const LEGISLATURE_MODULE: CoreModule & HistoryModule = {
+export const LEGISLATURE_MODULE: CoreModule = {
   id: LEGISLATURE_MODULE_ID,
   history: BILLS_HISTORY,
   state: {
