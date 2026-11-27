@@ -325,6 +325,14 @@ const LOG_SCANS: readonly RegExp[] = [
   /\.pastFacts\b/g,
   /\.remembered\b/g,
 ];
+/** How a writer names each scan above in the writers' list. */
+const SCAN_NAMES = [
+  "logByKind",
+  "logByPerson",
+  "durableLog",
+  ".pastFacts",
+  ".remembered",
+] as const;
 const IMPORTS = /import\s+(?:type\s+)?\{([^}]*)\}\s*from\s*["'][^"']+["']/g;
 
 /**
@@ -333,10 +341,21 @@ const IMPORTS = /import\s+(?:type\s+)?\{([^}]*)\}\s*from\s*["'][^"']+["']/g;
  * facts or remembered list.
  */
 export function pastRebuilds(source: string): number {
+  return [...pastRebuildsByName(source).values()].reduce((a, b) => a + b, 0);
+}
+
+/**
+ * The same count by what is read: each raw past reader's name (its import
+ * and its calls) and each scan by its name in `SCAN_NAMES`.
+ */
+export function pastRebuildsByName(source: string): Map<string, number> {
+  const byName = new Map<string, number>();
+  const add = (name: string, n: number) => {
+    if (n > 0) byName.set(name, (byName.get(name) ?? 0) + n);
+  };
   const code = source
     .replace(/\/\*[\s\S]*?\*\//g, " ")
     .replace(/(^|[^:"'`\\])\/\/[^\n]*/g, "$1");
-  let count = 0;
   const local = code.replace(IMPORTS, (_whole, names: string) => {
     for (const part of names.split(",")) {
       const [name, alias] = part
@@ -344,9 +363,8 @@ export function pastRebuilds(source: string): number {
         .split(/\s+as\s+/)
         .map((word) => word.trim());
       if (!name || !RAW_PAST_READERS.includes(name)) continue;
-      count += 1;
       const called = new RegExp(`(^|[^.\\w])${alias ?? name}\\s*\\(`, "g");
-      count += code.match(called)?.length ?? 0;
+      add(name, 1 + (code.match(called)?.length ?? 0));
     }
     return " ";
   });
@@ -355,10 +373,10 @@ export function pastRebuilds(source: string): number {
     /"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'/g,
     '""',
   );
-  return LOG_SCANS.reduce(
-    (sum, pattern) => sum + (unquoted.match(pattern)?.length ?? 0),
-    count,
+  LOG_SCANS.forEach((pattern, at) =>
+    add(SCAN_NAMES[at]!, unquoted.match(pattern)?.length ?? 0),
   );
+  return byName;
 }
 
 /**
@@ -372,12 +390,21 @@ export function pastRebuilds(source: string): number {
 const ENGINE_DIRS = ["src/core2/modules"];
 
 describe("one history: every engine reads what already happened through the one reader", () => {
-  const allowed = (
-    list as unknown as {
-      readsInTheEngines: { files: Record<string, number> };
-    }
-  ).readsInTheEngines.files;
-  const found = new Map(
+  const engines = list as unknown as {
+    readsInTheEngines: { files: Record<string, number> };
+    writersInTheEngines: {
+      writers: readonly {
+        file: string;
+        name: string;
+        writes: string;
+        reason: string;
+      }[];
+    };
+  };
+  const allowed = engines.readsInTheEngines.files;
+  const writers = engines.writersInTheEngines.writers;
+  const writes = new Set(writers.map((w) => `${w.file}|${w.name}`));
+  const byFile = new Map(
     execFileSync("git", ["ls-files", ...ENGINE_DIRS], {
       cwd: ROOT,
       encoding: "utf8",
@@ -392,7 +419,21 @@ describe("one history: every engine reads what already happened through the one 
         (file) =>
           [
             file,
-            pastRebuilds(readFileSync(path.join(ROOT, file), "utf8")),
+            pastRebuildsByName(readFileSync(path.join(ROOT, file), "utf8")),
+          ] as const,
+      )
+      .filter(([, names]) => names.size > 0),
+  );
+  // A read is any of them a file's listed writers do not account for.
+  const found = new Map(
+    [...byFile]
+      .map(
+        ([file, names]) =>
+          [
+            file,
+            [...names]
+              .filter(([name]) => !writes.has(`${file}|${name}`))
+              .reduce((sum, [, n]) => sum + n, 0),
           ] as const,
       )
       .filter(([, n]) => n > 0),
@@ -416,6 +457,28 @@ describe("one history: every engine reads what already happened through the one 
           `${file}: lower ${n} to ${found.get(file) ?? 0} in tests/guards/one-history-proxies.json (readsInTheEngines)`,
       );
     expect(stale).toEqual([]);
+  });
+
+  // The engines that write the past (or serve it to the reader as their
+  // module's history source) are not reading it (CTO, Nov 26, 7:15 p.m.:
+  // "Each writer is listed with its reason, and that list may only shrink.
+  // A new writer is allowed only inside the engine that owns that record
+  // kind."). A listed writer the file no longer has is taken off the list.
+  it("lists each writer with what it writes and why, and only writers still there", () => {
+    const wrong = writers.flatMap((w) => {
+      const problems: string[] = [];
+      if (!w.writes.trim() || !w.reason.trim())
+        problems.push(`${w.file} ${w.name}: say what it writes and why`);
+      if (!byFile.get(w.file)?.has(w.name))
+        problems.push(
+          `${w.file} ${w.name}: no longer there; take it off writersInTheEngines`,
+        );
+      return problems;
+    });
+    expect(wrong).toEqual([]);
+    expect(new Set(writers.map((w) => `${w.file}|${w.name}`)).size).toBe(
+      writers.length,
+    );
   });
 });
 
