@@ -13,7 +13,7 @@ import { coreAPI, registerModule } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { wordPrintedStory } from "./archive-words";
 import { buildBenchWorld } from "./world";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // The player, pressed again after handing a bribe back, says they will report
 // it (the scene's ending), and the press runs the offer as the exposure of the

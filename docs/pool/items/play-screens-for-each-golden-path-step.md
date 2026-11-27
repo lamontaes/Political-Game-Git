@@ -19,6 +19,6 @@ claimed-at: 2026-10-16T20:38:59.320Z
 
 **Done when.** In a drawn place (buildBenchWorld, seed named in the PR body) `path-check.ts` reports step 7 with a non-empty `bill.deals`, shown by the bill id, and a browser spec walks the negotiation screen. The owner plays it: A negotiate act and screen, then a browser spec per screen.
 
-**Files.** src/bench/play.mjs, src/bench/campaign.ts, src/bench/legislature.ts, src/bench/reached.ts, src/bench/path-check.ts
+**Files.** src/bench/play.mjs, src/bench/campaign.ts, src/bench/legislature.ts, src/bench/reached.ts, tests/golden-path/path-check.ts
 
 **Notes.** Checklist line from play.md; verify against main before starting.

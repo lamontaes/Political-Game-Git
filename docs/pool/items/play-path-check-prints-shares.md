@@ -19,6 +19,6 @@ claimed-at: 2026-11-04T16:03:28.777Z
 
 **Done when.** In Jericho, Vermont (replay 6f539fcfdf6d96f9-5) and Hardyville, Kentucky (storrs-1) the path check prints each election night's shares, the player's marked.
 
-**Files.** src/bench/path-check.ts
+**Files.** tests/golden-path/path-check.ts
 
 **Notes.** Lane 1, Nov 4.

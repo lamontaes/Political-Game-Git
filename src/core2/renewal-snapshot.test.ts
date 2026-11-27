@@ -6,7 +6,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { RENEWAL_MODULE, RENEWAL_MODULE_ID } from "./modules/renewal";
 import { restoreWorld, snapshotWorld, uncoveredModules } from "./snapshot";
 import { coreAPI } from "./state";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import type { CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");

@@ -21,7 +21,7 @@ import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import { playedNode, type TreeNode } from "./scene-talk";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // The scandal call says what the paper found (owner, Nov 15: "I've got a
 // story about the water rates, and your name is in it... that's very

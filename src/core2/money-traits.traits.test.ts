@@ -27,7 +27,7 @@ import {
   leanBetweenKinds,
   testPlace,
   thirdsOddsRatio,
-} from "./money-traits-kit";
+} from "../../tests/support/money-traits-kit";
 import circumstances from "./money-traits-circumstances.json" with { type: "json" };
 import jobsData from "./data/jobs/jobs.json" with { type: "json" };
 import businessData from "./data/business/business.json" with { type: "json" };
