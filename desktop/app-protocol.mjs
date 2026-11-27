@@ -109,8 +109,9 @@ export async function serveAppRequest(contentRoot, request, playApi) {
   const url = new URL(request.url);
   if (url.host !== APP_HOST) return new Response("Not found", { status: 404 });
   if (playApi && isPlayApiPath(url.pathname)) {
-    // A POST's body travels with it: dev mode's controls send theirs as JSON.
-    const body = request.method === "POST" ? await request.text() : "";
+    // A POST's body travels with it (dev mode's controls send theirs as JSON). A request with no body
+    // is dispatched at once, so the page's order of requests is kept as it was.
+    const body = request.body ? await request.text() : "";
     const reply = await playApi(request.method, url, body);
     return new Response(reply.body, {
       status: reply.status,

@@ -60,3 +60,31 @@ test("a host without a play server still answers /api with 404", async () => {
   assert.equal(isPlayApiPath("/api/scene"), true);
   assert.equal(isPlayApiPath("/assets/play.js"), false);
 });
+
+test("a POST's body reaches the play server, and a bodiless POST does not hold up the request behind it", async () => {
+  const seen = [];
+  const slow = async (method, url, body) => {
+    seen.push([method, url.pathname, body]);
+    return { status: 200, headers: {}, body: "{}" };
+  };
+  const post = serveAppRequest(
+    root,
+    new Request("app://game/api/advance?mode=day", { method: "POST" }),
+    slow,
+  );
+  const get = serveAppRequest(root, new Request("app://game/api/title"), slow);
+  await Promise.all([post, get]);
+  assert.deepEqual(
+    seen.map(([method, pathname]) => `${method} ${pathname}`),
+    ["POST /api/advance", "GET /api/title"],
+  );
+  await serveAppRequest(
+    root,
+    new Request("app://game/api/dev/advance", {
+      method: "POST",
+      body: JSON.stringify({ step: "day" }),
+    }),
+    slow,
+  );
+  assert.deepEqual(seen.at(-1), ["POST", "/api/dev/advance", '{"step":"day"}']);
+});
