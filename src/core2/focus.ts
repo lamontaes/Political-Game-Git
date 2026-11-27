@@ -1,4 +1,4 @@
-import type { CoreInput, PersonId } from "./types";
+import type { CoreInput, CoreState, PersonId } from "./types";
 
 /** Scheduling/trace scope uses recorded links; this grants no actor knowledge. */
 export function initialFocusPeople(input: CoreInput): Set<PersonId> {
@@ -19,4 +19,21 @@ export function initialFocusPeople(input: CoreInput): Set<PersonId> {
       if (coworker.organizationId === job.organizationId)
         focus.add(coworker.personId);
   return focus;
+}
+
+/**
+ * Put a person in the world's focus (the core's own set: each act from now on
+ * keeps every option's reasons, and the person has the daily schedule the
+ * player's circle has). True when they were not in it. Dev mode's follow
+ * calls this, not the set (CTO, Nov 27, 7:39 a.m.: one door for the focus).
+ */
+export function putInFocus(core: CoreState, personId: PersonId): boolean {
+  if (core.focusPersonIds.has(personId)) return false;
+  core.focusPersonIds.add(personId);
+  return true;
+}
+
+/** Take a person out of the world's focus. True when they were in it. */
+export function takeOutOfFocus(core: CoreState, personId: PersonId): boolean {
+  return core.focusPersonIds.delete(personId);
 }

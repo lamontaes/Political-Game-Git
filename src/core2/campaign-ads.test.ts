@@ -7,12 +7,12 @@
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { worldWith, type PlayedWorld } from "./tooling/world-with";
+import { worldWith, type PlayedWorld } from "../../tests/support/world-with";
 import { coreAPI } from "./state";
 import { adAudience, adTimeForSale, buyAdTime } from "./modules/campaigns";
 import { campaignParameter } from "./campaign-data";
 import { countedFollowers, followersOf, outletsHere } from "./modules/press";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const seed = process.env.CAMPAIGN_ADS_SEED || randomBytes(8).toString("hex");
 // A place whose press has a local outlet and a buyer with money to spend.

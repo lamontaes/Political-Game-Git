@@ -18,7 +18,7 @@ import {
   expectBestRival,
   toldFromRecords,
   wordOfDoors,
-} from "./campaign-incumbent-response-test-kit";
+} from "../../tests/support/campaign-incumbent-response-test-kit";
 
 // Bookkeeping is a debug switch, off in the played world: the world's drives
 // formed in play from events its retention has since let go, which the tests'
