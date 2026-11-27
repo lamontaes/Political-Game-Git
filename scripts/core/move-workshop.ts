@@ -231,11 +231,22 @@ const paths = [...everMoved].sort((a, b) => b[0].length - a[0].length);
 const FOLDER_FROM = TOOLING;
 const FOLDER_TO = "scripts/core2/tooling/";
 
+/** A path written whole, as one may be reached from another folder ("../../path"): not the tail of a longer name, and not the mirror under tests/src that the test mover makes. */
+const escaped = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const WHOLE = paths.map(
+  ([from, to]) =>
+    [new RegExp(`(?<![\\w-]|tests/)${escaped(from)}`, "g"), to] as const,
+);
+const WHOLE_FOLDER = new RegExp(
+  `(?<![\\w-]|tests/)${escaped(FOLDER_FROM)}`,
+  "g",
+);
+
 function rewriteText(text: string): string {
   let out = text;
-  for (const [from, to] of paths) out = out.split(from).join(to);
-  // A folder written whole ("src/core2/tooling/**", a prefix) follows the folder.
-  out = out.split(FOLDER_FROM).join(FOLDER_TO);
+  for (const [pattern, to] of WHOLE) out = out.replace(pattern, to);
+  // A folder written whole ("the tooling folder/**", a prefix) follows the folder.
+  out = out.replace(WHOLE_FOLDER, FOLDER_TO);
   return out;
 }
 
