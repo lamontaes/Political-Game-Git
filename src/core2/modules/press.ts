@@ -3107,10 +3107,8 @@ function tipOff(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   );
   if (!key || !api.state.modules.has(CORRUPTION_MODULE_ID)) return;
   const crimeId = key.slice("crime:".length);
-  const crime = api
-    .moduleState(CORRUPTION_MODULE_ID)
-    .table("crimes")
-    .get(crimeId) as unknown as CrimeRecord | undefined;
+  const crime = corruptionCrimeById(api, crimeId) as unknown as
+    CrimeRecord | undefined;
   if (!crime?.taken || table(api, "tips").get(crimeId)) return;
   const officialId = crime.officialId;
   const staff = reportersHere(api);
@@ -3462,10 +3460,8 @@ export function leakToReporter(
   },
 ): Record<string, unknown> {
   const crime = api.state.modules.has(CORRUPTION_MODULE_ID)
-    ? (api
-        .moduleState(CORRUPTION_MODULE_ID)
-        .table("crimes")
-        .get(input.crimeId) as unknown as CrimeRecord | undefined)
+    ? (corruptionCrimeById(api, input.crimeId) as unknown as
+        CrimeRecord | undefined)
     : undefined;
   if (!crime?.taken) throw new Error(`No hidden act to leak: ${input.crimeId}`);
   if (input.leakerId === crime.officialId)
@@ -4008,10 +4004,7 @@ function policeLog(api: CoreAPI): void {
   ).slice(0, 7);
   const id = `police-log:${month}`;
   if (table(api, "wire").get(id)) return;
-  const row = api
-    .moduleState(CRIME_MODULE_ID)
-    .table("months")
-    .get(`${town}:${month}`) as unknown as
+  const row = crimeMonthById(api, `${town}:${month}`) as unknown as
     | { readonly types?: Record<string, { readonly reported?: number }> }
     | undefined;
   const reported = Object.values(row?.types ?? {}).reduce(
@@ -4090,10 +4083,7 @@ function usualMonthRows(
   month: string,
 ): readonly { readonly id: string; readonly month: string }[] {
   return (
-    api
-      .moduleState(CRIME_MODULE_ID)
-      .table("months")
-      .query("byPlace", [town]) as unknown as {
+    crimeMonthsOfPlace(api, town) as unknown as {
       readonly id: string;
       readonly month: string;
     }[]
@@ -4122,10 +4112,7 @@ export function policeLogWhy(
       readonly space: number;
     }
   | undefined {
-  const row = api
-    .moduleState(CRIME_MODULE_ID)
-    .table("months")
-    .get(monthRowId) as unknown as
+  const row = crimeMonthById(api, monthRowId) as unknown as
     | {
         readonly placeId: string;
         readonly month: string;
@@ -4188,10 +4175,8 @@ function usualMonth(
     monthTotals.reduce((sum, n) => sum + (n - total) ** 2, 0) /
       Math.max(1, monthTotals.length - 1),
   );
-  const now = api
-    .moduleState(CRIME_MODULE_ID)
-    .table("months")
-    .get(`${town}:${month}`) as unknown as Month | undefined;
+  const now = crimeMonthById(api, `${town}:${month}`) as unknown as
+    Month | undefined;
   let rising: string | undefined;
   let most = 0;
   for (const [type, tally] of Object.entries(now?.types ?? {})) {
@@ -4817,6 +4802,11 @@ const INTERVIEW_INVITED_EVENT = "interview-invited";
 export const INTERVIEW_ACCEPTED_EVENT = "interview-accepted";
 // The replies that accept or turn down an ask live with every engine that reads them.
 import { ACCEPTING_MOVES, REFUSING_MOVES } from "../scene-replies";
+import {
+  corruptionCrimeById,
+  crimeMonthById,
+  crimeMonthsOfPlace,
+} from "./justice-reads";
 export { livedQuestion } from "../outcome-news";
 export { monthEvent } from "../outcome-news";
 export { ACCEPTING_MOVES, REFUSING_MOVES };
