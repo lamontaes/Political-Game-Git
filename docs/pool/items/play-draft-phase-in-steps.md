@@ -31,13 +31,13 @@ merged-at: 2026-11-15T23:10:36.772Z
 
 **Time box.** 3 hours for one Sonnet session.
 
-**Rules.** Screens follow the mocks and the shared controls (`screen-to-mock`): the step rows use the card's existing controls and keep its `.draft-*` selectors, which src/bench/bill-screens.browser.mjs reads. No hand-written player text: the labels come from the English engine's banks. One engine: the screen passes the steps to `seatAct`, which refuses what the engine refuses (a budget line or a policy question, a date not after today or after the step before), and the card shows that reason worded.
+**Rules.** Screens follow the mocks and the shared controls (`screen-to-mock`): the step rows use the card's existing controls and keep its `.draft-*` selectors, which tests/src/bench/bill-screens.browser.mjs reads. No hand-written player text: the labels come from the English engine's banks. One engine: the screen passes the steps to `seatAct`, which refuses what the engine refuses (a budget line or a policy question, a date not after today or after the step before), and the card shows that reason worded.
 
-**Done when.** A second session, in a drawn place (name and seed printed), opens the draft card for a minimum-wage bill and finds a second step with its own amount and date; drafting two steps files one bill whose paper shows both sections with their dates, by bill id, and src/bench/bill-screens.browser.mjs still passes. A step with a date not after the one before is refused with a worded reason.
+**Done when.** A second session, in a drawn place (name and seed printed), opens the draft card for a minimum-wage bill and finds a second step with its own amount and date; drafting two steps files one bill whose paper shows both sections with their dates, by bill id, and tests/src/bench/bill-screens.browser.mjs still passes. A step with a date not after the one before is refused with a worded reason.
 
 **Waits on.** Nothing (gov-m3-01-phase-in-by-dated-steps, the engine half, is done).
 
-**Files.** src/bench/handler.ts, src/bench/play.mjs, src/bench/ui/draft-card.mjs, src/bench/bill-screens.browser.mjs, src/bench/legislature.ts
+**Files.** src/bench/handler.ts, src/bench/play.mjs, src/bench/ui/draft-card.mjs, tests/src/bench/bill-screens.browser.mjs, src/bench/legislature.ts
 
 **You will see.** On a bill's draft card, an "add a step" row: raise the wage to one amount on one date and to another later.
 

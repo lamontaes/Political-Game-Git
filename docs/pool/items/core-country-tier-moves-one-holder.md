@@ -34,6 +34,6 @@ claimed-at: 2026-11-11T00:39:22.465Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/counted-moves.ts, src/core2/country-model.ts, src/core2/modules/macro.ts, src/core2/modules/regional.ts, src/core2/counted-hooks-read.test.ts, src/core2/data/stopgaps/nation.json
+**Files.** src/core2/modules/counted-moves.ts, src/core2/country-model.ts, src/core2/modules/macro.ts, src/core2/modules/regional.ts, tests/src/core2/counted-hooks-read.test.ts, src/core2/data/stopgaps/nation.json
 
 **Notes.** countedStateGrowth in counted-moves.ts has had no reader since the tier's first slice (the regional rows read the tier's people); delete it here. The tier's cells are four adult age bands and children; counted-moves uses five bands, so the reader maps them. After: core-country-tier-first-slice.

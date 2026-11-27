@@ -32,6 +32,6 @@ root: none
 
 **Waits on.** core-outcome-web-follows-only-the-played-town (#9342).
 
-**Files.** src/core2/regional-model.ts, src/core2/term-read.ts, src/core2/data/term-read/areas.json, src/core2/term-read-figures.test.ts
+**Files.** src/core2/regional-model.ts, src/core2/term-read.ts, src/core2/data/term-read/areas.json, tests/src/core2/term-read-figures.test.ts
 
 **Notes.** Filed Nov 14 by hand with its PR. Poverty for a state and the country stays open: it needs the income distribution the tier keeps only by fifth.

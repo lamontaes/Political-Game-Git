@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** One rule, all 56 places: Congress is a chamber row like any other, not a code path. An effect is a read, not a record. Research before building: each committee's jurisdiction comes from the federal file's own citations.
 
-**Done when.** A second session plays a one-year world in a place drawn from all 56 (seed named) and sees Congress's bills routed to real committees by jurisdiction question, shown by bill and committee record ids, and `src/core2/legislature-committees.test.ts` checks every catalog topic Congress takes up is heard by some committee.
+**Done when.** A second session plays a one-year world in a place drawn from all 56 (seed named) and sees Congress's bills routed to real committees by jurisdiction question, shown by bill and committee record ids, and `tests/src/core2/legislature-committees.test.ts` checks every catalog topic Congress takes up is heard by some committee.
 
 **Waits on.** gov-chamber-committees-reader-part-1-chamber-aware-reader.
 
-**Files.** src/core2/data/office-day/federal-committees.json, src/core2/data/legislature/chamber-committees.json (new), src/core2/legislature-committees.test.ts
+**Files.** src/core2/data/office-day/federal-committees.json, src/core2/data/legislature/chamber-committees.json (new), tests/src/core2/legislature-committees.test.ts
 
 **Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Real congressional committee names for a federal office the player does not hold in early access.

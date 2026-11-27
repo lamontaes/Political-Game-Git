@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T09:27:48.967Z
 
 **Rules.** Speed: a town's game year must run in under two minutes and no change may make a year more than 20 percent slower; Replace, never layer: the repeated work is removed in isSchoolDay itself, not hidden behind a second wrapper.
 
-**Done when.** A fresh profile of npm run speed:year on seed m7a shows onHoliday under 0.2 percent of the year, and the school day tests in src/core2/school.test.ts pass, shown in the PR body.
+**Done when.** A fresh profile of npm run speed:year on seed m7a shows onHoliday under 0.2 percent of the year, and the school day tests in tests/src/core2/school.test.ts pass, shown in the PR body.
 
 **Files.** src/core2/modules/school.ts
 

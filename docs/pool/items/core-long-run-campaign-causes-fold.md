@@ -17,7 +17,7 @@ claimed-at: 2026-10-30T02:21:40.730Z
 
 **Rules.** Speed and the Oct 29 22:45 ruling (a save runs as fast in year 100 as in year 1; old records fold into summaries). Replace, never layer: the summary replaces the rows it folds. Ask why: the player's own causes and those of the people they deal with keep their rows.
 
-**Done when.** When a contest's count is in, its candidates' causes for voters outside the player's circle fold into causeSummaries rows; contestStanding and the door scene's return-visit check read the same numbers before and after (src/core2/campaign-causes-fold.test.ts in a drawn place); a 4-year speed:year run of seed long-1 on main and on the branch differs in dev mode's records proof only in the campaigns causes, causeSummaries and foldedCauses tables, with the cause rows and the year-4 seconds before and after in the PR body.
+**Done when.** When a contest's count is in, its candidates' causes for voters outside the player's circle fold into causeSummaries rows; contestStanding and the door scene's return-visit check read the same numbers before and after (tests/src/core2/campaign-causes-fold.test.ts in a drawn place); a 4-year speed:year run of seed long-1 on main and on the branch differs in dev mode's records proof only in the campaigns causes, causeSummaries and foldedCauses tables, with the cause rows and the year-4 seconds before and after in the PR body.
 
 **Files.** src/core2/modules/campaigns.ts, src/core2/campaign-day.ts, src/director/doors.ts
 

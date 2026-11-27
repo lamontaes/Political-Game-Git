@@ -21,9 +21,9 @@ seen-by: second-session-2
 seen-at: 2026-11-11T02:40:32.349Z
 ---
 
-**What.** On draws fn-1 and fn-2 (Lavalette, West Virginia) src/director/conversation.test.ts fails 'offers four distinct replies' (8 turns, needs more than 8) and 'never parts with a word the talk already said' (no talk ended in a goodbye), on main before and after #7012. The engine is right by its rulings: a relative with nothing on record says nothing, and nobody says goodbye right after their own question was answered. The player the test picks knows 23 people, 5 of them full; the opening records list only 1 to 4 of them as known, since the rest are added when the world starts, so a pick from the opening records can't see the shortfall.
+**What.** On draws fn-1 and fn-2 (Lavalette, West Virginia) tests/src/director/conversation.test.ts fails 'offers four distinct replies' (8 turns, needs more than 8) and 'never parts with a word the talk already said' (no talk ended in a goodbye), on main before and after #7012. The engine is right by its rulings: a relative with nothing on record says nothing, and nobody says goodbye right after their own question was answered. The player the test picks knows 23 people, 5 of them full; the opening records list only 1 to 4 of them as known, since the rest are added when the world starts, so a pick from the opening records can't see the shortfall.
 
-**Cause.** Found in code: `src/director/conversation.test.ts`, 'offers four distinct replies' (line 220) and 'never parts with a word the talk already said' (line 1019), pick the player from the opening records. At Lavalette, West Virginia (draws fn-1 and fn-2) the picked player knows 23 people, 5 of them full, while the opening records list only 1 to 4 as known, so the pick cannot see the shortfall.
+**Cause.** Found in code: `tests/src/director/conversation.test.ts`, 'offers four distinct replies' (line 220) and 'never parts with a word the talk already said' (line 1019), pick the player from the opening records. At Lavalette, West Virginia (draws fn-1 and fn-2) the picked player knows 23 people, 5 of them full, while the opening records list only 1 to 4 as known, so the pick cannot see the shortfall.
 
 **Fix.** Choose the player and the people talked to from the core's `knownIds` once the world has started (a record, not a talk's output), never by redrawing after a result. Keep every assertion.
 
@@ -31,11 +31,11 @@ seen-at: 2026-11-11T02:40:32.349Z
 
 **Rules.** One rule, all 56 places: the test draws its place at random, so it must hold in a small town whose player knows few full people as well as in a big one. Choose the player and the people talked to from records, never by watching a talk's output, and never redraw after a result (director-conversation-drawn-fixture-lacks-subjects). Keep every assertion. Talking to the reserve strangers in the first test uses up what the lie tests need; meeting more strangers in the shared world broke the lie tests and the default draw.
 
-**Done when.** A second session runs `src/director/conversation.test.ts` on fn-1, fn-2, the default seed and three more drawn places (names and seeds written down) and it passes. In each, more than eight turns of replies are checked and at least one talk parts with a goodbye. In the running game at Lavalette, West Virginia it holds a talk with a neighbor and sees four distinct replies.
+**Done when.** A second session runs `tests/src/director/conversation.test.ts` on fn-1, fn-2, the default seed and three more drawn places (names and seeds written down) and it passes. In each, more than eight turns of replies are checked and at least one talk parts with a goodbye. In the running game at Lavalette, West Virginia it holds a talk with a neighbor and sees four distinct replies.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/conversation.test.ts, src/director/conversation.ts
+**Files.** tests/src/director/conversation.test.ts, src/director/conversation.ts
 
 **Notes.** Diagnosed by Words, Nov 1 20:10 (red main relayed Merger 0). Tried and reverted: counting full peers or known full people in the opening records (too few known there), picking the fitting player who knows the most full people (fn-2's best knows 4), redrawing on the opening records' count (six redraws found none), and talking to the reserve or extra strangers (breaks the lie tests). Next idea: count the people known once the world starts (the core's knownIds) before the tests run, which is a record, not a talk's output.
 

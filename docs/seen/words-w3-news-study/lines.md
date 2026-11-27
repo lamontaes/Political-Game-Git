@@ -4,7 +4,7 @@ Words builder W3, Nov 13, 2026. Pool item `words-press-study-committee-stories-u
 
 Each story is printed as the News reader words it, headline in bold, then its sentences. They come from a year of the bench world with every module installed (`scripts/words/w3-news-year.ts` (removed)). Each outlet words the same record with its own choice of lines, so one record can appear more than once.
 
-Not seen in these draws: a "now favors" headline (a committee whose members came to lean for a bill they leaned against at forming) and a "{name} chaired the committee." line (a report a member gave because the chair had died). Both are held by `src/bench/printed-study.test.ts`, which words each case from the study's own row. Passed over, with no study committee in the year or no such case: Walpole, Massachusetts (`w3-study-f`), Jacksonville, Illinois (`w3-study-g`), Wattsville, Virginia (`w3-study-h`), Hadar, Nebraska (`w3-study-a`), East Hope, Idaho (`w3-study-c`) and Sparks, Nevada (`w3-study-d`).
+Not seen in these draws: a "now favors" headline (a committee whose members came to lean for a bill they leaned against at forming) and a "{name} chaired the committee." line (a report a member gave because the chair had died). Both are held by `tests/src/bench/printed-study.test.ts`, which words each case from the study's own row. Passed over, with no study committee in the year or no such case: Walpole, Massachusetts (`w3-study-f`), Jacksonville, Illinois (`w3-study-g`), Wattsville, Virginia (`w3-study-h`), Hadar, Nebraska (`w3-study-a`), East Hope, Idaho (`w3-study-c`) and Sparks, Nevada (`w3-study-d`).
 
 ## Tierra Amarilla, New Mexico (3577670), the Red desk's seed 7873af602be48421779c5ff88b277b2eace926b8 (PLACE_TAG=printed-words)
 
@@ -100,4 +100,4 @@ Pictures: `before-N.png` and `after-N.png` at 1440x900.
 
 ## Lake Minchumina, Alaska (0242820), NEWS_SEED=b6d227a6f3bb7531
 
-`src/bench/printed-news.browser.mjs` passes on this branch. The player follows KRBC-TV, whose front page carries eight stories (`lake-minchumina-front.png`). KWDV-TV, which the player does not follow, has printed nothing yet and reads "Nothing in print yet." (`lake-minchumina-kwdv.png`).
+`tests/src/bench/printed-news.browser.mjs` passes on this branch. The player follows KRBC-TV, whose front page carries eight stories (`lake-minchumina-front.png`). KWDV-TV, which the player does not follow, has printed nothing yet and reads "Nothing in print yet." (`lake-minchumina-kwdv.png`).

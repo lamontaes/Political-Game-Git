@@ -18,6 +18,6 @@ source: added with npm run pool -- add
 
 **Done when.** The opening-customers-county-office.test.ts file passes its Bayou Blue and ordinary drawn-place regressions plus the record-derived per-jurisdiction opening case, which names every selected locality and rejects any build failure; the PR records the seed and count, while core-opening-public-coverage-conflict-bayou-blue and core-opening-coverage-every-locality stay open for exhaustive acceptance.
 
-**Files.** src/core2/opening-customers-county-office.test.ts
+**Files.** tests/src/core2/opening-customers-county-office.test.ts
 
 **Notes.** Bounded per-jurisdiction test split by Merger 0 on Oct 25 for PR #5944, following the prior review allowance for an explicit bounded split. This item does not claim every eligible locality was built.

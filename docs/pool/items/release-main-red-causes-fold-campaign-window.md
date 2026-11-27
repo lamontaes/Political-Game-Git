@@ -18,7 +18,7 @@ root: none
 source: Red desk, Nov 12 (merger codex-4629's send-back of #8397 and sonnet-7757's replay on #7365)
 ---
 
-**What.** src/core2/campaign-causes-fold.test.ts fails on clean main beffd5d9 at CAUSES_FOLD_SEED=bb (Agat, Guam): the standings of every contest differ before and after `foldClosedRaceCauses`. It passed on 8ffe85 before #8397 merged. Seen: the campaign standing lines a player reads for a race would shift on the seventh of a month, when `foldOldCauses` folds old causes, with nothing new done in the race.
+**What.** tests/src/core2/campaign-causes-fold.test.ts fails on clean main beffd5d9 at CAUSES_FOLD_SEED=bb (Agat, Guam): the standings of every contest differ before and after `foldClosedRaceCauses`. It passed on 8ffe85 before #8397 merged. Seen: the campaign standing lines a player reads for a race would shift on the seventh of a month, when `foldOldCauses` folds old causes, with nothing new done in the race.
 
 **Cause.** Found in code: #8397 made `contestStanding` in src/core2/campaign-day.ts keep only the cause rows dated from the filing to the contest's election day, but it read a folded summary (`causeSummariesOf`) whole whenever its last date was on or after the filing. A summary is one row a voter and candidate that adds up every cause folded, including those from before the filing or after the count, so those causes count in the standing only once they have folded.
 
@@ -32,4 +32,4 @@ source: Red desk, Nov 12 (merger codex-4629's send-back of #8397 and sonnet-7757
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-day.ts, src/core2/campaign-standing-this-contest.test.ts
+**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-day.ts, tests/src/core2/campaign-standing-this-contest.test.ts

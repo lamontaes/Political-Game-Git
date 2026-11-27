@@ -33,7 +33,7 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/director/data/speech-outlines.json, src/director/speech-outline.ts (read), src/director/local-address.test.ts
+**Files.** src/director/data/speech-outlines.json, src/director/speech-outline.ts (read), tests/src/director/local-address.test.ts
 
 **Notes.** Filed by the Speeches builder (D), from the finding behind the jobs, pay and prices lines (/mnt/project-files/words-lead/8878/lines-local-work-pay-prices.md).
 

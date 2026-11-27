@@ -28,8 +28,8 @@ root: rc8-law-judged-by-paperwork
 
 **Rules.** Replace, never layer: one registration point, and no second dev-mode request handler. Every effect can be triggered from the game's own code in dev mode and traced there: this is how each thread's trace reaches dev mode without a shared edit.
 
-**Done when.** A second session drops a view file in src/bench/dev-views/ and its page part in src/bench/ui/, starts the bench, passes a bill in dev mode in the running game and sees the view's line at the end of the bill card, under the Metrics board and on the Calendar, with no edit to dev-mode.ts, dev-api.ts or play.mjs. Seen: src/bench/dev-views.test.ts at Ridgeville, Alabama (0164656) and a played walk at a drawn place, screenshots in /mnt/project-files/laws/screens/dev-views-*.png.
+**Done when.** A second session drops a view file in src/bench/dev-views/ and its page part in src/bench/ui/, starts the bench, passes a bill in dev mode in the running game and sees the view's line at the end of the bill card, under the Metrics board and on the Calendar, with no edit to dev-mode.ts, dev-api.ts or play.mjs. Seen: tests/src/bench/dev-views.test.ts at Ridgeville, Alabama (0164656) and a played walk at a drawn place, screenshots in /mnt/project-files/laws/screens/dev-views-*.png.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/dev-views.ts (new), src/bench/ui/dev-views.mjs (new), src/bench/dev-views.test.ts (new), src/bench/dev-api.ts, src/bench/dev-mode.ts, src/bench/play.mjs, src/bench/ui/dev-bill-card.mjs
+**Files.** src/bench/dev-views.ts (new), src/bench/ui/dev-views.mjs (new), tests/src/bench/dev-views.test.ts (new), src/bench/dev-api.ts, src/bench/dev-mode.ts, src/bench/play.mjs, src/bench/ui/dev-bill-card.mjs

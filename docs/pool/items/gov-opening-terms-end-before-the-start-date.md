@@ -33,7 +33,7 @@ Seen: dev mode's Trace on any serving term at the start shows an end date earlie
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/offices.ts, src/bench/world.ts, src/bench/dev-trace.ts, src/core2/opening-terms-in-office.test.ts
+**Files.** src/core2/modules/offices.ts, src/bench/world.ts, src/bench/dev-trace.ts, tests/src/core2/opening-terms-in-office.test.ts
 
 **Notes.** Found while tracing gov-special-election-term-ends-before-it-starts, which this item contains: with every term in office current, a special election's vacated term has not run out. Whether the pre-start November 2024 winners should be the same people is a question of the seat's record the opening already holds (`elected` on the term); no number is typed. Counts above are one place; a scan at three drawn places is the first step.
 

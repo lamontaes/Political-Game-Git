@@ -33,10 +33,10 @@ Seen: `src/core2/modules/parties.ts` `stateParties` reads `presidentialByState` 
 
 **Rules.** No dice; replace, never layer: the 2024 ballot is read only under "today" and where the century has no count.
 
-**Done when.** A second session starts a new game at a drawn place it writes down with its seed, opens Politics, Parties, and sees the century's parties (not the 2024 ballot's third parties); at drawn worlds `stateParties` equals the century's parties at the century's state shares, and src/core2/electorate-century-parties.test.ts passes.
+**Done when.** A second session starts a new game at a drawn place it writes down with its seed, opens Politics, Parties, and sees the century's parties (not the 2024 ballot's third parties); at drawn worlds `stateParties` equals the century's parties at the century's state shares, and tests/src/core2/electorate-century-parties.test.ts passes.
 
 **Waits on.** history-parties-from-the-century (#9958), which this branch is stacked on.
 
-**Files.** src/core2/modules/parties.ts, src/core2/electorate-century.ts, src/core2/electorate-century-parties.test.ts
+**Files.** src/core2/modules/parties.ts, src/core2/electorate-century.ts, tests/src/core2/electorate-century-parties.test.ts
 
 **Notes.** Filed by the History lane, Nov 17, 2026. Party ties from views, who runs and the challenger's chance are the rest of PR 9c.

@@ -25,7 +25,7 @@ branch: claude/pool-elections-filing-fee-paid
 
 **Cause.** Found in code: `src/core2/modules/candidacy.ts` line 828 ("File for a runner: no fee; the filing's petition circulates until the clerk's check") and the header of `src/core2/modules/elections.ts` (line 12) show no fee is charged; the fee data by office family is in `data/research/elections/filing-requirements.json`. Design: the owner's Oct 28 ruling in docs/coordination/OWNER-DECISIONS.md reversing "no fee or petition".
 
-**Fix.** Post the place's filing fee from the candidate's account to the filing office's treasury through the money journal, for the player and world candidates alike. A candidate short of the fee is refused with the reason, and a place with no fee posts nothing. Update the 'files once, at no charge' test in `src/core2/elections-filing.test.ts`.
+**Fix.** Post the place's filing fee from the candidate's account to the filing office's treasury through the money journal, for the player and world candidates alike. A candidate short of the fee is refused with the reason, and a place with no fee posts nothing. Update the 'files once, at no charge' test in `tests/src/core2/elections-filing.test.ts`.
 
 **Time box.** 4 hours for one Sonnet session.
 
@@ -35,7 +35,7 @@ branch: claude/pool-elections-filing-fee-paid
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/elections.ts, src/core2/modules/candidacy.ts, data/research/elections/filing-requirements.json, src/core2/elections-filing.test.ts
+**Files.** src/core2/modules/elections.ts, src/core2/modules/candidacy.ts, data/research/elections/filing-requirements.json, tests/src/core2/elections-filing.test.ts
 
 **Notes.** TODO
 

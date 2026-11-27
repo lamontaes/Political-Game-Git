@@ -32,11 +32,11 @@ merged-at: 2026-11-12T22:14:24.721Z
 
 **Rules.** Speed: a town's year runs in under two minutes; an exact cut keeps every record identical. Bookkeeping is a debug switch: checks and copies run with it on, not in play. No dice: every engine reads the same records in the same order.
 
-**Done when.** A second session, not the builder, plays buildBenchWorld in drawn places, Long Hill, Connecticut (seed m7b, one year) and Stanardsville, Virginia (seed cc91f5444b53bd47, three years) and every deep fingerprint is identical before and after; projectCashJournal's self time in a Long Hill CPU profile falls; src/core2/journal-state.test.ts and the other journal tests and the accounts and finance tests pass.
+**Done when.** A second session, not the builder, plays buildBenchWorld in drawn places, Long Hill, Connecticut (seed m7b, one year) and Stanardsville, Virginia (seed cc91f5444b53bd47, three years) and every deep fingerprint is identical before and after; projectCashJournal's self time in a Long Hill CPU profile falls; tests/src/core2/journal-state.test.ts and the other journal tests and the accounts and finance tests pass.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/journal.ts, src/core2/journal-state.test.ts
+**Files.** src/core2/journal.ts, tests/src/core2/journal-state.test.ts
 
 **Notes.** Filed Oct 26 by the speed lead while reviewing #6131. Build it on that branch (claude/speed-journal-portfolios-in-play): main's fund writes still read every fund's change record. A posted account can carry a zero delta, so the record is kept for every posted account (deltas.has), not only for those that moved.
 

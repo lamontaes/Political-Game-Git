@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: whether anyone looks into the wealth follows that person's own reasons and what the disclosure shows, never a chance to catch. Look before you ask: owner-why-money-exists (4) and #5333. Wire to the world: a surfaced bribe reaches the press record the voting engine's scandal term reads. One rule, all 56 places. Speed: read on the disclosure date only. The federal floor is a figure to report, not a target.
 
-**Done when.** A second session runs the bribe-chain script across four drawn places played two years (`buildBenchWorld`, seeds named in the PR) and sees at least one taken bribe surface through the official's disclosed wealth and reach a reported record by id; the surfaced and reported counts per place-year are reported next to the federal floor. `src/core2/corruption.test.ts` passes with a case where a rise the pay explains draws no look and one it does not draws one.
+**Done when.** A second session runs the bribe-chain script across four drawn places played two years (`buildBenchWorld`, seeds named in the PR) and sees at least one taken bribe surface through the official's disclosed wealth and reach a reported record by id; the surfaced and reported counts per place-year are reported next to the federal floor. `tests/src/core2/corruption.test.ts` passes with a case where a rise the pay explains draws no look and one it does not draws one.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/corruption.ts, src/core2/corruption.test.ts, scripts/research/bribe-chain-years.ts, data/research/corruption/doj-pin-2023-local-state-prosecutions.json
+**Files.** src/core2/modules/corruption.ts, tests/src/core2/corruption.test.ts, scripts/research/bribe-chain-years.ts, data/research/corruption/doj-pin-2023-local-state-prosecutions.json
 
 **Notes.** Filed Oct 25 by the effects lead from gov-bribes-in-played-worlds-measured.
 

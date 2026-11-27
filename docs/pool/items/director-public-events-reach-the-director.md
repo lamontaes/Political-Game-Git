@@ -33,4 +33,4 @@ Seen: in a played year, the paper's national pages carry the month's approval po
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/national-opinion.ts, src/bench/printed-words.ts, src/english/english-newscast.ts, src/bench/dev-trace.ts, src/bench/approval-poll.test.ts (new)
+**Files.** src/core2/modules/national-opinion.ts, src/bench/printed-words.ts, src/english/english-newscast.ts, src/bench/dev-trace.ts, tests/src/bench/approval-poll.test.ts (new)

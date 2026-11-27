@@ -31,7 +31,6 @@
     "src/core2/candidate-identity.ts": 1,
     "src/core2/candidate-pool.ts": 3,
     "src/core2/cash-host.ts": 1,
-    "src/core2/census-scale-closures-support.ts": 1,
     "src/core2/central-bank-board.ts": 1,
     "src/core2/coarse-place.ts": 4,
     "src/core2/contest-positions.ts": 2,

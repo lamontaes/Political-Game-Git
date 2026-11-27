@@ -18,8 +18,8 @@ claimed-at: 2026-10-30T02:50:26.439Z
 
 **Rules.** One engine per mechanic: the screen reads the one filing rule (playerMayFileFor, player-offices.json) through a field on the race row instead of a second list in the screen. One rule, all 56 places: the field comes from the place's own office kinds in data.
 
-**Done when.** src/bench/local-races.test.ts passes in a buildBenchWorld drawn place with the seed it prints, asserting each local race row's playerMayFile equals playerMayFileFor for that contest; the Campaigns screen and campaigns-ballot.browser.mjs offer File for it only where it is true.
+**Done when.** tests/src/bench/local-races.test.ts passes in a buildBenchWorld drawn place with the seed it prints, asserting each local race row's playerMayFile equals playerMayFileFor for that contest; the Campaigns screen and campaigns-ballot.browser.mjs offer File for it only where it is true.
 
-**Files.** src/bench/government.ts, src/bench/play.mjs, src/bench/campaigns-ballot.browser.mjs, src/bench/local-races.test.ts
+**Files.** src/bench/government.ts, src/bench/play.mjs, tests/src/bench/campaigns-ballot.browser.mjs, tests/src/bench/local-races.test.ts
 
 **Notes.** TODO

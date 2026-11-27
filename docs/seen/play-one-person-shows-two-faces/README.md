@@ -1,6 +1,6 @@
 # One person, one face: screens at 1440 by 900
 
-Taken on the bench by `src/bench/one-face.browser.mjs`, which builds a life in the creator and reads the bust pieces that make the player (head, facial hair, hair) on every screen that shows the player's own face.
+Taken on the bench by `tests/src/bench/one-face.browser.mjs`, which builds a life in the creator and reads the bust pieces that make the player (head, facial hair, hair) on every screen that shows the player's own face.
 
 - `approved-you-ol-g.png`: the approved You screen (docs/mocks/2026-11-07-approved).
 - `blodgett-landing-nh/`: Blodgett Landing, New Hampshire, the audit's place. Seed `37f08a0a-d3e8-4547-a399-874750060651`. You, Jobs and study, Your life, People, the title's Continue and Saved games.

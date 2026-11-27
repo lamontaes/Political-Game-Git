@@ -29,8 +29,8 @@ merged-at: 2026-11-16T19:58:24.591Z
 
 **Rules.** No dice (`no-dice`): a share and a carry, never a roll. One model, two tiers: a counted group is read with the same rule as a full person, times its count. Nothing flips at a threshold.
 
-**Done when.** A second session, not the builder, runs the pinned test src/core2/away-workers-turnover.test.ts at a drawn place nobody chose and at Tanapag, Northern Mariana Islands, Staples, Connecticut and Maloata, American Samoa (a year each, under a minute and a half), and sees that away workers let go are looking in December, the jobless stay between half and twice the opening count, and the labor force holds.
+**Done when.** A second session, not the builder, runs the pinned test tests/src/core2/away-workers-turnover.test.ts at a drawn place nobody chose and at Tanapag, Northern Mariana Islands, Staples, Connecticut and Maloata, American Samoa (a year each, under a minute and a half), and sees that away workers let go are looking in December, the jobless stay between half and twice the opening count, and the labor force holds.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/modules/residents.ts, src/core2/away-workers-turnover.test.ts
+**Files.** src/core2/modules/jobs.ts, src/core2/modules/residents.ts, tests/src/core2/away-workers-turnover.test.ts

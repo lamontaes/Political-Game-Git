@@ -18,7 +18,7 @@ claimed-at: 2026-11-09T11:00:00.000Z
 
 **Rules.** One engine for every kind of scene (`arc-variant.ts`). No dice, no thresholds: scores slide. Weights are TUNABLE under SG-STORY-arc-variant-weights. A scene where the player asks (`playerAsks`) plays the plain arc.
 
-**Done when.** src/director/ask-vote-variants.test.ts, in a town of a drawn place and seed where a sponsor asks a member the evening before a floor vote, shows the scene playing the variant with the highest score with its reads equal to the records (party, post, town margins, closeness), and labeled probes moving whip by a post and a shared party and trade by earlier votes, and a staged ask naming the earlier bill; src/director/arc-variant.test.ts composes every ask-vote variant whole.
+**Done when.** tests/src/director/ask-vote-variants.test.ts, in a town of a drawn place and seed where a sponsor asks a member the evening before a floor vote, shows the scene playing the variant with the highest score with its reads equal to the records (party, post, town margins, closeness), and labeled probes moving whip by a post and a shared party and trade by earlier votes, and a staged ask naming the earlier bill; tests/src/director/arc-variant.test.ts composes every ask-vote variant whole.
 
 **Files.** src/director/arc-variant.ts, src/director/purpose-scene.ts, src/director/data/arc-variants.json, data/english/parts/scene-talk.json
 

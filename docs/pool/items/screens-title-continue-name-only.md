@@ -17,8 +17,8 @@ claimed-at: 2026-11-01T13:16:57.482Z
 
 **Rules.** Replace, never layer: the front-continue-life element and the code that fills it are deleted, not hidden. No hand-written player text in code: the title entry is its name alone, read from the kit's menu part.
 
-**Done when.** src/bench/clock.browser.mjs passes on a restarted bench in a drawn place with the place and seed named in the PR body; its title check, which reads every title entry once a life is saved, finds no text beyond the entry's name; a before and after screenshot of the title menu is in the PR body.
+**Done when.** tests/src/bench/clock.browser.mjs passes on a restarted bench in a drawn place with the place and seed named in the PR body; its title check, which reads every title entry once a life is saved, finds no text beyond the entry's name; a before and after screenshot of the title menu is in the PR body.
 
-**Files.** src/bench/play.mjs, src/bench/play.html, src/bench/clock.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/play.html, tests/src/bench/clock.browser.mjs
 
 **Notes.** TODO

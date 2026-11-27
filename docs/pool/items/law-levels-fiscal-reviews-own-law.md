@@ -20,7 +20,7 @@ claimed-at: 2026-11-07T23:58:04.936Z
 
 **Done when.** A buildBenchWorld regression in a drawn place proves that one government repeal remains undone through treasury review while another government rule remains active. Break-it, ten fresh draws and a new game pass, with place, replay and budget record ids in the PR. Actual ledger and budget readers run; controlled law and budget fixtures are identified honestly.
 
-**Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach/group-b-money.ts, src/core2/fiscal-law-level-review.test.ts
+**Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach/group-b-money.ts, tests/src/core2/fiscal-law-level-review.test.ts
 
 **Notes.** Astra, Nov 7; bounded two-hour unit. Existing done item laws-balanced-budget-open-after-repeal addressed open attribution after repeal; this follow-up concerns independent governments and recurring money movement. Relevant code: finish stores id=question; rerunPolicy uses any-level questionInForce and the stored last level. The shared standing-law reader already exists and reads current allowed yes levels.
 

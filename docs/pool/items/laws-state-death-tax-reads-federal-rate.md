@@ -28,8 +28,8 @@ root: none
 
 **Rules.** One rule, all 56 places: the doctrine is per series, never per state. Pinned tests: a named place and seed.
 
-**Done when.** `src/core2/state-death-tax-own-level.test.ts` passes at Nathrop CO, seed 612deadbcae7ad23: Colorado's estate and inheritance taxes in force are 0 with no record, the federal estate tax is still 40, and a 16 percent state estate tax bill raises it. It fails with the fix taken out (40, not 0). A second session then opens a state estate tax bill in a drawn state with no estate tax of its own choosing in the running game, and sees the bill paper strike nothing and insert the new rate.
+**Done when.** `tests/src/core2/state-death-tax-own-level.test.ts` passes at Nathrop CO, seed 612deadbcae7ad23: Colorado's estate and inheritance taxes in force are 0 with no record, the federal estate tax is still 40, and a 16 percent state estate tax bill raises it. It fails with the fix taken out (40, not 0). A second session then opens a state estate tax bill in a drawn state with no estate tax of its own choosing in the running game, and sees the bill paper strike nothing and insert the new rate.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/laws-in-force.ts, src/core2/state-death-tax-own-level.test.ts (new)
+**Files.** src/core2/laws-in-force.ts, tests/src/core2/state-death-tax-own-level.test.ts (new)

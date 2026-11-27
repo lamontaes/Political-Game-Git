@@ -19,7 +19,7 @@ claimed-at: 2026-10-27T19:49:05.098Z
 
 **Rules.** Estimate, never UNKNOWN does not cover a made-up share: a vote share is a fact from the election record, and with no record nothing is shown. No hand-written player text: words come from the controls and English data. Replace, never layer: the opening-day line is deleted. One rule, all 56 places.
 
-**Done when.** In a drawn place (name the place and seed), src/bench/politics.browser.mjs passes on a restarted bench and asserts no row contains when your story began and that no two council members share a vote share unless their election records do; a 1440x900 screenshot is in the PR body beside the before shot.
+**Done when.** In a drawn place (name the place and seed), tests/src/bench/politics.browser.mjs passes on a restarted bench and asserts no row contains when your story began and that no two council members share a vote share unless their election records do; a 1440x900 screenshot is in the PR body beside the before shot.
 
 **Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
 
@@ -27,7 +27,7 @@ claimed-at: 2026-10-27T19:49:05.098Z
 
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
-**Files.** src/bench/play.mjs, src/bench/government.ts, src/bench/politics.browser.mjs, src/bench/data/controls.json
+**Files.** src/bench/play.mjs, src/bench/government.ts, tests/src/bench/politics.browser.mjs, src/bench/data/controls.json
 
 **Notes.** Reading: OWNER-DECISIONS.md (Oct 27 afternoon screens rulings), DECISION-REGISTER.md, prior-rulings/, docs/play-first/LAW.md section 1; docs/ searched for the screen name. Principles: docs/design/screens/principles-2026-10-27.md.
 

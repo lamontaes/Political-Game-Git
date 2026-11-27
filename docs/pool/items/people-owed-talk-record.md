@@ -36,7 +36,7 @@ merged-at: 2026-11-15T23:11:08.410Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/data/life/remembered.json, src/core2/person-life.ts, src/core2/person-life.test.ts
+**Files.** src/core2/data/life/remembered.json, src/core2/person-life.ts, tests/src/core2/person-life.test.ts
 
 **Notes.** Needed by scene-owed-talk-comes-due (packet docs/design/scenes/from-life/owed-talk-comes-due.md). Filed by Scene researcher A, Oct 27; lead effects owns the relationships writer.
 

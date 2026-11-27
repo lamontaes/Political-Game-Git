@@ -17,8 +17,8 @@ claimed-at: 2026-10-20T03:33:20.800Z
 
 **Rules.** No dice: the start day is the state's rule, not a roll. One rule, all 56 places: the rows live in data and the code names no state.
 
-**Done when.** src/core2/elections-law.test.ts shows each of the 24 states' governor term starting on its rule's day, including California's January 1 that falls on a Monday giving January 8.
+**Done when.** tests/src/core2/elections-law.test.ts shows each of the 24 states' governor term starting on its rule's day, including California's January 1 that falls on a Monday giving January 8.
 
-**Files.** src/core2/data/elections/term-starts.json, src/core2/elections-law.test.ts
+**Files.** src/core2/data/elections/term-starts.json, tests/src/core2/elections-law.test.ts
 
 **Notes.** Stacked on the branch of PR 5160, which adds the rule format.

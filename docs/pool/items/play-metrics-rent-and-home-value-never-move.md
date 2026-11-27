@@ -29,10 +29,10 @@ merged-at: 2026-11-13T07:00:03.779Z
 
 **Rules.** An effect is a read, not a record: the screen reads the same figures the housing engine decides by. One rule, all 56 places: the reader is the town's own, in every place.
 
-**Done when.** `src/bench/metrics-homes-today.test.ts` passes in two drawn places, and a second session sees, on the bench on main, a drawn life played a year whose Metrics rent or home value differs from the opening day's (screenshots of both with the place and seed).
+**Done when.** `tests/src/bench/metrics-homes-today.test.ts` passes in two drawn places, and a second session sees, on the bench on main, a drawn life played a year whose Metrics rent or home value differs from the opening day's (screenshots of both with the place and seed).
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/metrics.ts, src/bench/metrics-homes-today.test.ts
+**Files.** src/bench/metrics.ts, tests/src/bench/metrics-homes-today.test.ts
 
 **Notes.** "Rentals standing empty" also did not move in the same year in Crestview (2 at the opening and a year on) while renting households fell from 21 to 15; that row reads the building panel's stock and is not changed here.

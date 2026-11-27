@@ -20,7 +20,7 @@ claimed-at:
 
 **Done when.** In a played year (`buildBenchWorld`, every module installed) in the two audit places (Prescott, Michigan seed a91c03e7d2b84f10 and Uehling, Nebraska seed 5e27b0c4196fd3a8), plus a third place drawn for a law already in force at the opening in both, `scripts/law-wiring/check.ts` and `scripts/law-wiring/matrix.ts` grade each of the eight laws above wired on all nine links in `docs/reports/law-wiring-matrix.json`, and the family test names, for each of them, its `lawApplied` record id, the journal entry of its money and the person, household or organization reached. **On screen.** Nothing yet.
 
-**Files.** scripts/law-wiring/check.ts, src/core2/law-wiring-prices.test.ts, src/core2/modules/place-prices.ts, src/core2/modules/purchase-tax.ts
+**Files.** scripts/law-wiring/check.ts, tests/src/core2/law-wiring-prices.test.ts, src/core2/modules/place-prices.ts, src/core2/modules/purchase-tax.ts
 
 **Notes.** Laws lead, Oct 26. PR #5986 moves to this item; `laws-nine-links-prices` stays open for the two.
 

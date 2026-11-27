@@ -20,6 +20,6 @@ claimed-at: 2026-10-20T03:28:32.520Z
 
 **Done when.** In a drawn place (buildBenchWorld, seed named) one bail posted and returned in a played year shows the escrow account id, the posting into it and the posting out of it by journal entry id with the treasury's spendable balance untouched between, justice-pretrial.test.ts passes, and SG-GOV-bail-not-escrowed is resolved.
 
-**Files.** src/core2/modules/justice.ts, src/core2/journal-state.ts, src/core2/data/stopgaps.json, src/core2/justice-pretrial.test.ts
+**Files.** src/core2/modules/justice.ts, src/core2/journal-state.ts, src/core2/data/stopgaps.json, tests/src/core2/justice-pretrial.test.ts
 
 **Notes.** Follow-up to #5365.

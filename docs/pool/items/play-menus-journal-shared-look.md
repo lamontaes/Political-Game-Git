@@ -19,7 +19,7 @@ claimed-at: 2026-10-30T02:40:00.000Z
 
 **Rules.** Screen to mock (`screen-to-mock`); replace, never layer (the record-screen narrative rows for the journal are gone); the menu never scrolls as a page; no hand-written player text (labels in `controls.journal`).
 
-**Done when.** `src/bench/journal-page.browser.mjs` shows the page, its chapter line and paragraphs inside the sheet with no scroll, and the arrows paging chapters; screenshots in `docs/play-first/shots/play-menus-journal-shared-look/`.
+**Done when.** `tests/src/bench/journal-page.browser.mjs` shows the page, its chapter line and paragraphs inside the sheet with no scroll, and the arrows paging chapters; screenshots in `docs/play-first/shots/play-menus-journal-shared-look/`.
 
 **Time box.** 1 hour, Sonnet.
 

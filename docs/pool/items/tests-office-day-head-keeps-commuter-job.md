@@ -19,7 +19,7 @@ claimed-at: 2026-10-27T11:16:48.741Z
 
 **Done when.** office-day-name-head.test.ts passes on GOLDEN_PATH_SEED=8ba4740ce9a70741 and on a fresh drawn seed, in a world built with buildBenchWorld. The PR names the place, the seed and the record id of the new head's town job.
 
-**Files.** src/core2/public-payroll.ts, src/core2/modules/executive.ts, src/core2/office-day-name-head.test.ts
+**Files.** src/core2/public-payroll.ts, src/core2/modules/executive.ts, tests/src/core2/office-day-name-head.test.ts
 
 **Notes.** Found on PR #6149 (gov-department-head-qualified-by-record).
 

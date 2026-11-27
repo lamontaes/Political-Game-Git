@@ -31,10 +31,10 @@ merged-at: 2026-11-12T18:25:53.625Z
 
 **Rules.** Wire to the world: the assistance and the repairs move between the damaged town's own households and builders, the town whose FEMA row it is, wherever the player lives that day. One rule, all 56 places: the damaged town is found from the world's records, never by a place name in code.
 
-**Done when.** A second session (not the builder) plays a generated world where the player moves out of the opened town before a damaging disaster is declared (Guthrie, Oklahoma, place 4031700, seed 35f504a41ec4764f52666b6c5ccd1992aa077e83 is the repro) and sees the opened town's residents account receive the assistance and pay its own builders, named by journal entry id, and the town the player moved to pay nothing for it. The no-payee regression in src/core2/disasters-no-market.test.ts stays reachable, its forced step changed if it must be. On screen: nothing yet; it would show on Jobs and study, and News, and nothing there reads it.
+**Done when.** A second session (not the builder) plays a generated world where the player moves out of the opened town before a damaging disaster is declared (Guthrie, Oklahoma, place 4031700, seed 35f504a41ec4764f52666b6c5ccd1992aa077e83 is the repro) and sees the opened town's residents account receive the assistance and pay its own builders, named by journal entry id, and the town the player moved to pay nothing for it. The no-payee regression in tests/src/core2/disasters-no-market.test.ts stays reachable, its forced step changed if it must be. On screen: nothing yet; it would show on Jobs and study, and News, and nothing there reads it.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/disasters.ts, src/core2/disasters-no-market.test.ts
+**Files.** src/core2/modules/disasters.ts, tests/src/core2/disasters-no-market.test.ts
 
 **Notes.** TODO

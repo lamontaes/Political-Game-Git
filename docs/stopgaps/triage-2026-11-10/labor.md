@@ -37,7 +37,7 @@ Register: `src/core2/data/stopgaps/labor.json`. 13 open rows were checked (3 oth
 - SG-LABOR-find-age-estimated: src/core2/past-work.ts:340-349; parameters.json:7181.
 - SG-LABOR-opening-band-ratios-town-mix: src/core2/modules/jobs.ts:719-735 (`bandQuotas`).
 - SG-LABOR-vacancy-size-uniform: src/core2/modules/jobs.ts:3054-3077 (`vacancyDays`).
-- SG-LABOR-ban-the-box-proof-fixture-convictions: src/core2/jobs-record-bias.test.ts:149, :172 write fixture measures; no marker with this id in src or scripts. Belongs to the one crime system (OWNER-DECISIONS Oct 27; SG-CORE-crime-offenders).
+- SG-LABOR-ban-the-box-proof-fixture-convictions: tests/src/core2/jobs-record-bias.test.ts:149, :172 write fixture measures; no marker with this id in src or scripts. Belongs to the one crime system (OWNER-DECISIONS Oct 27; SG-CORE-crime-offenders).
 - SG-LABOR-record-bias-public-only: src/core2/jobs-record-bias.ts:29-52 (`recordBiasAt`); data/research/executive/ban-the-box-public-hiring-2025-01.json holds `coversPrivate`, unread.
 
 ## Borderline, for the owner

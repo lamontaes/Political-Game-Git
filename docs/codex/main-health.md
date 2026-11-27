@@ -517,7 +517,7 @@ Seconds are wall time for the file on a shared four-core machine, so they overst
 | `src/devtools/trace-export.test.ts`                                  | 1     |
 | `src/districts/congressional-lines-2026.test.ts`                     | 1     |
 | `src/districts/members-per-district.test.ts`                         | 1     |
-| `src/districts/query.test.ts`                                        | 1     |
+| `tests/src/districts/query.test.ts`                                        | 1     |
 | `src/education/admission-timetable-estimate-provenance.test.ts`      | 1     |
 | `src/education/compact-directory-source.test.ts`                     | 1     |
 | `src/education/named-colleges.test.ts`                               | 1     |

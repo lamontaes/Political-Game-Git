@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/macro-model.ts, src/core2/modules/macro.ts, src/core2/data/macro/parameters.json, src/core2/macro.test.ts
+**Files.** src/core2/macro-model.ts, src/core2/modules/macro.ts, src/core2/data/macro/parameters.json, tests/src/core2/macro.test.ts
 
 **Notes.** Ruled by the Coordinator on #7842 as the real replacement for the hysteresis parameter. Not started.
 

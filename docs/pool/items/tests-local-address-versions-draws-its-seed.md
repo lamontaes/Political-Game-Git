@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** `src/director/local-address-versions.test.ts` passes on some runs and fails on others, so it is red by draw. The player sees the cause on the failing draw: the governor's or mayor's greeting, "Everybody in this room, and everybody watching.", opens the address in three of ten worlds, so addresses read alike. Seen: in the opening of a governor's or mayor's address in Albright WV, Ocean View NJ and Fort Jesup LA.
+**What.** `tests/src/director/local-address-versions.test.ts` passes on some runs and fails on others, so it is red by draw. The player sees the cause on the failing draw: the governor's or mayor's greeting, "Everybody in this room, and everybody watching.", opens the address in three of ten worlds, so addresses read alike. Seen: in the opening of a governor's or mayor's address in Albright WV, Ocean View NJ and Fort Jesup LA.
 
 **Cause.** Measured: it is not state shared between worlds built in one process and not caused by the term read's map. The run seed defaults to `randomBytes(8)` (line 21 of the test), and `LOCAL_VERSIONS_SEED=f4e1086665bffa8b` alone, with no other file in the run, fails on the Train head da2b7064 before PR 1's change with the one repeat "Everybody in this room, and everybody watching." in Albright, West Virginia (5400748), Ocean View, New Jersey (3454600) and Fort Jesup, Louisiana (2226665), draws 1, 5 and 7; the default draw passes on other seeds.
 
@@ -32,6 +32,6 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/director/local-address-versions.test.ts, data/english/parts/opening-speech.json
+**Files.** tests/src/director/local-address-versions.test.ts, data/english/parts/opening-speech.json
 
 **Notes.** Filed Nov 14 from PR 1 of the town-level jobs, pay and prices work. The Words lead reads the greeting bank.

@@ -31,8 +31,8 @@ merged-at: 2026-11-16T19:58:33.567Z
 
 **Rules.** The card's labels are data in src/bench/data/controls.json; no pronoun written in code. Pinned place and seed.
 
-**Done when.** At Sheridan WY, seed 7, every People card with an unknown view says the pronoun its own headings say (src/bench/person-card-view-unknown.browser.mjs, red on the old label: "heading says he, politics line says they"; green after), with a he card and a she card printed (the world holds no they card, so the they label is unchanged text, covered by view-learned.test.ts). A second session (not the builder) opens a person card whose view is unknown at a drawn place from all 56 (place and seed named) and reads the matching pronoun.
+**Done when.** At Sheridan WY, seed 7, every People card with an unknown view says the pronoun its own headings say (tests/src/bench/person-card-view-unknown.browser.mjs, red on the old label: "heading says he, politics line says they"; green after), with a he card and a she card printed (the world holds no they card, so the they label is unchanged text, covered by view-learned.test.ts). A second session (not the builder) opens a person card whose view is unknown at a drawn place from all 56 (place and seed named) and reads the matching pronoun.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.mjs, src/bench/data/controls.json, src/director/view-learned.test.ts, src/bench/person-card-view-unknown.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/data/controls.json, tests/src/director/view-learned.test.ts, tests/src/bench/person-card-view-unknown.browser.mjs

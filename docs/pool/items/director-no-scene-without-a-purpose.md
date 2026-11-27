@@ -35,7 +35,7 @@ branch: claude/pool-director-no-scene-without-a-purpose
 
 **Waits on.** Nothing.
 
-**Files.** src/director/scheduling.ts, src/director/purpose-scene.ts, src/director/data/purpose-arcs.json, src/director/data/situation-types.json, src/director/data/stopgaps.json, src/bench/dev-mode.ts, src/core2/saved-trace-v1.ts, src/director/director.test.ts
+**Files.** src/director/scheduling.ts, src/director/purpose-scene.ts, src/director/data/purpose-arcs.json, src/director/data/situation-types.json, src/director/data/stopgaps.json, src/bench/dev-mode.ts, src/core2/saved-trace-v1.ts, tests/src/director/director.test.ts
 
 **Notes.** From the Fable audit, Pillar 4 ("99 kinds of scene", "What a player sees") and root cause 6. The audit's count is as of Nov 9 (99 kinds). Mine is of Nov 10's main (103 kinds) and uses only the `keeps` field of each ending in purpose-arcs.json, so it is a first list, not the answer: a reply handler can write a record the `keeps` field does not show (a yes to a job offer hires the player, and promises in speeches, interviews and floor-vote asks are kept and used, src/core2/modules/voting.ts near 812, by the audit). The builder's first step is the true table by what each ending writes and who reads it.
 

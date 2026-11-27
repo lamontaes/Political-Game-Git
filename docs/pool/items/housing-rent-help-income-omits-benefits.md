@@ -34,6 +34,6 @@ claimed-at: 2026-11-11T05:08:48.317Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/housing-assistance.ts, src/core2/housing-occupancy.ts, src/core2/law-wiring-housing.test.ts
+**Files.** src/core2/housing-assistance.ts, src/core2/housing-occupancy.ts, tests/src/core2/law-wiring-housing.test.ts
 
 **Notes.** Filed by the laws-and-effects lead, Oct 27, from the housing helper's diagnosis on PR #6011 (commit 8e75869ee8).

@@ -19,6 +19,6 @@ claimed-at: 2026-11-01T19:59:37.987Z
 
 **Done when.** Cause-group offers, the confidant choice and tie checks read from each person's own lists. The four-year Ringgold proof shows zero differing tables, and a committed test runs the bookkeeping checks on non-empty lists; npm run speed:year -- --seed long-1 --years 4 on main and on the branch, one process each, keeps dev mode's records proof identical in every table of the played world at year 4 in the played world (buildBenchWorld), the tests the PR names pass, with the times in the PR body.
 
-**Files.** src/core2/drives.test.ts, src/core2/election-ties.ts, src/core2/life.ts, src/core2/modules/drives.ts, src/core2/modules/people.ts, src/core2/state.ts, src/core2/types.ts
+**Files.** tests/src/core2/drives.test.ts, src/core2/election-ties.ts, src/core2/life.ts, src/core2/modules/drives.ts, src/core2/modules/people.ts, src/core2/state.ts, src/core2/types.ts
 
 **Notes.** TODO

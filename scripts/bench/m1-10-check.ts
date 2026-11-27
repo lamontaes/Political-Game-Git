@@ -3,7 +3,7 @@
 // (GOLDEN_PATH_SEED, GOLDEN_PATH_PLACE_KEY). Builds the world the player gets
 // (`buildBenchWorld`, every module) and:
 // (1) checks the town's opening views against its state's answer key (CES
-//     2024, `VIEWS_KEYS`), as src/core2/views.test.ts does for a views-only
+//     2024, `VIEWS_KEYS`), as tests/src/core2/views.test.ts does for a views-only
 //     town: the mean lean, the conservative share and the not-sure share;
 // (2) plays a year, watching the views engine as it takes each event the
 //     ordinary producers emit (nothing is injected). A stance moved only when

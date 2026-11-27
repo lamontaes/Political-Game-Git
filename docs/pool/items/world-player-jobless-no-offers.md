@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** The player is never auto-answered, but the engine may offer. One rule for every jobless adult: the seeker's fit and the position decide. No dice. One rule, all 56 places.
 
-**Done when.** In a drawn place and a seed the builder did not choose, a jobless adult player gets at least one offer within 12 weeks whenever a position they fit is open in town, shown by position and offer ids; `src/core2/jobs-player-offers.test.ts` waits only the weeks that takes. **On screen.** Nothing yet: filed play-job-openings-on-screen, which puts it on Jobs and study.
+**Done when.** In a drawn place and a seed the builder did not choose, a jobless adult player gets at least one offer within 12 weeks whenever a position they fit is open in town, shown by position and offer ids; `tests/src/core2/jobs-player-offers.test.ts` waits only the weeks that takes. **On screen.** Nothing yet: filed play-job-openings-on-screen, which puts it on Jobs and study.
 
 **Files.** src/core2/modules/jobs.ts
 

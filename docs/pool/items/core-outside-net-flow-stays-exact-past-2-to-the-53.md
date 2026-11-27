@@ -28,7 +28,7 @@ source: the nightly 20-year run on main, Actions run 44067120033, Nov 17
 
 **Rules.** Ask why: the net flow is the sum of the journal's own postings, never a fitted value. One rule, all 56 places: nothing names a place.
 
-**Done when.** A second session runs the 20-year long game in a drawn place (East Altoona, Pennsylvania, seed fad48829853af7e91ada7acdf13195b60a07aaf6e393efccb9a234c822ba8d68 is the one that crashed) and sees it play past year 13 with no journal overflow, and `src/core2/journal-state.test.ts` and `src/core2/journal.test.ts` pass.
+**Done when.** A second session runs the 20-year long game in a drawn place (East Altoona, Pennsylvania, seed fad48829853af7e91ada7acdf13195b60a07aaf6e393efccb9a234c822ba8d68 is the one that crashed) and sees it play past year 13 with no journal overflow, and `tests/src/core2/journal-state.test.ts` and `tests/src/core2/journal.test.ts` pass.
 
 **Waits on.** Nothing.
 

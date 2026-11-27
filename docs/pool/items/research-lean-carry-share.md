@@ -29,7 +29,7 @@ Feeds: gov-counted-places-leans-carry-forward
 
 **Rules.** Research before building: real data sets the strength of a relationship and never a level. Estimate, never unknown: the row keeps a spread and its source.
 
-**Done when.** A second session reads the parameter's source, opens the pages it quotes and finds the figure there; and in a drawn place, the place `LEANS_PLAYED_SEED` draws for src/core2/place-leans-played.test.ts, that test still passes with the new value.
+**Done when.** A second session reads the parameter's source, opens the pages it quotes and finds the figure there; and in a drawn place, the place `LEANS_PLAYED_SEED` draws for tests/src/core2/place-leans-played.test.ts, that test still passes with the new value.
 
 **Waits on.** gov-counted-places-leans-carry-forward (the parameter is added there).
 

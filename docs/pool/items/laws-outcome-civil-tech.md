@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** For each of the six policies, either a one-year run of the played world (buildBenchWorld, a drawn place and seed named in the PR body) shows the owning engine reading the law by record id at a decision (a refused hire, a barred identification, a business charge, a plan choice), or the stopgap row in src/core2/data/stopgaps.json names the pool item that replaces it; a test in src/core2/law-reach chain tests fails if any of the six handlers is still `none` without such a row. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
-**Files.** src/core2/data/laws/reach-group-a.json, src/core2/law-reach/group-a.ts, src/core2/data/stopgaps.json, src/core2/law-reach-balance.test.ts
+**Files.** src/core2/data/laws/reach-group-a.json, src/core2/law-reach/group-a.ts, src/core2/data/stopgaps.json, tests/src/core2/law-reach-balance.test.ts
 
 **Notes.** Oct 20 (pool feeder): write-up filled from the six SG-GOV-REACH-A rows (discrimination, abortion, age-verification, facial-recognition, data-privacy, redistricting). Related open PR: #5474 (data privacy cost read by the business engine). Claim released Oct 23: branch gone.
 

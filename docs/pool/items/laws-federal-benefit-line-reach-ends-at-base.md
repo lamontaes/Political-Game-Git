@@ -28,8 +28,8 @@ root: rc8-law-judged-by-paperwork
 
 **Rules.** An effect is a read: a bill reaches a person only while its line is paid above its base. The chain is the acceptance: the undo shows on the bill's own record.
 
-**Done when.** A second session, in a drawn place, Town, State (seed printed), raises the veterans line in dev mode, runs 40 days, puts it back and runs 40 more, and reads on the first bill's card that nobody is reached now; `src/core2/federal-line-share-undo.test.ts` passes in that drawn place.
+**Done when.** A second session, in a drawn place, Town, State (seed printed), raises the veterans line in dev mode, runs 40 days, puts it back and runs 40 more, and reads on the first bill's card that nobody is reached now; `tests/src/core2/federal-line-share-undo.test.ts` passes in that drawn place.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/law-reach/group-b-money.ts, src/core2/federal-line-share-undo.test.ts (new)
+**Files.** src/core2/law-reach/group-b-money.ts, tests/src/core2/federal-line-share-undo.test.ts (new)

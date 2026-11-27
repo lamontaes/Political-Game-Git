@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** Estimate, never UNKNOWN: an answer whose year cannot be found keeps a range from the sourced laws' ages, marked ESTIMATED with its source. One rule, all 56 places: the years live in a per-place table, never a state named in logic. Research before building: the sourced years set the dates and never decide one actor's outcome.
 
-**Done when.** A second session, not the builder, plays a one-year buildBenchWorld in a drawn place and a seed it chose and opens the law history: a right-to-work row and a Medicaid expansion row carry the researched enactment year, shown by record id, and an undated answer is marked ESTIMATED. src/core2/past.test.ts passes, and SG-CORE-past-undated-law-age is resolved or narrowed to the answers left undated.
+**Done when.** A second session, not the builder, plays a one-year buildBenchWorld in a drawn place and a seed it chose and opens the law history: a right-to-work row and a Medicaid expansion row carry the researched enactment year, shown by record id, and an undated answer is marked ESTIMATED. tests/src/core2/past.test.ts passes, and SG-CORE-past-undated-law-age is resolved or narrowed to the answers left undated.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/past-laws.ts, src/core2/past.test.ts, src/core2/data/past/parameters.json, src/core2/data/stopgaps/core.json, data/research/core/state-law-adoption-dates-2025.json
+**Files.** src/core2/past-laws.ts, tests/src/core2/past.test.ts, src/core2/data/past/parameters.json, src/core2/data/stopgaps/core.json, data/research/core/state-law-adoption-dates-2025.json
 
 **Notes.** From the laws thread's dev-mode gap list (Nov 16, 2026; /mnt/project-files/laws/reports/dev-mode-gaps-from-industry-traces.md), a related gap this item does not cover: every state law in force at the opening takes effect on July 1, 2024 in the game, including laws whose real start is in 2025 or 2026, so businesses pay those costs early (factories-freight.md: the consumer data privacy duty at Lebanon, Kentucky, 2144344, seed ind-2144344, cost the plants before the real law starts). Dev mode shows the row's date and not the real one. When this item researches years, the effective date belongs in the same table, and dev mode's law page should show it beside the row's date.

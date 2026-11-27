@@ -33,6 +33,6 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/public-safety.ts, src/core2/law-wiring-justice.test.ts
+**Files.** src/core2/public-safety.ts, tests/src/core2/law-wiring-justice.test.ts
 
 **Notes.** From the laws lead's justice helper, Oct 24.

@@ -28,8 +28,8 @@ root: rc8-law-judged-by-paperwork
 
 **Rules.** One model, two tiers: a counted retiree's award follows the line by the same rule as a named retiree's. An effect is a read: the poverty engine reads the award the line set.
 
-**Done when.** A second session, in a drawn place, Town, State (seed printed), passes a Congress bill raising the Social Security line by a tenth in dev mode, runs past the next monthly close, and reads on the bill card the named and counted retirees reached; `src/core2/social-security-line-poverty.test.ts` passes in that drawn place.
+**Done when.** A second session, in a drawn place, Town, State (seed printed), passes a Congress bill raising the Social Security line by a tenth in dev mode, runs past the next monthly close, and reads on the bill card the named and counted retirees reached; `tests/src/core2/social-security-line-poverty.test.ts` passes in that drawn place.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/residents.ts, src/core2/world-poverty.ts, src/core2/budgets-treasury.ts, data/research/outcome-web/links.json, src/core2/social-security-line-poverty.test.ts (new)
+**Files.** src/core2/modules/residents.ts, src/core2/world-poverty.ts, src/core2/budgets-treasury.ts, data/research/outcome-web/links.json, tests/src/core2/social-security-line-poverty.test.ts (new)

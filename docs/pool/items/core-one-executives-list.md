@@ -29,7 +29,7 @@ checked:
 
 **Rules.** Replace, never layer: every hand list is deleted in the same change, none kept beside the rows. One rule, all 56 places: the rows follow the office kind, never a named state.
 
-**Done when.** A second session plays two years in a played world (buildBenchWorld) at a drawn place and seed it did not choose, on the PR head and on its Train base, and sees the same record count and hash, the same swearing-in and yearly addresses by record id, and the same disaster executive records, and src/core2/offices-executives.test.ts green.
+**Done when.** A second session plays two years in a played world (buildBenchWorld) at a drawn place and seed it did not choose, on the PR head and on its Train base, and sees the same record count and hash, the same swearing-in and yearly addresses by record id, and the same disaster executive records, and tests/src/core2/offices-executives.test.ts green.
 
 **Waits on.** Nothing.
 

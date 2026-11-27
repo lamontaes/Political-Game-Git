@@ -15,7 +15,7 @@ The owner, Oct 26: one engine lead for laws and effects together, on one checker
 | Matrix                | File, built by                                                                                                                                     | Count on main                                                      |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
 | Laws, nine links      | `docs/reports/law-wiring-matrix.json` and `law-wiring-table.md`, by `scripts/law-wiring/matrix.ts` over the runs of `scripts/law-wiring/check.ts`  | 46 of 89 laws wired on all nine links (39 partly, 4 stopgapped)    |
-| Effects, eight points | `docs/reports/effect-web-matrix-2026-10-20.json`, by `scripts/outcome-web/effect-matrix.ts` and the twins in `src/core2/outcome-web-twins.test.ts` | 140 of 237 links reach someone; 0 neither reach nor name a stopgap |
+| Effects, eight points | `docs/reports/effect-web-matrix-2026-10-20.json`, by `scripts/outcome-web/effect-matrix.ts` and the twins in `tests/src/core2/outcome-web-twins.test.ts` | 140 of 237 links reach someone; 0 neither reach nor name a stopgap |
 | Traits, decisions run | `docs/reports/trait-wiring-2026-10-20.json`, by `scripts/traits/trait-wiring-audit.ts` and `trait-wiring-matrix.ts`                                | 57 of 82 decisions ran in the played year; 25 never ran            |
 
 Counts are read from these files, never from memory or a PR body.
@@ -64,7 +64,7 @@ The order is MERGE-FIRST's. #6042 sits on #6008, so #6008's commits land with it
 | 2     | #5715 | Integrity: an official's own call decides the office's case   | Merged; bounded to the decisions that run; the producers stay on `traits-wire-integrity` |
 | 3     | #6143 | Taking part at a meeting weighs temperament at a study's size | Merged; its decision shows its fitted weight and calls in the regenerated matrix         |
 
-Open send-backs: #5657 (Merger 1, 08:54) skips every answer check when a lean is near zero (`src/core2/modules/voting.traits.test.ts:166`); assert each answer or require a non-neutral witness, then merge main. #5715 (Merger 3) conflicts with main in `scripts/core2/trait-pairs.ts` and `data/content/trait-decision-gaps.json`. #6143 (Merger 3, 16:59) conflicts in seven files and waits on #5657.
+Open send-backs: #5657 (Merger 1, 08:54) skips every answer check when a lean is near zero (`tests/src/core2/modules/voting.traits.test.ts:166`); assert each answer or require a non-neutral witness, then merge main. #5715 (Merger 3) conflicts with main in `scripts/core2/trait-pairs.ts` and `data/content/trait-decision-gaps.json`. #6143 (Merger 3, 16:59) conflicts in seven files and waits on #5657.
 
 The stacked PRs on these three (#6017, #6039, #6095, #6128 on #5657; #6001 on #5715) are not this order's; they follow in MERGE-FIRST once their base is on main. Regrading into the effects matrix: once the three are on main, `effect-matrix.ts` reads `trait-wiring-2026-10-20.json` and carries one row per decision with its ran or never-ran grade, so there is one effects matrix with a traits block. That is one PR, opened only after #6143 is on main.
 

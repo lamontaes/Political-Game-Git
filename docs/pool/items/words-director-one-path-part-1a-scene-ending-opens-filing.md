@@ -23,7 +23,7 @@ claimed-at:
 
 **Cause.** Found in code: `resolveEndings` in src/director/scene-talk.ts (around line 709) copies an arc ending's `opens` onto `node.end.ending`, and nothing in src/bench reads it (`git grep -n "ending.opens\|ending?.opens" -- src/bench` finds nothing). In src/bench/play.mjs the talk player's reply handler (the `play` closure, around line 2186) calls `nextScene(story)` when a reply has no `next`. It never looks at the ending.
 
-**Fix.** In src/bench/play.mjs, when a reply ends the scene, read the ending of the node it reached (`end.ending`). If `opens === "filing"`, add one control to the talk box's close. Its label comes from `controls` (a new label for going to the filing office, requested from the Words session if no fitting one exists; no text typed in code). It calls the existing `openFiling(filedWith, contestId)` for the player's open race. Read the race from the scene's facts or bindings when it names a contest, otherwise the first of `/api/government`'s contests, as the travel screen does (around line 4115). The control appears alongside `nextScene`, never in its place. Add a browser check in src/bench/filing.browser.mjs (or a new browser file beside it) that plays a scene to an ending with `opens: "filing"` and sees the counter open.
+**Fix.** In src/bench/play.mjs, when a reply ends the scene, read the ending of the node it reached (`end.ending`). If `opens === "filing"`, add one control to the talk box's close. Its label comes from `controls` (a new label for going to the filing office, requested from the Words session if no fitting one exists; no text typed in code). It calls the existing `openFiling(filedWith, contestId)` for the player's open race. Read the race from the scene's facts or bindings when it names a contest, otherwise the first of `/api/government`'s contests, as the travel screen does (around line 4115). The control appears alongside `nextScene`, never in its place. Add a browser check in tests/src/bench/filing.browser.mjs (or a new browser file beside it) that plays a scene to an ending with `opens: "filing"` and sees the counter open.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -33,6 +33,6 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.mjs, src/bench/filing.browser.mjs, src/director/scene-talk.ts, src/director/data/purpose-arcs.json
+**Files.** src/bench/play.mjs, tests/src/bench/filing.browser.mjs, src/director/scene-talk.ts, src/director/data/purpose-arcs.json
 
 **Notes.** Nov 11 (cause finder for Fable B): found while tracing the filing counter. Part 1 needs this reader for its own endings.

@@ -22,7 +22,7 @@ merged-at: 2026-11-24T04:58:43.737Z
 **What.** The owner, Nov 23 (P2), said: when I click new game, the patch notes still stay on top of it. A sheet opened from the title (Patch notes, Options, Saves) stays on screen when a front panel opens.
 Seen: the title menu at 1440 by 900 with Patch notes open, then New game. Seen: the Patch notes sheet over the New game choices, before; the choices alone, after. Guards: title-patch-notes.browser.mjs
 
-**Cause.** Measured: `node src/bench/title-patch-notes.browser.mjs` against `npm run bench` on main 7f04c334 with the notes open then New game: #sheet stays visible. src/bench/play.mjs frontPanel shows and hides the front panels but never calls closeSheet.
+**Cause.** Measured: `node tests/src/bench/title-patch-notes.browser.mjs` against `npm run bench` on main 7f04c334 with the notes open then New game: #sheet stays visible. src/bench/play.mjs frontPanel shows and hides the front panels but never calls closeSheet.
 
 **Fix.** In frontPanel, call closeSheet when openTab is set. Extend title-patch-notes.browser.mjs to click New game with the notes open and assert #sheet is hidden.
 
@@ -34,4 +34,4 @@ Seen: the title menu at 1440 by 900 with Patch notes open, then New game. Seen: 
 
 **Waits on.** Nothing
 
-**Files.** src/bench/play.mjs,src/bench/title-patch-notes.browser.mjs
+**Files.** src/bench/play.mjs,tests/src/bench/title-patch-notes.browser.mjs

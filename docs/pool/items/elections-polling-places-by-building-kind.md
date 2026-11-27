@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** One rule, all 56 places: the precincts per polling place and the kind shares are read per place from the research file, never a state named in code. No dice: which building a precinct uses follows from the town's recorded buildings, their size and where the precinct's households live, never a seeded draw against the shares; the shares are what the proof reports, not a pass or fail (owner, Nov 8: ranges are not targets). Replace, never layer.
 
-**Done when.** A second session plays a year of a world (`buildBenchWorld`, a drawn place from all 56, seed named) and sees the town's polling-place rows name recorded buildings by record id, of more than one kind where the town records them, with the precincts per polling place read from the place's EAVS row (reported beside the figure). `SG-GOV-polling-place-kind` is not in `core.stopgapHits`, and `src/core2/voting.test.ts` and `src/core2/polling-places.test.ts` pass.
+**Done when.** A second session plays a year of a world (`buildBenchWorld`, a drawn place from all 56, seed named) and sees the town's polling-place rows name recorded buildings by record id, of more than one kind where the town records them, with the precincts per polling place read from the place's EAVS row (reported beside the figure). `SG-GOV-polling-place-kind` is not in `core.stopgapHits`, and `tests/src/core2/voting.test.ts` and `tests/src/core2/polling-places.test.ts` pass.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/voting.ts, data/research/elections/eavs-2024-polling-places.json, src/core2/polling-places.test.ts, src/core2/polling-place-building.test.ts, src/core2/voting.test.ts, src/core2/data/stopgaps/gov.json
+**Files.** src/core2/modules/voting.ts, data/research/elections/eavs-2024-polling-places.json, tests/src/core2/polling-places.test.ts, tests/src/core2/polling-place-building.test.ts, tests/src/core2/voting.test.ts, src/core2/data/stopgaps/gov.json
 
 **Notes.** TODO
 

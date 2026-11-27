@@ -31,11 +31,11 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: the winner comes from members' reads and the body's vote, never a roll or a fixed score that decides alone. Ask why: each member's vote cites the reads that ranked the firm first, in the award row's votes. An effect is a read, not a record: the treasury and gov-bribe-buys-a-contract read the award row's reasons. Estimate, never UNKNOWN. Replace, never layer: the single weighted sum is deleted in the same change. Ranges are not targets (owner, Nov 8).
 
-**Done when.** A second session plays a year (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (named in the test output) and sees a government's award show each member's vote with the reads behind it by record id; changing one member's traits changes their ranking without any weight change. `src/core2/contracts.test.ts` proves it, and the weights are each marked as band limits with a spread in `parameters.json`.
+**Done when.** A second session plays a year (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (named in the test output) and sees a government's award show each member's vote with the reads behind it by record id; changing one member's traits changes their ranking without any weight change. `tests/src/core2/contracts.test.ts` proves it, and the weights are each marked as band limits with a spread in `parameters.json`.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/contracts.ts, src/core2/data/contracts/parameters.json, src/core2/contracts.test.ts
+**Files.** src/core2/modules/contracts.ts, src/core2/data/contracts/parameters.json, tests/src/core2/contracts.test.ts
 
 **Notes.** Found in the post-merge audit of Oct 19 evening. Leave PR #5166 as merged.
 

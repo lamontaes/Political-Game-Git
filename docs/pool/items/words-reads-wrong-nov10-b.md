@@ -26,9 +26,9 @@ seen-at: 2026-11-11T01:25:49.008Z
 
 Race told and accusation read clean on both seeds (no name tag, stranger, "this town", article, lowercase opener or unsaid reference found); the closers in story-read repeat across a tree because the bank has few ("Okay. Go. We'll pick it up some other time.").
 
-**Done when.** src/director/reads-wrong-scenes.test.ts passes: a new-baby "Go." follow only follows a request that hands over the baby for a sleep or nap, no new-baby close names groceries, no follow to an owed apology presumes one was made.
+**Done when.** tests/src/director/reads-wrong-scenes.test.ts passes: a new-baby "Go." follow only follows a request that hands over the baby for a sleep or nap, no new-baby close names groceries, no follow to an owed apology presumes one was made.
 
-**Files.** data/english/parts/scene-talk.json, src/director/reads-wrong-scenes.test.ts
+**Files.** data/english/parts/scene-talk.json, tests/src/director/reads-wrong-scenes.test.ts
 
 **Time box.** 1 hour.
 

@@ -18,7 +18,7 @@ effort: medium
 source: Views thread, Nov 14 (the pledge test's speechAct call)
 ---
 
-**What.** On the train at 8b6c8903, `src/core2/speech-afterward-pledge.test.ts` failed at every seed with "TypeError: Cannot read properties of undefined (reading 'get')" at `speechAct` (src/director/scheduling.ts). Commit a5c9b5af had changed `speechAct` to take `(core, causeId)`, and the test still called `speechAct(moment.causeId)`. Typecheck was green. Seen: a test that is red on the train, at a seed, on a line typecheck would have named.
+**What.** On the train at 8b6c8903, `tests/src/core2/speech-afterward-pledge.test.ts` failed at every seed with "TypeError: Cannot read properties of undefined (reading 'get')" at `speechAct` (src/director/scheduling.ts). Commit a5c9b5af had changed `speechAct` to take `(core, causeId)`, and the test still called `speechAct(moment.causeId)`. Typecheck was green. Seen: a test that is red on the train, at a seed, on a line typecheck would have named.
 
 **Cause.** Found in code: `tsconfig.app.json` includes `src` but excludes `src/**/*.test.ts` and `src/**/*.test.tsx`. `tsconfig.node.json` includes only named folders: `src/core2/kernel`, `reference` and `gov-rules`, a few others, and four folders under tests/. `scripts/dev-lab/typecheck.ts` builds just those two projects.
 

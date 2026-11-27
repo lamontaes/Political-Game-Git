@@ -17,9 +17,9 @@ claimed-at: 2026-10-24T17:45:24.792Z
 
 **Rules.** Ask why: the victim's stance cites the victimization record as how they know, the person's own experience, never a ledger number. No dice: the side comes from each victim's current view, the size is the views engine's existing amount for an event about the person themselves. One model, two tiers: a counted group's victimizations follow the counted readers' rule (people-counted-readers-stances-from-stories), not a separate one.
 
-**Done when.** In a one-year buildBenchWorld run in a place drawn from all 56 (place and seed named, with a bounded redraw where no full household is victimized), each member of a victimized full household has their police-spending stance moved toward the side their view holds, the cause naming the victimization record id, and no one outside the household moves from it; src/core2/views-lived-crime.test.ts proves it and fails when the views engine's lived reading is removed.
+**Done when.** In a one-year buildBenchWorld run in a place drawn from all 56 (place and seed named, with a bounded redraw where no full household is victimized), each member of a victimized full household has their police-spending stance moved toward the side their view holds, the cause naming the victimization record id, and no one outside the household moves from it; tests/src/core2/views-lived-crime.test.ts proves it and fails when the views engine's lived reading is removed.
 
-**Files.** src/core2/modules/views.ts, src/core2/data/news/outcome-news.json, src/core2/views-lived-crime.test.ts
+**Files.** src/core2/modules/views.ts, src/core2/data/news/outcome-news.json, tests/src/core2/views-lived-crime.test.ts
 
 **Notes.** Added Oct 24 by the effects lead for effects-end-to-end-proof: in two drawn towns a burglarized resident was never also a reader of the month's crime story, so the news route alone does not reach the person the crime engine's record names.
 

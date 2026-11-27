@@ -30,10 +30,10 @@ checked: fable 2026-11-12
 
 **Rules.** standing owner rules (no dice, one rule all places, wire to the world); words skill: small talk loses to anything with a record, words know the hour and the person.
 
-**Done when.** `src/director/home-talk-fortnight.test.ts` played in three drawn places shows a morning talk on at least three mornings in two weeks, each naming its record (a shift start, a school day or a calendar entry), and still holds every rule it holds today; a second session starting a new life in a drawn place and talking to everyone at home at 7:00 a.m. on a work day hears at least one line about the day ahead that names its record.
+**Done when.** `tests/src/director/home-talk-fortnight.test.ts` played in three drawn places shows a morning talk on at least three mornings in two weeks, each naming its record (a shift start, a school day or a calendar entry), and still holds every rule it holds today; a second session starting a new life in a drawn place and talking to everyone at home at 7:00 a.m. on a work day hears at least one line about the day ahead that names its record.
 
 **Waits on.** nothing.
 
-**Files.** src/director/conversation.ts, data/english/parts/conversation.json (Story writes the lines), src/director/home-talk-fortnight.test.ts
+**Files.** src/director/conversation.ts, data/english/parts/conversation.json (Story writes the lines), tests/src/director/home-talk-fortnight.test.ts
 
 **You will see.** On a work morning a housemate says something about your shift or theirs ("You're on at nine today?") instead of nothing.

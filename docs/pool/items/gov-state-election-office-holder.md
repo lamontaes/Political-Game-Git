@@ -17,8 +17,8 @@ claimed-at: 2026-10-16T23:13:33.154Z
 
 **Rules.** One rule, all 56 places: which agency takes filings, and who runs it, comes from the place's records. Estimate, never UNKNOWN: where the data names an agency but not its head, draw a person with a per-world spread and mark the source as an estimate. Wire to the world: the official's pay is a payroll record the state budget reads. Resolves the stopgap SG-GOV-state-election-office-holder.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) every state and federal contest in the filing data has a chief election official by person record id, the director's clerk fill returns that person for a filing moment, the person has an open job on the state treasury, and the tests in src/director/civic-roles.test.ts show Vaitogi, American Samoa style places (territory-wide races filed with an election office) naming a clerk.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) every state and federal contest in the filing data has a chief election official by person record id, the director's clerk fill returns that person for a filing moment, the person has an open job on the state treasury, and the tests in tests/src/director/civic-roles.test.ts show Vaitogi, American Samoa style places (territory-wide races filed with an election office) naming a clerk.
 
-**Files.** src/core2/modules/filing-clerk.ts, src/core2/modules/executive.ts, src/core2/data/stopgaps.json, src/director/civic-roles.test.ts
+**Files.** src/core2/modules/filing-clerk.ts, src/core2/modules/executive.ts, src/core2/data/stopgaps.json, tests/src/director/civic-roles.test.ts
 
 **Notes.** Found building gov-clerk-person (Oct 16): in Vaitogi, American Samoa every race files with the American Samoa Election Office and no clerk is named.

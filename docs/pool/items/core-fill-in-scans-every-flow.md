@@ -17,7 +17,7 @@ claimed-at: 2026-10-18T13:40:05.633Z
 
 **Rules.** Speed: a town's game year runs under two minutes and no change makes it more than 20 percent slower; never scan the whole world every time something changes. Replace, never layer: the full scan is deleted, not kept beside the list. One model, two tiers: a filled-in household takes back the same shares as before.
 
-**Done when.** In the played world (`buildBenchWorld`, Lodi, New Jersey with seed 8b410b7e1dcf, 90 days) the state after the days is identical to before the change, shown by people, cash totals and journal sequence, and the days take less time on one machine; `src/core2/fill-in-pooled-flows.test.ts` states that the pooled list is exactly the flows a full scan would act on, in a drawn place.
+**Done when.** In the played world (`buildBenchWorld`, Lodi, New Jersey with seed 8b410b7e1dcf, 90 days) the state after the days is identical to before the change, shown by people, cash totals and journal sequence, and the days take less time on one machine; `tests/src/core2/fill-in-pooled-flows.test.ts` states that the pooled list is exactly the flows a full scan would act on, in a drawn place.
 
 **Files.** src/core2/modules/residents.ts
 

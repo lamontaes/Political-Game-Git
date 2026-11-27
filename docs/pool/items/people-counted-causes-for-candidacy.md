@@ -30,7 +30,7 @@ checked: fable 2026-11-10
 
 **Rules.** One model, two tiers: a counted adult weighs running by the same rule as a named one, times their count. No dice: the terms come from records, never a roll. Ask why: a counted adult drawn to run is filled in with the reasons that drew them.
 
-**Done when.** A second session runs a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) and sees at least one counted adult drawn to a local seat with a nonzero cause or time term in their recorded reasons, named by decision record id; the pooled uncontested share over 100 local seats is reported beside 70 percent as a check on totals; src/core2/candidacy.test.ts and src/core2/who-runs.test.ts pass.
+**Done when.** A second session runs a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) and sees at least one counted adult drawn to a local seat with a nonzero cause or time term in their recorded reasons, named by decision record id; the pooled uncontested share over 100 local seats is reported beside 70 percent as a check on totals; tests/src/core2/candidacy.test.ts and tests/src/core2/who-runs.test.ts pass.
 
 **Waits on.** people-drives-counted-tier-causes (the counted tier must record causes).
 

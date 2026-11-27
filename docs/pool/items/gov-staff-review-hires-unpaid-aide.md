@@ -32,11 +32,11 @@ merged-at: 2026-11-15T22:43:26.694Z
 
 **Rules.** No dice: the official's choice reads the money the line has, so a line that can pay no aide gets no hire, and applicants are those the capped pay would draw. Sliding scales and causes: the lean toward hiring keeps falling as the line's room shrinks; the stop is the line being unable to pay, the same rule a department head's post follows.
 
-**Done when.** A second session, in a one-year buildBenchWorld run of Brookford, North Carolina (place key 3708140, seed brookford-1) and a place drawn from all 56, finds no aide hired onto a line whose cap is zero and every serving aide holding a paid job:public:staff job (staffer and job ids in the PR body); src/core2/staff.test.ts and src/core2/small-town-treasury-payroll.test.ts pass.
+**Done when.** A second session, in a one-year buildBenchWorld run of Brookford, North Carolina (place key 3708140, seed brookford-1) and a place drawn from all 56, finds no aide hired onto a line whose cap is zero and every serving aide holding a paid job:public:staff job (staffer and job ids in the PR body); tests/src/core2/staff.test.ts and tests/src/core2/small-town-treasury-payroll.test.ts pass.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/staff.ts, src/core2/staff.test.ts, src/core2/small-town-treasury-payroll.test.ts
+**Files.** src/core2/modules/staff.ts, tests/src/core2/staff.test.ts, tests/src/core2/small-town-treasury-payroll.test.ts
 
 **Notes.** staffReview's hire condition is being rewritten by lamontaes/Political-Game-Git#5715 (leanedYes); build this on it once it merges.
 

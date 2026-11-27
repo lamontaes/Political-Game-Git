@@ -18,7 +18,7 @@ claimed-at: 2026-10-19T23:27:38.803Z
 
 **Rules.** An effect is a read: each part names the engine that reads what the other writes. One model, two tiers; one rule, all 56 places. The standing rule Wire to the world applies to each part.
 
-**Done when.** Both parts are done and SG-GOV-REACH-A-cannabis-market is resolved in src/core2/data/stopgaps.json, shown by src/core2/cannabis-sales-law.test.ts in a drawn place of the played world with the dispensary and use record ids named.
+**Done when.** Both parts are done and SG-GOV-REACH-A-cannabis-market is resolved in src/core2/data/stopgaps.json, shown by tests/src/core2/cannabis-sales-law.test.ts in a drawn place of the played world with the dispensary and use record ids named.
 
 **Files.** src/core2/modules/place-prices.ts, src/core2/modules/business.ts, src/core2/data/stopgaps.json
 
@@ -26,6 +26,6 @@ claimed-at: 2026-10-19T23:27:38.803Z
 
 Oct 20: Switched from blocked to the automatic after: gate on laws-cannabis-dispensaries, so it opens by itself the moment those items are done.
 
-**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into laws-cannabis-dispensaries. This umbrella was already split by its claimer: the adult-use record is done (laws-cannabis-adult-use-record, status done), the excise tax half is done (laws-cannabis-sales-tax, status done), and the dispensary half is laws-cannabis-dispensaries, whose done-when already names resolving SG-GOV-REACH-A-cannabis-market (still status open in src/core2/data/stopgaps/gov.json) and src/core2/cannabis-sales-law.test.ts. The kept item takes nothing more.
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into laws-cannabis-dispensaries. This umbrella was already split by its claimer: the adult-use record is done (laws-cannabis-adult-use-record, status done), the excise tax half is done (laws-cannabis-sales-tax, status done), and the dispensary half is laws-cannabis-dispensaries, whose done-when already names resolving SG-GOV-REACH-A-cannabis-market (still status open in src/core2/data/stopgaps/gov.json) and tests/src/core2/cannabis-sales-law.test.ts. The kept item takes nothing more.
 
 **Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `laws-cannabis-dispensaries`, which carries this item's remaining work.

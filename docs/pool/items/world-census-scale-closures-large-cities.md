@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** In a played world built with buildBenchWorld at Census scale in Washington, D.C. and one more drawn place above 100,000 (seeds named), closure rows in the jobs engine are within the same town's count at scale one, by job change id, shown by a test in src/core2. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
-**Files.** src/core2/census-scale-closures-support.ts, src/core2/modules/business.ts
+**Files.** tests/support/census-scale-closures-support.ts, src/core2/modules/business.ts
 
 **Notes.** Found working world-census-scale-closures-rise (PR #5553).
 

@@ -21,6 +21,6 @@ claimed-at: 2026-11-04T05:01:18.375Z
 
 **Done when.** Before the first advance, a drawn New Game and the Burnet regression show the player household dwelling on its normal card and the matching room in the browser. A buildBenchWorld regression records all full household dwelling IDs, idempotent initialization and unchanged date; existing one-day coverage tests pass and four-year timing stays within 20 percent of base.
 
-**Files.** src/core2/modules/housing.ts; src/core2/housing-ready-at-opening.test.ts; src/bench/world.ts only under accepted docs/lanes/agreements/2-4.md
+**Files.** src/core2/modules/housing.ts; tests/src/core2/housing-ready-at-opening.test.ts; src/bench/world.ts only under accepted docs/lanes/agreements/2-4.md
 
 **Notes.** Lane 2 owns the producer; Lane 4 agreement proposed at dc32db4438, not yet accepted. Evidence and request: PR 7100 comment 6619091510. Separate from the one-day coverage item. Current lane state holds the card and ownership boundary. Reading: lane-2 First minutes finish line; prior-rulings/economy R9; searched docs/pool for opening, housing, dwelling and home; no duplicate opening-time item.

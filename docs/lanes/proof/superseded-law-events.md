@@ -21,8 +21,8 @@ The first Huntington Woods process disappeared after printing RUN, without an ex
 Commands (every npm invocation has `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192`):
 
 ```sh
-GOLDEN_PATH_SEED=<replay> npm test -- src/core2/law-took-effect-superseded.test.ts --maxWorkers=1
-GOLDEN_PATH_SEED=7e2710adbfd1d4e6 npm test -- src/core2/press-amount-law.test.ts --maxWorkers=1 -t 'prints a state wage raised in a drawn place'
+GOLDEN_PATH_SEED=<replay> npm test -- tests/src/core2/law-took-effect-superseded.test.ts --maxWorkers=1
+GOLDEN_PATH_SEED=7e2710adbfd1d4e6 npm test -- tests/src/core2/press-amount-law.test.ts --maxWorkers=1 -t 'prints a state wage raised in a drawn place'
 ```
 
 The positive newspaper control passes: legitimate raised-wage reporting still works. Its successful drawn town is not printed by that test; only its replay is claimed. The selected-case ablation and preliminary fresh runs add `-t 'a statute enacted over a scheduled row'`; filtering is not a changed skip or expectation. Local logs and exit records: `/tmp/lane-2-superseded-checks/`.

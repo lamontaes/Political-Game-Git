@@ -36,7 +36,7 @@ merged-at: 2026-11-11T18:59:50.040Z
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/scene-talk.json, src/director/purpose-scene.ts, src/director/data/purpose-arcs.json, src/core2/modules/jobs.ts, src/director/scene-talk.test.ts
+**Files.** data/english/parts/scene-talk.json, src/director/purpose-scene.ts, src/director/data/purpose-arcs.json, src/core2/modules/jobs.ts, tests/src/director/scene-talk.test.ts
 
 **Notes.** From the Fable audit, Pillar 4 ("Three more played lives, a year each"): "The offer itself does what a scene should: it names the firm, the job and the pay and offers four replies. But asked 'What would I be doing?', the caller repeats the title and the pay."
 

@@ -33,6 +33,6 @@ checked: fable 2026-11-10
 
 **Waits on.** core-group-quarters-turnover-part-1-settle-the-red-test.
 
-**Files.** src/core2/modules/counted-moves.ts, src/core2/modules/moves.ts, src/core2/modules/residents.ts, src/core2/group-quarters.test.ts, src/core2/data/stopgaps/gq.json
+**Files.** src/core2/modules/counted-moves.ts, src/core2/modules/moves.ts, src/core2/modules/residents.ts, tests/src/core2/group-quarters.test.ts, src/core2/data/stopgaps/gq.json
 
-**Notes (Nov 14).** Built on branch claude/project-thread-uh34sg: rooms discharge on each type's own calendar (`SG-GQ-no-turnover` row deleted) and Medicaid-style programs reach only institutional rooms that their own rule serves (`SG-GQ-means-tests-poverty` row deleted, part 2 of laws-group-quarters-means-tests). `src/core2/group-quarters.test.ts` is red at Storrs and Charlotte Amalie on the clean train with the same seed (a room grows from 2 to 3 people), not from this change.
+**Notes (Nov 14).** Built on branch claude/project-thread-uh34sg: rooms discharge on each type's own calendar (`SG-GQ-no-turnover` row deleted) and Medicaid-style programs reach only institutional rooms that their own rule serves (`SG-GQ-means-tests-poverty` row deleted, part 2 of laws-group-quarters-means-tests). `tests/src/core2/group-quarters.test.ts` is red at Storrs and Charlotte Amalie on the clean train with the same seed (a room grows from 2 to 3 people), not from this change.

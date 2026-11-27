@@ -13,16 +13,16 @@ after:
 source: added by EFFECT-WEB-WIRING
 ---
 
-**What.** Golden-path spec M3-09 (`src/core2/corruption.test.ts`) fails on main in Carolinas Heights, Northern Mariana Islands, with seed 4a2a5e4388336c3a3847dce7f44c289727104647b7ef5ef136c53574af783cb7 and place key territory:MP:carolinas-heights. Two tests fail, "is known only to the two" and "settles a taken bribe by", with "expected undefined to be defined" and "expected 0 to be greater than or equal to 2", so no bribe record exists in that place. Find whether the village lacks an official or a business the corruption rule needs, and make the rule work there as it does elsewhere, or let the test choose a pair the place has.
+**What.** Golden-path spec M3-09 (`tests/src/core2/corruption.test.ts`) fails on main in Carolinas Heights, Northern Mariana Islands, with seed 4a2a5e4388336c3a3847dce7f44c289727104647b7ef5ef136c53574af783cb7 and place key territory:MP:carolinas-heights. Two tests fail, "is known only to the two" and "settles a taken bribe by", with "expected undefined to be defined" and "expected 0 to be greater than or equal to 2", so no bribe record exists in that place. Find whether the village lacks an official or a business the corruption rule needs, and make the rule work there as it does elsewhere, or let the test choose a pair the place has.
 
 **Rules.** One rule, all 56 places; no dice; never narrow the test or pick a seed that passes.
 
 **Done when.** The corruption test passes on that seed and place, and on three fresh seeds in a drawn place each, and the golden-path runner on the fix branch shows M3-09 passed.
 
-**Files.** src/core2/corruption.test.ts, src/core2/modules/corruption.ts
+**Files.** tests/src/core2/corruption.test.ts, src/core2/modules/corruption.ts
 
 **Notes.** Deferred Oct 25: nothing on screen reads it yet.
 
-**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The M3-09 corruption test now passes over places that cannot give two taken bribes and draws three that can (`src/core2/corruption.test.ts`, lines 355 to 366, "finds three drawn places with at least two taken bribes"); the twin item gov-corruption-test-two-taken-bribes is done.
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The M3-09 corruption test now passes over places that cannot give two taken bribes and draws three that can (`tests/src/core2/corruption.test.ts`, lines 355 to 366, "finds three drawn places with at least two taken bribes"); the twin item gov-corruption-test-two-taken-bribes is done.
 
 **Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

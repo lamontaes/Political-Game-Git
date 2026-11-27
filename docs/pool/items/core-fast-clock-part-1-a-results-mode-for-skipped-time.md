@@ -34,6 +34,6 @@ merged-at: 2026-11-10T18:59:24.000Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/life.ts, src/core2/module-calendar.ts, src/core2/finance-state.ts, src/core2/results-mode.test.ts (new)
+**Files.** src/core2/life.ts, src/core2/module-calendar.ts, src/core2/finance-state.ts, tests/src/core2/results-mode.test.ts (new)
 
 **Notes (Fable B, Nov 10, marked merged by hand).** Pull request 8171 merged at 2026-11-10 18:59 UTC and built this item, but the item stayed in review: its `pr:` field held the number with no `#`, which the merge's flip does not match, and the pull request's first line named no item (pool item pool-merge-does-not-flip-an-item-whose-pr-field-has-no-hash). A second session's check in the game is still owed.

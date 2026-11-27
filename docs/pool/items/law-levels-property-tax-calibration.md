@@ -19,6 +19,6 @@ claimed-at: 2026-11-07T22:22:23.982Z
 
 **Done when.** Mill Plain replay ab5328363fd3c139 has no statistical property-tax statute or law calendar event, but the property-tax reader retains its researched amount and a genuine body can replace the fallback by authorized bill. Break-it, ten fresh generated worlds and a new-game check. Strict audit no longer fails on this calibration record.
 
-**Files.** src/core2/laws-starting.ts,src/core2/laws-in-force.ts,src/core2/modules/laws.ts,src/core2/property-tax-calibration.test.ts
+**Files.** src/core2/laws-starting.ts,src/core2/laws-in-force.ts,src/core2/modules/laws.ts,tests/src/core2/property-tax-calibration.test.ts
 
 **Notes.** Astra child of draft 7330. Two-hour unit, no helpers. Source data explicitly calls this a survey estimate of combined taxes, not a statutory rate. Does not claim exact local levy research is complete.

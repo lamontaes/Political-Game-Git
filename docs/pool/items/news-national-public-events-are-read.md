@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/news.ts, src/core2/press-desk.ts, src/core2/national-reads.test.ts (new)
+**Files.** src/core2/modules/news.ts, src/core2/press-desk.ts, tests/src/core2/national-reads.test.ts (new)

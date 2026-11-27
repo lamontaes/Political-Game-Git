@@ -11,8 +11,8 @@ import { analyze, isTestByName } from "../../scripts/promote/test-files.mjs";
 describe("promote: which files are test files", () => {
   it("names tests by name and place", () => {
     for (const f of [
-      "src/core2/life.test.ts",
-      "src/bench/ad-buy.browser.mjs",
+      "tests/src/core2/life.test.ts",
+      "tests/src/bench/ad-buy.browser.mjs",
       "scripts/roadmap/next-feature.node-test.ts",
       "tests/guards/one-history.test.ts",
       "tests/support/anything.ts",

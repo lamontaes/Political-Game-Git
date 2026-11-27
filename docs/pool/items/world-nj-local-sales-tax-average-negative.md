@@ -19,7 +19,7 @@ claimed-at: 2026-10-24T19:41:48.326Z
 
 **Done when.** The New Jersey local-sales-tax-average starting row holds a value at or above zero with its source and spread, or Salem County's reduced rate is modeled as its own county row from a cited source, and the prices family test passes in a drawn New Jersey town with the row reaching a named seller or none by its rate.
 
-**Files.** src/core2/data/starting-law.json, src/core2/law-wiring-prices.test.ts
+**Files.** src/core2/data/starting-law.json, tests/src/core2/law-wiring-prices.test.ts
 
 **Notes.** Found by the laws lead's prices helper on Oct 24 (branch claude/laws-nine-links-prices).
 

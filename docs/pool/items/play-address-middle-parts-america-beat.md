@@ -34,4 +34,4 @@ merged-at: 2026-11-24T05:16:05.249Z
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/montage.ts, src/bench/montage.test.ts
+**Files.** src/bench/montage.ts, tests/src/bench/montage.test.ts

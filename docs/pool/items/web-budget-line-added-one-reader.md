@@ -31,7 +31,7 @@ branch: claude/pool-web-budget-line-added-one-reader
 
 **Rules.** Replace, never layer: one reader serves every budget line, and the other path, its measure keys and its data rows are deleted in the same change. One rule, all 56 places: the reader takes the line from data, never a named line in logic.
 
-**Done when.** A second session plays a year of buildBenchWorld in a drawn place (place and seed named), raises the parks line and the schools line, and sees each outcome-web measure move, named by the web's month record id; one function reads every budget line, the other path is gone (grep named), and src/core2/outcome-web.test.ts and both families' tests pass.
+**Done when.** A second session plays a year of buildBenchWorld in a drawn place (place and seed named), raises the parks line and the schools line, and sees each outcome-web measure move, named by the web's month record id; one function reads every budget line, the other path is gone (grep named), and tests/src/core2/outcome-web.test.ts and both families' tests pass.
 
 **Waits on.** Nothing. laws-nine-links-rights-env and laws-nine-links-health-schools, which it once waited on, are both marked needs cause and read the same budget lines: if either is being worked when this starts, tell its holder that the reader's name changes.
 

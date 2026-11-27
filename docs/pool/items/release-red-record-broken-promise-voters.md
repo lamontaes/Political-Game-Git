@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-27T10:00:53.656Z
 ---
 
-**What.** `src/core2/record.test.ts`, "an incumbent's broken promise changes specific voters' choices, with reasons, and feeds the rival's attack ad", fails on clean main at line 197: no ballot in the race weighs the incumbent's record (`weighed.length` 0), so the scenario never reaches the broken promise. It fails the same way on every seed tried on Oct 27 (below). The fix of Oct 20 (#5401) no longer holds. Find why no voter's ballot carries `recordReasons` for the incumbent: the record is not read, or no voter knows of it.
+**What.** `tests/src/core2/record.test.ts`, "an incumbent's broken promise changes specific voters' choices, with reasons, and feeds the rival's attack ad", fails on clean main at line 197: no ballot in the race weighs the incumbent's record (`weighed.length` 0), so the scenario never reaches the broken promise. It fails the same way on every seed tried on Oct 27 (below). The fix of Oct 20 (#5401) no longer holds. Find why no voter's ballot carries `recordReasons` for the incumbent: the record is not read, or no voter knows of it.
 
 **Rules.** Ask why: every vote's reasons name the record that moved it, and a voter attributes a change to a promise only if they learned of it (news, a conversation, an ad). Never skip, disable or quarantine the case.
 
@@ -21,7 +21,7 @@ claimed-at: 2026-10-27T10:00:53.656Z
 
 **Time box.** 2 hours, any fixer or the elections lead.
 
-**Files.** src/core2/record.test.ts, src/core2/modules/record.ts, src/core2/modules/voting.ts
+**Files.** tests/src/core2/record.test.ts, src/core2/modules/record.ts, src/core2/modules/voting.ts
 
 **Notes.** Filed earlier; see the history below.
 

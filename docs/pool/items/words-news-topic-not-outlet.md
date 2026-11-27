@@ -19,9 +19,9 @@ claimed-at: 2026-11-09T19:20:00.000Z
 
 **Rules.** No hand-written player text: the fix reads the change rows' own story flag in bring-it-up-rows.json, never a typed kind. Wire to the world: the subject comes from the speaker's knowledge records.
 
-**Done when.** src/director/news-topic-not-outlet.test.ts, in a played world drawn from all 56 places, finds no news subject whose topic cites an outlet; it failed before the fix in Washington, District of Columbia (seed bb6e6468b10b0db6ce94f09766c6b8860d67dfaa) and passes after.
+**Done when.** tests/src/director/news-topic-not-outlet.test.ts, in a played world drawn from all 56 places, finds no news subject whose topic cites an outlet; it failed before the fix in Washington, District of Columbia (seed bb6e6468b10b0db6ce94f09766c6b8860d67dfaa) and passes after.
 
-**Files.** src/director/conversation.ts, src/director/news-topic-not-outlet.test.ts
+**Files.** src/director/conversation.ts, tests/src/director/news-topic-not-outlet.test.ts
 
 **Time box.** 1 hour.
 

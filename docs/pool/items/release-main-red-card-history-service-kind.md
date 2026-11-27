@@ -32,4 +32,4 @@ source: Red desk, Nov 13 (merger codex-4629 and the CTO on #8928, comments 68400
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/card-history-story.test.ts
+**Files.** tests/src/bench/card-history-story.test.ts
