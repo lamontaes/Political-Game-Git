@@ -1840,19 +1840,19 @@
     },
     {
       "old": "src/core2/personality-catalogue.generated.ts",
-      "now": "src/core2/data/personality-scales.json, locked to its research answer by tests/personality-catalogue-data.test.ts",
+      "now": "src/core2/data/personality-scales.json, locked to its research answer by tests/personality-scales-data.test.ts",
       "when": "2026-11-27",
       "why": "Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code."
     },
     {
       "old": "scripts/traits/personality-catalogue.ts",
-      "now": "tests/personality-catalogue-data.test.ts holds its derivation",
+      "now": "tests/personality-scales-data.test.ts holds its derivation",
       "when": "2026-11-27",
       "why": "Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code."
     },
     {
       "old": "tests/personality-catalogue-generated.test.ts",
-      "now": "tests/personality-catalogue-data.test.ts",
+      "now": "tests/personality-scales-data.test.ts",
       "when": "2026-11-27",
       "why": "Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code."
     },
