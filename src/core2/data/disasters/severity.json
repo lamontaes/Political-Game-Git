@@ -1,5 +1,5 @@
 {
-  "about": "The disasters engine's severity ramp (src/core2/modules/disasters.ts): a disaster's severity is 0 at or below the low cutoff and 1 at or above the high cutoff, rising in a straight line between them, from the homes FEMA inspected as damaged in the town per resident. Written by src/core2/tooling/build-disaster-severity.ts.",
+  "about": "The disasters engine's severity ramp (src/core2/modules/disasters.ts): a disaster's severity is 0 at or below the low cutoff and 1 at or above the high cutoff, rising in a straight line between them, from the homes FEMA inspected as damaged in the town per resident. Written by scripts/core2/tooling/build-disaster-severity.ts.",
   "unit": "homes FEMA inspected as damaged per resident of the town",
   "lowCutoff": {
     "value": 0.05263,

@@ -3,7 +3,7 @@ import { SCHOOL_STARTED } from "./past-school";
 import { randomBytes } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import { collapseToTwoLevels, fullPeople } from "./residents";
 import { representativeSample } from "./representative-sample";
 import { countedMoves } from "./modules/counted-moves";

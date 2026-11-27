@@ -39,7 +39,7 @@ import {
 import { coreAPI } from "./state";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
 import type { CoreState } from "./types";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const PLACES = [
   {

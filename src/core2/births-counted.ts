@@ -62,7 +62,7 @@ import {
   SERIOUS_EPISODE_REMAINING_DAYS,
 } from "./death-cause";
 import { settleCountedEstate } from "./estates";
-import { deathWebFactor } from "./health-web";
+import { deathWebFactor } from "./laws-in-force";
 import type { ResidentHouseholdRecord } from "./residents";
 import { webFactorFor } from "./outcome-web-reach";
 import { housingHealthFactor } from "./housing-homeless";

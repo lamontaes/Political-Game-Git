@@ -29,7 +29,6 @@ import {
   type GovernmentRow,
 } from "../modules/budgets";
 import { lawChain, yesLevels } from "../modules/laws";
-import { registerLineAdditions } from "../budgets-treasury";
 import { onReachPayroll } from "./reach-workers";
 import {
   applyRecords,
@@ -339,10 +338,11 @@ export const parksFunding = lineAddition(PARKS_LINE);
 export const facialRecognition = lineAddition(FACIAL_LINE);
 
 // The treasury pays these lines at its monthly close and records whom the
-// added share of each payment reached (budgets-treasury.ts).
-registerLineAdditions({
+// added share of each payment reached (budgets-treasury.ts). The law reach's
+// host carries it (`lineAdditions`).
+export const reachALineAdditions = {
   keys: [PARKS_LINE.key, FACIAL_LINE.key],
-  additions: (api, gov) =>
+  additions: (api: CoreAPI, gov: GovernmentRow) =>
     [PARKS_LINE, FACIAL_LINE].flatMap((law) => {
       const row = mechanicRow(api, `${law.key}:${gov.level}`);
       if (!row?.active || row.facts.governmentId !== gov.id) return [];
@@ -358,7 +358,7 @@ registerLineAdditions({
         },
       ];
     }),
-});
+};
 
 // --- housing spending --------------------------------------------------------------
 

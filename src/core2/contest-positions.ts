@@ -29,10 +29,10 @@ import { questionAxis } from "./campaign-views";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./modules/budgets";
 import { LAWS_MODULE_ID } from "./modules/laws";
-import { OFFICES_MODULE_ID } from "./modules/offices";
+import { OFFICES_MODULE_ID, officeById } from "./modules/offices";
 import { levelMayDecide } from "./modules/world-legislating";
 import { stanceReader } from "./campaign-stances";
-import type { OfficeLevel } from "./offices-local";
+import type { OfficeLevel } from "./modules/offices";
 import type { CoreAPI } from "./types";
 import localRecords from "./data/campaigns/local-question-records.json" with { type: "json" };
 import officeAreas from "./data/campaigns/office-areas.json" with { type: "json" };
@@ -117,10 +117,7 @@ export function contestStands(
   api: CoreAPI,
   contest: { readonly officeId: string },
 ): readonly { readonly position: string; readonly reason: StandReason }[] {
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(contest.officeId) as unknown as
+  const office = officeById(api, contest.officeId) as unknown as
     { level: OfficeLevel; kind: string } | undefined;
   if (!office) throw new Error(`No office record ${contest.officeId}`);
   const local =

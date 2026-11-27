@@ -10,13 +10,13 @@
  * purchases. The residents engine then moves that money through the one
  * balanced journal on recorded dates.
  */
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, lastDayOfMonth } from "./kernel/dates";
 import { stopgap } from "./stopgaps";
 import {
   OUTSIDE_MARKET_KIND,
   outsideMarketAccount,
 } from "./opening-outside-market";
-import type { FinanceContractInput } from "./finance-types";
+import type { FinanceContractInput } from "./modules/finance";
 import { FinanceReadGuard } from "./finance-plan";
 import {
   nextWorkPayrollPeriod,
@@ -45,10 +45,12 @@ import {
   placeNoninstitutionalQuartersShare,
 } from "./gov-rules/place-population";
 import { huskOf } from "./person-husk";
+import { DAYS_PER_YEAR } from "./household-income";
 import { corePlaceByKey } from "./place-lookup";
+import { RESIDENTS_KIND } from "./residents-constants";
+export { RESIDENTS_KIND };
 
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
-export const RESIDENTS_KIND = "residents";
 
 export type ResidentFlowKind =
   "wages" | "retirement" | "purchase" | "outside-sales" | "outside-costs";
@@ -153,7 +155,7 @@ function dayOf(date: string): number {
 export function nextMonthDay(from: IsoDate, day: number, months = 1): IsoDate {
   const at = new Date(`${from}T00:00:00.000Z`);
   const candidate = (year: number, month: number) => {
-    const last = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+    const last = lastDayOfMonth(year, month + 1);
     return new Date(Date.UTC(year, month, Math.min(day, last)))
       .toISOString()
       .slice(0, 10);
@@ -181,8 +183,7 @@ function perDayWageMinor(row: WorkCommitmentInput): number {
   return (minutes * row.hourlyMinor) / 60 / row.periodDays;
 }
 
-const DAYS_PER_YEAR = 365,
-  MONTHS_PER_YEAR = 12;
+const MONTHS_PER_YEAR = 12;
 
 /** A household's monthly living costs paid outside the town, due on the 1st. */
 export function householdOutsideFlow(

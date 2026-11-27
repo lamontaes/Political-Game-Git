@@ -5,7 +5,7 @@
  */
 import { nationalPanel } from "./macro";
 import { regionalLevel, regionName } from "./regional";
-import { countedResidents } from "../electorate";
+import { countedResidents } from "./campaigns";
 import { JOBS_DATA, type PositionRow } from "./jobs";
 import { residentsRuntime } from "./residents";
 import { outsideLaborForce } from "../gov-rules/place-population";

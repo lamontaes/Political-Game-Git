@@ -23,7 +23,7 @@ import { corePlaceByKey } from "./place-lookup";
 import { coreAPI } from "./state";
 import { campaignDay } from "../bench/campaign";
 import { buildBenchWorld } from "../bench/world";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const PLACE = "3655673";
 const SEED = "580915c55b122496eedbb4aef26193e639a89d50e6df380c1a1073abc59559a5";
