@@ -1,4 +1,4 @@
-# What Screens built and what is left (Nov 27, 2026, updated 1:30 p.m. ET)
+# What Screens built and what is left (Nov 27, 2026, updated 3:05 p.m. ET)
 
 The Screens session's goal was items 1 to 8 of its section in `assignments-2026-11-26.md`. "Built" here means an open pull request, because the goal forbids merging. Each item is built, or listed with the file, the pull request or door it needs, and the command to run.
 
@@ -12,13 +12,15 @@ The Screens session's goal was items 1 to 8 of its section in `assignments-2026-
 | 5. Routes by screen               | #10795 (on Story's piece 3); script #10727                                                                                                   | 121 of 131 routes in nine files, handler.ts 3,283 to 701 lines.                                                                                                                                                                                                                                          |
 | 7. Reads through doors            | #10739 (the list); #10765, #10782, #10785 (offices), #10763 (news), #10776 (laws and legislature), #10779 (elections), #10789 (openLawReach) | The reads list is `docs/coordination/refactor/screens-reads-2026-11-27.md`; every switch is stacked on the engine session's own door branch.                                                                                                                                                             |
 | 8. The small ones (one of them)   | #10733                                                                                                                                       | Four dev panels use the one dev request helper.                                                                                                                                                                                                                                                          |
+| 3. Reach-ins                      | #10902 (on core/fold-nov27)                                                                                                                  | Ten of the 30 deep imports in `src/bench` come through entries that re-export the same binding; 20 are left, each listed in the pull request with its owner.                                                                                                                                             |
+| 7. Switches on the fold, Nov 27   | #10785 (offices), #10779 (elections), #10776 (laws and bodies), #10831 (economy), #10763 (news)                                              | The hand switches and `doors-switch.py` (the Doors session's script, with two local fixes) applied by family, each merged with Core's fold, typecheck clean, views hashed identical at three drawn seeds. The engine-tables baseline is left to Core's one run on the train head (CTO, 2:37 p.m.).       |
 | Found on the way                  | #10723, #10736                                                                                                                               | The Reach-ins stack's lint (17 dev page parts lost the export the page loads them by) and skill gotcha lines.                                                                                                                                                                                            |
 
 ## Not built, and why
 
 - **2. Not-game out.** Core's `scripts/core/move-workshop.ts` (branch `core/2-workshop-out`, #10716) already moves the milestone proofs, verify, store-shots, integration-heads and path-check. Nothing for Screens to build twice. The three browser-test helpers move with Cleanup's test mover.
 - **6. Imports after Story takes the word files.** Story did not move the files: the five word files are story paths and entries in `tests/guards/families.json` (#10683), so Screens' imports of them are entry imports and nothing needs rewriting. The one piece left is `lineName` in `src/bench/budget.ts`: its only importers are `office.ts` (Screens) and `printed-words.ts` (Story). Story lifts it into `words.ts` with `printed-words.ts`, and Screens changes `office.ts`'s one import in the same step.
-- **7. Doors that do not exist yet** (each is its engine session's):
+- **7. Doors that do not exist yet** (each is its engine session's; switches already built are in the table above):
   - Offices: an `incompatibilitiesOf(api)` door for the incompatibilities table (`src/bench/legislature.ts`).
   - Elections: contests of a seat (`government.ts:171`, `dev-trace.ts:826`), every contest (`government.ts`, `calendar.ts`, `voter-lean.ts`, `government-bodies.ts`) and the town record (`map.ts:76`).
   - Economy: credit, budgets, jobs, business, macro and place prices (18 opens: `bank.ts`, `budget.ts`, `openings`, dev views). The proven shapes were posted on #10377 (`reserveSweptFor`, `townBankOrganizationId`, `latestBankBooks`, `monthsOfHousehold`, `loansOfHousehold`, `paymentsOfLoan`).
@@ -36,3 +38,7 @@ The Screens session's goal was items 1 to 8 of its section in `assignments-2026-
 - Routes: `node scripts/screens/split-routes.mjs --check`, then without `--check`.
 - Client: `node scripts/screens/split-client.mjs --check`, then without `--check`.
 - The reads list: `node scripts/screens/reads.mjs > docs/coordination/refactor/screens-reads-2026-11-27.md`.
+
+## The two fixes to the Doors session's script
+
+`scripts/refactor/doors-switch.py` (#10851) as the Screens switches ran it: (1) a member-chain receiver such as `this.api` is one receiver (without it the rewrite produced `this.billById(api, ...)`); (2) the module-id constants spelled `ELECTIONS`, `OFFICES`, `LEGISLATURE` and `PRESS_MODULE` in the screens files are read as their modules, and `DOORS_ONLY` names a family as well as a door. Held tables (`const x = ... .table("t")` then `x.get(...)`) are switched by hand.
