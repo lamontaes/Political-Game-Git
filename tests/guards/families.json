@@ -85,7 +85,10 @@
         "src/core2/modules/serve-asks.ts",
         "src/core2/filing-rule-office.ts",
         "src/core2/voting-module-id.ts",
-        "src/core2/party-sides.ts"
+        "src/core2/party-sides.ts",
+        "src/core2/gov-rules/county-election-calendar.ts",
+        "src/core2/gov-rules/town-election-calendar.ts",
+        "src/core2/gov-rules/municipal-ballot-rules.ts"
       ],
       "paths": [
         "src/core2/modules/elections.ts",
@@ -103,6 +106,11 @@
         "src/core2/modules/interest-groups.ts",
         "src/core2/ballot-order.ts",
         "src/core2/party-sides.ts",
+        "src/core2/gov-rules/county-election-calendar.ts",
+        "src/core2/gov-rules/town-election-calendar.ts",
+        "src/core2/gov-rules/municipal-ballot-rules.ts",
+        "src/core2/gov-rules/municipal-election-rule-packs.ts",
+        "src/core2/gov-rules/municipal-election-rules.ts",
         "src/core2/campaign-*.ts",
         "src/core2/candidate-*.ts",
         "src/core2/contest-positions.ts",

@@ -6,7 +6,7 @@
  */
 import nominationRules from "../../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import { makeIsoDate } from "../kernel/dates";
-import type { IsoDate } from "./types";
+import type { IsoDate } from "../kernel/brands";
 
 /**
  * ESTIMATED FROM AVERAGE, pending research question
