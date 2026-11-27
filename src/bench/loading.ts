@@ -24,9 +24,18 @@ export function loadingStory(core: CoreState, playerId: string) {
     text: line.text,
     recordId: line.recordId,
   }));
+  // A record printed at several outlets is one headline on the loading card:
+  // the first outlet's.
+  const told = new Set<string>();
   const heard = core.modules.has("news")
     ? storiesHeard(coreAPI(core), playerId as PersonId)
         .filter((story) => story.date < core.date)
+        .filter((story) => {
+          const record = story.facts.recordId ?? story.id;
+          if (told.has(record)) return false;
+          told.add(record);
+          return true;
+        })
         .flatMap((story) => {
           const worded = wordArchiveStory(core, story);
           return worded?.headline

@@ -17,9 +17,9 @@
  * calendar for that day. Nobody too young to follow the news hears it.
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { lawRows } from "./modules/laws";
+import { lawInForce, lawRows } from "./modules/laws";
 import { printStory, readingDelay, type Story } from "./modules/news";
-import { writeArchiveStory } from "./modules/press";
+import { writeArchiveStories } from "./modules/press";
 import type { PastTown } from "./past-bodies";
 import type { PastClosureRow } from "./past-business";
 import {
@@ -62,7 +62,7 @@ export function buildNewsArchive(
   // no paper to carry the past, and the archive is empty.
   // A resident's parent who died is archived for full residents only.
   api.stopgap("SG-CORE-past-counted-parents-deaths");
-  const stories: Story[] = [];
+  const records: CoreEventInput[] = [];
   const add = (
     kind: string,
     recordId: string,
@@ -71,7 +71,7 @@ export function buildNewsArchive(
     more: Partial<CoreEventInput> = {},
   ) => {
     if (!within(date)) return;
-    const story = writeArchiveStory(api, {
+    records.push({
       id: `${kind}:${recordId}`,
       kind,
       date: makeIsoDate(date),
@@ -85,7 +85,6 @@ export function buildNewsArchive(
       facts: { ...facts, recordId },
       ...more,
     });
-    if (story) stories.push(story);
   };
   for (const election of past.elections)
     add(
@@ -121,6 +120,22 @@ export function buildNewsArchive(
       jurisdiction: history.jurisdiction,
       body: history.body,
     };
+    // What stood the day before the law took effect and what stands that day,
+    // on the record: the desk's one rule (`wireItem`) drops a law that moved
+    // nothing, as it does a live one. Only an amount law of the town's own
+    // chain carries them; a policy law, and another state's, are told as they are.
+    const amount = row && row.unit && row.unit !== "program";
+    const before = amount
+      ? lawInForce(api, history.series, shiftDays(history.effectiveDate, -1))
+          .value
+      : null;
+    const after = amount
+      ? lawInForce(api, history.series, history.effectiveDate).value
+      : null;
+    if (typeof before === "number" && typeof after === "number") {
+      (facts as Record<string, string>).priorValue = String(before);
+      (facts as Record<string, string>).inForceValue = String(after);
+    }
     add("law-enacted", history.id, history.enactedOn, facts, {
       topic: history.series,
       desiredChange: "enact",
@@ -200,6 +215,8 @@ export function buildNewsArchive(
           },
           { personIds: [person.id] },
         );
+  // Each record at every outlet that carries it, by the press desk's own rules.
+  const stories = [...writeArchiveStories(api, records)];
   stories.sort(
     (a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
   );

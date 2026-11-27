@@ -7,6 +7,7 @@ import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { tabBar, chooseTab } from "./tab.mjs";
 import { pickRow } from "./list-row.mjs";
+import { pager } from "./pager.mjs";
 import { dateWords } from "../../english/plain-words.mjs";
 
 /** A story's printed text: its written paragraphs, else its lede when it is not the headline again. */
@@ -22,6 +23,11 @@ const told = (story) =>
  * follow and it has nothing yet; or it is one they do not follow. The three
  * read differently (Fable A, Nov 12).
  */
+/** The news list's box: five rows of the tallest headline (two lines and its date) fit the sheet. Layout sizes, not game numbers. */
+const NEWS_ROWS = 5;
+const NEWS_ROW_HEIGHT = 76;
+const NEWS_ROW_GAP = 4;
+
 export function emptyNewsLine(outlet, followsAny, labels) {
   if (!followsAny) return labels.followsNone;
   return outlet.why === "follows" && outlet.name
@@ -157,7 +163,20 @@ export function newsBoard({
         "div",
         { className: "news-screen" },
         ...(rows.length
-          ? [el("div", { className: "pick-list news-list" }, ...rows)]
+          ? [
+              // An outlet's back issues are a long list: the one long-list
+              // box, whole rows at its size, scrolling inside itself.
+              pager({
+                items: rows,
+                render: (row) => row,
+                rows: NEWS_ROWS,
+                columns: 1,
+                rowHeight: NEWS_ROW_HEIGHT,
+                gap: NEWS_ROW_GAP,
+                growRows: true,
+                className: "pick-list news-list",
+              }),
+            ]
           : []),
         el("div", { className: "news-page" }, page),
       ),

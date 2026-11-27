@@ -513,7 +513,13 @@ const ROUTES: readonly Route[] = [
                 }
               : {}),
             onWorld: (built, id) => {
-              if (id) state.loadingPeek = loadingStory(built, id);
+              if (id) {
+                state.loadingPeek = loadingStory(built, id);
+                // Each outlet's back issues are worded here, at load, so the
+                // first News open is a read (owner, Nov 24: "they should pop up
+                // instantly").
+                heardItems(built, id);
+              }
             },
             ...(chosen
               ? {

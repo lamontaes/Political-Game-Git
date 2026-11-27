@@ -95,15 +95,23 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
     );
   });
 
-  // The past's elections, as the paper printed them: the archive's stories
-  // of the races in the year before day one.
-  const printedElections = () =>
-    api
+  // The past's elections, as the papers printed them: the archive's stories
+  // of the races in the year before day one, one for each race (every outlet
+  // that carries a race prints it, so a race is counted once).
+  const printedElections = () => {
+    const seen = new Set<string>();
+    return api
       .moduleState(NEWS_MODULE_ID)
       .table("stories")
       .rows()
       .map((row) => row.facts as Record<string, string>)
-      .filter((facts) => facts.recordKind === "election-result");
+      .filter((facts) => facts.recordKind === "election-result")
+      .filter((facts) => {
+        if (seen.has(facts.recordId!)) return false;
+        seen.add(facts.recordId!);
+        return true;
+      });
+  };
   // Every prior race's campaign promises, as the campaigns engine keeps them.
   const pastPromises = () =>
     (
@@ -208,11 +216,19 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
               (row.facts as Record<string, string>).recordKind ===
               "business.closed",
           );
-        const closures = closureStories.map((row) => ({
-          id: (row.facts as Record<string, string>).recordId!,
-          ownerId: (row.facts as Record<string, string>).ownerId!,
-          date: row.date as string,
-        }));
+        // One closure is one record, printed at each outlet that carries it.
+        const closures = [
+          ...new Map(
+            closureStories.map((row) => [
+              (row.facts as Record<string, string>).recordId!,
+              {
+                id: (row.facts as Record<string, string>).recordId!,
+                ownerId: (row.facts as Record<string, string>).ownerId!,
+                date: row.date as string,
+              },
+            ]),
+          ).values(),
+        ];
         const expected = Math.round(
           businessesIn(a, here.placeId).length * stateExitShare(a),
         );
@@ -264,10 +280,14 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
       .rows()
       .filter((s) => (s.date as string) < opening);
     expect(archived.length).toBeGreaterThan(0);
+    // Every outlet of the place's own list carries back issues, and each
+    // archived story is on one of them; the town's paper of record has them.
+    const listed = new Set(outletsHere(api).map((o) => o.organizationId));
     for (const story of archived)
-      expect(story.outletId, `${story.id}`).toBe(paper.organizationId);
+      expect(listed.has(story.outletId as string), `${story.id}`).toBe(true);
     expect(
-      outletsHere(api).some((o) => o.organizationId === paper.organizationId),
+      archived.some((s) => s.outletId === paper.organizationId),
+      "the paper of record carries the archive",
     ).toBe(true);
     // One list of outlets: the news engine keeps none of its own.
     expect(() => api.moduleState(NEWS_MODULE_ID).table("outlets")).toThrow();

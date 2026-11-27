@@ -215,6 +215,17 @@ export function wireItem(
       : {}),
     facts: { ...facts },
   };
+  // A law that left the amount in force where it was changed nothing a reader
+  // can meet, and is no news ("still 16%"): the one rule for the live desk and
+  // the archive alike, read from what the record says stood and what stands
+  // (`priorValue`, `inForceValue`, set by the laws engine and by the archive).
+  if (
+    (event.kind === "law-took-effect" || event.kind === "law-enacted") &&
+    facts.priorValue !== undefined &&
+    facts.inForceValue !== undefined &&
+    Number(facts.priorValue) === Number(facts.inForceValue)
+  )
+    return null;
   switch (event.kind) {
     // Who or what entered the world is the trace's record of the two-level
     // population filling in, not news: no paper prints it.
