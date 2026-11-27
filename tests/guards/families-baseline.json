@@ -63,7 +63,6 @@
     "src/core2/modules/contracts.ts": 1,
     "src/core2/modules/counted-demotion.ts": 1,
     "src/core2/modules/counted-moves.ts": 1,
-    "src/core2/modules/crime.ts": 1,
     "src/core2/modules/elections.ts": 2,
     "src/core2/modules/employer-taxes.ts": 3,
     "src/core2/modules/executive.ts": 6,
