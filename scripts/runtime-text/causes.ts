@@ -7,7 +7,7 @@
  * a person before it lands. A cause explains the shape; it is not a promise
  * that the words are good.
  */
-export interface CauseRule {
+interface CauseRule {
   readonly id: string;
   /** A rule matches when its text pattern and its control id pattern both do. */
   readonly pattern?: RegExp;
@@ -17,7 +17,7 @@ export interface CauseRule {
 
 const NAME = "[A-Z][\\p{L}'.-]+(?: [A-Z][\\p{L}'.-]+)*";
 
-export const CAUSE_RULES: readonly CauseRule[] = [
+const CAUSE_RULES: readonly CauseRule[] = [
   {
     id: "tv-station-initials",
     testid: /^room-tv-bug$/,

@@ -26,6 +26,7 @@ import type {
 } from "../types";
 
 import {
+  GRADUATION_RESULT,
   schoolHistory,
   schoolHistoryFor,
   schoolOfPlace,
@@ -36,8 +37,12 @@ import { SCHOOL_MODULE_ID } from "../school-measures";
 import {
   decideSchoolOutcome,
   recordSchoolSpending,
+  SCHOOL_MEASURE,
   schoolStartYear,
+  type SchoolResultRow,
 } from "../school-outcomes";
+import type { HistoryModule, HistoryRow, HistorySource } from "../past";
+import { coreAPI } from "../state";
 import { decideSchoolHonors } from "../school-honors";
 import { placeStateKey } from "../place-map";
 import outcomes from "../data/school/outcomes.json" with { type: "json" };
@@ -343,8 +348,59 @@ function schoolOutcomes(api: CoreAPI): void {
 const isPlayer = (api: CoreAPI, actor: Readonly<PersonState>) =>
   actor.id === api.state.playerId;
 
-export const SCHOOL_MODULE: PreStartModule = {
+function graduationHistory(core: CoreState, row: SchoolResultRow): HistoryRow {
+  const personIds = [row.personId as PersonId];
+  return {
+    id: row.id,
+    date: row.date as HistoryRow["date"],
+    life: "school",
+    what: row.passed ? "graduated" : "not-graduated",
+    record: GRADUATION_RESULT,
+    from: row.date < core.startedAt ? "past" : "played",
+    personIds,
+    withIds: personIds,
+    placeId: row.placeId as HistoryRow["placeId"],
+    facts: {
+      passed: row.passed ? "yes" : "no",
+      startYear: String(row.startYear),
+    },
+  };
+}
+
+const isGraduation = (row: SchoolResultRow | undefined) =>
+  row?.measure === SCHOOL_MEASURE.graduation;
+
+/** The school engine's graduation results are history: every senior's year's end, each by its result's id. */
+const SCHOOL_HISTORY: HistorySource = {
   id: SCHOOL_MODULE_ID,
+  rows(core, scope, ask) {
+    if (!core.modules.has(SCHOOL_MODULE_ID)) return [];
+    if (!ask.kinds?.includes(GRADUATION_RESULT)) return [];
+    const results = coreAPI(core)
+      .moduleState(SCHOOL_MODULE_ID)
+      .table("results");
+    const rows = ("person" in scope
+      ? results.query("byPerson", [scope.person])
+      : "place" in scope
+        ? results.query("byPlace", [scope.place])
+        : results.rows()) as unknown as SchoolResultRow[];
+    return rows.filter(isGraduation).map((row) => graduationHistory(core, row));
+  },
+  row(core, id) {
+    if (!core.modules.has(SCHOOL_MODULE_ID)) return undefined;
+    const row = coreAPI(core)
+      .moduleState(SCHOOL_MODULE_ID)
+      .table("results")
+      .get(id) as unknown as SchoolResultRow | undefined;
+    return row && isGraduation(row) ? graduationHistory(core, row) : undefined;
+  },
+};
+
+export const SCHOOL_MODULE: PreStartModule & HistoryModule = {
+  id: SCHOOL_MODULE_ID,
+  // A plain field, not a getter: the finance engine's read check walks the
+  // modules and refuses an accessor (src/core2/finance-plan.ts, directRead).
+  history: SCHOOL_HISTORY,
   // The school years before the start, a year at a step (owner, Oct 28),
   // and for a named person filled in after the run.
   preStart: {

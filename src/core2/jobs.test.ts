@@ -676,7 +676,7 @@ describe("jobs", () => {
     );
   });
 
-  it("puts a young adult who never worked into the labor market when the household's money runs short, in a two-level world", () => {
+  it("puts a young adult who never worked into the labor market at the opening when the household's money is already short, in a two-level world", () => {
     const opening = input();
     // A parent with no money and an 18-year-old whose own living cost the
     // household carries; neither has worked in this world.
@@ -714,7 +714,7 @@ describe("jobs", () => {
     advanceCore(core, "2021-02-02");
     expect(
       coreAPI(core).moduleState("jobs").table("seekers").get("y1"),
-    ).toMatchObject({ reasonKey: "started-looking", employed: false });
+    ).toMatchObject({ reasonKey: "opening-unemployed", employed: false });
   });
   it("keeps one out-of-work record for a filled-in counted seeker who starts looking, carrying their search over", () => {
     const opening = input();

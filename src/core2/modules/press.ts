@@ -78,7 +78,7 @@ import {
   type CampaignRow,
   type ImpressionRow,
 } from "./campaigns";
-import { promisesOf, votesOf } from "./record";
+import { promisesOf, votesCast } from "./record";
 import { partySide } from "../appointments";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import {
@@ -1960,7 +1960,7 @@ export function lastVoteOn(
   personId: string,
   question: string,
 ): { readonly id: string; readonly position: number } | null {
-  const vote = votesOf(api, personId)
+  const vote = votesCast(api.state as CoreState, personId)
     .filter((entry) => entry.stance.question === question)
     .at(-1);
   return vote ? { id: vote.id, position: vote.stance.position } : null;
@@ -2069,14 +2069,14 @@ export function interviewQuestions(
     ? isIncumbent(api, contestOf(api, filing.contestId), personId)
     : servingTerms(api, personId).length > 0;
   if (holds)
-    for (const vote of votesOf(api, personId).slice(
+    for (const vote of votesCast(api.state as CoreState, personId).slice(
       -pressParameter("recordVotesConsidered"),
     ))
       add(vote.stance.question, pressParameter("recordVoteNewsWeight"));
   // The candidate's party: a recorded vote against their party's side.
   const side = partySide(speaker.party);
   if (side)
-    for (const v of votesOf(api, personId))
+    for (const v of votesCast(api.state as CoreState, personId))
       if (
         Math.sign(v.stance.position) ===
         -side * Math.sign(questionAxis(v.stance.question))
@@ -2761,7 +2761,7 @@ function checkClaim(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     date: api.state.date,
   } as unknown as ModuleRow);
   if (!dug) return;
-  const vote = votesOf(api, row.candidateId).find(
+  const vote = votesCast(api.state as CoreState, row.candidateId).find(
     (v) => v.id === answer.recordId,
   );
   const ctx = deskContext(api);
@@ -2833,7 +2833,7 @@ export function candidateAnswers(
   const platform = platformOf(api, who);
   // An officeholder known only by their record weighs it with no lean.
   const person = api.state.people.get(personId) ?? { traits: {} };
-  const votes = votesOf(api, personId);
+  const votes = votesCast(api.state as CoreState, personId);
   const round = (x: number) => Math.round(x * 1000) / 1000;
   return questions.map((question): InterviewAnswer => {
     const stated = platform.find((s) => s.question === question);

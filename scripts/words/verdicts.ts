@@ -192,7 +192,7 @@ export function writeStore(
 }
 
 /** What a reviewer writes for one sheet. */
-export interface VerdictSheet {
+interface VerdictSheet {
   readonly rule: string;
   readonly verdicts: readonly {
     readonly id: string;
@@ -201,7 +201,7 @@ export interface VerdictSheet {
   }[];
 }
 
-export interface FoldCount {
+interface FoldCount {
   readonly yes: number;
   readonly no: number;
   /** Verdicts whose lines the bank no longer holds in those words, dropped. */

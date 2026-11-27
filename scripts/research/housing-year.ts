@@ -30,7 +30,11 @@ import {
   shelterBeds,
 } from "../../src/core2/housing-homeless";
 import { publishedHomePriceRatio } from "./home-price-fit";
-import { HOUSING_MODULE_ID, ownedHomes } from "../../src/core2/modules/housing";
+import {
+  EVICTION_STEPS,
+  HOUSING_MODULE_ID,
+  ownedHomes,
+} from "../../src/core2/modules/housing";
 import housing from "../../src/core2/data/housing/housing.json" with { type: "json" };
 import evictionReads from "../../data/research/world/eviction-statute-reads-2026.json" with { type: "json" };
 import foreclosureReads from "../../data/research/world/foreclosure-reads-2026.json" with { type: "json" };
@@ -75,7 +79,7 @@ const days = (a?: string, b?: string) =>
 // Eviction steps.
 {
   const law = (
-    housing.eviction as unknown as Record<
+    EVICTION_STEPS as unknown as Record<
       string,
       {
         noticeDays: number;
