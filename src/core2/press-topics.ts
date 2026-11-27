@@ -22,7 +22,6 @@ import type { OfficeInput } from "./modules/offices";
 import { POLICY_QUESTIONS } from "./modules/laws";
 import { LEGISLATURE_MODULE_ID, type BillRow } from "./modules/legislature";
 import { ELECTIONS_MODULE_ID, contestOf } from "./modules/elections";
-import { billById } from "./modules/bodies-reads";
 
 export type WireLevel = "town" | "county" | "state" | "nation";
 
@@ -254,7 +253,10 @@ export function wireItem(
       // A bill's vote or hearing is about what the bill changes.
       const bill =
         facts.billId && api.state.modules.has(LEGISLATURE_MODULE_ID)
-          ? (billById(api, facts.billId) as unknown as BillRow | undefined)
+          ? (api
+              .moduleState(LEGISLATURE_MODULE_ID)
+              .table("bills")
+              .get(facts.billId) as unknown as BillRow | undefined)
           : undefined;
       const first = bill?.provisions[0];
       const topic = first
@@ -283,7 +285,10 @@ export function wireItem(
       // this one argues none (no reader takes the same vote in twice).
       const bill =
         facts.billId && api.state.modules.has(LEGISLATURE_MODULE_ID)
-          ? (billById(api, facts.billId) as unknown as BillRow | undefined)
+          ? (api
+              .moduleState(LEGISLATURE_MODULE_ID)
+              .table("bills")
+              .get(facts.billId) as unknown as BillRow | undefined)
           : undefined;
       const first = bill?.provisions[0];
       const topic = first
@@ -302,7 +307,10 @@ export function wireItem(
       // that change if it passed and leaves the veto standing if it failed.
       const bill =
         facts.billId && api.state.modules.has(LEGISLATURE_MODULE_ID)
-          ? (billById(api, facts.billId) as unknown as BillRow | undefined)
+          ? (api
+              .moduleState(LEGISLATURE_MODULE_ID)
+              .table("bills")
+              .get(facts.billId) as unknown as BillRow | undefined)
           : undefined;
       const first = bill?.provisions[0];
       const topic = first
