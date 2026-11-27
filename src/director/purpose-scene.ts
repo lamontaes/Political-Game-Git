@@ -2144,6 +2144,10 @@ function composeBinding(
   // the bill (`promised-against`) is said only from a record of one, which no
   // engine writes yet. stopgapId: SG-WORDS-recall-promise-record
 
+  // A chair asking a member to run: the party the record names, by its name.
+  if (type.purpose === "ask-to-run" && typeof said.party === "string")
+    facts.party = { text: said.party, sourceRecordIds: [moment.causeId] };
+
   // Joining a party: the party the record names, by its name.
   if (type.purpose === "party-welcome" && typeof said.party === "string") {
     facts.party = { text: said.party, sourceRecordIds: [moment.causeId] };
