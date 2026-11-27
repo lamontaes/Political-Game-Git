@@ -21,7 +21,7 @@ import { nextDue } from "./housing-homeless";
 import { reopenResidentFlow, setResidentFlowAmount } from "./residents-economy";
 import { lawApplied, emitLawEffectLearned } from "./law-reach/applied";
 import { CONSTRUCTION_LAW_KEYS } from "./housing-construction-constants";
-import { webFactorFor } from "./modules/laws";
+import { webFactorFor } from "./outcome-web-reach";
 import type { CountedHousehold } from "./counted-groups";
 import type { CoreAPI, CoreState, Source } from "./types";
 

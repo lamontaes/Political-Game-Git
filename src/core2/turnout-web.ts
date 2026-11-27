@@ -15,7 +15,7 @@
  * by it (`carriedBy` in the links), so the web does not run them and no law
  * moves turnout twice.
  */
-import { webReach } from "./modules/laws";
+import { webReach } from "./outcome-web-reach";
 import { type Subject, type WebPart } from "./laws-in-force";
 import type { CoreAPI, CoreState } from "./types";
 import { parameter } from "./parameters";

@@ -57,7 +57,7 @@ import {
   destinationWeights,
   placeLeavingConditions,
 } from "./counted-moves";
-import { webReach } from "./laws";
+import { webReach } from "../outcome-web-reach";
 import { type Subject } from "../laws-in-force";
 import { registerModule } from "../state";
 import { isDemoted } from "../counted-groups";

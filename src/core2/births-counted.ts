@@ -64,7 +64,7 @@ import {
 import { settleCountedEstate } from "./estates";
 import { deathWebFactor } from "./laws-in-force";
 import type { ResidentHouseholdRecord } from "./residents";
-import { webFactorFor } from "./modules/laws";
+import { webFactorFor } from "./outcome-web-reach";
 import { housingHealthFactor } from "./housing-homeless";
 import {
   OUTCOME_WEB_MODULE_ID,

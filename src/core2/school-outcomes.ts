@@ -46,7 +46,7 @@ import {
 } from "./modules/counted-moves";
 import { carriedLink, placeOutcome } from "./modules/outcome-web";
 import { baseOf } from "./laws-in-force";
-import { webReach } from "./modules/laws";
+import { webReach } from "./outcome-web-reach";
 import { putOutputNumber } from "./output-numbers";
 import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "./school-measures";
 import type { CoreAPI, CoreState } from "./types";

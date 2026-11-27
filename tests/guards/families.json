@@ -215,7 +215,8 @@
         "src/core2/law-reach/applied.ts",
         "src/core2/modules/federal-courts.ts",
         "src/core2/laws-in-force.ts",
-        "src/core2/modules/police-patrol.ts"
+        "src/core2/modules/police-patrol.ts",
+        "src/core2/outcome-web-reach.ts"
       ],
       "paths": [
         "src/core2/modules/laws.ts",
@@ -485,7 +486,8 @@
         "src/core2/game-start.ts",
         "src/core2/output-numbers.ts",
         "src/core2/output-number-readers.ts",
-        "src/core2/player-warm-up.ts"
+        "src/core2/player-warm-up.ts",
+        "src/core2/national-disaster-record.ts"
       ],
       "paths": [
         "src/core2/modules/world.ts",
@@ -509,7 +511,8 @@
         "src/core2/place-race-origin.generated.ts",
         "src/core2/modules/national-events.ts",
         "src/core2/national-disaster-event.ts",
-        "src/core2/modules/climate.ts"
+        "src/core2/modules/climate.ts",
+        "src/core2/national-disaster-record.ts"
       ]
     },
     {

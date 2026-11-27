@@ -353,6 +353,7 @@
 /src/core2/modules/national-events.ts @lamontaes
 /src/core2/national-disaster-event.ts @lamontaes
 /src/core2/modules/climate.ts @lamontaes
+/src/core2/national-disaster-record.ts @lamontaes
 
 # News and the press (news)
 /src/core2/modules/news.ts @lamontaes
