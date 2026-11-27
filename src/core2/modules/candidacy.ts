@@ -1,3 +1,4 @@
+import { carriersOf } from "../module-fields";
 import {
   standingPool,
   partyOf,
@@ -2260,18 +2261,16 @@ export function standAgainReason(
 }
 
 /** Each day: weigh the contests whose weighing day has come, then file for those whose window opened. */
-/** What the voting engine does with a race closed at the opening once candidacy has weighed it (voting.ts). */
-let closedContestWeighed: ((api: CoreAPI, contest: ContestRow) => void) | null =
-  null;
 /**
- * The voting engine registers how it finishes the field of a race whose
- * filing closed before the record began (its stand-in nominees, a primary
- * already past), run after the town's own runners have filed.
+ * What the voting engine does with a race closed at the opening once candidacy
+ * has weighed it: how it finishes the field of a race whose filing closed
+ * before the record began (its stand-in nominees, a primary already past), run
+ * after the town's own runners have filed. The voting module carries it as
+ * `closedContestWeighed`; every installed engine that does is asked in order.
  */
-export function registerClosedContestWeighed(
-  fn: (api: CoreAPI, contest: ContestRow) => void,
-): void {
-  closedContestWeighed = fn;
+function finishClosedContest(api: CoreAPI, contest: ContestRow): void {
+  for (const module of carriersOf(api.state, "closedContestWeighed"))
+    module.closedContestWeighed!(api, contest);
 }
 
 function candidacyDay(api: CoreAPI, played: boolean): void {
@@ -2282,7 +2281,7 @@ function candidacyDay(api: CoreAPI, played: boolean): void {
     const contest = held.opening.shift()!;
     weighClosedContest(api, contest, held.localRank);
     // The voting engine finishes the race's field once its own runners have filed.
-    closedContestWeighed?.(api, contest);
+    finishClosedContest(api, contest);
   }
   while (held.weigh[0] && weighingDate(api, held.weigh[0]) <= today) {
     const contest = held.weigh.shift()!;

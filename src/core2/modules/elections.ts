@@ -17,6 +17,7 @@
  * charged. The filing becomes a record; an unmet rule comes back as
  * structured reasons the English engine words.
  */
+import { carriersOf } from "../module-fields";
 import { countyPlaceOfWorld } from "../electorate-places";
 import { bookkeeping } from "../bookkeeping";
 import { registerElectorate } from "../electorate";
@@ -1936,19 +1937,15 @@ export function filingOfficeFor(
 /**
  * The ward a ward seat represents and the ward a person lives in, null for an
  * at-large seat or a person whose home is not placed. The voting engine holds
- * the town's wards and registers the lookup.
+ * the town's wards and carries the lookup as the module's `wardResidency`.
  */
-let wardResidency:
-  | ((
-      api: CoreAPI,
-      contest: ContestRow,
-      person: Readonly<PersonState>,
-    ) => { readonly seatWard: number; readonly homeWard: number } | null)
-  | null = null;
-export function registerWardResidency(
-  lookup: NonNullable<typeof wardResidency>,
-): void {
-  wardResidency = lookup;
+function wardResidencyOf(
+  api: CoreAPI,
+  contest: ContestRow,
+  person: Readonly<PersonState>,
+): { readonly seatWard: number; readonly homeWard: number } | null {
+  const carrier = carriersOf(api.state, "wardResidency")[0];
+  return carrier?.wardResidency!(api, contest, person) ?? null;
 }
 
 /** The day someone born on `birthDate` turns `years` (a February 29 birthday counts on March 1 in a common year). */
@@ -2100,9 +2097,7 @@ export function checkEligibility(
   // come from the English engine.
   // stopgapId: SG-GOV-ward-residency
   const wards =
-    resident && !holdsSeat
-      ? (wardResidency?.(api, contest, person) ?? null)
-      : null;
+    resident && !holdsSeat ? wardResidencyOf(api, contest, person) : null;
   if (wards !== null) {
     api.stopgap("SG-GOV-ward-residency");
     checks.push({
