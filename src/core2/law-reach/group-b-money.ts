@@ -58,7 +58,6 @@ import {
   federalLineLevel,
   fundFederalStanding,
   noteLinePaid,
-  registerLinePayments,
 } from "../budgets-treasury";
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 import expansionMatch from "../data/laws/medicaid-expansion-match.json" with { type: "json" };
@@ -427,7 +426,11 @@ function benefitLineOf(api: CoreAPI, gov: { readonly id: string }): string {
   return BENEFIT_LINES.find((line) => line in lines) ?? BENEFIT_LINES[0];
 }
 
-registerLinePayments((api, gov) => {
+/** The lines the law reach's benefits pay this month without a payday (the host's `linePayments`). */
+export function benefitLinePayments(
+  api: CoreAPI,
+  gov: GovernmentRow,
+): Record<string, number> {
   const accounts = api.accounts();
   const out: Record<string, number> = {};
   for (const row of rowsOf<BenefitRow>(api, "taken")) {
@@ -445,7 +448,7 @@ registerLinePayments((api, gov) => {
     out[line] = (out[line] ?? 0) + row.amountMinor;
   }
   return out;
-});
+}
 
 /**
  * The monthly payments a law has a treasury owe, kept as accounts obligations:
