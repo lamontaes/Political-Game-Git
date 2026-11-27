@@ -1091,6 +1091,24 @@ export interface PropertyTaxTerms {
   readonly source: Source;
 }
 
+/**
+ * A provider of who succeeds an office's holder, as a `CoreModule` field: the
+ * input's `previous` is the offices engine's own term row (`unknown` here, so
+ * types.ts imports no engine), and the method form lets a provider declare
+ * its own narrower type for it.
+ */
+export type SuccessorProviderOf = {
+  bivarianceHack(
+    api: CoreAPI,
+    input: { readonly seatId: string; readonly previous: unknown },
+  ): {
+    readonly personId: string;
+    readonly party: string | null;
+    readonly reached: string;
+    readonly then?: () => void;
+  } | null;
+}["bivarianceHack"];
+
 export interface CoreModule {
   id: string;
   state?: ModuleStateDefinition;
@@ -1303,20 +1321,7 @@ export interface CoreModule {
    * field here: Offices lists what is left of it.
    */
   /** Who succeeds an office kind's holder, by office kind: the person, their party and how they were reached, or null. */
-  successorProviders?: Readonly<
-    Record<
-      string,
-      (
-        api: CoreAPI,
-        input: { readonly seatId: string; readonly previous: unknown },
-      ) => {
-        readonly personId: string;
-        readonly party: string | null;
-        readonly reached: string;
-        readonly then?: () => void;
-      } | null
-    >
-  >;
+  successorProviders?: Readonly<Record<string, SuccessorProviderOf>>;
   /** Offers a vacant seat to the person this engine answers for (the player, the elections engine); true when taken. */
   vacancyOffer?(
     api: CoreAPI,

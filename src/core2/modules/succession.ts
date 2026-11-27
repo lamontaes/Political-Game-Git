@@ -25,12 +25,7 @@ import { nominateAndConfirm, partySide } from "../appointments";
 import { boardAppointer } from "../board-appointer";
 import { campaignParameter } from "../campaign-data";
 import { NATIVITY_FACT } from "../nativity";
-import {
-  OFFICES_MODULE_ID,
-  registerSuccessorProvider,
-  vacateSeat,
-  type TermRow,
-} from "./offices";
+import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
 import {
   OFFICIALS_MODULE_ID,
   holderOf,
@@ -109,6 +104,11 @@ export const SUCCESSION_MODULE: CoreModule = {
   // The central bank's governors are named by this president and confirmed by
   // this Senate, once the government is open.
   boardAppointer,
+  // Who succeeds the President and the Vice President, by the law's line.
+  successorProviders: {
+    president: presidentialSuccessor,
+    "vice-president": vicePresidentialSuccessor,
+  },
 };
 
 const table = (api: CoreAPI, name: string) =>
@@ -543,8 +543,6 @@ function vicePresidentialSuccessor(
 export function openSuccession(core: CoreState): void {
   if (!core.modules.has(SUCCESSION_MODULE_ID))
     registerModule(core, SUCCESSION_MODULE);
-  registerSuccessorProvider("president", presidentialSuccessor);
-  registerSuccessorProvider("vice-president", vicePresidentialSuccessor);
   appointCabinet(coreAPI(core));
   scheduleCabinetReview(coreAPI(core), core.date);
 }

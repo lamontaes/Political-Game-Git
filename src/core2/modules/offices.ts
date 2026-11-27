@@ -52,6 +52,7 @@ import { partyName } from "../appointments";
 import { recordedRaceShare } from "../offices-past-results";
 import { leanedScore } from "../trait-decisions";
 import { coreAPI, fillInPerson, registerModule } from "../state";
+import { carriersOf } from "../module-fields";
 import { makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreState, PersonId, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -373,6 +374,8 @@ const OFFICES_HISTORY: HistorySource = {
 
 export const OFFICES_MODULE: PreStartModule = {
   id: OFFICES_MODULE_ID,
+  // A town's Vice Mayor takes a vacated Mayor's seat where the town's law says so.
+  successorProviders: { mayor: viceMayorSuccessor },
   // A plain field, not a getter: the finance engine's read check walks the
   // modules and refuses an accessor (src/core2/finance-plan.ts, directRead).
   history: OFFICES_HISTORY,
@@ -2363,7 +2366,21 @@ export type SuccessorProvider = (
   readonly reached: string;
   readonly then?: () => void;
 } | null;
-const successorProviders = new Map<string, SuccessorProvider>();
+
+/** The provider that names a successor for an office kind: the first installed module that carries one (`successorProviders`). */
+function successorFor(
+  api: CoreAPI,
+  officeKind: string,
+): SuccessorProvider | undefined {
+  for (const carrier of carriersOf(
+    api.state as CoreState,
+    "successorProviders",
+  ))
+    // The field's `previous` is `unknown` (types.ts imports no engine); the offices engine's row is the term.
+    if (carrier.successorProviders?.[officeKind])
+      return carrier.successorProviders[officeKind] as SuccessorProvider;
+  return undefined;
+}
 
 /**
  * A town's Vice Mayor takes its vacated Mayor's seat where the town's law
@@ -2417,15 +2434,6 @@ function viceMayorSuccessor(
     },
   };
 }
-
-/** The engine that names a successor for an office kind registers here. */
-export function registerSuccessorProvider(
-  officeKind: string,
-  provider: SuccessorProvider,
-): void {
-  successorProviders.set(officeKind, provider);
-}
-registerSuccessorProvider("mayor", viceMayorSuccessor);
 
 /**
  * A vacancy filled by appointment (or by the stand-in for a special election)
@@ -2687,7 +2695,7 @@ function fillVacancy(
   if (rule.method === "remains-vacant") return vacancy;
   // The person the law names, where an engine reads the line.
   const named = previous.identity
-    ? successorProviders.get(office.kind)?.(api, {
+    ? successorFor(api, office.kind)?.(api, {
         seatId: seat.id,
         previous: previous as TermRow,
       })
