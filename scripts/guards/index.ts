@@ -180,10 +180,10 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/daily-register.test.ts"),
   },
   {
-    id: "english",
-    rule: "Player text is American English, never restates where the player is or who is there, and carries no developer text; the known lists only shrink.",
+    id: "story",
+    rule: "Player text is American English, never restates where the player is or who is there, and carries no developer text; a person's name, pronoun and date are built in the one function that says them; the known lists only shrink.",
     readMore:
-      "tests/guards/english/ (allowlist.ts holds the one allowlist); AGENTS.md, American English everywhere",
+      "tests/guards/english/ (the Story family's guards; allowlist.ts holds the one allowlist); AGENTS.md, American English everywhere",
     command: vitest("tests/guards/english/"),
   },
   {
