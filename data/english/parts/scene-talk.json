@@ -70270,6 +70270,89 @@
         "move": "warn",
         "key": "routine"
       }
+    },
+    {
+      "key": "scene-talk.follow-accept.done-my-people-will-call-yours-about-bill",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Done. My people will call yours about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask.large",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "bargain",
+          "requiresFacts": ["gift-biggest", "donor-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line with an insert)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.follow-accept.done-my-people-will-call-yours"
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-i-ll-send-you-a-list-tomorrow-on-bill",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. I'll send you a list tomorrow, on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask.large",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "bargain",
+          "requiresFacts": ["gift-biggest", "donor-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line with an insert)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.follow-accept.fine-i-ll-send-you-a-list-tomorrow"
+    },
+    {
+      "key": "scene-talk.follow-threaten.then-i-ll-find-a-candidate-who-listens-on-bill",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Then I'll find a candidate who listens on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "requiresFacts": ["donor-bill"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line with an insert)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.follow-threaten.then-i-ll-find-a-candidate-who-listens"
     }
   ]
 }
