@@ -32,14 +32,16 @@ import {
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingOfficeFor,
+  filingOf,
   filingRulesFor,
+  filingsInContest,
+  filingsOfPerson,
   filingWindowOpen,
   playerContests,
   notYourOfficeWhy,
   playerFilingBar,
   seatIsAnotherDistrict,
   type ContestRow,
-  type FilingRow,
 } from "../core2/modules/elections";
 import {
   candidateIdentity,
@@ -269,10 +271,7 @@ function partyFacts(core: CoreState, place: string) {
 export function governmentView(core: CoreState, personId: string) {
   const api = coreAPI(core);
   const place = facePlace(core, personId);
-  const filings = api
-    .moduleState(ELECTIONS)
-    .table("filings")
-    .query("byPerson", [personId]) as unknown as FilingRow[];
+  const filings = filingsOfPerson(api, personId);
   const seats = townSeats(api);
   // Who sets each level's law: the government its seats name ("Texas").
   const governmentOf = new Map<string, string>();
@@ -528,12 +527,7 @@ export function localRaces(core: CoreState) {
     .filter(({ contest, group }) => group[0]!.id === contest.id)
     .map(({ contest, group }) => {
       const filers = group
-        .flatMap(
-          (seat) =>
-            elections
-              .table("filings")
-              .query("byContest", [seat.id]) as unknown as FilingRow[],
-        )
+        .flatMap((seat) => filingsInContest(api, seat.id))
         // Everyone running: filed, and announced while the window is ahead
         // (owner, Nov 17: "other people should be able to announce").
         .filter(campaigning)
@@ -577,12 +571,8 @@ export function localRaces(core: CoreState) {
       const announced = core.playerId
         ? group.some(
             (seat) =>
-              (
-                elections
-                  .table("filings")
-                  .get(`filing:${seat.id}:${core.playerId}`) as unknown as
-                  FilingRow | undefined
-              )?.status === "announced",
+              filingOf(api, `filing:${seat.id}:${core.playerId}`)?.status ===
+              "announced",
           )
         : false;
       const cannotFile = cannotFileFor(api, core.playerId, contest.id);
