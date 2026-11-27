@@ -45,7 +45,7 @@ import {
   lobbyingBarredUntil,
 } from "./law-reach/group-a-voting";
 import { decideToRun } from "./modules/candidacy";
-import { govReport } from "./gov-test-report";
+import { govReport } from "../../scripts/core2/gov-test-report";
 import {
   currentStaff,
   mechanicRow,

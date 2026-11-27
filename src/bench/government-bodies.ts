@@ -49,6 +49,7 @@ import {
   headsLocalExecutive,
   nationalExecutive,
 } from "../core2/offices-executives";
+import { allBills, billById } from "../core2/modules/bodies-reads";
 
 const LOCAL_LEVELS = new Set(["city", "township", "county"]);
 /** A town's own government before the county's. */
@@ -253,9 +254,7 @@ export function recentVotesOf(api: Api, officeId: string) {
       ]),
   );
   for (const id of kept.keys()) if (!measures.has(id)) measures.set(id, []);
-  const bills = api.state.modules.has(LEGISLATURE_MODULE_ID)
-    ? api.moduleState(LEGISLATURE_MODULE_ID).table("bills")
-    : null;
+  const hasBills = api.state.modules.has(LEGISLATURE_MODULE_ID);
   const names = policyNames();
   return [...measures]
     .map(([billId, all]) => {
@@ -266,7 +265,8 @@ export function recentVotesOf(api: Api, officeId: string) {
       const votes = all.filter((v) => v.stance.question === question);
       const date =
         past?.date ?? votes.reduce((d, v) => (v.date > d ? v.date : d), "");
-      const bill = bills?.get(billId) as unknown as BillRow | undefined;
+      const bill = (hasBills ? billById(api, billId) : undefined) as unknown as
+        BillRow | undefined;
       // This term's bill: the floor's own count, and whether the body
       // carried it, as the floor decided (a tie broken against it or a
       // cloture shortfall fails a bill more voted for).
@@ -331,10 +331,7 @@ function comingUpFor(
   const meeting = office.seats > 1 ? upcomingMeeting(api, office.id) : null;
   if (meeting) items.push({ date: meeting.date, kind: "meeting", title: null });
   if (api.state.modules.has(LEGISLATURE_MODULE_ID))
-    for (const bill of api
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("bills")
-      .rows() as unknown as BillRow[]) {
+    for (const bill of allBills(api) as unknown as BillRow[]) {
       if (bill.bodyOfficeId !== office.id || bill.status !== "drafted")
         continue;
       const date = floorDateOf(api, bill.id) ?? meeting?.date ?? null;

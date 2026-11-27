@@ -20,7 +20,7 @@ import {
   parksFunding,
 } from "./group-a-money";
 import { staffing } from "./group-a-staffing";
-import { registerVotingMonthlyProgram, votingLaw } from "./group-a-voting";
+import { votingLaw } from "./group-a-voting";
 import { rightToWork } from "./group-a-union";
 import { publicBargaining } from "./group-a-bargaining";
 import { lawInForce, yesLevels } from "../modules/laws";
@@ -100,7 +100,6 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
 };
 
 export function registerGroupA(): void {
-  registerVotingMonthlyProgram();
   for (const [key, policy] of Object.entries(POLICIES)) {
     // The minimum wage as an amount runs in the laws engine itself.
     if (!policy.reaches.length && policy.mechanic === "none") continue;

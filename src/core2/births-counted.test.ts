@@ -2,7 +2,7 @@ import { countedMoves } from "./modules/counted-moves";
 import { randomBytes } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import { advanceCore } from "./life";
 import { createRenewalCore } from "./births-setup";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";

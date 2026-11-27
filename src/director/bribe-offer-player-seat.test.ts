@@ -16,7 +16,7 @@ import { billCatalog, provisionFor } from "../core2/bill-catalog";
 import { bodyOf, draftBill, members } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { purposeScene } from "./purpose-scene";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // A bribe offered to the player's seat is the player's to answer (owner, Nov
 // 8: "the player gets the choice wherever the world offers them something;

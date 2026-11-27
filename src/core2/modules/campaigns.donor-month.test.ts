@@ -33,7 +33,7 @@ import { openParties } from "./parties";
 import { openPress } from "./press";
 import { viewsModule } from "./views";
 import type { CoreState } from "../types";
-import { townResidentsByCash } from "../resident-adults-test-kit";
+import { townResidentsByCash } from "../../../tests/support/resident-adults-test-kit";
 
 /** The pinned places: where the cause-finder measured the fault, with the seed it used. */
 const PLACES = [

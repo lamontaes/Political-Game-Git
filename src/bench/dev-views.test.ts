@@ -4,7 +4,7 @@
  * own request handler on a built world: Ridgeville, Alabama (0164656), the draw "8341-pin"/"p6"
  * executive-bill-menu.test.ts names.
  */
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import type { IncomingMessage } from "node:http";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -13,6 +13,7 @@ import { gameStartDate } from "../core2/game-start";
 import { handleDev } from "./dev-api";
 import { devModeMarks } from "./dev-mode";
 import {
+  devViewList,
   devViewRoutes,
   loadDevViews,
   registerDevView,
@@ -169,3 +170,18 @@ it("a view registered from its own file answers its routes and draws in its slot
     ),
   ).toEqual([]);
 }, 60_000);
+
+it("every dev view's page part exports its slots: the page loads a part by that name, so a part without it draws nothing", async () => {
+  // The page loads each part with a dynamic import and reads `slots` from it (ui/dev-views.mjs), so no file
+  // imports the name and a tool that drops unused exports would drop it (it did, on the Reach-ins stack).
+  await loadDevViews();
+  const parts = devViewList()
+    .map((view) => view.client)
+    .filter((file) => existsSync(new URL(`./ui/${file}`, import.meta.url)));
+  expect(parts.length).toBeGreaterThan(10);
+  for (const file of parts)
+    expect(
+      readFileSync(new URL(`./ui/${file}`, import.meta.url), "utf8"),
+      `src/bench/ui/${file} exports no slots`,
+    ).toMatch(/^export const slots\b/m);
+});

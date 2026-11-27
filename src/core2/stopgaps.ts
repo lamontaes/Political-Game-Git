@@ -11,6 +11,8 @@ export interface StopgapEntry {
   addedAt: string;
   replacement: string;
   status: "open" | "resolved";
+  /** The part of the game that asked for the stand-in, where the id family is not enough (the story director's words and moments). */
+  area?: string;
 }
 
 /** The one register: every family file under data/stopgaps/, in file-name order. */
@@ -62,4 +64,19 @@ export function assertReleaseReady(
         )
         .join("\n"),
     );
+}
+
+/**
+ * The word banks' stand-ins, fired when a hand-written bank writes a line in
+ * play, so a release can see they are still in use (audit 1, Oct 12).
+ */
+export const WORDS_STOPGAP_HITS = new Set<string>();
+export function markWordsStopgap(id: string): void {
+  stopgap(id, { stopgapHits: WORDS_STOPGAP_HITS });
+}
+
+export function openStopgapCount(
+  rows: readonly StopgapEntry[] = STOPGAPS,
+): number {
+  return rows.filter((row) => row.status === "open").length;
 }

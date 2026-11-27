@@ -27,9 +27,8 @@ import {
   leanOf,
   memberKey,
   members,
-  registerCommitteeRosterProvider,
 } from "./legislature";
-import { partySide } from "../appointments";
+import { partySide } from "./offices";
 import {
   COMMITTEES,
   committeeTopics,
@@ -139,17 +138,15 @@ export const LEADERSHIP_MODULE: CoreModule = {
       choices: {},
     },
   },
+  // The legislature seats a committee from the roster leadership kept.
+  committeeRoster: (api, chamber, committee) =>
+    committeeRoster(api, chamber, committee),
 };
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(LEADERSHIP_MODULE_ID).table(name);
 
 export function openLeadership(core: CoreState): void {
-  registerCommitteeRosterProvider((api, chamber, committee) =>
-    api.state.modules.has(LEADERSHIP_MODULE_ID)
-      ? committeeRoster(api, chamber, committee)
-      : null,
-  );
   if (!core.modules.has(LEADERSHIP_MODULE_ID))
     registerModule(core, LEADERSHIP_MODULE);
   void coreAPI(core);
