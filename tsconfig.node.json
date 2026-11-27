@@ -25,6 +25,8 @@
     "scripts/release/**/*.ts",
     "scripts/runtime-text/**/*.ts",
     "scripts/source/**/*.ts",
+    "scripts/research/bill-numbering-derivation.ts",
+    "scripts/research/read-bill-numbering-styles.ts",
     "src/cli/**/*.ts",
     "src/maps/**/*.ts",
     "src/content/**/*.ts",
