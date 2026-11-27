@@ -62,6 +62,9 @@
       "elections": 2,
       "executive": 1
     },
+    "src/bench/dev-views/printed-stories.ts": {
+      "news": 1
+    },
     "src/bench/dev-views/voter-lean.ts": {
       "elections": 1
     },
@@ -116,7 +119,8 @@
     "src/bench/printed-words.ts": {
       "dynamic": 1,
       "jobs-businesses": 1,
-      "laws": 2
+      "laws": 2,
+      "news": 2
     },
     "src/bench/reached.ts": {
       "elections": 3,
