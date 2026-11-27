@@ -3234,6 +3234,20 @@ export function countedHouseholdJobChanged(
   const store = rt.store;
   const h = store.households[store.household[m]!]!;
   const others = h.jobs.filter((row) => row.id !== job.id);
+  // A member hired into a recorded job was one of the working-age members
+  // without one whom the household's out-of-town workers are shared among, so
+  // their share leaves with the hire: the same writer as a member who leaves
+  // working age. Left on, the household's income counted their pay twice (the
+  // new job and the share), and a fill-in, which hands over only the jobs,
+  // dropped it and moved the household's income fifth (school-outcomes,
+  // Hackleburg, Alabama, seed 5d329c70fa987cb9).
+  if (
+    job.endsAt === undefined &&
+    !others.some(
+      (row) => row.personId === job.personId && row.endsAt === undefined,
+    )
+  )
+    leaveUnplacedWork(rt, h, m, core.date, false);
   h.jobs = job.endsAt === undefined ? [...others, job] : others;
   if (commitment) {
     h.workCommitments = [
