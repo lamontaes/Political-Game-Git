@@ -2059,7 +2059,11 @@
       "topic": "hard-run",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "sots-close-states-intent-to-serve-the-term",
+        "work-outlasts-the-term"
+      ]
     },
     {
       "key": "opening-speech.story-turn.polished-hard-run-fed-you-did-not-send-me-here-to-explain-the",
@@ -2159,7 +2163,8 @@
       "topic": "hard-run",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["sots-close-states-intent-to-serve-the-term"]
     },
     {
       "key": "opening-speech.story-turn.plain-hard-run-fed-that-stops-now-i-ve-got-term-left-and",
@@ -2219,7 +2224,8 @@
       "topic": "hard-run",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["work-outlasts-the-term"]
     },
     {
       "key": "opening-speech.story-turn.polished-hard-run-fed-i-have-term-left-left-to-make-it-right",
@@ -2249,7 +2255,8 @@
       "topic": "hard-run",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["work-outlasts-the-term"]
     },
     {
       "key": "opening-speech.story-turn.polished-hard-run-fed-with-term-left-left-in-this-term-the-work",
@@ -2279,7 +2286,8 @@
       "topic": "hard-run",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["work-outlasts-the-term"]
     },
     {
       "key": "opening-speech.story-turn.polished-hard-run-fed-there-are-term-left-left-in-this-term-and",
@@ -3061,7 +3069,8 @@
       "topic": "good-run",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["sotu-close-looks-ahead", "work-outlasts-the-term"]
     },
     {
       "key": "opening-speech.story-turn.polished-good-run-fed-i-have-term-left-to-build-on-it-and",
@@ -3091,7 +3100,11 @@
       "topic": "good-run",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "work-outlasts-the-term",
+        "sots-close-states-intent-to-serve-the-term"
+      ]
     },
     {
       "key": "opening-speech.story-turn.polished-good-run-fed-good-years-are-when-you-fix-the-roof-and",
@@ -3121,7 +3134,8 @@
       "topic": "good-run",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["sotu-close-looks-ahead"]
     },
     {
       "key": "opening-speech.story-turn.plain-good-run-fed-i-ve-got-term-left-to-build-on-that",
@@ -3151,7 +3165,11 @@
       "topic": "good-run",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "work-outlasts-the-term",
+        "sots-close-states-intent-to-serve-the-term"
+      ]
     },
     {
       "key": "opening-speech.story-turn.plain-good-run-fed-good-times-are-when-you-fix-the-roof-i",
@@ -3181,7 +3199,8 @@
       "topic": "good-run",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["sotu-close-looks-ahead"]
     },
     {
       "key": "opening-speech.story-turn.plain-good-run-fed-the-job-for-the-next-term-left-is-to",
@@ -3211,7 +3230,8 @@
       "topic": "good-run",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["sotu-close-looks-ahead", "work-outlasts-the-term"]
     },
     {
       "key": "opening-speech.story-open.polished-disaster-fed-before-anything-else-i-want-to-speak-to-the",
@@ -3452,7 +3472,11 @@
       "topic": "disaster",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders",
+        "inaugural-vows-as-we-will-promises"
+      ]
     },
     {
       "key": "opening-speech.story-turn.polished-disaster-fed-the-people-of-disaster-where-will-not-rebuild-alone",
@@ -3482,7 +3506,10 @@
       "topic": "disaster",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.story-turn.polished-disaster-fed-whatever-it-takes-to-bring-disaster-where-back-this",
@@ -3512,7 +3539,11 @@
       "topic": "disaster",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders",
+        "inaugural-vows-as-we-will-promises"
+      ]
     },
     {
       "key": "opening-speech.story-turn.plain-disaster-fed-we-ll-rebuild-disaster-where-and-this-time-we",
@@ -3542,7 +3573,11 @@
       "topic": "disaster",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders",
+        "inaugural-vows-as-we-will-promises"
+      ]
     },
     {
       "key": "opening-speech.story-turn.plain-disaster-fed-whatever-disaster-where-needs-to-get-back-on-its",
@@ -3572,7 +3607,11 @@
       "topic": "disaster",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders",
+        "inaugural-vows-as-we-will-promises"
+      ]
     },
     {
       "key": "opening-speech.story-turn.plain-disaster-fed-nobody-in-disaster-where-is-rebuilding-alone-the-whole",
@@ -3602,7 +3641,10 @@
       "topic": "disaster",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.story-open.polished-disaster-twn-before-anything-else-i-want-to-speak-to-the",
@@ -3829,7 +3871,10 @@
       "topic": "disaster",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.story-turn.polished-disaster-twn-we-will-rebuild-realm-name-to-stand-up-to",
@@ -3859,7 +3904,11 @@
       "topic": "disaster",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders",
+        "inaugural-vows-as-we-will-promises"
+      ]
     },
     {
       "key": "opening-speech.story-turn.polished-disaster-twn-the-work-of-bringing-realm-name-back-is-not",
@@ -3889,7 +3938,11 @@
       "topic": "disaster",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "recovery-update-after-the-headlines",
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.story-turn.plain-disaster-twn-getting-realm-name-back-on-its-feet-comes-first",
@@ -3919,7 +3972,10 @@
       "topic": "disaster",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.story-turn.plain-disaster-twn-we-re-rebuilding-realm-name-and-we-re-going",
@@ -3949,7 +4005,11 @@
       "topic": "disaster",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders",
+        "inaugural-vows-as-we-will-promises"
+      ]
     },
     {
       "key": "opening-speech.story-turn.plain-disaster-twn-bringing-realm-name-back-isn-t-done-yet-and",
@@ -3979,7 +4039,11 @@
       "topic": "disaster",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "recovery-update-after-the-headlines",
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.story-open.polished-scandal-twn-this-past-year-a-member-of-body-was-reported",
@@ -4164,7 +4228,11 @@
       "topic": "scandal",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "takes-blame-for-the-biggest-failure-first",
+        "mayor-admits-a-setback-briefly"
+      ]
     },
     {
       "key": "opening-speech.story-turn.polished-scandal-twn-nothing-i-ask-of-body-this-year-matters-if",
@@ -4194,7 +4262,8 @@
       "topic": "scandal",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["name-who-failed-and-say-what-if-the-body-will-not-act"]
     },
     {
       "key": "opening-speech.story-turn.polished-scandal-twn-before-i-ask-body-for-anything-we-owe-you",
@@ -4254,7 +4323,8 @@
       "topic": "scandal",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["mayor-owns-the-mistake-and-says-what-she-assumed"]
     },
     {
       "key": "opening-speech.story-turn.plain-scandal-twn-nothing-i-ask-body-for-this-year-matters-if",
@@ -4284,7 +4354,8 @@
       "topic": "scandal",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["name-who-failed-and-say-what-if-the-body-will-not-act"]
     },
     {
       "key": "opening-speech.story-turn.plain-scandal-twn-we-ve-got-to-earn-your-trust-back-and",
@@ -4314,7 +4385,8 @@
       "topic": "scandal",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["mayor-owns-the-mistake-and-says-what-she-assumed"]
     },
     {
       "key": "opening-speech.story-turn.plain-scandal-twn-before-i-ask-body-for-a-single-thing-you",
@@ -4982,7 +5054,8 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
       "key": "opening-speech.salutation.n19-polished-i-thank-speaker-object-for-the-welcome-and-i-mean-to-earn-it",
@@ -5047,7 +5120,8 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
       "key": "opening-speech.salutation.n19-plain-vice-president-object-and-i-are-glad-to-be-here-and-ready-to",
@@ -5145,7 +5219,11 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sots-opens-by-thanking-legislators",
+        "sots-opens-with-a-salutation-to-named-officials"
+      ]
     },
     {
       "key": "opening-speech.today.n19-polished-here-is-where-we-stand-today-clause",
@@ -7501,7 +7579,11 @@
       "topic": "prices",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "mayor-admits-a-setback-briefly"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-the-month-stretches-less-far-in-realm-name-now-because-prices-keep-cli",
@@ -7531,7 +7613,8 @@
       "topic": "prices",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-swing-voter-grades-the-president-by-the-price-of-milk"]
     },
     {
       "key": "opening-speech.story-says.both-a-trip-for-groceries-or-gas-costs-realm-name-families-more-than-it-use",
@@ -7561,7 +7644,8 @@
       "topic": "prices",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-swing-voter-grades-the-president-by-the-price-of-milk"]
     },
     {
       "key": "opening-speech.story-says.both-families-in-realm-name-pay-more-at-the-register-than-when-this-term-be",
@@ -7591,7 +7675,8 @@
       "topic": "prices",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-swing-voter-grades-the-president-by-the-price-of-milk"]
     },
     {
       "key": "opening-speech.story-says.plain-the-money-runs-out-sooner-in-realm-name-than-it-used-to-because-pay-ha",
@@ -7621,7 +7706,12 @@
       "topic": "pay",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "striker-tells-passersby-pay-hasnt-kept-up",
+        "county-executive-answers-the-address-with-a-home-deficit",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "opening-speech.story-says.polished-the-money-runs-out-sooner-in-realm-name-than-it-used-to-because-pay-ha",
@@ -7651,7 +7741,12 @@
       "topic": "pay",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "striker-tells-passersby-pay-hasnt-kept-up",
+        "county-executive-answers-the-address-with-a-home-deficit",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-a-paycheck-covers-less-of-the-month-in-realm-name-than-it-did-and-peop",
@@ -7681,7 +7776,11 @@
       "topic": "pay",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-cashier-says-we-deserve-a-fair-wage",
+        "floor-minimum-wage-argued-through-the-people-behind-the-wage"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-families-in-realm-name-are-working-as-hard-as-ever-and-a-paycheck-stil",
@@ -7711,7 +7810,11 @@
       "topic": "pay",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-cashier-says-we-deserve-a-fair-wage",
+        "striker-tells-passersby-pay-hasnt-kept-up"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-pay-in-realm-name-has-fallen-further-behind-what-a-family-needs-than-w",
@@ -7741,7 +7844,11 @@
       "topic": "pay",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "striker-tells-passersby-pay-hasnt-kept-up",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "opening-speech.story-says.plain-more-people-are-looking-for-work-in-realm-name-than-when-this-term-beg",
@@ -7771,7 +7878,11 @@
       "topic": "jobs",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "job-seeker-explains-their-savings-are-running-out",
+        "mayor-admits-a-setback-briefly"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-neighbors-tell-me-every-week-that-work-is-scarce-in-realm-name-and-i-h",
@@ -7832,7 +7943,11 @@
       "topic": "jobs",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "job-seeker-explains-their-savings-are-running-out",
+        "mayor-admits-a-setback-briefly"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-good-jobs-are-harder-to-find-across-realm-name-than-when-this-term-beg",
@@ -7862,7 +7977,11 @@
       "topic": "jobs",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "job-seeker-explains-their-savings-are-running-out",
+        "mayor-admits-a-setback-briefly"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-fewer-people-in-realm-name-have-jobs-than-when-this-term-began-and-too",
@@ -7892,7 +8011,11 @@
       "topic": "jobs",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "job-seeker-explains-their-savings-are-running-out",
+        "mayor-admits-a-setback-briefly"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-shoppers-notice-it-at-the-register-where-good-name-have-come-down",
@@ -7922,7 +8045,8 @@
       "topic": "prices",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-swing-voter-grades-the-president-by-the-price-of-milk"]
     },
     {
       "key": "opening-speech.story-says.both-families-are-keeping-more-of-each-paycheck-because-good-name-have-ease",
@@ -7952,7 +8076,11 @@
       "topic": "prices",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-reports-the-budget-as-a-plain-bill-on-the-average-home",
+        "levy-turned-into-one-household-bill"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-the-month-stretches-further-now-that-good-name-have-come-down",
@@ -8043,7 +8171,10 @@
       "topic": "pay",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-reports-the-budget-as-a-plain-bill-on-the-average-home"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-good-name-has-risen-since-this-term-began-and-you-can-feel-it-in-every",
@@ -8073,7 +8204,8 @@
       "topic": "pay",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.both-hiring-is-up-and-good-name-are-showing-up-in-more-neighborhoods",
@@ -8188,7 +8320,8 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.plain-kids-are-rising-to-what-good-name-ask-of-them-and-parents-see-it",
@@ -8232,7 +8365,8 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.polished-parents-can-tell-their-children-are-learning-more-and-good-name-deserv",
@@ -8254,7 +8388,8 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.polished-children-are-rising-to-what-good-name-ask-of-them-and-parents-see-it",
@@ -8276,7 +8411,8 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.polished-our-children-are-learning-more-than-before-and-good-name-are-the-best",
@@ -8298,7 +8434,8 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.both-getting-to-work-is-smoother-now-thanks-to-the-repairs-on-good-name",
@@ -8451,7 +8588,10 @@
       "topic": "rent",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-reports-the-budget-as-a-plain-bill-on-the-average-home"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-families-keep-a-little-more-of-every-paycheck-because-good-name-has-ea",
@@ -8481,7 +8621,11 @@
       "topic": "rent",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-reports-the-budget-as-a-plain-bill-on-the-average-home",
+        "levy-turned-into-one-household-bill"
+      ]
     },
     {
       "key": "opening-speech.story-says.plain-a-doctor-visit-s-easier-to-get-than-before-and-good-name-reaches-more",
@@ -8511,7 +8655,8 @@
       "topic": "health",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["clinic-at-the-festival"]
     },
     {
       "key": "opening-speech.story-says.both-progress-on-good-name-shows-up-in-families-own-lives",
@@ -8601,7 +8746,8 @@
       "topic": "health",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.plain-families-can-see-the-difference-in-good-name-and-kids-are-breathing-ea",
@@ -8661,7 +8807,8 @@
       "topic": "environment",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.both-the-work-on-good-name-is-paying-off-and-parents-notice-it-first",
@@ -8722,7 +8869,8 @@
       "topic": "environment",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.plain-there-s-less-good-name-on-our-streets-than-before-and-neighbors-aren-t",
@@ -8752,7 +8900,11 @@
       "topic": "crime",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "chief-says-first-in-a-while-then-trend",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-people-are-out-in-the-evening-again-which-says-how-far-good-name-has-d",
@@ -8842,7 +8994,11 @@
       "topic": "crime",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "chief-says-first-in-a-while-then-trend",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.salutation.plain-members-of-the-realm-bare-legislature-and-friends-all-over-realm-name",
@@ -9650,7 +9806,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sots-close-states-intent-to-serve-the-term"]
     },
     {
       "key": "opening-speech.ask.polished-i-will-defend-law-name-while-i-am-governor-because-belief",
@@ -9731,7 +9888,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.plain-i-m-keeping-law-name-because-belief-and-fighting-any-repeal-of-them",
@@ -9877,7 +10035,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.plain-i-m-keeping-law-name-because-belief-and-fighting-any-repeal-of-it",
@@ -9974,7 +10133,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.plain-law-name-should-go-because-belief-and-i-ll-sign-the-repeal",
@@ -12620,7 +12780,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-vows-as-we-will-promises"]
     },
     {
       "key": "opening-speech.ask.polished-i-will-stand-by-law-name-while-i-am-office-title",
@@ -12651,7 +12812,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-vows-as-we-will-promises"]
     },
     {
       "key": "opening-speech.ask.plain-i-m-asking-body-name-to-drop-law-name",
@@ -13005,7 +13167,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-vows-as-we-will-promises"]
     },
     {
       "key": "opening-speech.ask.polished-i-will-defend-law-name-while-i-am-governor",
@@ -13031,7 +13194,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-vows-as-we-will-promises",
+        "sots-close-states-intent-to-serve-the-term"
+      ]
     },
     {
       "key": "opening-speech.ask.plain-i-ll-hold-the-line-on-law-name-and-nobody-gets-them-past-me",
@@ -13075,7 +13242,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "pattern-c38-the-promise-and-the-bill-on-your-desk",
+        "inaugural-vows-as-we-will-promises"
+      ]
     },
     {
       "key": "opening-speech.ask.plain-i-m-keeping-law-name-and-fighting-any-repeal-of-them",
@@ -13119,7 +13290,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.polished-i-will-keep-law-name-and-fight-any-repeal-of-them",
@@ -13163,7 +13335,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.plain-i-ll-hold-the-line-on-law-name-and-nobody-gets-past-me",
@@ -13207,7 +13380,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.plain-i-m-keeping-law-name-and-fighting-any-repeal-of-it",
@@ -13251,7 +13425,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.polished-i-will-keep-law-name-and-fight-any-repeal-of-it",
@@ -13295,7 +13470,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.plain-law-name-should-go-and-i-ll-sign-the-repeal",
@@ -18655,7 +18831,8 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.polished-our-children-are-learning-more-than-they-did-context-years-years-ago-a",
@@ -18677,7 +18854,8 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.plain-our-schools-are-giving-our-kids-less-than-they-did-context-years-years",
@@ -18699,7 +18877,11 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-admits-a-setback-briefly",
+        "stump-reason-to-run-is-the-place-could-do-better"
+      ]
     },
     {
       "key": "opening-speech.story-says.polished-our-schools-are-giving-our-children-less-than-they-did-context-years-y",
@@ -18721,7 +18903,11 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-admits-a-setback-briefly",
+        "stump-reason-to-run-is-the-place-could-do-better"
+      ]
     },
     {
       "key": "opening-speech.salutation.polished-members-of-body-name-and-everyone-gathered-here",
@@ -19135,7 +19321,8 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.polished-our-children-are-learning-more-than-they-were-and-realm-name-is-better",
@@ -19157,7 +19344,8 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.plain-our-schools-are-giving-our-kids-less-than-they-used-to-and-realm-name",
@@ -19179,7 +19367,8 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.polished-our-schools-are-giving-our-children-less-than-they-used-to-and-realm-n",
@@ -19201,7 +19390,8 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.both-prices-have-eased-over-these-context-years-years-and-a-paycheck-goes-a",
@@ -19261,7 +19451,8 @@
       "topic": "prices",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-swing-voter-grades-the-president-by-the-price-of-milk"]
     },
     {
       "key": "opening-speech.story-says.both-prices-have-climbed-faster-than-they-should-these-context-years-years",
@@ -19291,7 +19482,8 @@
       "topic": "prices",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-swing-voter-grades-the-president-by-the-price-of-milk"]
     },
     {
       "key": "opening-speech.story-says.both-pay-has-gone-up-over-these-context-years-years-and-many-families-final",
@@ -19375,7 +19567,11 @@
       "topic": "pay",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "striker-tells-passersby-pay-hasnt-kept-up"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-more-people-in-realm-name-have-work-than-when-this-term-began-and-the",
@@ -19436,7 +19632,8 @@
       "topic": "environment",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.polished-our-air-and-water-are-cleaner-than-context-years-years-ago-and-familie",
@@ -19466,7 +19663,8 @@
       "topic": "environment",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.plain-our-air-and-water-are-dirtier-than-context-years-years-ago-and-our-kid",
@@ -19496,7 +19694,8 @@
       "topic": "environment",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.polished-our-air-and-water-are-dirtier-than-context-years-years-ago-and-our-chi",
@@ -19526,7 +19725,8 @@
       "topic": "environment",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.both-our-roads-are-in-better-repair-than-context-years-years-ago-and-the-dr",
@@ -19556,7 +19756,8 @@
       "topic": "roads",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.both-our-roads-and-bridges-are-in-rougher-shape-than-context-years-years-ag",
@@ -19586,7 +19787,11 @@
       "topic": "roads",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "road-funding-plan-meets-the-other-chambers-rival-plan",
+        "mayor-admits-a-setback-briefly"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-getting-in-to-see-a-doctor-is-easier-than-it-was-context-years-years-a",
@@ -19646,7 +19851,11 @@
       "topic": "health",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-clinician-tells-the-rent-board-about-a-missed-prescription",
+        "striker-makes-it-personal-with-a-family-story"
+      ]
     },
     {
       "key": "opening-speech.story-says.polished-more-families-skip-the-doctor-or-go-into-debt-for-one-than-context-yea",
@@ -19676,7 +19885,11 @@
       "topic": "health",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-clinician-tells-the-rent-board-about-a-missed-prescription",
+        "striker-makes-it-personal-with-a-family-story"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-our-streets-are-safer-than-they-were-context-years-years-ago-and-neigh",
@@ -19706,7 +19919,8 @@
       "topic": "crime",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.both-our-streets-feel-less-safe-than-they-did-context-years-years-ago-and-n",
@@ -19736,7 +19950,11 @@
       "topic": "crime",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "neighbors-fear-being-the-next-house",
+        "mayor-admits-a-setback-briefly"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-rents-have-come-down-over-these-context-years-years-and-some-families",
@@ -36164,7 +36382,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-unemployment-rate-declined-change-unemployment-over-the-past",
@@ -36198,7 +36417,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-number-of-people-out-of-work-fell-change",
@@ -36232,7 +36452,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-number-of-people-out-of-work-declined-change",
@@ -36266,7 +36487,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.more-people-are-working-than-a-year-ago-in",
@@ -36335,7 +36557,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-jobless-count-dropped-change-unemployment-this-past-year",
@@ -36369,7 +36592,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-jobless-count-came-down-change-unemployment-this-past",
@@ -36403,7 +36627,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-count-of-folks-without-a-job-dropped-change",
@@ -36437,7 +36662,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-count-of-folks-without-a-job-came-down",
@@ -36471,7 +36697,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.more-folks-are-working-than-last-year-in-home",
@@ -36540,7 +36767,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.more-folks-are-working-than-last-year-in-home-2",
@@ -36660,7 +36888,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly", "turn-word-joins"]
     },
     {
       "key": "opening-speech.story-says.we-cannot-ignore-that-unemployment-rose-change-unemployment-over",
@@ -36702,7 +36931,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.story-says.we-have-also-seen-unemployment-climb-change-unemployment-over",
@@ -36744,7 +36974,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-admits-a-setback-briefly",
+        "sotu-opens-on-economic-figures"
+      ]
     },
     {
       "key": "opening-speech.story-says.we-also-see-more-people-out-of-work-than",
@@ -36786,7 +37020,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.story-says.there-are-also-more-people-out-of-work-from",
@@ -36828,7 +37063,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-admits-a-setback-briefly",
+        "sotu-opens-on-economic-figures"
+      ]
     },
     {
       "key": "opening-speech.story-says.it-is-also-true-that-more-people-are-out",
@@ -36955,7 +37194,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-admits-a-setback-briefly",
+        "sotu-opens-on-economic-figures"
+      ]
     },
     {
       "key": "opening-speech.story-says.on-top-of-that-unemployment-went-up-change-unemployment",
@@ -37040,7 +37283,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly", "turn-word-joins"]
     },
     {
       "key": "opening-speech.story-says.we-can-t-ignore-that-unemployment-went-up-change",
@@ -37082,7 +37326,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-admits-a-setback-briefly",
+        "sotu-opens-on-economic-figures"
+      ]
     },
     {
       "key": "opening-speech.story-says.we-also-see-more-folks-out-of-work-than",
@@ -37124,7 +37372,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-admits-a-setback-briefly",
+        "sotu-opens-on-economic-figures"
+      ]
     },
     {
       "key": "opening-speech.story-says.there-are-also-more-people-out-of-work-from-2",
@@ -37166,7 +37418,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.story-says.it-s-also-true-that-more-folks-are-out",
@@ -37251,7 +37504,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["turn-word-joins", "sotu-opens-on-economic-figures"]
     },
     {
       "key": "opening-speech.story-says.there-is-a-hard-side-to-it-too-unemployment",
@@ -37293,7 +37547,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-admits-a-setback-briefly",
+        "sotu-opens-on-economic-figures"
+      ]
     },
     {
       "key": "opening-speech.story-says.that-is-not-the-whole-story-because-unemployment-rose",
@@ -37335,7 +37593,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["turn-word-joins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.it-is-also-true-that-unemployment-rose-change-unemployment",
@@ -37420,7 +37679,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["turn-word-joins", "sotu-opens-on-economic-figures"]
     },
     {
       "key": "opening-speech.story-says.that-said-more-people-are-out-of-work-than-2",
@@ -37462,7 +37722,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["turn-word-joins", "sotu-opens-on-economic-figures"]
     },
     {
       "key": "opening-speech.story-says.that-said-the-number-of-people-out-of-work",
@@ -37504,7 +37765,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["turn-word-joins"]
     },
     {
       "key": "opening-speech.story-says.that-said-home-state-and-the-rest-of-the",
@@ -37546,7 +37808,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["turn-word-joins"]
     },
     {
       "key": "opening-speech.story-says.that-said-there-are-more-people-out-of-work",
@@ -37588,7 +37851,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["turn-word-joins", "sotu-opens-on-economic-figures"]
     },
     {
       "key": "opening-speech.story-says.that-said-home-state-and-the-rest-of-the-2",
@@ -37630,7 +37894,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["turn-word-joins"]
     },
     {
       "key": "opening-speech.story-says.that-said-more-folks-are-out-of-work-than",
@@ -37672,7 +37937,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["turn-word-joins"]
     },
     {
       "key": "opening-speech.story-says.that-said-more-folks-are-looking-for-work-than",
@@ -37714,7 +37980,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["turn-word-joins"]
     },
     {
       "key": "opening-speech.story-says.that-said-unemployment-went-up-change-unemployment-this-past",
@@ -37756,7 +38023,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["turn-word-joins", "sotu-opens-on-economic-figures"]
     },
     {
       "key": "opening-speech.story-says.it-s-not-all-good-though-because-unemployment-went",
@@ -37884,7 +38152,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-admits-a-setback-briefly",
+        "sotu-opens-on-economic-figures"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-rate-of-inflation-climbed-change-inflation-over-the",
@@ -37918,7 +38190,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-rate-of-inflation-climbed-change-inflation-over-the-2",
@@ -37952,7 +38228,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-rate-of-inflation-increased-change-inflation-during-the",
@@ -37986,7 +38266,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-rate-of-inflation-climbed-change-inflation-during-the",
@@ -38020,7 +38304,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-pace-of-price-increases-has-quickened-in-home",
@@ -38054,7 +38342,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-everyday-goods-is-rising-faster-than",
@@ -38088,7 +38380,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-pace-of-price-increases-has-quickened-in-home-2",
@@ -38122,7 +38418,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-everyday-goods-is-rising-faster-than-2",
@@ -38156,7 +38456,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-inflation-rate-jumped-change-inflation-this-past-year",
@@ -38190,7 +38494,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-inflation-rate-jumped-change-inflation-this-past-year-2",
@@ -38224,7 +38532,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-inflation-rate-went-up-change-inflation-over-the",
@@ -38258,7 +38570,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-inflation-rate-jumped-change-inflation-over-the-past",
@@ -38292,7 +38608,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.everyone-is-paying-more-and-faster-than-a-year",
@@ -38326,7 +38646,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "thanks-the-outgoing-president"
+      ]
     },
     {
       "key": "opening-speech.story-says.there-are-more-price-hikes-than-a-year-ago",
@@ -38360,7 +38684,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.story-says.everyone-is-paying-more-and-faster-than-a-year-2",
@@ -38394,7 +38719,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-swing-voter-grades-the-president-by-the-price-of-milk"]
     },
     {
       "key": "opening-speech.story-says.there-are-more-price-hikes-than-a-year-ago-2",
@@ -38428,7 +38754,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.story-says.the-rate-of-inflation-fell-change-inflation-over-the",
@@ -38462,7 +38789,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "sotu-opens-on-economic-figures"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-rate-of-inflation-fell-change-inflation-over-the-2",
@@ -38496,7 +38827,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "turn-word-joins"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-rate-of-inflation-declined-change-inflation-during-the",
@@ -38530,7 +38865,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "turn-word-joins"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-rate-of-inflation-fell-change-inflation-during-the",
@@ -38564,7 +38903,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures"]
     },
     {
       "key": "opening-speech.story-says.the-price-of-everyday-goods-is-still-rising-only",
@@ -38598,7 +38938,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "turn-word-joins"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-price-of-goods-still-rises-more-slowly-in",
@@ -38632,7 +38976,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "turn-word-joins"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-rise-in-prices-has-slowed-though-it-has",
@@ -38666,7 +39014,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "turn-word-joins"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-price-of-goods-still-rises-more-slowly-in-2",
@@ -38700,7 +39052,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-swing-voter-grades-the-president-by-the-price-of-milk"]
     },
     {
       "key": "opening-speech.story-says.the-inflation-rate-cooled-change-inflation-this-past-year",
@@ -38734,7 +39087,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "sotu-opens-on-economic-figures"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-inflation-rate-cooled-change-inflation-this-past-year-2",
@@ -38768,7 +39125,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "turn-word-joins"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-inflation-rate-came-down-change-inflation-over-the",
@@ -38802,7 +39163,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "turn-word-joins"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-inflation-rate-cooled-change-inflation-over-the-past",
@@ -38836,7 +39201,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures"]
     },
     {
       "key": "opening-speech.story-says.everyone-still-pays-more-just-at-a-slower-pace",
@@ -38870,7 +39236,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-swing-voter-grades-the-president-by-the-price-of-milk"]
     },
     {
       "key": "opening-speech.story-says.there-is-still-inflation-only-less-of-it-than",
@@ -38904,7 +39271,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures"]
     },
     {
       "key": "opening-speech.story-says.everyone-still-pays-more-just-at-a-slower-pace-2",
@@ -38938,7 +39306,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-swing-voter-grades-the-president-by-the-price-of-milk"]
     },
     {
       "key": "opening-speech.story-says.everyone-still-pays-more-just-at-a-slower-pace-3",
@@ -38972,7 +39341,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "thanks-the-outgoing-president"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-living-rose-change-inflation-over-the",
@@ -39006,7 +39379,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-living-rose-change-inflation-over-the-2",
@@ -39040,7 +39417,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise",
+        "county-executive-answers-the-address-with-a-home-deficit"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-living-climbed-change-inflation-during-the",
@@ -39074,7 +39456,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise",
+        "county-executive-answers-the-address-with-a-home-deficit"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-living-rose-change-inflation-during-the",
@@ -39108,7 +39495,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-price-of-everyday-goods-is-still-rising-in",
@@ -39142,7 +39533,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-living-keeps-climbing-in-home-state",
@@ -39176,7 +39571,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-price-of-everyday-goods-is-still-rising-in-2",
@@ -39210,7 +39609,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-living-keeps-climbing-in-home-state-2",
@@ -39244,7 +39647,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-price-of-groceries-jumped-change-inflation-this-past",
@@ -39278,7 +39685,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-price-of-groceries-jumped-change-inflation-this-past-2",
@@ -39312,7 +39723,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-things-went-up-change-inflation-over",
@@ -39346,7 +39761,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise",
+        "county-executive-answers-the-address-with-a-home-deficit"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-things-jumped-change-inflation-this-past",
@@ -39380,7 +39800,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "resident-demands-cuts-first-before-any-tax-rise"
+      ]
     },
     {
       "key": "opening-speech.story-says.everyone-is-still-paying-more-than-a-year-ago",
@@ -39414,7 +39838,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-swing-voter-grades-the-president-by-the-price-of-milk"]
     },
     {
       "key": "opening-speech.story-says.there-is-no-relief-at-the-checkout-yet-in",
@@ -39448,7 +39873,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.story-says.everyone-is-still-paying-more-than-a-year-ago-2",
@@ -39482,7 +39908,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-swing-voter-grades-the-president-by-the-price-of-milk"]
     },
     {
       "key": "opening-speech.story-says.there-is-no-relief-at-the-checkout-yet-in-2",
@@ -39516,7 +39943,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.story-says.the-typical-wage-rose-change-wages-over-the-past",
@@ -39550,7 +39978,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures"]
     },
     {
       "key": "opening-speech.story-says.the-typical-wage-rose-change-wages-over-the-past-2",
@@ -39584,7 +40013,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-typical-wage-climbed-change-wages-during-the-past",
@@ -39618,7 +40048,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-pay-of-working-people-climbed-change-wages-over",
@@ -39652,7 +40083,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-typical-paycheck-has-outrun-prices-in-home-state",
@@ -39686,7 +40118,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-pay-of-working-people-has-gained-on-prices",
@@ -39720,7 +40153,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-typical-paycheck-has-outrun-prices-in-home-state-2",
@@ -39754,7 +40188,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-pay-of-working-people-has-gained-on-prices-2",
@@ -39788,7 +40223,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.our-paychecks-grew-change-wages-this-past-year",
@@ -39962,7 +40398,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.a-paycheck-stretches-further-than-last-year-in-home",
@@ -39996,7 +40433,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.a-paycheck-goes-further-than-it-did-a-year-2",
@@ -40030,7 +40468,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-typical-wage-climbed-change-wages-over-the-past",
@@ -40064,7 +40506,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures"]
     },
     {
       "key": "opening-speech.story-says.the-typical-wage-rose-change-wages-over-the-past-3",
@@ -40098,7 +40541,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-opens-on-economic-figures",
+        "mayor-admits-a-setback-briefly"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-pay-of-working-people-rose-change-wages-during",
@@ -40132,7 +40579,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-typical-paycheck-has-fallen-behind-prices-in-home",
@@ -40166,7 +40614,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "striker-tells-passersby-pay-hasnt-kept-up",
+        "withdraw-the-proposal-before-restarting-the-rent-vote",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "opening-speech.story-says.our-paychecks-grew-change-wages-over-the-past-year",
@@ -40270,7 +40723,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "thanks-the-outgoing-president",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "opening-speech.story-says.a-paycheck-buys-less-than-it-did-a-year",
@@ -40304,7 +40762,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-swing-voter-grades-the-president-by-the-price-of-milk"]
     },
     {
       "key": "opening-speech.story-says.the-economy-grew-change-growth-over-the-past-year",
@@ -40338,7 +40797,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-economy-expanded-change-growth-over-the-past-year",
@@ -40372,7 +40832,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-nation-s-output-grew-change-growth-over-the",
@@ -40406,7 +40867,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-nation-s-output-expanded-change-growth-over-the",
@@ -40440,7 +40902,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-nation-s-economy-has-grown-in-home-state",
@@ -40474,7 +40937,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-economy-is-larger-than-it-was-a-year",
@@ -40508,7 +40972,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-nation-s-economy-has-grown-in-home-state-2",
@@ -40542,7 +41007,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-economy-grew-change-growth-this-past-year",
@@ -40576,7 +41042,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-economy-picked-up-change-growth-this-past-year",
@@ -40610,7 +41077,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.our-businesses-grew-change-growth-this-past-year",
@@ -40714,7 +41182,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.there-is-more-business-going-on-than-last-year",
@@ -40748,7 +41217,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-economy-is-bigger-than-it-was-last-year-2",
@@ -40782,7 +41252,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.there-is-more-business-going-on-than-last-year-2",
@@ -40816,7 +41287,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-a-mortgage-rose-change-mortgage-over",
@@ -40850,7 +41322,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "the-owner-brings-a-fuel-fill-and-a-mortgage-reset-to-the-hearing",
+        "sotu-opens-on-economic-figures"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-a-mortgage-climbed-change-mortgage-over",
@@ -40884,7 +41360,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "the-owner-brings-a-fuel-fill-and-a-mortgage-reset-to-the-hearing",
+        "sotu-opens-on-economic-figures"
+      ]
     },
     {
       "key": "opening-speech.story-says.a-home-loan-costs-more-than-it-did-a",
@@ -40918,7 +41398,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-a-mortgage-has-gone-up-since",
@@ -40952,7 +41436,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "the-owner-brings-a-fuel-fill-and-a-mortgage-reset-to-the-hearing"
+      ]
     },
     {
       "key": "opening-speech.story-says.a-home-loan-costs-more-than-it-did-a-2",
@@ -40986,7 +41473,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.a-mortgage-costs-more-than-last-year-in-home",
@@ -41020,7 +41511,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-price-of-a-home-loan-went-up-change",
@@ -41054,7 +41549,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "the-owner-brings-a-fuel-fill-and-a-mortgage-reset-to-the-hearing",
+        "sotu-opens-on-economic-figures"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-price-of-a-home-loan-jumped-change-mortgage",
@@ -41088,7 +41587,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "the-owner-brings-a-fuel-fill-and-a-mortgage-reset-to-the-hearing",
+        "sotu-opens-on-economic-figures"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-price-of-a-mortgage-went-up-change-mortgage",
@@ -41122,7 +41625,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "the-owner-brings-a-fuel-fill-and-a-mortgage-reset-to-the-hearing",
+        "sotu-opens-on-economic-figures"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-a-mortgage-fell-change-mortgage-over",
@@ -41156,7 +41663,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-a-mortgage-declined-change-mortgage-over",
@@ -41190,7 +41698,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-a-home-loan-fell-change-mortgage",
@@ -41224,7 +41733,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-a-home-loan-declined-change-mortgage",
@@ -41258,7 +41768,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.a-home-loan-costs-less-than-it-did-a",
@@ -41292,7 +41803,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-price-of-a-mortgage-dropped-change-mortgage-this",
@@ -41326,7 +41841,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-price-of-a-mortgage-came-down-change-mortgage",
@@ -41360,7 +41876,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-price-of-a-home-loan-dropped-change-mortgage",
@@ -41394,7 +41911,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.a-mortgage-costs-less-than-last-year-in-home",
@@ -41428,7 +41946,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-job-market-grew-change-jobs-over-the-past",
@@ -41462,7 +41984,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-job-market-rose-change-jobs-over-the-past",
@@ -41496,7 +42019,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-number-of-jobs-grew-change-jobs-during-the",
@@ -41530,7 +42054,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-number-of-jobs-rose-change-jobs-during-the",
@@ -41564,7 +42089,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.there-are-more-jobs-than-there-were-a-year",
@@ -41598,7 +42124,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.more-people-have-work-than-a-year-ago-in",
@@ -41667,7 +42194,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.more-people-have-work-than-a-year-ago-in-2",
@@ -41771,7 +42299,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.more-folks-have-jobs-than-last-year-in-home-2",
@@ -41840,7 +42369,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-job-count-went-up-change-jobs-over-the",
@@ -41874,7 +42404,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-job-count-grew-change-jobs-over-the-past",
@@ -41908,7 +42439,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-hiring-we-ve-seen-went-up-change-jobs",
@@ -41942,7 +42474,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-hiring-we-ve-seen-grew-change-jobs-over",
@@ -41976,7 +42509,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-on-economic-figures", "inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-housing-has-climbed-change-rent-since",
@@ -42010,7 +42544,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "candidate-talks-rent-as-a-neighbor-pushed-out",
+        "withdraw-the-proposal-before-restarting-the-rent-vote"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-housing-has-risen-change-rent-since",
@@ -42044,7 +42582,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["candidate-talks-rent-as-a-neighbor-pushed-out"]
     },
     {
       "key": "opening-speech.story-says.the-share-of-a-paycheck-that-goes-to-rent",
@@ -42078,7 +42617,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-cashier-says-we-deserve-a-fair-wage",
+        "candidate-talks-rent-as-a-neighbor-pushed-out",
+        "withdraw-the-proposal-before-restarting-the-rent-vote"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-share-of-a-paycheck-that-goes-to-rent-2",
@@ -42112,7 +42656,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-cashier-says-we-deserve-a-fair-wage",
+        "candidate-talks-rent-as-a-neighbor-pushed-out",
+        "withdraw-the-proposal-before-restarting-the-rent-vote"
+      ]
     },
     {
       "key": "opening-speech.story-says.a-paycheck-covers-less-rent-than-it-once-did",
@@ -42181,7 +42730,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "candidate-talks-rent-as-a-neighbor-pushed-out",
+        "withdraw-the-proposal-before-restarting-the-rent-vote"
+      ]
     },
     {
       "key": "opening-speech.story-says.a-paycheck-doesn-t-cover-as-much-rent-as",
@@ -42250,7 +42803,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.story-says.the-rent-bill-has-gone-up-change-rent-since",
@@ -42284,7 +42838,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "candidate-talks-rent-as-a-neighbor-pushed-out",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-rent-bill-has-grown-change-rent-since-this",
@@ -42318,7 +42876,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "candidate-talks-rent-as-a-neighbor-pushed-out",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-share-of-your-paycheck-that-goes-to-rent",
@@ -42352,7 +42914,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-cashier-says-we-deserve-a-fair-wage",
+        "candidate-talks-rent-as-a-neighbor-pushed-out",
+        "withdraw-the-proposal-before-restarting-the-rent-vote"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-share-of-your-paycheck-that-goes-to-rent-2",
@@ -42386,7 +42953,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-cashier-says-we-deserve-a-fair-wage",
+        "candidate-talks-rent-as-a-neighbor-pushed-out",
+        "withdraw-the-proposal-before-restarting-the-rent-vote"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-housing-has-dropped-change-rent-since",
@@ -42420,7 +42992,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-housing-has-eased-change-rent-since",
@@ -42454,7 +43027,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-share-of-a-paycheck-that-goes-to-rent-3",
@@ -42488,7 +43062,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-share-of-a-paycheck-that-goes-to-rent-4",
@@ -42522,7 +43097,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.a-paycheck-covers-more-rent-than-it-once-did",
@@ -42590,7 +43166,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.a-paycheck-covers-more-of-the-rent-than-before",
@@ -42658,7 +43235,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-rent-bill-has-come-down-change-rent-since",
@@ -42692,7 +43270,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-rent-bill-has-shrunk-change-rent-since-this",
@@ -42726,7 +43305,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-share-of-your-paycheck-that-goes-to-rent-3",
@@ -42760,7 +43340,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-share-of-your-paycheck-that-goes-to-rent-4",
@@ -42794,7 +43375,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-safety-of-our-streets-has-worsened-change-crime",
@@ -42828,7 +43410,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "chief-says-first-in-a-while-then-trend",
+        "mayor-admits-a-setback-briefly"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-safety-of-our-streets-has-slipped-change-crime",
@@ -42862,7 +43448,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "chief-says-first-in-a-while-then-trend",
+        "mayor-admits-a-setback-briefly"
+      ]
     },
     {
       "key": "opening-speech.story-says.our-streets-are-less-safe-than-before-in-home",
@@ -42896,7 +43486,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["neighbors-fear-being-the-next-house"]
     },
     {
       "key": "opening-speech.story-says.our-neighborhoods-are-less-safe-than-before-in-home",
@@ -42930,7 +43521,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["neighbors-fear-being-the-next-house"]
     },
     {
       "key": "opening-speech.story-says.our-streets-are-less-safe-than-before-in-home-2",
@@ -42964,7 +43556,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["neighbors-fear-being-the-next-house"]
     },
     {
       "key": "opening-speech.story-says.our-streets-feel-less-safe-than-before-in-home",
@@ -42998,7 +43591,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["neighbors-fear-being-the-next-house"]
     },
     {
       "key": "opening-speech.story-says.our-neighborhoods-don-t-feel-as-safe-as-before",
@@ -43032,7 +43626,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["neighbors-fear-being-the-next-house"]
     },
     {
       "key": "opening-speech.story-says.our-neighborhoods-has-gotten-worse-change-crime-since-this",
@@ -43066,7 +43661,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["neighbors-fear-being-the-next-house"]
     },
     {
       "key": "opening-speech.story-says.our-neighborhoods-has-slipped-change-crime-since-this-term",
@@ -43100,7 +43696,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["neighbors-fear-being-the-next-house"]
     },
     {
       "key": "opening-speech.story-says.the-sense-of-safety-on-our-streets-has-gotten",
@@ -43134,7 +43731,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "chief-says-first-in-a-while-then-trend",
+        "mayor-admits-a-setback-briefly"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-safety-of-our-streets-has-improved-change-crime",
@@ -43168,7 +43769,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.the-safety-of-our-streets-has-advanced-change-crime",
@@ -43202,7 +43804,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.our-streets-are-safer-than-before-in-home-state",
@@ -43236,7 +43839,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.our-neighborhoods-are-safer-than-before-in-home-state",
@@ -43270,7 +43874,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.our-streets-are-safer-than-before-in-home-state-2",
@@ -43304,7 +43909,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.our-streets-feel-safer-than-before-in-home-state",
@@ -43338,7 +43944,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.our-neighborhoods-has-picked-up-change-crime-since-this",
@@ -43372,7 +43979,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.our-neighborhoods-has-come-up-change-crime-since-this",
@@ -43406,7 +44014,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.the-sense-of-safety-on-our-streets-has-picked",
@@ -43440,7 +44049,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.the-learning-in-our-schools-has-worsened-change-schools",
@@ -43474,7 +44084,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "stump-reason-to-run-is-the-place-could-do-better",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-learning-in-our-schools-has-slipped-change-schools",
@@ -43508,7 +44122,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "stump-reason-to-run-is-the-place-could-do-better",
+        "candidate-talks-schools-through-the-teacher-who-cannot-afford-to-stay",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.our-children-are-learning-less-in-school-than-before",
@@ -43542,7 +44161,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.the-learning-in-our-classrooms-has-slipped-in-home",
@@ -43576,7 +44196,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-reason-to-run-is-the-place-could-do-better"]
     },
     {
       "key": "opening-speech.story-says.our-kids-are-learning-less-than-before-in-home",
@@ -43610,7 +44231,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.our-schools-are-doing-worse-by-kids-than-before",
@@ -43644,7 +44266,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "candidate-talks-schools-through-the-teacher-who-cannot-afford-to-stay",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-learning-our-kids-get-has-gotten-worse-change",
@@ -43678,7 +44304,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "stump-reason-to-run-is-the-place-could-do-better",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-learning-our-kids-get-has-slipped-change-schools",
@@ -43712,7 +44342,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "stump-reason-to-run-is-the-place-could-do-better",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.our-schools-has-gotten-worse-change-schools-since-this",
@@ -43746,7 +44380,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "candidate-talks-schools-through-the-teacher-who-cannot-afford-to-stay",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-learning-in-our-schools-has-improved-change-schools",
@@ -43780,7 +44418,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.the-learning-in-our-schools-has-advanced-change-schools",
@@ -43814,7 +44453,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.our-children-are-learning-more-in-school-than-before",
@@ -43848,7 +44488,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.the-learning-in-our-classrooms-has-strengthened-in-home",
@@ -43882,7 +44523,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.our-kids-are-learning-more-than-before-in-home",
@@ -43916,7 +44558,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.our-schools-are-doing-better-by-kids-than-before",
@@ -43950,7 +44593,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.the-learning-our-kids-get-has-picked-up-change",
@@ -43984,7 +44628,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.the-learning-our-kids-get-has-come-up-change",
@@ -44018,7 +44663,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.our-schools-has-picked-up-change-schools-since-this",
@@ -44052,7 +44698,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.our-schools-has-come-up-change-schools-since-this",
@@ -44086,7 +44733,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.the-affordability-of-care-has-worsened-change-health-since",
@@ -44120,7 +44768,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["striker-makes-it-personal-with-a-family-story"]
     },
     {
       "key": "opening-speech.story-says.the-affordability-of-care-has-slipped-change-health-since",
@@ -44154,7 +44803,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-clinician-tells-the-rent-board-about-a-missed-prescription"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-care-people-can-reach-and-afford-has-worsened",
@@ -44188,7 +44840,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-clinician-tells-the-rent-board-about-a-missed-prescription",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-care-people-can-reach-and-afford-has-slipped",
@@ -44222,7 +44878,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-clinician-tells-the-rent-board-about-a-missed-prescription",
+        "striker-makes-it-personal-with-a-family-story",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-care-people-can-get-is-harder-to-afford",
@@ -44256,7 +44917,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-clinician-tells-the-rent-board-about-a-missed-prescription",
+        "striker-makes-it-personal-with-a-family-story",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.a-doctor-s-visit-has-become-harder-to-afford",
@@ -44290,7 +44956,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.a-doctor-s-visit-is-harder-to-afford-now",
@@ -44324,7 +44991,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.the-cost-of-care-for-folks-is-higher-than",
@@ -44358,7 +45026,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-clinician-tells-the-rent-board-about-a-missed-prescription",
+        "county-executive-answers-the-address-with-a-home-deficit"
+      ]
     },
     {
       "key": "opening-speech.story-says.our-health-care-has-gotten-worse-change-health-since",
@@ -44392,7 +45064,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.our-health-care-has-slipped-change-health-since-this",
@@ -44426,7 +45099,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.the-care-folks-can-afford-has-gotten-worse-change",
@@ -44460,7 +45134,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-clinician-tells-the-rent-board-about-a-missed-prescription",
+        "striker-makes-it-personal-with-a-family-story"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-care-folks-can-afford-has-slipped-change-health",
@@ -44494,7 +45172,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-clinician-tells-the-rent-board-about-a-missed-prescription",
+        "striker-makes-it-personal-with-a-family-story",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-affordability-of-care-has-improved-change-health-since",
@@ -44528,7 +45211,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.the-affordability-of-care-has-advanced-change-health-since",
@@ -44562,7 +45246,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.the-care-people-can-reach-and-afford-has-improved",
@@ -44596,7 +45281,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.the-care-people-can-reach-and-afford-has-advanced",
@@ -44630,7 +45316,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.the-care-people-can-get-is-easier-to-afford",
@@ -44664,7 +45351,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.a-doctor-s-visit-has-become-easier-to-afford",
@@ -44698,7 +45386,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim", "clinic-at-the-festival"]
     },
     {
       "key": "opening-speech.story-says.the-care-people-can-get-is-easier-to-afford-2",
@@ -44732,7 +45421,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.a-doctor-s-visit-is-easier-to-afford-now",
@@ -44766,7 +45456,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim", "clinic-at-the-festival"]
     },
     {
       "key": "opening-speech.story-says.our-health-care-has-picked-up-change-health-since",
@@ -44800,7 +45491,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.our-health-care-has-come-up-change-health-since",
@@ -44834,7 +45526,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.the-care-folks-can-afford-has-picked-up-change",
@@ -44868,7 +45561,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.the-state-of-our-roads-has-worsened-change-roads",
@@ -44902,7 +45596,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "road-funding-plan-meets-the-other-chambers-rival-plan",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-state-of-our-roads-has-slipped-change-roads",
@@ -44936,7 +45634,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["road-funding-plan-meets-the-other-chambers-rival-plan"]
     },
     {
       "key": "opening-speech.story-says.the-condition-of-our-roads-and-bridges-has-worsened",
@@ -44970,7 +45669,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "road-funding-plan-meets-the-other-chambers-rival-plan",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-condition-of-our-roads-and-bridges-has-slipped",
@@ -45004,7 +45707,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["road-funding-plan-meets-the-other-chambers-rival-plan"]
     },
     {
       "key": "opening-speech.story-says.our-roads-and-bridges-are-in-worse-shape-than",
@@ -45038,7 +45742,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "road-funding-plan-meets-the-other-chambers-rival-plan",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-roads-we-drive-on-are-in-worse-repair",
@@ -45072,7 +45780,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["road-funding-plan-meets-the-other-chambers-rival-plan"]
     },
     {
       "key": "opening-speech.story-says.our-roads-are-rougher-than-before-in-home-state",
@@ -45106,7 +45815,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "road-funding-plan-meets-the-other-chambers-rival-plan",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.story-says.our-bridges-and-roads-are-in-worse-shape-than",
@@ -45140,7 +45853,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "road-funding-plan-meets-the-other-chambers-rival-plan",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-shape-of-our-roads-and-bridges-has-gotten",
@@ -45174,7 +45891,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "road-funding-plan-meets-the-other-chambers-rival-plan",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.our-roads-has-slipped-change-roads-since-this-term",
@@ -45208,7 +45929,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "road-funding-plan-meets-the-other-chambers-rival-plan",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-shape-of-our-roads-and-bridges-has-gotten-2",
@@ -45242,7 +45967,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "road-funding-plan-meets-the-other-chambers-rival-plan",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.story-says.our-roads-has-slipped-change-roads-since-i-came",
@@ -45276,7 +46005,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "road-funding-plan-meets-the-other-chambers-rival-plan",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-state-of-our-roads-has-improved-change-roads",
@@ -45310,7 +46043,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "road-funding-plan-meets-the-other-chambers-rival-plan",
+        "inventory-of-wins"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-state-of-our-roads-has-advanced-change-roads",
@@ -45344,7 +46081,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "road-funding-plan-meets-the-other-chambers-rival-plan",
+        "inventory-of-wins"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-condition-of-our-roads-and-bridges-has-improved",
@@ -45378,7 +46119,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-condition-of-our-roads-and-bridges-has-advanced",
@@ -45412,7 +46154,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.our-roads-and-bridges-are-in-better-shape-than",
@@ -45446,7 +46189,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.the-roads-we-drive-on-are-in-better-repair",
@@ -45480,7 +46224,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.our-roads-are-smoother-than-before-in-home-state",
@@ -45514,7 +46259,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.our-bridges-and-roads-are-in-better-shape-than",
@@ -45548,7 +46294,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.the-shape-of-our-roads-and-bridges-has-picked",
@@ -45582,7 +46329,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "road-funding-plan-meets-the-other-chambers-rival-plan",
+        "inventory-of-wins"
+      ]
     },
     {
       "key": "opening-speech.story-says.our-roads-has-picked-up-change-roads-since-this",
@@ -45616,7 +46367,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.our-roads-has-come-up-change-roads-since-this",
@@ -45650,7 +46402,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "road-funding-plan-meets-the-other-chambers-rival-plan",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-shape-of-our-roads-and-bridges-has-picked-2",
@@ -45684,7 +46440,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.the-cleanliness-of-our-air-and-water-has-worsened",
@@ -45718,7 +46475,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-point-opens-on-a-contrast",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cleanliness-of-our-air-and-water-has-slipped",
@@ -45752,7 +46513,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-point-opens-on-a-contrast",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-health-of-our-air-and-water-has-worsened",
@@ -45786,7 +46551,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-point-opens-on-a-contrast",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-health-of-our-air-and-water-has-slipped",
@@ -45820,7 +46589,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-point-opens-on-a-contrast",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.story-says.our-air-and-water-are-less-clean-than-before",
@@ -45854,7 +46627,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.the-air-we-breathe-is-less-clean-than-before",
@@ -45888,7 +46662,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-point-opens-on-a-contrast",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.story-says.our-air-and-water-are-dirtier-than-before-in",
@@ -45922,7 +46700,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.the-water-we-drink-isn-t-as-clean-as",
@@ -45956,7 +46735,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.story-says.our-air-and-water-has-gotten-worse-change-environment",
@@ -45990,7 +46770,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.our-air-and-water-has-slipped-change-environment-since",
@@ -46024,7 +46805,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.the-state-of-our-air-and-water-has-gotten",
@@ -46058,7 +46840,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-point-opens-on-a-contrast",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.story-says.the-cleanliness-of-our-air-and-water-has-improved",
@@ -46092,7 +46878,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.the-cleanliness-of-our-air-and-water-has-advanced",
@@ -46126,7 +46913,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.the-health-of-our-air-and-water-has-improved",
@@ -46160,7 +46948,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.the-health-of-our-air-and-water-has-advanced",
@@ -46194,7 +46983,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.our-air-and-water-are-cleaner-than-before-in",
@@ -46228,7 +47018,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.the-air-we-breathe-is-cleaner-than-before-in",
@@ -46262,7 +47053,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.the-water-we-drink-is-cleaner-than-before-in",
@@ -46296,7 +47088,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "opening-speech.story-says.our-air-and-water-are-cleaner-than-they-were",
@@ -46330,7 +47123,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.our-air-and-water-has-picked-up-change-environment",
@@ -46364,7 +47158,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.our-air-and-water-has-come-up-change-environment",
@@ -46398,7 +47193,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.story-says.the-state-of-our-air-and-water-has-picked",
@@ -46432,7 +47228,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.story-says.the-state-of-our-air-and-water-has-come",
@@ -46466,7 +47263,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inventory-of-wins", "inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "opening-speech.pledge.my-first-work-will-be-on-hardest-stay-steady",
@@ -46576,7 +47374,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.pledge.let-s-get-congress-to-first-to",
@@ -46650,7 +47449,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "concession-this-is-not-the-end"
+      ]
     },
     {
       "key": "opening-speech.pledge.we-ll-hold-on-to-best-through-this-we",
@@ -46685,7 +47488,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.pledge.i-will-ask-congress-to-first-to",
@@ -46759,7 +47563,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.pledge.i-will-keep-best-growing-i-will-persist",
@@ -46794,7 +47599,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-vows-as-we-will-promises",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.pledge.i-will-carry-the-needs-of-home-state-into",
@@ -46829,7 +47638,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "stump-ends-on-thanks-or-an-inclusive-promise",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.pledge.i-m-asking-congress-to-first-to",
@@ -46903,7 +47716,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "concession-this-is-not-the-end"
+      ]
     },
     {
       "key": "opening-speech.pledge.i-ll-keep-best-moving-i-m-not-budging",
@@ -47757,7 +48574,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "victory-promises-are-a-short-list-of-first-acts",
+        "inaugural-vows-as-we-will-promises"
+      ]
     },
     {
       "key": "opening-speech.pledge.i-ll-ask-congress-to-first-to-we-re",
@@ -48465,7 +49286,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-vows-as-we-will-promises"]
     },
     {
       "key": "opening-speech.pledge.i-will-ask-congress-to-first-to-work-should",
@@ -48944,7 +49766,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-vows-as-we-will-promises"]
     },
     {
       "key": "opening-speech.pledge.i-will-ask-congress-to-first-to-prices-should",
@@ -49605,7 +50428,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-vows-as-we-will-promises"]
     },
     {
       "key": "opening-speech.pledge.i-will-ask-congress-to-first-to-schools-should",
@@ -49715,7 +50539,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-vows-as-we-will-promises"]
     },
     {
       "key": "opening-speech.pledge.i-ll-ask-congress-to-first-to-kids-need",
@@ -49936,7 +50761,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["vow-pinned-to-a-dated-deliverable"]
     },
     {
       "key": "opening-speech.pledge.i-ll-ask-congress-to-first-to-care-has",
@@ -50046,7 +50872,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-vows-as-we-will-promises"]
     },
     {
       "key": "opening-speech.pledge.i-will-ask-congress-to-first-to-roads-should",
@@ -50156,7 +50983,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vow-pinned-to-a-dated-deliverable",
+        "inaugural-vows-as-we-will-promises"
+      ]
     },
     {
       "key": "opening-speech.pledge.i-ll-ask-congress-to-first-to-roads-have",
@@ -50377,7 +51208,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-vows-as-we-will-promises"]
     },
     {
       "key": "opening-speech.pledge.i-ll-ask-congress-to-first-to-clean-air",
@@ -55605,7 +56437,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "a-swing-voter-grades-the-president-by-the-price-of-milk",
+        "lawmaker-says-the-budget-matters-more-than-the-speech"
+      ]
     },
     {
       "key": "opening-speech.families.hardest-is-probably-the-talk-at-your-table-and",
@@ -55777,7 +56613,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "opening-speech.families.i-know-hardest-comes-up-at-your-table",
@@ -55881,7 +56718,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-swing-voter-grades-the-president-by-the-price-of-milk"]
     },
     {
       "key": "opening-speech.families.i-m-going-to-keep-working-until-hardest-eases",
@@ -56087,7 +56925,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "opening-speech.families.my-focus-is-your-family-whether-you-re-in",
@@ -56120,7 +56959,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "opening-speech.families.my-first-thought-is-your-family-whether-you-re",
@@ -56519,7 +57359,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "levy-turned-into-one-household-bill",
+        "a-swing-voter-grades-the-president-by-the-price-of-milk"
+      ]
     },
     {
       "key": "opening-speech.families.i-want-your-family-to-feel-best-not-just",
@@ -63879,7 +64723,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "inaugural-vows-as-we-will-promises"
+      ]
     },
     {
       "key": "opening-speech.pledge.my-first-job-is-hardest-stay-with-me",
@@ -64021,7 +64869,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "inaugural-vows-as-we-will-promises"
+      ]
     },
     {
       "key": "opening-speech.pledge.let-s-get-congress-to-first-to-watch-me",
@@ -64664,7 +65516,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "inaugural-vows-as-we-will-promises"
+      ]
     },
     {
       "key": "opening-speech.pledge.i-will-give-hardest-the-attention-it-deserves-grief",
@@ -64841,7 +65697,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "concession-this-is-not-the-end"
+      ]
     },
     {
       "key": "opening-speech.pledge.i-ll-ask-congress-to-first-to-every-promise",
