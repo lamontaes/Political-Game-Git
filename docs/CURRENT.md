@@ -114,6 +114,7 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 - `docs/current.json`
 - `docs/CURRENT.md`
 - `docs/words-lead-handoff-2026-11-16/`
+- `docs/coordination/refactor/story-split-2026-11-26.md`
 
 ## Replaced or removed, kept forever
 
@@ -360,7 +361,6 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 | `src/core2/deep-past.ts` | removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed) | 2026-11-24 | A profile report named this file; it is not in the repository. |
 | `src/core2/modules/law-reach` | removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed) | 2026-11-24 | The Oct 19 audit named this folder; it is not in the repository. |
 | `scripts/words/w3-news-year.ts` | removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed) | 2026-11-24 | A news study named this script; it is not in the repository. |
-| `tests/guards/english/bank-elements.test.ts` | removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed) | 2026-11-24 | The line-register guard's comment named this test; it is not in the repository. |
 | `calendar-day.png` | Generated calendar proof in the ignored test-results directory | 2026-11-27 | Review captures belong to their pull requests, not the repository. |
 | `calendar-holidays-hidden.png` | Generated calendar proof in the ignored test-results directory | 2026-11-27 | Review captures belong to their pull requests, not the repository. |
 | `calendar-today.png` | Generated calendar proof in the ignored test-results directory | 2026-11-27 | Review captures belong to their pull requests, not the repository. |
@@ -372,3 +372,4 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 | `tests/personality-catalogue-generated.test.ts` | `tests/personality-scales-data.test.ts` | 2026-11-27 | Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code. |
 | `src/core2/household-mix.generated.ts` | src/core2/data/household-mix.json, locked to the Census extracts by tests/source/household-mix.test.ts | 2026-11-27 | Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code. |
 | `scripts/source/regional-money/export-household-mix.ts` | tests/source/household-mix.test.ts holds its derivation | 2026-11-27 | Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code. |
+| `src/bench/opening-landing.browser.mjs` | deleted with the opening's landing line: the address scene says the evening's one arrival (owner, Nov 23, P7 and P19); restore it from commit 987b24113a | 2026-11-24 | It pinned a second arrival line after the address ('You hang your coat by the door' after 'You sit down at the kitchen table'), the double the owner heard in v0.114.0. |
