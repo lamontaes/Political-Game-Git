@@ -72789,10 +72789,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-leave.i-m-not-ready-yet-thanks-for-explaining-seat",
+      "key": "scene-talk.reply-leave.i-m-not-ready-yet-i-ll-be-back-about-seat",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'm not ready yet. Thanks for explaining {seat}.",
+      "text": "I'm not ready yet. I'll be back about {seat}.",
       "uses": [
         {
           "subject": "scene",
