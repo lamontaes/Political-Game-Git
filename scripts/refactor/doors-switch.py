@@ -213,6 +213,11 @@ def receiver_start(text: str, dot: int) -> int | None:
         i -= 1
     if i == end:
         return None
+    # A member chain such as `this.api` or `ctx.api` is part of the receiver.
+    while i >= 0 and text[i] == "." and i > 0 and (text[i - 1].isalnum() or text[i - 1] in "_$"):
+        i -= 1
+        while i >= 0 and (text[i].isalnum() or text[i] in "_$"):
+            i -= 1
     return i + 1
 
 
@@ -220,8 +225,18 @@ CHAIN = re.compile(r"\.\s*moduleState\(")
 STEP = re.compile(r"\s*\.\s*(table|get|rows|query)\(")
 
 
+def local_modules(text: str) -> dict[str, str]:
+    """A file's own constants for module ids (`const OFFICES = "core2-offices-v1"`)."""
+    found = {}
+    for name, value in re.findall(r'^const (\w+) = ("[\w-]+");', text, re.M):
+        if value in MODULES:
+            found[name] = MODULES[value]
+    return found
+
+
 def rewrite(path: str, text: str) -> tuple[str, int, list[str], dict[str, str], list[str]]:
     out, applied, missed, imports, held = text, 0, [], {}, []
+    modules = {**MODULES, **local_modules(text)}
     pos = 0
     while True:
         m = CHAIN.search(out, pos)
@@ -233,7 +248,7 @@ def rewrite(path: str, text: str) -> tuple[str, int, list[str], dict[str, str], 
         except ValueError:
             pos = m.end()
             continue
-        module = MODULES.get(out[paren + 1 : close - 1].strip())
+        module = modules.get(out[paren + 1 : close - 1].strip())
         step = STEP.match(out, close)
         if not module or not step or step.group(1) != "table":
             pos = m.end()
