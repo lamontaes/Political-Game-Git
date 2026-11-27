@@ -70797,10 +70797,10 @@
       "elements": ["victory-opponent-thanked-by-office-not-name"]
     },
     {
-      "key": "scene-talk.reply-leave.i-know-what-i-m-saying-about-opponent-let-s-go",
+      "key": "scene-talk.reply-leave.fine-i-ll-keep-opponent-out-of-it-let-s-go",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I know what I'm saying about {opponent}. Let's go.",
+      "text": "Fine, I'll keep {opponent} out of it. Let's go.",
       "uses": [
         {
           "subject": "scene",
@@ -70809,6 +70809,7 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
+          "after": "warn",
           "requiresFacts": ["opponent"]
         }
       ],
@@ -70823,10 +70824,10 @@
       "elements": ["victory-opponent-thanked-by-office-not-name"]
     },
     {
-      "key": "scene-talk.reply-leave.that-settles-it-for-office-let-s-go-out-there",
+      "key": "scene-talk.reply-leave.alright-i-ll-say-something-about-office-too-let-s-go",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "That settles it for {office}. Let's go out there.",
+      "text": "Alright, I'll say something about {office} too. Let's go.",
       "uses": [
         {
           "subject": "scene",
@@ -70835,6 +70836,34 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.reply-leave.understood-let-s-go-out-and-say-it-for-office",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Understood. Let's go out and say it for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer",
           "requiresFacts": ["office"]
         }
       ],
