@@ -206,6 +206,7 @@
 /src/core2/world-races-fold.test.ts @lamontaes
 /src/core2/world-races-no-district.test.ts @lamontaes
 /src/core2/world-races.test.ts @lamontaes
+/src/core2/election-winner-names.test.ts @lamontaes
 
 # Legislative bodies (bodies)
 /src/core2/modules/legislature.ts @lamontaes
@@ -260,6 +261,12 @@
 /src/core2/town-hall-question-seat.test.ts @lamontaes
 /src/core2/unemployment-program-reversal.test.ts @lamontaes
 /src/core2/world-legislating-federal.test.ts @lamontaes
+/src/core2/ask-waits-for-the-chair.test.ts @lamontaes
+/src/core2/bargaining-price.test.ts @lamontaes
+/src/core2/floor-every-bill.test.ts @lamontaes
+/src/core2/record-vote-per-question.test.ts @lamontaes
+/src/core2/second-chamber-own-day.test.ts @lamontaes
+/src/core2/sitting-focus.test.ts @lamontaes
 
 # Executives and offices (executive)
 /src/core2/modules/executive.ts @lamontaes
@@ -339,6 +346,9 @@
 /src/core2/town-seat-party.test.ts @lamontaes
 /src/core2/township-board-terms.test.ts @lamontaes
 /src/core2/wide-races.test.ts @lamontaes
+/src/core2/staff-dismissal-after-attendance.test.ts @lamontaes
+/src/core2/staff-player-clock.test.ts @lamontaes
+/src/core2/succession.test.ts @lamontaes
 
 # Budgets, taxes and public money (budgets)
 /src/core2/modules/budgets.ts @lamontaes
@@ -671,6 +681,8 @@
 /src/core2/unfilled-opening-pay.test.ts @lamontaes
 /src/core2/wholesale-outside-buyers.test.ts @lamontaes
 /src/core2/work.test.ts @lamontaes
+/src/core2/closure-credit-line.test.ts @lamontaes
+/src/core2/public-hire-authority.test.ts @lamontaes
 
 # Households and people (people)
 /src/core2/modules/people.ts @lamontaes
@@ -927,6 +939,11 @@
 /src/core2/vote-outcome-recorded.test.ts @lamontaes
 /src/core2/world-game.test.ts @lamontaes
 /src/core2/world-poverty.test.ts @lamontaes
+/src/core2/fill-in-pooled-flows.test.ts @lamontaes
+/src/core2/journal-fold.test.ts @lamontaes
+/src/core2/medical-payer-parts.test.ts @lamontaes
+/src/core2/moves-minors.test.ts @lamontaes
+/src/core2/rerate-counted-job.test.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes
@@ -946,6 +963,10 @@
 /src/core2/pre-start-people.test.ts @lamontaes
 /src/core2/pre-start.test.ts @lamontaes
 /src/core2/shared-history-past.test.ts @lamontaes
+/src/core2/day-zero.test.ts @lamontaes
+/src/core2/pre-start-government.test.ts @lamontaes
+/src/core2/relatives-elsewhere-past.test.ts @lamontaes
+/src/core2/whole-past.test.ts @lamontaes
 
 # The clock, the world and places (clock-places)
 /src/core2/modules/world.ts @lamontaes
@@ -1041,6 +1062,7 @@
 /src/core2/world-economy-setting.test.ts @lamontaes
 /src/core2/world-metrics-resident-rate.test.ts @lamontaes
 /src/core2/world-settings.test.ts @lamontaes
+/src/maps/** @lamontaes
 
 # News and the press (news)
 /src/core2/modules/news.ts @lamontaes
@@ -1069,27 +1091,7 @@
 
 # Screens and the UI kit (screens)
 /src/bench/** @lamontaes
-/src/core2/ask-waits-for-the-chair.test.ts @lamontaes
-/src/core2/bargaining-price.test.ts @lamontaes
-/src/core2/closure-credit-line.test.ts @lamontaes
-/src/core2/day-zero.test.ts @lamontaes
-/src/core2/election-winner-names.test.ts @lamontaes
-/src/core2/fill-in-pooled-flows.test.ts @lamontaes
-/src/core2/floor-every-bill.test.ts @lamontaes
-/src/core2/journal-fold.test.ts @lamontaes
-/src/core2/medical-payer-parts.test.ts @lamontaes
-/src/core2/moves-minors.test.ts @lamontaes
-/src/core2/pre-start-government.test.ts @lamontaes
-/src/core2/public-hire-authority.test.ts @lamontaes
-/src/core2/record-vote-per-question.test.ts @lamontaes
-/src/core2/relatives-elsewhere-past.test.ts @lamontaes
-/src/core2/rerate-counted-job.test.ts @lamontaes
-/src/core2/second-chamber-own-day.test.ts @lamontaes
-/src/core2/sitting-focus.test.ts @lamontaes
-/src/core2/staff-dismissal-after-attendance.test.ts @lamontaes
-/src/core2/staff-player-clock.test.ts @lamontaes
-/src/core2/succession.test.ts @lamontaes
-/src/core2/whole-past.test.ts @lamontaes
+/desktop/** @lamontaes
 
 # Owner-protected: the instructions, the workflows and the checks that judge every change (CTO, Nov 17, on issue 9747)
 /AGENTS.md @lamontaes
