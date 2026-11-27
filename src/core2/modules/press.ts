@@ -62,6 +62,9 @@ import {
   standing,
   type ContestRow,
   type FilingRow,
+  contestOf as contestRowOf,
+  filingOf,
+  filingsOfPerson,
 } from "./elections";
 import {
   CAMPAIGNS_MODULE_ID,
@@ -79,7 +82,7 @@ import {
   type ImpressionRow,
 } from "./campaigns";
 import { promisesOf, votesCast } from "./record";
-import { partySide } from "./offices";
+import { partySide, termsOfPerson, termById, officeById } from "./offices";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
 import { CORRUPTION_MODULE_ID } from "./laws";
 import { crimeRecord } from "./justice";
@@ -93,6 +96,8 @@ import {
 import { candidateStance, stanceReader, type StanceReader } from "./campaigns";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
+import { jobChange, jobChangesOf, jobsOpened } from "../jobs-reads";
+import { businessFoundings } from "../business-reads";
 import {
   BUSINESS_MODULE_ID,
   enrollBusinessOwner,
@@ -1124,10 +1129,7 @@ function enrollPressEmployers(api: CoreAPI): void {
   )
     return;
   const business = api.moduleState(BUSINESS_MODULE_ID);
-  if (
-    !business.table("state").get("business:state") ||
-    !api.moduleState(JOBS_MODULE_ID).table("state").get("jobs:state")
-  )
+  if (!business.table("state").get("business:state") || !jobsOpened(api))
     return;
   const enrolled = table(api, "employerEnrollment");
   for (const outlet of outletsHere(api)) {
@@ -1610,10 +1612,7 @@ export function countedFollowers(api: CoreAPI, outletId: string): number {
 }
 
 function contestOf(api: CoreAPI, contestId: string): ContestRow {
-  return api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("contests")
-    .get(contestId) as unknown as ContestRow;
+  return contestRowOf(api, contestId) as unknown as ContestRow;
 }
 
 /**
@@ -1635,12 +1634,9 @@ function asSpeaker(who: FilingRow | Speaker): Speaker {
 
 function servingTerms(api: CoreAPI, personId: string): readonly TermRow[] {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-  return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("byPerson", [personId]) as unknown as TermRow[]
-  ).filter((t) => t.status === "serving");
+  return (termsOfPerson(api, personId) as unknown as TermRow[]).filter(
+    (t) => t.status === "serving",
+  );
 }
 
 /** An officeholder as a speaker, or null for someone who holds no seat. */
@@ -1668,10 +1664,8 @@ function platformOf(api: CoreAPI, who: FilingRow | Speaker): readonly Stance[] {
 function isIncumbent(api: CoreAPI, contest: ContestRow, personId: string) {
   if (!contest.incumbentTermId || !api.state.modules.has(OFFICES_MODULE_ID))
     return false;
-  const term = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .get(contest.incumbentTermId) as unknown as TermRow | undefined;
+  const term = termById(api, contest.incumbentTermId) as unknown as
+    TermRow | undefined;
   return term?.personId === personId;
 }
 
@@ -1813,10 +1807,8 @@ function speakerAudienceShare(
   if (speaker.filing)
     return raceAudienceShare(api, outlet, speaker.filing.contestId);
   return servingTerms(api, speaker.personId).reduce((widest, term) => {
-    const office = api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .get(term.officeId) as unknown as { level: string } | undefined;
+    const office = officeById(api, term.officeId) as unknown as
+      { level: string } | undefined;
     return Math.max(
       widest,
       levelAudienceShare(
@@ -1851,10 +1843,7 @@ function townNewsworthiness(api: CoreAPI, speaker: Speaker): number {
   const filing = speaker.filing;
   const officeWorth = servingTerms(api, speaker.personId).reduce(
     (highest, term) => {
-      const office = api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("offices")
-        .get(term.officeId) as unknown as
+      const office = officeById(api, term.officeId) as unknown as
         { kind: string; level: string } | undefined;
       if (!office) return highest;
       const key = `officeNewsworthiness:${office.kind}`;
@@ -2377,10 +2366,7 @@ function arrange(
   outletId: string,
   askedBy: InterviewRow["askedBy"],
 ): InterviewRow {
-  const filing = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("filings")
-    .get(filingId) as unknown as FilingRow;
+  const filing = filingOf(api, filingId) as unknown as FilingRow;
   if (!filing) throw new Error(`No filing ${filingId}`);
   return arrangeWith(api, asSpeaker(filing), outletId, askedBy);
 }
@@ -2573,10 +2559,7 @@ export function answerInterview(
 /** Who an interview row is with: the filing's candidate, else the officeholder. */
 function speakerOf(api: CoreAPI, row: InterviewRow): Speaker {
   if (row.filingId) {
-    const filing = api
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("filings")
-      .get(row.filingId) as unknown as FilingRow;
+    const filing = filingOf(api, row.filingId) as unknown as FilingRow;
     return asSpeaker(filing);
   }
   return (
@@ -3078,10 +3061,10 @@ function adMoneyAt(
   )
     return 0;
   let spent = 0;
-  for (const filing of api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("filings")
-    .query("byPerson", [personId]) as unknown as FilingRow[]) {
+  for (const filing of filingsOfPerson(
+    api,
+    personId,
+  ) as unknown as FilingRow[]) {
     const contest = contestOf(api, filing.contestId);
     if (!contest || contest.electionDate < api.state.date) continue;
     spent +=
@@ -3662,10 +3645,10 @@ function countedFollowersNow(api: CoreAPI, outlet: OutletRow): number {
 function rivalsOf(api: CoreAPI, personId: string): readonly string[] {
   if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
   const out = new Set<string>();
-  for (const filing of api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("filings")
-    .query("byPerson", [personId]) as unknown as FilingRow[]) {
+  for (const filing of filingsOfPerson(
+    api,
+    personId,
+  ) as unknown as FilingRow[]) {
     if (!standing(filing)) continue;
     const contest = contestOf(api, filing.contestId);
     if (!contest || contest.electionDate < api.state.date) continue;
@@ -3784,16 +3767,12 @@ function milestones(api: CoreAPI): void {
   // A full resident only: a counted resident's birthday is printed once
   // they are filled in (the notice names them).
   // stopgapId: SG-WORDS-milestone-birthday-full-people
-  const jobs = c.modules.has(JOBS_MODULE_ID)
-    ? api.moduleState(JOBS_MODULE_ID)
-    : undefined;
   for (const id of c.peopleByPlace.get(town) ?? []) {
     const person = c.people.get(id);
     if (!person?.alive) continue;
     // A resident who retired this week, from the jobs engine's own record of
     // their leaving (reason "retired"), and the years they held the job.
-    for (const row of (jobs?.table("changes").query("byPerson", [id]) ??
-      []) as unknown as {
+    for (const row of jobChangesOf(api, id) as unknown as {
       date: string;
       kind: string;
       reasonKey: string;
@@ -3840,21 +3819,10 @@ function milestones(api: CoreAPI): void {
     });
   }
   if (!c.modules.has(BUSINESS_MODULE_ID)) return;
-  const business = api.moduleState(BUSINESS_MODULE_ID);
-  const founded = [
-    ...(
-      business.table("ages").rows() as unknown as {
-        id: string;
-        foundedAt: string;
-      }[]
-    ).map((row) => ({ id: row.id, date: row.foundedAt })),
-    ...(
-      business.table("foundings").rows() as unknown as {
-        organizationId: string;
-        date: string;
-      }[]
-    ).map((row) => ({ id: row.organizationId, date: row.date })),
-  ];
+  const founded = businessFoundings(api).map((row) => ({
+    id: row.organizationId,
+    date: row.date,
+  }));
   for (const row of founded) {
     const book = c.finance.businesses.get(row.id);
     if (!book || book.closedAt) continue;
@@ -4362,12 +4330,12 @@ function whyLeft(api: CoreAPI, row: StaffRow): string {
   if (!person?.alive) return "died";
   if (!row.jobId) return "unknown";
   if (!api.state.modules.has(JOBS_MODULE_ID)) return "left-job";
-  const changes = api.moduleState(JOBS_MODULE_ID).table("changes");
   // The departure fell within the week since the last check.
   for (let back = 0; back < 7; back += 1) {
     const date = addDays(makeIsoDate(api.state.date), -back);
     for (const kind of ["layoff", "quit", "left-work", "closure"])
-      if (changes.get(`job-change:${date}:${row.jobId}:${kind}`)) return kind;
+      if (jobChange(api, `job-change:${date}:${row.jobId}:${kind}`))
+        return kind;
   }
   return person.placeId === lawChain(api).townPlaceId ? "left-job" : "moved";
 }
@@ -4995,10 +4963,7 @@ export function platformAnswers(
   questions: readonly string[],
 ): readonly InterviewAnswer[] {
   const filing = filingId
-    ? (api
-        .moduleState(ELECTIONS_MODULE_ID)
-        .table("filings")
-        .get(filingId) as unknown as FilingRow | undefined)
+    ? (filingOf(api, filingId) as unknown as FilingRow | undefined)
     : undefined;
   const platform = filing ? platformOf(api, filing) : [];
   return questions.map((question): InterviewAnswer => {
@@ -5035,10 +5000,7 @@ export function standsOnRecord(
   questions: readonly string[],
 ): readonly StandOnRecord[] {
   const filing = filingId
-    ? (api
-        .moduleState(ELECTIONS_MODULE_ID)
-        .table("filings")
-        .get(filingId) as unknown as FilingRow | undefined)
+    ? (filingOf(api, filingId) as unknown as FilingRow | undefined)
     : undefined;
   const reader = filing
     ? stanceReader(api, filing.personId, filing.party ?? null)

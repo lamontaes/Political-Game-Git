@@ -14,11 +14,14 @@ import {
   isOutsideOffice,
   OFFICES_MODULE_ID,
   type TermRow,
+  officeById,
+  seatById,
+  termsOfPerson,
 } from "./modules/offices";
 import type { OfficeInput } from "./modules/offices";
 import { POLICY_QUESTIONS } from "./modules/laws";
 import { LEGISLATURE_MODULE_ID, type BillRow } from "./modules/legislature";
-import { ELECTIONS_MODULE_ID } from "./modules/elections";
+import { ELECTIONS_MODULE_ID, contestOf } from "./modules/elections";
 
 export type WireLevel = "town" | "county" | "state" | "nation";
 
@@ -68,15 +71,12 @@ function officeLevel(
   stateKey: string,
 ): WireLevel | null {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   let state = false;
   let county = false;
   for (const personId of event.personIds) {
-    for (const term of offices
-      .table("terms")
-      .query("byPerson", [personId]) as unknown as TermRow[]) {
+    for (const term of termsOfPerson(api, personId) as unknown as TermRow[]) {
       if (term.status !== "serving") continue;
-      const office = offices.table("offices").get(term.officeId) as unknown as
+      const office = officeById(api, term.officeId) as unknown as
         OfficeInput | undefined;
       if (office?.level === "federal") return "nation";
       if (office?.level === "state" && office.jurisdiction === stateKey)
@@ -97,12 +97,10 @@ function seatOffice(
   seatId: string | undefined,
 ): OfficeInput | null | undefined {
   if (!seatId || !api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const seat = offices.table("seats").get(seatId) as unknown as
+  const seat = seatById(api, seatId) as unknown as
     { readonly officeId: string } | undefined;
   const office = seat
-    ? (offices.table("offices").get(seat.officeId) as unknown as
-        OfficeInput | undefined)
+    ? (officeById(api, seat.officeId) as unknown as OfficeInput | undefined)
     : undefined;
   return office ?? null;
 }
@@ -129,10 +127,8 @@ function raceLevel(
     !api.state.modules.has(ELECTIONS_MODULE_ID)
   )
     return null;
-  const contest = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("contests")
-    .get(contestId) as unknown as { readonly level?: string } | undefined;
+  const contest = contestOf(api, contestId) as unknown as
+    { readonly level?: string } | undefined;
   return (contest?.level && LEVELS[contest.level]) || null;
 }
 
