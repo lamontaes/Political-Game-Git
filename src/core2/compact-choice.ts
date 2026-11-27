@@ -6,6 +6,39 @@ import type {
   DecisionResult,
 } from "./types";
 
+/** Freeze the same score evidence for a live pick or a saved answer. */
+export function freezeCompactScore(
+  row: Pick<
+    NonNullable<DecisionResult["scores"]>[number],
+    "score" | "reasons" | "reasonTerms"
+  >,
+  offer: Omit<CompactChoiceScoreV1, "score" | "contributions" | "reasonTerms">,
+): Readonly<CompactChoiceScoreV1> {
+  return Object.freeze({
+    ...offer,
+    score: row.score,
+    contributions: Object.freeze({ ...row.reasons }),
+    ...(row.reasonTerms?.length
+      ? {
+          reasonTerms: Object.freeze(
+            row.reasonTerms.map((term) =>
+              Object.freeze({
+                bindingId: term.id,
+                provider: term.provider,
+                weightParameter: term.weightParameter,
+                value: term.value,
+                contribution: term.contribution,
+                ...(term.sourceIds === undefined
+                  ? {}
+                  : { sourceIds: Object.freeze([...term.sourceIds]) }),
+              }),
+            ),
+          ),
+        }
+      : {}),
+  });
+}
+
 export function compactOriginalAnswer(
   original: Readonly<DecisionResult>,
   offers: readonly ActOffer[],
@@ -53,33 +86,13 @@ export function compactOriginalAnswer(
       throw new Error(
         "Compact answer requires saved finite time and score evidence.",
       );
-    return Object.freeze({
+    return freezeCompactScore(row, {
       offerIndex: index,
       actionId: row.actionId,
       targetId: row.targetId,
       availableHours: offer.availableHours,
       effortHours: offer.effortHours!,
       ...(offer.driveId === undefined ? {} : { driveId: offer.driveId }),
-      score: row.score,
-      contributions: Object.freeze({ ...row.reasons }),
-      ...(row.reasonTerms?.length
-        ? {
-            reasonTerms: Object.freeze(
-              row.reasonTerms.map((term) =>
-                Object.freeze({
-                  bindingId: term.id,
-                  provider: term.provider,
-                  weightParameter: term.weightParameter,
-                  value: term.value,
-                  contribution: term.contribution,
-                  ...(term.sourceIds === undefined
-                    ? {}
-                    : { sourceIds: Object.freeze([...term.sourceIds]) }),
-                }),
-              ),
-            ),
-          }
-        : {}),
     });
   };
   return Object.freeze({

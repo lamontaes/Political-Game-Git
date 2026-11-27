@@ -1,5 +1,7 @@
 # Our Civic Duty — repository guide
 
+Keep proof images out of Git. Save local captures under the ignored `test-results/proof/<item>/` directory and attach them to the pull request body or a PR comment. If direct attachment is unavailable, link the PR's CI artifact. Record the seed, viewport and proof step there.
+
 A political and government RPG with a full life simulation underneath. Every agent (Claude, Codex, Cursor, Antigravity or another) follows this file. It holds only what every session needs; procedures live in skills (`.agents/skills/`, mirrored in `.claude/skills/`), the standing rules' self-checks in `.agents/rules/standing-skills/`, and the command and constraint reference in `.agents/rules/repository-reference.md`. The code map is `ARCHITECTURE.md`; the docs map is `docs/README.md`.
 
 ## Where the game is going (owner, Oct 10, 2026)

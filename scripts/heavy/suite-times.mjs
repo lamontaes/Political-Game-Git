@@ -1,4 +1,3 @@
-/* global console, process */
 /**
  * Adds up the heavy set's test times: reads every vitest JSON report in a
  * folder (one a shard) and prints, as a Markdown table, the whole run's time,
@@ -63,6 +62,69 @@ export function summary(rows, top = 40) {
   return lines;
 }
 
+/** Prefer the most specific family path, as the family guard does. */
+export function testFamily(file, map) {
+  // The game-only migration mirrors engine tests below tests/src.
+  const enginePath = file.startsWith("tests/src/")
+    ? file.slice("tests/".length)
+    : file;
+  const candidates = [
+    file,
+    enginePath,
+    enginePath.replace(/\.(?:test|spec|browser|node-test)\./, "."),
+  ];
+  const matches = (glob) =>
+    candidates.some((candidate) => path.posix.matchesGlob(candidate, glob));
+  if (map.shared.some(matches)) return "shared kernel";
+  const rank = (glob) =>
+    (glob.includes("*") ? 0 : 10_000) + glob.replace(/\*/g, "").length;
+  return (
+    map.families
+      .flatMap((family) =>
+        family.paths
+          .filter(matches)
+          .map((glob) => ({ name: family.name, rank: rank(glob) })),
+      )
+      .sort((a, b) => b.rank - a.rank)[0]?.name ?? "unmapped"
+  );
+}
+
+export function nightlyFailures(rows, knownRed, map, reports, expected) {
+  const known = new Set(knownRed);
+  // The script moves these same test entrypoints to their exact mirror path.
+  const listed = (file) =>
+    known.has(file) ||
+    (file.startsWith("tests/src/") && known.has(file.slice("tests/".length)));
+  const files = [
+    ...new Set(
+      rows
+        .filter(
+          (row) =>
+            (row.failed > 0 || row.status === "failed") && !listed(row.file),
+        )
+        .map((row) => row.file),
+    ),
+  ].sort();
+  const missing = Array.from(
+    { length: expected },
+    (_, index) => `suite-${index + 1}`,
+  ).filter((name) => !reports.includes(name));
+  const lines = [
+    "### New nightly failures",
+    "",
+    `**${files.length} file(s) outside the known-red list.**`,
+    "",
+  ];
+  for (const file of files)
+    lines.push(`- \`${file}\` — ${testFamily(file, map)}`);
+  if (missing.length)
+    lines.push(
+      "",
+      `Missing shard reports: ${missing.join(", ")}. This list is incomplete.`,
+    );
+  return { lines, failed: files.length > 0 || missing.length > 0 };
+}
+
 function main() {
   const [folder, ...rest] = process.argv.slice(2);
   const topAt = rest.indexOf("--top");
@@ -73,7 +135,36 @@ function main() {
       name: name.replace(/\.json$/, ""),
       report: JSON.parse(readFileSync(path.join(folder, name), "utf8")),
     }));
-  for (const line of summary(fileTimes(reports), top)) console.log(line);
+  const rows = fileTimes(reports);
+  for (const line of summary(rows, top)) console.log(line);
+  const nightlyAt = rest.indexOf("--nightly");
+  if (nightlyAt !== -1) {
+    const guards = new URL("../../tests/guards/", import.meta.url);
+    const map = JSON.parse(
+      readFileSync(new URL("families.json", guards), "utf8"),
+    );
+    const knownText = readFileSync(
+      new URL("nightly-known-red-baseline.json", guards),
+      "utf8",
+    );
+    const known = JSON.parse(knownText);
+    if (
+      knownText !==
+      JSON.stringify([...new Set(known)].sort(), null, 2) + "\n"
+    )
+      throw new Error(
+        "Keep the nightly known-red baseline sorted, with one unique test file per line.",
+      );
+    const result = nightlyFailures(
+      rows,
+      known,
+      map,
+      reports.map((report) => report.name),
+      Number(rest[nightlyAt + 1]),
+    );
+    for (const line of result.lines) console.log(line);
+    if (result.failed) process.exitCode = 1;
+  }
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1])

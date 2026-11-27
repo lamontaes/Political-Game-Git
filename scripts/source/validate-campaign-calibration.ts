@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 
-export const CAMPAIGN_OFFICE_LEVELS = [
+const CAMPAIGN_OFFICE_LEVELS = [
   "state-house",
   "state-senate",
   "city-council",

@@ -1,24 +1,14 @@
-/* global fetch */
 // Dev mode's bribe, below the Bills panel: pick who wants the favor (one of the wealthiest
 // residents), which official (only those with a say on the pending bill) and the stake. The offer runs
 // through the game's own bribe code; each decides as the engine decides. The result line shows
 // whether it was offered and taken, the money moved and the record id.
+import { sendDevRequest as send } from "./dev-request.mjs";
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { select, numberBox, statusLine } from "./fields.mjs";
 
 /** The last result line, kept across the sheet's redraws. */
 let lastResult = "";
-
-async function send(path, input) {
-  const response = await fetch(`/api/dev/${path}`, {
-    method: input ? "POST" : "GET",
-    ...(input ? { body: JSON.stringify(input) } : {}),
-  });
-  const value = await response.json();
-  if (!response.ok) throw new Error(value.error);
-  return value;
-}
 
 /** The bribe panel. `labels` is controls.devBribe; `bodies` the lawmaking bodies; `billId()` the pending vote. */
 export async function devBribePanel({ labels, bodies, billId, onDone }) {

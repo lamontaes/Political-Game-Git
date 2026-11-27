@@ -96,7 +96,7 @@ export function clockOf(minuteOfDay: number | undefined): {
 }
 
 /** A fresh memory for one text. */
-export function freshText(): TextMemory {
+function freshText(): TextMemory {
   return { mentions: new Map(), fullNamed: new Set(), said: new Set() };
 }
 
@@ -146,7 +146,7 @@ export function isPresent(telling: Telling, personId: string): boolean {
 }
 
 /** Whether this text already said this key (a subject, a piece). */
-export function saidInText(telling: Telling, key: string): boolean {
+function saidInText(telling: Telling, key: string): boolean {
   return telling.text.said.has(key);
 }
 

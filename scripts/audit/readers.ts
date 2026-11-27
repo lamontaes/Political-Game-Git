@@ -22,7 +22,7 @@ const SKIPPED_DIRS = new Set(["node_modules", "fixtures", "__fixtures__"]);
 const CHECKER_DIR = "scripts/audit/";
 
 /** A test, spec or fixture: no player or script ever runs it. */
-export function isTestPath(path: string): boolean {
+function isTestPath(path: string): boolean {
   return (
     /\.(?:test|spec)\.[cm]?[jt]sx?$/.test(path) ||
     /(?:^|\/)(?:fixtures|__fixtures__|__tests__)\//.test(path) ||
@@ -53,7 +53,7 @@ export function codeFiles(roots: readonly string[]): string[] {
 }
 
 /** Every JSON file under a repository folder, repository-relative. */
-export function jsonFiles(root: string): string[] {
+function jsonFiles(root: string): string[] {
   const out: string[] = [];
   const walk = (dir: string): void => {
     if (!existsSync(dir)) return;

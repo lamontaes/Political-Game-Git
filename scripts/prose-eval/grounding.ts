@@ -27,7 +27,7 @@ export type GroundingRule =
   | "surface-drift"
   | "envelope-drift";
 
-export interface GroundingFinding {
+interface GroundingFinding {
   rule: GroundingRule;
   claim: string;
   detail: string;

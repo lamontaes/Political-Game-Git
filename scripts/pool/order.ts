@@ -4,7 +4,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { MODELS } from "./standard";
 
-export interface OrderClass {
+interface OrderClass {
   name: string;
   idPrefixes?: string[];
   roots?: string[];
@@ -22,7 +22,7 @@ export interface OrderKind {
  * is a pattern for the ids of reds on main, and `playKind` names the kind of
  * work (order.json `kinds`) that leads the seen items.
  */
-export interface OrderVisible {
+interface OrderVisible {
   why?: string;
   first?: string[];
   reds?: string;
@@ -33,7 +33,7 @@ export interface OrderVisible {
  * than `openGamePullRequests` game pull requests are open, `next` hands out
  * only what still comes first (a red on main, a rule, a check or a skill).
  */
-export interface OrderCap {
+interface OrderCap {
   why?: string;
   openGamePullRequests: number;
 }
@@ -129,7 +129,7 @@ export function visibleRank(i: Row, order: Order): number {
 const ITEM_ID = /[a-z0-9]+(?:-[a-z0-9]+)+/g;
 
 /** Item ids a piece of text names, in order, once each. */
-export function idsNamed(text: string, known: ReadonlySet<string>): string[] {
+function idsNamed(text: string, known: ReadonlySet<string>): string[] {
   const out: string[] = [];
   for (const m of text.matchAll(ITEM_ID))
     if (known.has(m[0]) && !out.includes(m[0])) out.push(m[0]);

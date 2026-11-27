@@ -56,7 +56,7 @@ export interface UnwiredRow {
 }
 
 const slug = (measure: string) => measure.replace(/[^a-z0-9]+/g, "-");
-export const unreadId = (measure: string) => `SG-WEB-unread-${slug(measure)}`;
+const unreadId = (measure: string) => `SG-WEB-unread-${slug(measure)}`;
 
 /** The rows the matrix gives today, in link order. */
 export function unwiredRows(): UnwiredRow[] {

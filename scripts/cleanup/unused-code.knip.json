@@ -1,0 +1,17 @@
+{
+  "entry": [
+    "src/bench/play.html",
+    "src/bench/play.mjs",
+    "src/bench/server.ts",
+    "src/bench/handler.ts",
+    "src/cli/**/*.ts",
+    "desktop/main.mjs",
+    "deployment/sites-worker/index.js",
+    "vite.config.ts",
+    "{src,scripts,tests,desktop,art}/**/*.{test,spec,browser,node-test}.{ts,tsx,js,mjs,cjs}"
+  ],
+  "project": [
+    "{src,scripts,tests,desktop,tooling,deployment}/**/*.{ts,tsx,js,mjs,cjs,mts,cts}",
+    "vite.config.ts"
+  ]
+}
