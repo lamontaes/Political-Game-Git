@@ -34,7 +34,10 @@ import { liveCountedCrimeTally } from "./views";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 
-export const CRIME_MODULE_ID = "core2-crime-v1";
+// The id lives with the read doors (justice-reads.ts), which import nothing at run
+// time, so a reader can use the doors without joining the import ring.
+export { CRIME_MODULE_ID } from "./justice-reads";
+import { CRIME_MODULE_ID } from "./justice-reads";
 export const CRIME_EVENT = "crime.victimized";
 const SCHEDULE_DAY = "04";
 
