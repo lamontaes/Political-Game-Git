@@ -6,7 +6,7 @@ import type {
 } from "./modules/employer-taxes";
 import type { CoreAPI, CoreState } from "./types";
 
-/** The module ids, as their own files name them (a test holds them equal): written here so a door reads the table without loading the engine. */
+/** The module ids, written here (the engines' own files name the same strings) so a door reads the tables without loading the engines. A door that named the wrong table fails `economy-reads.test.ts`, which reads each door in a played world. */
 const BUDGETS_MODULE_ID = "core2-budgets-v1";
 const EMPLOYER_TAXES_MODULE_ID = "core2-employer-taxes-v1";
 

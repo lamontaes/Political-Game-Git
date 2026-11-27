@@ -3,7 +3,7 @@ import type { CountryState } from "./country-model";
 import type { MacroMonth } from "./macro-model";
 import type { CoreAPI, CoreState } from "./types";
 
-/** The module's id, as its own file names it (a test holds the two equal): written here so a door reads the table without loading the engine. */
+/** The module's id, written here (the engine's own file names the same string) so a door reads the table without loading the engine. A door that named the wrong table fails `economy-reads.test.ts`, which reads each door in a played world. */
 const MACRO_MODULE_ID = "macro";
 
 function store(api: CoreAPI) {

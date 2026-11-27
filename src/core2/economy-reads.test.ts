@@ -70,8 +70,8 @@ const seed =
   process.env.GOLDEN_PATH_SEED ??
   randomBytes(8).toString("hex");
 
-describe("the doors' own module ids", () => {
-  it("are the ids the engines' files name", () => {
+describe("the engines' module ids", () => {
+  it("are the strings the doors write for them (an engine that renames its id fails here, and its door is updated)", () => {
     expect(MACRO_MODULE_ID).toBe("macro");
     expect(JOBS_MODULE_ID).toBe("jobs");
     expect(CREDIT_MODULE_ID).toBe("credit");

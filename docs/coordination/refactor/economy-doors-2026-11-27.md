@@ -18,4 +18,4 @@ Item 2 of the Economy section, part 1. Each door is one function that answers on
 
 **Still to build for item 2 (part 2):** the work door and the finance door. Work and finance are core state (`api.state.work`, `api.state.finance`), not module tables, so Core's count doesn't see them; they are built with the finance split (item 3), which needs them first.
 
-**For consumers: wait for #10701 before switching.** The doors take module ids from the engines' own files at run time (a leaf file for the business id, the module files for the rest). Reach-ins' stack puts ids in leaf files and keeps an import-cycles baseline that may only shrink; once it is in the train I move the doors onto those leaf ids and check the cycle count, so a consumer that switches first may need one import line changed.
+**For consumers: switch now.** #10701 is in the stack this change sits on, and the doors import the engines as types only (each holds its module id as a private string), so a consumer that switches adds no edge to the import cycles.
