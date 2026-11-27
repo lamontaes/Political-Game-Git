@@ -17,7 +17,7 @@
  * date, so no day scans the whole town.
  */
 import { heardListeners, type CountedNewsModule } from "./news-listeners";
-import type { HistoryModule, HistoryRow, HistorySource } from "../past";
+import type { HistoryRow, HistorySource } from "../past";
 import { moduleState } from "../module-state";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { IsoDate } from "../kernel/brands";
@@ -663,7 +663,7 @@ export function createNewsModule(
     readonly storyDate: string;
   }> = recentList,
 ): CoreModule {
-  const module: CoreModule & HistoryModule = {
+  const module: CoreModule = {
     id: NEWS_MODULE_ID,
     history: NEWS_HISTORY,
     state: {

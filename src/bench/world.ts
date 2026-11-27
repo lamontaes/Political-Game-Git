@@ -32,7 +32,7 @@ import {
   applyPastSessionLaws,
   lastSittingBefore,
   pastSessionLaws,
-} from "../core2/tooling/past-sessions";
+} from "../core2/past-sessions";
 import type { EntityId } from "../core2/kernel/brands";
 import { coreAPI } from "../core2/state";
 import { openStartingCircle } from "../core2/modules/people";
