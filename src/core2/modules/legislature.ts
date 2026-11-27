@@ -157,16 +157,18 @@ import { ELECTIONS_MODULE_ID, worldRoster, type FilingRow } from "./elections";
 export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
 
 /**
- * What the world's legislating carries as a field for this legislature (its
- * floor days, sittings and weeks): the first carrier's value, or undefined
- * where no installed module carries it.
+ * What the engines that feed the legislature carry as a field (the world's
+ * legislating: its floor days, sittings and weeks; the leadership: the
+ * committees' rosters): the first carrier's value, or undefined where no
+ * installed module carries it.
  */
 function carried<
   K extends
     | "floorCalendarer"
     | "sittingReader"
     | "floorDateReader"
-    | "weeklyFloorReader",
+    | "weeklyFloorReader"
+    | "committeeRoster",
 >(api: CoreAPI, field: K) {
   return fieldsOf(api.state as CoreState, field)[0];
 }
@@ -1118,17 +1120,6 @@ export function registerLegislatureHooks(input: {
     afterVoteHooks.push(input.afterVote);
   if (input.onDesk && !deskHooks.includes(input.onDesk))
     deskHooks.push(input.onDesk);
-}
-
-type RosterProvider = (
-  api: CoreAPI,
-  chamber: string,
-  committee: string,
-) => { memberIds: readonly string[]; chairId: string } | null;
-let rosterProvider: RosterProvider | null = null;
-/** The leadership engine seats committees and their chairs (`leadership.ts`). */
-export function registerCommitteeRosterProvider(fn: RosterProvider): void {
-  rosterProvider = fn;
 }
 
 /** Each employer's added yearly pay under a minimum-wage provision: the fiscal note, employer by employer. */
@@ -2968,7 +2959,7 @@ export function appropriationsWithProjects(
   input: { readonly bodyOfficeId: string; readonly sponsorId: string },
 ): BillRow | null {
   const terms = members(api, input.bodyOfficeId);
-  const seated = rosterProvider?.(
+  const seated = carried(api, "committeeRoster")?.(
     api,
     input.bodyOfficeId,
     committeeForSection({ kind: "budget-line" }),
@@ -5293,7 +5284,11 @@ function committeeSeats(
   let chair = roster.find((t) => partySide(t.party) === majority) ?? roster[0]!;
   // Where the chamber's leadership has seated the committee, its members and
   // chair stand in place of seniority.
-  const seated = rosterProvider?.(api, chamber, committeeFor(bill));
+  const seated = carried(api, "committeeRoster")?.(
+    api,
+    chamber,
+    committeeFor(bill),
+  );
   if (seated?.memberIds.length) {
     const byKey = new Map(all.map((t) => [memberKey(t), t]));
     const members = seated.memberIds
