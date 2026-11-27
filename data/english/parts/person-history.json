@@ -4561,7 +4561,7 @@
     {
       "key": "person-history.story.partner.widowed.third",
       "move": "story",
-      "text": "{who} was widowed when {name} died in {year}.",
+      "text": "{who} became a widow when {name} died in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -4579,7 +4579,7 @@
     {
       "key": "person-history.story.partner.widowed.they",
       "move": "story",
-      "text": "They were widowed when {name} died in {year}.",
+      "text": "They became a widow when {name} died in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -4588,7 +4588,7 @@
     {
       "key": "person-history.story.partner.widowed.they.w2",
       "move": "story",
-      "text": "{name} died in {year}, leaving them widowed.",
+      "text": "{name} died in {year}, leaving they widowed.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -4597,7 +4597,7 @@
     {
       "key": "person-history.story.partner.widowed.i",
       "move": "story",
-      "text": "I was widowed when {name} died in {year}.",
+      "text": "I became a widow when {name} died in {year}.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -4606,7 +4606,7 @@
     {
       "key": "person-history.story.partner.widowed.i.w2",
       "move": "story",
-      "text": "{name} died in {year}, leaving me widowed.",
+      "text": "{name} died in {year}, leaving I widowed.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
