@@ -19,6 +19,13 @@ import {
   tradingMonthOf,
 } from "./business-reads";
 import { allCreditLoans, bankBookRows, townBankRecord } from "./credit-reads";
+import { BUDGETS_MODULE_ID } from "./modules/budgets";
+import { CREDIT_MODULE_ID } from "./modules/credit";
+import { EMPLOYER_TAXES_MODULE_ID } from "./modules/employer-taxes";
+import { JOBS_MODULE_ID } from "./modules/jobs";
+import { MACRO_MODULE_ID } from "./modules/macro";
+import { PLACE_PRICES_MODULE_ID } from "./modules/place-prices";
+import { REGIONAL_MODULE_ID } from "./modules/regional";
 import { gameStartDate } from "./game-start";
 import {
   allCountedSeekers,
@@ -62,6 +69,18 @@ const seed =
   process.env.ECONOMY_READS_SEED ??
   process.env.GOLDEN_PATH_SEED ??
   randomBytes(8).toString("hex");
+
+describe("the doors' own module ids", () => {
+  it("are the ids the engines' files name", () => {
+    expect(MACRO_MODULE_ID).toBe("macro");
+    expect(JOBS_MODULE_ID).toBe("jobs");
+    expect(CREDIT_MODULE_ID).toBe("credit");
+    expect(REGIONAL_MODULE_ID).toBe("regional");
+    expect(PLACE_PRICES_MODULE_ID).toBe("place-prices");
+    expect(BUDGETS_MODULE_ID).toBe("core2-budgets-v1");
+    expect(EMPLOYER_TAXES_MODULE_ID).toBe("core2-employer-taxes-v1");
+  });
+});
 
 describe(`the economy's read doors match what the engines keep (seed ${seed})`, () => {
   it("answers each question with the row the table holds", () => {

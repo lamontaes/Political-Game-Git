@@ -1,6 +1,8 @@
 /** The credit engine's front door for reads: the town bank, its books, a household's credit months and the loans lent. Each function answers one question; none returns a table. */
-import { CREDIT_MODULE_ID } from "./modules/credit";
 import type { CoreAPI, CoreState } from "./types";
+
+/** The module's id, as its own file names it (a test holds the two equal): written here so a door reads the table without loading the engine. */
+const CREDIT_MODULE_ID = "credit";
 
 /** A loan's kept row, the fields the screens and dev views read. */
 export interface CreditLoanRow {

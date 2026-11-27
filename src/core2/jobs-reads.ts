@@ -1,11 +1,10 @@
 /** The jobs engine's front door for reads: who is looking for work, what changed in a job, which openings stand. Each function answers one question; none returns a table. */
 import type { ClaimRow } from "./jobs-benefits";
 import type { CoreAPI, CoreState } from "./types";
-import {
-  JOBS_MODULE_ID,
-  type JobOfferRow,
-  type PositionRow,
-} from "./modules/jobs";
+import type { JobOfferRow, PositionRow } from "./modules/jobs";
+
+/** The module's id, as its own file names it (a test holds the two equal): written here so a door reads the table without loading the engine. */
+const JOBS_MODULE_ID = "jobs";
 
 /** One change in a job: a hire, quit, layoff, shed, closure or leaving work, kept with the heads it stood for. */
 export interface JobChangeRow {

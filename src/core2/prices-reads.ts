@@ -1,6 +1,8 @@
 /** The price engine's front door for reads: the rules a law has set on a place's prices. Each function answers one question; none returns a table. */
-import { PLACE_PRICES_MODULE_ID } from "./modules/place-prices";
 import type { CoreAPI, CoreState } from "./types";
+
+/** The module's id, as its own file names it (a test holds the two equal): written here so a door reads the table without loading the engine. */
+const PLACE_PRICES_MODULE_ID = "place-prices";
 
 /** Every price rule in force, as the price engine keeps it. */
 export function placePriceRules(
