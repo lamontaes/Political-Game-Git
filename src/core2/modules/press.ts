@@ -821,14 +821,28 @@ function outletMoneyDeps(api: CoreAPI): OutletMoneyDeps {
  * payroll), its lean from its head and its audience, and its revenue from its
  * audience's spending.
  */
-export function openPress(core: CoreState): readonly OutletRow[] {
-  registerAdOutlet(adOutlet);
-  if (core.modules.has(PRESS_MODULE_ID)) return outletsHere(coreAPI(core));
-  registerModule(core, PRESS_MODULE);
-  const api = coreAPI(core);
-  const chain = lawChain(api);
+interface OutletSpec {
+  readonly kind: OutletKind;
+  readonly index: number;
+  readonly id: string;
+  readonly organizationId: string;
+  readonly name: string;
+  readonly basedAt: string;
+  readonly ownerLivesAt?: string;
+  readonly reporters: number;
+  readonly tier: "local" | "national";
+  readonly audienceLean?: number;
+  readonly audiencePeople?: number;
+}
+
+/** The outlets a world opens with: the town's own, sized from its state's counts, then the national tier its people can follow. */
+function planOutlets(
+  core: CoreState,
+  api: CoreAPI,
+  chain: ReturnType<typeof lawChain>,
+  town: string,
+): OutletSpec[] {
   const counts = NEWS.places[chain.stateKey];
-  const town = chain.townPlaceId;
   const townPeople =
     Number(api.state.placeMetadata.referencePopulation) || core.people.size;
   const statePeople =
@@ -839,37 +853,9 @@ export function openPress(core: CoreState): readonly OutletRow[] {
   const share = Math.min(1, countyPeople / Math.max(1, statePeople));
   const cap = pressParameter("maxOutletsPerKind");
   const wanted = worldOutletCounts(core.seed, counts, share);
-  const source = {
-    tag: "ESTIMATED" as const,
-    citation:
-      "data/research/press/local-news-2026.json (Medill 2024 and FCC 2025 totals, state split estimated)",
-    asOf: api.state.date,
-    estimatedFrom: "local-news-2026",
-  };
-  const staffSource = {
-    tag: "ESTIMATED" as const,
-    citation:
-      "src/core2/data/press/staff.json: an outlet's head and reporters, named at the opening, paid the BLS median for their occupation",
-    asOf: api.state.date,
-    estimatedFrom: "press-staff",
-  };
   const names = new Set<string>();
-  const opened: OutletRow[] = [];
   // The town's own outlets, then the national tier its people can follow.
-  interface Spec {
-    readonly kind: OutletKind;
-    readonly index: number;
-    readonly id: string;
-    readonly organizationId: string;
-    readonly name: string;
-    readonly basedAt: string;
-    readonly ownerLivesAt?: string;
-    readonly reporters: number;
-    readonly tier: "local" | "national";
-    readonly audienceLean?: number;
-    readonly audiencePeople?: number;
-  }
-  const specs: Spec[] = [];
+  const specs: OutletSpec[] = [];
   // The people each outlet serves: a station its market's (the state's people
   // over its markets), a paper or a radio station its county's, shared with
   // the county's other outlets of its kind. Never fewer than the town's.
@@ -936,116 +922,141 @@ export function openPress(core: CoreState): readonly OutletRow[] {
         audienceLean,
       });
     });
+  return specs;
+}
+
+/** One outlet's firm, its owner, head and reporters (who know one another from the first day) and its row. */
+function openOutlet(
+  core: CoreState,
+  api: CoreAPI,
+  chain: ReturnType<typeof lawChain>,
+  town: string,
+  spec: OutletSpec,
+): OutletRow {
+  const source = {
+    tag: "ESTIMATED" as const,
+    citation:
+      "data/research/press/local-news-2026.json (Medill 2024 and FCC 2025 totals, state split estimated)",
+    asOf: api.state.date,
+    estimatedFrom: "local-news-2026",
+  };
+  const staffSource = {
+    tag: "ESTIMATED" as const,
+    citation:
+      "src/core2/data/press/staff.json: an outlet's head and reporters, named at the opening, paid the BLS median for their occupation",
+    asOf: api.state.date,
+    estimatedFrom: "press-staff",
+  };
   const [ownerRole, headRole, reporterRole] = [
     STAFF_ROLES.find((r) => r.id === "owner")!,
     STAFF_ROLES.find((r) => r.id === "head")!,
     STAFF_ROLES.find((r) => r.id === "reporter")!,
   ];
-  for (const spec of specs) {
-    const { id, organizationId, basedAt } = spec;
-    if (!api.state.organizations.has(organizationId)) {
-      // A local outlet opens with the cash a small firm holds against its
-      // payroll (JPMorgan Chase Institute's buffer days, at this firm's
-      // stable startup rank), as the town's generated firms do; otherwise its
-      // second payday falls before its first month's revenue arrives.
-      const payrollMinor =
-        (headRole.payParameter ? pressParameter(headRole.payParameter) : 0) +
-        (reporterRole.payParameter
-          ? spec.reporters * pressParameter(reporterRole.payParameter)
-          : 0);
-      const bufferDays =
-        spec.tier === "local"
-          ? openingEmployerCashBufferPrior(
-              core.seed,
-              organizationId,
-              "all-small-businesses",
-            ).bufferDays
-          : 0;
-      api.addOrganization({
-        id: organizationId,
-        placeId: basedAt,
-        name: spec.name,
-        kind: "media",
-        liquidMinor: Math.round(
-          (bufferDays * payrollMinor) / pressParameter("daysPerYear"),
-        ),
-        source:
-          spec.tier === "local"
-            ? {
-                tag: "ESTIMATED",
-                citation:
-                  "JPMorgan Chase Institute, Cash Is King (2016): a small firm's cash buffer in days of outflows, at this outlet's stable startup rank (src/core2/opening-capital.ts), times its planned payroll per day",
-                asOf: api.state.date,
-                estimatedFrom: "opening employer cash buffer prior",
-              }
-            : source,
-      });
-    }
-    const hire = (
-      role: (typeof STAFF_ROLES)[number],
-      i: number,
-      livesAt?: string,
-    ) => {
-      const row = hireStaffMember(api, {
-        outletId: id,
-        organizationId,
-        role,
-        index: i,
-        townPlaceId: town,
-        stateKey: spec.tier === "local" ? chain.stateKey : basedAt,
-        ...(livesAt ? { livesAt } : {}),
-        parameter: pressParameter,
-        source: staffSource,
-      });
-      table(api, "staff").put(row as unknown as ModuleRow);
-      return row.id;
-    };
-    const staffHome = spec.tier === "local" ? undefined : basedAt;
-    // A station covers a market: its news director works at the station in
-    // the market's city (the state, here); its reporter is the one on the
-    // town. A local paper's editor works in town.
-    const headHome =
-      spec.tier === "local" && spec.kind !== "newspaper"
-        ? chain.stateKey
-        : staffHome;
-    const ownerId = hire(ownerRole, 0, spec.ownerLivesAt);
-    const headId = hire(headRole, 0, headHome);
-    const reporterIds = Array.from({ length: spec.reporters }, (_, i) =>
-      hire(reporterRole, i, staffHome),
-    );
-    // Owner, head and reporters know one another from the first day.
-    const people = [ownerId, headId, ...reporterIds];
-    for (const one of people)
-      for (const other of people)
-        if (one < other)
-          api.meet(one, other, {
-            placeId: basedAt,
-            sourceId: organizationId,
-            cause: "coworker",
-            hours: pressParameter("coworkerHoursAtOpening"),
-          });
-    opened.push({
-      id,
-      organizationId,
-      kind: spec.kind,
-      index: spec.index,
+  const { id, organizationId, basedAt } = spec;
+  if (!api.state.organizations.has(organizationId)) {
+    // A local outlet opens with the cash a small firm holds against its
+    // payroll (JPMorgan Chase Institute's buffer days, at this firm's
+    // stable startup rank), as the town's generated firms do; otherwise its
+    // second payday falls before its first month's revenue arrives.
+    const payrollMinor =
+      (headRole.payParameter ? pressParameter(headRole.payParameter) : 0) +
+      (reporterRole.payParameter
+        ? spec.reporters * pressParameter(reporterRole.payParameter)
+        : 0);
+    const bufferDays =
+      spec.tier === "local"
+        ? openingEmployerCashBufferPrior(
+            core.seed,
+            organizationId,
+            "all-small-businesses",
+          ).bufferDays
+        : 0;
+    api.addOrganization({
+      id: organizationId,
       placeId: basedAt,
-      tier: spec.tier,
-      ...(spec.audienceLean === undefined
-        ? {}
-        : { audienceLean: spec.audienceLean }),
-      ...(spec.audiencePeople === undefined
-        ? {}
-        : { audiencePeople: spec.audiencePeople }),
-      ownerId,
-      headId,
-      reporterIds,
-      lean: 0,
-      audienceRevenueMinor: 0,
+      name: spec.name,
+      kind: "media",
+      liquidMinor: Math.round(
+        (bufferDays * payrollMinor) / pressParameter("daysPerYear"),
+      ),
+      source:
+        spec.tier === "local"
+          ? {
+              tag: "ESTIMATED",
+              citation:
+                "JPMorgan Chase Institute, Cash Is King (2016): a small firm's cash buffer in days of outflows, at this outlet's stable startup rank (src/core2/opening-capital.ts), times its planned payroll per day",
+              asOf: api.state.date,
+              estimatedFrom: "opening employer cash buffer prior",
+            }
+          : source,
     });
   }
-  // An outlet's lean: its owner's, its head's, and its kind's audience's as
-  // a whole.
+  const hire = (
+    role: (typeof STAFF_ROLES)[number],
+    i: number,
+    livesAt?: string,
+  ) => {
+    const row = hireStaffMember(api, {
+      outletId: id,
+      organizationId,
+      role,
+      index: i,
+      townPlaceId: town,
+      stateKey: spec.tier === "local" ? chain.stateKey : basedAt,
+      ...(livesAt ? { livesAt } : {}),
+      parameter: pressParameter,
+      source: staffSource,
+    });
+    table(api, "staff").put(row as unknown as ModuleRow);
+    return row.id;
+  };
+  const staffHome = spec.tier === "local" ? undefined : basedAt;
+  // A station covers a market: its news director works at the station in
+  // the market's city (the state, here); its reporter is the one on the
+  // town. A local paper's editor works in town.
+  const headHome =
+    spec.tier === "local" && spec.kind !== "newspaper"
+      ? chain.stateKey
+      : staffHome;
+  const ownerId = hire(ownerRole, 0, spec.ownerLivesAt);
+  const headId = hire(headRole, 0, headHome);
+  const reporterIds = Array.from({ length: spec.reporters }, (_, i) =>
+    hire(reporterRole, i, staffHome),
+  );
+  // Owner, head and reporters know one another from the first day.
+  const people = [ownerId, headId, ...reporterIds];
+  for (const one of people)
+    for (const other of people)
+      if (one < other)
+        api.meet(one, other, {
+          placeId: basedAt,
+          sourceId: organizationId,
+          cause: "coworker",
+          hours: pressParameter("coworkerHoursAtOpening"),
+        });
+  return {
+    id,
+    organizationId,
+    kind: spec.kind,
+    index: spec.index,
+    placeId: basedAt,
+    tier: spec.tier,
+    ...(spec.audienceLean === undefined
+      ? {}
+      : { audienceLean: spec.audienceLean }),
+    ...(spec.audiencePeople === undefined
+      ? {}
+      : { audiencePeople: spec.audiencePeople }),
+    ownerId,
+    headId,
+    reporterIds,
+    lean: 0,
+    audienceRevenueMinor: 0,
+  };
+}
+
+/** An outlet's lean: its owner's, its head's, and its kind's audience's as a whole. */
+function settleOutletLeans(api: CoreAPI, opened: readonly OutletRow[]): void {
   const headWeight = pressParameter("outletLeanHeadWeight");
   const ownerWeight = pressParameter("outletLeanOwnerWeight");
   for (const outlet of opened) {
@@ -1067,6 +1078,18 @@ export function openPress(core: CoreState): readonly OutletRow[] {
         (1 - ownerWeight - headWeight) * audienceLean,
     } as unknown as ModuleRow);
   }
+}
+
+export function openPress(core: CoreState): readonly OutletRow[] {
+  registerAdOutlet(adOutlet);
+  if (core.modules.has(PRESS_MODULE_ID)) return outletsHere(coreAPI(core));
+  registerModule(core, PRESS_MODULE);
+  const api = coreAPI(core);
+  const chain = lawChain(api);
+  const town = chain.townPlaceId;
+  const specs = planOutlets(core, api, chain, town);
+  const opened = specs.map((spec) => openOutlet(core, api, chain, town, spec));
+  settleOutletLeans(api, opened);
   followCache.delete(api.state);
   pressStaffChanged(api);
   // Revenue: its readers' subscriptions and the town's businesses' ads, each
@@ -4491,6 +4514,19 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   policeLog(api);
   milestones(api);
   letters(api);
+  fileWeeksStories(api);
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return;
+  const contests = contestsInView(api);
+  const playerId = (api.state as CoreState).playerId;
+  refuseLapsedInvitations(api, playerId);
+  if (!contests.length) return;
+  const invitedThisWeek = askCandidatesThisWeek(api, contests, playerId);
+  putInvitationsToPlayer(api, playerId, invitedThisWeek);
+  weighRaces(api, contests);
+}
+
+/** Each reporter files the week's stories from the fresh wire; the wire's old items then go. */
+function fileWeeksStories(api: CoreAPI): void {
   // The week's stories: each reporter files from the fresh wire.
   const wire = freshWire(api);
   // A national outlet covers the nation and the town's own state; a town's
@@ -4515,12 +4551,15 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     if (outlet.kind === "magazine") writeProfile(api, ctx, outlet, beat);
   }
   forgetOldWire(api);
-  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return;
+}
+
+/** The races whose vote falls within the weeks an invitation looks ahead. */
+function contestsInView(api: CoreAPI): ContestRow[] {
   const horizon = addDays(
     makeIsoDate(api.state.date),
     7 * pressParameter("invitationWeeks"),
   );
-  const contests = (
+  return (
     api
       .moduleState(ELECTIONS_MODULE_ID)
       .table("contests")
@@ -4528,7 +4567,12 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   ).filter(
     (c) => c.electionDate >= api.state.date && c.electionDate <= horizon,
   );
-  const playerId = (api.state as CoreState).playerId;
+}
+
+function refuseLapsedInvitations(
+  api: CoreAPI,
+  playerId: string | undefined,
+): void {
   // An invitation the player let pass until the race was over is a refusal.
   if (playerId)
     for (const row of interviewsFor(api, playerId))
@@ -4538,7 +4582,14 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         contestOf(api, row.contestId).electionDate < api.state.date
       )
         refuse(api, row);
-  if (!contests.length) return;
+}
+
+/** Each outlet asks the candidates whose turn came this week; returns the player's invitations by candidate. */
+function askCandidatesThisWeek(
+  api: CoreAPI,
+  contests: readonly ContestRow[],
+  playerId: string | undefined,
+): Map<string, InterviewRow[]> {
   const filings = contests
     .flatMap((c) => [...ballot(api, c.id), ...announcedIn(api, c.id)])
     .map((f) => ({ f, worth: newsworthiness(api, f) }));
@@ -4627,6 +4678,14 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       else publish(api, weighed, candidateAnswers(api, row.questions, f));
     }
   }
+  return invitedThisWeek;
+}
+
+function putInvitationsToPlayer(
+  api: CoreAPI,
+  playerId: string | undefined,
+  invitedThisWeek: ReadonlyMap<string, InterviewRow[]>,
+): void {
   // Those still waiting on the player's answer reach them as one call.
   if (playerId) {
     const open = (invitedThisWeek.get(playerId) ?? []).filter(
@@ -4636,6 +4695,9 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     );
     if (open.length) invited(api, open);
   }
+}
+
+function weighRaces(api: CoreAPI, contests: readonly ContestRow[]): void {
   // Each outlet weighs the races on its beat once its interviews in a race
   // are settled, or in the last week before the vote however they stand
   // (the final edition before it): an editorial board hears the candidates
