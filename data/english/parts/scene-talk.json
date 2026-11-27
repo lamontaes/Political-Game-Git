@@ -72390,6 +72390,33 @@
       "elements": ["ballot-box-seal-numbers-are-written-down"]
     },
     {
+      "key": "scene-talk.narrate-polls.you-vote-in-precinct-precinct",
+      "move": "narrate-polls",
+      "kind": "spoken",
+      "text": "You vote in precinct {precinct}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "polls",
+          "role": "narrator",
+          "requiresFacts": ["precinct"],
+          "excludesFacts": ["building"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["ballot-box-seal-numbers-are-written-down"]
+    },
+    {
       "key": "scene-talk.narrate-polls.you-vote-at-building-in-precinct-precinct",
       "move": "narrate-polls",
       "kind": "spoken",
@@ -72775,10 +72802,10 @@
       ]
     },
     {
-      "key": "scene-talk.narrate-canvassed.no-doors-this-time",
+      "key": "scene-talk.narrate-canvassed.no-doors-then",
       "move": "narrate-canvassed",
       "kind": "spoken",
-      "text": "No doors this time.",
+      "text": "No doors, then.",
       "uses": [
         {
           "subject": "scene",
@@ -73193,10 +73220,10 @@
       "elements": ["close-count-ends-in-a-concession"]
     },
     {
-      "key": "scene-talk.narrate-returns-mine.it-s-yours",
+      "key": "scene-talk.narrate-returns-mine.you-take-it",
       "move": "narrate-returns-mine",
       "kind": "spoken",
-      "text": "It's yours.",
+      "text": "You take it.",
       "uses": [
         {
           "subject": "scene",
@@ -73283,7 +73310,7 @@
           "step": "narrate",
           "move": "returns-nation",
           "role": "narrator",
-          "requiresFacts": ["one", "count"],
+          "requiresFacts": ["one", "count", "same-day"],
           "excludesFacts": ["daytime"]
         }
       ],
@@ -73310,7 +73337,7 @@
           "step": "narrate",
           "move": "returns-nation",
           "role": "narrator",
-          "requiresFacts": ["several", "count"],
+          "requiresFacts": ["several", "count", "same-day"],
           "excludesFacts": ["daytime"]
         }
       ],
