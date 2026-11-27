@@ -1,7 +1,5 @@
-import type { CoreAPI } from "../types";
-import type { ModuleRow } from "../module-data";
 import type { EntityId } from "../kernel/brands";
-import type { OutletKind } from "./press-base";
+import type { CoreAPI, ModuleRow, OutletKind } from "./press-base";
 import {
   ALL_KINDS,
   ageOn,

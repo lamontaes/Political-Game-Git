@@ -1,23 +1,26 @@
-import type { CoreAPI } from "../types";
-import { type DeskContext, type PrintedStory } from "../press-desk";
-import { lawChain } from "./laws";
-import type { ModuleRow } from "../module-data";
-import { CAMPAIGNS_MODULE_ID, type CampaignRow } from "./campaigns";
+import { standing } from "./elections";
+import type {
+  CampaignRow,
+  CoreAPI,
+  DeskContext,
+  FilingRow,
+  ModuleRow,
+  OutletRow,
+  PrintedStory,
+} from "./press-base";
 import {
+  CAMPAIGNS_MODULE_ID,
   ELECTIONS_MODULE_ID,
-  type FilingRow,
-  standing,
-  ballot,
-} from "./elections";
-import { addDays, makeIsoDate } from "../kernel/dates";
-import type { OutletRow } from "./press-base";
-import {
   NATIONAL,
   adOutlet,
+  addDays,
+  ballot,
   contestOf,
   countedAudience,
   countsThisMonth,
   followersOf,
+  lawChain,
+  makeIsoDate,
   pressParameter,
   recordOutletOf,
   table,

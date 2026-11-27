@@ -1,42 +1,44 @@
 import { worldLevel } from "../world-draw";
-import type { CoreModule, CoreState, CoreAPI } from "../types";
+import type { CoreModule } from "../types";
 import type { CountedNewsModule } from "./news-listeners";
-import type { ModuleRow } from "../module-data";
 import { CRIME_EVENT } from "../laws-in-force";
-import { lawChain } from "./laws";
-import { wireItem } from "../press-topics";
 import { registerAdOutlet } from "./campaigns";
 import { coreAPI, registerModule } from "../state";
 import {
   outletName,
   nationalOutletName,
-  STAFF_ROLES,
   hireStaffMember,
 } from "../press-staff";
 import { openingEmployerCashBufferPrior } from "../opening-capital";
-import { pressStaffChanged } from "../press-conflict";
-import { installOutletMoney } from "../press-money";
-import {
-  BUSINESS_MODULE_ID,
-  giveOutsideSuppliers,
-  enrollBusinessOwner,
-} from "./business";
-import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
+import { giveOutsideSuppliers, enrollBusinessOwner } from "./business";
+import { registerEmployer } from "./jobs";
 import { type CountedNewsAudience, countedNewsGroups } from "./views";
-import { PLATFORM_QUESTIONS } from "../campaign-data";
-import type { LocalKind, OutletKind, OutletRow, PlaceNews } from "./press-base";
+import type {
+  CoreAPI,
+  CoreState,
+  LocalKind,
+  ModuleRow,
+  OutletKind,
+  OutletRow,
+  PlaceNews,
+} from "./press-base";
 import {
   BASES,
+  BUSINESS_MODULE_ID,
   HABIT,
+  JOBS_MODULE_ID,
   KINDS,
   NATIONAL,
   NEWS,
-  PRESS_MODULE_ID,
+  PLATFORM_QUESTIONS,
+  STAFF_ROLES,
   adOutlet,
   audienceOfKind,
   bandOf,
   expectedRevenueYearMinor,
   followCache,
+  installOutletMoney,
+  lawChain,
   leanOf,
   openOfKind,
   outletMoneyDeps,
@@ -44,10 +46,13 @@ import {
   outletsHere,
   outsideNewsroomYearMinor,
   pressParameter,
+  pressStaffChanged,
   scheduleWeek,
   table,
   townOutlet,
+  wireItem,
 } from "./press-base";
+import { PRESS_MODULE_ID } from "./press-ids";
 import { checkClaim, printedStoryOf } from "./press-stories";
 import { runExposure, tipOff } from "./press-exposure";
 import {

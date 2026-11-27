@@ -1,40 +1,43 @@
 import endorsing from "../data/press/endorsements.json";
-import type { CoreAPI, CoreState, PersonState } from "../types";
-import {
-  type FilingRow,
-  ELECTIONS_MODULE_ID,
-  type ContestRow,
-  ballot,
-  announcedIn,
-} from "./elections";
-import { votesCast } from "./record";
+import { announcedIn } from "./elections";
 import { candidateStance } from "./campaigns";
 import { interviewHeldInTown, outletWeighsRace } from "./campaigns";
-import { leanedYes, decisionLean } from "../trait-decisions";
+import { leanedYes } from "../trait-decisions";
 import { electorateSides } from "./voting";
-import { addDays, makeIsoDate } from "../kernel/dates";
-import { type WireItem, type WireLevel } from "../press-topics";
-import type { ModuleCalendarWork } from "../module-calendar";
-import { type DeskOutlet, runDesk, closeness, grudge } from "../press-desk";
-import type { ModuleRow } from "../module-data";
-import { lawChain } from "./laws";
+import { type DeskOutlet, runDesk } from "../press-desk";
 import { keepsWhy } from "../why-kept";
 import type {
+  ContestRow,
+  CoreAPI,
+  CoreState,
+  FilingRow,
   InterviewAnswer,
   InterviewRow,
+  ModuleCalendarWork,
+  ModuleRow,
   OutletRow,
+  PersonState,
   Speaker,
+  WireItem,
+  WireLevel,
 } from "./press-base";
 import {
-  PRESS_MODULE_ID,
+  ELECTIONS_MODULE_ID,
+  addDays,
   already,
   arrange,
   asSpeaker,
+  ballot,
+  closeness,
   contestOf,
+  decisionLean,
   followersOf,
+  grudge,
   invitation,
   isIncumbent,
+  lawChain,
   levelAudienceShare,
+  makeIsoDate,
   newsworthiness,
   newsworthyBar,
   outletsHere,
@@ -44,6 +47,7 @@ import {
   record,
   scheduleWeek,
   table,
+  votesCast,
   weekCount,
 } from "./press-base";
 import {
@@ -56,6 +60,7 @@ import { letters, milestones, policeLog, schoolResults } from "./press-briefs";
 import { deskContext } from "./press-desk-reads";
 import { interviewsFor, refuse } from "./press-interviews";
 import { publish } from "./press-stories";
+import { PRESS_MODULE_ID } from "./press-ids";
 
 /** The kinds of outlet that endorse in an editorial (src/core2/data/press/endorsements.json). */
 const ENDORSING_KINDS: ReadonlySet<string> = new Set(endorsing.kinds);

@@ -1,9 +1,20 @@
 import nationalJson from "../data/press/national.json";
-import { type WireLevel, isPolicyTopic } from "../press-topics";
+import {
+  type WireLevel,
+  isPolicyTopic,
+  wireItem,
+  type WireItem,
+} from "../press-topics";
 import rows from "../data/press/parameters.json";
 import news from "../../../data/research/press/local-news-2026.json";
 import bases from "../../../data/research/money/public-budget-bases.json";
-import type { CoreAPI, PersonState, CoreState } from "../types";
+import type {
+  CoreAPI,
+  PersonState,
+  CoreState,
+  CoreEventInput,
+  PersonId,
+} from "../types";
 import {
   VIEWS_MODULE_ID,
   viewOf,
@@ -19,6 +30,7 @@ import {
   adBudgetMonthMinor,
   outsideCustomersOf,
   type OutletMoneyDeps,
+  installOutletMoney,
 } from "../press-money";
 import { lawChain } from "./laws";
 import {
@@ -34,6 +46,7 @@ import {
   type ImpressionRow,
   townShareOfRace,
   contestPositions,
+  touchImpression,
 } from "./campaigns";
 import { type StanceReader, stanceReader } from "./campaigns";
 import { questionAxis, publicOffset } from "./campaigns";
@@ -41,6 +54,7 @@ import {
   decisionLean,
   decisionTraitWeight,
   reportOutcome,
+  leanedScore,
 } from "../trait-decisions";
 import {
   type ContestRow,
@@ -55,9 +69,21 @@ import { type Stance, PLATFORM_QUESTIONS } from "../campaign-data";
 import { promisesOf, votesCast } from "./record";
 import { bookkeeping } from "../bookkeeping";
 import type { ModuleRow } from "../module-data";
-import { regard, closeness } from "../press-desk";
-
-export const PRESS_MODULE_ID = "core2-press-v1";
+import {
+  regard,
+  closeness,
+  printItem,
+  grudge,
+  type DeskContext,
+  type PrintedStory,
+} from "../press-desk";
+import { STAFF_ROLES } from "../press-staff";
+import { pressStaffChanged } from "../press-conflict";
+import { BUSINESS_MODULE_ID } from "./business";
+import { JOBS_MODULE_ID } from "./jobs";
+import type { ModuleCalendarWork } from "../module-calendar";
+import { ACCEPTING_MOVES, REFUSING_MOVES } from "../scene-replies";
+import { PRESS_MODULE_ID } from "./press-ids";
 
 /** The change a speech against an outlet asks of its hearers. */
 export const DISTRUST = "distrust";
@@ -1752,3 +1778,52 @@ export function invitation(api: CoreAPI, row: InterviewRow): void {
     },
   });
 }
+
+export {
+  ACCEPTING_MOVES,
+  BUSINESS_MODULE_ID,
+  CAMPAIGNS_MODULE_ID,
+  ELECTIONS_MODULE_ID,
+  JOBS_MODULE_ID,
+  PLATFORM_QUESTIONS,
+  REFUSING_MOVES,
+  STAFF_ROLES,
+  VIEWS_MODULE_ID,
+  addDays,
+  ballot,
+  closeness,
+  countedJobsOf,
+  decisionLean,
+  grudge,
+  installOutletMoney,
+  isPolicyTopic,
+  lawChain,
+  leanedScore,
+  makeIsoDate,
+  outsideCustomersOf,
+  pressStaffChanged,
+  printItem,
+  regard,
+  stanceReader,
+  stancesOf,
+  touchImpression,
+  votesCast,
+  wireItem,
+};
+export type {
+  CampaignRow,
+  ContestRow,
+  CoreAPI,
+  CoreEventInput,
+  CoreState,
+  DeskContext,
+  FilingRow,
+  ModuleCalendarWork,
+  ModuleRow,
+  PersonId,
+  PersonState,
+  PrintedStory,
+  Stance,
+  WireItem,
+  WireLevel,
+};

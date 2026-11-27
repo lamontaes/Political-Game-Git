@@ -1,20 +1,5 @@
-import type { CoreAPI, CoreEventInput, PersonId } from "../types";
 import { CORRUPTION_MODULE_ID } from "./laws";
-import { lawChain } from "./laws";
 import { type CrimeRecord, wantedFacts } from "../laws-in-force";
-import {
-  closeness,
-  regard,
-  grudge,
-  printItem,
-  type DeskContext,
-} from "../press-desk";
-import { leanedScore, decisionLean } from "../trait-decisions";
-import type { ModuleRow } from "../module-data";
-import { addDays, makeIsoDate } from "../kernel/dates";
-import type { ModuleCalendarWork } from "../module-calendar";
-import { wireItem, type WireItem } from "../press-topics";
-import { touchImpression } from "./campaigns";
 import {
   CONTRACTS_MODULE_ID,
   type ContractAwardRow,
@@ -23,13 +8,33 @@ import {
 import { awardsOn } from "./budgets";
 import { familyRelation } from "./people";
 import { crimeRecord } from "./justice";
-import type { OutletRow } from "./press-base";
+import type {
+  CoreAPI,
+  CoreEventInput,
+  DeskContext,
+  ModuleCalendarWork,
+  ModuleRow,
+  OutletRow,
+  PersonId,
+  WireItem,
+} from "./press-base";
 import {
-  PRESS_MODULE_ID,
+  addDays,
+  closeness,
+  decisionLean,
+  grudge,
+  lawChain,
+  leanedScore,
+  makeIsoDate,
   outletsHere,
   pressParameter,
+  printItem,
+  regard,
   table,
+  touchImpression,
+  wireItem,
 } from "./press-base";
+import { PRESS_MODULE_ID } from "./press-ids";
 import { deskContext } from "./press-desk-reads";
 import { storiesPrinted } from "./press-stories";
 

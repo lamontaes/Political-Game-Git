@@ -14,16 +14,15 @@
  * decide for themselves, with a recorded cause, and the story is a public
  * record the news carries.
  */
-import type { CoreAPI } from "../types";
-import { type PrintedStory } from "../press-desk";
-import { ACCEPTING_MOVES, REFUSING_MOVES } from "../scene-replies";
-import type { InterviewRow } from "./press-base";
-import { PRESS_MODULE_ID, table } from "./press-base";
+import type { CoreAPI, InterviewRow, PrintedStory } from "./press-base";
+import { ACCEPTING_MOVES, REFUSING_MOVES, table } from "./press-base";
+import { PRESS_MODULE_ID } from "./press-ids";
 
 export * from "./press-base";
 export * from "./press-briefs";
 export * from "./press-desk-reads";
 export * from "./press-exposure";
+export * from "./press-ids";
 export * from "./press-interviews";
 export * from "./press-open";
 export * from "./press-outlets";

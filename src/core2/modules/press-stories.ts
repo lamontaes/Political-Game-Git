@@ -1,39 +1,40 @@
-import type { CoreAPI, CoreState, CoreEventInput } from "../types";
-import { type Stance } from "../campaign-data";
-import { campaignFor, makeStatements, touchImpression } from "./campaigns";
-import { lawChain } from "./laws";
-import {
-  slantOf,
-  printItem,
-  grudge,
-  closeness,
-  archiveItem,
-  type PrintedStory,
-} from "../press-desk";
-import { addDays, makeIsoDate } from "../kernel/dates";
-import type { ModuleCalendarWork } from "../module-calendar";
-import { decisionLean } from "../trait-decisions";
-import type { ModuleRow } from "../module-data";
-import { votesCast } from "./record";
+import { campaignFor, makeStatements } from "./campaigns";
+import { slantOf, archiveItem } from "../press-desk";
 import { type Story } from "./news";
-import { wireItem } from "../press-topics";
 import type {
+  CoreAPI,
+  CoreEventInput,
+  CoreState,
   InterviewAnswer,
   InterviewMove,
   InterviewRow,
+  ModuleCalendarWork,
+  ModuleRow,
   OutletRow,
+  PrintedStory,
+  Stance,
 } from "./press-base";
 import {
   INTERVIEW_ACCEPTED_EVENT,
-  PRESS_MODULE_ID,
+  addDays,
+  closeness,
+  decisionLean,
   followersOf,
+  grudge,
+  lawChain,
+  makeIsoDate,
   pressParameter,
+  printItem,
   record,
   reporterFor,
   table,
+  touchImpression,
   townOutlet,
+  votesCast,
+  wireItem,
 } from "./press-base";
 import { deskContext } from "./press-desk-reads";
+import { PRESS_MODULE_ID } from "./press-ids";
 
 const MOVE_WEIGHT: Readonly<Record<InterviewMove, string>> = {
   plain: "moveWeightPlain",

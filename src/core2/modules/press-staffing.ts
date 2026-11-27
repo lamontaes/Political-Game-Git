@@ -1,29 +1,31 @@
-import type { CoreAPI, CoreState } from "../types";
-import { type StaffRow, STAFF_ROLES } from "../press-staff";
+import { type StaffRow } from "../press-staff";
 import { residentsRuntime } from "./residents";
-import { countedJobsOf } from "./residents";
-import { JOBS_MODULE_ID } from "./jobs";
-import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
-import { lawChain } from "./laws";
-import type { ModuleRow } from "../module-data";
+import { daysBetweenText } from "../kernel/dates";
 import { fillInPerson } from "../state";
 import { ownerOf } from "./business";
-import { pressStaffChanged } from "../press-conflict";
 import {
-  installOutletMoney,
-  outsideCustomersOf,
   payWiderAudience,
   payMarket,
   outletYearlyRevenue,
 } from "../press-money";
 import { spendLivingCost } from "./executive";
+import { PRESS_MODULE_ID } from "./press-ids";
+import type { CoreAPI, CoreState, ModuleRow } from "./press-base";
 import {
-  PRESS_MODULE_ID,
+  JOBS_MODULE_ID,
+  STAFF_ROLES,
+  addDays,
+  countedJobsOf,
   expectedRevenueYearMinor,
+  installOutletMoney,
+  lawChain,
+  makeIsoDate,
   openOfKind,
   outletMoneyDeps,
   outletsHere,
+  outsideCustomersOf,
   outsideNewsroomYearMinor,
+  pressStaffChanged,
   table,
 } from "./press-base";
 

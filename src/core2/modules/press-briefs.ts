@@ -3,20 +3,32 @@ import {
   SCHOOL_MEASURE,
   SCHOOL_MODULE_ID,
 } from "./people";
-import type { CoreAPI, CoreState, PersonId } from "../types";
-import { lawChain } from "./laws";
-import { addDays, makeIsoDate } from "../kernel/dates";
-import { type WireItem, isPolicyTopic } from "../press-topics";
-import type { ModuleRow } from "../module-data";
-import { JOBS_MODULE_ID } from "./jobs";
 import briefs from "../data/press/briefs.json";
-import { BUSINESS_MODULE_ID } from "./business";
-import { VIEWS_MODULE_ID, stancesOf } from "./views";
-import { type PrintedStory, usualSpace } from "../press-desk";
+import { usualSpace } from "../press-desk";
 import { newsKey, storiesHeard } from "./news";
-import { leanedScore } from "../trait-decisions";
 import { CRIME_MODULE_ID } from "../laws-in-force";
-import { outletsHere, pressParameter, table } from "./press-base";
+import type {
+  CoreAPI,
+  CoreState,
+  ModuleRow,
+  PersonId,
+  PrintedStory,
+  WireItem,
+} from "./press-base";
+import {
+  BUSINESS_MODULE_ID,
+  JOBS_MODULE_ID,
+  VIEWS_MODULE_ID,
+  addDays,
+  isPolicyTopic,
+  lawChain,
+  leanedScore,
+  makeIsoDate,
+  outletsHere,
+  pressParameter,
+  stancesOf,
+  table,
+} from "./press-base";
 import { deskContext } from "./press-desk-reads";
 import { printedStoryOf } from "./press-stories";
 

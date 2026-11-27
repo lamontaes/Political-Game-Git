@@ -37,6 +37,9 @@ const loaded = JSON.parse(readFileSync(rootsFile, "utf8")) as Record<
 >;
 const placeMap = (loaded["__place"] ?? {}) as Record<string, string>;
 delete loaded["__place"];
+/** Parts that import nothing of the file (constants): any part may use them, the base included. */
+const leaves = new Set((loaded["__leaves"] ?? []) as string[]);
+delete loaded["__leaves"];
 const spec = loaded as Record<string, string[]>;
 
 const program = ts.createProgram([file], {
@@ -62,6 +65,8 @@ interface Node {
   imports: Set<ts.ImportDeclaration>;
   importNames: Map<ts.ImportDeclaration, Set<string>>;
 }
+const typeOnlyNames = new Set<string>();
+const hoistDecl = new Map<string, ts.ImportDeclaration>();
 const nodes = new Map<string, Node>();
 const stmtNode = new Map<ts.Statement, Node>();
 const imports: ts.ImportDeclaration[] = [];
@@ -161,6 +166,12 @@ function scan(
         ) {
           const imp = ts.findAncestor(decl, ts.isImportDeclaration)!;
           into.imports.add(imp);
+          if (ts.isImportSpecifier(decl)) {
+            const aliased = sym && checker.getAliasedSymbol(sym);
+            if (aliased && !(aliased.flags & ts.SymbolFlags.Value))
+              typeOnlyNames.add(decl.name.text);
+            hoistDecl.set(decl.name.text, imp);
+          }
           (
             into.importNames.get(imp) ??
             into.importNames.set(imp, new Set()).get(imp)!
@@ -229,11 +240,19 @@ for (let moved = true; moved;) {
   for (const node of nodeList)
     if (owner.get(node.name) === "base")
       for (const use of node.uses)
-        if (owner.get(byName(use)!.name) !== "base") {
+        if (
+          owner.get(byName(use)!.name) !== "base" &&
+          !leaves.has(owner.get(byName(use)!.name)!)
+        ) {
           owner.set(byName(use)!.name, "base");
           moved = true;
         }
 }
+for (const node of nodeList)
+  if (leaves.has(owner.get(node.name)!) && node.uses.size)
+    throw new Error(
+      `${node.name} is in the leaf ${owner.get(node.name)} but uses ${[...node.uses].join(", ")}`,
+    );
 // A kept (unreached) declaration may use anything; a part must not use a kept one.
 for (const node of nodeList) {
   const mine = owner.get(node.name)!;
@@ -339,6 +358,39 @@ for (const node of nodeList) {
     if (owner.get(byName(use)!.name) !== mine)
       readByOther.add(byName(use)!.name);
 }
+/**
+ * A name from another module that two or more of the new files read is
+ * imported once, by the base, and re-exported from there: the families and
+ * import-cycle guards count each file's imports, so a split that repeated
+ * them would raise both counts.
+ */
+function reachesInside(imp: ts.ImportDeclaration): boolean {
+  return importText(imp).startsWith(".");
+}
+const nameOwners = new Map<string, Set<string>>();
+const addOwner = (n: string, who: string) =>
+  (nameOwners.get(n) ?? nameOwners.set(n, new Set()).get(n)!).add(who);
+const named = (n: string) =>
+  !n.startsWith("default ") && !n.startsWith("* as ");
+for (const node of nodeList)
+  for (const [imp, names] of node.importNames)
+    for (const n of names)
+      if (named(n) && reachesInside(imp))
+        addOwner(n, owner.get(node.name)! || "(kept)");
+for (const stmt of kept) {
+  const it = {
+    uses: new Set<string>(),
+    imports: new Set<ts.ImportDeclaration>(),
+    importNames: new Map<ts.ImportDeclaration, Set<string>>(),
+  };
+  scan(stmt, null, it);
+  for (const [imp, names] of it.importNames)
+    for (const n of names)
+      if (named(n) && reachesInside(imp)) addOwner(n, "(kept)");
+}
+const hoisted = new Set(
+  [...nameOwners].filter(([, o]) => o.size >= 2).map(([n]) => n),
+);
 function importsFor(
   items: {
     uses: Set<string>;
@@ -359,10 +411,22 @@ function importsFor(
         bySpec.set(importText(imp), []).get(importText(imp))!;
       let slot = rec.find((r) => r.imp === imp);
       if (!slot) rec.push((slot = { imp, names: new Set() }));
-      for (const n of it.importNames.get(imp) ?? []) slot.names.add(n);
+      for (const n of it.importNames.get(imp) ?? [])
+        if (self === "base" || !hoisted.has(n)) slot.names.add(n);
+    }
+  if (self === "base")
+    for (const n of hoisted) {
+      const imp = hoistDecl.get(n)!;
+      const rec =
+        bySpec.get(importText(imp)) ??
+        bySpec.set(importText(imp), []).get(importText(imp))!;
+      let slot = rec.find((r) => r.imp === imp);
+      if (!slot) rec.push((slot = { imp, names: new Set() }));
+      slot.names.add(n);
     }
   for (const [, slots] of bySpec)
     for (const { imp, names } of slots) {
+      if (!names.size) continue;
       const clause = imp.importClause!;
       const typeOnly = clause.isTypeOnly;
       const parts: string[] = [];
@@ -395,6 +459,15 @@ function importsFor(
       if (to !== self)
         (need.get(to) ?? need.set(to, new Set()).get(to)!).add(use);
     }
+  if (self !== "base") {
+    for (const it of items)
+      for (const names of it.importNames.values())
+        for (const n of names)
+          if (hoisted.has(n))
+            (need.get("base") ?? need.set("base", new Set()).get("base")!).add(
+              n,
+            );
+  }
   for (const [to, names] of need)
     out.push(
       `import { ${[...names].sort().join(", ")} } from "./${prefix}${to}";`,
@@ -410,9 +483,27 @@ for (const part of [...members.keys()].filter((p) => p !== "(kept)")) {
     .sort((a, b) => a.getStart() - b.getStart())
     .map((s) => textOf(s, readByOther.has(stmtNode.get(s)!.name)))
     .join("\n\n");
+  const reexport =
+    part === "base" && hoisted.size
+      ? `\n\n${
+          [...hoisted].some((n) => !typeOnlyNames.has(n))
+            ? `export { ${[...hoisted]
+                .filter((n) => !typeOnlyNames.has(n))
+                .sort()
+                .join(", ")} };\n`
+            : ""
+        }${
+          [...hoisted].some((n) => typeOnlyNames.has(n))
+            ? `export type { ${[...hoisted]
+                .filter((n) => typeOnlyNames.has(n))
+                .sort()
+                .join(", ")} };\n`
+            : ""
+        }`
+      : "";
   writeFileSync(
     fileOf(part),
-    pruneImports(`${importsFor(list, part)}\n\n${body}\n`),
+    pruneImports(`${importsFor(list, part)}\n\n${body}${reexport}\n`),
   );
 }
 // the original: header, the imports its own statements need, a re-export per part, what stays

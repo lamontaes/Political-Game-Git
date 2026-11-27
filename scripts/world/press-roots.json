@@ -59,5 +59,7 @@
     "StandOnRecord": "interviews",
     "exposedFinding": "exposure",
     "ExposedFinding": "exposure"
-  }
+  },
+  "ids": ["PRESS_MODULE_ID"],
+  "__leaves": ["ids"]
 }

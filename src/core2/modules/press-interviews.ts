@@ -1,37 +1,41 @@
-import type { CoreAPI, CoreState, CoreEventInput } from "../types";
-import { votesCast } from "./record";
-import { ELECTIONS_MODULE_ID, type FilingRow } from "./elections";
-import type { ModuleCalendarWork } from "../module-calendar";
-import { stanceReader } from "./campaigns";
-import { ACCEPTING_MOVES, REFUSING_MOVES } from "../scene-replies";
-import type { ModuleRow } from "../module-data";
-import { lawChain } from "./laws";
 import { SPEECH_MODULE_ID, deliverSpeech } from "./people";
 import type {
+  CoreAPI,
+  CoreEventInput,
+  CoreState,
+  FilingRow,
   InterviewAnswer,
   InterviewMove,
   InterviewRow,
+  ModuleCalendarWork,
+  ModuleRow,
   OutletRow,
   Speaker,
 } from "./press-base";
 import {
+  ACCEPTING_MOVES,
   DISTRUST,
+  ELECTIONS_MODULE_ID,
   INTERVIEW_ACCEPTED_EVENT,
   INTERVIEW_INVITED_EVENT,
-  PRESS_MODULE_ID,
+  REFUSING_MOVES,
   arrange,
   arrangeWith,
   asSpeaker,
   contestOf,
   followCache,
   invitation,
+  lawChain,
   outletsHere,
   platformOf,
   record,
   servingTerms,
+  stanceReader,
   standingOn,
   table,
+  votesCast,
 } from "./press-base";
+import { PRESS_MODULE_ID } from "./press-ids";
 import { publish } from "./press-stories";
 
 /** An officeholder as a speaker, or null for someone who holds no seat. */
