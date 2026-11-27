@@ -36,7 +36,16 @@ import {
   type Provision,
 } from "../core2/modules/legislature";
 import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
-import { townSeats, type TermRow } from "../core2/modules/offices";
+import {
+  allOffices,
+  officeById,
+  officeSeats,
+  officesInJurisdiction,
+  servingTermsOf,
+  servingTermsOnSeat,
+  termById,
+  townSeats,
+} from "../core2/modules/offices";
 import { appointmentsIn } from "../core2/modules/executive";
 import { billCatalog } from "../core2/bill-catalog";
 import {
@@ -51,26 +60,18 @@ import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const OFFICES = "core2-offices-v1";
 const LEGISLATURE = "core2-legislature-v1";
-
-function terms(core: CoreState) {
-  return coreAPI(core).moduleState(OFFICES).table("terms");
-}
 /** A person's or a named official's name, by their key. */
 export function personName(core: CoreState, key: string): string {
   const person = core.people.get(key);
   if (person) return `${person.givenName} ${person.familyName}`;
-  const term = terms(core).get(key.replace(/^official:/, "")) as
-    TermRow | undefined;
+  const term = termById(coreAPI(core), key.replace(/^official:/, ""));
   return term ? `${term.identity.givenName} ${term.identity.familyName}` : key;
 }
 
 /** The bodies the person sits on (more than one seat), with their colleagues. */
 export function bodiesOf(core: CoreState, personId: string) {
   const api = coreAPI(core);
-  const offices = api.moduleState(OFFICES);
-  const mine = (
-    terms(core).query("byPerson", [personId]) as unknown as TermRow[]
-  ).filter((row) => row.status === "serving");
+  const mine = servingTermsOf(api, personId);
   // A member of Congress sits on the national chamber (each holds a one-seat office of their
   // own district or state), which is the body their bills go before.
   const federal = [FEDERAL_HOUSE, FEDERAL_SENATE].flatMap((chamberId) => {
@@ -97,62 +98,45 @@ export function bodiesOf(core: CoreState, personId: string) {
   // `proposeAsExecutive`), so the body is theirs to draft for.
   const sitting = new Set(
     mine.flatMap((term) => {
-      const office = offices.table("offices").get(term.officeId) as
-        { id: string; seats: number } | undefined;
+      const office = officeById(api, term.officeId);
       return office && office.seats >= 2 ? [office.id] : [];
     }),
   );
   const byRequest = mine.flatMap((term) => {
-    const office = offices.table("offices").get(term.officeId) as
-      | {
-          id: string;
-          kind: string;
-          seats: number;
-          jurisdiction: string;
-          level: string;
-          presidesOverBody?: boolean;
-        }
-      | undefined;
+    const office = officeById(api, term.officeId);
     if (!office || office.seats >= 2) return [];
     if (proposalRight(api, office.kind).mode !== "by-request") return [];
     // An executive who presides over the board (the place's own county data) is the body's chair,
     // not an outsider: the bill goes before it in their own name (`seatAct`), never through a member.
     const presides = office.presidesOverBody === true;
-    return (
-      offices
-        .table("offices")
-        .query("byJurisdiction", [office.jurisdiction]) as unknown as {
-        id: string;
-        seats: number;
-        level: string;
-        kind: string;
-      }[]
-    ).flatMap((chamber) => {
-      // Only the government's own body: a state's U.S. senators share its jurisdiction.
-      const body =
-        chamber.seats >= 2 && chamber.level === office.level
-          ? bodyOf(api, chamber.id)
-          : undefined;
-      if (!body || sitting.has(chamber.id)) return [];
-      const roster = bodyMembersOf(api, chamber.id);
-      return [
-        {
-          officeId: chamber.id,
-          title: body.bodyName ?? body.governmentName,
-          level: chamber.level,
-          kind: chamber.kind,
-          // Sent through a member, never in the executive's own name, unless the executive
-          // presides over this body and puts the bill before it as its chair.
-          ...(presides ? { presides: true } : { byRequest: true }),
-          members: roster.map((row) => ({
-            key: memberKey(row),
-            name: personName(core, memberKey(row)),
-            party: row.party,
-            you: row.personId === personId,
-          })),
-        },
-      ];
-    });
+    return officesInJurisdiction(api, office.jurisdiction).flatMap(
+      (chamber) => {
+        // Only the government's own body: a state's U.S. senators share its jurisdiction.
+        const body =
+          chamber.seats >= 2 && chamber.level === office.level
+            ? bodyOf(api, chamber.id)
+            : undefined;
+        if (!body || sitting.has(chamber.id)) return [];
+        const roster = bodyMembersOf(api, chamber.id);
+        return [
+          {
+            officeId: chamber.id,
+            title: body.bodyName ?? body.governmentName,
+            level: chamber.level,
+            kind: chamber.kind,
+            // Sent through a member, never in the executive's own name, unless the executive
+            // presides over this body and puts the bill before it as its chair.
+            ...(presides ? { presides: true } : { byRequest: true }),
+            members: roster.map((row) => ({
+              key: memberKey(row),
+              name: personName(core, memberKey(row)),
+              party: row.party,
+              you: row.personId === personId,
+            })),
+          },
+        ];
+      },
+    );
   });
   return [
     ...federal,
@@ -163,27 +147,11 @@ export function bodiesOf(core: CoreState, personId: string) {
 
 /** A body of two seats or more by its office, with its serving members; `personId` marks which member is the viewer, if any. */
 function seatedBody(core: CoreState, officeId: string, personId: string) {
-  const offices = coreAPI(core).moduleState(OFFICES);
-  const office = offices.table("offices").get(officeId) as
-    | {
-        id: string;
-        title: string;
-        seats: number;
-        level: string;
-        kind: string;
-      }
-    | undefined;
+  const api = coreAPI(core);
+  const office = officeById(api, officeId);
   if (!office || office.seats < 2) return [];
-  const members = (
-    offices.table("seats").query("byOffice", [office.id]) as unknown as {
-      id: string;
-    }[]
-  ).flatMap(
-    (seat) =>
-      terms(core).query("bySeatStatus", [
-        seat.id,
-        "serving",
-      ]) as unknown as TermRow[],
+  const members = officeSeats(api, office.id).flatMap((seat) =>
+    servingTermsOnSeat(api, seat.id),
   );
   return [
     {
@@ -219,17 +187,14 @@ function roomBody(
 
 /** The seats this person left on taking another, with the law that required it. */
 function incompatibilitiesOf(core: CoreState, personId: string) {
-  const offices = coreAPI(core).moduleState(OFFICES);
+  const api = coreAPI(core);
   const officeTitle = (termId: string) => {
-    const term = terms(core).get(termId) as TermRow | undefined;
-    const office = term
-      ? (offices.table("offices").get(term.officeId) as
-          { title: string } | undefined)
-      : undefined;
+    const term = termById(api, termId);
+    const office = term ? officeById(api, term.officeId) : undefined;
     return office?.title ?? termId;
   };
   return (
-    offices.table("incompatibilities").rows() as unknown as {
+    api.moduleState(OFFICES).table("incompatibilities").rows() as unknown as {
       id: string;
       personId: string;
       previousTermId: string;
@@ -261,14 +226,11 @@ function floorOf(core: CoreState, bill: BillRow) {
     bill.status === "drafted" && upcomingMeeting(api, bill.bodyOfficeId)
       ? placeOnAgenda(api, billId)
       : undefined;
-  const offices = api.moduleState(OFFICES).table("offices");
   return {
     agendaDate,
     floorDate: agendaDate ?? floorDateOf(api, billId),
     whip: whipCount(api, billId).map((row) => ({
-      chamber:
-        (offices.get(row.chamber) as { title?: string } | undefined)?.title ??
-        "",
+      chamber: officeById(api, row.chamber)?.title ?? "",
       yes: row.yes.length,
       no: row.no.length,
       undecided: row.undecided.length,
@@ -537,9 +499,7 @@ export function repealFor(
     // the seat's draft marks it blocked where the catalog does not allow it.
     if (hit?.allowed) return { officeId: body.officeId, body: null };
   }
-  const serving = (
-    terms(core).query("byPerson", [personId]) as unknown as TermRow[]
-  ).some((row) => row.status === "serving");
+  const serving = servingTermsOf(api, personId).length > 0;
   if (!serving) return { officeId: null, body: null };
   const names = [
     ...new Set(
@@ -773,13 +733,10 @@ export function bodyPicture(
   const body = roomBody(core, personId, officeId, watching);
   if (!body) return null;
   const places = scenePlaces.bodyPlaces as unknown as Record<string, string[]>;
-  const offices = coreAPI(core).moduleState(OFFICES).table("offices");
   // A legislature with no upper chamber on record meets in a one-house chamber.
   const kind =
     body.kind === "legislature-lower" &&
-    !(offices.rows() as unknown as { kind: string }[]).some(
-      (row) => row.kind === "legislature-upper",
-    )
+    !allOffices(coreAPI(core)).some((row) => row.kind === "legislature-upper")
       ? "legislature-unicameral"
       : body.kind;
   // A council's room by its seats, a county board's by the town's size.
@@ -790,8 +747,8 @@ export function bodyPicture(
     >
   )[kind]?.find((row) =>
     row.underSeats !== undefined
-      ? ((offices.get(officeId) as { seats?: number } | undefined)?.seats ??
-          body.members.length) < row.underSeats
+      ? (officeById(coreAPI(core), officeId)?.seats ?? body.members.length) <
+        row.underSeats
       : Number(core.placeMetadata?.referencePopulation ?? 0) <
         (row.underPopulation ?? 0),
   )?.places;
