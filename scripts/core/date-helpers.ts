@@ -109,7 +109,9 @@ for (const file of files) {
   const original = readFileSync(path.join(ROOT, file), "utf8");
   const names = new Set<string>();
   // A file with its own `weekdayOf` or `lastDayOfMonth` would call itself: by hand.
-  if (/(?:function|const)\s+(?:weekdayOf|lastDayOfMonth|addDays)\b/.test(original)) {
+  if (
+    /(?:function|const)\s+(?:weekdayOf|lastDayOfMonth|addDays)\b/.test(original)
+  ) {
     skipped.push(`${file} (names its own helper)`);
     continue;
   }
