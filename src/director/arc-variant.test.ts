@@ -29,7 +29,7 @@ import {
   type SceneTalk,
   type TreeNode,
 } from "./scene-talk";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // One kind of scene, several arcs (owner, Nov 8, 9:50 voice note): the
 // variants of the corruption scenes, picked from the records by one engine.
