@@ -7,12 +7,12 @@
 export const CONFIG_IDS = ["A", "B", "C", "D"] as const;
 export type ConfigId = (typeof CONFIG_IDS)[number];
 
-export const RESULT_CLASSES = [
+const RESULT_CLASSES = [
   "SAFE_RENDER",
   "SAFE_RENDER_WITH_OMISSION",
   "MISSING_CONTEXT",
 ] as const;
-export type ResultClass = (typeof RESULT_CLASSES)[number];
+type ResultClass = (typeof RESULT_CLASSES)[number];
 
 export interface RawOutput {
   packetId: string;

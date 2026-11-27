@@ -179,6 +179,9 @@ export function nominateAndConfirm(input: {
     .sort(
       (a, b) => b.total - a.total || a.candidateId.localeCompare(b.candidateId),
     );
+  // The vote on the one the appointer put first, as the body cast it: what a
+  // rejection reports.
+  let first: { readonly yes: number; readonly no: number } | undefined;
   for (const choice of reasons) {
     const nominee = input.candidates.find((c) => c.id === choice.candidateId)!;
     if (!input.confirmingBody)
@@ -201,6 +204,7 @@ export function nominateAndConfirm(input: {
       if (confirms) yes += 1;
       else no += 1;
     }
+    first ??= { yes, no };
     if (yes > no)
       return {
         seatKey: input.seatKey,
@@ -221,8 +225,8 @@ export function nominateAndConfirm(input: {
     confirmation: input.confirmingBody
       ? {
           body: input.confirmingBody.name,
-          yes: 0,
-          no: input.confirmingBody.sides.length,
+          yes: first?.yes ?? 0,
+          no: first?.no ?? input.confirmingBody.sides.length,
           confirmed: false,
         }
       : null,

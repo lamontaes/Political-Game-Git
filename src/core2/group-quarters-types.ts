@@ -15,3 +15,16 @@ export const GROUP_QUARTERS_TYPES = [
   "otherNoninstitutional",
 ] as const;
 export type GroupQuartersType = (typeof GROUP_QUARTERS_TYPES)[number];
+
+/**
+ * The Census's institutional group quarters: people an institution houses and
+ * cares for or holds (a prison, a juvenile facility, a nursing home, a
+ * hospital ward), as against college, military and other noninstitutional
+ * quarters.
+ */
+export const INSTITUTIONAL_QUARTERS: ReadonlySet<GroupQuartersType> = new Set([
+  "adultCorrectional",
+  "juvenile",
+  "nursing",
+  "otherInstitutional",
+]);

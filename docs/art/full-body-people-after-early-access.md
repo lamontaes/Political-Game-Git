@@ -38,6 +38,8 @@ To look at the system as it was: `git worktree add ../full-body 843df6be9b` (use
 
 **Deleted from the game (kept in the commit above):**
 
+The unused `packFigure`, `drawnUrl`, and `dressedForPlace` wrappers are removed. The pack index, bust reads, and rendering code still used by current callers are unchanged.
+
 - `src/bench/mannequin-plates.ts`, `src/bench/occluders.ts`, and their tests.
 - In `src/bench/scene.ts`: `stagePeople`, `BenchScenePerson`, `BenchScene.people` and `.unplaced`, the `PLATED` set and the plated-living-room preference.
 - In `src/bench/whole-figures.ts`: `figureForSpot`, `fitOn`, `dressedForPlace`, `colorsFor`, `drawnUrl`, `ContactShadow`, `FigureBox`, and `portraitFigure` once `faceOf` no longer needs it.

@@ -209,7 +209,7 @@ const FRAME_SUBJECTS = new Set([
 ]);
 
 /** The conversation pieces the two conversation paths place (the engine's data and the composed banks). */
-export function reachedConversationKeys(): Set<string> {
+function reachedConversationKeys(): Set<string> {
   const seen = new Set<string>();
   const walkData = (value: unknown): void => {
     if (!value || typeof value !== "object") return;

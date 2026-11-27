@@ -38,7 +38,7 @@ export interface DistrictSeatBinding {
   readonly stateUsps: string;
 }
 
-export type DistrictBindingRefusalKind =
+type DistrictBindingRefusalKind =
   | "residual-unassigned"
   | "unknown-identity"
   | "vintage-mismatch"
@@ -47,13 +47,13 @@ export type DistrictBindingRefusalKind =
   | "compiler-mismatch"
   | "malformed-key";
 
-export interface DistrictBindingAcceptance {
+interface DistrictBindingAcceptance {
   readonly kind: "accepted";
   readonly identity: DistrictIdentity;
   readonly binding: DistrictSeatBinding;
 }
 
-export interface DistrictBindingRefusal {
+interface DistrictBindingRefusal {
   readonly kind: "refused";
   readonly reason: string;
   readonly refusalKind: DistrictBindingRefusalKind;

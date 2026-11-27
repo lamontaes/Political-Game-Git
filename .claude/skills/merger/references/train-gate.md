@@ -57,7 +57,7 @@ After a merge stops on conflicts, count them with `git diff --name-only --diff-f
 
 ## Carrying an old PR (Nov 15)
 
-- Bring the old PR's change with `git diff <old>~N <old> -- . ':!docs/play-first/shots' | git apply --3way`, then resolve each conflict by reading both sides; where the train already does what the old PR added (a label, a briefs-only lead), keep the train's side and say so in the PR body.
+- Carry the old PR’s code and documentation changes, excluding proof captures. Reattach the captures to the new PR or link the original review artifact. Read both conflict sides. If the train already implements the change, keep the train's version and say so in the PR body.
 - Open the draft PR before writing the number into the pool item's `pr:` field; a guessed number is wrong.
 - A force-push is refused. Your branch is behind the train once your last PR folds, so merge the train in and push as a fast-forward.
 - `npm run zero-dice` refuses a new list-pick, and `-- --update` rewrites every row. Reuse the one allowed pick (`oneOfParents` in `src/core2/opening-origin.ts` for a parent pick) instead of adding one.
