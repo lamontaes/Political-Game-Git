@@ -26,8 +26,11 @@ for (let draw = 0, done = 0; done < places && draw < places * 6; draw += 1) {
       placeKey: place.key,
     });
   } catch (error) {
-    if (error instanceof NoPlayerHereError) continue;
-    throw error;
+    if (!(error instanceof NoPlayerHereError))
+      process.stdout.write(
+        `\n## ${place.name} (${place.key}) did not build: ${String(error).slice(0, 90)}\n`,
+      );
+    continue;
   }
   const core = world.core;
   const api = coreAPI(core);
@@ -47,56 +50,64 @@ for (let draw = 0, done = 0; done < places && draw < places * 6; draw += 1) {
           a.knownIds.size || a.id.localeCompare(b.id),
     );
   let shown = false;
-  for (let week = 0; week < 60 && !shown; week += 1) {
-    for (const candidate of adults.slice(0, 8)) {
-      core.playerId = candidate.id;
-      for (const contest of openContests(api)) {
-        const result = fileCandidacy(api, {
-          personId: candidate.id,
-          contestId: contest.id,
-          platform: [],
-        });
-        if (
-          result.status === "refused" ||
-          !["petitioning", "on-ballot"].includes(result.filing.status ?? "")
-        )
-          continue;
-        if (!core.people.get(candidate.id)?.alive) continue;
-        let speech = speechBegin(core, candidate.id);
-        for (const stage of SPEECH_STAGES) {
-          const pick =
-            speech.choices.find((row) => row.stand && stage === "core") ??
-            speech.choices[0]!;
-          speech = speechPick(core, speech, pick.key);
+  try {
+    for (let week = 0; week < 60 && !shown; week += 1) {
+      for (const candidate of adults.slice(0, 8)) {
+        core.playerId = candidate.id;
+        for (const contest of openContests(api)) {
+          const result = fileCandidacy(api, {
+            personId: candidate.id,
+            contestId: contest.id,
+            platform: [],
+          });
+          if (
+            result.status === "refused" ||
+            !["petitioning", "on-ballot"].includes(result.filing.status ?? "")
+          )
+            continue;
+          if (!core.people.get(candidate.id)?.alive) continue;
+          let speech = speechBegin(core, candidate.id);
+          for (const stage of SPEECH_STAGES) {
+            const pick =
+              speech.choices.find((row) => row.stand && stage === "core") ??
+              speech.choices[0]!;
+            speech = speechPick(core, speech, pick.key);
+          }
+          process.stdout.write(
+            `\n## ${place.name} (${place.key}), run seed ${run} draw ${draw}, ${contest.officeId}\n`,
+          );
+          process.stdout.write(
+            `OLD: ${speech.picked.map((row) => row.text).join(" ")}\n`,
+          );
+          const stands = speech.picked
+            .filter((row) => row.stand)
+            .map((row) => row.stand!.question);
+          const filing = result.filing;
+          const said = local.composeCampaignSpeech(
+            core,
+            candidate.id as never,
+            contest.officeId,
+            filing.party ?? null,
+            stands,
+          );
+          process.stdout.write(`NEW: ${speechAsGiven(speech, said)}\n`);
+          for (const row of said?.sentences ?? [])
+            process.stdout.write(`  [${row.section ?? "-"}] ${row.text}\n`);
+          if (!said)
+            process.stdout.write("  (the planner had nothing to say)\n");
+          shown = true;
+          done += 1;
+          break;
         }
-        process.stdout.write(
-          `\n## ${place.name} (${place.key}), run seed ${run} draw ${draw}, ${contest.officeId}\n`,
-        );
-        process.stdout.write(
-          `OLD: ${speech.picked.map((row) => row.text).join(" ")}\n`,
-        );
-        const stands = speech.picked
-          .filter((row) => row.stand)
-          .map((row) => row.stand!.question);
-        const filing = result.filing;
-        const said = local.composeCampaignSpeech(
-          core,
-          candidate.id as never,
-          contest.officeId,
-          filing.party ?? null,
-          stands,
-        );
-        process.stdout.write(`NEW: ${speechAsGiven(speech, said)}\n`);
-        for (const row of said?.sentences ?? [])
-          process.stdout.write(`  [${row.section ?? "-"}] ${row.text}\n`);
-        if (!said) process.stdout.write("  (the planner had nothing to say)\n");
-        shown = true;
-        done += 1;
-        break;
+        if (shown) break;
       }
-      if (shown) break;
+      if (!shown) advanceCore(core, addDays(makeIsoDate(core.date), 7));
     }
-    if (!shown) advanceCore(core, addDays(makeIsoDate(core.date), 7));
+  } catch (error) {
+    process.stdout.write(
+      `\n## ${place.name} (${place.key}) crashed: ${String(error).slice(0, 90)}\n`,
+    );
+    done += 1;
   }
   void createHash;
 }
