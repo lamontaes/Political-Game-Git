@@ -1,6 +1,6 @@
 # Episode: a disaster's first hours
 
-Scenes from life (`scenes-from-life`), owner's Oct 27 executive brief ("a disaster's first hours", "a mayor and the governor"). Calibration only: no real person's name or words ship, and none are in the packet. A researcher's packet for the director engineer (CTO change of role, Oct 27). The director's build item is `scene-disaster-first-hours`; the engine items it waits on are `world-disaster-names-the-executives`, `world-governor-declares-emergency-in-play` and `world-local-emergency-declaration`.
+Scenes from life (`story-writer` (elements part)), owner's Oct 27 executive brief ("a disaster's first hours", "a mayor and the governor"). Calibration only: no real person's name or words ship, and none are in the packet. A researcher's packet for the director engineer (CTO change of role, Oct 27). The director's build item is `scene-disaster-first-hours`; the engine items it waits on are `world-disaster-names-the-executives`, `world-governor-declares-emergency-in-play` and `world-local-emergency-declaration`.
 
 ## Sources
 

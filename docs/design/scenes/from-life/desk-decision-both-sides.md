@@ -1,6 +1,6 @@
 # Episode: the decision on the desk, with both sides in the room
 
-Scenes from life (`scenes-from-life`), owner's Oct 27 executive brief ("signing or vetoing with the sponsor in the room"). Calibration only: no real person's name or words ship, and none are in the packet. Item: `words-scene-desk-visit-sponsor-or-opponent`.
+Scenes from life (`story-writer` (elements part)), owner's Oct 27 executive brief ("signing or vetoing with the sponsor in the room"). Calibration only: no real person's name or words ship, and none are in the packet. Item: `words-scene-desk-visit-sponsor-or-opponent`.
 
 ## Sources
 

@@ -20,7 +20,7 @@ The owner, Nov 24, 2026: "there are multiple things from build into the skills t
 | `data/english/grades/voice-notes-batches-11-19.json`                       | 37 more, graded with his notes.                                                           |
 | `data/english/grades/restored-liked-lines.json`                            | 19 lines he liked.                                                                        |
 | `data/english/grades/2026-11-09-batch-2-voice.json`, `-batch-3-voice.json` | 86 lines with the spans he marked and his rewrites.                                       |
-| `.claude/skills/pre-grade/references/owner-grades.md`                      | His Nov 12, Nov 23 and Nov 24 verdicts in 13 classes, each with the stretch it played in. |
+| `.claude/skills/story-check/references/pre-grade/owner-grades.md`          | His Nov 12, Nov 23 and Nov 24 verdicts in 13 classes, each with the stretch it played in. |
 | `docs/grading/words-batch-*.md`                                            | The 22 batches he graded in October, line by line.                                        |
 
 ## His voice notes, word for word

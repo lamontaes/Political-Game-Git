@@ -130,8 +130,8 @@ describe("the project is written in American English", () => {
       "PATCH_NOTES.md",
       "src/core2/modules/people.ts",
       "docs/research/requests/age-of-majority-by-state.json",
-      ".agents/skills/civic-prose/SKILL.md",
-      ".claude/skills/civic-prose/SKILL.md",
+      ".agents/skills/story-writer/references/civic-prose.md",
+      ".claude/skills/story-writer/references/civic-prose.md",
       "docs/decisions/DECISION-LOG.md",
     ])
       expect(scanned, file).toContain(file);
@@ -188,7 +188,7 @@ describe("the sweep bites", () => {
   const lastPlayerSource = playerSources.at(-1)!;
   const cases: { file: string; inject: (text: string) => string }[] = [
     {
-      file: ".agents/skills/civic-prose/SKILL.md",
+      file: ".agents/skills/story-writer/references/civic-prose.md",
       inject: (text) => `${text}\nKeep the labour market in view.\n`,
     },
     {

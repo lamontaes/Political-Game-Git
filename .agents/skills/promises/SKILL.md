@@ -6,7 +6,7 @@ description: >
   moves and the next talk that says it; promises are moving into an engine
   module (owner, Nov 15). Use when a scene ending should hold someone to their
   word, or a promise never settles or is said wrong. Not for the scene's own
-  lines (civic-prose) or bargaining reads of a broken promise (promiseToHold).
+  lines (story-writer) or bargaining reads of a broken promise (promiseToHold).
 ---
 
 # Promises

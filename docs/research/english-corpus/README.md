@@ -1,4 +1,4 @@
-> Owner, Oct 15, 2026: the attestation rule below ('kept when at least two documents say it and one is a public-domain record') was this session's own habit, never the owner's ruling, and is withdrawn. Banks are now built by development-time authoring to calibrated patterns (see `.agents/skills/words-engine/SKILL.md`); the corpus stays as one source of pieces and patterns.
+> Owner, Oct 15, 2026: the attestation rule below ('kept when at least two documents say it and one is a public-domain record') was this session's own habit, never the owner's ruling, and is withdrawn. Banks are now built by development-time authoring to calibrated patterns (see `.agents/skills/story/references/words-engine.md`); the corpus stays as one source of pieces and patterns.
 
 # The mined English corpus (OPUS-WORDS)
 

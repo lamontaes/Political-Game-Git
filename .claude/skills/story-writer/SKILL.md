@@ -6,8 +6,8 @@ description: >
   differ in what they say, cite elements and issues, give elements their turns,
   pass the sameness gate and the pre-grade, and keep working without waiting.
   Use before writing, rewriting or deleting any line under data/english/parts
-  or any element under docs/story/elements. Area rules: speech-writer,
-  journal-writer, news-writer; talk scenes also follow scene-standard.
+  or any element under docs/story/elements. Area rules (speeches, the Journal,
+  the news) are parts of this skill; talk scenes also follow story-check.
 ---
 
 # Story writer
@@ -36,7 +36,7 @@ The format of a line, the bank files, the moves and facts of each lane and the e
 7. **The game's laws pick what to write.** Take the thinnest cells of the coverage map first, issue first (`scripts/story/coverage.ts` writes `docs/story/coverage.md` on the Story branch). Owner, Nov 24: "using what's in the game to help dictate what to be made will help immensely."
 8. **People talk like people.** A person reacts to what a law means for people they know and never says the catalog's name ("So the President wants a higher top income tax rate" failed on Nov 24; the concept he gave is "finally, someone wants to tax the rich"). No figures in speeches or talk except what a slot carries. Plain American English, and every rule in `data/english/line-rules.json`.
 9. **Delete, don't fix.** A line or a stretch that isn't working is deleted, and the old lines a new batch replaces go in the same change (owner, Nov 17, three times; "replaced means deleted").
-10. **The gate, in order:** `npm run words:rules`, the tests, the sameness gate, the draw count, the pre-grade (`pre-grade`), then his ear on a grading page. Nothing reaches main until he passes it in a played game (his approved plan, Nov 23). You never grade your own lines.
+10. **The gate, in order:** `npm run words:rules`, the tests, the sameness gate, the draw count, the pre-grade (`story-check` (pre-grade part)), then his ear on a grading page. Nothing reaches main until he passes it in a played game (his approved plan, Nov 23). You never grade your own lines.
 11. **Nobody waits.** Cite elements from main, from open element PRs or from branches. If something blocks you, post it once and keep writing. Only his own decisions wait. Big batches.
 
 ## The loop, one batch
@@ -51,16 +51,16 @@ The format of a line, the bank files, the moves and facts of each lane and the e
 
 ## Who uses which skill
 
-| Lane                                                                                                           | Skills                                    |
-| -------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| Speeches, national and state; speeches, local and campaign                                                     | `speech-writer`                           |
-| The Journal; the years before the first evening, loading and history                                           | `journal-writer`                          |
-| The news and the press                                                                                         | `news-writer`                             |
-| Home and family; campaigning; office and government; work, school, church and community; Codex writers A and B | `scene-standard` and the talk rules below |
+| Lane                                                                                                           | Skills                                                       |
+| -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| Speeches, national and state; speeches, local and campaign                                                     | `story-writer` (speeches part)                               |
+| The Journal; the years before the first evening, loading and history                                           | `story-writer` (journal part)                                |
+| The news and the press                                                                                         | `story-writer` (news part)                                   |
+| Home and family; campaigning; office and government; work, school, church and community; Codex writers A and B | `story-check` (scene-standard part) and the talk rules below |
 
 ## Talk rules (home, campaign, office, community)
 
-From his grades. `scene-standard` holds the rest.
+From his grades. `story-check` (scene-standard part) holds the rest.
 
 - **Jobs happen in the background. No job talk.** Applying, being hired, the first day, coworkers, quitting, the last day and layoffs change the records and the money; none of them stops the player for a talk. Scenes set at work are fine when they matter to the story (a boss and a vote, a coworker hit by a law); job mechanics as talk never are. The player's job is 40 hours a week, 9 to 5, and no line names odd hours (owner, Nov 24: "it should be 40 hours a week, 9 to 5 ... Why is shit 36 hours?"). Owner, Nov 24: "remove all the dialogue shit for these jobs. Like, literally, they just need to happen in the background so your character can get money."
 - **No reply that says nothing.** Every reply takes a stance with its reason from the record: yes because…, no because…, not yet because…. There are no `leave`, `deflect` or `stall` replies ("Sorry, busy now", "I need time", "Please, no"). Leaving is the screen's Leave control (his Oct 8 rule R2). Owner, Nov 24: "it's been a project rule for I don't know how long, those dumbass answers."
@@ -83,3 +83,15 @@ From his grades. `scene-standard` holds the rest.
 - Nov 24: element PRs failed Prettier, then `release:check`. Run `npx prettier --write docs/story/elements`. Since #10429 and #10467 an element-only PR carries no `docs/release/changes/` file: one file outside `docs/story/elements/` makes Audit scan, New game and Instruction checks run on it (78 of 189 queued runs came from element PRs that carried one; the Coordinator, 7143409809 on #9750). Open element PRs ready for review, never as drafts: the merge watcher skips drafts.
 - Nov 24: the pre-grade failed lines that put a verb before `{about}`, because some `{about}` fills are gerunds ("pass expanding Medicaid"). Read each line with every fill its slot can take (`docs/story/gerund-fill-flags.md` on `story/first-evening-pregrade`).
 - Nov 19: about 2,100 address lines went in overnight from a helper and shipped that morning without his ear. Bulk fill is not depth.
+
+## Parts
+
+The writing skills that used to stand beside this one are parts of it now (owner, Nov 26: "It's all just going to be called story now"). Each is kept whole, so every owner quote and rule is in it. Read the one for the kind of line you write.
+
+| Writing                                                                                                                          | Read                             |
+| -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| Bank pieces for dialogue, narration, choices and in-world documents against the owner's calibrated style, with a grounding check | `references/civic-prose.md`      |
+| Scenes, speeches, talk, the Journal and the news from real lives, through the one element bank                                   | `references/scenes-from-life.md` |
+| Speeches of every kind for the one speech planner                                                                                | `references/speech-writer.md`    |
+| The told life: the Journal, the life story, history lines, the loading screen's words                                            | `references/journal-writer.md`   |
+| The news: headlines, ledes and bodies                                                                                            | `references/news-writer.md`      |

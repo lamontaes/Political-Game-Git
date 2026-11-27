@@ -1,6 +1,6 @@
 # What an executive's year records, and what the owner's executive scenes still need
 
-Scenes from life (`scenes-from-life`), owner's Oct 27 executive brief: "executive stuff, every level of government at different states... meeting with this executive, that executive." This is the evidence behind five engine items, and a map of which scene each record can feed. Words builds scenes; the records are the engine leads' to add.
+Scenes from life (`story-writer` (elements part)), owner's Oct 27 executive brief: "executive stuff, every level of government at different states... meeting with this executive, that executive." This is the evidence behind five engine items, and a map of which scene each record can feed. Words builds scenes; the records are the engine leads' to add.
 
 ## How it was asked
 

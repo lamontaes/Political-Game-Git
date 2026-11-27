@@ -10,7 +10,7 @@ Principles enforced here:
 
 - **Holdout hygiene** — `npm run prose:eval -- hygiene` fails if holdout
   material (packet ids or the holdout Drive document id) appears anywhere in
-  `.claude/skills/civic-prose/` or `.claude/agents/civic-prose-writer.md`.
+  `.claude/skills/story-writer/references/civic-prose/` or `.claude/agents/civic-prose-writer.md`.
 - **Blind review** — `npm run prose:eval -- bundle <run-dir> [seed]` turns raw
   configuration outputs into anonymized per-packet review files with a
   deterministic, per-packet shuffled version order, and seals the
@@ -40,7 +40,7 @@ Holdout hygiene deliberately still rejects **every** `H-###` packet id in the
 skill and agent files. Retiring the judged packets did not loosen the check:
 the reserves share the id shape, so the broad rule is what protects them. The
 Wave 1 defects are therefore encoded as quoted prose and repairs in
-`.claude/skills/civic-prose/examples/rejected.jsonl` and the "Owner rules"
+`.claude/skills/story-writer/references/civic-prose/examples/rejected.jsonl` and the "Owner rules"
 section of the prose contract, with no packet ids anywhere.
 
 ## Run layout
@@ -61,7 +61,7 @@ never cleans or fixes an output before judging). Configurations A, B, and C are
 required per packet; D is optional.
 
 Result classes follow the fact-packet output contract
-(`.claude/skills/civic-prose/references/fact-packet-schema.md`):
+(`.claude/skills/story-writer/references/civic-prose/fact-packet-schema.md`):
 `SAFE_RENDER`, `SAFE_RENDER_WITH_OMISSION`, `MISSING_CONTEXT`.
 
 ## Grounding gate
@@ -140,9 +140,9 @@ command line and the served configuration confirmed in the session transcript.
 
 ## Codex portability
 
-The repository-native `$civic-prose` skill is at
-`.agents/skills/civic-prose/SKILL.md`. Its entire contents are byte-identical to
-`.claude/skills/civic-prose/`, which remains the editorial authority. The
+The repository-native `$story-writer` skill is at
+`.agents/skills/story-writer/references/civic-prose.md`. Its entire contents are byte-identical to
+`.claude/skills/story-writer/references/civic-prose/`, which remains the editorial authority. The
 portability regression checks the complete file inventory and bytes, the
 complete developer-instruction bodies, constrained TOML envelopes, and holdout
 hygiene. Each role permits only its exact, closed Codex prefix followed by the
@@ -164,7 +164,7 @@ Claude-style skill preload. No runtime model calls or source rewrites are added.
 Explicit writer prompt:
 
 ```text
-Use $civic-prose. Invoke civic-prose-writer with the following one canonical
+Use $story-writer. Invoke civic-prose-writer with the following one canonical
 FACT PACKET. Return the child's raw result envelope unchanged.
 <packet>
 ```
@@ -201,7 +201,7 @@ from pathlib import Path
 role = "civic-prose-grounding-reviewer"  # or civic-prose-writer
 config = tomllib.loads(Path(f".codex/agents/{role}.toml").read_text())
 prompt = Path("/absolute/path/review-input.txt").read_text()
-# For the writer, the input explicitly invokes $civic-prose plus one packet.
+# For the writer, the input explicitly invokes $story-writer plus one packet.
 subprocess.run(
     [
         "codex", "exec", "--strict-config", "-C", str(Path.cwd()),

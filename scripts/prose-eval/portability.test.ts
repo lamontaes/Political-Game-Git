@@ -12,18 +12,18 @@ function files(root: string): string[] {
     .sort();
 }
 
-const source = ".claude/skills/civic-prose";
-const target = ".agents/skills/civic-prose";
+const source = ".claude/skills/story-writer/references/civic-prose";
+const target = ".agents/skills/story-writer/references/civic-prose";
 
 type Role = "writer" | "grounding-reviewer" | "terminology-reviewer";
 
 // Closed provider-only prefixes, including their exact separating newlines.
 // Never infer the allowed wrapper from the file being checked.
 const authorityPrefix =
-  "The accepted `.claude/skills/civic-prose/` contract is the editorial authority; the Codex skill is its portability copy. Writer self-review is never independent grounding acceptance. Run the grounding reviewer in a separate session with only the exact packet and candidate output, without writer reasoning.\n\n";
+  "The accepted `.claude/skills/story-writer/references/civic-prose/` contract is the editorial authority; the Codex skill is its portability copy. Writer self-review is never independent grounding acceptance. Run the grounding reviewer in a separate session with only the exact packet and candidate output, without writer reasoning.\n\n";
 const providerPrefixes: Record<Role, string> = {
   writer:
-    "Read `.agents/skills/civic-prose/SKILL.md` and its referenced contract before working; explicitly use $civic-prose. Codex does not preload Claude skills metadata.\n\n" +
+    "Read `.agents/skills/story-writer/references/civic-prose.md` and its referenced contract before working; explicitly use $story-writer. Codex does not preload Claude skills metadata.\n\n" +
     authorityPrefix,
   "grounding-reviewer": authorityPrefix,
   "terminology-reviewer": authorityPrefix,

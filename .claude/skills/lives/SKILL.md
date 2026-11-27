@@ -7,7 +7,7 @@ description: >
   coarse cadence, and how a unit is proved. Use for any core-every-life-*
   item, a husk's moves, work, partnership, births, illness or death, and when
   a talk or paper reads a relative's news. Not for filling a person in
-  (state.ts) or wording the news (words-engine).
+  (state.ts) or wording the news (story).
 ---
 
 # Lives

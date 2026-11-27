@@ -9,7 +9,7 @@ Recovered S-2 from the original ACCEPT-WAVE3 local HTML artifact, lines327–336
 not inferred from the supplied summary. Artifact SHA-256: `76d63ebb1ead7c1e8d42c0d64ac1397e9d06df9b695f43ae8987b8c5529c74cf`.
 Original report title: “The five new skills are invisible to Claude Code.”
 Observed: `.agents/skills` has six directories, `.claude/skills` has only
-`civic-prose`; the existing 77 checks read only the first root. Required repair:
+`story-writer` (civic-prose part); the existing 77 checks read only the first root. Required repair:
 mirror five SKILL.md entrypoints and check equal discovery sets. The new control
 reproduced one failure/77passes before copying any mirror.
 

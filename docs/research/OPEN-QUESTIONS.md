@@ -203,7 +203,7 @@ Related: `generated-legislature-session-frequency-and-carryover`, `legislative-s
 
 - src/presentation/world39-journal.ts and journal-views.ts at main cecb4e2f — They define what may be listed and forbid invented motive and feeling, and say nothing about voice, folding repeats, connectives or retrospective framing.
 - src/presentation/life-narration.ts composeConnectiveNarration, the connective 'time passing' prose between moments — Closest existing chronicle-like writer; it covers the gap between two scenes, not a year read back.
-- .agents/skills/civic-prose owner authoring contract — Written for scenes and in-world documents; it has no register for a retrospective life chronicle.
+- .agents/skills/story-writer/references/civic-prose owner authoring contract — Written for scenes and in-world documents; it has no register for a retrospective life chronicle.
 
 > THE OWNER'S WORDS, 2026-09-22 7:44 p.m. ET: "the journal is something else. It needs to be written in a literally like a chronicle, like you can read it back and it's not just a list of stuff, but it's this year you did this and, you know, who you didn't like it, but who would have known that you would do this? And then all of a sudden you were nominated for this. You had no clue what you were in for, et cetera. It should be written like that, like a story. Obviously, every date should not fall in January. It should be throughout the year."
 
@@ -336,7 +336,7 @@ Related: `how-people-meet-new-people`, `how-a-life-begins-and-grows-up`, `cheati
 
 **Already checked.**
 
-- .agents/skills/civic-prose/SKILL.md and references/surface-registers.md at main 6fb4e1b5 — Nine registers for scenes, dialogue, choices and in-world documents; none for a retrospective chronicle, and no chronicle examples.
+- .agents/skills/story-writer/references/civic-prose.md and references/surface-registers.md at main 6fb4e1b5 — Nine registers for scenes, dialogue, choices and in-world documents; none for a retrospective chronicle, and no chronicle examples.
 - The owner's Journal voice ruling, cto-handoff-2230 ('Expressive narrator, recorded inner life') — Sets what may be claimed; leaves length, selection and final wording open, and says nothing on how to make grounded sentences read well.
 - src/presentation/world39-journal.ts and journal-views.ts — They print each record's own summary sentence; nothing describes people by relationship or carries a scene's subject into the retelling.
 

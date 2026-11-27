@@ -70,4 +70,4 @@ rather than busy, because the reader's eye lands on the repetition first.
 - Whether the duplication is bounded. It was measured at sixty days in one
   world with one seed, and three outlets. More outlets may make it worse.
 - What the headlines should say. That is authoring work, and the prose
-  process in `.agents/skills/civic-prose/` is where it belongs.
+  process in `.agents/skills/story-writer/references/civic-prose/` is where it belongs.

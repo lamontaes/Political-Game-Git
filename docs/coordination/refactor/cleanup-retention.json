@@ -4847,7 +4847,7 @@
     {
       "file": "src/bench/dev-views/opening.ts",
       "name": "default",
-      "reason": "Matching identifier outside its declaration: .agents/rules/cadence-and-summaries.md, .agents/rules/political-game-operations.md, .agents/rules/repository-reference.md, .agents/rules/smart-and-look-first.md, .agents/skills/civic-prose/references/owner-authoring-contract.md, .agents/skills/civic-prose/references/prose-contract.md, .agents/skills/civic-prose/references/surface-registers.md, .agents/skills/day-one-in-motion/references/century-history.md"
+      "reason": "Matching identifier outside its declaration: .agents/rules/cadence-and-summaries.md, .agents/rules/political-game-operations.md, .agents/rules/repository-reference.md, .agents/rules/smart-and-look-first.md, .agents/skills/story-writer/references/civic-prose/owner-authoring-contract.md, .agents/skills/story-writer/references/civic-prose/prose-contract.md, .agents/skills/story-writer/references/civic-prose/surface-registers.md, .agents/skills/day-one-in-motion/references/century-history.md"
     },
     {
       "file": "src/bench/ui/metrics-change.mjs",
@@ -4867,7 +4867,7 @@
     {
       "file": "src/bench/dev-views/voter-lean.ts",
       "name": "default",
-      "reason": "Matching identifier outside its declaration: .agents/rules/cadence-and-summaries.md, .agents/rules/political-game-operations.md, .agents/rules/repository-reference.md, .agents/rules/smart-and-look-first.md, .agents/skills/civic-prose/references/owner-authoring-contract.md, .agents/skills/civic-prose/references/prose-contract.md, .agents/skills/civic-prose/references/surface-registers.md, .agents/skills/day-one-in-motion/references/century-history.md"
+      "reason": "Matching identifier outside its declaration: .agents/rules/cadence-and-summaries.md, .agents/rules/political-game-operations.md, .agents/rules/repository-reference.md, .agents/rules/smart-and-look-first.md, .agents/skills/story-writer/references/civic-prose/owner-authoring-contract.md, .agents/skills/story-writer/references/civic-prose/prose-contract.md, .agents/skills/story-writer/references/civic-prose/surface-registers.md, .agents/skills/day-one-in-motion/references/century-history.md"
     },
     {
       "file": "src/bench/mannequin-plates.ts",
@@ -5427,7 +5427,7 @@
     {
       "file": "src/core2/outcome-web-model.ts",
       "name": "Shape",
-      "reason": "Matching identifier outside its declaration: .agents/skills/crew-coordinator/references/lead-session.md, .agents/skills/speech-writer/SKILL.md, .claude/skills/crew-coordinator/references/lead-session.md, .claude/skills/speech-writer/SKILL.md"
+      "reason": "Matching identifier outside its declaration: .agents/skills/crew-coordinator/references/lead-session.md, .agents/skills/story-writer/references/speech-writer.md, .claude/skills/crew-coordinator/references/lead-session.md, .claude/skills/story-writer/references/speech-writer.md"
     },
     {
       "file": "src/core2/modules/counted-moves.ts",
@@ -5502,7 +5502,7 @@
     {
       "file": "src/core2/modules/drives.ts",
       "name": "respond",
-      "reason": "Matching identifier outside its declaration: .agents/skills/civic-prose/references/grounding-gate.md, .agents/skills/civic-prose/references/owner-authoring-contract.md, .agents/skills/civic-prose/references/prose-contract.md, .agents/skills/civic-prose/references/surface-registers.md, .claude/agents/civic-prose-grounding-reviewer.md, .claude/skills/civic-prose/references/grounding-gate.md, .claude/skills/civic-prose/references/owner-authoring-contract.md, .claude/skills/civic-prose/references/prose-contract.md"
+      "reason": "Matching identifier outside its declaration: .agents/skills/story-writer/references/civic-prose/grounding-gate.md, .agents/skills/story-writer/references/civic-prose/owner-authoring-contract.md, .agents/skills/story-writer/references/civic-prose/prose-contract.md, .agents/skills/story-writer/references/civic-prose/surface-registers.md, .claude/agents/civic-prose-grounding-reviewer.md, .claude/skills/story-writer/references/civic-prose/grounding-gate.md, .claude/skills/story-writer/references/civic-prose/owner-authoring-contract.md, .claude/skills/story-writer/references/civic-prose/prose-contract.md"
     },
     {
       "file": "src/core2/modules/ballot-measures.ts",
@@ -5522,7 +5522,7 @@
     {
       "file": "src/core2/campaign-incumbent-response-test-kit.ts",
       "name": "seed",
-      "reason": "Matching identifier outside its declaration: .agents/rules/cadence-and-summaries.md, .agents/rules/pool-item-standard.md, .agents/rules/smart-and-look-first.md, .agents/rules/standing-skills/feature-walkthrough/SKILL.md, .agents/rules/standing-skills/no-dice/SKILL.md, .agents/rules/standing-skills/one-rule-all-places/SKILL.md, .agents/skills/civic-prose/references/prose-contract.md, .agents/skills/crew-coordinator/SKILL.md"
+      "reason": "Matching identifier outside its declaration: .agents/rules/cadence-and-summaries.md, .agents/rules/pool-item-standard.md, .agents/rules/smart-and-look-first.md, .agents/rules/standing-skills/feature-walkthrough/SKILL.md, .agents/rules/standing-skills/no-dice/SKILL.md, .agents/rules/standing-skills/one-rule-all-places/SKILL.md, .agents/skills/story-writer/references/civic-prose/prose-contract.md, .agents/skills/crew-coordinator/SKILL.md"
     },
     {
       "file": "src/core2/campaign-incumbent-response-test-kit.ts",
@@ -6432,7 +6432,7 @@
     {
       "file": "src/english/line-register.ts",
       "name": "Reach",
-      "reason": "Matching identifier outside its declaration: .agents/skills/civic-prose/references/owner-authoring-contract.md, .agents/skills/civic-prose/references/prose-contract.md, .agents/skills/civic-prose/references/surface-registers.md, .agents/skills/scene-producers/references/lessons.md, .agents/skills/verify/scripts/verify.mjs, .claude/agents/civic-prose-writer.md, .claude/skills/civic-prose/references/owner-authoring-contract.md, .claude/skills/civic-prose/references/prose-contract.md"
+      "reason": "Matching identifier outside its declaration: .agents/skills/story-writer/references/civic-prose/owner-authoring-contract.md, .agents/skills/story-writer/references/civic-prose/prose-contract.md, .agents/skills/story-writer/references/civic-prose/surface-registers.md, .agents/skills/story/references/scene-producers/lessons.md, .agents/skills/verify/scripts/verify.mjs, .claude/agents/civic-prose-writer.md, .claude/skills/story-writer/references/civic-prose/owner-authoring-contract.md, .claude/skills/story-writer/references/civic-prose/prose-contract.md"
     },
     {
       "file": "src/english/english-composition.ts",
@@ -6492,12 +6492,12 @@
     {
       "file": "src/english/english-newscast.ts",
       "name": "STORY_KINDS",
-      "reason": "Matching identifier outside its declaration: .agents/skills/words-engine/references/news.md, .claude/skills/words-engine/references/news.md"
+      "reason": "Matching identifier outside its declaration: .agents/skills/story/references/words-engine/news.md, .claude/skills/story/references/words-engine/news.md"
     },
     {
       "file": "src/rules/laws/law-in-force.ts",
       "name": "outranks",
-      "reason": "Matching identifier outside its declaration: .agents/skills/civic-prose/references/grounding-gate.md, .agents/skills/civic-prose/references/owner-authoring-contract.md, .agents/skills/civic-prose/references/prose-contract.md, .claude/skills/civic-prose/references/grounding-gate.md, .claude/skills/civic-prose/references/owner-authoring-contract.md, .claude/skills/civic-prose/references/prose-contract.md, PATCH_NOTES.md, src/core2/data/campaigns/parameters.json"
+      "reason": "Matching identifier outside its declaration: .agents/skills/story-writer/references/civic-prose/grounding-gate.md, .agents/skills/story-writer/references/civic-prose/owner-authoring-contract.md, .agents/skills/story-writer/references/civic-prose/prose-contract.md, .claude/skills/story-writer/references/civic-prose/grounding-gate.md, .claude/skills/story-writer/references/civic-prose/owner-authoring-contract.md, .claude/skills/story-writer/references/civic-prose/prose-contract.md, PATCH_NOTES.md, src/core2/data/campaigns/parameters.json"
     },
     {
       "file": "src/rules/laws/law-in-force.ts",
@@ -6717,12 +6717,12 @@
     {
       "file": "scripts/dev-tests/debate-rival-draws.ts",
       "name": "scripts/dev-tests/debate-rival-draws.ts",
-      "reason": "Named outside itself by .agents/skills/words-engine/references/words-machine.md"
+      "reason": "Named outside itself by .agents/skills/story/references/words-engine/words-machine.md"
     },
     {
       "file": "scripts/dev-tests/door-scenes-played.ts",
       "name": "scripts/dev-tests/door-scenes-played.ts",
-      "reason": "Named outside itself by .agents/skills/scenes-from-life/SKILL.md"
+      "reason": "Named outside itself by .agents/skills/story-writer/references/scenes-from-life.md"
     },
     {
       "file": "scripts/dev-tests/drift-played.ts",
@@ -6907,7 +6907,7 @@
     {
       "file": "scripts/local-tax-authority/generate.mjs",
       "name": "scripts/local-tax-authority/generate.mjs",
-      "reason": "Named outside itself by .agents/skills/civic-prose/references/prose-contract.md"
+      "reason": "Named outside itself by .agents/skills/story-writer/references/civic-prose/prose-contract.md"
     },
     {
       "file": "scripts/maps/topology.ts",
@@ -7062,7 +7062,7 @@
     {
       "file": "scripts/dialogue-batch/cap-year.ts",
       "name": "scripts/dialogue-batch/cap-year.ts",
-      "reason": "Named outside itself by .agents/skills/words-engine/SKILL.md"
+      "reason": "Named outside itself by .agents/skills/story/references/words-engine.md"
     },
     {
       "file": "scripts/dialogue-batch/couple-scenes.ts",
@@ -7072,7 +7072,7 @@
     {
       "file": "scripts/dialogue-batch/event-count.ts",
       "name": "scripts/dialogue-batch/event-count.ts",
-      "reason": "Named outside itself by .agents/skills/scene-producers/SKILL.md"
+      "reason": "Named outside itself by .agents/skills/story/references/scene-producers.md"
     },
     {
       "file": "scripts/dialogue-batch/meetings-seat.ts",
@@ -7087,17 +7087,17 @@
     {
       "file": "scripts/dialogue-batch/paper-year.ts",
       "name": "scripts/dialogue-batch/paper-year.ts",
-      "reason": "Named outside itself by .agents/skills/words-engine/references/checks.md"
+      "reason": "Named outside itself by .agents/skills/story/references/words-engine/checks.md"
     },
     {
       "file": "scripts/dialogue-batch/printed-kinds.ts",
       "name": "scripts/dialogue-batch/printed-kinds.ts",
-      "reason": "Named outside itself by .agents/skills/words-engine/references/news.md"
+      "reason": "Named outside itself by .agents/skills/story/references/words-engine/news.md"
     },
     {
       "file": "scripts/dialogue-batch/restore-liked-lines.ts",
       "name": "scripts/dialogue-batch/restore-liked-lines.ts",
-      "reason": "Named outside itself by .agents/skills/words-engine/references/banks-and-grading.md"
+      "reason": "Named outside itself by .agents/skills/story/references/words-engine/banks-and-grading.md"
     },
     {
       "file": "scripts/dialogue-batch/scene-year.ts",
@@ -7382,7 +7382,7 @@
     {
       "file": "scripts/words/bribe-walk.ts",
       "name": "scripts/words/bribe-walk.ts",
-      "reason": "Named outside itself by .agents/skills/words-engine/references/lessons.md"
+      "reason": "Named outside itself by .agents/skills/story/references/words-engine/lessons.md"
     },
     {
       "file": "scripts/words/dead-end-talks.ts",
@@ -7392,7 +7392,7 @@
     {
       "file": "scripts/words/donor-walk.ts",
       "name": "scripts/words/donor-walk.ts",
-      "reason": "Named outside itself by .agents/skills/words-engine/references/lessons.md"
+      "reason": "Named outside itself by .agents/skills/story/references/words-engine/lessons.md"
     },
     {
       "file": "scripts/words/door-walk.ts",
@@ -7427,7 +7427,7 @@
     {
       "file": "scripts/words/opening-talk-trace.ts",
       "name": "scripts/words/opening-talk-trace.ts",
-      "reason": "Named outside itself by .agents/skills/words-engine/SKILL.md"
+      "reason": "Named outside itself by .agents/skills/story/references/words-engine.md"
     },
     {
       "file": "scripts/words/pay-on-time-played.ts",
@@ -7437,12 +7437,12 @@
     {
       "file": "scripts/words/relation-greets-replay.ts",
       "name": "scripts/words/relation-greets-replay.ts",
-      "reason": "Named outside itself by .agents/skills/words-engine/references/staging-and-playing.md"
+      "reason": "Named outside itself by .agents/skills/story/references/words-engine/staging-and-playing.md"
     },
     {
       "file": "scripts/words/relative-news-proof.ts",
       "name": "scripts/words/relative-news-proof.ts",
-      "reason": "Named outside itself by .agents/skills/words-engine/references/staging-and-playing.md"
+      "reason": "Named outside itself by .agents/skills/story/references/words-engine/staging-and-playing.md"
     },
     {
       "file": "scripts/words/relative-news-rate.ts",
@@ -7462,7 +7462,7 @@
     {
       "file": "scripts/words/subject-tie-counts.ts",
       "name": "scripts/words/subject-tie-counts.ts",
-      "reason": "Named outside itself by .agents/skills/words-engine/references/staging-and-playing.md"
+      "reason": "Named outside itself by .agents/skills/story/references/words-engine/staging-and-playing.md"
     },
     {
       "file": "scripts/words/talk-dump.ts",
@@ -7532,7 +7532,7 @@
     {
       "file": "scripts/runtime-text/classify.ts",
       "name": "summarize",
-      "reason": "Matching identifier outside its declaration: .agents/skills/civic-prose/references/prose-contract.md, .agents/skills/crew-coordinator/references/owners-words-to-threads.md, .agents/skills/dev-tester/SKILL.md, .agents/skills/speed-work/SKILL.md, .claude/skills/civic-prose/references/prose-contract.md, .claude/skills/crew-coordinator/references/owners-words-to-threads.md, .claude/skills/dev-tester/SKILL.md, .claude/skills/speed-work/SKILL.md"
+      "reason": "Matching identifier outside its declaration: .agents/skills/story-writer/references/civic-prose/prose-contract.md, .agents/skills/crew-coordinator/references/owners-words-to-threads.md, .agents/skills/dev-tester/SKILL.md, .agents/skills/speed-work/SKILL.md, .claude/skills/story-writer/references/civic-prose/prose-contract.md, .claude/skills/crew-coordinator/references/owners-words-to-threads.md, .claude/skills/dev-tester/SKILL.md, .claude/skills/speed-work/SKILL.md"
     },
     {
       "file": "scripts/runtime-text/classify.ts",
@@ -7692,7 +7692,7 @@
     {
       "file": "scripts/words/line-register.ts",
       "name": "relative",
-      "reason": "Matching identifier outside its declaration: .agents/skills/civic-prose/references/grounding-gate.md, .agents/skills/lives/SKILL.md, .agents/skills/look-first/SKILL.md, .agents/skills/scene-standard/SKILL.md, .agents/skills/screen-to-mock/SKILL.md, .agents/skills/words-engine/SKILL.md, .agents/skills/words-engine/references/banks-and-grading.md, .agents/skills/words-engine/references/checks.md"
+      "reason": "Matching identifier outside its declaration: .agents/skills/story-writer/references/civic-prose/grounding-gate.md, .agents/skills/lives/SKILL.md, .agents/skills/look-first/SKILL.md, .agents/skills/story-check/references/scene-standard.md, .agents/skills/screen-to-mock/SKILL.md, .agents/skills/story/references/words-engine.md, .agents/skills/story/references/words-engine/banks-and-grading.md, .agents/skills/story/references/words-engine/checks.md"
     },
     {
       "file": "scripts/words/line-register.ts",
@@ -7707,12 +7707,12 @@
     {
       "file": "scripts/words/line-register.ts",
       "name": "dataHeldLines",
-      "reason": "Matching identifier outside its declaration: .agents/skills/words-engine/SKILL.md, .claude/skills/words-engine/SKILL.md, tests/guards/english/line-register-baseline.json, tests/guards/english/line-register.test.ts"
+      "reason": "Matching identifier outside its declaration: .agents/skills/story/references/words-engine.md, .claude/skills/story/references/words-engine.md, tests/guards/english/line-register-baseline.json, tests/guards/english/line-register.test.ts"
     },
     {
       "file": "scripts/words/line-register.ts",
       "name": "unreadBanks",
-      "reason": "Matching identifier outside its declaration: .agents/skills/words-engine/SKILL.md, .claude/skills/words-engine/SKILL.md, tests/guards/english/line-register-baseline.json, tests/guards/english/line-register.test.ts"
+      "reason": "Matching identifier outside its declaration: .agents/skills/story/references/words-engine.md, .claude/skills/story/references/words-engine.md, tests/guards/english/line-register-baseline.json, tests/guards/english/line-register.test.ts"
     },
     {
       "file": "scripts/scene-pictures/report.ts",
@@ -7737,7 +7737,7 @@
     {
       "file": "tests/traits/support.ts",
       "name": "seed",
-      "reason": "Matching identifier outside its declaration: .agents/rules/cadence-and-summaries.md, .agents/rules/pool-item-standard.md, .agents/rules/smart-and-look-first.md, .agents/rules/standing-skills/feature-walkthrough/SKILL.md, .agents/rules/standing-skills/no-dice/SKILL.md, .agents/rules/standing-skills/one-rule-all-places/SKILL.md, .agents/skills/civic-prose/references/prose-contract.md, .agents/skills/crew-coordinator/SKILL.md"
+      "reason": "Matching identifier outside its declaration: .agents/rules/cadence-and-summaries.md, .agents/rules/pool-item-standard.md, .agents/rules/smart-and-look-first.md, .agents/rules/standing-skills/feature-walkthrough/SKILL.md, .agents/rules/standing-skills/no-dice/SKILL.md, .agents/rules/standing-skills/one-rule-all-places/SKILL.md, .agents/skills/story-writer/references/civic-prose/prose-contract.md, .agents/skills/crew-coordinator/SKILL.md"
     }
   ],
   "historicalPointers": [

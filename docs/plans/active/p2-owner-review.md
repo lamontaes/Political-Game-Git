@@ -10,7 +10,7 @@ Authority: [P2R1 controlling packet, including production authorization and care
 - Rejected/start PR head: `dd9ac1f79a301d71c128a03aab6bac555f21fc0c`.
 - Live PR head before reconciliation: `f5c102f027aee95dfce129746bbaaa0af44fed88`, a merge-only accepted-main update by another session. It was preserved by normal merge; no reviewed production prose changed.
 - Accepted main integrated normally: `89b2f7649f4db6225f8b16fdc1d2e762013ad62f`, including accepted PR124 and PR101. No rebase or force push.
-- Skill/role contract: accepted merged #121, `9d14f040c395787819c5971a0fc5985f42a95305`; byte parity retained. Explicitly used `$civic-prose`, its writer and a separate grounding reviewer.
+- Skill/role contract: accepted merged #121, `9d14f040c395787819c5971a0fc5985f42a95305`; byte parity retained. Explicitly used `$story-writer`, its writer and a separate grounding reviewer.
 - Production checkout: `/private/tmp/p2r1-production`. Original `/Users/lamontae/Documents/Political Game` remains detached at `d241d543e1ec878880b621f75d41c475480c978c` with its two pre-existing modified pose-proof PNGs untouched.
 - Bounded scope is **427 rows**: adult 382, callback 41, ordinary-life work items 4. All rows have separate grounding/editorial dispositions in the [full ledger](../evidence/p2r1/full-scope-ledger.json). No P3, shell, art, new life mechanics or PR128 allocator implementation.
 

@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** In the played world (buildBenchWorld) in a drawn place, the speech screen test builds a speech of four stages from the bank and the scene-talk test composes every purpose in ordinary play with no part the ledger holds; tests/english-parts-banks.test.ts refuses a bank whose shippable flag disagrees with the grades; the tests rewritten to expect held lines pass with their pre-hold checks restored.
 
-**Files.** scripts/dialogue-batch/apply-grades.ts, data/english/parts/, tests/english-parts-banks.test.ts, AGENTS.md, .agents/skills/words-engine/SKILL.md
+**Files.** scripts/dialogue-batch/apply-grades.ts, data/english/parts/, tests/english-parts-banks.test.ts, AGENTS.md, .agents/skills/story/references/words-engine.md
 
 **Notes.** TODO
 
