@@ -74,6 +74,15 @@ describe(`the economy's read doors match what the engines keep (seed ${seed})`, 
     // Jobs: the seeker lists, the openings and the changes.
     expect(jobsKept(api), where).toBe(true);
     expect(jobsOpened(api), where).toBe(true);
+    const tables = api.moduleState("jobs");
+    expect(allSeekers(api).length, where).toBe(tables.table("seekers").size);
+    expect(allPositions(api).length, where).toBe(
+      tables.table("positions").size,
+    );
+    expect(allJobChanges(api).length, where).toBe(tables.table("changes").size);
+    expect(allBusinessOwners(api).length, where).toBe(
+      api.moduleState("business").table("owners").size,
+    );
     const seekers = allSeekers(api);
     for (const seeker of seekers.slice(0, 20))
       expect(seekerOf(api, seeker.personId), where).toBe(seeker);

@@ -7,19 +7,30 @@ import re, sys, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
+missed = []
+
 def edit(path, pairs, imports):
     p = ROOT / path
     s = p.read_text()
-    for old, new in pairs:
+    ok = True
+    for n, (old, new) in enumerate(pairs, 1):
         if old in s:
             s = s.replace(old, new, 1)
-    for line in imports:
-        if line not in s:
-            # after the last top-level import statement
-            ms = list(re.finditer(r'^import [^;]*?;\n', s, re.M | re.S))
-            at = ms[-1].end() if ms else 0
-            s = s[:at] + line + "\n" + s[at:]
-    p.write_text(s)
+            print(f"applied  {path} edit {n}")
+        elif new == "" or new in s:
+            print(f"already  {path} edit {n}")
+        else:
+            print(f"MISSED   {path} edit {n}: the old text is not there")
+            missed.append((path, n))
+            ok = False
+    if ok:
+        for line in imports:
+            if line not in s:
+                # after the last top-level import statement
+                ms = list(re.finditer(r'^import [^;]*?;\n', s, re.M | re.S))
+                at = ms[-1].end() if ms else 0
+                s = s[:at] + line + "\n" + s[at:]
+        p.write_text(s)
 
 edit("src/core2/budgets-treasury.ts", [
     ('for (const row of api.moduleState("macro").table("countryStates").rows()) {\n    const moved = (\n      row as unknown as {\n        whatMoved: {\n          month: number;\n          withheld: { level: string; tax: string; dollars: number }[];\n        }[];\n      }\n    ).whatMoved;',
@@ -48,5 +59,11 @@ edit("src/core2/business-books-view.ts", [
      '  for (const row of employerTaxRecordsOf(api, organizationId))\n    taxesPaid += row.paidMinor;\n  for (const row of profitTaxRecordsOf(api, organizationId)) {\n    taxesPaid += row.paidMinor;\n    recordIds.push(row.id);\n  }'),
     ('  if (core.modules.has(BUSINESS_MODULE_ID))\n    for (const row of api\n      .moduleState(BUSINESS_MODULE_ID)\n      .table("outsideCosts")\n      .query("byOrganization", [organizationId]) as unknown as { id: string }[])\n      recordIds.push(row.id);',
      '  recordIds.push(...outsideCostRecordIds(api, organizationId));'),
+    ('import { BUSINESS_MODULE_ID } from "./business-module-id";\n', ''),
+    ('  type EmployerTaxRecord,\n  type ProfitTaxRecord,\n', ''),
 ], ['import { employerTaxRecordsOf, profitTaxRecordsOf } from "./budgets-reads";',
     'import { outsideCostRecordIds } from "./business-reads";'])
+
+if missed:
+    print(f"{len(missed)} edit(s) missed: nothing in those files was written; read the code and update this script.")
+    sys.exit(1)

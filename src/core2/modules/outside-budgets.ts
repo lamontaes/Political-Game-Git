@@ -31,7 +31,6 @@ import {
 } from "./budgets";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
-import { countryStateByKey } from "../macro-reads";
 
 export const OUTSIDE_BUDGETS_MODULE_ID = "outside-budgets";
 const RUN_KIND = "outside-budgets";
@@ -74,7 +73,10 @@ const MINOR_PER_DOLLAR = 100;
 const tierId = (stateKey: string) => `country-state:${stateKey}`;
 function tierState(api: CoreAPI, stateKey: string): CountryState | undefined {
   if (!(api.state as CoreState).modules.has(MACRO_MODULE_ID)) return undefined;
-  return countryStateByKey(api, stateKey);
+  return api
+    .moduleState(MACRO_MODULE_ID)
+    .table("countryStates")
+    .get(tierId(stateKey)) as unknown as CountryState | undefined;
 }
 
 /** A year of the tier's revenue by source, in minor units: the months it keeps, as a year. Null before its first month. */

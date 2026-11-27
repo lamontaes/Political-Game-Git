@@ -57,7 +57,6 @@ import {
   storiesHeard,
   type Story,
 } from "./modules/news";
-import { allCountryStates, allMacroMonths, macroMonthAt } from "./macro-reads";
 export { schoolsLineAboveBase } from "./school-budget-line";
 export { transfer, transferSplit } from "./accounts";
 
@@ -1099,8 +1098,15 @@ function countryWithholdingOf(api: CoreAPI): CountryWithholding | undefined {
   let federalIncome = 0;
   let federalPayroll = 0;
   const incomeByMonth = new Map<number, number>();
-  for (const row of allCountryStates(api)) {
-    const moved = row.whatMoved;
+  for (const row of api.moduleState("macro").table("countryStates").rows()) {
+    const moved = (
+      row as unknown as {
+        whatMoved: {
+          month: number;
+          withheld: { level: string; tax: string; dollars: number }[];
+        }[];
+      }
+    ).whatMoved;
     const last = moved[moved.length - 1];
     if (!last) continue;
     month = Math.max(month, last.month);
@@ -1364,12 +1370,19 @@ export interface BudgetDrivers {
 export function budgetDrivers(api: CoreAPI): BudgetDrivers | undefined {
   if (!(api.state as CoreState).modules.has("macro")) return undefined;
   const debt = federalDebtOf(api).reduce((n, h) => n + balanceOf(h), 0);
-  const months = allMacroMonths(api);
+  const macro = api.moduleState("macro");
+  const months = macro.table("months").rows() as unknown as {
+    month: string;
+    priceIndex: number;
+    treasury10Pct: number;
+  }[];
   let last: (typeof months)[number] | undefined;
   for (const m of months) if (!last || m.month > last.month) last = m;
   let people = 0;
-  for (const row of allCountryStates(api))
-    for (const cell of row.cells ?? []) people += cell.people;
+  for (const row of macro.table("countryStates").rows())
+    for (const cell of (row as unknown as { cells: { people: number }[] })
+      .cells ?? [])
+      people += cell.people;
   if (people <= 0 || !last || debt <= 0) return undefined;
   return {
     people,
@@ -1386,7 +1399,10 @@ export function taxBaseIndex(
 ): number {
   if (!(api.state as CoreState).modules.has("macro")) return 1;
   api.stopgap("SG-GOV-outside-revenue-base-national");
-  const row = (month: string) => macroMonthAt(api, month);
+  const months = api.moduleState("macro").table("months");
+  const row = (month: string) =>
+    months.get(`macro-month:${month}`) as unknown as
+      { payrollJobsThousands: number; hourlyEarnings: number } | undefined;
   const base = row(budgetStartsOn.slice(0, 7));
   const now = row(lastMonth);
   if (!base || !now) return 1;

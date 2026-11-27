@@ -22,14 +22,28 @@ export interface JobChangeRow {
   readonly heads?: number;
 }
 
-/** A person looking for work, or one who found it and is about to leave the list. */
+/** A named person on the job-seeker list (kept until they are hired), as the jobs engine writes it. */
 export interface JobSeekerRow {
   readonly id: string;
+  readonly isSeeker: true;
   readonly personId: string;
   readonly placeId: string;
+  /** True for a seeker who has just been hired and is about to leave the list. */
   readonly employed: boolean;
   readonly since: string;
   readonly reasonKey: string;
+  readonly referenceHourlyMinor: number;
+}
+
+/** A counted person on the job-seeker list: the same row without the hired flag (a counted seeker leaves the list when hired). */
+export interface CountedSeekerRow {
+  readonly id: string;
+  readonly isSeeker: true;
+  readonly personId: string;
+  readonly placeId: string;
+  readonly since: string;
+  readonly reasonKey: string;
+  readonly referenceHourlyMinor: number;
 }
 
 function store(api: CoreAPI) {
@@ -118,16 +132,18 @@ export function allSeekers(api: CoreAPI): readonly JobSeekerRow[] {
 export function countedSeekerOf(
   api: CoreAPI,
   personId: string,
-): JobSeekerRow | undefined {
+): CountedSeekerRow | undefined {
   if (!jobsKept(api)) return undefined;
   return store(api).table("countedSeekers").get(personId) as unknown as
-    JobSeekerRow | undefined;
+    CountedSeekerRow | undefined;
 }
 
 /** Every counted person on the job-seeker list. */
-export function allCountedSeekers(api: CoreAPI): readonly JobSeekerRow[] {
+export function allCountedSeekers(api: CoreAPI): readonly CountedSeekerRow[] {
   if (!jobsKept(api)) return [];
-  return store(api).table("countedSeekers").rows() as unknown as JobSeekerRow[];
+  return store(api)
+    .table("countedSeekers")
+    .rows() as unknown as CountedSeekerRow[];
 }
 
 /** Every opening the jobs engine keeps, whatever its status. */

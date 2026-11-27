@@ -11,7 +11,6 @@
  * stand as written.
  */
 import type { CoreAPI, CoreState } from "./types";
-import { macroMonthAt } from "./macro-reads";
 
 /** What an indexed amount moves with. */
 export type TaxIndexBy = "prices" | "wages";
@@ -30,12 +29,13 @@ export function taxIndexOf(
   date: string = api.state.date,
 ): TaxIndex | undefined {
   if (!(api.state as CoreState).modules.has("macro")) return undefined;
+  const months = api.moduleState("macro").table("months");
   const year = Number(date.slice(0, 4));
   return (by, dollarYear) => {
     if (!(year > dollarYear)) return 1;
     // stopgapId: SG-WORLD-tax-index-january
     const at = (y: number) =>
-      macroMonthAt(api, `${y}-01`) as MonthRow | undefined;
+      months.get(`macro-month:${y}-01`) as unknown as MonthRow | undefined;
     const field = by === "prices" ? "priceIndex" : "hourlyEarnings";
     const now = at(year)?.[field];
     const then = at(dollarYear)?.[field];
