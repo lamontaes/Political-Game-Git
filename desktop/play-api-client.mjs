@@ -13,7 +13,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-export const PLAY_API_HOST = path.join(
+const PLAY_API_HOST = path.join(
   path.dirname(fileURLToPath(import.meta.url)),
   "play-api-host.mjs",
 );

@@ -18,6 +18,8 @@ files:
   - "!staged/**"
   - "!release-artifacts/**"
   - "!scripts/**"
+  - "!tests/**"
+  - "!**/*.{test,spec,browser,node-test}.*"
   - "!*.yml"
   - "!*.md"
 extraResources:

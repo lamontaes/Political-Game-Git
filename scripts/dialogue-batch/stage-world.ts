@@ -50,7 +50,7 @@ export interface StagedScene {
   castIds: string[];
 }
 
-export interface StoodIn {
+interface StoodIn {
   momentId: string;
   typeKey: string;
   why: string;
