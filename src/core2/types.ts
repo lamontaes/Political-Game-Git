@@ -996,6 +996,102 @@ export interface CountedWagesNotice {
   periodDays: number;
 }
 
+/** Where the views engine's life term reads health plans from (the coverage engine's readers). */
+export interface PlanReaders {
+  /** A full person's current plan ("employer", "medicare" or "none"); undefined where the engine keeps none for them, null without the coverage engine. */
+  readonly fullPlan: (
+    core: CoreState,
+    householdId: string,
+    personId: string,
+  ) => string | undefined | null;
+  /** How many of a counted household's people under Medicare age its plan covers, or null where the coverage engine keeps no counted plans in the household's place. */
+  readonly countedCovered: (
+    core: CoreState,
+    householdId: string,
+    placeId: string,
+  ) => number | null;
+}
+
+/** Holders an engine keeps as names on its record and nothing more (another state's officials nobody has opened). */
+export interface UnbuiltHolders {
+  /** A number that changes whenever a holder may have joined, compared each day. */
+  readonly marker: (core: CoreState) => number;
+  /** Every holder held this way now, by person id. */
+  readonly ids: (core: CoreState) => Iterable<PersonId>;
+  /** Whether this engine holds `personId` this way (in office or not). */
+  readonly holds: (core: CoreState, personId: PersonId) => boolean;
+  /** Their death, for the engine to write what it leaves; `deathRecordId` is the death's own record, where one was written. */
+  readonly died: (
+    core: CoreState,
+    personId: PersonId,
+    deathRecordId?: string,
+  ) => void;
+}
+
+/** Who a record says a person knows, and when two of them shared time. */
+export interface KnownThrough {
+  /** The kind of tie the reader's hours fade as. */
+  readonly kind: string;
+  /** Everyone the record says this person knows, nearest first by the record's own order. */
+  readonly knownTo: (core: object, id: PersonId) => readonly PersonId[];
+  /** The first and the last day the two shared time in the record, and the record; null when they have not. */
+  readonly together: (
+    core: object,
+    a: PersonId,
+    b: PersonId,
+  ) => { first: IsoDate; last: IsoDate; sourceId: string } | null;
+}
+
+/** A member seated on a body, and the day their unbroken service in the seat began. */
+export interface SittingSeat {
+  readonly personId: string;
+  readonly since: string;
+}
+
+/** One sitting day of a body (a town meeting, or a legislature's floor week and its floor days). */
+export interface SittingDay {
+  readonly date: string;
+  readonly days: number;
+}
+
+/** What the engine that keeps the bodies' calendars and seats says. */
+export interface SittingCalendar {
+  /** True for the bodies this engine keeps. */
+  readonly owns: (api: CoreAPI, officeId: string) => boolean;
+  /** The members seated on the body today. */
+  readonly seats: (api: CoreAPI, officeId: string) => readonly SittingSeat[];
+  /** The bodies a person sits on today. */
+  readonly bodiesOf: (api: CoreAPI, personId: string) => readonly string[];
+  /** The body's sittings on or after `from` and before `to`, from its own calendar. */
+  readonly sittings: (
+    api: CoreAPI,
+    officeId: string,
+    from: string,
+    to: string,
+  ) => readonly SittingDay[];
+  /** The hours of one sitting day of the body its members spend in contact, before they are split among the colleagues each knows there. */
+  readonly contactHoursPerDay: (api: CoreAPI, officeId: string) => number;
+  /** The sitting days a person stayed away from, by body, as their own record keeps them. */
+  readonly absences?: (
+    api: CoreAPI,
+    personId: string,
+  ) => ReadonlyMap<string, readonly string[]>;
+}
+
+/** The property tax terms of one place. */
+export interface PropertyTaxTerms {
+  /** Annual tax as a share of assessed value. */
+  readonly rate: number;
+  /** The most assessed value may rise in a year, as a share; none when uncapped. */
+  readonly assessmentCapShare?: number;
+  readonly assessmentLawRowId?: string;
+  /** Who's paid; the place's outside account when not given. */
+  readonly payeeId?: string;
+  /** The law row the rate comes from; named on any arrears it leaves. */
+  readonly lawRowId?: string;
+  readonly source: Source;
+}
+
 export interface CoreModule {
   id: string;
   state?: ModuleStateDefinition;
@@ -1020,6 +1116,88 @@ export interface CoreModule {
   };
   /** Once the core is made, in install order: this engine's part of opening the world (the opening ties, the counted residents admitted). */
   onOpen?: (core: CoreState, input: CoreInput) => void;
+  /**
+   * Fields other engines read off the modules installed in a world, in install
+   * order (`fieldsOf` in module-fields.ts), in place of a list the engines
+   * fill as their files load. A field is the engine's own answer to the
+   * question the reader asks; the reader never imports the engine. Where a
+   * field takes an engine's own record type it is typed as a method with the
+   * wider `unknown` or `object`, so the engine's narrower argument type fits.
+   */
+
+  /** A counted person's record by id, or nothing; the shared chooser asks every installed engine (`countedPersonOf`). */
+  countedPerson?: (
+    core: CoreState,
+    personId: PersonId,
+  ) => PersonInput | undefined;
+  /** A full person's health plan, and how many of a counted household's people a plan covers; the views engine's life term reads them. */
+  planReaders?: PlanReaders;
+  /** The person an engine builds for a husk it holds the record of, or nothing. */
+  huskPromoter?: (
+    core: CoreState,
+    personId: PersonId,
+  ) => PersonState | undefined;
+  /** Who a husk is (birth date, place, traits) where this engine holds its record, so the health engine can book its illness and death. */
+  huskIdentity?: (
+    core: CoreState,
+    personId: PersonId,
+  ) =>
+    | {
+        birthDate: string;
+        placeId: string;
+        traits: Readonly<Record<string, number>>;
+      }
+    | undefined;
+  /** What a husk is paid in a year, in minor units, where this engine knows it. */
+  huskIncome?: (core: CoreState, personId: PersonId) => number | undefined;
+  /** Holders this engine keeps as names on its record and nothing more; the health engine books their illness and death without building them. */
+  unbuiltHolders?: UnbuiltHolders;
+  /** Hours two people have spent together that no relationship row keeps, and who this record says a person knows (the closeness reader adds the hours). */
+  sharedHours?: {
+    readonly hours: (core: object, a: PersonId, b: PersonId) => number;
+    readonly known?: KnownThrough;
+  };
+  /** The bodies' calendars, seats and absences this engine keeps (the sittings two members of a body have shared). */
+  sittingCalendar?: SittingCalendar;
+  /** What the views engine tells every engine when a person's stance on a topic moves (interest-group membership follows the view). */
+  stanceListener?: (api: CoreAPI, personId: PersonId, topic: string) => void;
+  /** The property tax terms of a place, as the budgets engine keeps them. */
+  propertyTax?: (api: CoreAPI, placeId: string) => PropertyTaxTerms | undefined;
+  /** What the moves engine does when a household with returned members leaves a place. */
+  returnedMembersLeave?: (
+    api: CoreAPI,
+    people: readonly PersonState[],
+    fromPlace: string,
+    toUsps: string,
+  ) => void;
+  /** What the welfare line pays one household a year (the Census counts public assistance in income). */
+  assistanceReader?: (core: CoreState, householdId: string) => number;
+  /** Run the moment a person hears a story (the price engine ties a price change to the law the story names). Method form: the engine's `Story` type fits `unknown`. */
+  onStoryHeard?(api: CoreAPI, personId: PersonId, story: unknown): void;
+  /**
+   * What the voting engine gives the campaign, candidacy and elections engines
+   * it cannot import (they are read by it): the candidate a resident would vote
+   * for now (`doorChoice`: a candidate id, null for nobody, undefined where the
+   * world counts no ballots), whether a person is on the count's roll today
+   * (`petitionRoll`), how it finishes the field of a race whose filing closed
+   * before the record began (`closedContestWeighed`), and the ward a ward seat
+   * represents and the ward a person lives in (`wardResidency`). Each reader
+   * asks the installed engines in install order. Method signatures, so the
+   * engine's own narrower argument types (a door visit, a contest) fit.
+   */
+  doorChoice?(
+    api: CoreAPI,
+    voterId: string,
+    contestId: string,
+    visit?: unknown,
+  ): string | null | undefined;
+  petitionRoll?(api: CoreAPI, personId: string): boolean;
+  closedContestWeighed?(api: CoreAPI, contest: { readonly id: string }): void;
+  wardResidency?(
+    api: CoreAPI,
+    contest: { readonly id: string },
+    person: Readonly<PersonState>,
+  ): { readonly seatWard: number; readonly homeWard: number } | null;
   /** Dated institutional work, before day hooks; emits/effects use the canonical API. */
   onCalendarWork?: (api: CoreAPI, work: Readonly<ModuleCalendarWork>) => void;
   /**
