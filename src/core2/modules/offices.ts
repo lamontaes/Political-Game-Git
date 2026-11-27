@@ -167,7 +167,7 @@ export interface VacancyRow {
   readonly cause: string;
   readonly rule: VacancyRule;
   readonly status: "open" | "filled" | "awaiting-election" | "offered";
-  /** Offered to someone by the appointing body (`registerVacancyOffer`): how they would reach the seat. */
+  /** Offered to someone by the appointing body (by a module's `vacancyOffer`): how they would reach the seat. */
   readonly offeredReached?: string;
   /** The term that ended when the seat fell vacant: dev mode's Trace names who left and how. */
   readonly vacatedTermId?: string;
@@ -2717,13 +2717,20 @@ function fillVacancy(
     );
   if (rule.method === "appointment") {
     const reached = `appointed by ${rule.appointedBy ?? "the appointing authority"}`;
-    // The body may offer the seat first to someone it would not seat unasked (the player): the seat
-    // waits on their answer (`answerVacancyOffer`).
+    // The body may offer the seat first to someone it would not seat unasked (the player, who takes
+    // a seat only by their own choice: owner, Oct 14, "the engine offers, the player decides"; Nov
+    // 16, "you can only be appointed to council, like the playable offices"). Any installed module's
+    // `vacancyOffer` may; the seat then waits on their answer (`answerVacancyOffer`).
     if (
       offering &&
       !vacancy.unheld &&
-      [...vacancyOffers.values()].some((offer) =>
-        offer(api, { office, seat, vacancyId: vacancy.id, reached }),
+      carriersOf(api.state as CoreState, "vacancyOffer").some((carrier) =>
+        carrier.vacancyOffer!(api, {
+          office,
+          seat,
+          vacancyId: vacancy.id,
+          reached,
+        }),
       )
     )
       return { ...vacancy, status: "offered", offeredReached: reached };
@@ -2743,30 +2750,6 @@ type SpecialElectionOpener = (
     readonly unheld?: VacancyRow["unheld"];
   },
 ) => boolean;
-/**
- * An engine that may offer a vacant seat, filled by appointment, to someone the appointing body does not
- * seat unasked: the player, who takes a seat only by their own choice (owner, Oct 14: the engine
- * offers, the player decides; Nov 16: "you can only be appointed to council, like the playable
- * offices"). True when it made an offer; the vacancy then waits on `answerVacancyOffer`.
- */
-export type VacancyOffer = (
-  api: CoreAPI,
-  input: {
-    readonly office: OfficeInput;
-    readonly seat: SeatInput;
-    readonly vacancyId: string;
-    readonly reached: string;
-  },
-) => boolean;
-const vacancyOffers = new Map<string, VacancyOffer>();
-/** An engine offers vacant seats to the person it answers for (the elections engine, the player). */
-export function registerVacancyOffer(
-  offer: VacancyOffer,
-  name = "player",
-): void {
-  vacancyOffers.set(name, offer);
-}
-
 /**
  * The answer to an offered seat: a yes seats the person for the rest of the vacated term, with the
  * appointing body's reason; a no fills it as the rule does when nobody is offered it. Returns the
