@@ -320,6 +320,25 @@ const config = new Map([
     "src/core2/tooling/vitest.config.ts",
     [['"src/core2/**/*.test.ts"', '"tests/src/core2/**/*.test.ts"']],
   ],
+  // The families guard lists tests where they sit; after the move that is under tests/src.
+  [
+    "scripts/guards/families-measure.ts",
+    [
+      [
+        'execFileSync("git", ["ls-files", ...ROOTS], {\n    cwd: ROOT,\n    encoding: "utf8",\n  })\n    .split("\\n")\n    .filter(\n      (file) =>\n        SOURCE.test(file) && /\\.(test|spec|browser)\\.(ts|tsx|mjs)$/.test(file),\n    );',
+        'execFileSync(\n    "git",\n    ["ls-files", ...ROOTS, ...ROOTS.map((root) => `tests/${root}`)],\n    { cwd: ROOT, encoding: "utf8" },\n  )\n    .split("\\n")\n    .filter(\n      (file) =>\n        SOURCE.test(file.replace(/^tests\\//, "")) &&\n        /\\.(test|spec|browser)\\.(ts|tsx|mjs)$/.test(file),\n    );',
+      ],
+    ],
+  ],
+  [
+    "tests/guards/families.test.ts",
+    [
+      [
+        "const orphans = testFiles().filter((file) => familyOf(file) === null);",
+        "const tests = testFiles();\n    // The list is read from where the tests sit; an empty list would pass this check by seeing nothing.\n    expect(tests.length).toBeGreaterThan(0);\n    const orphans = tests.filter((file) => familyOf(file) === null);",
+      ],
+    ],
+  ],
   [
     "scripts/core2/tooling/vitest.config.ts",
     [['"src/core2/**/*.test.ts"', '"tests/src/core2/**/*.test.ts"']],
