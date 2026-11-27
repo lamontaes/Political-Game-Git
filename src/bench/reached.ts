@@ -10,7 +10,7 @@ import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { votesCast } from "../core2/modules/people";
 import { storyOfReadEvent } from "../core2/modules/news";
 import { changesKnownTo } from "../director/bring-it-up";
-import { reachedBy } from "../core2/law-reach/host";
+import { reachedBy } from "../core2/modules/laws";
 
 const has = (core: CoreState, id: string) => core.modules.has(id);
 

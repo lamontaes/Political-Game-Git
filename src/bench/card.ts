@@ -11,7 +11,7 @@ import {
   daysBetween,
   makeIsoDate,
 } from "../core2/kernel/dates";
-import { reachOn } from "../core2/law-reach/host";
+import { reachOn } from "../core2/modules/laws";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { currentCloseness, lastMetOnRow } from "../core2/closeness";
 import {

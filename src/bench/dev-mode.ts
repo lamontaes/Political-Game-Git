@@ -41,11 +41,11 @@ import {
   reachOn,
 } from "../core2/modules/laws";
 import { inForceOn, inTownChain, LAW_SERIES } from "../core2/laws-in-force";
-import type { LawRowInput } from "../core2/laws-starting";
-import { POLICY_QUESTIONS } from "../core2/policy-answers";
+import type { LawRowInput } from "../core2/laws-in-force";
+import { POLICY_QUESTIONS } from "../core2/modules/laws";
 import { POLICIES as REACH_A_POLICIES } from "../core2/law-reach/group-a-records";
 import { GROUP_B_KEYS } from "../core2/law-reach/group-b";
-import { jobsAt } from "../core2/law-reach/group-b-money";
+import { jobsAt } from "../core2/laws-in-force";
 import { organizationName } from "../core2/past";
 import { lawReach } from "../core2/law-reach/applied";
 import {

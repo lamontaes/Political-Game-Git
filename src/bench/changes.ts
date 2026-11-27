@@ -2,9 +2,9 @@
 // it reached, from the law-reach records. Read-only.
 import { historyOf } from "../core2/past";
 import { coreAPI } from "../core2/state";
-import { reachedBy } from "../core2/law-reach/host";
+import { reachedBy } from "../core2/modules/laws";
 import { LAW_STATUTE, LAWS_MODULE_ID } from "../core2/modules/laws";
-import type { LawRowInput } from "../core2/laws-starting";
+import type { LawRowInput } from "../core2/laws-in-force";
 import type { CoreState } from "../core2/types";
 
 // Engineering page size for the names shown per law, not a model value.

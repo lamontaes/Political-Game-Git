@@ -12,7 +12,7 @@ import billNames from "../../data/english/bill-names.json" with { type: "json" }
 import businessBooks from "../core2/data/business-books.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
 import { addDays, makeIsoDate, spokenDate } from "../core2/kernel/dates";
-import { partyName } from "../core2/appointments";
+import { partyName } from "../core2/modules/executive";
 import board from "../core2/data/macro/board.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import {
