@@ -77,7 +77,6 @@
       "elections": 2
     },
     "src/bench/filing.ts": {
-      "elections": 3,
       "executive": 1
     },
     "src/bench/government-bodies.ts": {
@@ -151,21 +150,12 @@
       "bodies": 1
     },
     "src/core2/candidate-identity.ts": {
-      "executive": 2
-    },
-    "src/core2/candidate-pool.ts": {
-      "executive": 4,
-      "jobs-businesses": 1,
-      "news": 1
-    },
-    "src/core2/contest-positions.ts": {
       "executive": 1
     },
-    "src/core2/election-ties.ts": {
-      "executive": 3
-    },
-    "src/core2/electorate-inputs.ts": {
-      "executive": 2
+    "src/core2/candidate-pool.ts": {
+      "executive": 3,
+      "jobs-businesses": 1,
+      "news": 1
     },
     "src/core2/gov-measures.ts": {
       "elections": 2,
@@ -217,9 +207,6 @@
       "executive": 2,
       "news": 1
     },
-    "src/core2/modules/candidacy.ts": {
-      "executive": 9
-    },
     "src/core2/modules/constituent-cases.ts": {
       "jobs-businesses": 1
     },
@@ -237,9 +224,6 @@
     "src/core2/modules/crime.ts": {
       "people": 1
     },
-    "src/core2/modules/elections.ts": {
-      "executive": 12
-    },
     "src/core2/modules/filing-clerk.ts": {
       "executive": 1
     },
@@ -250,8 +234,7 @@
       "jobs-businesses": 3
     },
     "src/core2/modules/interest-groups.ts": {
-      "bodies": 1,
-      "executive": 2
+      "bodies": 1
     },
     "src/core2/modules/justice.ts": {
       "executive": 1
@@ -303,7 +286,6 @@
     },
     "src/core2/modules/recalls.ts": {
       "bodies": 2,
-      "executive": 4,
       "laws": 3
     },
     "src/core2/modules/record.ts": {
@@ -311,9 +293,6 @@
     },
     "src/core2/modules/residents.ts": {
       "jobs-businesses": 1
-    },
-    "src/core2/modules/serve-asks.ts": {
-      "executive": 4
     },
     "src/core2/modules/staff.ts": {
       "bodies": 2
@@ -398,9 +377,6 @@
     },
     "src/core2/question-wages.ts": {
       "laws": 2
-    },
-    "src/core2/race-places.ts": {
-      "executive": 3
     },
     "src/core2/resting-stress.ts": {
       "dynamic": 1
