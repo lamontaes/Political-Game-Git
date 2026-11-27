@@ -85,7 +85,7 @@ import {
   townSeats,
   type TermRow,
 } from "./offices";
-import { registerOfficeTime, type OfficeTime } from "./work";
+import type { OfficeTime } from "./work";
 import agendaData from "../data/legislature/outside-agenda.json" with { type: "json" };
 import executiveSittings from "../data/legislature/executive-sittings.json" with { type: "json" };
 import localExecutiveRules from "../../../data/research/gov/local-executive-introduction-2026.json" with { type: "json" };
@@ -214,6 +214,8 @@ export const WORLD_LEGISLATING_MODULE_ID = "core2-world-legislating-v1";
 
 export const WORLD_LEGISLATING_MODULE: CoreModule = {
   id: WORLD_LEGISLATING_MODULE_ID,
+  // The hours a town body's meetings take from its members' days.
+  officeTime: townMeetingHoursToday,
   state: {
     schemaVersion: 1,
     tables: {
@@ -240,7 +242,6 @@ export function openWorldLegislating(
   registerFloorDateReader(floorDateOf);
   registerFloorCalendarer(projectedFloorDate);
   registerSittingCalendar(SITTING_CALENDAR);
-  registerOfficeTime(townMeetingHoursToday);
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID))
     registerModule(core, WORLD_LEGISLATING_MODULE);
   const api = coreAPI(core);
