@@ -37,7 +37,7 @@ import {
 
 // Screens read a full person's circumstances through the views engine.
 export { fullLifeStake };
-import { stableHash, pairKey } from "../kernel/ids";
+import { stableHash } from "../kernel/ids";
 import { livedQuestion } from "../outcome-news";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
@@ -49,7 +49,7 @@ import {
   STANCE_LOADINGS,
   type StanceProfile,
 } from "../campaign-views";
-import { currentCloseness } from "../closeness";
+import { closenessBetween } from "../closeness";
 import viewsJson from "../data/views/views.json" with { type: "json" };
 import drivesJson from "../data/drives.json" with { type: "json" };
 import type {
@@ -783,12 +783,10 @@ export function standingWith(
       withTerm ? trust : nearTrust,
     );
   }
-  const tie =
-    groupCloseness === undefined
-      ? api.state.relationships.get(pairKey(listener.id, speakerId))
-      : undefined;
+  // The one closeness read: the tie row and the hours other engines register
+  // for two people with no tie row (members who sit together).
   const closeness =
-    groupCloseness ?? (tie ? currentCloseness(api.state, tie) : v("zero"));
+    groupCloseness ?? closenessBetween(api.state, listener.id, speakerId);
   const partyOf = (id: string) =>
     api.state.modules.has(PARTIES_STORE)
       ? ((
