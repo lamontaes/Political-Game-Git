@@ -249,7 +249,6 @@
     },
     "src/core2/modules/world-metrics.ts": {
       "dynamic": 1,
-      "jobs-businesses": 1,
       "people": 2
     },
     "src/core2/modules/world-panels.ts": {

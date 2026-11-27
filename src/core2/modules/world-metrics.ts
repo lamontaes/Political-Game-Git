@@ -12,7 +12,13 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { residentsRuntime } from "./residents";
 import { povertyByPlace } from "../world-poverty";
-import { HOUSING_MODULE_ID, townFiguresByPlace } from "./housing";
+import {
+  HOUSING_MODULE_ID,
+  allMortgageRows,
+  townFiguresByPlace,
+} from "./housing";
+import { allCreditLoans, type CreditLoanRow } from "../credit-reads";
+import { openClaims } from "../jobs-reads";
 import { foldMonthIntoYear } from "../output-numbers";
 import { laborYearBefore } from "../labor-past";
 import { townLaborByPlace } from "./world-panels";
@@ -185,39 +191,27 @@ export function townMetrics(api: CoreAPI) {
   for (const flow of rt?.flows.values() ?? [])
     if (flow.id.startsWith("rent:") && !flow.endedAt)
       at(flow.placeId).rents.push(flow.amountMinor);
-  const mortgages = rows(api, "housing", "mortgages") as unknown as {
-    balanceMinor: number;
-    monthsLeft: number;
-  }[];
-  const loans = rows(api, "credit", "loans") as unknown as {
+  const mortgages = allMortgageRows(api);
+  const loans = allCreditLoans(api) as readonly (CreditLoanRow & {
     open: boolean;
-  }[];
+  })[];
   // Unemployment claims open today, by the place each was filed in: the jobs
   // engine's own index of open claims, a counted claimant standing for the
   // people their household stands for (one model, two tiers).
   const claimsOpen = new Map<string, number>();
   const hasJobs = c.modules.has("jobs");
-  if (hasJobs)
-    for (const row of api
-      .moduleState("jobs")
-      .table("claims")
-      .query("open", [true]) as unknown as {
-      personId: string;
-      placeId: string;
-    }[]) {
-      const m = c.people.has(row.personId as never)
-        ? undefined
-        : rt?.store.countedMember(row.personId);
-      claimsOpen.set(
-        row.placeId,
-        (claimsOpen.get(row.placeId) ?? 0) +
-          (m === undefined
-            ? 1
-            : rt!.store.weightOf(
-                rt!.store.households[rt!.store.household[m]!]!,
-              )),
-      );
-    }
+  for (const row of openClaims(api)) {
+    const m = c.people.has(row.personId as never)
+      ? undefined
+      : rt?.store.countedMember(row.personId);
+    claimsOpen.set(
+      row.placeId,
+      (claimsOpen.get(row.placeId) ?? 0) +
+        (m === undefined
+          ? 1
+          : rt!.store.weightOf(rt!.store.households[rt!.store.household[m]!]!)),
+    );
+  }
   // The town's labor market, one counting rule (townLaborByPlace): the month
   // row, the rate, the Metrics tab and the paper all read it.
   const labor = townLaborByPlace(api);
