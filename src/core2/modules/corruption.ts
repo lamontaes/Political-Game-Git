@@ -693,7 +693,8 @@ export const corruptionModule: CoreModule = {
     if (facts.typeKey !== "bribe-offer" || !facts.ending) return;
     const crimeId = (facts.causeId ?? "").slice(`${BRIBE_OFFERED}:`.length);
     if (facts.ending === "took-it") takePendingBribe(api, crimeId);
-    else if (facts.ending !== "left-there") refusePendingBribe(api, crimeId);
+    else if (facts.ending !== "put-off" && facts.ending !== "left-there")
+      refusePendingBribe(api, crimeId);
   },
   relationshipKinds: ["*"],
   // stopgapId: SG-P15-bribe-falling-out-rare

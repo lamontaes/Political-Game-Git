@@ -356,17 +356,18 @@
           ],
           "arc": {
             "state": "offer",
-            "replies": ["accept", "refuse", "confront"],
+            "replies": ["accept", "refuse", "deflect", "confront"],
             "follow": {
               "accept": ["thank"],
               "refuse": ["accept", "plea"],
+              "deflect": ["offer", "press"],
               "confront": ["deflect", "plea"]
             },
             "again": {
-              "offer": ["accept", "refuse", "confront"],
-              "plea": ["refuse", "accept"],
-              "press": ["refuse", "accept", "confront"],
-              "deflect": ["refuse", "confront"]
+              "offer": ["accept", "refuse", "confront", "leave"],
+              "plea": ["refuse", "accept", "leave"],
+              "press": ["refuse", "accept", "confront", "leave"],
+              "deflect": ["refuse", "confront", "leave"]
             },
             "endings": [
               {
@@ -391,6 +392,14 @@
                 "keeps": "bribe-refused",
                 "when": {
                   "anyReply": ["refuse"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "You waved it off",
+                "keeps": "bribe-pending",
+                "when": {
+                  "reply": ["deflect", "leave"]
                 }
               },
               {
@@ -423,18 +432,19 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["accept", "refuse", "confront"],
+            "replies": ["accept", "refuse", "confront", "stall"],
             "follow": {
               "accept": ["thank"],
               "refuse": ["bargain", "threaten", "accept"],
-              "confront": ["plea", "threaten", "deflect"]
+              "confront": ["plea", "threaten", "deflect"],
+              "stall": ["press", "plea"]
             },
             "again": {
-              "bargain": ["accept", "refuse", "confront"],
-              "threaten": ["refuse", "confront", "accept"],
-              "plea": ["refuse", "accept", "confront"],
-              "press": ["refuse", "accept", "confront"],
-              "deflect": ["refuse", "confront"]
+              "bargain": ["accept", "refuse", "confront", "leave"],
+              "threaten": ["refuse", "confront", "accept", "leave"],
+              "plea": ["refuse", "accept", "confront", "leave"],
+              "press": ["refuse", "accept", "confront", "leave"],
+              "deflect": ["refuse", "confront", "leave"]
             },
             "endings": [
               {
@@ -459,6 +469,14 @@
                 "keeps": "bribe-refused",
                 "when": {
                   "anyReply": ["refuse"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "bribe-pending",
+                "when": {
+                  "reply": ["stall", "leave", "deflect"]
                 }
               },
               {
@@ -487,17 +505,18 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["accept", "refuse", "apologize", "confront"],
+            "replies": ["accept", "refuse", "apologize", "confront", "stall"],
             "follow": {
               "accept": ["thank"],
               "refuse": ["plea", "accept"],
               "apologize": ["accept", "plea"],
-              "confront": ["plea", "deflect"]
+              "confront": ["plea", "deflect"],
+              "stall": ["press", "plea"]
             },
             "again": {
-              "plea": ["refuse", "apologize", "accept"],
-              "press": ["refuse", "accept", "confront"],
-              "deflect": ["refuse", "confront"]
+              "plea": ["refuse", "apologize", "accept", "leave"],
+              "press": ["refuse", "accept", "confront", "leave"],
+              "deflect": ["refuse", "confront", "leave"]
             },
             "endings": [
               {
@@ -533,6 +552,14 @@
                 }
               },
               {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "bribe-pending",
+                "when": {
+                  "reply": ["stall", "leave", "deflect"]
+                }
+              },
+              {
                 "id": "left-there",
                 "label": "Left it there",
                 "keeps": "none",
@@ -562,16 +589,17 @@
           ],
           "arc": {
             "state": "press",
-            "replies": ["refuse", "confront", "accept"],
+            "replies": ["refuse", "confront", "accept", "deflect"],
             "follow": {
               "refuse": ["threaten", "plea", "accept"],
               "confront": ["plea", "threaten"],
-              "accept": ["thank"]
+              "accept": ["thank"],
+              "deflect": ["press", "threaten"]
             },
             "again": {
-              "threaten": ["refuse", "confront", "accept"],
-              "plea": ["refuse", "confront", "accept"],
-              "press": ["refuse", "confront", "accept"]
+              "threaten": ["refuse", "confront", "accept", "leave"],
+              "plea": ["refuse", "confront", "accept", "leave"],
+              "press": ["refuse", "confront", "accept", "leave"]
             },
             "endings": [
               {
@@ -596,6 +624,14 @@
                 "keeps": "relationship-strained",
                 "when": {
                   "anyReply": ["refuse"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off again",
+                "keeps": "bribe-pending",
+                "when": {
+                  "reply": ["deflect", "leave"]
                 }
               },
               {
@@ -624,17 +660,18 @@
           ],
           "arc": {
             "state": "plea",
-            "replies": ["accept", "refuse", "comfort", "confront"],
+            "replies": ["accept", "refuse", "comfort", "confront", "stall"],
             "follow": {
               "accept": ["thank"],
               "refuse": ["plea", "press", "accept"],
               "comfort": ["thank"],
-              "confront": ["plea", "deflect"]
+              "confront": ["plea", "deflect"],
+              "stall": ["plea", "press"]
             },
             "again": {
-              "plea": ["refuse", "comfort", "accept"],
-              "press": ["refuse", "comfort", "confront"],
-              "deflect": ["refuse", "confront"]
+              "plea": ["refuse", "comfort", "accept", "leave"],
+              "press": ["refuse", "comfort", "confront", "leave"],
+              "deflect": ["refuse", "confront", "leave"]
             },
             "endings": [
               {
@@ -667,6 +704,14 @@
                 "keeps": "bribe-refused",
                 "when": {
                   "anyReply": ["refuse"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "bribe-pending",
+                "when": {
+                  "reply": ["stall", "leave", "deflect"]
                 }
               },
               {
@@ -703,16 +748,17 @@
           ],
           "arc": {
             "state": "warn",
-            "replies": ["refuse", "confront", "tell"],
+            "replies": ["refuse", "confront", "deflect", "tell"],
             "follow": {
               "refuse": ["plea", "accept"],
               "confront": ["plea", "deflect"],
+              "deflect": ["press", "plea"],
               "tell": ["plea", "accept"]
             },
             "again": {
-              "plea": ["refuse", "confront"],
-              "press": ["refuse", "confront"],
-              "deflect": ["refuse", "confront"]
+              "plea": ["refuse", "confront", "deflect", "leave"],
+              "press": ["refuse", "confront", "deflect", "leave"],
+              "deflect": ["refuse", "confront", "leave"]
             },
             "endings": [
               {
@@ -737,6 +783,14 @@
                 "keeps": "relationship-strained",
                 "when": {
                   "anyReply": ["confront"]
+                }
+              },
+              {
+                "id": "brushed-off",
+                "label": "You brushed it off",
+                "keeps": "none",
+                "when": {
+                  "reply": ["deflect", "leave"]
                 }
               },
               {
@@ -770,15 +824,16 @@
           ],
           "arc": {
             "state": "threaten",
-            "replies": ["refuse", "confront"],
+            "replies": ["refuse", "confront", "deflect", "leave"],
             "follow": {
               "refuse": ["threaten", "warn"],
-              "confront": ["threaten", "press"]
+              "confront": ["threaten", "press"],
+              "deflect": ["press", "threaten"]
             },
             "again": {
-              "threaten": ["refuse", "confront"],
-              "warn": ["refuse", "confront"],
-              "press": ["refuse", "confront"]
+              "threaten": ["refuse", "confront", "deflect", "leave"],
+              "warn": ["refuse", "confront", "leave"],
+              "press": ["refuse", "confront", "deflect", "leave"]
             },
             "endings": [
               {
@@ -795,6 +850,22 @@
                 "keeps": "relationship-strained",
                 "when": {
                   "anyReply": ["confront"]
+                }
+              },
+              {
+                "id": "walked-out",
+                "label": "You walked out on them",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave"]
+                }
+              },
+              {
+                "id": "brushed-off",
+                "label": "You brushed it off",
+                "keeps": "none",
+                "when": {
+                  "reply": ["deflect"]
                 }
               },
               {
@@ -823,16 +894,17 @@
           ],
           "arc": {
             "state": "plea",
-            "replies": ["refuse", "confront", "comfort"],
+            "replies": ["refuse", "confront", "deflect", "comfort"],
             "follow": {
               "refuse": ["plea", "accept"],
               "confront": ["plea", "deflect"],
+              "deflect": ["plea", "press"],
               "comfort": ["thank"]
             },
             "again": {
-              "plea": ["refuse", "confront", "comfort"],
-              "press": ["refuse", "confront"],
-              "deflect": ["refuse", "confront"]
+              "plea": ["refuse", "confront", "comfort", "leave"],
+              "press": ["refuse", "confront", "deflect", "leave"],
+              "deflect": ["refuse", "confront", "leave"]
             },
             "endings": [
               {
@@ -857,6 +929,14 @@
                 "keeps": "relationship-strained",
                 "when": {
                   "anyReply": ["confront"]
+                }
+              },
+              {
+                "id": "brushed-off",
+                "label": "You brushed it off",
+                "keeps": "none",
+                "when": {
+                  "reply": ["deflect", "leave"]
                 }
               },
               {
@@ -889,15 +969,16 @@
           ],
           "arc": {
             "state": "press",
-            "replies": ["refuse", "confront"],
+            "replies": ["refuse", "confront", "deflect", "leave"],
             "follow": {
               "refuse": ["threaten", "accept"],
-              "confront": ["threaten", "plea"]
+              "confront": ["threaten", "plea"],
+              "deflect": ["press", "threaten"]
             },
             "again": {
-              "threaten": ["refuse", "confront"],
-              "press": ["refuse", "confront"],
-              "plea": ["refuse", "confront"]
+              "threaten": ["refuse", "confront", "deflect", "leave"],
+              "press": ["refuse", "confront", "deflect", "leave"],
+              "plea": ["refuse", "confront", "leave"]
             },
             "endings": [
               {
@@ -914,6 +995,14 @@
                 "keeps": "relationship-strained",
                 "when": {
                   "anyReply": ["confront"]
+                }
+              },
+              {
+                "id": "brushed-off",
+                "label": "You brushed it off again",
+                "keeps": "none",
+                "when": {
+                  "reply": ["deflect", "leave"]
                 }
               },
               {
@@ -961,15 +1050,16 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["agree", "offer", "decline"],
+            "replies": ["agree", "offer", "decline", "deflect"],
             "follow": {
               "agree": ["thank"],
               "offer": ["thank", "plea"],
-              "decline": ["plea", "accept"]
+              "decline": ["plea", "accept"],
+              "deflect": ["press", "plea"]
             },
             "again": {
-              "plea": ["agree", "decline"],
-              "press": ["agree", "decline"]
+              "plea": ["agree", "decline", "deflect", "leave"],
+              "press": ["agree", "decline", "leave"]
             },
             "endings": [
               {
@@ -1003,7 +1093,7 @@
                 "label": "Put off",
                 "keeps": "relationship-strained",
                 "when": {
-                  "reply": ["apologize"]
+                  "reply": ["deflect", "stall", "leave", "apologize"]
                 }
               },
               {
@@ -1040,15 +1130,16 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["agree", "bargain", "decline"],
+            "replies": ["agree", "bargain", "decline", "stall"],
             "follow": {
               "agree": ["thank"],
               "bargain": ["accept", "press"],
-              "decline": ["threaten", "press", "accept"]
+              "decline": ["threaten", "press", "accept"],
+              "stall": ["press", "threaten"]
             },
             "again": {
-              "press": ["agree", "decline", "bargain"],
-              "threaten": ["agree", "decline"]
+              "press": ["agree", "decline", "bargain", "leave"],
+              "threaten": ["agree", "decline", "leave"]
             },
             "endings": [
               {
@@ -1067,6 +1158,14 @@
                 "keeps": "none",
                 "when": {
                   "reply": ["decline", "bargain"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["stall", "leave"]
                 }
               },
               {
@@ -1108,7 +1207,7 @@
               "apologize": ["accept", "plea"]
             },
             "again": {
-              "plea": ["agree", "decline", "apologize"]
+              "plea": ["agree", "decline", "apologize", "leave"]
             },
             "endings": [
               {
@@ -1142,7 +1241,7 @@
                 "label": "Put off",
                 "keeps": "relationship-strained",
                 "when": {
-                  "reply": ["apologize"]
+                  "reply": ["apologize", "leave"]
                 }
               },
               {
@@ -1174,16 +1273,17 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["agree", "decline", "bargain"],
+            "replies": ["agree", "decline", "stall", "bargain"],
             "follow": {
               "agree": ["thank"],
               "decline": ["press", "threaten"],
+              "stall": ["press", "confront"],
               "bargain": ["accept", "press"]
             },
             "again": {
-              "press": ["agree", "decline", "bargain"],
-              "threaten": ["agree", "decline"],
-              "confront": ["apologize"]
+              "press": ["agree", "decline", "bargain", "leave"],
+              "threaten": ["agree", "decline", "leave"],
+              "confront": ["deflect", "apologize", "leave"]
             },
             "endings": [
               {
@@ -1209,7 +1309,7 @@
                 "label": "Put off",
                 "keeps": "relationship-strained",
                 "when": {
-                  "reply": ["apologize"]
+                  "reply": ["stall", "leave", "deflect", "apologize"]
                 }
               },
               {
@@ -1250,17 +1350,20 @@
           ],
           "arc": {
             "state": "ask",
-            "replies": ["answer", "lie"],
+            "replies": ["answer", "stall", "deflect", "lie"],
             "follow": {
               "answer": ["ask", "thank"],
+              "deflect": ["press", "accept"],
+              "stall": ["press", "accept"],
               "refuse": ["accept"],
               "confront": ["answer"],
+              "leave": [],
               "boast": ["accept"]
             },
             "again": {
-              "ask": ["answer", "boast"],
-              "press": ["answer", "lie"],
-              "answer": ["answer", "boast", "lie"]
+              "ask": ["answer", "boast", "stall", "leave"],
+              "press": ["answer", "stall", "leave", "lie"],
+              "answer": ["answer", "boast", "leave", "lie"]
             },
             "repeatable": {
               "ask": ["answer"]
@@ -1279,7 +1382,15 @@
                 "label": "No comment, for now",
                 "keeps": "story-runs",
                 "when": {
-                  "reply": ["refuse"]
+                  "reply": ["refuse", "stall"]
+                }
+              },
+              {
+                "id": "walked-off",
+                "label": "Walked off from a reporter you know",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["leave"]
                 }
               },
               {
@@ -1349,12 +1460,15 @@
               "answer": ["ask", "press"],
               "confront": ["press", "accept"],
               "refuse": ["press", "accept"],
-              "boast": ["accept"]
+              "stall": ["press", "accept"],
+              "leave": [],
+              "boast": ["accept"],
+              "deflect": ["press", "accept"]
             },
             "again": {
-              "ask": ["answer", "refuse", "confront"],
-              "press": ["answer", "confront", "lie"],
-              "answer": ["answer", "confront", "lie"]
+              "ask": ["answer", "refuse", "confront", "leave"],
+              "press": ["answer", "confront", "leave", "lie"],
+              "answer": ["answer", "confront", "leave", "lie"]
             },
             "repeatable": {
               "ask": ["answer"]
@@ -1373,7 +1487,15 @@
                 "label": "Declined to answer",
                 "keeps": "story-runs",
                 "when": {
-                  "reply": ["refuse"]
+                  "reply": ["refuse", "stall"]
+                }
+              },
+              {
+                "id": "walked-off",
+                "label": "Walked off on the reporter",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["leave"]
                 }
               },
               {
@@ -1430,17 +1552,20 @@
           ],
           "arc": {
             "state": "confront",
-            "replies": ["answer", "refuse", "confront", "lie"],
+            "replies": ["answer", "deflect", "refuse", "confront", "lie"],
             "follow": {
               "answer": ["ask", "thank"],
+              "deflect": ["press", "accept"],
               "refuse": ["press", "accept"],
               "confront": ["press", "answer"],
+              "stall": ["press", "accept"],
+              "leave": [],
               "boast": ["accept"]
             },
             "again": {
-              "ask": ["answer", "refuse", "confront"],
-              "press": ["answer", "refuse", "confront", "lie"],
-              "answer": ["answer", "confront", "lie"]
+              "ask": ["answer", "refuse", "confront", "leave"],
+              "press": ["answer", "refuse", "confront", "leave", "lie"],
+              "answer": ["answer", "confront", "leave", "lie"]
             },
             "repeatable": {
               "ask": ["answer"]
@@ -1459,7 +1584,15 @@
                 "label": "Declined, with the story still open",
                 "keeps": "story-runs",
                 "when": {
-                  "reply": ["refuse"]
+                  "reply": ["refuse", "stall"]
+                }
+              },
+              {
+                "id": "walked-off",
+                "label": "Walked away from the questions",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["leave"]
                 }
               },
               {
@@ -1516,17 +1649,20 @@
           ],
           "arc": {
             "state": "ask",
-            "replies": ["answer", "boast", "lie"],
+            "replies": ["answer", "boast", "stall", "lie"],
             "follow": {
               "answer": ["ask", "thank"],
+              "deflect": ["press", "accept"],
               "refuse": ["press", "accept"],
               "confront": ["answer"],
+              "stall": ["press", "accept"],
+              "leave": [],
               "boast": ["ask", "accept"]
             },
             "again": {
-              "ask": ["answer", "boast"],
-              "press": ["answer", "lie"],
-              "answer": ["answer", "boast", "lie"]
+              "ask": ["answer", "boast", "stall", "leave"],
+              "press": ["answer", "stall", "leave", "lie"],
+              "answer": ["answer", "boast", "leave", "lie"]
             },
             "repeatable": {
               "ask": ["answer"]
@@ -1545,7 +1681,15 @@
                 "label": "Held your comment",
                 "keeps": "story-runs",
                 "when": {
-                  "reply": ["refuse"]
+                  "reply": ["refuse", "stall"]
+                }
+              },
+              {
+                "id": "walked-off",
+                "label": "Walked off from the national press",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["leave"]
                 }
               },
               {
@@ -1610,9 +1754,9 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["agree", "decline", "bargain", "lie"],
+            "replies": ["agree", "decline", "bargain", "stall", "lie"],
             "again": {
-              "ask": ["answer", "refuse"]
+              "ask": ["answer", "refuse", "leave"]
             },
             "endings": [
               {
@@ -1676,6 +1820,23 @@
                 "firmness": "firm",
                 "when": {
                   "believed": true
+                }
+              },
+              {
+                "id": "will-look",
+                "label": "You said you'd look at it",
+                "keeps": "promise",
+                "firmness": "vague",
+                "when": {
+                  "reply": ["stall"]
+                }
+              },
+              {
+                "id": "undecided",
+                "label": "Still undecided",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave"]
                 }
               },
               {
@@ -1708,9 +1869,9 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["relent", "refuse", "bargain", "lie"],
+            "replies": ["relent", "refuse", "bargain", "stall", "lie"],
             "again": {
-              "ask": ["answer", "refuse"]
+              "ask": ["answer", "refuse", "leave"]
             },
             "endings": [
               {
@@ -1774,6 +1935,23 @@
                 "firmness": "firm",
                 "when": {
                   "believed": true
+                }
+              },
+              {
+                "id": "will-look",
+                "label": "You said you'd look at it",
+                "keeps": "promise",
+                "firmness": "vague",
+                "when": {
+                  "reply": ["stall"]
+                }
+              },
+              {
+                "id": "undecided",
+                "label": "Still undecided",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave"]
                 }
               },
               {
@@ -1810,9 +1988,9 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["agree", "refuse", "bargain", "lie"],
+            "replies": ["agree", "refuse", "bargain", "deflect", "lie"],
             "again": {
-              "ask": ["answer", "refuse"]
+              "ask": ["answer", "refuse", "leave"]
             },
             "endings": [
               {
@@ -1876,6 +2054,23 @@
                 "firmness": "firm",
                 "when": {
                   "believed": true
+                }
+              },
+              {
+                "id": "will-look",
+                "label": "You said you'd look at it",
+                "keeps": "promise",
+                "firmness": "vague",
+                "when": {
+                  "reply": ["stall"]
+                }
+              },
+              {
+                "id": "undecided",
+                "label": "Still undecided",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave"]
                 }
               },
               {
@@ -1908,9 +2103,9 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["agree", "relent", "bargain", "lie"],
+            "replies": ["agree", "relent", "bargain", "stall", "lie"],
             "again": {
-              "ask": ["answer", "refuse"]
+              "ask": ["answer", "refuse", "leave"]
             },
             "endings": [
               {
@@ -1974,6 +2169,23 @@
                 "firmness": "firm",
                 "when": {
                   "believed": true
+                }
+              },
+              {
+                "id": "will-look",
+                "label": "You said you'd look at it",
+                "keeps": "promise",
+                "firmness": "vague",
+                "when": {
+                  "reply": ["stall"]
+                }
+              },
+              {
+                "id": "undecided",
+                "label": "Still undecided",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave"]
                 }
               },
               {
@@ -2009,15 +2221,17 @@
           ],
           "arc": {
             "state": "confront",
-            "replies": ["apologize", "promise", "confront"],
+            "replies": ["apologize", "promise", "deflect", "confront"],
             "follow": {
               "apologize": ["accept", "press"],
               "promise": ["accept", "press"],
-              "confront": ["confront"]
+              "deflect": ["press"],
+              "confront": ["confront"],
+              "leave": []
             },
             "again": {
-              "press": ["apologize", "promise", "confront"],
-              "confront": ["apologize", "confront"]
+              "press": ["apologize", "promise", "leave", "confront"],
+              "confront": ["apologize", "leave", "confront"]
             },
             "endings": [
               {
@@ -2051,7 +2265,7 @@
                 "label": "A grudge over the missed payment",
                 "keeps": "relationship-strained",
                 "when": {
-                  "reply": ["confront"]
+                  "reply": ["confront", "leave", "deflect"]
                 }
               },
               {
@@ -2083,15 +2297,17 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["apologize", "promise", "ask"],
+            "replies": ["apologize", "promise", "ask", "deflect"],
             "follow": {
               "apologize": ["accept", "press"],
               "promise": ["accept", "press"],
-              "ask": ["answer"]
+              "ask": ["answer"],
+              "deflect": ["press"],
+              "leave": []
             },
             "again": {
-              "press": ["apologize", "promise"],
-              "answer": ["apologize", "promise"]
+              "press": ["apologize", "promise", "leave"],
+              "answer": ["apologize", "promise", "deflect"]
             },
             "endings": [
               {
@@ -2125,7 +2341,7 @@
                 "label": "A grudge over the missed payment",
                 "keeps": "relationship-strained",
                 "when": {
-                  "reply": ["confront"]
+                  "reply": ["confront", "leave", "deflect"]
                 }
               },
               {
@@ -2157,15 +2373,17 @@
           ],
           "arc": {
             "state": "confront",
-            "replies": ["apologize", "promise", "confront"],
+            "replies": ["apologize", "promise", "confront", "leave"],
             "follow": {
               "apologize": ["accept", "press"],
               "promise": ["accept", "press"],
-              "confront": ["confront"]
+              "deflect": ["press"],
+              "confront": ["confront"],
+              "leave": []
             },
             "again": {
-              "press": ["apologize", "promise", "confront"],
-              "confront": ["apologize", "confront"]
+              "press": ["apologize", "promise", "leave", "confront"],
+              "confront": ["apologize", "leave", "confront"]
             },
             "endings": [
               {
@@ -2199,7 +2417,7 @@
                 "label": "A grudge over the missed payment",
                 "keeps": "relationship-strained",
                 "when": {
-                  "reply": ["confront"]
+                  "reply": ["confront", "leave", "deflect"]
                 }
               },
               {
@@ -2230,15 +2448,17 @@
           ],
           "arc": {
             "state": "confront",
-            "replies": ["apologize", "confront"],
+            "replies": ["apologize", "deflect", "confront", "leave"],
             "follow": {
               "apologize": ["accept", "press"],
               "promise": ["accept", "press"],
-              "confront": ["confront"]
+              "deflect": ["press"],
+              "confront": ["confront"],
+              "leave": []
             },
             "again": {
-              "press": ["apologize", "promise", "confront"],
-              "confront": ["apologize", "confront"]
+              "press": ["apologize", "promise", "leave", "confront"],
+              "confront": ["apologize", "leave", "confront"]
             },
             "endings": [
               {
@@ -2272,7 +2492,7 @@
                 "label": "A grudge over the missed payment",
                 "keeps": "relationship-strained",
                 "when": {
-                  "reply": ["confront"]
+                  "reply": ["confront", "leave", "deflect"]
                 }
               },
               {
@@ -2313,12 +2533,13 @@
               "tell": ["ask", "accept"],
               "deny": ["press"],
               "confront": ["confront"],
-              "apologize": ["accept", "press"]
+              "apologize": ["accept", "press"],
+              "leave": []
             },
             "again": {
-              "ask": ["tell", "apologize"],
-              "press": ["tell", "apologize", "confront"],
-              "confront": ["apologize", "deny", "confront"]
+              "ask": ["tell", "apologize", "leave"],
+              "press": ["tell", "apologize", "confront", "leave"],
+              "confront": ["apologize", "deny", "confront", "leave"]
             },
             "endings": [
               {
@@ -2361,7 +2582,7 @@
                 "label": "It's a feud now",
                 "keeps": "relationship-strained",
                 "when": {
-                  "reply": ["confront"]
+                  "reply": ["confront", "leave"]
                 }
               },
               {
@@ -2393,13 +2614,14 @@
               "ask": ["answer"],
               "tell": ["ask", "accept"],
               "deny": ["press"],
-              "confront": ["confront"]
+              "confront": ["confront"],
+              "leave": []
             },
             "again": {
-              "answer": ["tell", "deny"],
-              "ask": ["tell", "deny"],
-              "press": ["tell", "confront"],
-              "confront": ["deny", "tell", "confront"]
+              "answer": ["tell", "deny", "leave"],
+              "ask": ["tell", "deny", "leave"],
+              "press": ["tell", "confront", "leave"],
+              "confront": ["deny", "tell", "confront", "leave"]
             },
             "endings": [
               {
@@ -2442,7 +2664,7 @@
                 "label": "It's a feud now",
                 "keeps": "relationship-strained",
                 "when": {
-                  "reply": ["confront"]
+                  "reply": ["confront", "leave"]
                 }
               },
               {
@@ -2473,15 +2695,16 @@
           ],
           "arc": {
             "state": "confront",
-            "replies": ["tell", "apologize", "deny"],
+            "replies": ["tell", "apologize", "deny", "leave"],
             "follow": {
               "tell": ["ask", "accept"],
               "apologize": ["accept", "press"],
-              "deny": ["press"]
+              "deny": ["press"],
+              "leave": []
             },
             "again": {
-              "ask": ["tell", "deny"],
-              "press": ["tell", "apologize"]
+              "ask": ["tell", "deny", "leave"],
+              "press": ["tell", "apologize", "leave"]
             },
             "endings": [
               {
@@ -2524,7 +2747,7 @@
                 "label": "It's a feud now",
                 "keeps": "relationship-strained",
                 "when": {
-                  "reply": ["confront"]
+                  "reply": ["confront", "leave"]
                 }
               },
               {
@@ -2561,12 +2784,13 @@
               "apologize": ["accept", "press"],
               "ask": ["answer"],
               "deny": ["press"],
-              "tell": ["ask", "accept"]
+              "tell": ["ask", "accept"],
+              "leave": []
             },
             "again": {
               "answer": ["tell", "deny", "apologize"],
-              "ask": ["tell", "deny"],
-              "press": ["tell", "apologize"]
+              "ask": ["tell", "deny", "leave"],
+              "press": ["tell", "apologize", "leave"]
             },
             "endings": [
               {
@@ -2609,7 +2833,7 @@
                 "label": "It's a feud now",
                 "keeps": "relationship-strained",
                 "when": {
-                  "reply": ["confront"]
+                  "reply": ["confront", "leave"]
                 }
               },
               {
@@ -2656,9 +2880,9 @@
               "offer": ["thank", "press"]
             },
             "again": {
-              "answer": ["promise", "offer", "decline"],
+              "answer": ["promise", "offer", "decline", "leave"],
               "plea": ["promise", "offer", "decline"],
-              "press": ["apologize", "lie"]
+              "press": ["apologize", "leave", "lie"]
             },
             "repeatable": {
               "answer": ["promise", "offer"]
@@ -2714,7 +2938,7 @@
                 "label": "Left waiting",
                 "keeps": "none",
                 "when": {
-                  "reply": ["ask"]
+                  "reply": ["leave", "ask", "deflect"]
                 }
               },
               {
@@ -2753,9 +2977,9 @@
               "offer": ["thank", "press"]
             },
             "again": {
-              "answer": ["promise", "offer", "decline"],
+              "answer": ["promise", "offer", "decline", "leave"],
               "plea": ["promise", "offer", "decline"],
-              "press": ["apologize", "lie"]
+              "press": ["apologize", "leave", "lie"]
             },
             "repeatable": {
               "answer": ["promise", "offer"]
@@ -2811,7 +3035,7 @@
                 "label": "Left waiting",
                 "keeps": "none",
                 "when": {
-                  "reply": ["ask"]
+                  "reply": ["leave", "ask", "deflect"]
                 }
               },
               {
@@ -2883,15 +3107,16 @@
                 ]
               }
             },
-            "replies": ["ask", "agree", "decline"],
+            "replies": ["ask", "agree", "decline", "deflect"],
             "follow": {
               "ask": ["answer"],
               "agree": ["thank"],
-              "decline": ["accept", "press"]
+              "decline": ["accept", "press"],
+              "deflect": ["press", "accept"]
             },
             "again": {
-              "answer": ["agree", "decline"],
-              "press": ["agree", "decline"]
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
             },
             "endings": [
               {
@@ -3002,15 +3227,16 @@
                 ]
               }
             },
-            "replies": ["ask", "agree", "decline"],
+            "replies": ["ask", "agree", "decline", "deflect"],
             "follow": {
               "ask": ["answer"],
               "agree": ["thank"],
-              "decline": ["accept", "press"]
+              "decline": ["accept", "press"],
+              "deflect": ["press", "accept"]
             },
             "again": {
-              "answer": ["agree", "decline"],
-              "press": ["agree", "decline"]
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
             },
             "endings": [
               {
@@ -3125,15 +3351,16 @@
                 ]
               }
             },
-            "replies": ["ask", "agree", "decline"],
+            "replies": ["ask", "agree", "decline", "deflect"],
             "follow": {
               "ask": ["answer"],
               "agree": ["thank"],
-              "decline": ["accept", "press"]
+              "decline": ["accept", "press"],
+              "deflect": ["press", "accept"]
             },
             "again": {
-              "answer": ["agree", "decline"],
-              "press": ["agree", "decline"]
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
             },
             "endings": [
               {
@@ -3232,15 +3459,16 @@
                 ]
               }
             },
-            "replies": ["ask", "agree", "decline"],
+            "replies": ["ask", "agree", "decline", "deflect"],
             "follow": {
               "ask": ["answer"],
               "agree": ["thank"],
-              "decline": ["accept", "press"]
+              "decline": ["accept", "press"],
+              "deflect": ["press", "accept"]
             },
             "again": {
-              "answer": ["agree", "decline"],
-              "press": ["agree", "decline"]
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
             },
             "endings": [
               {
@@ -3347,15 +3575,16 @@
                 ]
               }
             },
-            "replies": ["ask", "agree", "decline"],
+            "replies": ["ask", "agree", "decline", "deflect"],
             "follow": {
               "ask": ["answer"],
               "agree": ["thank"],
-              "decline": ["accept", "press"]
+              "decline": ["accept", "press"],
+              "deflect": ["press", "accept"]
             },
             "again": {
-              "answer": ["agree", "decline"],
-              "press": ["agree", "decline"]
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
             },
             "endings": [
               {
@@ -3474,15 +3703,16 @@
                 ]
               }
             },
-            "replies": ["ask", "agree", "decline"],
+            "replies": ["ask", "agree", "decline", "deflect"],
             "follow": {
               "ask": ["answer"],
               "agree": ["thank"],
-              "decline": ["accept", "press"]
+              "decline": ["accept", "press"],
+              "deflect": ["press", "accept"]
             },
             "again": {
-              "answer": ["agree", "decline"],
-              "press": ["agree", "decline"]
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
             },
             "endings": [
               {
@@ -3595,15 +3825,16 @@
                 ]
               }
             },
-            "replies": ["ask", "agree", "decline"],
+            "replies": ["ask", "agree", "decline", "deflect"],
             "follow": {
               "ask": ["answer"],
               "agree": ["thank"],
-              "decline": ["accept", "press"]
+              "decline": ["accept", "press"],
+              "deflect": ["press"]
             },
             "again": {
-              "answer": ["agree", "decline"],
-              "press": ["agree", "decline"]
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
             },
             "endings": [
               {
@@ -3714,15 +3945,16 @@
                 ]
               }
             },
-            "replies": ["ask", "agree", "decline"],
+            "replies": ["ask", "agree", "decline", "deflect"],
             "follow": {
               "ask": ["answer"],
               "agree": ["thank"],
-              "decline": ["accept", "press"]
+              "decline": ["accept", "press"],
+              "deflect": ["press"]
             },
             "again": {
-              "answer": ["agree", "decline"],
-              "press": ["agree", "decline"]
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
             },
             "endings": [
               {
@@ -3837,15 +4069,16 @@
                 ]
               }
             },
-            "replies": ["ask", "agree", "decline"],
+            "replies": ["ask", "agree", "decline", "deflect"],
             "follow": {
               "ask": ["answer"],
               "agree": ["thank"],
-              "decline": ["accept", "press"]
+              "decline": ["accept", "press"],
+              "deflect": ["press"]
             },
             "again": {
-              "answer": ["agree", "decline"],
-              "press": ["agree", "decline"]
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
             },
             "endings": [
               {
@@ -3944,15 +4177,16 @@
                 ]
               }
             },
-            "replies": ["ask", "agree", "decline"],
+            "replies": ["ask", "agree", "decline", "deflect"],
             "follow": {
               "ask": ["answer"],
               "agree": ["thank"],
-              "decline": ["accept", "press"]
+              "decline": ["accept", "press"],
+              "deflect": ["press"]
             },
             "again": {
-              "answer": ["agree", "decline"],
-              "press": ["agree", "decline"]
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
             },
             "endings": [
               {
@@ -4059,15 +4293,16 @@
                 ]
               }
             },
-            "replies": ["ask", "agree", "decline"],
+            "replies": ["ask", "agree", "decline", "deflect"],
             "follow": {
               "ask": ["answer"],
               "agree": ["thank"],
-              "decline": ["accept", "press"]
+              "decline": ["accept", "press"],
+              "deflect": ["press"]
             },
             "again": {
-              "answer": ["agree", "decline"],
-              "press": ["agree", "decline"]
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
             },
             "endings": [
               {
@@ -4186,15 +4421,16 @@
                 ]
               }
             },
-            "replies": ["ask", "agree", "decline"],
+            "replies": ["ask", "agree", "decline", "deflect"],
             "follow": {
               "ask": ["answer"],
               "agree": ["thank"],
-              "decline": ["accept", "press"]
+              "decline": ["accept", "press"],
+              "deflect": ["press"]
             },
             "again": {
-              "answer": ["agree", "decline"],
-              "press": ["agree", "decline"]
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
             },
             "endings": [
               {
@@ -4305,15 +4541,16 @@
                 ]
               }
             },
-            "replies": ["ask", "agree", "decline"],
+            "replies": ["ask", "agree", "decline", "deflect"],
             "follow": {
               "ask": ["answer"],
               "agree": ["thank"],
-              "decline": ["accept", "press"]
+              "decline": ["accept", "press"],
+              "deflect": ["press"]
             },
             "again": {
-              "answer": ["agree", "decline"],
-              "press": ["agree", "decline"]
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
             },
             "endings": [
               {

@@ -169,7 +169,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["agree", "promise", "ask"],
+          "moves": ["agree", "promise", "ask", "deflect", "leave"],
           "wants": ["engage", "keep-same"],
           "bearing": "calm"
         }
@@ -695,7 +695,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["agree", "promise", "ask", "decline"],
+          "moves": ["agree", "promise", "ask", "decline", "leave"],
           "wants": ["engage"],
           "bearing": "glad"
         },
@@ -909,7 +909,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["agree", "promise", "ask", "decline"],
+          "moves": ["agree", "promise", "ask", "decline", "leave"],
           "wants": ["engage"],
           "bearing": "solemn"
         },
@@ -2596,7 +2596,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["tell", "promise", "blame"],
+          "moves": ["tell", "promise", "deflect", "blame"],
           "wants": ["help-others"],
           "bearing": "calm"
         }
@@ -2988,7 +2988,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["agree", "refuse", "bargain", "relent"],
+          "moves": ["agree", "refuse", "bargain", "stall", "relent"],
           "wants": ["keep-same"],
           "bearing": "guarded"
         }
@@ -3336,7 +3336,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["agree", "withdraw", "bargain", "relent"],
+          "moves": ["agree", "withdraw", "bargain", "stall", "relent"],
           "wants": ["change"],
           "bearing": "anxious"
         }
@@ -3407,7 +3407,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["agree", "decline", "bargain", "relent"],
+          "moves": ["agree", "decline", "bargain", "stall", "relent"],
           "wants": ["play-safe"],
           "bearing": "curious"
         }
@@ -3485,7 +3485,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["agree", "refuse", "bargain", "relent"],
+          "moves": ["agree", "refuse", "bargain", "deflect", "relent"],
           "wants": ["play-safe"],
           "bearing": "guarded"
         }
@@ -3566,7 +3566,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["accept", "refuse", "confront", "lie"],
+          "moves": ["accept", "refuse", "confront", "stall", "lie", "leave"],
           "wants": ["play-safe"],
           "bearing": "guarded"
         }
@@ -3596,11 +3596,7 @@
     },
     {
       "key": "emergency-briefing",
-      "receive": {
-        "age": "any",
-        "counterpart": "any",
-        "seat": "serving"
-      },
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "eachCause": true,
       "openDecision": true,
       "note": "A disaster is recorded in the state of a governor the player plays: the executive engine's emergency-offered record names the governor and the disaster. The head of the department that leads for this disaster (data/executive/emergency.json, by incident type) opens and says what their department's records show of it; the other heads join when a room can seat more than one speaker (pool item director-emergency-briefing-other-heads). The player's answer is the declaration or letting it pass: the executive engine reads the scene reply and writes the same declaration the engine writes for any governor (declareEmergency). The engine never declares for the player (owner, Oct 14). It stops the day. The mayor's side waits on a local emergency declaration, which no engine records yet.",
@@ -3633,9 +3629,7 @@
           },
           "causeEngine": "executive",
           "causeRecord": "executive.emergency-offered",
-          "bind": {
-            "you": "subject"
-          },
+          "bind": { "you": "subject" },
           "opener": "briefer"
         }
       ],
@@ -3679,7 +3673,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["ask", "agree", "decline"],
+          "moves": ["ask", "agree", "decline", "stall", "leave"],
           "wants": ["play-safe"],
           "bearing": "curious"
         }
@@ -3865,7 +3859,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["tell", "request", "comfort"],
+          "moves": ["tell", "request", "deflect", "comfort"],
           "wants": ["commit"],
           "bearing": "eager"
         }
@@ -3917,7 +3911,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["thank", "blame", "promise"],
+          "moves": ["thank", "blame", "deflect", "promise"],
           "wants": ["withdraw"],
           "bearing": "hurt"
         }
@@ -3992,7 +3986,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["apologize", "promise", "blame"],
+          "moves": ["apologize", "promise", "deflect", "blame"],
           "wants": ["keep-same"],
           "bearing": "contrite"
         }
@@ -4044,7 +4038,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["disagree", "confront", "boast"],
+          "moves": ["disagree", "deflect", "confront", "boast"],
           "wants": ["speak-out"],
           "bearing": "braced"
         }
@@ -4205,7 +4199,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["agree", "refuse", "bargain", "relent"],
+          "moves": ["agree", "refuse", "bargain", "stall", "relent"],
           "wants": ["play-safe"],
           "bearing": "guarded"
         }
@@ -4267,7 +4261,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["agree", "refuse", "bargain", "relent"],
+          "moves": ["agree", "refuse", "bargain", "stall", "relent"],
           "wants": ["play-safe"],
           "bearing": "guarded"
         }
@@ -4333,6 +4327,7 @@
           "bearing": "anxious"
         }
       ],
+
       "setting": ["office", "chamber", "phone"],
       "timing": "at-cause",
       "causes": [
@@ -4344,10 +4339,7 @@
                 "key": "sponsorId",
                 "is": "subject"
               },
-              {
-                "key": "firstChamber",
-                "equals": ["yes"]
-              }
+              { "key": "firstChamber", "equals": ["yes"] }
             ]
           },
           "causeEngine": "legislature",
@@ -4520,7 +4512,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["answer", "relent", "offer", "lie"],
+          "moves": ["answer", "relent", "offer", "deflect", "lie", "leave"],
           "wants": ["keep-same"],
           "bearing": "calm"
         }
@@ -4585,7 +4577,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["answer", "relent", "offer", "lie"],
+          "moves": ["answer", "relent", "offer", "deflect", "lie", "leave"],
           "wants": ["keep-same"],
           "bearing": "calm"
         }
@@ -4643,7 +4635,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["agree", "thank", "promise"],
+          "moves": ["agree", "thank", "promise", "deflect", "leave"],
           "wants": ["engage", "play-safe"],
           "bearing": "calm"
         }
@@ -4696,7 +4688,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["tell", "comfort", "refuse"],
+          "moves": ["tell", "comfort", "refuse", "deflect", "leave"],
           "wants": ["keep-same"],
           "bearing": "calm"
         }
@@ -4750,7 +4742,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["refuse", "confront"],
+          "moves": ["refuse", "confront", "deflect", "leave"],
           "wants": ["play-safe"],
           "bearing": "guarded"
         }
@@ -4803,7 +4795,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["tell", "comfort", "promise"],
+          "moves": ["tell", "comfort", "promise", "deflect", "leave"],
           "wants": ["keep-same"],
           "bearing": "calm"
         }
@@ -4856,7 +4848,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["agree", "disagree", "ask"],
+          "moves": ["agree", "disagree", "ask", "deflect", "leave"],
           "wants": ["engage"],
           "bearing": "calm"
         }
@@ -4922,7 +4914,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["thank", "ask", "disagree"],
+          "moves": ["thank", "ask", "disagree", "deflect", "leave"],
           "wants": ["engage"],
           "bearing": "calm"
         }
@@ -5028,7 +5020,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["agree", "disagree", "ask"],
+          "moves": ["agree", "disagree", "ask", "deflect", "leave"],
           "wants": ["engage"],
           "bearing": "calm"
         }
@@ -5081,7 +5073,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["agree", "disagree", "ask"],
+          "moves": ["agree", "disagree", "ask", "deflect", "leave"],
           "wants": ["engage"],
           "bearing": "calm"
         }
@@ -5139,7 +5131,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["ask", "agree", "decline"],
+          "moves": ["ask", "agree", "decline", "stall", "leave"],
           "wants": ["play-safe"],
           "bearing": "guarded"
         }
@@ -5199,7 +5191,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["answer", "tell", "lie"],
+          "moves": ["answer", "deflect", "tell", "lie"],
           "wants": ["play-safe"],
           "bearing": "guarded"
         }
@@ -5256,7 +5248,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["answer", "tell", "lie"],
+          "moves": ["answer", "deflect", "tell", "lie"],
           "wants": ["play-safe"],
           "bearing": "braced"
         }
@@ -5322,7 +5314,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["ask", "agree", "decline"],
+          "moves": ["ask", "agree", "decline", "stall", "leave"],
           "wants": ["play-safe"],
           "bearing": "braced"
         }
@@ -5363,11 +5355,7 @@
     },
     {
       "key": "endorsement-ask",
-      "receive": {
-        "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
-      },
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "note": "A candidate's campaign asks the player, one of the people closest to the candidate, to endorse them, or calls in a favor the player owes from a deal in office (the campaigns engine's endorsement-asked record: the endorsement row says `asked` until the player answers). The player's reply writes the row's yes or no. A put-off comes back after the offer spacing days as a second asking until the race is decided; the second asking offers no put-off. The asker gives one reason, the strongest the record holds; only a favor names a deal (owner, Oct 6: endorsements are not trades by default).",
       "roles": [
         {
@@ -5382,7 +5370,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["agree", "decline"],
+          "moves": ["agree", "decline", "stall"],
           "wants": ["play-safe"],
           "bearing": "guarded"
         }
@@ -5394,19 +5382,11 @@
           "match": {
             "label": "cause:event:endorsement-asked",
             "selfNamed": true,
-            "causeFacts": [
-              {
-                "key": "askedId",
-                "is": "subject"
-              }
-            ]
+            "causeFacts": [{ "key": "askedId", "is": "subject" }]
           },
           "causeEngine": "campaigns",
           "causeRecord": "endorsement-asked",
-          "bind": {
-            "candidate": "counterpart",
-            "you": "subject"
-          },
+          "bind": { "candidate": "counterpart", "you": "subject" },
           "opener": "candidate",
           "opening": "request"
         }
@@ -5450,7 +5430,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["ask", "agree", "decline"],
+          "moves": ["ask", "agree", "decline", "stall", "leave"],
           "wants": ["play-safe"],
           "bearing": "curious"
         }
@@ -5522,7 +5502,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["ask", "agree", "decline"],
+          "moves": ["ask", "agree", "decline", "stall", "leave"],
           "wants": ["play-safe"],
           "bearing": "curious"
         }
@@ -5595,7 +5575,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["ask", "agree", "decline"],
+          "moves": ["ask", "agree", "decline", "stall", "leave"],
           "wants": ["play-safe"],
           "bearing": "hopeful"
         }
@@ -5663,7 +5643,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["ask", "promise", "thank"],
+          "moves": ["ask", "promise", "deflect", "thank", "leave"],
           "wants": ["keep-same"],
           "bearing": "guarded"
         }
@@ -5724,7 +5704,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["ask", "promise", "thank"],
+          "moves": ["ask", "promise", "deflect", "thank", "leave"],
           "wants": ["commit"],
           "bearing": "anxious"
         }
@@ -5738,23 +5718,14 @@
             "label": "cause:event:petition-short",
             "selfNamed": true,
             "causeFacts": [
-              {
-                "key": "invitedId",
-                "is": "subject"
-              },
-              {
-                "key": "tellerKind",
-                "equals": ["clerk"]
-              }
+              { "key": "invitedId", "is": "subject" },
+              { "key": "tellerKind", "equals": ["clerk"] }
             ]
           },
           "causeEngine": "campaigns",
           "causeRecord": "petition-short",
           "setting": ["venue"],
-          "bind": {
-            "teller": "counterpart",
-            "you": "subject"
-          },
+          "bind": { "teller": "counterpart", "you": "subject" },
           "opener": "teller",
           "opening": "tell"
         },
@@ -5763,23 +5734,14 @@
             "label": "cause:event:petition-short",
             "selfNamed": true,
             "causeFacts": [
-              {
-                "key": "invitedId",
-                "is": "subject"
-              },
-              {
-                "key": "tellerKind",
-                "equals": ["helper"]
-              }
+              { "key": "invitedId", "is": "subject" },
+              { "key": "tellerKind", "equals": ["helper"] }
             ]
           },
           "causeEngine": "campaigns",
           "causeRecord": "petition-short",
           "setting": ["home"],
-          "bind": {
-            "teller": "counterpart",
-            "you": "subject"
-          },
+          "bind": { "teller": "counterpart", "you": "subject" },
           "opener": "teller",
           "opening": "tell"
         }
@@ -5890,7 +5852,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["promise", "ask", "offer"],
+          "moves": ["promise", "ask", "offer", "deflect"],
           "wants": ["keep-same"],
           "bearing": "braced"
         }
@@ -5952,7 +5914,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["promise", "ask", "offer"],
+          "moves": ["promise", "ask", "offer", "deflect"],
           "wants": ["keep-same"],
           "bearing": "braced"
         }
@@ -6021,7 +5983,8 @@
             "ask",
             "tell",
             "comfort",
-            "offer"
+            "offer",
+            "deflect"
           ],
           "wants": ["commit"],
           "bearing": "steady"
