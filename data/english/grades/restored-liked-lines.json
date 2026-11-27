@@ -176,6 +176,39 @@
         "scene-talk.follow-answer.short-ill-have-a-real-count-by-count-by"
       ],
       "restoredFrom": "scene-talk.follow-answer.short-i-ll-have-a-real-count-by-friday"
+    },
+    {
+      "i": 19,
+      "grade": "good",
+      "by": "owner (Nov 2026 grade of the old words); carried to this piece Nov 27, 2026 (the CTO, 9:06 a.m.: restoredFrom onto a piece that says the same thing)",
+      "line": "Done. My people will call yours.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.follow-accept.done-my-people-will-call-yours-about-bill"
+      ],
+      "restoredFrom": "scene-talk.follow-accept.done-my-people-will-call-yours"
+    },
+    {
+      "i": 20,
+      "grade": "good",
+      "by": "owner (Nov 2026 grade of the old words); carried to this piece Nov 27, 2026 (the CTO, 9:06 a.m.: restoredFrom onto a piece that says the same thing)",
+      "line": "Fine. I'll send you a list tomorrow.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.follow-accept.fine-i-ll-send-you-a-list-tomorrow-on-bill"
+      ],
+      "restoredFrom": "scene-talk.follow-accept.fine-i-ll-send-you-a-list-tomorrow"
+    },
+    {
+      "i": 21,
+      "grade": "good",
+      "by": "owner (Nov 2026 grade of the old words); carried to this piece Nov 27, 2026 (the CTO, 9:06 a.m.: restoredFrom onto a piece that says the same thing)",
+      "line": "Then I'll find a candidate who listens.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.follow-threaten.then-i-ll-find-a-candidate-who-listens-on-bill"
+      ],
+      "restoredFrom": "scene-talk.follow-threaten.then-i-ll-find-a-candidate-who-listens"
     }
   ]
 }
