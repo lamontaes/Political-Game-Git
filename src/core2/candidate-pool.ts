@@ -26,6 +26,7 @@ import {
   officeById,
   servingTerms,
   termById,
+  endedTermsOnSeat,
 } from "./modules/offices";
 import { officeFamily } from "./elections-calendar";
 import { OFFICIALS_DATA } from "./officials-roster";
@@ -43,7 +44,6 @@ export const CANDIDACY_MODULE_ID = "candidacy";
 export const CANDIDACY_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
 
 // Module ids, read by name (see the file comment).
-const OFFICES = "core2-offices-v1";
 const OFFICIALS = "core2-officials-v1";
 const PARTIES = "core2-parties-v1";
 const ELECTIONS = "core2-elections-v1";
@@ -112,9 +112,6 @@ export interface RaceScope {
   readonly lean: number;
 }
 
-function offices(api: CoreAPI) {
-  return api.moduleState(OFFICES);
-}
 function officialRows(api: CoreAPI): readonly OfficialRow[] {
   if (!api.state.modules.has(OFFICIALS)) return [];
   return api
@@ -166,20 +163,14 @@ export function seatParty(
   api: CoreAPI,
   contest: Pick<ContestRow, "seatId" | "incumbentTermId">,
 ): string | null {
-  const terms = offices(api).table("terms");
   const incumbent = contest.incumbentTermId
-    ? (terms.get(contest.incumbentTermId) as unknown as TermRow | undefined)
+    ? (termById(api, contest.incumbentTermId) as unknown as TermRow | undefined)
     : undefined;
   if (incumbent?.party) return incumbent.party;
   const seat = seatById(api, contest.seatId) as unknown as
     { party?: string | null } | undefined;
   if (seat?.party) return seat.party;
-  const last = (
-    terms.query("bySeatStatus", [
-      contest.seatId,
-      "ended",
-    ]) as unknown as TermRow[]
-  )
+  const last = (endedTermsOnSeat(api, contest.seatId) as unknown as TermRow[])
     .slice()
     .sort((a, b) => (b.endDate ?? "").localeCompare(a.endDate ?? ""))[0];
   return last?.party ?? null;
