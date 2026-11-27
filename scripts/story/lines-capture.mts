@@ -9,6 +9,7 @@ import { drawPlace } from "../core2-year/place";
 import { buildBenchWorld, NoPlayerHereError } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
 import { composeJournal } from "../../src/director/journal";
+import { personCard } from "../../src/bench/card";
 
 const [run, out, placesArg, peopleArg] = process.argv.slice(2) as [
   string,
@@ -56,6 +57,25 @@ for (let draw = 0, done = 0; done < places; draw += 1) {
         rows.push(
           `${person.id}\t${line.date}\t${line.text.replace(/\s+/g, " ")}`,
         );
+  // The person card: every string it shows for each resident (names, relations, lists).
+  const leaves = (value: unknown, at: string, into: string[]) => {
+    if (typeof value === "string")
+      into.push(`${at}\t${value.replace(/\s+/g, " ")}`);
+    else if (Array.isArray(value))
+      value.forEach((item, i) => leaves(item, `${at}[${i}]`, into));
+    else if (value && typeof value === "object")
+      for (const [key, item] of Object.entries(value))
+        if (key !== "face") leaves(item, `${at}.${key}`, into);
+  };
+  for (const person of people) {
+    const into: string[] = [];
+    try {
+      leaves(personCard(core, person.id), "card", into);
+    } catch {
+      continue;
+    }
+    for (const row of into) rows.push(`${person.id}\t${row}`);
+  }
   writeFileSync(path.join(out, `place-${done}.txt`), `${rows.join("\n")}\n`);
   console.log(`${rows[0]}: ${rows.length - 1} lines`);
   done += 1;

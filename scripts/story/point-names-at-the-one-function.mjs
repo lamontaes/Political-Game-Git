@@ -18,10 +18,14 @@ const SKIP = new Set([
   "src/director/purpose-scene.ts",
   "src/english/plain-words.mjs",
 ]);
-const FILES = execFileSync("git", ["ls-files", "src/director", "src/english", "src/bench"], {
-  cwd: ROOT,
-  encoding: "utf8",
-})
+const FILES = execFileSync(
+  "git",
+  ["ls-files", "src/director", "src/english", "src/bench"],
+  {
+    cwd: ROOT,
+    encoding: "utf8",
+  },
+)
   .split("\n")
   .filter(
     (file) =>
@@ -36,12 +40,29 @@ for (const file of FILES) {
   if (!NAME.test(text)) continue;
   NAME.lastIndex = 0;
   let next = text.replace(NAME, "fullNameOf($1)");
-  const spec = path.posix.relative(path.posix.dirname(file), "src/english/plain-words.mjs");
+  const spec = path.posix.relative(
+    path.posix.dirname(file),
+    "src/english/plain-words.mjs",
+  );
   const from = spec.startsWith(".") ? spec : `./${spec}`;
-  const existing = new RegExp(`^import \\{([^}]*)\\} from "${from.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}";$`, "m").exec(next);
+  const existing = new RegExp(
+    `^import \\{([^}]*)\\} from "${from.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}";$`,
+    "m",
+  ).exec(next);
   if (existing) {
-    const names = [...new Set([...existing[1].split(",").map((n) => n.trim()).filter(Boolean), "fullNameOf"])].sort();
-    next = next.replace(existing[0], `import { ${names.join(", ")} } from "${from}";`);
+    const names = [
+      ...new Set([
+        ...existing[1]
+          .split(",")
+          .map((n) => n.trim())
+          .filter(Boolean),
+        "fullNameOf",
+      ]),
+    ].sort();
+    next = next.replace(
+      existing[0],
+      `import { ${names.join(", ")} } from "${from}";`,
+    );
   } else {
     const at = next.search(/^import /m);
     next = `${next.slice(0, at)}import { fullNameOf } from "${from}";\n${next.slice(at)}`;

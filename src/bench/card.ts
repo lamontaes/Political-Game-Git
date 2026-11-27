@@ -121,9 +121,10 @@ export function personCard(core: CoreState, personId: string) {
   // world's records, so the card is the same person every time.
   const person = personOrFillIn(core, personId);
   if (!person) throw new Error("Resident does not exist in core records.");
-  // A person who is not in the records has no name to show (never their record id).
+  // A relative the world keeps as a husk has a name of their own; anyone the
+  // records do not hold has no name to show, and never their record id.
   const name = (id: string) => {
-    const row = core.people.get(id);
+    const row = core.people.get(id) ?? core.husks.get(id as PersonId);
     return row ? fullNameOf(row) : "";
   };
   const relatives = familyFactsOf(person);
