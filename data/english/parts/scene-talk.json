@@ -70270,6 +70270,1880 @@
         "move": "warn",
         "key": "routine"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-catches-your-arm-at-the-edge-of-the-crowd-and-steers-you-toward-a-quiet-cor",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} catches your arm at the edge of the crowd and steers you toward a quiet corner of the hall.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-count-is-in-and-the-hall-is-full-name-waits-at-the-stage-door-with-a-pen-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The count is in and the hall is full. {name} waits at the stage door with a pen in hand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-puts-the-phone-down-when-you-walk-up-and-the-noise-of-the-room-closes-in-be",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} puts the phone down when you walk up, and the noise of the room closes in behind you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.open-greet.you-won-office-you-re-on-in-two-minutes-and-i-need-an-answer-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You won {office}. You're on in two minutes, and I need an answer first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.open-greet.it-s-official-for-office-before-you-go-out-i-need-one-thing-from-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "It's official for {office}. Before you go out, I need one thing from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.state-ask.what-do-you-want-the-room-to-hear-about-opponent-they-ll-be-listening-too",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What do you want the room to hear about {opponent}? They'll be listening too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.state-ask.do-you-thank-opponent-tonight-by-name-or-by-the-office-they-ran-for-or-leave-the",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Do you thank {opponent} tonight, by name or by the office they ran for, or leave them out?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.state-ask.the-cameras-will-ask-about-opponent-first-what-s-your-line",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "The cameras will ask about {opponent} first. What's your line?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.state-ask.what-s-the-first-thing-you-want-people-to-hear-you-say-about-office",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What's the first thing you want people to hear you say about {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.state-ask.before-you-go-out-who-do-you-want-to-thank-by-name-for-office",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Before you go out, who do you want to thank by name for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["opponent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-answer.i-ll-thank-opponent-and-say-it-was-a-fair-race",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'll thank {opponent} and say it was a fair race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-answer.i-ll-thank-the-volunteers-first-then-opponent",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'll thank the volunteers first, then {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-answer.i-ll-leave-opponent-out-of-it-and-talk-about-the-work-ahead-for-office",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'll leave {opponent} out of it and talk about the work ahead for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "requiresFacts": ["opponent", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": [
+        "victory-opponent-thanked-by-office-not-name",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-answer.i-want-to-talk-about-what-comes-first-in-office",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I want to talk about what comes first in {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-going-to-thank-every-volunteer-by-name-then-say-what-i-ll-do-first-in-office",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm going to thank every volunteer by name, then say what I'll do first in {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.reply-tell.the-first-thing-i-ll-say-is-what-office-will-do-about-the-cost-of-living",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "The first thing I'll say is what {office} will do about the cost of living.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-opponent-say-when-the-count-came-in",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did {opponent} say when the count came in?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-ask.has-anybody-heard-from-opponent-yet",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Has anybody heard from {opponent} yet?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-boast.i-ll-tell-them-the-voters-heard-what-i-said-and-opponent-didn-t",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "I'll tell them the voters heard what I said, and {opponent} didn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "boast",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-boast.tonight-i-want-to-say-the-voters-sent-a-message-to-opponent",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "Tonight I want to say the voters sent a message to {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "boast",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-know-what-i-m-saying-about-opponent-let-s-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I know what I'm saying about {opponent}. Let's go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-leave.that-settles-it-for-office-let-s-go-out-there",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "That settles it for {office}. Let's go out there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.reply-apologize.you-re-right-i-ll-cut-the-line-about-opponent",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "You're right. I'll cut the line about {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "after": "warn",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "apologize",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-apologize.fair-enough-i-won-t-say-anything-about-opponent-that-i-can-t-take-back",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "Fair enough. I won't say anything about {opponent} that I can't take back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "after": "warn",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "apologize",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.follow-accept.good-say-that-about-opponent-and-mean-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. Say that about {opponent} and mean it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.follow-accept.that-works-for-office-say-it-plainly-and-keep-it-short",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That works for {office}. Say it plainly and keep it short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.follow-accept.that-will-play-well-and-opponent-will-hear-it-too",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That will play well, and {opponent} will hear it too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.follow-accept.good-that-s-the-line-for-office-i-ll-have-it-ready-for-the-screens",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good, that's the line for {office}. I'll have it ready for the screens.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.follow-press.tonight-is-the-wrong-time-to-leave-opponent-out-the-room-will-notice",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Tonight is the wrong time to leave {opponent} out. The room will notice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.follow-press.one-more-thing-they-ll-want-to-hear-what-you-do-first-in-office",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "One more thing: they'll want to hear what you do first in {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.follow-warn.say-that-about-opponent-and-it-s-the-only-line-anybody-plays-tomorrow",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Say that about {opponent} and it's the only line anybody plays tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "after": "boast",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      },
+      "elements": [
+        "victory-never-speaks-of-the-margin",
+        "victory-opponent-thanked-by-office-not-name"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-warn.careful-if-you-gloat-about-opponent-the-gloat-is-the-story",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Careful. If you gloat about {opponent}, the gloat is the story.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "after": "boast",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      },
+      "elements": [
+        "victory-never-speaks-of-the-margin",
+        "victory-opponent-thanked-by-office-not-name"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-hasn-t-said-anything-to-us-yet-so-i-d-leave-them-out-until-they-do",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} hasn't said anything to us yet, so I'd leave them out until they do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.follow-answer.i-haven-t-heard-from-opponent-the-call-may-come-while-you-re-on-stage",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I haven't heard from {opponent}. The call may come while you're on stage.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.close-accept.go-the-room-is-waiting-for-the-winner-of-office",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go. The room is waiting for the winner of {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-proud-of-how-you-ran-for-office-go-give-them-a-good-night",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm proud of how you ran for {office}. Go give them a good night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-last-precincts-are-in-name-stands-beside-you-with-the-phone-and-says-nothing",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The last precincts are in. {name} stands beside you with the phone and says nothing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-screen-stopped-changing-a-while-ago-name-sits-down-across-from-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The screen stopped changing a while ago. {name} sits down across from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-turns-the-television-down-and-the-room-goes-quiet-around-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} turns the television down, and the room goes quiet around you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.open-greet.we-need-to-talk-about-the-call-to-opponent",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "We need to talk about the call to {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.open-greet.the-count-for-office-isn-t-going-to-change-we-should-talk",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "The count for {office} isn't going to change. We should talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.state-request.the-longer-we-wait-to-call-opponent-the-more-it-looks-like-we-re-hiding",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The longer we wait to call {opponent}, the more it looks like we're hiding.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.state-request.opponent-will-want-to-hear-it-from-you-before-the-press-does",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{opponent} will want to hear it from you before the press does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.state-request.whenever-you-re-ready-the-call-to-opponent-is-the-next-thing",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Whenever you're ready, the call to {opponent} is the next thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": [
+        "concession-does-not-dispute-the-count",
+        "concession-thanks-the-ones-who-worked"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.your-people-are-waiting-in-the-hall-for-office-and-for-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Your people are waiting in the hall for {office}, and for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": ["concession-thanks-the-ones-who-worked"]
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-get-opponent-on-the-line-i-ll-keep-it-short",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright, get {opponent} on the line. I'll keep it short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.reply-agree.you-re-right-i-ll-call-opponent-and-thank-them",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You're right. I'll call {opponent} and thank them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "elements": [
+        "concession-does-not-dispute-the-count",
+        "concession-thanks-the-ones-who-worked"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.give-me-the-phone-i-ll-say-it-to-opponent-myself",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Give me the phone. I'll say it to {opponent} myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.reply-ask.has-opponent-said-anything-yet",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Has {opponent} said anything yet?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.reply-ask.is-the-count-for-office-final-or-can-it-still-move",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is the count for {office} final, or can it still move?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-tonight-i-m-not-calling-opponent-until-the-count-is-certain",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not tonight. I'm not calling {opponent} until the count is certain.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-won-t-call-opponent-while-there-s-a-chance-the-count-moves",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I won't call {opponent} while there's a chance the count moves.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-few-minutes-alone-first-then-i-ll-call-opponent",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a few minutes alone first, then I'll call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "stall",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-finish-talking-to-my-family-and-then-i-ll-call-opponent",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me finish talking to my family, and then I'll call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "stall",
+        "key": "loss"
+      },
+      "elements": [
+        "concession-does-not-dispute-the-count",
+        "concession-thanks-the-ones-who-worked"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-some-air-i-ll-deal-with-opponent-in-the-morning",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need some air. I'll deal with {opponent} in the morning.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-dial-opponent",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. Dial {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-for-the-people-in-that-hall-i-ll-call-opponent",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. For the people in that hall, I'll call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "plea",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "elements": [
+        "concession-does-not-dispute-the-count",
+        "concession-thanks-the-ones-who-worked"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-yet-the-people-in-that-hall-can-wait-and-i-m-not-calling-opponent-until-i-m",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not yet. The people in that hall can wait, and I'm not calling {opponent} until I'm sure.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.reply-leave.not-yet-i-ll-think-about-office-and-what-i-say-to-opponent",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not yet. I'll think about {office} and what I say to {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-ll-get-opponent-on-the-line-take-your-time",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I'll get {opponent} on the line. Take your time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-it-will-mean-something-to-opponent-and-to-everyone-watching",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. It will mean something to {opponent}, and to everyone watching.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "elements": [
+        "concession-does-not-dispute-the-count",
+        "concession-thanks-the-ones-who-worked"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.nothing-from-opponent-yet-i-d-call-first-so-it-s-you-who-reaches-out",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Nothing from {opponent} yet. I'd call first, so it's you who reaches out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.follow-answer.the-count-for-office-is-what-it-is-a-few-late-ballots-won-t-change-who-won",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The count for {office} is what it is. A few late ballots won't change who won.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.follow-press.people-are-watching-what-you-do-tonight-and-they-remember-who-called-opponent-an",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "People are watching what you do tonight, and they remember who called {opponent} and who didn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "refuse",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.follow-press.the-longer-you-wait-the-more-the-story-is-about-the-call-and-not-the-race-for-of",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The longer you wait, the more the story is about the call and not the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "stall",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.follow-plea.please-your-volunteers-are-in-that-hall-for-office-and-they-d-rather-hear-it-fro",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please. Your volunteers are in that hall for {office}, and they'd rather hear it from you than from the screen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "after": "refuse",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      },
+      "elements": ["concession-thanks-the-ones-who-worked"]
+    },
+    {
+      "key": "scene-talk.follow-plea.do-it-for-the-people-who-worked-for-you-thank-opponent-then-go-be-with-them",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Do it for the people who worked for you. Thank {opponent}, then go be with them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "after": "refuse",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      },
+      "elements": [
+        "concession-thanks-the-ones-who-worked",
+        "concession-does-not-dispute-the-count"
+      ]
+    },
+    {
+      "key": "scene-talk.close-accept.okay-i-ll-be-at-the-door-when-you-ve-called-opponent",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll be at the door when you've called {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-proud-of-how-you-ran-for-office-for-what-it-s-worth",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm proud of how you ran for {office}. For what it's worth.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "elements": ["concession-thanks-the-ones-who-worked"]
+    },
+    {
+      "key": "scene-talk.close-warn.your-call-but-the-morning-papers-won-t-wait-for-opponent-s-statement",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Your call. But the morning papers won't wait for {opponent}'s statement.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
     }
   ]
 }
