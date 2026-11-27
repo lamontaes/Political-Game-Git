@@ -136,11 +136,18 @@ it(`pays a disaster's repairs in the damaged town when the player has moved to a
     ).toBeDefined();
     const declared = makeIsoDate(disaster!.declared);
     advanceCore(core, addDays(declared, -1));
-    // The one forced step. On today's main the player is still in the opened
-    // town on the eve, where builders are open. They move, alone, to a town
-    // of this world with nobody to pay, through the writer the moves engine
-    // uses when a household member leaves the others behind.
+    // Move just the player away from the damaged town through the real writer.
+    // A one-person household relocates under its existing record, while a
+    // person leaving living housemates behind starts a separate household.
     const player = core.people.get(core.playerId!)!;
+    const household = core.households.get(player.householdId);
+    expect(household?.memberIds, where).toContain(player.id);
+    const movesWhole = household!.memberIds.every(
+      (id) => id === player.id || !core.people.get(id)?.alive,
+    );
+    const movedHouseholdId = movesWhole
+      ? household!.id
+      : `${household!.id}:moved:${player.id}:${core.date}`;
     const town = townToMoveTo(core, player.placeId);
     expect(town, `${where}: a town to move to`).toBeDefined();
     const countyId = [...core.people.values()].find(
@@ -150,7 +157,7 @@ it(`pays a disaster's repairs in the damaged town when the player has moved to a
       personIds: [player.id],
       placeId: town!,
       ...(countyId ? { countyId } : {}),
-      householdId: `${player.householdId}:moved:${player.id}:${core.date}`,
+      householdId: movedHouseholdId,
       source: {
         tag: "ESTIMATED",
         asOf: core.date,
@@ -159,7 +166,12 @@ it(`pays a disaster's repairs in the damaged town when the player has moved to a
       },
     });
     const at = `${where}: disaster ${disaster!.number} in ${town}`;
-    // The declaration day: the repairs find nobody to pay, and the day ends.
+    expect(core.households.get(movedHouseholdId)?.placeId, at).toBe(town);
+    for (const id of household!.memberIds.filter(
+      (id) => id !== player.id && core.people.get(id)?.alive,
+    ))
+      expect(core.people.get(id)?.householdId, at).toBe(household!.id);
+    // The declaration must still book damage in the town the player left.
     advanceCore(core, declared);
     expect(core.people.get(player.id)!.placeId, at).toBe(town);
     const record = damagedRecords(core).find(
