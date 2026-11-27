@@ -640,6 +640,230 @@
       "author": "the loading and history writer",
       "date": "2026-11-24",
       "elements": ["ballot-box-seal-numbers-are-written-down"]
+    },
+    {
+      "key": "loading-steps.name-people.building-the-town",
+      "move": "name-people",
+      "kind": "written",
+      "text": "Building the town",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "name-people",
+          "tie": "frame"
+        }
+      ],
+      "origin": "moved",
+      "author": "src/bench/data/controls.json, moved byte for byte (the step's fixed name)",
+      "date": "2026-11-27"
+    },
+    {
+      "key": "loading-steps.name-past.writing-everyone-s-past",
+      "move": "name-past",
+      "kind": "written",
+      "text": "Writing everyone's past",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "name-past",
+          "tie": "frame"
+        }
+      ],
+      "origin": "moved",
+      "author": "src/bench/data/controls.json, moved byte for byte (the step's fixed name)",
+      "date": "2026-11-27"
+    },
+    {
+      "key": "loading-steps.name-economy.opening-the-economy",
+      "move": "name-economy",
+      "kind": "written",
+      "text": "Opening the economy",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "name-economy",
+          "tie": "frame"
+        }
+      ],
+      "origin": "moved",
+      "author": "src/bench/data/controls.json, moved byte for byte (the step's fixed name)",
+      "date": "2026-11-27"
+    },
+    {
+      "key": "loading-steps.name-core.starting-the-world",
+      "move": "name-core",
+      "kind": "written",
+      "text": "Starting the world",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "name-core",
+          "tie": "frame"
+        }
+      ],
+      "origin": "moved",
+      "author": "src/bench/data/controls.json, moved byte for byte (the step's fixed name)",
+      "date": "2026-11-27"
+    },
+    {
+      "key": "loading-steps.name-government.seating-the-government",
+      "move": "name-government",
+      "kind": "written",
+      "text": "Seating the government",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "name-government",
+          "tie": "frame"
+        }
+      ],
+      "origin": "moved",
+      "author": "src/bench/data/controls.json, moved byte for byte (the step's fixed name)",
+      "date": "2026-11-27"
+    },
+    {
+      "key": "loading-steps.name-elections.opening-the-elections",
+      "move": "name-elections",
+      "kind": "written",
+      "text": "Opening the elections",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "name-elections",
+          "tie": "frame"
+        }
+      ],
+      "origin": "moved",
+      "author": "src/bench/data/controls.json, moved byte for byte (the step's fixed name)",
+      "date": "2026-11-27"
+    },
+    {
+      "key": "loading-steps.name-budgets.opening-the-budgets",
+      "move": "name-budgets",
+      "kind": "written",
+      "text": "Opening the budgets",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "name-budgets",
+          "tie": "frame"
+        }
+      ],
+      "origin": "moved",
+      "author": "src/bench/data/controls.json, moved byte for byte (the step's fixed name)",
+      "date": "2026-11-27"
+    },
+    {
+      "key": "loading-steps.name-legislature.seating-the-legislature",
+      "move": "name-legislature",
+      "kind": "written",
+      "text": "Seating the legislature",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "name-legislature",
+          "tie": "frame"
+        }
+      ],
+      "origin": "moved",
+      "author": "src/bench/data/controls.json, moved byte for byte (the step's fixed name)",
+      "date": "2026-11-27"
+    },
+    {
+      "key": "loading-steps.name-cabinet.appointing-the-cabinet",
+      "move": "name-cabinet",
+      "kind": "written",
+      "text": "Appointing the cabinet",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "name-cabinet",
+          "tie": "frame"
+        }
+      ],
+      "origin": "moved",
+      "author": "src/bench/data/controls.json, moved byte for byte (the step's fixed name)",
+      "date": "2026-11-27"
+    },
+    {
+      "key": "loading-steps.name-workings.opening-the-press-courts-and-meetings",
+      "move": "name-workings",
+      "kind": "written",
+      "text": "Opening the press, courts and meetings",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "name-workings",
+          "tie": "frame"
+        }
+      ],
+      "origin": "moved",
+      "author": "src/bench/data/controls.json, moved byte for byte (the step's fixed name)",
+      "date": "2026-11-27"
+    },
+    {
+      "key": "loading-steps.name-history.writing-the-country-s-history",
+      "move": "name-history",
+      "kind": "written",
+      "text": "Writing the country's history",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "name-history",
+          "tie": "frame"
+        }
+      ],
+      "origin": "moved",
+      "author": "src/bench/data/controls.json, moved byte for byte (the step's fixed name)",
+      "date": "2026-11-27"
+    },
+    {
+      "key": "loading-steps.name-warmup.letting-the-country-the-state-and-the-town-run-two-months-on-their-own",
+      "move": "name-warmup",
+      "kind": "written",
+      "text": "Letting the country, the state and the town run two months on their own before your first evening.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "name-warmup",
+          "tie": "frame"
+        }
+      ],
+      "origin": "moved",
+      "author": "src/bench/data/controls.json, moved byte for byte (the step's fixed name)",
+      "date": "2026-11-27"
+    },
+    {
+      "key": "loading-steps.name-opening.preparing-the-opening",
+      "move": "name-opening",
+      "kind": "written",
+      "text": "Preparing the opening",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "name-opening",
+          "tie": "frame"
+        }
+      ],
+      "origin": "moved",
+      "author": "src/bench/data/controls.json, moved byte for byte (the step's fixed name)",
+      "date": "2026-11-27"
+    },
+    {
+      "key": "loading-steps.name-warmup.giving-the-world-a-head-start",
+      "move": "name-warmup",
+      "kind": "written",
+      "text": "Giving the world a head start",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "name-warmup",
+          "tie": "frame"
+        }
+      ],
+      "origin": "moved",
+      "author": "piece 3 of the story split (it replaced the warm-up name in controls.json)",
+      "date": "2026-11-27"
     }
   ]
 }

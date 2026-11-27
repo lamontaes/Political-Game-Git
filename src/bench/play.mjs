@@ -8079,12 +8079,28 @@ function followBuild(bar, onStory) {
     used.add(text);
     return text;
   };
+  // A step's name is drawn from the same bank, the `name-<step>` moves of the loading-steps bank (owner,
+  // Nov 27: "Names vary too"): never the same name twice in one load, and each load starts at a different
+  // place in the pool. A step the bank has no name for keeps the fixed name in controls.json.
+  const names = new Map();
+  const usedNames = new Set();
+  const nameOf = (step) => {
+    if (names.has(step)) return names.get(step);
+    const fresh = (lines[`name-${step}`] ?? []).filter(
+      (name) => !usedNames.has(name),
+    );
+    if (!fresh.length) return controls.loading?.[step] ?? "";
+    const name = fresh[started % fresh.length];
+    usedNames.add(name);
+    names.set(step, name);
+    return name;
+  };
   let lit = "";
   const render = (stage, last) => {
     const now = stage === "done" ? -1 : last - 1;
     $("front-status").replaceChildren(
       ...loadingLines(
-        STEPS.slice(0, last).map((step) => controls.loading?.[step] ?? ""),
+        STEPS.slice(0, last).map((step) => nameOf(step)),
         now,
         now >= 0 ? quip.text : "",
       ),

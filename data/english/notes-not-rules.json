@@ -435,6 +435,20 @@
       "date": "2026-10-28",
       "note": "Oct 28: \"'unemployment is 3.4 percent' should be 'is at 3.4 percent'\"",
       "reason": "A wording fix for one slot line (\"is at\" for \"is\"); the line quotes a national figure, which the address should not carry (Oct 27), so the fix is to remove the figure, not to reword it."
+    },
+    {
+      "file": "2026-11-27-loading-card-warmup-names.json",
+      "key": "loading-steps.name-warmup.letting-the-country-the-state-and-the-town-run-two-months-on-their-own",
+      "date": "2026-11-27",
+      "note": "The warm-up step's name; both candidates graded bad. The step's name varies from the bank (\"Names vary too\").",
+      "reason": "The owner's verdict on one step name (\"Neither of those are good. They both suck.\", Nov 27, 'Names vary too'): it holds the piece back and says nothing a rule could check."
+    },
+    {
+      "file": "2026-11-27-loading-card-warmup-names.json",
+      "key": "loading-steps.name-warmup.giving-the-world-a-head-start",
+      "date": "2026-11-27",
+      "note": "The warm-up step's name; both candidates graded bad. The step's name varies from the bank (\"Names vary too\").",
+      "reason": "The owner's verdict on one step name (\"Neither of those are good. They both suck.\", Nov 27, 'Names vary too'): it holds the piece back and says nothing a rule could check."
     }
   ]
 }
