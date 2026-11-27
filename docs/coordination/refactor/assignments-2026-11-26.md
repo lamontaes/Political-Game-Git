@@ -152,7 +152,7 @@ The owner: "the core is where engines plug in, and it can also be very friendly 
 **Items, safest first:**
 
 1. **Measure, then guard,** one engine opening another's module table (`moduleState`), and rows edited in place. The guard's baseline may only shrink (K8). It starts with the people engine's opens in both directions, measured in people-2026-11-26.md P5 (adjusted Nov 27). The screens' 157 table reads (92 game screens, 53 dev, 12 checks) are in it too (adjusted Nov 27).
-2. **The workshop out of the core,** by a re-runnable script coordinated with Cleanup's test mover (K9): src/core2/tooling into scripts/, the test kits and fixtures (`*-test-kit.ts`, `*-kit.ts`, `*-fixture.ts`, law-test-start.ts) into tests/support, and bug-report.ts and gov-test-report.ts into scripts/. money-watch.ts and past-sessions.ts go to the screens' dev folder. Also trait-pairs.ts, turnover-check.ts and circle-turnover-check.ts, which no game file imports (people P11; adjusted Nov 27). Widen the game-only guard's test pattern to catch kits and fixtures. The screens' milestone proofs and tools (screens SC6) go with the same script (adjusted Nov 27). Also gov-test-clock.ts (elections EL8; adjusted Nov 27). Also gov-rules/place-slots.ts (only a tooling check and a test use it; offices map; adjusted Nov 27).
+2. **The workshop out of the core,** by a re-runnable script coordinated with Cleanup's test mover (K9): src/core2/tooling into scripts/, the test kits and fixtures (`*-test-kit.ts`, `*-kit.ts`, `*-fixture.ts`, law-test-start.ts) into tests/support, and bug-report.ts and gov-test-report.ts into scripts/. money-watch.ts and past-sessions.ts go to the screens' dev folder. Also trait-pairs.ts, turnover-check.ts and circle-turnover-check.ts, which no game file imports (people P11; adjusted Nov 27). Widen the game-only guard's test pattern to catch kits and fixtures. The screens' milestone proofs and tools (screens SC6) go with the same script (adjusted Nov 27). Also gov-test-clock.ts (elections EL8; adjusted Nov 27). Also gov-rules/place-slots.ts (only a tooling check and a test use it; offices map; adjusted Nov 27). Also justice-chain.ts and session-law-audit.ts (lawmaking LW7; adjusted Nov 27).
 3. **One `core` family** in tests/guards/families.json: the shared kernel, plus life.ts (the day loop), the record log, the reader and the cash journal (journal.ts and journal-state.ts, filed under people today; renamed cash-journal*.ts by the move script; people P12, adjusted Nov 27). Give the 11 orphan files (src/districts, src/rules/laws, src/release) their families. Coordinate with Story's #10683, which made `story`.
 4. **The missing date helpers in the kernel** (weekday of a date, the nth weekday of a month, the last day of a month), with every copy pointed at the kernel (K10): elections-calendar.ts, school.ts, voting.ts, finance-state.ts, work-pay-period.ts, and the rest of the 95 files' date sums. Formatting is left as it is. The kernel's `spokenDate` (dates.ts:113) goes to Story's day-words, in step with Story's E2.
 5. **A determinism guard:** no `Math.random`, `randomBytes`, `randomUUID`, `Date.now`, `performance.now` or argument-less `new Date()` in game code outside dev panels, the play server and scripts (K11).
@@ -335,6 +335,35 @@ The audit is offices-2026-11-27.md in this folder (rows OF1 to OF8). The executi
 - Use the Fable advisor liberally; it doesn't use Fable usage.
 
 **Done when** 1 to 8 are each built, or listed with why.
+
+---
+
+## Lawmaking (decided by the CTO under the owner's full ownership, Nov 27)
+
+The audit is lawmaking-2026-11-27.md in this folder (rows LW1 to LW8). Justice splits out of the laws family as its own engine; this session builds both.
+
+**Start** when "CTO: GO Lawmaking" is posted. Branch from the branch that line names (train/nov27-a until it lands, then main).
+
+**Items, safest first:**
+
+1. **Delete the unread trait effects (LW6),** keeping the traits.
+2. **Generated data as a data file (LW5).**
+3. **Doors (LW8):** laws, bodies and justice each get the read doors their consumers open tables for today. Post them, so each consumer switches its own files.
+4. **One reach store (LW2),** proved by identical reach rows on three seeds.
+5. **The justice split (LW1),** doors first, proved by the guards with no count up.
+6. **legislature.ts split by concern, and long functions as named steps (LW4),** structure only.
+7. **The side registries onto Core's hook (LW3),** after Core item 10.
+
+**Rules:**
+
+- Structure only. The fixed-seed records digest is identical (LW2's proof is its reach rows), and `npm run typecheck` is clean.
+- No new systems and no new registry.
+- Never loosen a check.
+- Never edit bank lines.
+- Wide moves are re-runnable scripts.
+- Use the Fable advisor liberally; it doesn't use Fable usage.
+
+**Done when** 1 to 7 are each built, or listed with why.
 
 ---
 
