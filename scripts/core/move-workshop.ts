@@ -108,8 +108,7 @@ function destination(file: string): string | "delete" | null {
     if (
       CHECKS.test(base) ||
       base === "store-shots.mjs" ||
-      base === "verify.mjs" ||
-      base === "integration-heads.json"
+      base === "verify.mjs"
     )
       return `scripts/bench/${base}`;
     // The browser checks' helpers (the one way a check starts a life, sets a
@@ -292,6 +291,26 @@ const PIECEWISE: [file: string, from: string, to: string][] = [
   // no pull request may do, so the guard keeps skipping that one file until
   // item 7 gives those reads and writes owners' doors (core-plan-2026-11-27.md,
   // section 7).
+  // `voting-age-row.test.ts` reads three of the moved checks by name, beside itself.
+  [
+    "src/bench/voting-age-row.test.ts",
+    `  "m0-check.ts",
+  "m1-10-check.ts",
+  "verify.mjs",`,
+    `  "../../scripts/bench/m0-check.ts",
+  "../../scripts/bench/m1-10-check.ts",
+  "../../scripts/bench/verify.mjs",`,
+  ],
+  // `voting-age-row.test.ts` reads three of the moved checks by name, beside itself.
+  [
+    "src/bench/voting-age-row.test.ts",
+    `  "m0-check.ts",
+  "m1-10-check.ts",
+  "verify.mjs",`,
+    `  "../../scripts/bench/m0-check.ts",
+  "../../scripts/bench/m1-10-check.ts",
+  "../../scripts/bench/verify.mjs",`,
+  ],
   [
     "scripts/guards/engine-tables.ts",
     `        !file.startsWith("scripts/core2/tooling/"),`,
