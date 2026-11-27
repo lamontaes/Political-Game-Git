@@ -337,7 +337,6 @@
 /src/core2/town-seat-party.test.ts @lamontaes
 /src/core2/township-board-terms.test.ts @lamontaes
 /src/core2/wide-races.test.ts @lamontaes
-/src/core2/civic-inputs.ts @lamontaes
 
 # Budgets, taxes and public money (budgets)
 /src/core2/modules/budgets.ts @lamontaes

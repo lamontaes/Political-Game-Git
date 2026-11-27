@@ -345,8 +345,7 @@
         "src/core2/modules/staff.ts",
         "src/core2/government-jurisdictions.ts",
         "src/core2/government-proper-name.ts",
-        "src/core2/offices-executives.ts",
-        "src/core2/civic-inputs.ts"
+        "src/core2/offices-executives.ts"
       ],
       "paths": [
         "src/core2/modules/executive.ts",
@@ -425,8 +424,7 @@
         "src/core2/term-start-true-day.test.ts",
         "src/core2/town-seat-party.test.ts",
         "src/core2/township-board-terms.test.ts",
-        "src/core2/wide-races.test.ts",
-        "src/core2/civic-inputs.ts"
+        "src/core2/wide-races.test.ts"
       ]
     },
     {
