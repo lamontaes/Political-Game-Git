@@ -1,0 +1,30 @@
+{
+  "id": "currency-is-ordered-from-the-treasurys-printer-each-year",
+  "kind": "detail",
+  "summary": "The Federal Reserve places a currency order each year with the Treasury's printer.",
+  "realLife": "The Federal Reserve Board orders each year's currency from the Treasury's Bureau of Engraving and Printing, sizing each denomination's order to expected demand and the notes expected to be destroyed.",
+  "sources": [
+    "Federal Reserve Board, How does the Federal Reserve Board determine how much currency to order each year (page updated Dec 19, 2014): https://www.federalreserve.gov/faqs/how-does-the-federal-reserve-board-determine-how-much-currency-to-order-each-year.htm"
+  ],
+  "fits": ["loading"],
+  "slots": ["state"],
+  "gates": [],
+  "weights": {},
+  "inGame": "the macro module's money records, read by the loading screen's progress step for the economy (loading-steps.economy).",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The year's order is cut because fewer notes are being destroyed or demanded.",
+      "pulledBy": "a falling cash demand in the macro model",
+      "writesBack": "a smaller order record the economy step can name"
+    },
+    {
+      "turn": "partial",
+      "what": "The order grows only to replace worn notes.",
+      "pulledBy": "steady demand",
+      "writesBack": "an order sized to destroyed notes"
+    }
+  ],
+  "issues": ["none"]
+}
