@@ -12,7 +12,7 @@ import { buildBenchWorld } from "../../bench/world";
 import { gameStartDate } from "../game-start";
 import { advanceCore } from "../life";
 import { coreAPI } from "../state";
-import { partySide } from "../appointments";
+import { partySide } from "../party-sides";
 import { allOfficials, officialOf } from "../modules/officials";
 import { LEGISLATURE_MODULE_ID } from "../modules/legislature";
 import {
