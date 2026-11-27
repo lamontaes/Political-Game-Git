@@ -56,4 +56,4 @@ Stage a world's people with `stagePeople` on each plate's backdrop file and draw
 
 **Order the art queue by what play shows most.** Before asking the art session for plates, count which picture each drawn place's first evening uses (`homeOf`, then `backdropFor` at `OPENING_EVENING_MINUTE`) over 30 tags, and paint the most common first (Oct 29: `house-suburban-living` 17, `suburban-house` 11, `house-new-england-colonial` 2). The order goes in the item's Notes.
 
-Screenshots go in the PR body as paths under `docs/play-first/shots/<item>/`, never as image links: the platform wraps every URL a session posts in backticks, so images do not render (`play-first` skill, Oct 29; #6856 and #6918 hit it).
+Keep proof images out of Git. Save local captures under the ignored `test-results/proof/<item>/` directory and attach them to the pull request body or a PR comment. If direct attachment is unavailable, link the PR's CI artifact. Record the seed, viewport and proof step there.
