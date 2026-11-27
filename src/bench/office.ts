@@ -51,7 +51,7 @@ import {
   servingStaffOf,
   staffCandidates,
 } from "../core2/modules/staff";
-import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { officeById, termsOfPerson } from "../core2/modules/offices";
 import { billOf as legislatureBillOf } from "../core2/modules/legislature";
 import { deskVetoReasons } from "../core2/modules/office-day";
 import type { CoreState } from "../core2/types";
@@ -397,15 +397,8 @@ const STOP_SWITCHES = [
 
 /** Which switches this seat has: a local body's meetings, a legislator's floor, an executive's desk. */
 function seatSwitches(api: ReturnType<typeof coreAPI>, personId: string) {
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const executive = (
-    offices.table("terms").query("byPerson", [personId]) as unknown as {
-      status: string;
-      officeId: string;
-    }[]
-  ).some((term) => {
-    const office = offices.table("offices").get(term.officeId) as unknown as
-      { kind: string } | undefined;
+  const executive = termsOfPerson(api, personId).some((term) => {
+    const office = officeById(api, term.officeId);
     return term.status === "serving" && headsExecutive(office?.kind ?? "");
   });
   const federal = federalSeatOf(api, personId);

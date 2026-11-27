@@ -2889,3 +2889,63 @@ export function governorTicketStage(
       ?.stage ?? "at-filing"
   );
 }
+
+/**
+ * The offices engine's read door (Screens, Nov 27; the elections map's queries): rows by id and by
+ * index, so a screen asks the engine and never opens its tables. Each one only reads.
+ */
+export type OfficeRow = OfficeInput & { readonly vacancyRule?: VacancyRule };
+
+/** An office by its id. */
+export function officeById(api: CoreAPI, id: string): OfficeRow | undefined {
+  return table(api, "offices").get(id) as unknown as OfficeRow | undefined;
+}
+
+/** A term by its id. */
+export function termById(api: CoreAPI, id: string): TermRow | undefined {
+  return table(api, "terms").get(id) as unknown as TermRow | undefined;
+}
+
+/** Every term a person has held or holds, serving or ended. */
+export function termsOfPerson(
+  api: CoreAPI,
+  personId: string,
+): readonly TermRow[] {
+  return table(api, "terms").query("byPerson", [
+    personId,
+  ]) as unknown as TermRow[];
+}
+
+/** Every term being served now. */
+export function servingTerms(api: CoreAPI): readonly TermRow[] {
+  return table(api, "terms").query("byStatus", [
+    "serving",
+  ]) as unknown as TermRow[];
+}
+
+/** The seats that have fallen vacant and not been filled or set for an election. */
+export function openVacancies(api: CoreAPI): readonly VacancyRow[] {
+  return table(api, "vacancies").query("byStatus", [
+    "open",
+  ]) as unknown as VacancyRow[];
+}
+
+/** The office a seat belongs to. */
+export function officeOfSeat(
+  api: CoreAPI,
+  seatId: string,
+): OfficeRow | undefined {
+  const seat = table(api, "seats").get(seatId) as unknown as
+    SeatInput | undefined;
+  return seat ? officeById(api, seat.officeId) : undefined;
+}
+
+/** An office's seats. */
+export function seatsOfOffice(
+  api: CoreAPI,
+  officeId: string,
+): readonly SeatInput[] {
+  return table(api, "seats").query("byOffice", [
+    officeId,
+  ]) as unknown as SeatInput[];
+}

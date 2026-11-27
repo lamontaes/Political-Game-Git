@@ -4,7 +4,7 @@ import { personWorkOf } from "../core2/person-work";
 import fundingData from "../core2/data/opening-income-funding.json" with { type: "json" };
 import { ageOnDate } from "../core2/kernel/dates";
 import { coreAPI, fillInPerson } from "../core2/state";
-import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
+import { termsOfPerson, townSeats } from "../core2/modules/offices";
 import { upcomingMeeting } from "../core2/modules/office-day";
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { organizationName } from "../director/words";
@@ -181,11 +181,9 @@ export function townPlaces(
   // office, while they hold a seat on its body or its body meets today.
   // An office listed only for being an office stays out (owner, Oct 26).
   const civic = civicBusiness(core, playerId);
-  const official = coreAPI(core)
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .query("byPerson", [playerId])
-    .some((row) => (row as { status?: string }).status === "serving");
+  const official = termsOfPerson(coreAPI(core), playerId).some(
+    (term) => term.status === "serving",
+  );
   const rows = [...core.organizations.values()]
     .filter(
       (org) =>
