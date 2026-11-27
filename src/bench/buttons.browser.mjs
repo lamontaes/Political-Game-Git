@@ -5,7 +5,7 @@
 // 56. Every visible button that shares a row with others has their height.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const shots = process.env.BUTTON_SHOTS;
 const browser = await chromium.launch({

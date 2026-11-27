@@ -11,6 +11,7 @@
  * election year), moved to the same week and weekday, marked ESTIMATED.
  * Nothing names a place: Congress is one body for all 56.
  */
+import { addDaysText, weekdayOf } from "./kernel/dates";
 import table from "./data/office-day/federal-calendar.json" with { type: "json" };
 
 export type CalendarTag = "SOURCED" | "ESTIMATED";
@@ -62,13 +63,9 @@ const data = table as unknown as {
   };
 };
 
-const DAY_MS = 86_400_000;
-const toMs = (date: string) => Date.parse(`${date}T00:00:00Z`);
-const fromMs = (ms: number) => new Date(ms).toISOString().slice(0, 10);
-export const addDays = (date: string, days: number): string =>
-  fromMs(toMs(date) + days * DAY_MS);
+export const addDays = addDaysText;
 /** 0 Sunday .. 6 Saturday. */
-const weekday = (date: string) => new Date(toMs(date)).getUTCDay();
+const weekday = weekdayOf;
 
 /** The table year a year reads: itself, else the latest (or earliest) table year of the same parity. */
 function baseYear(years: readonly number[], year: number): number {

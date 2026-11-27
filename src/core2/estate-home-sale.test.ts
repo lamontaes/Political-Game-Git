@@ -6,7 +6,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { settleEstate } from "./estates";
 import { gameStartDate } from "./game-start";
 import type { HomeSale } from "./housing-sale";
-import { buyListedHome } from "./housing-sale-buyer-fixture";
+import { buyListedHome } from "../../tests/support/housing-sale-buyer-fixture";
 import { townOutsideOf } from "./opening-outside-market";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";

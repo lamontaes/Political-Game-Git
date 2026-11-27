@@ -20,6 +20,6 @@ claimed-at: 2026-10-30T02:09:38.972Z
 
 **Done when.** src/core2/petition-cushion.test.ts passes, and a path-check run in a drawn place with its seed printed shows the player's petition collecting at least the cushioned target before the deadline and the clerk's check finding it on the ballot.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/data/campaigns/parameters.json, src/bench/path-check.ts, src/core2/petition-cushion.test.ts
+**Files.** src/core2/modules/campaigns.ts, src/core2/data/campaigns/parameters.json, tests/golden-path/path-check.ts, src/core2/petition-cushion.test.ts
 
 **Notes.** TODO

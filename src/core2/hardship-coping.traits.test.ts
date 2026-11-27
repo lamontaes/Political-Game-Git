@@ -11,7 +11,10 @@
 import { describe, expect, it } from "vitest";
 import { appraiseEvent } from "./emotion";
 import { claimantFeeling, filingDecision } from "./jobs-benefits";
-import { coreWithPeople, drawnTraits } from "./money-traits-kit";
+import {
+  coreWithPeople,
+  drawnTraits,
+} from "../../tests/support/money-traits-kit";
 import { personalBorrowingDecision } from "./modules/credit";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
 import { pushesOf } from "./modules/moves";

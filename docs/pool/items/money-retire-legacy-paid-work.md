@@ -20,7 +20,7 @@ branch: money/retire-legacy-paid-work
 
 **Done when.** In a one-year played world (buildBenchWorld) at a place drawn from all 56 with a seed the builder did not choose (name both in the PR body), the set of workers paid and the dollars paid are identical before and after the deletion (same seed, records proof), grep finds no settleLegacyWorkResult or legacy-wage-counters left in src, the tests that used them are deleted or moved onto the payday path, and the PR body counts the lines removed.
 
-**Files.** src/core2/work-cash.ts, src/core2/legacy-wage-counters.ts, src/core2/modules/life.ts, src/core2/state.ts, src/core2/types.ts, src/core2/tooling/payroll-observables.ts
+**Files.** src/core2/work-cash.ts, src/core2/legacy-wage-counters.ts, src/core2/modules/life.ts, src/core2/state.ts, src/core2/types.ts, scripts/core2/tooling/payroll-observables.ts
 
 **Notes.** TODO
 

@@ -25,8 +25,8 @@ import {
   viewOf,
   VIEWS_DATA,
 } from "./modules/views";
-import { registerStanceListener } from "./stance-listeners";
-import { coreAPI } from "./state";
+import type { StanceListener } from "./stance-listeners";
+import { coreAPI, registerModule } from "./state";
 import type { CoreAPI, CoreState, PersonId, PersonState } from "./types";
 
 // The place the life-stakes test draws (base seed lv5, purpose "life-stakes"):
@@ -50,11 +50,15 @@ afterAll(() => {
 /** Every stance move the listeners hear, by person and question: the days it was heard. */
 const heard = new Map<string, string[]>();
 let watching: CoreState | undefined;
-registerStanceListener((api: CoreAPI, personId: PersonId, topic: string) => {
+const listener: StanceListener = (
+  api: CoreAPI,
+  personId: PersonId,
+  topic: string,
+) => {
   if (api.state !== watching) return;
   const key = `${personId}|${topic}`;
   heard.set(key, [...(heard.get(key) ?? []), api.state.date]);
-});
+};
 
 const openJob = (core: CoreState, person: Readonly<PersonState>) => {
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
@@ -81,6 +85,11 @@ describe("a life change is told to the person's stance", () => {
     core = built.core as CoreState;
     api = coreAPI(core);
     watching = core;
+    // The world carries the listener as an engine does: a module with a `stanceListener`.
+    registerModule(core, {
+      id: "test-stance-listener",
+      stanceListener: listener,
+    });
     town = (
       api
         .moduleState(ELECTIONS_MODULE_ID)

@@ -20,7 +20,7 @@ import { composeLocalAddress } from "./local-address";
 import { composeCampaignSpeech } from "./local-speeches";
 import { townSeats } from "../core2/modules/offices";
 import { headsLocalExecutive } from "../core2/offices-executives";
-import { WORDS_STOPGAP_HITS } from "./stopgaps";
+import { WORDS_STOPGAP_HITS } from "../core2/stopgaps";
 
 // Which kinds' outline banks the test lets say every required section: a
 // kind named here is told as the inaugural's bank tells it, the oath held, so

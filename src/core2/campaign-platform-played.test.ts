@@ -96,7 +96,7 @@ import {
   electorateAgreement,
   sidesByAgreement,
   type AgreementSides,
-} from "./campaign-platform-test-kit";
+} from "../../tests/support/campaign-platform-test-kit";
 import { agreementWith, countedStanceProfile } from "./modules/views";
 
 /** Each platform chosen in play: the rule's scores, and the electorate by the ballot's readers, in the same instant. */

@@ -33,7 +33,7 @@ import { countedJobHeads, countedJobsOf } from "./residents";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 
-export const PATROL_MODULE_ID = "core2-patrol-v1";
+const PATROL_MODULE_ID = "core2-patrol-v1";
 /** The line police pay draws on (src/core2/data/budgets/treasury-spending.json postLines). */
 const POLICE_LINE = "police";
 /** After the budgets' month has closed on the 1st and the crime engine's on the 4th. */
@@ -155,7 +155,7 @@ function run(api: CoreAPI): void {
   }
 }
 
-export const PATROL_MODULE: CoreModule = {
+const PATROL_MODULE: CoreModule = {
   id: PATROL_MODULE_ID,
   state: {
     schemaVersion: 1,

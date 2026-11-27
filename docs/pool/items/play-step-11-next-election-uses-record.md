@@ -19,7 +19,7 @@ claimed-at: 2026-10-17T09:31:45.066Z
 
 **Done when.** In a drawn place where the player's seat comes up again within the run, `reachedSteps` reports step 11 with the ballot id and the record item id, and `path-check.ts` prints it; a test in src/bench names the place, the seed, the voter and the record item.
 
-**Files.** src/bench/reached.ts, src/bench/path-check.ts, src/core2/modules/voting.ts, src/core2/modules/record.ts
+**Files.** src/bench/reached.ts, tests/golden-path/path-check.ts, src/core2/modules/voting.ts, src/core2/modules/record.ts
 
 **Notes.** Steps 3 to 10 now run end to end in `path-check.ts` (PRs #4876 and #4887). On Deer Island, Oregon (seed pc-d) the player's seat is a four-year county commissioner term, so the next election is 2030; a council with two-year terms would reach it sooner.
 
