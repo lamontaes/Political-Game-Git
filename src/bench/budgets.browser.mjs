@@ -6,7 +6,7 @@
 // Run against a fresh bench: node src/bench/budgets.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
 
 const shots = process.argv[2];
 const browser = await chromium.launch({

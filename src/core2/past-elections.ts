@@ -33,6 +33,7 @@ import {
   realResult,
   worldWinnerShare,
   type TermRow,
+  recordTermElection,
 } from "./modules/offices";
 import { officialOf } from "./modules/officials";
 import { POLICY_QUESTIONS } from "./policy-answers";
@@ -567,13 +568,7 @@ export function buildPriorElections(
         // federal executive's) keeps this one, so the race's share is read
         // from the term like every other seat's (offices.ts pastElections).
         if (!term.elected)
-          api
-            .moduleState(OFFICES_MODULE_ID)
-            .table("terms")
-            .put({
-              ...term,
-              elected: { date, share: winnerShare },
-            } as unknown as ModuleRow);
+          recordTermElection(api, term, { date, share: winnerShare });
         const candidates: PastCandidate[] = [
           {
             personId: winnerId,

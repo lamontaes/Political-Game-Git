@@ -6,7 +6,7 @@ import { livesElsewhere } from "./modules/moves";
 import { partnershipsModule } from "./modules/partnerships";
 import { registerModule } from "./state";
 import { drawPlace } from "../../tests/golden-path/place";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import type { CoreEventInput } from "./types";
 
 // Word from relatives elsewhere (Lives, Nov 8, 2026): a town resident's close
