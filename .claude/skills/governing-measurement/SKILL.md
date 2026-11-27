@@ -105,6 +105,10 @@ When a played proof shows an engine's reaction never happening (Nov 1: an incumb
 
 Count a seat's filers by filings whose status is not `withdrawn`, and only for seats whose filing deadline has passed on the day you stop. A count that includes withdrawn filings or open windows reads a major party as present or absent wrongly (the first 12-place count of uncontested seats did). A seat has few filers per place, so a share needs many places; say how many seats it rests on. A weight is never moved until a measured share matches a benchmark: derive it from a person's own sum or a source with its spread, and report the result against the benchmark. A filer whose ballot label is empty is not a missing party: a resident the town's monthly party meeting has not met yet has no tie, so the filing carried no label until the meeting tied them days later. Read the label against the person's party on the day you count (`partyOf`) before reporting a seat as missing a major party; 4 of 11 House seats read as missing a party that way and 1 of 11 did once filers took their tie first (#9528). A seat's count by label is a count of tied filers.
 
+## Gotchas
+
+- **A walk that logs "no filing" with `choices []` is the clerk's bank, not the race reader (Nov 27, Sterling, Michigan, seed path-check).** `path-check` printed "no open seat, first council race" and no filing; the race was there (a 5-seat at-large council with the holder running and room for more). The counter had no choices because `wordSceneMove` returned null for `filing-clerk` `greet-counter` and `pick-office`, since the old bank was deleted and Story's replacement was still open. Check the visit's `lines` and `choices` first; the "no open seat" line only means the holder is standing again.
+
 ## Stop condition
 
 Done when every count you report names its places, seeds and branch head; every version of an ablation played the same places; and the result is in the status block or the item's Notes, not only in a message.
