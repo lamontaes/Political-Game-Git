@@ -6,7 +6,7 @@ import { recordTree } from "./dev-view.mjs";
 import { traceBox } from "./dev-trace-box.mjs";
 import { stripSection } from "./strips.mjs";
 
-const slots = {
+export const slots = {
   async person({ personId, labels, send }) {
     const why = await send(`voter-lean?id=${encodeURIComponent(personId)}`);
     const { node: trace, open } = traceBox(labels.trace);

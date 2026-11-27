@@ -136,15 +136,33 @@ function raceLevel(
   return (contest?.level && LEVELS[contest.level]) || null;
 }
 
+/** A bill's first provision and the topic it argues: its question, else its budget line, else its series. */
+function billTopic(api: CoreAPI, billId: string | undefined) {
+  const bill =
+    billId && api.state.modules.has(LEGISLATURE_MODULE_ID)
+      ? (api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("bills")
+          .get(billId) as unknown as BillRow | undefined)
+      : undefined;
+  const first = bill?.provisions[0];
+  const topic = first
+    ? (first.question ??
+      (first.line ? `budget-line:${first.line}` : first.series))
+    : undefined;
+  return { first, topic };
+}
+
 /**
- * The wire item a public record makes for a town's press, or null when it is
- * outside what the town's outlets cover (another state's report).
+ * Where a public record is news for the town's outlets: its own level, or
+ * null when it is outside what they cover (another state's report, a seat of
+ * another state, a birth that reaches no one the paper covers).
  */
-export function wireItem(
+function wireLevelOf(
   api: CoreAPI,
   event: Readonly<CoreEventInput>,
   town: { readonly placeId: string; readonly stateKey: string },
-): WireItem | null {
+): WireLevel | null {
   const facts = event.facts ?? {};
   // An oath or a vacancy is the paper's news only on a seat of the town's
   // own governments: its town's, county's, state's and nation's. Another
@@ -195,6 +213,21 @@ export function wireItem(
     String(event.placeId).startsWith("national:")
   )
     return null;
+  return level;
+}
+
+/**
+ * The wire item a public record makes for a town's press, or null when it is
+ * outside what the town's outlets cover (another state's report).
+ */
+export function wireItem(
+  api: CoreAPI,
+  event: Readonly<CoreEventInput>,
+  town: { readonly placeId: string; readonly stateKey: string },
+): WireItem | null {
+  const level = wireLevelOf(api, event, town);
+  if (!level) return null;
+  const facts = event.facts ?? {};
   const people = event.personIds.filter((id) => api.state.people.has(id));
   const officialIds = [
     ...new Set(
@@ -255,18 +288,7 @@ export function wireItem(
     case "committee-hearing":
     case "public-comment": {
       // A bill's vote or hearing is about what the bill changes.
-      const bill =
-        facts.billId && api.state.modules.has(LEGISLATURE_MODULE_ID)
-          ? (api
-              .moduleState(LEGISLATURE_MODULE_ID)
-              .table("bills")
-              .get(facts.billId) as unknown as BillRow | undefined)
-          : undefined;
-      const first = bill?.provisions[0];
-      const topic = first
-        ? (first.question ??
-          (first.line ? `budget-line:${first.line}` : first.series))
-        : undefined;
+      const { first, topic } = billTopic(api, facts.billId);
       const passed =
         event.kind === "legislative-vote" || event.kind === "committee-hearing"
           ? Number(facts.yes) > Number(facts.no)
@@ -287,18 +309,7 @@ export function wireItem(
       // A bill that failed is about what it would have changed, so a reader
       // can bring it up by name; the roll call's story argues the side, so
       // this one argues none (no reader takes the same vote in twice).
-      const bill =
-        facts.billId && api.state.modules.has(LEGISLATURE_MODULE_ID)
-          ? (api
-              .moduleState(LEGISLATURE_MODULE_ID)
-              .table("bills")
-              .get(facts.billId) as unknown as BillRow | undefined)
-          : undefined;
-      const first = bill?.provisions[0];
-      const topic = first
-        ? (first.question ??
-          (first.line ? `budget-line:${first.line}` : first.series))
-        : undefined;
+      const { topic } = billTopic(api, facts.billId);
       return {
         ...base,
         topic: topic ?? event.kind,
@@ -309,18 +320,7 @@ export function wireItem(
     case "veto-override": {
       // The override vote is about what the vetoed bill changes: it enacts
       // that change if it passed and leaves the veto standing if it failed.
-      const bill =
-        facts.billId && api.state.modules.has(LEGISLATURE_MODULE_ID)
-          ? (api
-              .moduleState(LEGISLATURE_MODULE_ID)
-              .table("bills")
-              .get(facts.billId) as unknown as BillRow | undefined)
-          : undefined;
-      const first = bill?.provisions[0];
-      const topic = first
-        ? (first.question ??
-          (first.line ? `budget-line:${first.line}` : first.series))
-        : undefined;
+      const { first, topic } = billTopic(api, facts.billId);
       const enacts = (first?.value ?? 1) > 0;
       return {
         ...base,
