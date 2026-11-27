@@ -90,6 +90,12 @@ Tonight the CTO approved more entry files than one front door per engine, so no 
 - **budgets:** purchase-tax.ts (Economy #10784).
 - **elections:** campaign-views, electorate and parties as entries (Elections #10732), and the extra entries kept at 4:06 a.m.
 - **core and people (Core #10734, #10781, #10792, #10752):** counted-income-fifth.ts (people); civic-inputs.ts (executive), pre-start.ts, shared-history.ts and finance-state.ts; job-lifecycle.ts (jobs); the cash journal as core entries.
+- **jobs-businesses (Economy #10898):** eleven files named as entries, and the central bank board moved into jobs-businesses.
+
+## Behavior items found during the refactor (not structure)
+
+- **Economy:** finance-state.ts's closure block repeats `endRecordedJob` with four differences: it ends the job today even after a worked shift, never throws, has no commitment skip or start-date clamp, and refreshes staff before clearing `jobId`. It was moved as is into job-lifecycle.ts. Unify them as one behavior change.
+- **Past and Day One:** moving civic-inputs.ts out of executive (#10834, closed) waits on the owner's write door for `core.publicOrganizations` (Core item 7).
 
 ## Moves held for breaking the rings (no baseline rises, 8:21 a.m.)
 
