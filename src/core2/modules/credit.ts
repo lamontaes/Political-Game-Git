@@ -815,7 +815,7 @@ function review(api: CoreAPI, opening = false): void {
 }
 
 /** A household's month, as its money shows it: cash, its home, everyday living. */
-interface HouseholdMonthRow {
+export interface HouseholdMonthRow {
   id: string;
   householdId: string;
   date: string;
@@ -1023,7 +1023,7 @@ export const CREDIT_MODULE: CoreModule = {
   },
 };
 
-interface LoanRow {
+export interface LoanRow {
   id: string;
   isLoan: true;
   open: boolean;
@@ -2144,4 +2144,48 @@ export function lendForFounding(
       standing: "current",
     });
   return lent;
+}
+
+/**
+ * The credit engine's read door for the Money screen: the town bank, its latest published books, a
+ * household's months, loans and the payments on a loan, so the screen asks the engine and never opens
+ * its tables. Each one only reads.
+ */
+/** The organization that is the town's bank, once the credit engine has founded it. */
+export function townBankOrganizationId(api: CoreAPI): string | undefined {
+  return bankOf(api)?.organizationId;
+}
+
+/** The bank's latest published books, by date. */
+export function latestBankBooks(api: CoreAPI) {
+  return [...store(api).table("books").rows()].sort((a, b) =>
+    String(b.date).localeCompare(String(a.date)),
+  )[0];
+}
+
+/** A household's months as the engine kept them, newest first. */
+export function monthsOfHousehold(
+  api: CoreAPI,
+  householdId: string,
+): readonly HouseholdMonthRow[] {
+  return [
+    ...(store(api)
+      .table("households")
+      .query("byHousehold", [householdId]) as unknown as HouseholdMonthRow[]),
+  ].sort((a, b) => String(b.date).localeCompare(String(a.date)));
+}
+
+/** The loans a household owes or owed. */
+export function loansOfHousehold(
+  api: CoreAPI,
+  householdId: string,
+): readonly LoanRow[] {
+  return store(api)
+    .table("loans")
+    .query("byHousehold", [householdId]) as unknown as LoanRow[];
+}
+
+/** The payments made on a loan, in the engine's rows. */
+export function paymentsOfLoan(api: CoreAPI, loanId: string) {
+  return store(api).table("payments").query("byLoan", [loanId]);
 }

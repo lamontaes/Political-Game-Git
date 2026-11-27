@@ -1,6 +1,13 @@
 /** The Money screen reads the bank's published books and the household's claim. */
 import { bankDeposit, personOutflowsForMonth } from "../core2/accounts";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import {
+  latestBankBooks,
+  loansOfHousehold,
+  monthsOfHousehold,
+  paymentsOfLoan,
+  townBankOrganizationId,
+} from "../core2/modules/credit";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
@@ -28,14 +35,11 @@ interface SpendingLine {
 export function bankView(core: CoreState, personId: string) {
   const person = core.people.get(personId);
   if (!person || !core.modules.has("credit")) return null;
-  const store = coreAPI(core).moduleState("credit");
-  const bank = store.table("banks").get("credit:bank");
-  const bankId = String(bank?.organizationId ?? "");
+  const api = coreAPI(core);
+  const bankId = townBankOrganizationId(api) ?? "";
   const organization = core.organizations.get(bankId);
   if (!organization) return null;
-  const latest = [...store.table("books").rows()].sort((a, b) =>
-    String(b.date).localeCompare(String(a.date)),
-  )[0];
+  const latest = latestBankBooks(api);
   const deposit = bankDeposit(core, bankId, person.householdId);
   const books = latest
     ? {
@@ -52,29 +56,10 @@ export function bankView(core: CoreState, personId: string) {
     : null;
   // The household's last month as the credit engine kept it, and the latest
   // payments on the loans it owes: why the cash fell short.
-  const months = store
-    .table("households")
-    .query("byHousehold", [person.householdId]) as unknown as Record<
-    string,
-    unknown
-  >[];
-  const month = [...months].sort((a, b) =>
-    String(b.date).localeCompare(String(a.date)),
-  )[0];
-  const payments = (
-    store
-      .table("loans")
-      .query("byHousehold", [person.householdId]) as unknown as {
-      id: string;
-    }[]
-  )
-    .flatMap(
-      (loan) =>
-        store.table("payments").query("byLoan", [loan.id]) as unknown as Record<
-          string,
-          unknown
-        >[],
-    )
+  const months = monthsOfHousehold(api, person.householdId);
+  const month = months[0];
+  const payments = loansOfHousehold(api, person.householdId)
+    .flatMap((loan) => paymentsOfLoan(api, loan.id))
     .sort((a, b) => String(b.date).localeCompare(String(a.date)))
     .slice(0, 3);
   const household = core.households.get(person.householdId);
@@ -86,14 +71,11 @@ export function bankView(core: CoreState, personId: string) {
   const cash = {
     nowMinor: members.reduce((n, member) => n + member!.liquidMinor, 0),
     memberIds: members.map((member) => member!.id),
-    months: [...months]
-      .sort((a, b) => String(b.date).localeCompare(String(a.date)))
-      .slice(0, RECENT_MONTHS)
-      .map((row) => ({
-        id: String(row.id),
-        date: String(row.date),
-        cashMinor: Number(row.cashMinor),
-      })),
+    months: months.slice(0, RECENT_MONTHS).map((row) => ({
+      id: String(row.id),
+      date: String(row.date),
+      cashMinor: Number(row.cashMinor),
+    })),
   };
   // Where last month's money went, by the ledger's reason: every transfer the
   // household's members paid in the month just closed, as the accounts engine
@@ -144,15 +126,7 @@ export function bankView(core: CoreState, personId: string) {
   ];
   // Debts: the household's open loans in the credit engine, and the opening
   // mortgages the housing engine keeps, each with what is still owed.
-  const loans = store
-    .table("loans")
-    .query("byHousehold", [person.householdId]) as unknown as {
-    id: string;
-    open: boolean;
-    kind: string;
-    balanceMinor: number;
-    pastDueMinor: number;
-  }[];
+  const loans = loansOfHousehold(api, person.householdId);
   const mortgages = (housing?.table("mortgages").rows() ?? []) as unknown as {
     id: string;
     householdId: string;

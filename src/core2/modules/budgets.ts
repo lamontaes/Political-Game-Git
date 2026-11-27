@@ -2923,3 +2923,15 @@ export {
 export { residentsOf, STATES } from "./outside-budgets";
 // The director reads the awards a government made (and their bids) through this entry.
 export { awardsOn } from "./contracts";
+
+/**
+ * The budgets engine's read door for the screens' savings line: whether a monthly close has swept this
+ * government's treasury to its reserve, so its savings are no longer the opening estimate.
+ */
+export function reserveSweptFor(api: CoreAPI, governmentId: string): boolean {
+  return (
+    table(api, "reserveSweeps").rows() as unknown as {
+      governmentId: string;
+    }[]
+  ).some((row) => row.governmentId === governmentId);
+}

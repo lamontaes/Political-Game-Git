@@ -2,11 +2,11 @@ import { governmentProperName } from "../core2/government-proper-name";
 import { townGovernment } from "../core2/output-number-readers";
 import { coreAPI } from "../core2/state";
 import {
-  BUDGETS_MODULE_ID,
   budgetPriorities,
   budgetsOf,
   governments,
   lineBeforeBill,
+  reserveSweptFor,
   setBudgetPriorities,
   withholdingOf,
 } from "../core2/modules/budgets";
@@ -159,13 +159,7 @@ function savingsEstimated(
   },
 ): boolean {
   if (!gov.openingCash?.minor) return false;
-  const swept = (
-    coreAPI(core)
-      .moduleState(BUDGETS_MODULE_ID)
-      .table("reserveSweeps")
-      .rows() as unknown as { governmentId: string }[]
-  ).some((row) => row.governmentId === gov.id);
-  if (swept) return false;
+  if (reserveSweptFor(coreAPI(core), gov.id)) return false;
   const paidOut = Number(
     core.cashJournal.totalsByOwner.get(gov.organizationId)?.grossDebitMinor ??
       0,
