@@ -15,26 +15,27 @@ import { STOPGAPS as stopgaps } from "./stopgaps";
 import { WEB_LINKS } from "./outcome-web-model";
 
 const WAITING = {
-  /** The outcome is no engine's record: a child's asthma, Part D spending, a birth weight. */
-  "SG-EW-HEALTH-condition-record": [
-    "gas-hookup-ban-to-child-asthma",
-    // drug-negotiation-to-out-of-pocket is read by the medical bills now (medical-bills.ts), so it no longer waits.
-    "water-violations-to-infant-health",
-  ],
-  /** No researched size the game can apply (a link about zero is graded not applicable and is not listed). */
-  "SG-EW-HEALTH-unsized-links": [
-    "congestion-to-premature-births",
-    "heat-to-deaths",
-    "eviction-to-hospital-visits",
-  ],
-  /** The cause is the person's own history, which no record keeps. */
-  "SG-EW-HEALTH-person-level": [
-    "coverage-to-catastrophic-bills",
-    "coverage-to-depression",
-    "child-food-stamps-to-adult-health",
-    "eitc-to-low-birthweight",
-  ],
+  // No named health reader for the outcome.
+  "gas-hookup-ban-to-child-asthma": "SG-WEB-unread-health-child-asthma-pct",
+  "water-violations-to-infant-health": "SG-WEB-unread-health-low-birthweight",
+  // No researched size the game can apply.
+  "congestion-to-premature-births": "SG-WEB-unread-health-premature-births",
+  "heat-to-deaths": "SG-WEB-unread-health-heat-deaths",
+  "eviction-to-hospital-visits": "SG-WEB-unread-health-hospital-visits",
+  // The cause needs a person's own history.
+  "coverage-to-catastrophic-bills":
+    "SG-WEB-unread-health-catastrophic-medical-bills",
+  "coverage-to-depression": "SG-WEB-unread-health-depression",
+  "child-food-stamps-to-adult-health":
+    "SG-WEB-unread-health-adult-metabolic-syndrome",
+  "eitc-to-low-birthweight": "SG-WEB-unread-health-low-birthweight",
 } as const;
+
+const UNSIZED = new Set<string>([
+  "congestion-to-premature-births",
+  "heat-to-deaths",
+  "eviction-to-hospital-visits",
+]);
 
 const link = (key: string) => WEB_LINKS.find((row) => row.key === key)!;
 const rows = (unwired as { links: { link: string; stopgapId: string }[] })
@@ -70,35 +71,33 @@ function readersOf(
 }
 
 describe("health links that wait, and why", () => {
-  for (const [stopgapId, keys] of Object.entries(WAITING))
-    for (const key of keys)
-      it(`${key} waits on ${stopgapId}`, () => {
-        // The unwired list files it under the health engine's own stopgap,
-        // and that open row names it.
+  for (const [key, stopgapId] of Object.entries(WAITING))
+    it(`${key} waits on ${stopgapId}`, () => {
+      // The unwired list files it under the health engine's own stopgap,
+      // and that open row names it.
+      expect(
+        rows.find((row) => row.link === key)?.stopgapId,
+        `${key} in unwired.json`,
+      ).toBe(stopgapId);
+      const row = (
+        stopgaps as { id: string; status?: string; whatItFakes?: string }[]
+      ).find((one) => one.id === stopgapId)!;
+      expect(row.status, stopgapId).toBe("open");
+      expect(row.whatItFakes?.split(/[^a-z0-9-]+/i), stopgapId).toContain(key);
+      const web = link(key);
+      if (UNSIZED.has(key))
+        // No size, or one the research finds about zero.
         expect(
-          rows.find((row) => row.link === key)?.stopgapId,
-          `${key} in unwired.json`,
-        ).toBe(stopgapId);
-        const row = (
-          stopgaps as { id: string; status?: string; whatItFakes?: string }[]
-        ).find((one) => one.id === stopgapId)!;
-        // Open, or dropped by the Nov 10 stand-in triage (the estimate stays).
-        expect(["open", "resolved"], stopgapId).toContain(row.status);
-        expect(row.whatItFakes, stopgapId).toContain(`(${key})`);
-        const web = link(key);
-        if (stopgapId === "SG-EW-HEALTH-unsized-links")
-          // No size, or one the research finds about zero.
-          expect(
-            web.size === null || Math.abs(web.size ?? 0) < 1e-9,
-            `${key}: size ${web.size}; wire it`,
-          ).toBe(true);
-        // For every waiting link: no engine code or data names the outcome.
-        // The day one reads it, wire the link.
-        expect(
-          readersOf(web.to),
-          `${key}: an engine reads ${web.to}; wire it`,
-        ).toEqual([]);
-      });
+          web.size === null || Math.abs(web.size ?? 0) < 1e-9,
+          `${key}: size ${web.size}; wire it`,
+        ).toBe(true);
+      // For every waiting link: no engine code or data names the outcome.
+      // The day one reads it, wire the link.
+      expect(
+        readersOf(web.to),
+        `${key}: an engine reads ${web.to}; wire it`,
+      ).toEqual([]);
+    });
 
   // The medical-debt link no longer waits (health-medical-debt-record): the
   // coverage engine's bills read its outcome where the share sent to
