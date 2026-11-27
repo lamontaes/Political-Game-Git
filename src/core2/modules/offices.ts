@@ -2506,147 +2506,146 @@ function recordFill(
   });
 }
 
-function fillVacancy(
+/** The seat's appointee for a local office: the best suited resident who accepts, or undefined (no one accepts). */
+function acceptingResident(
+  api: CoreAPI,
+  office: OfficeInput,
+  previous: Pick<TermRow, "personId">,
+): Suited | undefined {
+  if (
+    office.level !== "city" &&
+    office.level !== "county" &&
+    office.level !== "township"
+  )
+    return undefined;
+  return suitedResidents(
+    api,
+    api.state.date,
+    new Set([
+      // The person who just left the seat isn't appointed back to it.
+      ...(previous.personId ? [previous.personId] : []),
+      ...(
+        table(api, "terms").query("byStatus", [
+          "serving",
+        ]) as unknown as TermRow[]
+      ).flatMap((t) => (t.personId ? [t.personId] : [])),
+    ]),
+    (
+      table(api, "loaded").get("town") as unknown as {
+        townPlaceId: string;
+      }
+    ).townPlaceId,
+  ).find(
+    (suited) =>
+      // The shared formula with no case but personality (the lean's sign,
+      // as before), so the weighing is reported and, where kept, recorded.
+      leanedScore(
+        api.state,
+        suited.person,
+        "offices.accept-appointment",
+        "accept",
+        "decline",
+        0,
+      ) >= 0,
+  );
+}
+
+/** The seat is filled by appointment: the term is written and the fill recorded. */
+function appointToVacancy(
   api: CoreAPI,
   office: OfficeInput & { vacancyRule: VacancyRule },
   seat: SeatInput,
   vacancy: VacancyRow,
   previous: Pick<TermRow, "personId" | "party" | "endDate" | "endEstimated"> &
     Partial<TermRow>,
-  offering = true,
+  reached: string,
 ): VacancyRow {
   const date = api.state.date;
-  const rule = office.vacancyRule;
   const town = table(api, "loaded").get("town") as unknown as {
     worldSeed: string;
   };
-  const appoint = (reached: string): VacancyRow => {
-    // Not `appointerWeighing`/`nominateAndConfirm` (OF6a, measured Nov 27): those rank a named
-    // list of candidates for one appointer's loyalty and merit and send the pick to a confirming
-    // body. A town's or county's seat is filled by its governing body from every resident of the
-    // town (counted adults too): the best suited resident (`suitedResidents`) who accepts by their
-    // own decision; no party, acquaintance or confirmation is weighed here. The island areas'
-    // own laws name another appointer (the CNMI council's seats: the Mayor) and are filled the
-    // same way; where one official appoints, `appointerWeighing` would be the rule, which is
-    // not built here (a behavior change, with its own proof).
-    // A seat the offices engine keeps no term for: the record of the fill
-    // is all it writes; the officials engine seats the new member from it.
-    if (vacancy.unheld) {
-      recordFill(
-        api,
-        office,
-        seat,
-        { id: vacancy.id, personId: null, reached } as unknown as TermRow,
-        vacancy,
-      );
-      return { ...vacancy, status: "filled", filledBy: vacancy.id };
-    }
-    const holder =
-      office.level === "city" ||
-      office.level === "county" ||
-      office.level === "township"
-        ? suitedResidents(
-            api,
-            date,
-            new Set([
-              // The person who just left the seat isn't appointed back to it.
-              ...(previous.personId ? [previous.personId] : []),
-              ...(
-                table(api, "terms").query("byStatus", [
-                  "serving",
-                ]) as unknown as TermRow[]
-              ).flatMap((t) => (t.personId ? [t.personId] : [])),
-            ]),
-            (
-              table(api, "loaded").get("town") as unknown as {
-                townPlaceId: string;
-              }
-            ).townPlaceId,
-          ).find(
-            (suited) =>
-              // The shared formula with no case but personality (the lean's sign,
-              // as before), so the weighing is reported and, where kept, recorded.
-              leanedScore(
-                api.state,
-                suited.person,
-                "offices.accept-appointment",
-                "accept",
-                "decline",
-                0,
-              ) >= 0,
-          )
-        : undefined;
-    const holderId = holder ? seatSuited(api, holder) : null;
-    const term = holderId
-      ? seatResident(api, office, seat, holderId, date, reached)
-      : seatNamedOfficial(
-          api,
-          `${town.worldSeed}:${date}`,
-          office,
-          { ...seat, party: previous.party },
-          date,
-          reached,
-        );
-    const finished = {
-      ...term,
-      endDate: previous.endDate,
-      endEstimated: previous.endEstimated,
-    };
-    table(api, "terms").put(finished as unknown as ModuleRow);
-    recordFill(api, office, seat, finished, vacancy);
-    return { ...vacancy, status: "filled", filledBy: term.id };
-  };
-  if (rule.method === "remains-vacant") return vacancy;
-  // The person the law names, where an engine reads the line.
-  const named = previous.identity
-    ? successorProviders.get(office.kind)?.(api, {
-        seatId: seat.id,
-        previous: previous as TermRow,
-      })
-    : null;
-  if (named) {
-    const term = seatResident(
+  // A seat the offices engine keeps no term for: the record of the fill
+  // is all it writes; the officials engine seats the new member from it.
+  if (vacancy.unheld) {
+    recordFill(
       api,
       office,
-      { ...seat, party: named.party },
-      named.personId,
-      date,
-      named.reached,
+      seat,
+      { id: vacancy.id, personId: null, reached } as unknown as TermRow,
+      vacancy,
     );
-    table(api, "terms").put({
-      ...term,
-      endDate: previous.endDate,
-      endEstimated: previous.endEstimated,
-    } as unknown as ModuleRow);
-    // A named successor leaves the succession engine's own record.
-    const filled = { ...vacancy, status: "filled", filledBy: term.id } as const;
-    table(api, "vacancies").put(filled as unknown as ModuleRow);
-    named.then?.();
-    return filled;
+    return { ...vacancy, status: "filled", filledBy: vacancy.id };
   }
-  // With no one serving in the line the law names, the appointing body the
-  // law names fills it (a Guam village whose Vice Mayor's seat is empty).
-  if (rule.method === "successor")
-    return appoint(
-      rule.appointedBy
-        ? `appointed by ${rule.appointedBy}`
-        : `succeeded as ${rule.successor ?? "next in line"}`,
-    );
-  if (rule.method === "appointment") {
-    const reached = `appointed by ${rule.appointedBy ?? "the appointing authority"}`;
-    // The body may offer the seat first to someone it would not seat unasked (the player): the seat
-    // waits on their answer (`answerVacancyOffer`).
-    if (
-      offering &&
-      !vacancy.unheld &&
-      [...vacancyOffers.values()].some((offer) =>
-        offer(api, { office, seat, vacancyId: vacancy.id, reached }),
-      )
-    )
-      return { ...vacancy, status: "offered", offeredReached: reached };
-    return appoint(reached);
-  }
-  // A special election, after an interim appointment where the law makes one.
+  // Not `appointerWeighing`/`nominateAndConfirm` (OF6a, measured Nov 27): those rank a named
+  // list of candidates for one appointer's loyalty and merit and send the pick to a confirming
+  // body. A town's or county's seat is filled by its governing body from every resident of the
+  // town (counted adults too): the best suited resident (`suitedResidents`) who accepts by their
+  // own decision; no party, acquaintance or confirmation is weighed here. The island areas'
+  // own laws name another appointer (the CNMI council's seats: the Mayor) and are filled the
+  // same way; where one official appoints, `appointerWeighing` would be the rule, which is
+  // not built here (a behavior change, with its own proof).
+  const holder = acceptingResident(api, office, previous);
+  const holderId = holder ? seatSuited(api, holder) : null;
+  const term = holderId
+    ? seatResident(api, office, seat, holderId, date, reached)
+    : seatNamedOfficial(
+        api,
+        `${town.worldSeed}:${date}`,
+        office,
+        { ...seat, party: previous.party },
+        date,
+        reached,
+      );
+  const finished = {
+    ...term,
+    endDate: previous.endDate,
+    endEstimated: previous.endEstimated,
+  };
+  table(api, "terms").put(finished as unknown as ModuleRow);
+  recordFill(api, office, seat, finished, vacancy);
+  return { ...vacancy, status: "filled", filledBy: term.id };
+}
+
+/** The law names the successor and an engine read the line: seat them for the rest of the term. */
+function seatNamedSuccessor(
+  api: CoreAPI,
+  office: OfficeInput,
+  seat: SeatInput,
+  vacancy: VacancyRow,
+  previous: Pick<TermRow, "endDate" | "endEstimated">,
+  named: NonNullable<ReturnType<SuccessorProvider>>,
+): VacancyRow {
+  const term = seatResident(
+    api,
+    office,
+    { ...seat, party: named.party },
+    named.personId,
+    api.state.date,
+    named.reached,
+  );
+  table(api, "terms").put({
+    ...term,
+    endDate: previous.endDate,
+    endEstimated: previous.endEstimated,
+  } as unknown as ModuleRow);
+  // A named successor leaves the succession engine's own record.
+  const filled = { ...vacancy, status: "filled", filledBy: term.id } as const;
+  table(api, "vacancies").put(filled as unknown as ModuleRow);
+  named.then?.();
+  return filled;
+}
+
+/** The seat waits on a special election, after an interim appointment where the law makes one. */
+function scheduleSpecialElection(
+  api: CoreAPI,
+  office: OfficeInput & { vacancyRule: VacancyRule },
+  seat: SeatInput,
+  vacancy: VacancyRow,
+  previous: Pick<TermRow, "personId" | "party" | "endDate" | "endEstimated"> &
+    Partial<TermRow>,
+): VacancyRow {
+  const date = api.state.date;
+  const rule = office.vacancyRule;
   const scheduled: VacancyRow = {
     ...vacancy,
     status: "awaiting-election",
@@ -2663,7 +2662,12 @@ function fillVacancy(
   // makes one; they stand in it as the incumbent.
   const interim =
     rule.method === "appointment-then-special"
-      ? appoint(
+      ? appointToVacancy(
+          api,
+          office,
+          seat,
+          vacancy,
+          previous,
           `appointed by ${rule.appointedBy ?? "the appointing authority"} until a special election`,
         )
       : null;
@@ -2691,6 +2695,56 @@ function fillVacancy(
         electionDate: scheduled.electionDate!,
       }
     : scheduled;
+}
+
+function fillVacancy(
+  api: CoreAPI,
+  office: OfficeInput & { vacancyRule: VacancyRule },
+  seat: SeatInput,
+  vacancy: VacancyRow,
+  previous: Pick<TermRow, "personId" | "party" | "endDate" | "endEstimated"> &
+    Partial<TermRow>,
+  offering = true,
+): VacancyRow {
+  const rule = office.vacancyRule;
+  if (rule.method === "remains-vacant") return vacancy;
+  // The person the law names, where an engine reads the line.
+  const named = previous.identity
+    ? successorProviders.get(office.kind)?.(api, {
+        seatId: seat.id,
+        previous: previous as TermRow,
+      })
+    : null;
+  if (named)
+    return seatNamedSuccessor(api, office, seat, vacancy, previous, named);
+  // With no one serving in the line the law names, the appointing body the
+  // law names fills it (a Guam village whose Vice Mayor's seat is empty).
+  if (rule.method === "successor")
+    return appointToVacancy(
+      api,
+      office,
+      seat,
+      vacancy,
+      previous,
+      rule.appointedBy
+        ? `appointed by ${rule.appointedBy}`
+        : `succeeded as ${rule.successor ?? "next in line"}`,
+    );
+  if (rule.method === "appointment") {
+    const reached = `appointed by ${rule.appointedBy ?? "the appointing authority"}`;
+    // The body may offer the seat first to someone it would not seat unasked (the player): the seat
+    // waits on their answer (`answerVacancyOffer`).
+    if (
+      offering &&
+      !vacancy.unheld &&
+      [...vacancyOffers.values()].some((offer) =>
+        offer(api, { office, seat, vacancyId: vacancy.id, reached }),
+      )
+    )
+      return { ...vacancy, status: "offered", offeredReached: reached };
+    return appointToVacancy(api, office, seat, vacancy, previous, reached);
+  }
+  return scheduleSpecialElection(api, office, seat, vacancy, previous);
 }
 
 type SpecialElectionOpener = (
