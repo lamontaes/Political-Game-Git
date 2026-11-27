@@ -15,7 +15,7 @@ import taxData from "./data/housing/property-tax.json" with { type: "json" };
 import { countedHouseholdStands, countedPayment } from "./counted-money";
 import { lawApplied } from "./law-reach/applied";
 import type { ModuleTable } from "./module-state";
-import { isoDateFromParts, lastDayOfMonth } from "./kernel/dates";
+import { isoDateFromParts, lastDayOfMonth, weekdayOf } from "./kernel/dates";
 import { townOutsideOf } from "./opening-outside-market";
 import { placeStateKey } from "./place-map";
 import { transferCash } from "./world-transfer";
@@ -103,7 +103,7 @@ function dueDateIn(year: number, due: PropertyTaxDueDate): string {
       due.month,
       due.day === "last" ? lastDay : Math.min(due.day, lastDay),
     );
-  const first = new Date(Date.UTC(year, due.month - 1, 1)).getUTCDay() || 7;
+  const first = weekdayOf(isoDateFromParts(year, due.month, 1)) || 7;
   const day = 1 + ((due.weekday - first + 7) % 7) + 7 * (due.nth - 1);
   return isoDateFromParts(year, due.month, Math.min(day, lastDay));
 }
