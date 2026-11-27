@@ -9,16 +9,14 @@
       "executive": 2
     },
     "src/bench/budget.ts": {
-      "budgets": 1,
-      "executive": 2
+      "budgets": 1
     },
     "src/bench/calendar.ts": {
       "elections": 1
     },
     "src/bench/campaign.ts": {
       "bodies": 1,
-      "elections": 11,
-      "executive": 2
+      "elections": 11
     },
     "src/bench/card.ts": {
       "executive": 4,
@@ -28,8 +26,7 @@
       "laws": 2
     },
     "src/bench/dev-force-legislature.ts": {
-      "bodies": 1,
-      "executive": 2
+      "bodies": 1
     },
     "src/bench/dev-industries.ts": {
       "dynamic": 1
@@ -42,7 +39,6 @@
       "bodies": 10,
       "dynamic": 1,
       "elections": 1,
-      "executive": 4,
       "jobs-businesses": 2,
       "laws": 9,
       "people": 2
@@ -77,44 +73,33 @@
       "elections": 2
     },
     "src/bench/filing.ts": {
-      "elections": 3,
-      "executive": 1
+      "elections": 3
     },
     "src/bench/government-bodies.ts": {
       "bodies": 2,
-      "elections": 1,
-      "executive": 3
+      "elections": 1
     },
     "src/bench/government.ts": {
-      "elections": 6,
-      "executive": 6
+      "elections": 6
     },
     "src/bench/law-did.ts": {
       "laws": 1
     },
     "src/bench/legislature.ts": {
       "bodies": 1,
-      "executive": 6
+      "executive": 1
     },
     "src/bench/map.ts": {
       "elections": 1
     },
     "src/bench/news-picture.ts": {
-      "bodies": 1,
-      "executive": 1
+      "bodies": 1
     },
     "src/bench/office.ts": {
-      "bodies": 1,
-      "executive": 1
-    },
-    "src/bench/officeholders.ts": {
-      "executive": 1
+      "bodies": 1
     },
     "src/bench/openings.ts": {
       "jobs-businesses": 2
-    },
-    "src/bench/places.ts": {
-      "executive": 1
     },
     "src/bench/printed-words.ts": {
       "dynamic": 1,

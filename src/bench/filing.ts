@@ -21,7 +21,7 @@ import {
 } from "../core2/modules/elections";
 import { contestPositions } from "../core2/modules/campaigns";
 import { seatHolder } from "../core2/modules/voting";
-import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { officeById, officesInJurisdiction } from "../core2/modules/offices";
 import {
   sayAtCounter,
   counterNarration,
@@ -157,7 +157,6 @@ export function openBenchFilingVisit(
   const titled = open.map((row) => `${row.title}|${row.district ?? ""}`);
   // What the clerk tells a candidate about the race, from the contest and
   // its office records: the dates, the term and the kind of office.
-  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   type OfficeRecord = {
     id: string;
     jurisdiction?: string;
@@ -178,9 +177,10 @@ export function openBenchFilingVisit(
       named(office) ??
       named(
         (
-          offices.query("byJurisdiction", [
+          officesInJurisdiction(
+            api,
             office.jurisdiction ?? "",
-          ]) as unknown as OfficeRecord[]
+          ) as unknown as OfficeRecord[]
         ).find((row) => named(row)),
       )
     );
@@ -211,7 +211,7 @@ export function openBenchFilingVisit(
     };
   };
   const contests = open.map((row) => {
-    const office = offices.get(row.officeId) as unknown as
+    const office = officeById(api, row.officeId) as unknown as
       OfficeRecord | undefined;
     return {
       filed: filedFor(row.id),
@@ -277,7 +277,8 @@ export function openBenchFilingVisit(
           | undefined)
       : undefined;
   const filedOffice = filedRow
-    ? (offices.get(filedRow.officeId) as unknown as OfficeRecord | undefined)
+    ? (officeById(api, filedRow.officeId) as unknown as
+        OfficeRecord | undefined)
     : undefined;
   const back =
     mineHere && filedRow
