@@ -6,7 +6,7 @@
  * the same choice at the next review, before that day's work.
  *
  * Medicine Lake, Montana is the M0-03 draw where it stopped. Played as M0-03
- * plays it (src/bench/m0-check.ts) and on through the next monthly review,
+ * plays it (scripts/bench/m0-check.ts) and on through the next monthly review,
  * the game runs and no job ends on a day it was worked. The rule itself is
  * shown on that world's own staff: a business whose only candidate worked
  * today lays no one off, and at the next review it lays that worker off.

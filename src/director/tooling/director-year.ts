@@ -4,7 +4,7 @@
  * cloud environment, never on the owner's Mac.
  *
  * Input: a prepared core input written by the core's measurement tool
- * (`npx tsx src/core2/tooling/measure.ts --mode opening
+ * (`npx tsx scripts/core2/tooling/measure.ts --mode opening
  * --prepared-input-output <file>`), so the town, seed and player are the
  * core's own. Finance is bound the same way the core's finance year binds it.
  *

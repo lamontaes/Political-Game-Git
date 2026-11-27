@@ -18,7 +18,7 @@ import {
   worldCoreData,
 } from "../core2/modules/world";
 import { coreAPI } from "../core2/state";
-import { generatedOpening } from "../core2/tooling/generated-world";
+import { generatedOpening } from "../core2/generated-world";
 import { findRecord } from "./dev-trace";
 import { whyPanels } from "./dev-why";
 

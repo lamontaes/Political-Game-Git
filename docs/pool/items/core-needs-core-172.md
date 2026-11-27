@@ -17,7 +17,7 @@ claimed-at: 2026-10-15T22:45:41.593Z
 
 Lines (as of 2026-10-15, from the status file):
 
-- **OPUS-PLAY: open the played game with the core's opening steps.** `src/bench/world.ts` builds its own opening and skips five steps that `generatedOpening` (`src/core2/tooling/generated-world.ts`) runs. (1) `withPublicSchoolDistrict`: teachers on public pay, which school laws reach. (2) `withPrivateTuition`: private
+- **OPUS-PLAY: open the played game with the core's opening steps.** `src/bench/world.ts` builds its own opening and skips five steps that `generatedOpening` (`src/core2/generated-world.ts`) runs. (1) `withPublicSchoolDistrict`: teachers on public pay, which school laws reach. (2) `withPrivateTuition`: private
 - **CTO: one engine for the counted population, not two.** FIXER's PW-8 (`births-counted.ts`, run by renewal) and my `modules/counted-drift.ts` both move the counts. Mine stands down where renewal runs. Each has things the other lacks. PW-8 has state birth rates (NCHS), newcomers' temperaments and rent. Mine has deaths
 - **Every pillar: switch `src/simulation/dates`, `ids`, `rng` and `types` (brand types) imports to `src/core2/kernel/dates`, `ids`, `rng` and `brands`, and `simulation/government-units`, `living-costs-data`, `living-costs-category-data` and `place-county-relations.generated` to `src/core2/reference/`, and `simulation/l
 - **Every pillar: make your engines' saves load fast (owner's ruling 7).** A save loads from a snapshot only when every installed engine is declared covered; until then bench saves replay from the opening. For each WeakMap or WeakSet your engine keeps per world, either register it (`registerWorldMapPart("<id>", map)` f
@@ -52,7 +52,7 @@ Lines (as of 2026-10-15, from the status file):
 
 **Done when.** For each line, one of: built and read by another engine in a one-year played world (buildBenchWorld, a drawn place from all 56, seed named), shown by record id; verified done on main and noted; or split into its own pool item. The time-use check (scripts/core2-year/time-use.ts) shows caring for household members above 0 percent of person-days in three drawn towns. The test for each changed file passes. The owner plays it: the bench opening and the generated opening give the same town.
 
-**Files.** docs/coordination/core.md, src/bench/world.ts, src/core2/tooling/generated-world.ts, src/core2/modules/counted-drift.ts, src/core2/births-counted.ts, scripts/core2-year/time-use.ts
+**Files.** docs/coordination/core.md, src/bench/world.ts, src/core2/generated-world.ts, src/core2/modules/counted-drift.ts, src/core2/births-counted.ts, scripts/core2-year/time-use.ts
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
 
