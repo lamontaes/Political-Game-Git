@@ -6464,9 +6464,20 @@ export function holdEveryChamber(api: CoreAPI, billId: string): BillRow {
   return held;
 }
 
-function countVote(api: CoreAPI, billId: string, anyDay: boolean): BillRow {
+/**
+ * A bill that may be voted on the floor today: ended (returned as it stands)
+ * where it is not drafted, waits on the next chamber's own sitting, or is
+ * blocked by its text; else the bill with its text checked and the
+ * before-the-vote hooks run.
+ */
+function readyForFloor(
+  api: CoreAPI,
+  billId: string,
+  anyDay: boolean,
+): { ended: BillRow } | { bill: BillRow } {
   let bill = table(api, "bills").get(billId) as unknown as BillRow;
-  if (bill.status !== "drafted" && bill.status !== "blocked") return bill;
+  if (bill.status !== "drafted" && bill.status !== "blocked")
+    return { ended: bill };
   // A bill one chamber passed is voted by the next only on that chamber's own
   // sitting; with none booked it waits, and dies when the session ends.
   if (
@@ -6474,19 +6485,30 @@ function countVote(api: CoreAPI, billId: string, anyDay: boolean): BillRow {
     !anyDay &&
     !(bill.nextChamberOn && api.state.date >= bill.nextChamberOn)
   )
-    return bill;
+    return { ended: bill };
   bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
   table(api, "bills").put(bill as unknown as ModuleRow);
-  if (bill.status === "blocked") return bill;
+  if (bill.status === "blocked") return { ended: bill };
   runBeforeVote(api, billId, "floor");
   bill = table(api, "bills").get(billId) as unknown as BillRow;
-  if (bill.status !== "drafted") return bill;
+  if (bill.status !== "drafted") return { ended: bill };
   bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
   table(api, "bills").put(bill as unknown as ModuleRow);
-  if (bill.status === "blocked") return bill;
-  const chambers = chambersOf(api, bill);
-  const before = bill.chambersPassed ?? [];
-  const chamber = chambers[before.length]!;
+  if (bill.status === "blocked") return { ended: bill };
+  return { bill };
+}
+
+/**
+ * The committee's stage before the floor: ended (the bill as the committee left
+ * it) where it did not report the bill out; else the bill as its markup left it,
+ * citing the report that sent it to the floor.
+ */
+function reportFromCommittee(
+  api: CoreAPI,
+  billInput: BillRow,
+  chamber: string,
+): { ended: BillRow } | { bill: BillRow } {
+  let bill = billInput;
   const committee = committeeStage(api, bill, chamber);
   // The bill as its markup left it.
   bill = table(api, "bills").get(bill.id) as unknown as BillRow;
@@ -6499,16 +6521,27 @@ function countVote(api: CoreAPI, billId: string, anyDay: boolean): BillRow {
     table(api, "bills").put(held as unknown as ModuleRow);
     if (committee.heard)
       recordFailure(api, held, chamber, "committee", committee);
-    return held;
+    return { ended: held };
   }
   // The floor's vote cites the report that sent the bill to it.
   if (committee && !bill.committeeId) {
     bill = { ...bill, committeeId: committee.id };
     table(api, "bills").put(bill as unknown as ModuleRow);
   }
-  recordPromises(api, bill, chamber);
-  bill = floorAmendments(api, bill, chamber);
-  const counted = chamberVote(api, bill, chamber);
+  return { bill };
+}
+
+/**
+ * The floor's tally after a count: a tie goes to the presiding officer who may
+ * break one, and the U.S. Senate first needs three fifths of its sworn members
+ * to end debate.
+ */
+function floorTally(
+  api: CoreAPI,
+  bill: BillRow,
+  chamber: string,
+  counted: { yes: number; no: number },
+): { tally: { yes: number; no: number }; cloture: boolean } {
   // A tie: the presiding officer who may break one does (the Vice President
   // in the U.S. Senate, a lieutenant governor where the state's law says);
   // otherwise a tied vote fails.
@@ -6539,6 +6572,23 @@ function countVote(api: CoreAPI, billId: string, anyDay: boolean): BillRow {
       Math.ceil(
         members(api, chamber).length * campaignParameter("senateClotureShare"),
       );
+  return { tally, cloture };
+}
+
+function countVote(api: CoreAPI, billId: string, anyDay: boolean): BillRow {
+  const ready = readyForFloor(api, billId, anyDay);
+  if ("ended" in ready) return ready.ended;
+  let bill = ready.bill;
+  const chambers = chambersOf(api, bill);
+  const before = bill.chambersPassed ?? [];
+  const chamber = chambers[before.length]!;
+  const reported = reportFromCommittee(api, bill, chamber);
+  if ("ended" in reported) return reported.ended;
+  bill = reported.bill;
+  recordPromises(api, bill, chamber);
+  bill = floorAmendments(api, bill, chamber);
+  const counted = chamberVote(api, bill, chamber);
+  const { tally, cloture } = floorTally(api, bill, chamber, counted);
   // The roll is closed: its member rows go to the record with the outcome.
   recordRoll(api, counted.rows, !(tally.yes <= tally.no || cloture));
   if (tally.yes <= tally.no || cloture) {
