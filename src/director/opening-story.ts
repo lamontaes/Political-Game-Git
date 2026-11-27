@@ -24,6 +24,7 @@
  *   carries it to the town and anyone who hears it can bring it up; the whole
  *   opening is kept on the director's ledger for the screens.
  */
+import { fullNameOf } from "../english/plain-words.mjs";
 import { factsMadeWith } from "./life-news";
 import { addressAiring } from "./address-airing";
 import { applyCoreEvent, coreAPI } from "../core2/state";
@@ -604,7 +605,7 @@ export function composeBlocks(
         const id = block.facts[person]?.sourceRecordIds[P.zero];
         if (!id) return [];
         const said = saidPersonOf(core, id, telling);
-        return [`${said.givenName} ${said.familyName}`];
+        return [fullNameOf(said)];
       });
       const namesTwice = (row: ReturnType<typeof sayMove>) =>
         row.kind === "rendered" &&
@@ -838,7 +839,7 @@ export function composeOpeningStory(
     points,
     president: {
       id: president.id,
-      name: `${president.givenName} ${president.familyName}`,
+      name: fullNameOf(president),
       homeState: home?.facts?.stateName ?? null,
       priorOffice: prior?.facts?.title ?? null,
       sourceRecordIds: [

@@ -1,6 +1,7 @@
 // Advanced start: every person who holds an office the world runs (the
 // town's, its state's and the federal ones), read from the offices module's
 // serving terms, for the "play as" picker.
+import { fullNameOf } from "../english/plain-words.mjs";
 import { governmentProperName } from "../core2/government-proper-name";
 import { coreAPI } from "../core2/state";
 import {
@@ -41,7 +42,7 @@ export function officeholders(core: CoreState) {
         {
           personId,
           termId: term.id,
-          name: `${term.identity.givenName} ${term.identity.familyName}`,
+          name: fullNameOf(term.identity),
           party: term.party,
           title: office.title,
           level: office.level ?? "local",

@@ -1,3 +1,4 @@
+import { fullNameOf } from "../english/plain-words.mjs";
 import { ADDRESS_FACT } from "./opening-facts";
 import { addressPartsOf } from "./address-render";
 import { speechOfRecord } from "./local-speeches";
@@ -156,7 +157,7 @@ export function composeScene(
       first && !sceneSaysWhat(binding.typeKey)
         ? whatTheyAre(core, personId, id)
         : null;
-    const full = `${row.givenName} ${row.familyName}`;
+    const full = fullNameOf(row);
     const text = first ? nameWithWhat(full, what ?? undefined) : row.givenName;
     return {
       text,
@@ -259,7 +260,7 @@ export function composeScene(
               named.has(meeting.id) || sceneSaysWhat(binding.typeKey)
                 ? null
                 : whatTheyAre(core, personId, meeting.id);
-            const full = `${meeting.givenName} ${meeting.familyName}`;
+            const full = fullNameOf(meeting);
             const text = nameWithWhat(full, what ?? undefined);
             facts.name = {
               text,

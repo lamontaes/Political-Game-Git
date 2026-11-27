@@ -35,6 +35,31 @@ export function dateWords(
   });
 }
 
+/** A person's full name, given then family. The one place a name is joined (said-as decides who is said how). */
+export function fullNameOf(person) {
+  return `${person.givenName} ${person.familyName}`;
+}
+
+/** A sentence's first letter in capitals, the rest as it stands. The one capital helper. */
+export function capitalFirst(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+/** The possessive of a name: "Chen's", "Chandler Builders'". The one possessive helper. */
+export function possessive(name) {
+  return name.endsWith("s") ? `${name}'` : `${name}'s`;
+}
+
+/**
+ * A list as American newspapers write it, with no serial comma: "a", "a and b",
+ * "a, b and c" (CTO, Nov 26, audit row C5: the newspapers' style, and two of three
+ * helpers already wrote it). The one list function; `conjunction` is "and" or "or".
+ */
+export function listWords(items, conjunction = "and") {
+  if (items.length < 3) return items.join(` ${conjunction} `);
+  return `${items.slice(0, -1).join(", ")} ${conjunction} ${items.at(-1)}`;
+}
+
 /** A month in words, "January 2025", from "2025-01" or a full date; "" when it is no date. */
 export function monthWords(iso) {
   return /^\d{4}-\d{2}/.test(String(iso))

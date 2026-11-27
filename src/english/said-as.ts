@@ -20,6 +20,7 @@
  * Pure: the caller hands the person's record as a `SaidPerson` (`saidPersonOf`
  * in the director builds one from the world).
  */
+import { capitalFirst, fullNameOf, possessive } from "./plain-words.mjs";
 import data from "../../data/english/said-as.json" with { type: "json" };
 
 /** The said-as table itself, for readers outside the English engine (the director's talk). */
@@ -110,7 +111,7 @@ export function bareName(
   text: string,
   person: Pick<SaidPerson, "givenName" | "familyName">,
 ): string | undefined {
-  const full = `${person.givenName} ${person.familyName}`;
+  const full = fullNameOf(person);
   return text !== full && text.startsWith(`${full}, `) && text.endsWith(",")
     ? full
     : undefined;
@@ -131,11 +132,6 @@ interface OfficeWords {
 }
 const OFFICES = data.offices as Readonly<Record<string, OfficeWords>>;
 
-const capital = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
-
-const possessive = (name: string) =>
-  data.relation.possessive.replace("{name}", name);
-
 /** The office words for a kind, when the words hold one. */
 export function officeWords(
   officeKind: string | undefined,
@@ -153,7 +149,7 @@ function pronounOf(person: SaidPerson, kase: SaidCase, start: boolean) {
       : kase === "possessive"
         ? words.possessive
         : words.lower;
-  return start ? capital(word) : word;
+  return start ? capitalFirst(word) : word;
 }
 
 /** A relative's word with "your"/"my" and their first name ("your sister Maya"). */
@@ -182,11 +178,11 @@ export function saidAs(
 ): string {
   const kase = options.case ?? "subject";
   const start = options.start ?? false;
-  const full = `${person.givenName} ${person.familyName}`;
+  const full = fullNameOf(person);
   const finish = (text: string, fullName: boolean) => {
     noteMention(telling, person.id, fullName);
     const cased = kase === "possessive" ? possessive(text) : text;
-    return start ? capital(cased) : cased;
+    return start ? capitalFirst(cased) : cased;
   };
   // To their face: what the speaker calls them, never their full name.
   if (person.id === telling.listenerId)
@@ -355,7 +351,7 @@ export function personSlot(personId: string, kase: SaidCase): string {
 }
 
 const THEY = {
-  subject: capital(data.they.lower),
+  subject: capitalFirst(data.they.lower),
   lower: data.they.lower,
   object: data.they.object,
   reflexive: data.they.object,
@@ -364,7 +360,7 @@ const THEY = {
 const THEY_AFTER = data.they.after as Readonly<Record<string, string>>;
 const THEY_BEFORE = data.they.before as Readonly<Record<string, string>>;
 const matchCase = (like: string, word: string) =>
-  /^[A-Z]/.test(like) ? capital(word) : word;
+  /^[A-Z]/.test(like) ? capitalFirst(word) : word;
 
 const SLOT = /\u27e6([^|\u27e7]+)\|(subject|object|possessive)\u27e7/g;
 
@@ -423,14 +419,14 @@ export function wordPersonSlots(
       const plural = next ? THEY_AFTER[next.trim()] : undefined;
       if (plural) {
         out +=
-          (start ? capital(said) : said) +
+          (start ? capitalFirst(said) : said) +
           (next!.startsWith("'") ? "" : " ") +
           plural;
         at += next!.length;
         continue;
       }
     }
-    out += start ? capital(said) : said;
+    out += start ? capitalFirst(said) : said;
   }
   return out + text.slice(at);
 }

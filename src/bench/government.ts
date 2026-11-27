@@ -1,3 +1,4 @@
+import { fullNameOf } from "../english/plain-words.mjs";
 import controls from "./data/controls.json" with { type: "json" };
 import { lastTimeOf } from "./last-time";
 import { raceTitle } from "./race-words";
@@ -178,7 +179,7 @@ function electOf(api: ReturnType<typeof coreAPI>, seatId: string) {
     const who = candidateIdentity(api, result.winnerId);
     return {
       personId: result.winnerId,
-      name: who ? `${who.givenName} ${who.familyName}` : result.winnerId,
+      name: who ? fullNameOf(who) : result.winnerId,
       contestId: contest.id,
       takesOffice: result.takesOffice,
     };
@@ -249,7 +250,7 @@ function partyFacts(core: CoreState, place: string) {
         {
           chair: chair
             ? {
-                name: `${chair.givenName} ${chair.familyName}`,
+                name: fullNameOf(chair),
                 ...holderFace(
                   core,
                   { id: chair.id, personId: chair.id },
@@ -302,7 +303,7 @@ export function governmentView(core: CoreState, personId: string) {
     seatsByParty.set(holder.party, [
       ...(seatsByParty.get(holder.party) ?? []),
       {
-        name: `${holder.identity.givenName} ${holder.identity.familyName}`,
+        name: fullNameOf(holder.identity),
         title: office.title,
         // Their headshot and the id a click opens, as every person row has.
         ...holderFace(core, holder, place),
@@ -551,7 +552,7 @@ export function localRaces(core: CoreState) {
               { id: row.personId, personId: row.personId },
               place,
             ),
-            name: who ? `${who.givenName} ${who.familyName}` : null,
+            name: who ? fullNameOf(who) : null,
             party: row.party ?? null,
             // Their views as filed: each stance on the filing record
             // ("question=1" for, "question=-1" against).

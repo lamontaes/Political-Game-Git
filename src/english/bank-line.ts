@@ -5,7 +5,7 @@
  * The director calls it with the variants its banks give it; the scene-talk
  * words (`scene-talk-words.ts`) call it with the pieces they pick.
  */
-import { P } from "../core2/parameters";
+import { capitalFirst } from "./plain-words.mjs";
 import type { CalibrationTable } from "./calibration";
 import {
   renderGroundedEnglish,
@@ -133,7 +133,7 @@ export function renderLine(input: {
   );
   if (result.kind !== "rendered") return null;
   return {
-    text: result.text.charAt(P.zero).toUpperCase() + result.text.slice(P.one),
+    text: capitalFirst(result.text),
     sourceRecordIds: result.sourceRecordIds as unknown as string[],
     variantKey: result.variantKey,
     factKeys: result.usedFactKeys,

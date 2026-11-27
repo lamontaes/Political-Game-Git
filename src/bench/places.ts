@@ -1,5 +1,6 @@
 // "Go to": the town's places from its organizations and the art library,
 // who works there, who's there now and what the player can do there.
+import { fullNameOf } from "../english/plain-words.mjs";
 import { personWorkOf } from "../core2/person-work";
 import fundingData from "../core2/data/opening-income-funding.json" with { type: "json" };
 import { ageOnDate } from "../core2/kernel/dates";
@@ -266,7 +267,7 @@ export function townPlaces(
             const row = core.people.get(id)!;
             return {
               personId: id,
-              name: `${row.givenName} ${row.familyName}`,
+              name: fullNameOf(row),
             };
           }),
           // What the player can do there right now: the core's own offers.
@@ -274,7 +275,7 @@ export function townPlaces(
           reasons: listed,
           presentNames: here.slice(0, PRESENT_NAMED).map((id) => {
             const row = core.people.get(id)!;
-            return `${row.givenName} ${row.familyName}`;
+            return fullNameOf(row);
           }),
           presentCount: here.length,
           presentation: { imageUrl: backdropFor(core, place, minute).url },
@@ -358,7 +359,7 @@ export function visitPlace(
     const row = core.people.get(id)!;
     return {
       id,
-      name: `${row.givenName} ${row.familyName}`,
+      name: fullNameOf(row),
       reason: id === playerId ? ("you" as const) : ("coworker" as const),
     };
   });

@@ -66,7 +66,8 @@ import { campaignParameter } from "../core2/campaign-data";
 import { backdropFor, homeOf, peopleHere } from "./scene";
 import { doorPlaceFor } from "./scene-picture-steps";
 import { hasBackdrop } from "./backdrop-places";
-import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
+import { fullNameOf, listWords } from "../english/plain-words.mjs";
+import { dollarsOf, standingLine, raceTitle } from "./race-words";
 import { personName } from "./legislature";
 import { campaignAnswer } from "../director/campaign-answer";
 import {
@@ -331,7 +332,7 @@ function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
   if (!ticket) return null;
   const nameOf = (id: string) => {
     const person = core.people.get(id as PersonId);
-    return person ? `${person.givenName} ${person.familyName}` : null;
+    return person ? fullNameOf(person) : null;
   };
   const contest = api
     .moduleState(ELECTIONS)
@@ -583,7 +584,7 @@ export function raceStanding(
       : []),
     others.length
       ? line(others.length === 1 ? "opponent-one" : "opponents", id, {
-          opponents: nameList(others.map((who) => who.name)),
+          opponents: listWords(others.map((who) => who.name)),
         })
       : line(
           race?.closes ? "opponents-none" : "opponents-none-closed",
@@ -678,7 +679,7 @@ export function campaignAct(
       const answers = asked().map((id) => {
         const yes = askToVolunteer(api, input.filingId, id);
         const row = core.people.get(id);
-        const name = row ? `${row.givenName} ${row.familyName}` : "";
+        const name = row ? fullNameOf(row) : "";
         return {
           personId: id,
           yes,
@@ -723,7 +724,7 @@ export function campaignAct(
         answers: asked().map((id) => {
           const yes = askForEndorsement(api, input.filingId, id);
           const row = core.people.get(id);
-          const name = row ? `${row.givenName} ${row.familyName}` : "";
+          const name = row ? fullNameOf(row) : "";
           return {
             personId: id,
             yes,
@@ -900,7 +901,7 @@ function askScene(core: CoreState, personId: string, place: string) {
     ...peopleHere(core, backdrop.file, [
       {
         id: personId,
-        name: row ? `${row.givenName} ${row.familyName}` : "",
+        name: row ? fullNameOf(row) : "",
         reason: "you" as const,
       },
     ]),
@@ -931,7 +932,7 @@ function speechScene(
         const row = core.people.get(id)!;
         return {
           id,
-          name: `${row.givenName} ${row.familyName}`,
+          name: fullNameOf(row),
           reason: id === personId ? ("you" as const) : ("reached" as const),
         };
       }),
@@ -1013,7 +1014,7 @@ function outingScene(
         const row = core.people.get(id)!;
         return {
           id,
-          name: `${row.givenName} ${row.familyName}`,
+          name: fullNameOf(row),
           reason: id === personId ? ("you" as const) : ("reached" as const),
         };
       }),
@@ -1113,7 +1114,7 @@ export function campaignDay(
   // Each person asked for money: their name, what they gave or why not, in words.
   const calls = result.answers.map((answer) => {
     const person = core.people.get(answer.personId);
-    const name = person ? `${person.givenName} ${person.familyName}` : "";
+    const name = person ? fullNameOf(person) : "";
     const recordId = `${input.filingId}|${answer.personId}`;
     return {
       personId: answer.personId,
@@ -1323,9 +1324,7 @@ export function donationAsksView(core: CoreState, personId: string) {
       return {
         id: ask.id,
         candidateId: ask.candidateId,
-        candidate: candidate
-          ? `${candidate.givenName} ${candidate.familyName}`
-          : "",
+        candidate: candidate ? fullNameOf(candidate) : "",
         race: contest ? raceTitle(contest.title, contest.district) : "",
         party: filing?.party ?? null,
         suggestedMinor: ask.suggestedMinor,

@@ -63,7 +63,6 @@ import {
   spokenDesignation,
 } from "../english/bill-names";
 import type { StoryKind } from "../english/english-newscast";
-import { joinList } from "../english/bill-names";
 import { JOURNAL_WORDS, seatSaid } from "../english/journal-words";
 import { raceMemberTitle } from "../director/cause-facts";
 import { storyTopicName } from "../english/policy-names";
@@ -75,6 +74,7 @@ import {
   stanceGroupAmong,
 } from "../english/group-names";
 import { areaName } from "../english/area-names";
+import { fullNameOf, listWords } from "../english/plain-words.mjs";
 import { lineName } from "./budget";
 import { measureSaid, policyNames } from "./words";
 import { placeLabel } from "../director/journal";
@@ -373,11 +373,9 @@ class Reader {
   name(id: string | undefined): string | null {
     if (!id) return null;
     const person = this.core.people.get(id as EntityId);
-    if (person) return `${person.givenName} ${person.familyName}`;
+    if (person) return fullNameOf(person);
     const term = this.term(id);
-    return term
-      ? `${term.identity.givenName} ${term.identity.familyName}`
-      : null;
+    return term ? fullNameOf(term.identity) : null;
   }
   /** An office's title ("Governor", "Council member"); null when unknown. */
   officeTitle(officeId: string | undefined): string | null {
@@ -1637,7 +1635,7 @@ const meetingsWeek: Builder = (read, f) => {
     "meetings-week",
     {
       bodies: read.fact(
-        joinList([first!, ...rest.map((name) => `the ${name}`)], "and"),
+        listWords([first!, ...rest.map((name) => `the ${name}`)], "and"),
         ...(f.meetingIds ?? "").split(","),
       ),
       number: read.fact(count(bodies.length)),
@@ -1712,7 +1710,7 @@ const interview: Builder = (read, f) => {
   // are listed after it.
   const lead = row?.answers.find((answer) => answer.question === topic);
   const said = (side: (position: number | null) => boolean) =>
-    joinList(
+    listWords(
       (row?.answers ?? [])
         .filter((answer) => answer !== lead && side(answer.position))
         .map((answer) => asked(answer.question))
@@ -1966,7 +1964,7 @@ const electionNotice: Builder = (read, f) => {
     {
       place: read.fact(place),
       date: read.fact(spokenDate(f.electionDate), ...ids),
-      office: read.fact(joinList(offices, "and"), ...ids),
+      office: read.fact(listWords(offices), ...ids),
     },
     ["place", "date", "office"],
   );
@@ -2387,13 +2385,13 @@ const tookOffice: Builder = (read, f) => {
   const earlier = ended
     ? {
         personId: ended.personId,
-        name: `${ended.identity.givenName} ${ended.identity.familyName}`,
+        name: fullNameOf(ended.identity),
         recordId: ended.id,
       }
     : holder && reached
       ? {
           personId: holder.id,
-          name: `${holder.givenName} ${holder.familyName}`,
+          name: fullNameOf(holder),
           recordId: reached.id,
         }
       : undefined;
@@ -3537,7 +3535,7 @@ const death: Builder = (read) => {
       ...(survivors.length
         ? {
             survivors: read.fact(
-              joinList(
+              listWords(
                 survivors.map((row) => read.name(row.kinId)!),
                 "and",
               ),
@@ -3803,7 +3801,7 @@ const honor: Builder = (read, f) => {
         ? {
             kin: read.fact(kid, winner ?? ""),
             parents: read.fact(
-              joinList(
+              listWords(
                 family.map((id) => read.name(id)!),
                 "and",
               ),

@@ -12,6 +12,7 @@
  * a new rate) carries the day it stopped, and each person the day it stopped
  * for them. A view: it writes nothing.
  */
+import { fullNameOf } from "../english/plain-words.mjs";
 import type { CoreState } from "../core2/types";
 import { coreAPI } from "../core2/state";
 import {
@@ -118,7 +119,7 @@ export function lawDid(core: CoreState, series: string): readonly LawDid[] {
       .sort()[0] ?? null;
   const nameOf = (id: string) => {
     const person = core.people.get(id);
-    return person ? `${person.givenName} ${person.familyName}` : "";
+    return person ? fullNameOf(person) : "";
   };
   return rows
     .slice()

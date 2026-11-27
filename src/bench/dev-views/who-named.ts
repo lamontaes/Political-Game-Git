@@ -9,6 +9,7 @@
  * met records' own dates;
  * a meeting dated later is shown as met later. Rule 136, item dev-scene-why-a-person-is-named-so.
  */
+import { fullNameOf } from "../../english/plain-words.mjs";
 import type { DevView } from "../dev-views";
 import type { PersonId } from "../../core2/types";
 import { addDays, makeIsoDate } from "../../core2/kernel/dates";
@@ -64,7 +65,7 @@ const view: DevView = {
       const book = mode.director.ledger.people.get(playerId);
       const nameOf = (id: string) => {
         const person = core.people.get(id);
-        return person ? `${person.givenName} ${person.familyName}` : id;
+        return person ? fullNameOf(person) : id;
       };
       const scenes = (book?.schedule ?? [])
         .flatMap((entry) =>

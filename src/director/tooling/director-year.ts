@@ -17,6 +17,7 @@
  * package (P10, pull request 3922) when they are present in the checkout;
  * they are loaded at run time so this tool does not depend on that package.
  */
+import { fullNameOf } from "../../english/plain-words.mjs";
 import { readFileSync, writeFileSync } from "node:fs";
 import { isoDateFromParts } from "../../core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../../core2/life";
@@ -178,7 +179,7 @@ function run(
 
 function name(core: CoreState, id: string): string {
   const person = core.people.get(id);
-  return person ? `${person.givenName} ${person.familyName}` : id;
+  return person ? fullNameOf(person) : id;
 }
 
 function lifeSummary(

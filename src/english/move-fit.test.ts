@@ -1,5 +1,6 @@
 import { expect, it } from "vitest";
-import { fitMoves, moveVariantKey, pronounFor } from "./move-fit";
+import { fitMoves, moveVariantKey } from "./move-fit";
+import { pronounKeyOf } from "./pronoun-words";
 
 const relations = new Set(["father", "mother"]);
 const base = { relationWord: undefined, relationWords: relations, facts: {} };
@@ -36,5 +37,8 @@ it("names a variant by its choice and part, and a person without a recorded gend
   );
   expect(moveVariantKey({ key: "ask", part: "job", text: "" })).toBe("ask.job");
   expect(moveVariantKey({ key: "ask", text: "" })).toBe("ask");
-  expect(pronounFor(undefined)).toBe("they");
+  expect(pronounKeyOf({})).toBe("they");
+  // Their own recorded set wins over gender.
+  expect(pronounKeyOf({ pronouns: "she-her", gender: "male" })).toBe("she");
+  expect(pronounKeyOf({ gender: "male" })).toBe("he");
 });

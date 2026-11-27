@@ -5,7 +5,7 @@
  * opens, what led here), with the facts from the records; this file picks the
  * mined sentence that words it and renders it.
  */
-import { P } from "../core2/parameters";
+import { capitalFirst } from "./plain-words.mjs";
 import type { PersonId } from "../core2/types";
 import {
   renderGroundedEnglish,
@@ -14,9 +14,6 @@ import {
   type GroundedEnglishPacket,
 } from "./grounded-english";
 import { sceneWordsFromBank } from "./mined/scene-bank";
-
-const zero = P.zero;
-const one = P.one;
 
 interface Variant {
   key: string;
@@ -172,7 +169,7 @@ export function wordSceneLine(request: {
   );
   if (result.kind !== "rendered") return null;
   return {
-    text: result.text.charAt(zero).toUpperCase() + result.text.slice(one),
+    text: capitalFirst(result.text),
     sourceRecordIds: result.sourceRecordIds,
     usedFactKeys: result.usedFactKeys,
     parts: [result.variantKey],

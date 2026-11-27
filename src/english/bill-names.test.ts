@@ -156,7 +156,7 @@ describe("bill names", () => {
     });
     expect(three?.title).toBe("Wage Floor Increase Act");
     expect(three?.purpose).toBe(
-      "a higher minimum wage, more money for parks, and a lower local sales tax rate",
+      "a higher minimum wage, more money for parks and a lower local sales tax rate",
     );
     expect(three?.sections.map((row) => row.key)).toEqual([
       "law:minimum-wage",

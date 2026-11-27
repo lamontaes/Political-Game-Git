@@ -14,6 +14,7 @@
  * know shows as such, and dev-opening-draws.test.ts fails on one. Read-only: it writes nothing to
  * this world and spends none of its time.
  */
+import { fullNameOf } from "../../english/plain-words.mjs";
 import { coreAPI, personOrFillIn } from "../../core2/state";
 import { realLocalities } from "../../core2/places";
 import {
@@ -575,7 +576,7 @@ function personView(core: CoreState, personId: string): OpeningRow[] {
   const person = personOrFillIn(core, personId);
   if (!person) throw new Error("No such person.");
   const rows: OpeningRow[] = [
-    row("person.name", "Name", `${person.givenName} ${person.familyName}`, {
+    row("person.name", "Name", fullNameOf(person), {
       source: cited(person.source),
       recordId: person.id,
     }),
@@ -751,9 +752,7 @@ function officeView(core: CoreState, seatId: string): OpeningRow[] {
     row(
       "office.holder",
       "Holder",
-      holder
-        ? `${holder.identity.givenName} ${holder.identity.familyName}`
-        : "vacant",
+      holder ? fullNameOf(holder.identity) : "vacant",
       holder ? { recordId: holder.id } : {},
     ),
     row(
@@ -813,7 +812,7 @@ function choices(core: CoreState, placeId: string, playerId?: string) {
   ]
     .map((id) => core.people.get(id))
     .filter((p) => p !== undefined)
-    .map((p) => ({ id: p.id, name: `${p.givenName} ${p.familyName}` }));
+    .map((p) => ({ id: p.id, name: fullNameOf(p) }));
   const businesses = [...core.organizations.values()]
     .filter((o) => o.placeId === placeId && o.classification)
     .sort((a, b) => a.name.localeCompare(b.name))

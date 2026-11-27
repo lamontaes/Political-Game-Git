@@ -1,3 +1,4 @@
+import { fullNameOf } from "../english/plain-words.mjs";
 import { readFileSync, readdirSync } from "node:fs";
 import { coreAPI } from "../core2/state";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
@@ -105,7 +106,7 @@ export function governmentMap(core: CoreState) {
       // Each holder with their party: the map colors a district by the party
       // that holds it (owner, Oct 28: Parties illustrated with the map).
       .map((row) => ({
-        name: `${row.holder!.identity.givenName} ${row.holder!.identity.familyName}`,
+        name: fullNameOf(row.holder!.identity),
         party: row.holder!.party ?? null,
       }));
   const shape = (layer: string, geoid?: string | null) => {

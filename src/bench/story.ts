@@ -1,3 +1,4 @@
+import { fullNameOf } from "../english/plain-words.mjs";
 import { ageOnDate } from "../core2/kernel/dates";
 import { composeScene } from "../director/scene";
 import { purposeScene, replyInScene } from "../director/purpose-scene";
@@ -215,8 +216,7 @@ export function storyScene(
     const row = core.people.get(id)!;
     return {
       id,
-      name:
-        id === speaker?.id ? speakerName : `${row.givenName} ${row.familyName}`,
+      name: id === speaker?.id ? speakerName : fullNameOf(row),
       reason: reasonOf(id),
     };
   });

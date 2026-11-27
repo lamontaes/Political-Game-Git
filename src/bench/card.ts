@@ -47,8 +47,13 @@ import {
   pronounWords,
   type PronounWords,
 } from "../english/pronoun-words";
-import { joinList } from "../english/bill-names";
-import { monthWords } from "../english/plain-words.mjs";
+import {
+  capitalFirst,
+  fullNameOf,
+  listWords,
+  monthWords,
+} from "../english/plain-words.mjs";
+import { possessiveOf } from "../english/pronoun-words";
 import { spanSaid } from "../english/span-words";
 import {
   corePlaceByJurisdictionId,
@@ -116,9 +121,11 @@ export function personCard(core: CoreState, personId: string) {
   // world's records, so the card is the same person every time.
   const person = personOrFillIn(core, personId);
   if (!person) throw new Error("Resident does not exist in core records.");
+  // A relative the world keeps as a husk has a name of their own; anyone the
+  // records do not hold has no name to show, and never their record id.
   const name = (id: string) => {
-    const row = core.people.get(id);
-    return row ? `${row.givenName} ${row.familyName}` : id;
+    const row = core.people.get(id) ?? core.husks.get(id as PersonId);
+    return row ? fullNameOf(row) : "";
   };
   const relatives = familyFactsOf(person);
   const relationOf = (id: string) => relatives.get(id as PersonId)?.relation;
@@ -380,7 +387,7 @@ export function roleWord(
     ? familyFactsOf(viewer).get(otherId as PersonId)?.relation
     : undefined;
   const word = relationWord(core, otherId, relation);
-  if (word) return word.charAt(0).toUpperCase() + word.slice(1);
+  if (word) return capitalFirst(word);
   return servingOffices(core, otherId)[0];
 }
 
@@ -549,11 +556,10 @@ function parentSaid(
   const own =
     person.id === viewerId
       ? "my"
-      : person.looks?.gender === "male"
-        ? "his"
-        : person.looks?.gender === "female"
-          ? "her"
-          : "their";
+      : possessiveOf({
+          pronouns: person.looks?.pronouns,
+          gender: person.looks?.gender,
+        });
   return `${own} ${whose} ${role}`;
 }
 
@@ -578,7 +584,7 @@ function lineOf(
   const year = event.date.slice(0, 4);
   const personName = (id: unknown) => {
     const row = typeof id === "string" ? core.people.get(id) : undefined;
-    return row ? `${row.givenName} ${row.familyName}` : "";
+    return row ? fullNameOf(row) : "";
   };
   // An organization's own record, else the school or employer of a place the
   // world keeps none for (a person's years before they came to town).
@@ -675,7 +681,7 @@ function lineOf(
       ).toLowerCase();
       const name =
         [facts.givenName, facts.familyName].filter(Boolean).join(" ") ||
-        (dead ? `${dead.givenName} ${dead.familyName}` : "");
+        (dead ? fullNameOf(dead) : "");
       if (!name) return null;
       return relation
         ? make("loss.parent", { relation, name })
@@ -1079,7 +1085,7 @@ export function foldLines(lines: readonly HistoryLine[]) {
     last.key = "work.history";
     last.slots = {
       year: last.date.slice(0, 4),
-      employers: joinList(earlier, "and"),
+      employers: listWords(earlier),
       employer: last.slots.employer!,
     };
     last.later = records.filter((id) => id !== last.recordId);
@@ -1138,7 +1144,7 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
     const form = first ? "third" : voice;
     const slots = {
       ...line.slots,
-      ...(line.again?.length ? { years: joinList(line.again, "and") } : {}),
+      ...(line.again?.length ? { years: listWords(line.again) } : {}),
       who: first ? teller.name : (teller.words?.subject ?? ""),
       whom: first ? teller.name : (teller.words?.object ?? ""),
       their: teller.words?.possessive ?? (first ? "their" : ""),
@@ -1305,7 +1311,7 @@ function noJobLine(
       "person-history",
       "person-history.summary.no-work.earner.you",
       {
-        name: `${earner.givenName} ${earner.familyName}`,
+        name: fullNameOf(earner),
         employer: employer.name,
       },
     );
@@ -1342,7 +1348,7 @@ function noJobLine(
           "person-history",
           "person-history.summary.no-work.none.you",
           {
-            kin: joinList(said, "or"),
+            kin: listWords(said, "or"),
           },
         )
       : !others && lastJobEnded
@@ -1495,7 +1501,7 @@ function colleaguesOf(core: CoreState, personId: string) {
       return [
         {
           personId: otherId,
-          name: `${other.givenName} ${other.familyName}`,
+          name: fullNameOf(other),
           office: offices[0]!,
           kind: row.kind,
           level: currentCloseness(core, row),
@@ -1656,7 +1662,7 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
   } catch {
     publicKnowledge = null;
   }
-  const name = `${term.identity.givenName} ${term.identity.familyName}`;
+  const name = fullNameOf(term.identity);
   const allTerms = terms.rows() as unknown as TermLike[];
   // Their life from the terms they served (each with its record) and their birth.
   const lines = [
@@ -1809,7 +1815,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     );
     return told ? base : [...base, ...entered];
   })();
-  const name = `${other.givenName} ${other.familyName}`;
+  const name = fullNameOf(other);
   const teller = tellerOf(
     viewerId,
     otherId,

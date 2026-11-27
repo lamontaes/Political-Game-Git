@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { properName, spokenWhen } from "./words";
+import { properName, spokenDate, spokenWhen } from "./words";
 
 describe("how long ago is said", () => {
   it("never says a calendar date, whatever the gap", () => {
@@ -36,4 +36,9 @@ describe("properName", () => {
     expect(properName("COUNTY OF CARBON")).toBe("County of Carbon");
     expect(properName("TOWN OF SINCLAIR")).toBe("Town of Sinclair");
   });
+});
+
+it("says a spoken date as day-words does: ordinal day, the year only in another year", () => {
+  expect(spokenDate("2026-06-07", "2026-01-20")).toBe("June 7th");
+  expect(spokenDate("2027-06-01", "2026-01-20")).toBe("June 1st, 2027");
 });

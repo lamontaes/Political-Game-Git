@@ -81,11 +81,6 @@
     "journal": "my",
     "scene": "your"
   },
-  "possessivePronoun": {
-    "male": "his",
-    "female": "her",
-    "other": "their"
-  },
   "metRelations": ["partner", "former-partner"],
   "lines": [
     {

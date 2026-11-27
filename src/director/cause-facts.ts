@@ -8,6 +8,7 @@
  * engine, with inserts from the world's records). A fact the record does not
  * hold is left out, and the engine picks a wording that does not need it.
  */
+import { fullNameOf } from "../english/plain-words.mjs";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { P } from "../core2/parameters";
@@ -183,7 +184,7 @@ export function causeRecordFacts(
     const rival = facts.rivalId;
     if (typeof rival === "string") {
       const row = core.people.get(rival as PersonId);
-      if (row) put("rival", `${row.givenName} ${row.familyName}`, [rival]);
+      if (row) put("rival", fullNameOf(row), [rival]);
     }
     // Who gave the speech the moment is about, by first name: the scene's
     // first line names the one the player meets in full.

@@ -1,3 +1,4 @@
+import { fullNameOf } from "../english/plain-words.mjs";
 import { lawDid } from "./law-did";
 import { stateRollCall } from "./states";
 import {
@@ -338,7 +339,7 @@ const talkView = (value: Conversation | undefined) =>
       ...line,
       speaker: (() => {
         const person = requireCore().people.get(line.speakerId);
-        return person && `${person.givenName} ${person.familyName}`;
+        return person && fullNameOf(person);
       })(),
     })),
     choices: value.choices,
@@ -379,7 +380,7 @@ function namesFor(value: unknown): Record<string, string> {
   }[]) {
     const person = current.people.get(targetId);
     const org = current.organizations.get(targetId);
-    if (person) out[targetId] = `${person.givenName} ${person.familyName}`;
+    if (person) out[targetId] = fullNameOf(person);
     else if (org) out[targetId] = org.name;
     // The choice's own name, from OPUS-WORDS' mined bank where it has one.
     const named = choiceName(actionId, out[targetId]);
@@ -2500,8 +2501,7 @@ const ROUTES: readonly Route[] = [
           for (const value of Object.values(facts ?? {})) {
             if (typeof value !== "string") continue;
             const person = core.people.get(value);
-            if (person)
-              names[person.id] = `${person.givenName} ${person.familyName}`;
+            if (person) names[person.id] = fullNameOf(person);
             // A state's jurisdiction by its name, not its key.
             const state = stateNames.get(value);
             if (state) names[value] = state;

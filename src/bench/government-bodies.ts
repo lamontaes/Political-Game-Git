@@ -9,6 +9,7 @@
  * the filing deadline and election day for its seats). Record data only: the
  * screen words every label, and nothing here writes a record.
  */
+import { fullNameOf } from "../english/plain-words.mjs";
 import { governmentProperName } from "../core2/government-proper-name";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { governmentUnit } from "../core2/reference/government-units";
@@ -189,7 +190,7 @@ function memberOf(
   return {
     seatId: row.seat.id,
     district: row.seat.district,
-    name: `${holder.identity.givenName} ${holder.identity.familyName}`,
+    name: fullNameOf(holder.identity),
     party: holder.party ?? null,
     serviceStart: holder.serviceStart ?? holder.startDate,
     own: ownSeats.has(row.seat.id),

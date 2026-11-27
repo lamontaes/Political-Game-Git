@@ -14,6 +14,7 @@
  * clerk's talk about the petition is the director's `filing` scene, staged
  * from the filing's record, so the clerk says it once.
  */
+import { fullNameOf } from "../english/plain-words.mjs";
 import { P } from "../core2/parameters";
 import { applyCoreEvent } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -22,7 +23,12 @@ import {
   type PurposeType,
   type TreeNode,
 } from "./scene-talk";
-import { spoken, spokenDate, spokenWhen, stateInSentence } from "../english/words";
+import {
+  spoken,
+  spokenDate,
+  spokenWhen,
+  stateInSentence,
+} from "../english/words";
 import {
   wordSceneMove,
   type Fact,
@@ -645,7 +651,7 @@ function clerkFact(
   return clerk
     ? {
         name: {
-          text: `${clerk.givenName} ${clerk.familyName}`,
+          text: fullNameOf(clerk),
           sourceRecordIds: [clerk.id],
         },
         // Spoken to, the clerk is called by first name.
@@ -812,7 +818,7 @@ export function counterNarration(
           },
         }),
     name: {
-      text: `${person.givenName} ${person.familyName}`,
+      text: fullNameOf(person),
       sourceRecordIds: [person.id],
     },
     // A title the record capitalizes only at its start ("County clerk") is said

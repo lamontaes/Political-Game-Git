@@ -8,6 +8,7 @@
  * Read-only views spend no game time and write nothing. Words come from the
  * English engine; this returns record data and ids only.
  */
+import { fullNameOf } from "../english/plain-words.mjs";
 import { historyOf } from "../core2/past";
 import type { GovernmentLevel } from "../core2/government-level";
 import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
@@ -276,7 +277,7 @@ function cashByHolder(core: CoreState, town: string) {
   for (const person of core.people.values())
     add(
       person.id,
-      `${person.givenName} ${person.familyName}`,
+      fullNameOf(person),
       household.has(person.id)
         ? "player-household"
         : isDemoted(person)
@@ -763,7 +764,7 @@ export class DevMode {
       /** The first of the full people it named; a screen lists these. */
       named: people.slice(0, REACH_NAMED).map((row) => {
         const person = this.core.people.get(row.personId)!;
-        return { ...row, name: `${person.givenName} ${person.familyName}` };
+        return { ...row, name: fullNameOf(person) };
       }),
     };
   }
@@ -796,7 +797,7 @@ export class DevMode {
     const ending = billEnding(api, bill.id);
     const nameOf = (id: string) => {
       const person = this.core.people.get(id);
-      return person ? `${person.givenName} ${person.familyName}` : "";
+      return person ? fullNameOf(person) : "";
     };
     return {
       bill: { id: bill.id, number: bill.number, status: bill.status },
@@ -956,7 +957,7 @@ export class DevMode {
     if (!person) throw new Error("No such person.");
     return {
       personId,
-      name: `${person.givenName} ${person.familyName}`,
+      name: fullNameOf(person),
       pending: this.pending.get(personId) ?? null,
       offers: availableActs(this.core, personId).map((offer) => {
         const target =
@@ -970,7 +971,7 @@ export class DevMode {
           targetId: offer.targetId,
           targetName: target
             ? "givenName" in target
-              ? `${target.givenName} ${target.familyName}`
+              ? fullNameOf(target)
               : target.name
             : null,
         };
@@ -990,7 +991,7 @@ export class DevMode {
       this.core.focusPersonIds.has(personId) || personId === this.core.playerId;
     return {
       personId,
-      name: `${person.givenName} ${person.familyName}`,
+      name: fullNameOf(person),
       tier: person.tier,
       status: !inFocus ? "none" : added ? "dev-mode" : "player-circle",
     };
@@ -1381,7 +1382,7 @@ export class DevMode {
           ? {
               abstained: {
                 key: memberKey(abstainer),
-                name: `${abstainer.identity.givenName} ${abstainer.identity.familyName}`,
+                name: fullNameOf(abstainer.identity),
                 members: roster.length,
                 vacant: seatsHeldOpen(api, chamber, roster),
               },
@@ -1598,7 +1599,7 @@ export class DevMode {
     if (!scene || !type) throw new Error("No such situation type.");
     const person = (id: string) => {
       const row = this.core.people.get(id as never);
-      return row ? { id, name: `${row.givenName} ${row.familyName}` } : null;
+      return row ? { id, name: fullNameOf(row) } : null;
     };
     const told = [...(this.director?.ledger.people.keys() ?? [])]
       .filter((id) => this.core.people.get(id)?.alive)
@@ -1899,7 +1900,7 @@ export class DevMode {
           ? [
               {
                 personId: id,
-                name: `${person.givenName} ${person.familyName}`,
+                name: fullNameOf(person),
                 reason: volunteerReason(
                   api,
                   campaignFor(api, row.filing.id),
@@ -2018,7 +2019,7 @@ export class DevMode {
         if (term.personId)
           out.push({
             personId: term.personId,
-            name: `${term.identity.givenName} ${term.identity.familyName}`,
+            name: fullNameOf(term.identity),
             body: body?.bodyName ?? body?.governmentName ?? "",
           });
     }
@@ -2026,7 +2027,7 @@ export class DevMode {
     if (executive?.personId)
       out.push({
         personId: executive.personId,
-        name: `${executive.identity.givenName} ${executive.identity.familyName}`,
+        name: fullNameOf(executive.identity),
         body: executiveOf(api, bill.bodyOfficeId).office?.kind ?? "",
       });
     return out;
@@ -2040,7 +2041,7 @@ export class DevMode {
       .slice(0, count)
       .map((p) => ({
         personId: p.id,
-        name: `${p.givenName} ${p.familyName}`,
+        name: fullNameOf(p),
         liquidMinor: p.liquidMinor,
       }));
   }
