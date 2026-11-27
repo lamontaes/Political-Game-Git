@@ -1,7 +1,7 @@
 /**
  * The budget season reaches a payment and a person (pool item
- * office-budget-season-payment-chain): the executive's amended line is the
- * adopted budget's line, the treasury's next months pay against it, and the
+ * office-budget-season-payment-chain): the executive's line change, after any recorded
+ * council compromise, is the adopted budget's line change, the treasury's next months pay against it, and the
  * employee whose pay draws on that line is paid from that treasury in those
  * months. A place is drawn from all 56 on a seed nobody
  * chose (BUDGET_CHAIN_SEED pins one).
@@ -19,8 +19,8 @@ import {
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { budgetsOf, governments } from "./modules/budgets";
-import { memberKey } from "./modules/legislature";
+import { budgetPriorities, budgetsOf, governments } from "./modules/budgets";
+import { billOf, memberKey } from "./modules/legislature";
 import { publicPayTreasuries } from "./public-work-pay";
 import { prepareAct, officeHost } from "./modules/office-day";
 import { townSeats } from "./modules/offices";
@@ -101,6 +101,10 @@ it("the mayor's amended line is the adopted line, paid against in the next month
       budget: { changes: { [line]: change } },
     });
     officeActHandlers(officeHost)["propose-budget"]!(api, mayorId, {} as never);
+    expect(budgetPriorities(api, city.id), where).toMatchObject({
+      setBy: mayorId,
+      changes: { [line]: change },
+    });
     // The treasury's paydays on that employee's commitment, from the adoption on.
     const paydays: { id: string; date: string; commitmentId: string }[] = [];
     const post = api.postJournal.bind(api);
@@ -121,15 +125,33 @@ it("the mayor's amended line is the adopted line, paid against in the next month
         });
       return post(entry);
     };
-    advanceCore(core, addDays(makeIsoDate(next), 62));
+    advanceCore(core, makeIsoDate(next));
     const adopted = budgetsOf(api, city.id).find(
       (b) => b.startsOn === next || b.adoptedOn === next,
     );
     expect(adopted, `${where}: the budget adopted for ${next}`).toBeDefined();
-    expect(
-      adopted!.spendingMinor[line],
-      `${where}: ${line} was ${priorLine}, the mayor sent +${change}; ${JSON.stringify(adopted!.spendingMinor)}`,
-    ).toBe((priorLine ?? 0) + change);
+    expect(adopted!.adoptedBy.kind, where).toBe("vote");
+    const amendment = adopted!.adoptedBy.amendments?.find(
+      (item) => item.line === line,
+    );
+    if (amendment) expect(amendment.how, where).toBe("halved");
+    let approvedChange = change;
+    for (let round = 0; round < (amendment?.times ?? 0); round++)
+      approvedChange = Math.round(approvedChange / 2);
+    expect(approvedChange, where).toBeGreaterThan(0);
+    const bill = billOf(api, adopted!.adoptedBy.bill!.id);
+    expect(bill.status, where).toBe("enacted");
+    expect(bill.provisions, where).toContainEqual(
+      expect.objectContaining({
+        kind: "budget-line",
+        line,
+        value: approvedChange,
+      }),
+    );
+    expect(adopted!.spendingMinor[line], where).toBe(
+      (priorLine ?? 0) + approvedChange,
+    );
+    advanceCore(core, addDays(makeIsoDate(next), 62));
     // The treasury paid against the adopted budget in the months after.
     const months = treasuryMonthsOf(api, city.id).filter(
       (row) => row.budgetId === adopted!.id,
