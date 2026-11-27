@@ -27,7 +27,7 @@
   },
   {
     "id": "SG-SCREENS-dev-days-not-saved",
-    "kind": "partial-model",
+    "kind": "owner-decision",
     "file": "src/bench/handler.ts",
     "line": 0,
     "whatItFakes": "Dev mode's moves (a day or a year advanced, a law enacted, a scene forced) change the played world but are not recorded in the life's save, as in the bench since dev mode began; a life saved after dev mode moved it loads as it was played without dev mode's moves, and the installed game now has the same.",
