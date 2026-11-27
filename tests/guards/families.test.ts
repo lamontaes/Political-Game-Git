@@ -95,6 +95,20 @@ export function importsOf(file: string, source: string): string[] {
   return out;
 }
 
+/** The test files beside the source: each belongs to the family that answers for its failing. */
+function testFiles(): string[] {
+  return execFileSync(
+    "git",
+    ["ls-files", "src/core2", "src/director", "src/english", "src/bench"],
+    { cwd: ROOT, encoding: "utf8" },
+  )
+    .split("\n")
+    .filter(
+      (file) =>
+        SOURCE.test(file) && /\.(test|spec|browser)\.(ts|tsx|mjs)$/.test(file),
+    );
+}
+
 function deepImports(): Map<string, string[]> {
   const out = new Map<string, string[]>();
   for (const file of sources()) {
@@ -129,6 +143,14 @@ describe("one engine per mechanic: families and their boundaries", () => {
     expect(
       fresh,
       "add each file to its family's paths in tests/guards/families.json",
+    ).toEqual([]);
+  });
+
+  it("puts every test file in a family, so a red test has an owner", () => {
+    const orphans = testFiles().filter((file) => familyOf(file) === null);
+    expect(
+      orphans,
+      "add each test file to the family of the code it tests, in its paths in tests/guards/families.json (CTO, Nov 26: every file gets a family)",
     ).toEqual([]);
   });
 
