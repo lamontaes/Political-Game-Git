@@ -8,7 +8,7 @@
 import { publicPayTreasuries } from "./public-work-pay";
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { govReport } from "./gov-test-report";
+import { govReport } from "../../scripts/core2/gov-test-report";
 import { buildBenchWorld } from "../bench/world";
 import { PURCHASE_TAX_MODULE_ID, purchaseTaxes } from "./modules/purchase-tax";
 import { buildPopulation } from "./population";

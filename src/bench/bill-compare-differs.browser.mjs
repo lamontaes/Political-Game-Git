@@ -9,7 +9,7 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { chromium } from "playwright";
-import { finishTalk } from "./start-life.mjs";
+import { finishTalk } from "../../tests/support/start-life.mjs";
 
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const seed = process.env.BENCH_SEED ?? randomUUID();

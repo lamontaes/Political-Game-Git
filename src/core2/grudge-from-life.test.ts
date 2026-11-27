@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { piecesInput } from "./core-pieces-fixture";
+import { piecesInput } from "../../tests/support/core-pieces-fixture";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { currentCloseness, hoursFromLevel } from "./closeness";

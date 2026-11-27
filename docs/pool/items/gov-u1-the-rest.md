@@ -19,6 +19,6 @@ claimed-at: 2026-10-16T02:29:47.584Z
 
 **Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): a case in the year ends with a target turning witness (target, plea and new case ids named) and a charge declined or delayed for workload with the reason; tests in `src/core2/justice-player.test.ts` and a new `src/core2/justice-witness.test.ts`. The owner plays it: catches an official and sees them offer a name for a lighter sentence.
 
-**Files.** src/core2/modules/justice.ts, src/core2/justice-chain.ts, src/core2/justice-law.ts, src/core2/data/justice/parameters.json
+**Files.** src/core2/modules/justice.ts, scripts/core2/justice-chain.ts, src/core2/justice-law.ts, src/core2/data/justice/parameters.json
 
 **Notes.** Checklist line from OPUS-GOV.md; verify against main before starting.

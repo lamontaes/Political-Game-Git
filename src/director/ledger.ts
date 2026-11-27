@@ -55,7 +55,7 @@ import { schoolFinished } from "./school";
 import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
 import { saidOf } from "./address-render";
 import type { ScheduleEntry } from "./scheduling";
-import { directorStopgap } from "./stopgaps";
+import { stopgap } from "../core2/stopgaps";
 import { promisesBetween } from "../core2/modules/promises";
 import { coreAPI } from "../core2/state";
 import type {
@@ -353,7 +353,8 @@ export function createDirector(
   const param = (key: string): number => {
     const row = data.parameters[key];
     if (!row) throw new Error(`Untagged director parameter: ${key}`);
-    if (row.stopgapId) directorStopgap(row.stopgapId, ledger.stopgapHits);
+    if (row.stopgapId)
+      stopgap(row.stopgapId, { stopgapHits: ledger.stopgapHits });
     if (!Number.isFinite(row.value))
       throw new Error(`Non-finite director parameter: ${key}`);
     return row.value;

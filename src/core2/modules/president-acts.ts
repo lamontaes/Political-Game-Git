@@ -30,8 +30,9 @@ import { OFFICES_MODULE_ID, termHasBegun } from "./offices";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
+export { officeDayData, openOfficeDay } from "../office-day-levels";
 
-export const PRESIDENT_ACTS_MODULE_ID = "president-acts";
+const PRESIDENT_ACTS_MODULE_ID = "president-acts";
 /** Worlds whose President has weighed the orders once (the first day they sit). */
 const weighed = new WeakSet<object>();
 
@@ -54,7 +55,7 @@ function sittingPresident(api: CoreAPI): string | null {
   return term && termHasBegun(api, term) ? term.personId : null;
 }
 
-export const PRESIDENT_ACTS_MODULE: CoreModule = {
+const PRESIDENT_ACTS_MODULE: CoreModule = {
   id: PRESIDENT_ACTS_MODULE_ID,
   state: { schemaVersion: 1, tables: { state: {} } },
   onDay(api) {

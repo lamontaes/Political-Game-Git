@@ -5,7 +5,7 @@
  * (its graduation result, written on the year's last school day for every
  * senior, graduated or not, read through the one history reader).
  */
-import { SCHOOL_MODULE_ID } from "../core2/school-measures";
+import { SCHOOL_MODULE_ID } from "../core2/modules/people";
 import {
   attendedSchool,
   GRADUATION_RESULT,
