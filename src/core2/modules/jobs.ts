@@ -99,7 +99,6 @@ import {
   layoffPerQuarter,
   workAgeFactor,
   workLeans,
-  type HistoryModule,
   type HistoryRow,
   type HistorySource,
 } from "../past";
@@ -5362,7 +5361,7 @@ const JOBS_HISTORY: HistorySource = {
   },
 };
 
-export const JOBS_MODULE: CoreModule & HistoryModule = {
+export const JOBS_MODULE: CoreModule = {
   id: JOBS_MODULE_ID,
   history: JOBS_HISTORY,
   state: {

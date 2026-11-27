@@ -1,7 +1,7 @@
 /* global getComputedStyle, process, URL, console, document */
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { finishTalk, playOpening } from "./start-life.mjs";
+import { finishTalk, playOpening } from "../../tests/support/start-life.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });

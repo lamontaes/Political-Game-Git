@@ -21,7 +21,7 @@ checked: fable 2026-11-10
 
 **What.** No life started from New Game has won a race. Once the played-year proof, the incumbent who reacts and the money from named donors are on main, the path check must show that the player's life, taking the actions a real underdog takes, wins a council seat in most places. This part runs the path check across ten drawn places, reads the losses by record, and fixes what the campaign engine still does not give an underdog.
 
-**Cause.** Design: owner ruling Oct 29, 2026 (docs/coordination/OWNER-DECISIONS.md, Oct 29 21:40 UTC): look at real races, where an underdog wins with a group, forums, debates, donors and momentum. The path check is src/bench/path-check.ts and the campaign actions are in src/core2/modules/campaigns.ts.
+**Cause.** Design: owner ruling Oct 29, 2026 (docs/coordination/OWNER-DECISIONS.md, Oct 29 21:40 UTC): look at real races, where an underdog wins with a group, forums, debates, donors and momentum. The path check is tests/golden-path/path-check.ts and the campaign actions are in src/core2/modules/campaigns.ts.
 
 **Fix.** After the three sibling items merge, run the path check over ten drawn places (skill governing-measurement), read each loss by its vote and cause records, and fix the missing underdog action in the campaigns engine. Add no second system.
 
@@ -33,4 +33,4 @@ checked: fable 2026-11-10
 
 **Waits on.** campaign-real-race-played-proof, campaign-incumbent-hears-the-race and campaign-donor-reasons-refit merged.
 
-**Files.** src/bench/path-check.ts, src/core2/modules/campaigns.ts, src/core2/modules/voting.ts, src/bench/campaign.ts
+**Files.** tests/golden-path/path-check.ts, src/core2/modules/campaigns.ts, src/core2/modules/voting.ts, src/bench/campaign.ts

@@ -28,7 +28,7 @@ import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./modules/offices";
 import { resultsOf, stateOfficeOf } from "./office-day-state";
 import { coreAPI } from "./state";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const ATTEMPTS = 12;
 

@@ -7,7 +7,7 @@ import { coreAPI } from "./state";
 import { preStartHistory } from "./pre-start";
 import { newGame } from "./saves";
 import { drawPlace } from "../../tests/golden-path/place";
-import { daysAfterStart } from "./tooling/test-days";
+import { daysAfterStart } from "../../tests/support/test-days";
 
 const PRE_START_FROM = "2019-01-01";
 

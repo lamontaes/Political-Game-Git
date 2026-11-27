@@ -1,6 +1,6 @@
 import { PAST_WORK_SPELL } from "../past-work";
 import { historyOf } from "../past";
-import { workedToday } from "../job-lifecycle";
+import { workedToday } from "./jobs";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 /**
  * The executive's desk (M3-05; BOARD "features the old engine had":
@@ -24,7 +24,7 @@ import { snapshotExplicitControlV1 } from "../player-control-state-v1";
  *   executive can revoke; it reaches people through the same law effects as a
  *   statute. Only orders an engine can carry are offered.
  */
-import { policyAuthority } from "../policy-authority";
+import { policyAuthority } from "./laws";
 import research from "../../../data/research/executive/executive-powers-2026.json" with { type: "json" };
 import relatedWork from "../../../data/research/executive/post-related-work.json" with { type: "json" };
 import { PROFILE_FACT_KINDS } from "../opening-profile";
@@ -103,6 +103,24 @@ import {
 import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
 import { headsLocalExecutive } from "../offices-executives";
+export { reviewBoardTerms } from "../central-bank-appointments";
+export type { GenderIdentityKey } from "../gov-rules/types";
+export { nominateAndConfirm, partyName } from "../appointments";
+export { inflationLeans } from "../central-bank-board";
+export type {
+  BoardCandidate,
+  BoardMember,
+  BoardVacancy,
+} from "../central-bank-board";
+export type { BoardAppointer } from "../central-bank-appointments";
+export { placeGovernmentOrganizations } from "../gov-rules/local-governments";
+export { inventedPersonBirthDate } from "../gov-rules/invented-person-age";
+export { municipiosForPlace } from "../gov-rules/county-governing-body-rules";
+export { openOfficialPay } from "./official-pay";
+export { openCases } from "./constituent-cases";
+export { giveLivingCost, spendLivingCost } from "../official-living";
+export { isRealOfficeholderName } from "../officials-names";
+export { payPostFromOutside } from "./official-pay";
 export { outsideGovernment } from "../outside-governments";
 export { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 
@@ -157,7 +175,7 @@ export interface AppointmentRow {
   readonly since: string;
 }
 
-export const EXECUTIVE_MODULE: CoreModule = {
+const EXECUTIVE_MODULE: CoreModule = {
   id: EXECUTIVE_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -1850,11 +1868,7 @@ export function issueOrder(
     throw new Error(`This office can't order ${input.order} here.`);
   const state = lawChain(api).stateKey;
   const authority = policyAuthority(api, ORDERABLE[input.order]!, "state");
-  const tomorrow = new Date(
-    Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
-  )
-    .toISOString()
-    .slice(0, 10);
+  const tomorrow = addDays(makeIsoDate(api.state.date), 1);
   const measureId = `order:${state}:${input.order}:${api.state.date}`;
   // stopgapId: SG-GOV-executive-powers-research
   api.stopgap("SG-GOV-executive-powers-research");
@@ -1930,11 +1944,7 @@ export function issueFederalOrder(
   // Only the person who holds the president's seat issues or revokes a federal order.
   if (input.executiveId !== sittingPresidentId(api))
     throw new Error("Only the sitting President issues a federal order.");
-  const tomorrow = new Date(
-    Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
-  )
-    .toISOString()
-    .slice(0, 10);
+  const tomorrow = addDays(makeIsoDate(api.state.date), 1);
   const measureId = `order:US:${input.order}:${api.state.date}`;
   // stopgapId: SG-NATION-federal-axis-proxy
   api.stopgap("SG-NATION-federal-axis-proxy");

@@ -1,5 +1,5 @@
 /** The Money screen reads the bank's published books and the household's claim. */
-import { bankDeposit, personOutflowsForMonth } from "../core2/accounts";
+import { bankDeposit, personOutflowsForMonth } from "../core2/budgets-treasury";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { coreAPI } from "../core2/state";

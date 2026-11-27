@@ -5,7 +5,7 @@ import { coreAPI } from "./state";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
-import { playTownRace } from "./campaign-race-test-kit";
+import { playTownRace } from "../../tests/support/campaign-race-test-kit";
 import { gameStartDate } from "./game-start";
 
 // A town race's result is news to everyone who could vote in it, so the

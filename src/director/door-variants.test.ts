@@ -23,7 +23,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import variantFile from "./data/arc-variants.json" with { type: "json" };
 import { chooseVariant } from "./arc-variant";
 import { doorsKnocked } from "./doors";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // A door the player knocks plays the arc its resident's own records give
 // (arc-variant.ts, src/director/data/arc-variants.json, families ask-signature and
