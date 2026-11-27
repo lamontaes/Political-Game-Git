@@ -15,7 +15,7 @@ import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { enactLaw } from "./modules/laws";
+import { enactLaw, lawInForce } from "./modules/laws";
 import {
   federalCourtsFor,
   REDUCE_MANDATORY_MINIMUMS,
@@ -33,6 +33,18 @@ it("the federal stock follows admissions, sentences and the stay share, and the 
   });
   const api = coreAPI(world.core);
   let day = makeIsoDate(world.core.date);
+  // The century can have already enacted a reduction. Establish the
+  // no-reduction case by a real federal replacement, not by assuming history.
+  const opened = lawInForce(api, REDUCE_MANDATORY_MINIMUMS);
+  const baseline = enactLaw(api, {
+    jurisdiction: "US",
+    level: "federal",
+    series: REDUCE_MANDATORY_MINIMUMS,
+    value: 0,
+    effectiveDate: day,
+    measureId: "nation-test-no-reduction",
+    citation: "Controlled federal baseline: unreduced mandatory minimums.",
+  });
   const advance = (days: number) => {
     const end = addDays(day, days);
     while (day < end) {
@@ -54,9 +66,13 @@ it("the federal stock follows admissions, sentences and the stay share, and the 
     "Robbery",
   ])
     expect(federalCourtsFor(api, group)?.stock, group).toBeGreaterThan(0);
-  expect(drug0!.sentenceFactor).toBe(1);
+  expect(lawInForce(api, REDUCE_MANDATORY_MINIMUMS).governing?.id, where).toBe(
+    baseline.id,
+  );
+  expect(drug0!.sentenceFactor, where).toBe(1);
+  expect(drug0!.lawIds, where).toEqual([]);
   // Congress enacts the reduction; it takes effect at once.
-  enactLaw(api, {
+  const reduction = enactLaw(api, {
     jurisdiction: "US",
     level: "federal",
     series: REDUCE_MANDATORY_MINIMUMS,
@@ -68,12 +84,12 @@ it("the federal stock follows admissions, sentences and the stay share, and the 
   advance(750);
   const drug1 = federalCourtsFor(api, "Drug")!;
   expect(drug1.sentenceFactor, `${where}: ${drug1.id}`).toBeLessThan(1);
-  expect(drug1.lawIds.length).toBe(1);
+  expect(drug1.lawIds, where).toEqual([reduction.id]);
   expect(drug1.newStock).toBeGreaterThan(0);
   expect(drug1.stock, `${where}: the drug stock falls`).toBeLessThan(
     drug0!.stock,
   );
   process.stdout.write(
-    `nation proof: federal courts: ${where}; drug stock ${Math.round(drug0!.stock)} to ${Math.round(drug1.stock)}, factor ${drug1.sentenceFactor.toFixed(3)}, law ${drug1.lawIds[0]}, row ${drug1.id}\n`,
+    `nation proof: federal courts: ${where}; opening law ${opened.value} (${opened.governing?.id}), drug stock ${Math.round(drug0!.stock)} to ${Math.round(drug1.stock)}, factor ${drug1.sentenceFactor.toFixed(3)}, law ${drug1.lawIds[0]}, row ${drug1.id}\n`,
   );
 }, 1800000);
