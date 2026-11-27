@@ -2595,6 +2595,125 @@ function closeFactsOf(c: {
   };
 }
 
+/** One say of the address's opening mover: a role (and a topic) worded from the speaker's bank. */
+type Move = (
+  role: string,
+  options?: { topic?: string; required?: boolean },
+) => ReturnType<typeof openingMove>;
+
+/**
+ * A crisis or combative address's first point: the term's worst condition, said with
+ * its fact. Over the years the speaker has held office where the bank says
+ * the measure that way (context, then what it has meant), else as the
+ * record's one line of it (story-says), never both, so it is said once.
+ */
+function crisisDraftOf(
+  core: CoreState,
+  speaker: OutlineSpeaker,
+  topic: string,
+  c: {
+    readonly country: AddressRead["country"];
+    readonly move: Move;
+    /** Whether a tag ("On X, ...") has been said already; a context said over the years says it. */
+    readonly tag: { said: boolean };
+  },
+): Draft {
+  const { country, move, tag } = c;
+  const context = contextFacts(core, topic, country, speaker.serviceStart);
+  // Said over the years only where the bank holds a context piece for the
+  // topic; else the record's one line of it (a place's work, pay and prices
+  // have story-says lines and no context pieces yet), never silence.
+  const told =
+    context[`context-${topic}`] && bankSaysContext(topic)
+      ? move("context", { topic })
+      : null;
+  if (told) tag.said = true;
+  return {
+    key: `crisis-${topic}`,
+    level: "country",
+    facts: {
+      ...badFacts(country, topic),
+      ...context,
+      // Too short a time in office to say it over years: its figure.
+      ...(told ? {} : conditionFigure(country, topic)),
+    },
+    moves: told
+      ? [
+          told,
+          ...(spanAgrees(topic, context) ? [move("meaning", { topic })] : []),
+        ]
+      : [move("story-says", { topic })],
+  };
+}
+
+/**
+ * A hurt address's body in its order: the condition, then its answer from
+ * the speaker's record in the same paragraph (citing the bill they
+ * sponsored on it, where one is), then a sentence the engine words that
+ * turns to the theme, which opens the next paragraph.
+ */
+function hurtOrderOf(
+  drafts: Draft[],
+  c: {
+    readonly crisis: AddressRead["crisis"];
+    readonly response: AddressRead["response"];
+    readonly turnsTo: AddressRead["turnsTo"];
+    readonly themeName: AddressRead["themeName"];
+    readonly move: Move;
+  },
+): Draft[] {
+  const { crisis, response, turnsTo, themeName, move } = c;
+  if (!crisis || !response) return drafts;
+  const answerKey = `point-${response.stand.question}`;
+  const turnKey = turnsTo[P.zero] ? `point-${turnsTo[P.zero]!.question}` : null;
+  return drafts.flatMap((draft): Draft[] => {
+    if (draft.key === answerKey)
+      return [
+        {
+          ...draft,
+          joins: true,
+          facts: response.bill
+            ? Object.fromEntries(
+                Object.entries(draft.facts).map(([key, row]) => [
+                  key,
+                  row.sourceRecordIds.includes(
+                    `question:${response.stand.question}` as EntityId,
+                  )
+                    ? fact(row.text, ...row.sourceRecordIds, response.bill!.id)
+                    : row,
+                ]),
+              )
+            : draft.facts,
+        },
+      ];
+    if (draft.key === turnKey && themeName)
+      return [
+        {
+          key: "turn",
+          level: "country",
+          facts: {
+            // From the answer just given to the theme.
+            ...(questionAbout(response.stand.question)
+              ? {
+                  "turn-from": fact(
+                    questionAbout(response.stand.question)!,
+                    `question:${response.stand.question}`,
+                  ),
+                }
+              : {}),
+            "turn-to": fact(
+              themeName,
+              ...turnsTo.map((row) => `question:${row.question}`),
+            ),
+          },
+          moves: [move("turn")],
+        },
+        { ...draft, joins: true },
+      ];
+    return [draft];
+  });
+}
+
 /**
  * Plan a speech of one kind from its outline row and the world: the one
  * planner for the President's, a governor's and a mayor's address.
@@ -2705,102 +2824,10 @@ export function planSpeech(
       bodyHold,
       tag,
     });
-  /**
-   * A crisis or combative address's first point: the term's worst condition, said with
-   * its fact. Over the years the speaker has held office where the bank says
-   * the measure that way (context, then what it has meant), else as the
-   * record's one line of it (story-says), never both, so it is said once.
-   */
-  const crisisDraft = (topic: string): Draft => {
-    const context = contextFacts(core, topic, country, speaker.serviceStart);
-    // Said over the years only where the bank holds a context piece for the
-    // topic; else the record's one line of it (a place's work, pay and prices
-    // have story-says lines and no context pieces yet), never silence.
-    const told =
-      context[`context-${topic}`] && bankSaysContext(topic)
-        ? move("context", { topic })
-        : null;
-    if (told) tag.said = true;
-    return {
-      key: `crisis-${topic}`,
-      level: "country",
-      facts: {
-        ...badFacts(country, topic),
-        ...context,
-        // Too short a time in office to say it over years: its figure.
-        ...(told ? {} : conditionFigure(country, topic)),
-      },
-      moves: told
-        ? [
-            told,
-            ...(spanAgrees(topic, context) ? [move("meaning", { topic })] : []),
-          ]
-        : [move("story-says", { topic })],
-    };
-  };
-  /**
-   * A hurt address's body in its order: the condition, then its answer from
-   * the speaker's record in the same paragraph (citing the bill they
-   * sponsored on it, where one is), then a sentence the engine words that
-   * turns to the theme, which opens the next paragraph.
-   */
-  const hurtOrder = (drafts: Draft[]): Draft[] => {
-    if (!crisis || !response) return drafts;
-    const answerKey = `point-${response.stand.question}`;
-    const turnKey = turnsTo[P.zero]
-      ? `point-${turnsTo[P.zero]!.question}`
-      : null;
-    return drafts.flatMap((draft): Draft[] => {
-      if (draft.key === answerKey)
-        return [
-          {
-            ...draft,
-            joins: true,
-            facts: response.bill
-              ? Object.fromEntries(
-                  Object.entries(draft.facts).map(([key, row]) => [
-                    key,
-                    row.sourceRecordIds.includes(
-                      `question:${response.stand.question}` as EntityId,
-                    )
-                      ? fact(
-                          row.text,
-                          ...row.sourceRecordIds,
-                          response.bill!.id,
-                        )
-                      : row,
-                  ]),
-                )
-              : draft.facts,
-          },
-        ];
-      if (draft.key === turnKey && themeName)
-        return [
-          {
-            key: "turn",
-            level: "country",
-            facts: {
-              // From the answer just given to the theme.
-              ...(questionAbout(response.stand.question)
-                ? {
-                    "turn-from": fact(
-                      questionAbout(response.stand.question)!,
-                      `question:${response.stand.question}`,
-                    ),
-                  }
-                : {}),
-              "turn-to": fact(
-                themeName,
-                ...turnsTo.map((row) => `question:${row.question}`),
-              ),
-            },
-            moves: [move("turn")],
-          },
-          { ...draft, joins: true },
-        ];
-      return [draft];
-    });
-  };
+  const crisisDraft = (topic: string): Draft =>
+    crisisDraftOf(core, speaker, topic, { country, move, tag });
+  const hurtOrder = (drafts: Draft[]): Draft[] =>
+    hurtOrderOf(drafts, { crisis, response, turnsTo, themeName, move });
   const sections: Record<Section, () => Draft[]> = {
     // The world's story, said before anything the speaker asks for: what the
     // records say the country, state or place has been through, then what
