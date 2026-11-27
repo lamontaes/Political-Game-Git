@@ -2,7 +2,64 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 5715,
-  "no": {},
-  "yesHash": "0vtbor0xb53"
+  "judged": 5757,
+  "no": {
+    "00py6b6m3pf": {
+      "keys": [
+        "scene-talk.follow-ask.why-is-source-wrong",
+        "scene-talk.reply-withdraw.i-know-what-i-said-about-bill-but-circumstances-have-changed-i-can-t-i-m-sorry"
+      ],
+      "why": "A withdrawal of support does not answer a question about why the source is wrong."
+    },
+    "0noq5ibufts": {
+      "keys": [
+        "scene-talk.follow-ask.why-is-source-wrong",
+        "scene-talk.reply-bargain.this-is-a-two-way-street-you-get-my-vote-on-bill-when-i-get-yours-on-mine"
+      ],
+      "why": "A vote-trade bargain does not respond to a question about why the source is wrong."
+    },
+    "0pqlcyfdtqw": {
+      "keys": [
+        "scene-talk.follow-ask.why-is-source-wrong",
+        "scene-talk.reply-answer.even-if-it-costs-me-votes-bill-is-the-right-call"
+      ],
+      "why": "The reporter asks why a source is wrong, and the reply answers about the bill being the right call instead, so the pair does not read as a natural exchange."
+    },
+    "180nzlw00xu": {
+      "keys": [
+        "scene-talk.follow-ask.why-is-source-wrong",
+        "scene-talk.reply-withdraw.i-m-really-worried-about-the-vote-on-bill-i-can-t-do-it"
+      ],
+      "why": "A withdrawal of support does not answer a question about why the source is wrong."
+    },
+    "1hdfp7j3q7r": {
+      "keys": [
+        "scene-talk.state-ask.can-you-tell-me-how-you-ll-vote-on-bill",
+        "scene-talk.reply-answer.i-voted-against-it-it-wasn-t-right-for-place"
+      ],
+      "why": "Asked how they will vote, the reply speaks of a vote already cast."
+    },
+    "1luwdm3xwqr": {
+      "keys": [
+        "scene-talk.state-ask.can-you-tell-me-how-you-ll-vote-on-bill",
+        "scene-talk.reply-answer.i-couldn-t-vote-for-it-that-s-all-there-is-to-it"
+      ],
+      "why": "Asked how they will vote, the reply speaks of a vote already cast ('couldn't vote for it')."
+    },
+    "22kjcgs1kef": {
+      "keys": [
+        "scene-talk.state-ask.can-you-tell-me-how-you-ll-vote-on-bill",
+        "scene-talk.reply-answer.people-here-want-it-i-voted-with-them"
+      ],
+      "why": "Asked how they will vote, the reply speaks of a vote already cast."
+    },
+    "29rbpni4uid": {
+      "keys": [
+        "scene-talk.state-ask.can-you-tell-me-how-you-ll-vote-on-bill",
+        "scene-talk.reply-answer.i-voted-against-it-place-deserves-better-than-that"
+      ],
+      "why": "Asked how they will vote, the reply speaks of a vote already cast."
+    }
+  },
+  "yesHash": "01srv37p381"
 }
