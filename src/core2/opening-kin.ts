@@ -385,7 +385,7 @@ function dateInYear(rng: SeededRng, year: number): IsoDate {
 interface KinContext {
   readonly options: OpeningKinOptions;
   readonly out: OpeningKin;
-  readonly startedAt: IsoDate;
+  readonly startedAt: ReturnType<typeof makeIsoDate>;
   readonly adultAge: number;
   readonly archiveDays: number;
   readonly interval: number;
