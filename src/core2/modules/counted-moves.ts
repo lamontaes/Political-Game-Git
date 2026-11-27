@@ -33,6 +33,7 @@ import {
   countryStateMonth,
   countryStates,
 } from "./macro";
+import { latestMacroMonthId } from "../macro-reads";
 import { regionalLevel, regionalRegistered } from "./regional";
 import type { LawInForceAnswer } from "../laws-in-force";
 import { ageOn, type CountedHousehold } from "../counted-groups";
@@ -258,10 +259,7 @@ function stateIncomeTax(
 export function stateUnemployment(api: CoreAPI): Map<string, number> {
   const out = new Map<string, number>();
   if (!api.state.modules.has("macro")) return out;
-  const latest = (
-    api.moduleState("macro").table("state").get("macro:state") as
-      { latestMonth?: string } | undefined
-  )?.latestMonth;
+  const latest = latestMacroMonthId(api);
   if (!latest) return out;
   for (const state of countryStates(api)) {
     const row = countryStateMonth(api, state.fips, latest);

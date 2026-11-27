@@ -44,6 +44,7 @@ import type { FinanceContractInput } from "../finance-types";
 import { awardYearMinor } from "../household-income";
 import { unplacedPoolOf, type ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
+import { latestMacroMonth, macroMonthAt } from "../macro-reads";
 import { formerHome } from "../housing-former-home";
 import type { ModuleRow } from "../module-data";
 import type { EntityId } from "../kernel/brands";
@@ -1520,12 +1521,8 @@ function landlordPayout(api: CoreAPI): void {
 /** The economy's consumer price level by month (history and simulated), for prices past the published data. */
 function macroPrices(api: CoreAPI): PriceLevel | undefined {
   if (!(api.state as CoreState).modules.has("macro")) return undefined;
-  const months = api.moduleState("macro").table("months");
   return (date) =>
-    (
-      months.get(`macro-month:${date.slice(0, "YYYY-MM".length)}`) as
-        { priceIndex: number } | undefined
-    )?.priceIndex;
+    macroMonthAt(api, date.slice(0, "YYYY-MM".length))?.priceIndex;
 }
 
 /** Members under 18, from their birth dates. */
@@ -2480,17 +2477,7 @@ function stepPriceLevels(api: CoreAPI): void {
     );
   }
   const month = c.date.slice(0, "YYYY-MM".length);
-  const latest = c.modules.has("macro")
-    ? (
-        api.moduleState("macro").table("state").get("macro:state") as
-          { latestMonth: string } | undefined
-      )?.latestMonth
-    : undefined;
-  const macroMonth = latest
-    ? (api.moduleState("macro").table("months").get(`macro-month:${latest}`) as
-        | { id: string; mortgage30Pct: number; hourlyEarnings: number }
-        | undefined)
-    : undefined;
+  const macroMonth = latestMacroMonth(api);
   const p = (key: string) => api.parameter(key);
   const opened =
     (
