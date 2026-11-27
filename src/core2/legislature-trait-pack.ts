@@ -94,61 +94,6 @@ export function legislatureTraitPack(): TraitPack {
         seed: null,
       },
     ],
-    effects: [
-      {
-        decision: "legislation.bargaining.answer-request",
-        leans: [
-          {
-            option: "commit",
-            trait: `${LEGISLATURE_PACK}:showing-their-hand`,
-            pole: "high",
-            explanation:
-              "This member has answered before while a bill was still moving, and is willing to again.",
-          },
-          {
-            option: "hold-off",
-            trait: `${LEGISLATURE_PACK}:showing-their-hand`,
-            pole: "low",
-            explanation:
-              "This member does not say where they will be until the text stops changing.",
-          },
-          {
-            option: "commit",
-            trait: `${LEGISLATURE_PACK}:showing-their-hand`,
-            pole: "high",
-            about: "subject",
-            explanation:
-              "The person asking has given straight answers on moving bills before, so an answer back to them is worth something.",
-          },
-        ],
-      },
-      {
-        decision: "legislation.bargaining.answer-offer",
-        leans: [
-          {
-            option: "take-the-offer",
-            trait: `${LEGISLATURE_PACK}:showing-their-hand`,
-            pole: "high",
-            explanation:
-              "This member would rather work with language on the table than keep the question open.",
-          },
-          {
-            option: "hold-off",
-            trait: `${LEGISLATURE_PACK}:showing-their-hand`,
-            pole: "low",
-            explanation:
-              "This member holds out rather than settle while there is still room to ask.",
-          },
-          {
-            option: "take-the-offer",
-            trait: `${LEGISLATURE_PACK}:showing-their-hand`,
-            pole: "high",
-            about: "subject",
-            explanation:
-              "The person offering this has been plain about where they stand before, which makes the offer easier to read.",
-          },
-        ],
-      },
-    ],
+    effects: [],
   };
 }

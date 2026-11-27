@@ -1,9 +1,11 @@
 /**
- * Ported from the old engine's `invented-person-age.ts`.
+ * How an invented person gets an age: the people engine's, read by every producer that makes up a person.
  */
-import { ageOnDate, isoDateFromParts, makeIsoDate } from "../kernel/dates";
-import type { SeededRng } from "../kernel/rng";
-import type { IsoDate } from "./types";
+import { ageOnDate, isoDateFromParts, makeIsoDate } from "./kernel/dates";
+import type { SeededRng } from "./kernel/rng";
+
+/** A calendar date, "YYYY-MM-DD", checked by `makeIsoDate`. */
+type IsoDate = ReturnType<typeof makeIsoDate>;
 
 /**
  * One way to give an invented person an age (A161). Every producer that

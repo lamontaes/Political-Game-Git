@@ -44,7 +44,7 @@ function sentenceLine(row, labels, open) {
   return li;
 }
 
-const slots = {
+export const slots = {
   calendar: ({ labels, send }) => {
     const list = el("div", { className: "dev-address-parts-list" });
     const result = statusLine();
