@@ -1,6 +1,5 @@
 /** M1-02 module checks on a small recorded fixture; the generated-world proof is tooling/macro-proof.ts. */
 import { describe, expect, it } from "vitest";
-import { registerBoardAppointer } from "./central-bank-appointments";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI, createCore } from "./state";
 import {
@@ -27,7 +26,7 @@ import {
 } from "./central-bank-board";
 import { medianTransactionBalance } from "./starting-cash";
 import { parameter } from "./parameters";
-import type { CoreInput, Source } from "./types";
+import type { CoreInput, CoreModule, Source } from "./types";
 import { readFileSync } from "node:fs";
 import pmms from "../../data/research/macro/series/pmms-monthly.json" with { type: "json" };
 
@@ -77,6 +76,12 @@ function opening(startedAt = "2021-01-01", seed = "macro-fixture"): CoreInput {
     gaps: [],
   });
 }
+
+/** The module a world with no government carries to name a board member: the first candidate (the world's own appointer is the president and Senate). */
+const firstCandidateAppointer: CoreModule = {
+  id: "test-board-appointer",
+  boardAppointer: () => ({ index: 0, reasons: {} }),
+};
 
 describe("national economy", () => {
   it("calibrates on the published figures of the last month before the start", () => {
@@ -599,27 +604,23 @@ describe("history before the start (M1-14, the economy's part)", () => {
       // The world's own appointer is the president and Senate (the
       // government opens it); this test world has no government, so it
       // names the first candidate itself.
-      registerBoardAppointer(
-        appointer ? () => ({ index: 0, reasons: {} }) : undefined,
-      );
-      try {
-        const core = createLifeCore(opening("2021-01-01"), {
-            data,
-            modules: [MACRO_MODULE],
-          }),
-          api = coreAPI(core);
-        advanceCore(core, "2021-01-02");
-        const members = () =>
-          api.moduleState("macro").table("members").query("all", [true]);
-        const before = members().find((row) => row.seatId === "governor:1")!;
-        advanceCore(core, "2022-03-01");
-        return {
-          before,
-          after: members().find((row) => row.seatId === "governor:1")!,
-        };
-      } finally {
-        registerBoardAppointer(undefined);
-      }
+      const core = createLifeCore(opening("2021-01-01"), {
+          data,
+          modules: [
+            MACRO_MODULE,
+            ...(appointer ? [firstCandidateAppointer] : []),
+          ],
+        }),
+        api = coreAPI(core);
+      advanceCore(core, "2021-01-02");
+      const members = () =>
+        api.moduleState("macro").table("members").query("all", [true]);
+      const before = members().find((row) => row.seatId === "governor:1")!;
+      advanceCore(core, "2022-03-01");
+      return {
+        before,
+        after: members().find((row) => row.seatId === "governor:1")!,
+      };
     };
     const none = run(false);
     expect(none.after.personId).toBe(none.before.personId);
@@ -627,10 +628,9 @@ describe("history before the start (M1-14, the economy's part)", () => {
     expect(named.after.personId).not.toBe(named.before.personId);
   });
   it("fills a governor's seat when the term ends and reappoints reserve bank presidents under the retirement age", () => {
-    registerBoardAppointer(() => ({ index: 0, reasons: {} }));
     const core = createLifeCore(opening("2021-01-01"), {
         data,
-        modules: [MACRO_MODULE],
+        modules: [MACRO_MODULE, firstCandidateAppointer],
       }),
       api = coreAPI(core);
     advanceCore(core, "2021-01-02");
@@ -666,7 +666,6 @@ describe("history before the start (M1-14, the economy's part)", () => {
     const leans = after.map((row) => Number(row.inflationLean));
     expect(Math.min(...leans)).toBeLessThan(0);
     expect(Math.max(...leans)).toBeGreaterThan(0);
-    registerBoardAppointer(undefined);
   });
 });
 

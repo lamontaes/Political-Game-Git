@@ -23,7 +23,6 @@ import type { ModuleRow } from "../module-data";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { nominateAndConfirm, partySide } from "../appointments";
 import { boardAppointer } from "../board-appointer";
-import { registerBoardAppointer } from "../central-bank-appointments";
 import { campaignParameter } from "../campaign-data";
 import { NATIVITY_FACT } from "../nativity";
 import {
@@ -107,6 +106,9 @@ export const SUCCESSION_MODULE: CoreModule = {
     scheduleCabinetReview(api, api.state.date);
     refillCabinet(api);
   },
+  // The central bank's governors are named by this president and confirmed by
+  // this Senate, once the government is open.
+  boardAppointer,
 };
 
 const table = (api: CoreAPI, name: string) =>
@@ -543,9 +545,6 @@ export function openSuccession(core: CoreState): void {
     registerModule(core, SUCCESSION_MODULE);
   registerSuccessorProvider("president", presidentialSuccessor);
   registerSuccessorProvider("vice-president", vicePresidentialSuccessor);
-  // The central bank's governors are named by this president and confirmed
-  // by this Senate, once the government is open.
-  registerBoardAppointer(boardAppointer);
   appointCabinet(coreAPI(core));
   scheduleCabinetReview(coreAPI(core), core.date);
 }
