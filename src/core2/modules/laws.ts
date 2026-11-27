@@ -12,8 +12,10 @@ import { FEE_LEVEL_SERIES } from "../fee-levels";
 import { addDays, makeIsoDate } from "../kernel/dates";
 export { billLevelJurisdiction, billValueInForce } from "../laws-bill-values";
 import type { PreStartModule } from "../pre-start";
+import { historyOf } from "../past";
 import {
-  lawHistory,
+  PAST_LAW_ENACTED,
+  SESSION_FACT,
   type HistoryModule,
   type HistoryRow,
   type HistorySource,
@@ -650,16 +652,23 @@ export function enactmentOf(
       session: null,
     };
   }
-  const history = lawHistory(api, row.id);
+  // A day-one law's history, from the one history reader by its law id.
+  const [history] = historyOf(
+    api.state as CoreState,
+    { nation: true },
+    { kinds: [PAST_LAW_ENACTED], about: row.id },
+  ).filter((event) => event.facts?.lawId === row.id);
   if (!history) return null;
-  const margins = history.rollCalls.map(
-    (c) => (c.yes - c.no) / Math.max(1, c.yes + c.no),
-  );
+  const facts = history.facts ?? {};
   return {
-    passedOn: history.enactedOn,
-    margin: margins.length ? Math.min(...margins) : 0,
-    body: history.body,
-    session: history.session,
+    passedOn: history.date,
+    margin: Number(facts.margin ?? 0),
+    body: facts.body ?? null,
+    session: Object.fromEntries(
+      Object.entries(facts)
+        .filter(([key]) => key.startsWith(SESSION_FACT))
+        .map(([key, value]) => [key.slice(SESSION_FACT.length), value]),
+    ),
   };
 }
 

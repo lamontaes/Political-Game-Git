@@ -15,7 +15,6 @@
   "readsInTheEngines": {
     "about": "The engines in src/core2/modules that still read a past of their own outside the one history reader (src/core2/past-history.ts): a raw past reader by name, a scan of the log, or a person's own facts or remembered list. CTO, Nov 26, from the owner: \"the reader needs to be like the main, it needs to be in the core ... it needs to be a game-wide thing.\" An engine's own tables are its present and the history it hands the reader, and are not counted; nor are its writers (writersInTheEngines). A count only goes down.",
     "files": {
-      "src/core2/modules/laws.ts": 2,
       "src/core2/modules/outcome-web.ts": 1
     }
   },
