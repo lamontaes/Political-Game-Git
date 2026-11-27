@@ -17,7 +17,16 @@ One section per running session. A session's /goal points at its section here. T
 - the CTO trains it;
 - he grades small batches by voice and never approves line by line.
 
-**Game logic only** (owner, Nov 26: "I only want game logic in these files. They all have to do something"). src/ holds only code the game runs. Tests, checks, dev tooling, test kits, fixtures, dev panels and notes live outside it. A file nothing runs is deleted. Every session's changes leave the game folder that way.
+**Game logic only** (owner, Nov 26: "I only want game logic in these files. They all have to do something"). src/ holds only code the game runs. A file nothing runs is deleted.
+- **Dev mode (Advanced) is game** (owner, Nov 26: "dev mode is a part of the game... when you click advanced... so that everything can be tested in-game by playing the game... it should use everything the same. It just has different permissions"). Its panels go through the same engines and front doors as play, with permission to do more. They never use a back door.
+- Tests, checks and proofs (the m0 and m1 checks), measurement tooling, test kits, fixtures and notes live outside src/.
+
+**The engines, laid out like a real game** (the CTO's call, Nov 26; the owner: "format this like a real game... I just want you to build this correctly"):
+- **Core** is the runtime: kernel, state, record, clock, plug, choice engine, starting and saving a world, and the play server.
+- **The simulation engines** are people, elections, jobs and businesses, laws, budgets, legislative bodies, executives, news, clock and places, and the past.
+- **Story** is what's said and what happens in a scene (the English engine, the director, scenes and words). That includes scene places like the clerk's office.
+- **Screens** is the interface layer: menus, the talk box, cards, the UI kit and input. It shows what the other engines give it and writes no sentences of its own. Sentence-building in screen files today (card.ts history lines, printed-words.ts, archive-words.ts) moves into Story's composers, and the screen displays it (Story's E4).
+- **Dev mode** is Advanced: the same engines, more permissions.
 
 **The Opus finisher plugs it in** (owner, Nov 26: "I'll have it do the plugging in after they all finish... run the tests, do the fixes, and then plug it into the core, and then it'll be done"). Each engine session builds its engine to its front doors and lists what's left. It doesn't do the risky cross-engine wiring. After every engine session finishes, one Opus session runs the whole test suite, fixes what's red, and plugs each engine into the core through the plug (`CoreModule`, `registerModule`): the front-door split, the hooks and the engine list. That is when the game is done.
 
