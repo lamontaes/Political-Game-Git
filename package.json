@@ -56,7 +56,6 @@
     "release:recover": "node --import tsx scripts/release/index.ts recover",
     "release:declare": "node --import tsx scripts/release/index.ts declare",
     "agent:preflight": "node scripts/agent-preflight.mjs",
-    "export:household-mix": "node --import tsx scripts/source/regional-money/export-household-mix.ts",
     "export:place-race-origin": "node --import tsx scripts/source/export-place-race-origin.ts",
     "storage": "node scripts/storage/cli.mjs",
     "agent:test-cadence": "node scripts/agent-test-cadence.mjs",
