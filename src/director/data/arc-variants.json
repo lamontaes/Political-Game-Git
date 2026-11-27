@@ -3550,7 +3550,7 @@
             "state": "request",
             "asks": {
               "yes": "agree",
-              "carried": "deflect",
+              "carried": "undecided",
               "no": "decline",
               "relent": ["agree"],
               "thanks": "thank",
@@ -3673,7 +3673,7 @@
             "state": "request",
             "asks": {
               "yes": "agree",
-              "carried": "deflect",
+              "carried": "undecided",
               "no": "decline",
               "relent": ["agree"],
               "thanks": "thank",
@@ -3796,7 +3796,7 @@
             "state": "request",
             "asks": {
               "yes": "agree",
-              "carried": "deflect",
+              "carried": "undecided",
               "no": "decline",
               "relent": ["agree"],
               "thanks": "thank",
@@ -3915,7 +3915,7 @@
             "state": "request",
             "asks": {
               "yes": "agree",
-              "carried": "deflect",
+              "carried": "undecided",
               "no": "decline",
               "relent": ["agree"],
               "thanks": "thank",
@@ -4030,7 +4030,7 @@
             "state": "request",
             "asks": {
               "yes": "agree",
-              "carried": "deflect",
+              "carried": "undecided",
               "no": "decline",
               "relent": ["agree"],
               "thanks": "thank",
@@ -4145,7 +4145,7 @@
             "state": "request",
             "asks": {
               "yes": "agree",
-              "carried": "deflect",
+              "carried": "undecided",
               "no": "decline",
               "relent": ["agree"],
               "thanks": "thank",
@@ -4264,7 +4264,7 @@
             "state": "request",
             "asks": {
               "yes": "agree",
-              "carried": "deflect",
+              "carried": "undecided",
               "no": "decline",
               "relent": ["agree"],
               "thanks": "thank",
