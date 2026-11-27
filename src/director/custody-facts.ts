@@ -24,11 +24,11 @@ import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import { spokenDate } from "./words";
 
 /** The justice engine's record of a person set free at the end of a term. */
-export const RELEASED_EVENT = "justice.released";
+const RELEASED_EVENT = "justice.released";
 /** The justice engine's record of a prison term beginning. */
-export const IMPRISONED_EVENT = "justice.imprisoned";
+const IMPRISONED_EVENT = "justice.imprisoned";
 /** The justice engine's record of a person held for want of bail. */
-export const HELD_EVENT = "justice.held-before-trial";
+const HELD_EVENT = "justice.held-before-trial";
 
 export interface CustodyFact {
   text: string;

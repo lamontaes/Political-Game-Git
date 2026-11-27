@@ -44,7 +44,7 @@ import { partyTie } from "../core2/modules/elections";
 import { electorateSides, scandalStoriesOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { directorStopgap, WORDS_STOPGAP_HITS } from "./stopgaps";
+import { stopgap, WORDS_STOPGAP_HITS } from "../core2/stopgaps";
 import variantFile from "./data/arc-variants.json" with { type: "json" };
 import arcsFile from "./data/purpose-arcs.json" with { type: "json" };
 
@@ -778,7 +778,7 @@ export function chooseVariant(
     variantOpen(row, input.cause.facts),
   );
   if (!open.length) return null;
-  directorStopgap("SG-STORY-arc-variant-weights", WORDS_STOPGAP_HITS);
+  stopgap("SG-STORY-arc-variant-weights", { stopgapHits: WORDS_STOPGAP_HITS });
   const recordIds = new Set<string>();
   const reads: Record<string, number> = {};
   const read = (name: string) =>

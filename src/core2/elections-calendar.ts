@@ -25,7 +25,7 @@ import {
   FILING_LEAD_SOURCE,
   novemberGeneralElectionDay,
 } from "./gov-rules/town-election-calendar";
-import type { OfficeInput } from "./offices-local";
+import type { OfficeInput } from "./modules/offices";
 
 /** The general election day in November, for the races every level holds on it. */
 export { novemberGeneralElectionDay };

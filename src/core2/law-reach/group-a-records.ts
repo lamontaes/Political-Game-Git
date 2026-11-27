@@ -36,8 +36,6 @@ import {
   OFFICES_MODULE_ID,
   type TermRow,
 } from "../modules/offices";
-
-export const REACH_A_MODULE_ID = "core2-law-reach-a-v1";
 export const PREMIUM_KIND = "law-reach-a:leave-premium";
 
 export type ReachTarget =
@@ -158,6 +156,8 @@ import {
   runReachCalendar,
   runReachPayroll,
 } from "./reach-workers";
+import { REACH_A_MODULE_ID } from "./group-a-records-constants";
+export { REACH_A_MODULE_ID };
 
 interface PremiumRecord {
   readonly id: string;
