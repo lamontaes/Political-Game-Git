@@ -17,13 +17,13 @@ Decided by the CTO under the owner's full ownership of the refactor (Nov 27). Th
 - **the law engine:** laws in force at every level, and what each law reaches, through the engine that owns the thing it changes;
 - **the outcome web:** how a place's areas move one another; laws reach through it. (The all-maps review checks whether it belongs with World.)
 
-**Justice leaves the laws family as its own engine, `justice`:** the justice engine, public safety, crime, corruption, police patrol, the federal courts and the justice law files. That's 13 files, 6,813 lines, read 24 times by others, against the law engine's 38 files read 172 times. A modder can replace courts and crime without touching how laws pass. As with Offices, the doors come first and the split after, so no baseline rises.
+**Justice leaves the laws family as its own engine, `justice`:** justice.ts, crime.ts, corruption.ts, police-patrol.ts, federal-courts.ts, public-safety.ts (both files), justice-law.ts, justice-custody.ts, justice-pretrial.ts, low-level-offenses.ts and firearm-ownership.ts (justice-chain.ts goes to Core item 2). Across the line: 18 imports, 7 of them into files that aren't entries (the outcome web's reach and model, firearm-ownership, justice-law, corruption), and 1 table open. That's 13 files, 6,813 lines, read 24 times by others, against the law engine's 38 files read 172 times. A modder can replace courts and crime without touching how laws pass. As with Offices, the doors come first and the split after, so no baseline rises.
 
 ## Verdict
 
 **Sound where it counts:**
 
-- One vote machinery: other places' legislatures and councils' meetings vote through the legislature's own `holdVote`, `voteKeyOf` and `members`, and enact through the laws engine's `enactLaw`.
+- Shared vote machinery, by the imports: other places' legislatures (world-legislating.ts) import the legislature's `holdVote`, `voteKeyOf` and `members`, and the laws engine's `enactLaw`. Councils' meetings (meetings.ts) import `members` and `provisionStance`. The bodies of world-legislating's own `voteAtMeeting` (:1055) and `outsideEnact` (:2006, 78 lines) weren't read; item 4 checks them.
 - One rule for which law applies on a date, at every level (laws-in-force.ts:1-7).
 - Laws reach through the engines that own what they change, by handlers registered with one host (host.ts:1-8).
 
@@ -50,7 +50,7 @@ Decided by the CTO under the owner's full ownership of the refactor (Nov 27). Th
 **Checked and fine:**
 
 - **The legislator's day** (governing, in the offices map) calls this engine's votes, floor and committees. Nothing is copied.
-- **65 registered stand-ins** in these files, for the Stand-ins session.
+- **65 stand-in mentions** across these files, for the Stand-ins session.
 
 ## Seams with the other assignments
 
@@ -75,10 +75,10 @@ Decided by the CTO under the owner's full ownership of the refactor (Nov 27). Th
 
 1. **Delete the unread trait effects (LW6),** keeping the traits.
 2. **Generated data as a data file (LW5).**
-3. **Doors (LW8):** laws, bodies and justice each get the read doors their consumers open tables for today. Post them, so each consumer switches its own files.
-4. **One reach store (LW2),** proved by identical reach rows on three seeds.
+3. **Doors (LW8),** after #10701 is in the train: laws, bodies, justice and the outcome web each get the read doors their consumers open tables for today. Post them, so each consumer switches its own files.
+4. **The reach stores (LW2), measured first,** and world-legislating's `voteAtMeeting` and `outsideEnact` read (the verdict's vote-machinery check).
 5. **The justice split (LW1),** doors first, proved by the guards with no count up.
-6. **legislature.ts split by concern, and long functions as named steps (LW4),** structure only.
+6. **legislature.ts split by concern, and long functions as named steps (LW4),** structure only, after the Story split lands #10390's engine half.
 7. **The side registries onto Core's hook (LW3),** after Core item 10.
 
 **Rules:**

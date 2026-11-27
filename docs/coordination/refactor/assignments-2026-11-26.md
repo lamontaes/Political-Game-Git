@@ -246,6 +246,8 @@ The audit is screens-2026-11-27.md in this folder (rows SC1 to SC8).
 
 **Adjusted Nov 27, about 2 a.m. (the offices map):** the offices door is the Offices session's now, so it comes off your door list. Switch your office reads when it lands; don't build it.
 
+**Adjusted Nov 27, about 2:25 a.m. (every engine now has a session):** Screens builds no door in another engine. For every read in your door list, ask that engine's session on #10377, and switch your own files when its door lands: Offices (offices), Elections (elections), Lawmaking (laws, bodies, justice), Economy (budgets, credit, macro, jobs, business), World (press, news), People (housing, coverage, people). Item 7's live-state half waits for those doors.
+
 **Items, safest first:**
 
 1. **Dev mode in the installed game (SC1),** in its four steps. The packaged-app smoke test is the proof. handler.ts's mount goes now; the CTO's train reconciles it with the Story split.
@@ -348,10 +350,10 @@ The audit is lawmaking-2026-11-27.md in this folder (rows LW1 to LW8). Justice s
 
 1. **Delete the unread trait effects (LW6),** keeping the traits.
 2. **Generated data as a data file (LW5).**
-3. **Doors (LW8):** laws, bodies and justice each get the read doors their consumers open tables for today. Post them, so each consumer switches its own files.
-4. **One reach store (LW2),** proved by identical reach rows on three seeds.
+3. **Doors (LW8),** after #10701 is in the train: laws, bodies, justice and the outcome web each get the read doors their consumers open tables for today. Post them, so each consumer switches its own files.
+4. **The reach stores (LW2), measured first,** and world-legislating's `voteAtMeeting` and `outsideEnact` read (the verdict's vote-machinery check).
 5. **The justice split (LW1),** doors first, proved by the guards with no count up.
-6. **legislature.ts split by concern, and long functions as named steps (LW4),** structure only.
+6. **legislature.ts split by concern, and long functions as named steps (LW4),** structure only, after the Story split lands #10390's engine half.
 7. **The side registries onto Core's hook (LW3),** after Core item 10.
 
 **Rules:**
