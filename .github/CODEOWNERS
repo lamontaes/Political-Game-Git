@@ -275,7 +275,6 @@
 /src/core2/official-living.ts @lamontaes
 /src/core2/executive-term-limits.ts @lamontaes
 /src/core2/appointments.ts @lamontaes
-/src/core2/central-bank-*.ts @lamontaes
 /src/core2/outside-governments.ts @lamontaes
 /src/core2/government-jurisdictions.ts @lamontaes
 /src/core2/government-proper-name.ts @lamontaes
@@ -681,6 +680,7 @@
 /src/core2/unfilled-opening-pay.test.ts @lamontaes
 /src/core2/wholesale-outside-buyers.test.ts @lamontaes
 /src/core2/work.test.ts @lamontaes
+/src/core2/central-bank-*.ts @lamontaes
 
 # Households and people (people)
 /src/core2/modules/people.ts @lamontaes
