@@ -370,6 +370,7 @@ type Facts = Record<string, Fact>;
 export { replyMoveOf };
 export { composedHomeLine as composedLine };
 export { withOnceSaid } from "./talk-words";
+export { raiseFacts } from "./scene-talk";
 
 /** Something real to talk about, from the speaker's records. */
 export interface Subject {
