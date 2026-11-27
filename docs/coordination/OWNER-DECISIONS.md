@@ -2,6 +2,14 @@
 
 The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
+## Nov 27, 2026, about 5:30 p.m.: the loading card's step names vary too (owner; recorded by the CTO)
+
+- Shown the warm-up step's two texts, the original "Letting the country, the state and the town run two months on their own before your first evening." and Story split's "Giving the world a head start": **"Neither of those are good. They both suck."**
+- Asked what he pictures (inline question), he picked **"Names vary too"**: the step name itself comes from a bank, like the dry line under it, so neither line is the same text on every load. That makes two varied lines per step.
+  - **One rule for every step on the loading card**, not only the warm-up. Today each step has one fixed name in src/bench/data/controls.json and two pieces in data/english/parts/loading-steps.json.
+  - **Nothing is deleted** (his Nov 25 rule). The fixed names become pieces in the step-name bank. His grade "both bad" is recorded as grade rows, and the engine's grade filter (admittedParts) holds those two texts back.
+  - **Words:** his Nov 24 loading ruling holds. Short, sarcastic jokes about what the game really builds, mixed with plain ones, some in escalating series ("Printing money. Printing more money."), with no developer talk. Depth, not breadth: many versions per step for both lines. They land as one words batch through the sameness gate, the pre-grade and the three-place check.
+
 ## Nov 26, 2026, about 9:50 p.m.: words land in batches, again (owner, verbatim; recorded by the CTO)
 
 - Asked what should let a part of the story merge: "i've already ruled on this multiple times. I can't approve everything so this is why I need batches that affect a lot of stuff in their sentencing and the scenarios and stuff and then when I actually play I can I can see how this stuff works, but you can play and at least see how the sentences and stuff work I mean I don't understand why I have to keep ruling"
