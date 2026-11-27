@@ -290,7 +290,7 @@
       "laws": 1
     },
     "src/core2/modules/press.ts": {
-      "elections": 7,
+      "elections": 14,
       "jobs-businesses": 1,
       "people": 2
     },
@@ -388,7 +388,8 @@
       "dynamic": 4
     },
     "src/core2/press-topics.ts": {
-      "bodies": 3
+      "bodies": 3,
+      "elections": 1
     },
     "src/core2/question-wages.ts": {
       "laws": 2
