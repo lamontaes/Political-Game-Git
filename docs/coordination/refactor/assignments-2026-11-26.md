@@ -317,10 +317,10 @@ The audit is offices-2026-11-27.md in this folder (rows OF1 to OF8). The executi
 **Items, safest first:**
 
 1. **The offices door (OF2):** an office by id, a term by id, a person's terms, a seat's office and open vacancies, added once beside the doors that exist.
-2. **One "who holds" door over both stores (OF3).** moves.ts:404-432 switches to it.
-3. **Governing onto the doors:** its 33 table opens through the doors, and the six seats files it reaches become entries.
-4. **The family split (OF1),** which then adds nothing to any baseline.
-5. **Readers switch to the doors:** elections, screens and the director's (Story's) files first, then the rest. Core item 1's baseline only shrinks.
+2. **One "who holds" door over both stores (OF3).** People switches moves.ts:404-432, its own file.
+3. **Governing onto the doors:** its 33 table opens through the doors; the six seats files it reaches become entries; executive-term-limits.ts moves to offices; and offices.ts's re-exports of governing things (`CaseRow`, `nextMeeting`, offices.ts:2802-2814) move to governing's entry.
+4. **The family split (OF1).** Proof: the families guard and Core's engine-tables guard, run before and after, with no count going up.
+5. **Each consumer switches its own files to the doors:** Elections, Screens, Story (the director), People (moves.ts), and the waiting Lawmaking (bodies and laws) and World (news and past) sessions, each in its own work. Offices switches only its governing half (item 3). Core item 1's baseline only shrinks.
 6. **The two measurements (OF6),** each settled with its reason.
 7. **Long functions as named steps (OF8),** structure only.
 8. **The six registries onto Core's hook (OF4),** after Core item 10.
