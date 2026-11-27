@@ -11,7 +11,7 @@ import outsideMarket from "./data/outside-market.json" with { type: "json" };
 import type { ResidentFlowInput, ResidentsInput } from "./residents";
 import type { CoreInput, OrganizationInput, Source } from "./types";
 
-interface OutsideMarketShare {
+export interface OutsideMarketShare {
   value: number;
   low: number;
   high: number;

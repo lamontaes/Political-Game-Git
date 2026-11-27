@@ -72,7 +72,7 @@ function scopeOf(town: PastTown, kind: string): string {
 }
 
 /** Whether a person lives where a figure's public would know them. */
-function inPublicOf(
+export function inPublicOf(
   person: Readonly<PersonState>,
   scope: string,
 ): boolean {

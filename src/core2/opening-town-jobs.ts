@@ -70,7 +70,7 @@ import {
   type Workplace,
 } from "./town-workplaces";
 
-const TOWN_EMPLOYMENT_VERSION = "town-employment-v1";
+export const TOWN_EMPLOYMENT_VERSION = "town-employment-v1";
 
 const PROVENANCE = {
   kind: "generated" as const,
@@ -412,7 +412,7 @@ function unwritableInTown(town: EntityId, key: string): boolean {
  * whichever kind is next in line, which filled towns with stores, kitchens
  * and warehouses (owner, Nov 12: "only the market and like craft shops").
  */
-function writableTownWeights(
+export function writableTownWeights(
   town: EntityId,
   seed: string,
 ): readonly (readonly [string, number])[] {

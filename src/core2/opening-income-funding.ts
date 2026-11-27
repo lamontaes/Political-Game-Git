@@ -13,7 +13,7 @@ import {
 import type { OrganizationInput, Source } from "./types";
 
 /** Producer linkage only; the root finance provider admits each genuine due source. */
-interface OpeningRetirementExternalInflow {
+export interface OpeningRetirementExternalInflow {
   kind: string;
   /** Organization owner ID; the journal provider resolves the actual account. */
   ownerId: string;

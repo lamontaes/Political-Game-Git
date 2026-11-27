@@ -1782,7 +1782,7 @@ export function howTheyWork(api: CoreAPI, personId: string): number {
  * How a business values each of its workers, in years: their tenure with it
  * and how they work. A layoff lets go of the worker valued least.
  */
-function workerValues(
+export function workerValues(
   api: CoreAPI,
   organizationId: string,
   staff: readonly JobInput[] = currentJobs(api, organizationId),
@@ -3666,7 +3666,7 @@ function runWeek(api: CoreAPI): void {
 }
 
 /** A referral on record: an official sent a resident to the workforce office. */
-interface ReferralRow {
+export interface ReferralRow {
   readonly id: string;
   readonly personId: string;
   readonly officialId: string;

@@ -100,7 +100,7 @@ export interface OpeningCustomerData {
 export const DEFAULT_OPENING_CUSTOMER_DATA =
   customerDataJson as OpeningCustomerData;
 /** Root admits qualified fragment rows into the single central registry. */
-const DEFAULT_OPENING_CUSTOMER_PARAMETERS = PARAMETERS;
+export const DEFAULT_OPENING_CUSTOMER_PARAMETERS = PARAMETERS;
 
 export interface RecordedCustomerProvider {
   id: string;
@@ -109,14 +109,14 @@ export interface RecordedCustomerProvider {
   source: Source;
 }
 
-interface OpeningCustomerAgreementDate {
+export interface OpeningCustomerAgreementDate {
   id: string;
   dueAt: string;
   basisRecordIds: readonly string[];
   source: Source;
 }
 
-interface OpeningCustomerAgreementEnd {
+export interface OpeningCustomerAgreementEnd {
   id: string;
   endsAt: string;
   basisRecordIds: readonly string[];
@@ -150,7 +150,7 @@ export interface OpeningCustomerOptions {
   publicBuyerIdByGovernmentKey?: Readonly<Record<string, string>>;
 }
 
-type OpeningCustomerContract = FinanceContractInput;
+export type OpeningCustomerContract = FinanceContractInput;
 
 export interface OpeningCustomerEvidenceRecord {
   id: string;
@@ -168,7 +168,7 @@ export interface OpeningCustomerEvidenceRecord {
   source: Source;
 }
 
-interface OpeningCustomerStockRecord {
+export interface OpeningCustomerStockRecord {
   cashEntityId: string;
   openedAt: string;
   liquidMinor: number;

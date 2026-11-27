@@ -21,7 +21,7 @@ export interface StaffingReceipt {
 }
 
 /** Each business's receipts as a share of its projected sales, from the built economy. */
-function customerCoverage(built: CoreInput): Map<string, number> {
+export function customerCoverage(built: CoreInput): Map<string, number> {
   const local = new Map<string, number>();
   for (const row of built.finance?.contracts ?? []) {
     if (row.kind.startsWith("income.") || row.kind.startsWith("funding."))

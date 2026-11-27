@@ -109,7 +109,7 @@ export interface OpeningIncomePlace {
   source: Source;
 }
 
-interface RecordedMonthlyIncome {
+export interface RecordedMonthlyIncome {
   personId: string;
   householdId: string;
   payerId: string;

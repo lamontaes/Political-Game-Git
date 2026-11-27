@@ -130,7 +130,7 @@ export function historyMode(seed: string): HistoryMode {
 }
 
 /** One state's popular vote for President in a century election. */
-interface CenturyStateVote {
+export interface CenturyStateVote {
   readonly stateKey: string;
   readonly electors: number;
   /** Where the state stood on the lean order going in (its Republican two-party share). */
@@ -182,7 +182,7 @@ export interface CenturyPresidency {
 }
 
 /** The country when the century opens (January 1925). */
-interface CenturyOpening {
+export interface CenturyOpening {
   readonly year: number;
   /** The side holding the White House in 1925: the side the country's starting shift leans to. */
   readonly presidentSide: number;
@@ -526,6 +526,13 @@ export function nearestParty(
   );
 }
 
+/** The parties founded in the century's own history, oldest first; undefined under "today". */
+export function centuryFoundings(
+  seed: string,
+): readonly CenturyFounding[] | undefined {
+  if (historyMode(seed) !== "century") return undefined;
+  return centuryOf(seed, openingOf(seed)).foundings;
+}
 
 const centuries = new Map<string, Century>();
 
@@ -1656,7 +1663,7 @@ function electionDay(year: number): string {
  * before the world was built (a world built for the warm-up in late November of the year before
  * day one holds that year's election; one built on day one, the January after it, holds it too).
  */
-function centuryYears(startDate: string): readonly number[] {
+export function centuryYears(startDate: string): readonly number[] {
   const first = centuryParameter("centuryFirstYear");
   const year = Number(startDate.slice(0, 4));
   const last = electionDay(year) < startDate.slice(0, 10) ? year : year - 1;

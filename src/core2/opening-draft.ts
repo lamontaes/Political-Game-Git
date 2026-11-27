@@ -28,16 +28,16 @@ import type { StoredAppearance } from "./appearance";
 /** The old world's generator stamp for a fixture-lineage world, kept so ids match. */
 const DRAFT_GENERATOR_VERSION = "demo-world-v15";
 
-type GeneratedProvenance = {
+export type GeneratedProvenance = {
   readonly kind: "generated";
   readonly generatorKey: string;
 };
-type SourceRecordProvenance = {
+export type SourceRecordProvenance = {
   readonly kind: "source-record";
   readonly reference: string;
   readonly asOf: IsoDate;
 };
-type AuthoredProvenance = {
+export type AuthoredProvenance = {
   readonly kind: "authored";
   readonly note: string;
 };
@@ -233,7 +233,7 @@ export interface DraftWorkRole {
   readonly supersedesRoleId: null;
 }
 
-interface OpeningDraftHistory {
+export interface OpeningDraftHistory {
   nextSequence: number;
   readonly households: DraftHousehold[];
   readonly householdLocations: DraftHouseholdLocation[];
@@ -267,7 +267,7 @@ export interface OpeningDraft {
 }
 
 /** The same world id the old engine gave a fixture world of this seed. */
-function openingDraftId(seed: string): EntityId {
+export function openingDraftId(seed: string): EntityId {
   return createStableId(
     "world",
     `${DRAFT_GENERATOR_VERSION}:${normalizeSeed(seed)}`,
@@ -317,7 +317,26 @@ export function takeSequence(draft: OpeningDraft): number {
   return sequence;
 }
 
+/** A person's current household memberships, in membership order. */
+export function draftMembershipsOf(
+  draft: OpeningDraft,
+  personId: EntityId,
+): readonly DraftHouseholdMembership[] {
+  return draft.history.householdMemberships.filter(
+    (row) => row.personId === personId,
+  );
+}
 
+/** The people in a household, by id, as the old query returned them (sorted). */
+export function draftHouseholdMembers(
+  draft: OpeningDraft,
+  householdId: EntityId,
+): readonly EntityId[] {
+  return draft.history.householdMemberships
+    .filter((row) => row.householdId === householdId)
+    .map((row) => row.personId)
+    .sort();
+}
 
 /** The latest organization profile per organization at the opening date. */
 export function draftOrganizationProfiles(

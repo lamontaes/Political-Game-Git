@@ -123,3 +123,47 @@ export function profileFor(
     basis: `${state ? key : "national"}:${band}`,
   };
 }
+
+/** Adds each adult resident's education and faith as facts on their record. */
+export function addOpeningProfiles(input: CoreInput): CoreInput {
+  const marker = stopgap(DATA.stopgapId);
+  const opening = makeIsoDate(input.startedAt);
+  return {
+    ...input,
+    people: input.people.map((person) => {
+      if (person.tier === "husk") return person;
+      const profile = profileFor(person, input.seed, input.startedAt);
+      if (!profile) return person;
+      const ids = new Set((person.pastFacts ?? []).map((row) => row.id));
+      const source = {
+        tag: "ESTIMATED" as const,
+        asOf: opening,
+        citation: `${KEYS.source.citation} Shares for ${profile.basis}.`,
+        estimatedFrom: marker.id,
+      };
+      type Fact = NonNullable<PersonInput["pastFacts"]>[number];
+      const rows: Fact[] = [
+        {
+          id: `${person.id}:${DATA.version}:education`,
+          date: opening,
+          kind: PROFILE_FACT_KINDS.education,
+          summary: "Education attainment",
+          source,
+          facts: { level: profile.education },
+        },
+        {
+          id: `${person.id}:${DATA.version}:faith`,
+          date: opening,
+          kind: PROFILE_FACT_KINDS.faith,
+          summary: "Faith",
+          source,
+          facts: { group: profile.faith },
+        },
+      ];
+      const facts = rows.filter((row) => !ids.has(row.id));
+      return facts.length
+        ? { ...person, pastFacts: [...(person.pastFacts ?? []), ...facts] }
+        : person;
+    }),
+  };
+}

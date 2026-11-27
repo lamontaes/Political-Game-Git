@@ -148,7 +148,7 @@ export function personalityLevel(z: number): number {
  * is a generation fact keyed to the person (the opening kept only the level),
  * so the same person always starts at the same score.
  */
-function personalityLevelScore(value: number, at: number): number {
+export function personalityLevelScore(value: number, at: number): number {
   const cuts = SPEC.levels.cutPoints;
   const index = SPEC.levels.values.indexOf(value);
   const low = index === p("zero") ? -Infinity : cuts[index - p("one")]!;

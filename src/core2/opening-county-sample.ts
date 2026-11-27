@@ -32,7 +32,7 @@ import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
 import type { CoreInput, HouseholdInput, PersonInput, Source } from "./types";
 
-const COUNTY_SAMPLE_STOPGAP = "SG-LIVES-county-sample-employers";
+export const COUNTY_SAMPLE_STOPGAP = "SG-LIVES-county-sample-employers";
 
 export interface CountySample {
   input: CoreInput;

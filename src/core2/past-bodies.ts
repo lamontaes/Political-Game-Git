@@ -148,3 +148,10 @@ export function pastIdentityName(
   });
   return `${identity.givenName} ${identity.familyName}`;
 }
+
+/** Questions a body can vote on: the catalog's for its level, with a direction. */
+export function questionsWithAxis(
+  questions: Iterable<string>,
+): readonly string[] {
+  return [...new Set(questions)].filter((q) => questionAxis(q) !== 0);
+}
