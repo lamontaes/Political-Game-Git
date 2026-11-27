@@ -114,6 +114,7 @@ import {
   VIEWS_MODULE_ID,
   countedNewsGroups,
   countedNewsConcern,
+  type CountedNewsAudience,
   type Stance as ViewStance,
 } from "./views";
 import { electorateSides } from "./voting";
@@ -162,7 +163,7 @@ export { PRESS_STORY_EVENT } from "../press-desk";
 /** A story a paper ran on an official's hidden act: a bribe taken, or a vote for a firm they or their family own. */
 export const PRESS_EXPOSED = "press.exposed";
 import { newsKey, storiesHeard, type Story } from "./news";
-import { registerCountedNewsSource } from "./news-listeners";
+import type { CountedNewsModule } from "./news-listeners";
 import { worldLevel } from "../world-draw";
 
 export const PRESS_MODULE_ID = "core2-press-v1";
@@ -412,8 +413,10 @@ export function worldOutletCounts(
   };
 }
 
-const PRESS_MODULE: CoreModule = {
+const PRESS_MODULE: CoreModule & CountedNewsModule = {
   id: PRESS_MODULE_ID,
+  // A plain field: news reads it off the installed module.
+  countedNewsAudience,
   state: {
     schemaVersion: 1,
     tables: {
@@ -4235,6 +4238,27 @@ export function storiesPrinted(
     .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
 }
 
+/** One interview row by its id, or undefined (the door the screens read an interview's questions through). */
+export function interviewOf(
+  api: CoreAPI,
+  interviewId: string,
+): InterviewRow | undefined {
+  if (!api.state.modules.has(PRESS_MODULE_ID)) return undefined;
+  return table(api, "interviews").get(interviewId) as unknown as
+    InterviewRow | undefined;
+}
+
+/** The stories the desk printed from one wire item, by the wire item's id. */
+export function storiesOfWire(
+  api: CoreAPI,
+  wireId: string,
+): readonly PrintedStory[] {
+  if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
+  return table(api, "stories").query("byWire", [
+    wireId,
+  ]) as unknown as PrintedStory[];
+}
+
 /** A town outlet's people: its head and reporters, with their roles. */
 export function staffOf(api: CoreAPI, outletId: string): readonly StaffRow[] {
   if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
@@ -5159,7 +5183,11 @@ export function attackOutlet(
 }
 
 /** The audience already counted by the desk, distributed across its groups. */
-registerCountedNewsSource((api, storyId, namedReaders) => {
+function countedNewsAudience(
+  api: CoreAPI,
+  storyId: string,
+  namedReaders: number,
+): readonly CountedNewsAudience[] {
   const printed = printedStoryOf(api, storyId);
   if (
     !printed ||
@@ -5213,7 +5241,7 @@ registerCountedNewsSource((api, storyId, namedReaders) => {
       group,
       reached: (delivered * followers) / total,
     }));
-});
+}
 
 /*
  * What a paper found when it exposed an official (`press.exposed`),
