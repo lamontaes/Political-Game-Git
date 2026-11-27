@@ -15,6 +15,7 @@ import {
 } from "./dev-view.mjs";
 import { traceBox } from "./dev-trace-box.mjs";
 import { stripSection } from "./strips.mjs";
+import { sendDevRequest } from "./dev-request.mjs";
 
 async function get(path) {
   const response = await fetch(path);
@@ -35,8 +36,8 @@ const evidenceIds = (e) =>
 /** The sections. `labels` is controls.devWatch; `playerId` the player, for the golden path. */
 export async function devWatchSections({ labels, playerId }) {
   const [view, loans, progress] = await Promise.all([
-    get("/api/dev/watch"),
-    get("/api/dev/loans"),
+    sendDevRequest("watch"),
+    sendDevRequest("loans"),
     get(
       `/api/progress${playerId ? `?id=${encodeURIComponent(playerId)}` : ""}`,
     ),
