@@ -7754,6 +7754,30 @@ export function doubtsClaim(
   return !believesClaim(core, hearer, tellerId ? { tellerId } : {});
 }
 
+/**
+ * What a reply the player says carries to every step that answers it: the
+ * talk, the choice, the line it answered, the record the reply writes, who
+ * heard it, and whether the listener doubts it.
+ */
+interface Said {
+  core: CoreState;
+  conversation: Conversation;
+  data: ConversationData;
+  choice: ConversationChoice;
+  last: LastLine;
+  eventId: string;
+  hearers: readonly PersonId[];
+  doubted: boolean;
+  /** Tell everyone present a fact of the player's own, as a recorded event. */
+  tell: (id: string, own: { key: string; value: string }) => void;
+  /** What the other person says back: their line, its records and the record this reply wrote. */
+  otherTells: (
+    kind: string,
+    line: Pick<ConversationLine, "text" | "sourceRecordIds" | "wording">,
+    recordId: string,
+  ) => void;
+}
+
 /** The player says a choice: it is recorded, and the other person replies. */
 function sayNow(
   core: CoreState,
@@ -7768,45 +7792,96 @@ function sayNow(
     conversation.lies.find((row) => row.key === choiceKey);
   if (!choice) throw new Error(`Not an offered line: ${choiceKey}`);
   const { playerId, otherId } = conversation;
-  const api = coreAPI(core);
   const player = core.people.get(playerId)!;
-  const last = conversation.last!;
   const hearers = [otherId, ...conversation.presentIds];
   const source: Source = {
     tag: "SOURCED",
     citation: "Recorded conversation: the line the player chose to say.",
     asOf: core.date,
   };
-  const eventId = `conversation:${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${choice.key}`;
-  const tell = (id: string, own: { key: string; value: string }) => {
-    applyCoreEvent(core, {
-      id,
-      date: core.date,
-      kind: data.toldEvent,
-      personIds: hearers,
-      witnessIds: [playerId],
-      placeId: player.placeId,
-      facts: { [own.key]: own.value },
-      source,
-    });
-    conversation.recorded.push(id);
+  const said: Said = {
+    core,
+    conversation,
+    data,
+    choice,
+    last: conversation.last!,
+    eventId: `conversation:${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${choice.key}`,
+    hearers,
+    doubted: false,
+    tell: (id, own) => {
+      applyCoreEvent(core, {
+        id,
+        date: core.date,
+        kind: data.toldEvent,
+        personIds: hearers,
+        witnessIds: [playerId],
+        placeId: player.placeId,
+        facts: { [own.key]: own.value },
+        source,
+      });
+      conversation.recorded.push(id);
+    },
+    otherTells: (kind, line, recordId) =>
+      conversation.lines.push({
+        speakerId: otherId,
+        subjectId: choice.answers,
+        kind,
+        act: "tell",
+        ...line,
+        sourceRecordIds: [...new Set([...line.sourceRecordIds, recordId])],
+      }),
   };
-  // What the other person says back to the player's reply: their line, the
-  // records it rests on and the record that this reply wrote.
-  const otherTells = (
-    kind: string,
-    line: Pick<ConversationLine, "text" | "sourceRecordIds" | "wording">,
-    recordId: string,
-  ) =>
-    conversation.lines.push({
-      speakerId: otherId,
-      subjectId: choice.answers,
-      kind,
-      act: "tell",
-      ...line,
-      sourceRecordIds: [...new Set([...line.sourceRecordIds, recordId])],
-    });
-  let doubted = false;
+  recordAnswer(said, source);
+  saysAnswer(said);
+  // The player's answer to a promise brought up counts (promise-talk.ts).
+  const { last } = said;
+  const promise =
+    !choice.lie && conversation.director ? promiseOfRaised(last.subject) : null;
+  if (promise) answerPromise(core, promise, playerId, choice.move);
+  // The families that answer a reply, in order, the first to take it ending
+  // the turn: a veto, where they stand (why, then a take), the address's
+  // point, news, a day's own subject.
+  if (answersVeto(said)) return conversation;
+  doubtsAnswer(said);
+  recordContact(said);
+  if (answersOwnView(said)) return conversation;
+  if (answersPoint(said)) return conversation;
+  if (answersNews(said)) return conversation;
+  if (answersDay(said)) return conversation;
+  // The reply asks for more, or raises a subject of the other person's own:
+  // they tell it from their own records.
+  if (asksForMore(said)) return conversation;
+  const raised = subjectsBetween(
+    core,
+    playerId,
+    otherId,
+    conversation.director,
+    conversation,
+  ).find((row) => row.id === choice.raises);
+  const gave = givesBackAnswer(said);
+  // A raised answer the give-back already told (where they live, said as the
+  // give-back) is not told again (lead, Nov 14, rule 53: one fact, once).
+  const covered = gave && !!raised && giveBackCovers(last.kind, raised.kind);
+  if (gave && (!raised || covered)) {
+    carryOn(core, conversation, data);
+    return conversation;
+  }
+  if (!raised && closesOnNews(said)) return conversation;
+  if (!raised) return takesIn(said);
+  return answersRaised(said, raised, gave);
+}
+
+/**
+ * What a reply writes: a lie is recorded as the exact claim and who heard it,
+ * and each hearer believes it unless their traits lean toward doubt; a true
+ * answer tells everyone present the fact. Sets `doubted` where the listener
+ * doubts the lie.
+ */
+function recordAnswer(said: Said, source: Source): void {
+  const { core, conversation, data, choice, last, eventId, hearers } = said;
+  const { playerId, otherId } = conversation;
+  const api = coreAPI(core);
+  const player = core.people.get(playerId)!;
   if (choice.lie && choice.claim) {
     const claim = choice.claim;
     // The exact claim and who heard it; the director keeps it as a lie.
@@ -7829,7 +7904,7 @@ function sayNow(
     for (const hearerId of hearers) {
       const hearer = core.people.get(hearerId);
       if (hearer && doubtsClaim(core, hearer, playerId)) {
-        if (hearerId === otherId) doubted = true;
+        if (hearerId === otherId) said.doubted = true;
         continue;
       }
       api.observe(hearerId, {
@@ -7853,12 +7928,17 @@ function sayNow(
     }
   } else if (last.subject.own && conversation.lines.at(-one)?.act === "ask") {
     // A true answer tells everyone present the fact.
-    tell(eventId, last.subject.own);
+    said.tell(eventId, last.subject.own);
     for (const also of saidOwn(last.subject, choice.wording))
-      tell(`${eventId}:${also.key}`, also);
+      said.tell(`${eventId}:${also.key}`, also);
   }
+}
+
+/** The player's reply goes into the talk as a line of theirs. */
+function saysAnswer(said: Said): void {
+  const { conversation, choice, last } = said;
   conversation.lines.push({
-    speakerId: playerId,
+    speakerId: conversation.playerId,
     subjectId: choice.raises ?? choice.answers,
     kind: last.kind,
     act: choice.lie ? "lie" : "answer",
@@ -7866,59 +7946,64 @@ function sayNow(
     sourceRecordIds: choice.sourceRecordIds,
     ...(choice.wording ? { wording: choice.wording } : {}),
   });
-  // The player's answer to a promise brought up counts (promise-talk.ts).
-  const promise =
-    !choice.lie && conversation.director ? promiseOfRaised(last.subject) : null;
-  if (promise) answerPromise(core, promise, playerId, choice.move);
-  // The player's reply to a veto brought up moves the tie through the
-  // writer the veto used (veto-talk.ts); the sponsor answers it, and the
-  // talk ends there: on their answer, or on the player's leaving.
+}
+
+/**
+ * The player's reply to a veto brought up moves the tie through the writer
+ * the veto used (veto-talk.ts); the sponsor answers it, and the talk ends
+ * there: on their answer, or on the player's leaving.
+ */
+function answersVeto(said: Said): boolean {
+  const { core, conversation, choice, last, eventId } = said;
+  const { playerId, otherId } = conversation;
   const veto = !choice.lie ? vetoOfRaised(last.subject) : null;
-  if (veto) {
-    const answered = answerVeto(
-      core,
-      veto.actId,
-      playerId,
-      otherId,
-      choice.move,
-    );
-    const back = answerBack(core, {
-      kind: last.kind,
-      replyMove: choice.move,
-      speakerId: otherId,
-      momentKey: `${eventId}:back`,
-      facts: last.facts,
-      told: new Set<string>(),
-      shape: (facts) => facts,
-      saidParts: saidParts(conversation, otherId),
+  if (!veto) return false;
+  const answered = answerVeto(core, veto.actId, playerId, otherId, choice.move);
+  const back = answerBack(core, {
+    kind: last.kind,
+    replyMove: choice.move,
+    speakerId: otherId,
+    momentKey: `${eventId}:back`,
+    facts: last.facts,
+    told: new Set<string>(),
+    shape: (facts) => facts,
+    saidParts: saidParts(conversation, otherId),
+  });
+  if (back) said.otherTells(`${last.kind}-back`, back, answered ?? eventId);
+  conversation.choices = [];
+  conversation.lies = [];
+  return true;
+}
+
+/** A listener who doubts the lie says so; the conversation carries on. */
+function doubtsAnswer(said: Said): void {
+  const { core, conversation, data, choice, eventId } = said;
+  if (!said.doubted) return;
+  const doubt = words(
+    core,
+    data,
+    conversation.otherId,
+    "lie",
+    "reply",
+    ALL,
+    {},
+    `${eventId}:doubt`,
+  );
+  if (doubt)
+    conversation.lines.push({
+      speakerId: conversation.otherId,
+      subjectId: choice.answers,
+      kind: "lie-doubt",
+      act: "ask",
+      ...doubt,
     });
-    if (back) otherTells(`${last.kind}-back`, back, answered ?? eventId);
-    conversation.choices = [];
-    conversation.lies = [];
-    return conversation;
-  }
-  // A listener who doubts the lie says so; the conversation carries on.
-  if (doubted) {
-    const doubt = words(
-      core,
-      data,
-      otherId,
-      "lie",
-      "reply",
-      ALL,
-      {},
-      `${eventId}:doubt`,
-    );
-    if (doubt)
-      conversation.lines.push({
-        speakerId: otherId,
-        subjectId: choice.answers,
-        kind: "lie-doubt",
-        act: "ask",
-        ...doubt,
-      });
-  }
-  // Talking is time together, recorded through the core's own writer.
+}
+
+/** Talking is time together, recorded through the core's own writer; the listener remembers what the talk was about. */
+function recordContact(said: Said): void {
+  const { core, conversation, data, eventId, hearers } = said;
+  const { playerId, otherId } = conversation;
+  const api = coreAPI(core);
   for (const hearerId of hearers)
     api.relationship(
       playerId,
@@ -7931,7 +8016,6 @@ function sayNow(
         sourceId: eventId,
       },
     );
-  // The listener remembers what this talk was about.
   if (conversation.topics[zero])
     api.observe(otherId, {
       key: talkedKey(playerId, conversation.topics[zero]),
@@ -7940,34 +8024,42 @@ function sayNow(
       sourceId: eventId,
       access: "told",
     });
-  // Asked why they stand where they do, they answer from the reason on
-  // record (their work, or money in their town), in composed words.
-  if (last.kind === "own-view" && !choice.lie && ownViewWhy(choice.move)) {
-    const back = answerOwnView(core, {
+}
+
+/**
+ * A reply to where they stand. Asked why, they answer from the reason on
+ * record (their work, or money in their town), in composed words. A reply
+ * that agrees or disagrees tells them where the player stands on the same
+ * question: they learn it (the views engine's stance record), and answer from
+ * the same reason on record, what they will do or expect, never only that the
+ * two agree (words composer, Nov 12). The talk carries on after.
+ */
+function answersOwnView(said: Said): boolean {
+  const { core, conversation, data, choice, last, eventId, hearers } = said;
+  const { playerId, otherId } = conversation;
+  if (last.kind !== "own-view" || choice.lie) return false;
+  const api = coreAPI(core);
+  const answerFrom = (momentKey: string, held: Facts | undefined) =>
+    answerOwnView(core, {
       replyMove: choice.move,
       speakerId: otherId,
-      momentKey: `${eventId}:back`,
+      momentKey,
       facts: last.facts,
-      held: undefined,
+      held,
       shape: (facts) => ({
         ...facts,
         ...youIn(core, conversation, otherId, playerId),
       }),
       saidParts: saidParts(conversation, otherId),
     });
-    if (back) otherTells(back.subject, back.line, eventId);
+  if (ownViewWhy(choice.move)) {
+    const back = answerFrom(`${eventId}:back`, undefined);
+    if (back) said.otherTells(back.subject, back.line, eventId);
     carryOn(core, conversation, data);
-    return conversation;
+    return true;
   }
-  // A reply to where they stand that agrees or disagrees tells them where
-  // the player stands on the same question: they learn it (the views
-  // engine's stance record), as the player learned theirs.
-  if (
-    last.kind === "own-view" &&
-    !choice.lie &&
-    last.subject.news?.question &&
-    ownViewTakes(choice.move)
-  ) {
+  if (!ownViewTakes(choice.move)) return false;
+  if (last.subject.news?.question) {
     const question = last.subject.news.question;
     for (const hearerId of hearers) {
       learnView(
@@ -7980,125 +8072,124 @@ function sayNow(
       learnViewQuestion(api, hearerId, playerId, question, eventId);
     }
   }
-  // Agreed or disagreed with, they answer from the same reason on record
-  // (their work, their money): what they will do or expect, never only
-  // that the two agree (words composer, Nov 12). Composed under
-  // `own-view-take` by the reply's move; the talk carries on after.
-  if (last.kind === "own-view" && !choice.lie && ownViewTakes(choice.move)) {
-    const back = answerOwnView(core, {
-      replyMove: choice.move,
-      speakerId: otherId,
-      momentKey: `${eventId}:take`,
-      facts: last.facts,
-      held: conversation.topicFacts,
-      shape: (facts) => ({
-        ...facts,
-        ...youIn(core, conversation, otherId, playerId),
-      }),
-      saidParts: saidParts(conversation, otherId),
-    });
-    if (back) otherTells(back.subject, back.line, eventId);
-    // A story that already says how it came out leaves nothing to wait to
-    // see: with no take that fits, the talk carries on with no filler line.
-    if (back || conversation.topicFacts?.["story-decided"]) {
-      carryOn(core, conversation, data);
-      return conversation;
-    }
-  }
-  // A reply to the address's point: the other person keeps what the player
-  // said on that question, and answers it in words the engine composes.
-  if (last.kind === POINT && last.subject.point && !choice.lie) {
-    tell(eventId, {
-      key: pointKey(playerId, last.subject.point.question),
-      value: choice.move,
-    });
-    answerPoint(core, conversation, data, choice, eventId);
-    return conversation;
-  }
-  // A reply to news: a stand on the story's question is learned by everyone
-  // who heard it (the views engine's stance record), and the other person
-  // answers in words the engine composes, from their own stake in it.
-  if (
-    last.kind === "news" &&
-    !choice.lie &&
-    composedConversationBank(newsBackSubject())
-  ) {
-    answerNews(core, conversation, data, choice, eventId, hearers, last);
-    return conversation;
-  }
-  // A reply on a day's own subject (their shift): they answer it from the
-  // same record, by the reply's move, and the talk carries on.
-  if (dayBack(last.kind) && !choice.lie) {
-    // For news of their own life, the answer back never says again a figure
-    // the telling just said (the engine's rule, the arcs file's
-    // `home.dayBack`): it is handed what the telling used.
-    const told = answerLeavesOutTold(last.kind)
-      ? new Set(
-          [...conversation.lines]
-            .reverse()
-            .find(
-              (line) =>
-                line.speakerId === otherId &&
-                (line.subjectId === choice.answers ||
-                  line.subjectId.endsWith(`>${choice.answers}`)),
-            )?.wording?.facts ?? [],
-        )
-      : new Set<string>();
-    const back = answerBack(core, {
-      kind: last.kind,
-      replyMove: choice.move,
-      speakerId: otherId,
-      momentKey: `${eventId}:back`,
-      facts: last.facts,
-      told,
-      shape: (facts) => ({
-        ...nameOnce(core, conversation, otherId, playerId, facts),
-        ...youIn(core, conversation, otherId, playerId),
-      }),
-      saidParts: saidParts(conversation, otherId),
-    });
-    if (last.kind === "here") conversation.nameGiven = true;
-    if (back) otherTells(`${last.kind}-back`, back, eventId);
-    // Now they have met, the news they came with is told (Words lead, Nov 14).
-    if (last.kind === "here") {
-      if (raiseBroughtNews(core, conversation, data)) return conversation;
-      const main = mainTopic(core, conversation, data);
-      if (
-        main &&
-        (main.asks
-          ? askSubject(core, conversation, data, main.subject)
-          : raiseSubject(core, conversation, data, main.subject))
-      )
-        return conversation;
-    }
+  const back = answerFrom(`${eventId}:take`, conversation.topicFacts);
+  if (back) said.otherTells(back.subject, back.line, eventId);
+  // A story that already says how it came out leaves nothing to wait to
+  // see: with no take that fits, the talk carries on with no filler line.
+  if (back || conversation.topicFacts?.["story-decided"]) {
     carryOn(core, conversation, data);
-    return conversation;
+    return true;
   }
-  // A choice that asks the other person to say more ("What happened?"):
-  // they tell it from their own records, on the same topic.
+  return false;
+}
+
+/**
+ * A reply to the address's point: the other person keeps what the player said
+ * on that question, and answers it in words the engine composes.
+ */
+function answersPoint(said: Said): boolean {
+  const { core, conversation, data, choice, last, eventId } = said;
+  if (last.kind !== POINT || !last.subject.point || choice.lie) return false;
+  said.tell(eventId, {
+    key: pointKey(conversation.playerId, last.subject.point.question),
+    value: choice.move,
+  });
+  answerPoint(core, conversation, data, choice, eventId);
+  return true;
+}
+
+/**
+ * A reply to news: a stand on the story's question is learned by everyone who
+ * heard it (the views engine's stance record), and the other person answers
+ * in words the engine composes, from their own stake in it.
+ */
+function answersNews(said: Said): boolean {
+  const { core, conversation, data, choice, last, eventId, hearers } = said;
+  if (
+    last.kind !== "news" ||
+    choice.lie ||
+    !composedConversationBank(newsBackSubject())
+  )
+    return false;
+  answerNews(core, conversation, data, choice, eventId, hearers, last);
+  return true;
+}
+
+/**
+ * A reply on a day's own subject (their shift): they answer it from the same
+ * record, by the reply's move, and the talk carries on. For news of their own
+ * life the answer back never says again a figure the telling just said (the
+ * engine's rule, the arcs file's `home.dayBack`).
+ */
+function answersDay(said: Said): boolean {
+  const { core, conversation, data, choice, last, eventId } = said;
+  const { playerId, otherId } = conversation;
+  if (!dayBack(last.kind) || choice.lie) return false;
+  const told = answerLeavesOutTold(last.kind)
+    ? new Set(
+        [...conversation.lines]
+          .reverse()
+          .find(
+            (line) =>
+              line.speakerId === otherId &&
+              (line.subjectId === choice.answers ||
+                line.subjectId.endsWith(`>${choice.answers}`)),
+          )?.wording?.facts ?? [],
+      )
+    : new Set<string>();
+  const back = answerBack(core, {
+    kind: last.kind,
+    replyMove: choice.move,
+    speakerId: otherId,
+    momentKey: `${eventId}:back`,
+    facts: last.facts,
+    told,
+    shape: (facts) => ({
+      ...nameOnce(core, conversation, otherId, playerId, facts),
+      ...youIn(core, conversation, otherId, playerId),
+    }),
+    saidParts: saidParts(conversation, otherId),
+  });
+  if (last.kind === "here") conversation.nameGiven = true;
+  if (back) said.otherTells(`${last.kind}-back`, back, eventId);
+  // Now they have met, the news they came with is told (Words lead, Nov 14).
+  if (last.kind === "here") {
+    if (raiseBroughtNews(core, conversation, data)) return true;
+    const main = mainTopic(core, conversation, data);
+    if (
+      main &&
+      (main.asks
+        ? askSubject(core, conversation, data, main.subject)
+        : raiseSubject(core, conversation, data, main.subject))
+    )
+      return true;
+  }
+  carryOn(core, conversation, data);
+  return true;
+}
+
+/** A choice that asks the other person to say more ("What happened?"): they tell it from their own records, on the same topic. */
+function asksForMore(said: Said): boolean {
+  const { core, conversation, data, choice, last } = said;
   const told = data.tells?.[last.kind]?.[choice.move];
   const theirs =
-    told && !doubted ? tellable(core, conversation, data, told) : undefined;
-  if (theirs && raiseSubject(core, conversation, data, theirs, true))
-    return conversation;
-  const raised = subjectsBetween(
-    core,
-    playerId,
-    otherId,
-    conversation.director,
-    conversation,
-  ).find((row) => row.id === choice.raises);
-  // Their own small question answered, they give their own answer back from
-  // their record: the talk's last word is theirs and says something, and the
-  // player learns it (lead, Nov 13). What the player's answer raised of their
-  // own is told first, as a raised answer tells it.
-  // Their own small question answered, they give their own answer back from
-  // their record: the talk's last word is theirs and says something, and the
-  // player learns it (lead, Nov 13). Where the player's answer raised
-  // something of their own, it is told and answered as a raised answer is,
-  // after the give-back.
-  const gave =
-    !doubted &&
+    told && !said.doubted
+      ? tellable(core, conversation, data, told)
+      : undefined;
+  return !!theirs && raiseSubject(core, conversation, data, theirs, true);
+}
+
+/**
+ * Their own small question answered, they give their own answer back from
+ * their record: the talk's last word is theirs and says something, and the
+ * player learns it (lead, Nov 13). Where the player's answer raised something
+ * of their own, it is told and answered as a raised answer is, after the
+ * give-back. True when the give-back was said.
+ */
+function givesBackAnswer(said: Said): boolean {
+  const { core, conversation, data, choice, last, eventId } = said;
+  return (
+    !said.doubted &&
     !choice.lie &&
     asksGiveBack(last.kind) &&
     sayGiveBack(
@@ -8109,102 +8200,117 @@ function sayNow(
       choice.answers,
       eventId,
       choice.move,
-    );
-  // A raised answer the give-back already told (where they live, said as the
-  // give-back) is not told again (lead, Nov 14, rule 53: one fact, once).
-  const covered = gave && !!raised && giveBackCovers(last.kind, raised.kind);
-  if (gave && (!raised || covered)) {
-    carryOn(core, conversation, data);
-    return conversation;
-  }
-  if (
-    !raised &&
-    isNewsSubject(subjectKindOf(conversation.topics[zero] ?? ""))
-  ) {
-    // Bad news told and reacted to (comfort, a reaction, a plain answer): the
-    // teller never answers with small-talk "Huh."; they carry on to the one
-    // related thing they have to say (a lost job: that they are looking; an
-    // eviction: where they go), else the talk ends.
-    const related =
-      data.related[subjectKindOf(conversation.topics[zero]!)] ?? [];
-    if (conversation.topics.length === one && !doubted)
-      for (const kind of related) {
-        const next = tellable(core, conversation, data, kind);
-        if (next && raiseSubject(core, conversation, data, next, true))
-          return conversation;
-      }
-    endConversation(core, conversation, data);
-    return conversation;
-  }
-  if (!raised) {
-    // Nothing new raised: the other person takes the answer in by the scene
-    // engine's rule for the move it made (owner, Oct 29: one engine for every
-    // line), in words written to answer it ("Sit with me a minute?" "Sure.",
-    // never "That's what I thought too."), then carries on; after a request
-    // or a plea to be left alone, their answer ends the talk. An answer that
-    // only takes their line in ("Oh, okay.") gets none: the talk has no
-    // answer to a note.
-    const answered = doubted
-      ? null
-      : answerInTalk(core, {
-          replyMove: replyMoveOf(last.kind, choice.move),
-          answered: `${last.kind.replace(/-new$/, "")}:${choice.move}`,
-          key: last.kind,
-          speakerId: otherId,
-          momentKey: `${playerId}:${otherId}:${conversation.lines.length}:take`,
-          heard: heardNow,
-        });
-    // An answer says something or is not said: a bare taking-in ("Okay.",
-    // "I see.") of an answer that asked nothing is a non-reply (owner, Nov
-    // 12: "a useless interaction"); the talk carries on from its records
-    // instead. Taking up a request ("Sit with me a minute?" "Sure.") stays.
-    const take =
-      answered?.move === "accept" &&
-      replyMoveOf(last.kind, choice.move) !== "request"
-        ? null
-        : answered;
-    if (take)
-      conversation.lines.push({
-        speakerId: otherId,
-        subjectId: choice.answers,
-        kind: "ack",
-        act: "tell",
-        text: take.text,
-        sourceRecordIds: [eventId],
-        wording: {
-          bank: "scene-talk",
-          parts: [take.pieceKey],
-          stage: "default",
-          facts: [],
-        },
-      });
-    // A yes never ends a talk (owner, Oct 15): after "Sit with me a minute?"
-    // "Of course." they carry on with what they have. Where the answer
-    // closes it ("Okay. I'll leave you be.", or they have nothing more),
-    // their answer is the last word: no goodbye follows it.
-    if (take?.closes) {
-      if (
-        take.move === "accept" &&
-        replyMoveOf(last.kind, choice.move) === "request"
-      )
-        carryOn(core, conversation, data, { quietly: true });
-      else {
-        conversation.choices = [];
-        conversation.lies = [];
-      }
-      return conversation;
+    )
+  );
+}
+
+/**
+ * Bad news told and reacted to (comfort, a reaction, a plain answer): the
+ * teller never answers with small-talk "Huh."; they carry on to the one
+ * related thing they have to say (a lost job: that they are looking; an
+ * eviction: where they go), else the talk ends. True when the talk was on
+ * such news (and so is answered here).
+ */
+function closesOnNews(said: Said): boolean {
+  const { core, conversation, data } = said;
+  if (!isNewsSubject(subjectKindOf(conversation.topics[zero] ?? "")))
+    return false;
+  const related = data.related[subjectKindOf(conversation.topics[zero]!)] ?? [];
+  if (conversation.topics.length === one && !said.doubted)
+    for (const kind of related) {
+      const next = tellable(core, conversation, data, kind);
+      if (next && raiseSubject(core, conversation, data, next, true))
+        return true;
     }
-    carryOn(core, conversation, data);
+  endConversation(core, conversation, data);
+  return true;
+}
+
+/**
+ * Nothing new raised: the other person takes the answer in by the scene
+ * engine's rule for the move it made (owner, Oct 29: one engine for every
+ * line), in words written to answer it ("Sit with me a minute?" "Sure.",
+ * never "That's what I thought too."), then carries on; after a request or a
+ * plea to be left alone, their answer ends the talk. An answer that only
+ * takes their line in ("Oh, okay.") gets none: the talk has no answer to a
+ * note.
+ */
+function takesIn(said: Said): Conversation {
+  const { core, conversation, data, choice, last, eventId } = said;
+  const { playerId, otherId } = conversation;
+  const answered = said.doubted
+    ? null
+    : answerInTalk(core, {
+        replyMove: replyMoveOf(last.kind, choice.move),
+        answered: `${last.kind.replace(/-new$/, "")}:${choice.move}`,
+        key: last.kind,
+        speakerId: otherId,
+        momentKey: `${playerId}:${otherId}:${conversation.lines.length}:take`,
+        heard: heardNow,
+      });
+  // An answer says something or is not said: a bare taking-in ("Okay.",
+  // "I see.") of an answer that asked nothing is a non-reply (owner, Nov
+  // 12: "a useless interaction"); the talk carries on from its records
+  // instead. Taking up a request ("Sit with me a minute?" "Sure.") stays.
+  const take =
+    answered?.move === "accept" &&
+    replyMoveOf(last.kind, choice.move) !== "request"
+      ? null
+      : answered;
+  if (take)
+    conversation.lines.push({
+      speakerId: otherId,
+      subjectId: choice.answers,
+      kind: "ack",
+      act: "tell",
+      text: take.text,
+      sourceRecordIds: [eventId],
+      wording: {
+        bank: "scene-talk",
+        parts: [take.pieceKey],
+        stage: "default",
+        facts: [],
+      },
+    });
+  // A yes never ends a talk (owner, Oct 15): after "Sit with me a minute?"
+  // "Of course." they carry on with what they have. Where the answer closes
+  // it ("Okay. I'll leave you be.", or they have nothing more), their answer
+  // is the last word: no goodbye follows it.
+  if (take?.closes) {
+    if (
+      take.move === "accept" &&
+      replyMoveOf(last.kind, choice.move) === "request"
+    )
+      carryOn(core, conversation, data, { quietly: true });
+    else {
+      conversation.choices = [];
+      conversation.lies = [];
+    }
     return conversation;
   }
+  carryOn(core, conversation, data);
+  return conversation;
+}
+
+/**
+ * The reply raised a subject of the other person's own: the player's own facts
+ * in it are told, and the other person answers it from their record, then the
+ * talk offers its next replies. What the give-back just told (where they work)
+ * is not told again by the answer: it says what is new, or the talk carries on
+ * when nothing is.
+ */
+function answersRaised(
+  said: Said,
+  raised: Subject,
+  gave: boolean,
+): Conversation {
+  const { core, conversation, data, choice, eventId } = said;
+  const { playerId, otherId } = conversation;
   conversation.used.push(raised.id);
-  if (raised.own) tell(`${eventId}:told`, raised.own);
+  if (raised.own) said.tell(`${eventId}:told`, raised.own);
   for (const also of saidOwn(raised, choice.wording))
-    tell(`${eventId}:told:${also.key}`, also);
+    said.tell(`${eventId}:told:${also.key}`, also);
   const replied = replyFacts(core, otherId, raised);
-  // What the give-back just told (where they work) is not told again by the
-  // answer to the question it turned back: the answer says what is new, or
-  // the talk carries on when nothing is.
   const fresh =
     gave && replied ? unsaidFacts(conversation, replied.facts) : null;
   if (replied && fresh && !Object.keys(fresh).length) {
