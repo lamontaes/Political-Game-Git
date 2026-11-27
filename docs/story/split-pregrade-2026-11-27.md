@@ -89,7 +89,7 @@ Majority verdict (2 or 3 of 3 readers). A reason that cites a repeat in a place 
 - **5.26** "I turned eighteen.": journal-entry-has-story-around-it: a bare "I turned eighteen.", the same as 1.33
 - **5.28** "We all watched Debbie Schmidt's speech together tonight. The President made the case that we already spend more on defense than the next several countries together. Most ": The journal says the President made a defense-spending claim the speech never made. The "The President made the case that" and "mostly about" frames recur (1.35, 2.34)
 
-### The news (#10721): 25 lines fail
+### The news (#10721): 34 lines fail
 
 - **1.36** "Story: New York puts Consumer Data Privacy Act into effect (Liberty News Network)": news-comes-from-a-record: a New York law story in a West Virginia town, printed by five outlets
 - **1.37** "paragraph: New York began living under the Consumer Data Privacy Act on January 15, 2025.": news-reads-as-a-story: the headline restated as the body
@@ -99,22 +99,31 @@ Majority verdict (2 or 3 of 3 readers). A reason that cites a repeat in a place 
 - **1.41** "paragraph: It is about control over the personal data that businesses collect.": Catalog description repeated; "It" leans on the headline
 - **1.42** "Story: New York puts Consumer Data Privacy Act into effect (The Porchlight)": The same story again, from a third outlet
 - **1.43** "paragraph: The Consumer Data Privacy Act took effect in New York on January 15, 2025.": news-reads-as-a-story: the headline restated
+- **1.44** "paragraph: It is about control over the personal data that businesses collect.": Word for word the same as 1.41
 - **1.45** "Story: Meet Mary Patrick (The Porchlight)": news-reads-as-a-story: a headline with no body; Mary Patrick is never said to be anyone
 - **1.46** "Story: Consumer Data Privacy Act starts (The Federal Courier)": The same story again, from a fourth outlet
 - **1.47** "paragraph: In New York, the Consumer Data Privacy Act has been the rule since January 15, 2025.": news-reads-as-a-story: the headline restated
+- **1.48** "paragraph: The law concerns control over the personal data that businesses collect.": Word for word the same as 1.38
 - **1.49** "Story: Consumer Data Privacy Act begins in New York (Town Square Show)": The same story again, from a fifth outlet
 - **1.50** "paragraph: New York put the Consumer Data Privacy Act into effect on January 15, 2025.": news-reads-as-a-story: the headline restated
+- **1.51** "paragraph: The law concerns control over the personal data that businesses collect.": Word for word the same as 1.38
 - **3.25** "Story: Estate tax rate was signed into law on November 30, 2024.": bill-called-by-what-people-call-it: the headline is a catalog name with no article, and the sentence is repeated as the body
 - **3.26** "paragraph: Estate tax rate was signed into law on November 30, 2024.": news-reads-as-a-story: the headline repeated word for word as the body
+- **3.27** "Story: Social Security tax rate was signed into law on November 30, 2024.": bill-called-by-what-people-call-it: the same catalog-name headline frame as 3.25
 - **3.28** "paragraph: Social Security tax rate was signed into law on November 30, 2024.": news-reads-as-a-story: the headline repeated word for word
+- **3.33** "paragraph: Barry Allen was chosen District 1 legislator on November 5, 2024 with 57 percent of the vote.": vary-the-shape: 3.36 has the same sentence with the same 57 percent
+- **3.34** "paragraph: Seven ballots were cast.": "Seven ballots were cast" for a district legislator race is not believable; the count is the same as 3.37
 - **3.35** "Story: Olson wins District 2 legislator": headline fragment ("wins District 2 legislator")
+- **3.36** "paragraph: Carlos Olson was chosen District 2 legislator on November 5, 2024 with 57 percent of the vote.": vary-the-shape: the same sentence and figure as 3.33
 - **3.37** "paragraph: Seven votes were counted.": The same seven-vote count again; not believable
+- **5.29** "Story: The Budget Ordinance gets a yes from the Iron County Commission (KGEG-TV)": vary-the-shape: the same headline comes back in 5.31
 - **5.30** "paragraph: The Budget Ordinance came out of the Iron County Commission on January 1, 2025 with a 7 to 0 vote behind it. Not one no vote was cast on the Budget Ordinance i": The second sentence says the first one again
+- **5.31** "Story: The Budget Ordinance gets a yes from the Iron County Commission (Brian Head Register)": The same headline as 5.29, from a second outlet
 - **5.32** "paragraph: Donald Yates's Budget Ordinance passed the Iron County Commission, 7 to 0, on January 1, 2025. All the members who voted in the Iron County Commission were for": The second sentence says the first one again
 - **5.43** "Story: First day for Anti-Discrimination Repeal Act in the U.S. Virgin Islands (Bulwark News Network)": news-comes-from-a-record: news from the Virgin Islands in a Utah town, and "First day" contradicts a law in effect since December
 - **5.45** "paragraph: It is about an end to the ban on discrimination in housing and work.": policy-said-by-people-not-the-catalog: "It is about an end to the ban..." is a catalog description
 
-**Not graded, and why.** The packet script's own notes are not game text: the "Kind: ..." heading of each address (1.8, 3.8, 5.8), the speaker cards with an empty "()" (1.15, 1.21, 5.16) and "nobody in the household has anything to say" (3.16). More fails (1.10, 1.17, 1.22, 5.25, 5.34 to 5.37, 1.9, 1.44, 1.48, 1.51, 3.27, 3.33, 3.34, 3.36, 5.29, 5.31, 5.33, 5.38, 5.39) rest only on a repeat in one of the mixed-in places, which proves nothing about the three lives, so they are not counted either. The empty "()" is worth one look from Story: if a card shows it as played, a relationship label is missing.
+**Not graded, and why.** The packet script's own notes are not game text: the "Kind: ..." heading of each address (1.8, 3.8, 5.8), the speaker cards with an empty "()" (1.15, 1.21, 5.16) and "nobody in the household has anything to say" (3.16). More fails (1.10, 1.17, 1.22, 5.25, 5.34 to 5.37, 1.9, 5.33, 5.38, 5.39) rest only on a repeat in one of the mixed-in places, which proves nothing about the three lives, so they are not counted either. The empty "()" is worth one look from Story: if a card shows it as played, a relationship label is missing.
 
 ## Failing reply sets (the three real lives)
 
