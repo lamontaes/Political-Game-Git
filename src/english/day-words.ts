@@ -4,6 +4,7 @@
  * the part of the day comes from the minute.
  */
 import data from "../../data/english/day-words.json" with { type: "json" };
+import { weekdayOf } from "../core2/kernel/dates";
 
 /** "7th", "21st", "12th": the day of the month with its ordinal. */
 export function ordinalDay(day: number): string {
@@ -80,8 +81,7 @@ export function daySince(recordIso: string, playIso: string): string | null {
         .replace("{month}", data.months[Number(recordIso.slice(5, 7)) - 1]!)
         .replace("{year}", recordIso.slice(0, 4));
   }
-  const weekday =
-    data.weekdays[new Date(`${recordIso.slice(0, 10)}T00:00:00Z`).getUTCDay()]!;
+  const weekday = data.weekdays[weekdayOf(recordIso.slice(0, 10))]!;
   return row.said
     .replace("{weekday}", weekday)
     .replace("{date}", dateSaid(recordIso));
@@ -117,9 +117,7 @@ export function dayAhead(targetIso: string, playIso: string): string | null {
   );
   if (!(days > 0)) return null;
   return days < data.weekdays.length
-    ? data.weekdays[
-        new Date(`${targetIso.slice(0, 10)}T00:00:00Z`).getUTCDay()
-      ]!
+    ? data.weekdays[weekdayOf(targetIso.slice(0, 10))]!
     : dateSaid(targetIso);
 }
 

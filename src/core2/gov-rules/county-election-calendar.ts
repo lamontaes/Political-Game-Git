@@ -5,9 +5,9 @@
  */
 import calendarProfiles from "../../../data/research/government/county-election-calendar-profiles.json" with { type: "json" };
 import stateSchedule from "../../../data/research/government/county-election-schedule-by-state.json" with { type: "json" };
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate, nthWeekdayOfMonth } from "../kernel/dates";
 import type { GovernmentUnitIdentity } from "../reference/government-units";
-import type { IsoDate } from "./types";
+import type { IsoDate } from "../kernel/brands";
 
 /** Calendar facts only. Neither a filing admission nor a district assignment. */
 export interface CountyElectionDates {
@@ -31,11 +31,7 @@ function weekday(
   dayOfWeek: number,
   ordinal: number,
 ): IsoDate {
-  const first = new Date(Date.UTC(year, month - 1, 1)).getUTCDay();
-  const day = 1 + ((dayOfWeek - first + 7) % 7) + 7 * (ordinal - 1);
-  return makeIsoDate(
-    `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
-  );
+  return nthWeekdayOfMonth(year, month, dayOfWeek, ordinal);
 }
 
 interface StateRow {

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 5824,
+  "judged": 5875,
   "no": {
     "068hfdllnl5": {
       "keys": [
@@ -24,6 +24,13 @@
         "scene-talk.reply-leave.no-i-haven-t-and-i-want-to-think-about-office-first-i-ll-be-back"
       ],
       "why": "The clerk is only stating that the law sets the number and day and asked nothing, so 'No, I haven't' has no question to answer."
+    },
+    "1524b77vnvj": {
+      "keys": [
+        "scene-talk.follow-answer.worse-than-our-poll-had-it-it-wasnt-close",
+        "scene-talk.reply-refuse.not-yet-i-m-not-calling-opponent-until-the-count-is-certain"
+      ],
+      "why": "The aide only states that the loss was not close and asks for nothing, so \"Not yet. I'm not calling...\" answers a request that was never made."
     },
     "1c185e0qzhz": {
       "keys": [
@@ -47,5 +54,5 @@
       "why": "The clerk is answering a pushback about the number and the day and asked no question, so 'No, I haven't' answers something nobody asked."
     }
   },
-  "yesHash": "2dk65c80q1x"
+  "yesHash": "1g6x4o1cuu4"
 }

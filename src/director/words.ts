@@ -64,17 +64,18 @@ export function possessive(name: string): string {
   return name.endsWith("s") ? `${name}'` : `${name}'s`;
 }
 
-/** A date as people say it: the year only when it is not this year. */
+/**
+ * A date as people say it: never with its year (the owner's rule, enforced as
+ * `no-year-in-speech`); a day in the next year says so ("June 2 next year").
+ */
 export function spokenDate(iso: string, today: string): string {
-  const sameYear =
-    iso.slice(P.zero, iso.indexOf("-")) ===
-    today.slice(P.zero, today.indexOf("-"));
-  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
+  const year = (day: string) => Number(day.slice(P.zero, day.indexOf("-")));
+  const said = new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
-    ...(sameYear ? {} : { year: "numeric" as const }),
     timeZone: "UTC",
   });
+  return year(iso) === year(today) + 1 ? `${said} next year` : said;
 }
 
 /**

@@ -6,7 +6,7 @@
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { govReport } from "./gov-test-report";
+import { govReport } from "../../scripts/core2/gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
@@ -14,6 +14,8 @@ import { LAWS_MODULE_ID, openLaws } from "./modules/laws";
 import { openCampaigns } from "./modules/campaigns";
 import { openOffices } from "./modules/offices";
 import { openElections } from "./modules/elections";
+import { openParties } from "./modules/parties";
+import { openVoting } from "./modules/voting";
 import {
   measureResult,
   measuresOf,
@@ -61,6 +63,8 @@ describe("M3-10 ballot measures", () => {
     openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
+    openParties(core);
+    openVoting(core);
     openBallotMeasures(core);
     const api = coreAPI(core);
     const onBallot = measuresOf(api);

@@ -13,20 +13,15 @@
  */
 import { daysBetweenText as daysBetween, makeIsoDate } from "../kernel/dates";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
-import {
-  COUNTED_PLACE_PREFIX,
-  countedPlaceOf,
-  isDemoted,
-  type Tenure,
-} from "../counted-groups";
+import { countedPlaceOf, isDemoted, type Tenure } from "../counted-groups";
 import { workedToday } from "./jobs";
 import { addCountedJob } from "../residents-economy";
 import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
 import { stableHash } from "../kernel/ids";
 import { lastTogether } from "../closeness";
-import { endLivingPlan } from "../cost-of-living";
+import { endLivingPlan } from "./business";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
-import { VIEWS_MODULE_ID } from "./views";
+import { VIEWS_MODULE_ID } from "./views-constants";
 import { ELECTIONS_MODULE_ID } from "./elections";
 import { CANDIDACY_MODULE_ID, type CandidacyDecision } from "./candidacy";
 import {
@@ -187,8 +182,7 @@ export function canReturnToCounts(
   if (!rt) return { ok: false, reason: "no residents runtime" };
   const home = core.households.get(householdId);
   if (!home) return { ok: false, reason: "no such household" };
-  if (home.placeId.startsWith(COUNTED_PLACE_PREFIX))
-    return { ok: false, reason: "already in the counts" };
+  if (isDemoted(home)) return { ok: false, reason: "already in the counts" };
   if (!countsKeptAt(rt, home.placeId))
     return { ok: false, reason: "no counts kept at its place" };
   for (const id of home.memberIds) {
@@ -489,7 +483,7 @@ function review(api: CoreAPI): void {
   ))
     if (
       !rt.filledAt.has(home.id) &&
-      !home.placeId.startsWith(COUNTED_PLACE_PREFIX) &&
+      !isDemoted(home) &&
       countsKeptAt(rt, home.placeId)
     )
       rt.filledAt.set(home.id, makeIsoDate(core.date));
@@ -498,7 +492,7 @@ function review(api: CoreAPI): void {
   )) {
     if (daysBetween(filledAt, api.state.date) < days) continue;
     const home = core.households.get(householdId);
-    if (!home || home.placeId.startsWith(COUNTED_PLACE_PREFIX)) continue;
+    if (!home || isDemoted(home)) continue;
     let last = filledAt;
     let eligible = true;
     for (const id of home.memberIds) {

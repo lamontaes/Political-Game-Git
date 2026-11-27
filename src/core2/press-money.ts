@@ -28,7 +28,7 @@
  * SG-PEOPLE-press-bureau-shortfall, for television and radio only until their
  * whole-cost model).
  */
-import { transfer } from "./accounts";
+import { transfer } from "./budgets-treasury";
 import { setLivingCostSplit, setOutsideCostSplit } from "./living-cost-split";
 import { netCash } from "./modules/business";
 import { payerLivingCostMinor, residentsRuntime } from "./modules/residents";

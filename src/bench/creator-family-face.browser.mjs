@@ -7,7 +7,7 @@
 //   BENCH_BROWSER=/opt/pw-browsers/chromium node src/bench/creator-family-face.browser.mjs [shots dir] [tone]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
 
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const [shots, tone = "deep"] = process.argv.slice(2);

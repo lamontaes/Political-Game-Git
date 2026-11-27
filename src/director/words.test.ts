@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { properName, spokenWhen } from "./words";
+import { properName, spokenDate, spokenWhen } from "./words";
 
 describe("how long ago is said", () => {
   it("never says a calendar date, whatever the gap", () => {
@@ -35,5 +35,16 @@ describe("properName", () => {
     // A whole name in capitals keeps its small words small too.
     expect(properName("COUNTY OF CARBON")).toBe("County of Carbon");
     expect(properName("TOWN OF SINCLAIR")).toBe("Town of Sinclair");
+  });
+});
+
+describe("a date is said without its year (the owner's rule, no-year-in-speech)", () => {
+  it('says a day in this year plainly and a day in the next year with "next year"', () => {
+    expect(spokenDate("2025-11-04", "2025-06-01")).toBe("November 4");
+    expect(spokenDate("2026-06-02", "2025-11-10")).toBe("June 2 next year");
+  });
+  it("never carries a year, in any gap", () => {
+    for (const iso of ["2024-02-03", "2026-02-03", "2028-02-03", "2031-12-31"])
+      expect(spokenDate(iso, "2025-11-10")).not.toMatch(/\d{4}/);
   });
 });

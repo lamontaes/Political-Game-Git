@@ -2,16 +2,15 @@ import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { benchRequest, benchWorld, saveLifeNow, serialize } from "./handler";
+import { benchRequest, saveLifeNow, serialize } from "./handler";
 
 // The bench keeps its saves in the player's home folder, which the system
 // never clears (the desktop app uses its own data folder instead).
 process.env.OCD_SAVE_DIR ??= join(homedir(), ".our-civic-duty", "saves");
-import { handleDev } from "./dev-api";
 
 // The developer listener. The play routes live in handler.ts, which the
 // desktop shell also serves in-process; this file adds only the bench's own
-// page files and Dev mode.
+// page files.
 const assets = new Map([
   // The bench opens on the game; Dev mode is a setting in its Options.
   ["/", { file: "play.html", type: "text/html; charset=utf-8" }],
@@ -57,8 +56,6 @@ const server = createServer(async (request, response) => {
       response.end(content);
       return;
     }
-    // Dev mode's routes (dev-api.ts); its controls are on the game's own screens.
-    if (await handleDev(request, url, send, benchWorld)) return;
     const shared = publicFile.exec(url.pathname);
     if (method === "GET" && shared) {
       const content = await readFile(new URL(shared[1]!, PUBLIC));
@@ -73,7 +70,9 @@ const server = createServer(async (request, response) => {
       response.end(content);
       return;
     }
-    const reply = await benchRequest(method, url, { developer: true });
+    let text = "";
+    if (method === "POST") for await (const chunk of request) text += chunk;
+    const reply = await benchRequest(method, url, { developer: true }, text);
     response.writeHead(reply.status, reply.headers);
     response.end(reply.body);
   } catch (error) {

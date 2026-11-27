@@ -6,7 +6,7 @@
 // under the bust or under the sections, is left mostly empty.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
+import { startLife } from "../../tests/support/start-life.mjs";
 
 const port = process.env.BENCH_PORT ?? 3000;
 /**
