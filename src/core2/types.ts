@@ -24,7 +24,6 @@ import type {
 } from "./work-pay-period";
 import type { WorkCashSourceState } from "./work-cash";
 import type { Parameter } from "./parameters";
-import type { StanceListener } from "./stance-listeners";
 import type { EventAppraisal } from "./emotion";
 import type { BusinessBooksData } from "./business-books";
 import type {
@@ -1200,37 +1199,6 @@ export interface CoreModule {
   ): { readonly seatWard: number; readonly homeWard: number } | null;
   /** Dated institutional work, before day hooks; emits/effects use the canonical API. */
   onCalendarWork?: (api: CoreAPI, work: Readonly<ModuleCalendarWork>) => void;
-  /**
-   * What this engine does on the day a person's stance on a topic moves
-   * (interest-group membership follows the view). The views engine tells every
-   * installed engine in install order (`stanceMoved`), so it never imports the
-   * engines that act on it.
-   */
-  stanceListener?: StanceListener;
-  /**
-   * What the voting engine gives the campaign, candidacy and elections engines
-   * it cannot import (they are read by it): the candidate a resident would vote
-   * for now (`doorChoice`: a candidate id, null for nobody, undefined where the
-   * world counts no ballots), whether a person is on the count's roll today
-   * (`petitionRoll`), how it finishes the field of a race whose filing closed
-   * before the record began (`closedContestWeighed`), and the ward a ward seat
-   * represents and the ward a person lives in (`wardResidency`). Each reader
-   * asks the installed engines in install order. Method signatures, so the
-   * engine's own narrower argument types (a door visit, a contest) fit.
-   */
-  doorChoice?(
-    api: CoreAPI,
-    voterId: string,
-    contestId: string,
-    visit?: unknown,
-  ): string | null | undefined;
-  petitionRoll?(api: CoreAPI, personId: string): boolean;
-  closedContestWeighed?(api: CoreAPI, contest: { readonly id: string }): void;
-  wardResidency?(
-    api: CoreAPI,
-    contest: { readonly id: string },
-    person: Readonly<PersonState>,
-  ): { readonly seatWard: number; readonly homeWard: number } | null;
   /**
    * The module's table of what it did, read as history by the one reader
    * (src/core2/past-history.ts): who it names, when, and the records that

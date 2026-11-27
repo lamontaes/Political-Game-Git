@@ -13,6 +13,7 @@
  * Views come from a stand-in until OPUS-PEOPLE's views engine lands
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
+import { carriersOf } from "../module-fields";
 import { shareValue } from "../shares";
 import { lawApplied } from "../law-reach/applied";
 import { outsideMarketAccount, townOutsideOf } from "../opening-outside-market";
@@ -1022,11 +1023,8 @@ function doorChoiceOf(
   contestId: string,
   visit?: DoorVisit,
 ): string | null | undefined {
-  for (const module of api.state.modules.values()) {
-    if (!module.doorChoice) continue;
-    return module.doorChoice(api, voterId, contestId, visit);
-  }
-  return undefined;
+  const carrier = carriersOf(api.state, "doorChoice")[0];
+  return carrier?.doorChoice!(api, voterId, contestId, visit);
 }
 
 /**
@@ -3618,9 +3616,8 @@ export function signReason(
 function petitionRollOf(
   api: CoreAPI,
 ): ((api: CoreAPI, personId: string) => boolean) | undefined {
-  for (const module of api.state.modules.values())
-    if (module.petitionRoll) return (a, id) => module.petitionRoll!(a, id);
-  return undefined;
+  const carrier = carriersOf(api.state, "petitionRoll")[0];
+  return carrier && ((a, id) => carrier.petitionRoll!(a, id));
 }
 
 /**

@@ -17,6 +17,7 @@
  * charged. The filing becomes a record; an unmet rule comes back as
  * structured reasons the English engine words.
  */
+import { carriersOf } from "../module-fields";
 import { countyPlaceOfWorld } from "../electorate-places";
 import { bookkeeping } from "../bookkeeping";
 import { registerElectorate } from "../electorate";
@@ -1893,11 +1894,8 @@ function wardResidencyOf(
   contest: ContestRow,
   person: Readonly<PersonState>,
 ): { readonly seatWard: number; readonly homeWard: number } | null {
-  for (const module of api.state.modules.values()) {
-    if (!module.wardResidency) continue;
-    return module.wardResidency(api, contest, person);
-  }
-  return null;
+  const carrier = carriersOf(api.state, "wardResidency")[0];
+  return carrier?.wardResidency!(api, contest, person) ?? null;
 }
 
 /** The day someone born on `birthDate` turns `years` (a February 29 birthday counts on March 1 in a common year). */

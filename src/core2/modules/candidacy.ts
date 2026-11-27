@@ -1,3 +1,4 @@
+import { carriersOf } from "../module-fields";
 import {
   standingPool,
   partyOf,
@@ -2300,8 +2301,8 @@ export function standAgainReason(
  * `closedContestWeighed`; every installed engine that does is asked in order.
  */
 function finishClosedContest(api: CoreAPI, contest: ContestRow): void {
-  for (const module of api.state.modules.values())
-    module.closedContestWeighed?.(api, contest);
+  for (const module of carriersOf(api.state, "closedContestWeighed"))
+    module.closedContestWeighed!(api, contest);
 }
 
 function candidacyDay(api: CoreAPI, played: boolean): void {

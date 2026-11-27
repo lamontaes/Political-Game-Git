@@ -7,13 +7,10 @@
  * engine, so the views engine never meets an engine half loaded (the campaign
  * engine and the views engine import each other).
  */
-import type { CoreAPI, PersonId } from "./types";
+import { carriersOf } from "./module-fields";
+import type { CoreAPI, CoreModule, PersonId } from "./types";
 
-export type StanceListener = (
-  api: CoreAPI,
-  personId: PersonId,
-  topic: string,
-) => void;
+export type StanceListener = NonNullable<CoreModule["stanceListener"]>;
 
 /** Tell every installed engine that a person's stance on a topic moved. */
 export function stanceMoved(
@@ -21,6 +18,6 @@ export function stanceMoved(
   personId: PersonId,
   topic: string,
 ): void {
-  for (const module of api.state.modules.values())
-    module.stanceListener?.(api, personId, topic);
+  for (const module of carriersOf(api.state, "stanceListener"))
+    module.stanceListener!(api, personId, topic);
 }
