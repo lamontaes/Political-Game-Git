@@ -1074,6 +1074,13 @@
       "knownRed": "opening-parties-chairs-empty-at-day-0"
     },
     {
+      "table": "core2-community-events-v1.events",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
       "table": "core2-patrol-v1.months",
       "level": "town (people and places)",
       "call": "flow-only",
@@ -2562,6 +2569,7 @@
     "core2-outcome-web-v1": "classified in rows",
     "core2-parties-v1": "classified in rows",
     "core2-past-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-community-events-v1": "classified in rows",
     "core2-patrol-v1": "classified in rows",
     "core2-people-p15-v1": "no table is empty at creation and filled later at the two measured places",
     "core2-press-v1": "classified in rows",

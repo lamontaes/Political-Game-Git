@@ -1116,5 +1116,17 @@
     "addedAt": "2026-11-17",
     "replacement": "A leaving record of weight w sends its households one by one (keepOneCountedHousehold's split, as an eviction does), each to the destination with the largest remaining due.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-community-event-saturday",
+    "kind": "missing-data",
+    "file": "src/core2/modules/community-events.ts",
+    "line": 118,
+    "whatItFakes": "A community event is held on a Saturday: a season's event on the first Saturday after the middle of its window, a monthly one on that week's Saturday. The table gives windows and weeks, not a weekday, so a church supper or a school play lands on a Saturday and every town of a type holds the same dates.",
+    "why": "The research table (data/world/community-events.json) has seasons and weeks only; no per-weekday or per-town date has been researched.",
+    "addedBy": "World session",
+    "addedAt": "2026-11-27",
+    "replacement": "A weekday and a date by event from the research pass on each town's own festivals (pool item world-community-calendar part 1), read from the table.",
+    "status": "open"
   }
 ]
