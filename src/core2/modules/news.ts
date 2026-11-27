@@ -585,6 +585,12 @@ export function printStory(
   return scheduleDeliveries(api, story, readerIds, new Set(), new Set(atOnce));
 }
 
+/** Every story the news engine has been given to tell (the dev views read it); none where the engine is not installed. */
+export function newsStories(api: CoreAPI): readonly StoryRecord[] {
+  if (!api.state.modules.has(NEWS_MODULE_ID)) return [];
+  return stories(api).rows() as unknown as StoryRecord[];
+}
+
 /** A story the paper printed, as the one history reader tells it. */
 function storyHistory(core: CoreState, row: StoryRecord): HistoryRow {
   const facts: Record<string, string> = {};
@@ -606,7 +612,7 @@ function storyHistory(core: CoreState, row: StoryRecord): HistoryRow {
   };
 }
 
-interface StoryRecord {
+export interface StoryRecord {
   readonly id: string;
   readonly kind: string;
   readonly date: string;
