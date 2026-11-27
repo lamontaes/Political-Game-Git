@@ -3,7 +3,6 @@
  * that owns the thing it changes. Each group file registers its policies'
  * handlers with `registerPolicyHandler` (host.ts).
  */
-import { registerStandingLineLaws } from "../modules/budgets";
 import { registerGroupA } from "./group-a";
 import { POLICIES } from "./group-a-records";
 import { GROUP_B_KEYS, groupBPolicy, registerGroupB } from "./group-b";
@@ -46,5 +45,4 @@ export function registerLawReach(): void {
   registered = true;
   registerGroupA();
   registerGroupB();
-  registerStandingLineLaws(reassertStandingLineLaws);
 }

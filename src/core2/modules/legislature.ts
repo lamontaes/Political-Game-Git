@@ -106,9 +106,6 @@ import {
   departmentRequests,
   enactBudget,
   governments,
-  registerBudgetVote,
-  registerBudgetHearing,
-  registerBudgetVoteWaits,
   adoptBudgetAtMeeting,
   type BudgetRow,
   type GovernmentRow,
@@ -466,6 +463,13 @@ export function sponsoredBills(core: CoreState, personId: string): BillRow[] {
 export const LEGISLATURE_MODULE: CoreModule = {
   id: LEGISLATURE_MODULE_ID,
   history: BILLS_HISTORY,
+  // What the budgets engine asks of a body: how a council votes its budget, holds its hearing on it, and whether its meeting votes the year's budget instead of the calendar.
+  budgetVote: (api, gov, fiscalYear) =>
+    councilBudget(api, gov as GovernmentRow, fiscalYear),
+  budgetHearing: (api, gov, fiscalYear) =>
+    holdCouncilBudgetHearing(api, gov as GovernmentRow, fiscalYear),
+  budgetVoteWaits: (api, gov, fiscalYear) =>
+    budgetVoteWaits(api, gov as GovernmentRow, fiscalYear),
   state: {
     schemaVersion: 1,
     tables: {
@@ -1206,9 +1210,6 @@ export function governingMembers(
 export function openLegislature(core: CoreState): void {
   if (!core.modules.has(LEGISLATURE_MODULE_ID))
     registerModule(core, LEGISLATURE_MODULE);
-  registerBudgetVote(councilBudget);
-  registerBudgetHearing(holdCouncilBudgetHearing);
-  registerBudgetVoteWaits(budgetVoteWaits);
   // Registered when the legislature opens, never as the file loads: in an
   // import cycle the corruption module's list may not exist yet.
   registerBribeScope(billBribeScope);
