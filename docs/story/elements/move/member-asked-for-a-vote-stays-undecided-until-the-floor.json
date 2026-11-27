@@ -1,0 +1,39 @@
+{
+  "id": "member-asked-for-a-vote-stays-undecided-until-the-floor",
+  "kind": "move",
+  "summary": "A member asked for their vote on a bill says they have not decided yet and names what they are waiting on: the bill read through, the floor debate, a change they asked for, or something in return.",
+  "realLife": "Before a North Carolina House override vote in December 2024, Rep. Mike Clampitt told a reporter: \"I'm not going to say where I'm at yet because I'm still undecided... [When] I get closer to time, I'll have to make a decision.\" Rep. Mark Pless said he had asked for part of the bill to be changed and been told no, and would see what arguments colleagues made on the floor before deciding; the reporter wrote that another holdout could be trying to extract concessions from leadership in exchange for his vote.",
+  "sources": [
+    "Bryan Anderson, \"GOP holdouts remain undecided on forthcoming vote to strip powers of incoming Democrats,\" The Caucus, Dec 6, 2024: https://thecaucus.substack.com/p/gop-holdouts-sb-382"
+  ],
+  "fits": ["office"],
+  "slots": ["bill"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "The scene-talk arcs ask-vote, hearing-ask and cosponsor-ask: the one asked answers not yet (asks.carried) where a favor would carry them, and says what would.",
+  "turns": [
+    {
+      "turn": "the-ask-carries-them",
+      "summary": "Asked again, or given what they named, the member says yes.",
+      "pulledBy": ["a plea from someone they owe", "their price taken up"],
+      "writesBack": "Their vote is counted for the bill, and the favor is owed."
+    },
+    {
+      "turn": "they-hold-out-to-the-roll",
+      "summary": "The member still will not say, and decides on the floor.",
+      "pulledBy": [
+        "a close district",
+        "a change they asked for and were refused"
+      ],
+      "writesBack": "The count stays open until the roll call."
+    },
+    {
+      "turn": "they-come-down-against",
+      "summary": "Nothing they waited on arrives, and the member votes no.",
+      "pulledBy": ["pressing instead of asking", "the bill unchanged"],
+      "writesBack": "The vote goes against the bill, and the asker remembers who held out."
+    }
+  ],
+  "issues": ["none"]
+}

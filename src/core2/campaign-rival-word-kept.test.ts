@@ -37,7 +37,7 @@ import {
 import { openParties } from "./modules/parties";
 import { openPress } from "./modules/press";
 import { viewsModule } from "./modules/views";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const START = "2026-01-05";
 const runSeed =

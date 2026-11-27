@@ -30,13 +30,13 @@ import { notifyCountedWages, notifySalesReceipt } from "./finance";
 import type {
   BusinessBooksState,
   ResidentWageShortfall,
-} from "../finance-types";
+} from "../budgets-treasury";
 import {
   businessAvailableCredit,
   endRecipientIncomeAtDeath,
-} from "../finance-state";
-import type { WorkPayrollCalendarInput } from "../work-pay-period";
-import { admitPublicPayAuthority } from "../public-work-pay";
+} from "../budgets-treasury";
+import type { WorkPayrollCalendarInput } from "./business";
+import { admitPublicPayAuthority } from "./business";
 import type {
   CoreAPI,
   CoreModule,
@@ -67,7 +67,7 @@ import {
   type HouseholdKind,
   type Tenure,
 } from "../counted-groups";
-import type { FinanceContractInput } from "../finance-types";
+import type { FinanceContractInput } from "./finance";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
 import {
   incomeBandOf,
@@ -2573,6 +2573,10 @@ export function residentWageShortfall(
 
 export const RESIDENTS_MODULE: CoreModule = {
   id: RESIDENTS_MODULE_ID,
+  // The counted people the opening records are admitted once the core exists.
+  onOpen: (core, input) => {
+    if (input.residents) admitResidents(core, input.residents);
+  },
   onDay: runResidentsDay,
   onResultsMonth: runResidentsDay,
 };

@@ -28,7 +28,7 @@ import { townJobRate } from "./town-pay";
 import { startingMinimumHourlyAt } from "./laws-in-force";
 import { gameStartDate } from "./game-start";
 import { placeReferencePopulation } from "./gov-rules/place-population";
-import { townWorkplaceWeights } from "./town-employment-mix";
+import { townWorkplaceWeights } from "./modules/jobs";
 
 const DEFAULT_RESIDENT_EMPLOYMENT: ResidentEmploymentData = residentData;
 

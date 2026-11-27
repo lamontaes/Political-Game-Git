@@ -6,10 +6,16 @@ import {
   ageOnDate,
   makeIsoDate,
   daysBetweenText,
+  weekdayOf,
 } from "../kernel/dates";
 import { parameter, PARAMETERS } from "../parameters";
 import { runWorkPayrollDay } from "../work-payroll-dispatch";
-import { FinanceReadGuard } from "../finance-plan";
+import {
+  OPENING_PAYROLL_CALENDAR_STOPGAP,
+  openingWorkPayrollCalendars,
+} from "../opening-payroll-calendar";
+import { stopgap } from "../stopgaps";
+import { FinanceReadGuard } from "../budgets-treasury";
 
 import { careNeedOf } from "./health";
 import type { Parameter } from "../parameters";
@@ -28,8 +34,6 @@ import type {
   WorkData,
   WorkScheduleSlot,
 } from "../types";
-
-export { DEFAULT_WORK_DATA } from "../work-data";
 
 const remainder = (value: number, period: number) =>
   ((value % period) + period) % period;
@@ -98,10 +102,7 @@ export function openingWorkCommitments(
       anchorDate:
         supplied?.anchorDate ??
         (pattern.anchorOperation === "civil-week"
-          ? addDays(
-              makeIsoDate(startedAt),
-              -new Date(makeIsoDate(startedAt)).getUTCDay(),
-            )
+          ? addDays(makeIsoDate(startedAt), -weekdayOf(startedAt))
           : pattern.anchorOperation === "opening-date"
             ? makeIsoDate(startedAt)
             : (() => {
@@ -1050,7 +1051,7 @@ export function catchUpScheduledWork(
 }
 
 export function workWeekStart(date: string, api: CoreAPI): string {
-  const day = new Date(makeIsoDate(date)).getUTCDay();
+  const day = weekdayOf(date);
   const offset = remainder(
     day - api.parameter("mondayIndex"),
     api.parameter("daysPerWeek"),
@@ -1075,6 +1076,46 @@ export function activityAgeId(api: CoreAPI, personId: string): string {
 
 export const WORK_MODULE: CoreModule = {
   id: "core2-recorded-work-v1",
+  // The recorded commitments of each person's primary job and the pay calendars
+  // they sit on, worked out from the opening's own records; where a calendar
+  // had to be estimated, the stopgap is registered once the core exists.
+  prepareOpening: (input, { data }) => {
+    if (!data.work) return { input };
+    const primaryJobByPerson = new Map(
+      input.people.map((person) => [person.id, person.jobId]),
+    );
+    const payroll = openingWorkPayrollCalendars(
+      {
+        ...input,
+        workCommitments:
+          input.workCommitments ??
+          openingWorkCommitments(
+            input.jobs.filter(
+              (job) =>
+                primaryJobByPerson.get(job.personId) === job.id &&
+                (job.endsAt === undefined || job.endsAt > input.startedAt),
+            ),
+            input.organizations,
+            input.startedAt,
+            data.work,
+            data.parameters,
+          ),
+      },
+      { parameters: data.parameters },
+    );
+    return {
+      input: {
+        ...input,
+        workCommitments: payroll.workCommitments,
+        workPayrollCalendars: payroll.calendars,
+        gaps: [...input.gaps, ...payroll.gaps],
+      },
+      afterOpen: (core) => {
+        if (payroll.estimates.length)
+          stopgap(OPENING_PAYROLL_CALENDAR_STOPGAP, core);
+      },
+    };
+  },
   reasonProviders: {
     // A person stays home from a shift mostly because they are ill: their own
     // health record's care need (health.ts `careNeedOf`, 0 to 1, a sliding

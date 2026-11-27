@@ -10,7 +10,7 @@
 import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
 
 const SHOTS = process.env.SHOTS_DIR;
 if (SHOTS) mkdirSync(SHOTS, { recursive: true });
