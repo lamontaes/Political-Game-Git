@@ -78,6 +78,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/duplicate-exports.test.ts"),
   },
   {
+    id: "core-imports-no-engine",
+    rule: "The core imports no engine; engines plug in: no file of the core family imports a file of an engine family at run time, and the counts only shrink.",
+    readMore:
+      "tests/guards/core-imports-no-engine.test.ts, its header; tests/guards/families.json, the core family",
+    command: vitest("tests/guards/core-imports-no-engine.test.ts"),
+  },
+  {
     id: "two-seeds-differ",
     rule: "Realistic, not real: no statistic but law opens on its published value, and two worlds never open on the same one; the known copies only shrink.",
     readMore:

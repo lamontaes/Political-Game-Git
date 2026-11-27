@@ -32,13 +32,22 @@ const entries = new Map(
 );
 
 const SOURCE =
-  /^(?:src\/(?:core2|director|english|bench)\/.*\.(?:ts|tsx|mjs))$/;
+  /^(?:src\/(?:core2|director|english|bench|districts|rules|release)\/.*\.(?:ts|tsx|mjs))$/;
+/** Every folder of game source: a file in none of them is not game code. */
+const ROOTS = [
+  "src/core2",
+  "src/director",
+  "src/english",
+  "src/bench",
+  "src/districts",
+  "src/rules",
+  "src/release",
+];
 function sources(): string[] {
-  return execFileSync(
-    "git",
-    ["ls-files", "src/core2", "src/director", "src/english", "src/bench"],
-    { cwd: ROOT, encoding: "utf8" },
-  )
+  return execFileSync("git", ["ls-files", ...ROOTS], {
+    cwd: ROOT,
+    encoding: "utf8",
+  })
     .split("\n")
     .filter(
       (file) =>
@@ -64,11 +73,10 @@ export function importsOf(file: string, source: string): string[] {
 
 /** The test files beside the source: each belongs to the family that answers for its failing. */
 function testFiles(): string[] {
-  return execFileSync(
-    "git",
-    ["ls-files", "src/core2", "src/director", "src/english", "src/bench"],
-    { cwd: ROOT, encoding: "utf8" },
-  )
+  return execFileSync("git", ["ls-files", ...ROOTS], {
+    cwd: ROOT,
+    encoding: "utf8",
+  })
     .split("\n")
     .filter(
       (file) =>
@@ -80,7 +88,8 @@ function deepImports(): Map<string, string[]> {
   const out = new Map<string, string[]>();
   for (const file of sources()) {
     const from = familyOf(file);
-    if (!from || from === "shared") continue;
+    // The core's own imports of engines are counted by core-imports-no-engine.test.ts.
+    if (!from || from === "shared" || from === "core") continue;
     const reached = importsOf(file, readFileSync(path.join(ROOT, file), "utf8"))
       .map((target) => target.replace(/\.js$/, ".ts"))
       .filter((target) => {
