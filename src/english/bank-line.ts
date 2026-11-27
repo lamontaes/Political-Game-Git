@@ -6,7 +6,6 @@
  * words (`scene-talk-words.ts`) call it with the pieces they pick.
  */
 import { capitalFirst } from "./plain-words.mjs";
-import { P } from "../core2/parameters";
 import type { CalibrationTable } from "./calibration";
 import {
   renderGroundedEnglish,

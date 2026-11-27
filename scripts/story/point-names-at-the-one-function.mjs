@@ -10,6 +10,7 @@
 import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import process from "node:process";
 
 const ROOT = path.resolve(import.meta.dirname, "..", "..");
 const SKIP = new Set([
@@ -74,4 +75,4 @@ for (const file of FILES) {
   writeFileSync(path.join(ROOT, file), next);
   changed += 1;
 }
-console.log(`${changed} files now call fullNameOf`);
+process.stdout.write(`${changed} files now call fullNameOf\n`);

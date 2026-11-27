@@ -6,7 +6,6 @@
  * mined sentence that words it and renders it.
  */
 import { capitalFirst } from "./plain-words.mjs";
-import { P } from "../core2/parameters";
 import type { PersonId } from "../core2/types";
 import {
   renderGroundedEnglish,
@@ -15,9 +14,6 @@ import {
   type GroundedEnglishPacket,
 } from "./grounded-english";
 import { sceneWordsFromBank } from "./mined/scene-bank";
-
-const zero = P.zero;
-const one = P.one;
 
 interface Variant {
   key: string;

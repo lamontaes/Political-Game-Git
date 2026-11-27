@@ -10,6 +10,7 @@
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import process from "node:process";
 
 const ROOT = path.resolve(import.meta.dirname, "..", "..");
 const MOVES = [
@@ -64,6 +65,6 @@ for (const file of files) {
     changed += 1;
   }
 }
-console.log(
-  `${changed} files changed; every import of ${OLD} now names ${NEW}`,
+process.stdout.write(
+  `${changed} files changed; every import of ${OLD} now names ${NEW}\n`,
 );

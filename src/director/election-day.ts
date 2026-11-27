@@ -7,14 +7,11 @@
  * lacks is left out, and a moment no piece fits says nothing.
  */
 import { capitalFirst } from "../english/plain-words.mjs";
-import { P } from "../core2/parameters";
 import { wordSceneMove, type Fact } from "../english/scene-talk-words";
 
 export type DayFact = Fact;
 
 const NARRATOR = "narrator:election-day";
-const zero = P.zero;
-const one = P.one;
 
 /**
  * One narrator's line for a moment of election day or night (`move`), from
