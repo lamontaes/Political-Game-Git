@@ -57,7 +57,7 @@ import type { ResidentHouseholdRecord } from "../residents";
 import type { ModuleRow } from "../module-data";
 import { registerWorldMapPart } from "../snapshot";
 import { coreAPI } from "../state";
-import type { HistoryModule, HistoryRow, HistorySource } from "../past";
+import type { HistoryRow, HistorySource } from "../past";
 import type {
   CoreAPI,
   CoreModule,
@@ -2164,7 +2164,7 @@ const MOVES_HISTORY: HistorySource = {
   },
 };
 
-export const COUNTED_MOVES_MODULE: CoreModule & HistoryModule = {
+export const COUNTED_MOVES_MODULE: CoreModule = {
   id: COUNTED_MOVES_MODULE_ID,
   history: MOVES_HISTORY,
   state: {

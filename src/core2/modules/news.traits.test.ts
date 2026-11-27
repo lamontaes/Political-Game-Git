@@ -12,7 +12,7 @@ import {
   RUN_SEED,
   studyLogOdds,
   withTraitWeight,
-} from "../trait-test-kit";
+} from "../../../tests/support/trait-test-kit";
 import { decisionLean } from "../trait-decisions";
 import { believesClaim } from "../heard-claims";
 import { closenessBetween } from "../closeness";
