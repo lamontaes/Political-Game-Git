@@ -12,7 +12,15 @@
  * No source module changes; the copy list is read from the code itself.
  */
 
-import { cpSync, existsSync, mkdirSync, rmSync, statSync } from "node:fs";
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { build } from "vite";
@@ -26,6 +34,30 @@ const LOOKUP =
   /new\s+URL\(\s*(["'`])((?:(?!\1)[^\\])*)\1\s*,\s*import\.meta\.url\s*,?\s*\)/g;
 
 const needed = new Set();
+const inventoryPath = process.env.PLAY_API_SHIPPED_FILES;
+const shipped = new Set();
+const asRepoPath = (file) =>
+  path.relative(repoRoot, file).split(path.sep).join("/");
+
+function playApiInventory() {
+  return {
+    name: "our-civic-duty-play-api-inventory",
+    generateBundle(_options, bundle) {
+      for (const item of Object.values(bundle)) {
+        const inputs =
+          item.type === "chunk"
+            ? Object.keys(item.modules)
+            : item.originalFileNames;
+        for (const input of inputs) {
+          if (input.startsWith("\0")) continue;
+          const file = asRepoPath(path.resolve(repoRoot, input.split("?")[0]));
+          if (!file.startsWith("../") && !file.includes("node_modules/"))
+            shipped.add(file);
+        }
+      }
+    },
+  };
+}
 
 function runtimeUrls() {
   return {
@@ -68,7 +100,7 @@ await build({
   configFile: false,
   logLevel: "warn",
   publicDir: false,
-  plugins: [runtimeUrls()],
+  plugins: [runtimeUrls(), ...(inventoryPath ? [playApiInventory()] : [])],
   ssr: { noExternal: true },
   build: {
     ssr: path.join(repoRoot, "src/bench/handler.ts"),
@@ -96,7 +128,24 @@ for (const source of needed) {
   const target = path.join(outDir, "runtime", relative);
   mkdirSync(path.dirname(target), { recursive: true });
   cpSync(source, target, { recursive: true });
-  copied += statSync(source).isDirectory() ? 0 : 1;
+  const directory = statSync(source).isDirectory();
+  copied += directory ? 0 : 1;
+  if (!inventoryPath) continue;
+  if (!directory) shipped.add(asRepoPath(source));
+  else
+    for (const entry of readdirSync(source, {
+      recursive: true,
+      withFileTypes: true,
+    }))
+      if (!entry.isDirectory())
+        shipped.add(asRepoPath(path.join(entry.parentPath, entry.name)));
+}
+if (inventoryPath) {
+  mkdirSync(path.dirname(path.resolve(inventoryPath)), { recursive: true });
+  writeFileSync(
+    inventoryPath,
+    JSON.stringify({ files: [...shipped].sort() }, null, 2) + "\n",
+  );
 }
 console.log(
   `Play API bundled: ${path.relative(repoRoot, outDir)} (${needed.size} runtime lookups, ${copied} loose files).`,

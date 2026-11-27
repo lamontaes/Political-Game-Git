@@ -98,7 +98,6 @@ export function packFigures(): readonly PackFigure[] {
 }
 const BY_ID = new Map(MANIFEST.figures.map((row) => [row.id, row]));
 const PEOPLE = new Map(MANIFEST.people.map((row) => [row.id, row]));
-const packFigure = (id: string) => BY_ID.get(id);
 export const packPerson = (id: string) => PEOPLE.get(id);
 
 /**

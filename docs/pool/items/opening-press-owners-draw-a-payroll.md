@@ -26,7 +26,7 @@ source: added with npm run pool -- add
 
 **Time box.** 3 hours
 
-**Rules.** One payroll engine: the owner's job goes through the same payroll the head's does. Every number in the parameter table tagged SOURCED. Registered stopgap for anything not sourced; no new tracking system.
+**Rules.** One engine per mechanic: the owner's job goes through the same payroll the head's does, with no second pay path. No dice: the owner's pay follows the outlet's own receipts and the sourced wage, never a roll. Every number lives in the parameter table, tagged SOURCED, and anything unsourced is a registered stopgap.
 
 **Done when.** A second session, at a drawn place and seed nobody chose, opens the running game and sees each local outlet's owner with a job record on the outlet's payroll, the outlet's opening cash covering it, and a played year showing the owner paid each pay period from the outlet's books with the household's spending read from that pay. The press-owner-household test passes at three drawn places.
 

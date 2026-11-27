@@ -38,7 +38,7 @@ export function hashClientTree(clientDir) {
   return hash.digest("hex");
 }
 
-export function readProvenance(clientDir) {
+function readProvenance(clientDir) {
   const file = path.join(clientDir, provenanceFileName);
   if (!existsSync(file)) return null;
   try {

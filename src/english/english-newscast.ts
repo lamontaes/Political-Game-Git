@@ -28,11 +28,11 @@ import {
 import type { EnglishSurface, GroundedEnglishPacket } from "./grounded-english";
 
 type Bank = { parts: BankPart[] };
-export const NEWSCAST_BANK = newscastJson as unknown as Bank;
-export const HEADLINES_BANK = headlinesJson as unknown as Bank;
-export const NEWS_BANK = newsJson as unknown as Bank;
+const NEWSCAST_BANK = newscastJson as unknown as Bank;
+const HEADLINES_BANK = headlinesJson as unknown as Bank;
+const NEWS_BANK = newsJson as unknown as Bank;
 /** The clerk's public notices (an election's), whose wording the paper prints as a lede. */
-export const NOTICE_BANK = noticeJson as unknown as Bank;
+const NOTICE_BANK = noticeJson as unknown as Bank;
 
 /** The kinds of story the records make, and the mined roles that word each. */
 export const STORY_KINDS = {

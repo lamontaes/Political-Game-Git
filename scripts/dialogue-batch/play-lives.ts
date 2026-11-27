@@ -37,7 +37,7 @@ import { drawPlace } from "../core2-year/place";
 /** The bench's opening day (src/bench/m0-check.ts). */
 export const OPENING_DATE = "2026-10-12";
 /** The most turns one conversation is played for. */
-export const MAX_TURNS = 6;
+const MAX_TURNS = 6;
 
 export interface RecordedLine {
   speakerId: PersonId;
@@ -61,14 +61,14 @@ export interface RecordedChoice {
   chosen: boolean;
 }
 
-export interface RecordedTurn {
+interface RecordedTurn {
   /** What was said since the last turn (the other person's, and the player's own). */
   said: RecordedLine[];
   choices: RecordedChoice[];
   lies: RecordedChoice[];
 }
 
-export interface RecordedConversation {
+interface RecordedConversation {
   life: number;
   day: number;
   date: string;
