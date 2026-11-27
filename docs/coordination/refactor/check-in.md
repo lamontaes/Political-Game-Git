@@ -25,7 +25,7 @@
 - Nothing you do waits on the CTO. When a choice is open, take the option that changes no game behavior and keeps every check as strict, write it down, and keep going. Ask in your check-in line, but keep building while you wait.
 - When your queue runs out, post "queue done" and take the next item from the refactor map's open rows that no other session holds.
 
-**Where to branch from:** the newest open train (`train/nov26-c`, PR #10682) until it lands, then main. That keeps your work off the conflicts it already settled.
+**Where to branch from:** the newest open train (`train/nov27-a`, PR #10699) until it lands, then main. (Train nov26-c landed on main Nov 27 at 12:40 a.m.) That keeps your work off the conflicts it already settled.
 
 **The one conflict job that's yours:** if a train names your branch as conflicting, merge the train branch into yours, keep both sides' intent, prove it the way you proved the change, and push. Only you know your change. Everything else about trains stays the CTO's.
 
