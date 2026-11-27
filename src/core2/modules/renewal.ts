@@ -1,3 +1,4 @@
+import { historyOf } from "../past";
 import { renewalParameter } from "../births-parameters";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import {
@@ -18,7 +19,7 @@ import { transferCash } from "../world-transfer";
 import { lawApplied } from "../law-reach/applied";
 import { applyCountedFlows, partnerByAge } from "../births-counted";
 import { nextMonthDay } from "../residents";
-import type { CoreAPI, CoreModule, Source } from "../types";
+import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import { declareSnapshotCovered, registerSnapshotPart } from "../snapshot";
 
@@ -594,10 +595,11 @@ function coupleFromLink(
   )
     return undefined;
   const other = people.find((person) => person.id !== mother.id)!;
-  const partnerFact = mother.pastFacts?.find(
-    (fact) =>
-      fact.kind === "family:partner" && fact.facts?.otherPersonId === other.id,
-  );
+  const partnerFact = historyOf(
+    api.state as CoreState,
+    { person: mother.id },
+    { kinds: ["family:partner"], from: "built" },
+  ).find((fact) => fact.facts?.otherPersonId === other.id);
   return {
     id: link.id,
     motherId: mother.id,

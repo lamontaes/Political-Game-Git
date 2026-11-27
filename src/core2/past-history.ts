@@ -16,6 +16,7 @@
  * scene words them differently; none of them builds its own past.
  */
 import table from "./data/history/reader.json" with { type: "json" };
+import mattered from "./data/history/mattered.json" with { type: "json" };
 import { placeStateKey } from "./place-map";
 import {
   governmentUnit,
@@ -112,6 +113,12 @@ export interface HistoryEvent {
   readonly causeIds: readonly string[];
   /** The records it led to: those that name it as their cause. */
   readonly ledTo: readonly string[];
+  /**
+   * How much it mattered to the people it names, on the stress scale
+   * (data/history/mattered.json): given on a person's or a household's
+   * history, and undefined where no row of the table fits the record.
+   */
+  readonly mattered?: number;
 }
 
 /** A source's row, before the reader adds its cause and what it led to. */
@@ -135,6 +142,28 @@ export interface HistorySource {
   life?: boolean;
   /** Writes a person's whole past before their own history is read (the life source only). */
   open?(core: CoreState, personId: PersonId): void;
+  /**
+   * How the person's own list words a record of the past or of play (the life
+   * source only), and the facts it keeps of it, so a read of it by kind tells
+   * it in the same words as their whole life. Null where their list words no
+   * such record.
+   */
+  /**
+   * The records of play a person keeps on their own list (the life source
+   * only): what the log keeps only for the player's circle, so a person met
+   * later still has their own past to tell.
+   */
+  kept?(core: CoreState, personId: PersonId): readonly HistoryRow[];
+  words?(
+    core: CoreState,
+    personId: PersonId,
+    record: Readonly<HistoryRecord> | Readonly<LogRecord> | WordedRecord,
+    from: "past" | "played",
+  ): {
+    life: string;
+    what: string;
+    facts?: Readonly<Record<string, string>>;
+  } | null;
 }
 
 /**
@@ -400,6 +429,40 @@ function asked(row: HistoryRow, ask: HistoryAsk): boolean {
 }
 
 /** The pre-start history and the durable log: the rows of a scope. */
+/** A record as the life source words it: its kind, day, facts and the people it names. */
+interface WordedRecord {
+  readonly id: string;
+  readonly kind: string;
+  readonly date: string;
+  readonly facts?: Readonly<Record<string, unknown>>;
+  readonly personIds: readonly string[];
+}
+
+/**
+ * A row of a person's history in the words their own list tells it in, with
+ * the record's own fields and every fact their list keeps of it that the
+ * record does not already hold (map row 5, Nov 26: one wording, however the
+ * history is read). A row their list words no such way is left as it is.
+ */
+function inTheirWords(
+  core: CoreState,
+  life: HistorySource | undefined,
+  personId: PersonId,
+  record: Readonly<HistoryRecord> | Readonly<LogRecord> | WordedRecord,
+  row: HistoryRow,
+): HistoryRow {
+  if (row.from === "built") return row;
+  const said = life?.words?.(core, personId, record as never, row.from);
+  return said
+    ? {
+        ...row,
+        life: said.life,
+        what: said.what,
+        ...(said.facts ? { facts: { ...said.facts, ...row.facts } } : {}),
+      }
+    : row;
+}
+
 function recordRows(
   core: CoreState,
   scope: HistoryScope,
@@ -409,6 +472,14 @@ function recordRows(
   const people = peopleOf(core, scope);
   const kinds = ask.kinds;
   if (people.length) {
+    // Each record in the words the person's own list tells it in (row 5 of
+    // the Nov 26 map: one wording, however the history is read).
+    const { life } = sourcesOf(core);
+    const theirs = (
+      personId: PersonId,
+      record: Readonly<HistoryRecord> | Readonly<LogRecord> | WordedRecord,
+      row: HistoryRow,
+    ): HistoryRow => inTheirWords(core, life, personId, record, row);
     // A person's or household's records: the indexes by person.
     const seen = new Set<string>();
     for (const personId of people) {
@@ -419,7 +490,7 @@ function recordRows(
             (!kinds || kinds.includes(row.kind))
           ) {
             seen.add(`p:${row.id}`);
-            out.push(pastRow(row));
+            out.push(theirs(personId, row, pastRow(row)));
           }
       if (ask.from === "past") continue;
       for (const id of core.logByPerson.get(personId) ?? []) {
@@ -427,7 +498,18 @@ function recordRows(
         if (!row || seen.has(`l:${row.id}`)) continue;
         if (kinds && !kinds.includes(row.kind)) continue;
         seen.add(`l:${row.id}`);
-        out.push(logRow(row));
+        out.push(theirs(personId, row, logRow(row)));
+      }
+      // What their own list keeps that the log does not hold under them: a
+      // record the log let go (it keeps a private one only for the player's
+      // circle), or one it names others in (a death their family remembers).
+      // The log's copy where it has one, else the person's own.
+      for (const held of life?.kept?.(core, personId) ?? []) {
+        if (seen.has(`l:${held.id}`)) continue;
+        if (kinds && !kinds.includes(held.record)) continue;
+        seen.add(`l:${held.id}`);
+        const logged = core.durableLog.get(held.id as never);
+        out.push(logged ? theirs(personId, logged, logRow(logged)) : held);
       }
     }
     if ("household" in scope && ask.from !== "played")
@@ -587,11 +669,34 @@ function ledToIndex(core: CoreState): Map<string, string[]> {
  * read the first time a reader asks for them (a lookup by kind that reads
  * only dates and facts never builds the index of what led to what).
  */
-function told(core: CoreState, row: HistoryRow): HistoryEvent {
+const MATTERED = mattered as unknown as {
+  rows: readonly { kindPrefix: string; parameter: string }[];
+  parameters: Readonly<Record<string, { value: number; tag?: string }>>;
+};
+
+/** A record's stress-scale score: the first row whose kind prefix it carries, or undefined. */
+function matteredOf(kind: string): number | undefined {
+  const row = MATTERED.rows.find((entry) => kind.startsWith(entry.kindPrefix));
+  if (!row) return undefined;
+  const parameter = MATTERED.parameters[row.parameter];
+  if (!parameter?.tag)
+    throw new Error(`Untagged numeric parameter: ${row.parameter}`);
+  return parameter.value;
+}
+
+function told(core: CoreState, row: HistoryRow, scored = false): HistoryEvent {
   const { publicRecord: _public, ...event } = row;
   void _public;
   let causes: string[] | undefined;
   let later: string[] | undefined;
+  if (scored) {
+    const score = matteredOf(row.record);
+    if (score !== undefined)
+      Object.defineProperty(event, "mattered", {
+        enumerable: true,
+        value: score,
+      });
+  }
   return Object.defineProperties(event, {
     causeIds: {
       enumerable: true,
@@ -626,9 +731,12 @@ export function historyOf(
   // their source's order (the life's own, or the order a record holds the
   // facts it was made with); every other row is ordered by its id.
   const place = new Map<HistoryEvent, number>();
+  // How much each record mattered is told on a person's or a household's
+  // history: the people it names are the ones it mattered to.
+  const scored = "person" in scope || "household" in scope;
   const take = (row: HistoryRow, at?: number) => {
     if (!asked(row, ask)) return;
-    const event = told(core, row);
+    const event = told(core, row, scored);
     out.push(event);
     if (at !== undefined) place.set(event, at);
     ids.add(row.id);
@@ -663,7 +771,24 @@ export function historyOf(
           !fromLife.has(row.id) &&
           (!isPlaceScope(scope) || inPlaceScope(row, scope, ask))
         )
-          take(row);
+          // A person's records from every engine, in their own list's words.
+          take(
+            "person" in scope
+              ? inTheirWords(
+                  core,
+                  life,
+                  scope.person,
+                  {
+                    id: row.id,
+                    kind: row.record,
+                    date: row.date,
+                    facts: row.facts,
+                    personIds: row.personIds,
+                  },
+                  row,
+                )
+              : row,
+          );
   }
   // A household's members can share a record: it is told once.
   const once =
@@ -699,9 +824,12 @@ export function historyEvent(
   // whoever holds it.
   const life = sourcesOf(core).life;
   if (!life) return undefined;
-  const owners = id.startsWith("fact_")
-    ? [...core.people.keys()]
-    : ((id.match(/person_[0-9a-f]+/g) ?? []) as PersonId[]);
+  // A fact's id names its person where it can; one that names no one (a hash,
+  // a claim made at the opening) is looked for on everyone, as `causesOf`
+  // accepts it from the record's own people.
+  const named = (id.match(/person_[0-9a-f]+/g) ?? []) as PersonId[];
+  const owners =
+    id.startsWith("fact_") || !named.length ? [...core.people.keys()] : named;
   for (const personId of owners) {
     if (!core.people.get(personId)?.pastFacts?.some((fact) => fact.id === id))
       continue;

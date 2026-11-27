@@ -143,7 +143,7 @@ export function codeProseRanges(source: string, file: string): ProseRange[] {
 }
 
 /** Markdown and plain text, outside fenced blocks and inline code spans. */
-export function markupProseRanges(text: string): ProseRange[] {
+function markupProseRanges(text: string): ProseRange[] {
   const ranges: ProseRange[] = [];
   let offset = 0;
   let fence: string | null = null;
@@ -196,7 +196,7 @@ export function markupProseRanges(text: string): ProseRange[] {
 }
 
 /** JSON string values with a space in them; keys and single tokens are data. */
-export function jsonProseRanges(text: string): ProseRange[] {
+function jsonProseRanges(text: string): ProseRange[] {
   const ranges: ProseRange[] = [];
   const pattern = /"((?:[^"\\\n]|\\.)*)"(\s*:)?/g;
   let match: RegExpExecArray | null;
