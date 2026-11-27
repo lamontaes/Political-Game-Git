@@ -133,7 +133,7 @@ export interface OpeningIncomeOptions {
   allowPastGeneration?: boolean;
 }
 
-interface OpeningIncomeRecipient {
+export interface OpeningIncomeRecipient {
   personId: string;
   householdId: string;
   placeId: string;

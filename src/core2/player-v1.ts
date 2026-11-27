@@ -51,12 +51,12 @@ export type PlayerMomentV1 = WorkMomentV1;
  * "Shifts are for the simulation... The player should not be clicking
  * through that."); the character attends on its own choice.
  */
-interface PlayerStopV1 {
+export interface PlayerStopV1 {
   readonly version: typeof version;
   readonly at: PlayerMomentV1;
   readonly modules: readonly ModuleStopV1[];
 }
-interface PlayerOfferV1 {
+export interface PlayerOfferV1 {
   readonly offerId: string;
   readonly actionId: string;
   readonly targetId: string;

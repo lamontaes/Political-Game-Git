@@ -16,12 +16,12 @@ interface SavedRecordRefV1 {
   kind: string;
   id: string;
 }
-interface SavedSourceResolutionV1 {
+export interface SavedSourceResolutionV1 {
   recordedRef: Readonly<SavedRecordRefV1>;
   status: "resolved-saved-record" | "missing-record" | "ambiguous-record";
 }
 /** Factual original settlement evidence. These amounts do not imply an actor utility choice. */
-interface SavedPaymentCauseV1 {
+export interface SavedPaymentCauseV1 {
   version: "core2-payment-cause-v1";
   mechanism:
     | "recorded-payroll-due"
@@ -66,7 +66,7 @@ interface SavedPaymentCauseV1 {
 }
 
 /** Original earned attendance aggregate: it is neither a cash payment nor a utility decision. */
-interface SavedEarnedPeriodCauseV1 {
+export interface SavedEarnedPeriodCauseV1 {
   version: "core2-earned-period-cause-v1";
   mechanism: "recorded-attendance-accrual";
   /** Original supporting attendance only; never a period or settlement actor choice. */

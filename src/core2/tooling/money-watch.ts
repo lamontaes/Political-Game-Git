@@ -9,7 +9,7 @@
 import { coreAPI } from "../state";
 import type { CoreState } from "../types";
 
-interface MoneyLine {
+export interface MoneyLine {
   /** What the money was for: source kind, and the id's leading part. */
   kind: string;
   inMinor: number;

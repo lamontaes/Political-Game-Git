@@ -1307,7 +1307,7 @@ export function macroCoreData(base: CoreData = DEFAULT_DATA): CoreData {
 }
 
 /** One year's end in the outlook: the nation's figures, or one state's. */
-interface OutlookPoint {
+export interface OutlookPoint {
   month: string;
   unemploymentPct: number;
   people: number;
