@@ -17,6 +17,10 @@ One section per running session. A session's /goal points at its section here. T
 - the CTO trains it;
 - he grades small batches by voice and never approves line by line.
 
+**Game logic only** (owner, Nov 26: "I only want game logic in these files. They all have to do something"). src/ holds only code the game runs. Tests, checks, dev tooling, test kits, fixtures, dev panels and notes live outside it. A file nothing runs is deleted. Every session's changes leave the game folder that way.
+
+**The Opus finisher plugs it in** (owner, Nov 26: "I'll have it do the plugging in after they all finish... run the tests, do the fixes, and then plug it into the core, and then it'll be done"). Each engine session builds its engine to its front doors and lists what's left. It doesn't do the risky cross-engine wiring. After every engine session finishes, one Opus session runs the whole test suite, fixes what's red, and plugs each engine into the core through the plug (`CoreModule`, `registerModule`): the front-door split, the hooks and the engine list. That is when the game is done.
+
 **Merging is the CTO's.** Sessions never merge.
 
 **Use the advisor liberally** (owner, Nov 26, 10:47 p.m.: "be liberal with your, Fable advisor button that you can press, because it does not use Fable usage... take full advantage of it"). It costs no Fable usage. Call it before each PR, before every design choice, when a result surprises you, and before you post "done". Tonight it caught claims resting on headers, wrong counts and unproven fixes before they went out.
