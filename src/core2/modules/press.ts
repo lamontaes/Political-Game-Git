@@ -155,10 +155,12 @@ import {
   archiveItem,
   closeness,
   grudge,
+  outletCarries,
   printItem,
   regard,
   runDesk,
   slantOf,
+  tieRule,
   usualSpace,
   type DeskContext,
   type DeskOutlet,
@@ -2908,33 +2910,94 @@ export function townStand(api: CoreAPI, question: string): number {
  * answers from their own positions.
  */
 /**
- * The press writes a story about a record from before day one for the news
- * archive: the record becomes a wire item by the same rule as a live public
- * record, and the town's paper slants and frames it. Null where no press is
- * installed, or the record is outside the town's coverage.
+ * The press writes the records from before day one at every outlet of the
+ * place, by the desk's own rules, so each paper and station has its back
+ * issues from the start (owner, Nov 24: "nothing is popping up before January
+ * 20th ... These should already be populated"). The town's outlet of record
+ * prints every record, as the archive always has; any other outlet with a
+ * living reporter carries what `outletCarries` lets through (a national outlet
+ * the nation's and state's, a notice only the paper of record) and fills each
+ * week to its room, the live desk's own count (reporters times
+ * `storiesPerReporterWeek`, plus `briefsPerOutletWeek`), taking the desk's own
+ * order (`tieRule`: the record with more witnesses, then the earlier, then the
+ * id). Each story is `archiveItem`'s, the one writer; nothing is drawn.
  */
-export function writeArchiveStory(
+export function writeArchiveStories(
   api: CoreAPI,
-  record: Readonly<CoreEventInput>,
-): Story | null {
-  const outlet = townOutlet(api);
-  if (!outlet) return null;
+  records: readonly Readonly<CoreEventInput>[],
+): Story[] {
+  const outlets = outletsHere(api);
+  const record = townOutlet(api);
+  if (!record) return [];
   const chain = lawChain(api);
-  const item = wireItem(api, record, {
-    placeId: chain.townPlaceId,
-    stateKey: chain.stateKey,
+  const items = records.flatMap((event) => {
+    const item = wireItem(api, event, {
+      placeId: chain.townPlaceId,
+      stateKey: chain.stateKey,
+    });
+    return item ? [{ event, item }] : [];
   });
-  if (!item) return null;
-  const reporterId =
-    (outlet.reporterIds ?? []).find((id) => api.state.people.get(id)?.alive) ??
-    null;
-  const written = archiveItem(api, deskContext(api), outlet, reporterId, item, {
-    recordId: record.id,
-    ...(record.facts ?? {}),
-  });
-  if (written.printed)
-    table(api, "archive").put(written.printed as unknown as ModuleRow);
-  return written.story;
+  const ctx = deskContext(api);
+  const outsideLaw = (item: WireItem): boolean => {
+    const jurisdiction = item.facts?.jurisdiction;
+    return (
+      (item.kind === "law-took-effect" || item.kind === "law-enacted") &&
+      !!jurisdiction &&
+      jurisdiction !== "US" &&
+      !chain.levels.some((level) => level.jurisdiction === jurisdiction)
+    );
+  };
+  const alive = (outlet: OutletRow) =>
+    (outlet.reporterIds ?? []).filter((id) => api.state.people.get(id)?.alive);
+  const week = (date: string) =>
+    Math.floor(Date.parse(date) / (7 * 86_400_000));
+  const stories: Story[] = [];
+  for (const outlet of outlets) {
+    const reporters = alive(outlet);
+    const ofRecord = outlet.id === record.id;
+    if (!ofRecord && !reporters.length) continue;
+    const carried = items.filter(
+      ({ item }) =>
+        outletCarries(outlet, item, ofRecord) &&
+        // Another state's law binds no one here and is national news: a local
+        // outlet does not carry it, a national one does (the live desk's
+        // reach, `involved`: it reaches none of a local outlet's readers).
+        !(outlet.tier === "local" && outsideLaw(item)) &&
+        (outlet.tier !== "national" ||
+          item.level === "nation" ||
+          item.level === "state"),
+    );
+    const room = Math.max(
+      1,
+      reporters.length * pressParameter("storiesPerReporterWeek") +
+        pressParameter("briefsPerOutletWeek"),
+    );
+    const kept = new Set<string>();
+    const weeks = new Map<number, typeof carried>();
+    for (const row of carried)
+      weeks.set(week(row.item.date), [
+        ...(weeks.get(week(row.item.date)) ?? []),
+        row,
+      ]);
+    for (const rows of weeks.values())
+      rows
+        .slice()
+        .sort((a, b) => tieRule(a.item, b.item).order)
+        .slice(0, ofRecord ? rows.length : room)
+        .forEach(({ item }) => kept.add(item.id));
+    const reporterId = reporters[0] ?? null;
+    for (const { event, item } of carried) {
+      if (!kept.has(item.id)) continue;
+      const written = archiveItem(api, ctx, outlet, reporterId, item, {
+        recordId: event.id,
+        ...(event.facts ?? {}),
+      });
+      if (written.printed)
+        table(api, "archive").put(written.printed as unknown as ModuleRow);
+      stories.push(written.story);
+    }
+  }
+  return stories;
 }
 
 /**

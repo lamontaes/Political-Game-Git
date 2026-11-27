@@ -366,23 +366,54 @@ export function newsItems(core: CoreState) {
     }));
 }
 
+/** How many of one outlet's newest heard stories the News screen carries. Engineering value, not a game number. */
+const HEARD_PER_OUTLET = 30;
+
+/**
+ * An archived story's words and the staffing it names, kept per world: a back
+ * issue never changes after day one, so the News screen opens from what the
+ * load already built (`heardItems` runs once while the world loads).
+ */
+const backIssueWords = new WeakMap<CoreState, Map<string, object>>();
+
 /** The stories the person has heard (OPUS-PEOPLE's news), newest first. */
 export function heardItems(core: CoreState, personId: string) {
   if (!core.modules.has("news")) return [];
   // Still news on today's date, by the news engine's own window: the paper
   // prints only these; older ones stay in the archive (agreements/3-4.md).
   const since = freshSince(coreAPI(core));
+  // Each outlet's own newest stories, so every paper and station opens with its
+  // back issues and one busy outlet cannot fill the whole feed: the player's
+  // newest `HEARD_PER_OUTLET` of each, newest first overall.
+  const taken = new Map<string, number>();
   return storiesHeard(coreAPI(core), personId)
-    .slice(0, 30)
-    .map((story) => ({
-      id: story.id,
-      date: story.date,
-      kind: story.kind,
-      fresh: story.date >= since,
-      facts: story.facts,
-      staffing: staffingNews(core, story.facts),
-      // A story archived before day one, or printed since, in the English
-      // engine's words.
-      ...(wordArchiveStory(core, story) ?? wordPrintedStory(core, story)),
-    }));
+    .filter((story) => {
+      const outlet = String(story.outletId ?? "");
+      const count = taken.get(outlet) ?? 0;
+      taken.set(outlet, count + 1);
+      return count < HEARD_PER_OUTLET;
+    })
+    .map((story) => {
+      const told = () => ({
+        staffing: staffingNews(core, story.facts),
+        // A story archived before day one, or printed since, in the English
+        // engine's words.
+        ...(wordArchiveStory(core, story) ?? wordPrintedStory(core, story)),
+      });
+      let kept: object | undefined;
+      if (story.kind === "press.archived") {
+        const worlds = backIssueWords.get(core) ?? new Map<string, object>();
+        backIssueWords.set(core, worlds);
+        kept = worlds.get(story.id) ?? told();
+        worlds.set(story.id, kept);
+      }
+      return {
+        id: story.id,
+        date: story.date,
+        kind: story.kind,
+        fresh: story.date >= since,
+        facts: story.facts,
+        ...(kept ?? told()),
+      };
+    });
 }

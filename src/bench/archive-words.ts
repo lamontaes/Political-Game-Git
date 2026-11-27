@@ -56,10 +56,24 @@ export interface WordedStory {
 
 let NAMES: Record<string, string> | undefined;
 
+/**
+ * An archived story in the English engine's words, filed under the outlet that
+ * printed it (each outlet of the place carries its own back issues), as a
+ * story printed in play is.
+ */
 export function wordArchiveStory(
   core: CoreState,
-  story: StoredStory,
-): WordedStory | null {
+  story: StoredStory & { readonly outletId?: string },
+):
+  | (WordedStory & { outlet?: { id: string; name: string; layout: string } })
+  | null {
+  const words = archiveWords(core, story);
+  if (!words) return null;
+  const outlet = story.outletId ? outletOf(core, story.outletId) : undefined;
+  return outlet ? { ...words, outlet } : words;
+}
+
+function archiveWords(core: CoreState, story: StoredStory): WordedStory | null {
   if (story.kind !== "press.archived") return null;
   const recordKind = story.facts.recordKind;
   const ids = [story.id] as EntityId[];
