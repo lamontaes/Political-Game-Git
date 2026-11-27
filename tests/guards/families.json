@@ -102,6 +102,7 @@
         "src/core2/modules/interest-groups.ts",
         "src/core2/ballot-order.ts",
         "src/core2/campaign-*.ts",
+        "src/core2/modules/campaigns-*.ts",
         "src/core2/candidate-*.ts",
         "src/core2/contest-positions.ts",
         "src/core2/contingent-election.ts",
