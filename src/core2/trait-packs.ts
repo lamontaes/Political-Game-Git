@@ -133,15 +133,15 @@ export function isOneSided(trait: TraitDeclaration): boolean {
  */
 export interface TraitMovability {
   /**
-   * What a settled value resists, per how strongly the person holds it.
+   * What a settled value resists, per how strongly the person holds it. How
+   * hard somebody is to change depends on how strongly the trait is theirs,
+   * and nothing else about them is invented to say so. The strength is
+   * already on the record — it is what the store writes to say whether a lean
+   * is subtle or defining — so a strongly held value resists more than a
+   * faint one on the same day of the same life, read from the record rather
+   * than from a hidden stubbornness number. Every entry is at or above zero.
    *
-   * This is the shape the owner asked for: how hard somebody is to change
-   * depends on how strongly the trait is theirs, and nothing else about them
-   * is invented to say so. The strength is already on the record — it is what
-   * the store writes to say whether a lean is subtle or defining — so a
-   * strongly held value resists more than a faint one on the same day of the
-   * same life, read from the record rather than from a hidden stubbornness
-   * number. Every entry is at or above zero.
+   *
    */
   readonly settledByStrength: Readonly<Record<MindStrength, number>>;
   /** Years a freshly written value takes to settle fully. Above zero. */

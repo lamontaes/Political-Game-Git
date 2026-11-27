@@ -1,7 +1,7 @@
 /*
-   * The play page on Kit 13, the owner's approved control set. Every screen
-   * uses these classes and nothing else:.panel (dark glass, brass frame,
-   * brass corner ornaments),.bust (a person's round headshot),.name /.heading
+   * The play page on Kit 13, the control set. Every screen uses these classes
+   * and nothing else:.panel (dark glass, brass frame, brass corner
+   * ornaments),.bust (a person's round headshot),.name /.heading
    * (Cinzel),.speech /.prose (Andada Pro),.label /.role /.when (Fira
    * Sans),.replies /.reply (numbered lines),.action (a button:.primary is
    * Continue, plain is Back; one size for all; the brass corner mark shows
@@ -1249,7 +1249,7 @@ input[type="range"]::-moz-range-thumb {
   padding: 6px 6px;
 }
 /*
-   * How I look's two tabs of clothes, on the owner's menu look: the open tab a lit brass fill, the other raised glass in soft light; no rail, no ring, no bar under the open one.
+   * How I look's two tabs of clothes: the open tab a lit brass fill, the other raised glass in soft light; no rail, no ring, no bar under the open one.
    */
 #cr-rows .look-tabs {
   display: grid;

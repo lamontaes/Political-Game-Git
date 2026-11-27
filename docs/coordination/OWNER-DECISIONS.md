@@ -11384,3 +11384,130 @@ The excerpts below preserve source wording. An excerpt is not a new ruling and d
  * here word for word; the other corpora supply counts only.
  */
 ~~~~
+
+### src/bench/play.css · 406f70c29942
+
+~~~~text
+/*
+   * The play page on Kit 13, the owner's approved control set. Every screen
+   * uses these classes and nothing else:.panel (dark glass, brass frame,
+   * brass corner ornaments),.bust (a person's round headshot),.name /.heading
+   * (Cinzel),.speech /.prose (Andada Pro),.label /.role /.when (Fira
+   * Sans),.replies /.reply (numbered lines),.action (a button:.primary is
+   * Continue, plain is Back; one size for all; the brass corner mark shows
+   * only while.active or pressed),.tab-rail /.tab (the open tab a raised
+   * glass box),.nav-item,.item,.ring (an icon),.glyph (thin close X, return
+   * arrow),.row (a gold label and its value),.lie-scales. The chevron rule: a mark appears only on a static button while it is activated; never in radial menus, items, cards, tabs or rows. Nothing inside a menu scrolls: long screens page. Any text shadow is head-on, never offset. No button chevrons, no thin gold rules, no navy.
+   */
+~~~~
+
+### src/bench/play.css · 3896a2954481
+
+~~~~text
+/*
+   * How I look's two tabs of clothes, on the owner's menu look: the open tab a lit brass fill, the other raised glass in soft light; no rail, no ring, no bar under the open one.
+   */
+~~~~
+
+### src/core2/gov-rules/place-population.ts · da6f3e231a53
+
+~~~~text
+/**
+ * The place's residents in group quarters (college housing, prisons, juvenile
+ * facilities, nursing homes, other institutions, military quarters and other
+ * noninstitutional quarters) on Census Day 2020, by its locality key
+ * (`placeLocalities`), or null where the file has no row. The CTO's ruling
+ * of: the count by place and type comes from the Census.
+ */
+~~~~
+
+### src/core2/housing-past.ts · 34681a6bcf40
+
+~~~~text
+/**
+ * Day one's vacant rentals come from the town's own past, not the national vacancy (History; the
+ * CTO's 16:27Z line on Justice's B item 10): the leases its renters signed in the year before day
+ * one each left a unit empty between tenants for `rentalVacantMonths`, so a town whose renters
+ * stay put opens with few vacant units and one whose renters move often opens with more.
+ */
+~~~~
+
+### src/core2/opening-staffing.ts · ea3fac39170f
+
+~~~~text
+/**
+ * Opt-in opening option (`generatedOpening(place, { staffToCustomers: true })`):
+ * a business is staffed to what its customers buy, not to the county's job
+ * mix. Its projected sales follow from its payroll; its customers are the
+ * town's households and governments (their purchase contracts) plus its
+ * industry's sourced share of buyers outside the town. Where those cover only
+ * part of the projection, the business keeps that share of its jobs (at
+ * least one). Full people keep their jobs; the workers let go join the
+ * workers the opening couldn't place. Opening generation only; built so the
+ * CTO and the owner can compare closures with and without it.
+ */
+~~~~
+
+### src/core2/tooling/drives-proof.ts · c558302fc25e
+
+~~~~text
+/**
+ * P10 acceptance (d) proof: one generated town, one normal year, with the
+ * health producer and drives module installed. Prints and writes a receipt:
+ * drives formed per year by kind against the population, every response
+ * decision count, one complete event → drive → acts chain with reasons, and
+ * pairs of people who met the same event and decided differently.
+ * Developer tooling only; run in a cloud environment, never on the owner's Mac.
+ */
+~~~~
+
+### src/core2/trait-packs.ts · 61485fa6679f
+
+~~~~text
+/**
+   * What a settled value resists, per how strongly the person holds it.
+   *
+   * This is the shape the owner asked for: how hard somebody is to change
+   * depends on how strongly the trait is theirs, and nothing else about them
+   * is invented to say so. The strength is already on the record — it is what
+   * the store writes to say whether a lean is subtle or defining — so a
+   * strongly held value resists more than a faint one on the same day of the
+   * same life, read from the record rather than from a hidden stubbornness
+   * number. Every entry is at or above zero.
+   */
+~~~~
+
+### src/director/tooling/director-year.ts · 62cf44f88a6a
+
+~~~~text
+/**
+ * P13 proof runner: one generated town, one year on the new core, with the
+ * story director watching chosen lives. Developer tooling only; run in a
+ * cloud environment, never on the owner's Mac. Input: a prepared core input
+ * written by the core's measurement tool (`npx tsx
+ * src/core2/tooling/measure.ts --mode opening --prepared-input-output
+ * <file>`), so the town, seed and player are the core's own. Finance is bound
+ * the same way the core's finance year binds it. npx tsx
+ * src/director/tooling/director-year.ts --input <prepared.json> --output
+ * <receipt.json> [--through ] [--watch <id>...] [--cohort-employer-of <id>]
+ * [--timing-only base|director] [--with-drives true] --with-drives installs
+ * the drives and health modules from the drives package (P10, pull request
+ * 3922) when they are present in the checkout; they are loaded at run time so
+ * this tool does not depend on that package.
+ *
+ *
+ *
+ *
+ */
+~~~~
+
+### src/english/english-composition.ts · 2d12e5fbed49
+
+~~~~text
+/**
+ * The speech acts every line the simulation produces is labeled with. The
+ * list is Lamontae's; it grows only through him. He approved the last seven,
+ * for the story director's moves, on (docs/design/story-director.md, answer
+ * 2).
+ */
+~~~~

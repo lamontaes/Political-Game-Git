@@ -3,8 +3,8 @@
  * health producer and drives module installed. Prints and writes a receipt:
  * drives formed per year by kind against the population, every response
  * decision count, one complete event → drive → acts chain with reasons, and
- * pairs of people who met the same event and decided differently.
- * Developer tooling only; run in a cloud environment, never on the owner's Mac.
+ * pairs of people who met the same event and decided differently. Developer
+ * tooling only; run in a cloud environment.
  */
 import { writeFileSync } from "node:fs";
 import { addDays, isoDateFromParts, makeIsoDate } from "../kernel/dates";

@@ -10,7 +10,7 @@ export const testPath = /\.(?:test|spec|browser|node-test)\.[cm]?[jt]sx?$/i;
 const notePath = /\.(?:md|markdown|mdx)$/i;
 const sourcePath = /\.[cm]?[jt]sx?$/i;
 export const attribution =
-  /\b(?:owner(?:'s)?\s*(?:[,:(]|said\b|ruled\b)|CTO\s*(?:[- ]line\b|[:#,]|ruling\b)|PR\s*#\d+|pull request\s*#\d+|(?:Co-)?Authored-by:)|\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2}\b|\b20\d{2}-\d{2}-\d{2}\b|(?<![\w#])#\d{4,5}\b/i;
+  /\b(?:owner(?:'s)?\s*(?:[,:(]|said\b|ruled\b|asked\b|wants\b|requests?\b|approved\b|insisted\b|menu look\b|Mac\b)|CTO\b|Lamontae\b|PR\s*#\d+|pull request\s*#\d+|(?:Co-)?Authored-by:)|\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2}\b|\b20\d{2}-\d{2}-\d{2}\b|(?<![\w#])#\d{4,5}\b/i;
 
 function sourceComments(file: string, contents: string): [number, string][] {
   const source = ts.createSourceFile(

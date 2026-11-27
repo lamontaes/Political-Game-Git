@@ -170,12 +170,12 @@ function loadGroupQuarters(): ReadonlyMap<string, PlaceGroupQuarters> {
  * The place's residents in group quarters (college housing, prisons, juvenile
  * facilities, nursing homes, other institutions, military quarters and other
  * noninstitutional quarters) on Census Day 2020, by its locality key
- * (`placeLocalities`), or null where the file has no row. The CTO's ruling
- * of: the count by place and type comes from the Census.
+ * (`placeLocalities`), or null where the file has no row. The count by place
+ * and type comes from the Census.
  */
 export function placeGroupQuarters(key: string): PlaceGroupQuarters | null {
   const row = loadGroupQuarters().get(key) ?? null;
-  // The counts are 's, not a later vintage's.
+  // The counts use the 2020 census vintage.
   if (row && row.total > p("zero")) stopgap("SG-GQ-census-day-2020");
   return row;
 }

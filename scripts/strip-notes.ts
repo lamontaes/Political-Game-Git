@@ -8,7 +8,7 @@ import { attribution, gameCommentRanges, testPath } from "./guards/game-only";
 type Comment = { from: number; to: number; raw: string; plain: string };
 const archivePath = "docs/coordination/refactor/game-source-notes.txt";
 const decisionsPath = "docs/coordination/OWNER-DECISIONS.md";
-const ownerRuling = /\b(?:owner(?:'s)?|CTO)\b/i;
+const ownerRuling = /\b(?:owner(?:'s)?|CTO|Lamontae)\b/i;
 const date =
   /\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2}(?:,?\s+20\d{2})?/gi;
 const attributions = new RegExp(attribution.source, "gi");
@@ -33,6 +33,20 @@ export function plainNote(text: string): string {
   );
   for (const [start, end] of outer.sort((a, b) => b[0] - a[0]))
     plain = plain.slice(0, start) + plain.slice(end);
+  plain = plain
+    .replace(/, on the owner's menu look:/gi, ":")
+    .replace(/The CTO's ruling of[^:]{0,32}:\s*the count/gi, "The count")
+    .replace(/built so the CTO and the owner can compare/gi, "used to compare")
+    .replace(/This is the shape the owner asked for:\s*how/gi, "How")
+    .replace(
+      /The list is Lamontae's; it grows only through him\. He approved the last seven,\s*for the story director's moves, on \(docs\/design\/story-director\.md, answer 2\)\./gi,
+      "The last seven cover the story director's moves.",
+    )
+    .replace(/, never on the owner's Mac/gi, "")
+    .replace(
+      /The counts are (?:April 1, 2020)?'s, not a later vintage's\./g,
+      "The counts use the 2020 census vintage.",
+    );
   // For a direct quote outside parentheses, remove the quotation as a unit.
   plain = plain.replace(
     /\b(?:the\s+)?(?:owner(?:'s)?|CTO)\b[^.!?\n"“]{0,100}(?:"[^"]*"|“[^”]*”)/gi,
@@ -131,8 +145,23 @@ export function stripFile(
   let output = source;
   for (const { from, to } of grouped.reverse()) {
     const raw = source.slice(from, to);
-    if (!attribution.test(raw)) continue;
-    const plain = plainNote(bodyOf(raw));
+    const body = bodyOf(raw).replace(/\s+/g, " ").trim();
+    const normalized = body
+      .replace(
+        ". the count by place and type comes from the Census",
+        ". The count by place and type comes from the Census",
+      )
+      .replace(
+        ". how hard somebody is to change depends",
+        ". How hard somebody is to change depends",
+      );
+    if (
+      !attribution.test(raw) &&
+      !raw.includes("The counts are 's, not a later vintage's.") &&
+      body === normalized
+    )
+      continue;
+    const plain = plainNote(normalized);
     const replacement = reprint(raw, plain);
     output = output.slice(0, from) + replacement + output.slice(to);
     removed.push({ from, to, raw, plain });

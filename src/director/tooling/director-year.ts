@@ -1,17 +1,17 @@
 /**
  * P13 proof runner: one generated town, one year on the new core, with the
  * story director watching chosen lives. Developer tooling only; run in a
- * cloud environment, never on the owner's Mac. Input: a prepared core input
- * written by the core's measurement tool (`npx tsx
- * src/core2/tooling/measure.ts --mode opening --prepared-input-output
- * <file>`), so the town, seed and player are the core's own. Finance is bound
- * the same way the core's finance year binds it. npx tsx
- * src/director/tooling/director-year.ts --input <prepared.json> --output
- * <receipt.json> [--through ] [--watch <id>...] [--cohort-employer-of <id>]
- * [--timing-only base|director] [--with-drives true] --with-drives installs
- * the drives and health modules from the drives package (P10, pull request
- * 3922) when they are present in the checkout; they are loaded at run time so
- * this tool does not depend on that package.
+ * cloud environment. Input: a prepared core input written by the core's
+ * measurement tool (`npx tsx src/core2/tooling/measure.ts --mode opening
+ * --prepared-input-output <file>`), so the town, seed and player are the
+ * core's own. Finance is bound the same way the core's finance year binds it.
+ * npx tsx src/director/tooling/director-year.ts --input <prepared.json>
+ * --output <receipt.json> [--through ] [--watch <id>...]
+ * [--cohort-employer-of <id>] [--timing-only base|director] [--with-drives
+ * true] --with-drives installs the drives and health modules from the drives
+ * package (P10, pull request 3922) when they are present in the checkout;
+ * they are loaded at run time so this tool does not depend on that package.
+ *
  *
  *
  *

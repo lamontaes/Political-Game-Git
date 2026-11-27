@@ -1,13 +1,13 @@
 /**
- * Opt-in opening option (`generatedOpening(place, { staffToCustomers: true })`):
- * a business is staffed to what its customers buy, not to the county's job
- * mix. Its projected sales follow from its payroll; its customers are the
+ * Opt-in opening option (`generatedOpening(place, { staffToCustomers: true
+ * })`): a business is staffed to what its customers buy, not to the county's
+ * job mix. Its projected sales follow from its payroll; its customers are the
  * town's households and governments (their purchase contracts) plus its
  * industry's sourced share of buyers outside the town. Where those cover only
- * part of the projection, the business keeps that share of its jobs (at
- * least one). Full people keep their jobs; the workers let go join the
- * workers the opening couldn't place. Opening generation only; built so the
- * CTO and the owner can compare closures with and without it.
+ * part of the projection, the business keeps that share of its jobs (at least
+ * one). Full people keep their jobs; the workers let go join the workers the
+ * opening couldn't place. Opening generation only; used to compare closures
+ * with and without it.
  */
 import outsideMarket from "./data/outside-market.json" with { type: "json" };
 import { stableHash } from "./kernel/ids";

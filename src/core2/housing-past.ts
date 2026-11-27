@@ -242,10 +242,10 @@ function restatedFacts(
 }
 
 /**
- * Day one's vacant rentals come from the town's own past, not the national vacancy (History; the
- * CTO's 16:27Z line on Justice's B item 10): the leases its renters signed in the year before day
- * one each left a unit empty between tenants for `rentalVacantMonths`, so a town whose renters
- * stay put opens with few vacant units and one whose renters move often opens with more.
+ * Day one's vacant rentals come from the town's own past, not the national
+ * vacancy: the leases its renters signed in the year before day one each left
+ * a unit empty between tenants for `rentalVacantMonths`, so a town whose
+ * renters stay put opens with few vacant units and one whose renters move often opens with more.
  */
 function openingVacancy(
   api: CoreAPI,

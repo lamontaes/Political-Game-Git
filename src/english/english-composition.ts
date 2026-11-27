@@ -52,9 +52,9 @@ import {
 
 /**
  * The speech acts every line the simulation produces is labeled with. The
- * list is Lamontae's; it grows only through him. He approved the last seven,
- * for the story director's moves, on (docs/design/story-director.md, answer
- * 2).
+ * last seven cover the story director's moves.
+ *
+ *
  */
 export const SPEECH_ACTS = [
   "greet",
