@@ -1,7 +1,7 @@
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
-import { gatherSignatures } from "../core2/campaign-petition-kit";
+import { gatherSignatures } from "../../tests/support/campaign-petition-kit";
 import { gameStartDate } from "../core2/game-start";
 import type { EntityId } from "../core2/kernel/brands";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -15,7 +15,7 @@ import {
   type FilingRow,
 } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
-import { advanceToRaceFiling } from "../core2/gov-test-clock";
+import { advanceToRaceFiling } from "../../tests/support/gov-test-clock";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
