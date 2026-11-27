@@ -1,0 +1,35 @@
+{
+  "id": "lede-pairs-the-announcement-with-a-rival-stepping-aside",
+  "kind": "move",
+  "summary": "The lede gives the announcement and the news that a rival in the race is backing out in the same breath.",
+  "realLife": "A council story led with a candidate's announcement and the fact that an earlier entrant was withdrawing to support him, then gave the reason: they chose to join their money and networks.",
+  "sources": [
+    "WRBL via Yahoo News (Columbus, Georgia), 'Announces run for District 7 Columbus City Council seat', Oct. 21, 2025: https://www.yahoo.com/news/articles/chris-kelley-announces-run-district-161252681.html",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["from", "name", "office", "when", "opens"],
+  "gates": [],
+  "weights": {
+    "candidate-announced": 0.5
+  },
+  "inGame": "needs: a candidate-withdrew record naming who the person withdrew for",
+  "issues": ["none"],
+  "turns": [
+    {
+      "name": "no rival",
+      "pulledBy": "no one else has declared",
+      "writes": "the lede reports the announcement alone",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "rival stays in",
+      "pulledBy": "an earlier entrant keeps running",
+      "writes": "the story names the earlier entrant as the first rival",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}
