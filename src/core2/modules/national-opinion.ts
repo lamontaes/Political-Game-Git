@@ -1,3 +1,4 @@
+import { servingTermsOnSeat } from "./offices";
 /**
  * The country's opinion of its president (Nation, Nov 8, 2026). On the third
  * of each month one row says what share of adults approve of the sitting
@@ -51,10 +52,7 @@ export interface PresidentElection {
 export function presidentElection(api: CoreAPI): PresidentElection | undefined {
   if (!(api.state as CoreState).modules.has(OFFICES_MODULE)) return undefined;
   const term = (
-    api
-      .moduleState(OFFICES_MODULE)
-      .table("terms")
-      .query("bySeatStatus", [PRESIDENT_SEAT, "serving"]) as unknown as {
+    servingTermsOnSeat(api, PRESIDENT_SEAT) as unknown as {
       id: string;
       elected?: { date: string; share: number };
     }[]
@@ -264,13 +262,9 @@ function publishApproval(
   const core = api.state as CoreState;
   const presidentId = core.modules.has(OFFICES_MODULE)
     ? (
-        api
-          .moduleState(OFFICES_MODULE)
-          .table("terms")
-          .query("bySeatStatus", [
-            "seat:US:president",
-            "serving",
-          ]) as unknown as { personId: string }[]
+        servingTermsOnSeat(api, "seat:US:president") as unknown as {
+          personId: string;
+        }[]
       )[0]?.personId
     : undefined;
   api.emit({
