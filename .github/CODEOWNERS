@@ -91,7 +91,6 @@
 /src/core2/place-leans.ts @lamontaes
 /src/core2/voting-module-id.ts @lamontaes
 /src/core2/turnout*.ts @lamontaes
-/src/core2/civic-inputs.ts @lamontaes
 /src/core2/membership-dues.ts @lamontaes
 /src/core2/gov-test-clock.ts @lamontaes
 /src/core2/campaign-data.ts @lamontaes
@@ -347,6 +346,7 @@
 /src/core2/town-seat-party.test.ts @lamontaes
 /src/core2/township-board-terms.test.ts @lamontaes
 /src/core2/wide-races.test.ts @lamontaes
+/src/core2/civic-inputs.ts @lamontaes
 
 # Budgets, taxes and public money (budgets)
 /src/core2/modules/budgets.ts @lamontaes
@@ -921,6 +921,7 @@
 /src/core2/sibling-births.test.ts @lamontaes
 /src/core2/sibling-names.test.ts @lamontaes
 /src/core2/sitting-closeness.test.ts @lamontaes
+/src/core2/owner-doors.test.ts @lamontaes
 /src/core2/sitting-unowned-body.test.ts @lamontaes
 /src/core2/social-security-line-poverty.test.ts @lamontaes
 /src/core2/speech-retellings-fold.test.ts @lamontaes
