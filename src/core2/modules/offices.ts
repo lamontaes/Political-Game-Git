@@ -3081,7 +3081,6 @@ export {
   worldWinnerShare,
   type PastRace,
 } from "../offices-past-results";
-export { nextMeeting } from "../office-day-calendar";
 
 const ticketPlaces = (
   stateOfficesResearch as unknown as {

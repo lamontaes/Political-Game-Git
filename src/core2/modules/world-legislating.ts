@@ -56,7 +56,8 @@ import type {
   PersonState,
   Source,
 } from "../types";
-import { nextMeeting } from "./offices";
+import { nextMeetingOf } from "../office-day-calendar";
+import { officeById } from "./offices";
 import { registerSittingCalendar, type SittingDay } from "../sitting-closeness";
 import {
   addDays,
@@ -209,6 +210,14 @@ export function levelMayDecide(
     ? !beyondPower(provision, own)
     : !beyondPower(provision, "local") && authorityFor(api, provision).allowed;
 }
+
+/** A body's next regular meeting after `after`, by its office's id. */
+const nextMeeting = (
+  api: CoreAPI,
+  officeId: string,
+  after: string,
+  countyGeoid?: string,
+) => nextMeetingOf(api, officeById(api, officeId), after, countyGeoid);
 
 export const WORLD_LEGISLATING_MODULE_ID = "core2-world-legislating-v1";
 
