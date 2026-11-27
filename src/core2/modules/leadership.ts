@@ -41,7 +41,10 @@ import { tableTraceOn } from "../module-state";
 import { concerns } from "./meetings";
 import { campaignParameter } from "../campaign-data";
 
-export const LEADERSHIP_MODULE_ID = "core2-leadership-v1";
+// The id lives with the read doors (bodies-reads.ts), which import nothing at run
+// time, so a reader can use the doors without joining the import ring.
+export { LEADERSHIP_MODULE_ID } from "./bodies-reads";
+import { LEADERSHIP_MODULE_ID } from "./bodies-reads";
 
 type Template =
   | "federal-house"

@@ -46,6 +46,7 @@ import { revenueGivenUp } from "../budgets-treasury";
 import { townConcernShare } from "./meetings";
 import { sessionPlaceKeys, sessionYear } from "../state-session-calendar";
 import { stateActEffectiveDate } from "./laws";
+import { lawRowById } from "./laws-reads";
 import { leaderOf, presidingOfficer } from "./leadership";
 import { officialOf, officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";
@@ -77,7 +78,6 @@ import {
   questionSettled,
   type SettledQuestion,
 } from "./laws";
-import type { LawRowInput } from "./laws";
 import stateReach from "../data/places/state-reach.json" with { type: "json" };
 import {
   OFFICES_MODULE_ID,
@@ -2107,8 +2107,7 @@ export function rollCallOf(
       }
     | undefined;
   if (seen) return seen;
-  const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
-    LawRowInput | undefined;
+  const row = lawRowById(api, lawId);
   const terms = row?.terms;
   if (!row || typeof terms?.session !== "string") return null;
   const count = String(terms.chambers ?? "").split("/")[chamberIndex];
