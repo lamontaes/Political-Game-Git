@@ -1245,6 +1245,7 @@
         "src/english/school-names.ts",
         "src/english/screen-words.ts",
         "src/english/span-words.ts",
+        "src/english/words.ts",
         "src/english/plain-words.mjs",
         "src/director/address-airing.ts",
         "src/director/address-render.ts",
