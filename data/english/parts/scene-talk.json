@@ -70270,6 +70270,741 @@
         "move": "warn",
         "key": "routine"
       }
+    },
+    {
+      "key": "scene-talk.open-greet.got-a-second",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Got a second?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "confirm-vote",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
+    },
+    {
+      "key": "scene-talk.open-greet.is-now-a-bad-time-to-talk-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Is now a bad time to talk about {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "confirm-vote",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.open-greet.is-now-a-bad-time"
+    },
+    {
+      "key": "scene-talk.open-greet.sorry-to-bother-you-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Sorry to bother you about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "confirm-vote",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.open-greet.sorry-to-bother-you"
+    },
+    {
+      "key": "scene-talk.close-warn.i-won-t-forget-how-you-vote-on-bill",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I won't forget how you vote on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "confirm-vote",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "vote-wanted"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.close-warn.i-won-t-forget-this"
+    },
+    {
+      "key": "scene-talk.close-warn.you-ll-need-friends-after-the-vote-on-bill-i-won-t-be-one",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "You'll need friends after the vote on {bill}. I won't be one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "confirm-vote",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "vote-wanted"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.close-warn.you-ll-need-friends-after-this-vote-i-won-t-be-one"
+    },
+    {
+      "key": "scene-talk.follow-plea.i-could-lose-my-primary-over-bill",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I could lose my primary over {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "confirm-vote",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "key": "vote-wanted",
+          "requiresFacts": ["primary-faced", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.follow-plea.i-could-lose-my-primary-over-this"
+    },
+    {
+      "key": "scene-talk.follow-threaten.you-know-how-this-works-and-bill-is-no-exception",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "You know how this works, and {bill} is no exception.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "confirm-vote",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "threaten",
+        "key": "vote-wanted"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.follow-threaten.you-know-how-this-works"
+    },
+    {
+      "key": "scene-talk.reply-bargain.this-is-a-two-way-street-you-get-my-vote-on-bill-when-i-get-yours-on-mine",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "This is a two-way street. You get my vote on {bill} when I get yours on mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "confirm-vote",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.reply-bargain.this-is-a-two-way-street-i-ll-need-your-vote-on-mine"
+    },
+    {
+      "key": "scene-talk.reply-deflect.people-say-a-lot-of-things-about-bill",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "People say a lot of things about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "confirm-vote",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "key": "vote-wanted",
+          "after": "confront",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "deflect",
+        "key": "vote-wanted"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.reply-deflect.people-say-a-lot-of-things"
+    },
+    {
+      "key": "scene-talk.reply-withdraw.i-know-i-told-you-yes-on-bill-but-i-can-t-this-time",
+      "move": "reply-withdraw",
+      "kind": "spoken",
+      "text": "I know I told you yes on {bill}, but I can't this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "confirm-vote",
+          "step": "reply",
+          "move": "withdraw",
+          "role": "asked",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "withdraw",
+        "key": "vote-wanted"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.reply-withdraw.i-know-i-told-you-yes-but-i-can-t-this-time"
+    },
+    {
+      "key": "scene-talk.reply-withdraw.i-know-what-i-said-about-bill-but-circumstances-have-changed-i-can-t-i-m-sorry",
+      "move": "reply-withdraw",
+      "kind": "spoken",
+      "text": "I know what I said about {bill}, but circumstances have changed. I can't. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "confirm-vote",
+          "step": "reply",
+          "move": "withdraw",
+          "role": "asked",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "withdraw",
+        "key": "vote-wanted"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.reply-withdraw.i-know-what-i-said-but-circumstances-have-changed-i-cant-im-sorry"
+    },
+    {
+      "key": "scene-talk.reply-withdraw.i-m-really-worried-about-the-vote-on-bill-i-can-t-do-it",
+      "move": "reply-withdraw",
+      "kind": "spoken",
+      "text": "I'm really worried about the vote on {bill}. I can't do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "confirm-vote",
+          "step": "reply",
+          "move": "withdraw",
+          "role": "asked",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "withdraw",
+        "key": "vote-wanted"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.reply-withdraw.i-m-really-worried-about-this-vote-i-can-t-do-it"
+    },
+    {
+      "key": "scene-talk.follow-answer.outlet-has-it-on-the-record-i-m-just-giving-you-a-chance-to-respond",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{outlet} has it on the record. I'm just giving you a chance to respond.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "key": "routine",
+          "after": "confront",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["concession-does-not-dispute-the-count"],
+      "restoredFrom": "scene-talk.follow-answer.we-have-it-on-the-record-i-m-just-giving-you-a-chance-to-respond"
+    },
+    {
+      "key": "scene-talk.follow-press.your-vote-on-bill-is-public-your-reasons-don-t-have-to-be-a-secret",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Your vote on {bill} is public. Your reasons don't have to be a secret.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "key": "routine",
+          "after": "refuse",
+          "requiresFacts": ["acted", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      },
+      "elements": ["concession-does-not-dispute-the-count"],
+      "restoredFrom": "scene-talk.follow-press.your-vote-is-public-your-reasons-don-t-have-to-be-a-secret"
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-all-i-needed-for-outlet-thanks",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's all I needed for {outlet}. Thanks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "key": "routine",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      },
+      "elements": ["concession-does-not-dispute-the-count"],
+      "restoredFrom": "scene-talk.follow-thank.that-s-all-i-needed-thanks"
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-a-reporter-for-outlet-catches-you-on-your-way-out",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name}, a reporter for {outlet}, catches you on your way out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "key": "routine",
+          "requiresFacts": ["name", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.there-s-a-knock-at-your-door-it-s-name-a-reporter-for-outlet",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "There's a knock at your door. It's {name}, a reporter for {outlet}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "key": "routine",
+          "requiresFacts": ["name", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.open-greet.do-you-have-a-moment-for-a-couple-of-questions-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Do you have a moment for a couple of questions about {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      },
+      "elements": ["concession-does-not-dispute-the-count"],
+      "restoredFrom": "scene-talk.open-greet.do-you-have-a-moment-for-a-couple-of-questions"
+    },
+    {
+      "key": "scene-talk.open-greet.mind-if-i-ask-you-a-few-things-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Mind if I ask you a few things about {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      },
+      "elements": ["concession-does-not-dispute-the-count"],
+      "restoredFrom": "scene-talk.open-greet.mind-if-i-ask-you-a-few-things"
+    },
+    {
+      "key": "scene-talk.reply-answer.even-then-bill-is-the-right-call",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Even then. {bill} is the right call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "key": "routine",
+          "after": "ask",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["concession-does-not-dispute-the-count"],
+      "restoredFrom": "scene-talk.reply-answer.even-then-it-s-the-right-call"
+    },
+    {
+      "key": "scene-talk.reply-answer.i-d-tell-them-i-listened-on-bill-and-i-still-disagree",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'd tell them I listened on {bill}, and I still disagree.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "key": "routine",
+          "after": "ask",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["concession-does-not-dispute-the-count"],
+      "restoredFrom": "scene-talk.reply-answer.i-d-tell-them-i-listened-and-i-still-disagree"
+    },
+    {
+      "key": "scene-talk.reply-answer.i-m-voting-for-bill-and-you-can-quote-me",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'm voting for {bill}, and you can quote me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "key": "routine",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["vote-held"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["concession-does-not-dispute-the-count"],
+      "restoredFrom": "scene-talk.reply-answer.i-m-voting-for-it-and-you-can-quote-me"
+    },
+    {
+      "key": "scene-talk.reply-answer.read-bill-before-you-judge-it",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Read {bill} before you judge it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "key": "routine",
+          "after": "ask",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["concession-does-not-dispute-the-count"],
+      "restoredFrom": "scene-talk.reply-answer.read-the-bill-before-you-judge-it"
+    },
+    {
+      "key": "scene-talk.reply-answer.then-let-me-answer-outlet-on-the-record",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Then let me answer {outlet} on the record.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "key": "routine",
+          "after": "answer",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["concession-does-not-dispute-the-count"],
+      "restoredFrom": "scene-talk.reply-answer.then-let-me-answer-it-on-the-record"
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ll-have-something-to-say-about-bill-after-the-vote",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll have something to say about {bill} after the vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "key": "routine",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["vote-held"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      },
+      "elements": ["concession-does-not-dispute-the-count"],
+      "restoredFrom": "scene-talk.reply-deflect.i-ll-have-something-to-say-after-the-vote"
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-not-doing-this-in-a-hallway-for-outlet",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm not doing this in a hallway for {outlet}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "key": "routine",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      },
+      "elements": ["concession-does-not-dispute-the-count"],
+      "restoredFrom": "scene-talk.reply-refuse.i-m-not-doing-this-in-a-hallway"
+    },
+    {
+      "key": "scene-talk.state-ask.can-you-tell-me-how-you-ll-vote-on-bill",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Can you tell me how you'll vote on {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "key": "routine",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["vote-held"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
     }
   ]
 }

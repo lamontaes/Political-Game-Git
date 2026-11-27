@@ -176,6 +176,247 @@
         "scene-talk.follow-answer.short-ill-have-a-real-count-by-count-by"
       ],
       "restoredFrom": "scene-talk.follow-answer.short-i-ll-have-a-real-count-by-friday"
+    },
+    {
+      "i": 19,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Is now a bad time?",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["scene-talk.open-greet.is-now-a-bad-time-to-talk-about-bill"],
+      "restoredFrom": "scene-talk.open-greet.is-now-a-bad-time"
+    },
+    {
+      "i": 20,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Sorry to bother you.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["scene-talk.open-greet.sorry-to-bother-you-about-bill"],
+      "restoredFrom": "scene-talk.open-greet.sorry-to-bother-you"
+    },
+    {
+      "i": 21,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "I won't forget this.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["scene-talk.close-warn.i-won-t-forget-how-you-vote-on-bill"],
+      "restoredFrom": "scene-talk.close-warn.i-won-t-forget-this"
+    },
+    {
+      "i": 22,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "You'll need friends after this vote. I won't be one.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.close-warn.you-ll-need-friends-after-the-vote-on-bill-i-won-t-be-one"
+      ],
+      "restoredFrom": "scene-talk.close-warn.you-ll-need-friends-after-this-vote-i-won-t-be-one"
+    },
+    {
+      "i": 23,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "I could lose my primary over this.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["scene-talk.follow-plea.i-could-lose-my-primary-over-bill"],
+      "restoredFrom": "scene-talk.follow-plea.i-could-lose-my-primary-over-this"
+    },
+    {
+      "i": 24,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "You know how this works.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.follow-threaten.you-know-how-this-works-and-bill-is-no-exception"
+      ],
+      "restoredFrom": "scene-talk.follow-threaten.you-know-how-this-works"
+    },
+    {
+      "i": 25,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "This is a two-way street. I'll need your vote on mine.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-bargain.this-is-a-two-way-street-you-get-my-vote-on-bill-when-i-get-yours-on-mine"
+      ],
+      "restoredFrom": "scene-talk.reply-bargain.this-is-a-two-way-street-i-ll-need-your-vote-on-mine"
+    },
+    {
+      "i": 26,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "People say a lot of things.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-deflect.people-say-a-lot-of-things-about-bill"
+      ],
+      "restoredFrom": "scene-talk.reply-deflect.people-say-a-lot-of-things"
+    },
+    {
+      "i": 27,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "I know I told you yes, but I can't this time.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-withdraw.i-know-i-told-you-yes-on-bill-but-i-can-t-this-time"
+      ],
+      "restoredFrom": "scene-talk.reply-withdraw.i-know-i-told-you-yes-but-i-can-t-this-time"
+    },
+    {
+      "i": 28,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "I know what I said, but circumstances have changed. I can't. I'm sorry.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-withdraw.i-know-what-i-said-about-bill-but-circumstances-have-changed-i-can-t-i-m-sorry"
+      ],
+      "restoredFrom": "scene-talk.reply-withdraw.i-know-what-i-said-but-circumstances-have-changed-i-cant-im-sorry"
+    },
+    {
+      "i": 29,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "I'm really worried about this vote. I can't do it.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-withdraw.i-m-really-worried-about-the-vote-on-bill-i-can-t-do-it"
+      ],
+      "restoredFrom": "scene-talk.reply-withdraw.i-m-really-worried-about-this-vote-i-can-t-do-it"
+    },
+    {
+      "i": 30,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "We have it on the record. I'm just giving you a chance to respond.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.follow-answer.outlet-has-it-on-the-record-i-m-just-giving-you-a-chance-to-respond"
+      ],
+      "restoredFrom": "scene-talk.follow-answer.we-have-it-on-the-record-i-m-just-giving-you-a-chance-to-respond"
+    },
+    {
+      "i": 31,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Your vote is public. Your reasons don't have to be a secret.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.follow-press.your-vote-on-bill-is-public-your-reasons-don-t-have-to-be-a-secret"
+      ],
+      "restoredFrom": "scene-talk.follow-press.your-vote-is-public-your-reasons-don-t-have-to-be-a-secret"
+    },
+    {
+      "i": 32,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "That's all I needed. Thanks.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.follow-thank.that-s-all-i-needed-for-outlet-thanks"
+      ],
+      "restoredFrom": "scene-talk.follow-thank.that-s-all-i-needed-thanks"
+    },
+    {
+      "i": 33,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Do you have a moment for a couple of questions?",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.open-greet.do-you-have-a-moment-for-a-couple-of-questions-about-bill"
+      ],
+      "restoredFrom": "scene-talk.open-greet.do-you-have-a-moment-for-a-couple-of-questions"
+    },
+    {
+      "i": 34,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Mind if I ask you a few things?",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.open-greet.mind-if-i-ask-you-a-few-things-about-bill"
+      ],
+      "restoredFrom": "scene-talk.open-greet.mind-if-i-ask-you-a-few-things"
+    },
+    {
+      "i": 35,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Even then. It's the right call.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["scene-talk.reply-answer.even-then-bill-is-the-right-call"],
+      "restoredFrom": "scene-talk.reply-answer.even-then-it-s-the-right-call"
+    },
+    {
+      "i": 36,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "I'd tell them I listened, and I still disagree.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-answer.i-d-tell-them-i-listened-on-bill-and-i-still-disagree"
+      ],
+      "restoredFrom": "scene-talk.reply-answer.i-d-tell-them-i-listened-and-i-still-disagree"
+    },
+    {
+      "i": 37,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "I'm voting for it, and you can quote me.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-answer.i-m-voting-for-bill-and-you-can-quote-me"
+      ],
+      "restoredFrom": "scene-talk.reply-answer.i-m-voting-for-it-and-you-can-quote-me"
+    },
+    {
+      "i": 38,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Read the bill before you judge it.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["scene-talk.reply-answer.read-bill-before-you-judge-it"],
+      "restoredFrom": "scene-talk.reply-answer.read-the-bill-before-you-judge-it"
+    },
+    {
+      "i": 39,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Then let me answer it on the record.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-answer.then-let-me-answer-outlet-on-the-record"
+      ],
+      "restoredFrom": "scene-talk.reply-answer.then-let-me-answer-it-on-the-record"
+    },
+    {
+      "i": 40,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "I'll have something to say after the vote.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-deflect.i-ll-have-something-to-say-about-bill-after-the-vote"
+      ],
+      "restoredFrom": "scene-talk.reply-deflect.i-ll-have-something-to-say-after-the-vote"
+    },
+    {
+      "i": 41,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "I'm not doing this in a hallway.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-refuse.i-m-not-doing-this-in-a-hallway-for-outlet"
+      ],
+      "restoredFrom": "scene-talk.reply-refuse.i-m-not-doing-this-in-a-hallway"
     }
   ]
 }
