@@ -22,12 +22,7 @@ import {
 } from "../core2/modules/elections";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { BUSINESS_MODULE_ID } from "../core2/modules/business";
-import {
-  LAWS_MODULE_ID,
-  lawChain,
-  lawInForce,
-  stateLawInForce,
-} from "../core2/modules/laws";
+import { lawChain, lawInForce, stateLawInForce } from "../core2/modules/laws";
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
@@ -81,6 +76,7 @@ import { measureSaid, policyNames } from "./words";
 import { placeLabel } from "../director/journal";
 import { isOutsideMarket, stateInSentence } from "../director/words";
 import { beatenRunnerUp, VOTING_MODULE_ID } from "../core2/modules/voting";
+import { lawRowById } from "../core2/modules/laws-reads";
 
 /**
  * The ids of the modules whose tables a story is told from, named here by
@@ -866,10 +862,7 @@ export function archivedLawFacts(
   story: PrintedStory,
 ): PrintedFacts | null {
   const lawId = String(story.facts.lawId ?? "");
-  const row = coreAPI(core)
-    .moduleState(LAWS_MODULE_ID)
-    .table("laws")
-    .get(lawId) as unknown as
+  const row = lawRowById(coreAPI(core), lawId) as unknown as
     | {
         series: string;
         level: string;
@@ -904,10 +897,7 @@ export function archivedLawPassedFacts(
   printed: PrintedStory,
 ): PrintedFacts | null {
   const lawId = String(printed.facts.lawId ?? "");
-  const row = coreAPI(core)
-    .moduleState(LAWS_MODULE_ID)
-    .table("laws")
-    .get(lawId) as unknown as
+  const row = lawRowById(coreAPI(core), lawId) as unknown as
     | {
         series: string;
         level: string;

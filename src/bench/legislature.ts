@@ -48,6 +48,7 @@ import type { CoreState } from "../core2/types";
 import { backdropFor, faceOf, peopleHere } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
+import { billById } from "../core2/modules/bodies-reads";
 
 const OFFICES = "core2-offices-v1";
 const LEGISLATURE = "core2-legislature-v1";
@@ -619,10 +620,7 @@ function lineSets(
 export function billPaper(core: CoreState, billId: string) {
   if (!core.modules.has(LEGISLATURE)) throw new Error("No bills on record.");
   const api = coreAPI(core);
-  const bill = api
-    .moduleState(LEGISLATURE)
-    .table("bills")
-    .get(billId) as unknown as BillRow | undefined;
+  const bill = billById(api, billId) as unknown as BillRow | undefined;
   if (!bill) throw new Error("That bill is not before any body.");
   const form = billForm(api, bill);
   const composed = composeBill({

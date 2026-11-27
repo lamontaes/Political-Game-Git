@@ -214,6 +214,8 @@
 /src/core2/modules/world-legislating.ts @lamontaes
 /src/core2/modules/leadership.ts @lamontaes
 /src/core2/modules/world-panels.ts @lamontaes
+/src/core2/modules/bodies-reads.ts @lamontaes
+/src/core2/modules/bodies-reads.test.ts @lamontaes
 /src/core2/legislature-*.ts @lamontaes
 /src/core2/bill-*.ts @lamontaes
 /src/core2/board-appointer.ts @lamontaes
@@ -412,6 +414,10 @@
 /src/core2/modules/police-patrol.ts @lamontaes
 /src/core2/modules/corruption.ts @lamontaes
 /src/core2/modules/outcome-web.ts @lamontaes
+/src/core2/modules/laws-reads.ts @lamontaes
+/src/core2/modules/laws-reads.test.ts @lamontaes
+/src/core2/modules/justice-reads.ts @lamontaes
+/src/core2/modules/outcome-web-reads.ts @lamontaes
 /src/core2/modules/prices-web-gaps.ts @lamontaes
 /src/core2/law-reach/** @lamontaes
 /src/core2/laws-*.ts @lamontaes
