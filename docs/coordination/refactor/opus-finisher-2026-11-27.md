@@ -66,13 +66,26 @@ People has 11, elections 8, offices 6, lawmaking 20, economy 13 and world 3. The
   - credit's links to jobs, before it joins finance;
   - act-cash.ts and cash-host.ts (Core item 3 decides).
 - **Elections EL9:** serve-asks.ts's move to governing, once its imports are measured.
-- **World WO4:** community-events-table.ts, wired into the calendar or deleted.
 - **People P8:** who reads a demoted person's `counted:` place id as a place.
 - **Seams between maps** for the all-maps review:
   - each door has one builder;
   - each consumer switches its own files;
   - families.json edits go in order: Story, Core, Screens, Elections, Offices, Lawmaking, Economy, World, People;
   - no family split raises a baseline (doors first).
+
+## Settled overnight
+
+- **World WO4:** community-events-table.ts is wired into the town's calendar as dated records (World, #10741), not deleted.
+- **The world-build crash** (Wheeling, Missouri; Upham, North Dakota): the legislating reader listed bodies before its engine opened. Core's #10764 fixes it with a test.
+- **Reach-ins' stack (#10701)** carries the train once, at 850cc6b1 (the merge three sessions each made identically, plus a one-line test import fix). Anything stacked on it branches from that head.
+
+## Known reds before plugging (Nov 27, 5:19 a.m.)
+
+Read these first, so a red the finisher sees isn't mistaken for its own:
+
+- **main's housing red** (known since Nov 26).
+- **Random places only:** realistic-not-real row 44 and two-seeds-differ. A past local race's news story cites a 2024 century seat record the century doesn't hold. It came in with #10687 (the century runs the town's offices), and Elections is fixing it.
+- **On #10701's merged head:** legislature-rooms, president-orders, liked-lines-kept (127 lines) and import-cycles (1198 edges against 1191). Core is fixing them at their cause, with no baseline raised.
 
 ## The record of tonight
 
