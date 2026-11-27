@@ -6,8 +6,10 @@
  *   new Date(`${E}T00:00:00Z`).getUTCDay()      -> weekdayOf(E)   (also T12:00:00Z)
  *   new Date(makeIsoDate(E)).getUTCDay()        -> weekdayOf(E)
  *   new Date(Date.UTC(Y, M, 0)).getUTCDate()    -> lastDayOfMonth(Y, M)
+ *   new Date(Date.parse(`${E}T00:00:00Z`) + N * 86_400_000).toISOString().slice(0, 10)
+ *                                               -> addDays(makeIsoDate(E), N)   (also `DAY_MS`)
  *
- * and adds the import. The nth-weekday copies are rewritten by hand, each
+ * and adds the import (a `DAY_MS` that only they used is removed by hand: lint names it). The nth-weekday copies are rewritten by hand, each
  * checked against the helper over the years the game runs
  * (src/core2/kernel/dates-weekdays.test.ts). Formatting is left as it is.
  *
@@ -32,7 +34,7 @@ const KERNEL_DATES = "src/core2/kernel/dates.ts";
  * century files. The next run takes them once those sessions have landed.
  */
 const LIVE =
-  /^(?:src\/director\/|src\/english\/|src\/bench\/(?:printed-words|archive-words|race-words|words|card)\.ts$|src\/core2\/(?:opening-[^/]*|past-[^/]*|electorate-century[^/]*|jobs-elsewhere|modules\/(?:jobs|business))\.ts$)/;
+  /^(?:src\/director\/|src\/english\/|src\/core2\/tooling\/|src\/bench\/(?:path-check|m\d[^/]*-check)\.ts$|src\/bench\/(?:printed-words|archive-words|race-words|words|card)\.ts$|src\/core2\/(?:opening-[^/]*|past-[^/]*|electorate-century[^/]*|jobs-elsewhere|modules\/(?:jobs|business))\.ts$)/;
 const files = execFileSync("git", ["ls-files", "src"], {
   cwd: ROOT,
   encoding: "utf8",
@@ -60,6 +62,11 @@ const WEEKDAY_ISO = new RegExp(
 );
 const LAST_DAY = new RegExp(
   String.raw`new Date\(\s*Date\.UTC\(\s*${ARG}\s*,\s*${ARG}\s*,\s*0\s*\)\s*\)\.getUTCDate\(\)`,
+  "g",
+);
+
+const ADD_DAYS = new RegExp(
+  String.raw`new Date\(\s*Date\.parse\(\s*\`\$\{${ARG}\}T00:00:00Z\`\s*\)\s*\+\s*(?:([A-Za-z0-9_.]+)\s*\*\s*)?(?:86_400_000|DAY_MS)\s*,?\s*\)\s*\.toISOString\(\)\s*\.slice\(0,\s*10\)`,
   "g",
 );
 
@@ -102,7 +109,7 @@ for (const file of files) {
   const original = readFileSync(path.join(ROOT, file), "utf8");
   const names = new Set<string>();
   // A file with its own `weekdayOf` or `lastDayOfMonth` would call itself: by hand.
-  if (/(?:function|const)\s+(?:weekdayOf|lastDayOfMonth)\b/.test(original)) {
+  if (/(?:function|const)\s+(?:weekdayOf|lastDayOfMonth|addDays)\b/.test(original)) {
     skipped.push(`${file} (names its own helper)`);
     continue;
   }
@@ -110,10 +117,15 @@ for (const file of files) {
     if (
       WEEKDAY_TEXT.test(original) ||
       WEEKDAY_ISO.test(original) ||
-      LAST_DAY.test(original)
+      LAST_DAY.test(original) ||
+      ADD_DAYS.test(original)
     )
       skipped.push(file);
-    WEEKDAY_TEXT.lastIndex = WEEKDAY_ISO.lastIndex = LAST_DAY.lastIndex = 0;
+    WEEKDAY_TEXT.lastIndex =
+      WEEKDAY_ISO.lastIndex =
+      LAST_DAY.lastIndex =
+      ADD_DAYS.lastIndex =
+        0;
     continue;
   }
   let text = original
@@ -128,6 +140,11 @@ for (const file of files) {
     .replace(LAST_DAY, (_m, y: string, m: string) => {
       names.add("lastDayOfMonth");
       return `lastDayOfMonth(${y.trim()}, ${m.trim()})`;
+    })
+    .replace(ADD_DAYS, (_m, e: string, n: string | undefined) => {
+      names.add("addDays");
+      names.add("makeIsoDate");
+      return `addDays(makeIsoDate(${e.trim()}), ${n ?? "1"})`;
     });
   if (text === original) continue;
   text = withImport(file, text, [...names].sort());

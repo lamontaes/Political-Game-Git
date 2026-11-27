@@ -6255,10 +6255,7 @@ function raceWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 const SPECIAL_KIND = "special-race";
 
 /** The winner takes the seat the day after the count. */
-const dayAfter = (date: string) =>
-  new Date(Date.parse(`${date}T00:00:00Z`) + 86_400_000)
-    .toISOString()
-    .slice(0, 10);
+const dayAfter = (date: string) => addDays(makeIsoDate(date), 1);
 
 /**
  * What a seat outside the town is, for a special election: its office's kind

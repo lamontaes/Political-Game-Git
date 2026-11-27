@@ -29,7 +29,11 @@ import { votesCast } from "./record";
 import { leanOf } from "./legislature";
 import { viewOn } from "./views";
 import { bookkeeping } from "../bookkeeping";
-import { ageOnDate, daysBetweenText } from "../kernel/dates";
+import {
+  ageOnDate,
+  daysBetweenText,
+  addDaysText as addDays,
+} from "../kernel/dates";
 import { scoreOffers, decisionFromScores } from "../choice";
 import rows from "../data/candidacy/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -822,12 +826,6 @@ const FAMILY_RANK: Readonly<Record<OfficeFamily, number>> = {
 };
 /** Local contests: every named adult in town weighs them. */
 const LOCAL_RANK = FAMILY_RANK.countyOffice;
-
-function addDays(date: string, days: number): string {
-  return new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000)
-    .toISOString()
-    .slice(0, 10);
-}
 
 /** The day a contest's filing window opens: the elections engine's one rule (`elections.ts`). */
 export function filingWindowOpens(_api: CoreAPI, contest: ContestRow): string {

@@ -14,6 +14,7 @@ import {
   daysBetween,
   makeIsoDate,
   nthWeekdayOfMonth,
+  addDays,
 } from "../kernel/dates";
 import data from "../data/school-days.json" with { type: "json" };
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
@@ -214,10 +215,7 @@ export function schoolDayOf(
     return null;
   const row = table(api).get(personId) as unknown as
     { date?: string; days?: number } | undefined;
-  const shift = (days: number) =>
-    new Date(Date.parse(`${date}T00:00:00Z`) + days * DAY_MS)
-      .toISOString()
-      .slice(0, 10);
+  const shift = (days: number) => addDays(makeIsoDate(date), days);
   const before = shift(-1);
   return {
     schoolId: schoolFor(api, person),
@@ -230,7 +228,6 @@ export function schoolDayOf(
     },
   };
 }
-const DAY_MS = 86_400_000;
 
 /** The other way to spend a school day (the same act kinds as missing a work shift). */
 const STAY_HOME: ActionDefinition = {

@@ -182,6 +182,14 @@ export function addDays(date: IsoDate, days: number): IsoDate {
  * A day past the target month's end lands on its last day, so six months from
  * August 31 is the last day of February.
  */
+/**
+ * `addDays` for a date held as plain text (a record's date, a parameter's):
+ * the day, validated, `days` on (or back, when negative).
+ */
+export function addDaysText(date: string, days: number): string {
+  return addDays(makeIsoDate(date), days);
+}
+
 export function addMonths(date: string, months: number): string {
   if (!Number.isSafeInteger(months)) {
     throw new Error("Months must be a safe integer.");

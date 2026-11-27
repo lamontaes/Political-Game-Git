@@ -1272,11 +1272,7 @@ function contestFor(
   // The vice president is the president's running mate, not a race.
   if (!office.elected || office.kind === "vice-president") return null;
   const { stateKey, geoid } = town(api);
-  const tomorrow = new Date(
-    Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
-  )
-    .toISOString()
-    .slice(0, 10);
+  const tomorrow = addDays(makeIsoDate(api.state.date), 1);
   const at = (termEnd: string | null, onDate = api.state.date) =>
     nextElectionForSeat({
       office,

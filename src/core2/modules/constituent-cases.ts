@@ -17,7 +17,7 @@
  * to the workforce office. Either way the resident's view of the official
  * moves, as a cause their next ballot reads.
  */
-import { ageInYears } from "../kernel/dates";
+import { ageInYears, addDaysText as addDays } from "../kernel/dates";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { fundBalance } from "../counted-money";
 import { closenessBetween } from "../closeness";
@@ -140,11 +140,6 @@ export interface CaseSeeker {
 const VISIT_HOURS = 0.05;
 
 const table = (api: CoreAPI) => api.moduleState(CASES_MODULE_ID).table("cases");
-
-const addDays = (date: string, days: number) =>
-  new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000)
-    .toISOString()
-    .slice(0, 10);
 
 const ageOn = (p: Pick<PersonState, "birthDate">, date: string) =>
   ageInYears(p.birthDate, date);
