@@ -401,36 +401,25 @@
 
 # Laws, justice and their effects (laws)
 /src/core2/modules/laws.ts @lamontaes
-/src/core2/modules/justice.ts @lamontaes
-/src/core2/modules/public-safety.ts @lamontaes
-/src/core2/modules/crime.ts @lamontaes
-/src/core2/modules/police-patrol.ts @lamontaes
-/src/core2/modules/corruption.ts @lamontaes
 /src/core2/modules/outcome-web.ts @lamontaes
 /src/core2/modules/laws-reads.ts @lamontaes
 /src/core2/modules/laws-reads.test.ts @lamontaes
-/src/core2/modules/justice-reads.ts @lamontaes
 /src/core2/modules/outcome-web-reads.ts @lamontaes
 /src/core2/modules/prices-web-gaps.ts @lamontaes
 /src/core2/law-reach/** @lamontaes
 /src/core2/laws-*.ts @lamontaes
-/src/core2/justice-*.ts @lamontaes
 /src/core2/policy-*.ts @lamontaes
 /src/core2/gov-measure*.ts @lamontaes
 /src/core2/state-effective-date.ts @lamontaes
 /src/core2/right-to-work-dues.ts @lamontaes
 /src/core2/social-security-law.ts @lamontaes
 /src/core2/wage-floor.ts @lamontaes
-/src/core2/low-level-offenses.ts @lamontaes
-/src/core2/firearm-ownership.ts @lamontaes
 /src/core2/paid-leave.ts @lamontaes
 /src/core2/public-pay-floor.ts @lamontaes
-/src/core2/public-safety.ts @lamontaes
 /src/core2/outcome-web-*.ts @lamontaes
 /src/core2/health-web.ts @lamontaes
 /src/core2/jobs-web.ts @lamontaes
 /src/core2/term-read.ts @lamontaes
-/src/core2/modules/federal-courts.ts @lamontaes
 /src/core2/law-reach/group-a-records-constants.ts @lamontaes
 /src/core2/law-reach/group-b-store-constants.ts @lamontaes
 /src/core2/aide-pay-market.test.ts @lamontaes
@@ -594,6 +583,19 @@
 /src/core2/withholding-outside-governments.test.ts @lamontaes
 /src/core2/withholding-zero-rate.test.ts @lamontaes
 /src/core2/world-legislating.test.ts @lamontaes
+
+# Courts, police, crime and corruption (justice)
+/src/core2/modules/justice.ts @lamontaes
+/src/core2/modules/public-safety.ts @lamontaes
+/src/core2/modules/crime.ts @lamontaes
+/src/core2/modules/police-patrol.ts @lamontaes
+/src/core2/modules/corruption.ts @lamontaes
+/src/core2/modules/justice-reads.ts @lamontaes
+/src/core2/modules/federal-courts.ts @lamontaes
+/src/core2/justice-*.ts @lamontaes
+/src/core2/low-level-offenses.ts @lamontaes
+/src/core2/firearm-ownership.ts @lamontaes
+/src/core2/public-safety.ts @lamontaes
 
 # Jobs, businesses and the economy (jobs-businesses)
 /src/core2/shared-time.ts @lamontaes
