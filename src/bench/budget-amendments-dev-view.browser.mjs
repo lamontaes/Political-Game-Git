@@ -6,8 +6,8 @@
 //   BENCH_BROWSER=/opt/pw-browsers/chromium node src/bench/budget-amendments-dev-view.browser.mjs [shots dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { devModeOn } from "./dev-setup.mjs";
-import { startLife } from "./start-life.mjs";
+import { devModeOn } from "../../tests/support/dev-setup.mjs";
+import { startLife } from "../../tests/support/start-life.mjs";
 
 const [shots] = process.argv.slice(2);
 const day = process.env.RUN_TO ?? "2026-02-01";

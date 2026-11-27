@@ -3,7 +3,6 @@
  * retirement income from outside, and household purchases at local firms.
  * Each occurrence is one balanced journal entry; nothing scans the world.
  */
-import { registerCountedPersonSource } from "../counted-actor";
 import { addDays, dateAtAge, makeIsoDate } from "../kernel/dates";
 import {
   advanceCadence,
@@ -85,6 +84,7 @@ import { commuterRole } from "./jobs";
 import { corePlaceByKey } from "../place-lookup";
 import { outsideLaborForce } from "../gov-rules/place-population";
 import { sellHome } from "../housing-sale";
+import { fieldsOf } from "../module-fields";
 import {
   addCountedJob,
   countedJobHeads,
@@ -113,7 +113,8 @@ import {
   workersByGroup,
 } from "../counted-money";
 
-export const DAYS_PER_YEAR = 365;
+import { DAYS_PER_YEAR } from "../household-income";
+export { DAYS_PER_YEAR };
 
 /** Whether a person was returned to the counts (counted-groups.ts); screens and tools read it here. */
 export { isDemoted } from "../counted-groups";
@@ -329,6 +330,8 @@ registerSnapshotPart("core2-residents", {
       households: new CountedHouseholdMap(store),
       householdOfPerson: new CountedPersonHouseholdMap(store),
     };
+    // The hook is the engine's, not the save's: it moves the restored runtime's own pool.
+    store.weightHook = (h, delta) => moveUnplacedPay(restored, h, delta);
     runtimes.set(core, restored);
     coreOfRuntime.set(restored, core);
   },
@@ -390,16 +393,14 @@ function householdKeys(
   return out;
 }
 
-/** Reads what the welfare line pays one household a year; law reach sets it when it registers (the Census counts public assistance in income). */
-type AssistanceReader = (core: CoreState, householdId: string) => number;
-let assistanceReader: AssistanceReader | undefined;
-export function setAssistanceReader(reader: AssistanceReader): void {
-  assistanceReader = reader;
-}
-
+/** What the welfare line and the veterans line pay one household a year: the sum of what each installed engine says (the `assistanceReader` field; the Census counts public assistance in income). */
 function assistanceYear(rt: ResidentsRuntime, householdId: string): number {
   const core = coreOfRuntime.get(rt);
-  return core && assistanceReader ? assistanceReader(core, householdId) : 0;
+  if (!core) return 0;
+  let total = 0;
+  for (const read of fieldsOf(core, "assistanceReader"))
+    total += read(core, householdId);
+  return total;
 }
 
 /** A counted household's yearly income: recorded pay, retirement awards, its unplaced workers' pay and the welfare line's cash assistance. */
@@ -1865,8 +1866,6 @@ export function residentFacts(
   return store.factsOf(m);
 }
 
-registerCountedPersonSource(residentPerson);
-
 /** Whether a counted (or filled-in) person was in the opening's counts, so has a past before it. */
 export function countedSinceOpening(
   core: CoreState,
@@ -2571,7 +2570,12 @@ export function residentWageShortfall(
 }
 
 export const RESIDENTS_MODULE: CoreModule = {
+  countedPerson: residentPerson,
   id: RESIDENTS_MODULE_ID,
+  // The counted people the opening records are admitted once the core exists.
+  onOpen: (core, input) => {
+    if (input.residents) admitResidents(core, input.residents);
+  },
   onDay: runResidentsDay,
   onResultsMonth: runResidentsDay,
 };
@@ -3234,6 +3238,20 @@ export function countedHouseholdJobChanged(
   const store = rt.store;
   const h = store.households[store.household[m]!]!;
   const others = h.jobs.filter((row) => row.id !== job.id);
+  // A member hired into a recorded job was one of the working-age members
+  // without one whom the household's out-of-town workers are shared among, so
+  // their share leaves with the hire: the same writer as a member who leaves
+  // working age. Left on, the household's income counted their pay twice (the
+  // new job and the share), and a fill-in, which hands over only the jobs,
+  // dropped it and moved the household's income fifth (school-outcomes,
+  // Hackleburg, Alabama, seed 5d329c70fa987cb9).
+  if (
+    job.endsAt === undefined &&
+    !others.some(
+      (row) => row.personId === job.personId && row.endsAt === undefined,
+    )
+  )
+    leaveUnplacedWork(rt, h, m, core.date, false);
   h.jobs = job.endsAt === undefined ? [...others, job] : others;
   if (commitment) {
     h.workCommitments = [

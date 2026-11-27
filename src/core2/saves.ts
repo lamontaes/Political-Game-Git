@@ -26,7 +26,7 @@ import {
   type WorldSnapshot,
 } from "./snapshot";
 import { coreAPI, fillInIdentity, fillInPerson } from "./state";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import type { WorldSettings } from "./world-settings";
 import type {
   CoreData,

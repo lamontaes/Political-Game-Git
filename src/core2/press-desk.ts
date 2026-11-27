@@ -17,7 +17,7 @@ import { OUTCOME_MONTH_KIND } from "./outcome-news-constants";
 import briefs from "./data/press/briefs.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { questionAxis } from "./modules/campaigns";
-import { closenessBetween, grudgeBetween } from "./closeness";
+import { closenessBetween, feelingBetween, grudgeBetween } from "./closeness";
 import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 import { printStory, type Story } from "./modules/news";
@@ -254,9 +254,23 @@ export function grudge(
 }
 
 /**
- * One person's regard for another, -1 to 1: how close they are, less a
- * grudge, and how near their views sit (the lean scale's full width apart
- * is -1, the same lean +1), weighted.
+ * How the holder feels toward another, -1 to 1: the one read
+ * (`feelingBetween`: closeness less a grudge). Toward themself, fully close.
+ */
+export function feeling(
+  api: CoreAPI,
+  holderId: string,
+  otherId: string,
+): number {
+  return holderId === otherId
+    ? 1 - grudge(api, holderId, otherId)
+    : feelingBetween(api.state as CoreState, holderId, otherId);
+}
+
+/**
+ * One person's regard for another, -1 to 1: how they feel toward them, and
+ * how near their views sit (the lean scale's full width apart is -1, the same
+ * lean +1), weighted.
  */
 export function regard(
   api: CoreAPI,
@@ -266,9 +280,7 @@ export function regard(
 ): number {
   const apart = Math.abs(leanOf(api, holderId) - leanOf(api, otherId));
   return clamp(
-    closeness(api, holderId, otherId) -
-      grudge(api, holderId, otherId) +
-      p("regardViewsWeight") * (1 - apart / 2),
+    feeling(api, holderId, otherId) + p("regardViewsWeight") * (1 - apart / 2),
   );
 }
 
@@ -358,13 +370,9 @@ export function slantOf(
   const named = item.subjectIds.filter((id) => api.state.people.has(id));
   const mean = (f: (id: string) => number) =>
     named.length ? named.reduce((s, id) => s + f(id), 0) / named.length : 0;
-  const tie = clamp(
-    mean((id) => closeness(api, reporterId, id) - grudge(api, reporterId, id)),
-  );
+  const tie = clamp(mean((id) => feeling(api, reporterId, id)));
   const head = outlet.headId;
-  const publisher = head
-    ? clamp(mean((id) => closeness(api, head, id) - grudge(api, head, id)))
-    : 0;
+  const publisher = head ? clamp(mean((id) => feeling(api, head, id))) : 0;
   // The owner's regard for the people named, and for their rivals: an owner
   // who has fallen out with a candidate's opponent turns the candidate's
   // coverage warmer, though the candidate did nothing for it.

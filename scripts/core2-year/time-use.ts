@@ -7,7 +7,7 @@
  */
 import { drawPlace } from "./place";
 import { parameter } from "../../src/core2/parameters";
-import { generatedOpening } from "../../src/core2/tooling/generated-world";
+import { generatedOpening } from "../../src/core2/generated-world";
 import { advanceCore, createLifeCore } from "../../src/core2/life";
 import { peopleData, peopleModules } from "../../src/director/play-modules";
 import {

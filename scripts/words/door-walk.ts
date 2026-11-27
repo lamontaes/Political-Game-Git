@@ -30,7 +30,7 @@ import { townSeats } from "../../src/core2/modules/offices";
 import { P } from "../../src/core2/parameters";
 import { corePlaceByKey } from "../../src/core2/place-lookup";
 import { advancePlayerV1, resumePlayerV1 } from "../../src/core2/player-v1";
-import { townResidentsByCash } from "../../src/core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 import { coreAPI } from "../../src/core2/state";
 import type { PersonId } from "../../src/core2/types";
 import { purposeScene } from "../../src/director/purpose-scene";
