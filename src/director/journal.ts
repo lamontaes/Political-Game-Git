@@ -52,7 +52,7 @@ import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
 import { eveningChapter } from "./journal-evening";
 import { chapterOpenTelling } from "./journal-chapter-open";
-import { markWordsStopgap } from "./stopgaps";
+import { markWordsStopgap } from "../core2/stopgaps";
 import { tell, type TellingInput } from "../english/outline-planner";
 import { causeRecordFacts } from "./cause-facts";
 import { raceMargin } from "./race-margin";
