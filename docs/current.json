@@ -2185,6 +2185,12 @@
       "now": "nothing: no file read it, and its include no longer meant anything",
       "when": "2026-11-27",
       "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/core2/gov-rules/invented-person-age.ts",
+      "now": "src/core2/person-invented-age.ts",
+      "when": "2026-11-27",
+      "why": "How an invented person gets an age is the people engine's; the Lawmaking scope correction sends it there."
     }
   ]
 }

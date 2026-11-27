@@ -15,7 +15,7 @@ import {
 import { residentPerson, residentsRuntime } from "./modules/residents";
 import { countedMoves } from "./modules/counted-moves";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
-import { isDemoted } from "./counted-groups";
+import { countedPlaceOf, isDemoted, realPlaceOf } from "./counted-groups";
 import { isExperiencedKey } from "./knowledge-retention";
 import { generatedOpening } from "./generated-world";
 import { corePlaceByKey, coreStateJurisdiction } from "./place-lookup";
@@ -349,4 +349,11 @@ describe(`a retiree's award when their household returns to the counts in ${plac
     );
     expect(total(core)).toBe(start);
   }, 600_000);
+});
+
+describe("the real place a counted place id names", () => {
+  it("is the place itself, for a counted id and for a real one", () => {
+    expect(realPlaceOf(countedPlaceOf("place:town"))).toBe("place:town");
+    expect(realPlaceOf("place:town")).toBe("place:town");
+  });
 });

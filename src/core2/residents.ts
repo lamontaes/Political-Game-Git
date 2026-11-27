@@ -44,6 +44,7 @@ import {
   outsideLaborForce,
   placeNoninstitutionalQuartersShare,
 } from "./gov-rules/place-population";
+import { huskOf } from "./person-husk";
 import { DAYS_PER_YEAR } from "./household-income";
 import { corePlaceByKey } from "./place-lookup";
 import { RESIDENTS_KIND } from "./residents-constants";
@@ -1012,18 +1013,7 @@ function collapseToTwoLevelsAssemble(
     for (const id of [...row.familyIds, ...row.knownIds]) {
       if (!collapsed.has(id) || husks.has(id)) continue;
       const other = peopleById.get(id)!;
-      husks.set(id, {
-        id,
-        givenName: other.givenName,
-        familyName: other.familyName,
-        placeId: other.placeId,
-        ...(other.countyId ? { countyId: other.countyId } : {}),
-        looks: other.looks ?? {},
-        said: other.said ?? [],
-        birthDate: other.birthDate,
-        familyIds: other.familyIds,
-        source: other.source,
-      });
+      husks.set(id, huskOf(other));
     }
   }
 
