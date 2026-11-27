@@ -36,3 +36,9 @@
 **Cloud sessions see only GitHub:** name repo paths and branches only, never a path on the owner's Mac.
 
 **"Typecheck clean" means `npm run typecheck`** (scripts/dev-lab/typecheck.ts plus the test-import check), never `tsc -p tsconfig.node.json` alone. The partial check misses the files the game builds. On Nov 26 it let two heads into a train that failed the package jobs.
+
+**Reading the crew thread (Nov 26, 10:25 p.m.: a session missed four CTO lines and looped "no new CTO line" for an hour):** #10377 has over 900 comments, and GitHub returns the oldest first, so page 1 is from Nov 24. Read new comments with a time filter:
+
+    gh api "repos/lamontaes/Political-Game-Git/issues/10377/comments?since=<your last check-in, UTC, like 2026-11-27T02:00:00Z>&per_page=100"
+
+Then read every line starting "CTO:" for your session's name. **If an hour passes with no CTO line for you, never loop on "nothing changed".** Take the next item in your queue, or the next open row of the refactor map nobody holds, and build it.
