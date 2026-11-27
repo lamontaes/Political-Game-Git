@@ -1,3 +1,4 @@
+import type { HistorySource } from "./past-history";
 import type { GroupQuartersType } from "./group-quarters-types";
 import type { PurchaseTaxInput } from "./modules/purchase-tax";
 import type { MarketEntry } from "./modules/residents";
@@ -999,6 +1000,12 @@ export interface CoreModule {
   state?: ModuleStateDefinition;
   /** Dated institutional work, before day hooks; emits/effects use the canonical API. */
   onCalendarWork?: (api: CoreAPI, work: Readonly<ModuleCalendarWork>) => void;
+  /**
+   * The module's table of what it did, read as history by the one reader
+   * (src/core2/past-history.ts): who it names, when, and the records that
+   * caused it. The person's life is the one source with `life` set.
+   */
+  history?: HistorySource;
   reasonProviders?: Readonly<Record<string, ReasonProvider>>;
   /** Open named kinds resolve actual canonical payment/reclassification records. */
   journalSourceProviders?: Readonly<

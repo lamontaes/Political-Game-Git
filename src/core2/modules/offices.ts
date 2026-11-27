@@ -12,7 +12,6 @@ import { incompatibleOffices } from "../office-incompatibility";
 import {
   historyOf,
   PRIOR_ELECTION,
-  type HistoryModule,
   type HistoryRow,
   type HistorySource,
 } from "../past";
@@ -371,7 +370,7 @@ const OFFICES_HISTORY: HistorySource = {
   },
 };
 
-export const OFFICES_MODULE: PreStartModule & HistoryModule = {
+export const OFFICES_MODULE: PreStartModule = {
   id: OFFICES_MODULE_ID,
   // A plain field, not a getter: the finance engine's read check walks the
   // modules and refuses an accessor (src/core2/finance-plan.ts, directRead).

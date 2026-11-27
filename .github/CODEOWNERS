@@ -49,7 +49,6 @@
 /src/core2/gov-rules/person-identity.ts @lamontaes
 /src/core2/government-level.ts @lamontaes
 /src/core2/fee-levels.ts @lamontaes
-/src/core2/retain-log.ts @lamontaes
 /src/core2/bug-report.test.ts @lamontaes
 /src/core2/condition-pack.test.ts @lamontaes
 /src/core2/factory-core-v1.test.ts @lamontaes

@@ -71,7 +71,6 @@ import {
   pastServiceFor,
   prisonTermOf,
   wholePastOpened,
-  type HistoryModule,
   type HistorySource,
 } from "../past-module";
 import type {
@@ -854,7 +853,7 @@ const LIFE_HISTORY: HistorySource = {
   },
 };
 
-export const PEOPLE_MODULE: PreStartModule & HistoryModule = {
+export const PEOPLE_MODULE: PreStartModule = {
   id: PEOPLE_MODULE_ID,
   history: LIFE_HISTORY,
   // One row per household, replaced each week: what its time at home was made of.

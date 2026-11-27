@@ -41,7 +41,7 @@ import {
   schoolStartYear,
   type SchoolResultRow,
 } from "../school-outcomes";
-import type { HistoryModule, HistoryRow, HistorySource } from "../past";
+import type { HistoryRow, HistorySource } from "../past";
 import { coreAPI } from "../state";
 import { decideSchoolHonors } from "../school-honors";
 import { placeStateKey } from "../place-map";
@@ -396,7 +396,7 @@ const SCHOOL_HISTORY: HistorySource = {
   },
 };
 
-export const SCHOOL_MODULE: PreStartModule & HistoryModule = {
+export const SCHOOL_MODULE: PreStartModule = {
   id: SCHOOL_MODULE_ID,
   // A plain field, not a getter: the finance engine's read check walks the
   // modules and refuses an accessor (src/core2/finance-plan.ts, directRead).

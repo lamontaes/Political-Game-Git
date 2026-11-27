@@ -26,12 +26,7 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
-import {
-  historyOf,
-  type HistoryModule,
-  type HistoryRow,
-  type HistorySource,
-} from "../past";
+import { historyOf, type HistoryRow, type HistorySource } from "../past";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, type Stance } from "../campaign-data";
 import { viewOn } from "./views";
@@ -152,7 +147,7 @@ export function voteById(api: CoreAPI, id: string): VoteRecordRow | undefined {
     VoteRecordRow | undefined;
 }
 
-export const RECORD_MODULE: CoreModule & HistoryModule = {
+export const RECORD_MODULE: CoreModule = {
   id: RECORD_MODULE_ID,
   history: RECORD_HISTORY,
   state: {

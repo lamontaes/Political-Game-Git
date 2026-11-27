@@ -48,7 +48,6 @@
     "src/core2/gov-rules/person-identity.ts",
     "src/core2/government-level.ts",
     "src/core2/fee-levels.ts",
-    "src/core2/retain-log.ts",
     "src/core2/bug-report.test.ts",
     "src/core2/condition-pack.test.ts",
     "src/core2/factory-core-v1.test.ts",
