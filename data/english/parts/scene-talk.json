@@ -75007,10 +75007,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-leave.i-m-not-sure-yet-i-ll-think-about-office-and-come-back",
+      "key": "scene-talk.reply-leave.no-i-haven-t-and-i-want-to-think-about-office-first-i-ll-be-back",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'm not sure yet. I'll think about {office} and come back.",
+      "text": "No, I haven't, and I want to think about {office} first. I'll be back.",
       "uses": [
         {
           "subject": "scene",
