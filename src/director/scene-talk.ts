@@ -1275,6 +1275,88 @@ export function greetsFirst(input: {
 }
 
 /**
+ * The turns a greeting is said in: the hello is its own short turn ("Hi."
+ * then "Back again?"), so a composed greeting whose first piece is the
+ * opener (`.greet-open`) is said as two lines, the opener and the rest. On a
+ * call that has two turns the player says who it is after the hello (their
+ * own words, from the same facts), and the other person goes on.
+ */
+export function greetingTurns<
+  L extends { text: string; wording?: { parts: string[]; facts: string[] } },
+>(
+  greeting: L,
+  input: { byPhone: boolean; self: () => L | null },
+): { who: "other" | "player"; line: L }[] {
+  const parts = greeting.wording?.parts ?? [];
+  const split =
+    parts.length > one && parts[zero]!.includes(".greet-open")
+      ? /^(?<hello>.*?[.!?]) (?<rest>.+)$/s.exec(greeting.text)?.groups
+      : undefined;
+  const said: L[] =
+    split?.hello && split.rest && greeting.wording
+      ? [
+          {
+            ...greeting,
+            text: split.hello,
+            wording: { ...greeting.wording, parts: [parts[zero]!], facts: [] },
+          },
+          {
+            ...greeting,
+            text: split.rest,
+            wording: { ...greeting.wording, parts: parts.slice(one) },
+          },
+        ]
+      : [greeting];
+  const self = input.byPhone && said.length > one ? input.self() : null;
+  return said.flatMap((line, at) => [
+    { who: "other" as const, line },
+    ...(at === zero && self ? [{ who: "player" as const, line: self }] : []),
+  ]);
+}
+
+/**
+ * The topics a talk does not open again: each one the listener remembers
+ * (`rows`: the topic and when it was learned) that is still inside its wait
+ * (small talk a week, a day's own subject a few days; past it, it may come back
+ * with the day's new facts).
+ */
+export function topicsStillHeld(
+  rows: readonly { value: string; learnedAt: string }[],
+  input: {
+    waitOf: (topic: string) => number | undefined;
+    daysSince: (learnedAt: string) => number;
+  },
+): string[] {
+  return rows
+    .filter((row) => {
+      const wait = input.waitOf(row.value);
+      return wait === undefined || input.daysSince(row.learnedAt) < wait;
+    })
+    .map((row) => row.value);
+}
+
+/**
+ * A parting word that is not one already said in this talk ("Nice to see
+ * you." opening and closing it): each further wording of the same move is
+ * tried, up to the limit, and the last one that could be worded stands when
+ * every one repeats a line.
+ */
+export function firstUnsaid<L extends { text: string }>(
+  tries: number,
+  said: ReadonlySet<string>,
+  word: (attempt: number) => L | null,
+): L | null {
+  let line: L | null = null;
+  for (let attempt = zero; attempt < tries; attempt += one) {
+    const next = word(attempt);
+    if (!next) break;
+    line = next;
+    if (!said.has(next.text)) break;
+  }
+  return line;
+}
+
+/**
  * Whether a talk that opened has said nothing: hello and goodbye with nothing
  * between is not a talk (owner, Oct 24: "that should be going to the hi, have
  * a good day. That makes no sense."), and neither is a hard-news opener with

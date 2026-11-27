@@ -191,6 +191,9 @@ import {
   replyAvailable,
   replyCandidates,
   replyStep,
+  greetingTurns,
+  topicsStillHeld,
+  firstUnsaid,
   replyTarget,
   replyHasMatter,
   replyAnswersAsk,
@@ -6122,64 +6125,26 @@ function openConversationNow(
   })
     ? greetingLine(core, data, playerId, otherId, !!knows, !!options.byPhone)
     : null;
-  if (greeting) {
-    // The hello is its own short turn, as people say it ("Hi." then "Back
-    // again?"): a composed greeting's opener is said first, the rest after.
-    const parts = greeting.wording?.parts ?? [];
-    const split =
-      parts.length > one && parts[zero]!.includes(".greet-open")
-        ? /^(?<hello>.*?[.!?]) (?<rest>.+)$/s.exec(greeting.text)?.groups
-        : undefined;
-    const said =
-      split?.hello && split.rest && greeting.wording
-        ? [
-            {
-              ...greeting,
-              text: split.hello,
-              wording: {
-                ...greeting.wording,
-                parts: [parts[zero]!],
-                facts: [],
-              },
-            },
-            {
-              ...greeting,
-              text: split.rest,
-              wording: { ...greeting.wording, parts: parts.slice(one) },
-            },
-          ]
-        : [greeting];
-    // On a call the other person answers, the player says who it is, and the
-    // other person goes on: the player's own words, from the same facts.
-    const self =
-      options.byPhone && said.length > one
-        ? composedHomeLine(
-            core,
-            playerId,
-            GREET_AND_PART.phoneSelf,
-            phoneFacts(core, playerId, otherId),
-            "default",
-            `${playerId}:${otherId}:${core.date}:greet-self`,
-          )
-        : null;
-    said.forEach((line, at) => {
+  if (greeting)
+    for (const turn of greetingTurns(greeting, {
+      byPhone: !!options.byPhone,
+      self: () =>
+        composedHomeLine(
+          core,
+          playerId,
+          GREET_AND_PART.phoneSelf,
+          phoneFacts(core, playerId, otherId),
+          "default",
+          `${playerId}:${otherId}:${core.date}:greet-self`,
+        ),
+    }))
       conversation.lines.push({
-        speakerId: otherId,
+        speakerId: turn.who === "other" ? otherId : playerId,
         subjectId: `greet:${otherId}`,
         kind: "greet",
         act: "tell",
-        ...line,
+        ...turn.line,
       });
-      if (at === zero && self)
-        conversation.lines.push({
-          speakerId: playerId,
-          subjectId: `greet:${otherId}`,
-          kind: "greet",
-          act: "tell",
-          ...self,
-        });
-    });
-  }
   // At home, a scene with the household's hard news opens by asking for the player's attention
   // ("We need to talk.") instead of a greeting (owner, Oct 14, 2026, night: a
   // mother asking the player to sit down).
@@ -6244,15 +6209,17 @@ function openConversationNow(
       conversation.used.push(key.slice(HEARD_SUBJECT.length));
   // Small talk is kept a week, and a day's own subject (a shift) a few days,
   // not for ever: past its wait it may come back with the day's new facts.
-  for (const [key, fact] of core.knowledgeByPerson.get(otherId) ?? []) {
-    if (!key.startsWith(talkedKeyPrefix(playerId))) continue;
-    const wait = againAfterDays(fact.value);
-    if (
-      wait === undefined ||
-      daysBetween(makeIsoDate(fact.learnedAt), makeIsoDate(core.date)) < wait
-    )
-      conversation.used.push(fact.value);
-  }
+  conversation.used.push(
+    ...topicsStillHeld(
+      [...(core.knowledgeByPerson.get(otherId) ?? [])]
+        .filter(([key]) => key.startsWith(talkedKeyPrefix(playerId)))
+        .map(([, fact]) => ({ value: fact.value, learnedAt: fact.learnedAt })),
+      {
+        waitOf: againAfterDays,
+        daysSince: (at) => daysBetween(makeIsoDate(at), makeIsoDate(core.date)),
+      },
+    ),
+  );
   const main = raisedBrought ? null : mainTopic(core, conversation, data);
   const open = (topic: { subject: Subject; asks: boolean }) =>
     topic.asks
@@ -7735,12 +7702,11 @@ function endConversation(
   // A parting word is not one already said in this talk ("Nice to see you."
   // opening and closing it): a further wording of the same move stands in.
   const said = new Set(conversation.lines.map((row) => row.text));
-  let line: ReturnType<typeof words> = null;
-  for (let attempt = zero; attempt < farewellWordings(); attempt += one) {
+  const line = firstUnsaid(farewellWordings(), said, (attempt) => {
     const momentKey = `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:farewell${attempt ? `:${attempt}` : ""}`;
     // Composed first: what the talk was about, someone of the player's they
     // know, or the hour at home; a short goodbye only when none is on record.
-    const next =
+    return (
       partingLine(
         core,
         conversation,
@@ -7762,11 +7728,9 @@ function endConversation(
         },
         momentKey,
         housemate ? "home" : "default",
-      );
-    if (!next) break;
-    line = next;
-    if (!said.has(next.text)) break;
-  }
+      )
+    );
+  });
   if (line)
     conversation.lines.push({
       speakerId: otherId,
