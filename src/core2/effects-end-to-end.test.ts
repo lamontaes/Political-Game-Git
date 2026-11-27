@@ -41,11 +41,11 @@ import { viewOf, viewOn, VIEWS_MODULE_ID, type Stance } from "./modules/views";
 import { WORLD_METRICS_MODULE_ID } from "./modules/world-metrics";
 import { livedQuestion } from "./outcome-news";
 import { WEB_LINKS } from "./outcome-web-model";
-import { coreAPI, fillInPerson } from "./state";
+import { coreAPI, fillInPerson, registerModule } from "./state";
+import type { StanceListener } from "./stance-listeners";
 import { countedHouseholdsByPlace } from "./modules/residents";
 import { lawChain } from "./modules/laws";
-import type { CoreModule, CoreState, PersonId } from "./types";
-import { listenToStances } from "../../tests/support/stance-listener";
+import type { CoreState, PersonId } from "./types";
 import {
   CONVERSATION_DATA,
   openConversation,
@@ -81,11 +81,7 @@ const MOVES = new WeakMap<object, Move[]>();
 const SIGNED = new WeakMap<object, Map<string, number>>();
 const signed = (stance: Stance) =>
   (stance.desiredChange === "enact" ? 1 : -1) * stance.strength;
-const heardStance: NonNullable<CoreModule["stanceListener"]> = (
-  api,
-  personId,
-  topic,
-) => {
+const stanceListener: StanceListener = (api, personId, topic) => {
   if (topic !== POLICE) return;
   const stance = api
     .moduleState(VIEWS_MODULE_ID)
@@ -135,7 +131,7 @@ function build(drawSeed: string, placeKey: string) {
     placeKey,
   });
   const core = world.core as CoreState;
-  listenToStances(core, heardStance);
+  registerModule(core, { id: "test-stance-listener", stanceListener });
   const town = lawChain(coreAPI(core)).townPlaceId;
   const records = [...(countedHouseholdsByPlace(core).get(town) ?? [])]
     .sort((a, b) => a.household.id.localeCompare(b.household.id))

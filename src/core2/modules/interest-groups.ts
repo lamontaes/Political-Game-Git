@@ -142,6 +142,7 @@ export const INTEREST_GROUPS_MODULE: CoreModule = {
   journalSourceProviders: {
     [DUES_KIND]: (api, reference) => duesSlot(api, reference.id),
   },
+  stanceListener: reviewMember,
 };
 
 const table = (api: CoreAPI, name: string) =>

@@ -120,6 +120,18 @@
         "src/core2/modules/serve-asks.ts",
         "src/core2/filing-rule-office.ts",
         "src/core2/voting-module-id.ts",
+        "src/core2/party-sides.ts",
+        "src/core2/gov-rules/county-election-calendar.ts",
+        "src/core2/gov-rules/town-election-calendar.ts",
+        "src/core2/gov-rules/municipal-ballot-rules.ts",
+        "src/core2/campaign-views.ts",
+        "src/core2/electorate.ts",
+        "src/core2/modules/parties.ts",
+        "src/core2/modules/interest-groups.ts",
+        "src/core2/modules/filing-clerk.ts",
+        "src/core2/modules/ballot-measures.ts",
+        "src/core2/modules/recalls.ts",
+        "src/core2/elections-calendar.ts",
         "src/core2/modules/candidacy-constants.ts"
       ],
       "paths": [
@@ -137,6 +149,12 @@
         "src/core2/modules/parties.ts",
         "src/core2/modules/interest-groups.ts",
         "src/core2/ballot-order.ts",
+        "src/core2/party-sides.ts",
+        "src/core2/gov-rules/county-election-calendar.ts",
+        "src/core2/gov-rules/town-election-calendar.ts",
+        "src/core2/gov-rules/municipal-ballot-rules.ts",
+        "src/core2/gov-rules/municipal-election-rule-packs.ts",
+        "src/core2/gov-rules/municipal-election-rules.ts",
         "src/core2/campaign-*.ts",
         "src/core2/candidate-*.ts",
         "src/core2/contest-positions.ts",
@@ -514,7 +532,8 @@
         "src/core2/finance-types.ts",
         "src/core2/finance-plan.ts",
         "src/core2/finance-state.ts",
-        "src/core2/finance-cash.ts"
+        "src/core2/finance-cash.ts",
+        "src/core2/finance-reads.ts"
       ],
       "paths": [
         "src/core2/modules/finance.ts",
@@ -762,7 +781,8 @@
         "src/core2/regional-reads.ts",
         "src/core2/credit-reads.ts",
         "src/core2/prices-reads.ts",
-        "src/core2/job-lifecycle.ts"
+        "src/core2/job-lifecycle.ts",
+        "src/core2/work-reads.ts"
       ],
       "paths": [
         "src/core2/shared-time.ts",
@@ -864,6 +884,7 @@
       "id": "people",
       "name": "Households and people",
       "entry": [
+        "src/core2/person-invented-age.ts",
         "src/core2/modules/people.ts",
         "src/core2/modules/residents.ts",
         "src/core2/modules/life.ts",
@@ -1319,6 +1340,7 @@
         "src/core2/modules/news.ts",
         "src/core2/modules/press.ts",
         "src/core2/press-*.ts",
+        "src/core2/ad-outlet-per-world.test.ts",
         "src/core2/outcome-news.ts",
         "src/core2/modules/news-listeners.ts",
         "src/core2/outcome-news-constants.ts",

@@ -9,6 +9,7 @@
  */
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import { chooseAct } from "./choice";
+import { latestMacroMonth, latestMacroMonthId } from "./macro-reads";
 import type { ActOffer, CoreAPI, CoreState } from "./types";
 
 export const BUY_PULL = "housing:pull";
@@ -29,13 +30,9 @@ export function buyMarket(api: CoreAPI): BuyMarket | undefined {
   const c = api.state as CoreState;
   if (!c.modules.has("credit") || !c.modules.has("macro")) return undefined;
   const p = (key: string) => api.parameter(key);
-  const latest = api.moduleState("macro").table("state").get("macro:state") as
-    { latestMonth: string } | undefined;
-  const monthId = latest ? `macro-month:${latest.latestMonth}` : "";
-  const month = latest
-    ? (api.moduleState("macro").table("months").get(monthId) as
-        { mortgage30Pct: number } | undefined)
-    : undefined;
+  const latest = latestMacroMonthId(api);
+  const monthId = latest ? `macro-month:${latest}` : "";
+  const month = latestMacroMonth(api);
   if (!month) return undefined;
   const rate = month.mortgage30Pct / p("macroHundred");
   return {

@@ -24,9 +24,9 @@ import { viewOf, viewOn, VIEWS_MODULE_ID, type Stance } from "./modules/views";
 import { lawChain } from "./modules/laws";
 import { countedHouseholdsByPlace } from "./modules/residents";
 import { livedQuestion } from "./outcome-news";
-import { coreAPI, fillInPerson } from "./state";
-import type { CoreModule, CoreState } from "./types";
-import { listenToStances } from "../../tests/support/stance-listener";
+import { coreAPI, fillInPerson, registerModule } from "./state";
+import type { StanceListener } from "./stance-listeners";
+import type { CoreState } from "./types";
 
 const seed = process.env.LIVED_CRIME_SEED || randomBytes(8).toString("hex");
 const REDRAWS = 5;
@@ -59,11 +59,7 @@ const MOVES = new WeakMap<object, Move[]>();
 const SIGNED = new WeakMap<object, Map<string, number>>();
 const signed = (stance: Stance) =>
   (stance.desiredChange === "enact" ? 1 : -1) * stance.strength;
-const heardStance: NonNullable<CoreModule["stanceListener"]> = (
-  api,
-  personId,
-  topic,
-) => {
+const stanceListener: StanceListener = (api, personId, topic) => {
   if (topic !== POLICE) return;
   const stance = api
     .moduleState(VIEWS_MODULE_ID)
@@ -119,7 +115,7 @@ function play(drawSeed: string) {
     twoLevel: true,
     placeKey: place.key,
   }).core as CoreState;
-  listenToStances(core, heardStance);
+  registerModule(core, { id: "test-stance-listener", stanceListener });
   const api = coreAPI(core);
   const town = lawChain(api).townPlaceId;
   for (const record of [...(countedHouseholdsByPlace(core).get(town) ?? [])]

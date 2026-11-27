@@ -1134,6 +1134,8 @@ export function agreementWith(
   return Math.max(-v("one"), Math.min(v("one"), sum / platform.length));
 }
 
+// Engines that act on the day a stance moves carry the listener on their module
+// (`stanceListener`); `stanceMoved` (../stance-listeners) tells each installed one.
 export { VIEWS_KEYS };
 
 export function stancesOf(api: CoreAPI, personId: PersonId): Stance[] {

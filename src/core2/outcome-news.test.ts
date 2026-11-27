@@ -28,9 +28,9 @@ import {
   NEWS_MEASURES,
   webFactKey,
 } from "./outcome-news";
-import { coreAPI } from "./state";
-import type { CoreModule, CoreState } from "./types";
-import { listenToStances } from "../../tests/support/stance-listener";
+import { coreAPI, registerModule } from "./state";
+import type { StanceListener } from "./stance-listeners";
+import type { CoreState } from "./types";
 
 const seed = process.env.OUTCOME_NEWS_SEED || randomBytes(8).toString("hex");
 const place = drawPlace(seed, "outcome-news");
@@ -72,11 +72,7 @@ const CONDITION_QUESTIONS = new Set(
     .map((spec) => conditionQuestion(spec.topic))
     .filter((question): question is string => question !== null),
 );
-const heardStance: NonNullable<CoreModule["stanceListener"]> = (
-  api,
-  personId,
-  topic,
-) => {
+const stanceListener: StanceListener = (api, personId, topic) => {
   if (!CONDITION_QUESTIONS.has(topic)) return;
   const moves = MOVES.get(api.state) ?? [];
   MOVES.set(api.state, moves);
@@ -141,7 +137,7 @@ function play(
     placeKey: at.key,
   });
   const core = world.core as CoreState;
-  listenToStances(core, heardStance);
+  registerModule(core, { id: "test-stance-listener", stanceListener });
   const api = coreAPI(core);
   const months = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");
   const town = core.people.get(core.playerId!)!.placeId;
