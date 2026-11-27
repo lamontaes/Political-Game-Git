@@ -37,3 +37,29 @@ export function initialPersonState(
     drives: new Map(),
   };
 }
+
+/** A person's job ended: the job they hold now is cleared when it is the one that ended. The people engine's write, for the jobs engine's and the finance engine's closures. */
+export function clearEndedJob(person: PersonState, jobId: string): void {
+  if (person.jobId === jobId) delete person.jobId;
+}
+
+/** A work commitment ended: the person's goal of keeping it goes. The people engine's write. */
+export function dropWorkGoal(person: PersonState, commitmentId: string): void {
+  person.goals.delete(`work:${commitmentId}`);
+}
+
+/** A person's act is recorded in their own row: the last choice and its reason, how many acts they have made and how many of each kind. The people engine's write, for the work engine's attendance. */
+export function recordActChosen(
+  person: PersonState,
+  act: {
+    readonly lastChoice: string;
+    readonly lastReason: string;
+    readonly actCount: number;
+    readonly actsByKind: PersonState["actsByKind"];
+  },
+): void {
+  person.lastChoice = act.lastChoice;
+  person.lastReason = act.lastReason;
+  person.actCount = act.actCount;
+  person.actsByKind = act.actsByKind;
+}
