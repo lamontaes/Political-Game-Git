@@ -9,9 +9,9 @@ import {
 } from "../../scripts/guards/engine-tables";
 
 /**
- * One engine does not open another engine's records (core review K8, Nov 26;
- * owner: "Every system is already built: find the engine that does it and
- * wire through it"). A file in one family may not open a module table
+ * One engine does not open another engine's records (core audit K8, Nov 26, and the
+ * owner's rule of Oct 27 night in AGENTS.md: every system is already built,
+ * so find the engine that does it and wire through it). A file in one family may not open a module table
  * another family owns, put or remove a row in one, write straight into a
  * state map another engine owns, or edit a state row in place that another
  * engine owns; it asks the owner's front door.
