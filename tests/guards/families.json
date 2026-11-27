@@ -1137,6 +1137,7 @@
         "src/core2/closure-by-choice.test.ts",
         "src/core2/coarse-place.test.ts",
         "src/core2/community-events-table.test.ts",
+        "src/core2/community-events.test.ts",
         "src/core2/controlled-sources-released.test.ts",
         "src/core2/country-part-counts.test.ts",
         "src/core2/credit-applicants-place.test.ts",

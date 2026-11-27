@@ -1121,7 +1121,7 @@
     "id": "SG-WORLD-community-event-saturday",
     "kind": "missing-data",
     "file": "src/core2/modules/community-events.ts",
-    "line": 118,
+    "line": 120,
     "whatItFakes": "A community event is held on a Saturday: a season's event on the first Saturday after the middle of its window, a monthly one on that week's Saturday. The table gives windows and weeks, not a weekday, so a church supper or a school play lands on a Saturday and every town of a type holds the same dates.",
     "why": "The research table (data/world/community-events.json) has seasons and weeks only; no per-weekday or per-town date has been researched.",
     "addedBy": "World session",

@@ -65,7 +65,6 @@ import {
   townHallId,
   type TownHallRow,
 } from "./modules/meetings";
-import { communityEventsOn } from "./modules/community-events";
 import type { CoreAPI, CoreState } from "./types";
 import type { ModuleRow } from "./module-data";
 
@@ -105,8 +104,6 @@ export type CampaignDayChoice =
         readonly venuePriceMinor: number;
         readonly cashMinor: number;
         readonly platformStances: number;
-        /** The community event running today at the town (its row id), where the event's crowd already is; null on an ordinary day. */
-        readonly communityEventId: string | null;
       };
     })
   | (DayChoiceBase & {
@@ -706,7 +703,6 @@ export function campaignDayChoices(
         venuePriceMinor: price,
         cashMinor: cash,
         platformStances: campaign.platform.length,
-        communityEventId: communityEventsOn(api, api.state.date)[0]?.id ?? null,
       },
     },
     {

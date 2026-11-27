@@ -3,8 +3,7 @@
  * played world (the bench world, every module installed) of a place drawn
  * from all 56, a year holds a row for each event the table gives the
  * place's type, each on a date the table's rule allows, written on that date,
- * and `communityEventsOn` (what the campaign day reads) names the row on its
- * dates and nothing on a quiet day.
+ * and the one history reader hands the rows out by place.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -18,8 +17,9 @@ import {
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { historyOf } from "./past";
 import {
-  communityEventsOn,
+  COMMUNITY_EVENT,
   startDatesOf,
   type CommunityEventRow,
 } from "./modules/community-events";
@@ -91,18 +91,23 @@ it(`a played year of a drawn place holds the table's events for its type, each w
     );
     expect(row.scale, `${where}: ${row.id}`).toBeGreaterThan(0);
   }
-  // Every event the type holds that falls within the span has a row.
+  // A 400-day span holds each event the type has, so each has a row.
   const seen = new Set(rows.map((r) => r.eventId));
-  expect(seen.size, where).toBeGreaterThan(1);
-  // The read the campaign day makes: a row on its dates, nothing on a quiet day.
-  const first = rows[0]!;
+  for (const id of allowed)
+    expect(seen.has(id), `${where}: no row for ${id}`).toBe(true);
+  // The one history reader hands the same rows to every reader, by place and kind.
+  const told = historyOf(
+    core,
+    { place: rows[0]!.placeId },
+    { kinds: [COMMUNITY_EVENT] },
+  );
+  expect(told.map((e) => e.id).sort(), where).toEqual(
+    rows.map((r) => r.id).sort(),
+  );
   expect(
-    communityEventsOn(api, first.date).map((r) => r.id),
+    historyOf(core, { place: rows[0]!.placeId }, { kinds: ["law"] }).filter(
+      (e) => e.record === COMMUNITY_EVENT,
+    ),
     where,
-  ).toContain(first.id);
-  const quiet = [...Array(60).keys()]
-    .map((i) => addDays(makeIsoDate(start), i + 1) as string)
-    .find((d) => !rows.some((r) => r.date <= d && d <= r.endsOn));
-  expect(quiet, where).toBeDefined();
-  expect(communityEventsOn(api, quiet!), where).toEqual([]);
+  ).toEqual([]);
 }, 900_000);

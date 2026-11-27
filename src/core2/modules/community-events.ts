@@ -13,10 +13,11 @@
  * rolled: a date follows from the table's rule alone, so the same place has
  * the same year of events in every world (see SG-WORLD-community-event-saturday).
  *
- * `communityEventsOn` is the read: the events running on a date, which the
- * campaign day offers as a place to be.
+ * The rows are history (`community-event`, by place): the one history reader
+ * hands them to the Journal, the paper, the director and a person's card, each
+ * with the record that made it (the table's row for the event).
  */
-import { registerModule } from "../state";
+import { coreAPI, registerModule } from "../state";
 import { moduleCalendar } from "../module-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
@@ -25,6 +26,7 @@ import {
   type CommunityEvent,
 } from "../community-events-table";
 import { placeJurisdictionId } from "../place-map";
+import type { HistoryModule, HistoryRow, HistorySource } from "../past";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, IsoDate, Source } from "../types";
 
@@ -185,8 +187,60 @@ function scheduleBooking(state: CoreState, date: string): void {
   });
 }
 
-export const COMMUNITY_EVENTS_MODULE: CoreModule = {
+/** The history reader's kind for a row of the table. */
+export const COMMUNITY_EVENT = "community-event";
+
+function historyOf(core: CoreState, row: CommunityEventRow): HistoryRow {
+  return {
+    id: row.id,
+    date: row.date,
+    life: "community",
+    what: row.eventId,
+    record: COMMUNITY_EVENT,
+    from: row.date < core.startedAt ? "past" : "played",
+    personIds: [],
+    withIds: [],
+    placeId: row.placeId,
+    facts: {
+      eventId: row.eventId,
+      endsOn: row.endsOn,
+      days: String(row.days),
+      placeType: row.placeType,
+      share: String(row.scale),
+    },
+    publicRecord: true,
+  };
+}
+
+const COMMUNITY_EVENTS_HISTORY: HistorySource = {
   id: COMMUNITY_EVENTS_MODULE_ID,
+  rows(core, scope, ask) {
+    if (!core.modules.has(COMMUNITY_EVENTS_MODULE_ID)) return [];
+    if (!ask.kinds?.includes(COMMUNITY_EVENT)) return [];
+    if (!("place" in scope)) return [];
+    return (
+      coreAPI(core)
+        .moduleState(COMMUNITY_EVENTS_MODULE_ID)
+        .table("events")
+        .rows() as unknown as CommunityEventRow[]
+    )
+      .filter((row) => row.placeId === scope.place)
+      .map((row) => historyOf(core, row));
+  },
+  row(core, id) {
+    if (!core.modules.has(COMMUNITY_EVENTS_MODULE_ID)) return undefined;
+    const row = coreAPI(core)
+      .moduleState(COMMUNITY_EVENTS_MODULE_ID)
+      .table("events")
+      .get(id) as unknown as CommunityEventRow | undefined;
+    return row ? historyOf(core, row) : undefined;
+  },
+};
+
+export const COMMUNITY_EVENTS_MODULE: CoreModule & HistoryModule = {
+  id: COMMUNITY_EVENTS_MODULE_ID,
+  // A plain field, not a getter (the finance engine's read check refuses an accessor).
+  history: COMMUNITY_EVENTS_HISTORY,
   state: { schemaVersion: 1, tables: { events: {} } },
   onCalendarWork(api, work) {
     if (work.kind === EVENT_KIND)
@@ -195,6 +249,10 @@ export const COMMUNITY_EVENTS_MODULE: CoreModule = {
     const year = Number(work.date.slice(0, 4));
     bookYear(api, year);
     scheduleBooking(core(api), day(year + 1, 1, 1));
+    // The booking that ran before this one is finished.
+    moduleCalendar(core(api), COMMUNITY_EVENTS_MODULE_ID).forget(
+      `${BOOK_KIND}:${day(year - 1, 1, 1)}`,
+    );
   },
 };
 
@@ -203,15 +261,4 @@ export function openCommunityEvents(state: CoreState): void {
   registerModule(state, COMMUNITY_EVENTS_MODULE);
   // The rest of this year's events are booked tomorrow; each later year's on its January 1st.
   scheduleBooking(state, addDays(makeIsoDate(state.date), 1));
-}
-
-/** The events running on a date at the town (a first day up to its last), by row. */
-export function communityEventsOn(
-  api: CoreAPI,
-  date: string,
-): CommunityEventRow[] {
-  if (!core(api).modules.has(COMMUNITY_EVENTS_MODULE_ID)) return [];
-  return (table(api).rows() as unknown as CommunityEventRow[]).filter(
-    (row) => row.date <= date && date <= row.endsOn,
-  );
 }
