@@ -72607,62 +72607,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-confront.everybody-says-seat-is-already-decided-is-it",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "Everybody says {seat} is already decided. Is it?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "requiresFacts": ["seat"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "confront",
-        "key": "routine"
-      },
-      "elements": ["filing-at-the-clerks-counter"]
-    },
-    {
       "key": "scene-talk.reply-confront.is-the-field-for-seat-stacked-before-i-even-file",
       "move": "reply-confront",
       "kind": "spoken",
       "text": "Is the field for {seat} stacked before I even file?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "requiresFacts": ["seat"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "confront",
-        "key": "routine"
-      },
-      "elements": ["filing-at-the-clerks-counter"]
-    },
-    {
-      "key": "scene-talk.reply-confront.i-heard-seat-is-already-spoken-for-is-that-so",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "I heard {seat} is already spoken for. Is that so?",
       "uses": [
         {
           "subject": "scene",
@@ -72715,32 +72663,6 @@
       "move": "reply-leave",
       "kind": "spoken",
       "text": "I need to think about {seat} first. I'll come back.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "requiresFacts": ["seat"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "leave",
-        "key": "routine"
-      },
-      "elements": ["filing-at-the-clerks-counter"]
-    },
-    {
-      "key": "scene-talk.reply-leave.not-today-i-want-to-talk-it-over-at-home-before-i-file-for-seat",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Not today. I want to talk it over at home before I file for {seat}.",
       "uses": [
         {
           "subject": "scene",
