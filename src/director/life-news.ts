@@ -13,7 +13,7 @@ import { MOVED_AWAY_EVENT } from "../core2/modules/moves";
 import { PAST_WORK_SPELL, historyOf } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { organizationName } from "./words";
+import { organizationName } from "../english/words";
 
 export interface NewsFact {
   text: string;

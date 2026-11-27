@@ -59,7 +59,7 @@ import {
   isOutsideMarket,
   organizationName,
   stateInSentence,
-} from "../director/words";
+} from "../english/words";
 import { relationWord, schoolsOf } from "./words";
 import { faceOf, scenePlace } from "./scene";
 import {

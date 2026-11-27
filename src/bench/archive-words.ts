@@ -20,7 +20,7 @@ import {
 import type { ownRace } from "./results";
 import { measureSaid, policyNames } from "./words";
 import { coreStateName } from "../core2/place-lookup";
-import { stateInSentence } from "../director/words";
+import { stateInSentence } from "../english/words";
 
 /** A story as the news engine keeps it. */
 interface StoredStory {

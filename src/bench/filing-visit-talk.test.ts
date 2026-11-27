@@ -23,7 +23,7 @@ import {
 import { coreAPI } from "../core2/state";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { spokenOffice } from "../director/filing-visit";
-import { spoken } from "../director/words";
+import { spoken } from "../english/words";
 import { expectUpToFourDifferent } from "../director/reply-set-check";
 import { seatSaid } from "../english/journal-words";
 import type { PersonId } from "../core2/types";

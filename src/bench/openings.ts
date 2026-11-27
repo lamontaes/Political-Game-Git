@@ -1,4 +1,4 @@
-import { organizationName } from "../director/words";
+import { organizationName } from "../english/words";
 import { coreAPI } from "../core2/state";
 import {
   JOBS_MODULE_ID,

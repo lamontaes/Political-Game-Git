@@ -41,7 +41,7 @@ import { STAFF_MODULE_ID } from "../core2/modules/staff";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { officeWords, sceneSaysWhat, whatSaid } from "../english/said-as";
 import { jobSaid } from "../english/journal-words";
-import { spoken } from "./words";
+import { spoken } from "../english/words";
 import type { Fact } from "../english/bank-line";
 import type { CoreState, PersonId } from "../core2/types";
 

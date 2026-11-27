@@ -39,7 +39,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import { withArticle } from "../english/journal-words";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
-import { organizationName, spoken } from "./words";
+import { organizationName, spoken } from "../english/words";
 
 export interface MeetingFact {
   text: string;

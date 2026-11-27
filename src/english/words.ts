@@ -3,8 +3,8 @@ import { governmentProperName } from "../core2/government-proper-name";
 import { P } from "../core2/parameters";
 import { OUTSIDE_MARKET_KIND } from "../core2/modules/jobs";
 import type { OrganizationInput } from "../core2/types";
-import { employerSaidAs } from "../english/said-as";
-import SPOKEN_WHEN from "./data/spoken-when.json" with { type: "json" };
+import { employerSaidAs } from "./said-as";
+import SPOKEN_WHEN from "../director/data/spoken-when.json" with { type: "json" };
 
 /**
  * A broadcast call sign with its band suffix: four letters starting with K or

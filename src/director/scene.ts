@@ -23,7 +23,7 @@ import {
   type SceneBinding,
   type ScheduleEntry,
 } from "./scheduling";
-import { isOutsideMarket, organizationName, spoken } from "./words";
+import { isOutsideMarket, organizationName, spoken } from "../english/words";
 import { dayOpening } from "../english/day-words";
 import { homeAloneDayFacts } from "./day-part";
 import { nameWithWhat, officeWords, sceneSaysWhat } from "../english/said-as";

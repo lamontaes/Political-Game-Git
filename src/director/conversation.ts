@@ -253,7 +253,7 @@ import {
   spokenWhen,
   spokenWhenRow,
   stateInSentence,
-} from "./words";
+} from "../english/words";
 import { dayParts, sceneMinute } from "./day-part";
 import { employerInTalk } from "./employer-in-talk";
 import {

@@ -96,7 +96,7 @@ import { bodySaid } from "./body-said";
 import { earlierAddressPieces } from "./address-render";
 import { coreStateName } from "../core2/place-lookup";
 import { markWordsStopgap } from "./stopgaps";
-import { isOutsideMarket, stateInSentence } from "./words";
+import { isOutsideMarket, stateInSentence } from "../english/words";
 import { changeSaid, countSaid, moneySaid } from "../english/count-words";
 import { measureWords } from "../english/area-names";
 import { addDays, daysBetweenText } from "../core2/kernel/dates";

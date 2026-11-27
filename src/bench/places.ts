@@ -7,7 +7,7 @@ import { coreAPI, fillInPerson } from "../core2/state";
 import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
 import { upcomingMeeting } from "../core2/modules/office-day";
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
-import { organizationName } from "../director/words";
+import { organizationName } from "../english/words";
 import { backdropStaging } from "./staging";
 import { backdropFor, orgPlace, staffOf, peopleHere } from "./scene";
 import { isOnShift } from "./shift";

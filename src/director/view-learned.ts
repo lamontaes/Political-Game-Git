@@ -16,7 +16,7 @@
  * taught it. Nothing here decides what anyone believes: it only moves what
  * the views engine already holds into what the player knows.
  */
-import { isOutsideMarket, organizationName } from "./words";
+import { isOutsideMarket, organizationName } from "../english/words";
 import { closenessBetween } from "../core2/closeness";
 import {
   VIEWS_MODULE_ID,

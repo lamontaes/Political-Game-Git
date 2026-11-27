@@ -29,7 +29,7 @@ import { billQuestionRead, type LeanOf } from "./bill-question-facts";
 import { billTitleOf, billTitleSaid } from "../english/bill-names";
 import { employerSaid } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
-import { businessNameSaid } from "./words";
+import { businessNameSaid } from "../english/words";
 
 /** The situation type that reads these facts. */
 export const DONOR_ASK_TYPE = "donor-ask";

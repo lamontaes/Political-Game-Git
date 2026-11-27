@@ -12,7 +12,7 @@ import {
   playerContests,
 } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
-import { spokenDate } from "../director/words";
+import { spokenDate } from "../english/words";
 import { chooseAtCounter, openBenchFilingVisit } from "./filing";
 import { buildBenchWorld } from "./world";
 

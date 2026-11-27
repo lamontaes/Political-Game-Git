@@ -21,7 +21,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import { moneySaid } from "../english/count-words";
 import { spanSaid } from "../english/span-words";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
-import { spokenDate } from "./words";
+import { spokenDate } from "../english/words";
 
 /** The justice engine's record of a person set free at the end of a term. */
 export const RELEASED_EVENT = "justice.released";

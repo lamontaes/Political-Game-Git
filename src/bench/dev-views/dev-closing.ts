@@ -10,7 +10,7 @@
  */
 import { historyOf } from "../../core2/past";
 import { coreAPI } from "../../core2/state";
-import { isOutsideMarket } from "../../director/words";
+import { isOutsideMarket } from "../../english/words";
 import { LAWS_MODULE_ID, lawChain } from "../../core2/modules/laws";
 import { BUSINESS_MODULE_ID } from "../../core2/business-module-id";
 import { closeByChoice, ownerOf } from "../../core2/modules/business";

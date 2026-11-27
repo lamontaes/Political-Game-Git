@@ -2,7 +2,7 @@ import controls from "./data/controls.json" with { type: "json" };
 import { lastTimeOf } from "./last-time";
 import { raceTitle } from "./race-words";
 import { saidOffice, spokenOffice } from "../director/filing-visit";
-import { properName } from "../director/words";
+import { properName } from "../english/words";
 import { ageOnDate } from "../core2/kernel/dates";
 import { parameter } from "../core2/parameters";
 import { coreAPI } from "../core2/state";

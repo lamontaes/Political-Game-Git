@@ -34,7 +34,7 @@ import { homeWorkFacts } from "./home-work-facts";
 import { rescueFacts } from "./rescue-facts";
 import { purposeScene } from "./purpose-scene";
 import { graduationResults } from "./school";
-import { employerWords } from "./words";
+import { employerWords } from "../english/words";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../core2/business-books";
 import { schoolShortSaid, workplaceSaid } from "../english/workplace-words";
 

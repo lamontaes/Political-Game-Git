@@ -364,3 +364,4 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 | `calendar-day.png` | Generated calendar proof in the ignored test-results directory | 2026-11-27 | Review captures belong to their pull requests, not the repository. |
 | `calendar-holidays-hidden.png` | Generated calendar proof in the ignored test-results directory | 2026-11-27 | Review captures belong to their pull requests, not the repository. |
 | `calendar-today.png` | Generated calendar proof in the ignored test-results directory | 2026-11-27 | Review captures belong to their pull requests, not the repository. |
+| `src/director/words.ts (and words.test.ts)` | src/english/words.ts (and words.test.ts); moved by scripts/story/move-word-helpers.mjs | 2026-11-27 | Story is one engine (owner, Nov 26): a proper name, a spoken date, a possessive and an employer's name are said by the English engine, not by a helper file in the director. |

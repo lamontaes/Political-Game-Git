@@ -13,7 +13,7 @@
  * raise from a lower one reads differently from a cut.
  */
 import { spokenDate } from "../core2/kernel/dates";
-import { properName } from "../director/words";
+import { properName } from "./words";
 import { billTitleOf, spokenDesignation } from "./bill-names";
 import sectionsJson from "../../data/english/bill-sections.json" with { type: "json" };
 
