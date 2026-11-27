@@ -1063,7 +1063,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
     table(api, "budgets").put({
       ...opening,
       baseSpendingMinor: opening.spendingMinor,
-      ...(gov.level === "federal" && budgetDrivers(api)
+      ...(movesWithPrices(gov) && budgetDrivers(api)
         ? { drivers: budgetDrivers(api) }
         : {}),
       revenuePlanMonth: opening.startsOn.slice(0, 7),
@@ -1582,9 +1582,38 @@ const FEDERAL_DESTINATION = federalLines.lines as Readonly<
 >;
 
 /**
+ * The drivers a budget stood at when it began, for a budget written before the macro record existed (an opening
+ * year): the prices of the month it began, read from the macro record's own months, the rest as now.
+ */
+function driversAtStart(
+  api: CoreAPI,
+  budget: BudgetRow,
+  now: BudgetDrivers,
+): BudgetDrivers {
+  const months = api.moduleState("macro").table("months").rows() as unknown as {
+    month: string;
+    priceIndex: number;
+  }[];
+  const began = budget.startsOn.slice(0, 7);
+  let at: (typeof months)[number] | undefined;
+  for (const m of months)
+    if (m.month <= began && (!at || m.month > at.month)) at = m;
+  return { ...now, prices: at?.priceIndex ?? now.prices };
+}
+
+/**
+ * Whether a government's lines carry forward by the world's own prices: the federal government's, and a city's or
+ * town's, whose own payers send it far more than its plan (SG-GOV-spending-vote-state-county), so its lines are not
+ * set from its receipts. A state's and a county's move with what each collected.
+ */
+function movesWithPrices(gov: GovernmentRow): boolean {
+  return gov.level === "federal" || gov.level === "city";
+}
+
+/**
  * How far a line's cost has moved since the budget it carries forward from was written. A federal line paid to
  * households moves with the people the country's households hold and the world's prices; net interest with the
- * debt owed and the yield on it; every other line with prices. A state's or county's lines move with what it
+ * debt owed and the yield on it; every other line with prices, and a city's or town's lines all with prices. A state's or county's lines move with what it
  * collected last year over what its plan expected (a sliding scale, no threshold). Nothing here reads a
  * published level: every ratio is between two moments of this world.
  */
@@ -1595,12 +1624,15 @@ function lineGrowth(
   now: BudgetDrivers | undefined,
   receipts: { over: number; under: number } | undefined,
 ): { over: number[]; under: number[] } {
-  if (gov.level !== "federal")
+  if (!movesWithPrices(gov))
     return receipts
       ? { over: [receipts.over], under: [receipts.under] }
       : { over: [], under: [] };
   const then = prior.drivers;
   if (!then || !now) return { over: [], under: [] };
+  // A town buys what its units cost this year: every line moves with prices.
+  if (gov.level !== "federal")
+    return { over: [now.prices], under: [then.prices] };
   if (line === "netInterest")
     return { over: [now.debt, now.yield], under: [then.debt, then.yield] };
   return FEDERAL_DESTINATION[line] === "households"
@@ -1633,9 +1665,12 @@ function carriedLines(
     )
       prior = b;
   const collected = collectionsOverBase(api, gov, fy);
-  if (!prior) return { spending: { ...published.spendingMinor }, collected };
-  const drivers =
-    gov.level === "federal" ? (own?.drivers ?? budgetDrivers(api)) : undefined;
+  const drivers = movesWithPrices(gov)
+    ? (own?.drivers ?? budgetDrivers(api))
+    : undefined;
+  // The opening year keeps the drivers it stood at, so next year's lines read the ratio from them.
+  if (!prior)
+    return { spending: { ...published.spendingMinor }, drivers, collected };
   // A state's or county's lines follow what it collected over the plan it spent against.
   const planned = ownRevenueMinor(prior.revenueMinor);
   const took = collectedLastYear(api, gov, fy);
@@ -1648,11 +1683,16 @@ function carriedLines(
       : undefined;
   if (gov.level === "state" || gov.level === "county")
     api.stopgap("SG-GOV-spending-vote-state-county");
+  // The opening year was written before the macro record existed: its prices are the month it began.
+  const withDrivers =
+    drivers && !prior.drivers
+      ? { ...prior, drivers: driversAtStart(api, prior, drivers) }
+      : prior;
   const spending: Record<string, number> = {};
   // Each line is last year's times its ratios, rounded once to the cent from
   // the exact product (CTO, #9747 6991875920).
   for (const [line, v] of Object.entries(prior.baseSpendingMinor!)) {
-    const growth = lineGrowth(gov, line, prior, drivers, receipts);
+    const growth = lineGrowth(gov, line, withDrivers, drivers, receipts);
     spending[line] = roundExactProduct(v, growth.over, growth.under);
   }
   for (const [line, v] of Object.entries(published.spendingMinor))
