@@ -12,7 +12,7 @@ import {
   leanOf,
   members,
 } from "./modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { OFFICES_MODULE_ID, type TermRow, allOffices } from "./modules/offices";
 import { officialOf, officialStance } from "./modules/officials";
 import type { OfficeInput } from "./offices-local";
 import type { CoreAPI } from "./types";
@@ -43,12 +43,9 @@ export function pastTown(api: CoreAPI, seed: string): PastTown {
 export type PastOffice = OfficeInput;
 
 export function townOffices(api: CoreAPI): readonly PastOffice[] {
-  return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .rows() as unknown as PastOffice[]
-  ).filter((office) => office.coversTown);
+  return (allOffices(api) as unknown as PastOffice[]).filter(
+    (office) => office.coversTown,
+  );
 }
 
 /**

@@ -34,6 +34,7 @@ import type {
   WorkData,
   WorkScheduleSlot,
 } from "../types";
+import { fieldsOf } from "../module-fields";
 
 const remainder = (value: number, period: number) =>
   ((value % period) + period) % period;
@@ -793,20 +794,14 @@ export function notifyWorkChoice(
  * The hours each person's office takes from their day today, from that
  * office's own records (office-hours-never-fill-an-officials-day): a state
  * legislator's session, committee and caucus days, a town body's meetings, a
- * salaried post's weekday. Each engine that keeps an office's days registers
- * one; a person's office time is the sum of what each says.
+ * salaried post's weekday. Each engine's module that keeps an office's days
+ * carries one (`officeTime`); a person's office time is the sum of what each
+ * says.
  */
-export type OfficeTimeReader = (
-  api: CoreAPI,
-) => ReadonlyMap<string, OfficeTime>;
 /** An office's hours in a day and the record they come from (an entry, a meeting, a post). */
 export interface OfficeTime {
   readonly hours: number;
   readonly sourceId: string;
-}
-const officeTimeReaders: OfficeTimeReader[] = [];
-export function registerOfficeTime(reader: OfficeTimeReader): void {
-  if (!officeTimeReaders.includes(reader)) officeTimeReaders.push(reader);
 }
 
 /** Office hours already put on each person's day today, so no office is counted twice. */
@@ -861,8 +856,11 @@ export function chargeOfficeHours(
 /** Each office's hours today, on its holder's day, before anyone's shift or free time. */
 function chargeOfficeTime(api: CoreAPI, excludePersonId?: string): void {
   const total = new Map<string, OfficeTime>();
-  for (const reader of officeTimeReaders)
-    for (const [personId, time] of reader(api)) {
+  for (const reader of fieldsOf(api.state, "officeTime"))
+    for (const [personId, time] of reader(api) as ReadonlyMap<
+      string,
+      OfficeTime
+    >) {
       const held = total.get(personId);
       total.set(
         personId,

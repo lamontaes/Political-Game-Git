@@ -561,70 +561,201 @@ function statewidePartyOf(stateKey: string, key: string): string | null {
   return row.party;
 }
 
+/** A state's statewide elected office (the governor or another executive) with its one seat. */
+function executiveOffice(
+  stateKey: string,
+  date: string,
+  executive: ResearchExecutive,
+): OfficeWithSeats {
+  const id = `office:${stateKey}:${executive.key}`;
+  return {
+    office: {
+      id,
+      level: "state",
+      jurisdiction: stateKey,
+      governmentName: stateNameOf(stateKey),
+      kind: executive.key,
+      title: executive.title,
+      seats: 1,
+      termYears: executive.termYears ?? null,
+      // The research's next election, as of its own date, moved to the
+      // first one of the same cycle not before the start.
+      ...(executive.nextRegularElectionYear
+        ? {
+            nextElectionYear: firstCycleYear(
+              executive.nextRegularElectionYear,
+              executive.termYears ?? 4,
+              Number(date.slice(0, 4)),
+            ),
+          }
+        : {}),
+      elected: true,
+      districted: false,
+      coversTown: true,
+      ...(executive.firstTermStart
+        ? { firstTermStart: executive.firstTermStart }
+        : {}),
+      source: [executive.citation, executive.source].filter(Boolean).join(" "),
+      estimate:
+        (executive.estimate ?? false) || executive.sourceRetrieved === false,
+      vacancyRule: rule(executive.vacancyRule, {
+        method: "appointment",
+        appointedBy: "governor",
+        estimate: true,
+      }),
+    },
+    seats: [
+      {
+        id: `seat:${stateKey}:${executive.key}`,
+        officeId: id,
+        district: null,
+        index: 0,
+        coversTown: true,
+        party:
+          executive.key === "governor"
+            ? (governorParty.get(stateKey) ?? null)
+            : statewidePartyOf(stateKey, executive.key),
+      },
+    ],
+  };
+}
+
+/** One legislative chamber of a state (its office and every seat), or undefined where nothing is read for it. */
+function chamberOffice(
+  stateKey: string,
+  placeGeoid: string,
+  date: string,
+  place: ResearchPlace,
+  key: string,
+  chamber: DistrictChamber | null,
+  rosterChamber: "upper" | "lower" | "legislature",
+): OfficeWithSeats | undefined {
+  const usps = stateKey.slice(3);
+  const chamberRead = place.legislature?.chambers?.find(
+    (c) => c.chamber === key,
+  );
+  const geography = chamber ? districts(usps, chamber) : [];
+  if (!chamberRead && geography.length === 0) return undefined;
+  const mine = chamber ? townDistrict(placeGeoid, usps, chamber, date) : null;
+  const id = `office:${stateKey}:legislature-${key}`;
+  // One seat per member each district elects: the members the real roster
+  // seats there (a multi-member district holds several), at least one.
+  // Roster seats with no district geography (Puerto Rico's at-large
+  // members) are elected by the whole state, the town included.
+  const rows = roster(stateKey, rosterChamber);
+  const matched = new Set<string>();
+  const seats: SeatInput[] = [];
+  const add = (
+    district: string,
+    members: readonly (string | null)[],
+    covers: boolean,
+    name: string = district,
+  ) =>
+    members.forEach((party, member) =>
+      seats.push({
+        id: `seat:${stateKey}:${key}:${district}:${member}`,
+        officeId: id,
+        district,
+        districtName: name,
+        index: seats.length,
+        coversTown: covers,
+        electionYear: seatElectionYear(
+          stateKey,
+          chamberRead,
+          district,
+          Number(date.slice(0, 4)),
+        ),
+        party,
+      }),
+    );
+  for (const d of geography) {
+    const names = rosterDistricts(rows, d);
+    for (const name of names) matched.add(name);
+    const members = names.flatMap((name) => rows[name]!);
+    add(
+      d.districtCode,
+      members.length ? members : [null],
+      d.geoid === mine?.geoid,
+      d.sourceName ?? d.districtCode,
+    );
+  }
+  // Roster districts the Census geography doesn't name (New Hampshire's
+  // floterial and county-numbered districts, Maryland's and Vermont's
+  // sub-districts, a tribe's delegate in Maine) still seat their sitting
+  // members, elected by their own district: none covers the town. An
+  // at-large seat is elected by the whole state, the town included.
+  // A chamber with no district geography at all (a territory's, whose
+  // roster names its districts but no place in them) is elected by the
+  // whole territory until the districts are read, as with no roster below:
+  // otherwise no seat would cover any of its towns.
+  const unplaced = geography.length === 0;
+  if (unplaced && Object.keys(rows).length)
+    stopgap("SG-GOV-territory-legislature-districts");
+  for (const [name, members] of Object.entries(rows))
+    if (!matched.has(name)) add(name, members, unplaced || /large/i.test(name));
+  // A chamber with a recorded size but no district geography or roster (a
+  // territory's legislature): its seats are elected by the whole territory
+  // until the districts are read, so the body can meet and vote.
+  if (!seats.length && chamberRead?.seats) {
+    stopgap("SG-GOV-territory-legislature-districts");
+    add(
+      "At-large",
+      Array.from({ length: chamberRead.seats }, () => null),
+      true,
+    );
+  }
+  // A one-chamber legislature is called by the legislature's own name
+  // ("Legislature of the Virgin Islands"); a chamber of two, by its own.
+  const chamberName =
+    key === "unicameral"
+      ? (place.legislature?.name ?? chamberRead?.name)
+      : chamberRead?.name;
+  return {
+    office: {
+      id,
+      level: "state",
+      jurisdiction: stateKey,
+      governmentName: chamberName ?? stateNameOf(stateKey),
+      bodyName: chamberName ?? stateNameOf(stateKey),
+      kind: `legislature-${key}`,
+      // The members' title as the place's records name it.
+      title:
+        chamberRead?.memberTitle ??
+        (key === "lower" ? "State Representative" : "State Senator"),
+      seats: seats.length,
+      termYears: chamberRead?.termYears ?? null,
+      elected: true,
+      districted: true,
+      coversTown: seats.some((s) => s.coversTown),
+      source: [
+        chamberRead?.citation,
+        chamberRead?.source,
+        "Census Gazetteer 2025 legislative districts",
+      ]
+        .filter(Boolean)
+        .join(" "),
+      estimate:
+        (chamberRead?.estimate ?? chamberRead === undefined) ||
+        chamberRead?.sourceRetrieved === false,
+      vacancyRule: rule(chamberRead?.vacancyRule, {
+        method: "special-election",
+        estimate: true,
+      }),
+    },
+    seats,
+  };
+}
+
 /** The governor, every statewide elected office, and both legislative chambers. */
 export function stateOffices(
   stateKey: string,
   placeGeoid: string,
   date: string,
 ): readonly OfficeWithSeats[] {
-  const usps = stateKey.slice(3);
   const place = research[stateKey] ?? {};
-  const offices: OfficeWithSeats[] = [];
-  for (const executive of place.executives ?? []) {
-    const id = `office:${stateKey}:${executive.key}`;
-    offices.push({
-      office: {
-        id,
-        level: "state",
-        jurisdiction: stateKey,
-        governmentName: stateNameOf(stateKey),
-        kind: executive.key,
-        title: executive.title,
-        seats: 1,
-        termYears: executive.termYears ?? null,
-        // The research's next election, as of its own date, moved to the
-        // first one of the same cycle not before the start.
-        ...(executive.nextRegularElectionYear
-          ? {
-              nextElectionYear: firstCycleYear(
-                executive.nextRegularElectionYear,
-                executive.termYears ?? 4,
-                Number(date.slice(0, 4)),
-              ),
-            }
-          : {}),
-        elected: true,
-        districted: false,
-        coversTown: true,
-        ...(executive.firstTermStart
-          ? { firstTermStart: executive.firstTermStart }
-          : {}),
-        source: [executive.citation, executive.source]
-          .filter(Boolean)
-          .join(" "),
-        estimate:
-          (executive.estimate ?? false) || executive.sourceRetrieved === false,
-        vacancyRule: rule(executive.vacancyRule, {
-          method: "appointment",
-          appointedBy: "governor",
-          estimate: true,
-        }),
-      },
-      seats: [
-        {
-          id: `seat:${stateKey}:${executive.key}`,
-          officeId: id,
-          district: null,
-          index: 0,
-          coversTown: true,
-          party:
-            executive.key === "governor"
-              ? (governorParty.get(stateKey) ?? null)
-              : statewidePartyOf(stateKey, executive.key),
-        },
-      ],
-    });
-  }
+  const offices: OfficeWithSeats[] = (place.executives ?? []).map((executive) =>
+    executiveOffice(stateKey, date, executive),
+  );
   const read = (chamber: string) =>
     place.legislature?.chambers?.find((c) => c.chamber === chamber);
   const unicameral =
@@ -641,118 +772,16 @@ export function stateOffices(
         ["lower", "state-lower", "lower"],
       ];
   for (const [key, chamber, rosterChamber] of chambers) {
-    const chamberRead = read(key);
-    const geography = chamber ? districts(usps, chamber) : [];
-    if (!chamberRead && geography.length === 0) continue;
-    const mine = chamber ? townDistrict(placeGeoid, usps, chamber, date) : null;
-    const id = `office:${stateKey}:legislature-${key}`;
-    // One seat per member each district elects: the members the real roster
-    // seats there (a multi-member district holds several), at least one.
-    // Roster seats with no district geography (Puerto Rico's at-large
-    // members) are elected by the whole state, the town included.
-    const rows = roster(stateKey, rosterChamber);
-    const matched = new Set<string>();
-    const seats: SeatInput[] = [];
-    const add = (
-      district: string,
-      members: readonly (string | null)[],
-      covers: boolean,
-      name: string = district,
-    ) =>
-      members.forEach((party, member) =>
-        seats.push({
-          id: `seat:${stateKey}:${key}:${district}:${member}`,
-          officeId: id,
-          district,
-          districtName: name,
-          index: seats.length,
-          coversTown: covers,
-          electionYear: seatElectionYear(
-            stateKey,
-            chamberRead,
-            district,
-            Number(date.slice(0, 4)),
-          ),
-          party,
-        }),
-      );
-    for (const d of geography) {
-      const names = rosterDistricts(rows, d);
-      for (const name of names) matched.add(name);
-      const members = names.flatMap((name) => rows[name]!);
-      add(
-        d.districtCode,
-        members.length ? members : [null],
-        d.geoid === mine?.geoid,
-        d.sourceName ?? d.districtCode,
-      );
-    }
-    // Roster districts the Census geography doesn't name (New Hampshire's
-    // floterial and county-numbered districts, Maryland's and Vermont's
-    // sub-districts, a tribe's delegate in Maine) still seat their sitting
-    // members, elected by their own district: none covers the town. An
-    // at-large seat is elected by the whole state, the town included.
-    // A chamber with no district geography at all (a territory's, whose
-    // roster names its districts but no place in them) is elected by the
-    // whole territory until the districts are read, as with no roster below:
-    // otherwise no seat would cover any of its towns.
-    const unplaced = geography.length === 0;
-    if (unplaced && Object.keys(rows).length)
-      stopgap("SG-GOV-territory-legislature-districts");
-    for (const [name, members] of Object.entries(rows))
-      if (!matched.has(name))
-        add(name, members, unplaced || /large/i.test(name));
-    // A chamber with a recorded size but no district geography or roster (a
-    // territory's legislature): its seats are elected by the whole territory
-    // until the districts are read, so the body can meet and vote.
-    if (!seats.length && chamberRead?.seats) {
-      stopgap("SG-GOV-territory-legislature-districts");
-      add(
-        "At-large",
-        Array.from({ length: chamberRead.seats }, () => null),
-        true,
-      );
-    }
-    // A one-chamber legislature is called by the legislature's own name
-    // ("Legislature of the Virgin Islands"); a chamber of two, by its own.
-    const chamberName =
-      key === "unicameral"
-        ? (place.legislature?.name ?? chamberRead?.name)
-        : chamberRead?.name;
-    offices.push({
-      office: {
-        id,
-        level: "state",
-        jurisdiction: stateKey,
-        governmentName: chamberName ?? stateNameOf(stateKey),
-        bodyName: chamberName ?? stateNameOf(stateKey),
-        kind: `legislature-${key}`,
-        // The members' title as the place's records name it.
-        title:
-          chamberRead?.memberTitle ??
-          (key === "lower" ? "State Representative" : "State Senator"),
-        seats: seats.length,
-        termYears: chamberRead?.termYears ?? null,
-        elected: true,
-        districted: true,
-        coversTown: seats.some((s) => s.coversTown),
-        source: [
-          chamberRead?.citation,
-          chamberRead?.source,
-          "Census Gazetteer 2025 legislative districts",
-        ]
-          .filter(Boolean)
-          .join(" "),
-        estimate:
-          (chamberRead?.estimate ?? chamberRead === undefined) ||
-          chamberRead?.sourceRetrieved === false,
-        vacancyRule: rule(chamberRead?.vacancyRule, {
-          method: "special-election",
-          estimate: true,
-        }),
-      },
-      seats,
-    });
+    const office = chamberOffice(
+      stateKey,
+      placeGeoid,
+      date,
+      place,
+      key,
+      chamber,
+      rosterChamber,
+    );
+    if (office) offices.push(office);
   }
   return offices;
 }
