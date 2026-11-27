@@ -19,7 +19,7 @@ claimed-at: 2026-10-24T18:43:28.433Z
 
 **Done when.** M1-11's command runs a script after drives-economy.test.ts that plays a year of buildBenchWorld in the runner's drawn place and checks each kind (job loss, eviction, closure) was answered, the displaced-worker ambition and carry-on shares against the researched band, that everyone answering was named by the event or shares its household or family, and that every aimed drive targets the party the event names, a record; it passes in a drawn place named with seed and fails when the ambition weight is raised out of band.
 
-**Files.** src/bench/m1-11-check.ts, docs/roadmap/features.json
+**Files.** scripts/bench/m1-11-check.ts, docs/roadmap/features.json
 
 **Notes.** TODO
 

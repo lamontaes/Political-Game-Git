@@ -11,7 +11,7 @@ const receipt = await runCommand(
     "node_modules/vitest/vitest.mjs",
     "run",
     "--config",
-    "src/core2/tooling/vitest.config.ts",
+    "scripts/core2/tooling/vitest.config.ts",
     "src/core2/focus.test.ts",
   ],
   { cwd: process.cwd(), milliseconds: policies.prMilliseconds },

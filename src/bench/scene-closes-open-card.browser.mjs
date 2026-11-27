@@ -11,7 +11,7 @@
 //   BENCH_BROWSER=/opt/pw-browsers/chromium [BENCH_SEED=<seed>] node src/bench/scene-closes-open-card.browser.mjs [shots dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { finishTalk, startLife } from "./start-life.mjs";
+import { finishTalk, startLife } from "../../tests/support/start-life.mjs";
 
 /** The most days played while waiting for a scene to come due. Engineering value. */
 const MAX_DAYS = 45;
