@@ -16,7 +16,12 @@
  */
 import nomination from "../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import { governmentUnit } from "./reference/government-units";
-import { addDays, makeIsoDate } from "./kernel/dates";
+import {
+  addDays,
+  makeIsoDate,
+  weekdayOf,
+  nthWeekdayOfMonth,
+} from "./kernel/dates";
 import { resolveMunicipalElectionTiming } from "./gov-rules/municipal-ballot-rules";
 import type { MunicipalElectionTiming } from "./gov-rules/municipal-election-rules";
 import { nextCountyElection } from "./gov-rules/county-election-calendar";
@@ -102,15 +107,7 @@ function nthWeekday(
   weekday: number,
   nth: number,
 ): string {
-  if (nth > 0) {
-    const first = new Date(Date.UTC(year, month - 1, 1)).getUTCDay();
-    const day = 1 + ((weekday - first + 7) % 7) + 7 * (nth - 1);
-    return new Date(Date.UTC(year, month - 1, day)).toISOString().slice(0, 10);
-  }
-  const last = new Date(Date.UTC(year, month, 0));
-  const back = (last.getUTCDay() - weekday + 7) % 7;
-  const day = last.getUTCDate() - back + 7 * (nth + 1);
-  return new Date(Date.UTC(year, month - 1, day)).toISOString().slice(0, 10);
+  return nthWeekdayOfMonth(year, month, weekday, nth);
 }
 
 function ruleDate(rule: DateRule, year: number): string {
@@ -373,9 +370,7 @@ export function municipalFilingDeadline(
       `${year}-${String(rule.month).padStart(2, "0")}-${String(rule.day).padStart(2, "0")}`,
     );
   else if (rule.kind === "weekday-before-election") {
-    const back =
-      (new Date(`${electionDate}T00:00:00Z`).getUTCDay() - rule.weekday! + 7) %
-        7 || 7;
+    const back = (weekdayOf(electionDate) - rule.weekday! + 7) % 7 || 7;
     date = addDays(makeIsoDate(electionDate), -(back + 7 * (rule.nth! - 1)));
   }
   if (!date || date >= electionDate) return null;

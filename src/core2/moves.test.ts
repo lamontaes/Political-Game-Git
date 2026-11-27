@@ -19,7 +19,7 @@ import {
 } from "./modules/moves";
 import { coreAPI } from "./state";
 import { drawPlace } from "../../tests/golden-path/place";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 
 // M1-09, moves: over half a year in a drawn place, adults leave town by their own
 // choice at about the rate people their age in their state leave a county

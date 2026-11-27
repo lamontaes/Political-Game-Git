@@ -7,7 +7,7 @@
 //   BENCH_BROWSER=/opt/pw-browsers/chromium PLACE_KEY=4745100 node src/bench/elections-offers.browser.mjs [shots dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { finishTalk, startLife } from "./start-life.mjs";
+import { finishTalk, startLife } from "../../tests/support/start-life.mjs";
 
 const [shots] = process.argv.slice(2);
 const days = (process.env.RUN_TO ?? "2025-06-01,2026-06-25").split(",");

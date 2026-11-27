@@ -34,7 +34,7 @@ import {
 import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { drawPlace } from "../core2-year/place";
 
-/** The bench's opening day (src/bench/m0-check.ts). */
+/** The bench's opening day (scripts/bench/m0-check.ts). */
 export const OPENING_DATE = "2026-10-12";
 /** The most turns one conversation is played for. */
 const MAX_TURNS = 6;

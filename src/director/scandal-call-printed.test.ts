@@ -45,7 +45,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import type { Director } from "./ledger";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import { playedNode, type TreeNode } from "./scene-talk";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const PLACE = "1930630";
 const SEED = "reporters-call-1";
