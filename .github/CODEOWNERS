@@ -689,13 +689,11 @@
 /src/core2/returned-members-move.ts @lamontaes
 /src/core2/modules/counted-demotion.ts @lamontaes
 /src/core2/modules/health.ts @lamontaes
-/src/core2/modules/housing.ts @lamontaes
 /src/core2/modules/school.ts @lamontaes
 /src/core2/modules/drives.ts @lamontaes
 /src/core2/modules/trait-change.ts @lamontaes
 /src/core2/modules/resting-stress.ts @lamontaes
 /src/core2/modules/retirement-claims.ts @lamontaes
-/src/core2/modules/homeless-count.ts @lamontaes
 /src/core2/modules/coverage.ts @lamontaes
 /src/core2/modules/views.ts @lamontaes
 /src/core2/stance-listeners.ts @lamontaes
@@ -712,8 +710,6 @@
 /src/core2/trait-*.ts @lamontaes
 /src/core2/trait-effects/** @lamontaes
 /src/core2/household-*.ts @lamontaes
-/src/core2/housing-*.ts @lamontaes
-/src/core2/hud-rents.ts @lamontaes
 /src/core2/health-hazard.ts @lamontaes
 /src/core2/health-own.ts @lamontaes
 /src/core2/medical-bills.ts @lamontaes
@@ -839,7 +835,6 @@
 /src/core2/home-price-level.test.ts @lamontaes
 /src/core2/home-sale-outside-lender.test.ts @lamontaes
 /src/core2/home-sale.test.ts @lamontaes
-/src/core2/housing.test.ts @lamontaes
 /src/core2/income-award-follows-person.test.ts @lamontaes
 /src/core2/integrity-traits-played.traits.test.ts @lamontaes
 /src/core2/journal-facade.test.ts @lamontaes
@@ -900,7 +895,6 @@
 /src/core2/relatives-distinct-names.test.ts @lamontaes
 /src/core2/renewal-snapshot.test.ts @lamontaes
 /src/core2/renewal.test.ts @lamontaes
-/src/core2/renter-housing-pull.test.ts @lamontaes
 /src/core2/representative-sample.test.ts @lamontaes
 /src/core2/resting-stress.test.ts @lamontaes
 /src/core2/results-mode-life.test.ts @lamontaes
@@ -932,6 +926,14 @@
 /src/core2/vote-outcome-recorded.test.ts @lamontaes
 /src/core2/world-game.test.ts @lamontaes
 /src/core2/world-poverty.test.ts @lamontaes
+
+# Homes and the housing market (homes)
+/src/core2/modules/housing.ts @lamontaes
+/src/core2/modules/homeless-count.ts @lamontaes
+/src/core2/housing-*.ts @lamontaes
+/src/core2/hud-rents.ts @lamontaes
+/src/core2/housing.test.ts @lamontaes
+/src/core2/renter-housing-pull.test.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes

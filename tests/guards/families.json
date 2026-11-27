@@ -814,7 +814,6 @@
         "src/core2/modules/people.ts",
         "src/core2/modules/residents.ts",
         "src/core2/modules/life.ts",
-        "src/core2/modules/housing.ts",
         "src/core2/modules/health.ts",
         "src/core2/modules/coverage.ts",
         "src/core2/modules/partnerships.ts",
@@ -824,7 +823,6 @@
         "src/core2/views-keys.ts",
         "src/core2/hearer-groups.ts",
         "src/core2/household-cost.ts",
-        "src/core2/housing-status-event.ts",
         "src/core2/moved-away-event.ts",
         "src/core2/husk-promoters.ts",
         "src/core2/closeness.ts",
@@ -834,7 +832,13 @@
         "src/core2/home-distance.ts",
         "src/core2/life-stake-rule.ts",
         "src/core2/coverage-module-id.ts",
-        "src/core2/modules/promises.ts"
+        "src/core2/modules/promises.ts",
+        "src/core2/counted-money.ts",
+        "src/core2/counted-groups.ts",
+        "src/core2/residents-economy.ts",
+        "src/core2/residents.ts",
+        "src/core2/births-counted.ts",
+        "src/core2/modules/counted-moves.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -846,13 +850,11 @@
         "src/core2/returned-members-move.ts",
         "src/core2/modules/counted-demotion.ts",
         "src/core2/modules/health.ts",
-        "src/core2/modules/housing.ts",
         "src/core2/modules/school.ts",
         "src/core2/modules/drives.ts",
         "src/core2/modules/trait-change.ts",
         "src/core2/modules/resting-stress.ts",
         "src/core2/modules/retirement-claims.ts",
-        "src/core2/modules/homeless-count.ts",
         "src/core2/modules/coverage.ts",
         "src/core2/modules/views.ts",
         "src/core2/stance-listeners.ts",
@@ -869,8 +871,6 @@
         "src/core2/trait-*.ts",
         "src/core2/trait-effects/**",
         "src/core2/household-*.ts",
-        "src/core2/housing-*.ts",
-        "src/core2/hud-rents.ts",
         "src/core2/health-hazard.ts",
         "src/core2/health-own.ts",
         "src/core2/medical-bills.ts",
@@ -996,7 +996,6 @@
         "src/core2/home-price-level.test.ts",
         "src/core2/home-sale-outside-lender.test.ts",
         "src/core2/home-sale.test.ts",
-        "src/core2/housing.test.ts",
         "src/core2/income-award-follows-person.test.ts",
         "src/core2/integrity-traits-played.traits.test.ts",
         "src/core2/journal-facade.test.ts",
@@ -1057,7 +1056,6 @@
         "src/core2/relatives-distinct-names.test.ts",
         "src/core2/renewal-snapshot.test.ts",
         "src/core2/renewal.test.ts",
-        "src/core2/renter-housing-pull.test.ts",
         "src/core2/representative-sample.test.ts",
         "src/core2/resting-stress.test.ts",
         "src/core2/results-mode-life.test.ts",
@@ -1092,9 +1090,34 @@
       ]
     },
     {
+      "id": "homes",
+      "name": "Homes and the housing market",
+      "entry": [
+        "src/core2/modules/housing.ts",
+        "src/core2/modules/homeless-count.ts",
+        "src/core2/housing-status-event.ts",
+        "src/core2/hud-rents.ts",
+        "src/core2/housing-homeless.ts",
+        "src/core2/housing-sale.ts",
+        "src/core2/housing-property-tax.ts",
+        "src/core2/housing-mortgages.ts"
+      ],
+      "paths": [
+        "src/core2/modules/housing.ts",
+        "src/core2/modules/homeless-count.ts",
+        "src/core2/housing-*.ts",
+        "src/core2/hud-rents.ts",
+        "src/core2/housing.test.ts",
+        "src/core2/renter-housing-pull.test.ts"
+      ]
+    },
+    {
       "id": "past",
       "name": "The past before the start",
-      "entry": ["src/core2/past.ts", "src/core2/past-module.ts"],
+      "entry": [
+        "src/core2/past.ts",
+        "src/core2/past-module.ts"
+      ],
       "paths": [
         "src/core2/past.ts",
         "src/core2/past-*.ts",
@@ -1261,13 +1284,21 @@
     {
       "id": "director",
       "name": "The story director",
-      "entry": ["src/director/*.ts"],
-      "paths": ["src/director/**", "src/core2/speech-afterward-pledge.test.ts"]
+      "entry": [
+        "src/director/*.ts"
+      ],
+      "paths": [
+        "src/director/**",
+        "src/core2/speech-afterward-pledge.test.ts"
+      ]
     },
     {
       "id": "english",
       "name": "The English engine",
-      "entry": ["src/english/*.ts", "src/english/plain-words.mjs"],
+      "entry": [
+        "src/english/*.ts",
+        "src/english/plain-words.mjs"
+      ],
       "paths": [
         "src/english/**",
         "data/english/**",
@@ -1277,7 +1308,9 @@
     {
       "id": "screens",
       "name": "Screens and the UI kit",
-      "entry": ["src/bench/ui/**"],
+      "entry": [
+        "src/bench/ui/**"
+      ],
       "paths": [
         "src/bench/**",
         "src/core2/ask-waits-for-the-chair.test.ts",
