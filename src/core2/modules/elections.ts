@@ -2952,6 +2952,8 @@ export {
   countyOf,
   countyPlaceIdOf,
   countyPlaceOfWorld,
+  cpsAgeBand,
+  cpsTurnout,
   statePlaces,
   townBodyParties,
   townRightShare,

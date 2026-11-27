@@ -107,6 +107,7 @@ export {
 } from "../business-books-view";
 /** What a business paid by name under a law or tax: every payer engine records it here (business-charges.ts). */
 export { firmCharged } from "../business-charges";
+export { businessName, businessNameContext } from "../business-names";
 /** A household's books as other families read them: its medical debt and what it keeps back for its home. */
 export {
   medicalDebtOf,
