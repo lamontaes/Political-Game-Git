@@ -28,7 +28,8 @@ import { composeJournal } from "../director/journal";
 import { coreAPI } from "../core2/state";
 import { LAW_ENACTED } from "../core2/modules/laws";
 import { BILL_INTRODUCED } from "../core2/modules/legislature";
-import { TERM_HELD } from "../core2/modules/offices";
+import { TERM_HELD, VACANCY_OPENED } from "../core2/modules/offices";
+import { CONTEST_HELD } from "../core2/modules/elections";
 import { VOTE_CAST } from "../core2/modules/people";
 import {
   COUNTED_ENGINE,
@@ -159,12 +160,11 @@ const SERIES_STORES = new Set([
 
 /**
  * Engine tables of what happened in play that no engine hands to the reader
- * yet: a race held, an interview given, an earlier budget. Checked before a
+ * yet: an interview given, an earlier budget. Checked before a
  * printed story's item, so a story made from a race held does not hide the
  * race. The pages that read these tables are the map's rows still to wire.
  */
 const ENGINE_ONLY = new Set([
-  "core2-elections-v1.contests",
   "core2-press-v1.interviews",
   "core2-budgets-v1.budgets",
 ]);
@@ -398,9 +398,11 @@ function proveWorld(
           PAST_LAW_ENACTED,
           PAST_BUSINESS_CLOSED,
           TERM_HELD,
+          VACANCY_OPENED,
           BILL_INTRODUCED,
           LAW_ENACTED,
           VOTE_CAST,
+          CONTEST_HELD,
         ],
       },
     ],

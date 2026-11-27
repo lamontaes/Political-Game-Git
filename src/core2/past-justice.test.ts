@@ -135,10 +135,14 @@ function checkTown(place: ReturnType<typeof drawPlace>, where: string): number {
           life.some((event) => event.id === row.id && event.life === "law"),
           `${row.id} is told in their life`,
         ).toBe(true);
-    const card = JSON.stringify(
-      knownCard(core, core.playerId!, person.id).history,
-    );
-    if (/\barrested in \d{4}\b/.test(card)) toldOnCard += 1;
+    // The card tells the arrest when its history holds a line for the arrest's own record
+    // (its words are the bank's to change, never this check's).
+    if (
+      knownCard(core, core.playerId!, person.id).history.some(
+        (line) => line.recordId === rows[0]!.id,
+      )
+    )
+      toldOnCard += 1;
   }
   const n = adults.length;
   const expected = {

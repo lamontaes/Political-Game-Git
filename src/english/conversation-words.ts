@@ -72,20 +72,6 @@ export interface ConversationWords {
 }
 /** The mined words, read by default. */
 export const CONVERSATION_WORDS = MINED_CONVERSATION;
-/** Whether a piece of the bank serves a subject (or its reply), by a use of its own. */
-export function pieceServes(key: string, subject: string): boolean {
-  return CONVERSATION_BANK.parts.some(
-    (part) =>
-      part.key === key &&
-      part.uses.some(
-        (use) =>
-          use.subject === subject ||
-          use.subject === `${subject}-reply` ||
-          // A subject told in composed words (`<subject>-say`).
-          use.subject === `${subject}-say`,
-      ),
-  );
-}
 
 /** Which mined sentences made a line, for grading and the screen. */
 export interface Wording {
@@ -402,9 +388,9 @@ export function asksQuestion(line: { text: string }): boolean {
 const COMPOSED = new Map<string, ComposedLineBank | null>();
 
 /** The fact a talk carries once a speaker said how long they have held a stand ("for years"). */
-export const HELD_SAID = "held-said";
+const HELD_SAID = "held-said";
 /** The fact a call carries once the other person said they were glad to hear the player's voice. */
-export const VOICE_SAID = "voice-said";
+const VOICE_SAID = "voice-said";
 /** Facts a talk carries once one of the pieces that exclude them was said: said once per talk. */
 export const SAID_ONCE_FACTS: readonly string[] = [HELD_SAID, VOICE_SAID];
 const ONCE_PIECES = new Map<string, ReadonlySet<string>>();

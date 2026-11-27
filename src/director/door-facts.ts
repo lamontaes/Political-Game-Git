@@ -20,6 +20,7 @@
  *   where such a ballot is on record.
  */
 import {
+  CONTEST_HELD,
   ELECTIONS_MODULE_ID,
   petitionOf,
   petitionSignerIds,
@@ -27,6 +28,7 @@ import {
 import { VOTING_MODULE_ID, ballotOf } from "../core2/modules/voting";
 import { VIEWS_MODULE_ID, viewOf, viewOn } from "../core2/modules/views";
 import { P } from "../core2/parameters";
+import { historyOf } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { questionSide } from "../english/question-names";
@@ -109,20 +111,24 @@ export function doorReads(
     if (core.modules.has(VOTING_MODULE_ID)) {
       const contest = elections.table("contests").get(contestId) as unknown as
         { officeId: string } | undefined;
+      // The office's earlier races as its history tells them.
       const last = contest
-        ? (
-            elections
-              .table("contests")
-              .query("byOffice", [contest.officeId]) as unknown as {
-              id: string;
-              electionDate: string;
-            }[]
+        ? historyOf(
+            core as CoreState,
+            { nation: true },
+            { kinds: [CONTEST_HELD], about: contest.officeId },
           )
             .filter(
-              (row) => row.id !== contestId && row.electionDate < core.date,
+              (event) =>
+                event.facts?.officeId === contest.officeId &&
+                event.id !== contestId &&
+                event.date < core.date,
             )
-            .sort((a, b) => b.electionDate.localeCompare(a.electionDate))
-            .map((row) => ({ row, ballot: ballotOf(api, row.id, residentId) }))
+            .sort((a, b) => b.date.localeCompare(a.date))
+            .map((event) => ({
+              row: { id: event.id },
+              ballot: ballotOf(api, event.id, residentId),
+            }))
             .find((held) => held.ballot)
         : undefined;
       if (last?.ballot)

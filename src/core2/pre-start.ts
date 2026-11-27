@@ -38,7 +38,7 @@ export interface PreStartWindow {
 export interface HistoryRecord {
   id: string;
   date: IsoDate;
-  /** e.g. economy.conditions, law.phase, person.job-start, budget.adopted */
+  /** e.g. economy.conditions, person.job-start, budget.adopted */
   kind: string;
   placeId?: PlaceId;
   personIds?: readonly PersonId[];

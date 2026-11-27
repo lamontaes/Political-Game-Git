@@ -8,6 +8,8 @@
     "senator": 174000,
     "representative": 174000,
     "delegate": 174000,
+    "cabinetSecretary": 250600,
+    "cabinetSecretarySource": "https://www.opm.gov/policy-data-oversight/pay-leave/salaries-wages/salary-tables/25Tables/exec/html/EX.aspx (Salary Table No. 2025-EX, Executive Schedule Level I, effective January 2025; read Nov 26, 2026). The page's note keeps the payable rates of the Vice President and certain senior political appointees frozen but names no positions and gives no frozen figure, so the scheduled Level I rate is used.",
     "source": "https://www.congress.gov/crs-product/97-1011"
   },
   "states": {

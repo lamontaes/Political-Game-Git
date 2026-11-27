@@ -10,13 +10,13 @@ import * as ts from "typescript";
  * A rendered string that matches one of these exactly (or, for a template, in
  * order around its gaps) came from that file and line.
  */
-export interface LiteralEntry {
+interface LiteralEntry {
   readonly text: string;
   readonly file: string;
   readonly line: number;
 }
 
-export interface TemplateEntry {
+interface TemplateEntry {
   readonly fragments: readonly string[];
   readonly file: string;
   readonly line: number;
