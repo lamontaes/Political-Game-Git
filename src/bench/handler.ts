@@ -207,6 +207,8 @@ import { governmentMap } from "./map";
 import { handleDev } from "./dev-api";
 import { actionNames, budgetLineNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
+import { loadingStepLines } from "../english/loading-step-words";
+import { spoken, stateInSentence } from "../director/words";
 
 // This is a reference to engine-owned state, not a parallel state or writer.
 /** Everything the play server holds between requests, in one place. */
@@ -233,6 +235,8 @@ interface ServerState {
   speechBuild: SpeechBuild | undefined;
   /** What the loading screen plays, from the world being built (loading.ts). */
   loadingPeek: LoadingStory | null;
+  /** The loading card's dry lines for the build in progress, with its place said in them. */
+  loadingLines: Record<string, string[]> | null;
   /** Where the build is, for the loading screen's polls. */
   buildProgress: { stage: string; done: number; total: number };
   /** The opening, prepared during loading. */
@@ -259,6 +263,7 @@ const state: ServerState = {
   canvassedOn: new Set<string>(),
   speechBuild: undefined,
   loadingPeek: null,
+  loadingLines: null,
   buildProgress: { stage: "done", done: 0, total: 0 },
   opening: undefined,
   marker: undefined,
@@ -509,6 +514,7 @@ const ROUTES: readonly Route[] = [
         const chosen = url.searchParams.get("person")
           ? readChosenPerson(url.searchParams.get("person")!)
           : undefined;
+        state.loadingLines = null;
         // Every game opens on the one start date (owner, Oct 14, 2026).
         const world = await buildBenchWorldInStages(
           url.searchParams.get("seed") ?? "",
@@ -516,6 +522,15 @@ const ROUTES: readonly Route[] = [
           {
             twoLevel: true,
             warmUpDays: OPENING_WARMUP_DAYS,
+            // The loading card's dry lines name the place being built.
+            onPlace: (place) => {
+              state.loadingLines = loadingStepLines({
+                place: spoken(place),
+                ...(place.withinName
+                  ? { state: stateInSentence(place.withinName) }
+                  : {}),
+              });
+            },
             // Who the player is, chosen before the world's first weeks run.
             ...(chosen
               ? {
@@ -1314,7 +1329,12 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/newlife/progress",
     run: async ({ send }) => {
-      send(200, { ...state.buildProgress, story: state.loadingPeek !== null });
+      send(200, {
+        ...state.buildProgress,
+        story: state.loadingPeek !== null,
+        // The dry line pool of each step, with the start place said in it.
+        lines: state.loadingLines ?? {},
+      });
       return;
     },
   },

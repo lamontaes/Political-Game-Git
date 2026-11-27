@@ -368,6 +368,8 @@ export type BuildStage =
   | "done";
 type BuildOptions = {
   placeKey?: string;
+  /** Told the start place the moment the build settles on it (the loading card says where it is). */
+  onPlace?: (place: { displayName: string; withinName: string | null }) => void;
   /**
    * Places a new game's draw already found no player in (every adult in group
    * quarters), each with its reason: the draw passes them over and takes the
@@ -549,6 +551,7 @@ function* benchWorldStages(
         ),
       );
   if (!place) throw new Error(`Unknown place key: ${options.placeKey}`);
+  options.onPlace?.(place);
   const settings = options.settings ?? {};
   checkWorldSettings(settings);
   // Day one from the century or from today's real record (CTO line 6935086070 on #9747, point 5).
