@@ -257,3 +257,20 @@ The following nightly entries are in the active Story/Talk handoff (CTO comments
 **Full-couple birth web remains known-red** (`src/core2/births-full-web.test.ts`). Current main reproduced the upper-band miss in Louise, Mississippi (2842240, replay cleanup-nov27-births-full-web). The twin fixture changed the recorded effect and value without moving the recorded birth-rate push. The next month divides out that stale push, so the fixture accidentally compounded its simulated treatment: January's multiplier moved 1.03→2.005, and February's relative coefficient reached 0.0214558 versus the 0.014 ceiling. Updating all three fields in a diagnostic made every monthly calibration check pass with its old bounds. The file still failed farther downstream: the March 1 cabinet-household plan moved by exactly zero in its recorded web term while the test expected a positive move. A complete repair must prove which home, age and web record that particular review actually read and still follow the tipped plan through pregnancy and birth. The recently changed Renewal/History and outcome-web readers are active; Cleanup restored the file and retained it rather than shipping only the first diagnostic or treating an unexposed plan as a passing one.
 
 **Trait coverage remains known-red** (`src/core2/trait-coverage.test.ts`). Main fails at import because the catalog still names the retired `work-shift` action (#52e5e12c21), and eight pointers for the remaining actions moved down one index. Correcting exactly those entries and regenerating the coverage table in a probe kept all 98 traits covered on both sides and left the 626-table fixed-seed records digest byte-identical (367480c717e01734). The full test reached all seven assertions but still failed its code-to-decision inventory. It names two missing conversation.reply-reach links and five unregistered scanner sites: hearer-groups.ts, housing-buy.ts, trait-decision-table.ts, public-action.ts and view-learned.ts. The protected Talk/Housing paths and active cross-engine decision table must be understood before changing coverage semantics. Cleanup restored the inputs and did not publish a partial pointer repair or relax the guard.
+
+## Completion and main compatibility
+
+All 71 files from the seeded list are accounted for. Twenty-three fixes are pushed on separate branches, with no game behavior changes or loosened checks. The other 48 remain in the known-red baseline and are named above with their cause and the reason they cannot be fixed safely in this sweep. The standalone cleanup/nov27-known-red head c3d2c29efd contains only baseline changes relative to main. The re-runnable scripts/move-tests is at e9c052d61f on cleanup/nov26-move-tests.
+
+The first ten fix branches were fast-forwarded to compatible heads containing main 8e1fa6be8e. Each ran its full target suite serially and passed, retained the exact previously reviewed fix blobs, and has no known-red baseline delta against main. Cleanup did not merge any of them into main.
+
+- `cleanup/nov27-budget-line-credit` at `fe00e1040e`
+- `cleanup/nov27-campaign-team-acceptance` at `1cf875d172`
+- `cleanup/nov27-eligible-date-witness` at `a75ddc6496`
+- `cleanup/nov27-executive-menu-jurisdiction` at `41a484a770`
+- `cleanup/nov27-health-waiting` at `33b89e9092`
+- `cleanup/nov27-office-budget-season-chain` at `12fe59f89a`
+- `cleanup/nov27-office-day-budget-season` at `86e70f5fe4`
+- `cleanup/nov27-player-adapter-replay` at `3e4cbd7e6a`
+- `cleanup/nov27-public-finance-waiting` at `e4eb3894c2`
+- `cleanup/nov27-scene-bust-proof` at `0e8c086899`
