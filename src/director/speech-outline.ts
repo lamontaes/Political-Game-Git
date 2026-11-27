@@ -2903,6 +2903,7 @@ export function planSpeech(
   // (the words lead, Nov 12: "this state" eight times, the state's name never).
   // stopgapId: SG-WORDS-local-address-conditions
   if (!federal) markWordsStopgap("SG-WORDS-local-address-conditions");
+  // A federal seat's candidate has no realm to greet (the office's realm is the body, "United States Senate"); they say their office.
   const realm = federal
     ? null
     : level === "state"
@@ -2910,20 +2911,26 @@ export function planSpeech(
       : (local?.realmName ??
         (core.placeMetadata.placeName ?? "").split(",")[P.zero]?.trim() ??
         null);
+  const ownFacts: Facts = {
+    ...(realm
+      ? {
+          // "the Northern Mariana Islands" where a sentence needs the
+          // article (rule 49); the bare name for a vocative or a title.
+          "realm-name": fact(
+            level === "state" ? stateInSentence(realm) : realm,
+            speaker.jurisdiction ?? person.id,
+          ),
+          "realm-bare": fact(realm, speaker.jurisdiction ?? person.id),
+        }
+      : {}),
+    ...(local?.officeTitle
+      ? { "office-title": fact(local.officeTitle, local.officeId) }
+      : {}),
+  };
   const world: Facts = federal
-    ? worldFacts(core, person, kind, voice, country, points)
+    ? { ...worldFacts(core, person, kind, voice, country, points), ...ownFacts }
     : {
-        ...(realm
-          ? {
-              // "the Northern Mariana Islands" where a sentence needs the
-              // article (rule 49); the bare name for a vocative or a title.
-              "realm-name": fact(
-                level === "state" ? stateInSentence(realm) : realm,
-                speaker.jurisdiction ?? person.id,
-              ),
-              "realm-bare": fact(realm, speaker.jurisdiction ?? person.id),
-            }
-          : {}),
+        ...ownFacts,
         ...(local?.body ? { body: fact(local.body, local.officeId) } : {}),
         // A greeting says the body by the name its record gives it.
         ...(local?.bodyName
@@ -2942,9 +2949,6 @@ export function planSpeech(
           ]!,
           local?.officeId ?? speaker.jurisdiction ?? person.id,
         ),
-        ...(local?.officeTitle
-          ? { "office-title": fact(local.officeTitle, local.officeId) }
-          : {}),
         ...(themeName && themeCited.length
           ? { "theme-name": fact(themeName, ...themeCited) }
           : {}),

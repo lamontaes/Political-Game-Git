@@ -12,13 +12,22 @@ import { fileCandidacy, openContests } from "../../src/core2/modules/elections";
 import { lawChain } from "../../src/core2/modules/laws";
 import { SPEECH_STAGES } from "../../src/director/speech-builder";
 import { speechBegin, speechPick } from "../../src/bench/campaign";
+import { composeBlocks } from "../../src/director/opening-story";
 import * as local from "../../src/director/local-speeches";
 import { speechAsGiven } from "../../src/director/speech-builder";
 
 const [run, placesArg] = process.argv.slice(2) as [string, string?];
 const places = Number(placesArg ?? 3);
 for (let draw = 0, done = 0; done < places && draw < places * 6; draw += 1) {
-  const place = drawPlace(`${run}:${draw}`, "player-speech");
+  const drawn = drawPlace(`${run}:${draw}`, "player-speech");
+  // PLACE_KEY and PLACE_SEED rebuild one named place (a place a survey flagged) instead of the drawn one.
+  const place = process.env.PLACE_KEY
+    ? {
+        ...drawn,
+        key: process.env.PLACE_KEY,
+        seed: process.env.PLACE_SEED ?? drawn.seed,
+      }
+    : drawn;
   let world;
   try {
     world = buildBenchWorld(place.seed, gameStartDate(), {
@@ -93,8 +102,35 @@ for (let draw = 0, done = 0; done < places && draw < places * 6; draw += 1) {
           process.stdout.write(`NEW: ${speechAsGiven(speech, said)}\n`);
           for (const row of said?.sentences ?? [])
             process.stdout.write(`  [${row.section ?? "-"}] ${row.text}\n`);
-          if (!said)
+          if (!said) {
             process.stdout.write("  (the planner had nothing to say)\n");
+            // Why: the telling's plan (theme, asks, points) for the same stands.
+            const telling = local.campaignSpeechTelling(
+              core,
+              candidate.id as never,
+              contest.officeId,
+              filing.party ?? null,
+              stands,
+            );
+            for (const [index, block] of (
+              telling?.plan.blocks ?? []
+            ).entries()) {
+              const alone = composeBlocks(
+                core,
+                core.people.get(candidate.id)!,
+                [block],
+              );
+              process.stdout.write(
+                `  block ${index} ${JSON.stringify(Object.fromEntries(Object.entries(block).filter(([k]) => k !== "facts")))}: ${alone ? `${alone.length} sentences` : "NULL"}\n`,
+              );
+            }
+            process.stdout.write(
+              `  facts: ${Object.keys(telling?.input.facts ?? {}).join(", ")}\n`,
+            );
+            process.stdout.write(
+              `  why: stands=${JSON.stringify(stands)} telling=${telling ? "yes" : "null"} theme=${telling?.plan.theme ?? "-"} asks=${JSON.stringify(telling?.plan.asks ?? [])} blocks=${telling?.plan.blocks.length ?? 0}\n`,
+            );
+          }
           shown = true;
           done += 1;
           break;
