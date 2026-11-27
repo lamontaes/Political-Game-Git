@@ -6,7 +6,7 @@ import { coreAPI } from "./state";
 import { pairKey } from "./kernel/ids";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { drawPlace } from "../../tests/golden-path/place";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import type { PersonId } from "./types";
 
 // A reply that puts a talk off to a day leaves an owed-talk record naming who

@@ -27,6 +27,6 @@ claimed-at: 2026-10-29T21:16:49.698Z
 
 **Screenshot.** The filing screen's choices at 1440 by 900 from a drawn place, before and after, in the PR body.
 
-**Files.** src/bench/campaign.ts, src/bench/play.mjs, src/core2/data/offices/bodies.json, src/bench/path-check.ts
+**Files.** src/bench/campaign.ts, src/bench/play.mjs, src/core2/data/offices/bodies.json, tests/golden-path/path-check.ts
 
 **Notes.** Filed by the CTO, Oct 29, from the owner's voice note on the governing brief (OWNER-DECISIONS, Oct 29 21:40 UTC). Read: OWNER-DECISIONS, DECISION-REGISTER, the governing brief's four research notes; searched the pool for twins.

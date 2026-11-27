@@ -295,7 +295,7 @@ This re-slices `05-phase-b-plan.md` (Oct 30) so that M3-01 can flip first and M3
 
 ### 20. gov-path-check-swearing-in (new)
 
-- **Files:** `src/bench/path-check.ts`. After a win it prints and asserts the took-office record id and the swearing-in scene id. Today it resumes any stop blindly.
+- **Files:** `tests/golden-path/path-check.ts`. After a win it prints and asserts the took-office record id and the swearing-in scene id. Today it resumes any stop blindly.
 - **Seam, Words:** "Which ledger key names the swearing-in scene for a lookup by the took-office id?"
 - **Time:** 1h.
 

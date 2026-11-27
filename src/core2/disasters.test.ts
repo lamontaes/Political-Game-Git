@@ -17,8 +17,8 @@ import {
 } from "./modules/disasters";
 import { OUTSIDE_MARKET_KIND } from "./opening-outside-market";
 import { coreAPI } from "./state";
-import { townsWithDamage } from "./tooling/disaster-damage-screen";
-import { generatedOpening } from "./tooling/generated-world";
+import { townsWithDamage } from "../../scripts/core2/tooling/disaster-damage-screen";
+import { generatedOpening } from "./generated-world";
 import type { CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");

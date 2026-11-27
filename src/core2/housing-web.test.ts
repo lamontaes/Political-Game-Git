@@ -19,7 +19,7 @@ import { webFactorFor } from "./outcome-web-reach";
 import { townFigures } from "./modules/housing";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { coreAPI } from "./state";
-import { worldWith, type PlayedWorld } from "./tooling/world-with";
+import { worldWith, type PlayedWorld } from "../../tests/support/world-with";
 import type { CoreState } from "./types";
 
 const seed = process.env.WEB_HOUSING_SEED || randomBytes(8).toString("hex");
