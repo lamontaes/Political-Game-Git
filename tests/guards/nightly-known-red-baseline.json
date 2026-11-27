@@ -41,7 +41,6 @@
   "src/core2/two-level-elections.test.ts",
   "src/core2/work-closeness.test.ts",
   "src/core2/world-races-no-district.test.ts",
-  "src/core2/world-settings.test.ts",
   "src/director/bring-it-up-two-stories.test.ts",
   "src/director/conversation-home-lines.test.ts",
   "src/director/eviction-leads-the-talk.test.ts",
