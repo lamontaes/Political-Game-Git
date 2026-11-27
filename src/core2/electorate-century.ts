@@ -2463,11 +2463,11 @@ export function centuryRecordVotes(
   const century = centuryOf(seed, openingOf(seed));
   const president = century.presidencies.find((row) => row.id === recordId);
   if (president) return president.votes;
+  const key = recordId.slice("century:".length).replace(/:\d+$/, "");
   const seat =
-    century.seats.get(recordId.slice("century:".length).replace(/:\d+$/, "")) ??
-    centuryLegislatures(seed, openingOf(seed)).get(
-      recordId.slice("century:".length).replace(/:\d+$/, ""),
-    );
+    century.seats.get(key) ??
+    centuryLegislatures(seed, openingOf(seed)).get(key) ??
+    centuryLocalSeats(seed, openingOf(seed)).get(key);
   return seat?.races.find((race) => race.id === recordId)?.votes;
 }
 

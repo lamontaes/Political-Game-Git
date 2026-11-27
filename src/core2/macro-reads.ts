@@ -1,8 +1,10 @@
 /** The national economy's front door for reads: the months the country has kept, the latest of them, each state's tier row and the central bank's seats. Each function answers one question; none returns a table. */
 import type { CountryState } from "./country-model";
 import type { MacroMonth } from "./macro-model";
-import { MACRO_MODULE_ID } from "./modules/macro";
 import type { CoreAPI, CoreState } from "./types";
+
+/** The module's id, written here (the engine's own file names the same string) so a door reads the table without loading the engine. A door that named the wrong table fails `economy-reads.test.ts`, which reads each door in a played world. */
+const MACRO_MODULE_ID = "macro";
 
 function store(api: CoreAPI) {
   return api.moduleState(MACRO_MODULE_ID);

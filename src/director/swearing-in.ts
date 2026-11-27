@@ -15,6 +15,12 @@ import {
   OFFICES_MODULE_ID,
   TERM_HELD,
   type TermRow,
+  officeById,
+  officeSeats,
+  officesInJurisdiction,
+  seatById,
+  servingTermsOnSeat,
+  termById,
 } from "../core2/modules/offices";
 import { historyOf } from "../core2/past";
 import { memberKey } from "../core2/modules/legislature";
@@ -78,12 +84,10 @@ export function swornOffice(
   if (record?.kind !== TOOK_OFFICE || !seatId) return null;
   const api = coreAPI(core as CoreState);
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const seat = offices.table("seats").get(seatId) as unknown as
+  const seat = seatById(api, seatId) as unknown as
     { readonly officeId: string } | undefined;
   const office = seat
-    ? (offices.table("offices").get(seat.officeId) as unknown as
-        OfficeRow | undefined)
+    ? (officeById(api, seat.officeId) as unknown as OfficeRow | undefined)
     : undefined;
   if (!office) return null;
   return {
@@ -118,9 +122,7 @@ export function outgoingHolder(
   sworn: SwornOffice,
   subjectId: string,
 ): PersonId | null {
-  const terms = coreAPI(core as CoreState)
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms");
+  const api = coreAPI(core as CoreState);
   // The seat's terms as its history tells them, the one that ended that day
   // opened by its id.
   const left = historyOf(
@@ -133,7 +135,7 @@ export function outgoingHolder(
         event.facts?.status === "ended" && event.facts?.endDate === sworn.date,
     )
     .flatMap((event) => {
-      const term = terms.get(event.id) as unknown as TermRow | undefined;
+      const term = termById(api, event.id) as unknown as TermRow | undefined;
       return term ? [memberKey(term)] : [];
     })
     .sort();
@@ -155,18 +157,19 @@ export function colleagues(
   const sworn = swornOffice(core, moment.causeId);
   if (!sworn) return [];
   const api = coreAPI(core as CoreState);
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   const pick = living(core, moment.personId);
   const bySize = new Map<number, PersonId[]>();
-  for (const office of offices
-    .table("offices")
-    .query("byJurisdiction", [sworn.jurisdiction]) as unknown as OfficeRow[])
-    for (const seat of offices
-      .table("seats")
-      .query("byOffice", [office.id]) as unknown as { id: string }[])
-      for (const term of offices
-        .table("terms")
-        .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[]) {
+  for (const office of officesInJurisdiction(
+    api,
+    sworn.jurisdiction,
+  ) as unknown as OfficeRow[])
+    for (const seat of officeSeats(api, office.id) as unknown as {
+      id: string;
+    }[])
+      for (const term of servingTermsOnSeat(
+        api,
+        seat.id,
+      ) as unknown as TermRow[]) {
         const [id] = pick(memberKey(term));
         if (!id || taken.has(id)) continue;
         bySize.set(office.seats, [...(bySize.get(office.seats) ?? []), id]);

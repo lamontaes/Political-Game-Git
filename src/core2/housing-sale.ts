@@ -12,7 +12,7 @@
  */
 import { townOutsideOf } from "./opening-outside-market";
 import { daysBetweenText } from "./kernel/dates";
-import { transferCash } from "./world-transfer";
+import { transferCash } from "./budgets-treasury";
 import type { ModuleRow } from "./module-data";
 import { formerHome } from "./housing-former-home";
 import type { MortgageRow } from "./housing-foreclosure";

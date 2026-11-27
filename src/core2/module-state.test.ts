@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createCore, coreAPI, registerModule } from "./state";
-import { piecesInput } from "./core-pieces-fixture";
+import { piecesInput } from "../../tests/support/core-pieces-fixture";
 import type { CoreModule } from "./types";
 const engine: CoreModule = {
   id: "law",

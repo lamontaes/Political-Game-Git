@@ -1,6 +1,8 @@
 /** The credit engine's front door for reads: the town bank, its books, a household's credit months and the loans lent. Each function answers one question; none returns a table. */
-import { CREDIT_MODULE_ID } from "./modules/credit";
 import type { CoreAPI, CoreState } from "./types";
+
+/** The module's id, written here (the engine's own file names the same string) so a door reads the table without loading the engine. A door that named the wrong table fails `economy-reads.test.ts`, which reads each door in a played world. */
+const CREDIT_MODULE_ID = "credit";
 
 /** A loan's kept row, the fields the screens and dev views read. */
 export interface CreditLoanRow {

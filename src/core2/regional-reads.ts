@@ -1,7 +1,9 @@
 /** The regional economy's front door for reads: each region's kept months. Each function answers one question; none returns a table. */
 import type { RegionMonth } from "./regional-model";
-import { REGIONAL_MODULE_ID } from "./modules/regional";
 import type { CoreAPI, CoreState } from "./types";
+
+/** The module's id, written here (the engine's own file names the same string) so a door reads the table without loading the engine. A door that named the wrong table fails `economy-reads.test.ts`, which reads each door in a played world. */
+const REGIONAL_MODULE_ID = "regional";
 
 /** Whether this world keeps a regional economy. */
 export function regionalKept(api: CoreAPI): boolean {

@@ -12,6 +12,7 @@ import {
 } from "./budgets-reads";
 import {
   allBusinessOwners,
+  businessOpened,
   allTradingMonths,
   businessFoundings,
   outsideCostRecordIds,
@@ -19,6 +20,28 @@ import {
   tradingMonthOf,
 } from "./business-reads";
 import { allCreditLoans, bankBookRows, townBankRecord } from "./credit-reads";
+import { BUDGETS_MODULE_ID } from "./modules/budgets";
+import { CREDIT_MODULE_ID } from "./modules/credit";
+import { EMPLOYER_TAXES_MODULE_ID } from "./modules/employer-taxes";
+import { JOBS_MODULE_ID } from "./modules/jobs";
+import { MACRO_MODULE_ID } from "./modules/macro";
+import { PLACE_PRICES_MODULE_ID } from "./modules/place-prices";
+import { REGIONAL_MODULE_ID } from "./modules/regional";
+import {
+  allBusinessBooks,
+  allFinanceContracts,
+  businessBooksOf,
+  businessIdsInPlace,
+  closureOf,
+  creditFacilityOf,
+  facilityIdsOfBorrower,
+  financeContractOf,
+  hasBusinessBooks,
+  hasFinanceContract,
+  incomeContractIdsOf,
+  jobIdsOfOrganization,
+  latestReceiptOf,
+} from "./finance-reads";
 import { gameStartDate } from "./game-start";
 import {
   allCountedSeekers,
@@ -54,6 +77,14 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { placePriceRules } from "./prices-reads";
 import { allRegionMonths, regionMonthsAt } from "./regional-reads";
 import { coreAPI } from "./state";
+import {
+  allCommitments,
+  commitmentIdsOf,
+  commitmentOf,
+  commitmentsOf,
+  lastAttendanceOf,
+  payrollCalendarOf,
+} from "./work-reads";
 
 // The economy's read doors answer from the same rows the engines keep: each door's answer is compared with the table it
 // stands in front of, in a played world at a place drawn from all 56 on a seed nobody chose, so a door that reads the wrong
@@ -62,6 +93,18 @@ const seed =
   process.env.ECONOMY_READS_SEED ??
   process.env.GOLDEN_PATH_SEED ??
   randomBytes(8).toString("hex");
+
+describe("the engines' module ids", () => {
+  it("are the strings the doors write for them (an engine that renames its id fails here, and its door is updated)", () => {
+    expect(MACRO_MODULE_ID).toBe("macro");
+    expect(JOBS_MODULE_ID).toBe("jobs");
+    expect(CREDIT_MODULE_ID).toBe("credit");
+    expect(REGIONAL_MODULE_ID).toBe("regional");
+    expect(PLACE_PRICES_MODULE_ID).toBe("place-prices");
+    expect(BUDGETS_MODULE_ID).toBe("core2-budgets-v1");
+    expect(EMPLOYER_TAXES_MODULE_ID).toBe("core2-employer-taxes-v1");
+  });
+});
 
 describe(`the economy's read doors match what the engines keep (seed ${seed})`, () => {
   it("answers each question with the row the table holds", () => {
@@ -103,6 +146,10 @@ describe(`the economy's read doors match what the engines keep (seed ${seed})`, 
       tables.table("positions").size,
     );
     expect(allJobChanges(api).length, where).toBe(tables.table("changes").size);
+    expect(businessOpened(api), where).toBe(
+      api.moduleState("business").table("state").get("business:state") !==
+        undefined,
+    );
     expect(allBusinessOwners(api).length, where).toBe(
       api.moduleState("business").table("owners").size,
     );
@@ -180,6 +227,59 @@ describe(`the economy's read doors match what the engines keep (seed ${seed})`, 
         member.personId,
       );
     expect(rateMeetingOf(api, "meeting:none"), where).toBeUndefined();
+
+    // The finance and work doors, over the core's own state.
+    const finance = core.finance;
+    expect([...allFinanceContracts(core)].length, where).toBe(
+      finance.contracts.size,
+    );
+    expect(finance.contracts.size, where).toBeGreaterThan(0);
+    for (const [id, contract] of [...finance.contracts].slice(0, 20)) {
+      expect(financeContractOf(core, id), where).toBe(contract);
+      expect(hasFinanceContract(core, id), where).toBe(true);
+      expect(latestReceiptOf(core, id), where).toBe(
+        finance.latestReceiptsByContract.get(id),
+      );
+    }
+    expect(hasFinanceContract(core, "contract:none"), where).toBe(false);
+    expect([...allBusinessBooks(core)].length, where).toBe(
+      finance.businesses.size,
+    );
+    for (const [id, books] of [...finance.businesses].slice(0, 20)) {
+      expect(businessBooksOf(core, id), where).toBe(books);
+      expect(hasBusinessBooks(core, id), where).toBe(true);
+      expect(closureOf(core, id), where).toBe(finance.closures.get(id));
+      expect(jobIdsOfOrganization(core, id), where).toBe(
+        finance.jobsByOrganization.get(id),
+      );
+    }
+    for (const [place, ids] of [...finance.businessesByPlace].slice(0, 5))
+      expect(businessIdsInPlace(core, place), where).toBe(ids);
+    for (const [person, ids] of [...finance.incomeContractsByPerson].slice(
+      0,
+      20,
+    ))
+      expect(incomeContractIdsOf(core, person), where).toBe(ids);
+    for (const [id, facility] of [...finance.facilities].slice(0, 20))
+      expect(creditFacilityOf(core, id), where).toBe(facility);
+    for (const [borrower, ids] of [...finance.facilitiesByBorrower].slice(
+      0,
+      20,
+    ))
+      expect(facilityIdsOfBorrower(core, borrower), where).toBe(ids);
+    const work = core.work;
+    expect([...allCommitments(core)].length, where).toBe(work.commitments.size);
+    expect(work.commitments.size, where).toBeGreaterThan(0);
+    for (const [id, commitment] of [...work.commitments].slice(0, 20))
+      expect(commitmentOf(core, id), where).toBe(commitment);
+    for (const [person, ids] of [...work.commitmentsByPerson].slice(0, 20)) {
+      expect(commitmentIdsOf(core, person), where).toBe(ids);
+      expect(commitmentsOf(core, person).length, where).toBe(ids.size);
+    }
+    for (const [job, attendance] of [...work.lastAttendanceByJob].slice(0, 20))
+      expect(lastAttendanceOf(core, job), where).toBe(attendance);
+    for (const [id, calendar] of [...work.payrollCalendars].slice(0, 20))
+      expect(payrollCalendarOf(core, id), where).toBe(calendar);
 
     // Businesses and credit.
     const owners = allBusinessOwners(api);

@@ -24,6 +24,14 @@ export function businessKept(api: CoreAPI): boolean {
   return (api.state as CoreState).modules.has(BUSINESS_MODULE_ID);
 }
 
+/** Whether the business engine has opened its books in this world (its `business:state` row is written on the first day it runs). */
+export function businessOpened(api: CoreAPI): boolean {
+  return (
+    businessKept(api) &&
+    store(api).table("state").get("business:state") !== undefined
+  );
+}
+
 /** Every firm's owner. */
 export function allBusinessOwners(api: CoreAPI): readonly BusinessOwnerRow[] {
   if (!businessKept(api)) return [];
