@@ -1,6 +1,5 @@
 {
   "version": "p13-director-v1",
-  "note": "Story director on the new core (docs/design/director-on-core2.md). Developer data, never shown to a player. Channels, kept-fact kinds and tie rows are open data rows; the code registers one measure per channel operation.",
   "chosenJobEnds": ["jobs:quit:", "jobs:left-work:"],
   "chosenJobEndsNote": "Sources of a job's end the worker chose (src/core2/modules/jobs.ts: a quit when hired elsewhere, leaving or retiring from work). Those ends are a job left, not a job lost, so no family scene says 'I lost my job.' for them (owner, Oct 14, 2026, night: scenes from the household's records).",
   "parameters": {
@@ -1055,7 +1054,6 @@
     }
   ],
   "settingHours": {
-    "note": "When a scene's setting can hold it, by the setting kind (situation-types.json settings), in minutes after midnight: a scene measured at the day's close stops the player's clock at the next minute its setting is open, never at midnight in a bedroom or an office (owner, Oct 27, 4 PM Eastern: no scene at midnight in an open office). A null opening is the controlled person's own day start (the core's playerDayStartMinute). One row per kind of setting, never per place.",
     "tag": "TUNABLE",
     "citation": "Ordinary American hours by kind of place: a household awake from its morning to about 10 PM; visits and calls in the daytime and early evening; offices and workplaces on a daytime shift; local councils and boards often meeting in the evening; schools in a school day.",
     "spread": "Openings 6:00 to 10:00 AM and closings 3:00 to 11:00 PM by kind; checked against the American Time Use Survey's share of people at home, at work and in public places by hour.",

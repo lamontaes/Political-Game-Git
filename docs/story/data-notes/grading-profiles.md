@@ -33,3 +33,7 @@ Warm traits (friendly, affectionate, comforting, generous) with anxious ones (lo
 ## `profiles[7].why`
 
 Cold traits (friendly, affectionate, comforting low; guarded high) with boastful ones (cocky, smug, proud high; humble low).
+
+## `note`
+
+Trait vectors only, on the game's -2..2 levels (ids as stored on a person, data/content/trait-act-pulls.json). A profile names no scene and no line; the grading bench lays it over the speaking person and over the player.

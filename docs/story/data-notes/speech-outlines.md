@@ -53,3 +53,111 @@ Each measure said short, where a figure's meaning names it ("On crime, that has 
 ## `beliefJoins.about`
 
 How a point's belief joins its ask, one join to a point in the order of the speech's points, so no two points share one and "Because I ..." opens at most one sentence (the words lead, Nov 14, rule 38): `belief-leads` says the belief first ("Because I believe X, I will Y"); `belief-after` says the ask and then the belief as its own sentence; `belief-folded` folds it into the ask ("I am against X because Y, and ..."). A point after the last join says no belief.
+
+## `kinds.inaugural.sentences.note`
+
+Real inaugurals run about 1,400 to 2,400 words; the game's paragraph-per-Continue address keeps the shape at a third of that.
+
+## `kinds.inaugural.minute.note`
+
+The minute of the day the address is given, which decides whether its close may say good night (rule 141: a scene's time words come from the event's own hour).
+
+## `kinds.state-of-the-union.sentences.note`
+
+A State of the Union runs 5,000 to 7,000 words; the game keeps its order at a small share of that.
+
+## `kinds.state-of-the-union.minute.note`
+
+The minute of the day the address is given, which decides whether its close may say good night (rule 141: a scene's time words come from the event's own hour).
+
+## `kinds.state-of-the-state.sentences.note`
+
+Shorter than the President's: a governor's address is about a third as long as a State of the Union (Polis 2024).
+
+## `kinds.state-of-the-state.minute.note`
+
+The minute of the day the address is given, which decides whether its close may say good night (rule 141: a scene's time words come from the event's own hour).
+
+## `kinds.town-address.sentences.note`
+
+A State of the City gives three or four points (Ginther 2024).
+
+## `kinds.town-address.minute.note`
+
+The minute of the day the address is given, which decides whether its close may say good night (rule 141: a scene's time words come from the event's own hour).
+
+## `kinds.campaign.sentences.note`
+
+A stump speech is short and repeated at every stop (Wikipedia, Stump speech): the place greeted, the office sought and the theme, two points from what the candidate runs on (campaign-stances.ts candidatePlatform), the ask for the vote.
+
+## `kinds.floor.sentences.note`
+
+A House one-minute addresses the chair, makes one point and yields (CRS RL30135): a member's floor speech on the measure before the body makes its one point and asks the members for their vote.
+
+## `kinds.victory.sentences.note`
+
+Thanks, what the win is for, unity with those who voted otherwise, close.
+
+## `kinds.concession.sentences.note`
+
+Defeat and congratulations, thanks, a call to unite, the cause carried on (Wikipedia, Concession (politics)).
+
+## `kinds.swearing-in.sentences.note`
+
+An inaugural at small scale: thanks, the oath's meaning, one charge, close.
+
+## `theme.signature.note`
+
+A signature issue outweighs everything else, so the speaker's own causes lead.
+
+## `theme.actable.note`
+
+A subject the speaker's level can ask for something on wins a tie of signature issues.
+
+## `theme.stance.note`
+
+Per unit of distance from a centrist's stance (ownStance at lean 0); a tiebreak, never enough to beat a signature issue.
+
+## `theme.condition.note`
+
+Governors and mayors only: how far the realm's measure went the wrong way, over its change scale.
+
+## `theme.contextYearsMin.note`
+
+A context sentence says 'for N years' only over at least this many whole years of the record.
+
+## `theme.lawYearsMax.note`
+
+A law's age is said as context only up to this many years, past which the starting law's date is a stand-in, not a record a speaker would cite.
+
+## `theme.traits.note`
+
+The speaker's recorded traits toward a theme's subjects (subjectPull), 0 to 1 against their strongest pull: after their own signature issues, before the world, so two Presidents of one party with no cause in reach still differ.
+
+## `theme.closeSharedWordsLeast.note`
+
+A close's own reason or after-sentence is left out when it shares this many subject words with what the speech said already, the ask included (words lead, Nov 14, rule 41: a close says something new).
+
+## `pointShapes.shapes.context-first.typical.note`
+
+The average of this shape's summed facets over 2,920 people drawn in three places; a speaker's pull is read against it, so a shape whose facets run high in everyone does not lead for half the speakers.
+
+## `pointShapes.shapes.question-first.typical.note`
+
+The average of this shape's summed facets over 2,920 people drawn in three places; a speaker's pull is read against it, so a shape whose facets run high in everyone does not lead for half the speakers.
+
+## `pointShapes.shapes.plain-first.typical.note`
+
+The average of this shape's summed facets over 2,920 people drawn in three places; a speaker's pull is read against it, so a shape whose facets run high in everyone does not lead for half the speakers.
+
+## `themeShortWords.note`
+
+The most words a theme takes in a close frame; a longer name breaks the frame ("On how we keep people safe and treat them fairly, ... has waited long enough").
+
+## `conditions.budgetEvenBand.note`
+
+A gap under one percent of spending is what a budget officer calls balanced; checked by reading the composed addresses.
+
+## `bodyHold.note`
+
+The closes that say whether the speaker's party holds the body (the Words lead, Nov 16): a governor's body is the state's legislature, every chamber in `stateChambers` (the officials engine's seats); a local head's is their government's council or board (the offices engine's serving terms). Held means more than half the serving members in every chamber share the speaker's party; lacking means some chamber's half is not theirs. A speaker with no party says neither. Either body is said by the word its record's name holds (local-address.ts bodySaid): a chamber by its office kind, a council or board by its name.

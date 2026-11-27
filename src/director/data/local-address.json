@@ -9,8 +9,7 @@
       "monthDay": "01-21",
       "dayNote": {
         "tag": "ESTIMATED",
-        "spread": "01-08 to 02-15",
-        "note": "Governors give the State of the State when the legislature convenes, most in January and the rest by mid-February."
+        "spread": "01-08 to 02-15"
       }
     },
     "town": {
@@ -21,8 +20,7 @@
       "monthDay": "02-10",
       "dayNote": {
         "tag": "ESTIMATED",
-        "spread": "01-15 to 03-31",
-        "note": "Mayors give a State of the City in the first quarter, after the year's budget comes due."
+        "spread": "01-15 to 03-31"
       },
       "heads": {
         "order": ["city", "township", "county"],

@@ -70,32 +70,27 @@
     "worstAreaShare": {
       "value": 0.5,
       "tag": "TUNABLE",
-      "spread": "0.25 to 1",
-      "note": "How much the worst area's slide counts toward the year's need beside the mean of all areas: one collapsing area (schools, crime) makes a hard year even when the rest holds."
+      "spread": "0.25 to 1"
     },
     "hopefulBase": {
       "value": 0.4,
       "tag": "TUNABLE",
-      "spread": "0.2 to 0.6",
-      "note": "What a plain year gives a hopeful address before any good news; most real addresses in a fair year are hopeful in tone."
+      "spread": "0.2 to 0.6"
     },
     "policyBase": {
       "value": 0.5,
       "tag": "TUNABLE",
-      "spread": "0.3 to 0.7",
-      "note": "What a full set of priorities gives a policy address (every priority the speaker is allowed to lead with)."
+      "spread": "0.3 to 0.7"
     },
     "griefDays": {
       "value": 60,
       "tag": "ESTIMATED",
-      "spread": "30 to 90",
-      "note": "How many days after a disaster a speaker still opens with the dead; the weight falls in a straight line to nothing across it. Presidents' remarks after mass-casualty disasters run in the following days to weeks."
+      "spread": "30 to 90"
     },
     "hopefulGoodShare": {
       "value": 0.5,
       "tag": "TUNABLE",
-      "spread": "0.3 to 0.7",
-      "note": "What a fully good year gives a hopeful address; below a victory lap's score for most speakers, so a very good year is a lap and a fair one a lift."
+      "spread": "0.3 to 0.7"
     }
   }
 }

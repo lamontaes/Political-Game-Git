@@ -1,7 +1,7 @@
 /**
  * Moves the notes out of the director's data files (CTO's story audit, Nov 26, row C9; owner, Nov 26:
  * "It's all just going to be called story now"; the game folder holds what the game reads and nothing
- * else). A note is a long prose string under an `about` or `why` key in src/director/data/*.json; a
+ * else). A note is a long prose string under an `about`, `why` or `note` key in src/director/data/*.json; a
  * short value under the same key (`"about": "subject"`) is a field the code reads and stays, and
  * stopgaps.json, whose `why` is the register's own, is left whole.
  *
@@ -12,7 +12,13 @@
  *
  *   node scripts/story/move-data-notes.mjs
  */
-import { readFileSync, readdirSync, writeFileSync, mkdirSync } from "node:fs";
+import {
+  existsSync,
+  readFileSync,
+  readdirSync,
+  writeFileSync,
+  mkdirSync,
+} from "node:fs";
 import path from "node:path";
 import process from "node:process";
 
@@ -25,7 +31,7 @@ const HEADING =
   "## Nov 27, 2026: owner words from the notes moved out of src/director/data (recorded by Story, word for word)";
 
 const isNote = (key, value) =>
-  (key === "about" || key === "why") &&
+  (key === "about" || key === "why" || key === "note") &&
   typeof value === "string" &&
   value.length >= 60 &&
   value.includes(" ");
@@ -86,12 +92,16 @@ for (const file of files) {
   const notes = collect(data, "", []);
   if (!notes.length) continue;
   mkdirSync(path.join(ROOT, NOTES_DIR), { recursive: true });
-  const body = notes
+  // A file's notes file keeps every note ever moved: a re-run adds only the notes it has not got.
+  const target = path.join(ROOT, NOTES_DIR, file.replace(/\.json$/, ".md"));
+  const head = `# Notes that were in src/director/data/${file}\n\nMoved out of the game's data on Nov 27, 2026 (CTO's story audit, row C9), word for word. The data keeps what the game reads.\n\n`;
+  const have = existsSync(target) ? readFileSync(target, "utf8") : head;
+  const added = notes
     .map((note) => `## \`${note.path}\`\n\n${note.text}\n`)
-    .join("\n");
+    .filter((section) => !have.includes(section));
   writeFileSync(
-    path.join(ROOT, NOTES_DIR, file.replace(/\.json$/, ".md")),
-    `# Notes that were in src/director/data/${file}\n\nMoved out of the game's data on Nov 27, 2026 (CTO's story audit, row C9), word for word. The data keeps what the game reads.\n\n${body}`,
+    target,
+    `${have.replace(/\n*$/, "\n")}${added.length ? `\n${added.join("\n")}` : ""}`,
   );
   for (const note of notes)
     if (ownerWord(note.text) && !decisionsText.includes(note.text))

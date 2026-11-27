@@ -13,3 +13,11 @@ Who gives the local address: the place's nearest government that seats anyone (`
 ## `heard.about`
 
 How a governor's or a town head's address reaches a player at home (the one staging rule for a broadcast heard; the newscast could use it too): the narrator names the first of the place's own outlets in `order` that the press records keep, and the occasion as people say it by the address's kind. The President's address plays as its montage instead (src/bench/data/opening-montage.json). TUNABLE order, checked against how people follow a State of the State (most watch or hear it live; the paper prints it the next morning).
+
+## `levels.state.dayNote.note`
+
+Governors give the State of the State when the legislature convenes, most in January and the rest by mid-February.
+
+## `levels.town.dayNote.note`
+
+Mayors give a State of the City in the first quarter, after the year's budget comes due.

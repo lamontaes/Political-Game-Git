@@ -28,15 +28,13 @@
       "ownRecord": false,
       "sentences": {
         "value": 18,
-        "spread": "12 to 26",
-        "note": "Real inaugurals run about 1,400 to 2,400 words; the game's paragraph-per-Continue address keeps the shape at a third of that."
+        "spread": "12 to 26"
       },
       "leastPoints": 1,
       "minute": {
         "value": 720,
         "tag": "SOURCED",
-        "source": "U.S. Const. amend. XX, sec. 1: the President's term begins at noon on January 20.",
-        "note": "The minute of the day the address is given, which decides whether its close may say good night (rule 141: a scene's time words come from the event's own hour)."
+        "source": "U.S. Const. amend. XX, sec. 1: the President's term begins at noon on January 20."
       }
     },
     "state-of-the-union": {
@@ -61,16 +59,14 @@
       "ownRecord": true,
       "sentences": {
         "value": 20,
-        "spread": "14 to 30",
-        "note": "A State of the Union runs 5,000 to 7,000 words; the game keeps its order at a small share of that."
+        "spread": "14 to 30"
       },
       "leastPoints": 1,
       "minute": {
         "value": 1260,
         "tag": "ESTIMATED",
         "spread": "1200 to 1290",
-        "source": "From memory, not fetched: addresses to a joint session have been given at 9 p.m. Eastern for decades.",
-        "note": "The minute of the day the address is given, which decides whether its close may say good night (rule 141: a scene's time words come from the event's own hour)."
+        "source": "From memory, not fetched: addresses to a joint session have been given at 9 p.m. Eastern for decades."
       }
     },
     "state-of-the-state": {
@@ -86,16 +82,14 @@
       "ownRecord": true,
       "sentences": {
         "value": 12,
-        "spread": "8 to 18",
-        "note": "Shorter than the President's: a governor's address is about a third as long as a State of the Union (Polis 2024)."
+        "spread": "8 to 18"
       },
       "leastPoints": 1,
       "minute": {
         "value": 720,
         "tag": "ESTIMATED",
         "spread": "600 to 1140",
-        "source": "From memory, not fetched: most governors give the State of the State to a joint session at midday on the session's opening days, a few in the evening for broadcast.",
-        "note": "The minute of the day the address is given, which decides whether its close may say good night (rule 141: a scene's time words come from the event's own hour)."
+        "source": "From memory, not fetched: most governors give the State of the State to a joint session at midday on the session's opening days, a few in the evening for broadcast."
       }
     },
     "town-address": {
@@ -111,16 +105,14 @@
       "ownRecord": true,
       "sentences": {
         "value": 10,
-        "spread": "6 to 16",
-        "note": "A State of the City gives three or four points (Ginther 2024)."
+        "spread": "6 to 16"
       },
       "leastPoints": 1,
       "minute": {
         "value": 1110,
         "tag": "ESTIMATED",
         "spread": "720 to 1140",
-        "source": "From memory, not fetched: a State of the City is most often given at an evening council meeting or community event, some at a midday lunch.",
-        "note": "The minute of the day the address is given, which decides whether its close may say good night (rule 141: a scene's time words come from the event's own hour)."
+        "source": "From memory, not fetched: a State of the City is most often given at an evening council meeting or community event, some at a midday lunch."
       }
     },
     "campaign": {
@@ -136,8 +128,7 @@
       "ownRecord": false,
       "sentences": {
         "value": 6,
-        "spread": "4 to 10",
-        "note": "A stump speech is short and repeated at every stop (Wikipedia, Stump speech): the place greeted, the office sought and the theme, two points from what the candidate runs on (campaign-stances.ts candidatePlatform), the ask for the vote."
+        "spread": "4 to 10"
       },
       "leastPoints": 1
     },
@@ -154,8 +145,7 @@
       "ownRecord": false,
       "sentences": {
         "value": 4,
-        "spread": "2 to 6",
-        "note": "A House one-minute addresses the chair, makes one point and yields (CRS RL30135): a member's floor speech on the measure before the body makes its one point and asks the members for their vote."
+        "spread": "2 to 6"
       },
       "leastPoints": 1
     },
@@ -172,8 +162,7 @@
       "ownRecord": false,
       "sentences": {
         "value": 5,
-        "spread": "3 to 8",
-        "note": "Thanks, what the win is for, unity with those who voted otherwise, close."
+        "spread": "3 to 8"
       },
       "leastPoints": 1
     },
@@ -190,8 +179,7 @@
       "ownRecord": false,
       "sentences": {
         "value": 4,
-        "spread": "2 to 7",
-        "note": "Defeat and congratulations, thanks, a call to unite, the cause carried on (Wikipedia, Concession (politics))."
+        "spread": "2 to 7"
       },
       "leastPoints": 1
     },
@@ -208,8 +196,7 @@
       "ownRecord": false,
       "sentences": {
         "value": 5,
-        "spread": "3 to 8",
-        "note": "An inaugural at small scale: thanks, the oath's meaning, one charge, close."
+        "spread": "3 to 8"
       },
       "leastPoints": 1
     }
@@ -218,50 +205,42 @@
     "signature": {
       "value": 1,
       "tag": "TUNABLE",
-      "spread": "1 to 2",
-      "note": "A signature issue outweighs everything else, so the speaker's own causes lead."
+      "spread": "1 to 2"
     },
     "actable": {
       "value": 0.5,
       "tag": "TUNABLE",
-      "spread": "0.25 to 0.75",
-      "note": "A subject the speaker's level can ask for something on wins a tie of signature issues."
+      "spread": "0.25 to 0.75"
     },
     "stance": {
       "value": 0.25,
       "tag": "TUNABLE",
-      "spread": "0.1 to 0.5",
-      "note": "Per unit of distance from a centrist's stance (ownStance at lean 0); a tiebreak, never enough to beat a signature issue."
+      "spread": "0.1 to 0.5"
     },
     "condition": {
       "value": 0.75,
       "tag": "TUNABLE",
-      "spread": "0.25 to 1",
-      "note": "Governors and mayors only: how far the realm's measure went the wrong way, over its change scale."
+      "spread": "0.25 to 1"
     },
     "contextYearsMin": {
       "value": 2,
       "tag": "TUNABLE",
-      "spread": "1 to 3",
-      "note": "A context sentence says 'for N years' only over at least this many whole years of the record."
+      "spread": "1 to 3"
     },
     "lawYearsMax": {
       "value": 60,
       "tag": "TUNABLE",
-      "spread": "30 to 100",
-      "note": "A law's age is said as context only up to this many years, past which the starting law's date is a stand-in, not a record a speaker would cite."
+      "spread": "30 to 100"
     },
     "traits": {
       "value": 0.5,
       "tag": "TUNABLE",
-      "spread": "0.25 to 1",
-      "note": "The speaker's recorded traits toward a theme's subjects (subjectPull), 0 to 1 against their strongest pull: after their own signature issues, before the world, so two Presidents of one party with no cause in reach still differ."
+      "spread": "0.25 to 1"
     },
     "closeSharedWordsLeast": {
       "value": 2,
       "tag": "TUNABLE",
-      "spread": "1 to 3",
-      "note": "A close's own reason or after-sentence is left out when it shares this many subject words with what the speech said already, the ask included (words lead, Nov 14, rule 41: a close says something new)."
+      "spread": "1 to 3"
     }
   },
   "topicsBySubject": {
@@ -369,8 +348,7 @@
         "typical": {
           "value": 0.297,
           "tag": "ESTIMATED",
-          "spread": "0.1 to 0.3 either way by place",
-          "note": "The average of this shape's summed facets over 2,920 people drawn in three places; a speaker's pull is read against it, so a shape whose facets run high in everyone does not lead for half the speakers."
+          "spread": "0.1 to 0.3 either way by place"
         },
         "moves": ["today", "figure", "ask"],
         "pull": [
@@ -384,8 +362,7 @@
         "typical": {
           "value": -0.22,
           "tag": "ESTIMATED",
-          "spread": "0.1 to 0.3 either way by place",
-          "note": "The average of this shape's summed facets over 2,920 people drawn in three places; a speaker's pull is read against it, so a shape whose facets run high in everyone does not lead for half the speakers."
+          "spread": "0.1 to 0.3 either way by place"
         },
         "moves": ["question", "figure", "ask"],
         "pull": [
@@ -399,8 +376,7 @@
         "typical": {
           "value": -0.228,
           "tag": "ESTIMATED",
-          "spread": "0.1 to 0.3 either way by place",
-          "note": "The average of this shape's summed facets over 2,920 people drawn in three places; a speaker's pull is read against it, so a shape whose facets run high in everyone does not lead for half the speakers."
+          "spread": "0.1 to 0.3 either way by place"
         },
         "moves": ["today", "ask"],
         "pull": [
@@ -490,8 +466,7 @@
   "themeShortWords": {
     "value": 3,
     "tag": "TUNABLE",
-    "spread": "2 to 4",
-    "note": "The most words a theme takes in a close frame; a longer name breaks the frame (\"On how we keep people safe and treat them fairly, ... has waited long enough\")."
+    "spread": "2 to 4"
   },
   "measureWords": {
     "act": "bill",
@@ -501,8 +476,7 @@
     "budgetEvenBand": {
       "value": 0.01,
       "tag": "TUNABLE",
-      "spread": "0.005 to 0.03",
-      "note": "A gap under one percent of spending is what a budget officer calls balanced; checked by reading the composed addresses."
+      "spread": "0.005 to 0.03"
     },
     "budgetThemes": ["budget", "taxes"]
   },
@@ -526,7 +500,6 @@
     "joins": ["belief-leads", "belief-after", "belief-folded"]
   },
   "bodyHold": {
-    "note": "The closes that say whether the speaker's party holds the body (the Words lead, Nov 16): a governor's body is the state's legislature, every chamber in `stateChambers` (the officials engine's seats); a local head's is their government's council or board (the offices engine's serving terms). Held means more than half the serving members in every chamber share the speaker's party; lacking means some chamber's half is not theirs. A speaker with no party says neither. Either body is said by the word its record's name holds (local-address.ts bodySaid): a chamber by its office kind, a council or board by its name.",
     "stateChambers": [
       "legislature-upper",
       "legislature-lower",

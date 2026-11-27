@@ -57,3 +57,7 @@ How a notice to pay or leave is worded to fit what is owed (owner, Nov 8 playtes
 ## `departureWhy.about`
 
 Why someone is leaving, said only when a record names it (owner, Nov 8: a farewell names the leaving; 'why' only when the records say). Each row is a key in the departure's `reasons` (an event that added to the pull, or a push the moves engine read) or `basis:<destinationBasis>`; the fact it sets is the one the bank's lines require. Rows are tried in order and the first present names the reason; no row present, and no reason is said. Moves only, no sentence.
+
+## `note`
+
+How a scene with a purpose picks the player's path. Moves only, no sentence. The player's character leans toward the reply whose act kinds (`scene-talk.move` in data/content/trait-decisions.json) its traits pull toward most, by the same lean the asker's answers read. Nothing here is a roll; a tie goes to the stable hash of the scene.
