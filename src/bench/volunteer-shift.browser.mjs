@@ -64,9 +64,11 @@ try {
     `Asked ${asked.length}, ${asked.filter((a) => a.yes).length} said yes, ${result.volunteers} volunteers`,
   );
   assert.ok(asked.length > 0, "nobody was asked");
-  // The scene: one person per Continue, in the order asked, then the total.
+  // The scene: one person per Continue, in the order asked, then the total. Someone with nothing
+  // worded to say is not drawn as an empty speech.
+  const heard = asked.filter((a) => a.line);
   const said = [];
-  for (let i = 0; i <= asked.length; i += 1) {
+  for (let i = 0; i <= heard.length; i += 1) {
     await page.locator("#talk:visible").waitFor();
     await page.waitForTimeout(900);
     said.push({
@@ -77,9 +79,13 @@ try {
       await page.screenshot({
         path: `${shots}/volunteers-${i + 1}-1440x900.png`,
       });
-    if (i < asked.length) await page.locator("#talk-next").click();
+    if (i < heard.length) await page.locator("#talk-next").click();
   }
-  for (const [at, answer] of asked.entries()) {
+  assert.ok(
+    said.every((step) => step.text),
+    "a speech block with nothing in it",
+  );
+  for (const [at, answer] of heard.entries()) {
     assert.equal(said[at].text, answer.line, `ask ${at + 1}`);
     assert.equal(said[at].who, answer.name, `who ${at + 1}`);
     assert.ok(
@@ -87,7 +93,10 @@ try {
       answer.line,
     );
   }
-  assert.match(said.at(-1).text, /said yes/, "no total after the last ask");
+  // The total is the campaign record's count, worded, with no "asked N, M said yes" counter.
+  console.log("total block:", JSON.stringify(said.at(-1).text));
+  assert.match(said.at(-1).text, /volunteer/, "no total after the last ask");
+  assert.doesNotMatch(said.at(-1).text, /Asked \d+/, "a counter line");
   assert.deepEqual(errors, []);
   console.log("volunteer shift: pass");
 } finally {

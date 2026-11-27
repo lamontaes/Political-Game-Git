@@ -694,6 +694,16 @@ export function campaignAct(
               yes,
               momentKey: `${input.filingId}|${id}`,
             })?.text ?? "",
+          // Who said yes, in the Campaign bank's own words (empty until a piece is written).
+          said: yes
+            ? standingLine(
+                core.seed,
+                personId,
+                "volunteer-yes",
+                `${input.filingId}|${id}`,
+                { name },
+              )
+            : "",
         };
       });
       // The count shown is the campaign record's, the one the header reads.
@@ -737,8 +747,22 @@ export function campaignAct(
                 yes,
                 momentKey: `${input.filingId}|${id}`,
               })?.text ?? "",
+            // Who endorsed, in the Campaign bank's own words (empty until a piece is written).
+            said: yes
+              ? standingLine(
+                  core.seed,
+                  personId,
+                  "endorse-yes",
+                  `${input.filingId}|${id}`,
+                  { name },
+                )
+              : "",
           };
         }),
+        // The count shown is the campaign record's, as the volunteers' is.
+        endorsements: endorsementsOf(api, input.filingId).filter(
+          (row) => row.answer === "yes",
+        ).length,
         scene: askScene(core, personId, TRAIL_PLACES.endorsement!),
       };
     case "ad": {

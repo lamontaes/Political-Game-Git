@@ -2006,6 +2006,13 @@ function volunteerCount(n) {
     : controls.campaignVolunteers.other.replace("{n}", String(n));
 }
 
+/** The campaign record's count of endorsements, worded (as the volunteers' is). */
+function endorsementCount(n) {
+  return n === 1
+    ? controls.campaignEndorsements.one
+    : controls.campaignEndorsements.other.replace("{n}", String(n));
+}
+
 // ---- Campaigning (step 4): each act answered by the people it reaches ----
 let campaignResult = "";
 // Each person the last call reached, in the English engine's words.
@@ -2024,7 +2031,10 @@ let speechState = null;
  * the last the total in the narrator's voice. An evening of donor calls and a
  * volunteer shift are this.
  */
-function playAsks({ asked, summary, scene }) {
+function playAsks({ asked: answers, summary, scene, said = [] }) {
+  // Someone with nothing worded to say is not drawn as an empty speech; the count after them
+  // is the record's.
+  const asked = answers.filter((answer) => answer.line);
   closeSheet();
   renderTalk(undefined);
   if (scene) {
@@ -2046,8 +2056,11 @@ function playAsks({ asked, summary, scene }) {
       return;
     }
     setWho(null, null);
+    // Who said yes, then the campaign's count.
     fillTalk({
-      lines: [talkLine({ kind: "speech narration", text: summary })],
+      lines: [...said, summary].map((text) =>
+        talkLine({ kind: "speech narration", text }),
+      ),
       replies: [],
     });
   };
@@ -2239,22 +2252,18 @@ async function campaignParts() {
         typeof result.line === "string" && result.setAsideMinor !== undefined
           ? result.line
           : result.volunteers !== undefined
-            ? controls.campaignVolunteers.asked
-                .replace("{asked}", String(result.answers.length))
-                .replace(
-                  "{yes}",
-                  String(result.answers.filter((a) => a.yes).length),
-                )
-                .replace("{volunteers}", volunteerCount(result.volunteers))
-            : result.contacted !== undefined
-              ? `${controls.campaignActs[kind] ?? ""}: ${result.contacted} · ${Object.entries(
-                  result.answers,
-                )
-                  .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
-                  .join(" · ")}`
-              : result.reached !== undefined
-                ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
-                : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${moneyWords(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
+            ? volunteerCount(result.volunteers)
+            : result.endorsements !== undefined
+              ? endorsementCount(result.endorsements)
+              : result.contacted !== undefined
+                ? `${controls.campaignActs[kind] ?? ""}: ${result.contacted} · ${Object.entries(
+                    result.answers,
+                  )
+                    .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
+                    .join(" · ")}`
+                : result.reached !== undefined
+                  ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
+                  : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${moneyWords(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
       // A volunteer shift is a scene: each person asked is the next Continue.
       if (kind === "ad" && result.scene) {
         playAsks({ asked: [], summary: result.line, scene: result.scene });
@@ -2268,6 +2277,7 @@ async function campaignParts() {
           asked: result.answers,
           summary: campaignResult,
           scene: result.scene,
+          said: result.answers.map((a) => a.said).filter(Boolean),
         });
         return;
       }

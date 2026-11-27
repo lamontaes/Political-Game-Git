@@ -34,7 +34,7 @@
     "src/english/grounded-english.ts": 2
   },
   "dataHeldLines": {
-    "src/bench/data/controls.json": 624,
+    "src/bench/data/controls.json": 621,
     "src/bench/data/whole-figures.json": 3,
     "src/director/data/local-address.json": 1
   }

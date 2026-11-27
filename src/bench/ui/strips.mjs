@@ -28,6 +28,15 @@ export function stripSection(depth, title, ...nodes) {
   );
 }
 
+/** A section with no header strip: its `nodes` at the section's own depth, under nothing. */
+export function stripSectionBare(depth, ...nodes) {
+  return el(
+    "section",
+    { className: `sec strips dp${depth}` },
+    el("div", { className: "secbody" }, ...nodes),
+  );
+}
+
 /**
  * The strip screen: `name` and `role` over a `bust` at the left, `columns`
  * (an array of arrays of sections) beside it.
@@ -435,9 +444,9 @@ export function journalScreen({ chapters, labels, yearOf }) {
       },
     ],
     render: ({ chapter }) => [
-      stripSection(
+      // The chapter's title is the chosen row beside it; the page does not say it again.
+      stripSectionBare(
         2,
-        chapter.title,
         // The picture of the place the chapter's lines happened in; none on record, no slot.
         ...(chapter.picture
           ? [

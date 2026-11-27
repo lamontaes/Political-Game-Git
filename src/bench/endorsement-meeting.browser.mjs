@@ -60,9 +60,11 @@ try {
     `Asked ${asked.length}, ${asked.filter((a) => a.yes).length} said yes`,
   );
   assert.ok(asked.length > 0, "nobody was asked");
-  // The scene: one person per Continue, in the order asked, then the total.
+  // The scene: one person per Continue, in the order asked, then the total. Someone with nothing
+  // worded to say is not drawn as an empty speech.
+  const heard = asked.filter((a) => a.line);
   const said = [];
-  for (let i = 0; i <= asked.length; i += 1) {
+  for (let i = 0; i <= heard.length; i += 1) {
     await page.locator("#talk:visible").waitFor();
     await page.waitForTimeout(900);
     said.push({
@@ -73,20 +75,22 @@ try {
       await page.screenshot({
         path: `${shots}/endorsements-${i + 1}-1440x900.png`,
       });
-    if (i < asked.length) await page.locator("#talk-next").click();
+    if (i < heard.length) await page.locator("#talk-next").click();
   }
-  for (const [at, answer] of asked.entries()) {
+  assert.ok(
+    said.every((step) => step.text),
+    "a speech block with nothing in it",
+  );
+  for (const [at, answer] of heard.entries()) {
     assert.equal(said[at].text, answer.line, `ask ${at + 1}`);
     assert.equal(said[at].who, answer.name, `who ${at + 1}`);
     // The name is the speaker label above the line, not part of it
     // (campaign-asks-spoken.test.ts keeps the family name out of the line).
     assert.ok(!/undefined|\{/.test(answer.line), answer.line);
   }
-  assert.match(
-    said.at(-1).text,
-    /^Endorsements/,
-    "no total after the last ask",
-  );
+  // The total is the campaign record's count, worded, never a fraction of those asked.
+  assert.match(said.at(-1).text, /endorsement/, "no total after the last ask");
+  assert.doesNotMatch(said.at(-1).text, /\d+ \/ \d+/, "a counter fraction");
   assert.deepEqual(errors, []);
   console.log("endorsement meeting: pass");
 } finally {
