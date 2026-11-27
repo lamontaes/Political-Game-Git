@@ -26,7 +26,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import { billNameOf, billTitleSaid } from "../english/bill-names";
 import { questionAbout } from "../english/question-names";
 import { officeWords } from "../english/said-as";
-import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { officeById } from "../core2/modules/offices";
 import type { Fact } from "../english/scene-talk-words";
 
 type Reason = "own-view" | "people" | "own-bill";
@@ -125,10 +125,7 @@ export function floorDebateFacts(
   }
   // The presiding officer's title, from the body's own row; "Chair" where none.
   const office = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .get(bill.bodyOfficeId) as { readonly kind: string } | undefined
+    officeById(api, bill.bodyOfficeId) as { readonly kind: string } | undefined
   )?.kind;
   facts.presiding = {
     text: officeWords(`${office}:presiding`)?.before ?? "Chair",

@@ -4,7 +4,7 @@
 // Nov 23, C16: "It reaches everyone in New Jersey." in a second column).
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
+import { startLife } from "../../tests/support/start-life.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });

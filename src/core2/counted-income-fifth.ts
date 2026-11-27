@@ -3,6 +3,7 @@ import {
   assistanceIncomeByHousehold,
   veteransIncomeByHousehold,
 } from "./modules/laws";
+import { awardYearMinor, jobYearMinor } from "./household-income";
 import { sinceOpeningIndex } from "./tax-index";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -33,9 +34,6 @@ export function incomeBandOf(
   return band;
 }
 
-const DAYS_PER_YEAR = 365;
-const MONTHS_PER_YEAR = 12;
-
 /**
  * Each full household's yearly income, from its members' jobs, its income
  * awards, and its recorded public benefits. A counted household's unplaced
@@ -46,19 +44,14 @@ export function fullHouseholdIncomes(core: CoreState): Map<string, number> {
   for (const job of core.jobs.values()) {
     if (job.endsAt !== undefined) continue;
     const home = core.people.get(job.personId)?.householdId;
-    if (home)
-      income.set(
-        home,
-        (income.get(home) ?? 0) + job.wageDailyMinor * DAYS_PER_YEAR,
-      );
+    if (home) income.set(home, (income.get(home) ?? 0) + jobYearMinor(job));
   }
   for (const contract of core.finance.contracts.values()) {
     const award = contract.recipientIncome;
     if (!award || contract.endedAt) continue;
     income.set(
       award.householdId,
-      (income.get(award.householdId) ?? 0) +
-        (contract.amountMinor * MONTHS_PER_YEAR) / contract.periodMonths,
+      (income.get(award.householdId) ?? 0) + awardYearMinor(contract),
     );
   }
   for (const benefits of [

@@ -20,7 +20,7 @@ root: none
 
 **What.** `node --import tsx src/bench/election-day.browser.mjs` ends "no race the player could enter" on every seed tried: f6-eday-1 to f6-eday-5 (EDAY_SEED), six drawn places each, 30 places in all. Seen: the election-day browser check, run on a fresh bench.
 
-**Cause.** Found in code: `src/bench/election-day.browser.mjs` (lines 40 to 77) makes a new life and, on that first day, posts `/api/file` for each contest the government route lists, expecting `petitioning` or `on-ballot`. A race can be filed for only inside its filing window, and at the opening day of these worlds no window is open, so every post is refused and `filed` stays null. The polling check (`src/bench/polling.browser.mjs`) gets past this by running the world to the filing window first with dev mode's run-until (`devRunUntilMayFile` in `src/bench/dev-setup.mjs`) and filing through Travel's filing office; this script never does.
+**Cause.** Found in code: `src/bench/election-day.browser.mjs` (lines 40 to 77) makes a new life and, on that first day, posts `/api/file` for each contest the government route lists, expecting `petitioning` or `on-ballot`. A race can be filed for only inside its filing window, and at the opening day of these worlds no window is open, so every post is refused and `filed` stays null. The polling check (`src/bench/polling.browser.mjs`) gets past this by running the world to the filing window first with dev mode's run-until (`devRunUntilMayFile` in `tests/support/dev-setup.mjs`) and filing through Travel's filing office; this script never does.
 
 **Fix.** After the new life, run `devRunUntilMayFile` (as polling does), file at Travel's filing office or through the route inside the window, and pin the place and seed in the file as polling does (a place whose race files straight onto the ballot, not by petition), so it cannot go red by draw. Then run it and keep its ballot and returns pictures.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** The stuck-clock fix (`play-clock-refuses-to-cross-a-stop-nothing-shows`, #9131), because the check runs the world far ahead with dev mode.
 
-**Files.** src/bench/election-day.browser.mjs, src/bench/dev-setup.mjs
+**Files.** src/bench/election-day.browser.mjs, tests/support/dev-setup.mjs

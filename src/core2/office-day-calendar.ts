@@ -17,7 +17,7 @@
 import intervals from "../../data/research/local-government/council-meeting-intervals.json" with { type: "json" };
 import bases from "../../data/research/money/public-budget-bases.json" with { type: "json" };
 import rows from "./data/office-day/parameters.json" with { type: "json" };
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, weekdayOf } from "./kernel/dates";
 import type { CoreAPI, Source } from "./types";
 
 /** The offices engine's state (read only; imported by id so this helper loads before the engines). */
@@ -111,7 +111,6 @@ export function meetingRule(
 
 const weekOfMonth = (date: string) =>
   Math.floor((Number(date.slice(8, 10)) - 1) / 7) + 1;
-const weekdayOf = (date: string) => new Date(`${date}T00:00:00Z`).getUTCDay();
 
 /** Whether the body's rule puts a regular meeting on this date. */
 export function meetsOn(rule: MeetingRule, date: string): boolean {

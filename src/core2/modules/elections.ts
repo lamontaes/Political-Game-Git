@@ -58,7 +58,7 @@ import {
   type CenturySeat,
   type CenturySeatRace,
 } from "../electorate-century";
-import type { HistoryModule, HistoryRow, HistorySource } from "../past";
+import type { HistoryRow, HistorySource } from "../past";
 import { novemberGeneralElectionDay } from "../elections-calendar";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -84,13 +84,20 @@ import { seatParty } from "../candidate-pool";
 import {
   answerVacancyOffer,
   governorTicketStage,
-  OFFICES_MODULE_ID,
   registerVacancyOffer,
+  servingTermsOf,
   townSeats,
   type GovernorTicketStage,
   type OfficeInput,
   type SeatInput,
   type TermRow,
+  vacancyById,
+  seatById,
+  servingTermsOnSeat,
+  termsOfPerson,
+  officeById,
+  termById,
+  townOffices,
 } from "./offices";
 import { stableHash } from "../kernel/ids";
 import { placeStateKey } from "../place-map";
@@ -627,7 +634,7 @@ const CENTURY_HISTORY: HistorySource = {
   },
 };
 
-export const ELECTIONS_MODULE: CoreModule & HistoryModule = {
+export const ELECTIONS_MODULE: CoreModule = {
   id: ELECTIONS_MODULE_ID,
   history: CENTURY_HISTORY,
   state: {
@@ -1156,15 +1163,7 @@ const offerSeatToPlayer = (
   if (!playerMayFileForKind(office.kind, townLocalKinds(api))) return false;
   // One seat at a time: a player serving in an office is not offered another, as the body's own pick
   // passes over anyone serving.
-  if (
-    (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("byPerson", [player.id]) as unknown as TermRow[]
-    ).some((term) => term.status === "serving")
-  )
-    return false;
+  if (servingTermsOf(api, player.id).length > 0) return false;
   const district = (seat as { district?: string | null }).district;
   if (
     district &&
@@ -1272,11 +1271,7 @@ function contestFor(
   // The vice president is the president's running mate, not a race.
   if (!office.elected || office.kind === "vice-president") return null;
   const { stateKey, geoid } = town(api);
-  const tomorrow = new Date(
-    Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
-  )
-    .toISOString()
-    .slice(0, 10);
+  const tomorrow = addDays(makeIsoDate(api.state.date), 1);
   const at = (termEnd: string | null, onDate = api.state.date) =>
     nextElectionForSeat({
       office,
@@ -1394,10 +1389,8 @@ export function specialContestFor(
   if (!entry || !entry.office.elected) return null;
   const family = officeFamily(entry.office);
   const { stateKey } = town(api);
-  const vacancy = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("vacancies")
-    .get(race.vacancyId) as unknown as { since: string } | undefined;
+  const vacancy = vacancyById(api, race.vacancyId) as unknown as
+    { since: string } | undefined;
   // The election day is the state's law for this office (or the estimate);
   // a town's filing closes by its own state rule where read.
   const day = specialElectionDate({
@@ -1518,11 +1511,10 @@ export function atLargeGroup(
   api: CoreAPI,
   contest: ContestRow,
 ): readonly ContestRow[] {
-  const seatsTable = api.moduleState(OFFICES_MODULE_ID).table("seats");
   const atLarge = (row: ContestRow) =>
     !row.special &&
     !row.primaryDate &&
-    !(seatsTable.get(row.seatId) as { district?: string | null } | undefined)
+    !(seatById(api, row.seatId) as { district?: string | null } | undefined)
       ?.district;
   if (!atLarge(contest)) return [contest];
   const group = (
@@ -1604,10 +1596,7 @@ export function playerMayFileForKind(
  */
 function townLocalKinds(api: CoreAPI): readonly string[] {
   return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .query("byTown", [true]) as unknown as {
+    townOffices(api) as unknown as {
       level: string;
       kind: string;
     }[]
@@ -1704,12 +1693,11 @@ export function playerFilingBar(
   const contest = table(api, "contests").get(contestId) as unknown as
     ContestRow | undefined;
   if (!contest) return "not-your-office";
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const office = offices.table("offices").get(contest.officeId) as
+  const office = officeById(api, contest.officeId) as
     PlayerSeatOffice | undefined;
   if (!playerMayFileForKind(office?.kind ?? "", localKinds))
     return "not-your-office";
-  const seat = offices.table("seats").get(contest.seatId) as
+  const seat = seatById(api, contest.seatId) as
     { coversTown?: boolean; district?: string | null } | undefined;
   if (seat?.coversTown === false) return "not-your-town";
   const takes = (other: ContestRow) =>
@@ -1750,7 +1738,7 @@ export function playerFilingBar(
   // open, and runs against the whole field for all of its seats.
   const atLarge = sameDay
     .filter((other) => {
-      const s = offices.table("seats").get(other.seatId) as
+      const s = seatById(api, other.seatId) as
         { district?: string | null; index?: number } | undefined;
       return !s?.district && takes(other);
     })
@@ -1780,14 +1768,13 @@ export function notYourOfficeWhy(
     return null;
   const contest = table(api, "contests").get(contestId) as unknown as
     ContestRow | undefined;
-  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   const office = contest
-    ? (offices.get(contest.officeId) as PlayerSeatOffice | undefined)
+    ? (officeById(api, contest.officeId) as PlayerSeatOffice | undefined)
     : undefined;
   if (!office) return null;
   // The home's own local offices, in id order: the town's, its township's and its county's.
   const own = (
-    offices.query("byTown", [true]) as unknown as {
+    townOffices(api) as unknown as {
       id: string;
       level: string;
       kind: string;
@@ -1825,10 +1812,9 @@ export function seatIsAnotherDistrict(
   const contest = table(api, "contests").get(contestId) as unknown as
     ContestRow | undefined;
   if (!contest) return false;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const office = offices.table("offices").get(contest.officeId) as
+  const office = officeById(api, contest.officeId) as
     PlayerSeatOffice | undefined;
-  const seat = offices.table("seats").get(contest.seatId) as
+  const seat = seatById(api, contest.seatId) as
     { district?: string | null } | undefined;
   if (!office || !seat?.district || !LOCAL_LEVELS.has(office.level ?? ""))
     return false;
@@ -1868,6 +1854,70 @@ export function playerContests(api: CoreAPI): readonly ContestRow[] {
   const localKinds = townLocalKinds(api);
   return openContests(api).filter((contest) =>
     playerMayFileWith(api, contest.id, localKinds),
+  );
+}
+
+/** A contest by its id, as its record stands; none for an id that is not one. */
+export function contestOf(
+  api: CoreAPI,
+  contestId: string,
+): ContestRow | undefined {
+  return table(api, "contests").get(contestId) as unknown as
+    ContestRow | undefined;
+}
+
+/** A filing by its id; none for an id that is not one. */
+export function filingOf(
+  api: CoreAPI,
+  filingId: string,
+): FilingRow | undefined {
+  return table(api, "filings").get(filingId) as unknown as
+    FilingRow | undefined;
+}
+
+/** Every filing in a contest, in any status. */
+export function filingsInContest(
+  api: CoreAPI,
+  contestId: string,
+): readonly FilingRow[] {
+  return table(api, "filings").query("byContest", [
+    contestId,
+  ]) as unknown as FilingRow[];
+}
+
+/** Every filing a person has made or announced, in any status. */
+export function filingsOfPerson(
+  api: CoreAPI,
+  personId: string,
+): readonly FilingRow[] {
+  return table(api, "filings").query("byPerson", [
+    personId,
+  ]) as unknown as FilingRow[];
+}
+
+/**
+ * The races a person may file for today, the filing counter's choices: the
+ * contests open for filing that the player-offices rule offers (`playerContests`),
+ * less any race the person already stands in (a filing petitioning or on the
+ * ballot, so a race filed in is never offered again). With `filedWith`, only
+ * the races whose filings that office takes. No eligibility check is made here;
+ * `checkEligibility` answers that for each race.
+ */
+export function racesOpenTo(
+  api: CoreAPI,
+  personId: string,
+  filedWith?: string,
+): readonly ContestRow[] {
+  const standingIn = new Set(
+    filingsOfPerson(api, personId)
+      .filter(standing)
+      .map((row) => row.contestId),
+  );
+  return playerContests(api).filter(
+    (row) =>
+      !standingIn.has(row.id) &&
+      (filedWith === undefined ||
+        filingOfficeFor(api, row.id).filedWith === filedWith),
   );
 }
 
@@ -1932,15 +1982,9 @@ function servesSeat(
   contest: Pick<ContestRow, "seatId">,
   personId: string,
 ): boolean {
-  return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [
-        contest.seatId,
-        "serving",
-      ]) as unknown as TermRow[]
-  ).some((t) => t.personId === personId);
+  return (servingTermsOnSeat(api, contest.seatId) as unknown as TermRow[]).some(
+    (t) => t.personId === personId,
+  );
 }
 
 /**
@@ -2081,12 +2125,9 @@ export function checkEligibility(
   if (party && party !== "party" && api.state.modules.has(PARTIES_MODULE_ID)) {
     const tie = partyTie(api, personId);
     // An officeholder elected or appointed under the label is its member.
-    const held = (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("byPerson", [personId]) as unknown as TermRow[]
-    ).some((t) => partyName(t.party) === partyName(party));
+    const held = (termsOfPerson(api, personId) as unknown as TermRow[]).some(
+      (t) => partyName(t.party) === partyName(party),
+    );
     const member =
       held || (tie?.tie === "party" && partyIdFor(api, party) === tie.partyId);
     checks.push({
@@ -2516,10 +2557,7 @@ function contestOffice(
   api: CoreAPI,
   contest: Pick<ContestRow, "officeId">,
 ): { readonly kind: string; readonly jurisdiction: string } | undefined {
-  return api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(contest.officeId) as unknown as
+  return officeById(api, contest.officeId) as unknown as
     { readonly kind: string; readonly jurisdiction: string } | undefined;
 }
 
@@ -2860,10 +2898,7 @@ export function keepPetitionCheck(
 
 /** The term serving on a seat today, or null. */
 function servingTerm(api: CoreAPI, seatId: string): TermRow | null {
-  return (api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .query("bySeatStatus", [seatId, "serving"])[0] ?? null) as TermRow | null;
+  return (servingTermsOnSeat(api, seatId)[0] ?? null) as TermRow | null;
 }
 
 /**
@@ -2902,10 +2937,7 @@ export function incumbentOf(api: CoreAPI, contestId: string): TermRow | null {
   const found = table(api, "contests").get(contestId) as unknown as ContestRow;
   const contest = syncIncumbent(api, found);
   return contest.incumbentTermId
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(contest.incumbentTermId) as unknown as TermRow)
+    ? (termById(api, contest.incumbentTermId) as unknown as TermRow)
     : null;
 }
 

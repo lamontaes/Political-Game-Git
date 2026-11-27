@@ -24,7 +24,7 @@ checked: fable 2026-11-10
 
 **Cause.** Found in code: src/core2/opening-customers.ts line 1438 still throws `Conflicting represented public owner coverage` when two rows for one government and place disagree. The Bayou Blue, Louisiana case (2205175, seed e955294c587729831a6cee88a3d0927ecf6a630617722d4bd7ad78cc74505e07) was fixed in #5899, but no test builds every locality whose governments carry more than one coverage row.
 
-**Fix.** Add a test or script (see core-opening-coverage-every-locality, which wants it under src/core2/tooling/) that builds the opening for every locality whose governments carry more than one coverage row for a place and names any that throw. Fix what it finds at the cause: one coverage per government and place from its records.
+**Fix.** Add a test or script (see core-opening-coverage-every-locality, which wants it under scripts/core2/tooling/) that builds the opening for every locality whose governments carry more than one coverage row for a place and names any that throw. Fix what it finds at the cause: one coverage per government and place from its records.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 

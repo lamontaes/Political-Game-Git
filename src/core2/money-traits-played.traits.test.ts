@@ -6,9 +6,9 @@
  * test names both, and the borrowing application the borrower's yes wrote.
  */
 import { describe, expect, it } from "vitest";
-import { testPlace } from "./money-traits-kit";
+import { testPlace } from "../../tests/support/money-traits-kit";
 import { coreAPI } from "./state";
-import { describePair, playedPairs } from "./trait-pairs";
+import { describePair, playedPairs } from "../../scripts/core2/trait-pairs";
 
 /** The money decisions a played window weighs for named actors, with the chooser's yes option. */
 const MONEY = {
