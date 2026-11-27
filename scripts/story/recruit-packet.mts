@@ -1,5 +1,5 @@
 // W1 played packet: a party's chair asks a member to run (party-recruit) and a new member is welcomed (party-welcome).
-// Plays the asked member of a pinned world (Rainelle's filing season, the one the advice test uses) and a player who joins a party in a drawn place, and prints every
+// Composes the ask through the scene engine with stand-in facts (the director stages no ask in the pinned Rainelle world) and plays a player who joins a party in a drawn place, and prints every
 // line the scene shows, down each branch.
 // Usage: node --import tsx scripts/story/recruit-packet.mts [drawn-run-seed]
 import { buildBenchWorld } from "../../src/bench/world";
@@ -7,7 +7,6 @@ import { drawPlace } from "../core2-year/place";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
-import { advanceCore } from "../../src/core2/life";
 import {
   PARTIES_MODULE_ID,
   partiesHere,
