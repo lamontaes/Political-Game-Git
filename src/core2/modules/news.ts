@@ -16,7 +16,7 @@
  * Each story's deliveries are scheduled once, when it is recorded, and read by
  * date, so no day scans the whole town.
  */
-import { countedNewsSourceOf, heardListeners } from "./news-listeners";
+import { heardListeners, type CountedNewsModule } from "./news-listeners";
 import type { HistoryRow, HistorySource } from "../past";
 import { moduleState } from "../module-state";
 import { addDays, makeIsoDate } from "../kernel/dates";
@@ -894,11 +894,10 @@ export function createNewsModule(
           story.facts,
         );
         if (story.desiredChange)
-          for (const reader of countedNewsSourceOf()?.(
-            api,
-            story.id,
-            alive.length,
-          ) ?? [])
+          for (const reader of (
+            api.state.modules.get(PRESS_MODULE_ID) as
+              CountedNewsModule | undefined
+          )?.countedNewsAudience?.(api, story.id, alive.length) ?? [])
             hearCountedNews(
               api,
               reader,

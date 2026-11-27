@@ -114,6 +114,7 @@ import {
   VIEWS_MODULE_ID,
   countedNewsGroups,
   countedNewsConcern,
+  type CountedNewsAudience,
   type Stance as ViewStance,
 } from "./views";
 import { electorateSides } from "./voting";
@@ -162,7 +163,7 @@ export { PRESS_STORY_EVENT } from "../press-desk";
 /** A story a paper ran on an official's hidden act: a bribe taken, or a vote for a firm they or their family own. */
 export const PRESS_EXPOSED = "press.exposed";
 import { newsKey, storiesHeard, type Story } from "./news";
-import { registerCountedNewsSource } from "./news-listeners";
+import type { CountedNewsModule } from "./news-listeners";
 import { worldLevel } from "../world-draw";
 
 export const PRESS_MODULE_ID = "core2-press-v1";
@@ -412,8 +413,10 @@ export function worldOutletCounts(
   };
 }
 
-const PRESS_MODULE: CoreModule = {
+const PRESS_MODULE: CoreModule & CountedNewsModule = {
   id: PRESS_MODULE_ID,
+  // A plain field: news reads it off the installed module.
+  countedNewsAudience,
   state: {
     schemaVersion: 1,
     tables: {
@@ -5180,7 +5183,11 @@ export function attackOutlet(
 }
 
 /** The audience already counted by the desk, distributed across its groups. */
-registerCountedNewsSource((api, storyId, namedReaders) => {
+function countedNewsAudience(
+  api: CoreAPI,
+  storyId: string,
+  namedReaders: number,
+): readonly CountedNewsAudience[] {
   const printed = printedStoryOf(api, storyId);
   if (
     !printed ||
@@ -5234,7 +5241,7 @@ registerCountedNewsSource((api, storyId, namedReaders) => {
       group,
       reached: (delivered * followers) / total,
     }));
-});
+}
 
 /*
  * What a paper found when it exposed an official (`press.exposed`),
