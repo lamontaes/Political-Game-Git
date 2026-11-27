@@ -37,7 +37,9 @@ import { townResidentsByCash } from "../../tests/support/resident-adults-test-ki
 // names.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const ATTEMPTS = 4;
-const WEEKS = 52;
+// A place's local filing opens on its own calendar day, a year and more out
+// at some places (Starkweather, North Dakota: week 54), so the wait is two years.
+const WEEKS = 104;
 const DAYS = 10;
 const LABELS = [
   "circumstance:door-first",
