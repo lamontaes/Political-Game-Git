@@ -1008,6 +1008,8 @@ export function encodeStore(store: CountedStore): unknown {
             "traitViews",
             "peopleViews",
             "factsViews",
+            // An engine's hook, installed again when the engine restores.
+            "weightHook",
             // Cache keys, not state: a restored store starts its own count.
             "version",
             "membersVersion",
@@ -1047,6 +1049,7 @@ export function decodeStore(data: unknown): CountedStore {
         "traitView",
         "traitViews",
         "version",
+        "weightHook",
       ].includes(key)
     )
       continue;
