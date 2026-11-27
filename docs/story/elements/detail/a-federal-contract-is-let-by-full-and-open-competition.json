@@ -1,0 +1,30 @@
+{
+  "id": "a-federal-contract-is-let-by-full-and-open-competition",
+  "kind": "detail",
+  "summary": "Federal contracts are let by full and open competition, with limited exceptions.",
+  "realLife": "The Federal Acquisition Regulation says contracting officers must promote and provide for full and open competition in soliciting offers and awarding contracts, with certain limited exceptions.",
+  "sources": [
+    "Acquisition.GOV, Federal Acquisition Regulation 6.101 Policy: https://www.acquisition.gov/far/6.101"
+  ],
+  "fits": ["loading"],
+  "slots": ["state"],
+  "gates": [],
+  "weights": {},
+  "inGame": "the budget module's contract and spending rows, read by the loading screen's progress step for government (loading-steps.government).",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A contract goes to one named supplier without competition.",
+      "pulledBy": "a no-bid exception",
+      "writesBack": "a contract row with a single bidder"
+    },
+    {
+      "turn": "partial",
+      "what": "Competition is open but only one firm bids.",
+      "pulledBy": "a thin local market",
+      "writesBack": "a contract row with one bid"
+    }
+  ],
+  "issues": ["none"]
+}
