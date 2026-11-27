@@ -1,0 +1,49 @@
+{
+  "week": ["pressWeek"],
+  "open": ["openPress", "enrollPressEmployers"],
+  "exposure": [
+    "runExposure",
+    "tipOff",
+    "conflictBeat",
+    "leakToReporter",
+    "weighTip",
+    "writeProfile"
+  ],
+  "briefs": [
+    "milestones",
+    "letters",
+    "policeLog",
+    "schoolResults",
+    "policeLogComparison",
+    "policeLogWhy"
+  ],
+  "interviews": [
+    "requestInterview",
+    "answerInterview",
+    "interviewsFor",
+    "declineInterview",
+    "attackOutlet",
+    "inviteDay",
+    "invitation",
+    "answerInvitation",
+    "keepComment",
+    "reportConcession",
+    "accepted",
+    "refuse",
+    "snubbed"
+  ],
+  "stories": [
+    "publish",
+    "checkClaim",
+    "writeArchiveStory",
+    "printedStoryOf",
+    "storiesPrinted"
+  ],
+  "staff": [
+    "refreshPressStaff",
+    "reassessSharedMarkets",
+    "reviewOutletRevenue",
+    "pressPeopleLive"
+  ],
+  "desk": ["deskContext"]
+}

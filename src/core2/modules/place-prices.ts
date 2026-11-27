@@ -37,7 +37,6 @@ import { registerPricesWebGaps } from "../laws-in-force";
 import { sha256Hex } from "../kernel/sha256";
 import { transferCash } from "../budgets-treasury";
 import { newsKey, storiesHeard, type Story } from "./news";
-import { onStoryHeard } from "./news-listeners";
 import { onTaxWithheld, TAX_LAW_SERIES } from "../tax-listeners";
 import {
   endAppliedBy,
@@ -855,7 +854,6 @@ function learnOnHearing(api: CoreAPI, personId: string, story: Story): void {
     ...(known ? { known: { ...known } } : {}),
   });
 }
-onStoryHeard(learnOnHearing);
 
 /** The person ties the price change to the law, citing the story they heard. */
 function emitLearned(
@@ -1755,6 +1753,11 @@ function openOnce(api: CoreAPI): void {
 
 export const PLACE_PRICES_MODULE: CoreModule = {
   id: PLACE_PRICES_MODULE_ID,
+  // The price engine ties a price change the person's household already paid
+  // to the law a story they heard names.
+  onStoryHeard(api, personId, story) {
+    learnOnHearing(api, personId, story as Story);
+  },
   state: {
     schemaVersion: 1,
     tables: {
