@@ -1,5 +1,4 @@
 /** The national economy's front door for reads: the months the country has kept, the latest of them, each state's tier row and the central bank's seats. Each function answers one question; none returns a table. */
-import type { BoardMember } from "./central-bank-board";
 import type { CountryState } from "./country-model";
 import type { MacroMonth } from "./macro-model";
 import { MACRO_MODULE_ID } from "./modules/macro";
@@ -66,14 +65,22 @@ export function allCountryStates(api: CoreAPI): readonly CountryState[] {
   return store(api).table("countryStates").rows() as unknown as CountryState[];
 }
 
+/** A seat on the central bank's board, as far as other engines read it (the board's own rows hold more). */
+export interface BoardSeatRead {
+  readonly personId: string;
+  readonly seatKind: "governor" | "president";
+}
+
 /** The central bank's seat held by a person, if they hold one. */
 export function boardSeatOf(
   api: CoreAPI,
   personId: string,
-): BoardMember | undefined {
+): BoardSeatRead | undefined {
   if (!macroKept(api)) return undefined;
   return (
-    store(api).table("members").query("all", [true]) as unknown as BoardMember[]
+    store(api)
+      .table("members")
+      .query("all", [true]) as unknown as BoardSeatRead[]
   ).find((row) => row.personId === personId);
 }
 

@@ -15,6 +15,8 @@ import {
   jobChangesOf,
   jobsKept,
   jobsOpened,
+  lookingForWork,
+  openClaims,
   positionOf,
   seekerOf,
 } from "./jobs-reads";
@@ -29,6 +31,7 @@ import {
   macroMonthCount,
 } from "./macro-reads";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { placePriceRules } from "./prices-reads";
 import { allRegionMonths, regionMonthsAt } from "./regional-reads";
 import { coreAPI } from "./state";
 
@@ -82,6 +85,15 @@ describe(`the economy's read doors match what the engines keep (seed ${seed})`, 
     expect(allJobChanges(api).length, where).toBe(tables.table("changes").size);
     expect(allBusinessOwners(api).length, where).toBe(
       api.moduleState("business").table("owners").size,
+    );
+    expect(openClaims(api).length, where).toBe(
+      tables.table("claims").query("open", [true]).length,
+    );
+    expect(lookingForWork(api).length, where).toBeLessThanOrEqual(
+      tables.table("seekers").size + tables.table("countedSeekers").size,
+    );
+    expect(placePriceRules(api).length, where).toBe(
+      api.moduleState("place-prices").table("rules").size,
     );
     const seekers = allSeekers(api);
     for (const seeker of seekers.slice(0, 20))

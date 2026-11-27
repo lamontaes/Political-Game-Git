@@ -683,7 +683,8 @@
         "src/core2/business-reads.ts",
         "src/core2/macro-reads.ts",
         "src/core2/regional-reads.ts",
-        "src/core2/credit-reads.ts"
+        "src/core2/credit-reads.ts",
+        "src/core2/prices-reads.ts"
       ],
       "paths": [
         "src/core2/shared-time.ts",
@@ -731,10 +732,12 @@
         "src/core2/regional-reads.ts",
         "src/core2/credit-deposits.ts",
         "src/core2/credit-reads.ts",
+        "src/core2/prices-reads.ts",
         "src/core2/commuting-shares.ts",
         "src/core2/cost-of-living.ts",
         "src/core2/living-cost-split.ts",
         "src/core2/pay-by-quarter.ts",
+        "src/core2/economy-reads.test.ts",
         "src/core2/away-workers-turnover.test.ts",
         "src/core2/cannabis-sales-law.test.ts",
         "src/core2/civic-inputs-clerk-staff.test.ts",

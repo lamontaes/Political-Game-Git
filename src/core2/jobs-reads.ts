@@ -1,4 +1,5 @@
 /** The jobs engine's front door for reads: who is looking for work, what changed in a job, which openings stand. Each function answers one question; none returns a table. */
+import type { ClaimRow } from "./jobs-benefits";
 import type { CoreAPI, CoreState } from "./types";
 import {
   JOBS_MODULE_ID,
@@ -176,4 +177,24 @@ export function offerOf(
 export function hasApplied(api: CoreAPI, positionId: string): boolean {
   if (!jobsKept(api)) return false;
   return !!store(api).table("playerApplications").get(positionId);
+}
+
+/** Every unemployment claim that is open now. */
+export function openClaims(api: CoreAPI): readonly ClaimRow[] {
+  if (!jobsKept(api)) return [];
+  return store(api)
+    .table("claims")
+    .query("open", [true]) as unknown as ClaimRow[];
+}
+
+/** Everyone out of work and looking, from either seeker list, each person once. */
+export function lookingForWork(
+  api: CoreAPI,
+): readonly (JobSeekerRow | CountedSeekerRow)[] {
+  const out = new Map<string, JobSeekerRow | CountedSeekerRow>();
+  for (const row of allSeekers(api))
+    if (!row.employed) out.set(row.personId, row);
+  for (const row of allCountedSeekers(api))
+    if (!out.has(row.personId)) out.set(row.personId, row);
+  return [...out.values()];
 }
