@@ -29,7 +29,11 @@ import { LEGISLATURE_MODULE_ID, type BillRow } from "./modules/legislature";
 import { legislativeSessionsOf, windowsIn } from "./modules/world-legislating";
 import { answerIn } from "./modules/laws";
 import { coreAPI } from "./state";
-import { auditPassed, laterOf, oppositePairs } from "../../scripts/core2/session-law-audit";
+import {
+  auditPassed,
+  laterOf,
+  oppositePairs,
+} from "../../scripts/core2/session-law-audit";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 /** Places tried before giving up on finding a state whose legislature sits in the window. */

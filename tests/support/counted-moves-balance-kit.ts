@@ -4,7 +4,10 @@ import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
-import { residentsRuntime, townPlaceOf } from "../../src/core2/modules/residents";
+import {
+  residentsRuntime,
+  townPlaceOf,
+} from "../../src/core2/modules/residents";
 import type { CoreState } from "../../src/core2/types";
 
 /** Everyone in the town: the counted households times their weight, and the full people. */
