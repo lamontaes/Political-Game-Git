@@ -37,8 +37,9 @@ import { corePlaceByKey } from "./place-lookup";
 import { drawOfficialIdentity } from "./officials-identity";
 import { coarsePlace, metResident, metWork } from "./coarse-place";
 import {
-  OFFICIALS_MODULE_ID,
+  allOfficials,
   officialLean,
+  officialOf,
   type OfficialRow,
 } from "./modules/officials";
 import {
@@ -182,12 +183,7 @@ export function nominationCandidates(
   const held = nominated(api);
   const vice = termOnSeat(api, "seat:US:vice-president")?.personId;
   const years = federalParameter("cabinetQualificationYears");
-  return (
-    api
-      .moduleState(OFFICIALS_MODULE_ID)
-      .table("officials")
-      .rows() as unknown as OfficialRow[]
-  )
+  return allOfficials(api)
     .filter(
       (row) =>
         row.id !== presidentId &&
@@ -308,12 +304,7 @@ export function leavePostOpen(
 
 /** The sitting senators, each by their own lean: the body a cabinet nominee faces. */
 function senateLeans(api: CoreAPI): number[] {
-  return (
-    api
-      .moduleState(OFFICIALS_MODULE_ID)
-      .table("officials")
-      .rows() as unknown as OfficialRow[]
-  )
+  return allOfficials(api)
     .filter(
       (member) => member.officeKind === "us-senate" && member.ended == null,
     )
@@ -451,14 +442,12 @@ function emitCabinet(
 export function confirmGivenVotes(api: CoreAPI, presidentId: string): void {
   const date = api.state.date;
   if (!senateSits(date).sits) return;
-  const officials = api.moduleState(OFFICIALS_MODULE_ID).table("officials");
   const senators = senateLeans(api);
   const years = federalParameter("cabinetQualificationYears");
   for (const row of cabinetOf(api)) {
     if (row.status !== "nominated" || !row.voteOn || row.voteOn > date)
       continue;
-    const record = officials.get(row.nomineeId!) as unknown as
-      OfficialRow | undefined;
+    const record = officialOf(api, row.nomineeId!);
     const nominee = record
       ? candidateFrom(api, presidentId, record, years)
       : undefined;

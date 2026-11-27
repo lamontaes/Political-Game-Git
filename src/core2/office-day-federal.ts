@@ -39,7 +39,7 @@ import {
   servingTermsOf,
   type TermRow,
 } from "./modules/offices";
-import { OFFICIALS_MODULE_ID, type OfficialRow } from "./modules/officials";
+import { officialOf } from "./modules/officials";
 import {
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
@@ -445,16 +445,7 @@ export function whipAsk(
   const mine = partySide(seat.term.party);
   if (mine === 0) return null;
   const sideOf = (id: string | null) =>
-    id
-      ? partySide(
-          (
-            api
-              .moduleState(OFFICIALS_MODULE_ID)
-              .table("officials")
-              .get(id) as unknown as OfficialRow | undefined
-          )?.party,
-        )
-      : 0;
+    id ? partySide(officialOf(api, id)?.party) : 0;
   const posted = (posts: readonly string[]) =>
     posts
       .map((post) => ({ post, id: leaderOf(api, body, post) }))
