@@ -107,15 +107,19 @@ function livesWith(
   );
 }
 
-export function composeScene(
+/**
+ * Read what a scene is made of from the moment, the person and the binding: who is there, the
+ * people and places as the player knows them, the moment's own record and the narrator's line
+ * worded by the English engine. The first step of `composeScene`; null when the person or the
+ * moment is not in the ledger.
+ */
+function readScene(
   core: Readonly<CoreState>,
   director: Director,
   personId: PersonId,
   entry: ScheduleEntry,
   words?: SceneWords,
-  /** The minute of the day the scene plays at; without it, the moment's stop or the day's start. */
-  minuteOfDay?: number,
-): Scene | null {
+) {
   const book = director.ledger.people.get(personId);
   const moment = book?.momentsById.get(entry.momentId);
   const person = core.people.get(personId);
@@ -196,7 +200,24 @@ export function composeScene(
       fallbackSourceId: moment.causeId,
       ...(words ? { words } : {}),
     });
+  return { moment, person, binding, named, who, place, fromRecord, render };
+}
 
+type SceneRead = NonNullable<ReturnType<typeof readScene>>;
+
+/**
+ * The scene's first line: the day, the place and the person the player meets, worded by the
+ * English engine, and the setting line that stands in for it when no arrival is worded. The
+ * second step of `composeScene`; it starts the list of lines the scene says.
+ */
+function arrivalOf(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  entry: ScheduleEntry,
+  read: SceneRead,
+  minuteOfDay?: number,
+) {
+  const { moment, binding, named, who, fromRecord, render } = read;
   // Every scene opens on one line that names the day, the place and the
   // person the player meets (owner, Nov 8: "If it's June 7th, it says first
   // thing on June 7th. You head to the clerk's office and speak to Maria
@@ -300,6 +321,30 @@ export function composeScene(
       );
   if (arrival) sentences.push(arrival);
   else if (setting) sentences.push(setting);
+  return { sentences, opener, talkToId, settingOrg, arrival };
+}
+
+export function composeScene(
+  core: Readonly<CoreState>,
+  director: Director,
+  personId: PersonId,
+  entry: ScheduleEntry,
+  words?: SceneWords,
+  /** The minute of the day the scene plays at; without it, the moment's stop or the day's start. */
+  minuteOfDay?: number,
+): Scene | null {
+  const read = readScene(core, director, personId, entry, words);
+  if (!read) return null;
+  const { moment, person, binding, named, who, place, fromRecord, render } =
+    read;
+
+  const { sentences, opener, talkToId, settingOrg, arrival } = arrivalOf(
+    core,
+    personId,
+    entry,
+    read,
+    minuteOfDay,
+  );
   // Said in full once, so later lines call them by their first name.
   if (talkToId && arrival?.usedFactKeys?.includes("name")) named.add(talkToId);
   const wasNamed = talkToId ? named.has(talkToId) : false;
