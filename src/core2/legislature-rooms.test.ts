@@ -11,8 +11,8 @@
  * Labor and Commerce, and Transportation), the seat the lying thread's played
  * files use. Pinned by rooms/find.mts on the scratch branch: Wednesday Jan 29
  * 2025 is a floor day with committees and no caucus; Tuesday Jan 28 has the
- * caucus. Seat 031 (a Republican) sits on Finance and Health with the
- * player; seat 020 (a Democrat) sits on Finance with both. The player stays
+ * caucus. Seat 031 (a Democrat) shares the caucus and sits on Finance with
+ * the player; seat 020 (a Republican) sits on Finance with both. The player stays
  * away from Finance on Jan 29 through the office day's own `doEntry`, the
  * call the player's press makes; seat 020 attends as every character does.
  */
@@ -61,7 +61,9 @@ it("committees and caucuses are rooms of the sitting reader, and a day the playe
   expect(player.split(":")[5]).toBe("016");
   const named = (n: string) => ids.find((id) => id.split(":")[5] === n)!;
   const other = named("031");
-  const party = named("020");
+  const financePeer = named("020");
+  expect(stateOfficeOf(api, other)?.party).toBe(office.party);
+  expect(stateOfficeOf(api, financePeer)?.party).not.toBe(office.party);
   const finance = `${chamber}:committee:finance`;
   const health = `${chamber}:committee:health`;
   const caucus = `${chamber}:caucus:${office.party}`;
@@ -70,7 +72,7 @@ it("committees and caucuses are rooms of the sitting reader, and a day the playe
   const roster = seatedCommittees(api, chamber).find(
     (c) => c.committee === "finance",
   )!.memberIds;
-  for (const id of [player, other, party]) expect(roster).toContain(id);
+  for (const id of [player, other, financePeer]) expect(roster).toContain(id);
   const fade = Math.pow(
     2,
     -1 / halfLifeDays((k) => api.parameter(k), "coworker"),
@@ -83,18 +85,33 @@ it("committees and caucuses are rooms of the sitting reader, and a day the playe
   ).length;
 
   // Tuesday: the caucus sits; the player's party colleague gains a day of it.
-  const caucusBefore = roomHours(core, player, party, caucus);
+  const caucusBefore = roomHours(core, player, other, caucus);
+  const outsiderBefore = roomHours(core, player, financePeer, caucus);
   advanceCore(core, makeIsoDate("2025-01-28"));
-  expect(roomHours(core, player, party, caucus)).toBeCloseTo(
+  expect(roomHours(core, player, other, caucus)).toBeCloseTo(
     caucusBefore * fade + perDay(caucusSize),
     9,
   );
+  expect(outsiderBefore).toBe(0);
+  expect(roomHours(core, player, financePeer, caucus)).toBe(0);
 
   // Wednesday: the player stays away from Finance, keeps Health.
+  const healthRoster = seatedCommittees(api, chamber).find(
+    (c) => c.committee === "health",
+  )!.memberIds;
+  expect(healthRoster).toContain(player);
+  const healthPeer = healthRoster
+    .filter((id) => id !== player)
+    .sort()
+    .find((id) => roomHours(core, player, id, health) > 0);
+  expect(
+    healthPeer,
+    "a current Health colleague the player knows",
+  ).toBeDefined();
   const before = {
     playerFinance: roomHours(core, player, other, finance),
-    partyFinance: roomHours(core, party, other, finance),
-    playerHealth: roomHours(core, player, other, health),
+    peerFinance: roomHours(core, financePeer, other, finance),
+    playerHealth: roomHours(core, player, healthPeer!, health),
   };
   expect(before.playerFinance).toBeGreaterThan(0);
   doEntry(api, `${player}:2025-01-29:committee:${chamber}:finance`, {
@@ -106,15 +123,12 @@ it("committees and caucuses are rooms of the sitting reader, and a day the playe
     before.playerFinance * fade,
     9,
   );
-  expect(roomHours(core, party, other, finance)).toBeCloseTo(
-    before.partyFinance * fade + perDay(roster.length),
+  expect(roomHours(core, financePeer, other, finance)).toBeCloseTo(
+    before.peerFinance * fade + perDay(roster.length),
     9,
   );
-  const healthSize = seatedCommittees(api, chamber).find(
-    (c) => c.committee === "health",
-  )!.memberIds.length;
-  expect(roomHours(core, player, other, health)).toBeCloseTo(
-    before.playerHealth * fade + perDay(healthSize),
+  expect(roomHours(core, player, healthPeer!, health)).toBeCloseTo(
+    before.playerHealth * fade + perDay(healthRoster.length),
     9,
   );
   // No meeting wrote the player a tie of its own.
