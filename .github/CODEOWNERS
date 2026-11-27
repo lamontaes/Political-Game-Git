@@ -626,8 +626,11 @@
 /src/core2/question-wages.ts @lamontaes
 /src/core2/legacy-wage-counters.ts @lamontaes
 /src/core2/macro-model.ts @lamontaes
+/src/core2/macro-reads.ts @lamontaes
 /src/core2/regional-model.ts @lamontaes
+/src/core2/regional-reads.ts @lamontaes
 /src/core2/credit-deposits.ts @lamontaes
+/src/core2/credit-reads.ts @lamontaes
 /src/core2/commuting-shares.ts @lamontaes
 /src/core2/cost-of-living.ts @lamontaes
 /src/core2/living-cost-split.ts @lamontaes
