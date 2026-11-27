@@ -10,7 +10,7 @@ import { OUTCOME_WEB_MODULE } from "./modules/outcome-web";
 import { regionalMonth } from "./modules/regional";
 import { townMetrics } from "./modules/world-metrics";
 import { coreAPI } from "./state";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 
 // Pinned places and seeds (skill pinned-tests). The jobless the opening draws are drawn against every working adult in the town's households, away workers included; the Metrics tab's rate must stand on the same labor force. Before, it left the out-of-town workers out and read about one and a half times the world's own rate (Tanapag 13.9% against 9.8%, Maloata 14.0% against 10.9%, Staples 4.4% against 3.3%).
 const PLACES: readonly [string, string][] = [

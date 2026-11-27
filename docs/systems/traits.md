@@ -16,7 +16,7 @@ A trait reaches a decision through three tables and one chooser. No decision's c
      `legislature-v1`;
    - `personality-catalogue.ts`: the named qualities a person can be known
      for, under `personality-v1`. Its scales are
-     `data/personality-scales.json`, derived from the personality research and locked to it by a test.
+     `src/core2/data/personality-scales.json`, derived from the personality research and locked to it by a test.
 2. **The act pulls say what a trait leans toward.**
    `data/content/trait-act-pulls.json` has one row per trait (98 rows). Each
    row names, for the trait's high side and its low side, the act kinds it

@@ -31,12 +31,12 @@ import perDiemRows from "./data/office-day/state-legislator-per-diem.json" with 
 import { sessionYear, type SessionWindow } from "./state-session-calendar";
 import { registerModule } from "./state";
 import { decisionLean, leanedTerm } from "./trait-decisions";
+import { closenessBetween } from "./closeness";
 import {
-  closenessBetween,
   registerSittingCalendar,
   type SittingCalendar,
   type SittingDay,
-} from "./closeness";
+} from "./sitting-closeness";
 import { roomTime } from "./modules/people";
 import {
   chargeOfficeHours,
@@ -48,7 +48,7 @@ import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { lineForPost, registerLinePayments } from "./budgets-treasury";
 import { outsideGovernment } from "./outside-governments";
 import { stableHash, pairKey } from "./kernel/ids";
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, weekdayOf } from "./kernel/dates";
 import {
   appointStatePost,
   statePostsToFill,
@@ -109,7 +109,7 @@ import {
   handleCase,
   ownCaseDecision,
 } from "./modules/constituent-cases";
-import { deliverSpeech, SPEECH_MODULE_ID } from "./modules/speech";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./modules/people";
 import {
   registerBillIntroduced,
   registerLeaderRefusalReader,
@@ -325,7 +325,7 @@ export interface StateDayEntry {
   };
 }
 
-const weekday = (date: string) => new Date(`${date}T00:00:00Z`).getUTCDay(); // 0 Sunday .. 6 Saturday
+const weekday = (date: string) => weekdayOf(date); // 0 Sunday .. 6 Saturday
 
 function windowsOf(stateKey: string, year: number) {
   const row = sessionYear(stateKey, year);

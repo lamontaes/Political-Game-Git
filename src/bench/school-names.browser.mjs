@@ -6,7 +6,7 @@
 //   BENCH_BROWSER=/opt/pw-browsers/chromium node src/bench/school-names.browser.mjs [shots dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
+import { startLife } from "../../tests/support/start-life.mjs";
 
 const [shots] = process.argv.slice(2);
 const browser = await chromium.launch({

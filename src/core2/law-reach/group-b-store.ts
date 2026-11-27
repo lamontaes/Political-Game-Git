@@ -10,8 +10,11 @@ import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addMonths } from "./group-b-dates";
-
-export const REACH_B_MODULE_ID = "core2-law-reach-b-v1";
+import {
+  REACH_B_MODULE_ID,
+  STANDING_BENEFIT_PROGRAMS,
+} from "./group-b-store-constants";
+export { REACH_B_MODULE_ID, STANDING_BENEFIT_PROGRAMS };
 const REVIEW_KIND = "law-reach-b-review";
 
 export interface PersonReach {
@@ -65,17 +68,6 @@ export interface Reach {
   readonly countedOf: number;
   readonly terms: Readonly<Record<string, number>>;
 }
-
-/**
- * The benefits paid from the opening whose amount or income limit is the
- * law's own value: each is a program of its own that the treasury's monthly
- * close runs (group-b.ts), as the law reach host opens them (host.ts).
- */
-export const STANDING_BENEFIT_PROGRAMS: readonly string[] = [
-  "child-care-income-limit",
-  "ssi-federal-benefit-rate",
-  "energy-assistance-income-limit",
-];
 
 let review: ((api: CoreAPI) => void) | null = null;
 /** group-b.ts registers the review that re-runs every active policy. */

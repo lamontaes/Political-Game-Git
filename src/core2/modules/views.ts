@@ -38,17 +38,17 @@ import {
 // Screens read a full person's circumstances through the views engine.
 export { fullLifeStake };
 import { stableHash, pairKey } from "../kernel/ids";
-import { livedQuestion } from "../outcome-news";
+import { livedQuestion } from "./press";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import {
   groupStance,
   personLean,
-  personStance,
   popularity,
   STANCE_LOADINGS,
   type StanceProfile,
-} from "../campaign-views";
+} from "./campaigns";
+import { personStance } from "./elections";
 import { currentCloseness } from "../closeness";
 import viewsJson from "../data/views/views.json" with { type: "json" };
 import drivesJson from "../data/drives.json" with { type: "json" };
@@ -77,6 +77,8 @@ import {
   liveCountedCrime,
   type CountedCrimeTally,
 } from "../counted-news-views";
+import { VIEWS_MODULE_ID } from "./views-constants";
+export { VIEWS_MODULE_ID };
 
 export const VIEWS_DATA = viewsJson as {
   version: string;
@@ -90,8 +92,6 @@ const v = (key: string): number => {
     throw new Error(`Untagged views parameter: ${key}`);
   return row.value;
 };
-
-export const VIEWS_MODULE_ID = "views";
 const DRIVE_MOMENTS = new Set<string>(
   Object.entries(
     (drivesJson as { eventKinds: Record<string, string> }).eventKinds,
