@@ -70284,7 +70284,8 @@
           "step": "state",
           "move": "greet-counter",
           "role": "asker",
-          "requiresFacts": ["name"]
+          "requiresFacts": ["name"],
+          "excludesFacts": ["where"]
         }
       ],
       "bearing": "warm",
@@ -70310,7 +70311,8 @@
           "step": "state",
           "move": "greet-counter",
           "role": "asker",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["place"],
+          "excludesFacts": ["where"]
         }
       ],
       "bearing": "calm",
@@ -70336,7 +70338,8 @@
           "step": "state",
           "move": "greet-counter",
           "role": "asker",
-          "requiresFacts": ["name", "place"]
+          "requiresFacts": ["name", "place"],
+          "excludesFacts": ["where"]
         }
       ],
       "bearing": "warm",
@@ -70350,10 +70353,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.state-greet-counter.you-ve-reached-the-where-and-i-m-name-which-race-is-it",
+      "key": "scene-talk.state-greet-counter.i-m-name-with-the-where-which-race-are-you-after",
       "move": "state-greet-counter",
       "kind": "spoken",
-      "text": "You've reached the {where}, and I'm {name}. Which race is it?",
+      "text": "I'm {name}, with the {where}. Which race are you after?",
       "uses": [
         {
           "subject": "scene",
@@ -70363,6 +70366,64 @@
           "move": "greet-counter",
           "role": "asker",
           "requiresFacts": ["where", "name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet-counter",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "local-offices-file-with-the-county"
+      ]
+    },
+    {
+      "key": "scene-talk.state-greet-counter.name-with-the-where-what-can-i-do-for-you",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "{name}, with the {where}. What can I do for you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker",
+          "requiresFacts": ["where", "name"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet-counter",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "local-offices-file-with-the-county"
+      ]
+    },
+    {
+      "key": "scene-talk.state-greet-counter.you-ve-come-to-the-right-counter-i-m-with-the-where",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "You've come to the right counter. I'm with the {where}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker",
+          "requiresFacts": ["where"]
         }
       ],
       "bearing": "calm",
@@ -70391,7 +70452,8 @@
           "step": "state",
           "move": "greet-counter",
           "role": "asker",
-          "requiresFacts": ["place", "name"]
+          "requiresFacts": ["place", "name"],
+          "excludesFacts": ["where"]
         }
       ],
       "bearing": "firm",
@@ -70417,7 +70479,8 @@
           "step": "state",
           "move": "greet-counter",
           "role": "asker",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["place"],
+          "excludesFacts": ["where"]
         }
       ],
       "bearing": "calm",
@@ -70443,7 +70506,8 @@
           "step": "state",
           "move": "greet-counter",
           "role": "asker",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["place"],
+          "excludesFacts": ["where"]
         }
       ],
       "bearing": "firm",
@@ -70457,10 +70521,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.state-greet-counter.come-on-up-the-where-handles-every-filing-for-place",
+      "key": "scene-talk.state-greet-counter.come-on-up-i-m-with-the-where-and-i-handle-filings-for-place",
       "move": "state-greet-counter",
       "kind": "spoken",
-      "text": "Come on up. The {where} handles every filing for {place}.",
+      "text": "Come on up. I'm with the {where}, and I handle filings for {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -70498,7 +70562,8 @@
           "step": "state",
           "move": "greet-counter",
           "role": "asker",
-          "requiresFacts": ["name"]
+          "requiresFacts": ["name"],
+          "excludesFacts": ["where"]
         }
       ],
       "bearing": "warm",
@@ -70512,6 +70577,122 @@
       "elements": [
         "filing-at-the-clerks-counter",
         "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.state-greet-counter.name-with-the-where-if-you-re-running-in-place-you-re-in-the-right-spot",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "{name}, with the {where}. If you're running in {place}, you're in the right spot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker",
+          "requiresFacts": ["where", "name", "place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet-counter",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "local-offices-file-with-the-county"
+      ]
+    },
+    {
+      "key": "scene-talk.state-greet-counter.this-is-the-right-counter-for-place-i-m-with-the-where-so-tell-me-which-race",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "This is the right counter for {place}. I'm with the {where}, so tell me which race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker",
+          "requiresFacts": ["where", "place"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet-counter",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "local-offices-file-with-the-county"
+      ]
+    },
+    {
+      "key": "scene-talk.state-greet-counter.hi-i-m-with-the-where-and-i-take-the-candidate-papers-here",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "Hi. I'm with the {where}, and I take the candidate papers here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker",
+          "requiresFacts": ["where"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet-counter",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "local-offices-file-with-the-county"
+      ]
+    },
+    {
+      "key": "scene-talk.state-greet-counter.hello-name-with-the-where-here-to-file",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "Hello. {name}, with the {where}. Here to file?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker",
+          "requiresFacts": ["where", "name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet-counter",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "local-offices-file-with-the-county"
       ]
     },
     {
@@ -72183,10 +72364,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.state-accept-terms.fine-i-ll-see-what-i-can-do-about-it",
+      "key": "scene-talk.state-accept-terms.fine-i-ll-see-what-i-can-do-about-office",
       "move": "state-accept-terms",
       "kind": "spoken",
-      "text": "Fine. I'll see what I can do about it.",
+      "text": "Fine. I'll see what I can do about {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -73291,6 +73472,1046 @@
       "tag": {
         "move": "narrate",
         "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-your-filing-for-office-on-the-desk-when-you-come-back-to-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has your filing for {office} on the desk when you come back to the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["filed-at-counter", "name", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.back-at-the-counter-name-finds-your-papers-for-office-and-pulls-one-sheet-out",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Back at the counter, {name} finds your papers for {office} and pulls one sheet out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["filed-at-counter", "name", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stamps-your-forms-for-office-and-slides-one-sheet-back-across-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stamps your forms for {office} and slides one sheet back across the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "office"],
+          "excludesFacts": ["filed-at-counter"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.state-tell.next-comes-the-petition-you-need-signatures-signatures-from-voters-here-and-they",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Next comes the petition. You need {signatures} signatures from voters here, and they're due back to me by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["signatures", "due", "first-filing"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.now-the-signatures-signatures-of-them-from-voters-here-and-i-need-them-by-due",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Now the signatures: {signatures} of them, from voters here, and I need them by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["signatures", "due", "first-filing"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.you-ll-need-signatures-valid-signatures-by-due-collect-a-few-extra-because-i-str",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You'll need {signatures} valid signatures by {due}. Collect a few extra, because I strike the names that don't count.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["signatures", "due"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.bring-me-signatures-signatures-by-due-anything-short-of-that-and-your-name-stays",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Bring me {signatures} signatures by {due}. Anything short of that and your name stays off the ballot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["signatures", "due"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it",
+        "petition-short-by-a-few-names"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.the-petition-takes-signatures-signatures-due-due-i-ll-check-every-name-against-t",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The petition takes {signatures} signatures, due {due}. I'll check every name against the rolls.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["signatures", "due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.this-race-has-its-own-petition-signatures-signatures-due-due",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "This race has its own petition: {signatures} signatures, due {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["signatures", "due", "repeat-filing"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.this-one-needs-only-a-single-signature-from-a-voter-here-and-it-s-due-due",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "This one needs only a single signature from a voter here, and it's due {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["one-signature", "due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.one-signature-is-all-it-takes-for-this-race-due-due",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "One signature is all it takes for this race, due {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["one-signature", "due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.there-s-no-petition-for-this-one-you-re-on-the-ballot-and-the-vote-is-vote-day",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "There's no petition for this one. You're on the ballot, and the vote is {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["no-petition", "vote-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter", "no-fee-then-a-petition"]
+    },
+    {
+      "key": "scene-talk.state-tell.you-don-t-need-signatures-for-office-your-name-goes-on-the-ballot-for-vote-day",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You don't need signatures for {office}. Your name goes on the ballot for {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["no-petition", "vote-day", "office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter", "no-fee-then-a-petition"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-have-them-back-before-due",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll have them back before {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-agree.due-gives-me-plenty-of-time-i-ll-start-this-week",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "{due} gives me plenty of time. I'll start this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-agree.understood-i-ll-bring-the-signatures-signatures-to-this-counter",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Understood. I'll bring the {signatures} signatures to this counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["signatures"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-agree.good-then-i-m-on-the-ballot-for-vote-day",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Good. Then I'm on the ballot for {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["no-petition", "vote-day"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-if-i-m-short-by-due",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What if I'm short by {due}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["due", "signatures"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-ask.can-anybody-sign-or-only-voters-in-place",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Can anybody sign, or only voters in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["due", "place"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-ask.will-i-know-before-vote-day-that-i-m-on",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Will I know before {vote-day} that I'm on?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["no-petition", "vote-day"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-confront.that-many-signatures-just-to-run-for-office",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "That many signatures just to run for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "requiresFacts": ["signatures", "office"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "confront",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-confront.who-decided-office-takes-that-many",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Who decided {office} takes that many?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "requiresFacts": ["signatures", "office"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "confront",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-leave.then-i-d-better-get-started-due-comes-fast",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Then I'd better get started. {due} comes fast.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-go-tell-people-i-m-running-for-office",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll go tell people I'm running for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["no-petition", "office"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-start-with-the-people-i-know-in-place",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll start with the people I know in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["due", "place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-leave.that-s-what-i-needed-to-know-i-ll-start-before-due",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "That's what I needed to know. I'll start before {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-leave.thanks-i-ll-be-back-with-the-signatures-signatures",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Thanks. I'll be back with the {signatures} signatures.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["signatures"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-think-about-it-i-have-until-due",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll think about it. I have until {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "refuse",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-i-ll-go-get-the-signatures-signatures",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. I'll go get the {signatures} signatures.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "refuse",
+          "requiresFacts": ["signatures"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-thank.good-bring-them-to-this-counter-by-due",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. Bring them to this counter by {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-thank.good-go-over-each-name-before-due-i-only-take-the-ones-that-hold-up",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. Go over each name before {due}. I only take the ones that hold up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["due", "signatures"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-thank.then-you-re-as-good-as-on-the-ballot-see-you-on-vote-day",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then you're as good as on the ballot. See you on {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["no-petition", "vote-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.aim-for-more-than-signatures-because-some-names-won-t-check-out",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Aim for more than {signatures}, because some names won't check out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["signatures"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.then-your-name-stays-off-the-ballot-for-office-that-s-the-rule-and-i-can-t-chang",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Then your name stays off the ballot for {office}. That's the rule, and I can't change it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-ask.what-if-i-m-short-by-due",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-short-by-a-few-names",
+        "petition-struck-names-decide-it"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.voters-who-live-in-place-i-check-every-name-against-the-rolls",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Voters who live in {place}. I check every name against the rolls.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-ask.can-anybody-sign-or-only-voters-in-place",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.once-i-ve-checked-your-forms-for-office-it-won-t-take-long",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Once I've checked your forms for {office}. It won't take long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-ask.will-i-know-before-vote-day-that-i-m-on",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-refuse.the-law-sets-the-number-and-the-day-due-i-just-count-them",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "The law sets the number and the day, {due}. I just count them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.that-many-signatures-just-to-run-for-office",
+          "requiresFacts": ["signatures", "due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-refuse.that-s-the-law-s-number-not-mine-and-due-is-the-law-s-day-too",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "That's the law's number, not mine, and {due} is the law's day too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.who-decided-office-takes-that-many",
+          "requiresFacts": ["signatures", "due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "filed"
       },
       "elements": ["filing-at-the-clerks-counter"]
     }
