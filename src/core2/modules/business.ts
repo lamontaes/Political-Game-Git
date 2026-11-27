@@ -2288,20 +2288,34 @@ function foundOption(
  * jobs engine's turnover builds, and is made when the pull reaches one whole (a market at the
  * sample's size, weight 1, founds the month a founder is ready, as before).
  */
-function foundingDue(api: CoreAPI, market: Market): boolean {
-  if (market.weight <= 1) return true;
-  const c = core(api);
-  const table = store(api).table("foundingPulls");
-  const key = `${market.placeId}|${market.kindId}`;
-  const held = table.get(key) as { pull: number; month: string } | undefined;
-  const month = c.date.slice(0, 7);
-  // One month's pull, however many founders a month weighs.
-  let pull =
-    (held?.pull ?? 0) + (held?.month === month ? 0 : 1 / market.weight);
+/**
+ * One month's step of a market's founding pull: the pull carried, plus one over the weight when
+ * this is the month's first look, and the founding made (the pull reduced by one) when it reaches
+ * one whole. A market at the sample's size (weight 1) is due every month it is asked.
+ */
+export function foundingPullStep(
+  held: { pull: number; month: string } | undefined,
+  month: string,
+  weight: number,
+): { pull: number; month: string; due: boolean } {
+  if (weight <= 1) return { pull: 0, month, due: true };
+  let pull = (held?.pull ?? 0) + (held?.month === month ? 0 : 1 / weight);
   const due = pull >= 1;
   if (due) pull -= 1;
-  table.put({ id: key, pull, month } as never);
-  return due;
+  return { pull, month, due };
+}
+
+function foundingDue(api: CoreAPI, market: Market): boolean {
+  if (market.weight <= 1) return true;
+  const table = store(api).table("foundingPulls");
+  const key = `${market.placeId}|${market.kindId}`;
+  const step = foundingPullStep(
+    table.get(key) as { pull: number; month: string } | undefined,
+    core(api).date.slice(0, 7),
+    market.weight,
+  );
+  table.put({ id: key, pull: step.pull, month: step.month } as never);
+  return step.due;
 }
 
 function found(
