@@ -269,7 +269,8 @@
         "src/core2/world-race-incumbency.test.ts",
         "src/core2/world-races-fold.test.ts",
         "src/core2/world-races-no-district.test.ts",
-        "src/core2/world-races.test.ts"
+        "src/core2/world-races.test.ts",
+        "src/core2/election-winner-names.test.ts"
       ]
     },
     {
@@ -331,7 +332,13 @@
         "src/core2/town-hall-evening-cost.test.ts",
         "src/core2/town-hall-question-seat.test.ts",
         "src/core2/unemployment-program-reversal.test.ts",
-        "src/core2/world-legislating-federal.test.ts"
+        "src/core2/world-legislating-federal.test.ts",
+        "src/core2/ask-waits-for-the-chair.test.ts",
+        "src/core2/bargaining-price.test.ts",
+        "src/core2/floor-every-bill.test.ts",
+        "src/core2/record-vote-per-question.test.ts",
+        "src/core2/second-chamber-own-day.test.ts",
+        "src/core2/sitting-focus.test.ts"
       ]
     },
     {
@@ -427,7 +434,10 @@
         "src/core2/town-seat-party.test.ts",
         "src/core2/township-board-terms.test.ts",
         "src/core2/wide-races.test.ts",
-        "src/core2/civic-inputs.ts"
+        "src/core2/civic-inputs.ts",
+        "src/core2/staff-dismissal-after-attendance.test.ts",
+        "src/core2/staff-player-clock.test.ts",
+        "src/core2/succession.test.ts"
       ]
     },
     {
@@ -808,7 +818,9 @@
         "src/core2/unemployment-state-fund.test.ts",
         "src/core2/unfilled-opening-pay.test.ts",
         "src/core2/wholesale-outside-buyers.test.ts",
-        "src/core2/work.test.ts"
+        "src/core2/work.test.ts",
+        "src/core2/closure-credit-line.test.ts",
+        "src/core2/public-hire-authority.test.ts"
       ]
     },
     {
@@ -1098,7 +1110,12 @@
         "src/core2/views.test.ts",
         "src/core2/vote-outcome-recorded.test.ts",
         "src/core2/world-game.test.ts",
-        "src/core2/world-poverty.test.ts"
+        "src/core2/world-poverty.test.ts",
+        "src/core2/fill-in-pooled-flows.test.ts",
+        "src/core2/journal-fold.test.ts",
+        "src/core2/medical-payer-parts.test.ts",
+        "src/core2/moves-minors.test.ts",
+        "src/core2/rerate-counted-job.test.ts"
       ]
     },
     {
@@ -1122,7 +1139,11 @@
         "src/core2/past.test.ts",
         "src/core2/pre-start-people.test.ts",
         "src/core2/pre-start.test.ts",
-        "src/core2/shared-history-past.test.ts"
+        "src/core2/shared-history-past.test.ts",
+        "src/core2/day-zero.test.ts",
+        "src/core2/pre-start-government.test.ts",
+        "src/core2/relatives-elsewhere-past.test.ts",
+        "src/core2/whole-past.test.ts"
       ]
     },
     {
@@ -1242,7 +1263,8 @@
         "src/core2/world-economy-setting.test.ts",
         "src/core2/world-metrics-resident-rate.test.ts",
         "src/core2/world-settings.test.ts",
-        "src/districts/**"
+        "src/districts/**",
+        "src/maps/**"
       ]
     },
     {
@@ -1291,31 +1313,7 @@
       "id": "screens",
       "name": "Screens and the UI kit",
       "entry": ["src/bench/ui/**"],
-      "paths": [
-        "src/bench/**",
-        "src/core2/ask-waits-for-the-chair.test.ts",
-        "src/core2/bargaining-price.test.ts",
-        "src/core2/closure-credit-line.test.ts",
-        "src/core2/day-zero.test.ts",
-        "src/core2/election-winner-names.test.ts",
-        "src/core2/fill-in-pooled-flows.test.ts",
-        "src/core2/floor-every-bill.test.ts",
-        "src/core2/journal-fold.test.ts",
-        "src/core2/medical-payer-parts.test.ts",
-        "src/core2/moves-minors.test.ts",
-        "src/core2/pre-start-government.test.ts",
-        "src/core2/public-hire-authority.test.ts",
-        "src/core2/record-vote-per-question.test.ts",
-        "src/core2/relatives-elsewhere-past.test.ts",
-        "src/core2/rerate-counted-job.test.ts",
-        "src/core2/second-chamber-own-day.test.ts",
-        "src/core2/sitting-focus.test.ts",
-        "src/core2/staff-dismissal-after-attendance.test.ts",
-        "src/core2/staff-player-clock.test.ts",
-        "src/core2/succession.test.ts",
-        "src/core2/whole-past.test.ts",
-        "src/release/**"
-      ]
+      "paths": ["src/bench/**", "src/release/**", "desktop/**"]
     }
   ]
 }
