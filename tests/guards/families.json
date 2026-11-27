@@ -1114,10 +1114,7 @@
     {
       "id": "past",
       "name": "The past before the start",
-      "entry": [
-        "src/core2/past.ts",
-        "src/core2/past-module.ts"
-      ],
+      "entry": ["src/core2/past.ts", "src/core2/past-module.ts"],
       "paths": [
         "src/core2/past.ts",
         "src/core2/past-*.ts",
@@ -1284,21 +1281,13 @@
     {
       "id": "director",
       "name": "The story director",
-      "entry": [
-        "src/director/*.ts"
-      ],
-      "paths": [
-        "src/director/**",
-        "src/core2/speech-afterward-pledge.test.ts"
-      ]
+      "entry": ["src/director/*.ts"],
+      "paths": ["src/director/**", "src/core2/speech-afterward-pledge.test.ts"]
     },
     {
       "id": "english",
       "name": "The English engine",
-      "entry": [
-        "src/english/*.ts",
-        "src/english/plain-words.mjs"
-      ],
+      "entry": ["src/english/*.ts", "src/english/plain-words.mjs"],
       "paths": [
         "src/english/**",
         "data/english/**",
@@ -1308,9 +1297,7 @@
     {
       "id": "screens",
       "name": "Screens and the UI kit",
-      "entry": [
-        "src/bench/ui/**"
-      ],
+      "entry": ["src/bench/ui/**"],
       "paths": [
         "src/bench/**",
         "src/core2/ask-waits-for-the-chair.test.ts",
