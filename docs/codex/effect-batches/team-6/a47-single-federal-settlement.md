@@ -10,7 +10,7 @@ This renewal is a branch candidate for the existing A47 pull request. It is not 
 
 ## WHAT EMERGED
 
-HARDWIRED: The monthly caller uses the common government account and no longer invokes the forecast settler (`src/simulation/public-budgets/index.ts`). In all 56 controlled place contexts, the scheduled monthly handler records the saved partial payment and the actual cash balance. No person receives a service merely because this accounting pass ran. No official decision is claimed.
+HARDWIRED: The monthly caller uses the common government account and no longer invokes the forecast settler ([src/simulation/public-budgets/index.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/public-budgets/index.ts)). In all 56 controlled place contexts, the scheduled monthly handler records the saved partial payment and the actual cash balance. No person receives a service merely because this accounting pass ran. No official decision is claimed.
 
 ## 1. Why-chain
 

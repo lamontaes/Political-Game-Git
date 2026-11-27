@@ -20,7 +20,7 @@ In the minority you can't pass much on your own, but you aren't powerless. You c
 - `src/simulation/legislation.ts:2214 takeFloorVote`, quorum check `:2276–2296` ("cannot transact business"); councils `municipal-ordinance-procedure.ts:568` (time between readings), `:592–645` (charter quorum).
 - `src/simulation/types.ts:4822 LegislativeActionKind`: no tabled, postponed, recommitted or quorum-failed kinds; `died-on-adjournment` exists.
 - `src/simulation/governing/chamber-votes.ts:840 decideChamberVote`; absences at `legislative-clock.ts` ~`:462`, `:488`.
-- `src/simulation/legislature-game-profile.ts` (read / estimated pattern) and `legislature-rule-packs.ts`.
+- [src/simulation/legislature-game-profile.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/legislature-game-profile.ts) (read / estimated pattern) and `legislature-rule-packs.ts`.
 - b08 bargaining (`presentation/legislative-bargaining.ts`) for deals; b09 part 1 for the player's own amendments; b10 for leaders.
 
 ## What to change

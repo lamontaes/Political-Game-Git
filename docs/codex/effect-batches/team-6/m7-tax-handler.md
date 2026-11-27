@@ -10,10 +10,10 @@ The four handler source paths are listed below. Coordinator-owned registry, engi
 
 | Path                                          | Scope                                                |
 | --------------------------------------------- | ---------------------------------------------------- |
-| `src/simulation/law-consequences/tax.ts`      | Dedicated handler and registration export            |
-| `src/simulation/law-consequences/tax.test.ts` | Saved-person handler proof                           |
-| `src/simulation/tax-policy.ts`                | Optional assessment stamp and collection propagation |
-| `src/simulation/tax-types.ts`                 | Optional historical stamp fields                     |
+| [src/simulation/law-consequences/tax.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/law-consequences/tax.ts)      | Dedicated handler and registration export            |
+| [src/simulation/law-consequences/tax.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/law-consequences/tax.test.ts) | Saved-person handler proof                           |
+| [src/simulation/tax-policy.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/tax-policy.ts)                | Optional assessment stamp and collection propagation |
+| [src/simulation/tax-types.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/tax-types.ts)                 | Optional historical stamp fields                     |
 
 ## Saved consequences
 

@@ -17,7 +17,7 @@ LAND's ACK is correct as stated; nothing to correct.
 | Original base                    | `f22fd314e72bec0440044026ccdfd99e7a67600d` (still actual main)      |
 
 Composed by merging `origin/claude/land-main` at that exact SHA. One file
-conflicted, `src/presentation/legislation-world.ts`. It was **not** resolved by
+conflicted, [src/presentation/legislation-world.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/legislation-world.ts). It was **not** resolved by
 transplanting the older version: the file was restored byte-for-byte from
 5ed9bbd0 and the dehardwire delta re-expressed against it.
 
@@ -82,7 +82,7 @@ So the two are split:
 
 ## The immediate endpoint, proven
 
-`src/presentation/dehardwire-packet-coherence.test.ts` walks the ordinary
+[src/presentation/dehardwire-packet-coherence.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/dehardwire-packet-coherence.test.ts) walks the ordinary
 route — a life, a candidacy filed, the campaign played to a win, a seated term,
 the office's bill, the floor — and then asserts that all of it describes the
 same measure in the same institution:
@@ -138,7 +138,7 @@ of the Playwright lane, `test:run-a/b/c`.
 
 ## One finding about #255 itself
 
-`tests/e2e/pr79f-production-floor.spec.ts` — the browser journey through the
+[tests/e2e/pr79f-production-floor.spec.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/pr79f-production-floor.spec.ts) — the browser journey through the
 route a player opens — **times out waiting for `getByTestId('elsewhere-work')`**
 at the very start, before any bill is reached. It is a navigation locator, not a
 measure-identity assertion.

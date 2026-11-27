@@ -4,7 +4,7 @@ The game now receives an anonymous electoral calibration projection and independ
 
 ## The two corrections
 
-**Measured:** The projection retains all 636 structured electoral observations and presidential vote totals while excluding governor names, personal source URLs, portraits, biographies and election notes. The source-integrity test reconciles the projection against the preserved corpus in `src/simulation/world-setup/electoral-calibration-source.test.ts:81`.
+**Measured:** The projection retains all 636 structured electoral observations and presidential vote totals while excluding governor names, personal source URLs, portraits, biographies and election notes. The source-integrity test reconciles the projection against the preserved corpus in [src/simulation/world-setup/electoral-calibration-source.test.ts:81](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/world-setup/electoral-calibration-source.test.ts).
 
 **Measured:** All 62 research files, captures and locks checked against the baseline remain byte-identical. Their hashes and paths are recorded in `docs/reports/2026-10-data-fix-preserved-research.json:4` (removed).
 
@@ -18,7 +18,7 @@ The game now receives an anonymous electoral calibration projection and independ
 
 **Measured:** The salary reader and payment calculation retain their logic. The recorded baseline-to-head diff covers both components and contains only source documentation and attribution changes in [the validation receipt](2026-10-data-fix-checks.json).
 
-**Inferred:** The new estimates and changed facts can change pay amounts and subsequent simulation records. That follows the existing estimate reader, which ranks official same-office salaries by Census region and income distance in `src/simulation/office-pay.ts:141`.
+**Inferred:** The new estimates and changed facts can change pay amounts and subsequent simulation records. That follows the existing estimate reader, which ranks official same-office salaries by Census region and income distance in [src/simulation/office-pay.ts:141](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/office-pay.ts).
 
 ## Checks and remaining work
 

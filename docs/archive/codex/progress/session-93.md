@@ -6,7 +6,7 @@
   every held office with its office key, title, jurisdiction, and economy level.
 - The focused office-consequence test passes. Prettier passes after formatting.
 - Full typecheck reaches two pre-existing `PlaySettings.personalLifeDepiction`
-  errors in `src/simulation/press/press-premise.test.ts`.
+  errors in [src/simulation/press/press-premise.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/90aff691e94ab9b60e6ba98ce85969211d235802/src/simulation/press/press-premise.test.ts).
 
 ## Publication limit
 

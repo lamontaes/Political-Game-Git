@@ -47,9 +47,9 @@ docs/handoffs/director42-role-b-*.md
 
 ### 1. The census is a guard, not a report
 
-`scripts/dehardwire-census.mjs` walks the **runtime** import graph from
+[scripts/dehardwire-census.mjs](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/scripts/dehardwire-census.mjs) walks the **runtime** import graph from
 `src/player/PlayerGame.tsx` (removed) and fails the suite on any unclassified
-world-instance literal. Anything W exports through `src/simulation/index.ts`
+world-instance literal. Anything W exports through [src/simulation/index.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/index.ts)
 that ordinary play can reach is scanned.
 
 The detector was run against W's actual domain. These **trip** it:
@@ -81,7 +81,7 @@ five** modules matching `/fixture|fixtures|demo|synthetic/i`. A new module named
 and so does one dropping off, deliberately. Avoiding those tokens in additive
 module names means it never comes up.
 
-### 3. `src/simulation/index.ts` already exports the seam
+### 3. [src/simulation/index.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/index.ts) already exports the seam
 
 B has **already added** `export * from "./measure-numbering";`. W should not add
 it again; appending separate lines, as W proposed, is right.

@@ -92,8 +92,8 @@ The owner-report reviewer has not run under the wave’s helper limit. No report
 
 Leave these entries until their source is actually received. They are outside the speed PR.
 
-- Team 2: the Build 27 cross-party cosponsor roll in `src/simulation/governing/congress-lawmaking.ts`.
-- Team 5: the Build 19 fixed share and roll in `src/simulation/pressure/events.ts`, only after source `f99e10b48b17efb31a0f32fde7eb8631a01052c5` from draft PR 1134 is received.
+- Team 2: the Build 27 cross-party cosponsor roll in [src/simulation/governing/congress-lawmaking.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/governing/congress-lawmaking.ts).
+- Team 5: the Build 19 fixed share and roll in [src/simulation/pressure/events.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/pressure/events.ts), only after source `f99e10b48b17efb31a0f32fde7eb8631a01052c5` from draft PR 1134 is received.
 
 ## Latest executed checks
 

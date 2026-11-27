@@ -4,9 +4,9 @@ From Claude CTO, for one Codex run. Read `AGENTS.md` first; its standing rules b
 
 ## Where things stand
 
-`npm run unwired-laws` on main (`f0b7cdfd6`) says **82 of 92 policy questions** have a sized, built effect path. The ten that don't are listed in `scripts/unwired-laws/allowlist.json`.
+`npm run unwired-laws` on main (`f0b7cdfd6`) says **82 of 92 policy questions** have a sized, built effect path. The ten that don't are listed in [scripts/unwired-laws/allowlist.json](https://github.com/lamontaes/Political-Game-Git/blob/c3c860cd634d2c2d193e2d361c31b0ab37e529d2/scripts/unwired-laws/allowlist.json).
 
-How a law counts as wired is defined in `src/simulation/governing/law-effect-paths.ts`. There are two ways:
+How a law counts as wired is defined in [src/simulation/governing/law-effect-paths.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/governing/law-effect-paths.ts). There are two ways:
 
 1. **An outcome-web link.** A link in `data/research/outcome-web/links.json` from `law:<question key>` whose status is `built`: its size is set, its cause is read, and its outcome is produced.
 2. **A direct module.** A module that reads the law in force and changes a paycheck, a budget, a rent, a seat, a court outcome or a business's costs. It is listed in `DIRECT_PATHS` or `JUSTICE_PATHS` with the file that does it.
@@ -19,12 +19,12 @@ Most of the ten already have about-zero links, and **those are correct: keep the
 
 - One branch, `codex/wire-last-ten-laws`, and one PR, with one commit per law. Don't merge it; Claude CTO gates and merges.
 - Every law gets its own direct path:
-  - a module that reads the law in force through the existing law-in-force reader, the way `src/simulation/state-paid-leave-law.ts` or `src/simulation/justice/pretrial.ts` does;
+  - a module that reads the law in force through the existing law-in-force reader, the way [src/simulation/state-paid-leave-law.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/state-paid-leave-law.ts) or [src/simulation/justice/pretrial.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/justice/pretrial.ts) does;
   - an entry in `DIRECT_PATHS` or `JUSTICE_PATHS` (add a `LawEffectPathKind` if none fits);
   - its sizes from the bill's own terms;
   - a watched-world test.
-- **The bill carries the amounts.** Numeric terms (a dollar cap, a share, a number of years, an admissions level) come from the bill's terms record, written by the sponsor from their views and current law. See how `src/simulation/public-budgets/tuition-freeze.ts` and the minimum-wage bills read their terms. Never use a stand-in constant for a term a bill can set.
-- **Starting law is real 2026 law.** Check `data/research/laws/starting-law-2026.json` for each question. Where a place already has the law (for example, 36 states require voter ID), the world starts with it in force and the path runs from day one.
+- **The bill carries the amounts.** Numeric terms (a dollar cap, a share, a number of years, an admissions level) come from the bill's terms record, written by the sponsor from their views and current law. See how [src/simulation/public-budgets/tuition-freeze.ts](https://github.com/lamontaes/Political-Game-Git/blob/f3452ed70f98bc9546e6502bb8e34c655f119c36/src/simulation/public-budgets/tuition-freeze.ts) and the minimum-wage bills read their terms. Never use a stand-in constant for a term a bill can set.
+- **Starting law is real 2026 law.** Check [data/research/laws/starting-law-2026.json](https://github.com/lamontaes/Political-Game-Git/blob/e52a5470f137d5572f06922833389b435b773e64/data/research/laws/starting-law-2026.json) for each question. Where a place already has the law (for example, 36 states require voter ID), the world starts with it in force and the path runs from day one.
 - **Who does what is decided, never rolled.** A person's age, license, car, income, schedule, views, engagement, debts and household decide their action. Real rates check the totals in the test; they never pick one person.
 - **Unread values start from real averages** with a per-world spread, marked ESTIMATED FROM AVERAGE with the source.
 - **Research first, briefly.** Each law below names what to look up. Put the numbers and sources in a data file under `data/research/laws/`, not in code.
@@ -47,7 +47,7 @@ Each entry says what happens on the day the law takes effect, who pays, what to 
 
 **Keep:** the turnout and registration links stay about-zero (Cantoni and Pons 2021). The net turnout effect is near zero; the costs are real.
 
-**Hook into:** election day in `src/simulation/living-world/local-elections.ts` and the state and federal election runners, the state budget (`src/simulation/public-budgets/`), and the jobs and pay records.
+**Hook into:** election day in [src/simulation/living-world/local-elections.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/local-elections.ts) and the state and federal election runners, the state budget ([src/simulation/public-budgets/](https://github.com/lamontaes/Political-Game-Git/tree/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/public-budgets)), and the jobs and pay records.
 
 **Research:** the share of adults without a current photo ID by age and income; state fiscal notes for free-ID programs (Missouri, North Carolina, Wisconsin); provisional-ballot cure rates.
 
@@ -60,7 +60,7 @@ Each entry says what happens on the day the law takes effect, who pays, what to 
 - Their household money reflects it.
 - Lobbying firms in that capital lose a hire they would have made.
 
-**Hook into:** whatever handles people leaving office (term limits in `src/simulation/nationwide-world/state-legislative-term-limits.ts`, lost elections) and the jobs and employers system.
+**Hook into:** whatever handles people leaving office (term limits in [src/simulation/nationwide-world/state-legislative-term-limits.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/nationwide-world/state-legislative-term-limits.ts), lost elections) and the jobs and employers system.
 
 - If no lobbying employer kind exists, add one. Place it in each state capital and in D.C., with counts from registered-lobbyist data and pay from wage data.
 - If departing officeholders don't take a next job today, build that step for everyone leaving office. That is the whole-module rule.
@@ -71,7 +71,7 @@ Each entry says what happens on the day the law takes effect, who pays, what to 
 
 **What happens:**
 
-- The question moves from local school boards to the state, so it is an **authority gate**, like home rule in `src/simulation/governing/question-authority.ts`. Local boards can no longer answer curriculum questions while it is in force.
+- The question moves from local school boards to the state, so it is an **authority gate**, like home rule in [src/simulation/governing/question-authority.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/governing/question-authority.ts). Local boards can no longer answer curriculum questions while it is in force.
 - Adopting new standards costs districts a materials-and-training cycle per pupil, paid from school budgets over the bill's phase-in.
 
 **Keep:** the math-score link stays about-zero (Song, Garet and Yang 2022).
@@ -87,7 +87,7 @@ Each entry says what happens on the day the law takes effect, who pays, what to 
 - The state pays land-management costs.
 - Each town's nearby public acreage comes from data, as ESTIMATED FROM AVERAGE where unread.
 
-**Hook into:** `src/simulation/living-world/town-businesses.ts` and `town-business-books.ts`, and the state budget.
+**Hook into:** [src/simulation/living-world/town-businesses.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/town-businesses.ts) and `town-business-books.ts`, and the state budget.
 
 **Research:** PAD-US acreage by county; BEA Outdoor Recreation Satellite Account spending per visit; state land-management cost per acre.
 
@@ -133,7 +133,7 @@ Each entry says what happens on the day the law takes effect, who pays, what to 
 
 **Keep:** the poverty link stays about-zero. Size `student-debt-relief-to-finances` (past-due debt), which currently has no size, and change its status to built.
 
-**Hook into:** household finances (`town-finance-types.ts` already has household `debt`), paychecks and budgets, and the federal outlays in `src/simulation/federal-outlay-laws.ts`.
+**Hook into:** household finances (`town-finance-types.ts` already has household `debt`), paychecks and budgets, and the federal outlays in [src/simulation/federal-outlay-laws.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/federal-outlay-laws.ts).
 
 **Research:** the share of adults with student debt and their balances by age; the typical payment; research on past-due rates after forgiveness (for example, the 2022–2024 relief studies).
 
@@ -141,7 +141,7 @@ Each entry says what happens on the day the law takes effect, who pays, what to 
 
 **What happens:**
 
-- When a disaster gets a federal declaration (`src/simulation/crisis/disaster.ts`, `disaster-warrants.ts`), the federal share of repair costs falls from the Stafford Act's 75% to the bill's share.
+- When a disaster gets a federal declaration ([src/simulation/crisis/disaster.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/crisis/disaster.ts), `disaster-warrants.ts`), the federal share of repair costs falls from the Stafford Act's 75% to the bill's share.
 - The state budget pays the difference.
 - Where the state budget is tight, repairs slow. Repair capacity is already modeled; tie it to the money.
 
@@ -153,7 +153,7 @@ Each entry says what happens on the day the law takes effect, who pays, what to 
 
 - Federal cases get shorter sentences under the bill's new minimums.
 - People come home sooner and go back to their households, jobs and earnings.
-- The state mandatory-minimum path already exists in `src/simulation/justice/court-reasoning.ts`. Mirror it for federal charges.
+- The state mandatory-minimum path already exists in [src/simulation/justice/court-reasoning.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/justice/court-reasoning.ts). Mirror it for federal charges.
 - Whether a case is federal is decided by the offense's own facts (amount, interstate conduct, firearm), never rolled. If the justice module has no federal jurisdiction yet, add it for the offense kinds that are federal, sized to the real federal share.
 
 **Keep:** the crime link stays about-zero. Size `mandatory-minimum-cut-to-federal-prisoners`, which currently has no size, and change its status to built.
@@ -171,7 +171,7 @@ Each entry says what happens on the day the law takes effect, who pays, what to 
 
 **Keep:** the member-returns link stays about-zero (Chen and Sacerdote 2026).
 
-**Hook into:** officeholder people records, the press records (`src/simulation/press/records.ts`) and household money.
+**Hook into:** officeholder people records, the press records ([src/simulation/press/records.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/records.ts)) and household money.
 
 **Research:** the share of members holding individual stocks (financial disclosures), median holdings, and blind-trust costs.
 

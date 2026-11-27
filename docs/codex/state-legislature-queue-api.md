@@ -4,7 +4,7 @@ State legislative preparation can register a pack's next real calendar boundary 
 
 ## API
 
-The APIs are defined in `src/simulation/nationwide-world/state-legislature-queue.ts:94` and the exported planner and dispatcher in `src/simulation/nationwide-world/state-legislature-turnover.ts:1429`. The producer module exports:
+The APIs are defined in [src/simulation/nationwide-world/state-legislature-queue.ts:94](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/nationwide-world/state-legislature-queue.ts) and the exported planner and dispatcher in [src/simulation/nationwide-world/state-legislature-turnover.ts:1429](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/nationwide-world/state-legislature-turnover.ts). The producer module exports:
 
 - `prepareStateLegislatureQueue(world: World, before: IsoDate, throughYear: number): World`: preserves the existing opening/catch-up call once, then registers each opened pack.
 - `reconcileStateLegislatureQueue(world: World, packId: string, throughYear: number): World`: replaces only pending future obligations when the pack's source inputs or horizon change.
@@ -16,7 +16,7 @@ The turnover module exports `stateLegislatureWakePlan(world, packId, throughYear
 
 ## Saved identity and dates
 
-The saved-wake structure is defined in `src/simulation/nationwide-world/state-legislature-queue.ts:37`. Existing `futureDueItems` and `futureDueItemStates` hold all persistent schedule state. The transition key is `state-legislature:dated-wake-v1`. The stable key contains the version, pack, election day, stage, due date and source revision. A canceled obligation that becomes required again receives a deterministic reschedule generation derived from its terminal state sequence. Reopening a save retains those identities.
+The saved-wake structure is defined in [src/simulation/nationwide-world/state-legislature-queue.ts:37](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/nationwide-world/state-legislature-queue.ts). Existing `futureDueItems` and `futureDueItemStates` hold all persistent schedule state. The transition key is `state-legislature:dated-wake-v1`. The stable key contains the version, pack, election day, stage, due date and source revision. A canceled obligation that becomes required again receives a deterministic reschedule generation derived from its terminal state sequence. Reopening a save retains those identities.
 
 The authored provenance note holds a compact versioned payload: pack ID, election day, stage, due date, revision and horizon. Its referenced entity is the existing canonical legislature-opening event, and its jurisdiction is that pack's actual state jurisdiction. This payload is dispatch metadata, not an election result or legislative authority.
 

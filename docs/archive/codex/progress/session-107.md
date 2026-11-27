@@ -10,7 +10,7 @@ next queue item ready for an authenticated workspace.
 - Confirmed that payday already uses dated future transitions and is absent
   from the daily simulation loop.
 - Recorded the focused before/after verification receipt in
-  `docs/codex/progress/session-107-sp-02-profile.md`.
+  [docs/codex/progress/session-107-sp-02-profile.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/progress/session-107-sp-02-profile.md).
 
 ## Next
 

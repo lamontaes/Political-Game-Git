@@ -16,21 +16,21 @@ Current main marks LW-09 and LW-10 done with unsupported effects recorded. T3 an
   merged as main commit `8c3255f61`.
 - Pool row LW-03 was already implemented on main in [PR #2476](https://github.com/lamontaes/Political-Game-Git/pull/2476), commit
   `493b16f2`. The tax terms pack defines federal income, sales, payroll and
-  corporate tax consequence rows in `data/research/laws/catalog-terms-batch-03.json`.
+  corporate tax consequence rows in [data/research/laws/catalog-terms-batch-03.json](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/data/research/laws/catalog-terms-batch-03.json).
   The law consequence registry routes them through the tax handler in
-  `src/simulation/law-consequence-registry.ts`. Its focused test checks all
+  [src/simulation/law-consequence-registry.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/law-consequence-registry.ts). Its focused test checks all
   four rows and the 56-jurisdiction state-level restriction in
-  `src/simulation/policy-pack-tax-terms.test.ts`.
+  [src/simulation/policy-pack-tax-terms.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/src/simulation/policy-pack-tax-terms.test.ts).
 
 ## LW-12 audit notes
 
-- `data/research/laws/lw09-effect-readiness.json` now recognizes named federal loan and noncash discharge writers and records the missing law-consequence binding.
-- The federal loan writer is in `src/simulation/student-debt.ts`; the noncash discharge writer is in `src/simulation/household-loans.ts`.
-- `data/research/laws/catalog-terms-batch-04.json` leaves student-loan cap and eligibility bounds unresolved.
-- Current main marks LW-10 done in `docs/codex/assignments/POOL.md`. Merged [PR #2516](https://github.com/lamontaes/Political-Game-Git/pull/2516) supplies its mandatory-minimum row. The stock-trading link remains unsized because the source measures descriptive returns and the game has no member holdings for the effect to change (`data/research/outcome-web/links.json#congress-stock-ban-to-member-returns`).
-- LW-11 remains claimed by S20 in the current pool, which marks LW-12 open with a stale S43 claim (`docs/codex/assignments/POOL.md`). Merged [PR #2495](https://github.com/lamontaes/Political-Game-Git/pull/2495) lands the legislative-term-limit effect; its map lists redistricting, automatic registration, and local-authority effects as unsupported (`data/law-consequences/election-state-landings.json`).
+- [data/research/laws/lw09-effect-readiness.json](https://github.com/lamontaes/Political-Game-Git/blob/5241c1b38679494a9e5f87ea31931b20ebae158c/data/research/laws/lw09-effect-readiness.json) now recognizes named federal loan and noncash discharge writers and records the missing law-consequence binding.
+- The federal loan writer is in [src/simulation/student-debt.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/student-debt.ts); the noncash discharge writer is in [src/simulation/household-loans.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/household-loans.ts).
+- [data/research/laws/catalog-terms-batch-04.json](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/data/research/laws/catalog-terms-batch-04.json) leaves student-loan cap and eligibility bounds unresolved.
+- Current main marks LW-10 done in [docs/codex/assignments/POOL.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/assignments/POOL.md). Merged [PR #2516](https://github.com/lamontaes/Political-Game-Git/pull/2516) supplies its mandatory-minimum row. The stock-trading link remains unsized because the source measures descriptive returns and the game has no member holdings for the effect to change (`data/research/outcome-web/links.json#congress-stock-ban-to-member-returns`).
+- LW-11 remains claimed by S20 in the current pool, which marks LW-12 open with a stale S43 claim ([docs/codex/assignments/POOL.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/assignments/POOL.md)). Merged [PR #2495](https://github.com/lamontaes/Political-Game-Git/pull/2495) lands the legislative-term-limit effect; its map lists redistricting, automatic registration, and local-authority effects as unsupported ([data/law-consequences/election-state-landings.json](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/data/law-consequences/election-state-landings.json)).
 - The readiness correction is open for review in [PR #3485](https://github.com/lamontaes/Political-Game-Git/pull/3485); it is mergeable and remains unmerged.
-- Current branch `session-56-t6` is based on `origin/main` `c8365c50c`. The T6 focused random-world proofs are in `src/simulation/traits/effects/facet-cruel-court.proof.test.ts`; actual court and clemency producer trace checks are in `src/simulation/justice/court-trait-producers.test.ts`.
+- Current branch `session-56-t6` is based on `origin/main` `c8365c50c`. The T6 focused random-world proofs are in [src/simulation/traits/effects/facet-cruel-court.proof.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/traits/effects/facet-cruel-court.proof.test.ts); actual court and clemency producer trace checks are in [src/simulation/justice/court-trait-producers.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/justice/court-trait-producers.test.ts).
 
 ---
 
@@ -52,7 +52,7 @@ Updated October 6, 2026. Working tree: `session-56/b32-part-2-unified-sittings`,
 - `git diff --check`: passed.
 - `npx eslint` on changed TypeScript files: passed.
 - `typecheck-test-imports.ts`: passed; 0 unresolved imports across 804 test files.
-- `npm run typecheck`: blocked by the two existing #2445 `PlaySettings.personalLifeDepiction` errors in `src/simulation/press/press-premise.test.ts`; no errors in changed files.
+- `npm run typecheck`: blocked by the two existing #2445 `PlaySettings.personalLifeDepiction` errors in [src/simulation/press/press-premise.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/90aff691e94ab9b60e6ba98ce85969211d235802/src/simulation/press/press-premise.test.ts); no errors in changed files.
 - Bounded D.C. and calendar tests: 2 passed, 20 skipped.
 - Bounded local council clock parity case: 1 passed, 11 skipped.
 - Shared sequencer unit tests: 2 passed.
@@ -61,7 +61,7 @@ Updated October 6, 2026. Working tree: `session-56/b32-part-2-unified-sittings`,
 ## LW-12 audit notes
 
 1. The b32-p2 and b32-p3 review PRs are open: #2528 and #2531. Do not merge.
-2. Refresh `docs/codex/assignments/POOL.md` and the newest Fable map; pick the next open item by priority, and verify no recent claim or duplicate scope before edits.
+2. Refresh [docs/codex/assignments/POOL.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/assignments/POOL.md) and the newest Fable map; pick the next open item by priority, and verify no recent claim or duplicate scope before edits.
 3. Preserve the LW04 tax-terms draft and avoid duplicate LW03/LW04 tax bindings/catalog work.
 
 Exact next command after restart: `git status --short --branch` in `/workspace/Political-Game-Git`.

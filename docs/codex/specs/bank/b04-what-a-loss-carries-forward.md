@@ -17,7 +17,7 @@ You lost. The game does not end and does not hand you a consolation score. What 
 - `src/simulation/campaign-recognition.ts:43 doorKnockingReturn` (:79-118): counts every `campaign.contact` interaction the candidate ever had: contacts from a lost race ALREADY carry into the next one.
 - `src/simulation/official-view-reads.ts:168 viewOfOfficial`, `:277 townSupportFromViews` (recent views weigh more): residents' saved views of the candidate persist as private beliefs.
 - `src/simulation/speech-reception.ts:119 electionNightWitnesses`, `:146 speechReactionOf`: how the people in the room took the concession.
-- `src/simulation/campaign-money-sources.ts:49-52` `"leftover-funds"` source: unbuilt.
+- [src/simulation/campaign-money-sources.ts:49-52](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/campaign-money-sources.ts) `"leftover-funds"` source: unbuilt.
 - `src/simulation/living-world/party-chapters.ts:813 joinPartyChapter`, `:889 leavePartyChapter`: the existing organization-participation pattern for a group with members.
 - `src/simulation/living-world/civic-actions.ts:57-63 STAKE.groupMember`: group members already contact officials and attend meetings more.
 - `src/simulation/neighbor-news.ts:58 peopleTiedTo`, `:96 tellPeopleOf`: news traveling the tie graph.

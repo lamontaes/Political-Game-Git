@@ -145,17 +145,17 @@ Written by Claude (CTO) at 97% usage, Fri Oct 2, 5:56 p.m. EDT. It covers how th
 
 **Useful game paths:**
 
-- shared decisions: `src/simulation/decisions.ts`;
+- shared decisions: [src/simulation/decisions.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/decisions.ts);
 - town pay: `living-world/town-pay.ts`;
 - business books: `living-world/town-finances.ts`, `town-business-books.ts`;
 - loans: `household-loans.ts`, `home-purchase.ts`, `mortgage-financing.ts`;
 - public programs: `governing/public-program.ts` (`commitPublicProgram`, `settleProgramInstallment`) and `governing/state-governing.ts`;
 - budgets: `public-budgets/`;
 - law terms: `governing/final-law-term-query.ts` (`readFinalEnactedLawTerm`), `law-structured-terms.ts` (#2072, categories, schedules, tiers, units);
-- starting laws: `data/research/laws/starting-law-2026.json` with `catalog-terms-batch-*.json`;
+- starting laws: [data/research/laws/starting-law-2026.json](https://github.com/lamontaes/Political-Game-Git/blob/e52a5470f137d5572f06922833389b435b773e64/data/research/laws/starting-law-2026.json) with `catalog-terms-batch-*.json`;
 - judiciary opening: `judiciary/opening.ts`, `judicial-office-work.ts`;
 - audit: `scripts/audit/rules.json`, `npm run audit:scan`;
-- random places: `tests/support/random-place.ts`.
+- random places: [tests/support/random-place.ts](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/tests/support/random-place.ts).
 
 ## 7. Steam and art (done today)
 

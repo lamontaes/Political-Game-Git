@@ -37,7 +37,7 @@ The indexed replacement `recordsByStringField` costs 0.253302 seconds self and 0
 
 MEASURED: 5.695762 seconds of context-person self samples came from state candidate intake. Inspection confirms incumbent traits and prospective context people are already batched per state intake invocation. Another identical batch is not a new fix. Daily intake still creates fresh batches and copies the growing roster.
 
-HARDWIRED: the owned context-person writer now uses the existing own-key order when copying a large roster. See `src/simulation/character-history.ts:674`. It preserves immutable source worlds and delays copying until a new person is needed. The new reload regression compares property order and complete canonical worlds against the existing single-person writer.
+HARDWIRED: the owned context-person writer now uses the existing own-key order when copying a large roster. See [src/simulation/character-history.ts:674](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/character-history.ts). It preserves immutable source worlds and delays copying until a new person is needed. The new reload regression compares property order and complete canonical worlds against the existing single-person writer.
 
 ## Wider knock-on effects and missing links
 

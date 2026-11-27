@@ -12,7 +12,7 @@ DECIDED: CTO's latest direction says “Bill numbers first, as you acknowledged.
 
 Measured source evidence: Florida Senate Rule3.10 numbers measures serially with even numbers without differentiating measure type. Michigan's official guide gives biennial House4001 and Senate1 starts and letters for joint resolutions. North Dakota confirms House1001 and Senate2001 starts. Guam's register shows assembly/session suffixes; those records alone do not prove a reset rule.
 
-HARDWIRED: `src/simulation/measure-numbering.ts` at the inspected baseline already has persistent session/designation logic. Its opening-number function spreads 2022 introduction totals across days and chambers; council opening numbers use one ordinance per week. These inherited assumptions are identified for audit, not changed or certified as observations.
+HARDWIRED: [src/simulation/measure-numbering.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/measure-numbering.ts) at the inspected baseline already has persistent session/designation logic. Its opening-number function spreads 2022 introduction totals across days and chambers; council opening numbers use one ordinance per week. These inherited assumptions are identified for audit, not changed or certified as observations.
 
 Inferred contract gap: a starting-number table alone cannot express every verified sequence, namespace or letter format. The packet recommends jurisdiction-specific allocation data and immutable prior designations. No in-game outcome or actor coefficient was produced.
 
@@ -33,7 +33,7 @@ Runtime connections added or changed: 0. Newly proved three-step chains: 0. The 
 - Owned files: the two companion research packets, this handback, the no-impact release declaration and additive Team9 claims row.
 - Three research/handback report checks PASS with 0 errors and 0 warnings after sentence/spelling repairs. Five changed Markdown files pass scoped American English (0 findings) and formatting. Whitespace passes.
 - Zero-dice exits 1 with 0 new and 2 gone inherited entries; no source edit or allowlist change. These same inherited findings appear in other current-main checkpoints.
-- Exact-range PR release check executes but reports an inherited invalid header in `docs/release/changes/wave1-record-backed-content.md`. Identical base-to-base check reports the same error, and the candidate has no delta in that file. The owned no-impact declaration is correctly delimited. This is a baseline failure, not a claimed pass.
+- Exact-range PR release check executes but reports an inherited invalid header in [docs/release/changes/wave1-record-backed-content.md](https://github.com/lamontaes/Political-Game-Git/blob/c3ca55ee4ac005043fcae9198ab30ca8eb32fd9e/docs/release/changes/wave1-record-backed-content.md). Identical base-to-base check reports the same error, and the candidate has no delta in that file. The owned no-impact declaration is correctly delimited. This is a baseline failure, not a claimed pass.
 - Game tests, scoped game types, browser acceptance and simulations: NOT RUN; no game/test file changes. Independent report reviewer: NOT RUN under the authorized two-research-helper limit.
 - Automation remains NOID/NOTSET; no unsupported retry. Coordinator's existing local collector covers the requested checkpoints.
 

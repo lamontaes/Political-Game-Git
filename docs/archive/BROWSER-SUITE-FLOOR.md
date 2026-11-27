@@ -41,7 +41,7 @@ gate that keeps candidate art out of a shipped build is open here. What is
 absent is the artwork.
 
 `PRIVATE_CANDIDATE_ART_AVAILABLE` in
-`src/presentation/private-candidate-manifests.ts` is a glob over
+[src/presentation/private-candidate-manifests.ts](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/src/presentation/private-candidate-manifests.ts) is a glob over
 
     art/manifest/character_candidate_{engine29,engine34,engine35,engine36,engine40,engine41,kit41}_{registry,generation}.json
     art/manifest/character_candidate_modular41_heads.json
@@ -56,7 +56,7 @@ about the artwork, not about the tests.
 ### The defect behind it
 
 When the manifests are absent the game says nothing. `setupForArtPreview` in
-`src/presentation/art-preview.ts` returns the setup unchanged and
+[src/presentation/art-preview.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/art-preview.ts) returns the setup unchanged and
 `prepareCandidateOpeningWorld` returns the world unchanged, so the player is
 quietly put back on the ordinary appearance path with no message, no marker and
 no test id. The preview banner still shows, which makes it worse: the screen
@@ -240,7 +240,7 @@ in this repository's validation is the browser suite; nothing else is.
 
 ### A green tick that proves a fixture
 
-`tests/e2e/district-seat-filing.spec.ts` walks the Alaska House filing route
+[tests/e2e/district-seat-filing.spec.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/district-seat-filing.spec.ts) walks the Alaska House filing route
 end to end and passes. It reaches that route by injecting
 `settledDistrictLife("US-AK", "Sitka", 700)` straight into the save store:
 seven hundred days of recorded residence, present before the test starts.
@@ -294,7 +294,7 @@ things about two different problems.
 This is a voice question rather than a defect and belongs to whoever owns
 player-facing prose. It is written down here so it does not evaporate. Note
 that the two are deliberately asserted separately in
-`tests/e2e/support/jurisdictions.ts` rather than reduced to a shared fragment:
+[tests/e2e/support/jurisdictions.ts](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/tests/e2e/support/jurisdictions.ts) rather than reduced to a shared fragment:
 collapsing them would let one path silently adopt the other's sentence without
 a test noticing.
 

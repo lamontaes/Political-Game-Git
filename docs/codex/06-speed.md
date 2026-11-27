@@ -19,11 +19,11 @@ Lamontae's diagnosis: systems apply everything to everyone every day. Whole-worl
 1. **A timing script.** Add `npm run speed:years -- --seed S --years N [--place GEOID]`. It prints seconds per year and a world fingerprint per year (SHA-256 of the saved world), so a speedup can prove the world stayed identical.
 2. **Profile year 9 on current main** with `node --cpu-prof`. Record the top inclusive and self-time functions in the hand-back. Start with the new work in the later range above: legislative nominees and vote counts, and seating 100 senators. Other known costs, from the year-7 profile:
    - garbage collection, 9.0 s;
-   - Congress turnover, 6.6 s (`src/simulation/living-world/congress-turnover.ts`);
-   - state legislature turnover, 6.2 s (`src/simulation/nationwide-world/state-legislature-turnover.ts`);
-   - copying history lists as they grow, 5.8 s (`appendedList` in `src/simulation/history-index.ts`);
-   - `migrateLegacyLegislativeSeats`, 1.8 s (`src/simulation/legislative-office-terms.ts`).
-3. **Fix the pattern, not one call site.** Wherever a step scans a whole history list, or every person, every day, replace it with an index (`growingIndex`, `recordById` or `recordsWithFieldValue` from `src/simulation/history-index.ts`) or a per-world cache, or make it run only on the day something relevant changed.
+   - Congress turnover, 6.6 s ([src/simulation/living-world/congress-turnover.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/congress-turnover.ts));
+   - state legislature turnover, 6.2 s ([src/simulation/nationwide-world/state-legislature-turnover.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/nationwide-world/state-legislature-turnover.ts));
+   - copying history lists as they grow, 5.8 s (`appendedList` in [src/simulation/history-index.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/history-index.ts));
+   - `migrateLegacyLegislativeSeats`, 1.8 s ([src/simulation/legislative-office-terms.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/legislative-office-terms.ts)).
+3. **Fix the pattern, not one call site.** Wherever a step scans a whole history list, or every person, every day, replace it with an index (`growingIndex`, `recordById` or `recordsWithFieldValue` from [src/simulation/history-index.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/history-index.ts)) or a per-world cache, or make it run only on the day something relevant changed.
    - Keep every answer and its order the same, and prove it with identical per-year fingerprints for ten years.
    - Build 18's history-list step 2 is approved: hold a day's new records and write each history list once per day.
 4. **The speed rule.** Add to `AGENTS.md` under the standing rules, and to the local gate: every change runs `npm run speed:years -- --years 3` against main, and fails if any year is more than 20% slower.

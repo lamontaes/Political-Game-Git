@@ -8,9 +8,9 @@ Nothing is merged. BG-20 is implemented locally on branch `work` but is not publ
 
 ## WHAT EMERGED
 
-- HARDWIRED — Selecting a hometown now opens the next real creator step immediately in `src/player/SetupScreen.tsx`.
-- HARDWIRED — The creator's shared browser helper now follows that direct transition in `tests/e2e/support/creator.ts`.
-- HARDWIRED — The BG-20 regression draws a locality from all 56 jurisdictions by the named seed `session-101-bg20-direct-place` in `tests/e2e/bg20-creator-place.spec.ts`.
+- HARDWIRED — Selecting a hometown now opens the next real creator step immediately in [src/player/SetupScreen.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/SetupScreen.tsx).
+- HARDWIRED — The creator's shared browser helper now follows that direct transition in [tests/e2e/support/creator.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/support/creator.ts).
+- HARDWIRED — The BG-20 regression draws a locality from all 56 jurisdictions by the named seed `session-101-bg20-direct-place` in [tests/e2e/bg20-creator-place.spec.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/bg20-creator-place.spec.ts).
 - Missing link — This checkout has no Git remote and GitHub CLI has no authentication. Session 101 could not post the claim or READY note on issue #2424.
 - Missing link — Browser proof is not complete because the storage guard reported no usable space above its 25 GiB reserve.
 

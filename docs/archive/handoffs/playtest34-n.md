@@ -12,7 +12,7 @@ Source review caught and corrected an overbroad fixture substitution before deli
 
 ## A/S receiver contract
 
-A alone owns roots. `docs/handoffs/systems30-n-root-adapter.patch` is still uninstalled; `git apply --check` passed against the continuation's unchanged banked root blobs. Native results controls retain the previous feature-local implementation. No installed or human visual acceptance is claimed.
+A alone owns roots. [docs/handoffs/systems30-n-root-adapter.patch](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/handoffs/systems30-n-root-adapter.patch) is still uninstalled; `git apply --check` passed against the continuation's unchanged banked root blobs. Native results controls retain the previous feature-local implementation. No installed or human visual acceptance is claimed.
 
 S ACK owns the valid legislative-seat collection and explicit scoped selector; N does not edit S readers or infer legislative membership from a presidential term. National receiver remains `nationalOfficeHolder(world, office) → null | {plan, state}`: canonical actual qualified work, living person and current represented term boundary. Separate vice-presidential work grants no presidential powers. Content packs grant no office authority.
 

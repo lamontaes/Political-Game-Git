@@ -79,7 +79,7 @@ authored prose durations, imported coefficients and implicit bank sizes need
 separate semantic review; this register alone is not a completed behavioral audit.
 Rows not explained above remain UNREVIEWED, not researched or approved.
 
-### `src/simulation/press/desk.ts`
+### [src/simulation/press/desk.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/desk.ts)
 
 | Line | Literal values | Source context                                                                  |
 | ---- | -------------- | ------------------------------------------------------------------------------- |
@@ -164,7 +164,7 @@ Rows not explained above remain UNREVIEWED, not researched or approved.
 | 2055 | 1, 0           | `if (names.length <= 1) return names[0] ?? "";`                                 |
 | 2056 | 0, 1, 1        | `return \`${names.slice(0, -1).join(", ")} and ${names.at(-1)}\`;`              |
 
-### `src/simulation/press/law-effect-news.ts`
+### [src/simulation/press/law-effect-news.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/law-effect-news.ts)
 
 | Line | Literal values | Source context                                                                            |
 | ---- | -------------- | ----------------------------------------------------------------------------------------- |
@@ -206,7 +206,7 @@ Rows not explained above remain UNREVIEWED, not researched or approved.
 | 596  | 0, 1           | `definition.name.charAt(0).toLowerCase() + definition.name.slice(1);`                     |
 | 607  | 1              | `const number = value.toLocaleString("en-US", { maximumFractionDigits: 1 });`             |
 
-### `src/presentation/person-dossier.ts`
+### [src/presentation/person-dossier.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/person-dossier.ts)
 
 | Line | Literal values | Source context                          |
 | ---- | -------------- | --------------------------------------- |
@@ -216,21 +216,21 @@ Rows not explained above remain UNREVIEWED, not researched or approved.
 | 354  | 3              | `if (links.length >= 3) break;`         |
 | 523  | 0              | `memberships[0];`                       |
 
-### `src/player/ShellDossier.tsx`
+### [src/player/ShellDossier.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/ShellDossier.tsx)
 
 No AST numeric literals.
 
-### `src/player/SavedAppearance.tsx`
+### [src/player/SavedAppearance.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/SavedAppearance.tsx)
 
 | Line | Literal values | Source context                                                       |
 | ---- | -------------- | -------------------------------------------------------------------- |
 | 187  | 1              | `appearanceFamilyLabel(family, \`Appearance choice ${index + 1}\`),` |
 
-### `src/player/opening-life/OpeningLifeFlow.tsx`
+### [src/player/opening-life/OpeningLifeFlow.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/opening-life/OpeningLifeFlow.tsx)
 
 No AST numeric literals.
 
-### `src/player/PersonCard.tsx`
+### [src/player/PersonCard.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/PersonCard.tsx)
 
 | Line | Literal values | Source context                                                             |
 | ---- | -------------- | -------------------------------------------------------------------------- |
@@ -250,15 +250,15 @@ No AST numeric literals.
 | 565  | 0              | `dossier.links.filter((link) => link.kind !== "person").length > 0 ? (`    |
 | 676  | 0              | `{expanded && unavailableReasons.length > 0 ? (`                           |
 
-### `src/simulation/living-world/developments.ts`
+### [src/simulation/living-world/developments.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/developments.ts)
 
 No AST numeric literals.
 
-### `src/presentation/news-headlines.ts`
+### [src/presentation/news-headlines.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/news-headlines.ts)
 
 No AST numeric literals.
 
-### `src/simulation/pressure/anger.ts`
+### [src/simulation/pressure/anger.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/pressure/anger.ts)
 
 | Line | Literal values | Source context                                                               |
 | ---- | -------------- | ---------------------------------------------------------------------------- |
@@ -274,7 +274,7 @@ No AST numeric literals.
 | 133  | 0              | `if (latest && rise > 0) {`                                                  |
 | 135  | 10000, 10000   | `Math.round(rise * BLANKET_UNEMPLOYMENT_RISE_ANGER * 10000) / 10000;`        |
 
-### `src/simulation/pressure/causes.ts`
+### [src/simulation/pressure/causes.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/pressure/causes.ts)
 
 | Line | Literal values | Source context                                                                |
 | ---- | -------------- | ----------------------------------------------------------------------------- |
@@ -296,17 +296,17 @@ No AST numeric literals.
 | 180  | 0              | `if (gap === 0) continue;`                                                    |
 | 183  | 0              | `kind: gap > 0 ? "leave" : "arrive",`                                         |
 
-### `src/simulation/pressure/contract.ts`
+### [src/simulation/pressure/contract.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/pressure/contract.ts)
 
 No AST numeric literals.
 
-### `src/simulation/pressure/events.ts`
+### [src/simulation/pressure/events.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/pressure/events.ts)
 
 | Line | Literal values | Source context                                                                 |
 | ---- | -------------- | ------------------------------------------------------------------------------ |
 | 32   | 0              | `if (!world.pressure \|\| world.pressure.quartersStepped === 0) return world;` |
 
-### `src/simulation/pressure/flows.ts`
+### [src/simulation/pressure/flows.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/pressure/flows.ts)
 
 | Line | Literal values | Source context                                                           |
 | ---- | -------------- | ------------------------------------------------------------------------ |
@@ -322,11 +322,11 @@ No AST numeric literals.
 | 94   | 0, 100, 0      | `sharePct: total > 0 ? (pullOf(readings.get(other)) / total) * 100 : 0,` |
 | 100  | 0              | `.slice(0, FLOW_DESTINATIONS_KEPT)`                                      |
 
-### `src/simulation/pressure/index.ts`
+### [src/simulation/pressure/index.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/pressure/index.ts)
 
 No AST numeric literals.
 
-### `src/simulation/pressure/integrity.ts`
+### [src/simulation/pressure/integrity.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/pressure/integrity.ts)
 
 | Line | Literal values | Source context                                                              |
 | ---- | -------------- | --------------------------------------------------------------------------- |
@@ -336,7 +336,7 @@ No AST numeric literals.
 | 35   | 0              | `if (!Number.isFinite(level) \|\| level < 0)`                               |
 | 46   | 0              | `if (!Number.isFinite(flow.outflowSharePct) \|\| flow.outflowSharePct < 0)` |
 
-### `src/simulation/pressure/ladder.ts`
+### [src/simulation/pressure/ladder.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/pressure/ladder.ts)
 
 | Line | Literal values | Source context                                                                                                                                                                                              |
 | ---- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -367,7 +367,7 @@ No AST numeric literals.
 | 517  | 0              | `const targetId = prominentPeopleIn(next, reading.stateKey)[0];`                                                                                                                                            |
 | 542  | 3              | `const usps = stateKey.slice(3);`                                                                                                                                                                           |
 
-### `src/simulation/pressure/step.ts`
+### [src/simulation/pressure/step.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/pressure/step.ts)
 
 | Line | Literal values | Source context                                                                   |
 | ---- | -------------- | -------------------------------------------------------------------------------- |
@@ -388,7 +388,7 @@ No AST numeric literals.
 | 171  | 0              | `.filter((reading) => reading.levels.leave > 0)`                                 |
 | 175  | 0              | `)[0];`                                                                          |
 
-### `src/simulation/life-opportunities.ts`
+### [src/simulation/life-opportunities.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life-opportunities.ts)
 
 | Line | Literal values   | Source context                                                                |
 | ---- | ---------------- | ----------------------------------------------------------------------------- |
@@ -428,7 +428,7 @@ No AST numeric literals.
 | 1203 | 60               | `minuteOfDay: hour * 60 + minute,`                                            |
 | 1212 | 60               | `minuteOfDay: hour * 60,`                                                     |
 
-### `src/simulation/ordinary-meeting-presence.ts`
+### [src/simulation/ordinary-meeting-presence.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/simulation/ordinary-meeting-presence.ts)
 
 | Line | Literal values | Source context                                                               |
 | ---- | -------------- | ---------------------------------------------------------------------------- |
@@ -446,7 +446,7 @@ No AST numeric literals.
 | 436  | 0              | `if (!chairId) chairId = goers[0];`                                          |
 | 555  | 1              | `const event = next.history.events.at(-1)!;`                                 |
 
-### `src/simulation/life-circumstances.ts`
+### [src/simulation/life-circumstances.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life-circumstances.ts)
 
 | Line | Literal values   | Source context                                                             |
 | ---- | ---------------- | -------------------------------------------------------------------------- |
@@ -497,7 +497,7 @@ No AST numeric literals.
 | 1299 | 0                | `if (organizationIds.size === 0) return null;`                             |
 | 1304 | 18               | `ageOnDate(world.people[candidate]!.birthDate, cutoff.asOfDate) < 18 \|\|` |
 
-### `src/player/TitleScreen.tsx`
+### [src/player/TitleScreen.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/TitleScreen.tsx)
 
 | Line | Literal values | Source context                                                                 |
 | ---- | -------------- | ------------------------------------------------------------------------------ |
@@ -524,7 +524,7 @@ No AST numeric literals.
 | 533  | 0              | `: setAside > 0`                                                               |
 | 534  | 1              | `? setAside === 1`                                                             |
 
-### `src/player/World39News.tsx`
+### [src/player/World39News.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/World39News.tsx)
 
 | Line | Literal values | Source context                                            |
 | ---- | -------------- | --------------------------------------------------------- |
@@ -536,7 +536,7 @@ No AST numeric literals.
 | 123  | 0              | `{model.publications.items.length > 0 ? (`                |
 | 126  | 0, 4           | `{model.publications.items.slice(0, 4).map((item) => (`   |
 
-### `src/player/CampaignWorkspace.tsx`
+### [src/player/CampaignWorkspace.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/CampaignWorkspace.tsx)
 
 | Line | Literal values | Source context                                                            |
 | ---- | -------------- | ------------------------------------------------------------------------- |
@@ -561,7 +561,7 @@ No AST numeric literals.
 | 893  | 1              | `{group.count === 1`                                                      |
 | 897  | 0              | `{group.blockedBy.length > 0 ? (`                                         |
 
-### `src/player/SetupScreen.tsx`
+### [src/player/SetupScreen.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/SetupScreen.tsx)
 
 | Line | Literal values | Source context                                                          |
 | ---- | -------------- | ----------------------------------------------------------------------- |
@@ -588,7 +588,7 @@ No AST numeric literals.
 | 1097 | 0              | `disabled={problems.length > 0}`                                        |
 | 1106 | 0              | `problems.length === 0 &&`                                              |
 
-### `src/presentation/day-opening-english.ts`
+### [src/presentation/day-opening-english.ts](https://github.com/lamontaes/Political-Game-Git/blob/c86f9bf6b3a8d3942853b3ee54acb4582dc5feee/src/presentation/day-opening-english.ts)
 
 | Line | Literal values | Source context                                                       |
 | ---- | -------------- | -------------------------------------------------------------------- |
@@ -601,7 +601,7 @@ No AST numeric literals.
 | 188  | 3              | `offset * 3,`                                                        |
 | 190  | 7              | `...(factRows.housemate ? [turn(HOUSEMATE, day, offset * 7)] : []),` |
 
-### `src/simulation/person-context.ts`
+### [src/simulation/person-context.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/person-context.ts)
 
 | Line | Literal values | Source context                                               |
 | ---- | -------------- | ------------------------------------------------------------ |
@@ -612,7 +612,7 @@ No AST numeric literals.
 | 715  | 1              | `) <= 1`                                                     |
 | 717  | 0              | `const enrollment = mine[0]!.enrollment;`                    |
 
-### `src/simulation/macro-economy/sources.ts`
+### [src/simulation/macro-economy/sources.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/macro-economy/sources.ts)
 
 | Line | Literal values | Source context                                                            |
 | ---- | -------------- | ------------------------------------------------------------------------- |
@@ -632,7 +632,7 @@ No AST numeric literals.
 | 356  | 100            | `(jobShare * 100) / TOWN_CLOSING_FULL_INTENSITY_JOBS_PER_HUNDRED,`        |
 | 360  | 1              | `intensities.set("credit-tightening", 1);`                                |
 
-### `src/presentation/player-places.ts`
+### [src/presentation/player-places.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/player-places.ts)
 
 | Line | Literal values | Source context                                                        |
 | ---- | -------------- | --------------------------------------------------------------------- |
@@ -647,13 +647,13 @@ No AST numeric literals.
 | 312  | 12, 12         | `const hour = hour24 % 12 \|\| 12;`                                   |
 | 313  | 2              | `return \`${hour}:${minute.toString().padStart(2, "0")} ${suffix}\`;` |
 
-### `src/player/opening-life/LifeScenePanel.tsx`
+### [src/player/opening-life/LifeScenePanel.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/opening-life/LifeScenePanel.tsx)
 
 | Line | Literal values | Source context |
 | ---- | -------------- | -------------- |
 | 94   | 1              | `.at(-1);`     |
 
-### `src/player/WorldOrientationPanel.tsx`
+### [src/player/WorldOrientationPanel.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/WorldOrientationPanel.tsx)
 
 | Line | Literal values | Source context                                                                                                                     |
 | ---- | -------------- | ---------------------------------------------------------------------------------------------------------------------------------- |

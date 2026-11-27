@@ -22,7 +22,7 @@ One PR per screen, the changed-file gate line and a full-window screenshot in th
 
 **Fixer.** The new list-pick at `src/core2/town-households.ts:45` (from the ported town builder) is replaced by a decision from the actor's reasons, per the no-dice rule.
 
-**Codex.** The figure set (8 poses × 6 bodies with layers, `art/people-engine/v2/`) per the CTO's brief; the chair maps and furniture masks from #4283 stay, the cut-out people go. The play session wires the renderer when the figures land and removes the v1 figures.
+**Codex.** The figure set (8 poses × 6 bodies with layers, [art/people-engine/v2/](https://github.com/lamontaes/Political-Game-Git/tree/c876bf81337151a5fac1f69eb3f42afddf5cc1d9/art/people-engine/v2)) per the CTO's brief; the chair maps and furniture masks from #4283 stay, the cut-out people go. The play session wires the renderer when the figures land and removes the v1 figures.
 
 ## Who is building what (live sessions, this account)
 
@@ -43,7 +43,7 @@ The desktop package is the game client alone (owner, Oct 14, night); the release
 
 ## Packages in force
 
-`docs/packages/office-play.md`, `docs/packages/homelessness.md` (with foreclosure, estates and the taxes), `docs/packages/trace-all-places.md` (the audit shape). Audit reports: `docs/reports/trace-audit-2026-10-14/` (56 places) and the `stress-audit-*-2026-10-14` folders.
+`docs/packages/office-play.md`, `docs/packages/homelessness.md` (with foreclosure, estates and the taxes), `docs/packages/trace-all-places.md` (the audit shape). Audit reports: [docs/reports/trace-audit-2026-10-14/](https://github.com/lamontaes/Political-Game-Git/tree/b38806b4c60e7bf5a6441e886768bf03ba306a8f/docs/reports/trace-audit-2026-10-14) (56 places) and the `stress-audit-*-2026-10-14` folders.
 
 ## Merge order
 

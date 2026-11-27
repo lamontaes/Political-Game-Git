@@ -4,7 +4,7 @@ After: A new focused test connects an actual lease's saved renewal to the regist
 
 ## 1. Why-chain to bedrock
 
-A saved renewal reaches the native dispatcher because its actual activity ID and payer are supplied. The registry selects the existing price-cost handler. The native dispatcher changes the saved renewal through its registered handler (`src/simulation/law-consequences/price-cost-lease-dispatch.test.ts:142`). The stamp identifies the operative law and actual source records, verified at `src/simulation/law-consequences/price-cost-lease-dispatch.test.ts:153`. Bedrock here is saved contractual records and a controlled test clause, not a researched rent ceiling or a simulated landlord decision.
+A saved renewal reaches the native dispatcher because its actual activity ID and payer are supplied. The registry selects the existing price-cost handler. The native dispatcher changes the saved renewal through its registered handler ([src/simulation/law-consequences/price-cost-lease-dispatch.test.ts:142](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/law-consequences/price-cost-lease-dispatch.test.ts)). The stamp identifies the operative law and actual source records, verified at [src/simulation/law-consequences/price-cost-lease-dispatch.test.ts:153](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/law-consequences/price-cost-lease-dispatch.test.ts). Bedrock here is saved contractual records and a controlled test clause, not a researched rent ceiling or a simulated landlord decision.
 
 ## 2. Research
 
@@ -24,7 +24,7 @@ The earlier renewal-hook test remains unchanged. This new test invokes the dispa
 
 ## 5. Simulated, records, world pieces and checks
 
-RECORDS: existing full-town opening, lease creation, renewal terms, registry dispatch and price terms. SIMULATED: no new decision behavior. WORLD PIECES: production numerical law terms and admitted rent-cap rows are still required before legacy per-law mechanisms can be removed. CHECKS: the test verifies that original resource flows and payment outcomes retain their identities (`src/simulation/law-consequences/price-cost-lease-dispatch.test.ts:161`). It does not separately assert obligation identity.
+RECORDS: existing full-town opening, lease creation, renewal terms, registry dispatch and price terms. SIMULATED: no new decision behavior. WORLD PIECES: production numerical law terms and admitted rent-cap rows are still required before legacy per-law mechanisms can be removed. CHECKS: the test verifies that original resource flows and payment outcomes retain their identities ([src/simulation/law-consequences/price-cost-lease-dispatch.test.ts:161](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/law-consequences/price-cost-lease-dispatch.test.ts)). It does not separately assert obligation identity.
 
 ## 6. Proof run
 

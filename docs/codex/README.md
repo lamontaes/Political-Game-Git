@@ -27,7 +27,7 @@ Take jobs in the order listed below unless a job says it waits on another. Two j
 
 | #   | Job                                                                      | File                                        | Waits on                       |
 | --- | ------------------------------------------------------------------------ | ------------------------------------------- | ------------------------------ |
-| 01  | Wire the last 10 laws and prove all 92                                   | `docs/handoffs/codex-wire-last-ten-laws.md` | nothing (running)              |
+| 01  | Wire the last 10 laws and prove all 92                                   | [docs/handoffs/codex-wire-last-ten-laws.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/handoffs/codex-wire-last-ten-laws.md) | nothing (running)              |
 | 02  | Every state governs, and Congress votes from principles                  | `02-every-state-governs.md`                 | nothing                        |
 | 03  | Remove the 217 dice lines                                                | `03-dice.md`                                | nothing; split by group        |
 | 04  | Towns built from census counts                                           | `04-towns-from-census.md`                   | nothing                        |

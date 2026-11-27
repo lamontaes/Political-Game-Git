@@ -39,7 +39,7 @@ because in this codebase they diverge dramatically.
 # PART 1 — THE ROUTE MAP
 
 Everything visual in this project lives behind one of seven routes. The route is
-chosen by a single `?view=` query parameter in `src/App.tsx:23-31`. There is no
+chosen by a single `?view=` query parameter in [src/App.tsx:23-31](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/App.tsx). There is no
 router library and no navigation UI to reach the development routes; you type
 them.
 
@@ -98,9 +98,9 @@ illustrated-UI surface:
 
 ### 1.2 The one thread connecting the production game to the art pipeline
 
-`PlayerGame` does pull `src/presentation/visual-integration.ts` into its import
+`PlayerGame` does pull [src/presentation/visual-integration.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/visual-integration.ts) into its import
 graph — but through exactly one file, for exactly one purpose.
-`src/player/PersonPortrait.tsx` imports `CHARACTER_VISUAL_RECIPES`, and uses it
+[src/player/PersonPortrait.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/PersonPortrait.tsx) imports `CHARACTER_VISUAL_RECIPES`, and uses it
 to answer one question: _is this person one of the two people who have ever been
 drawn?_ The answer becomes a `data-likeness="authored" | "none"` attribute. It
 never causes a picture to be painted.
@@ -466,7 +466,7 @@ a nicety. Category A. See P1-01.
 
 ## 3.5 Control states — the button matrix
 
-`src/styles.css` styles all buttons globally. The measured state coverage across
+[src/styles.css](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/styles.css) styles all buttons globally. The measured state coverage across
 both stylesheets:
 
 ```
@@ -534,7 +534,7 @@ so browser history and screen-reader page announcements never move.
 
 ## 4.1 The manifest census
 
-`art/manifest/asset_manifest.json` — **111 assets**, every one of them
+[art/manifest/asset_manifest.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/manifest/asset_manifest.json) — **111 assets**, every one of them
 `generation_status: approved`.
 
 ```
@@ -607,7 +607,7 @@ more than commissioning anything new. See P0-05.
 
 ## 4.3 Scenes
 
-`SCENE_REGISTRY` (`src/presentation/scene-registry.ts:292`) seeds three scenes:
+`SCENE_REGISTRY` ([src/presentation/scene-registry.ts:292](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/scene-registry.ts)) seeds three scenes:
 
 | Scene id                            | Class       | Plate                                 | Reachable by a player?                  |
 | ----------------------------------- | ----------- | ------------------------------------- | --------------------------------------- |
@@ -637,7 +637,7 @@ art. Zero are reachable in play.** **[BANKED]** / **[MAIN-SUBSTRATE]**
 
 ## 4.4 Pose system
 
-`src/presentation/pose-families.ts` (1,091 lines) defines a complete contact-
+[src/presentation/pose-families.ts](https://github.com/lamontaes/Political-Game-Git/blob/d4f61f3c07fb559fc181856ccb3d730378fe54b9/src/presentation/pose-families.ts) (1,091 lines) defines a complete contact-
 contract pose system:
 
 ```
@@ -669,15 +669,15 @@ only exercised on development routes. **[MAIN-SUBSTRATE]**
 **[OPEN-PR #86]** `claude/total-graphics-runtime-integration` (branched from
 `6311dd6`, current with main, 21 files, +3,464/−137) adds:
 
-- `src/player/TitleScreen.tsx` and `src/player/TitleTableau.tsx`
+- [src/player/TitleScreen.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/TitleScreen.tsx) and [src/player/TitleTableau.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/TitleTableau.tsx)
 - Three new production scenes: `civic-community-meeting-title-production`,
   `civic-hearing-room-production`, `residence-apartment-living-production`
-- `src/presentation/scene-consumers.ts` — a **13-consumer disposition matrix**
+- [src/presentation/scene-consumers.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/scene-consumers.ts) — a **13-consumer disposition matrix**
   that derives (rather than asserts) whether each player-facing surface is
   wired to production art, an honest fallback, or blocked
-- `src/presentation/surface-binding.ts`
-- `src/ui/SceneGalleryView.tsx`
-- `src/authoring/asset-request.ts` — structured art requests
+- [src/presentation/surface-binding.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/surface-binding.ts)
+- [src/ui/SceneGalleryView.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/ui/SceneGalleryView.tsx)
+- [src/authoring/asset-request.ts](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/src/authoring/asset-request.ts) — structured art requests
 
 Its 13 declared consumers:
 
@@ -817,14 +817,14 @@ means a distinct visual thing a finished version of this game needs.
 | D-08 | Relationship graph                     | **[MISSING]**                                     | C        |
 | D-09 | Timeline of a life                     | **[OPEN-PR #87]** (journal chapters, text)        | C        |
 | D-10 | Player-model / Pennywise visualization | **[MAIN-SUBSTRATE]** (`report:life` markdown)     | C        |
-| D-11 | Civic symbols / seals                  | **[BANKED]** (`src/authoring/civic-symbols.ts`)   | C        |
+| D-11 | Civic symbols / seals                  | **[BANKED]** ([src/authoring/civic-symbols.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/authoring/civic-symbols.ts))   | C        |
 
 ### 5.7 Dynamic surfaces
 
 | #    | Requirement                            | State                                                | Category |
 | ---- | -------------------------------------- | ---------------------------------------------------- | -------- |
-| Y-01 | Dynamic surface authoring              | **[BANKED]** (`src/authoring/dynamic-surfaces.ts`)   | E        |
-| Y-02 | Dynamic components                     | **[BANKED]** (`src/authoring/dynamic-components.ts`) | E        |
+| Y-01 | Dynamic surface authoring              | **[BANKED]** ([src/authoring/dynamic-surfaces.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/authoring/dynamic-surfaces.ts))   | E        |
+| Y-02 | Dynamic components                     | **[BANKED]** ([src/authoring/dynamic-components.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/authoring/dynamic-components.ts)) | E        |
 | Y-03 | Text rendered into a scene surface     | **[MAIN-SUBSTRATE]**                                 | E        |
 | Y-04 | Names/dates/places composed at runtime | **[MAIN-PLAYABLE]**                                  | E        |
 | Y-05 | Nameplates / signage in scenes         | **[MISSING]**                                        | E        |
@@ -1155,7 +1155,7 @@ The audit found five production classes shipped without any styling —
 `.game-story`, `.game-passage`, `.game-journal`, `.game-journal-toggle`,
 `.game-search` — plus two pre-existing unstyled classes, `.game-day` and
 `.game-saves-damaged`. Rather than file them, they were fixed: ~180 lines added
-to `src/player/player.css` in commit `1d123a8`, one e2e assertion adjusted for
+to [src/player/player.css](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/player.css) in commit `1d123a8`, one e2e assertion adjusted for
 the resulting `text-transform: uppercase`, and `npm run validate` re-run green
 (1,423 tests across 88 files) with the 11 narrative e2e tests passing.
 

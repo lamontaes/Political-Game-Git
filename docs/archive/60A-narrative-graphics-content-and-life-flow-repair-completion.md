@@ -99,7 +99,7 @@ one diff.
 | `npm run validate`                         | **Passed.** format, lint, typecheck, tests, build, deterministic demo replay, art validation |
 | `npm run test`                             | **1423 passed** across 88 files, 0 failed                                                    |
 | `npm run test:e2e` (full Playwright suite) | **134 passed**, 0 failed, 10.3 min                                                           |
-| `tests/e2e/narrative-life.spec.ts`         | 11 passed, run twice consecutively for stability                                             |
+| [tests/e2e/narrative-life.spec.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/narrative-life.spec.ts)         | 11 passed, run twice consecutively for stability                                             |
 | `npm run report:life`                      | Byte-identical across two runs                                                               |
 
 The browser needed a local `executablePath` override because the environment
@@ -135,7 +135,7 @@ this world` disclosure.
   field; the merged city-county's filing name stays available for a legal or
   data view and is searchable, and a resident is told they live in Lexington.
 
-`tests/e2e/narrative-life.spec.ts` asserts each of these by regex against the
+[tests/e2e/narrative-life.spec.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/narrative-life.spec.ts) asserts each of these by regex against the
 rendered screen.
 
 **Graphics (Section I) is not in this PR, deliberately.** The launch override's
@@ -143,14 +143,14 @@ carve-out is explicit: "DO NOT duplicate PR #86's graphics bank, asset intake,
 environment, scene registry, title-tableau, surface-binding, or graphics-runtime
 work. This overnight wave owns gameplay/narrative/adaptive life, not a second
 graphics pipeline." PR #86 is READY FOR AUDIT and owns exactly the surfaces
-Section I describes. `tests/narrative-wave-ownership-boundary.test.ts` proves
+Section I describes. [tests/narrative-wave-ownership-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/tests/narrative-wave-ownership-boundary.test.ts) proves
 nothing here touched them. See §5 for the seam left for #86.
 
 ## C — Calibration as the opening of a life
 
 Done, and this is where most of the new authored content is.
 
-**`src/simulation/setup-opening-bank.ts` — 27 new items.** Registers:
+**[src/simulation/setup-opening-bank.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/setup-opening-bank.ts) — 27 new items.** Registers:
 
 | Register                           | Items  |
 | ---------------------------------- | ------ |
@@ -231,7 +231,7 @@ setting — and all of it was corrected before commit.
 
 Done. Four modules, in the order they depend on each other.
 
-**`src/simulation/narrative-threads.ts` — an index, not a second history.**
+**[src/simulation/narrative-threads.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/narrative-threads.ts) — an index, not a second history.**
 Every thread groups records already in `world.history`, and every grouping is
 justified by an identity those records explicitly carry:
 
@@ -254,7 +254,7 @@ Threads are allowed to be over. `standing` is one of opening / running /
 pressing / dormant / settled / moot, and `standingReason` says why in the
 record's own terms.
 
-**`src/simulation/life-episodes.ts` — composition, not scripting.** An episode
+**[src/simulation/life-episodes.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life-episodes.ts) — composition, not scripting.** An episode
 family is stages, requirements, roles and exits; a beat is instantiated by
 binding roles to people the world already contains, or it is not offered. Four
 rules, enforced by the types:
@@ -273,7 +273,7 @@ A played beat writes ordinary canonical records tagged `episode:`,
 `episode-stage:` and `episode-instance:`. Those tags are the entire mechanism by
 which a later stage knows an earlier one happened. There is no episode store.
 
-**`src/simulation/episode-bank.ts` — 9 families, 32 stages, 87 options.**
+**[src/simulation/episode-bank.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/episode-bank.ts) — 9 families, 32 stages, 87 options.**
 
 | Family                                      | Stages |
 | ------------------------------------------- | ------ |
@@ -301,7 +301,7 @@ what is actually on the record.
 `political.what-your-name-is-for` stops short of standing for anything.
 Candidacy, committees, fundraising and elections are PR #85's.
 
-**`src/presentation/life-narration.ts` — the time between the moments.** Every
+**[src/presentation/life-narration.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/life-narration.ts) — the time between the moments.** Every
 sentence is derived from a record and carries the records it came from. There is
 no branch that emits a contentless line: a person has a place, a household and
 an age, so a quiet stretch is described by what the life actually contained.
@@ -315,14 +315,14 @@ The banned sentences are gone and a test keeps them gone: "Nothing this year
 that anyone would tell a story about.", "Let the year go by — Some of them do.",
 and the shape they belong to.
 
-**`src/presentation/life-story.ts` — one ranking.** Formative bank, adult bank
+**[src/presentation/life-story.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/life-story.ts) — one ranking.** Formative bank, adult bank
 and composed beats are ranked together, so a continuation competes with a
 stranger rather than replacing it. `SituationCandidate.key` was widened to
 `LifeSituationKey | \`episode:${string}\`` for exactly this reason: two rankings
 would let a composed continuation lose to a card because they were chosen by
 different code.
 
-**`src/presentation/life-record.ts` — the journal.** WHAT YOU REMEMBER was an
+**[src/presentation/life-record.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/life-record.ts) — the journal.** WHAT YOU REMEMBER was an
 always-visible list that grew with every beat until it was most of the page —
 a debug log with a friendly heading. It is now behind a control, in chapters by
 age, with people listed as people and open questions listed as open questions.
@@ -445,7 +445,7 @@ estimate past neutral.
 
 ### Not shown to a player
 
-`src/presentation/life-opacity.test.ts` holds three things shut: nothing that
+[src/presentation/life-opacity.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/life-opacity.test.ts) holds three things shut: nothing that
 renders imports `life-diagnostics`; no rationing vocabulary (`stakes`,
 cross-pressure, `dormant`, thread or instance keys, salience, weight, dimension)
 appears on any projected surface across three seeds and three ages, nor in the
@@ -456,7 +456,7 @@ political label.
 
 # 3. The six mandatory play-proof paths
 
-All in `src/presentation/narrative-life.test.ts`, with exact seeds. Setup
+All in [src/presentation/narrative-life.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/narrative-life.test.ts), with exact seeds. Setup
 otherwise: `placeKey: "kentucky"`, `household: "shares-a-home"`,
 `questionnaire: "skipped"` unless noted.
 
@@ -552,15 +552,15 @@ the evidence supports.
 
 # 4. Carve-outs
 
-`tests/narrative-wave-ownership-boundary.test.ts` measures this branch against
+[tests/narrative-wave-ownership-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/tests/narrative-wave-ownership-boundary.test.ts) measures this branch against
 `6311dd6` and fails naming any path belonging to another branch. It passes.
 
 | Branch        | Owns                                                                                                       | This wave                                                                                                                                                                                                              |
 | ------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **#83**       | generic content-bank registry, Content Browser, content export                                             | Not rebuilt. Content is plain typed data declaring no schema of its own, with no browser and no export format. A clean adoption seam.                                                                                  |
-| **#84**       | causal-trace / observer inspector, trace export, multi-seed harness                                        | Not rebuilt. What ships is `life-diagnostics.ts` — pure functions returning data and Markdown, no screen, no `?view=` route. A test asserts this wave added no file under `src/ui/` and did not touch `src/App.tsx`.   |
+| **#84**       | causal-trace / observer inspector, trace export, multi-seed harness                                        | Not rebuilt. What ships is `life-diagnostics.ts` — pure functions returning data and Markdown, no screen, no `?view=` route. A test asserts this wave added no file under [src/ui/](https://github.com/lamontaes/Political-Game-Git/tree/71a9ab5fc83c1176132ffc773781639228706b85/src/ui) and did not touch [src/App.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/App.tsx).   |
 | **#85**       | campaign, candidacy, committee, fundraising, election results                                              | Not rebuilt. `election-contests.ts` untouched. The political episode family stops at "meet the party" and never reaches a ballot.                                                                                      |
-| **#86**       | graphics bank, asset intake, environment, scene registry, title tableau, surface binding, graphics runtime | Not touched at all. `src/authoring/`, `src/environment/`, `art/`, `scripts/art-asset-factory/`, the scene/pose/raster/character presentation modules and the graphics player components are all in the forbidden list. |
+| **#86**       | graphics bank, asset intake, environment, scene registry, title tableau, surface binding, graphics runtime | Not touched at all. [src/authoring/](https://github.com/lamontaes/Political-Game-Git/tree/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/src/authoring), [src/environment/](https://github.com/lamontaes/Political-Game-Git/tree/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/environment), `art/`, [scripts/art-asset-factory/](https://github.com/lamontaes/Political-Game-Git/tree/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/scripts/art-asset-factory), the scene/pose/raster/character presentation modules and the graphics player components are all in the forbidden list. |
 | **#77 / #79** | national places / legislative bargaining                                                                   | Consumed nothing unaccepted; neither blocked this wave.                                                                                                                                                                |
 
 **Provenance for #84.** Every new narrative and Pennywise record carries honest
@@ -615,7 +615,7 @@ candidate reachable from runtime.
 
 ## One repair to a check on accepted main
 
-Packet 26's ownership boundary (`tests/authoring-ownership-boundary.test.ts`)
+Packet 26's ownership boundary ([tests/authoring-ownership-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/tests/authoring-ownership-boundary.test.ts))
 was written while PR #82 was in flight and measured the **working tree**. That
 was correct then and wrong the moment the packet landed: on `main` it stopped
 describing Packet 26 and started asserting that whatever branch happens to be
@@ -664,9 +664,9 @@ shipped.
 
 | Document                                                       | Drive id                                                                                                                               | Repo copy                                                         |
 | -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| 60B_CLAUDE_FULL_VISUAL_UI_AND_GRAPHICS_COVERAGE_AUDIT          | [`1nahTWoRoklCpM2kvWwwuYQiqmXqrt6tLA72_lc8N36Q`](https://docs.google.com/document/d/1nahTWoRoklCpM2kvWwwuYQiqmXqrt6tLA72_lc8N36Q/edit) | `docs/60B-full-visual-ui-and-graphics-coverage-audit.md`          |
-| 60C_CLAUDE_FULL_DIALOGUE_CONVERSATION_BRANCHING_AND_COPY_AUDIT | [`1hOZ-bE-_gB6fhqKvEFJ4biN47Fd3-LDeXATpBlDoRcs`](https://docs.google.com/document/d/1hOZ-bE-_gB6fhqKvEFJ4biN47Fd3-LDeXATpBlDoRcs/edit) | `docs/60C-full-dialogue-conversation-branching-and-copy-audit.md` |
-| 60D_OUR_CIVIC_DUTY_ENGINE_AND_SYSTEMS_FIELD_GUIDE              | [`1Ay9c2BtbucI4WtPcrLA73oJPbTUgSXYv4yBV5Eu84DI`](https://docs.google.com/document/d/1Ay9c2BtbucI4WtPcrLA73oJPbTUgSXYv4yBV5Eu84DI/edit) | `docs/60D-our-civic-duty-engine-and-systems-field-guide.md`       |
+| 60B_CLAUDE_FULL_VISUAL_UI_AND_GRAPHICS_COVERAGE_AUDIT          | [`1nahTWoRoklCpM2kvWwwuYQiqmXqrt6tLA72_lc8N36Q`](https://docs.google.com/document/d/1nahTWoRoklCpM2kvWwwuYQiqmXqrt6tLA72_lc8N36Q/edit) | [docs/60B-full-visual-ui-and-graphics-coverage-audit.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/60B-full-visual-ui-and-graphics-coverage-audit.md)          |
+| 60C_CLAUDE_FULL_DIALOGUE_CONVERSATION_BRANCHING_AND_COPY_AUDIT | [`1hOZ-bE-_gB6fhqKvEFJ4biN47Fd3-LDeXATpBlDoRcs`](https://docs.google.com/document/d/1hOZ-bE-_gB6fhqKvEFJ4biN47Fd3-LDeXATpBlDoRcs/edit) | [docs/60C-full-dialogue-conversation-branching-and-copy-audit.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/60C-full-dialogue-conversation-branching-and-copy-audit.md) |
+| 60D_OUR_CIVIC_DUTY_ENGINE_AND_SYSTEMS_FIELD_GUIDE              | [`1Ay9c2BtbucI4WtPcrLA73oJPbTUgSXYv4yBV5Eu84DI`](https://docs.google.com/document/d/1Ay9c2BtbucI4WtPcrLA73oJPbTUgSXYv4yBV5Eu84DI/edit) | [docs/60D-our-civic-duty-engine-and-systems-field-guide.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/60D-our-civic-duty-engine-and-systems-field-guide.md)       |
 
 **60B** covers the seven-route map, six screens, control-state matrix,
 typography, color, motion and accessibility, the 111-asset manifest census,
@@ -693,7 +693,7 @@ and a glossary. It is written to be read without opening any source file.
 One defect was found by the audits and fixed inside this wave rather than filed:
 five classes this wave shipped unstyled (`game-story`, `game-passage`,
 `game-journal`, `game-journal-toggle`, `game-search`) plus two pre-existing ones
-(`game-day`, `game-saves-damaged`). `src/player/player.css` gained ~180 lines,
+(`game-day`, `game-saves-damaged`). [src/player/player.css](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/player.css) gained ~180 lines,
 one e2e assertion was made case-insensitive for the resulting uppercase
 transform, and `npm run validate` was re-run green.
 

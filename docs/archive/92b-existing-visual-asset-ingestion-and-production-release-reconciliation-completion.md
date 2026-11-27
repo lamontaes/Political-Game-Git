@@ -85,7 +85,7 @@ the Packet-71/76 intake evidence and the accepted decisions.
 The owner can see generated character art — the eight-pose adult feminine body
 family, twelve heads, twelve footwear, the pg-modular masters, and five new
 morphology sheets dropped into Drive on 2026-09-04 — yet the runtime catalog
-(`art/manifest/character_catalog.json`) still lists only development component
+([art/manifest/character_catalog.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/manifest/character_catalog.json)) still lists only development component
 families (`dev_*`, `dev_g2_*`), and no arbitrary person composes into any
 released room.
 
@@ -103,38 +103,38 @@ environment could have completed. Every production-body candidate is blocked by 
 real reason: human rejection, a hard resolution floor, a viewpoint mismatch, or an
 unmet **human** gate. The runtime fails closed — it shows a named, spatially
 correct placeholder and never substitutes another person's likeness
-(`src/presentation/life-scene-people.ts`).
+([src/presentation/life-scene-people.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/life-scene-people.ts)).
 
 ---
 
 ## 2. The release boundary, as code enforces it
 
-- `createCharacterComponentLibrary` (`src/presentation/character-components.ts`)
+- `createCharacterComponentLibrary` ([src/presentation/character-components.ts](https://github.com/lamontaes/Political-Game-Git/blob/d4f61f3c07fb559fc181856ccb3d730378fe54b9/src/presentation/character-components.ts))
   builds the runtime library from the asset manifest + the catalog. A
   `character-component-candidate` carries `candidate_component`, **not**
   `component`, so the library **cannot see it**. `promoteCandidateComponent` is the
   only candidate→catalog path and "additionally requires the human visual
   acceptance D-063 reserves; none has been promoted."
-- `runtime_release_status` on `art/manifest/asset_manifest.json`: **56 released,
+- `runtime_release_status` on [art/manifest/asset_manifest.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/manifest/asset_manifest.json): **56 released,
   66 unreleased.** Everything released is a development fixture (46 `dev_*`
   components, availability `development-fixture`), the two frozen `human_candidate`
   poses, seven environment plates and one foreground mask. Every
   `character-component-master` (28 = 25 pg-modular + 3 ocd source sheets) and
   `character-component-candidate` (35) is **unreleased**.
-- The production master floor (`src/presentation/component-masters.ts`, on the
+- The production master floor ([src/presentation/component-masters.ts](https://github.com/lamontaes/Political-Game-Git/blob/d4f61f3c07fb559fc181856ccb3d730378fe54b9/src/presentation/component-masters.ts), on the
   **source** master, never the runtime raster): standing body ≥ 1696×2528, seated
   body ≥ 1530×2048, head ≥ 1024×1024 **and square**, everything else ≥ 1024 on the
   long edge. **Undersized art is rejected, never enlarged.**
 
 A machine-checkable version of all of this now lives in
-`src/presentation/production-release-boundary.test.ts` (20 assertions, all green).
+[src/presentation/production-release-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/production-release-boundary.test.ts) (20 assertions, all green).
 
 ---
 
 ## 3. `EXISTING_ASSET_LIFECYCLE_MATRIX`
 
 Full machine-readable form:
-`art/qa/p92/existing_asset_lifecycle_matrix.json`. Summary:
+[art/qa/p92/existing_asset_lifecycle_matrix.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p92/existing_asset_lifecycle_matrix.json). Summary:
 
 | Family                                                                                                                        | A exists  | B intake | C released  | Lifecycle state                                                              | Why not released                                                                                                                                                                                                                                                                                                             |
 | ----------------------------------------------------------------------------------------------------------------------------- | :-------: | :------: | :---------: | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -181,7 +181,7 @@ Only genuine pixel decisions are listed. Each names the images and the decision.
 
 1. **Despilled feminine bodies — art acceptance.**
    Path: `art/generated/candidates/ocd-p76/bodies-despilled/*.png` (8 poses).
-   **Review surface: `art/qa/contact_sheets/index.html` and/or those files
+   **Review surface: [art/qa/contact_sheets/index.html](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/contact_sheets/index.html) and/or those files
    directly.** The contact sheet does carry all eight despilled bodies (verified:
    24 `ocd-p76/bodies-despilled` references, all eight asset ids present).
    **`?view=character-proof&set=real` is NOT authoritative for this family** and
@@ -213,7 +213,7 @@ Only genuine pixel decisions are listed. Each names the images and the decision.
    `average man.png` (`1j2gkjfVWH3fXzDNpZqI1dCSFQsV4HrBo`),
    `additional fat female pose.png` (`1UknGAET4TCu7h4CaVadfeYRC5hTTGYYq`).
    **Status: INGESTED.** All five are now in the repository under
-   `art/references/candidates/wave-a-morphology/source-sheets/`, chopped, measured,
+   [art/references/candidates/wave-a-morphology/source-sheets/](https://github.com/lamontaes/Political-Game-Git/tree/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/references/candidates/wave-a-morphology/source-sheets), chopped, measured,
    hashed and candidate-reviewed (§9). Four are 5056×3392 RGBA 4×2 sheets;
    `additional fat female pose.png` is 4352×3904 RGBA carrying **three poses**, not
    a complete eight-pose family. The 8-pose `fat man.png` and `skinny man.png` came
@@ -223,7 +223,7 @@ Only genuine pixel decisions are listed. Each names the images and the decision.
    re-render where the pose is needed as a modular body, or an explicit decision to
    keep it as an interaction-specific reference. No cell may be promoted
    automatically as a clean body layer. Review surface:
-   `art/qa/p95-recent-drive-sweep/candidate-contact-sheet.html`.
+   [art/qa/p95-recent-drive-sweep/candidate-contact-sheet.html](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p95-recent-drive-sweep/candidate-contact-sheet.html).
 5. **Drive scene candidates.** `IMG_5189.JPG` executive office (generic, clears the
    floor) needs a **camera/floor-calibration** decision (D-070) before it can be a
    runtime plate; `IMG_5190.JPG` campaign storefront must be revised to remove baked
@@ -237,10 +237,10 @@ Branch `claude/new-session-4owtvv`, base `1d05923`. Additive only.
 
 | Path                                                                 | What it is                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/presentation/production-release-boundary.test.ts`               | 20 assertions locking A/B/C apart: no production component (or body) is released; every released character component is a dev fixture; every candidate/master is unreleased; the banked candidates validate; the feminine bodies are REVISE→despilled yet below the body floor (verified through `evaluateMasterDimensions`); the twelve heads PASS but are non-square/underwidth; the twelve footwear are REVISE yet clear the size floor; and (added by the post-completion correction) no OCD body is registered as a candidate component or present in the candidate-review library, so `?view=character-proof&set=real` cannot be mistaken for proof of that family.     |
-| `art/qa/p92/existing_asset_lifecycle_matrix.json`                    | The full machine-readable reconciliation table (repo + Drive), deterministic.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| [src/presentation/production-release-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/production-release-boundary.test.ts)               | 20 assertions locking A/B/C apart: no production component (or body) is released; every released character component is a dev fixture; every candidate/master is unreleased; the banked candidates validate; the feminine bodies are REVISE→despilled yet below the body floor (verified through `evaluateMasterDimensions`); the twelve heads PASS but are non-square/underwidth; the twelve footwear are REVISE yet clear the size floor; and (added by the post-completion correction) no OCD body is registered as a candidate component or present in the candidate-review library, so `?view=character-proof&set=real` cannot be mistaken for proof of that family.     |
+| [art/qa/p92/existing_asset_lifecycle_matrix.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p92/existing_asset_lifecycle_matrix.json)                    | The full machine-readable reconciliation table (repo + Drive), deterministic.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | `docs/92b-…-completion.md`                                           | This report.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| **Absorbed cargo** (fast-forward, 4 commits, 165 added / 3 modified) | `art/references/candidates/**` source sheets and recent-Drive source images; `art/generated/candidates/wave-a-morphology/**` and `art/generated/candidates/recent-drive-sweep/**` (111 chopped candidates); `art/qa/p95-wave-a-morphology/**` and `art/qa/p95-recent-drive-sweep/**` sweep evidence (inventory, raw provider metadata, 15-page visual review, per-sheet chop reports, 111-component review, candidate contact sheet, determinism proof); `docs/95-wave-a-morphology-and-recent-drive-ingestion.md`. Regenerated: `art/qa/contact_sheets/index.html`, `art/qa/inventory_report.json`, `art/qa/qa_report.json`. **No `src/` file and no `art/manifest/` file.** |
+| **Absorbed cargo** (fast-forward, 4 commits, 165 added / 3 modified) | `art/references/candidates/**` source sheets and recent-Drive source images; `art/generated/candidates/wave-a-morphology/**` and `art/generated/candidates/recent-drive-sweep/**` (111 chopped candidates); `art/qa/p95-wave-a-morphology/**` and `art/qa/p95-recent-drive-sweep/**` sweep evidence (inventory, raw provider metadata, 15-page visual review, per-sheet chop reports, 111-component review, candidate contact sheet, determinism proof); [docs/95-wave-a-morphology-and-recent-drive-ingestion.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/95-wave-a-morphology-and-recent-drive-ingestion.md). Regenerated: [art/qa/contact_sheets/index.html](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/contact_sheets/index.html), [art/qa/inventory_report.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/inventory_report.json), [art/qa/qa_report.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/qa_report.json). **No `src/` file and no [art/manifest/](https://github.com/lamontaes/Political-Game-Git/tree/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/manifest) file.** |
 
 Deterministic evidence was **re-verified**, not regenerated into a diff:
 `npm run despill:edges`, `npm run measure:references` and `npm run qa:art` all
@@ -287,7 +287,7 @@ Explicitly **NOT** generation needs any more:
 ## 8. `GRAPHICS_READY_NOW_QUEUE`
 
 Independent jobs launchable now without duplicating #89/#90 (the durable queue is
-`art/requests/asset-requests.json`; these are the reconciled next moves):
+[art/requests/asset-requests.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/requests/asset-requests.json); these are the reconciled next moves):
 
 1. **Regenerate body masters at production resolution** — the single remaining P0.
    Every one of the 111 chopped Wave A / recent-Drive components reports
@@ -295,7 +295,7 @@ Independent jobs launchable now without duplicating #89/#90 (the durable queue i
    ~1696×2528 floor. This is the only thing between the project and a first usable
    production person.
 2. **Human review of the candidate contact sheet**
-   (`art/qa/p95-recent-drive-sweep/candidate-contact-sheet.html`) — nothing in the
+   ([art/qa/p95-recent-drive-sweep/candidate-contact-sheet.html](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p95-recent-drive-sweep/candidate-contact-sheet.html)) — nothing in the
    ingested cargo is visual acceptance.
 3. **Per-pose disposition of the 29 baked-prop components** (LECTERN 5, CHAIR 4,
    DESK 8, OTHER 12): clean furniture-free re-render where the pose is needed as a
@@ -323,9 +323,9 @@ them. A completed Codex sweep has now **inventoried, byte-verified and visually
 dispositioned every recent Drive image**, and its cargo is absorbed into this branch
 by fast-forward. Nothing is metadata-only, uninspected, inaccessible or unresolved.
 
-Evidence: `art/qa/p95-recent-drive-sweep/drive-image-inventory.json` (+ the
+Evidence: [art/qa/p95-recent-drive-sweep/drive-image-inventory.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p95-recent-drive-sweep/drive-image-inventory.json) (+ the
 unmodified provider metadata beside it), the 15-page review surface
-`art/qa/p95-recent-drive-sweep/drive-visual-review/index.html`, the 111-component
+[art/qa/p95-recent-drive-sweep/drive-visual-review/index.html](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p95-recent-drive-sweep/drive-visual-review/index.html), the 111-component
 record `candidate-component-review.json`, the family-separated
 `candidate-contact-sheet.html`, and the rerun proof `source-sheet-determinism.json`
 (**PASS** — all 12 processed sheets byte-identical on re-chop).
@@ -378,7 +378,7 @@ Gate: `COMPLETE_ZERO_METADATA_ONLY_OR_VISUALLY_UNINSPECTED`. Byte-verified 286/2
    `REVISE_BAKED_PROP` 17, `NEEDS_HUMAN_CLASSIFICATION` 12.
 7. **Nothing was released.** The component record declares
    `releaseStatus: CANDIDATE_REFERENCE_ONLY` and `productionPixelsReleased: false`;
-   the cargo touches **no** `src/` file and **no** `art/manifest/` file.
+   the cargo touches **no** `src/` file and **no** [art/manifest/](https://github.com/lamontaes/Political-Game-Git/tree/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/manifest) file.
 
 `IMG_5192.PNG` (a green-clean single pose) confirms the edge fix is achievable; the
 repo already holds the despilled equivalents, and it is still sheet-resolution.
@@ -418,7 +418,7 @@ repo already holds the despilled equivalents, and it is still sheet-resolution.
 | `npm run qa:art`                                       | PASS — contact sheet + report regenerate byte-identically                                |
 | `npm run inventory:asset-bank`                         | PASS — 8 released plates, 9 released kinds, 28 masters, 6 pose families, 4 open requests |
 | `npm run despill:edges` / `measure:references`         | Re-run byte-identical (deterministic)                                                    |
-| `src/presentation/production-release-boundary.test.ts` | 20/20 PASS                                                                               |
+| [src/presentation/production-release-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/production-release-boundary.test.ts) | 20/20 PASS                                                                               |
 | `npm run validate`                                     | see PR description for the full run at the pushed head                                   |
 
 **Success condition met:** the owner can now distinguish, without ambiguity, that a

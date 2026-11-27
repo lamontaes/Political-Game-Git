@@ -78,7 +78,7 @@ not, settlement directed or not, reinstatement accepted or declined).
 Tested head `208b1f97`. Repository validation passed (269 files, 4224 tests),
 Playwright installed, and then the browser step failed before running any test.
 Playwright collected **0 tests in 0 files** because Node's ESM loader refused
-`src/simulation/civil-personnel-sources.json`: it "needs an import attribute of
+[src/simulation/civil-personnel-sources.json](https://github.com/lamontaes/Political-Game-Git/blob/2d154752aa38c9b94227b53ecfffb2db58081f9a/src/simulation/civil-personnel-sources.json): it "needs an import attribute of
 type: json". This was not formatting or flakiness, and the defect was mine.
 `world.ts` imports `civil-personnel-integrity.ts`, which imported that JSON, so
 every spec that loads the simulation died at collection. The earlier local runs
@@ -87,7 +87,7 @@ executed only the two component specs, which never load the simulation in Node.
 Repair (`ae81516f`):
 
 - The projection is now emitted as the typed module
-  `src/simulation/civil-personnel-sources.generated.ts`, following the
+  [src/simulation/civil-personnel-sources.generated.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/civil-personnel-sources.generated.ts), following the
   `office-qualifications.generated.ts` precedent. Replay is still byte-checked
   by `scripts/compile-civil-personnel.ts --check` and by the source test.
 - The generated file is excluded from prose scanning, because it is cited
@@ -145,7 +145,7 @@ supported.
 ## UI owner deliverables (#144)
 
 These patches are historical donor artifacts and are superseded by the current
-RECOVERY25 adapter in `docs/handoffs/recovery25-civil.md`. Do not reapply them
+RECOVERY25 adapter in [docs/handoffs/recovery25-civil.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/handoffs/recovery25-civil.md). Do not reapply them
 to current main.
 
 - `civil-authority13-ui-registration.patch`: the creator's "State agency

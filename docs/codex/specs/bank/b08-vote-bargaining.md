@@ -14,13 +14,13 @@ Your ordinance is one vote short. You go find the members on the fence: at city 
 
 ## Existing code it must use
 
-- `src/presentation/legislative-bargaining.ts:75` eight moves (ask what they want, request support, offer provision, counter with cap, refuse, ask for analysis, private inducement, remind of commitment); `:192 availableBargainingIntents`, `:321 resolveBargainingResponse`, `:744 recordBargainingConsequences`. Rule in header: talking never legislates.
-- `src/simulation/legislative-bargaining-decisions.ts:31,38` the two decisions (commit/hold-off; take-the-offer/hold-off) trait packs lean on.
+- [src/presentation/legislative-bargaining.ts:75](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/legislative-bargaining.ts) eight moves (ask what they want, request support, offer provision, counter with cap, refuse, ask for analysis, private inducement, remind of commitment); `:192 availableBargainingIntents`, `:321 resolveBargainingResponse`, `:744 recordBargainingConsequences`. Rule in header: talking never legislates.
+- [src/simulation/legislative-bargaining-decisions.ts:31,38](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/legislative-bargaining-decisions.ts) the two decisions (commit/hold-off; take-the-offer/hold-off) trait packs lean on.
 - `src/presentation/legislative-bargaining-world.ts:106 openLegislativeBargaining` real-world entry. Refuses council (`institution:`) seats at ~`:141`; without `docketKey` it requires the Kentucky brief (`:150 bargainingBriefSupports`).
 - `src/presentation/legislative-bargaining-brief.ts:36–80` hard-coded Kentucky/Ashland transit scenario (amounts, GEOID, labels). Fixture content leaking into the play route.
 - `src/presentation/legislative-bargaining-actions.ts:179 offerNegotiatedAmendment`, `:292 takeNegotiatedFloorVote`.
 - `src/simulation/legislative-politics.ts:555 recordLegislativeCommitment`, `:654 commitmentsHeldBy`, `:782 assessCommitment`, `:912 recordLegislativeNegotiation`.
-- `src/simulation/types.ts:5450` commitment conditions (incl. `reciprocal-support`); `:5562` exchange characters; `:5571` dispositions.
+- [src/simulation/types.ts:5450](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/types.ts) commitment conditions (incl. `reciprocal-support`); `:5562` exchange characters; `:5571` dispositions.
 - `src/simulation/legislative-member-decisions.ts:205 memberVoteConsiderations`: owed commitments (~~`:240–300`), constituents' blame/credit (~~`:405–432`, PLACEHOLDER thresholds), working relationship (~~`:505`), favor owed to sponsor (~~`:540`).
 - One vote engine everywhere: `governing/chamber-votes.ts:840 decideChamberVote` (calls members' reasons at `:798`, constituents at `:757`); councils via `governing/council-lawmaking.ts:77 decideCouncilVote` and `municipal-ordinance-procedure.ts:348`.
 - `src/simulation/favors.ts:82 recordFavor` (one favor record; `political:endorsement` kind, `types.ts:1864`), `:339 favorStandingBetween`, `:421 feltDebtConsiderations`.
@@ -42,7 +42,7 @@ A second negotiation engine; influence points, favor currency or relationship me
 
 ## Done when (proof in a played game)
 
-New game in a random town (`tests/support/random-place.ts`); player on council with an ordinance one vote short. Two undecided members want different things, each traced to their records. Across tests, each of the six move kinds is used once; records show `legislativeNegotiations` rows with character, commitments with firmness, a favor row for the called-in favor, a claim for the threat. The roll call shows a member's deciding reason citing the commitment. A broken promise writes strain and later comes up in a scene. Same save, same answers. Tests: `legislative-bargaining-world.test.ts` (council seats in 3 random states), new `vote-bargaining-endorsement.test.ts`, `vote-bargaining-threat.test.ts`, `vote-bargaining-public-pressure.test.ts` (contacts change one named member's reasons; no contacts, no change).
+New game in a random town ([tests/support/random-place.ts](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/tests/support/random-place.ts)); player on council with an ordinance one vote short. Two undecided members want different things, each traced to their records. Across tests, each of the six move kinds is used once; records show `legislativeNegotiations` rows with character, commitments with firmness, a favor row for the called-in favor, a claim for the threat. The roll call shows a member's deciding reason citing the commitment. A broken promise writes strain and later comes up in a scene. Same save, same answers. Tests: `legislative-bargaining-world.test.ts` (council seats in 3 random states), new `vote-bargaining-endorsement.test.ts`, `vote-bargaining-threat.test.ts`, `vote-bargaining-public-pressure.test.ts` (contacts change one named member's reasons; no contacts, no change).
 
 ## Depends on
 

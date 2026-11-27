@@ -8,7 +8,7 @@ true of one branch and false of another.
 
 ## 1. "Issues and budget" is a tab with no issues — CONFIRMED in this tree
 
-`src/player/politics/PoliticsTabs.tsx:37` labels the tab `"Issues and budget"`.
+[src/player/politics/PoliticsTabs.tsx:37](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/politics/PoliticsTabs.tsx) labels the tab `"Issues and budget"`.
 Its sections are Budget & economy, Transit service, Taxes and public receipts,
 and Constitutional & charter changes. None of those is an issue in the sense
 the word promises — a policy question the player can hold a position on — and
@@ -41,12 +41,12 @@ what is not there and why, which is the behavior the rule asks for.
 Two readings of that: either the walk was on a different build, or it saw
 something these three cases do not cover. Both are worth resolving before the
 finding is carried further. `ISSUE_WITHHELD` in
-`src/presentation/politics-issues.ts:39` is where the answer would change if it
+[src/presentation/politics-issues.ts:39](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/politics-issues.ts) is where the answer would change if it
 ever did.
 
 ## 3. The journal drops a belief instead of saying what it cannot show — CONFIRMED in this tree
 
-`src/presentation/world39-journal.ts` is the only presentation file that reads
+[src/presentation/world39-journal.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/world39-journal.ts) is the only presentation file that reads
 the policy catalog, and at `:301` and `:338` it drops a recorded private
 belief or campaign commitment with a bare `continue` when the catalog has no
 proposition for it. The record exists; the player's own view or promise was

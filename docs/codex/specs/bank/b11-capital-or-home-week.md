@@ -18,7 +18,7 @@ Once you are in the state legislature or Congress, your weeks split between two 
 - `src/simulation/office-workflow.ts:158 recordOfficeWorkflowPreference`; `types.ts:5173 OfficeWorkflowPreferenceRecord` (voting mode, casework mode): the officeholder's standing play policy.
 - `src/simulation/living-world/work-schedules.ts:582 whereaboutsAt` (activity, else work shift, else home), `:617 peopleAtWorkAt`. Legislative seats are not jobs there, so every legislator reads as "home" unless at an activity.
 - `src/simulation/legislative-session-calendar.ts:13 SittingCalendar`, `:30 nextSessionCalendarDate`: sitting days per body.
-- `src/simulation/governing/legislative-clock.ts` ~`:462`, `:488`: members who did not decide are recorded absent; `present()` counts.
+- [src/simulation/governing/legislative-clock.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/governing/legislative-clock.ts) ~`:462`, `:488`: members who did not decide are recorded absent; `present()` counts.
 - `src/presentation/place-travel.ts:54 travelToPlace`; routes accept only authored or sourced durations (`:17–37`).
 - `src/presentation/place-backdrops.ts:79 capitolPlaceFor(usps)`: the capitol picture per state, D.C. and territory.
 - `data/source/places/corpus.json` carries place coordinates. No state-capital-city data exists in code.

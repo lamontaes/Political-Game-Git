@@ -7,7 +7,7 @@ item.
 ## State
 
 - Checked head: `e591ffc637d1f6db84d2ff920e8662ce123202ed` on branch `work`.
-- Assigned scope: `src/simulation/executive/`, `src/simulation/judiciary/`, and
+- Assigned scope: `src/simulation/executive/`, [src/simulation/judiciary/](https://github.com/lamontaes/Political-Game-Git/tree/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/judiciary), and
   `src/simulation/redistricting/` for banks b13, b16, b17, and b29.
 - No bank part has been taken or changed. Every queued part is marked `claimed`
   or `done` in the checked `POOL.md`; no matching claimer resume marker is

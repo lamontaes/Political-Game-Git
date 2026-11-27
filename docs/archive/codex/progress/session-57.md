@@ -10,9 +10,9 @@
 
 ## Verification and blocker
 
-- `src/simulation/policy-pack-tax-terms.test.ts`: 3/3 passed.
+- [src/simulation/policy-pack-tax-terms.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/src/simulation/policy-pack-tax-terms.test.ts): 3/3 passed.
 - Targeted ESLint, Prettier, `git diff --check`, `npm run zero-dice`, and `npm run release:check -- --mode pr` passed.
-- `npm run typecheck` reports two existing errors in untouched `src/simulation/press/press-premise.test.ts` fixtures: both lack `PlaySettings.personalLifeDepiction`.
+- `npm run typecheck` reports two existing errors in untouched [src/simulation/press/press-premise.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/90aff691e94ab9b60e6ba98ce85969211d235802/src/simulation/press/press-premise.test.ts) fixtures: both lack `PlaySettings.personalLifeDepiction`.
 - Session 9's generic binder is published in draft PR #2480 with the exact reader signature above and a question-to-instrument table. This branch keeps its rows and existing tax-kind consumer against that API; unsupported authority or tax-family evidence still returns unavailable. PR #2480 reports federal/state/county/city income, sales, property and excise, but payroll/corporate instruments remain outside that matrix. No new-game law → effect → named-person proof is claimed yet.
 
 ## Next

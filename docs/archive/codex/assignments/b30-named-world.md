@@ -16,7 +16,7 @@ The Ivy League schools, famous political-hotbed campuses and every state's flags
 ## Existing code to extend (verified)
 
 - Colleges: `src/education/catalog-load.ts:57 loadEducationCatalog` (IPEDS in `public/education/`, `data/source/education`); `src/education/catalog.ts:4 searchInstitutions`; `src/simulation/local-institutions.ts:20 localInstitutionsFor` (landed from b23; `data/research/places/local-institutions.json` has 12,261 places, colleges with IPEDS ids). Campus art: `src/presentation/campus-backdrops.ts:20 CollegeKind` ("flagship", "ivy-league", "private-research"...), `:112 campusPictureFor`, `art/campuses/manifest.json` (52 campuses, 56 states; field `kind`, `standsInFor`). Comment :1 says flagships and Ivies are painted; the association is by art kind only, not a simulation record.
-- Study: `src/simulation/education-study-progression.ts`, `people-study.ts`, `people-study-plan.ts`; tuition `src/education/tuition-prices.ts`.
+- Study: [src/simulation/education-study-progression.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/education-study-progression.ts), `people-study.ts`, `people-study-plan.ts`; tuition [src/education/tuition-prices.ts](https://github.com/lamontaes/Political-Game-Git/blob/b002153c6ee33ad423e1e762596d31ed5f3911b9/src/education/tuition-prices.ts).
 - People: `src/simulation/people.ts:258 createLightweightPerson` (thin person), `:564 createStartingPerson`; views of officials `official-view-reads.ts:168 viewOfOfficial`; living-world `official-views.ts:168`; `people-traits.ts:372 ensurePeopleTraits` (give every person traits).
 - Press: `src/simulation/press/outlets.ts:76 NATIONAL_PLANS` (4 fictional national names per slot; line 40-50 says names are fictional compositions), `:452 ensurePressMediaOpening`, `:514 ensurePressStateCoverage`, `:564 ensurePressLocalCoverage`; `press/records.ts:19 MEDIA_PRODUCTS` (5 products: no lighter outlet product); `press/story-exposure.ts:53 recordStoryHeardExposure`, `press/read-publication.ts:13 readPressPublication` (explicit read only). Policy `PRESS_POLICY_VERSION = "crunch46-provisional-v1"` is "director-authored initial balancing".
 - Newer code covering part: b23's reader (above). No college-politics or news-habit record exists on main (grep "habit" in press: none).
@@ -44,7 +44,7 @@ Random place: the player attends or knows a person at an Ivy and at a flagship i
 
 ## Proof to post
 
-`docs/codex/evidence/b30-named-world/`: screenshots of an Ivy, a flagship and a hotbed record; a news story with its named people opened; a table of three residents' habits and what each knew after one event; the audit list from step 3 with the fix per name; `npm run typecheck` and changed tests.
+[docs/codex/evidence/b30-named-world/](https://github.com/lamontaes/Political-Game-Git/tree/bb50e1008b3992420248045518d209a79207db5e/docs/codex/evidence/b30-named-world): screenshots of an Ivy, a flagship and a hotbed record; a news story with its named people opened; a table of three residents' habits and what each knew after one event; the audit list from step 3 with the fix per name; `npm run typecheck` and changed tests.
 
 ## Standing rules
 

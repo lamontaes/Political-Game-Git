@@ -27,7 +27,7 @@ one House seat and two Senate seats. The inherited schedule adds statutory
 maximum allowances of 60, 30 and 90 days; it is explicitly hardwired and omits
 actual election timing. This patch introduces no empirical coefficient, cost,
 price or new outcome draw. Research is preserved in
-`data/research/congress/statehood-seats.json`.
+[data/research/congress/statehood-seats.json](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/data/research/congress/statehood-seats.json).
 
 ## 3. Revisions
 

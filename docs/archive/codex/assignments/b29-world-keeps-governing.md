@@ -19,7 +19,7 @@ Open the paper or the legislature page in any year: the statehouse and Congress 
 - States: `nationwide-world/state-legislature-queue.ts` (dated wakes with a `throughYear` horizon, `:40`, validated :239-275) and `state-legislature-turnover.ts:1429-1459` (planner loops `year <= throughYear`). Doc `docs/codex/state-legislature-queue-api.md`. No caller of `prepareStateLegislatureQueue` outside tests was found in `src` (grep): the horizon is whatever the caller passes. This is the likely reason governing stops.
 - Votes: one engine `governing/chamber-votes.ts:840 decideChamberVote`; `governing/state-governing.ts:2321 decideGoverningMatter`; `governing/governor-bill-decision.ts:386 evaluateGovernorBill`.
 - Newer code covering part: none found for state or Congress self-filing beyond the Congress intake above.
-- Evidence of real volumes: `data/research/lawmaking-throughput/throughput-evidence.json` (README: introduced vs enacted, carryover, odd-year sessions such as Texas), `data/research/legislature/member-bill-limits-2026.json` (read by `governing/member-filing-caps.ts`).
+- Evidence of real volumes: [data/research/lawmaking-throughput/throughput-evidence.json](https://github.com/lamontaes/Political-Game-Git/blob/5241c1b38679494a9e5f87ea31931b20ebae158c/data/research/lawmaking-throughput/throughput-evidence.json) (README: introduced vs enacted, carryover, odd-year sessions such as Texas), [data/research/legislature/member-bill-limits-2026.json](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/data/research/legislature/member-bill-limits-2026.json) (read by `governing/member-filing-caps.ts`).
 
 ## Build steps (one PR each)
 

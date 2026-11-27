@@ -15,7 +15,7 @@ Candidate filing terms now reach the one eligibility gate and candidate guidance
 - Focused filing-term tests passed: 3 tests.
 - The focused generated-world candidate-guidance test passed: 1 test, with 23 unrelated tests skipped by the name filter.
 - ESLint, Prettier, and zero-dice passed on the changed paths.
-- Typecheck reached two existing `PlaySettings.personalLifeDepiction` fixture errors in `src/simulation/press/press-premise.test.ts`; Session 88 did not alter that surface.
+- Typecheck reached two existing `PlaySettings.personalLifeDepiction` fixture errors in [src/simulation/press/press-premise.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/90aff691e94ab9b60e6ba98ce85969211d235802/src/simulation/press/press-premise.test.ts); Session 88 did not alter that surface.
 - Release check could not resolve its configured base commit `0dceca57a44ce30201c03ea387ae470737112dde` in this checkout.
 - This checkout has no Git remote and GitHub CLI has no authentication, so the required claim and READY posts on issue #2424 could not be sent here.
 

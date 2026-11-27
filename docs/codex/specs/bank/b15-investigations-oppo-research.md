@@ -14,9 +14,9 @@ Real people dig. A prosecutor, a state ethics board, a city auditor, a legislati
 
 ## Existing code it must use
 
-- Proceedings: `src/simulation/press/procedures.ts:725` `openProceeding`, `:757` `advanceProceeding`, `:993` `pressProceedingStepHandler`, `:686` `institutionHoldsSupport`. Bodies: `press/records.ts:144` `PROCEDURE_KEYS`, `state-ethics-bodies.ts` (23 researched), `generated-state-oversight.ts:151`.
+- Proceedings: [src/simulation/press/procedures.ts:725](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/procedures.ts) `openProceeding`, `:757` `advanceProceeding`, `:993` `pressProceedingStepHandler`, `:686` `institutionHoldsSupport`. Bodies: `press/records.ts:144` `PROCEDURE_KEYS`, `state-ethics-bodies.ts` (23 researched), `generated-state-oversight.ts:151`.
 - Matters: `press/matters.ts:267` `openMatter`, `:295` `recordAllegation`, `:441` `fileComplaint`, `:864` `produceRivalComplaints`, `:1529` `fileRivalComplaint` (rivals read public filings only).
-- Evidence and knowledge: `src/simulation/evidence.ts:53` `recordEvidenceArtifact`, `:89` `recordEvidenceDiscovery`, `:226` `evidenceArtifactsRelatedToEntity`, `:244` `hasPersonDiscoveredEvidence`. `records.ts:154` `recordEventKnowledge`, `:180` `recordClaim`. `types.ts:781` `EventKnowledgeRecord` (direct, told-by, public-record, media, rumor).
+- Evidence and knowledge: [src/simulation/evidence.ts:53](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/evidence.ts) `recordEvidenceArtifact`, `:89` `recordEvidenceDiscovery`, `:226` `evidenceArtifactsRelatedToEntity`, `:244` `hasPersonDiscoveredEvidence`. `records.ts:154` `recordEventKnowledge`, `:180` `recordClaim`. `types.ts:781` `EventKnowledgeRecord` (direct, told-by, public-record, media, rumor).
 - Lies: `claim-stances.ts:44` `ClaimStance`, `:212` `contradictionFound`. `claim-contradictions.ts:96` `scheduleContradictionCheck`. `claim-contradiction-routes.ts:53` `CONTRADICTION_ROUTES` has one route (`press/claim-route.ts:84`).
 - Reporters: `press/story-work.ts:68` `reporterWorkBudget`, `:121` `storyEffortEstimate` (hours, from a 2-hour brief to a 10-day investigation, ruling A154). `press/desk.ts:226` `recordStoryLead` (the `source-tip` route exists but nothing seeds tips). `press/sources.ts:227` `discloseToReporter`.
 - Prosecution: `justice/prosecution.ts:335` `referForProsecution`, `:772` `advanceProsecutions`.
@@ -26,7 +26,7 @@ Real people dig. A prosecutor, a state ethics board, a city auditor, a legislati
 
 ## What to change
 
-1. **One inquiry record and its steps** (new `src/simulation/press/inquiries.ts`, beside the proceedings it feeds).
+1. **One inquiry record and its steps** (new [src/simulation/press/inquiries.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/inquiries.ts), beside the proceedings it feeds).
    - An inquiry has: investigator person, subject, cause (allegation, lead, public record, tip, or the investigator's own goal), authority scope, an hours budget from that person's work time (the A154 rule), and dated steps.
    - The scope is a data row per kind:
      - Records: public only; plus subpoenaed bank and government records where the body's rule gives subpoena power (research row per body, ≤10 minutes; unread is estimated from similar bodies and marked).

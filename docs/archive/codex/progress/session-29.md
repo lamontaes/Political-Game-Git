@@ -9,7 +9,7 @@ Verification: after composing onto current `origin/main` e597ec933, focused
 Vitest passes (1 test), Prettier/ESLint/diff checks pass, test-inclusive
 `npm run typecheck` passes, and `npm run release:check -- --mode pr` passes.
 Main merge #2470 fixed the previous unrelated press fixture errors. Release declaration is
-`docs/release/changes/lw09-effect-readiness-contract.md` (`impact: none`).
+[docs/release/changes/lw09-effect-readiness-contract.md](https://github.com/lamontaes/Political-Game-Git/blob/c3ca55ee4ac005043fcae9198ab30ca8eb32fd9e/docs/release/changes/lw09-effect-readiness-contract.md) (`impact: none`).
 
 Next: coordinate with the owning session when canonical effect/person records
 exist, then add the measured law rows, effect module and random-place proof.

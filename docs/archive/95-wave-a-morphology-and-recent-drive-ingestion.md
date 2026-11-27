@@ -5,13 +5,13 @@ Status: candidate/reference mechanical intake only. This cargo releases no pixel
 ## Provenance and review evidence
 
 - Cargo base: PR #95 head `e9fa03b9f8c85ad2e797cad60d9c1c19f0d22736`.
-- The exact Drive query window begins `2026-09-02T15:00:00Z` and returned 286 accessible images. Complete provider metadata and reconciled classifications are in `art/qa/p95-recent-drive-sweep/drive-image-inventory.json`; the unmodified provider metadata is retained beside it.
+- The exact Drive query window begins `2026-09-02T15:00:00Z` and returned 286 accessible images. Complete provider metadata and reconciled classifications are in [art/qa/p95-recent-drive-sweep/drive-image-inventory.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p95-recent-drive-sweep/drive-image-inventory.json); the unmodified provider metadata is retained beside it.
 - Pixel bytes, file sizes, dimensions, SHA-256 values, and visual dispositions are now verified for all 286 entries: the original 34 plus the formerly metadata-only 252. There are zero inaccessible, unresolved, metadata-only, or visually uninspected entries. Nineteen files named `.jpg` contain PDF bytes; their original hashes and exact PDF page sizes are recorded, and their first pages were rendered only for visual review.
-- The durable 15-page review surface is `art/qa/p95-recent-drive-sweep/drive-visual-review/index.html`. It covers every inventory entry, including generic `IMG_*` filenames, and is candidate/reference QA evidence only.
-- Exact source-sheet reports are in `art/qa/p95-wave-a-morphology/` and `art/qa/p95-recent-drive-sweep/`.
-- The complete 111-component measurement/disposition record is `art/qa/p95-recent-drive-sweep/candidate-component-review.json`.
-- The family-separated human review surface is `art/qa/p95-recent-drive-sweep/candidate-contact-sheet.html`.
-- The clean-output rerun proof is `art/qa/p95-recent-drive-sweep/source-sheet-determinism.json`; all 12 processed sheets matched source boxes, dimensions, component counts, and output SHA-256 values byte-for-byte.
+- The durable 15-page review surface is [art/qa/p95-recent-drive-sweep/drive-visual-review/index.html](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p95-recent-drive-sweep/drive-visual-review/index.html). It covers every inventory entry, including generic `IMG_*` filenames, and is candidate/reference QA evidence only.
+- Exact source-sheet reports are in [art/qa/p95-wave-a-morphology/](https://github.com/lamontaes/Political-Game-Git/tree/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p95-wave-a-morphology) and [art/qa/p95-recent-drive-sweep/](https://github.com/lamontaes/Political-Game-Git/tree/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p95-recent-drive-sweep).
+- The complete 111-component measurement/disposition record is [art/qa/p95-recent-drive-sweep/candidate-component-review.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p95-recent-drive-sweep/candidate-component-review.json).
+- The family-separated human review surface is [art/qa/p95-recent-drive-sweep/candidate-contact-sheet.html](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p95-recent-drive-sweep/candidate-contact-sheet.html).
+- The clean-output rerun proof is [art/qa/p95-recent-drive-sweep/source-sheet-determinism.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p95-recent-drive-sweep/source-sheet-determinism.json); all 12 processed sheets matched source boxes, dimensions, component counts, and output SHA-256 values byte-for-byte.
 
 ## Corrected Packet 92B conclusions
 

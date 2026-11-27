@@ -16,7 +16,7 @@ The old composer fixture built a full opening life and expected the national tri
 
 ## 4. What gets built
 
-Only `src/simulation/justice/prosecution-composer.test.ts` changes. Its existing consumer is `composeWorldTimeHandlers`, using the actual saved referral, defendant and due item. No new export or replacement engine exists. The small-world fixture replaces the old full-opening fixture; `prosecutionTimingFor` replaces the obsolete national-delay expectation.
+Only [src/simulation/justice/prosecution-composer.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/justice/prosecution-composer.test.ts) changes. Its existing consumer is `composeWorldTimeHandlers`, using the actual saved referral, defendant and due item. No new export or replacement engine exists. The small-world fixture replaces the old full-opening fixture; `prosecutionTimingFor` replaces the obsolete national-delay expectation.
 
 ## 5. Simulated, records, world pieces, checks
 

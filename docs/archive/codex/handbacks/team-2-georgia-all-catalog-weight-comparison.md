@@ -70,7 +70,7 @@ Method and evidence:
 - Production main: `80dba335a62f77d6a45c38919105991658ccf1de`.
 - Executable runner: `762b030224533dbc5a4bbb838de6386924b10eb8`.
 - Command: `node --max-old-space-size=8192 --import tsx scripts/governance-proof/team2-georgia-weight-comparison.ts test-results/team2-georgia/all-catalog.json`.
-- Catalog and changed-decision receipt: `docs/codex/handbacks/team-2-georgia-all-catalog-weight-comparison.json`.
-- Complete paired decisions: `docs/codex/handbacks/team-2-georgia-all-catalog-weight-comparison.csv`.
+- Catalog and changed-decision receipt: [docs/codex/handbacks/team-2-georgia-all-catalog-weight-comparison.json](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/handbacks/team-2-georgia-all-catalog-weight-comparison.json).
+- Complete paired decisions: [docs/codex/handbacks/team-2-georgia-all-catalog-weight-comparison.csv](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/handbacks/team-2-georgia-all-catalog-weight-comparison.csv).
 
 The run exited zero. Contextual `principleAgreement` also reads each argument weight, with omitted weights equal to one. Its merged focused checks cover opposing bearings, zero weights and agreement direction. General nominee callers with no law question preserve their existing default behavior. No nationwide run was duplicated.

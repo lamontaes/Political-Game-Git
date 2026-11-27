@@ -16,7 +16,7 @@ bank part.
   remain assigned to Session 37. Parts b26-p3 and b26-p5 remain assigned to
   Session 25. Parts b14-p2 through b14-p4 and b14-p6 remain assigned to Session
   36, b14-p5 remains assigned to Session 25, and every b15 part remains assigned
-  to Session 43 (`docs/codex/assignments/POOL.md`).
+  to Session 43 ([docs/codex/assignments/POOL.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/assignments/POOL.md)).
 - `DECIDED` — No stalled claim was taken because the assignment requires a
   comment on issue #2424 before takeover, and this workspace has no GitHub
   authentication or configured remote with which to post that comment.

@@ -28,10 +28,10 @@ the validator, the CLI tooling and the browser runtime.
 
 | System                                    | Owner                                                                                                    | State                                                                          |
 | ----------------------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Modular identity and component resolution | `src/presentation/character-components.ts`                                                               | Catalog generations frozen by signature (D-063/065).                           |
+| Modular identity and component resolution | [src/presentation/character-components.ts](https://github.com/lamontaes/Political-Game-Git/blob/d4f61f3c07fb559fc181856ccb3d730378fe54b9/src/presentation/character-components.ts)                                                               | Catalog generations frozen by signature (D-063/065).                           |
 | The one compositor                        | `projectCharacterLayers`, consumed by `character-render-plan.ts`                                         | Now folds in D-079/D-080 fits; renders bands only if declared.                 |
-| Garment morphology fit                    | `src/presentation/garment-fit.ts`, `scripts/art-asset-factory/garment-fit-measure.ts`, PR #89            | Direct → affine → bounded warp → refused, measured.                            |
-| Pose contract                             | `src/presentation/pose-families.ts`, `art/manifest/pose_families.json`                                   | 18 nominal landmarks per family incl. shoulder/elbow/wrist/hand.               |
+| Garment morphology fit                    | [src/presentation/garment-fit.ts](https://github.com/lamontaes/Political-Game-Git/blob/d4f61f3c07fb559fc181856ccb3d730378fe54b9/src/presentation/garment-fit.ts), [scripts/art-asset-factory/garment-fit-measure.ts](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/scripts/art-asset-factory/garment-fit-measure.ts), PR #89            | Direct → affine → bounded warp → refused, measured.                            |
+| Pose contract                             | [src/presentation/pose-families.ts](https://github.com/lamontaes/Political-Game-Git/blob/d4f61f3c07fb559fc181856ccb3d730378fe54b9/src/presentation/pose-families.ts), [art/manifest/pose_families.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/manifest/pose_families.json)                                   | 18 nominal landmarks per family incl. shoulder/elbow/wrist/hand.               |
 | Body semantic anchors                     | `CHARACTER_SEMANTIC_ANCHOR_ORDER`, `validateProductionBodyAnchors` (D-068)                               | crown/brow/head/torso/hips/feet; measured by a human from the shipping raster. |
 | Contacts                                  | `CharacterBodyContacts`, `seated-contact.ts`, pose registry `contacts`                                   | Feet and seated pelvis, tolerance-checked.                                     |
 | Scene registry / placement / camera       | `scene-registry.ts`, `scene-placement.ts`, `scene-transform.ts`                                          | Data-driven; scaffold emits explicit unknowns.                                 |
@@ -71,7 +71,7 @@ source**, because no 2D transform synthesizes an edge the source never drew.
 
 ## 4. Arm measurement result
 
-Implemented in `scripts/art-asset-factory/arm-measure.ts`; contract in
+Implemented in [scripts/art-asset-factory/arm-measure.ts](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/scripts/art-asset-factory/arm-measure.ts); contract in
 [Arm and Sleeve Measurement](./systems/arm-and-sleeve-measurement.md).
 
 **What can be measured.** On a hanging arm: the shoulder tip (silhouette

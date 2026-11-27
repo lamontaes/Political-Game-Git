@@ -5,7 +5,7 @@ Session 72 reached the assigned checkout, but the checkout has no Git remote or 
 ## Current state
 
 - Checked workspace `/workspace/Political-Game-Git` on branch `work` at `e591ffc637d1f6db84d2ff920e8662ce123202ed`.
-- Read `docs/codex/assignments/00-STANDING-RULES.md`, `docs/codex/assignments/POOL.md`, `docs/codex/assignments/INTERFACES.md`, and the LW batch contract.
+- Read [docs/codex/assignments/00-STANDING-RULES.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/assignments/00-STANDING-RULES.md), [docs/codex/assignments/POOL.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/assignments/POOL.md), [docs/codex/assignments/INTERFACES.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/assignments/INTERFACES.md), and the LW batch contract.
 - The local pool marks LW-09, LW-23, LW-24, and LW-29 claimed by Sessions 29, 33, 35, and 46. None of those sessions has a resume marker in this checkout, so takeover requires a post on issue #2424.
 - No Git remote is configured and GitHub CLI has no authenticated host. Session 72 therefore could not inspect current `main`, post the required takeover notice, push a branch, or verify whether the four claims remain active.
 - `npm run agent:preflight -- --owner session-72` also refused substantial work because this checkout is not registered and free space is at the 25 GiB reserve.

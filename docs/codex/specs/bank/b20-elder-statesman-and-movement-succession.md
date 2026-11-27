@@ -16,18 +16,18 @@ A political life does not stop when you leave office. After your last term (or a
 
 ## Existing code it must use
 
-- `src/simulation/living-world/party-evolution.ts` — party life: `:205 partyUnitLeaders`, `:228 ensurePartyLeadership`, `:404 partyPlatformAt`, `:481 recordPartyBodyDecision`, `:673 assessPartyInitiative`, `:933 respondToPartyInitiative`, `:1246 adoptPartyInitiative`; initiative kinds incl. `founding`/`split` (`world-setup/types.ts:206`).
-- `src/simulation/living-world/law-interest-groups.ts` — organized interests as ordinary organizations with member participations (a cause group already exists as a shape).
-- `src/simulation/living-world/party-chapters.ts:59-65` — chapter membership/organizer kinds and events.
+- [src/simulation/living-world/party-evolution.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/party-evolution.ts) — party life: `:205 partyUnitLeaders`, `:228 ensurePartyLeadership`, `:404 partyPlatformAt`, `:481 recordPartyBodyDecision`, `:673 assessPartyInitiative`, `:933 respondToPartyInitiative`, `:1246 adoptPartyInitiative`; initiative kinds incl. `founding`/`split` (`world-setup/types.ts:206`).
+- [src/simulation/living-world/law-interest-groups.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/law-interest-groups.ts) — organized interests as ordinary organizations with member participations (a cause group already exists as a shape).
+- [src/simulation/living-world/party-chapters.ts:59-65](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/party-chapters.ts) — chapter membership/organizer kinds and events.
 - `src/simulation/types.ts:1401 Organization`, `:1409 OrganizationProfileRecord` (classification namespaces incl. `membership:`).
 - `src/simulation/patronage/following.ts:32 townFollowing` — who owes a person, and recorded campaign help from them.
 - `src/simulation/favors.ts:339 favorStandingBetween`, `:391 favorsBetween`, `:421 feltDebtConsiderations`; favor kinds `political:*` (`types.ts:1864`).
 - `src/simulation/patronage/appointments.ts:111 appointmentCircle`, `:410 chooseAppointee` (appointers choose people they know).
-- `src/simulation/careers/another-term.ts` — whether an officeholder runs again, from health, age, care duties, temperament ("years after office" consideration :384).
+- [src/simulation/careers/another-term.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/careers/another-term.ts) — whether an officeholder runs again, from health, age, care duties, temperament ("years after office" consideration :384).
 - `src/simulation/people-continuation.ts:273 successorCandidates` (mentorship bonds → protege/mentor :344-349), `:371 meaningfulBonds`, `:496 continueAsRelative` (successor told only family facts :535-565).
-- `src/simulation/campaign-life-activities.ts:1916` — a chapter's backing recorded as a `political:chapter-backing` favor.
+- [src/simulation/campaign-life-activities.ts:1916](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/campaign-life-activities.ts) — a chapter's backing recorded as a `political:chapter-backing` favor.
 - `src/simulation/people-goal-pursuit.ts:95 activeGoalFor` (a person's own ambitions).
-- `src/simulation/political-belief-formation.ts` (views and their reasons); `src/simulation/decisions.ts evaluateDecision`.
+- [src/simulation/political-belief-formation.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/political-belief-formation.ts) (views and their reasons); `src/simulation/decisions.ts evaluateDecision`.
 
 ## What to change
 

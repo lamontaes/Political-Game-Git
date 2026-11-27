@@ -173,7 +173,7 @@ it found a second defect.** Measured 2026-09-22, local, Chromium 141, on
 the reading to be checked; that was the right challenge, and it was half right.
 
 Run as they stood, all four threw in the character creator, at
-`src/presentation/new-game-geography.ts:312` — "Name the state, then a town.
+[src/presentation/new-game-geography.ts:312](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/new-game-geography.ts) — "Name the state, then a town.
 Lexington and Kentucky are not assumed." They never reached a single art
 assertion. The rooms were calibrated when the creator still inferred a
 hometown; it no longer does, so the walk died three steps before the geometry

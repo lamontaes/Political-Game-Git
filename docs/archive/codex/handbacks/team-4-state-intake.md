@@ -17,9 +17,9 @@ MEASURED: South Fork, Pennsylvania, place `4272168`, seed `b18-f375512c`, advanc
 | Direct dictionary construction    | 2d84f5d33c0a9bf97d0565c01f0f343308473a91 |     29.032794 | No demonstrated improvement; reverted             |
 | Incumbent trait-batch transaction | f1087731d162984b5ec0b0781f3bf080a46afaa6 |     26.768319 | Bounded improvement; fifteen-second target failed |
 
-HARDWIRED: the existing `seedDates` batch in `src/simulation/nationwide-world/state-legislature-turnover.ts` now defers physical personality-history copies only while `ensurePeopleTraits` runs. The actor list, first-record dates, canonical writers, seeded values and write order remain unchanged. The transaction restores an ordinary array before decisions and candidate slates read it.
+HARDWIRED: the existing `seedDates` batch in [src/simulation/nationwide-world/state-legislature-turnover.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/nationwide-world/state-legislature-turnover.ts) now defers physical personality-history copies only while `ensurePeopleTraits` runs. The actor list, first-record dates, canonical writers, seeded values and write order remain unchanged. The transaction restores an ordinary array before decisions and candidate slates read it.
 
-HARDWIRED: `src/simulation/history-index.ts` keeps each intermediate append as an immutable view of its original array and appended chunks. It materializes the final array once and preserves append lineage for existing lookup indexes. Inactive writers retain the existing concat route. Branches, nested transactions and refusals retain their source snapshots.
+HARDWIRED: [src/simulation/history-index.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/history-index.ts) keeps each intermediate append as an immutable view of its original array and appended chunks. It materializes the final array once and preserves append lineage for existing lookup indexes. Inactive writers retain the existing concat route. Branches, nested transactions and refusals retain their source snapshots.
 
 MEASURED: advancement-only profile self costs for the retained candidate were:
 

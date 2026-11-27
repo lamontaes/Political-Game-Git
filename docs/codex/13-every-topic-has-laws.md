@@ -26,8 +26,8 @@ For each topic without a law question:
 
 2. **Add each question at the right level** (federal, state or local; some are all three), following the catalog's existing pattern in `src/simulation/policy-pack-*.ts`. Each question gets:
    - bill terms: amounts, phase-in and sunset, written by the sponsor from their views;
-   - its starting law in every place, from `data/research/laws/starting-law-2026.json`'s approach;
-   - a sized effect path, so it counts as wired (`src/simulation/governing/law-effect-paths.ts`) and moves money, people or places, with a watched-world test as job 01 does.
+   - its starting law in every place, from [data/research/laws/starting-law-2026.json](https://github.com/lamontaes/Political-Game-Git/blob/e52a5470f137d5572f06922833389b435b773e64/data/research/laws/starting-law-2026.json)'s approach;
+   - a sized effect path, so it counts as wired ([src/simulation/governing/law-effect-paths.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/governing/law-effect-paths.ts)) and moves money, people or places, with a watched-world test as job 01 does.
 3. **Officeholders' principles must cover the new questions**, so members file and vote on them.
 4. The unwired-laws guard must stay at zero unwired questions: every new question arrives wired.
 

@@ -47,7 +47,7 @@ untrue.
 
 LAND reserved shared prose artifacts for this run. The prose corpus scans all
 of `src` and already tracks this module's strings —
-`docs/prose-inventory/coverage-candidates.json` contains the fiscal-note
+[docs/prose-inventory/coverage-candidates.json](https://github.com/lamontaes/Political-Game-Git/blob/7869561ee8b273796bebe82c803e9d477dd6a907/docs/prose-inventory/coverage-candidates.json) contains the fiscal-note
 sentence — so changing **any** authored string here would drift an artifact
 that is not mine to regenerate.
 

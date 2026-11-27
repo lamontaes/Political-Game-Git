@@ -17,7 +17,7 @@ preserved on `codex/team-8-english-engine` at
 ## 1. Why-chain
 
 HARDWIRED: the baseline standard build stops at two TS2339 errors in
-`src/player/PlacePeopleLayer.tsx:48` and line 55. Both read
+[src/player/PlacePeopleLayer.tsx:48](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/PlacePeopleLayer.tsx) and line 55. Both read
 `clipBandEndPercent` from `BackdropPerson`. The producer spreads `spotFigure`
 into each placed person, and `SpotFigure` already declares and returns that
 field. The chain bottoms out in an omitted interface field, not missing
@@ -48,12 +48,12 @@ source hunk authorized for this repair.
 ## 4. Numbered parts and exact claims
 
 1. Add `clipBandEndPercent: number | null` to `BackdropPerson` in
-   `src/presentation/backdrop-people.ts`.
+   [src/presentation/backdrop-people.ts](https://github.com/lamontaes/Political-Game-Git/blob/a1e2c5b9f2a1f226d10992f4846d819eb87cb91b/src/presentation/backdrop-people.ts).
 2. Replace browser-token detection and add regression cases in
-   `src/simulation/boundary.test.ts`. The original production-module test,
+   [src/simulation/boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/boundary.test.ts). The original production-module test,
    forbidden-import check, and ambient-entropy check remain.
 3. Declare development-only impact in
-   `docs/release/changes/cloud-build-and-boundary-repair.md` and record this
+   [docs/release/changes/cloud-build-and-boundary-repair.md](https://github.com/lamontaes/Political-Game-Git/blob/c3ca55ee4ac005043fcae9198ab30ca8eb32fd9e/docs/release/changes/cloud-build-and-boundary-repair.md) and record this
    handback. The coordinator's central claims file is untouched.
 
 ## 5. Simulated, records, world pieces, checks

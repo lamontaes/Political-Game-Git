@@ -17,11 +17,11 @@ of each school, a fact the world does not record. Eligibility therefore has
 no qualifying count; duty findings remain coverage-unknown. The chain bottoms
 out in records about the law, with no demonstrated building or pupil outcome.
 
-Clause evidence: `src/simulation/legislation-service-families.ts:252`.
+Clause evidence: [src/simulation/legislation-service-families.ts:252](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/legislation-service-families.ts).
 
-Router evidence: `src/simulation/enacted-law-effects.ts:245`.
+Router evidence: [src/simulation/enacted-law-effects.ts:245](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/enacted-law-effects.ts).
 
-Coverage evidence: `src/simulation/enacted-coverage.ts:127`.
+Coverage evidence: [src/simulation/enacted-coverage.ts:127](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/enacted-coverage.ts).
 
 Eligibility evidence: `src/simulation/enacted-eligibility.ts:applyEnactedEligibility`.
 
@@ -128,7 +128,7 @@ the effects-map reversal of a current aggregate factor. No repeal was played.
    on actual payments; do not expand the shared fiscal writer in this report.
 6. Team 2 money proof NOT RUN. No appropriation enacted or funds spent here.
 
-Ceiling evidence: `src/simulation/legislation-fiscal-families.ts:62`.
+Ceiling evidence: [src/simulation/legislation-fiscal-families.ts:62](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/legislation-fiscal-families.ts).
 
 Appropriation evidence: `src/simulation/governing/program-governing.ts:appropriationFromEnactedMeasure`.
 

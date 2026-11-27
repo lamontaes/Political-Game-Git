@@ -19,7 +19,7 @@ In Build 12's watched run, Catawba County, North Carolina had its population "se
    - the 2020 Decennial Census and the latest ACS 5-year tables, through the Census API or bulk downloads (no key is needed for modest volumes; say so if a key is needed);
    - for territories, the 2020 Island Areas census.
 
-   Store it as generated data next to `src/simulation/nationwide-world/place-population.generated.ts`, extending that file's pattern, with the source and vintage on each row.
+   Store it as generated data next to [src/simulation/nationwide-world/place-population.generated.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/nationwide-world/place-population.generated.ts), extending that file's pattern, with the source and vintage on each row.
 
 2. **Every world starts from those counts with a realistic spread.** The spread is per world and stays deterministic for a seed. It is sized from the real year-to-year change in comparable places, not a fixed percent. Nothing may be hand-set. Nothing may be 0 unless the real count is 0, in which case the place is not offered.
 3. **The represented population.** A town simulates named residents, a sample. Every statistic the game shows (unemployment, poverty, turnout) must be computed so that it represents the whole population, not the 36 people written out. Two choices; pick the one that keeps the speed budget:

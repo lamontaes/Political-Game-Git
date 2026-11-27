@@ -13,7 +13,7 @@ Meeting entry exists before an active scene, so scene presence alone would
 miss it. The guard now reads the same entry predicate as OrdinaryMeetingPanel.
 The chain bottoms out in a display rule, not an actor decision or a new record.
 Evidence: `src/player/PlayerGame.tsx` (removed), the `meeting` memo and both daily-note
-mounts; `src/player/OrdinaryMeetingPanel.tsx`, entry projection.
+mounts; [src/player/OrdinaryMeetingPanel.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/OrdinaryMeetingPanel.tsx), entry projection.
 
 ## Research
 

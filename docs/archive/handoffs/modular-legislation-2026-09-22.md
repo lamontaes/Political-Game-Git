@@ -33,7 +33,7 @@ subject is still its title text.
 ## Defects found and fixed at their source
 
 **The research-request writer ended every record with a blank line.**
-`scripts/research/request-store.ts` appended `\n` to output from
+[scripts/research/request-store.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/scripts/research/request-store.ts) appended `\n` to output from
 `toCanonicalJson`, which already ends in `\n`. Every lane filing a question
 was writing `}\n\n`. Measured by filing a throwaway record through the real
 CLI and reading the bytes, rather than by reading the code and assuming.

@@ -11,7 +11,7 @@ returns a developer coverage finding and no invented option.
 Build repair #1194 landed at main24492950ece69558155e07e9b276ed59c5eb8c75.
 This story implementation is a held draft on
 `codex/team-8-story-resolver-contract`, PR #1196. The coordinator released
-only `src/presentation/story-scene-resolver.ts` and its test to Team 8;
+only [src/presentation/story-scene-resolver.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/story-scene-resolver.ts) and its test to Team 8;
 Team 5 owns player integration. Central claims and existing readers/writers
 are untouched. Main2855854ca3537a1eacf5e1dd7591e593154c31bd was integrated
 additively in this reused workspace, preserving the published proposal.

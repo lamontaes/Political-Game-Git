@@ -27,7 +27,7 @@ called "dialogue", and conflating them is the main reason the system is hard to
 reason about. Throughout this document:
 
 - **A conversation** means the turn-based engine in
-  `src/presentation/run-b-conversation.ts` — subjects, intents, addressees,
+  [src/presentation/run-b-conversation.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/run-b-conversation.ts) — subjects, intents, addressees,
   audibility, listeners, claims, knowledge, perceptions. This is the only thing
   in the game that is a _dialogue system_ in the usual sense.
 - **A situation** means an authored beat with a prompt and 2–4 choices

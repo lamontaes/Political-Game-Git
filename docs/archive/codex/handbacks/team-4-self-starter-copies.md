@@ -14,7 +14,7 @@ MEASURED: South Fork, Pennsylvania, place `4272168`, seed `b18-f375512c`, advanc
 
 The parent runtime was measured at `f1087731d162984b5ec0b0781f3bf080a46afaa6` in 26.768319 seconds. The candidate runtime at `f58593d20d4ce937ee2d11cf13e56d607fdf7c5f` took 24.476127 seconds. The parent publication differs from its measured runtime only in documentation.
 
-HARDWIRED: the existing self-starter decision call in `src/simulation/nationwide-world/state-legislature-candidates.ts` now uses the parent's personality-history copy transaction. The decision still seeds that same actor's traits, on that same date, at that same position in the slate loop. The final ordinary array is restored before subsequent actors run. No actors are collected into a new batch.
+HARDWIRED: the existing self-starter decision call in [src/simulation/nationwide-world/state-legislature-candidates.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/nationwide-world/state-legislature-candidates.ts) now uses the parent's personality-history copy transaction. The decision still seeds that same actor's traits, on that same date, at that same position in the slate loop. The final ordinary array is restored before subsequent actors run. No actors are collected into a new batch.
 
 HARDWIRED: recruited prospect choices do not seed personality there. Seeding all prospective people would add history and alter decisions, so that route is unchanged. Existing returning-candidate and qualification branches remain unchanged.
 

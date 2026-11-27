@@ -74,6 +74,6 @@ Method and evidence:
 - Production source: `59e59903ac0fe9df5497010b424bedca9bf22a26`.
 - Executable runner source: `d38d0a73001f2a9fed01dc8c809dbe323adccf17`.
 - Command: `node --max-old-space-size=8192 --import tsx scripts/governance-proof/team2-georgia-weight-comparison.ts`.
-- Full receipt: `docs/codex/handbacks/team-2-georgia-weight-comparison.json`.
+- Full receipt: [docs/codex/handbacks/team-2-georgia-weight-comparison.json](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/handbacks/team-2-georgia-weight-comparison.json).
 
 Run exit was zero. Scoped checks and the publication head are recorded in the pull request.

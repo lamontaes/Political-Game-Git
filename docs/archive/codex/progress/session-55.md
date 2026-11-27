@@ -7,7 +7,7 @@
 - LW-09 and LW-10 were already covered by main (#2479 readiness blockers; #2516 federal justice landing with unsupported stock-trading effect held inactive). Marked done in POOL.md.
 - Session 55 item 1 VIEWS is on `session-55-views`, merged current main through `4f2cbe369`. It adds side/back to the shared view set, side/back → three-quarter → front fallback, and explicit left/right facing through raster mirroring.
 - The focused pose suite passed 20/20 before the latest merge; the post-merge Vitest invocation stalled during Vite config loading. Prettier and ESLint passed on changed source/tests before the latest merge.
-- Full-screen new-game screenshots on main and branch are saved in `docs/evidence/session-55/`, each at the randomly drawn place Lingle, Wyoming.
+- Full-screen new-game screenshots on main and branch are saved in [docs/evidence/session-55/](https://github.com/lamontaes/Political-Game-Git/tree/bb50e1008b3992420248045518d209a79207db5e/docs/evidence/session-55), each at the randomly drawn place Lingle, Wyoming.
 
 ## AU-01 proposal and veto routing (PR #3461)
 
@@ -21,4 +21,4 @@
 - AU-12(c): current ACS PUMS donor selection allocates households by exact integer WGTP with largest remainder; no seeded donor draw remains.
 - Focused `town-wards-address.test.ts`: 3/3 passed. Changed-file ESLint and Prettier passed. `npm run typecheck` remains red on the six existing Crime/Press errors listed in the Session 55 Drive check-in; none are in AU-12 files.
 - Next: continue with AU-13. AU-10 source gaps and the stale AU-11 citations are recorded in Drive `00j CODEX DAY`.
-- Older current-main checks above remain historical: typecheck errors are in Press/Crime; release check flags `bg-44-refresh.md` filename/ID; Node load check stops at existing `src/styles.css` import.
+- Older current-main checks above remain historical: typecheck errors are in Press/Crime; release check flags `bg-44-refresh.md` filename/ID; Node load check stops at existing [src/styles.css](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/styles.css) import.

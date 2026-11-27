@@ -49,8 +49,8 @@ proof that now holds it.
 | 4   | Nothing said the movement was safe                                      | The cycle reads registries only; it never touches the world                               | "consumes no world and no randomness while it drifts"                                                                        |
 | 5   | Motion with no accommodation                                            | `usePrefersReducedMotion`, `data-motion` / `data-drifting`                                | "holds still for a viewer who asked for less motion"                                                                         |
 | 6   | New Game broke to a blank standalone form                               | Six-stage creator inside `AmbientTableau`                                                 | "keeps the room behind New Game and behind the calibration"                                                                  |
-| 7   | Kentucky / Nebraska / Alaska / Lexington laid out as default cards      | Place stage is a search, with no pre-laid default cards                                   | Walked by `tests/e2e/support/creator.ts` in every browser spec                                                               |
-| 8   | Identity copy read like a form                                          | `person-identity.ts`, creator copy                                                        | `tests/character-context.test.ts` copy guards                                                                                |
+| 7   | Kentucky / Nebraska / Alaska / Lexington laid out as default cards      | Place stage is a search, with no pre-laid default cards                                   | Walked by [tests/e2e/support/creator.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/support/creator.ts) in every browser spec                                                               |
+| 8   | Identity copy read like a form                                          | `person-identity.ts`, creator copy                                                        | [tests/character-context.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/c3c860cd634d2c2d193e2d361c31b0ab37e529d2/tests/character-context.test.ts) copy guards                                                                                |
 | 9   | Setup questions were forced into a child's voice and exhausted the band | `itemAdmissible` gates the three openers and opens the rest                               | "opens a ten-year-old's calibration on a ten-year-old's three", "opens a child on the childhood three, then leaves the band" |
 | 10  | A normal start generated a family that knew nothing about the answers   | `setup-generation-inputs.ts`, one declared seam                                           | Six proofs in §4                                                                                                             |
 | 11  | No distinct custom start                                                | `NewGameStartKind`, `startKind` in the replay address                                     | "offers a normal start and a custom start, and they build differently"                                                       |
@@ -168,7 +168,7 @@ with the supersession recorded in its comment so it cannot quietly come back.
 | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | every question a ten-year-old could be asked belongs to the childhood band | the calibration **opens** on the age band's three, then asks what it wants — the questions are put to the player, not the character, which the screen now says |
 | no setup answer may reach world generation                                 | an answer may **shape** a generated family through the declared seam and may never **author** one                                                              |
-| six specs each walking their own copy of the creator                       | one walk in `tests/e2e/support/creator.ts`                                                                                                                     |
+| six specs each walking their own copy of the creator                       | one walk in [tests/e2e/support/creator.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/support/creator.ts)                                                                                                                     |
 
 ---
 
@@ -185,16 +185,16 @@ record; no assertion in either was relaxed to make room for this packet.
 
 ## 8. Ownership boundary
 
-`tests/narrative-wave-ownership-boundary.test.ts` declares the five surfaces
+[tests/narrative-wave-ownership-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/tests/narrative-wave-ownership-boundary.test.ts) declares the five surfaces
 this packet owns, against base `5f735da`:
 
-- `src/simulation/setup-generation-inputs.ts`
-- `src/presentation/title-ambient.ts`
-- `src/player/TitleTableau.tsx`
-- `src/player/SceneBackdrop.tsx`
-- `src/presentation/life-scene.ts`, `src/presentation/life-introduction.ts`
+- [src/simulation/setup-generation-inputs.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/setup-generation-inputs.ts)
+- [src/presentation/title-ambient.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/title-ambient.ts)
+- [src/player/TitleTableau.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/TitleTableau.tsx)
+- [src/player/SceneBackdrop.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/SceneBackdrop.tsx)
+- [src/presentation/life-scene.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/life-scene.ts), [src/presentation/life-introduction.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/life-introduction.ts)
 
-The Packet 26 carve-out range in `tests/support/ownership-boundary.ts` is
+The Packet 26 carve-out range in [tests/support/ownership-boundary.ts](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/tests/support/ownership-boundary.ts) is
 untouched and remains frozen.
 
 ---

@@ -19,7 +19,7 @@ convergence answer, on the same PR #91, after merging current `main`
 **Focus (owner-directed): the scene-first shell and People rail.** The room is
 now the surface, not a card on it:
 
-- `src/presentation/life-scene-people.ts` places the people a moment actually
+- [src/presentation/life-scene-people.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/life-scene-people.ts) places the people a moment actually
   contains on the scene registry's own anchors (seats then floor), resolved
   through #86's `composeSceneCharacter`. No second scene model or compositor is
   built; #89/#90 fit internals are untouched.
@@ -38,8 +38,8 @@ now the surface, not a card on it:
   choice, in ink, navy and gold) replaces the flat green web buttons across the
   shell.
 
-Proofs: `tests/scene-people-placement.test.ts` (placement + fail-closed +
-determinism) and `tests/e2e/scene-first-shell.spec.ts` (room fills the frame,
+Proofs: [tests/scene-people-placement.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/c3c860cd634d2c2d193e2d361c31b0ab37e529d2/tests/scene-people-placement.test.ts) (placement + fail-closed +
+determinism) and [tests/e2e/scene-first-shell.spec.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/scene-first-shell.spec.ts) (room fills the frame,
 household on the rail with relationships, moment panel is a compact panel not a
 page-sized card, open-a-person, collapse, a choice advances the life).
 
@@ -87,8 +87,8 @@ Addressed on the same PR #91:
   connective ("You're 10. Most weeks were built around school. You spent most
   evenings at home with …") before the first dilemma.
 
-Proofs: `tests/fifth-play-repair.test.ts` (second-person voice + the child
-household-conversation gate) and `tests/e2e/fifth-play-repair.spec.ts` (viewport
+Proofs: [tests/fifth-play-repair.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/c3c860cd634d2c2d193e2d361c31b0ab37e529d2/tests/fifth-play-repair.test.ts) (second-person voice + the child
+household-conversation gate) and [tests/e2e/fifth-play-repair.spec.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/fifth-play-repair.spec.ts) (viewport
 place search, People close via X and Escape with the moment preserved).
 
 **Deferred on this PR, with reasons:** driving the environment from a situation's
@@ -205,7 +205,7 @@ The fix is general, not a special-case:
   offered instead; where an older sibling is at home, a ten-year-old noticing
   their teenage sibling's late nights is plausible and grounded.
 
-`tests/formative-eligibility.test.ts` proves it: younger peer → refused (with an
+[tests/formative-eligibility.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/f51ddea7b2f82faafaf86541013137e69ff3ed62/tests/formative-eligibility.test.ts) proves it: younger peer → refused (with an
 "at least 13" exclusion), older peer → offered, and the decision is
 deterministic across replays.
 
@@ -218,15 +218,15 @@ place identity — the 2025 Census Gazetteer, 32,350 places — under
 `data/source/places/`, and `main` was merged into this branch normally. The
 smallest reviewed adapter is built:
 
-- **The one-way seam.** `scripts/source/export-life-places.ts` (Node) reads the
-  compiled, accepted corpus and writes `src/simulation/national-places.generated.ts`,
+- **The one-way seam.** [scripts/source/export-life-places.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/scripts/source/export-life-places.ts) (Node) reads the
+  compiled, accepted corpus and writes [src/simulation/national-places.generated.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/national-places.generated.ts),
   carrying only place identity (GEOID, resident-facing name, state) with its
   provenance (Gazetteer artifact, sha256, as-of, coverage). It invents no place
-  facts and builds no second geography. `src/source` stays Node-only: the
+  facts and builds no second geography. [src/source](https://github.com/lamontaes/Political-Game-Git/tree/b38806b4c60e7bf5a6441e886768bf03ba306a8f/src/source) stays Node-only: the
   browser reaches the corpus only through this generated data, never by import.
-  The boundary is enforced three ways — `tsconfig.app.json` excludes `src/source`,
+  The boundary is enforced three ways — `tsconfig.app.json` excludes [src/source](https://github.com/lamontaes/Political-Game-Git/tree/b38806b4c60e7bf5a6441e886768bf03ba306a8f/src/source),
   the eslint `no-restricted-imports` rule #77 added forbids the import, and
-  `tests/nationwide-places.test.ts` asserts the browser modules carry no source
+  [tests/nationwide-places.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/f51ddea7b2f82faafaf86541013137e69ff3ed62/tests/nationwide-places.test.ts) asserts the browser modules carry no source
   import.
 - **The consumer.** `life-places.ts` searches authored places plus the national
   corpus, resolves a chosen place by key, and synthesizes a minimal, sourced
@@ -261,7 +261,7 @@ second writer.
 
 ## 8. Ownership
 
-When PR #77 merged, it **froze** `tests/narrative-wave-ownership-boundary.test.ts`
+When PR #77 merged, it **froze** [tests/narrative-wave-ownership-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/tests/narrative-wave-ownership-boundary.test.ts)
 to the range PR #87 actually shipped (`5f735da..68d7d48`), so that check no
 longer measures this branch's working tree at all — it is a closed claim about
 #87. This branch therefore touches no active file-ownership boundary. Two
@@ -271,7 +271,7 @@ normal-start household change; only their fixtures moved, never their source.
 
 The seam that _is_ live and enforced is the source boundary #77 added: the
 eslint `no-restricted-imports` rule and `tsconfig.app.json`'s exclusion of
-`src/source` both fail any browser import of the substrate, and this branch adds
+[src/source](https://github.com/lamontaes/Political-Game-Git/tree/b38806b4c60e7bf5a6441e886768bf03ba306a8f/src/source) both fail any browser import of the substrate, and this branch adds
 none — the national corpus is reached only through the generated export.
 
 #86's graphics runtime (scene registry, camera, raster tiers, asset resolver,

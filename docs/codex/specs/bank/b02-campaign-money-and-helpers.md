@@ -17,7 +17,7 @@ You start your campaign alone, with your own savings and the people you know. A 
 - `src/simulation/campaign-compliance.ts:240 campaignCompliancePackFor`, `:507 assessKentuckyCampaignContribution`: contribution limits, one state only.
 - `src/simulation/campaign-operating-costs.ts:31 UNRESEARCHED_OPERATING_COSTS`: eight cost categories with no amounts; `:133 payRecordedCampaignOperatingBill` pays real bills.
 - `data/research/campaign-reality/campaign-calibration.json`: door/phone rates and a USPS postage figure; office-level cost values are marked UNKNOWN.
-- `src/simulation/campaign-life-activities.ts:262 activeStaffPersonIds`, `:1295 supportRequestDecision`; `src/simulation/campaign-routine.ts:49` (fundraising routine already exists as "Fundraising calls").
+- `src/simulation/campaign-life-activities.ts:262 activeStaffPersonIds`, `:1295 supportRequestDecision`; [src/simulation/campaign-routine.ts:49](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/campaign-routine.ts) (fundraising routine already exists as "Fundraising calls").
 - `src/simulation/campaign-weekly-plans.ts:708 projectCampaignWeek`, `:966 commitCampaignWeek`; `campaign-weekly-plan-integrity.ts:90` requires a plan proposer to be staff: the manager proposes here.
 - `src/simulation/campaign-polling.ts:60 surveyWorkDays`: the pattern for experience from work history.
 - `src/simulation/living-world/official-views.ts:301 peopleKnownTo`: who you know.

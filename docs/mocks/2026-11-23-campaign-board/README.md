@@ -2,7 +2,7 @@
 
 The owner's ruling, Oct 27, 5 PM Eastern (`docs/coordination/OWNER-DECISIONS.md`, line 774): "One board, I'll have to see it explicitly... there should be some kind of inbox with media requests or building a campaign team... the political process has some kind of manager. I would like to be able to do that. Maybe you meet someone, maybe it's your significant other or your best friend." The ruling ends: "The owner sees the board before more is asked." This folder is that board, for him to see. Nothing is built in `src/` until he picks.
 
-It answers his Nov 23 sitting, rows P38 ("This campaign screen is terrible") and, for layout only, P34 to P36 (`docs/coordination/playtest/2026-11-23-1.md`). The words on the board belong to Words; this mock only places them.
+It answers his Nov 23 sitting, rows P38 ("This campaign screen is terrible") and, for layout only, P34 to P36 ([docs/coordination/playtest/2026-11-23-1.md](https://github.com/lamontaes/Political-Game-Git/blob/e8e20ee621df3f107875beaee4666c2e2b41099b/docs/coordination/playtest/2026-11-23-1.md)). The words on the board belong to Words; this mock only places them.
 
 ## Open it
 

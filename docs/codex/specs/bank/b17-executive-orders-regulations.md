@@ -15,13 +15,13 @@ As mayor, governor or President you can act without waiting for a bill. You can 
 ## Existing code it must use
 
 - `src/simulation/executive-authority-rules.ts:195 ExecutiveDirectiveAuthorityRule`, `:210` reorganization, `:228 EmergencyDeclarationAuthorityRule` (duration, extension, legislative termination), `:292 AdministrativeAuthorityRule` (faithful execution). No runtime code reads the directive or emergency fields.
-- `src/simulation/executive-authority-rule-packs.ts`: only six packs (federal `:303`, KY `:654`, NE `:801`, AK `:967`, MN `:1141`, IL `:1341`); `:1508 executiveRulePackForJurisdiction` returns null for 44 states, D.C. and the territories.
+- [src/simulation/executive-authority-rule-packs.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/executive-authority-rule-packs.ts): only six packs (federal `:303`, KY `:654`, NE `:801`, AK `:967`, MN `:1141`, IL `:1341`); `:1508 executiveRulePackForJurisdiction` returns null for 44 states, D.C. and the territories.
 - `src/simulation/executive-governing-kernel-bank.ts:305–326` kernels "issue an executive order" and "inherited orders at transition", both NEEDS_MECHANIC for want of an executive-order record; `:531–551` rulemaking kernels blocked on a regulation record.
 - `src/simulation/governing/state-governing.ts:157–164` matter families; `:607` agenda options "priority:<family>" whose effect text says agencies are told, but only budget option order (`:3075`) and chief-of-staff advice (`:1182–1230`) read it; `:751` implementation pace options; `:2222 decideGoverningMatter`.
 - `src/simulation/law-hierarchy.ts:37 LawLevel` (no executive or regulation level); `governing/law-in-force.ts:74 LawInForce`, `:115 lawInForce`.
 - `src/simulation/enacted-law-effects.ts:796 applyLawConsequences`; `law-consequence-registry.ts` (8 kinds incl. `legalOutcomeRegistration`, `law-consequences/legal-outcome.ts:174`); `law-consequence-types.ts:275 LawConsequenceContext`.
 - `src/simulation/crisis/disaster.ts:686 decideStateDisasterRequest`, `:743 decideFederalDisasterDeclaration` (the only declaration path today).
-- `src/simulation/speech-reception.ts:259,290`; `presentation/press-request.ts:184`.
+- [src/simulation/speech-reception.ts:259,290](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/speech-reception.ts); `presentation/press-request.ts:184`.
 - Session 23 brief: matters through `openMatter`, appointments (part 3), budget desk (part 4), one inbox (part 6). `legislature-game-profile.ts` for the read/estimated pattern.
 
 ## What to change

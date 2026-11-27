@@ -384,7 +384,7 @@ one.
 
 ## 10. Ownership
 
-`tests/narrative-wave-ownership-boundary.test.ts` was widened to
+[tests/narrative-wave-ownership-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/tests/narrative-wave-ownership-boundary.test.ts) was widened to
 `person-identity`, `person-context`, `voice-bands`, `setup-young-life-bank` and
 `people.ts`, with the reason written into the test: all of it is character and
 copy, which is this wave's, and none of it is a body family, a plate, a pose or
@@ -446,8 +446,8 @@ Expected conflict points, all of them known:
 | File                                  | Why                                                                     |
 | ------------------------------------- | ----------------------------------------------------------------------- |
 | `src/player/PlayerGame.tsx` (removed) | #86 binds scene surfaces in the same component this packet restructured |
-| `src/player/player.css`               | Both add rules; this packet's are appended and additive                 |
-| `src/presentation/life-story.ts`      | `ScenePerson` is new here and is exactly what #86's binding needs       |
+| [src/player/player.css](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/player.css)               | Both add rules; this packet's are appended and additive                 |
+| [src/presentation/life-story.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/life-story.ts)      | `ScenePerson` is new here and is exactly what #86's binding needs       |
 
 `ScenePerson` carries `personId`, `name`, `relationship` and `introduction` for
 everybody in a scene, which is the join #86 needs to put a face beside a name.
@@ -462,12 +462,12 @@ around them.
 | Check                                               | Result                                                                                                                  |
 | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `npm run validate`                                  | **Passed** — format, lint, typecheck, **1,485 tests across 91 files**, build, deterministic demo replay, art validation |
-| `tests/character-context.test.ts`                   | **34 passed** — every human finding, plus the guards                                                                    |
-| `tests/e2e/character-context.spec.ts`               | **8 passed** in a real browser, on the production route                                                                 |
+| [tests/character-context.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/c3c860cd634d2c2d193e2d361c31b0ab37e529d2/tests/character-context.test.ts)                   | **34 passed** — every human finding, plus the guards                                                                    |
+| [tests/e2e/character-context.spec.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/character-context.spec.ts)               | **8 passed** in a real browser, on the production route                                                                 |
 | Full Playwright suite, 19 spec files                | **149 passed**, 0 failed                                                                                                |
 | `npm run report:life -- packet72-replay 0 5`, twice | **Byte-identical**, 12,339 bytes                                                                                        |
 | `git diff --check`                                  | Clean                                                                                                                   |
-| `tests/narrative-wave-ownership-boundary.test.ts`   | Passes; #83/#84/#85/#86 carve-outs intact                                                                               |
+| [tests/narrative-wave-ownership-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/tests/narrative-wave-ownership-boundary.test.ts)   | Passes; #83/#84/#85/#86 carve-outs intact                                                                               |
 
 ### Three existing tests this packet changed, and why
 
@@ -539,14 +539,14 @@ merged clean, because `ScenePerson` was new on this side and #86 never touched
 the file.
 
 **`src/player/PlayerGame.tsx` (removed) — resolved to #86.** #86 moved the title screen
-out into `src/player/TitleScreen.tsx` so the graphics lane could give it a
+out into [src/player/TitleScreen.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/TitleScreen.tsx) so the graphics lane could give it a
 backdrop without permanently living inside another branch's component, and left
 behind a single import. That is the better shape and it is #86's to decide, so
 the inline component this branch had restructured is removed and the import
 stays. The call site is untouched: it already passed `onOpenOptions`, and it
 still does.
 
-**`src/player/TitleScreen.tsx` — resolved to both.** #86's component is kept
+**[src/player/TitleScreen.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/TitleScreen.tsx) — resolved to both.** #86's component is kept
 whole: the tableau wrapper, the `resolveTitlePresentation` call, the scene
 description, the save-summary hero, the no-art case. Three repairs this branch
 had made to the same screen are re-homed into it rather than being lost with
@@ -564,14 +564,14 @@ assert their own half and both pass: `title-tableau.spec.ts` still checks that a
 decoded production raster reaches the page, and `narrative-life.spec.ts` still
 checks the five controls, the heading and the absence of the tagline.
 
-**`src/player/player.css` — resolved to both.** Both branches appended a block
+**[src/player/player.css](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/player.css) — resolved to both.** Both branches appended a block
 to the end of the file and the two blocks share no selector, so both are kept,
 with this branch's Packet 72 block appended last, which is where it was written
 to sit.
 
 ### One test that needed the same treatment
 
-`tests/e2e/title-tableau.spec.ts` starts a life to prove the backdrop survives
+[tests/e2e/title-tableau.spec.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/title-tableau.spec.ts) starts a life to prove the backdrop survives
 having one. Its helper filled an age and clicked `begin`; this branch had put a
 calibration between those two steps, so the helper stopped one click short of
 the play screen and three of #86's tests failed on a route change rather than on
@@ -582,14 +582,14 @@ in the file. Nothing the spec asserts was weakened, and no test was skipped.
 
 `NARRATIVE_WAVE_BASE` was `6311dd6`, the main this branch was cut from.
 Measured from there after the merge, the check counts every file #86 shipped —
-the art bank, `src/environment/`, `src/authoring/`, the scene and tableau
+the art bank, [src/environment/](https://github.com/lamontaes/Political-Game-Git/tree/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/environment), [src/authoring/](https://github.com/lamontaes/Political-Game-Git/tree/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/src/authoring), the scene and tableau
 runtime — as a change made here. They are not: they arrived from `main` whole
 and unedited. The base moves to `5f735da` for exactly the reason
-`tests/support/ownership-boundary.ts` already records for the #60 and #82
+[tests/support/ownership-boundary.ts](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/tests/support/ownership-boundary.ts) already records for the #60 and #82
 merges, and the carve-out list is unchanged: the check still fails this branch
 the moment it touches a plate, a pose, a scene or an inspector.
 
-`src/player/TitleScreen.tsx` is added to the surfaces this wave declares, with
+[src/player/TitleScreen.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/TitleScreen.tsx) is added to the surfaces this wave declares, with
 the seam written out beside it. It is the only #86 file this branch edits, and
 the edit is copy and two controls.
 
@@ -602,11 +602,11 @@ the edit is copy and two controls.
 | Full Playwright suite                                  | **154 passed**, 0 failed                                                                                                                                                                                                                                                                                                                 |
 | `npm run report:life -- packet76-reconcile 0 5`, twice | **Byte-identical**, 12,260 bytes                                                                                                                                                                                                                                                                                                         |
 | `npm run report:life -- packet72-replay 0 5`, twice    | **Byte-identical, 12,339 bytes — the same size §13 recorded before the merge**                                                                                                                                                                                                                                                           |
-| `tests/narrative-wave-ownership-boundary.test.ts`      | Passes against the new base; #83/#84/#85/#86 carve-outs intact                                                                                                                                                                                                                                                                           |
-| `tests/authoring-ownership-boundary.test.ts`           | Passes — the Packet 26 range is closed and unaffected                                                                                                                                                                                                                                                                                    |
-| `src/presentation/life-opacity.test.ts`                | Passes                                                                                                                                                                                                                                                                                                                                   |
+| [tests/narrative-wave-ownership-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/tests/narrative-wave-ownership-boundary.test.ts)      | Passes against the new base; #83/#84/#85/#86 carve-outs intact                                                                                                                                                                                                                                                                           |
+| [tests/authoring-ownership-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/tests/authoring-ownership-boundary.test.ts)           | Passes — the Packet 26 range is closed and unaffected                                                                                                                                                                                                                                                                                    |
+| [src/presentation/life-opacity.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/life-opacity.test.ts)                | Passes                                                                                                                                                                                                                                                                                                                                   |
 | `git diff --check`                                     | Clean                                                                                                                                                                                                                                                                                                                                    |
-| Diff inspected for recreated #86 systems               | **None.** No `art/`, no `src/environment/`, no `src/authoring/`, no `scripts/art-asset-factory/`, no `src/ui/`, no `src/App.tsx`, no scene/pose/raster/character/component/title-tableau/visual-integration presentation module, no `OfficeScene`/`ModularCharacter`/`PersonPortrait`/`useRasterTier`/`useSceneTransform`/`TitleTableau` |
+| Diff inspected for recreated #86 systems               | **None.** No `art/`, no [src/environment/](https://github.com/lamontaes/Political-Game-Git/tree/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/environment), no [src/authoring/](https://github.com/lamontaes/Political-Game-Git/tree/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/src/authoring), no [scripts/art-asset-factory/](https://github.com/lamontaes/Political-Game-Git/tree/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/scripts/art-asset-factory), no [src/ui/](https://github.com/lamontaes/Political-Game-Git/tree/71a9ab5fc83c1176132ffc773781639228706b85/src/ui), no [src/App.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/App.tsx), no scene/pose/raster/character/component/title-tableau/visual-integration presentation module, no `OfficeScene`/`ModularCharacter`/`PersonPortrait`/`useRasterTier`/`useSceneTransform`/`TitleTableau` |
 
 The second replay row is the preservation proof that matters most: the Packet 72
 life report reproduces byte-for-byte at the size §13 recorded before any of this

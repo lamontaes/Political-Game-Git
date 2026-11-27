@@ -96,7 +96,7 @@ Wages, rent, mortgage payments, sales and property tax collection, Social Securi
 
 - Whether anyone is actually filled in from defect 10's pools in play; the run did not log fill-ins by place.
 - Why the two neighboring pools in Cutten fill up at all, possibly commuters' wages with no spending there; not traced.
-- The older simulation engine under `src/simulation/`, which keeps its own budget arithmetic.
+- The older simulation engine under [src/simulation/](https://github.com/lamontaes/Political-Game-Git/tree/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation), which keeps its own budget arithmetic.
 - Payments that end with a household's standing contracts when someone moves away.
 
 ## What happens next

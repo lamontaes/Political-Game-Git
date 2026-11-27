@@ -15,14 +15,14 @@ The game already pressures each character where it hurts: a dilemma about the br
 
 ## Existing code it must use
 
-- `src/simulation/player-model.ts` — the adaptive model (header :1-27: it chooses what is offered, never outcomes).
-- `src/simulation/situation-selection.ts:199 rankSituations`, `:235 selectSituation`; pacing constants `:183 PACING_PENALTY`, `:184 MONOTONY_PENALTY`, `:185 PACING_WINDOW`, stakes load `:189`; forbidden list in the header (:30-49). Callers: `src/presentation/adult-life.ts:217`, `formative-play.ts:183`, `life-story.ts:475/:521`.
+- [src/simulation/player-model.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/player-model.ts) — the adaptive model (header :1-27: it chooses what is offered, never outcomes).
+- `src/simulation/situation-selection.ts:199 rankSituations`, `:235 selectSituation`; pacing constants `:183 PACING_PENALTY`, `:184 MONOTONY_PENALTY`, `:185 PACING_WINDOW`, stakes load `:189`; forbidden list in the header (:30-49). Callers: [src/presentation/adult-life.ts:217](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/adult-life.ts), `formative-play.ts:183`, `life-story.ts:475/:521`.
 - `src/presentation/new-game.ts:139 NewGameSetup` (setup inputs, Custom Start); `src/player/SetupScreen.tsx:323/:445` (Start a life / Custom start); `src/simulation/setup-priors.ts:65 setupPriorsOf` (setup answers kept on the World, never feeding generators).
 - `src/player/ShellWorkspaces.tsx:1866 OptionsWorkspace` ("only settings something actually reads").
 - Press: `src/simulation/press/outlets.ts:452 ensurePressMediaOpening`, `:711 hireReporter` (reporters generated as ordinary people), outlet plans `:59 OutletPlan`; `src/simulation/press/desk.ts:920 editorialDecision` (publish/hold/narrow/decline, uses corroboration), `:286 assignStory`.
 - Money: `src/simulation/starting-money.ts:83 ensureStartingPersonalMoney` (positions from recorded work, never a zero); household from parents (Session 6 binds the Creator to `people-family.ts:191 recordFamilyAddition`).
-- Saves: `src/player/SavesScreen.tsx`, `src/persistence/sqlite-world-repository.ts`.
-- Notes surface: `src/presentation/person-dossier.ts` (what the player knows about a person); `src/simulation/favors.ts:391 favorsBetween`; `src/simulation/people-promise.ts`.
+- Saves: [src/player/SavesScreen.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/SavesScreen.tsx), [src/persistence/sqlite-world-repository.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/persistence/sqlite-world-repository.ts).
+- Notes surface: [src/presentation/person-dossier.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/person-dossier.ts) (what the player knows about a person); `src/simulation/favors.ts:391 favorsBetween`; [src/simulation/people-promise.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/simulation/people-promise.ts).
 
 ## What to change
 

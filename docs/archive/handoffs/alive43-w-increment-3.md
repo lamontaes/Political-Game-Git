@@ -42,8 +42,8 @@ increment.
 
 ## Files
 
-- New: `src/simulation/living-world/developments.ts`,
-  `src/presentation/living-world-developments.test.ts`.
+- New: [src/simulation/living-world/developments.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/developments.ts),
+  [src/presentation/living-world-developments.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/living-world-developments.test.ts).
 - Shared adapters: `opening-life.ts` (calls `ensureLivingWorldDevelopments`
   after W2), `campaigns.ts` (one more handler entry), living-world `index.ts`.
 
@@ -62,7 +62,7 @@ increment.
   save 1,519,588 bytes.
 
 Pending for LAND on the union: `corpus:prose` regeneration and the
-dehardwire census (the census test rewrites `docs/dehardwire/census.json`).
+dehardwire census (the census test rewrites [docs/dehardwire/census.json](https://github.com/lamontaes/Political-Game-Git/blob/dba7d07ad8129e7fe59ca859e140d688d56a0cf1/docs/dehardwire/census.json)).
 
 ## Receiver action
 

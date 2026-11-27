@@ -8,13 +8,13 @@ MERGED: No. This proof is part of the preserved draft council-driver branch.
 
 DECIDED, measured: David Peterson voted yea with the recorded reason `member:own-bill`. Amber Medina, Rosa Hayes, Robert Weiss and Taylor Anderson voted yea with `member:council-deference`. The saved vote passed five to zero. Their records are in `a77-town-profile-proof/named-councils.json:11`.
 
-HARDWIRED, measured: the existing passage callback at `src/simulation/municipal-ordinance-procedure.ts:831` supplies a 30-day effective-date fallback. The town profile at `src/simulation/town-council-profile.ts:221` says the date is not distinct from enactment.
+HARDWIRED, measured: the existing passage callback at [src/simulation/municipal-ordinance-procedure.ts:831](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/municipal-ordinance-procedure.ts) supplies a 30-day effective-date fallback. The town profile at [src/simulation/town-council-profile.ts:221](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/town-council-profile.ts) says the date is not distinct from enactment.
 
 Measured: `a77-town-profile-proof/named-councils.json:51` records the first act's enactment on January 5 and effectiveness on February 4. This is an observed A83 gap, not a repaired date rule.
 
 ## Wider effects and missing links
 
-Measured: `src/simulation/governing/town-profile-clock.test.ts:105` checks that every disposition belongs to the saved council. Line 115 requires an enacted record. Line 141 checks canonical Continue, unchanged offices and organization identity; line 152 rejects duplicate votes and enactments after a repeated step.
+Measured: [src/simulation/governing/town-profile-clock.test.ts:105](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/governing/town-profile-clock.test.ts) checks that every disposition belongs to the saved council. Line 115 requires an enacted record. Line 141 checks canonical Continue, unchanged offices and organization identity; line 152 rejects duplicate votes and enactments after a repeated step.
 
 This controlled nonfiscal proposal does not establish natural filing, public service delivery, a monetary effect, a browser interaction or another institution's driver. The native fixture's successful import does not resolve the prior presentation-entry import failure. No shared import repair was made.
 

@@ -19,7 +19,7 @@ authorized Merge session may integrate it after exact-head CTO approval.
 HARDWIRED: The Jobs bank renders “No job openings are listed here right now.”
 The old component said “Nobody here is advertising an opening right now.”
 The new claim concerns listings the screen can display, rather than all
-employers. `src/presentation/job-listings-english.ts` supplies the sentence
+employers. [src/presentation/job-listings-english.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/job-listings-english.ts) supplies the sentence
 through the existing grounded English renderer.
 
 DECIDED: No actor decision was traced or changed by this prose migration.
@@ -89,7 +89,7 @@ not approval for a broader rewrite.
 ## VITAL STATISTICS
 
 - Changed test files: `tests/player-wording.test.ts` and
-  `src/presentation/job-listings-english.test.ts`; 31 of 31 tests passed,
+  [src/presentation/job-listings-english.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/job-listings-english.test.ts); 31 of 31 tests passed,
   with at most two workers.
 - Scoped TypeScript: five changed source/test roots and their dependencies;
   zero diagnostics after the canonical opening fixture repair.
@@ -103,7 +103,7 @@ not approval for a broader rewrite.
   normal-life empty-list route or a hydrated interaction test.
 - Final ESLint, Prettier, wording baseline, and zero-dice checks: PASS.
 - Spelling sweep: four existing findings in the unchanged release note
-  `docs/release/changes/plain-american-wording.md`, which quotes British
+  [docs/release/changes/plain-american-wording.md](https://github.com/lamontaes/Political-Game-Git/blob/c3ca55ee4ac005043fcae9198ab30ca8eb32fd9e/docs/release/changes/plain-american-wording.md), which quotes British
   examples. No owned file was flagged.
 - Full suite, year-speed runs, and full simulations: NOT RUN under current
   owner instructions. No simulation behavior was changed.

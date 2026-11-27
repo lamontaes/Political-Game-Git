@@ -18,10 +18,10 @@ You meet the person you might marry the way people do: a coworker you keep runni
 - `src/simulation/couple-stage-data.ts:12 COUPLE_STAGE_CHOICES` (move in, marry, break up; consent both/either); `src/simulation/couple-stage-contract.ts:26 coupleStageOptions`, `:45 coupleStageConsent` — used today ONLY by NPCs (`living-world/town-couple-actor-adapter.ts:28`).
 - `src/presentation/people-contacts.ts:253 romanticActions` — Contacts offers "Ask out", "Ask to be a couple", "End things"; no move-in, marry or family-plan action for the player there.
 - `src/simulation/people-family-plan.ts:128 familyPlanAvailability`, `:179 proposeFamilyPlan`, `:446 familyPlanTransitionHandler`.
-- `src/simulation/people-contact.ts:388 proposeContact`, `:702 npcContactAnswer` (romantic block); `src/simulation/initiator-occasions.ts` (a known person initiating a call or invitation); `src/simulation/social-introductions.ts:266 introductionCandidates`.
+- `src/simulation/people-contact.ts:388 proposeContact`, `:702 npcContactAnswer` (romantic block); [src/simulation/initiator-occasions.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/initiator-occasions.ts) (a known person initiating a call or invitation); `src/simulation/social-introductions.ts:266 introductionCandidates`.
 - `src/presentation/childhood.ts:60 caregiverFor`, `:75 projectChildhoodMoment`, `:114 playChildhoodMoment` (caregiver-led band resolves by `:267 caregiverChoice` from the adult's temperament; OPTION_LEANS :171); `src/presentation/formative-play.ts:101 projectFormativeYears`, `:281 chooseFormativeOption`; `src/simulation/character-history.ts:2254 formativeIntervalAt`.
 - `src/simulation/people-upbringing.ts:798 upbringingFor` / `readUpbringing` (caregiving is always `"estimated-care"` or `"not-recorded"`, schooling `[]`), `:877 upbringingTraitTendencies`.
-- `src/simulation/childhood-record.ts` — per-child dated entries (`birth`, `school-year-move`, `no-school-on-record`), `appendChildhoodEntry`.
+- [src/simulation/childhood-record.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/childhood-record.ts) — per-child dated entries (`birth`, `school-year-move`, `no-school-on-record`), `appendChildhoodEntry`.
 - `src/simulation/situation-selection.ts:235 selectSituation` (picks which eligible moment is offered).
 
 ## What to change

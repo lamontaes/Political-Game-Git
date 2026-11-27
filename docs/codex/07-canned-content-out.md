@@ -16,15 +16,15 @@ The 11:07 a.m. ruling on September 29 said: remove canned news. Old saves don't 
 Build 23's final hand-back, on main 2ce7f9ad0; line numbers may have moved.
 
 1. **Canned news.**
-   - Delete `INTERNATIONAL_STAGES` and `INTERNATIONAL_SUBJECTS`, with the whole international family, in `src/simulation/living-world/developments.ts` (about lines 72 to 120).
+   - Delete `INTERNATIONAL_STAGES` and `INTERNATIONAL_SUBJECTS`, with the whole international family, in [src/simulation/living-world/developments.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/developments.ts) (about lines 72 to 120).
    - Delete `LOCAL_SUBJECTS` in the same file (park shelter, road repair, facility hours, recycling site).
-   - Delete `DEVELOPMENT_DISPUTES` and the crisis draw keyed to it in `src/simulation/pressure/events.ts` (about line 81, and its use near line 159).
-   - Update the callers: `src/presentation/opening-life.ts` (`ensureLivingWorldDevelopments`) and `src/simulation/campaigns.ts` (`developmentStepTransitionHandler`).
-   - `src/presentation/news-headlines.ts` (about line 25) carries the park-shelter headline.
+   - Delete `DEVELOPMENT_DISPUTES` and the crisis draw keyed to it in [src/simulation/pressure/events.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/pressure/events.ts) (about line 81, and its use near line 159).
+   - Update the callers: [src/presentation/opening-life.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/opening-life.ts) (`ensureLivingWorldDevelopments`) and [src/simulation/campaigns.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/campaigns.ts) (`developmentStepTransitionHandler`).
+   - [src/presentation/news-headlines.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/news-headlines.ts) (about line 25) carries the park-shelter headline.
 2. **The canned meeting agenda** ("whether the public meeting room should open one extra evening each week"):
-   - `src/simulation/life-opportunities.ts` (about lines 140 and 646 to 649);
-   - `src/simulation/living-world/local-council-meetings.ts` (about lines 69 and 523);
-   - `src/simulation/ordinary-meeting-presence.ts` (about lines 40, 50 and 427).
+   - [src/simulation/life-opportunities.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life-opportunities.ts) (about lines 140 and 646 to 649);
+   - [src/simulation/living-world/local-council-meetings.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/local-council-meetings.ts) (about lines 69 and 523);
+   - [src/simulation/ordinary-meeting-presence.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/simulation/ordinary-meeting-presence.ts) (about lines 40, 50 and 427).
 
    The agenda must come from the ordinances filed for that meeting.
 
@@ -32,8 +32,8 @@ Build 23's final hand-back, on main 2ce7f9ad0; line numbers may have moved.
 
 ## Replace, don't just delete
 
-- **News comes from records.** The paper reports what happened: laws passed and their effects (already built, `src/simulation/press/law-effect-news.ts`), council votes, business openings and closings, deaths, crimes, election results.
-- **Day one's paper carries the world's history from before January 5, 2026:** the November 2025 results, laws that took effect January 1, the council's recent votes, business openings and closings, deaths and obituaries. The desk sweep (`pressDeskSweepHandler` in `src/simulation/press/desk.ts`) must read records dated before day one on its opening pass.
+- **News comes from records.** The paper reports what happened: laws passed and their effects (already built, [src/simulation/press/law-effect-news.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/law-effect-news.ts)), council votes, business openings and closings, deaths, crimes, election results.
+- **Day one's paper carries the world's history from before January 5, 2026:** the November 2025 results, laws that took effect January 1, the council's recent votes, business openings and closings, deaths and obituaries. The desk sweep (`pressDeskSweepHandler` in [src/simulation/press/desk.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/desk.ts)) must read records dated before day one on its opening pass.
 - **Meetings.** The people present are the real attendees (members, staff, residents who came for an item on the agenda), posted in the scene. A public comment the player gives is recorded and heard by those present.
 - **Dead buttons.** Every button either does what it says, with a record written, or is removed. List each in the hand-back.
 - **Dialogue.** Lines come from the English engine built from the speaker's record, in the register of real speech (Congressional Record, state journals, council minutes). There are no generic "AI" lines.

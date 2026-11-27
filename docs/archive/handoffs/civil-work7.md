@@ -92,7 +92,7 @@ normal-route proof remains pending.
 patch is delivered separately. Patch application and normal-route proof remain
 unaccepted until the UI owner records them.
 
-`tests/e2e/civil-personnel.spec.ts` is explicitly an isolated component proof,
+[tests/e2e/civil-personnel.spec.ts](https://github.com/lamontaes/Political-Game-Git/blob/c3c860cd634d2c2d193e2d361c31b0ab37e529d2/tests/e2e/civil-personnel.spec.ts) is explicitly an isolated component proof,
 with actual pointer/keyboard activation and canonical snapshot round-tripping.
 It is not normal-player reachability or a lawful personnel journey.
 

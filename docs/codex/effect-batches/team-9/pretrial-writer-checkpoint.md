@@ -12,7 +12,7 @@ A prosecution reaches its charge decision and applies the operative bail law at 
 
 ## Why
 
-Measured: the writer in `src/simulation/justice/prosecution.ts:412` attaches the canonical stamp to the actual saved pretrial consequence. The terminal reason is the operative legal rule constraining the court's release decision. The stamp identifies that rule; it does not independently decide detention.
+Measured: the writer in [src/simulation/justice/prosecution.ts:412](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/justice/prosecution.ts) attaches the canonical stamp to the actual saved pretrial consequence. The terminal reason is the operative legal rule constraining the court's release decision. The stamp identifies that rule; it does not independently decide detention.
 
 ## Person and place
 
@@ -20,7 +20,7 @@ The saved event retains the named defendant. The stamp retains the venue, referr
 
 ## Repeal and timing
 
-Measured: `src/simulation/justice/pretrial.ts:87` reads the operative law at application. A changed law governs future consequences; this patch does not revise old events or undo detention. Measured: `src/simulation/justice/pretrial.test.ts:126` tests enactment and repeal.
+Measured: [src/simulation/justice/pretrial.ts:87](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/justice/pretrial.ts) reads the operative law at application. A changed law governs future consequences; this patch does not revise old events or undo detention. Measured: [src/simulation/justice/pretrial.test.ts:126](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/src/simulation/justice/pretrial.test.ts) tests enactment and repeal.
 
 ## Connections and gaps
 

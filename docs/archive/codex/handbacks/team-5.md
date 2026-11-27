@@ -20,15 +20,15 @@ not the current merge state. The assignment remains incomplete.
 
 DECIDED: The assigned Job 07 records the September 29 ruling: “remove canned news. Old saves don't matter.” The candidate removes the ready-made local and international news producers and the crisis draw that consumed them. Existing scheduled synthetic transitions cancel without creating events or successors.
 
-HARDWIRED: The opening archive considers the preceding 90 days in `src/simulation/press/desk.ts:171`. It publishes existing eligible public occurrences through Civic Ledger, using their original occurrence dates. It creates no election, law, vote, business opening, or death to fill an empty archive. The first desk sweep reads the pre-schedule record; later sweeps keep their incremental frontier.
+HARDWIRED: The opening archive considers the preceding 90 days in [src/simulation/press/desk.ts:171](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/desk.ts). It publishes existing eligible public occurrences through Civic Ledger, using their original occurrence dates. It creates no election, law, vote, business opening, or death to fill an empty archive. The first desk sweep reads the pre-schedule record; later sweeps keep their incremental frontier.
 
-HARDWIRED: The dossier candidate reads public events involving the person, beyond office tenures, in `src/presentation/person-dossier.ts:187`. Work and education facts require the player's own identity, a public source event, or accurate recorded event knowledge. Private biography remains withheld. This does not generate missing pre-play hiring or favor history.
+HARDWIRED: The dossier candidate reads public events involving the person, beyond office tenures, in [src/presentation/person-dossier.ts:187](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/person-dossier.ts). Work and education facts require the player's own identity, a public source event, or accurate recorded event knowledge. Private biography remains withheld. This does not generate missing pre-play hiring or favor history.
 
 HARDWIRED: The rejected generic choice opener and appearance developer notice are removed from their player components. The ownership check still prevents editing another person's appearance.
 
 # Wider knock-on effects and missing links
 
-The required meeting change waits for Team 1's claimed `src/simulation/living-world/local-council-meetings.ts`. That file still introduces a meeting-room-hours ordinance. Team 1 also owns `src/simulation/campaigns.ts` and `src/presentation/opening-life.ts`; their synthetic-development calls remain temporarily callable through retired entry points. Team 5 has not edited these files.
+The required meeting change waits for Team 1's claimed [src/simulation/living-world/local-council-meetings.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/local-council-meetings.ts). That file still introduces a meeting-room-hours ordinance. Team 1 also owns [src/simulation/campaigns.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/campaigns.ts) and [src/presentation/opening-life.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/opening-life.ts); their synthetic-development calls remain temporarily callable through retired entry points. Team 5 has not edited these files.
 
 Team 4 owns `scripts/zero-dice-allowlist.json`. The source candidate removes code matched by two pressure-event entries. Team 4 must reconcile these after receiving the change; Team 5 has not changed that file.
 
@@ -82,11 +82,11 @@ The shared root remains on its original branch with all product edits preserved.
 
 ## History-source findings
 
-One permitted Low source-research helper inspected the existing initialization paths without editing or running checks. At canonical main, `establishOpeningOfficeholders` creates identity and current tenure, with no earlier career constructor, in `src/presentation/opening-officeholders.ts:70`.
+One permitted Low source-research helper inspected the existing initialization paths without editing or running checks. At canonical main, `establishOpeningOfficeholders` creates identity and current tenure, with no earlier career constructor, in [src/presentation/opening-officeholders.ts:70](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/opening-officeholders.ts).
 
-Local civilian hiring already backdates canonical work through `fillTownJobs` in `src/simulation/living-world/town-employment.ts:1354`. It writes work relationships, roles and statuses, but no historical hiring event or favor. This file belongs to Team 3, so Team 5 did not change it.
+Local civilian hiring already backdates canonical work through `fillTownJobs` in [src/simulation/living-world/town-employment.ts:1354](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/town-employment.ts). It writes work relationships, roles and statuses, but no historical hiring event or favor. This file belongs to Team 3, so Team 5 did not change it.
 
-Appointment favors require an actual personal appointment decision trace in `src/simulation/patronage/appointments.ts:580`. Missing favors cannot be filled by arbitrary rows. A full D-9 pre-play history producer remains work to implement through these boundaries.
+Appointment favors require an actual personal appointment decision trace in [src/simulation/patronage/appointments.ts:580](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/patronage/appointments.ts). Missing favors cannot be filled by arbitrary rows. A full D-9 pre-play history producer remains work to implement through these boundaries.
 
 ## History producer requirements (design only)
 
@@ -114,40 +114,40 @@ Use the candidate's exact PR head after local checks are released. Start a new a
 
 Claimed paths were appended under the atomic shared lock before edits. Only Team 5 source belongs in its product PRs. Some claimed paths remain unedited while their dependencies are unresolved:
 
-- `docs/codex/handbacks/09-routing.md`
-- `docs/codex/handbacks/team-5.md`
-- `src/player/SavedAppearance.tsx`
-- `src/player/opening-life/OpeningLifeFlow.tsx`
-- `src/player/opening-life/OpeningLifeFlow.test.tsx`
+- [docs/codex/handbacks/09-routing.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/handbacks/09-routing.md)
+- [docs/codex/handbacks/team-5.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/handbacks/team-5.md)
+- [src/player/SavedAppearance.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/SavedAppearance.tsx)
+- [src/player/opening-life/OpeningLifeFlow.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/opening-life/OpeningLifeFlow.tsx)
+- [src/player/opening-life/OpeningLifeFlow.test.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/opening-life/OpeningLifeFlow.test.tsx)
 - `tests/canned-content-guard.test.ts`
-- `src/presentation/person-dossier.ts`
-- `src/presentation/person-dossier.test.ts`
-- `src/player/ShellDossier.tsx`
-- `src/simulation/press/desk.ts`
-- `src/simulation/press/opening-archive.test.ts`
-- `docs/release/changes/wave1-record-backed-content.md`
-- `src/simulation/living-world/developments.ts`
-- `src/simulation/pressure/events.ts`
-- `src/simulation/pressure/events.test.ts`
-- `src/presentation/news-headlines.ts`
-- `src/presentation/news-headlines.test.ts`
-- `src/presentation/living-world-developments.test.ts`
-- `src/simulation/life-opportunities.ts`
-- `src/simulation/ordinary-meeting-presence.ts`
+- [src/presentation/person-dossier.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/person-dossier.ts)
+- [src/presentation/person-dossier.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/person-dossier.test.ts)
+- [src/player/ShellDossier.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/ShellDossier.tsx)
+- [src/simulation/press/desk.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/desk.ts)
+- [src/simulation/press/opening-archive.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/press/opening-archive.test.ts)
+- [docs/release/changes/wave1-record-backed-content.md](https://github.com/lamontaes/Political-Game-Git/blob/c3ca55ee4ac005043fcae9198ab30ca8eb32fd9e/docs/release/changes/wave1-record-backed-content.md)
+- [src/simulation/living-world/developments.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/developments.ts)
+- [src/simulation/pressure/events.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/pressure/events.ts)
+- [src/simulation/pressure/events.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/pressure/events.test.ts)
+- [src/presentation/news-headlines.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/news-headlines.ts)
+- [src/presentation/news-headlines.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/news-headlines.test.ts)
+- [src/presentation/living-world-developments.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/living-world-developments.test.ts)
+- [src/simulation/life-opportunities.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life-opportunities.ts)
+- [src/simulation/ordinary-meeting-presence.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/simulation/ordinary-meeting-presence.ts)
 - `src/simulation/ordinary-meeting-presence.test.ts`
-- `src/player/PersonCard.tsx`
-- `src/presentation/ordinary-meeting-scene.test.ts`
-- `src/simulation/life-circumstances.ts`
-- `src/player/TitleScreen.tsx`
-- `src/player/World39News.tsx`
-- `src/player/CampaignWorkspace.tsx`
-- `docs/release/changes/wave1-playtest-copy.md`
-- `src/player/SetupScreen.tsx`
-- `src/presentation/day-opening-english.ts` (claimed; unedited)
-- `src/presentation/day-opening-english.test.ts` (claimed; unedited)
-- `src/simulation/person-context.ts` (roommate wording repaired)
-- `src/presentation/people-continuation.ts` (roommate wording repaired)
-- `src/simulation/macro-economy/sources.ts` (obsolete caption removed)
+- [src/player/PersonCard.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/PersonCard.tsx)
+- [src/presentation/ordinary-meeting-scene.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/ordinary-meeting-scene.test.ts)
+- [src/simulation/life-circumstances.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life-circumstances.ts)
+- [src/player/TitleScreen.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/TitleScreen.tsx)
+- [src/player/World39News.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/World39News.tsx)
+- [src/player/CampaignWorkspace.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/CampaignWorkspace.tsx)
+- [docs/release/changes/wave1-playtest-copy.md](https://github.com/lamontaes/Political-Game-Git/blob/c3ca55ee4ac005043fcae9198ab30ca8eb32fd9e/docs/release/changes/wave1-playtest-copy.md)
+- [src/player/SetupScreen.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/SetupScreen.tsx)
+- [src/presentation/day-opening-english.ts](https://github.com/lamontaes/Political-Game-Git/blob/c86f9bf6b3a8d3942853b3ee54acb4582dc5feee/src/presentation/day-opening-english.ts) (claimed; unedited)
+- [src/presentation/day-opening-english.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/c86f9bf6b3a8d3942853b3ee54acb4582dc5feee/src/presentation/day-opening-english.test.ts) (claimed; unedited)
+- [src/simulation/person-context.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/person-context.ts) (roommate wording repaired)
+- [src/presentation/people-continuation.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/people-continuation.ts) (roommate wording repaired)
+- [src/simulation/macro-economy/sources.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/macro-economy/sources.ts) (obsolete caption removed)
 
 # NEEDS LAMONTAE
 
@@ -199,16 +199,16 @@ The latest CTO rule requires research covering every game place for empirical an
 
 | PR or change           | Exact field or reader                                                             | Source coverage                                                                  | Fixed or seeded                        | Remaining gap                                                                                                                                             |
 | ---------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Record-backed news     | `src/simulation/press/desk.ts`, `oldest = addDays(world.currentDate, -90)`        | Authored editorial window; no empirical research source                          | Fixed 90 days                          | This bounds which existing occurrences the opening paper can show. Compliance with the all-values ruling is unresolved; no research-backed claim is made. |
-| Meeting eligibility    | `src/simulation/ordinary-meeting-presence.ts`, `eligibleMeetingPerson` age cutoff | Existing prior attendee reader also used age 18; no jurisdiction-law source here | Fixed 18 years; unchanged threshold    | Jurisdiction-specific legal majority is not established by this reader. No new law claim or numerical calibration was added.                              |
-| Crisis retirement      | `src/simulation/pressure/events.ts`, removed international `chanceCap` and draw   | Synthetic producer retired                                                       | Removed fixed cap and during-play draw | Team 4 owns allowlist reconciliation. Unchanged domestic values were not recalibrated.                                                                    |
-| Opening desk frontier  | `src/simulation/press/desk.ts`, initial sequence frontier                         | Actual canonical event sequences                                                 | Fixed zero sentinel on first sweep     | A record-index boundary, not an empirical world value.                                                                                                    |
+| Record-backed news     | [src/simulation/press/desk.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/desk.ts), `oldest = addDays(world.currentDate, -90)`        | Authored editorial window; no empirical research source                          | Fixed 90 days                          | This bounds which existing occurrences the opening paper can show. Compliance with the all-values ruling is unresolved; no research-backed claim is made. |
+| Meeting eligibility    | [src/simulation/ordinary-meeting-presence.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/simulation/ordinary-meeting-presence.ts), `eligibleMeetingPerson` age cutoff | Existing prior attendee reader also used age 18; no jurisdiction-law source here | Fixed 18 years; unchanged threshold    | Jurisdiction-specific legal majority is not established by this reader. No new law claim or numerical calibration was added.                              |
+| Crisis retirement      | [src/simulation/pressure/events.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/pressure/events.ts), removed international `chanceCap` and draw   | Synthetic producer retired                                                       | Removed fixed cap and during-play draw | Team 4 owns allowlist reconciliation. Unchanged domestic values were not recalibrated.                                                                    |
+| Opening desk frontier  | [src/simulation/press/desk.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/desk.ts), initial sequence frontier                         | Actual canonical event sequences                                                 | Fixed zero sentinel on first sweep     | A record-index boundary, not an empirical world value.                                                                                                    |
 | Playtest copy          | Setup benchmark removed from the screen; source computation unchanged             | No source or economic anchor introduced                                          | No new value                           | This is a disclosure change.                                                                                                                              |
-| Obsolete macro caption | `src/simulation/macro-economy/sources.ts`, comment caption                        | Source adapter unchanged                                                         | No value changed                       | No broader anchor-compliance claim.                                                                                                                       |
+| Obsolete macro caption | [src/simulation/macro-economy/sources.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/macro-economy/sources.ts), comment caption                        | Source adapter unchanged                                                         | No value changed                       | No broader anchor-compliance claim.                                                                                                                       |
 
 ## Renderer follow-up ownership
 
-The new persistent-file `flock` protocol worked. While holding its exclusive nonblocking lock, Team 5 rechecked the current claim table and claimed only `src/player/PlayerGame.tsx` (removed), `src/presentation/backdrop-people.ts` and its test. The lock file was retained. Earlier mkdir refusals were from the superseded protocol.
+The new persistent-file `flock` protocol worked. While holding its exclusive nonblocking lock, Team 5 rechecked the current claim table and claimed only `src/player/PlayerGame.tsx` (removed), [src/presentation/backdrop-people.ts](https://github.com/lamontaes/Political-Game-Git/blob/a1e2c5b9f2a1f226d10992f4846d819eb87cb91b/src/presentation/backdrop-people.ts) and its test. The lock file was retained. Earlier mkdir refusals were from the superseded protocol.
 
 The measured consumer mismatch is that the retired meeting scene uses a place backdrop, whose people reader only selects on-shift staff. The recorded meeting actors are passed to the retired scene consumer instead. The newest CTO dispatch assigns this renderer repair to Claude; all three newly claimed consumer paths remain unedited. Existing raster, staging coordinates and asset approval state remain authoritative. Browser acceptance is routed to Claude under the latest dispatch.
 
@@ -216,7 +216,7 @@ The measured consumer mismatch is that the retired meeting scene uses a place ba
 
 Team 5 holds no lock handle and has no queued acquisition. Claims-file writes and old flock acquisitions are stopped until coordinator release. No lock path was removed or replaced.
 
-The latest CTO dispatch assigns the obsolete News expectation in `src/player/PlayerSurfaceProvenance.test.tsx` to Team 5 on the actual playtest-copy branch. That is the next bounded deliverable. Claude owns the empty-bench renderer; Team 5 leaves renderer sources untouched. The effects map belongs to the coordinator.
+The latest CTO dispatch assigns the obsolete News expectation in [src/player/PlayerSurfaceProvenance.test.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/PlayerSurfaceProvenance.test.tsx) to Team 5 on the actual playtest-copy branch. That is the next bounded deliverable. Claude owns the empty-bench renderer; Team 5 leaves renderer sources untouched. The effects map belongs to the coordinator.
 
 The preserved full-file rerun was stopped by Team 5 with SIGINT on its identified parent after the higher-priority dispatch. It emitted no final result. This is NO RESULT, not a timeout diagnosis or a passing suite. The source repair remains committed on the meeting-controls branch.
 
@@ -286,9 +286,9 @@ The resident-reader baseline is main `411cb972ea91bc54d53ebc6ecc7caa065c6cbcd8`.
 
 The registered Team 5 workspace is `/private/tmp/wt-gate-1121`. Its branch is `codex/team-5-law-news-readers`. Only the claimed law reader, its test, its release declaration and this owned handback are changed.
 
-The reader in `src/simulation/press/law-effect-news.ts` uses current canonical household memberships and household locations. It adds living residents for public law-effect records whose occurrence and recording dates are available today. It uses the existing place-to-state identity for statewide stories. It does not fall back to the person's possibly stale home field. It preserves direct subjects, sponsors and recorded local floor voters and returns deduplicated IDs. The reader leaves the world and clock untouched.
+The reader in [src/simulation/press/law-effect-news.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/law-effect-news.ts) uses current canonical household memberships and household locations. It adds living residents for public law-effect records whose occurrence and recording dates are available today. It uses the existing place-to-state identity for statewide stories. It does not fall back to the person's possibly stale home field. It preserves direct subjects, sponsors and recorded local floor voters and returns deduplicated IDs. The reader leaves the world and clock untouched.
 
-The existing publication path in `src/simulation/press/desk.ts:1215` writes accurate media knowledge for each reader after publication. This static trace establishes the connection to the knowledge writer. A browser or saved-world publication walk is NOT RUN; Claude retains acceptance ownership.
+The existing publication path in [src/simulation/press/desk.ts:1215](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/desk.ts) writes accurate media knowledge for each reader after publication. This static trace establishes the connection to the knowledge writer. A browser or saved-world publication walk is NOT RUN; Claude retains acceptance ownership.
 
 The test fixture uses real Carson City and Reno identities, canonical household writers and explicit authored law/vote records. It does not generate a whole opening life. The complete law-news test file passes 9/9 at source checkpoint `4e57bf160ba89ec34638fc1d58aaeb65f383c1b8`. Seven resident-reader tests cover current residence, moves, ended membership, death, statewide reach, publication boundaries and preserved reader roles. Both existing outcome tests also pass. Duration is 79.13 seconds, with 10.56 seconds in test bodies.
 
@@ -346,11 +346,11 @@ The bounded source-runtime chain currently stops at primary-page research candid
 
 ## Schema and generation ownership seams
 
-The current local claim table assigns `src/simulation/types.ts` to Team 1. It assigns `src/simulation/character-history.ts` to Team 4 and `src/simulation/world-setup/types.ts` to Team 2. Coordinate those seams before editing; local claims are released only at the actual move.
+The current local claim table assigns [src/simulation/types.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/types.ts) to Team 1. It assigns [src/simulation/character-history.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/character-history.ts) to Team 4 and [src/simulation/world-setup/types.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/world-setup/types.ts) to Team 2. Coordinate those seams before editing; local claims are released only at the actual move.
 
-A candidate narrower saved-record route is the existing `PressRecord` union in `src/simulation/press/records.ts`. World already stores that sequenced family, and appendPressRecord supplies stable identity and history sequence. A new habit kind would also need the matching press integrity validation and save/replay checks. This possibility has not been authored or accepted; it may avoid changing Person fields, but it does not remove the need for an actual generation integration seam.
+A candidate narrower saved-record route is the existing `PressRecord` union in [src/simulation/press/records.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/records.ts). World already stores that sequenced family, and appendPressRecord supplies stable identity and history sequence. A new habit kind would also need the matching press integrity validation and save/replay checks. This possibility has not been authored or accepted; it may avoid changing Person fields, but it does not remove the need for an actual generation integration seam.
 
-Team 5 owns `src/simulation/press/desk.ts`. Its ensurePressDeskSchedule currently only installs the initial sweep. It is a possible initialization seam if the cloud owner verifies its actual call order and all population routes. The other opening API is ensurePressMediaOpening in the outlets module. Neither function currently writes a personal news habit. Do not move initialization into lawNewsReaders or a News-screen renderer.
+Team 5 owns [src/simulation/press/desk.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/desk.ts). Its ensurePressDeskSchedule currently only installs the initial sweep. It is a possible initialization seam if the cloud owner verifies its actual call order and all population routes. The other opening API is ensurePressMediaOpening in the outlets module. Neither function currently writes a personal news habit. Do not move initialization into lawNewsReaders or a News-screen renderer.
 
 For delivery, the existing recordProfessionalReaders path calls lawNewsReaders for each lead basis and writes accurate media knowledge after publication. Different habit/stake uptake must act at that canonical knowledge-delivery seam, with a saved trace that explains who learned what and why. The ordinary player's later news, dialogue and decisions must consume the same saved knowledge. A helper return or a fixture result alone is not acceptance.
 
@@ -505,11 +505,11 @@ All five temporary primary research copies and extracted text remain preserved.
 ### Saved-generation and knowledge ownership requests
 
 Measured static source order: openedWorld calls ensurePressOpening before
-ensureTownResidents in `src/presentation/opening-life.ts:447`. The press
+ensureTownResidents in [src/presentation/opening-life.ts:447](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/opening-life.ts). The press
 initializer therefore cannot initialize habits for all town residents by
 itself. Town households add people later through the batch character-history
 writer. Migration arrivals also use that batch writer during play in
-`src/simulation/migration/review.ts:411`. Campaign opponents and newsroom staff
+[src/simulation/migration/review.ts:411](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/migration/review.ts). Campaign opponents and newsroom staff
 use the single context-person writer. An opening-only scan misses later people;
 a daily scan would violate the speed rule.
 
@@ -521,14 +521,14 @@ available. Team 2 should identify the supported world-generation boundary.
 These are requested contracts, not authored hooks.
 
 Measured schema read: EventKnowledgeRecord has accuracy and discrete
-low/medium/high confidence in `src/simulation/types.ts:749`. It has no continuous
+low/medium/high confidence in [src/simulation/types.ts:749](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/types.ts). It has no continuous
 uptake amount. Team 1 coordination request: agree how saved habit and uptake
 records reach knowledge consumers without redefining confidence as attention.
 A separate sequenced press record is a candidate; a numeric side record alone
 would not prove that dialogue or decisions consume it.
 
 The existing appendPressRecord writer supplies stable identity, sequence and
-recording date in `src/simulation/press/store.ts:157`. A new habit kind would
+recording date in [src/simulation/press/store.ts:157](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/store.ts). A new habit kind would
 require press integrity and index handling plus save/reload verification.
 Serialization stores World history and performs full integrity validation on
 load. Existing serialization alone is not a passing test for an unimplemented
@@ -567,7 +567,7 @@ into main or approval of the draft.
 
 Measured source defect: writePresence writes attendance-seat provenance on
 entry, but its aftermath path previously started with an empty provenance list
-in `src/simulation/ordinary-meeting-presence.ts:476`. The draft repair carries
+in [src/simulation/ordinary-meeting-presence.ts:476](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/simulation/ordinary-meeting-presence.ts). The draft repair carries
 the existing seat tags forward from the recorded entry. It does not look up a
 replacement roster or manufacture a missing participation ID. Existing actor
 identity, events and seeded population are preserved.

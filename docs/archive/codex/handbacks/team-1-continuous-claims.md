@@ -40,32 +40,32 @@ consume strength. Required new fields also require explicit fixture updates.
 All locations below are relative to #1184 source head
 `33e6fe5850c28957556814d66db1929309018cc8`.
 
-1. `src/simulation/types.ts`, PrincipleRecord at line 1031 only: add a numeric
+1. [src/simulation/types.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/types.ts), PrincipleRecord at line 1031 only: add a numeric
    strength field; existing stance supplies direction. Do not modify
    BeliefConviction, PoliticalBeliefRecord or unrelated records.
-2. `src/simulation/history.ts`, PrincipleRecordInput at line 179 only: carry
+2. [src/simulation/history.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/history.ts), PrincipleRecordInput at line 179 only: carry
    strength. The append functions spread this input already, so no ID,
    sequence, indexing or batching rewrite is proposed.
-3. `src/simulation/politics.ts`, checkPrincipleInput at line 242 only: validate
+3. [src/simulation/politics.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/politics.ts), checkPrincipleInput at line 242 only: validate
    finite strength within [0,1]. No belief or position validation edits.
-4. `src/simulation/world.ts`, principle-record loop at line 3454 only: apply
+4. [src/simulation/world.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/world.ts), principle-record loop at line 3454 only: apply
    the same strength invariant. No other integrity traversal or cache edits.
-5. `src/simulation/governing/officeholder-principles.ts`: remove its ordinal
+5. [src/simulation/governing/officeholder-principles.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/governing/officeholder-principles.ts): remove its ordinal
    CONVICTION_WEIGHT use at line 22 and replace weighting in principledLeaning
    at line 104, principleAgreement at line 236 and
    spendingPrincipleConsideration at line 312 with strength times four.
    Preserve VOTE_IMPORTANCE, agenda thresholds and unrelated Team 2 behavior.
-6. Already-owned `src/simulation/principles-from-life.ts` and its test:
+6. Already-owned [src/simulation/principles-from-life.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/principles-from-life.ts) and its test:
    PrinciplePull, principlesFromPulls, evidence deduplication and canonical
    row append/change comparison. Read strength from recorded support and
    preserve controlled choices. Add meaningful reinforcement, opposition,
    repeated-read and no-causeless-decay cases.
-7. New exclusive paths proposed: `src/simulation/principle-strength.ts` and
+7. New exclusive paths proposed: [src/simulation/principle-strength.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/principle-strength.ts) and
    `.test.ts` for the pure agreeing/opposing combination;
    `data/research/politics/life-principle-pulls.developer.json` for authored
    stand-in definitions and flags. This file must distinguish researched
    evidence from authored values; no research range is invented.
-8. `src/simulation/demo.ts`, the synthetic recordPrinciple fixture only:
+8. [src/simulation/demo.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/demo.ts), the synthetic recordPrinciple fixture only:
    explicitly supply its fixture strength. No normal-world producer edits.
 9. Tests: owned officeholder-principles.test.ts for all three readers;
    political-beliefs.test.ts for invalid/valid strength and append preservation.

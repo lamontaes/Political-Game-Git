@@ -17,11 +17,11 @@ Nothing new on a screen. A town's shops and plants earn what their customers act
 
 - Books: `src/simulation/living-world/town-business-books.ts:67 TOWN_BUSINESS_KIND_BOOKS` (IRS SOI margins and pay shares by kind), `:110 townBusinessHasRoomToHire`, `:136 townBusinessLaysOff`; record shape `living-world/town-finance-types.ts:10 TownBusinessBooks` (cash, debt, annualRevenue, kind, capacity, annualOtherCosts).
 - Cash and sales: `living-world/town-finances.ts:755 recordTownSalesReceipts` (saved quarterly sales as cash receipts), `:897 ensureTownOpeningBusinessBooks`, `:984 openBusinessBooks` (cash buffer from `TOWN_FINANCE_POLICY.business.cashBufferDays`, data `data/research/money/opening-employer-cash-buffers.json`), `:1087 stepTownFinances` (quarterly), `:1974 closeBusinessesOutOfCash`, `:1685 closeBusinessWithNobodyLeft`, `:2078 assertTownFinanceIntegrity`.
-- Customers: `src/simulation/aggregate-customers.ts`, `local-economy.ts` (`OWNER_DRAW_BASIS :243`, `BUSINESS_OWNER_WORK_KIND :244`), `local-business-counts.ts`.
+- Customers: [src/simulation/aggregate-customers.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/aggregate-customers.ts), `local-economy.ts` (`OWNER_DRAW_BASIS :243`, `BUSINESS_OWNER_WORK_KIND :244`), `local-business-counts.ts`.
 - Businesses and owners: `living-world/town-businesses.ts:121 townBusinesses`, `:340 reviewTownBusinesses` (entry and closing, `TOWN_BUSINESS_TURNOVER :73`, `TOWN_OWNER_RETIREMENT_AGE :87`, closing reasons :94), `:190 recordedTownEmployer`.
-- Pay from cash: test `living-world/town-pay-employer-cash.test.ts` (uses `paymentFromDatedCash`, `src/simulation/resource-payments.ts`); pay writer `living-world/town-pay.ts`.
+- Pay from cash: test `living-world/town-pay-employer-cash.test.ts` (uses `paymentFromDatedCash`, [src/simulation/resource-payments.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/resource-payments.ts)); pay writer `living-world/town-pay.ts`.
 - Press owners (pattern for change of hands): `src/simulation/press/ownership.ts:109 currentOutletOwnership`, `:162 outletsHeldBy`.
-- Homes and land: `src/simulation/home-purchase.ts`; no parcel or deed record exists (grep of `types.ts`, `life.ts`: none). Newer code covering part: none; the books and receipts above are the base.
+- Homes and land: [src/simulation/home-purchase.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/home-purchase.ts); no parcel or deed record exists (grep of `types.ts`, `life.ts`: none). Newer code covering part: none; the books and receipts above are the base.
 
 ## Build steps (one PR each)
 

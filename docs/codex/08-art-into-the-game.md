@@ -24,14 +24,14 @@ Wait for Claude CTO's image delivery. The approved images are in Adobe Creative 
 
 1. **Places as backgrounds.**
    - Import each painting with metadata: kind, inside or outside, region and climate fit, time of day, weather.
-   - Extend `scripts/art-asset-factory/import-capitol-backdrops.mjs` or write a sibling importer.
+   - Extend [scripts/art-asset-factory/import-capitol-backdrops.mjs](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/scripts/art-asset-factory/import-capitol-backdrops.mjs) or write a sibling importer.
    - Keep the originals and hashes, with source-to-derivative lineage (`AGENTS.md`).
 2. **A scene picks its background** from the place's own kind, its region and climate, and the game's clock and weather. No Kentucky scene may show a cactus. Where no painting of that kind exists, fall back to the nearest kind and log the gap.
 3. **People.**
    - Cut each sheet into single figures with the approach in `/Users/lamontae/political-game-play/cto-notes/firefly/poses/cut_poses.py` (canvas 1024x1536, head fixed).
-   - Build the people pack with `scripts/appearance/build-people-pack.ts`, keyed by gender, body size, pose, outfit and facing (front or back).
+   - Build the people pack with [scripts/appearance/build-people-pack.ts](https://github.com/lamontaes/Political-Game-Git/blob/a1e2c5b9f2a1f226d10992f4846d819eb87cb91b/scripts/appearance/build-people-pack.ts), keyed by gender, body size, pose, outfit and facing (front or back).
    - Faces and hair stay the appearance engine's layers.
-   - Existing pack files must not change; diff against `art/people-engine/v1`.
+   - Existing pack files must not change; diff against [art/people-engine/v1](https://github.com/lamontaes/Political-Game-Git/tree/c876bf81337151a5fac1f69eb3f42afddf5cc1d9/art/people-engine/v1).
 4. **A scene poses its people.**
    - **The pose** comes from what the person is doing: speaking, listening, working at a desk, waiting, cheering. Tag poses by temperament too; Lamontae asked for a shy person and a brash person to stand differently, and the picker reads the person's traits.
    - **The outfit** comes from their job, the occasion, their money and the season, and stays the same everywhere they appear in a day. In the playtest, the President wore a blazer in the scene and a hoodie in her dossier.

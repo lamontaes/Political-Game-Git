@@ -8,10 +8,10 @@ and preserve duration, stakes and distinct experience without invented rates.
 ## 1. Why-chain
 
 HARDWIRED: `ensureOfficeholderPrinciples` delegates to life formation
-(`src/simulation/governing/officeholder-principles.ts:35`). Life reads family,
+([src/simulation/governing/officeholder-principles.ts:35](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/governing/officeholder-principles.ts)). Life reads family,
 confidants, affiliation, birth, residence, participation, work and lived events.
 Those records become authored pulls, then stance and categorical conviction
-(`src/simulation/principles-from-life.ts:576`). Canonical rows feed signed agenda
+([src/simulation/principles-from-life.ts:576](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/principles-from-life.ts)). Canonical rows feed signed agenda
 and vote considerations. These are rule outputs, not recorded actor decisions.
 
 The backward chain ends in circumstances plus stand-ins: public party cues,

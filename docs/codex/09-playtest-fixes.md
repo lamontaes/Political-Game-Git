@@ -13,7 +13,7 @@ As of this job, only two are fixed: 100 senators, and release automation. Lamont
 ## Work
 
 1. **Route every item.**
-   - Make `docs/codex/handbacks/09-routing.md`, a table with the item number, a short title, and the job that owns it (02 to 12 in `README.md`) or "09" if no other job covers it.
+   - Make [docs/codex/handbacks/09-routing.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/handbacks/09-routing.md), a table with the item number, a short title, and the job that owns it (02 to 12 in `README.md`) or "09" if no other job covers it.
    - The team names in the playtest file (Build 7, Build 16 and so on) are from before handoff; ignore them.
    - Commit this table first, in its own small pull request, so the other jobs can read it.
 2. **Fix the items routed to 09.** They are mostly direct screen and flow bugs. Examples from the log:

@@ -94,7 +94,7 @@ Unit tests passed throughout; only the browser caught it.
 Three volumes, player-selected, on the production route. Listener resolution is
 the engine's own and unchanged.
 
-Proven in a browser (`tests/e2e/conversation-controls.spec.ts`):
+Proven in a browser ([tests/e2e/conversation-controls.spec.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/conversation-controls.spec.ts)):
 
 - all three offered at home, and the selection changes what the surface commits;
 - in a school corridor an ordinary word reaches more people than a quiet one,
@@ -404,13 +404,13 @@ mentioned in two years. A test asserts no open-thread sentence contains
 | Check                                              | Result                                                                                                                  |
 | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `npm run validate`                                 | **Passed** — format, lint, typecheck, **1,451 tests across 90 files**, build, deterministic demo replay, art validation |
-| `tests/dialogue-reachability.test.ts`              | **24 passed** — the packet's twenty proof requirements                                                                  |
-| `tests/e2e/conversation-controls.spec.ts`          | **7 passed** in a real browser                                                                                          |
-| `tests/content-american-english.test.ts`           | 3 passed, including one that fires on the four phrasings that actually shipped                                          |
-| `src/presentation/life-opacity.test.ts`            | Forecast guard added; pins the violation and the allowed forms                                                          |
+| [tests/dialogue-reachability.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/c3c860cd634d2c2d193e2d361c31b0ab37e529d2/tests/dialogue-reachability.test.ts)              | **24 passed** — the packet's twenty proof requirements                                                                  |
+| [tests/e2e/conversation-controls.spec.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/conversation-controls.spec.ts)          | **7 passed** in a real browser                                                                                          |
+| [tests/content-american-english.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/27e1e7274057a91c99add92414a9c060cd84c1f1/tests/content-american-english.test.ts)           | 3 passed, including one that fires on the four phrasings that actually shipped                                          |
+| [src/presentation/life-opacity.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/life-opacity.test.ts)            | Forecast guard added; pins the violation and the allowed forms                                                          |
 | `npm run report:life -- packet70-final 0 5`, twice | **Byte-identical**, 13,529 bytes                                                                                        |
 | `git diff --check`                                 | Clean                                                                                                                   |
-| `tests/narrative-wave-ownership-boundary.test.ts`  | Passes; carve-outs for #83/#84/#85/#86 intact                                                                           |
+| [tests/narrative-wave-ownership-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/tests/narrative-wave-ownership-boundary.test.ts)  | Passes; carve-outs for #83/#84/#85/#86 intact                                                                           |
 | Full Playwright suite, 18 spec files               | **141 passed**, 0 failed                                                                                                |
 
 The ownership boundary was widened to the conversation surfaces this packet
@@ -487,8 +487,8 @@ mistaken for a suite that was flaky and then agreed with us.
 ## 16. Later reconciliation notes
 
 - **#86 (graphics)** branches from `6311dd6` and is current with main. This
-  packet added `src/player/PlayerConversation.tsx` and touched
-  `src/player/PlayerGame.tsx` (removed) and `src/player/player.css`. #86 also touches
+  packet added [src/player/PlayerConversation.tsx](https://github.com/lamontaes/Political-Game-Git/blob/8a67a14b2e2b02ec053a09ff4979e9bee0fde5d0/src/player/PlayerConversation.tsx) and touched
+  `src/player/PlayerGame.tsx` (removed) and [src/player/player.css](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/player.css). #86 also touches
   `PlayerGame.tsx` and `player.css`, so those two are the expected conflict
   points; the new component is additive. Every conversation beat now carries its
   room, its bound people and its place, which is what #86's surface binding

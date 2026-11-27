@@ -19,21 +19,21 @@ not be independently merged into another shared checkout.
 The old patches against UI head `302e1f0c` are superseded. Consume the branch
 as one tested unit; do not reapply those patches.
 
-- `src/presentation/new-game.ts`: the additive `NewGameStartingLife` union
+- [src/presentation/new-game.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/new-game.ts): the additive `NewGameStartingLife` union
   retains `ordinary-life`, `legislative-office` and `judicial-office-practice` and adds
   `state-agency-director`; the mutually exclusive state-agency initializer runs
   after the ordinary World and judicial initializer path.
-- `src/presentation/new-game-identity.ts`: replay decoding accepts all four
+- [src/presentation/new-game-identity.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/new-game-identity.ts): replay decoding accepts all four
   tokens.
-- `src/presentation/setup-questionnaire-flow.ts`: judicial and state-agency
+- [src/presentation/setup-questionnaire-flow.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/setup-questionnaire-flow.ts): judicial and state-agency
   starts both map to the existing ordinary-life questionnaire context.
 - `src/player/PlayerGame.tsx` (removed): the Custom background step derives availability
   from the selected state's canonical jurisdiction and the minimum age, renders
   the native `state-agency-start` button beside the judicial choice, and clears
   only an incompatible legislative/state-agency selection after a place
   change. No new root, route or navigation system is added.
-- `src/presentation/civil-personnel-evidence.ts` and
-  `src/player/CivilPersonnelPanel.tsx`: structured cause plus an actor-known,
+- [src/presentation/civil-personnel-evidence.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/civil-personnel-evidence.ts) and
+  [src/player/CivilPersonnelPanel.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/CivilPersonnelPanel.tsx): structured cause plus an actor-known,
   tagged canonical event deterministically supplies the existing #178 meeting
   note/reasons payload and visible notice preview. Missing evidence is an
   explicit unavailability; no new record family or personnel engine exists.

@@ -3,7 +3,7 @@
 ## Current item
 
 - b13-p4, appeals.
-- Exact owned files: `src/simulation/justice/appeals.ts` and `src/simulation/justice/appeals.test.ts`.
+- Exact owned files: [src/simulation/justice/appeals.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/justice/appeals.ts) and [src/simulation/justice/appeals.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/justice/appeals.test.ts).
 - Scope claim: #2424 comment 6015841252. Eviction source-contract question: #2424 comment 6016112310.
 - Separate draft PR from b13-p3; keep p3 PR #2474 and its adapter intact.
 

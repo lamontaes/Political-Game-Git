@@ -6,7 +6,7 @@ Working branch: `codex/session57-lw03` (continuing the existing draft PR #2476)
 ## Work so far
 
 - Reused the federal tax-term rows already on #2476 instead of adding a duplicate row implementation.
-- Added a focused assertion in `src/simulation/policy-pack-tax-terms.test.ts` that each federal income, sales, payroll, and corporate row is admitted by the existing registered `tax` handler using its current payer selector and assessment action.
+- Added a focused assertion in [src/simulation/policy-pack-tax-terms.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/src/simulation/policy-pack-tax-terms.test.ts) that each federal income, sales, payroll, and corporate row is admitted by the existing registered `tax` handler using its current payer selector and assessment action.
 - Consumer interface remains `bindTaxLawTerms(world, { law, questionKey, proposalId, onDate, cutoff })`; the current resolver already calls this seam.
 - Session 9's generic binder is draft #2480 at head `15d3a3069be4b845b39d43a15ce1da9bac3b5ddb`. It covers federal/state/county/city income, sales, property, and excise; payroll and corporate are outside the table and remain unavailable.
 - No federal starting-law entry or current federal enactment/provision with a custody floor and offense coverage exists. No federal law → effect → named-person proof is claimed.
@@ -15,7 +15,7 @@ Working branch: `codex/session57-lw03` (continuing the existing draft PR #2476)
 
 - Focused `policy-pack-tax-terms.test.ts`: 4/4 passed using the minimal Vitest config because the repository Vite config's source-identity plugin hits `spawnSync git EPERM` in this sandbox.
 - Targeted ESLint, Prettier, and `git diff --check`: passed.
-- `npm run typecheck` reaches only the two known unrelated errors in untouched `src/simulation/press/press-premise.test.ts:35,125`, where fixtures omit `PlaySettings.personalLifeDepiction`.
+- `npm run typecheck` reaches only the two known unrelated errors in untouched [src/simulation/press/press-premise.test.ts:35,125](https://github.com/lamontaes/Political-Game-Git/blob/90aff691e94ab9b60e6ba98ce85969211d235802/src/simulation/press/press-premise.test.ts), where fixtures omit `PlaySettings.personalLifeDepiction`.
 - PR #2476 is draft at head `1ca9d770e84674f4414d1604bf167d55a47acc8`; no runtime proof or merge is claimed.
 
 ## Next

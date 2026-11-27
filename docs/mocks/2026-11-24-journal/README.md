@@ -6,7 +6,7 @@ Open `journal.html` from a checkout (it loads the game's own panel art, fonts an
 
 ## What the owner said (Nov 24, grading page 1, scene 4)
 
-"the journal, like the big W, this is not illustrated in any kind of way. Like, that's just a tiny little paragraph. It needs to look more like a game. Like, that's just a tiny little box. The sizing isn't correct. This looks like more like a banner strip." (`docs/coordination/grading/2026-11-24-page-1-verbatim.md`, row P32.)
+"the journal, like the big W, this is not illustrated in any kind of way. Like, that's just a tiny little paragraph. It needs to look more like a game. Like, that's just a tiny little box. The sizing isn't correct. This looks like more like a banner strip." ([docs/coordination/grading/2026-11-24-page-1-verbatim.md](https://github.com/lamontaes/Political-Game-Git/blob/e8e20ee621df3f107875beaee4666c2e2b41099b/docs/coordination/grading/2026-11-24-page-1-verbatim.md), row P32.)
 
 Today's Journal (Ali Molina, Arizona, seed c4082209): a picture strip 215 pixels high, three short sentences, and the lower third of the panel empty.
 

@@ -10,8 +10,8 @@ claim the first batch that remains stalled.
 - The checked-out head is `e591ffc637d1f6db84d2ff920e8662ce123202ed`.
 - The checked-out branch is `work`.
 - `LW-25`, `LW-26`, and `LW-27` are claimed by Sessions 36, 37, and 39 in
-  `docs/codex/assignments/POOL.md`.
-- None of those sessions has a resume marker in `docs/codex/progress/` at this
+  [docs/codex/assignments/POOL.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/assignments/POOL.md).
+- None of those sessions has a resume marker in [docs/codex/progress/](https://github.com/lamontaes/Political-Game-Git/tree/bb50e1008b3992420248045518d209a79207db5e/docs/codex/progress) at this
   head, so the claims appear stalled.
 - This checkout has no Git remote, `main` ref, or GitHub authentication. The
   required takeover posts on issue #2424 therefore have not been made.

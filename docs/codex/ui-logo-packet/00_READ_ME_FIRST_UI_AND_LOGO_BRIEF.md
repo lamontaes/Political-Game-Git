@@ -1,6 +1,6 @@
 # Our Civic Duty: UI and logo wiring brief (from Claude CTO, Oct 2, 2026)
 
-**The job:** wire the approved **kit12** UI theme into the game, and put the approved **logo** into the title screen, the app and window icon, and the Steam folder. The owner approves pixels: show full-screen screenshots of every main screen before calling anything done. Game repo: `lamontaes/Political-Game-Git` (main). The full rules are in the repo at `docs/codex/handoff/HANDOFF-TO-CODEX-2026-10-02.md` (sections 11D, 11E and 12E are the UI and art rules).
+**The job:** wire the approved **kit12** UI theme into the game, and put the approved **logo** into the title screen, the app and window icon, and the Steam folder. The owner approves pixels: show full-screen screenshots of every main screen before calling anything done. Game repo: `lamontaes/Political-Game-Git` (main). The full rules are in the repo at [docs/codex/handoff/HANDOFF-TO-CODEX-2026-10-02.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/handoff/HANDOFF-TO-CODEX-2026-10-02.md) (sections 11D, 11E and 12E are the UI and art rules).
 
 ## What's in this folder
 

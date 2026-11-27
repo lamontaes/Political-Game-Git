@@ -2,7 +2,7 @@ import { expect } from "vitest";
 import { P } from "../core2/parameters";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 
-/** The most replies a talk offers: the director's own number (data/director.json), named once. */
+/** The most replies a talk offers: the director's own number (src/director/data/director.json), named once. */
 const MOST = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
 
 /**

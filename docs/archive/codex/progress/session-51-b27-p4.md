@@ -3,7 +3,7 @@
 ## Current draft
 
 - Branch: `session-51-b27-p4`, based on refreshed `origin/main` `e597ec933608993a9ecfef6110b3f9b9f856a3c7`.
-- The isolated draft adds the sourced Federal Direct undergraduate rate selector to `src/simulation/student-debt.ts` and tests it in `src/simulation/student-debt.test.ts`.
+- The isolated draft adds the sourced Federal Direct undergraduate rate selector to [src/simulation/student-debt.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/student-debt.ts) and tests it in [src/simulation/student-debt.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/simulation/student-debt.test.ts).
 - The 2026–27 rate is 652 basis points. The checked-in source is snippet-derived, so each loan/disbursement records `ESTIMATED FROM AVERAGE` provenance. Dates outside the row's 2026-07-01 through 2027-06-30 window are marked as nearest-row estimates.
 - The research row contains interest rates but no repayment-term schedule. The existing supplied repayment term remains a caller input; no unsupported term has been added.
 

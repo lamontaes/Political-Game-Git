@@ -25,22 +25,22 @@ derived on every read. Older saves are never enriched and reads write nothing.
 
 ## Owned files
 
-- `src/simulation/living-world/` (contract, congress-seats, opening, congress, index)
-- `src/presentation/living-world-orientation.ts` (`projectWorldOrientation`)
-- `src/presentation/living-world-opening.test.ts`
-- `src/simulation/character-history-context-people.test.ts`
+- [src/simulation/living-world/](https://github.com/lamontaes/Political-Game-Git/tree/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world) (contract, congress-seats, opening, congress, index)
+- [src/presentation/living-world-orientation.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/living-world-orientation.ts) (`projectWorldOrientation`)
+- [src/presentation/living-world-opening.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/living-world-opening.test.ts)
+- [src/simulation/character-history-context-people.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/character-history-context-people.test.ts)
 - `docs/plans/active/alive43-w-world-and-parties.md`
 
 ## Shared-file adapters (declared)
 
-- `src/presentation/opening-life.ts`: `generateOpeningLife` calls
+- [src/presentation/opening-life.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/opening-life.ts): `generateOpeningLife` calls
   `ensureLivingWorldOpening` after `establishOpeningOfficeholders`.
-- `src/simulation/character-history.ts`: the context-person builder is
+- [src/simulation/character-history.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/character-history.ts): the context-person builder is
   extracted, and `createCharacterHistoryContextPeople` batches it (one
   integrity pass). The single writer behaves identically; a test proves the
   batch equals the single writer, including a repeated key.
-- `src/simulation/index.ts`: one appended export.
-- `src/presentation/nationwide-opening.test.ts` and
+- [src/simulation/index.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/index.ts): one appended export.
+- [src/presentation/nationwide-opening.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/nationwide-opening.test.ts) and
   `nationwide-local-governments.test.ts`: their save-size tests now measure
   `establishOpeningOfficeholders` directly, with **unchanged** 40 KB / 25 KB
   budgets. The Congress snapshot has its own budget (< 1.5 MB, measured

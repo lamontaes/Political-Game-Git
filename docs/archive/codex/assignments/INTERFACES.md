@@ -43,7 +43,7 @@ Situation-row shape: there is no single exported "situation row" on main. Neares
 | clerk filing and election night                 | PR #2259 (head 4fadcaf5c, open): `fileThroughElectionClerk` (election-clerk-offices.ts), `electionClerkSceneOffer` (election-clerk-scene.ts), `councilElectionNight` (election-night-scene.ts) | Clerk desk filing and council result scene.                                          | Stub those three names; return null offer. |
 | municipal candidacy ages                        | PR #2284 is MERGED (4601bb033)                                                                                                                                                                 | Estimates from same-state offices.                                                   | On main.                                   |
 
-Citizenship producer: draft [#2455](https://github.com/lamontaes/Political-Game-Git/pull/2455), source head `1bd8916f88d27e8a2d51053fe0f4eb6170188af8`, not on main. Canonical private records live on `Person.citizenshipStatuses`. Exports are `citizenshipStatusOf`, `citizenshipEligibility`, and `recordCitizenshipTransition` from `src/simulation/citizenship.ts` through the simulation index. Read the exact field/date/source contract in `docs/codex/citizenship-producer-session13.md`. Missing old-save status remains null. Citizenship-only eligibility does not replace a consumer's office or voting rules. No transition may be invented to qualify a nominee.
+Citizenship producer: draft [#2455](https://github.com/lamontaes/Political-Game-Git/pull/2455), source head `1bd8916f88d27e8a2d51053fe0f4eb6170188af8`, not on main. Canonical private records live on `Person.citizenshipStatuses`. Exports are `citizenshipStatusOf`, `citizenshipEligibility`, and `recordCitizenshipTransition` from [src/simulation/citizenship.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/citizenship.ts) through the simulation index. Read the exact field/date/source contract in `docs/codex/citizenship-producer-session13.md`. Missing old-save status remains null. Citizenship-only eligibility does not replace a consumer's office or voting rules. No transition may be invented to qualify a nominee.
 
 ## 3. Session 21: votes and views
 
@@ -124,7 +124,7 @@ Put each handler at `src/simulation/law-consequences/modules/<module-key>/index.
 and export `registrations: readonly AnyLawConsequenceKindRegistration[]` (or
 the narrower `LawConsequenceKindRegistration<T>[]`). The synchronous registry
 reads the checked-in pure TypeScript manifest at
-`src/simulation/law-consequence-module-manifest.ts`; Session 20 is its sole
+[src/simulation/law-consequence-module-manifest.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/law-consequence-module-manifest.ts); Session 20 is its sole
 writer and adds reviewed module exports there. Do not use host filesystem or
 presentation/Vite discovery in simulation. Duplicate kind owners fail registry
 creation. `LawConsequenceKind` remains a closed union: introducing a new kind
@@ -144,13 +144,13 @@ export const LAW_CONSEQUENCE_MODULE_REGISTRATIONS: readonly AnyLawConsequenceKin
 ```
 
 The manifest is generated from every folder under
-`src/simulation/law-consequences/modules/` that contains `index.ts`. Module
+[src/simulation/law-consequences/modules/](https://github.com/lamontaes/Political-Game-Git/tree/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/law-consequences/modules) that contains `index.ts`. Module
 owners add their own module folder and run
 `npm run generate:law-consequence-modules` in that same PR. The generated
 `LAW_CONSEQUENCE_MODULE_KEYS` list and static imports are checked by
 `npm run check:law-consequence-modules`; `npm run typecheck` runs that check as
 well. A folder without `index.ts`, stale manifest, or unlisted folder fails.
-Generator filesystem access stays under `scripts/law-consequence-modules/`,
+Generator filesystem access stays under [scripts/law-consequence-modules/](https://github.com/lamontaes/Political-Game-Git/tree/7274f3836b634de91aca8c9def0088a286a83846/scripts/law-consequence-modules),
 outside simulation runtime. Browser, Vitest, Node, profile, and source replay
 consume only the checked-in static TypeScript imports.
 
@@ -190,7 +190,7 @@ resident state changes. A zero delta preserves the caused zero record and
 creates no downstream state change. No-funding, closed, and unknown conditions
 must remain marked estimated where applicable; never turn unknown into zero.
 The outturn links to `outturn.eventId` for its effect date. The writer call site is
-`recordCapacityOutturn` in `src/simulation/governing/public-program.ts` and its
+`recordCapacityOutturn` in [src/simulation/governing/public-program.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/governing/public-program.ts) and its
 owning hunk must be coordinated with that file's current owner before editing.
 
 The `abortion-access` landing is not registered here: it needs an actual
@@ -219,7 +219,7 @@ Param types of `memberVoteConsiderations`; the single situation-row type; any ca
 
 ### Public program capacity outturn receiver seam (Session 20)
 
-`src/simulation/public-program-capacity-outturn.ts` exports
+[src/simulation/public-program-capacity-outturn.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/public-program-capacity-outturn.ts) exports
 `PublicProgramCapacityOutturnReceiverRegistration` and
 `applyPublicProgramCapacityOutturnReceivers(before, after, commitment, installment, registrations)`.
 Each registration is `{ key, receive }`, with

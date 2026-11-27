@@ -2,7 +2,7 @@
 
 > **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
 
-Only OPUS-PLAY writes this file. The rest of OPUS-PLAY's checklist is in `docs/coordination/play.md`.
+Only OPUS-PLAY writes this file. The rest of OPUS-PLAY's checklist is in [docs/coordination/play.md](https://github.com/lamontaes/Political-Game-Git/blob/734a3e6e8fa8277a620a891fc5f0117cc421ba3e/docs/coordination/play.md).
 
 ## Dev mode
 

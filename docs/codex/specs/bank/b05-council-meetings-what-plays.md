@@ -13,13 +13,13 @@ Your council meets every other week, but you do not sit through every line of ev
 ## Existing code it must use
 
 - `src/simulation/living-world/local-council-meetings.ts:534 localCouncilMeetingHandler`: on each meeting date, `moveOrdinances` (:265, skips the player's own measures at :276) and `fileOrdinances` (:226) run, then writes `local.council-meeting-held` with a summary of every vote (:587-627) and schedules the next meeting.
-- `src/simulation/governing/council-lawmaking.ts:7-28`: members file and vote from their principles and voters; "the player is never decided for… recorded absent".
-- `src/simulation/governing/chamber-votes.ts:865-881`: the player's seat casts `playerBallot` if one exists, else `absent` (`member:player-not-present`).
+- [src/simulation/governing/council-lawmaking.ts:7-28](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/governing/council-lawmaking.ts): members file and vote from their principles and voters; "the player is never decided for… recorded absent".
+- [src/simulation/governing/chamber-votes.ts:865-881](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/governing/chamber-votes.ts): the player's seat casts `playerBallot` if one exists, else `absent` (`member:player-not-present`).
 - `src/simulation/governing/member-ballots.ts:40 memberBallotOn`, `:63 recordMemberBallot`: a ballot the player decided ahead; `legislative-clock.ts:1693 noticeMemberVote` puts a vote on the calendar the day before.
-- `src/simulation/office-workflow.ts:31 VOTING_MODES` (review-batch, prior-instructions-with-exceptions, handle-individually), `:158 recordOfficeWorkflowPreference`, `:236 recordOfficeVoteInstruction`; choices in `src/presentation/office-onboarding.ts` (around :40-66). Built for legislative seats only.
+- `src/simulation/office-workflow.ts:31 VOTING_MODES` (review-batch, prior-instructions-with-exceptions, handle-individually), `:158 recordOfficeWorkflowPreference`, `:236 recordOfficeVoteInstruction`; choices in [src/presentation/office-onboarding.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/office-onboarding.ts) (around :40-66). Built for legislative seats only.
 - `src/simulation/campaign-stands.ts:104 stateCampaignStand`: the player's recorded pledges.
 - `src/simulation/governing/constituent-views.ts constituentsConsideration` and `provision-public-face.ts whoCaresAbout`: who in town cares about a question.
-- `src/simulation/living-world/civic-actions.ts:49-52`: residents' contact and meeting-attendance events.
+- [src/simulation/living-world/civic-actions.ts:49-52](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/civic-actions.ts): residents' contact and meeting-attendance events.
 - `src/simulation/living-world/official-views.ts:301 peopleKnownTo`.
 - Session 4's council worked row (`docs/codex/specs/session4-played-scenes-2026-10-06.md` on branch `codex/session4-played-scene-spec`, lines 111-166): chair opening, member contributions, public comment, roll call, return. `ordinary-meeting-presence.ts:57/:264` keep the access and comment writers; `OrdinaryMeetingPanel.tsx` is being replaced by Session 4.
 

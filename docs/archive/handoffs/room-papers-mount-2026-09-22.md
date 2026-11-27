@@ -16,7 +16,7 @@ branch's last hunk around 5,116, and stopped there.
 ## What is already built and needs nothing
 
 `projectHouseholdPapers(world, personId)` in
-`src/presentation/household-papers.ts` returns each waiting entry with a
+[src/presentation/household-papers.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/household-papers.ts) returns each waiting entry with a
 resolved destination — `commitment`, `person`, `surface`, `here`, or `none`
 with a stated reason. It is pure, it is tested, and it returns exactly what
 `projectToday(...).waiting` returns, in the same order and the same words.
@@ -25,7 +25,7 @@ Nothing about the mount needs to touch it.
 ## The mount
 
 The anchor exists. `coffee-table-papers` is declared in
-`src/environment/scenes/residence-apartment-living-production.ts` — kind
+[src/environment/scenes/residence-apartment-living-production.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/environment/scenes/residence-apartment-living-production.ts) — kind
 `desk-document`, `information_access: "personal-household"`, falling back to
 "the folded newspaper painted on the table" — and today it renders as painted
 decoration.
@@ -58,7 +58,7 @@ research answer, because they are the whole point of the family:
 
 - Hover or focus **reveals**; deliberate activation **inspects**; only explicit
   commitment on the surface that owns the matter **performs**.
-- Clicking must never silently spend time. `tests/e2e/day-waiting-leads-somewhere.spec.ts`
+- Clicking must never silently spend time. [tests/e2e/day-waiting-leads-somewhere.spec.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/day-waiting-leads-somewhere.spec.ts)
   already asserts that shape against the shell's own clock; copy it.
 - Keyboard and pointer must reach the same action, and the list must stay
   reachable without the hotspot — the Calendar's Today is that alternative and

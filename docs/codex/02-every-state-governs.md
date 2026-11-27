@@ -19,9 +19,9 @@ Separately, Congress passes and repeals nearly everything by about 356 to 76, be
    Put the table in the hand-back.
 
 2. The path to read:
-   - `governingSeasonHandler` in `src/simulation/governing/state-governing.ts` (the bill season for each governorship);
-   - `fileLegislatureMeasure` and `fileMemberAgendaBill` in `src/simulation/governing/member-agenda.ts`;
-   - the legislative clock (`COMMITTEE_HEARING_TRANSITION_KEY` in `src/simulation/legislation.ts`, `scheduleInstitutionStep`);
+   - `governingSeasonHandler` in [src/simulation/governing/state-governing.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/governing/state-governing.ts) (the bill season for each governorship);
+   - `fileLegislatureMeasure` and `fileMemberAgendaBill` in [src/simulation/governing/member-agenda.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/governing/member-agenda.ts);
+   - the legislative clock (`COMMITTEE_HEARING_TRANSITION_KEY` in [src/simulation/legislation.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/legislation.ts), `scheduleInstitutionStep`);
    - the governor's desk (`evaluateGovernorBill` in `governor-bill-decision.ts`).
 
    Also check whether seated members of non-played legislatures have principles (`ensureOfficeholderPrinciples`) and whether institution steps run outside the played jurisdiction.
@@ -32,8 +32,8 @@ Separately, Congress passes and repeals nearly everything by about 356 to 76, be
 
 Build 24 left this work as a patch that Codex can't reach; this describes it so you can redo it:
 
-- In `src/simulation/governing/officeholder-principles.ts`, `ensureOfficeholderPrinciples` calls `formPrinciplesFromLife(world, ids, { officeholders: true })` and drops the seeded draw (2 dice lines).
-- In `src/simulation/principles-from-life.ts`, the `seatedOfficeholder` skip honors that option.
+- In [src/simulation/governing/officeholder-principles.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/governing/officeholder-principles.ts), `ensureOfficeholderPrinciples` calls `formPrinciplesFromLife(world, ids, { officeholders: true })` and drops the seeded draw (2 dice lines).
+- In [src/simulation/principles-from-life.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/principles-from-life.ts), the `seatedOfficeholder` skip honors that option.
 - Result Build 24 measured: the top-rate tax bill passed the House 221 to 211 on party lines (real 1993: 218 to 216), against 356 to 76 without it.
 - Update the seven tests that fail with it:
   - congress-lawmaking (2);
@@ -49,7 +49,7 @@ The same pull request must also carry:
    - In `gatherCosponsors`, replace the one-in-ten cross-party draw with principles.
    - In `chamber-votes.ts`, `partyCue` reads only the sponsor's party.
 2. **Senate reconciliation and unanimous consent.** A budget reconciliation bill passes the Senate on a simple majority, with the Byrd rule limiting it to budget matters. Ordinary bills face cloture at 60. Routine measures pass by unanimous consent unless a senator objects from their principles.
-3. **Midterms that can unseat incumbents.** `src/simulation/national-mood.ts` applies the mean midterm shift, 3.6 points, to every midterm. Make the shift read the President's approval and the economy, on a sliding scale. The real range runs from 9.0 points against the President's party (2010) to 2.3 points for it (2002).
+3. **Midterms that can unseat incumbents.** [src/simulation/national-mood.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/national-mood.ts) applies the mean midterm shift, 3.6 points, to every midterm. Make the shift read the President's approval and the economy, on a sliding scale. The real range runs from 9.0 points against the President's party (2010) to 2.3 points for it (2002).
 4. **Seat leans that match real legislatures.** Vermont came out 163 D and 17 R, against a real 87 D and 56 R. Seat shares track the state's presidential vote too closely. Calibrate the spread of seat leans per chamber against real 2024 compositions for all 50 states.
 
 ## Checks

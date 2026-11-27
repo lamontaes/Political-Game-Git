@@ -27,7 +27,7 @@ The optional `LawEffectStampedRecord` mixin keeps old saves valid. Original IDs,
 3. Append its stamp to a changed person's existing record.
 4. Exercise starting coverage, work-rule loss, work-rule repeal/restoration and expansion repeal in five states.
 
-Exact owned production files are `src/simulation/crisis/health-coverage.ts` and only the import/interface hunk in `src/simulation/crisis/types.ts`. The matching coverage test is owned. Team3 confirmed no unpublished coverage/schema changes at transfer.
+Exact owned production files are [src/simulation/crisis/health-coverage.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/crisis/health-coverage.ts) and only the import/interface hunk in [src/simulation/crisis/types.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/crisis/types.ts). The matching coverage test is owned. Team3 confirmed no unpublished coverage/schema changes at transfer.
 
 ## 5. Simulated, records, world pieces, checks
 

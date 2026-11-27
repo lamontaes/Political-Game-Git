@@ -39,7 +39,7 @@ narrow rendered-surface guard over a finite forbidden-phrase list.
 
 Owned (copy and render-decision only):
 
-- `src/presentation/person-dossier.ts` and sibling presentation copy builders
+- [src/presentation/person-dossier.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/person-dossier.ts) and sibling presentation copy builders
 - copy strings and diagnostic render conditions inside `src/player/*.tsx`
 
 Explicitly NOT owned by ROLE C:
@@ -65,7 +65,7 @@ engine. This wave removes them from ordinary presentation only.
 
 From LAND: accepted base SHA and reserved paths.
 From ROLE B: any change to presentation-facing field shapes this wave.
-From ROLE D: files reserved or mid-edit in `src/player/`, and any `data-testid`
+From ROLE D: files reserved or mid-edit in [src/player/](https://github.com/lamontaes/Political-Game-Git/tree/71a9ab5fc83c1176132ffc773781639228706b85/src/player), and any `data-testid`
 depended on there.
 
 One concrete ownership-and-source acknowledgment each, at the next safe tool
@@ -108,13 +108,13 @@ because of this branch" are different claims:
 
 | File                                                       | At base                         | Owner                                                                                                                                                             |
 | ---------------------------------------------------------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `scripts/prose-corpus/corpus.test.ts`                      | FAILS (report stale by 4 files) | ROLE C — **fixed here**                                                                                                                                           |
-| `scripts/prose-corpus/anchor-cli.test.ts` (3)              | FAILS identically               | pre-existing, not ROLE C                                                                                                                                          |
-| `tests/authoring-ownership-boundary.test.ts` (3)           | FAILS identically               | pre-existing, needs donor branches fetched                                                                                                                        |
-| `tests/executive-governing-ownership-boundary.test.ts` (4) | FAILS identically               | pre-existing, same cause                                                                                                                                          |
-| `tests/judicial-gameplay-ownership-boundary.test.ts` (3)   | FAILS identically               | pre-existing, same cause                                                                                                                                          |
-| `tests/narrative-wave-ownership-boundary.test.ts` (4)      | FAILS identically               | pre-existing, same cause                                                                                                                                          |
-| `tests/donor-containment.test.ts` (1)                      | FAILS identically               | pre-existing; it says outright it cannot see the donor branches it checks                                                                                         |
+| [scripts/prose-corpus/corpus.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/scripts/prose-corpus/corpus.test.ts)                      | FAILS (report stale by 4 files) | ROLE C — **fixed here**                                                                                                                                           |
+| [scripts/prose-corpus/anchor-cli.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/f51ddea7b2f82faafaf86541013137e69ff3ed62/scripts/prose-corpus/anchor-cli.test.ts) (3)              | FAILS identically               | pre-existing, not ROLE C                                                                                                                                          |
+| [tests/authoring-ownership-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/tests/authoring-ownership-boundary.test.ts) (3)           | FAILS identically               | pre-existing, needs donor branches fetched                                                                                                                        |
+| [tests/executive-governing-ownership-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/tests/executive-governing-ownership-boundary.test.ts) (4) | FAILS identically               | pre-existing, same cause                                                                                                                                          |
+| [tests/judicial-gameplay-ownership-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/tests/judicial-gameplay-ownership-boundary.test.ts) (3)   | FAILS identically               | pre-existing, same cause                                                                                                                                          |
+| [tests/narrative-wave-ownership-boundary.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/b38806b4c60e7bf5a6441e886768bf03ba306a8f/tests/narrative-wave-ownership-boundary.test.ts) (4)      | FAILS identically               | pre-existing, same cause                                                                                                                                          |
+| [tests/donor-containment.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/f51ddea7b2f82faafaf86541013137e69ff3ed62/tests/donor-containment.test.ts) (1)                      | FAILS identically               | pre-existing; it says outright it cannot see the donor branches it checks                                                                                         |
 | `tests/release/transaction.test.ts` (1)                    | FAILS identically               | pre-existing; `chmod 0o555` does not stop a process running as root                                                                                               |
 | `tests/release/build-identity.test.ts` (2)                 | PASSES                          | release machinery: the stamped build revision lags HEAD after any commit and is restamped by `npm run build`. Not a source defect, and not ROLE C's to hand-edit. |
 
@@ -122,7 +122,7 @@ No assertion was weakened, skipped or deleted to reach that table.
 
 ### The corpus failure was ours, and is repaired through the CLI
 
-`scripts/prose-corpus/corpus.test.ts` requires the committed coverage report to
+[scripts/prose-corpus/corpus.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/scripts/prose-corpus/corpus.test.ts) requires the committed coverage report to
 agree with a live scan. ROLE C's copy edits changed the literals it measures.
 Regenerated with `npm run corpus:prose` — never by editing the numbers, which is
 the move that file exists to prevent. `npm run corpus:prose -- check` now

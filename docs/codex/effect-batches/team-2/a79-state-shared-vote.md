@@ -6,23 +6,23 @@ After: Each chamber records its own saved legislators' decisions through the sha
 
 ## Why-chain
 
-Measured source finding: the old recorder built unnamed seats and filled their votes from chamber counts (main e8b22a5f712a26bf72f86f028c0d1726682f2c1c, `src/simulation/living-world/constitutional-reform.ts:809`). The counts came from the legislature's combined yes share. That share dropped each person's chamber and seat identity. The recorder therefore assigned the combined result back to synthetic seats. Bedrock finding: stand-in arithmetic supplied an institutional act instead of recording the actual chamber's members.
+Measured source finding: the old recorder built unnamed seats and filled their votes from chamber counts (main e8b22a5f712a26bf72f86f028c0d1726682f2c1c, [src/simulation/living-world/constitutional-reform.ts:809](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/constitutional-reform.ts)). The counts came from the legislature's combined yes share. That share dropped each person's chamber and seat identity. The recorder therefore assigned the combined result back to synthetic seats. Bedrock finding: stand-in arithmetic supplied an institutional act instead of recording the actual chamber's members.
 
-Measured source finding: the policy recording branch now calls recordStatePolicyProposalVotes after saving the proposal (`src/simulation/living-world/constitutional-reform.ts:905`). The shared evaluator receives the actual saved body. No ordinary bill is manufactured for the constitutional question.
+Measured source finding: the policy recording branch now calls recordStatePolicyProposalVotes after saving the proposal ([src/simulation/living-world/constitutional-reform.ts:905](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/constitutional-reform.ts)). The shared evaluator receives the actual saved body. No ordinary bill is manufactured for the constitutional question.
 
 ## Research
 
 Measured source-contract finding: Audit supplied the saved state roster contract, naming active legislators, their seat work, dated institution bindings and the existing constitutional writer ([Audit contract in 00c](https://docs.google.com/document/d/1L5IksyT3b-NydhTq8Px3pVT4s8MxCZ9oAj-wqNm5AM4/edit)). Estimated seat counts cannot supply additional voters. The federal arm remains intact.
 
-Measured source finding: this fixture uses the existing game-profile amendment rule, not sourced Oregon constitutional procedure (`src/simulation/constitutional-process.ts:141`). The patch preserves that label and adds no legal threshold, deadline, vote weight or empirical rate.
+Measured source finding: this fixture uses the existing game-profile amendment rule, not sourced Oregon constitutional procedure ([src/simulation/constitutional-process.ts:141](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/constitutional-process.ts)). The patch preserves that label and adds no legal threshold, deadline, vote weight or empirical rate.
 
 ## Revisions
 
-Measured source finding: stateConstitutionalRoster joins actual seat work to the saved office binding and organization profile (`src/simulation/governing/chamber-votes.ts:291`). Missing or inconsistent records refuse admission. Saved empty seats carry no replacement person.
+Measured source finding: stateConstitutionalRoster joins actual seat work to the saved office binding and organization profile ([src/simulation/governing/chamber-votes.ts:291](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/governing/chamber-votes.ts)). Missing or inconsistent records refuse admission. Saved empty seats carry no replacement person.
 
-Measured source finding: the ordinary policy review declines to substitute a congressional delegation when the state roster is unavailable (`src/simulation/living-world/constitutional-reform.ts:737`). Its existing policy-selection and filing preflight remain. That preflight still combines chambers; it is not claimed repaired here.
+Measured source finding: the ordinary policy review declines to substitute a congressional delegation when the state roster is unavailable ([src/simulation/living-world/constitutional-reform.ts:737](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/constitutional-reform.ts)). Its existing policy-selection and filing preflight remain. That preflight still combines chambers; it is not claimed repaired here.
 
-Measured source finding: the governor term-limit branch still uses its legacy synthetic roll call (`src/simulation/living-world/constitutional-reform.ts:909`). No state term-limit migration, convention change or ratification-engine change is claimed. The existing consideration builder is exported for reuse; its inputs and weights are unchanged.
+Measured source finding: the governor term-limit branch still uses its legacy synthetic roll call ([src/simulation/living-world/constitutional-reform.ts:909](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/constitutional-reform.ts)). No state term-limit migration, convention change or ratification-engine change is claimed. The existing consideration builder is exported for reuse; its inputs and weights are unchanged.
 
 ## What gets built
 
@@ -35,11 +35,11 @@ Measured source finding: the governor term-limit branch still uses its legacy sy
 
 ## Simulated, records, world pieces, checks
 
-Measured: the saved-state fixture names Haley O'Brien and Andrew Rice among 90 actual legislators (`src/simulation/governing/state-constitutional-vote.test.ts`). Its opposed principles and common-support views are authored test inputs. They are not simulated campaigning, natural filing or observed public persuasion.
+Measured: the saved-state fixture names Haley O'Brien and Andrew Rice among 90 actual legislators ([src/simulation/governing/state-constitutional-vote.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/governing/state-constitutional-vote.test.ts)). Its opposed principles and common-support views are authored test inputs. They are not simulated campaigning, natural filing or observed public persuasion.
 
 Measured: the one-day core-clock case reaches the ordinary review handler, saves the proposal before both roll calls and records 90 actual voters (`/tmp/team2-a79-state-ready-native.log`). It reaches ratification, with no statewide ballot result claimed. This is not an ordinary-life year run.
 
-Measured: the vacancy case ends an actual saved seat tenure through the canonical work writer (`src/simulation/governing/state-constitutional-vote.test.ts`). The roll call retains the seat as absent with null person identity. The constitutional history survives Continue.
+Measured: the vacancy case ends an actual saved seat tenure through the canonical work writer ([src/simulation/governing/state-constitutional-vote.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/governing/state-constitutional-vote.test.ts)). The roll call retains the seat as absent with null person identity. The constitutional history survives Continue.
 
 ## Proof run
 

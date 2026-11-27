@@ -9,8 +9,8 @@ what must not be invented_.
 - Branch: `claude/post86-mass-visual-generation-command-center`.
 - Drive copy: <https://docs.google.com/document/d/1URs1VE2pSukIPX7RAzvTIK0FrmgmT9vKQI38TvqXcu0/edit>. Companions: [74 prompt pack](https://docs.google.com/document/d/1EV889hyCi73YOO_JDNgcZ9CG1enN9cWLUJM5TUMHyT8/edit) · [76B completion report](https://docs.google.com/document/d/1dOOUdVQZNvSiclGiykqlLM0DNymq0iEWiQtb0YeW30E/edit).
 - Machine-readable companions, regenerable and committed:
-  - `art/qa/p76/reference_measurements.json` — `npm run measure:references`
-  - `art/qa/p76/edge_despill_report.json` — `npm run despill:edges`
+  - [art/qa/p76/reference_measurements.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p76/reference_measurements.json) — `npm run measure:references`
+  - [art/qa/p76/edge_despill_report.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p76/edge_despill_report.json) — `npm run despill:edges`
 - Measured on 2026-09-04 against the rasters this repository holds. Every number
   below came out of one of those two files. Nothing here was eyeballed.
 
@@ -59,7 +59,7 @@ carries a fill-in-the-blanks edit template for whoever can see the pixels.
 ## 2. Scene Measurement Cards
 
 Nine environment rasters, measured. Full cards with per-field notes are in
-`art/qa/p76/reference_measurements.json` → `scenes[]`.
+[art/qa/p76/reference_measurements.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p76/reference_measurements.json) → `scenes[]`.
 
 | Raster                                                            | Canvas `MEASURED` | Aspect   | Horizon                  | Camera height                     | Flat regions |
 | ----------------------------------------------------------------- | ----------------- | -------- | ------------------------ | --------------------------------- | ------------ |
@@ -105,7 +105,7 @@ anchors are authored against the plate by a human.
 
 Forty figure cards: 8 adult feminine bodies (p71 source), the same 8 after the
 despill, 12 heads, 12 footwear. Full cards in
-`art/qa/p76/reference_measurements.json` → `figures[]`.
+[art/qa/p76/reference_measurements.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p76/reference_measurements.json) → `figures[]`.
 
 `readsAsFigure` gates the body landmarks. A head sheet or a shoe sheet is not a
 figure, so `headsTall`, `shoulderY` and the anchor recommendations report
@@ -186,7 +186,7 @@ new bodies. Doing that changed the answer.
 
 ### 4.1 What the intake said
 
-`art/qa/p71/source_intake_dispositions.json` classified all 8 body poses
+[art/qa/p71/source_intake_dispositions.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p71/source_intake_dispositions.json) classified all 8 body poses
 `REVISE` for a green matte edge, with 66.78–79.75% of the soft-edge band
 (alpha 32–200, the same metric `source-sheet-chop.ts` reports) green-dominant.
 The default response would have been seven or eight regenerations.
@@ -210,7 +210,7 @@ the operation only has to touch pixels that are provably matte.
 
 ### 4.3 The operation
 
-`scripts/art-asset-factory/edge-despill.ts`, run by `npm run despill:edges`.
+[scripts/art-asset-factory/edge-despill.ts](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/scripts/art-asset-factory/edge-despill.ts), run by `npm run despill:edges`.
 Options recorded in the report: `greenDominanceThreshold: 24` (identical to the
 chop tool's), `interiorAlpha: 250`, `maxBoundaryDistance: 8`,
 `reconstructionRadius: 14`, `reconstructionSamples: 6`.
@@ -248,7 +248,7 @@ Two properties make it a repair rather than a retouch:
 **309,859 pixels repaired across eight files. Zero classified RE-EXPORT
 PREFERRED. Zero classified REGENERATION REQUIRED. Eight regenerations avoided.**
 
-Output: `art/generated/candidates/ocd-p76/bodies-despilled/`.
+Output: [art/generated/candidates/ocd-p76/bodies-despilled/](https://github.com/lamontaes/Political-Game-Git/tree/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/generated/candidates/ocd-p76/bodies-despilled).
 
 ### 4.5 The proof, and why it is a digest rather than a claim
 
@@ -256,7 +256,7 @@ Every entry records four SHA-256 digests: the alpha plane before and after, and
 the interior RGB before and after. On all eight, **both pairs are identical**.
 The silhouette did not move, so morphology and pose did not move; the interior
 did not move, so skin, fingers, feet, clothing edges, neck seam and hands are the
-bytes they were. `tests/edge-despill.test.ts` asserts this with no tolerance —
+bytes they were. [tests/edge-despill.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/tests/edge-despill.test.ts) asserts this with no tolerance —
 a despill that moved one alpha byte moved the body, and that is a different
 operation.
 
@@ -290,7 +290,7 @@ without runtime generative AI?
 
 ### 5.1 What the compositor can actually do
 
-`projectCharacterLayers` in `src/presentation/character-components.ts:2079` is the
+`projectCharacterLayers` in [src/presentation/character-components.ts:2079](https://github.com/lamontaes/Political-Game-Git/blob/d4f61f3c07fb559fc181856ccb3d730378fe54b9/src/presentation/character-components.ts) is the
 whole placement math:
 
 ```
@@ -458,7 +458,7 @@ Six poses per body family, from the packet:
 
 ### 6.3 Coverage today
 
-From `art/qa/p71/source_intake_dispositions.json`, against the one family that
+From [art/qa/p71/source_intake_dispositions.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p71/source_intake_dispositions.json), against the one family that
 has real art:
 
 | Pose family                  | Status      | Reading                                                                                              |

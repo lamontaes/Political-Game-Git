@@ -9,11 +9,11 @@ Wait for job 04's population layer if you need it; the money work can start at o
 
 ## Work
 
-1. **One money system for all pay.** `monthlyPayByPerson` in `src/simulation/living-world/town-rent.ts` counts only pay recorded as work. It misses wages and an owner's draw. Make every reader of a person's or household's income (rent, Medicaid eligibility, taxes, the world report) read one function that counts every kind of pay the money system records.
+1. **One money system for all pay.** `monthlyPayByPerson` in [src/simulation/living-world/town-rent.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/town-rent.ts) counts only pay recorded as work. It misses wages and an owner's draw. Make every reader of a person's or household's income (rent, Medicaid eligibility, taxes, the world report) read one function that counts every kind of pay the money system records.
 
    Build 21 measured the gap in Oak Grove Village, Missouri (place 2953650, seed medicaid-1): about 56 of 305 working-age adults had any recorded pay, and 237 of 246 adults on Medicaid had no job. Fix it and re-measure.
 
-2. **Replace the four rolls in `laborStatus`** (`src/simulation/living-world/town-employment.ts`) and the fixed `TOWN_PART_TIME_SHARE`. Everything works on sliding scales; nothing flips at a line (Lamontae's correction):
+2. **Replace the four rolls in `laborStatus`** ([src/simulation/living-world/town-employment.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/town-employment.ts)) and the fixed `TOWN_PART_TIME_SHARE`. Everything works on sliding scales; nothing flips at a line (Lamontae's correction):
    - **A student works** more hours the less money per person the household has and the more the student needs their own money. School hours and the student's traits limit it.
    - **Someone 62 or older retires** gradually as their savings, Social Security eligibility and amount, the rest of the household's income, their health and how physically demanding the job is add up. Desk workers in good health retire later.
    - **A parent stays home with a young child** as the partner's pay covers more of the household and childcare in the place costs more relative to what the parent would earn, weighed by the parent's own values.

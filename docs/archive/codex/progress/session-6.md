@@ -47,7 +47,7 @@ All active Session 6 heads were rebased onto main `f8850818` and re-published on
 
 ## Next
 
-Continue the light childhood work: read `docs/codex/assignments/b21-family-partner-and-kids.md` and `docs/codex/assignments/b33-opening-questions-and-first-day.md`; extend caregiver-choice evidence toward the caregiving summary and prove ages 5–17 through an adult life. Start from fresh main with:
+Continue the light childhood work: read [docs/codex/assignments/b21-family-partner-and-kids.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/assignments/b21-family-partner-and-kids.md) and [docs/codex/assignments/b33-opening-questions-and-first-day.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/assignments/b33-opening-questions-and-first-day.md); extend caregiver-choice evidence toward the caregiving summary and prove ages 5–17 through an adult life. Start from fresh main with:
 
 ```sh
 git fetch origin main

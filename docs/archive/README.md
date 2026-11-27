@@ -1,6 +1,6 @@
 # Archive of old hand-offs, progress logs and completion reports
 
-These notes record how the old player app and the first port were built. Nothing in the game, its tests or its tooling reads them. Decisions they record that still hold are in `docs/coordination/DECISION-REGISTER.md` and `docs/coordination/OWNER-DECISIONS.md`; read those first. Files keep their old paths under `docs/archive/`, so a link like `docs/codex/progress/session-88.md` is now `docs/archive/codex/progress/session-88.md`.
+These notes record how the old player app and the first port were built. Nothing in the game, its tests or its tooling reads them. Decisions they record that still hold are in `docs/coordination/DECISION-REGISTER.md` and `docs/coordination/OWNER-DECISIONS.md`; read those first. Files keep their old paths under `docs/archive/`, so a link like [docs/codex/progress/session-88.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/progress/session-88.md) is now `docs/archive/codex/progress/session-88.md`.
 
 | Folder                          | Files | What it holds                                                                                |
 | ------------------------------- | ----- | -------------------------------------------------------------------------------------------- |

@@ -21,7 +21,7 @@ You start alone, with your own savings and the people you know. A small-town cou
 - `src/simulation/campaign-operating-costs.ts:31 UNRESEARCHED_OPERATING_COSTS`. Eight categories (office, printing, postage, travel, events, phones-and-software, food, bank-fees), each an empty object. `:133 payRecordedCampaignOperatingBill` pays real bills.
 - `data/research/campaign-reality/campaign-calibration.json` (door/phone rates, USPS letter rate $0.68 then $0.73 in 2024) and `campaign-evidence.json` (Massachusetts 2022 averages; school-board spending bands). Office-level cost values are UNKNOWN in it.
 - `src/simulation/campaign-life-activities.ts:262 activeStaffPersonIds`; `:1295 supportRequestDecision` (a private function, used at :1501); do not make a second help decision.
-- `src/simulation/campaign-routine.ts:49` (fundraising routine "Fundraising calls" exists); `campaign-life-types.ts:191` work type.
+- [src/simulation/campaign-routine.ts:49](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/campaign-routine.ts) (fundraising routine "Fundraising calls" exists); `campaign-life-types.ts:191` work type.
 - `src/simulation/campaign-weekly-plans.ts:708 projectCampaignWeek`, `:966 commitCampaignWeek`; `campaign-weekly-plan-integrity.ts:90-131` requires the plan proposer to be campaign staff (error at :131). The manager proposes here.
 - `src/simulation/campaign-polling.ts:60 surveyWorkDays` (pattern: experience counted from work history by occupation classification, `isSurveyOccupation` at :53).
 - `src/simulation/living-world/official-views.ts:301 peopleKnownTo`; `src/simulation/decisions.ts:66 evaluateDecision`.
@@ -68,7 +68,7 @@ Tests: `campaign-helpers.test.ts` (same world same answers; helper hours raise r
 
 ## Proof to post
 
-Under `docs/codex/evidence/b02-money-helpers/`: screenshots of the played ask, the donor list with reasons, the helper list, the purchase screen, the manager offer and the manager's plan. Printed lines: each ask (person, means, view, limit, gift or refusal), the unit price table, small-town and large-city totals side by side.
+Under [docs/codex/evidence/b02-money-helpers/](https://github.com/lamontaes/Political-Game-Git/tree/bb50e1008b3992420248045518d209a79207db5e/docs/codex/evidence/b02-money-helpers): screenshots of the played ask, the donor list with reasons, the helper list, the purchase screen, the manager offer and the manager's plan. Printed lines: each ask (person, means, view, limit, gift or refusal), the unit price table, small-town and large-city totals side by side.
 
 ## Standing rules
 

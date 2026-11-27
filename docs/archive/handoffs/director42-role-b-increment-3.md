@@ -35,7 +35,7 @@ it rather than only classifying it.
 The census searches for measure designations. This was a place, so it walked
 straight past it.
 
-`src/presentation/run-a-projection.ts` rendered **every birthplace and every
+[src/presentation/run-a-projection.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/run-a-projection.ts) rendered **every birthplace and every
 residence on the player's Quick Dossier** through `runAPlaceDisplayName` — the
 Run-A development fixture's helper:
 
@@ -78,12 +78,12 @@ Group-pinning replaced with per-module findings in
 | `committee-room-fixture.ts`       | A registered room — scene geometry, names no measure, person or outcome. Renderer scope is ROLE D's.                                                                                                                                                                                                                                      |
 | `office-council-staff-fixture.ts` | A registered room, as above.                                                                                                                                                                                                                                                                                                              |
 | `demo-jurisdiction-context.ts`    | `DEMO_START_DATE` is the game's calendar epoch — every state and corpus place opens on it, so a scenario default, not one world's instance. `LEXINGTON_DEMO_CONTEXT` is the Lexington scenario's own context, used as that place's context. The module's _name_ reads like a fixture leak; its contents are not one.                      |
-| `demo.ts`                         | Needed a real answer. **`createDemoWorld` does default its jurisdiction to Lexington** — which would make Kentucky the universal normal start rather than one explicit scenario. Ordinary New Game never calls it: its only runtime callers are the Run-A fixture and three `src/ui` developer proof routes. Now pinned **behaviorally**. |
+| `demo.ts`                         | Needed a real answer. **`createDemoWorld` does default its jurisdiction to Lexington** — which would make Kentucky the universal normal start rather than one explicit scenario. Ordinary New Game never calls it: its only runtime callers are the Run-A fixture and three [src/ui](https://github.com/lamontaes/Political-Game-Git/tree/71a9ab5fc83c1176132ffc773781639228706b85/src/ui) developer proof routes. Now pinned **behaviorally**. |
 | `portability-fixture.ts`          | No play-path consumer; on the graph only because the barrel re-exports it. Dev/test-only.                                                                                                                                                                                                                                                 |
 
 ## Proof
 
-`src/presentation/dehardwire-place-binding.test.ts` (new, 3 tests):
+[src/presentation/dehardwire-place-binding.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/dehardwire-place-binding.test.ts) (new, 3 tests):
 
 - named **non-Kentucky** ordinary starts (Nebraska, Alaska) — neither the
   jurisdiction nor the clock falls back to Lexington;

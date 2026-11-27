@@ -19,7 +19,7 @@ Whether you sit on a city council, a statehouse or in Congress, a bill moves the
 - Per-level data: `legislature-rules.ts:365 ChamberRule` (seats, quorum, referral, committees, floor stages, amendments; also `ConferenceRule :424`, `ExecutiveRule :483`, `EnactmentRule :500`, `SessionRule :516`; `unknownRule :99` marks unresolved values), `legislature-rule-packs.ts` (2,710 lines, `rulePackById`), `legislature-game-profile.ts:443 legislatureProfileFor`.
 - Changeable by law (the one path): `enacted-rule-changes.ts:72 AMENDABLE_RULE_FIELDS` (body.seats, term.years, qualification.minimumAge and residence years, executive.term.years, executive.term.limit, court.seats, pay.governor, pay.stateLegislator, pay.trialJudge, nomination.primary.dateRule, nomination.method, senate.selection, minimum wage, recall doctrine), `:269 NOT_YET_AMENDABLE_RULE_FIELDS` (term.start, term.expiry, election.date and cycle, institution.form, local ordinance passage and effective rules, appropriation votes: "charter changes are not routed here yet"), `:978 fileRuleChangeProvision`, `:1075 enactedRuleChanges`, `:1251 ruleValueInWorld`, `:506 institutionRuleAmountUnit`; consumers `governing/court-size-law.ts:72 applyEnactedCourtSizes`, `office-pay.ts`, `candidacy.ts` (age), `nominations/nomination-rules.ts`.
 - Second path for the same kind of thing (to merge): `living-world/local-council-term-limits.ts` reads a policy question through `lawInForce` and hard-codes "two consecutive full terms" (comment: ESTIMATED FROM AVERAGE); `living-world/federal-reform.ts:323 termLimitCount` and `:693 proposeAndVote` (Article V flow).
-- Newer code covering part: Session 23 executive engine and Session 42 court engine are in other briefs; read `docs/codex/assignments/INTERFACES.md` section 4 before touching executive or court seams.
+- Newer code covering part: Session 23 executive engine and Session 42 court engine are in other briefs; read [docs/codex/assignments/INTERFACES.md](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/docs/codex/assignments/INTERFACES.md) section 4 before touching executive or court seams.
 
 ## Build steps (one PR each)
 
@@ -46,7 +46,7 @@ Random place with a council, then the same player in the statehouse and in Congr
 
 ## Proof to post
 
-`docs/codex/evidence/b32-one-legislative-engine/`: the step 1 audit before and after, printed step logs of one bill at each level, rule values before/after each law with the record ids and effective dates, the refusal text, `npm run typecheck` and changed tests.
+[docs/codex/evidence/b32-one-legislative-engine/](https://github.com/lamontaes/Political-Game-Git/tree/bb50e1008b3992420248045518d209a79207db5e/docs/codex/evidence/b32-one-legislative-engine): the step 1 audit before and after, printed step logs of one bill at each level, rule values before/after each law with the record ids and effective dates, the refusal text, `npm run typecheck` and changed tests.
 
 ## Standing rules
 

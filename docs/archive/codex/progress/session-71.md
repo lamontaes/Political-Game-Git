@@ -9,7 +9,7 @@ The next session can resume safely after restoring access and posting the claim.
 
 - Queue item: `LW-19` (housing and land use).
 - The pool lists `LW-19` as claimed by Session 54, but no Session 54 resume
-  marker exists in `docs/codex/progress/`. Under the assignment's stalled-claim
+  marker exists in [docs/codex/progress/](https://github.com/lamontaes/Political-Game-Git/tree/bb50e1008b3992420248045518d209a79207db5e/docs/codex/progress). Under the assignment's stalled-claim
   rule, Session 71 may take it only after posting `Session 71 takes LW-19` on
   issue #2424.
 - This checkout has no Git remote and GitHub CLI has no authentication, so the

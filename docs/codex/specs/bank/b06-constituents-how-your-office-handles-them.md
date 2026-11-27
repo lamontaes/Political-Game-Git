@@ -14,11 +14,11 @@ Once you hold office, people reach out to you, often. A neighbor whose rent jump
 - `src/simulation/living-world/civic-actions.ts:165 reviewTownCivicActions`: quarterly, each adult resident's stake (:96-160) decides whether they contact an official (the one they hold the strongest view of, else the head of government, :186-205); writes `life.contacted-official` (:49-52). Header :41: "NOT MODELED: what the contact said". Called from `migration/review.ts:270`.
 - `src/simulation/office-workflow.ts:37 CASEWORK_MODES` (player-handles-all, staff-routine-player-exceptions, staff-handles-and-briefs), `:158 recordOfficeWorkflowPreference`; type `types.ts:5122`. A recorded mode does nothing today (`presentation/office-onboarding.ts:144`: "not completed constituent work").
 - Duplicate choice lists: `presentation/office-onboarding.ts:69 OFFICE_CASEWORK_CHOICES` and `presentation/governing-office-desk.ts:126 CASEWORK_CHOICES`.
-- `src/simulation/governing/office-staff-hiring.ts:115` (Constituent Caseworker), `:413 hireOfficeStaff`; `governing/office-staffing.ts:56`.
+- [src/simulation/governing/office-staff-hiring.ts:115](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/governing/office-staff-hiring.ts) (Constituent Caseworker), `:413 hireOfficeStaff`; `governing/office-staffing.ts:56`.
 - `src/simulation/municipal-public-work.ts:243 MunicipalRole` (clerk, professional-manager), `:254 SEAT_ROLE_KINDS`: the town's own staff.
-- `src/simulation/living-world/lived-outcomes.ts` (`livedOutcomesOf`, `officialAnsweringFor`), `src/simulation/law-exposure.ts` exposures, `official-view-reads.ts:168 viewOfOfficial`: the records a resident's reason comes from.
+- [src/simulation/living-world/lived-outcomes.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/lived-outcomes.ts) (`livedOutcomesOf`, `officialAnsweringFor`), [src/simulation/law-exposure.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/law-exposure.ts) exposures, `official-view-reads.ts:168 viewOfOfficial`: the records a resident's reason comes from.
 - `src/simulation/living-world/official-views.ts:168 officialViewReflectionHandler`, `:780 reactionLens`: how a resident's view of an official is formed and how strongly they react.
-- `src/simulation/executive-governing-kernel-bank.ts:2582` (`constituent-request`, `referral-agency` fact keys) for executive offices.
+- [src/simulation/executive-governing-kernel-bank.ts:2582](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/executive-governing-kernel-bank.ts) (`constituent-request`, `referral-agency` fact keys) for executive offices.
 
 ## What to change
 

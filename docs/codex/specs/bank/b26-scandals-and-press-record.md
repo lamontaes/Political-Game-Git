@@ -15,7 +15,7 @@ Your town has a reporter who knows you. She calls for a quote when a story names
 
 ## Existing code it must use
 
-- Matters and responses: `src/simulation/press/records.ts:204` `MATTER_RESPONSES` (deny, acknowledge, decline-comment, cooperate, contest, resign, call-for-resignation…); `:391` `MatterResponseRecord`; `:332` `MatterRecord` (null occurrence means the allegation is false).
+- Matters and responses: [src/simulation/press/records.ts:204](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/press/records.ts) `MATTER_RESPONSES` (deny, acknowledge, decline-comment, cooperate, contest, resign, call-for-resignation…); `:391` `MatterResponseRecord`; `:332` `MatterRecord` (null occurrence means the allegation is false).
 - Three separate player answer sets, to be unified:
   - `press/views.ts:61` `PressAnswerChoice` (deny / confirm / false-denial / false-confirmation / decline) and `:289` `pressAnswerOptions`;
   - `presentation/office-response.ts:36` `OfficeAnswerKind` (explanation, defense, cooperation, resignation) and `:246` `answerForOffice`;

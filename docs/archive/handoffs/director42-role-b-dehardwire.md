@@ -40,17 +40,17 @@ Git route appears to be what this wave is actually using.
 **Owned and written in this increment**
 
 - `src/simulation/measure-numbering.ts` (new)
-- `src/simulation/legislation-scenarios.ts`
-- `src/simulation/index.ts` (one barrel export line)
-- `src/presentation/legislation-world.ts`
-- `src/presentation/legislative-bargaining-world.ts`
-- `src/presentation/legislative-bargaining-brief.ts`
-- `src/presentation/legislative-bargaining-fixture.ts` (developer fixture)
-- `src/content/adapters/legislative-blueprints.ts`
-- `src/presentation/legislation-world.test.ts`
+- [src/simulation/legislation-scenarios.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/legislation-scenarios.ts)
+- [src/simulation/index.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/index.ts) (one barrel export line)
+- [src/presentation/legislation-world.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/legislation-world.ts)
+- [src/presentation/legislative-bargaining-world.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/legislative-bargaining-world.ts)
+- [src/presentation/legislative-bargaining-brief.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/legislative-bargaining-brief.ts)
+- [src/presentation/legislative-bargaining-fixture.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/legislative-bargaining-fixture.ts) (developer fixture)
+- [src/content/adapters/legislative-blueprints.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/content/adapters/legislative-blueprints.ts)
+- [src/presentation/legislation-world.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/legislation-world.test.ts)
 - `src/presentation/dehardwire-measure-identity.test.ts` (new)
 - `src/presentation/dehardwire-census.test.ts` (new)
-- `tests/e2e/pr79f-production-floor.spec.ts`
+- [tests/e2e/pr79f-production-floor.spec.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/pr79f-production-floor.spec.ts)
 - `scripts/dehardwire-census.mjs` (new)
 - `docs/dehardwire/classification.json`, `docs/dehardwire/census.json` (new)
 
@@ -73,7 +73,7 @@ what made this fixable underneath them. Two interface facts they depend on:
   (a function), because the note names the bill it is about.
 
 One line for ROLE C specifically: the four
-`src/simulation/judicial-gameplay-kernel-bank.ts` hits in the census are
+[src/simulation/judicial-gameplay-kernel-bank.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/simulation/judicial-gameplay-kernel-bank.ts) hits in the census are
 internal `source:` provenance on judicial kernels. They are classified as
 legitimate recorded provenance here. Whether any of that text currently renders
 on a player surface is your separation question, not a dehardwire case.
@@ -124,9 +124,9 @@ production dependencies that do not exist. The existing
 reports the floor fixture chain differently.
 
 Current result — **13 cases, 13 legitimate data/label, 0 production hardcode,
-0 unclassified**, machine-readable in `docs/dehardwire/census.json`.
+0 unclassified**, machine-readable in [docs/dehardwire/census.json](https://github.com/lamontaes/Political-Game-Git/blob/dba7d07ad8129e7fe59ca859e140d688d56a0cf1/docs/dehardwire/census.json).
 
-It is a guard, not a report: `src/presentation/dehardwire-census.test.ts` fails
+It is a guard, not a report: [src/presentation/dehardwire-census.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/dehardwire-census.test.ts) fails
 the suite if a later edit puts an unclassified world-instance literal back on
 the ordinary-play path. It bans nothing globally — authored content, chamber
 labels, rule citations and internal provenance all pass.
@@ -139,15 +139,15 @@ labels, rule citations and internal provenance all pass.
 | `npm run lint`                                                                                                                      | pass                                                                 |
 | `npm run format` (prettier --check)                                                                                                 | pass                                                                 |
 | `npx vitest run src/presentation src/content src/simulation/legislation.test.ts src/simulation/legislative-provision-batch.test.ts` | **135 files, 1718 tests, all pass**                                  |
-| `src/presentation/dehardwire-measure-identity.test.ts`                                                                              | 9 pass (new)                                                         |
-| `src/presentation/dehardwire-census.test.ts`                                                                                        | 5 pass (new)                                                         |
+| [src/presentation/dehardwire-measure-identity.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/dehardwire-measure-identity.test.ts)                                                                              | 9 pass (new)                                                         |
+| [src/presentation/dehardwire-census.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/dehardwire-census.test.ts)                                                                                        | 5 pass (new)                                                         |
 | `node scripts/dehardwire-census.mjs`                                                                                                | exit 0                                                               |
 | `playwright test tests/e2e/pr79f-production-floor.spec.ts` (Chromium, 1440x900)                                                     | **1 passed (51.6s)** — the production route names HB 215, not HB 214 |
 | `playwright test` on the four related legislation specs                                                                             | 19 passed, 3 failed — all three also fail at base f22fd31            |
 
 ### Browser evidence — the production route, actually exercised
 
-`tests/e2e/pr79f-production-floor.spec.ts` drives the route a player opens:
+[tests/e2e/pr79f-production-floor.spec.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/tests/e2e/pr79f-production-floor.spec.ts) drives the route a player opens:
 title screen, life created, candidacy filed, election reached by living the
 weeks, members' room entered from the office the win opened, then a save and a
 browser reload. No `?view=floor` anywhere in it.
@@ -165,10 +165,10 @@ the conversation and cross-checks it against the working document: a stronger
 assertion than the fixed string it replaced, because it proves the room and the
 page agree about one bill rather than that a literal exists.
 
-`tests/e2e/legislation.spec.ts` asserts "HB 214" and is **unaffected**. It
+[tests/e2e/legislation.spec.ts](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/tests/e2e/legislation.spec.ts) asserts "HB 214" and is **unaffected**. It
 drives `?view=legislation`, the developer route, which builds a standalone
 scenario through `createLegislativeScenario` and legitimately keeps the
-authored designation. `src/presentation/legislation-projection.test.ts` asserts
+authored designation. [src/presentation/legislation-projection.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/legislation-projection.test.ts) asserts
 the same literal against the same builder and still passes — that is the
 evidence for the claim, not an assumption about it.
 
@@ -222,7 +222,7 @@ project runs it, the rest of the Playwright lane (`npm run test:e2e`), and
 
 ## One assertion was rewritten, not weakened
 
-`src/presentation/legislation-world.test.ts` asserted
+[src/presentation/legislation-world.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/legislation-world.test.ts) asserted
 `briefing.designation === "HB 214"` — precisely the expectation the hard rule
 forbids an ordinary life from having to satisfy. It now asserts that a
 designation exists, that it is the origin chamber's, and that it equals the one

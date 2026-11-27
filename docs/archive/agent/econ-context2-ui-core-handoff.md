@@ -16,10 +16,10 @@ Feature branch: `codex/econ-context2`
 Feature-owned seams:
 
 - `EconomicContextPanel` and `LEXINGTON_ECONOMIC_BINDING` in
-  `src/player/EconomicContextPanel.tsx`;
+  [src/player/EconomicContextPanel.tsx](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/player/EconomicContextPanel.tsx);
 - `createEconomicContextBrowserProvider` in
-  `src/presentation/economic-context-browser.ts`;
-- lazy static data under `public/data/economic-context/v1`.
+  [src/presentation/economic-context-browser.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/economic-context-browser.ts);
+- lazy static data under [public/data/economic-context/v1](https://github.com/lamontaes/Political-Game-Git/tree/b38806b4c60e7bf5a6441e886768bf03ba306a8f/public/data/economic-context/v1).
 
 The integration registers the panel on the normal post-Begin player path, where the
 canonical `world.currentDate` exists. Do not use the setup screen's undated

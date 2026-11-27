@@ -43,7 +43,7 @@ A second court engine, verdict calculator or appeal odds; any dice or fixed reve
 
 ## Research tables
 
-None new: bounds come from `data/research/justice/sentencing-ranges-2026.json` and precedent rows from `data/research/laws/judicial-review-precedents-2026.json`. If a place has no appellate court row, `courtFor` already returns null and the case stays final; do not invent a court. No source exists for how judge philosophy changes; derive from records, do not cite one.
+None new: bounds come from `data/research/justice/sentencing-ranges-2026.json` and precedent rows from [data/research/laws/judicial-review-precedents-2026.json](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/data/research/laws/judicial-review-precedents-2026.json). If a place has no appellate court row, `courtFor` already returns null and the case stays final; do not invent a court. No source exists for how judge philosophy changes; derive from records, do not cite one.
 
 ## Done when (played-game proof)
 

@@ -797,8 +797,8 @@ Stage 6 writer, not to the narrative composition layer.
 ## Where a save lives
 
 In the browser, in browser storage, managed by `BrowserSaveStore`
-(`src/presentation/browser-world-repository.ts`, 1,549 lines). There is also a
-SQLite repository (`src/persistence/sqlite-world-repository.ts`) for
+([src/presentation/browser-world-repository.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/browser-world-repository.ts), 1,549 lines). There is also a
+SQLite repository ([src/persistence/sqlite-world-repository.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/persistence/sqlite-world-repository.ts)) for
 non-browser use. **[MAIN-PLAYABLE]** / **[MAIN-SUBSTRATE]**
 
 ## What a save actually is
@@ -1732,8 +1732,8 @@ same order, so you can compare any two of them:
 1. **What it is.** The single object that is the game: a clock, a set of people, a
    control record saying who the player is, an action sequence, and a complete
    history.
-2. **Where it lives.** `src/simulation/world.ts` (3,091 lines),
-   `src/simulation/types.ts` (3,422 lines, 422 exports).
+2. **Where it lives.** [src/simulation/world.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/world.ts) (3,091 lines),
+   [src/simulation/types.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/types.ts) (3,422 lines, 422 exports).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** It is everything the game knows. A save is this
    object; a life is this object over time.
@@ -1753,7 +1753,7 @@ same order, so you can compare any two of them:
 
 1. **What it is.** ISO dates, simulation moments (date + minute-of-day + time zone
    - UTC offset), and the arithmetic between them.
-2. **Where it lives.** `src/simulation/dates.ts` (417 lines, 19 exports).
+2. **Where it lives.** [src/simulation/dates.ts](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/src/simulation/dates.ts) (417 lines, 19 exports).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Makes "a month later" mean a real month.
 5. **What it reads.** Dates and offsets.
@@ -1765,12 +1765,12 @@ same order, so you can compare any two of them:
 9. **What it cannot do.** Represent an unknown or approximate date.
 10. **What breaks if it is wrong.** Aftermaths land in the wrong month; ages drift;
     replay diverges by time zone.
-11. **How to check it.** `src/simulation/dates.test.ts`.
+11. **How to check it.** [src/simulation/dates.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/src/simulation/dates.test.ts).
 
 ### SYSTEM 3 — ADVANCE TIME
 
 1. **What it is.** The only way the clock moves.
-2. **Where it lives.** `advanceWorld` in `src/simulation/world.ts:814`.
+2. **Where it lives.** `advanceWorld` in [src/simulation/world.ts:814](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/world.ts).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Turns "Let time pass" into a real passage of
    time with real consequences.
@@ -1787,7 +1787,7 @@ same order, so you can compare any two of them:
 
 1. **What it is.** The scheduling system: something dated, with a handler key, and
    a terminal state when it resolves.
-2. **Where it lives.** `src/simulation/future-transitions.ts` (852 lines).
+2. **Where it lives.** [src/simulation/future-transitions.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/future-transitions.ts) (852 lines).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Lets a choice today matter in nine months.
 5. **What it reads.** `world.history.futureDueItems` and their states.
@@ -1806,7 +1806,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 5 — THE HISTORY STORE
 
 1. **What it is.** The append-only record of everything.
-2. **Where it lives.** `src/simulation/history.ts` (994 lines, 39 exports).
+2. **Where it lives.** [src/simulation/history.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/history.ts) (994 lines, 39 exports).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** It is their life. The journal, the threads, the
    recurring people and the save are all readings of it.
@@ -1825,8 +1825,8 @@ same order, so you can compare any two of them:
 ### SYSTEM 6 — SEEDED RANDOMNESS AND DETERMINISM
 
 1. **What it is.** A seeded RNG plus a SHA-256 implementation used for tie-breaks.
-2. **Where it lives.** `src/simulation/rng.ts` (118 lines),
-   `src/simulation/sha256.ts` (189 lines).
+2. **Where it lives.** [src/simulation/rng.ts](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/src/simulation/rng.ts) (118 lines),
+   [src/simulation/sha256.ts](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/src/simulation/sha256.ts) (189 lines).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Guarantees the same seed gives the same life.
 5. **What it reads.** A seed string.
@@ -1843,8 +1843,8 @@ same order, so you can compare any two of them:
 ### SYSTEM 7 — CANONICAL JSON AND SERIALIZATION
 
 1. **What it is.** A JSON writer that emits object keys in a fixed order.
-2. **Where it lives.** `src/simulation/canonical-json.ts`,
-   `src/simulation/serialization.ts`, `src/authoring/canonical-json.ts`.
+2. **Where it lives.** [src/simulation/canonical-json.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/canonical-json.ts),
+   [src/simulation/serialization.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/serialization.ts), [src/authoring/canonical-json.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/authoring/canonical-json.ts).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Makes saves comparable and replay verifiable.
 5. **What it reads.** A world.
@@ -1856,7 +1856,7 @@ same order, so you can compare any two of them:
 9. **What it cannot do.** Compress, or omit.
 10. **What breaks if it is wrong.** False "the world changed" errors, or missed
     real ones.
-11. **How to check it.** `src/simulation/canonical-json.test.ts`.
+11. **How to check it.** [src/simulation/canonical-json.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/src/simulation/canonical-json.test.ts).
 
 ### SYSTEM 8 — WORLD INTEGRITY ASSERTIONS
 
@@ -1885,7 +1885,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 9 — PEOPLE AND PERSON GENERATION
 
 1. **What it is.** The creation and identity of every person.
-2. **Where it lives.** `src/simulation/people.ts` (649), `person-appearance.ts`,
+2. **Where it lives.** [src/simulation/people.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/people.ts) (649), `person-appearance.ts`,
    `person-stress-harness.ts`.
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Gives the world other people who are real
@@ -1906,7 +1906,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 10 — NAMES DATA
 
 1. **What it is.** Versioned, deterministic name corpora with recorded provenance.
-2. **Where it lives.** `src/simulation/names-data.ts` (1,155 lines).
+2. **Where it lives.** [src/simulation/names-data.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/names-data.ts) (1,155 lines).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Names that are plausible and consistent.
 5. **What it reads.** Its own corpora.
@@ -1923,7 +1923,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 11 — PERSON APPEARANCE
 
 1. **What it is.** A deterministic appearance seed per person.
-2. **Where it lives.** `src/simulation/person-appearance.ts` (85 lines).
+2. **Where it lives.** [src/simulation/person-appearance.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/person-appearance.ts) (85 lines).
 3. **Status.** **[MAIN-PLAYABLE]** (the seed) / **[MISSING]** (any art for it)
 4. **What it does for a player.** Would let the same person look the same every
    time they appear.
@@ -1934,12 +1934,12 @@ same order, so you can compare any two of them:
    the two authored ones, and sets `data-likeness="authored"` or `"none"`.
 9. **What it cannot do.** Produce a picture. Nothing renders it.
 10. **What breaks if it is wrong.** A person's face would change between scenes.
-11. **How to check it.** `src/simulation/appearance-persistence.test.ts`.
+11. **How to check it.** [src/simulation/appearance-persistence.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/appearance-persistence.test.ts).
 
 ### SYSTEM 12 — LIFE PLACES AND JURISDICTIONS
 
 1. **What it is.** The four places a life can happen in, and their capabilities.
-2. **Where it lives.** `src/simulation/life-places.ts` (183 lines).
+2. **Where it lives.** [src/simulation/life-places.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life-places.ts) (183 lines).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Decides where they live and which legislature,
    if any, their work runs under.
@@ -1967,7 +1967,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 13 — HOUSEHOLDS AND KINSHIP
 
 1. **What it is.** Who lives with whom, and who is related to whom.
-2. **Where it lives.** `src/simulation/life.ts` (1,995 lines, 46 exports).
+2. **Where it lives.** [src/simulation/life.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life.ts) (1,995 lines, 46 exports).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Gives the home beats somebody to be about.
 5. **What it reads.** The world.
@@ -1984,7 +1984,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 14 — PARTNERSHIPS AND CARE RESPONSIBILITIES
 
 1. **What it is.** Romantic partnerships and caring relationships as records.
-2. **Where it lives.** `src/simulation/life.ts`.
+2. **Where it lives.** [src/simulation/life.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life.ts).
 3. **Status.** **[MAIN-PLAYABLE]** (records) — `recordPartnershipState` has no
    caller outside `life.ts`, so partnership _change_ is **[MAIN-SUBSTRATE]**.
 4. **What it does for a player.** Enables `adult.partner-plan`,
@@ -1997,12 +1997,12 @@ same order, so you can compare any two of them:
    responsibility to exist before its first stage can be offered.
 9. **What it cannot do.** Begin or end a partnership through play.
 10. **What breaks if it is wrong.** A care episode about nobody.
-11. **How to check it.** `src/simulation/life-foundation.test.ts`.
+11. **How to check it.** [src/simulation/life-foundation.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/simulation/life-foundation.test.ts).
 
 ### SYSTEM 15 — WORK RELATIONSHIPS
 
 1. **What it is.** Employment as a record with a kind, a status and a role.
-2. **Where it lives.** `src/simulation/life.ts`, `src/simulation/time-work.ts`
+2. **Where it lives.** [src/simulation/life.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life.ts), [src/simulation/time-work.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/time-work.ts)
    (1,908 lines).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Decides whether they have a job, and whether the
@@ -2024,7 +2024,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 16 — EDUCATION ENROLLMENT
 
 1. **What it is.** Being at school or in training, as a period with states.
-2. **Where it lives.** `src/simulation/life.ts`.
+2. **Where it lives.** [src/simulation/life.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life.ts).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Gates the school formative situations.
 5. **What it reads.** The world.
@@ -2040,7 +2040,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 17 — ORGANIZATIONS AND PARTICIPATION
 
 1. **What it is.** Groups a person belongs to, and how.
-2. **Where it lives.** `src/simulation/life.ts`.
+2. **Where it lives.** [src/simulation/life.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life.ts).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Enables the whole civic strand.
 5. **What it reads.** The world.
@@ -2061,7 +2061,7 @@ same order, so you can compare any two of them:
 
 1. **What it is.** Dwellings, tenure, resource positions, flows, obligations and
    transfer outcomes.
-2. **Where it lives.** `src/simulation/resources.ts` (1,342),
+2. **Where it lives.** [src/simulation/resources.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/resources.ts) (1,342),
    `resource-queries.ts` (485), `resource-pressure.ts` (164), `economy.ts` (346),
    `quantity.ts` (267).
 3. **Status.** **[MAIN-PLAYABLE]** for the records written by life choices;
@@ -2088,7 +2088,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 19 — VITALITY (HEALTH, CAPACITY, DEATH)
 
 1. **What it is.** Health states, functional capacity, and death.
-2. **Where it lives.** `src/simulation/vitality.ts` (591),
+2. **Where it lives.** [src/simulation/vitality.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/vitality.ts) (591),
    `vitality-catalog.ts` (216), `vitality-integrity.ts` (1,013).
 3. **Status.** **[MAIN-SUBSTRATE]** — `recordPersonDeath` and
    `recordPersonFunctionalCapacity` have no caller outside `vitality.ts`.
@@ -2104,7 +2104,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 20 — MIND (GOALS, VALUES, PERSONALITY, APPRAISALS)
 
 1. **What it is.** What an NPC wants, values, is like, and how they rate things.
-2. **Where it lives.** `src/simulation/mind.ts` (1,284), `mind-catalog.ts` (403),
+2. **Where it lives.** [src/simulation/mind.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/mind.ts) (1,284), `mind-catalog.ts` (403),
    `mind-integrity.ts` (1,467).
 3. **Status.** **[MAIN-SUBSTRATE]** — `recordGoalState`, `recordPersonalValue`
    and `recordPersonalityTendency` are reached only by the CLI demo.
@@ -2124,7 +2124,7 @@ same order, so you can compare any two of them:
 
 1. **What it is.** One person's opinion about another person or thing, with a
    traceable source.
-2. **Where it lives.** `src/simulation/perception.ts` (282 lines).
+2. **Where it lives.** [src/simulation/perception.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/perception.ts) (282 lines).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Records what the household NPC thinks after a
    conversation turn.
@@ -2142,7 +2142,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 22 — EVIDENCE
 
 1. **What it is.** Artifacts that carry facts, and the discovery of them.
-2. **Where it lives.** `src/simulation/evidence.ts` (340),
+2. **Where it lives.** [src/simulation/evidence.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/evidence.ts) (340),
    `evidence-integrity.ts` (508).
 3. **Status.** **[MAIN-SUBSTRATE]** — `recordEvidenceArtifact` and
    `recordEvidenceDiscovery` have no caller outside `evidence.ts`.
@@ -2160,7 +2160,7 @@ same order, so you can compare any two of them:
 
 1. **What it is.** Things that happen — to a person, or in a place — with
    transition plans.
-2. **Where it lives.** `src/simulation/incidents.ts` (1,084),
+2. **Where it lives.** [src/simulation/incidents.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/incidents.ts) (1,084),
    `incident-catalog.ts` (363), `incident-integrity.ts` (731).
 3. **Status.** **[MAIN-SUBSTRATE]**
 4. **What it does for a player.** `adult.incident-aftermath` and
@@ -2179,7 +2179,7 @@ same order, so you can compare any two of them:
 
 1. **What it is.** Measurable facts about the world, and the processes that change
    them.
-2. **Where it lives.** `src/simulation/world-metrics.ts` (1,397),
+2. **Where it lives.** [src/simulation/world-metrics.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/world-metrics.ts) (1,397),
    `causal-effects.ts` (1,448).
 3. **Status.** **[MAIN-SUBSTRATE]**
 4. **What it does for a player.** Nothing yet.
@@ -2201,7 +2201,7 @@ same order, so you can compare any two of them:
 
 1. **What it is.** The growing-up years: 19 authored situations, 49 options, and
    the writes each one makes.
-2. **Where it lives.** `src/simulation/character-history.ts` (2,986 lines).
+2. **Where it lives.** [src/simulation/character-history.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/character-history.ts) (2,986 lines).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Lets them play a childhood rather than skip it.
 5. **What it reads.** The world, the person, the age.
@@ -2219,7 +2219,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 26 — ADULT SITUATIONS
 
 1. **What it is.** 35 authored adult situations with 102 options.
-2. **Where it lives.** `src/simulation/adult-situations.ts` (2,737 lines).
+2. **Where it lives.** [src/simulation/adult-situations.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/adult-situations.ts) (2,737 lines).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** The everyday texture of an adult life: home,
    work, money, friends, community, politics.
@@ -2240,8 +2240,8 @@ same order, so you can compare any two of them:
 
 1. **What it is.** Nine multi-stage families — 32 stages, 87 options — that run as
    instances bound to specific people, across months or years.
-2. **Where it lives.** `src/simulation/episode-bank.ts` (2,206),
-   `src/simulation/life-episodes.ts` (1,540).
+2. **Where it lives.** [src/simulation/episode-bank.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/episode-bank.ts) (2,206),
+   [src/simulation/life-episodes.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life-episodes.ts) (1,540).
 3. **Status.** **[OPEN-PR #87]**
 4. **What it does for a player.** The thing that makes a life feel continuous: a
    problem that comes back, with the same person, changed by what you did last time.
@@ -2261,7 +2261,7 @@ same order, so you can compare any two of them:
 
 1. **What it is.** A projection over history that notices which records belong
    together.
-2. **Where it lives.** `src/simulation/narrative-threads.ts` (1,104 lines).
+2. **Where it lives.** [src/simulation/narrative-threads.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/narrative-threads.ts) (1,104 lines).
 3. **Status.** **[OPEN-PR #87]**
 4. **What it does for a player.** "What is still open", recurring people, and the
    sense that the game is keeping track.
@@ -2278,7 +2278,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 29 — SITUATION SELECTION
 
 1. **What it is.** The single ranking that chooses one beat from three sources.
-2. **Where it lives.** `src/simulation/situation-selection.ts` (364),
+2. **Where it lives.** [src/simulation/situation-selection.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/situation-selection.ts) (364),
    `situation-profiles.ts` (301), `life-eligibility.ts` (123).
 3. **Status.** **[MAIN-PLAYABLE]**, extended by **[OPEN-PR #87]** to accept
    `episode:${string}` keys.
@@ -2300,7 +2300,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 30 — LIFE CALLBACKS AND AFTERMATH
 
 1. **What it is.** The system that lets a choice come back.
-2. **Where it lives.** `src/simulation/life-callbacks.ts` (558 lines).
+2. **Where it lives.** [src/simulation/life-callbacks.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life-callbacks.ts) (558 lines).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Makes a promise mean something nine months later.
 5. **What it reads.** The option's `aftermath`, the counterpart, work and
@@ -2322,7 +2322,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 31 — LIFE NARRATION
 
 1. **What it is.** The connective prose between beats.
-2. **Where it lives.** `src/presentation/life-narration.ts` (668 lines).
+2. **Where it lives.** [src/presentation/life-narration.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/life-narration.ts) (668 lines).
 3. **Status.** **[OPEN-PR #87]**
 4. **What it does for a player.** Turns a sequence of scenes into a life.
 5. **What it reads.** Elapsed days, open threads, recurring people, whether
@@ -2341,7 +2341,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 32 — LIFE STORY (THE PLAY SURFACE PROJECTION)
 
 1. **What it is.** The single function that answers "what is on screen right now."
-2. **Where it lives.** `src/presentation/life-story.ts` (636 lines).
+2. **Where it lives.** [src/presentation/life-story.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/life-story.ts) (636 lines).
 3. **Status.** **[OPEN-PR #87]**
 4. **What it does for a player.** It is the play screen.
 5. **What it reads.** The world and the person.
@@ -2358,7 +2358,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 33 — LIFE RECORD (THE JOURNAL)
 
 1. **What it is.** A chaptered reading of a life.
-2. **Where it lives.** `src/presentation/life-record.ts` (293 lines).
+2. **Where it lives.** [src/presentation/life-record.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/life-record.ts) (293 lines).
 3. **Status.** **[OPEN-PR #87]**
 4. **What it does for a player.** Lets them look back without scrolling a log.
 5. **What it reads.** `world.history`.
@@ -2379,7 +2379,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 34 — PENNYWISE (THE PLAYER MODEL)
 
 1. **What it is.** Fourteen dimensions describing how this player plays.
-2. **Where it lives.** `src/simulation/player-model.ts` (663 lines, 36 exports).
+2. **Where it lives.** [src/simulation/player-model.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/player-model.ts) (663 lines, 36 exports).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Ranks eligible beats so the game offers things
    they engage with — including things that push back.
@@ -2396,7 +2396,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 35 — SETUP QUESTIONNAIRE (THE CALIBRATION)
 
 1. **What it is.** The adaptive opening questionnaire.
-2. **Where it lives.** `src/simulation/setup-questionnaire.ts` (751 lines, 35
+2. **Where it lives.** [src/simulation/setup-questionnaire.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/setup-questionnaire.ts) (751 lines, 35
    exports).
 3. **Status.** **[MAIN-PLAYABLE]**, substantially rewritten by **[OPEN-PR #87]**
 4. **What it does for a player.** The opening of a life, not a survey.
@@ -2415,8 +2415,8 @@ same order, so you can compare any two of them:
 ### SYSTEM 36 — THE SETUP BANKS
 
 1. **What it is.** 53 calibration items with 198 options, across two modules.
-2. **Where it lives.** `src/simulation/setup-questionnaire-bank.ts` (1,799,
-   26 legacy items), `src/simulation/setup-opening-bank.ts` (1,461, 27 items).
+2. **Where it lives.** [src/simulation/setup-questionnaire-bank.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/setup-questionnaire-bank.ts) (1,799,
+   26 legacy items), [src/simulation/setup-opening-bank.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/setup-opening-bank.ts) (1,461, 27 items).
 3. **Status.** **[MAIN-PLAYABLE]** (legacy) / **[OPEN-PR #87]** (opening bank)
 4. **What it does for a player.** The actual questions, with recurring named
    people — Dana, Marcus, Priya, Ray, Ms. Whitfield, Curtis, Nell.
@@ -2436,7 +2436,7 @@ same order, so you can compare any two of them:
 
 1. **What it is.** The half of a new game that comes from the player's answers,
    kept separate from the half that comes from the world seed.
-2. **Where it lives.** `src/simulation/setup-priors.ts` (188 lines).
+2. **Where it lives.** [src/simulation/setup-priors.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/setup-priors.ts) (188 lines).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Makes the calibration matter without letting it
    change the world.
@@ -2454,7 +2454,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 38 — LIFE CHOICE EVIDENCE
 
 1. **What it is.** The bridge that turns a chosen option into player-model evidence.
-2. **Where it lives.** `src/simulation/life-choice-evidence.ts` (407 lines).
+2. **Where it lives.** [src/simulation/life-choice-evidence.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life-choice-evidence.ts) (407 lines).
 3. **Status.** **[MAIN-PLAYABLE]**, extended by **[OPEN-PR #87]** with
    `EpisodeChoice`, `episodeChoiceFromEvent()`, `episodeChoiceEvidence()`.
 4. **What it does for a player.** Makes what they _do_ count five times more than
@@ -2476,7 +2476,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 39 — THE CONVERSATION ENGINE
 
 1. **What it is.** The turn-based dialogue system.
-2. **Where it lives.** `src/presentation/run-b-conversation.ts` (1,904 lines).
+2. **Where it lives.** [src/presentation/run-b-conversation.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/run-b-conversation.ts) (1,904 lines).
 3. **Status.** **[MAIN-PLAYABLE]** for one subject; **[MAIN-SUBSTRATE]** for four.
 4. **What it does for a player.** One household conversation about who does the
    week's errands.
@@ -2493,7 +2493,7 @@ same order, so you can compare any two of them:
 
 1. **What it is.** The five things there are to talk about, each owning its own
    vocabulary and its own commit contract.
-2. **Where it lives.** `src/presentation/conversation-subjects.ts` (874 lines).
+2. **Where it lives.** [src/presentation/conversation-subjects.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/conversation-subjects.ts) (874 lines).
 3. **Status.** **[MAIN-PLAYABLE]** for `household-obligation`; the rest
    **[MAIN-SUBSTRATE]**.
 4. **What it does for a player.** Decides what the buttons say.
@@ -2514,7 +2514,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 41 — DECISIONS AND DURABLE DECISION TRACES
 
 1. **What it is.** An NPC actually deciding something, with the reasoning kept.
-2. **Where it lives.** `src/simulation/decisions.ts` (692 lines).
+2. **Where it lives.** [src/simulation/decisions.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/decisions.ts) (692 lines).
 3. **Status.** **[MAIN-SUBSTRATE]** — reached only by the office subject's two
    intents, on a developer route.
 4. **What it does for a player.** Nothing reachable today.
@@ -2533,7 +2533,7 @@ same order, so you can compare any two of them:
 ### SYSTEM 42 — CLAIMS AND EVENT KNOWLEDGE
 
 1. **What it is.** What was said, and who was told.
-2. **Where it lives.** `src/simulation/records.ts` (421 lines).
+2. **Where it lives.** [src/simulation/records.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/records.ts) (421 lines).
 3. **Status.** **[MAIN-PLAYABLE]**
 4. **What it does for a player.** Makes the difference between witnessing and
    hearsay a real thing the world records.
@@ -2556,7 +2556,7 @@ same order, so you can compare any two of them:
 
 1. **What it is.** Bills, committees, votes, enactment, executive action, and the
    institutional rules that govern them.
-2. **Where it lives.** `src/simulation/legislation.ts` (2,592 lines, 57 exports),
+2. **Where it lives.** [src/simulation/legislation.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/legislation.ts) (2,592 lines, 57 exports),
    `legislature-rules.ts` (713, 41 exports), `legislature-rule-packs.ts` (958),
    `legislation-scenarios.ts` (732), `legislation-integrity.ts` (507).
 3. **Status.** **[MAIN-PLAYABLE]** when the character works for a legislature
@@ -2578,7 +2578,7 @@ same order, so you can compare any two of them:
 
 1. **What it is.** Private beliefs, public positions, principles, proposition
    exposure, campaign commitments, and election contests.
-2. **Where it lives.** `src/simulation/politics.ts` (779),
+2. **Where it lives.** [src/simulation/politics.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/politics.ts) (779),
    `political-belief-formation.ts` (627), `election-contests.ts` (925),
    `policy-semantics.ts` (2,571), `policy.ts` (658), `policy-decision.ts` (247).
 3. **Status.** **[MAIN-SUBSTRATE]** — reachable only from the CLI demo and
@@ -2606,13 +2606,13 @@ _(Summarized here; 60B is the full treatment.)_
 ### SYSTEM 45 — SCENE REGISTRY AND ENVIRONMENT SPECS
 
 Three registered scenes, one with production art, none reachable in play.
-`src/presentation/scene-registry.ts`, `src/environment/`. **[MAIN-SUBSTRATE]**
+[src/presentation/scene-registry.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/presentation/scene-registry.ts), [src/environment/](https://github.com/lamontaes/Political-Game-Git/tree/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/environment). **[MAIN-SUBSTRATE]**
 
 ### SYSTEM 46 — CHARACTER COMPONENTS AND POSE FAMILIES
 
 A complete modular character system — 18 landmarks, 4 posture classes, 5 facings,
 contact contracts — with 25 approved production masters that are unreleased.
-`src/presentation/character-components.ts` (2,103), `pose-families.ts` (1,091).
+[src/presentation/character-components.ts](https://github.com/lamontaes/Political-Game-Git/blob/d4f61f3c07fb559fc181856ccb3d730378fe54b9/src/presentation/character-components.ts) (2,103), `pose-families.ts` (1,091).
 **[MAIN-SUBSTRATE]** / **[BANKED]**
 
 ### SYSTEM 47 — RASTER TIERS AND SCENE TRANSFORM
@@ -2631,11 +2631,11 @@ extraction, dynamic surfaces, external packs, asset lineage.
 ### SYSTEM 49 — BROWSER SAVE STORE
 
 Tombstones, quarantine, defect taxonomy, cross-tab reconciliation, autosave and
-flush. `src/presentation/browser-world-repository.ts` (1,549). **[MAIN-PLAYABLE]**
+flush. [src/presentation/browser-world-repository.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/browser-world-repository.ts) (1,549). **[MAIN-PLAYABLE]**
 
 ### SYSTEM 50 — SQLITE WORLD REPOSITORY
 
-The non-browser persistence path. `src/persistence/sqlite-world-repository.ts`.
+The non-browser persistence path. [src/persistence/sqlite-world-repository.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/persistence/sqlite-world-repository.ts).
 **[MAIN-SUBSTRATE]**
 
 ---

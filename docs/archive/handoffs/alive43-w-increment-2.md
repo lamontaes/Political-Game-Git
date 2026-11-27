@@ -39,14 +39,14 @@ Older saves get no chapters and advance unchanged.
 
 ## Files
 
-- New: `src/simulation/living-world/party-chapters.ts`,
-  `src/presentation/party-chapter-actions.ts`,
-  `src/presentation/party-chapter-encounter.test.ts`.
-- Shared adapters: `src/presentation/opening-life.ts` (calls
+- New: [src/simulation/living-world/party-chapters.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/party-chapters.ts),
+  [src/presentation/party-chapter-actions.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/party-chapter-actions.ts),
+  [src/presentation/party-chapter-encounter.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/party-chapter-encounter.test.ts).
+- Shared adapters: [src/presentation/opening-life.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/presentation/opening-life.ts) (calls
   `ensureHomePartyChapters` after the W1 opening),
-  `src/simulation/campaigns.ts` (one handler entry in
+  [src/simulation/campaigns.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/campaigns.ts) (one handler entry in
   `createCampaignElectionTransitionRegistry`),
-  `src/simulation/living-world/index.ts` (export).
+  [src/simulation/living-world/index.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/index.ts) (export).
 
 ## Checks actually run
 
@@ -60,12 +60,12 @@ Older saves get no chapters and advance unchanged.
   - `people-visual4-review` wardrobe plan timeout: fails on main too.
   - `nationwide-local-governments` full catalog coverage timeout: load only;
     passes in isolation on W2 (with `dehardwire-census`, 62/62).
-  - `scripts/prose-corpus/corpus.test.ts` and `anchor-cli` ×3 /
+  - [scripts/prose-corpus/corpus.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/scripts/prose-corpus/corpus.test.ts) and `anchor-cli` ×3 /
     `anchor-crossbranch`: pass on main, fail on W because new source files
     change the committed coverage artifacts. Pending LAND union regeneration
     (`npm run corpus:prose`). `corpus:prose -- diff` on W2 reports no added,
     removed, reworded or regrounded sites and zero warning deltas.
-- `dehardwire-census.test.ts` rewrites `docs/dehardwire/census.json`
+- `dehardwire-census.test.ts` rewrites [docs/dehardwire/census.json](https://github.com/lamontaes/Political-Game-Git/blob/dba7d07ad8129e7fe59ca859e140d688d56a0cf1/docs/dehardwire/census.json)
   (`runtimeReachableModules` 465 → 471 with W's modules). Not committed here;
   regenerate on the union.
 

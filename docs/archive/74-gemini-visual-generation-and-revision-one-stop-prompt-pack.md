@@ -10,7 +10,7 @@ Companions: [76A measurement spec](https://docs.google.com/document/d/1URs1VE2pS
 Built against accepted main `5f735da209c59647e4b877717a40fe6cc045fc24` (the
 merge of PR #86). Every measurement quoted below was read off the actual raster
 by `npm run measure:references` and is stored in
-`art/qa/p76/reference_measurements.json`; every measurement carries a confidence
+[art/qa/p76/reference_measurements.json](https://github.com/lamontaes/Political-Game-Git/blob/dcc6ddf8c14ddc6829720943daa7be1fe20ae58a/art/qa/p76/reference_measurements.json); every measurement carries a confidence
 in that file, and where a number here is an estimate it says so.
 
 ---

@@ -17,7 +17,7 @@ on issue #2424 therefore remain to be posted by the receiving environment.
 ## Checks
 
 - Focused map tests: 37 passed and 1 unrelated existing governor-record
-  assertion failed in `src/maps/political-map-model.test.ts`.
+  assertion failed in [src/maps/political-map-model.test.ts](https://github.com/lamontaes/Political-Game-Git/blob/71a9ab5fc83c1176132ffc773781639228706b85/src/maps/political-map-model.test.ts).
 - Prettier and ESLint passed for the changed map files.
 - The identified development server matched this workspace and branch.
 - Browser visual acceptance could not run because the installed Playwright
