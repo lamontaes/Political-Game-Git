@@ -301,6 +301,43 @@ if (different.length) {
     "The split would change which route answers; fix the order in the script before writing.",
   );
 }
+// No file outside handler.ts may import a name this split moves out of it (a test's typecheck would not say so).
+const movedNames = new Set(sessionStatements.flatMap(namesOf));
+const importers = execFileSync(
+  "git",
+  ["grep", "-l", "-E", '/handler"', "--", "src", "tests", "scripts", "desktop"],
+  {
+    cwd: ROOT,
+    encoding: "utf8",
+  },
+)
+  .split("\n")
+  .filter((f) => f && f !== "src/bench/handler.ts");
+const stale = [];
+for (const file of importers) {
+  const source = ts.createSourceFile(
+    file,
+    readFileSync(path.join(ROOT, file), "utf8"),
+    ts.ScriptTarget.ES2022,
+    true,
+  );
+  for (const statement of source.statements)
+    if (
+      ts.isImportDeclaration(statement) &&
+      /\/handler$/.test(statement.moduleSpecifier.text)
+    )
+      for (const element of statement.importClause?.namedBindings?.elements ??
+        [])
+        if (movedNames.has((element.propertyName ?? element.name).text))
+          stale.push(`${file}: ${element.getText()}`);
+}
+console.log(
+  `${importers.length} files import handler.ts; none of them names a moved declaration${stale.length ? "" : " (checked)"}.`,
+);
+if (stale.length)
+  throw new Error(
+    `These imports name a declaration the split moves out of handler.ts:\n${stale.join("\n")}`,
+  );
 if (check) process.exit(0);
 
 // ---- write the files
