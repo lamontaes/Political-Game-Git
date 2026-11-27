@@ -68,6 +68,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import { personLean } from "./campaigns";
 import { personStance } from "./elections";
 import { campaignParameter } from "../campaign-data";
+import { fieldsOf } from "../module-fields";
 import {
   enactLaw,
   repealLaw,
@@ -95,7 +96,7 @@ import { viewOn } from "./views";
 import { carriesRevenue, revenueGivenUp } from "../budgets-treasury";
 import { ownStance } from "./officials";
 import { closenessBetween } from "../closeness";
-import { bribePull, registerBribeScope } from "./corruption";
+import { bribePull } from "./corruption";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
 import {
   BUDGETS_MODULE_ID,
@@ -157,6 +158,23 @@ import { ELECTIONS_MODULE_ID, worldRoster, type FilingRow } from "./elections";
 // time, so a reader can use the doors without joining the import ring.
 export { LEGISLATURE_MODULE_ID } from "./bodies-reads";
 import { LEGISLATURE_MODULE_ID } from "./bodies-reads";
+
+/**
+ * What the engines that feed the legislature carry as a field (the world's
+ * legislating: its floor days, sittings and weeks; the leadership: the
+ * committees' rosters): the first carrier's value, or undefined where no
+ * installed module carries it.
+ */
+function carried<
+  K extends
+    | "floorCalendarer"
+    | "sittingReader"
+    | "floorDateReader"
+    | "weeklyFloorReader"
+    | "committeeRoster",
+>(api: CoreAPI, field: K) {
+  return fieldsOf(api.state as CoreState, field)[0];
+}
 
 /** A trial bill, read for members' positions and never put on the record, has no form. */
 const TRIAL_FORM = {
@@ -467,6 +485,8 @@ export const LEGISLATURE_MODULE: CoreModule = {
   id: LEGISLATURE_MODULE_ID,
   history: BILLS_HISTORY,
   // What the budgets engine asks of a body: how a council votes its budget, holds its hearing on it, and whether its meeting votes the year's budget instead of the calendar.
+  // Why an official has no say over a bill (corruption asks every carrier).
+  bribeScope: billBribeScope,
   budgetVote: (api, gov, fiscalYear) =>
     councilBudget(api, gov as GovernmentRow, fiscalYear),
   budgetHearing: (api, gov, fiscalYear) =>
@@ -1107,17 +1127,6 @@ export function registerLegislatureHooks(input: {
     deskHooks.push(input.onDesk);
 }
 
-type RosterProvider = (
-  api: CoreAPI,
-  chamber: string,
-  committee: string,
-) => { memberIds: readonly string[]; chairId: string } | null;
-let rosterProvider: RosterProvider | null = null;
-/** The leadership engine seats committees and their chairs (`leadership.ts`). */
-export function registerCommitteeRosterProvider(fn: RosterProvider): void {
-  rosterProvider = fn;
-}
-
 /** Each employer's added yearly pay under a minimum-wage provision: the fiscal note, employer by employer. */
 export function employerCosts(
   api: CoreAPI,
@@ -1213,9 +1222,6 @@ export function governingMembers(
 export function openLegislature(core: CoreState): void {
   if (!core.modules.has(LEGISLATURE_MODULE_ID))
     registerModule(core, LEGISLATURE_MODULE);
-  // Registered when the legislature opens, never as the file loads: in an
-  // import cycle the corruption module's list may not exist yet.
-  registerBribeScope(billBribeScope);
   // Every body's members are people with reasons of their own (OPUS-OFFICIALS).
   if (core.modules.has(OFFICES_MODULE_ID)) openOfficials(core);
 }
@@ -2869,7 +2875,7 @@ export function draftBill(
     });
   // The floor leader of a sitting legislature puts the bill on the calendar the
   // day it is introduced, so the date its paper names is the date it gets.
-  const on = floorCalendarer?.(api, titled.id) ?? null;
+  const on = carried(api, "floorCalendarer")?.(api, titled.id) ?? null;
   if (on) {
     titled = {
       ...(table(api, "bills").get(titled.id) as unknown as BillRow),
@@ -2878,15 +2884,6 @@ export function draftBill(
     table(api, "bills").put(titled as unknown as ModuleRow);
   }
   return titled;
-}
-
-let floorCalendarer: ((api: CoreAPI, billId: string) => string | null) | null =
-  null;
-/** The engine that keeps the floor leaders' calendars says which week a newly introduced bill goes on. */
-export function registerFloorCalendarer(
-  calendarer: (api: CoreAPI, billId: string) => string | null,
-): void {
-  floorCalendarer = calendarer;
 }
 
 /**
@@ -2964,7 +2961,7 @@ export function appropriationsWithProjects(
   input: { readonly bodyOfficeId: string; readonly sponsorId: string },
 ): BillRow | null {
   const terms = members(api, input.bodyOfficeId);
-  const seated = rosterProvider?.(
+  const seated = carried(api, "committeeRoster")?.(
     api,
     input.bodyOfficeId,
     committeeForSection({ kind: "budget-line" }),
@@ -5289,7 +5286,11 @@ function committeeSeats(
   let chair = roster.find((t) => partySide(t.party) === majority) ?? roster[0]!;
   // Where the chamber's leadership has seated the committee, its members and
   // chair stand in place of seniority.
-  const seated = rosterProvider?.(api, chamber, committeeFor(bill));
+  const seated = carried(api, "committeeRoster")?.(
+    api,
+    chamber,
+    committeeFor(bill),
+  );
   if (seated?.memberIds.length) {
     const byKey = new Map(all.map((t) => [memberKey(t), t]));
     const members = seated.memberIds
@@ -6508,7 +6509,7 @@ function countVote(api: CoreAPI, billId: string, anyDay: boolean): BillRow {
     // own sitting, booked the way the first chamber's was.
     const sent: BillRow = { ...bill, chambersPassed: [...before, roll] };
     table(api, "bills").put(sent as unknown as ModuleRow);
-    const on = sittingReader?.(api, bill.bodyOfficeId)
+    const on = carried(api, "sittingReader")?.(api, bill.bodyOfficeId)
       ? scheduleVote(api, bill.id)
       : undefined;
     const booked: BillRow = on ? { ...sent, nextChamberOn: on } : sent;
@@ -7838,39 +7839,21 @@ export interface Sitting {
   readonly date: string;
   readonly source: Source;
 }
-let sittingReader:
-  | ((api: CoreAPI, bodyOfficeId: string, after?: string) => Sitting | null)
-  | null = null;
-/** The engine that keeps the bodies' calendars says when each sits next, or, given a day, the first a town or county body sits after it. */
-export function registerSittingReader(
-  reader: (
-    api: CoreAPI,
-    bodyOfficeId: string,
-    after?: string,
-  ) => Sitting | null,
-): void {
-  sittingReader = reader;
-}
 
 /** When a body sits next, from the engine that keeps the bodies' calendars; null for an office that is not a body. */
 export function nextSittingOf(
   api: CoreAPI,
   bodyOfficeId: string,
 ): Sitting | null {
-  return sittingReader?.(api, bodyOfficeId) ?? null;
+  return (
+    (carried(api, "sittingReader")?.(api, bodyOfficeId) as
+      Sitting | null | undefined) ?? null
+  );
 }
 
-let floorDateReader: ((api: CoreAPI, billId: string) => string | null) | null =
-  null;
-/** The engine that keeps the floor leaders' calendars says which week a drafted bill is on. */
-export function registerFloorDateReader(
-  reader: (api: CoreAPI, billId: string) => string | null,
-): void {
-  floorDateReader = reader;
-}
 /** The floor week a drafted bill is on the floor leader's calendar for, or null. */
 export function floorDateOf(api: CoreAPI, billId: string): string | null {
-  return floorDateReader?.(api, billId) ?? null;
+  return carried(api, "floorDateReader")?.(api, billId) ?? null;
 }
 
 /**
@@ -7880,7 +7863,7 @@ export function floorDateOf(api: CoreAPI, billId: string): string | null {
  */
 /** Whether the body has a sitting on its calendar to put a bill before. */
 export function hasSitting(api: CoreAPI, bodyOfficeId: string): boolean {
-  return (sittingReader?.(api, bodyOfficeId) ?? null) !== null;
+  return (carried(api, "sittingReader")?.(api, bodyOfficeId) ?? null) !== null;
 }
 
 /** The law series holding the hours of public notice a regular meeting needs. */
@@ -7908,7 +7891,9 @@ export function voteKeyOf(
 
 export function scheduleVote(api: CoreAPI, billId: string): string {
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
-  let sitting = sittingReader?.(api, bill.bodyOfficeId) ?? null;
+  let sitting =
+    (carried(api, "sittingReader")?.(api, bill.bodyOfficeId) as
+      Sitting | null | undefined) ?? null;
   if (!sitting)
     throw new Error(`No sitting of ${bill.bodyOfficeId} is on the calendar.`);
   // The place's public-notice law: a town or county body must post the
@@ -7920,7 +7905,9 @@ export function scheduleVote(api: CoreAPI, billId: string): string {
   const leadHours = 24 * daysBetweenText(posted, sitting.date);
   let waited = false;
   if (noticeHours > 0 && leadHours < noticeHours) {
-    const later = sittingReader?.(api, bill.bodyOfficeId, sitting.date) ?? null;
+    const later =
+      (carried(api, "sittingReader")?.(api, bill.bodyOfficeId, sitting.date) as
+        Sitting | null | undefined) ?? null;
     if (later) {
       sitting = later;
       waited = true;
@@ -7970,15 +7957,6 @@ export function scheduleVote(api: CoreAPI, billId: string): string {
   return sitting.date;
 }
 
-let weeklyFloorReader:
-  ((api: CoreAPI, date: string) => readonly string[]) | null = null;
-/** The engine that runs the legislatures' sessions says which bills a floor week ahead takes up. */
-export function registerWeeklyFloorReader(
-  reader: (api: CoreAPI, date: string) => readonly string[],
-): void {
-  weeklyFloorReader = reader;
-}
-
 let meetingAgendaReader:
   ((api: CoreAPI, date: string) => readonly string[]) | null = null;
 /** The office day says which bills a town body's meeting on a date has on its agenda. */
@@ -7998,7 +7976,7 @@ export function registerMeetingAgendaReader(
 export function floorAgendaOn(api: CoreAPI, date: string): readonly BillRow[] {
   const calendar = api.moduleCalendar(LEGISLATURE_MODULE_ID);
   const weekly = new Set([
-    ...(weeklyFloorReader?.(api, date) ?? []),
+    ...(carried(api, "weeklyFloorReader")?.(api, date) ?? []),
     ...(meetingAgendaReader?.(api, date) ?? []),
   ]);
   return (table(api, "bills").rows() as unknown as BillRow[])

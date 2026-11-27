@@ -1556,6 +1556,62 @@ export function stepCountry(
   input: CountryStep,
   rules: CountryRules,
 ): CountryMonth {
+  const month = openMonth(tier, input, rules);
+  tier.states.forEach((state, index) => stepState(month, state, index));
+  return closeMonth(month);
+}
+
+/** What a month holds while its states step: the month's inputs, the shares taken out and put back, who moved, and the running sums. */
+interface MonthRun {
+  tier: CountryTier;
+  rules: CountryRules;
+  law: CountryStep["law"];
+  policyRate: number;
+  jobsLost: CountryStep["jobsLost"];
+  months: number;
+  first: boolean;
+  parts: Map<
+    CountryState,
+    NonNullable<ReturnType<NonNullable<CountryStep["parts"]>>>
+  >;
+  takenBy: Map<CountryState, ReturnType<typeof takeOutPart>>;
+  jobsAtStart: number[][];
+  moved: ReturnType<typeof moves>;
+  lives: ReturnType<typeof people>;
+  outsideDemand: number;
+  outsidePrices: number;
+  traded: ReturnType<typeof zeroBySector>;
+  made: ReturnType<typeof demands>[];
+  supply: ReturnType<typeof zeroBySector>;
+  supplyOf: (row: SectorCell) => number;
+  otherBuyersOf: (row: SectorCell) => number;
+  sums: {
+    federal: number;
+    elsewhere: number;
+    paidOut: number;
+    salesTotal: number;
+    pricedTotal: number;
+    realTotal: number;
+    wantedReal: number;
+    normalReal: number;
+  };
+}
+
+/** One state's sectors, as the month plans them: what each sold, the staff it needs, and the jobs it ends and posts. */
+interface SectorPlan {
+  row: SectorCell;
+  sold: number;
+  staffNeeded: number;
+  ended: number;
+  posted: number;
+}
+
+/** The month opens: shares taken out, who moved, was born, aged and died, what each state wants, and the traded goods' supply. */
+function openMonth(
+  tier: CountryTier,
+  input: CountryStep,
+  rules: CountryRules,
+): MonthRun {
   const { law, policyRate } = input;
   const months = rules.monthsPerYear;
   const first = tier.month === 0;
@@ -1618,267 +1674,399 @@ export function stepCountry(
           (1 - rules.outsideShareOfOtherBuyers) *
             tier.salesIndex *
             tier.priceIndex);
-  let federal = 0,
-    elsewhere = 0,
-    paidOut = 0,
-    salesTotal = 0,
-    pricedTotal = 0,
-    realTotal = 0,
-    wantedReal = 0,
-    normalReal = 0;
+  const sums = {
+    federal: 0,
+    elsewhere: 0,
+    paidOut: 0,
+    salesTotal: 0,
+    pricedTotal: 0,
+    realTotal: 0,
+    wantedReal: 0,
+    normalReal: 0,
+  };
   for (const sector of COUNTRY_SECTORS)
-    if (supply[sector] <= 0) elsewhere += traded[sector];
-  tier.states.forEach((state, index) => {
-    const wanted = made[index]!;
-    const lostShare = input.jobsLost?.(state) ?? 0;
-    let ended = 0,
-      posted = 0,
-      profitTax = 0;
-    const plans = state.sectors.map((row) => {
-      const sector = row.sector;
-      const fromNation =
-        supply[sector] > 0
-          ? (traded[sector] * supplyOf(row)) / supply[sector]
-          : 0;
-      const modeled =
-        (1 - rules.tradedShare[sector]) * wanted.bySector[sector] + fromNation;
-      if (first && row.jobs > 0 && parts.has(state)) {
-        // The opening's rule (`balanceOpening`), for the people and jobs the tier steps. A
-        // part's people and jobs are not in the state's proportions (a county with the state's
-        // hospitals, a town with none), so the rest's people want more of one sector than its
-        // own firms sell and less of another. Left as it is, the rest hires and lets go until
-        // the two meet, and that month's rush is what the hiring speed is fitted to. As at the
-        // opening: what the rest wants beyond what its firms sell is bought elsewhere (from
-        // the part's firms) from then on, and what they sell beyond it is their other buyers.
-        // A sector the part took whole has no firms in the rest to balance.
-        // stopgapId: SG-NATION-rest-buys-from-the-part-fixed-share (the shares are fixed this month and do not follow the played places' own trade afterward)
-        row.boughtElsewhereShare =
-          modeled > row.sales && modeled > 0 ? 1 - row.sales / modeled : 0;
-        const perUnit = otherBuyersOf({ ...row, otherBuyers: 1 });
-        row.otherBuyers =
-          perUnit > 0 ? Math.max(0, row.sales - modeled) / perUnit : 0;
-      }
-      const others = otherBuyersOf(row);
-      const asked = modeled * (1 - row.boughtElsewhereShare) + others;
-      // What its staff makes at normal hours and a little more; buyers take the rest of what they wanted from outside.
-      const capacity = row.jobs * row.productivity * (1 + rules.overtime);
-      const sold =
-        sector !== PUBLIC && capacity > 0
-          ? Math.min(asked, capacity * row.price)
-          : asked;
-      elsewhere += modeled * row.boughtElsewhereShare + (asked - sold) - others;
-      // Firms staff for what buyers asked of them, a share of the way each month.
-      const perWorker = row.productivity * row.price;
-      const staffNeeded = perWorker > 0 ? asked / perWorker : 0;
-      const pace =
-        row.jobs > 0
-          ? rules.staffAdjustPerMonth * (staffNeeded / row.jobs - 1)
-          : 0;
-      const flows =
-        sector === PUBLIC
-          ? { ended: Math.max(0, -pace), opened: Math.max(0, pace) }
-          : spreadFlows(pace, rules.firmSpread);
-      const endedHere = row.jobs * Math.min(1, flows.ended + lostShare);
-      const postedHere =
-        row.jobs > 0
-          ? row.jobs * flows.opened
-          : staffNeeded * rules.staffAdjustPerMonth;
-      ended += endedHere;
-      posted += postedHere;
-      wantedReal += row.price > 0 ? asked / row.price : 0;
-      normalReal += row.jobs * row.productivity;
-      return { row, sold, staffNeeded, ended: endedHere, posted: postedHere };
-    });
-    // People and openings find each other with friction. Openings are a stock: new ones join,
-    // filled and withdrawn ones leave.
-    const seekersBefore = sum(state.cells.map((cell) => cell.seekers));
-    const workersBefore = sum(state.cells.map((cell) => cell.workers));
-    const seekers = seekersBefore + ended;
-    if (first) state.openings = seekersBefore * rules.openingsPerSeeker;
-    // Fitted in the first month and fixed from then on: as many find work as came to look for it
-    // (those let go, moved in, come of age), so the share looking starts where the state has it.
-    const steadyHires = Math.max(
-      0,
-      seekers -
-        state.unemploymentMonths.at(-1)! * (workersBefore - ended + seekers),
-    );
-    state.openingsPerJobAdded ??=
-      posted > 0
-        ? (steadyHires + rules.postingsLapsePerMonth * state.openings) / posted
-        : 1;
-    state.openings =
-      state.openings * (1 - rules.postingsLapsePerMonth) +
-      state.openingsPerJobAdded * posted;
-    // The share of those looking who find work in a month rises with the openings there are
-    // for each of them and never reaches everyone: however many openings, some people are
-    // between jobs. Nothing flips when openings outnumber seekers.
-    const reach =
-      seekers > 0 && state.openings > 0
-        ? (state.openings / seekers) ** (1 - rules.matchSeekerWeight)
+    if (supply[sector] <= 0) sums.elsewhere += traded[sector];
+  return {
+    tier,
+    rules,
+    law,
+    policyRate,
+    jobsLost: input.jobsLost,
+    months,
+    first,
+    parts,
+    takenBy,
+    jobsAtStart,
+    moved,
+    lives,
+    outsideDemand,
+    outsidePrices,
+    traded,
+    made,
+    supply,
+    supplyOf,
+    otherBuyersOf,
+    sums,
+  };
+}
+
+/** One state's month: its sectors plan, people and openings meet, prices and pay move, the ledger is kept, and its books close. */
+function stepState(month: MonthRun, state: CountryState, index: number): void {
+  const wanted = month.made[index]!;
+  const { plans, ended, posted } = planSectors(month, state, wanted);
+  const { hires, tightness, payGrowthYear } = matchWorkers(
+    month,
+    state,
+    wanted,
+    ended,
+    posted,
+  );
+  const { profitTax, jobsAdded } = repriceSectors(
+    month,
+    state,
+    wanted,
+    plans,
+    posted,
+    hires,
+    payGrowthYear,
+  );
+  keepLedger(month, state, index, wanted, plans, profitTax, jobsAdded);
+  settleBooks(month, state, wanted, tightness);
+}
+
+/** What each of the state's sectors sells and the staff it wants, and the jobs it ends and posts. */
+function planSectors(
+  month: MonthRun,
+  state: CountryState,
+  wanted: MonthRun["made"][number],
+): { plans: SectorPlan[]; ended: number; posted: number } {
+  const {
+    rules,
+    first,
+    parts,
+    traded,
+    supply,
+    supplyOf,
+    otherBuyersOf,
+    jobsLost,
+    sums,
+  } = month;
+  const lostShare = jobsLost?.(state) ?? 0;
+  let ended = 0,
+    posted = 0;
+  const plans = state.sectors.map((row) => {
+    const sector = row.sector;
+    const fromNation =
+      supply[sector] > 0
+        ? (traded[sector] * supplyOf(row)) / supply[sector]
         : 0;
-    const steadyShare = seekers > 0 ? steadyHires / seekers : 0;
-    state.matchEfficiency ??=
-      reach > 0 && steadyShare > 0 && steadyShare < 1
-        ? -Math.log(1 - steadyShare) / reach
-        : 0;
-    const hires = Math.min(
-      state.openings,
-      seekers * (1 - Math.exp(-state.matchEfficiency * reach)),
-    );
-    state.openings -= hires;
-    const tightness = seekers > 0 ? state.openings / seekers : state.tightness;
-    state.usualTightness ??= tightness;
-    // Pay rises with the price rises people expect and with what a worker makes, faster where
-    // workers are harder to find than employers there have been used to.
-    const payGrowthYear =
-      state.expectedInflation +
-      rules.productivityGrowthYear +
-      rules.payPerLogTightness *
-        Math.log(
-          Math.max(tightness, TINY) / Math.max(state.usualTightness, TINY),
-        );
-    state.cells.forEach((cell, at) => {
-      const lost =
-        workersBefore > 0 ? (ended * cell.workers) / workersBefore : 0;
-      const looking = cell.seekers + lost;
-      const hired = seekers > 0 ? (hires * looking) / seekers : 0;
-      cell.workers += hired - lost;
-      cell.seekers = looking - hired;
-      cell.cash = wanted.cash[at]!;
-    });
-    const floor = law.wageFloorYear(state) * rules.lowPayOverFloor;
-    let statePriced = 0,
-      stateSales = 0;
-    // A state's price level moves by what its sectors' own prices did, weighted by what each sold
-    // last month. A level averaged over this month's sales also moved when only the mix did: a
-    // played part takes a state's people and jobs, the rest left behind weighs leisure far more,
-    // and the state's prices rose about 2.7% a month on a sector mix alone (Puerto Rico).
-    const weightsBefore = plans.map((plan) => plan.row.sales);
-    const weightTotal = sum(weightsBefore);
-    let priceMove = 0;
-    const jobsAdded: number[] = [];
-    for (const [at, plan] of plans.entries()) {
-      const { row } = plan;
-      const priceBefore = row.price;
-      const b = books(row, plan.sold, state, law, rules);
-      if (row.sector === PUBLIC) {
-        // What the public sector buys beyond its payroll.
-        const bought = Math.max(0, plan.sold - b.wageBill);
-        elsewhere += bought;
-        row.cash += plan.sold - b.wageBill - bought;
-      } else {
-        profitTax += b.taxState;
-        federal += b.taxFederal;
-        paidOut += b.paidOut;
-        elsewhere += b.inputs;
-        row.cash += b.profit - b.taxState - b.taxFederal - b.paidOut;
-        // Prices follow what a unit costs to make and how busy the staff is, on top of the rises firms expect.
-        const unitCost =
-          row.productivity > 0
-            ? row.pay / months / row.productivity / rules.laborShare[row.sector]
-            : row.price;
-        const busy = row.jobs > 0 ? plan.staffNeeded / row.jobs : 1;
-        row.price *= Math.exp(
-          state.expectedInflation / months +
-            rules.pricePassPerMonth * Math.log(unitCost / row.price) +
-            (rules.priceBusyPerYear / months) * Math.log(Math.max(busy, TINY)),
-        );
-      }
-      if (priceBefore > 0 && row.price > 0)
-        priceMove +=
-          (weightTotal > 0
-            ? weightsBefore[at]! / weightTotal
-            : 1 / plans.length) * Math.log(row.price / priceBefore);
-      if (row.expectedSales > 0) {
-        const grew = plan.sold / row.expectedSales - 1;
-        // perception: what a sector's firms expect of their sales follows the sales they have had
-        row.expectedGrowth +=
-          (grew - row.expectedGrowth) / rules.salesViewMonths;
-      }
-      // perception: the month's sales firms plan around follow the sales they have had
-      row.expectedSales +=
-        (plan.sold - row.expectedSales) / rules.salesLevelViewMonths;
-      row.sales = plan.sold;
-      const filled =
-        posted > 0
-          ? (hires * plan.posted) / posted
-          : hires / state.sectors.length;
-      jobsAdded.push(filled);
-      row.jobs = Math.max(0, row.jobs - plan.ended + filled);
-      const grown = row.pay * (1 + payGrowthYear / months);
-      row.pay = rules.lowPay[row.sector] > 0 ? Math.max(grown, floor) : grown;
-      row.productivity *= 1 + rules.productivityGrowthYear / months;
-      stateSales += plan.sold;
-      statePriced += row.price * plan.sold;
-      realTotal += row.price > 0 ? plan.sold / row.price : 0;
+    const modeled =
+      (1 - rules.tradedShare[sector]) * wanted.bySector[sector] + fromNation;
+    if (first && row.jobs > 0 && parts.has(state)) {
+      // The opening's rule (`balanceOpening`), for the people and jobs the tier steps. A
+      // part's people and jobs are not in the state's proportions (a county with the state's
+      // hospitals, a town with none), so the rest's people want more of one sector than its
+      // own firms sell and less of another. Left as it is, the rest hires and lets go until
+      // the two meet, and that month's rush is what the hiring speed is fitted to. As at the
+      // opening: what the rest wants beyond what its firms sell is bought sums.elsewhere (from
+      // the part's firms) from then on, and what they sell beyond it is their other buyers.
+      // A sector the part took whole has no firms in the rest to balance.
+      // stopgapId: SG-NATION-rest-buys-from-the-part-fixed-share (the shares are fixed this month and do not follow the played places' own trade afterward)
+      row.boughtElsewhereShare =
+        modeled > row.sales && modeled > 0 ? 1 - row.sales / modeled : 0;
+      const perUnit = otherBuyersOf({ ...row, otherBuyers: 1 });
+      row.otherBuyers =
+        perUnit > 0 ? Math.max(0, row.sales - modeled) / perUnit : 0;
     }
-    salesTotal += stateSales;
-    pricedTotal += statePriced;
-    if (stateSales > 0) state.prices *= Math.exp(priceMove);
-    // The ledger: what it took in, and what it paid for its own work, benefits and the lines passed on.
-    const modeledRevenue =
-      wanted.incomes.stateTaxes + wanted.salesTax + profitTax;
-    state.ledger.cash +=
-      modeledRevenue +
-      state.ledger.otherRevenue -
-      wanted.publicBudget -
-      wanted.incomes.jobless -
-      state.ledger.passedOn;
-    state.ledger.revenueMonths.push(modeledRevenue);
-    if (state.ledger.revenueMonths.length > months)
-      state.ledger.revenueMonths.shift();
-    const opened = jobsAtStart[index]!;
-    state.whatMoved.push({
-      month: tier.month + 1,
-      withheld: [...wanted.incomes.withheld.values()],
-      federal: wanted.federal,
-      spent: wanted.spent,
-      jobsAdded,
-      jobsCut: plans.map((plan) => plan.ended),
-      jobsVacated: state.sectors.map(
-        (row, at) => opened[at]! + jobsAdded[at]! - plans[at]!.ended - row.jobs,
-      ),
-      arrived: moved.arrived[index]!,
-      left: moved.left[index]!,
-      fromAbroad: lives.fromAbroad[index]!,
-      incomeTaxRevenue: wanted.incomes.stateTaxes,
-      salesTaxRevenue: wanted.salesTax,
-      profitTaxRevenue: profitTax,
-      otherRevenue: state.ledger.otherRevenue,
-      budgetYear: state.ledger.budgetYear,
-    });
-    // Twelve months are kept; older ones are dropped, as the ledger's revenue months are.
-    if (state.whatMoved.length > months) state.whatMoved.shift();
-    elsewhere +=
-      state.ledger.passedOn -
-      state.ledger.otherRevenue +
-      wanted.setAside -
-      wanted.invested;
-    // The nation's books: its taxes in, the benefits and purchases its budget pays here out.
-    federal +=
-      wanted.incomes.federalTaxes -
-      wanted.federal.transfers -
-      wanted.federal.purchases -
-      wanted.federal.elsewhere;
-    elsewhere += wanted.federal.elsewhere;
-    state.unemploymentMonths.push(countryUnemployment(state));
-    state.unemploymentMonths.shift();
-    state.tightness = tightness;
-    // perception: what employers and workers treat as a normal job market follows the market they have lived in
-    state.usualTightness +=
-      (tightness - state.usualTightness) / rules.usualTightnessMonths;
+    const others = otherBuyersOf(row);
+    const asked = modeled * (1 - row.boughtElsewhereShare) + others;
+    // What its staff makes at normal hours and a little more; buyers take the rest of what they wanted from outside.
+    const capacity = row.jobs * row.productivity * (1 + rules.overtime);
+    const sold =
+      sector !== PUBLIC && capacity > 0
+        ? Math.min(asked, capacity * row.price)
+        : asked;
+    sums.elsewhere +=
+      modeled * row.boughtElsewhereShare + (asked - sold) - others;
+    // Firms staff for what buyers asked of them, a share of the way each month.
+    const perWorker = row.productivity * row.price;
+    const staffNeeded = perWorker > 0 ? asked / perWorker : 0;
+    const pace =
+      row.jobs > 0
+        ? rules.staffAdjustPerMonth * (staffNeeded / row.jobs - 1)
+        : 0;
+    const flows =
+      sector === PUBLIC
+        ? { ended: Math.max(0, -pace), opened: Math.max(0, pace) }
+        : spreadFlows(pace, rules.firmSpread);
+    const endedHere = row.jobs * Math.min(1, flows.ended + lostShare);
+    const postedHere =
+      row.jobs > 0
+        ? row.jobs * flows.opened
+        : staffNeeded * rules.staffAdjustPerMonth;
+    ended += endedHere;
+    posted += postedHere;
+    sums.wantedReal += row.price > 0 ? asked / row.price : 0;
+    sums.normalReal += row.jobs * row.productivity;
+    return { row, sold, staffNeeded, ended: endedHere, posted: postedHere };
   });
+  return { plans, ended, posted };
+}
+
+/** People and openings find each other with friction; pay grows with how hard workers are to find. */
+function matchWorkers(
+  month: MonthRun,
+  state: CountryState,
+  wanted: MonthRun["made"][number],
+  ended: number,
+  posted: number,
+): { hires: number; tightness: number; payGrowthYear: number } {
+  const { rules, first } = month;
+  // People and openings find each other with friction. Openings are a stock: new ones join,
+  // filled and withdrawn ones leave.
+  const seekersBefore = sum(state.cells.map((cell) => cell.seekers));
+  const workersBefore = sum(state.cells.map((cell) => cell.workers));
+  const seekers = seekersBefore + ended;
+  if (first) state.openings = seekersBefore * rules.openingsPerSeeker;
+  // Fitted in the first month and fixed from then on: as many find work as came to look for it
+  // (those let go, moved in, come of age), so the share looking starts where the state has it.
+  const steadyHires = Math.max(
+    0,
+    seekers -
+      state.unemploymentMonths.at(-1)! * (workersBefore - ended + seekers),
+  );
+  state.openingsPerJobAdded ??=
+    posted > 0
+      ? (steadyHires + rules.postingsLapsePerMonth * state.openings) / posted
+      : 1;
+  state.openings =
+    state.openings * (1 - rules.postingsLapsePerMonth) +
+    state.openingsPerJobAdded * posted;
+  // The share of those looking who find work in a month rises with the openings there are
+  // for each of them and never reaches everyone: however many openings, some people are
+  // between jobs. Nothing flips when openings outnumber seekers.
+  const reach =
+    seekers > 0 && state.openings > 0
+      ? (state.openings / seekers) ** (1 - rules.matchSeekerWeight)
+      : 0;
+  const steadyShare = seekers > 0 ? steadyHires / seekers : 0;
+  state.matchEfficiency ??=
+    reach > 0 && steadyShare > 0 && steadyShare < 1
+      ? -Math.log(1 - steadyShare) / reach
+      : 0;
+  const hires = Math.min(
+    state.openings,
+    seekers * (1 - Math.exp(-state.matchEfficiency * reach)),
+  );
+  state.openings -= hires;
+  const tightness = seekers > 0 ? state.openings / seekers : state.tightness;
+  state.usualTightness ??= tightness;
+  // Pay rises with the price rises people expect and with what a worker makes, faster where
+  // workers are harder to find than employers there have been used to.
+  const payGrowthYear =
+    state.expectedInflation +
+    rules.productivityGrowthYear +
+    rules.payPerLogTightness *
+      Math.log(
+        Math.max(tightness, TINY) / Math.max(state.usualTightness, TINY),
+      );
+  state.cells.forEach((cell, at) => {
+    const lost = workersBefore > 0 ? (ended * cell.workers) / workersBefore : 0;
+    const looking = cell.seekers + lost;
+    const hired = seekers > 0 ? (hires * looking) / seekers : 0;
+    cell.workers += hired - lost;
+    cell.seekers = looking - hired;
+    cell.cash = wanted.cash[at]!;
+  });
+  return { hires, tightness, payGrowthYear };
+}
+
+/** The month's books for each sector, its price and pay moves, and the state's price level. */
+function repriceSectors(
+  month: MonthRun,
+  state: CountryState,
+  wanted: MonthRun["made"][number],
+  plans: SectorPlan[],
+  posted: number,
+  hires: number,
+  payGrowthYear: number,
+): { profitTax: number; jobsAdded: number[] } {
+  const { rules, law, months, sums } = month;
+  let profitTax = 0;
+  const floor = law.wageFloorYear(state) * rules.lowPayOverFloor;
+  let statePriced = 0,
+    stateSales = 0;
+  // A state's price level moves by what its sectors' own prices did, weighted by what each sold
+  // last month. A level averaged over this month's sales also moved when only the mix did: a
+  // played part takes a state's people and jobs, the rest left behind weighs leisure far more,
+  // and the state's prices rose about 2.7% a month on a sector mix alone (Puerto Rico).
+  const weightsBefore = plans.map((plan) => plan.row.sales);
+  const weightTotal = sum(weightsBefore);
+  let priceMove = 0;
+  const jobsAdded: number[] = [];
+  for (const [at, plan] of plans.entries()) {
+    const { row } = plan;
+    const priceBefore = row.price;
+    const b = books(row, plan.sold, state, law, rules);
+    if (row.sector === PUBLIC) {
+      // What the public sector buys beyond its payroll.
+      const bought = Math.max(0, plan.sold - b.wageBill);
+      sums.elsewhere += bought;
+      row.cash += plan.sold - b.wageBill - bought;
+    } else {
+      profitTax += b.taxState;
+      sums.federal += b.taxFederal;
+      sums.paidOut += b.paidOut;
+      sums.elsewhere += b.inputs;
+      row.cash += b.profit - b.taxState - b.taxFederal - b.paidOut;
+      // Prices follow what a unit costs to make and how busy the staff is, on top of the rises firms expect.
+      const unitCost =
+        row.productivity > 0
+          ? row.pay / months / row.productivity / rules.laborShare[row.sector]
+          : row.price;
+      const busy = row.jobs > 0 ? plan.staffNeeded / row.jobs : 1;
+      row.price *= Math.exp(
+        state.expectedInflation / months +
+          rules.pricePassPerMonth * Math.log(unitCost / row.price) +
+          (rules.priceBusyPerYear / months) * Math.log(Math.max(busy, TINY)),
+      );
+    }
+    if (priceBefore > 0 && row.price > 0)
+      priceMove +=
+        (weightTotal > 0
+          ? weightsBefore[at]! / weightTotal
+          : 1 / plans.length) * Math.log(row.price / priceBefore);
+    if (row.expectedSales > 0) {
+      const grew = plan.sold / row.expectedSales - 1;
+      // perception: what a sector's firms expect of their sales follows the sales they have had
+      row.expectedGrowth += (grew - row.expectedGrowth) / rules.salesViewMonths;
+    }
+    // perception: the month's sales firms plan around follow the sales they have had
+    row.expectedSales +=
+      (plan.sold - row.expectedSales) / rules.salesLevelViewMonths;
+    row.sales = plan.sold;
+    const filled =
+      posted > 0
+        ? (hires * plan.posted) / posted
+        : hires / state.sectors.length;
+    jobsAdded.push(filled);
+    row.jobs = Math.max(0, row.jobs - plan.ended + filled);
+    const grown = row.pay * (1 + payGrowthYear / months);
+    row.pay = rules.lowPay[row.sector] > 0 ? Math.max(grown, floor) : grown;
+    row.productivity *= 1 + rules.productivityGrowthYear / months;
+    stateSales += plan.sold;
+    statePriced += row.price * plan.sold;
+    sums.realTotal += row.price > 0 ? plan.sold / row.price : 0;
+  }
+  sums.salesTotal += stateSales;
+  sums.pricedTotal += statePriced;
+  if (stateSales > 0) state.prices *= Math.exp(priceMove);
+  return { profitTax, jobsAdded };
+}
+
+/** The state's ledger: what it took in, what it paid out, and the month kept for what moved. */
+function keepLedger(
+  month: MonthRun,
+  state: CountryState,
+  index: number,
+  wanted: MonthRun["made"][number],
+  plans: SectorPlan[],
+  profitTax: number,
+  jobsAdded: number[],
+): void {
+  const { tier, months, jobsAtStart, moved, lives } = month;
+  // The ledger: what it took in, and what it paid for its own work, benefits and the lines passed on.
+  const modeledRevenue =
+    wanted.incomes.stateTaxes + wanted.salesTax + profitTax;
+  state.ledger.cash +=
+    modeledRevenue +
+    state.ledger.otherRevenue -
+    wanted.publicBudget -
+    wanted.incomes.jobless -
+    state.ledger.passedOn;
+  state.ledger.revenueMonths.push(modeledRevenue);
+  if (state.ledger.revenueMonths.length > months)
+    state.ledger.revenueMonths.shift();
+  const opened = jobsAtStart[index]!;
+  state.whatMoved.push({
+    month: tier.month + 1,
+    withheld: [...wanted.incomes.withheld.values()],
+    federal: wanted.federal,
+    spent: wanted.spent,
+    jobsAdded,
+    jobsCut: plans.map((plan) => plan.ended),
+    jobsVacated: state.sectors.map(
+      (row, at) => opened[at]! + jobsAdded[at]! - plans[at]!.ended - row.jobs,
+    ),
+    arrived: moved.arrived[index]!,
+    left: moved.left[index]!,
+    fromAbroad: lives.fromAbroad[index]!,
+    incomeTaxRevenue: wanted.incomes.stateTaxes,
+    salesTaxRevenue: wanted.salesTax,
+    profitTaxRevenue: profitTax,
+    otherRevenue: state.ledger.otherRevenue,
+    budgetYear: state.ledger.budgetYear,
+  });
+  // Twelve months are kept; older ones are dropped, as the ledger's revenue months are.
+  if (state.whatMoved.length > months) state.whatMoved.shift();
+}
+
+/** What the state's month leaves for the nation's and the rest of the world's books, and how the job market is read next month. */
+function settleBooks(
+  month: MonthRun,
+  state: CountryState,
+  wanted: MonthRun["made"][number],
+  tightness: number,
+): void {
+  const { rules, sums } = month;
+  sums.elsewhere +=
+    state.ledger.passedOn -
+    state.ledger.otherRevenue +
+    wanted.setAside -
+    wanted.invested;
+  // The nation's books: its taxes in, the benefits and purchases its budget pays here out.
+  sums.federal +=
+    wanted.incomes.federalTaxes -
+    wanted.federal.transfers -
+    wanted.federal.purchases -
+    wanted.federal.elsewhere;
+  sums.elsewhere += wanted.federal.elsewhere;
+  state.unemploymentMonths.push(countryUnemployment(state));
+  state.unemploymentMonths.shift();
+  state.tightness = tightness;
+  // perception: what employers and workers treat as a normal job market follows the market they have lived in
+  state.usualTightness =
+    state.usualTightness! +
+    (tightness - state.usualTightness!) / rules.usualTightnessMonths;
+}
+
+/** The month closes: what firms paid out reaches their owners, the held places go back in, prices and expectations move, and the month's totals are read. */
+function closeMonth(month: MonthRun): CountryMonth {
+  const {
+    tier,
+    rules,
+    policyRate,
+    months,
+    parts,
+    takenBy,
+    moved,
+    lives,
+    outsideDemand,
+    outsidePrices,
+    sums,
+  } = month;
   // What firms paid out reaches their owners across the country next month.
   const owners = sum(tier.states.map((state) => ownersOf(state, rules))) || 1;
   for (const state of tier.states)
-    state.ownersIncome = (paidOut * ownersOf(state, rules)) / owners;
+    state.ownersIncome = (sums.paidOut * ownersOf(state, rules)) / owners;
   // The prices households and firms paid, and the price rises they come to expect.
-  const prices = salesTotal > 0 ? pricedTotal / salesTotal : tier.priceIndex;
+  const prices =
+    sums.salesTotal > 0 ? sums.pricedTotal / sums.salesTotal : tier.priceIndex;
   // The places held in full go back in: the nation's sales and output are the rest's and theirs.
   for (const [state, part] of parts) {
     const added = putInPart(state, part.in, part.out, takenBy.get(state)!);
-    salesTotal += added.sales;
-    realTotal += added.real;
+    sums.salesTotal += added.sales;
+    sums.realTotal += added.real;
   }
   const inflationYear = (prices / tier.priceIndex) ** months - 1;
   for (const state of tier.states)
@@ -1897,18 +2085,20 @@ export function stepCountry(
       ledger.budgetYear =
         sum(ledger.revenueMonths) + ledger.otherRevenue * months;
     }
-  tier.federalCash += federal;
-  tier.elsewhereCash += elsewhere;
+  tier.federalCash += sums.federal;
+  tier.elsewhereCash += sums.elsewhere;
   tier.outsideDemand = outsideDemand;
   tier.outsidePrices = outsidePrices;
   tier.salesIndex =
-    tier.openingRealSales > 0 ? salesTotal / prices / tier.openingRealSales : 1;
+    tier.openingRealSales > 0
+      ? sums.salesTotal / prices / tier.openingRealSales
+      : 1;
   tier.priceIndex = prices;
   tier.policyRate = policyRate;
   return {
     ...countryTotals(tier, rules),
-    realOutput: realTotal,
-    busy: normalReal > 0 ? wantedReal / normalReal - 1 : 0,
+    realOutput: sums.realTotal,
+    busy: sums.normalReal > 0 ? sums.wantedReal / sums.normalReal - 1 : 0,
     moved: moved.moved,
     births: lives.births,
     deaths: lives.deaths,
