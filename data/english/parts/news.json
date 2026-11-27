@@ -15559,6 +15559,196 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.candidate-announced.name-announced-a-run-for-office",
+      "move": "candidate-announced",
+      "kind": "written",
+      "text": "{name} announced a run for {office}.",
+      "uses": [
+        {
+          "move": "candidate-announced",
+          "subject": "news",
+          "role": "candidate-announced",
+          "choice": "lede",
+          "requiresFacts": ["name", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-says-the-run-is-announced-and-filing-is-closed"],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.candidate-announced.announced-a-run-with-the-election-on-when",
+      "move": "candidate-announced",
+      "kind": "written",
+      "text": "{name} announced a run for {office}, with the election on {when}.",
+      "uses": [
+        {
+          "move": "candidate-announced",
+          "subject": "news",
+          "role": "candidate-announced",
+          "choice": "lede",
+          "requiresFacts": ["name", "office", "when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-notes-how-many-months-until-the-primary"],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.candidate-announced.is-running-and-said-so-before-filing-opens",
+      "move": "candidate-announced",
+      "kind": "written",
+      "text": "{name} is running for {office} and said so before filing opens on {opens}.",
+      "uses": [
+        {
+          "move": "candidate-announced",
+          "subject": "news",
+          "role": "candidate-announced",
+          "choice": "lede",
+          "requiresFacts": ["name", "office", "opens"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-says-the-run-is-announced-and-filing-is-closed"],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.candidate-announced.filing-for-office-does-not-open-until",
+      "move": "candidate-announced",
+      "kind": "written",
+      "text": "Filing for {office} does not open until {opens}, but {name} has already announced a run.",
+      "uses": [
+        {
+          "move": "candidate-announced",
+          "subject": "news",
+          "role": "candidate-announced",
+          "choice": "lede",
+          "requiresFacts": ["name", "office", "opens"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-says-the-run-is-announced-and-filing-is-closed"],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.announcement-election.the-election-is-on-when",
+      "move": "announcement-election",
+      "kind": "written",
+      "text": "The election is on {when}.",
+      "uses": [
+        {
+          "move": "announcement-election",
+          "subject": "news",
+          "role": "announcement-election",
+          "choice": "context",
+          "requiresFacts": ["when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["filing-dates-and-the-fee-at-the-end"],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.announcement-election.voters-will-decide-on-when",
+      "move": "announcement-election",
+      "kind": "written",
+      "text": "Voters will decide the race on {when}.",
+      "uses": [
+        {
+          "move": "announcement-election",
+          "subject": "news",
+          "role": "announcement-election",
+          "choice": "context",
+          "requiresFacts": ["when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["filing-dates-and-the-fee-at-the-end"],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.announcement-opens.nobody-is-on-the-ballot-until-filing-opens",
+      "move": "announcement-opens",
+      "kind": "written",
+      "text": "Nobody is on the ballot yet; filing opens on {opens}.",
+      "uses": [
+        {
+          "move": "announcement-opens",
+          "subject": "news",
+          "role": "announcement-opens",
+          "choice": "context",
+          "requiresFacts": ["opens"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": [
+        "lede-says-the-run-is-announced-and-filing-is-closed",
+        "filing-dates-and-the-fee-at-the-end"
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.announcement-opens.filing-opens-on-opens-and-the-race-is-not-set",
+      "move": "announcement-opens",
+      "kind": "written",
+      "text": "Filing opens on {opens}, and the field is not set until then.",
+      "uses": [
+        {
+          "move": "announcement-opens",
+          "subject": "news",
+          "role": "announcement-opens",
+          "choice": "context",
+          "requiresFacts": ["opens"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": [
+        "lede-says-the-run-is-announced-and-filing-is-closed",
+        "filing-dates-and-the-fee-at-the-end"
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

@@ -63,6 +63,7 @@ export const STORY_KINDS = {
     story: "announcement",
     headline: ["candidate-announced"],
     lede: ["candidate-announced"],
+    context: ["announcement-election", "announcement-opens"],
   },
   // A relative's access to someone in custody, earned by an official's referral.
   "visit-access": {

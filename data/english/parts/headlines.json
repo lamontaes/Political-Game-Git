@@ -8517,6 +8517,98 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.candidate-announced.name-announces-run-for-office",
+      "move": "candidate-announced",
+      "kind": "written",
+      "text": "{name} announces run for {office}",
+      "uses": [
+        {
+          "move": "candidate-announced",
+          "subject": "headline",
+          "role": "candidate-announced",
+          "choice": "headline",
+          "requiresFacts": ["name", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-says-the-run-is-announced-and-filing-is-closed"],
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.candidate-announced.name-to-run-for-office",
+      "move": "candidate-announced",
+      "kind": "written",
+      "text": "{name} to run for {office}",
+      "uses": [
+        {
+          "move": "candidate-announced",
+          "subject": "headline",
+          "role": "candidate-announced",
+          "choice": "headline",
+          "requiresFacts": ["name", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-says-the-run-is-announced-and-filing-is-closed"],
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.candidate-announced.announces-run-in-when-election",
+      "move": "candidate-announced",
+      "kind": "written",
+      "text": "{name} announces run for {office} in the {when} election",
+      "uses": [
+        {
+          "move": "candidate-announced",
+          "subject": "headline",
+          "role": "candidate-announced",
+          "choice": "headline",
+          "requiresFacts": ["name", "office", "when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-notes-how-many-months-until-the-primary"],
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.candidate-announced.announces-run-before-filing-opens",
+      "move": "candidate-announced",
+      "kind": "written",
+      "text": "{name} announces run for {office} before filing opens",
+      "uses": [
+        {
+          "move": "candidate-announced",
+          "subject": "headline",
+          "role": "candidate-announced",
+          "choice": "headline",
+          "requiresFacts": ["name", "office", "opens"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-says-the-run-is-announced-and-filing-is-closed"],
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }
