@@ -3,7 +3,7 @@ import { coreAPI } from "../core2/state";
 import { filingClerkFor } from "../core2/modules/campaigns";
 import { workSpansOf } from "./places";
 import officeHours from "./data/office-hours.json" with { type: "json" };
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { addDays, makeIsoDate, weekdayOf } from "../core2/kernel/dates";
 import {
   ballot,
   checkEligibility,
@@ -448,7 +448,7 @@ function assumedSpans(
   date: string,
 ): { startMinute: number; endMinute: number }[] {
   const hours = officeHours.estimated;
-  const weekday = new Date(`${date}T12:00:00Z`).getUTCDay();
+  const weekday = weekdayOf(date);
   return hours.weekdays.includes(weekday)
     ? [{ startMinute: hours.opensMinute, endMinute: hours.closesMinute }]
     : [];

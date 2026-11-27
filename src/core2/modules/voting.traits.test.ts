@@ -13,7 +13,7 @@ import {
   studyLogOdds,
   weightOf,
   withTraitWeight,
-} from "../trait-test-kit";
+} from "../../../tests/support/trait-test-kit";
 import { decisionLean } from "../trait-decisions";
 import { propensityOf } from "../turnout";
 import { NATIONAL_ENGAGEMENT } from "../electorate";

@@ -222,6 +222,21 @@ export function publishedCitizenShareOf(
 }
 
 /**
+ * The town's eligible voters: its adults (ACS 2020-2024) at this world's citizen share. Null
+ * where the town has no count of adults.
+ */
+export function townEligibleVoters(
+  placeKey: string,
+  usps: string,
+  seed: string,
+): number | null {
+  const own = (
+    PLACE_CITIZENSHIP.byPlace as unknown as Record<string, [number, number]>
+  )[placeKey];
+  return own ? own[1] * citizenShareOf(placeKey, usps, seed) : null;
+}
+
+/**
  * This world's swing in a state's Republican two-party share from 2024: the
  * world's national swing and the state's own, each drawn once from the seed
  * (realistic, not real; owner, Oct 27). Positive toward the Republicans.

@@ -43,7 +43,7 @@ import { viewOf, viewOn } from "./views";
 import { makeCase } from "./people";
 import { concerns, meetingParameter } from "./meetings";
 import type { PersonState } from "../types";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { type TermRow, officeById, allSeats } from "./offices";
 import { ownerOf } from "./business";
 import { lobbyingBarredUntil } from "../laws-in-force";
 import { groupBPolicy } from "../laws-in-force";
@@ -539,15 +539,13 @@ function lobbyistFor(
 
 /** Whom the group meets: a town body's members, or the town's own legislators in a larger body. */
 function lobbied(api: CoreAPI, b: BillRow): readonly TermRow[] {
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(b.bodyOfficeId) as unknown as { kind: string } | undefined;
+  const office = officeById(api, b.bodyOfficeId) as unknown as
+    { kind: string } | undefined;
   const local = office?.kind === "council" || office?.kind === "county-board";
   if (local) return members(api, b.bodyOfficeId);
   const seats = new Set(
     (
-      api.moduleState(OFFICES_MODULE_ID).table("seats").rows() as unknown as {
+      allSeats(api) as unknown as {
         id: string;
         coversTown?: boolean;
       }[]

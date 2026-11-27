@@ -23,12 +23,13 @@ function openStock(seed: string, key: string, countScale?: number) {
   });
   // The housing engine records its stock on its first day.
   advanceCore(core, addDays(makeIsoDate(core.date), 2));
-  return (
-    coreAPI(core)
+  // The table hands out its rows read-only (`readonly ModuleRow[]`); sort a copy.
+  return [
+    ...(coreAPI(core)
       .moduleState("housing")
       .table("stock")
-      .rows() as unknown as StockRow[]
-  ).sort((a, b) => a.placeId.localeCompare(b.placeId));
+      .rows() as unknown as StockRow[]),
+  ].sort((a, b) => a.placeId.localeCompare(b.placeId));
 }
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(32).toString("hex");

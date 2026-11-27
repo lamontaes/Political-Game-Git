@@ -51,13 +51,13 @@ import {
   reachTable,
   rowsOf,
 } from "./group-b-store";
+import { ASSISTANCE_INCOME_ROW } from "./group-b-store-constants";
 import type { ModuleRow } from "../module-data";
 import {
   budgetInForce,
   federalLineLevel,
   fundFederalStanding,
   noteLinePaid,
-  registerLinePayments,
 } from "../budgets-treasury";
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 import expansionMatch from "../data/laws/medicaid-expansion-match.json" with { type: "json" };
@@ -426,7 +426,11 @@ function benefitLineOf(api: CoreAPI, gov: { readonly id: string }): string {
   return BENEFIT_LINES.find((line) => line in lines) ?? BENEFIT_LINES[0];
 }
 
-registerLinePayments((api, gov) => {
+/** The lines the law reach's benefits pay this month without a payday (the host's `linePayments`). */
+export function benefitLinePayments(
+  api: CoreAPI,
+  gov: GovernmentRow,
+): Record<string, number> {
   const accounts = api.accounts();
   const out: Record<string, number> = {};
   for (const row of rowsOf<BenefitRow>(api, "taken")) {
@@ -444,7 +448,7 @@ registerLinePayments((api, gov) => {
     out[line] = (out[line] ?? 0) + row.amountMinor;
   }
   return out;
-});
+}
 
 /**
  * The monthly payments a law has a treasury owe, kept as accounts obligations:
@@ -845,30 +849,11 @@ export function assistanceIncomeByHousehold(
   const row = getRow<{ monthlyByHousehold: Record<string, number> }>(
     coreAPI(core),
     "taken",
-    "assist|budget-line:welfareAndMedicaid",
+    ASSISTANCE_INCOME_ROW,
   );
   for (const [id, monthly] of Object.entries(row?.monthlyByHousehold ?? {}))
     out.set(id, monthly * reachParameter("monthsPerYear"));
   return out;
-}
-
-/**
- * What the welfare line pays one household a year, read from the same record
- * (a lookup, never the whole map): the counted households' income reads it a
- * household at a time.
- */
-export function assistanceIncomeOf(
-  core: CoreState,
-  householdId: string,
-): number {
-  if (!core.modules.has(REACH_B_MODULE_ID)) return 0;
-  const row = getRow<{ monthlyByHousehold: Record<string, number> }>(
-    coreAPI(core),
-    "taken",
-    "assist|budget-line:welfareAndMedicaid",
-  );
-  const monthly = row?.monthlyByHousehold?.[householdId];
-  return monthly === undefined ? 0 : monthly * reachParameter("monthsPerYear");
 }
 
 /**

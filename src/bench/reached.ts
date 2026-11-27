@@ -11,6 +11,7 @@ import { votesCast } from "../core2/modules/people";
 import { storyOfReadEvent } from "../core2/modules/news";
 import { changesKnownTo } from "../director/bring-it-up";
 import { reachedBy } from "../core2/law-reach/host";
+import { lawRowById } from "../core2/modules/laws-reads";
 
 const has = (core: CoreState, id: string) => core.modules.has(id);
 
@@ -55,12 +56,10 @@ export function reachedSteps(
   const out: { step: number; recordIds: string[] }[] = [];
   // Whether a bill made a law: the law row carries the bill's id. A number
   // is no key, since two bodies each number their first bill of a year alike.
-  const laws = has(core, LAWS_MODULE_ID)
-    ? api.moduleState(LAWS_MODULE_ID).table("laws")
-    : null;
+  const hasLaws = has(core, LAWS_MODULE_ID);
   const madeBy = (lawId: string, billId: string) =>
     (
-      laws?.get(lawId) as unknown as
+      (hasLaws ? lawRowById(coreAPI(core), lawId) : undefined) as unknown as
         { terms?: { enactedByBill?: unknown } } | undefined
     )?.terms?.enactedByBill === billId;
   const everyFiling = has(core, "core2-elections-v1")
