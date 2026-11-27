@@ -4,6 +4,14 @@
  * employer it binds, and the count of the town's counted residents it
  * reaches. A repeal ends each record on its date; a monthly review keeps the
  * reach current as ages, incomes and work hours change.
+ *
+ * Why there are two reach stores (group-a-records.ts is the other; host.ts's
+ * `reachOn` reads both): this store keeps the numeric reach, an effect with
+ * its terms and the share each law is credited, plus what a policy did to the
+ * budget so a repeal can undo it. Group A keeps a sentence of what a law means
+ * for the one it reaches, its enforcer and its penalty. A's `what` is prose and
+ * B's `effect` is an id with numbers behind it, so neither is the other under a
+ * different name, and no policy key is in both.
  */
 import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
