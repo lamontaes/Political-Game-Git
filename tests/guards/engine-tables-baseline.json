@@ -96,16 +96,6 @@
       "bodies": 1,
       "executive": 6
     },
-    "src/bench/m1-12-check.ts": {
-      "executive": 1
-    },
-    "src/bench/m1-13-check.ts": {
-      "jobs-businesses": 1
-    },
-    "src/bench/m2-10-check.ts": {
-      "elections": 1,
-      "executive": 3
-    },
     "src/bench/map.ts": {
       "elections": 1
     },
@@ -122,11 +112,6 @@
     },
     "src/bench/openings.ts": {
       "jobs-businesses": 2
-    },
-    "src/bench/path-check.ts": {
-      "elections": 3,
-      "executive": 2,
-      "laws": 1
     },
     "src/bench/places.ts": {
       "executive": 1
@@ -165,13 +150,6 @@
     "src/core2/campaign-day.ts": {
       "bodies": 1
     },
-    "src/core2/campaign-incumbent-response-test-kit.ts": {
-      "elections": 4,
-      "executive": 1
-    },
-    "src/core2/campaign-race-test-kit.ts": {
-      "news": 1
-    },
     "src/core2/candidate-identity.ts": {
       "executive": 2
     },
@@ -205,9 +183,6 @@
     "src/core2/housing-buy.ts": {
       "jobs-businesses": 2
     },
-    "src/core2/justice-chain.ts": {
-      "dynamic": 1
-    },
     "src/core2/justice-law.ts": {
       "executive": 3
     },
@@ -226,9 +201,6 @@
     },
     "src/core2/law-reach/group-b-people.ts": {
       "jobs-businesses": 1
-    },
-    "src/core2/law-test-start.ts": {
-      "laws": 1
     },
     "src/core2/medical-bills.ts": {
       "dynamic": 1
@@ -390,11 +362,10 @@
     },
     "src/core2/past-elections.ts": {
       "elections": 1,
-      "executive": 3
+      "executive": 2
     },
     "src/core2/past-laws.ts": {
-      "laws": 1,
-      "people": 1
+      "laws": 1
     },
     "src/core2/past-news.ts": {
       "budgets": 1
@@ -431,14 +402,8 @@
     "src/core2/race-places.ts": {
       "executive": 3
     },
-    "src/core2/record-test-kit.ts": {
-      "elections": 2
-    },
     "src/core2/resting-stress.ts": {
       "dynamic": 1
-    },
-    "src/core2/session-law-audit.ts": {
-      "laws": 1
     },
     "src/core2/shared-history.ts": {
       "elections": 2,
@@ -452,12 +417,6 @@
     },
     "src/core2/term-read.ts": {
       "jobs-businesses": 3
-    },
-    "src/core2/trait-test-kit.ts": {
-      "elections": 1
-    },
-    "src/core2/turnover-check.ts": {
-      "jobs-businesses": 1
     },
     "src/core2/world-poverty.ts": {
       "jobs-businesses": 1
@@ -573,23 +532,11 @@
     }
   },
   "writes": {
-    "src/core2/campaign-incumbent-response-test-kit.ts": {
-      "elections": 4
-    },
     "src/core2/justice-pretrial.ts": {
       "dynamic": 2
     },
     "src/core2/medical-bills.ts": {
       "dynamic": 2
-    },
-    "src/core2/modules/voting.ts": {
-      "executive": 1
-    },
-    "src/core2/past-elections.ts": {
-      "executive": 1
-    },
-    "src/core2/past-laws.ts": {
-      "people": 1
     },
     "src/core2/press-money.ts": {
       "dynamic": 2
@@ -599,17 +546,11 @@
     }
   },
   "mapWrites": {
-    "src/core2/civic-inputs.ts": {
-      "publicOrganizations": 1
-    },
     "src/core2/decision-detail.ts": {
       "relationships": 1
     },
     "src/core2/modules/official-pay.ts": {
       "jobs": 1
-    },
-    "src/core2/modules/officials.ts": {
-      "husks": 1
     },
     "src/core2/state.ts": {
       "familyLinks": 4,

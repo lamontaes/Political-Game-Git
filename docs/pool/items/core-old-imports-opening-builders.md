@@ -20,7 +20,7 @@ claimed-at:
 
 **Done when.** After the child items are done, the grep prints nothing, the typecheck passes, and in a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body) the opening builds the same town by record id as on the base commit, shown by src/core2/population.test.ts.
 
-**Files.** src/core2/population.ts, src/core2/opening-employment.ts, src/core2/opening-work.ts, src/core2/town-households.ts, src/core2/opening-people.ts, src/core2/tooling/generated-world.ts
+**Files.** src/core2/population.ts, src/core2/opening-employment.ts, src/core2/opening-work.ts, src/core2/town-households.ts, src/core2/opening-people.ts, src/core2/generated-world.ts
 
 **Notes.** Follows core-old-imports-14 (PR #4773). One module per session; start with the smallest leaf the opening builders share.
 

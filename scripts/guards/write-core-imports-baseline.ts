@@ -5,8 +5,8 @@
  *   node --import tsx scripts/guards/write-core-imports-baseline.ts
  *       write what the code does now; re-run it when a train folds in work
  *       that cuts or adds a core import, then read the diff.
- *   ... --shrink-only
- *       refuse to write a count that is higher than the file's.
+ *       It never writes a rise: a count higher than the file's is refused
+ *       (exit 1) and nothing is written. A baseline only goes down.
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -26,7 +26,7 @@ try {
   known = {};
 }
 
-if (process.argv.includes("--shrink-only")) {
+{
   const raised = Object.entries(now)
     .filter(([file, n]) => n > (known[file] ?? 0))
     .map(([file, n]) => `${file}: ${n}`);

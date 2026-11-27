@@ -13,7 +13,7 @@ import { townPlaceOf } from "./modules/residents";
 import { coreStateKeyOfJurisdictionId } from "./place-lookup";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import { drawPlace } from "../../tests/golden-path/place";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import { registerModule } from "./state";
 import type { EntityId } from "./kernel/brands";
 import type { CoreEventInput } from "./types";

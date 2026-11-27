@@ -83,7 +83,7 @@ function sourceFiles(): string[] {
         /\.(ts|tsx)$/.test(file) &&
         !/\.(test|spec|browser)\.(ts|tsx)$/.test(file) &&
         !/\.d\.ts$/.test(file) &&
-        !file.startsWith("src/core2/tooling/"),
+        file !== "src/core2/past-sessions.ts",
     );
 }
 

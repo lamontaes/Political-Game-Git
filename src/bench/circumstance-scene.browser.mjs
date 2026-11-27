@@ -7,7 +7,7 @@
 // Run against a fresh bench: node src/bench/circumstance-scene.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
 
 const shots = process.argv[2];
 const WEEKS = Number(process.env.CIRCUMSTANCE_WEEKS ?? 30);

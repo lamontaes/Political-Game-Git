@@ -5,8 +5,8 @@
  *   node --import tsx scripts/guards/write-engine-tables-baseline.ts
  *       write what the code does now; re-run it when a train folds in
  *       work that moves files between families, then read the diff.
- *   ... --shrink-only
- *       refuse to write a count that is higher than the file's.
+ *       It never writes a rise: a count higher than the file's is refused
+ *       (exit 1) and nothing is written. A baseline only goes down.
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -40,7 +40,7 @@ try {
   known = null;
 }
 
-if (known && process.argv.includes("--shrink-only")) {
+if (known) {
   const raised: string[] = [];
   for (const kind of Object.keys(now) as (keyof Baseline)[])
     for (const [file, row] of Object.entries(now[kind]))

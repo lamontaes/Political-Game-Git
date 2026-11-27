@@ -36,17 +36,6 @@
       "replacement": null
     },
     {
-      "file": "src/bench/m0-check.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "return adults[hash(`${seed}:${tag}`) % adults.length]!;",
-      "class": "PRESENTATION",
-      "keyedBy": "seed + check tag",
-      "reason": "Which adult a bench check reads: the observer's sample, not a choice anyone in the world makes.",
-      "replacement": null
-    },
-    {
       "file": "src/bench/scene.ts",
       "kind": "list-pick",
       "build": null,

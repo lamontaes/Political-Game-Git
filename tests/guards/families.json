@@ -3,7 +3,6 @@
   "owner": "@lamontaes",
   "shared": [
     "src/core2/reference/**",
-    "src/core2/tooling/**",
     "src/core2/opening-draft.ts",
     "src/core2/appearance.ts",
     "src/core2/world-base-rates.ts",
@@ -11,14 +10,6 @@
     "src/core2/shares.ts",
     "src/core2/union-rate.ts",
     "src/core2/condition-pack.ts",
-    "src/core2/core-pieces-fixture.ts",
-    "src/core2/bug-report.ts",
-    "src/core2/gov-test-report.ts",
-    "src/core2/law-test-start.ts",
-    "src/core2/resident-adults-test-kit.ts",
-    "src/core2/record-test-kit.ts",
-    "src/core2/campaign-incumbent-response-test-kit.ts",
-    "src/core2/counted-moves-balance-kit.ts",
     "src/core2/gov-rules/place-population.ts",
     "src/core2/group-quarters-types.ts",
     "src/core2/gov-rules/names-data.ts",
@@ -32,7 +23,9 @@
     "src/core2/pair-key.test.ts",
     "src/core2/snapshot-seal.test.ts",
     "src/core2/stopgaps-register.test.ts",
-    "src/core2/world-base-rates.test.ts"
+    "src/core2/world-base-rates.test.ts",
+    "src/core2/generated-world.ts",
+    "src/core2/past-sessions.ts"
   ],
   "protected": [
     "AGENTS.md",
@@ -80,7 +73,8 @@
         "src/core2/past-history.ts",
         "src/core2/journal.ts",
         "src/core2/journal-state.ts",
-        "src/core2/cash-host.ts"
+        "src/core2/cash-host.ts",
+        "src/core2/trait-lean.ts"
       ],
       "paths": [
         "src/core2/kernel/**",
@@ -109,7 +103,8 @@
         "src/core2/past-history.ts",
         "src/core2/journal.ts",
         "src/core2/journal-state.ts",
-        "src/core2/cash-host.ts"
+        "src/core2/cash-host.ts",
+        "src/core2/trait-lean.ts"
       ]
     },
     {
@@ -155,7 +150,6 @@
         "src/core2/voting-module-id.ts",
         "src/core2/turnout*.ts",
         "src/core2/membership-dues.ts",
-        "src/core2/gov-test-clock.ts",
         "src/core2/campaign-data.ts",
         "src/core2/modules/national-opinion.ts",
         "src/core2/modules/candidacy-constants.ts",
@@ -295,7 +289,6 @@
         "src/core2/legislature-*.ts",
         "src/core2/bill-*.ts",
         "src/core2/board-appointer.ts",
-        "src/core2/session-law-audit.ts",
         "src/core2/state-session-calendar.ts",
         "src/core2/state-item-veto.ts",
         "src/core2/board-appointer.test.ts",
@@ -848,7 +841,6 @@
         "src/core2/modules/promises.ts",
         "src/core2/modules/views-constants.ts",
         "src/core2/sitting-closeness.ts",
-        "src/core2/trait-lean.ts",
         "src/core2/counted-income-fifth.ts"
       ],
       "paths": [
@@ -923,11 +915,8 @@
         "src/core2/retirement-claim.ts",
         "src/core2/resting-stress.ts",
         "src/core2/representative-sample.ts",
-        "src/core2/money-traits-kit.ts",
         "src/core2/town-households.ts",
         "src/core2/world-poverty.ts",
-        "src/core2/circle-turnover-check.ts",
-        "src/core2/turnover-check.ts",
         "src/core2/heard-claims.ts",
         "src/core2/home-distance.ts",
         "src/core2/sibling-names.ts",

@@ -4,7 +4,6 @@
 
 # The shared kernel
 /src/core2/reference/** @lamontaes
-/src/core2/tooling/** @lamontaes
 /src/core2/opening-draft.ts @lamontaes
 /src/core2/appearance.ts @lamontaes
 /src/core2/world-base-rates.ts @lamontaes
@@ -12,14 +11,6 @@
 /src/core2/shares.ts @lamontaes
 /src/core2/union-rate.ts @lamontaes
 /src/core2/condition-pack.ts @lamontaes
-/src/core2/core-pieces-fixture.ts @lamontaes
-/src/core2/bug-report.ts @lamontaes
-/src/core2/gov-test-report.ts @lamontaes
-/src/core2/law-test-start.ts @lamontaes
-/src/core2/resident-adults-test-kit.ts @lamontaes
-/src/core2/record-test-kit.ts @lamontaes
-/src/core2/campaign-incumbent-response-test-kit.ts @lamontaes
-/src/core2/counted-moves-balance-kit.ts @lamontaes
 /src/core2/gov-rules/place-population.ts @lamontaes
 /src/core2/group-quarters-types.ts @lamontaes
 /src/core2/gov-rules/names-data.ts @lamontaes
@@ -34,6 +25,8 @@
 /src/core2/snapshot-seal.test.ts @lamontaes
 /src/core2/stopgaps-register.test.ts @lamontaes
 /src/core2/world-base-rates.test.ts @lamontaes
+/src/core2/generated-world.ts @lamontaes
+/src/core2/past-sessions.ts @lamontaes
 
 # Core: the kernel, one state, the record, the clock, the plug, parameters, the choice engine, starting and saving a world (core)
 /src/core2/kernel/** @lamontaes
@@ -63,6 +56,7 @@
 /src/core2/journal.ts @lamontaes
 /src/core2/journal-state.ts @lamontaes
 /src/core2/cash-host.ts @lamontaes
+/src/core2/trait-lean.ts @lamontaes
 
 # Elections and campaigns (elections)
 /src/core2/modules/elections.ts @lamontaes
@@ -92,7 +86,6 @@
 /src/core2/voting-module-id.ts @lamontaes
 /src/core2/turnout*.ts @lamontaes
 /src/core2/membership-dues.ts @lamontaes
-/src/core2/gov-test-clock.ts @lamontaes
 /src/core2/campaign-data.ts @lamontaes
 /src/core2/modules/national-opinion.ts @lamontaes
 /src/core2/modules/candidacy-constants.ts @lamontaes
@@ -223,7 +216,6 @@
 /src/core2/legislature-*.ts @lamontaes
 /src/core2/bill-*.ts @lamontaes
 /src/core2/board-appointer.ts @lamontaes
-/src/core2/session-law-audit.ts @lamontaes
 /src/core2/state-session-calendar.ts @lamontaes
 /src/core2/state-item-veto.ts @lamontaes
 /src/core2/board-appointer.test.ts @lamontaes
@@ -755,11 +747,8 @@
 /src/core2/retirement-claim.ts @lamontaes
 /src/core2/resting-stress.ts @lamontaes
 /src/core2/representative-sample.ts @lamontaes
-/src/core2/money-traits-kit.ts @lamontaes
 /src/core2/town-households.ts @lamontaes
 /src/core2/world-poverty.ts @lamontaes
-/src/core2/circle-turnover-check.ts @lamontaes
-/src/core2/turnover-check.ts @lamontaes
 /src/core2/heard-claims.ts @lamontaes
 /src/core2/home-distance.ts @lamontaes
 /src/core2/sibling-names.ts @lamontaes
