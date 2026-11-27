@@ -64,7 +64,11 @@ for (const file of FILES) {
       `import { ${names.join(", ")} } from "${from}";`,
     );
   } else {
-    const at = next.search(/^import /m);
+    // Before the first import; a file with none gets it after its leading comment (or at the top).
+    const first = next.search(/^import /m);
+    const lead = /^(?:\/\*[\s\S]*?\*\/\s*|(?:\/\/[^\n]*\n)+\s*)?/.exec(next)[0]
+      .length;
+    const at = first >= 0 ? first : lead;
     next = `${next.slice(0, at)}import { fullNameOf } from "${from}";\n${next.slice(at)}`;
   }
   writeFileSync(path.join(ROOT, file), next);

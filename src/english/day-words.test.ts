@@ -21,6 +21,9 @@ describe("a day named as people say it", () => {
   });
   it("names the date without a year", () => {
     expect(dateSaid("2026-06-07")).toBe("June 7th");
+    // The year only when it is another year than today's (the one spoken-date rule).
+    expect(dateSaid("2026-06-07", "2026-01-20")).toBe("June 7th");
+    expect(dateSaid("2027-06-07", "2026-01-20")).toBe("June 7th, 2027");
     expect(dateSaid("2025-01-20")).toBe("January 20th");
   });
   it("opens a scene on the part of the day", () => {
