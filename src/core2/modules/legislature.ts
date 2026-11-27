@@ -5113,96 +5113,116 @@ export function recordRoll(
  * One chamber's vote: each member yes for a positive position, no for a negative one, abstaining with nothing either way.
  * The members' record rows come back with the count, for `recordRoll` to write once the roll's outcome is decided.
  */
-function chamberVote(
+/** How a member votes on a bill: as they chose (the player), else by their position, or absent from the sitting. */
+function memberFloorVote(
   api: CoreAPI,
   bill: BillRow,
   officeId: string,
-): { yes: number; no: number; rows: RollRecordRow[] } {
-  const rows: RollRecordRow[] = [];
-  let yes = 0;
-  let no = 0;
-  const seated = members(api, officeId);
-  const positions = seated.map((member) =>
-    memberPosition(api, bill.id, memberKey(member)),
-  );
-  const closeness = voteCloseness(positions.map((position) => position.total));
-  // The journal's and the director's vote events are the player's world's: the
-  // nation's and the town's own chain's. Another government's roll call stays
-  // on the record (the votes table) without an event per member.
-  const yoursToSee = reachesTown(api, billJurisdiction(api, bill));
-  if (yoursToSee) recordFloorDebate(api, bill, officeId, seated, positions);
-  for (const [index, member] of seated.entries()) {
-    const key = memberKey(member);
-    const position = positions[index]!;
-    // A member who chose their vote (the player) votes as they chose; the
-    // player is never voted for, so with no choice they abstain.
-    const chosen = table(api, "choices").get(`${bill.id}|${key}`) as unknown as
-      { vote: "yes" | "no" | "abstain" | "absent" } | undefined;
-    const vote =
-      chosen?.vote ??
-      (key ===
-      (snapshotExplicitControlV1(api.state).personId ??
-        (api.state as CoreState).playerId)
-        ? "abstain"
-        : missesSitting(api, key, bill.id, officeId, position.total, closeness)
-          ? "absent"
-          : position.total > 0
-            ? "yes"
-            : position.total < 0
-              ? "no"
-              : "abstain");
-    if (vote === "yes") yes += 1;
-    if (vote === "no") no += 1;
-    // A member who is a full person has cast a vote of their own: a record
-    // their journal and the director read. Named officials not filled in have none.
-    const resident = api.state.people.get(key);
-    if (yoursToSee && resident && (vote === "yes" || vote === "no"))
-      api.emit({
-        id: `office.voted:${bill.id}:${key}`,
-        date: api.state.date,
-        kind: "office.voted",
-        personIds: [key],
-        placeId: resident.placeId,
-        source: {
-          tag: "SOURCED",
-          citation: `Vote on ${bill.number}`,
-          asOf: api.state.date,
+  key: string,
+  position: ReturnType<typeof memberPosition>,
+  closeness: ReturnType<typeof voteCloseness>,
+): "yes" | "no" | "abstain" | "absent" {
+  // A member who chose their vote (the player) votes as they chose; the
+  // player is never voted for, so with no choice they abstain.
+  const chosen = table(api, "choices").get(`${bill.id}|${key}`) as unknown as
+    { vote: "yes" | "no" | "abstain" | "absent" } | undefined;
+  const vote =
+    chosen?.vote ??
+    (key ===
+    (snapshotExplicitControlV1(api.state).personId ??
+      (api.state as CoreState).playerId)
+      ? "abstain"
+      : missesSitting(api, key, bill.id, officeId, position.total, closeness)
+        ? "absent"
+        : position.total > 0
+          ? "yes"
+          : position.total < 0
+            ? "no"
+            : "abstain");
+  return vote;
+}
+
+/** A member's vote as a record: the journal's and the director's event for a full person, and the votes table's row. */
+function recordMemberVote(
+  api: CoreAPI,
+  bill: BillRow,
+  officeId: string,
+  key: string,
+  vote: "yes" | "no" | "abstain" | "absent",
+  position: ReturnType<typeof memberPosition>,
+  yoursToSee: boolean,
+): void {
+  // A member who is a full person has cast a vote of their own: a record
+  // their journal and the director read. Named officials not filled in have none.
+  const resident = api.state.people.get(key);
+  if (yoursToSee && resident && (vote === "yes" || vote === "no"))
+    api.emit({
+      id: `office.voted:${bill.id}:${key}`,
+      date: api.state.date,
+      kind: "office.voted",
+      personIds: [key],
+      placeId: resident.placeId,
+      source: {
+        tag: "SOURCED",
+        citation: `Vote on ${bill.number}`,
+        asOf: api.state.date,
+      },
+      publicRecord: true,
+      facts: { billId: bill.id, number: bill.number, vote },
+    });
+  table(api, "votes").put({
+    id: `vote:${bill.id}:${key}`,
+    billId: bill.id,
+    memberId: key,
+    chamber: officeId,
+    vote,
+    position,
+    // The trades the member took on this bill (their section is in its text
+    // now, so it is in their views), which their vote cites.
+    traded: bill.deals
+      .filter((d) => d.memberId === key && d.status !== "declined")
+      .map((d) => ({
+        kind: d.kind,
+        terms: d.terms,
+        // Module rows hold no undefined: a trade with no stage names none.
+        ...(d.stage === undefined ? {} : { stage: d.stage }),
+      })),
+  } as unknown as ModuleRow);
+}
+
+/** The stance each yes or no vote takes on each question the bill answers. */
+function voteStanceRows(
+  api: CoreAPI,
+  bill: BillRow,
+  officeId: string,
+  key: string,
+  vote: "yes" | "no" | "abstain" | "absent",
+): RollRecordRow[] {
+  const out: RollRecordRow[] = [];
+  for (const stance of billStances(api, bill)) {
+    if (vote !== "abstain" && vote !== "absent")
+      out.push({
+        personId: key,
+        body: officeId,
+        billId: bill.id,
+        measureId: bill.number,
+        stance: {
+          question: stance.question,
+          position: vote === "yes" ? stance.position : -stance.position,
         },
-        publicRecord: true,
-        facts: { billId: bill.id, number: bill.number, vote },
       });
-    table(api, "votes").put({
-      id: `vote:${bill.id}:${key}`,
-      billId: bill.id,
-      memberId: key,
-      chamber: officeId,
-      vote,
-      position,
-      // The trades the member took on this bill (their section is in its text
-      // now, so it is in their views), which their vote cites.
-      traded: bill.deals
-        .filter((d) => d.memberId === key && d.status !== "declined")
-        .map((d) => ({
-          kind: d.kind,
-          terms: d.terms,
-          // Module rows hold no undefined: a trade with no stage names none.
-          ...(d.stage === undefined ? {} : { stage: d.stage }),
-        })),
-    } as unknown as ModuleRow);
-    for (const stance of billStances(api, bill)) {
-      if (vote !== "abstain" && vote !== "absent")
-        rows.push({
-          personId: key,
-          body: officeId,
-          billId: bill.id,
-          measureId: bill.number,
-          stance: {
-            question: stance.question,
-            position: vote === "yes" ? stance.position : -stance.position,
-          },
-        });
-    }
   }
+  return out;
+}
+
+/** The chamber's roll call on a bill, as a public record. */
+function recordChamberVote(
+  api: CoreAPI,
+  bill: BillRow,
+  officeId: string,
+  yes: number,
+  no: number,
+): void {
   api.emit({
     id: `bill-vote:${bill.id}:${officeId}`,
     date: api.state.date,
@@ -5232,6 +5252,36 @@ function chamberVote(
       no: String(no),
     },
   });
+}
+
+function chamberVote(
+  api: CoreAPI,
+  bill: BillRow,
+  officeId: string,
+): { yes: number; no: number; rows: RollRecordRow[] } {
+  const rows: RollRecordRow[] = [];
+  let yes = 0;
+  let no = 0;
+  const seated = members(api, officeId);
+  const positions = seated.map((member) =>
+    memberPosition(api, bill.id, memberKey(member)),
+  );
+  const closeness = voteCloseness(positions.map((position) => position.total));
+  // The journal's and the director's vote events are the player's world's: the
+  // nation's and the town's own chain's. Another government's roll call stays
+  // on the record (the votes table) without an event per member.
+  const yoursToSee = reachesTown(api, billJurisdiction(api, bill));
+  if (yoursToSee) recordFloorDebate(api, bill, officeId, seated, positions);
+  for (const [index, member] of seated.entries()) {
+    const key = memberKey(member);
+    const position = positions[index]!;
+    const vote = memberFloorVote(api, bill, officeId, key, position, closeness);
+    if (vote === "yes") yes += 1;
+    if (vote === "no") no += 1;
+    recordMemberVote(api, bill, officeId, key, vote, position, yoursToSee);
+    rows.push(...voteStanceRows(api, bill, officeId, key, vote));
+  }
+  recordChamberVote(api, bill, officeId, yes, no);
   return { yes, no, rows };
 }
 
