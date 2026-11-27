@@ -150,7 +150,6 @@ import {
   ELECTIONS_MODULE_ID,
   ballot,
   isLocalFamily,
-  registerWardResidency,
   keepPetitionCheck,
   openPetition,
   resizePetition,
@@ -176,8 +175,6 @@ import {
   impressionOf,
   parsePlatform,
   pledgesOf,
-  registerDoorChoice,
-  registerPetitionRoll,
   type DoorVisit,
   type PledgeRow,
 } from "./campaigns";
@@ -233,7 +230,6 @@ import {
   candidacyModule,
   CANDIDACY_MODULE_ID,
   partyFieldsNominee,
-  registerClosedContestWeighed,
 } from "./candidacy";
 import { historyMode } from "../electorate-century";
 import {
@@ -528,6 +524,14 @@ const VOTING_MODULE: CoreModule = {
     },
   },
   onCalendarWork: votingCalendarWork,
+  // What the voting engine gives the engines that cannot import it (they are
+  // read by it): see `CoreModule` (doorChoice, petitionRoll,
+  // closedContestWeighed, wardResidency). Each is read through the installed
+  // modules, so they are in force wherever this engine is installed.
+  doorChoice: doorChoiceOf,
+  petitionRoll: onRollToday,
+  closedContestWeighed: closeAtOpening,
+  wardResidency: candidateInWard,
   // A filing's petition opens the day it is filed, or the day its candidate
   // announced, and the clerk's check of it goes on the calendar once it is
   // filed (`openFilingPetition`).
@@ -571,9 +575,6 @@ export function openVoting(core: CoreState): void {
   if (!core.modules.has(CANDIDACY_MODULE_ID))
     registerModule(core, candidacyModule);
   const api = coreAPI(core);
-  registerWardResidency(candidateInWard);
-  registerDoorChoice(doorChoiceOf);
-  registerPetitionRoll(onRollToday);
   rememberOpeningElectorate(api);
   pollingPlaces(api);
   // The world opens already in motion: who is registered, and who moved
@@ -587,9 +588,6 @@ export function openVoting(core: CoreState): void {
     if (contest) scheduleContest(a, contest);
     return contest !== null;
   });
-  // A race whose filing closed before the record began is finished once
-  // candidacy has weighed it, so its own runners stand before any stand-in.
-  registerClosedContestWeighed(closeAtOpening);
   for (const contest of api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")

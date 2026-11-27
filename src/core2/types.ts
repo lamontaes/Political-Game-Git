@@ -1030,6 +1030,30 @@ export interface CoreModule {
    */
   stanceListener?: StanceListener;
   /**
+   * What the voting engine gives the campaign, candidacy and elections engines
+   * it cannot import (they are read by it): the candidate a resident would vote
+   * for now (`doorChoice`: a candidate id, null for nobody, undefined where the
+   * world counts no ballots), whether a person is on the count's roll today
+   * (`petitionRoll`), how it finishes the field of a race whose filing closed
+   * before the record began (`closedContestWeighed`), and the ward a ward seat
+   * represents and the ward a person lives in (`wardResidency`). Each reader
+   * asks the installed engines in install order. Method signatures, so the
+   * engine's own narrower argument types (a door visit, a contest) fit.
+   */
+  doorChoice?(
+    api: CoreAPI,
+    voterId: string,
+    contestId: string,
+    visit?: unknown,
+  ): string | null | undefined;
+  petitionRoll?(api: CoreAPI, personId: string): boolean;
+  closedContestWeighed?(api: CoreAPI, contest: { readonly id: string }): void;
+  wardResidency?(
+    api: CoreAPI,
+    contest: { readonly id: string },
+    person: Readonly<PersonState>,
+  ): { readonly seatWard: number; readonly homeWard: number } | null;
+  /**
    * The module's table of what it did, read as history by the one reader
    * (src/core2/past-history.ts): who it names, when, and the records that
    * caused it. The person's life is the one source with `life` set.
