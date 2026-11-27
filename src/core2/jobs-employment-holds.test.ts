@@ -35,20 +35,35 @@ function jobsHeld(core: CoreState, placeId: string): number {
 
 const seed = process.env.JOBS_HOLD_SEED ?? randomBytes(8).toString("hex");
 
-it("a drawn town keeps at least nine in ten of its jobs through a year with no shock", () => {
-  const place = drawPlace(seed, "jobs-employment-holds");
+const DRAWS = 10;
+
+it("a drawn town with counted workers keeps at least nine in ten of its jobs through a year with no shock", () => {
+  // The case is a place whose jobs are partly counted (the opening's job-record scale above one): at a place with none the scale is one and the staffing target is the same either way. A place without counted jobs is passed over and named.
+  const passed: string[] = [];
   setBookkeeping(false);
-  const world = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
-  const core = world.core;
-  const start = makeIsoDate(core.date);
-  const opened = jobsHeld(core, world.placeId);
-  advanceCore(core, addDays(start, 365));
-  const after = jobsHeld(core, world.placeId);
-  expect(
-    after / opened,
-    `${place.name ?? place.key} (${place.key}), seed ${place.seed}: jobs ${opened} to ${after}`,
-  ).toBeGreaterThanOrEqual(0.9);
+  for (let i = 0; i < DRAWS; i += 1) {
+    const place = drawPlace(`${seed}:${i}`, "jobs-employment-holds");
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const core = world.core;
+    if (residentsRuntime(core)!.jobs.size === 0) {
+      passed.push(
+        `${place.name ?? place.key} (${place.key}), seed ${place.seed}`,
+      );
+      continue;
+    }
+    const opened = jobsHeld(core, world.placeId);
+    advanceCore(core, addDays(makeIsoDate(core.date), 365));
+    const after = jobsHeld(core, world.placeId);
+    expect(
+      after / opened,
+      `${place.name ?? place.key} (${place.key}), seed ${place.seed}: jobs ${opened} to ${after}; passed over for no counted jobs: ${passed.join("; ") || "none"}`,
+    ).toBeGreaterThanOrEqual(0.9);
+    return;
+  }
+  throw new Error(
+    `no drawn place had counted jobs in ${DRAWS} draws (base ${seed}); passed over ${passed.join("; ")}`,
+  );
 }, 3_600_000);
