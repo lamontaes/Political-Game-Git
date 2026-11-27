@@ -3,6 +3,9 @@ import { describe, expect, it } from "vitest";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
+import stagedPlaces from "../../tests/fixtures/scene-staged-places.json" with { type: "json" };
+import { createLifeCore } from "../core2/life";
+import { peopleHere } from "./scene";
 
 const PAINTED = new Set(
   manifest.backdrops
@@ -23,8 +26,11 @@ const lists = (value: unknown): string[][] =>
       : [];
 
 describe("place pictures", () => {
-  it("every painted place can hold people: staged, with one hero spot", () => {
-    for (const place of PAINTED) {
+  it("preserves the measured plates and their single hero spot", () => {
+    // The full-body stage is set aside. Its existing measurements still
+    // have to work, including if a stage row was accidentally deleted.
+    for (const place of new Set([...stagedPlaces, ...Object.keys(STAGES)])) {
+      expect(PAINTED.has(place), place).toBe(true);
       const stage = STAGES[place];
       expect(stage, place).toBeDefined();
       expect(stage!.spots.length, place).toBeGreaterThanOrEqual(3);
@@ -32,6 +38,71 @@ describe("place pictures", () => {
         stage!.spots.filter((spot) => spot.hero),
         place,
       ).toHaveLength(1);
+    }
+  });
+
+  it("every painted place can show the named adult in the current bust strip", () => {
+    const source = {
+      tag: "SOURCED" as const,
+      citation: "Controlled bust-strip fixture",
+      asOf: "2021-01-01",
+    };
+    const core = createLifeCore(
+      {
+        seed: "scene-places-bust-strip",
+        startedAt: "2021-01-01",
+        people: [
+          {
+            id: "resident",
+            givenName: "Fixture",
+            familyName: "Resident",
+            birthDate: "1988-01-01",
+            gender: "female",
+            placeId: "place",
+            householdId: "home",
+            tier: "weekly",
+            traits: {},
+            liquidMinor: 0,
+            livingCostDailyMinor: 0,
+            source,
+            familyIds: [],
+            knownIds: [],
+          },
+        ],
+        households: [
+          { id: "home", placeId: "place", memberIds: ["resident"], source },
+        ],
+        organizations: [],
+        jobs: [],
+        focusPersonIds: [],
+        focusPlaceIds: [],
+        calendarDates: [],
+        gaps: [],
+      },
+      { modules: [] },
+    );
+    for (const row of manifest.backdrops.filter(
+      (entry) => entry.variant === "midday",
+    )) {
+      const strip = peopleHere(core, row.file, [
+        {
+          id: "resident",
+          name: "Fixture Resident",
+          reason: "reached",
+          role: "resident",
+        },
+      ]);
+      expect(strip.people, row.place).toHaveLength(1);
+      expect(strip.people[0], row.place).toMatchObject({
+        personId: "resident",
+        name: "Fixture Resident",
+        reason: "reached",
+      });
+      expect(
+        strip.people[0]!.face.bust.layers.length,
+        row.place,
+      ).toBeGreaterThan(0);
+      expect(strip.more, row.place).toBe(0);
     }
   });
 
