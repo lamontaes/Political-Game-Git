@@ -1,9 +1,11 @@
-import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import ts from "typescript";
 import { describe, expect, it } from "vitest";
-import { familyOf } from "./family-map";
+import {
+  counts,
+  exists,
+  importsOf,
+} from "../../scripts/guards/core-imports-no-engine";
 
 /**
  * The core imports no engine; engines plug in (core audit K2, Nov 26; owner:
@@ -19,93 +21,11 @@ import { familyOf } from "./family-map";
  * The families guard leaves the core's outgoing imports out of its own count
  * so that making the core a family raised nothing; they are counted here,
  * per file, and the counts only shrink as the core's hooks (items 6 to 10)
- * replace each one. The baseline is core-imports-no-engine-baseline.json.
+ * replace each one. The baseline is core-imports-no-engine-baseline.json;
+ * `node --import tsx scripts/guards/write-core-imports-baseline.ts --shrink-only`
+ * rewrites it from the code and refuses a count that rose.
  */
-const ROOT = path.resolve(__dirname, "../..");
 const BASELINE = path.join(__dirname, "core-imports-no-engine-baseline.json");
-const ROOTS = [
-  "src/core2",
-  "src/director",
-  "src/english",
-  "src/bench",
-  "src/districts",
-  "src/rules",
-  "src/release",
-];
-
-const files = execFileSync("git", ["ls-files", ...ROOTS], {
-  cwd: ROOT,
-  encoding: "utf8",
-})
-  .split("\n")
-  .filter(
-    (file) =>
-      /\.(ts|tsx|mjs)$/.test(file) &&
-      !/\.(test|spec|browser)\.(ts|tsx|mjs)$/.test(file) &&
-      !/\.d\.ts$/.test(file),
-  );
-const exists = new Set(files);
-
-/** The repository files a source imports or re-exports from (relative specifiers only), a type import too. */
-export function importsOf(file: string, text: string): string[] {
-  const source = ts.createSourceFile(file, text, ts.ScriptTarget.ES2022, true);
-  const specifiers: string[] = [];
-  const visit = (node: ts.Node): void => {
-    if (
-      ts.isImportDeclaration(node) &&
-      ts.isStringLiteral(node.moduleSpecifier)
-    ) {
-      specifiers.push(node.moduleSpecifier.text);
-    } else if (
-      ts.isExportDeclaration(node) &&
-      node.moduleSpecifier &&
-      ts.isStringLiteral(node.moduleSpecifier)
-    )
-      specifiers.push(node.moduleSpecifier.text);
-    else if (
-      ts.isCallExpression(node) &&
-      node.expression.kind === ts.SyntaxKind.ImportKeyword &&
-      node.arguments[0] &&
-      ts.isStringLiteral(node.arguments[0])
-    )
-      specifiers.push(node.arguments[0].text);
-    ts.forEachChild(node, visit);
-  };
-  visit(source);
-  const out: string[] = [];
-  for (const specifier of specifiers) {
-    if (!specifier.startsWith(".")) continue;
-    const base = path.posix.normalize(
-      path.posix.join(path.posix.dirname(file), specifier),
-    );
-    const target = [
-      base,
-      `${base}.ts`,
-      `${base}.tsx`,
-      `${base}.mjs`,
-      `${base}/index.ts`,
-    ].find((candidate) => exists.has(candidate));
-    if (target) out.push(target);
-  }
-  return out;
-}
-
-function counts(): Record<string, number> {
-  const out: Record<string, number> = {};
-  for (const file of files) {
-    if (familyOf(file) !== "core") continue;
-    const reached = importsOf(
-      file,
-      readFileSync(path.join(ROOT, file), "utf8"),
-    ).filter((target) => {
-      const family = familyOf(target);
-      return family !== null && family !== "core" && family !== "shared";
-    });
-    if (reached.length) out[file] = reached.length;
-  }
-  return out;
-}
-
 describe("the core imports no engine", () => {
   const now = counts();
   const known = JSON.parse(readFileSync(BASELINE, "utf8")) as Record<
