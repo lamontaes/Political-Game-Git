@@ -1,0 +1,30 @@
+{
+  "id": "most-states-start-their-fiscal-year-on-the-first-of-july",
+  "kind": "detail",
+  "summary": "Forty-six states begin their fiscal year on July 1.",
+  "realLife": "The National Association of State Budget Officers reports that forty-six states begin their fiscal year on July 1, which is why so many state budgets are due by then.",
+  "sources": [
+    "NASBO Budget Blog, States Finalize Fiscal 2024 Budgets (Brian Sigritz, June 30, 2023): https://budgetblog.nasbo.org/budgetblogs/blogs/brian-sigritz/2023/06/30/states-finalize-fiscal-2024-budgets?CommunityKey=eca4d2c7-296d-4ab5-aeab-2024a4e7b0b8"
+  ],
+  "fits": ["loading"],
+  "slots": ["state"],
+  "gates": [],
+  "weights": {},
+  "inGame": "the budget module's fiscal-year rows, read by the loading screen's progress step for budgets (loading-steps.budgets).",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A state starts its fiscal year in another month.",
+      "pulledBy": "the state's own fiscal calendar",
+      "writesBack": "budget rows that open and close on a different date"
+    },
+    {
+      "turn": "partial",
+      "what": "A budget is not ready by the first day of the fiscal year.",
+      "pulledBy": "a late budget",
+      "writesBack": "a stopgap spending row for the days before it passes"
+    }
+  ],
+  "issues": ["none"]
+}

@@ -1,3 +1,25 @@
+/** The facts of what a talk says once, marked where the talk has already said it. */
+export function withOnceSaid(
+  facts: Facts,
+  speakerId: PersonId,
+  recentPartKeys: readonly string[],
+): Facts {
+  const onceSaid = SAID_ONCE_FACTS.filter((fact) =>
+    recentPartKeys.some((key) => piecesSaidOnce(fact).has(key)),
+  );
+  return onceSaid.length
+    ? {
+        ...facts,
+        ...Object.fromEntries(
+          onceSaid.map((fact) => [
+            fact,
+            { text: "yes", sourceRecordIds: [speakerId] },
+          ]),
+        ),
+      }
+    : facts;
+}
+
 /**
  * A line the English engine composes from parts, for a subject whose lines are
  * made that way, said against what the player has already heard. Moved out of
@@ -68,25 +90,12 @@ export function composedLine(
   // What is said once in a talk (how long they have held a stand; being
   // glad to hear the player's voice) is not said again in it (lead, Nov 13;
   // Words lead, Nov 14).
-  const onceSaid = SAID_ONCE_FACTS.filter((fact) =>
-    recentPartKeys.some((key) => piecesSaidOnce(fact).has(key)),
-  );
   const line = composeConversationLine({
     seed: core.seed,
     subject,
     speakerId,
     traits: core.people.get(speakerId)?.traits ?? {},
-    facts: onceSaid.length
-      ? {
-          ...facts,
-          ...Object.fromEntries(
-            onceSaid.map((fact) => [
-              fact,
-              { text: "yes", sourceRecordIds: [speakerId] },
-            ]),
-          ),
-        }
-      : facts,
+    facts: withOnceSaid(facts, speakerId, recentPartKeys),
     stage,
     momentKey,
     // Oldest first: what the player heard on earlier days, then today, then

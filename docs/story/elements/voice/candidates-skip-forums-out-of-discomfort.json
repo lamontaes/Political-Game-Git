@@ -1,0 +1,29 @@
+{
+  "id": "candidates-skip-forums-out-of-discomfort",
+  "kind": "voice",
+  "summary": "Candidates explain a skipped forum by schedule, discomfort or strategy.",
+  "realLife": "An Idaho piece asked whether no-show candidates acted out of discomfort or disinterest.",
+  "sources": [
+    "Idaho Education News, discomfort or disinterest: why are candidates no-shows at public forums: https://www.idahoednews.org/voices/discomfort-or-disinterest-why-are-candidates-no-shows-at-public-forums/"
+  ],
+  "fits": ["campaign"],
+  "slots": ["office"],
+  "gates": [],
+  "weights": {
+    "debate": 0.5
+  },
+  "inGame": "the player's decline of a debate invitation, guarded and stall moves",
+  "usedBy": ["invite-debate"],
+  "turns": [
+    {
+      "turn": "The candidate attends and is bad at it",
+      "pull": "shy traits",
+      "writes": "a rough forum story"
+    },
+    {
+      "turn": "The candidate skips and wins anyway",
+      "pull": "name recognition",
+      "writes": "a quiet result"
+    }
+  ]
+}
