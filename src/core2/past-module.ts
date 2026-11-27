@@ -18,6 +18,8 @@
  * it (a vote, a split) follows a person's or group's recorded lean.
  */
 import { seededUnit } from "./seeded";
+import rows from "./data/past/parameters.json" with { type: "json" };
+import type { Parameter } from "./parameters";
 import { coreAPI, registerModule } from "./state";
 import type { CoreAPI, CoreState, IsoDate, PersonId } from "./types";
 import type { ModuleRow } from "./module-data";
@@ -33,7 +35,15 @@ import type {
 
 export const PAST_MODULE_ID = "core2-past-v1";
 
-export { pastParameter } from "./past-parameter";
+const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
+
+/** A past parameter's value, registering its stopgap when it carries one. */
+export function pastParameter(api: CoreAPI | null, key: string): number {
+  const row = PARAMETERS[key];
+  if (!row) throw new Error(`Unknown past parameter: ${key}`);
+  if (row.stopgapId) api?.stopgap(row.stopgapId);
+  return row.value;
+}
 
 /**
  * The races the town's own people lost before the start, kept from the

@@ -1049,6 +1049,7 @@
         "src/core2/sibling-births.test.ts",
         "src/core2/sibling-names.test.ts",
         "src/core2/sitting-closeness.test.ts",
+        "src/core2/sitting-unowned-body.test.ts",
         "src/core2/social-security-line-poverty.test.ts",
         "src/core2/speech-retellings-fold.test.ts",
         "src/core2/speech.test.ts",
@@ -1072,11 +1073,7 @@
     {
       "id": "past",
       "name": "The past before the start",
-      "entry": [
-        "src/core2/past.ts",
-        "src/core2/past-module.ts",
-        "src/core2/past-parameter.ts"
-      ],
+      "entry": ["src/core2/past.ts", "src/core2/past-module.ts"],
       "paths": [
         "src/core2/past.ts",
         "src/core2/past-*.ts",
