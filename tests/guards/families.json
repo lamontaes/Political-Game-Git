@@ -6,7 +6,6 @@
     "src/core2/bookkeeping.ts",
     "src/core2/reference/**",
     "src/core2/data/**",
-    "src/core2/tooling/**",
     "src/core2/types.ts",
     "src/core2/state.ts",
     "src/core2/opening-draft.ts",
@@ -28,15 +27,7 @@
     "src/core2/choice.ts",
     "src/core2/compact-choice.ts",
     "src/core2/condition-pack.ts",
-    "src/core2/core-pieces-fixture.ts",
     "src/core2/data.ts",
-    "src/core2/bug-report.ts",
-    "src/core2/gov-test-report.ts",
-    "src/core2/law-test-start.ts",
-    "src/core2/resident-adults-test-kit.ts",
-    "src/core2/record-test-kit.ts",
-    "src/core2/campaign-incumbent-response-test-kit.ts",
-    "src/core2/counted-moves-balance-kit.ts",
     "src/core2/free-block.ts",
     "src/core2/focus.ts",
     "src/core2/gov-rules/place-population.ts",
@@ -54,7 +45,9 @@
     "src/core2/pair-key.test.ts",
     "src/core2/snapshot-seal.test.ts",
     "src/core2/stopgaps-register.test.ts",
-    "src/core2/world-base-rates.test.ts"
+    "src/core2/world-base-rates.test.ts",
+    "src/core2/generated-world.ts",
+    "src/core2/past-sessions.ts"
   ],
   "protected": [
     "AGENTS.md",
@@ -868,11 +861,8 @@
         "src/core2/retirement-claim.ts",
         "src/core2/resting-stress.ts",
         "src/core2/representative-sample.ts",
-        "src/core2/money-traits-kit.ts",
         "src/core2/town-households.ts",
         "src/core2/world-poverty.ts",
-        "src/core2/circle-turnover-check.ts",
-        "src/core2/turnover-check.ts",
         "src/core2/journal-state.ts",
         "src/core2/journal.ts",
         "src/core2/heard-claims.ts",
@@ -1056,7 +1046,10 @@
     {
       "id": "past",
       "name": "The past before the start",
-      "entry": ["src/core2/past.ts", "src/core2/past-module.ts"],
+      "entry": [
+        "src/core2/past.ts",
+        "src/core2/past-module.ts"
+      ],
       "paths": [
         "src/core2/past.ts",
         "src/core2/past-*.ts",
@@ -1223,13 +1216,21 @@
     {
       "id": "director",
       "name": "The story director",
-      "entry": ["src/director/*.ts"],
-      "paths": ["src/director/**", "src/core2/speech-afterward-pledge.test.ts"]
+      "entry": [
+        "src/director/*.ts"
+      ],
+      "paths": [
+        "src/director/**",
+        "src/core2/speech-afterward-pledge.test.ts"
+      ]
     },
     {
       "id": "english",
       "name": "The English engine",
-      "entry": ["src/english/*.ts", "src/english/plain-words.mjs"],
+      "entry": [
+        "src/english/*.ts",
+        "src/english/plain-words.mjs"
+      ],
       "paths": [
         "src/english/**",
         "data/english/**",
@@ -1239,7 +1240,9 @@
     {
       "id": "screens",
       "name": "Screens and the UI kit",
-      "entry": ["src/bench/ui/**"],
+      "entry": [
+        "src/bench/ui/**"
+      ],
       "paths": [
         "src/bench/**",
         "src/core2/ask-waits-for-the-chair.test.ts",

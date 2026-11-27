@@ -8,7 +8,7 @@
  */
 import { drawPlace } from "../../../tests/golden-path/place";
 import { beforeAll, describe, expect, it } from "vitest";
-import { adultsOf, drawnRaceWorld, RUN_SEED } from "../trait-test-kit";
+import { adultsOf, drawnRaceWorld, RUN_SEED } from "../../../tests/support/trait-test-kit";
 import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import { engagementOf, NATIONAL_ENGAGEMENT } from "../electorate";
 import { followersOf, habitScore, outletsHere } from "./press";

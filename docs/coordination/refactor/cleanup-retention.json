@@ -4540,48 +4540,48 @@
   ],
   "unusedCode": [
     {
-      "file": "src/bench/m0-check.ts",
-      "name": "src/bench/m0-check.ts",
+      "file": "scripts/bench/m0-check.ts",
+      "name": "scripts/bench/m0-check.ts",
       "reason": "Named outside itself by .agents/skills/red-main/SKILL.md"
     },
     {
-      "file": "src/bench/m1-10-check.ts",
-      "name": "src/bench/m1-10-check.ts",
+      "file": "scripts/bench/m1-10-check.ts",
+      "name": "scripts/bench/m1-10-check.ts",
       "reason": "Named outside itself by docs/pool/items/play-bench-reads-voting-age-row.md"
     },
     {
-      "file": "src/bench/m1-11-check.ts",
-      "name": "src/bench/m1-11-check.ts",
+      "file": "scripts/bench/m1-11-check.ts",
+      "name": "scripts/bench/m1-11-check.ts",
       "reason": "Named outside itself by .agents/skills/dev-tester/SKILL.md"
     },
     {
-      "file": "src/bench/m1-12-check.ts",
-      "name": "src/bench/m1-12-check.ts",
+      "file": "scripts/bench/m1-12-check.ts",
+      "name": "scripts/bench/m1-12-check.ts",
       "reason": "Named outside itself by docs/pool/items/gov-officials-legislators-know-no-one.md"
     },
     {
-      "file": "src/bench/m1-13-check.ts",
-      "name": "src/bench/m1-13-check.ts",
+      "file": "scripts/bench/m1-13-check.ts",
+      "name": "scripts/bench/m1-13-check.ts",
       "reason": "Named outside itself by docs/pool/items/research-regional-population-change-range-states.md"
     },
     {
-      "file": "src/bench/m1-14-check.ts",
-      "name": "src/bench/m1-14-check.ts",
+      "file": "scripts/bench/m1-14-check.ts",
+      "name": "scripts/bench/m1-14-check.ts",
       "reason": "Named outside itself by docs/pool/items/gov-prior-year-budgets-at-opening.md"
     },
     {
-      "file": "src/bench/m2-03-check.ts",
-      "name": "src/bench/m2-03-check.ts",
+      "file": "scripts/bench/m2-03-check.ts",
+      "name": "scripts/bench/m2-03-check.ts",
       "reason": "Named outside itself by docs/pool/items/elections-territory-no-contest-at-18.md"
     },
     {
-      "file": "src/bench/m2-10-check.ts",
-      "name": "src/bench/m2-10-check.ts",
+      "file": "scripts/bench/m2-10-check.ts",
+      "name": "scripts/bench/m2-10-check.ts",
       "reason": "Named outside itself by docs/pool/items/core-long-run-election-and-term-rows.md"
     },
     {
-      "file": "src/bench/path-check.ts",
-      "name": "src/bench/path-check.ts",
+      "file": "tests/golden-path/path-check.ts",
+      "name": "tests/golden-path/path-check.ts",
       "reason": "Named outside itself by .agents/skills/governing-measurement/SKILL.md"
     },
     {
@@ -4590,13 +4590,13 @@
       "reason": "Configuration, authoring, type companion, test, or dynamic loader surface."
     },
     {
-      "file": "src/bench/store-shots.mjs",
-      "name": "src/bench/store-shots.mjs",
+      "file": "scripts/bench/store-shots.mjs",
+      "name": "scripts/bench/store-shots.mjs",
       "reason": "Named outside itself by docs/archive/2026-10-23/coordination/play.md"
     },
     {
-      "file": "src/bench/verify.mjs",
-      "name": "src/bench/verify.mjs",
+      "file": "scripts/bench/verify.mjs",
+      "name": "scripts/bench/verify.mjs",
       "reason": "Named outside itself by .agents/skills/done-proof/SKILL.md"
     },
     {
@@ -4875,123 +4875,123 @@
       "reason": "Matching identifier outside its declaration: .agents/skills/room-spots/references/people-pack.md, .claude/skills/room-spots/references/people-pack.md, src/director/scene-talk.ts"
     },
     {
-      "file": "src/core2/circle-turnover-check.ts",
-      "name": "src/core2/circle-turnover-check.ts",
+      "file": "scripts/core2/circle-turnover-check.ts",
+      "name": "scripts/core2/circle-turnover-check.ts",
       "reason": "Named outside itself by data/research/people/mollenhorst-2014-network-turnover.json"
     },
     {
-      "file": "src/core2/tooling/build-disaster-severity.ts",
-      "name": "src/core2/tooling/build-disaster-severity.ts",
+      "file": "scripts/core2/tooling/build-disaster-severity.ts",
+      "name": "scripts/core2/tooling/build-disaster-severity.ts",
       "reason": "Maintained data generator or estimator. Required for reproducibility even without an automated caller."
     },
     {
-      "file": "src/core2/tooling/build-disasters.ts",
-      "name": "src/core2/tooling/build-disasters.ts",
+      "file": "scripts/core2/tooling/build-disasters.ts",
+      "name": "scripts/core2/tooling/build-disasters.ts",
       "reason": "Named outside itself by docs/archive/2026-10-23/coordination/core.md"
     },
     {
-      "file": "src/core2/tooling/build-places.ts",
-      "name": "src/core2/tooling/build-places.ts",
+      "file": "scripts/core2/tooling/build-places.ts",
+      "name": "scripts/core2/tooling/build-places.ts",
       "reason": "Named outside itself by docs/archive/2026-10-23/coordination/core.md"
     },
     {
-      "file": "src/core2/tooling/drives-proof.ts",
-      "name": "src/core2/tooling/drives-proof.ts",
+      "file": "scripts/core2/tooling/drives-proof.ts",
+      "name": "scripts/core2/tooling/drives-proof.ts",
       "reason": "Named outside itself by docs/archive/2026-10-23/packages/M0-core.md"
     },
     {
-      "file": "src/core2/tooling/economy-observables.ts",
-      "name": "src/core2/tooling/economy-observables.ts",
-      "reason": "Named outside itself by src/core2/tooling/finance-measure.ts"
+      "file": "scripts/core2/tooling/economy-observables.ts",
+      "name": "scripts/core2/tooling/economy-observables.ts",
+      "reason": "Named outside itself by scripts/core2/tooling/finance-measure.ts"
     },
     {
-      "file": "src/core2/tooling/fetch-disasters.ts",
-      "name": "src/core2/tooling/fetch-disasters.ts",
+      "file": "scripts/core2/tooling/fetch-disasters.ts",
+      "name": "scripts/core2/tooling/fetch-disasters.ts",
       "reason": "Named outside itself by docs/archive/2026-10-23/coordination/core.md"
     },
     {
-      "file": "src/core2/tooling/finance-measure.ts",
-      "name": "src/core2/tooling/finance-measure.ts",
+      "file": "scripts/core2/tooling/finance-measure.ts",
+      "name": "scripts/core2/tooling/finance-measure.ts",
       "reason": "Named outside itself by docs/archive/2026-10-23/reports/dead-code-2026-10-14-keeps.txt"
     },
     {
-      "file": "src/core2/tooling/m0-07-turnover-check.ts",
-      "name": "src/core2/tooling/m0-07-turnover-check.ts",
+      "file": "scripts/core2/tooling/m0-07-turnover-check.ts",
+      "name": "scripts/core2/tooling/m0-07-turnover-check.ts",
       "reason": "Named outside itself by data/research/people/mollenhorst-2014-network-turnover.json"
     },
     {
-      "file": "src/core2/tooling/m1-02-check.ts",
-      "name": "src/core2/tooling/m1-02-check.ts",
+      "file": "scripts/core2/tooling/m1-02-check.ts",
+      "name": "scripts/core2/tooling/m1-02-check.ts",
       "reason": "Named outside itself by docs/archive/2026-10-23/coordination/world.md"
     },
     {
-      "file": "src/core2/tooling/m1-03-check.ts",
-      "name": "src/core2/tooling/m1-03-check.ts",
+      "file": "scripts/core2/tooling/m1-03-check.ts",
+      "name": "scripts/core2/tooling/m1-03-check.ts",
       "reason": "Named outside itself by docs/pool/items/roadmap-m1-economy-commands.md"
     },
     {
-      "file": "src/core2/tooling/m1-04-check.ts",
-      "name": "src/core2/tooling/m1-04-check.ts",
+      "file": "scripts/core2/tooling/m1-04-check.ts",
+      "name": "scripts/core2/tooling/m1-04-check.ts",
       "reason": "Named outside itself by docs/pool/items/roadmap-m1-economy-commands.md"
     },
     {
-      "file": "src/core2/tooling/m1-05-check.ts",
-      "name": "src/core2/tooling/m1-05-check.ts",
+      "file": "scripts/core2/tooling/m1-05-check.ts",
+      "name": "scripts/core2/tooling/m1-05-check.ts",
       "reason": "Named outside itself by docs/pool/items/housing-lomas-rent-below-municipio-floor.md"
     },
     {
-      "file": "src/core2/tooling/m1-06-check.ts",
-      "name": "src/core2/tooling/m1-06-check.ts",
+      "file": "scripts/core2/tooling/m1-06-check.ts",
+      "name": "scripts/core2/tooling/m1-06-check.ts",
       "reason": "Named outside itself by docs/pool/items/credit-m1-06-missed-payment-witness.md"
     },
     {
-      "file": "src/core2/tooling/m1-07-check.ts",
-      "name": "src/core2/tooling/m1-07-check.ts",
+      "file": "scripts/core2/tooling/m1-07-check.ts",
+      "name": "scripts/core2/tooling/m1-07-check.ts",
       "reason": "Named outside itself by docs/pool/items/roadmap-m1-07-per-resident-every-level.md"
     },
     {
-      "file": "src/core2/tooling/m1-08-check.ts",
-      "name": "src/core2/tooling/m1-08-check.ts",
+      "file": "scripts/core2/tooling/m1-08-check.ts",
+      "name": "scripts/core2/tooling/m1-08-check.ts",
       "reason": "Named outside itself by docs/pool/items/business-never-adds-location-part-1-counted-founding-room.md"
     },
     {
-      "file": "src/core2/tooling/macro-proof.ts",
-      "name": "src/core2/tooling/macro-proof.ts",
+      "file": "scripts/core2/tooling/macro-proof.ts",
+      "name": "scripts/core2/tooling/macro-proof.ts",
       "reason": "Named outside itself by docs/pool/items/core-typecheck-core2-year-place.md"
     },
     {
-      "file": "src/core2/tooling/measure.ts",
-      "name": "src/core2/tooling/measure.ts",
+      "file": "scripts/core2/tooling/measure.ts",
+      "name": "scripts/core2/tooling/measure.ts",
       "reason": "Named outside itself by .agents/skills/done-proof/references/played-world-proof.md"
     },
     {
-      "file": "src/core2/tooling/officials-year.ts",
-      "name": "src/core2/tooling/officials-year.ts",
+      "file": "scripts/core2/tooling/officials-year.ts",
+      "name": "scripts/core2/tooling/officials-year.ts",
       "reason": "Named outside itself by docs/archive/2026-10-23/coordination/officials.md"
     },
     {
-      "file": "src/core2/tooling/rent-sourced-table.ts",
-      "name": "src/core2/tooling/rent-sourced-table.ts",
+      "file": "scripts/core2/tooling/rent-sourced-table.ts",
+      "name": "scripts/core2/tooling/rent-sourced-table.ts",
       "reason": "Named outside itself by docs/pool/items/housing-lomas-rent-below-municipio-floor.md"
     },
     {
-      "file": "src/core2/tooling/rent-year-counts.ts",
-      "name": "src/core2/tooling/rent-year-counts.ts",
+      "file": "scripts/core2/tooling/rent-year-counts.ts",
+      "name": "scripts/core2/tooling/rent-year-counts.ts",
       "reason": "Named outside itself by docs/pool/items/housing-lomas-rent-below-municipio-floor.md"
     },
     {
-      "file": "src/core2/tooling/vitest.config.ts",
-      "name": "src/core2/tooling/vitest.config.ts",
+      "file": "scripts/core2/tooling/vitest.config.ts",
+      "name": "scripts/core2/tooling/vitest.config.ts",
       "reason": "Configuration, authoring, type companion, test, or dynamic loader surface."
     },
     {
-      "file": "src/core2/tooling/world-drift.ts",
-      "name": "src/core2/tooling/world-drift.ts",
+      "file": "scripts/core2/tooling/world-drift.ts",
+      "name": "scripts/core2/tooling/world-drift.ts",
       "reason": "Named outside itself by docs/archive/2026-10-23/reports/world-drift-2026-10-12.md"
     },
     {
-      "file": "src/core2/tooling/world-prepare.ts",
-      "name": "src/core2/tooling/world-prepare.ts",
+      "file": "scripts/core2/tooling/world-prepare.ts",
+      "name": "scripts/core2/tooling/world-prepare.ts",
       "reason": "Named outside itself by docs/archive/2026-10-23/reports/dead-code-2026-10-14-keeps.txt"
     },
     {
@@ -5012,7 +5012,7 @@
     {
       "file": "src/core2/modules/voting.ts",
       "name": "countedPlace",
-      "reason": "Matching identifier outside its declaration: .agents/skills/day-one-in-motion/references/century-history.md, .claude/skills/day-one-in-motion/references/century-history.md, src/bench/m2-10-check.ts, src/core2/data/stopgaps/hist.json, src/core2/electorate-century.ts"
+      "reason": "Matching identifier outside its declaration: .agents/skills/day-one-in-motion/references/century-history.md, .claude/skills/day-one-in-motion/references/century-history.md, scripts/bench/m2-10-check.ts, src/core2/data/stopgaps/hist.json, src/core2/electorate-century.ts"
     },
     {
       "file": "src/core2/modules/voting.ts",
@@ -5052,7 +5052,7 @@
     {
       "file": "src/core2/modules/budgets.ts",
       "name": "localFiscalYearStart",
-      "reason": "Matching identifier outside its declaration: src/core2/tooling/m1-07-check.ts"
+      "reason": "Matching identifier outside its declaration: scripts/core2/tooling/m1-07-check.ts"
     },
     {
       "file": "src/core2/modules/budgets.ts",
@@ -5072,7 +5072,7 @@
     {
       "file": "src/core2/stopgaps.ts",
       "name": "developerBanners",
-      "reason": "Matching identifier outside its declaration: src/core2/tooling/measure.ts"
+      "reason": "Matching identifier outside its declaration: scripts/core2/tooling/measure.ts"
     },
     {
       "file": "src/core2/modules/legislature.ts",
@@ -5217,7 +5217,7 @@
     {
       "file": "src/core2/snapshot.ts",
       "name": "encode",
-      "reason": "Matching identifier outside its declaration: .agents/rules/political-game-operations.md, .agents/rules/repository-reference.md, PATCH_NOTES.md, scripts/backdrops/import-place-backdrops.mjs, src/core2/counted-groups-exact-traits.test.ts, src/core2/snapshot-seal.test.ts, src/core2/tooling/measured-json.ts"
+      "reason": "Matching identifier outside its declaration: .agents/rules/political-game-operations.md, .agents/rules/repository-reference.md, PATCH_NOTES.md, scripts/backdrops/import-place-backdrops.mjs, src/core2/counted-groups-exact-traits.test.ts, src/core2/snapshot-seal.test.ts, scripts/core2/tooling/measured-json.ts"
     },
     {
       "file": "src/core2/office-day-state.ts",
@@ -5492,7 +5492,7 @@
     {
       "file": "src/core2/candidate-pool.ts",
       "name": "sideOf",
-      "reason": "Matching identifier outside its declaration: scripts/traits/trait-end-to-end.test.ts, src/bench/m2-10-check.ts, src/bench/m2-10-seating.test.ts, src/bench/m2-10-seating.ts, src/core2/modules/voting.ts, src/core2/office-day-federal.ts, src/core2/tooling/officials-year.ts, src/core2/world-races.test.ts"
+      "reason": "Matching identifier outside its declaration: scripts/traits/trait-end-to-end.test.ts, scripts/bench/m2-10-check.ts, scripts/bench/m2-10-seating.test.ts, scripts/bench/m2-10-seating.ts, src/core2/modules/voting.ts, src/core2/office-day-federal.ts, scripts/core2/tooling/officials-year.ts, src/core2/world-races.test.ts"
     },
     {
       "file": "src/core2/modules/drives.ts",
@@ -5515,17 +5515,17 @@
       "reason": "Matching identifier outside its declaration: src/core2/state-session-end-effective.test.ts"
     },
     {
-      "file": "src/core2/campaign-incumbent-response-test-kit.ts",
+      "file": "tests/support/campaign-incumbent-response-test-kit.ts",
       "name": "START",
       "reason": "Matching identifier outside its declaration: .agents/skills/ask-why/SKILL.md, .agents/skills/crew-coordinator/references/crew-messages.md, .agents/skills/crew-coordinator/references/lead-session.md, .agents/skills/cto/SKILL.md, .agents/skills/done-proof/references/seen-in-game.md, .agents/skills/done-proof/references/skill-lessons.md, .agents/skills/lives/SKILL.md, .agents/skills/merger/SKILL.md"
     },
     {
-      "file": "src/core2/campaign-incumbent-response-test-kit.ts",
+      "file": "tests/support/campaign-incumbent-response-test-kit.ts",
       "name": "seed",
       "reason": "Matching identifier outside its declaration: .agents/rules/cadence-and-summaries.md, .agents/rules/pool-item-standard.md, .agents/rules/smart-and-look-first.md, .agents/rules/standing-skills/feature-walkthrough/SKILL.md, .agents/rules/standing-skills/no-dice/SKILL.md, .agents/rules/standing-skills/one-rule-all-places/SKILL.md, .agents/skills/civic-prose/references/prose-contract.md, .agents/skills/crew-coordinator/SKILL.md"
     },
     {
-      "file": "src/core2/campaign-incumbent-response-test-kit.ts",
+      "file": "tests/support/campaign-incumbent-response-test-kit.ts",
       "name": "world",
       "reason": "Matching identifier outside its declaration: .agents/rules/cadence-and-summaries.md, .agents/rules/repository-reference.md, .agents/rules/standing-skills/effects-link-audit/SKILL.md, .agents/rules/standing-skills/estimate-not-unknown/SKILL.md, .agents/rules/standing-skills/feature-walkthrough/SKILL.md, .agents/rules/standing-skills/law-trace/SKILL.md, .agents/rules/standing-skills/no-dice/SKILL.md, .agents/rules/standing-skills/research-habit/SKILL.md"
     },
@@ -5545,7 +5545,7 @@
       "reason": "Matching identifier outside its declaration: src/bench/dev-views/opening-sources.json, src/bench/dev-views/opening.ts"
     },
     {
-      "file": "src/core2/trait-test-kit.ts",
+      "file": "tests/support/trait-test-kit.ts",
       "name": "THIRDS_APART",
       "reason": "Matching identifier outside its declaration: scripts/traits/trait-targets.ts, src/core2/modules/campaigns.traits.test.ts"
     },
@@ -5610,24 +5610,24 @@
       "reason": "Matching identifier outside its declaration: src/core2/gov-rules/township-governing-body-rules.ts"
     },
     {
-      "file": "src/core2/tooling/m1-played-year.ts",
+      "file": "scripts/core2/tooling/m1-played-year.ts",
       "name": "buildPlayedWorld",
-      "reason": "Matching identifier outside its declaration: src/core2/tooling/m1-03-check.ts, src/core2/tooling/m1-04-check.ts, src/core2/tooling/m1-05-check.ts, src/core2/tooling/m1-06-check.ts, src/core2/tooling/m1-07-check.ts, src/core2/tooling/m1-08-check.ts, src/core2/tooling/rent-sourced-table.ts, src/core2/tooling/rent-year-counts.ts"
+      "reason": "Matching identifier outside its declaration: scripts/core2/tooling/m1-03-check.ts, scripts/core2/tooling/m1-04-check.ts, scripts/core2/tooling/m1-05-check.ts, scripts/core2/tooling/m1-06-check.ts, scripts/core2/tooling/m1-07-check.ts, scripts/core2/tooling/m1-08-check.ts, scripts/core2/tooling/rent-sourced-table.ts, scripts/core2/tooling/rent-year-counts.ts"
     },
     {
-      "file": "src/core2/tooling/m1-played-year.ts",
+      "file": "scripts/core2/tooling/m1-played-year.ts",
       "name": "nextDay",
-      "reason": "Matching identifier outside its declaration: src/core2/campaigns.test.ts, src/core2/finance-writer-contract.test.ts, src/core2/leadership-membership-kept.test.ts, src/core2/life.test.ts, src/core2/person-life.test.ts, src/core2/player-v1.ts, src/core2/public-work-pay.test.ts, src/core2/tooling/finance-observables.test.ts"
+      "reason": "Matching identifier outside its declaration: src/core2/campaigns.test.ts, src/core2/finance-writer-contract.test.ts, src/core2/leadership-membership-kept.test.ts, src/core2/life.test.ts, src/core2/person-life.test.ts, src/core2/player-v1.ts, src/core2/public-work-pay.test.ts, scripts/core2/tooling/finance-observables.test.ts"
     },
     {
-      "file": "src/core2/tooling/m1-played-year.ts",
+      "file": "scripts/core2/tooling/m1-played-year.ts",
       "name": "playYear",
       "reason": "Matching identifier outside its declaration: scripts/traits/trait-end-to-end.test.ts, src/core2/campaign-platform-played.test.ts, src/core2/counted-rent-transfer-read.test.ts, src/core2/disasters-no-market.test.ts, src/core2/housing-counted-renter-rate.test.ts, src/core2/housing-rehouse-left-household.test.ts, src/core2/jobs-pay-growth.traits.test.ts, src/core2/player-money.test.ts"
     },
     {
-      "file": "src/core2/tooling/m1-played-year.ts",
+      "file": "scripts/core2/tooling/m1-played-year.ts",
       "name": "PlayedYear",
-      "reason": "Matching identifier outside its declaration: src/core2/tooling/m1-06-check.ts"
+      "reason": "Matching identifier outside its declaration: scripts/core2/tooling/m1-06-check.ts"
     },
     {
       "file": "src/core2/jobs-elsewhere.ts",
@@ -5842,7 +5842,7 @@
     {
       "file": "src/core2/office-day-acts.ts",
       "name": "ModuleRow",
-      "reason": "Matching identifier outside its declaration: src/bench/phase-in.test.ts, src/core2/births-counted.ts, src/core2/budgets-service-charges.ts, src/core2/budgets-treasury.ts, src/core2/business-charges.ts, src/core2/campaign-day.test.ts, src/core2/campaign-day.ts, src/core2/campaign-incumbent-response-test-kit.ts"
+      "reason": "Matching identifier outside its declaration: src/bench/phase-in.test.ts, src/core2/births-counted.ts, src/core2/budgets-service-charges.ts, src/core2/budgets-treasury.ts, src/core2/business-charges.ts, src/core2/campaign-day.test.ts, src/core2/campaign-day.ts, tests/support/campaign-incumbent-response-test-kit.ts"
     },
     {
       "file": "src/core2/modules/people.ts",
@@ -5920,17 +5920,17 @@
       "reason": "Matching identifier outside its declaration: src/core2/people-mind.ts"
     },
     {
-      "file": "src/core2/tooling/work-observables.ts",
+      "file": "scripts/core2/tooling/work-observables.ts",
       "name": "WorkObservableSummary",
-      "reason": "Matching identifier outside its declaration: src/core2/tooling/measure.ts"
+      "reason": "Matching identifier outside its declaration: scripts/core2/tooling/measure.ts"
     },
     {
       "file": "src/core2/opening-economy.ts",
       "name": "OpeningEconomyBuild",
-      "reason": "Matching identifier outside its declaration: src/core2/tooling/finance-measure.ts"
+      "reason": "Matching identifier outside its declaration: scripts/core2/tooling/finance-measure.ts"
     },
     {
-      "file": "src/core2/tooling/money-watch.ts",
+      "file": "src/bench/dev-money-watch.ts",
       "name": "MoneyLine",
       "reason": "TypeScript needs this name for emitted public declarations."
     },
@@ -7868,7 +7868,7 @@
     },
     {
       "file": "docs/archive/2026-10-23/coordination/core.md",
-      "path": "src/core2/tooling/build-territory-places.ts",
+      "path": "scripts/core2/tooling/build-territory-places.ts",
       "reason": "Owner record."
     },
     {

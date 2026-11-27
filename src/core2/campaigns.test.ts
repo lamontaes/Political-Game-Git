@@ -9,7 +9,7 @@
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { advanceToFilingOpen } from "./gov-test-clock";
-import { govReport } from "./gov-test-report";
+import { govReport } from "../../scripts/core2/gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
@@ -52,7 +52,7 @@ import { discretionaryHours } from "./modules/work";
 import { OPENING_CARRY } from "./turnout";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import type { CoreEventInput, PersonState } from "./types";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // Reads every reached voter's recorded cause for people outside the player's circle.
 setKeepEveryonesWhy(true);

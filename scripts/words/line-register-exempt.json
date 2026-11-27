@@ -11,7 +11,10 @@
       "file": "src/english/speech-registers.ts",
       "name": "REGISTER_CARDS",
       "reason": "Each speech register's measured checks and their sources; play reads only a card's setting and devices, which are record values, never its check labels.",
-      "reads": ["setting", "devices"]
+      "reads": [
+        "setting",
+        "devices"
+      ]
     },
     {
       "file": "src/english/speech-registers.ts",
@@ -47,12 +50,6 @@
       "file": "src/english/speech-registers.ts",
       "name": "SANTA_BARBARA",
       "reason": "Source citation for the register checks, read only inside REGISTER_CARDS.",
-      "reads": []
-    },
-    {
-      "file": "src/bench/m2-10-seating.ts",
-      "name": "seatingProblems",
-      "reason": "Seating check's problem list; read only by the developer check m2-10-check.ts and its test.",
       "reads": []
     },
     {

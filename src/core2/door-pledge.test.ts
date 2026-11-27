@@ -64,7 +64,7 @@ import campaignParameters from "./data/campaigns/parameters.json" with { type: "
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceToFilingOpen } from "./gov-test-clock";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const START = "2026-01-05";
 /**

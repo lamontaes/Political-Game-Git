@@ -58,7 +58,7 @@ import {
   whyNotToday,
 } from "./campaign-day";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 import { advanceToFilingOpen } from "./gov-test-clock";
 
 const START = "2026-01-05";

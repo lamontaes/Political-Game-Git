@@ -35,4 +35,4 @@ root: none
 
 **Files.** src/core2/elections-filing.test.ts, docs/roadmap/features.json
 
-**Notes.** M2-03's golden-path row is a goal with its own check (src/bench/m2-03-check.ts); the engine test runs through this file. Filed by hand.
+**Notes.** M2-03's golden-path row is a goal with its own check (scripts/bench/m2-03-check.ts); the engine test runs through this file. Filed by hand.

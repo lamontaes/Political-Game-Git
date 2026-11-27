@@ -7,7 +7,7 @@ import { setBookkeeping } from "./bookkeeping";
 import {
   countedAtTheDoor,
   expectBestRival,
-} from "./campaign-incumbent-response-test-kit";
+} from "../../tests/support/campaign-incumbent-response-test-kit";
 
 describe("counted residents tell the incumbent's canvass by the same rule", () => {
   it("a counted resident who holds a yes to the challenger and opens the incumbent's door is kept on the home's doors row, as a full person is, and the reading word sets the incumbent on counts it", () => {

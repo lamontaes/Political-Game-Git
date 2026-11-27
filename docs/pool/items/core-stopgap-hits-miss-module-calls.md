@@ -19,7 +19,7 @@ claimed-at: 2026-10-20T13:50:39.034Z
 
 **Done when.** In a two-year run of the played world (`buildBenchWorld`, a place drawn from all 56 with its seed named), `core.stopgapHits` contains every stopgap id whose marker ran, shown by `SG-WORLD-housing-landlord` and `SG-WORLD-property-tax-rate` appearing, and a test in `src/core2/` asserts both. The year's time is unchanged within the 20 percent speed rule.
 
-**Files.** src/core2/stopgaps.ts, src/core2/state.ts, src/core2/tooling/tripwires.ts
+**Files.** src/core2/stopgaps.ts, src/core2/state.ts, scripts/core2/tooling/tripwires.ts
 
 **Notes.** Found Oct 20 (claude) while looking for open rows that could be resolved as unused. The probe was a throwaway test and is not kept.
 
