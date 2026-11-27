@@ -6,7 +6,9 @@ import { closenessBetween } from "./closeness";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore, availableActs, createLifeCore } from "./life";
 import { careNeedOf, healthReport } from "./modules/health";
+import { discretionaryHours } from "./modules/work";
 import { parameter } from "./parameters";
+import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState, PersonState } from "./types";
 
@@ -75,8 +77,13 @@ describe("caring for a grown relative at home", () => {
           (offer) =>
             offer.definition.effect === "care" && offer.targetId === row.kin.id,
         );
+        // The act takes careHours of the carer's day: a carer with fewer free
+        // hours than that today is offered nothing, however great the need.
         const asks =
-          row.need > 0 && closenessBetween(core, row.actor.id, row.kin.id) > 0;
+          row.need > 0 &&
+          closenessBetween(core, row.actor.id, row.kin.id) > 0 &&
+          discretionaryHours(coreAPI(core), row.actor.id) >=
+            parameter("careHours", core.data.parameters);
         expect(
           offered,
           `${where}: care for ${row.kin.id} by ${row.actor.id} (need ${row.need})`,
