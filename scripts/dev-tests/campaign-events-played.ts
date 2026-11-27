@@ -21,7 +21,7 @@ import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
-import { campaignFor } from "../../src/core2/modules/campaigns";
+import { campaignFor, donationAnswer } from "../../src/core2/modules/campaigns";
 import {
   ELECTIONS_MODULE_ID,
   type FilingRow,
@@ -36,6 +36,8 @@ import { openConversation, say } from "../../src/director/conversation";
 import { composeScene } from "../../src/director/scene";
 import type { TreeNode } from "../../src/director/scene-talk";
 import { gatherSignatures } from "../../src/core2/campaign-petition-kit";
+import { closenessBetween } from "../../src/core2/closeness";
+import { composeJournal } from "../../src/director/journal";
 
 const seed = process.argv[2] ?? "q1";
 const kind = process.argv[3] ?? "town";
@@ -152,10 +154,19 @@ log(
   `Place ${place.name} (${place.key}), world seed ${place.seed}. Player ${nameOf(core, me)} (${me}). Race ${contest.id} "${contest.title}" (${contest.level}/${contest.family}), election ${contest.electionDate}, filing opened ${core.date}.`,
 );
 
+// Nothing is written onto the player: a race whose filing fee the player
+// cannot pay is passed over (the run says so and stops), never staged.
 const filed = fileForOffice(core, me, contest.id) as {
   filing?: { id?: string; status?: string };
 };
 log(`Filed: ${JSON.stringify(filed.filing ?? filed)}`);
+if (!filed.filing?.id) {
+  log(
+    `Passed over: the filing was refused (${JSON.stringify(filed).slice(0, 200)}).`,
+  );
+  if (outFile) writeFileSync(outFile, out.join("\n"));
+  process.exit(3);
+}
 const filingId = filed.filing?.id ?? `filing:${contest.id}:${me}`;
 const petition = gatherSignatures(core, filingId);
 log(
@@ -259,6 +270,8 @@ const ANSWER_YES = new Set([
   "rival-word",
   "party-recruit",
 ]);
+const againDonors: PersonId[] = [];
+const donorReplies: { id: string; who: string; variant: string }[] = [];
 const scenesOut: string[] = [];
 const slog = (t = "") => scenesOut.push(t);
 const playEntry = (r: Rec) => {
@@ -361,6 +374,57 @@ const playEntry = (r: Rec) => {
   if (s.talk.open) L(`Opens: [${s.talk.open.speaker}] ${s.talk.open.text}`);
   L(`States: [${s.talk.state.speaker}] ${s.talk.state.text}`);
   for (const l of dumpTree(s.talk.tree, 0, { n: 40 })) L(l);
+  if (
+    r.typeKey === "donor-ask" &&
+    process.env.DONOR_REPLY &&
+    s.variant?.variant === "again"
+  ) {
+    // The same donor asking again after a put-off: the tree above is the play.
+    slog(`(again ask from ${nameOf(core, s.askerId)}: tree above)`);
+    return;
+  }
+  if (r.typeKey === "donor-ask" && process.env.DONOR_REPLY) {
+    // DONOR_REPLY=agree|offer|decline|deflect: the player's first reply is
+    // that move; the tie with the donor is read before and after, and the
+    // Journal line the ending writes is printed at the end of the run.
+    // A comma list walks the tree: "deflect,leave" is a put-off, then the
+    // player leaving after the donor presses.
+    const wants = process.env.DONOR_REPLY.split(",");
+    let node = s.talk.tree;
+    const path: number[] = [];
+    const said: string[] = [];
+    for (const want of wants) {
+      const at = node.replies.findIndex((x) => x.line.move === want);
+      if (at < 0) {
+        slog(
+          `(no ${want} reply offered; offered: ${node.replies.map((x) => x.line.move).join(", ")})`,
+        );
+        return;
+      }
+      path.push(at);
+      said.push(
+        `[${node.replies[at]!.line.move}] ${node.replies[at]!.line.text}`,
+      );
+      node = node.replies[at]!.next as typeof node;
+    }
+    const before = closenessBetween(core, me, s.askerId);
+    const id = replyInScene(core, director, me, entry, path);
+    const after = closenessBetween(core, me, s.askerId);
+    for (const t of said) slog(`Player ${t}`);
+    for (const row of dumpTree(node, 1, { n: 12 })) slog(row);
+    const written = id ? core.durableLog.get(id as never) : undefined;
+    slog(
+      `Ending ${String(written?.facts?.ending)} (keeps ${String(written?.facts?.keeps)}); tie with ${nameOf(core, s.askerId)} before ${before.toFixed(4)}, after ${after.toFixed(4)}; reply record ${id}`,
+    );
+    if (id && process.env.DONOR_AGAIN) againDonors.push(s.askerId);
+    if (id)
+      donorReplies.push({
+        id,
+        who: nameOf(core, s.askerId),
+        variant: s.variant?.variant ?? "?",
+      });
+    return;
+  }
   if (ANSWER_YES.has(r.typeKey) && r.interrupt) {
     const yes = s.talk.tree.replies.findIndex((x) =>
       ["agree", "promise", "offer"].includes(x.line.move),
@@ -390,6 +454,19 @@ const dayKinds = [
 ];
 while (core.date < end) {
   day += 1;
+  // A donor the player put off is asked for a gift again each week through
+  // the game's own donation answer; the day one gives, the next ask is the
+  // one the put-off made into an "again".
+  if (day % 7 === 0)
+    for (const donor of [...againDonors]) {
+      const gave = donationAnswer(api, filingId, donor);
+      if (gave.givenMinor > 0) {
+        slog(
+          `${core.date}: ${nameOf(core, donor)} gives again (${gave.givenMinor} minor units), after being put off`,
+        );
+        againDonors.splice(againDonors.indexOf(donor), 1);
+      }
+    }
   if (core.date <= contest.electionDate) {
     const k = dayKinds[day % dayKinds.length]!;
     tryAct(`day:${k}`, () => campaignDay(core, me, { filingId, kind: k }));
@@ -463,6 +540,26 @@ while (core.date < end) {
   }
 }
 
+if (donorReplies.length) {
+  log();
+  log("## Donor ask: the Journal lines the endings wrote");
+  const lines = composeJournal(core, director, me).flatMap((c) => c.lines);
+  for (const d of donorReplies) {
+    const hit = lines.filter((l) => l.sourceRecordIds.includes(d.id));
+    if (process.env.DEBUG_DONOR_JOURNAL) {
+      const rec = core.durableLog.get(d.id as never);
+      log(
+        `  debug: persons ${JSON.stringify(rec?.personIds)} keeps ${String(rec?.facts?.keeps)}; moments on this date: ${lines
+          .filter((l) => l.date === rec?.date)
+          .map((l) => l.text)
+          .join(" | ")}`,
+      );
+    }
+    log(
+      `- ${d.who} (${d.variant}), reply ${d.id}: ${hit.map((l) => `"${l.text}"`).join(" / ") || "no Journal line"}`,
+    );
+  }
+}
 // Census.
 log();
 log(

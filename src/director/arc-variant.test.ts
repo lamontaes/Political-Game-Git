@@ -59,10 +59,13 @@ const ASKED_OF_PLAYER = Object.entries(FAMILIES).filter(
 );
 const played = (family: string, variant: string): PurposeType => {
   const type = typeOf(family);
-  const purpose = FAMILIES[family]!.variants[variant]!.purpose;
+  const row = FAMILIES[family]!.variants[variant]!;
+  const purpose = row.purpose;
   return purpose === type.purpose
     ? type
-    : { ...type, purpose, family: type.purpose };
+    : row.standalone
+      ? { ...type, purpose, family: undefined }
+      : { ...type, purpose, family: type.purpose };
 };
 
 const base = enrichCivicInputs(
@@ -106,6 +109,7 @@ const donorFacts: Record<string, Fact> = {
   employer: fact("the hospital"),
   about: fact("free fares on public transit"),
   "side-for": fact("for"),
+  "view-question": fact("budget-line:housing"),
   "your-side": fact("for"),
   "stand-with": fact("yes"),
   "votes-on-it": fact("yes"),
@@ -238,6 +242,32 @@ describe("a kind with several arcs", () => {
       const names = Object.keys(FAMILIES[family]!.variants);
       expect(names.length, family).toBeGreaterThanOrEqual(4);
       expect(names).toContain("plain");
+    }
+  });
+
+  // A candidate's donor ask (no office held) is a hearing: its two variants
+  // are whole on their own lines, say what the donor cares about once heard,
+  // and keep the endings the Journal and the tie read.
+  it("composes the candidate's hearing whole in both variants", () => {
+    for (const variant of ["hearing-small", "hearing-large"]) {
+      const talk = compose("donor-ask", variant);
+      const where = `donor-ask/${variant}`;
+      expect(talk.narration.length, where).toBeGreaterThan(0);
+      expect(talk.depth, where).toBeGreaterThanOrEqual(2);
+      expect(talk.tree.replies.length, where).toBeGreaterThanOrEqual(3);
+      for (const text of everyLine(talk.tree))
+        expect(text, where).not.toMatch(/[{}]/);
+      expect(
+        talk.gaps.filter((gap) =>
+          /\/(reply|follow|close|end|ending)\//.test(gap),
+        ),
+        where,
+      ).toEqual([]);
+      for (const id of ["hearing-only", "put-off"])
+        expect(talk.endingCounts[id] ?? 0, `${where} ${id}`).toBeGreaterThan(0);
+      expect(everyLine(talk.tree).join("\n"), where).toContain(
+        "That's why I gave.",
+      );
     }
   });
 

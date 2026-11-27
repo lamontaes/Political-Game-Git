@@ -209,6 +209,10 @@
     "same-party": {
       "kind": "shared-party"
     },
+    "bill-named": {
+      "kind": "fact-present",
+      "fact": "billId"
+    },
     "holds-post": {
       "kind": "holds-post"
     },
@@ -1320,6 +1324,142 @@
               }
             ]
           }
+        },
+        "hearing-small": {
+          "purpose": "donor-ask.hearing-small",
+          "base": -0.35,
+          "terms": [
+            {
+              "read": "gift-size",
+              "weight": 1.0,
+              "low": true
+            },
+            {
+              "read": "gift-share",
+              "weight": 0.3,
+              "low": true
+            },
+            {
+              "read": "gave-before",
+              "weight": 0.1,
+              "low": true
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-sincere",
+            "personality-v1:facet-self-conscious",
+            "personality-v1:facet-sensitive",
+            "personality-v1:facet-approval-seeking"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "deflect", "leave"],
+            "follow": {
+              "agree": ["tell"],
+              "deflect": ["press"]
+            },
+            "again": {
+              "press": ["agree", "leave"],
+              "tell": []
+            },
+            "endings": [
+              {
+                "id": "hearing-only",
+                "label": "You heard them out",
+                "keeps": "heard",
+                "when": {
+                  "reply": ["agree"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["deflect", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          },
+          "onlyWhen": [{ "read": "bill-named", "is": false }],
+          "standalone": true
+        },
+        "hearing-large": {
+          "purpose": "donor-ask.hearing-large",
+          "base": -0.5,
+          "terms": [
+            {
+              "read": "gift-size",
+              "weight": 1.2
+            },
+            {
+              "read": "gift-share",
+              "weight": 0.6
+            },
+            {
+              "read": "gave-before",
+              "weight": 0.2
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-assertive",
+            "personality-v1:facet-cocky",
+            "personality-v1:facet-blunt",
+            "personality-v1:facet-competitive"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "decline", "leave", "leave", "leave"],
+            "follow": {
+              "agree": ["tell"],
+              "decline": ["threaten", "press", "accept"]
+            },
+            "again": {
+              "tell": [],
+              "press": ["agree", "decline", "leave"],
+              "threaten": ["agree", "decline", "leave"]
+            },
+            "endings": [
+              {
+                "id": "refused",
+                "label": "Turned down",
+                "keeps": "relationship-strained",
+                "when": {
+                  "asker": ["threaten"]
+                }
+              },
+              {
+                "id": "hearing-only",
+                "label": "You heard them out",
+                "keeps": "heard",
+                "when": {
+                  "reply": ["agree", "decline"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          },
+          "onlyWhen": [{ "read": "bill-named", "is": false }],
+          "standalone": true
         }
       }
     },

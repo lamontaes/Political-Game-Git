@@ -21,6 +21,7 @@ import {
   votesOn,
 } from "../core2/modules/legislature";
 import { VIEWS_MODULE_ID, viewOf, viewOn } from "../core2/modules/views";
+import { strongestQuestion } from "./view-learned";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -242,4 +243,29 @@ export function donorReads(
     ids,
   );
   return facts;
+}
+
+/**
+ * What a candidate's donor cares about most, from their own strongest view on
+ * record (the views engine's `strongestQuestion`, the same reader the door
+ * scene uses): `about` (the question as `questionAbout` words it), `side-for`
+ * or `side-against`, and `view-question` (the question's id, which the scene's
+ * reply writes through `learnView` and `learnViewQuestion` when the player
+ * hears it). A donor whose view is past zero on no question gives none, and
+ * the hearing is not staged.
+ */
+export function donorViewFacts(
+  core: Readonly<CoreState>,
+  donorId: PersonId,
+  causeId: string,
+): Record<string, Fact> {
+  if (!core.modules.has(VIEWS_MODULE_ID)) return {};
+  const top = strongestQuestion(coreAPI(core as CoreState), donorId);
+  if (!top) return {};
+  const ids = [top.recordId, causeId];
+  return {
+    about: { text: top.about, sourceRecordIds: ids },
+    [`side-${top.side}`]: { text: top.side, sourceRecordIds: ids },
+    "view-question": { text: top.question, sourceRecordIds: ids },
+  };
 }

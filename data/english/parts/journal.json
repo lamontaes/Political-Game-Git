@@ -9078,6 +9078,58 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.scene-line-heard.i-heard-other-out",
+      "move": "scene-line-heard",
+      "kind": "spoken",
+      "text": "I heard {other} out.",
+      "uses": [
+        {
+          "move": "scene-line-heard",
+          "subject": "scene",
+          "role": "line",
+          "choice": "heard",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:heard",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (donor ask, candidate lines, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-heard.other-had-something-to-say-and-i-listened",
+      "move": "scene-line-heard",
+      "kind": "spoken",
+      "text": "{other} had something to say, and I listened.",
+      "uses": [
+        {
+          "move": "scene-line-heard",
+          "subject": "scene",
+          "role": "line",
+          "choice": "heard",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:heard",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (donor ask, candidate lines, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }

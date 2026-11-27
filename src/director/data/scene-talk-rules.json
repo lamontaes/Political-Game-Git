@@ -97,6 +97,12 @@
       "spread": [0.5, 2],
       "checkedAgainst": "One talk's length of quarrel, as familyStakes.putOffHours: a scene left on a strained note cancels about one talk's time together."
     },
+    "heard": {
+      "value": -0.25,
+      "tag": "TUNABLE",
+      "spread": [-0.5, -0.1],
+      "checkedAgainst": "A hearing given warms the tie, as an ending settled in the scene does (the closeness engine reads negative hours as warmth): a quarter of the quarrel a put-off costs (relationship-strained, one talk's time), so being heard is worth less than being brushed off costs. Words lead and Account lead ruling, Nov 15."
+    },
     "trust-lost": {
       "unit": "share of the tie",
       "parameter": "closenessTrustLostShare",
