@@ -83,6 +83,7 @@ import {
 } from "../core2/place-lookup";
 import { filingDeadlineFor, ticketStageOf } from "../core2/modules/elections";
 import { votersWhoHeardOf } from "../core2/modules/voting";
+import { billById } from "../core2/modules/bodies-reads";
 import {
   askToServe,
   chooseRunningMateForMe,
@@ -1254,11 +1255,12 @@ export function speechGive(
 export function playerRecord(core: CoreState, personId: string) {
   const api = coreAPI(core);
   // A vote's bill by its id, where the legislature still holds it.
-  const bills = core.modules.has(LEGISLATURE_MODULE_ID)
-    ? api.moduleState(LEGISLATURE_MODULE_ID).table("bills")
-    : undefined;
+  const hasBills = core.modules.has(LEGISLATURE_MODULE_ID);
   const numberOf = (id: string) =>
-    (bills?.get(id) as unknown as { number?: string } | undefined)?.number;
+    (hasBills
+      ? (billById(api, id) as unknown as { number?: string } | undefined)
+      : undefined
+    )?.number;
   // A vote with no outcome on record is left out, never shown half-filled.
   const votes = votesCast(core, personId)
     .filter((vote) => vote.passed !== null)

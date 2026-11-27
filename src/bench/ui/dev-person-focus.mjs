@@ -3,7 +3,7 @@
 // were together and the days the rule allows. Control names and record data only.
 import { el } from "./dom.mjs";
 
-const slots = {
+export const slots = {
   async person({ personId, labels, send }) {
     const focus = await send(`person-focus?id=${encodeURIComponent(personId)}`);
     if (!focus) return null;

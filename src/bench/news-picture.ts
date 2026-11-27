@@ -17,6 +17,7 @@ import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID, termById } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
+import { billById } from "../core2/modules/bodies-reads";
 
 /** Noon: a paper's photographs are taken in daylight. */
 const NOON = 12 * 60;
@@ -35,10 +36,8 @@ type Facts = Readonly<Record<string, unknown>>;
 /** The body a bill on record is in, or undefined when the id names no bill. */
 function billBody(core: CoreState, billId: string): string | undefined {
   if (!billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return undefined;
-  const bill = coreAPI(core)
-    .moduleState(LEGISLATURE_MODULE_ID)
-    .table("bills")
-    .get(billId) as unknown as { bodyOfficeId?: string } | undefined;
+  const bill = billById(coreAPI(core), billId) as unknown as
+    { bodyOfficeId?: string } | undefined;
   return bill?.bodyOfficeId;
 }
 
