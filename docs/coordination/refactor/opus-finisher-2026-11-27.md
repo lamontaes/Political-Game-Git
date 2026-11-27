@@ -96,6 +96,8 @@ Tonight the CTO approved more entry files than one front door per engine, so no 
 - **World #10803:** press.ts split by concern (+58 cycle edges, +12 ring files). It comes after the ring around ./press is broken.
 - **Core #10792:** item 8's fill-in as its own file (+4 edges, +1 ring file), and its two `core.jobs` writes go through jobs' door (item 7).
 - **Core #10752:** `modules/official-pay.ts` reaching jobs' door through `job-lifecycle.ts` (+1 edge).
+- **Offices' six side registries** (offices map, OF5): not moved. Offices finished at 5:38 a.m. before the field shape was ruled, and Core, the field builder, stopped at 9:34. Add their fields to #10768's `CoreModule` and move them.
+- **president-orders.test.ts at the golden seed** fails on main and on the train. It went to Lawmaking at 9:36; check that it was fixed.
 
 ## Known reds before plugging (Nov 27, 6:10 a.m.)
 
