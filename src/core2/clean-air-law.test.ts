@@ -78,6 +78,7 @@ it("charges a nonattainment county's emitters with or without the plan, citing t
           ) as unknown as {
           id: string;
           organizationId: string;
+          since: string;
           source: { citation: string };
         }[];
       if (!rules().length) continue;
@@ -127,15 +128,34 @@ it("charges a nonattainment county's emitters with or without the plan, citing t
             .filter((row) => row.key === question),
           where,
         ).toHaveLength(0);
-      // Repealing the plan returns the cost to the federal citation, not to nothing.
+      // Removing the plan returns live costs to the federal citation, not to nothing.
       setPlan(0);
       for (const row of federal)
         expect(
           rules().map((r) => r.id),
           where,
         ).toContain(row.id);
-      for (const row of rules())
-        expect(row.source.citation, where).toBe(baseline);
+      expect(lawInForce(api, question).value, where).toBe(0);
+      let liveEmitters = 0;
+      for (const row of rules()) {
+        const book = core.finance.businesses.get(row.organizationId);
+        const at = `${where}: ${row.id}`;
+        expect(book, at).toBeDefined();
+        if (!book!.closedAt) {
+          liveEmitters++;
+          expect(row.source.citation, at).toBe(baseline);
+          continue;
+        }
+        // A closed emitter's last cost is a historical row. Its citation must
+        // match the law then, not be rewritten to match the law today.
+        expect(row.since <= book!.closedAt, at).toBe(true);
+        const atCharge = lawInForce(api, question, row.since);
+        const plan = atCharge.value === 1 ? atCharge.governing : null;
+        expect(row.source.citation, at).toBe(
+          plan ? `${plan.id}: ${String(plan.source)}; ${baseline}` : baseline,
+        );
+      }
+      expect(liveEmitters, where).toBeGreaterThan(0);
       expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
         core.cashJournal.totals.grossCreditMinor,
       );
