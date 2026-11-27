@@ -1963,35 +1963,27 @@ const electionNotice: Builder = (read, f) => {
   );
 };
 
-/** A race's result: the winner and, when one is named, who they beat. */
-const electionResult: Builder = (read, f) => {
+/** The race's count by person, from the result row's totals (empty where it holds none). */
+function totalsOf(f: Record<string, string>): Record<string, number> {
   let totals: Record<string, number> = {};
   try {
     totals = JSON.parse(f.totals ?? "{}") as Record<string, number>;
   } catch {
     totals = {};
   }
-  // Nobody filed: the count names no winner and no votes.
-  if (!f.winnerId && !Object.keys(totals).length)
-    return story(
-      "unfilled",
-      f.office
-        ? {
-            office: read.fact(
-              read.contestOffice(f.contestId, f.office)!,
-              f.contestId ?? "",
-            ),
-          }
-        : {},
-      ["office"],
-      f.contestId,
-    );
-  const contest = read.row<ContestRow>(
-    ELECTIONS_MODULE_ID,
-    "contests",
-    f.contestId,
-  );
-  const cite = f.contestId ?? "";
+  return totals;
+}
+
+/**
+ * The race's field: who ranked where in its count, how many seats it fills, who won them and whether it
+ * had no opposition, and the one the winner beat (read from this race's own count).
+ */
+function fieldOf(
+  read: Reader,
+  f: Record<string, string>,
+  contest: ContestRow | undefined,
+  totals: Record<string, number>,
+) {
   const ranked = Object.entries(totals).sort(
     (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
   );
@@ -2033,6 +2025,16 @@ const electionResult: Builder = (read, f) => {
       : beatenRunnerUp(f, f.winnerId ?? "");
   const rival = beaten && read.name(beaten.id) ? beaten.id : undefined;
   const cast = ranked.reduce((sum, [, votes]) => sum + votes, 0);
+  return { ranked, seats, winners, unopposed, rival, cast };
+}
+
+/** How each person in the story is named: by last name, and the headline's shorter or fuller form. */
+function namesOf(
+  read: Reader,
+  contest: ContestRow | undefined,
+  winners: readonly string[],
+  rival: string | undefined,
+) {
   // Each person in the story is named in full once, then by last name; two
   // who share a last name keep their full names (rule 31). A headline also
   // keeps full names where two of the day's winners share a last name.
@@ -2055,6 +2057,16 @@ const electionResult: Builder = (read, f) => {
       ? read.name(id)!
       : last(id);
   };
+  return { last, short };
+}
+
+/** Where and when the race was: its office as a person says it, the day of the count, who voted and the town. */
+function whereOf(
+  read: Reader,
+  f: Record<string, string>,
+  contest: ContestRow | undefined,
+  cite: string,
+) {
   const officeId = contest?.officeId;
   const district = seatFacts(read, contest?.seatId).district?.text;
   // The office as a person says it (rule 34): lower case, its district
@@ -2087,6 +2099,23 @@ const electionResult: Builder = (read, f) => {
     !district && (contest?.level === "city" || contest?.level === "township")
       ? read.place()
       : null;
+  return { officeId, said, day, voters, town };
+}
+
+/** How the winner stood: the others seated, how far behind the last winner the rival was, the body and the winner's share. */
+function marginOf(
+  read: Reader,
+  f: Record<string, string>,
+  race: {
+    totals: Record<string, number>;
+    winners: readonly string[];
+    rival: string | undefined;
+    cast: number;
+    ranked: readonly (readonly [string, number])[];
+  },
+  officeId: string | undefined,
+) {
+  const { totals, winners, rival, cast } = race;
   const shown = winners.filter((id) => read.name(id));
   const lastWinner = winners.at(-1);
   const behind =
@@ -2097,6 +2126,47 @@ const electionResult: Builder = (read, f) => {
   const winnerVotes = f.winnerId ? totals[f.winnerId] : undefined;
   const share =
     cast > 0 && winnerVotes !== undefined ? (winnerVotes / cast) * 100 : null;
+  return { shown, behind, body, winnerVotes, share };
+}
+
+/** A race's result: the winner and, when one is named, who they beat. */
+const electionResult: Builder = (read, f) => {
+  const totals = totalsOf(f);
+  // Nobody filed: the count names no winner and no votes.
+  if (!f.winnerId && !Object.keys(totals).length)
+    return story(
+      "unfilled",
+      f.office
+        ? {
+            office: read.fact(
+              read.contestOffice(f.contestId, f.office)!,
+              f.contestId ?? "",
+            ),
+          }
+        : {},
+      ["office"],
+      f.contestId,
+    );
+  const contest = read.row<ContestRow>(
+    ELECTIONS_MODULE_ID,
+    "contests",
+    f.contestId,
+  );
+  const cite = f.contestId ?? "";
+  const { ranked, seats, winners, unopposed, rival, cast } = fieldOf(
+    read,
+    f,
+    contest,
+    totals,
+  );
+  const { last, short } = namesOf(read, contest, winners, rival);
+  const { officeId, said, day, voters, town } = whereOf(read, f, contest, cite);
+  const { shown, behind, body, winnerVotes, share } = marginOf(
+    read,
+    f,
+    { totals, winners, rival, cast, ranked },
+    officeId,
+  );
   return story(
     "election",
     {
