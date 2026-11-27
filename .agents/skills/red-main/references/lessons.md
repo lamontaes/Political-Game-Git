@@ -24,3 +24,5 @@ A check failed 3 runs in 9 on a pull request that had just merged. The lead name
 ## Lessons of Nov 27
 
 - **A nightly row is a file verdict, not its first assertion.** On the reported Elloree seed the skipped-year notice used the correct registered text, but resuming day-by-day play hit an earlier unrecognized earned period. Fixing the notice expectation would not prove payroll recovery. Keep the file on the known-red list until its full replay passes, and name any protected engine that still owns a failure.
+
+- **Prove the premise at the time the assertion reads (Nov 27).** An opening century can already have the policy an old fixture expects to enact. In the federal-courts and presidential-order replays, first establish and verify the exact federal baseline row through the real law writer; after the act, require its exact record on the date the reader uses. For a published cost kept after a business closes, compare with the law at that charge's date, while still checking the current law against every live charge. An effect window with a later competing act proves neither branch unless the two governing records still differ where the reader uses them.
