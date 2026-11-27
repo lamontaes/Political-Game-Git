@@ -10,7 +10,9 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../../bench/world";
 import { drawPlace } from "../../../tests/golden-path/place";
 import { setBookkeeping } from "../bookkeeping";
+import { huskIdentityOf } from "../husk-promoters";
 import { coreAPI } from "../state";
+import type { EntityId } from "../kernel/brands";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { HOUSING_STATUS_EVENT } from "../housing-homeless";
 import { gameStartDate } from "../game-start";
@@ -55,30 +57,45 @@ describe("health reads conscientiousness", () => {
     const report = healthReport(core);
     const key = "substance-use-disorder";
     const counts = { hiHeld: 0, hi: 0, loHeld: 0, lo: 0 };
-    // The opening's people, and what the same cells hold with personality off.
+    // The player-facing slope uses the full people with traits. Conservation
+    // uses the complete booked cohort: it also includes officials who have
+    // not been built into full people, and the rounding spans places.
     const opening = [...core.people.values()].filter(
       (person) => person.alive && person.birthDate < core.startedAt,
     );
-    const flat = startingConditionAssignments(
-      opening.map((person) => ({
-        personId: person.id,
-        placeKey: person.placeId,
-        age: ageYears(person.birthDate, core.startedAt),
+    const rate = worldRateFactor(SEED, "conditions");
+    const cohort = [...report.conditionsByPerson.keys()].map((id) => {
+      const person = core.people.get(id) ?? huskIdentityOf(core, id);
+      expect(person, `the booked health subject ${id}`).toBeDefined();
+      return {
+        personId: id as EntityId,
+        placeKey: person!.placeId,
+        age: ageYears(person!.birthDate, core.startedAt),
         category: DEFAULT_HEALTH_DATA.calibrationCategory,
         monthlyHouseholdIncomeMinor: null,
-      })),
-      new Map(),
-      worldRateFactor(SEED, "conditions"),
+      };
+    });
+    // Zero slope keeps the same place-based allocation; omitting the key
+    // would select the non-behavioral allocator with different rounding.
+    const flat = startingConditionAssignments(
+      cohort,
+      new Map([[key, 0]]),
+      rate,
     );
-    let expected = 0;
-    let held = 0;
+    const expected = cohort.filter(({ personId }) =>
+      flat.get(personId)?.includes(key),
+    ).length;
+    const held = cohort.filter(({ personId }) =>
+      report.conditionsByPerson.get(personId)?.includes(key),
+    ).length;
     for (const person of opening) {
-      if (flat.get(person.id)?.includes(key)) expected += 1;
       const conditions = report.conditionsByPerson.get(person.id);
-      if (!conditions) continue;
+      expect(
+        conditions,
+        `the opening person's health record ${person.id}`,
+      ).toBeDefined();
       const age = ageYears(person.birthDate, core.startedAt);
-      const has = conditions.includes(key);
-      if (has) held += 1;
+      const has = conditions!.includes(key);
       const level = person.traits[TRAIT];
       if (age < 18 || level === undefined || !Number.isInteger(level)) continue;
       if (level >= 1) {
@@ -99,7 +116,7 @@ describe("health reads conscientiousness", () => {
     // (19 in this world), where one holder more or less halves or doubles it;
     // the fit reads all of them (Newton's method on the two terms).
     const condition = CONDITION_PACK.find((c) => c.key === key)!;
-    const factor = worldRateFactor(SEED, "conditions");
+    const factor = rate;
     const rows: { base: number; level: number; has: number }[] = [];
     for (const person of opening) {
       const age = ageYears(person.birthDate, core.startedAt);
@@ -157,6 +174,7 @@ describe("health reads conscientiousness", () => {
     expect(fitted).toBeLessThan(0);
     expect(Math.abs(fitted - researched)).toBeLessThan(3 * error);
     // Personality shifts who, not how many.
+    expect(expected).toBeGreaterThan(0);
     expect(Math.abs(held - expected) / expected).toBeLessThan(0.05);
   });
 
