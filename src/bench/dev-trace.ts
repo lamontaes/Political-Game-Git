@@ -35,7 +35,7 @@ const ACCOUNTS_MODULE_ID = "core2-accounts-v1";
 const CRIME_MODULE_ID = "core2-crime-v1";
 /** The press desk's module id (modules/press.ts), whose stories table holds a story's reach. */
 const PRESS_MODULE = "core2-press-v1";
-import { preStartHistory, type HistoryRecord } from "../core2/past-module";
+import { historyOf, recordOf } from "../core2/past-module";
 import { keepsWhy } from "../core2/why-kept";
 import type { CoreState, PersonId, PlaceId } from "../core2/types";
 import type { Director } from "../director/ledger";
@@ -469,33 +469,37 @@ function obligation(core: CoreState, id: string): FoundRecord | undefined {
 /** An id's pieces and the marks between them: `a:b|c` is a, :, b, |, c. */
 const piecesOf = (id: string) => id.split(/([:|@#])/);
 
+/** Every record of play, as the log recorded them, from the nation's history. */
+function playedRecords(core: CoreState) {
+  return historyOf(core, { nation: true }, { from: "played" }).flatMap(
+    (event) => core.durableLog.get(event.id as never) ?? [],
+  );
+}
+
 /** A fact of the generated past, kept on the record of the person its id names. */
 function pastFact(core: CoreState, id: string): FoundRecord | undefined {
   // A fact whose id is a hash (a birth date, a birthplace) names no person: its owner is found by the fact.
-  if (id.startsWith("fact_"))
-    for (const person of core.people.values()) {
-      const fact = person.pastFacts?.find((row) => row.id === id);
-      if (fact)
-        return {
-          engine: PAST_FACT_ENGINE,
-          kind: fact.kind,
-          record: { ...fact, personId: person.id },
-        };
-    }
+  if (id.startsWith("fact_")) {
+    const found = recordOf(core, id);
+    if (found?.from === "built")
+      return {
+        engine: PAST_FACT_ENGINE,
+        kind: found.record.kind,
+        record: { ...found.record, personId: found.personId },
+      };
+  }
   const pieces = piecesOf(id);
   if (pieces.length < 3 || pieces.length > 2 * MAX_ID_PARTS) return undefined;
   const tried = new Set<string>();
   const owned = (personId: string): FoundRecord | undefined => {
     if (tried.has(personId)) return undefined;
     tried.add(personId);
-    const fact = core.people
-      .get(personId as PersonId)
-      ?.pastFacts?.find((row) => row.id === id);
-    return fact
+    const found = recordOf(core, id, personId as PersonId);
+    return found?.from === "built"
       ? {
           engine: PAST_FACT_ENGINE,
-          kind: fact.kind,
-          record: { ...fact, personId },
+          kind: found.record.kind,
+          record: { ...found.record, personId },
         }
       : undefined;
   };
@@ -556,7 +560,6 @@ function foldedRace(core: CoreState, id: string): FoundRecord | undefined {
  */
 class Lookup {
   /** The past's rows by id, built on the first ask for one. */
-  private historyById?: Map<string, HistoryRecord>;
   private readonly memo = new Map<string, FoundRecord | null>();
   constructor(
     readonly core: CoreState,
@@ -644,10 +647,8 @@ class Lookup {
   }
 
   private history(id: string): FoundRecord | undefined {
-    this.historyById ??= new Map(
-      preStartHistory(this.core).map((row: HistoryRecord) => [row.id, row]),
-    );
-    const row = this.historyById.get(id);
+    const found = recordOf(this.core, id);
+    const row = found?.from === "past" ? found.record : undefined;
     return row
       ? { engine: HISTORY_ENGINE, kind: row.kind, record: row }
       : undefined;
@@ -787,7 +788,7 @@ function reverseLinks(
             kind: "record",
             via: "core2-legislature-v1.enact",
           });
-      for (const row of core.durableLog.values())
+      for (const row of playedRecords(core))
         if (
           row.kind === "dev-mode-change" &&
           String(row.facts?.recordIds ?? "")
@@ -796,7 +797,7 @@ function reverseLinks(
         )
           out.push({ id: row.id, kind: "record", via: "dev-mode.setLaw" });
     }
-    for (const row of core.durableLog.values())
+    for (const row of playedRecords(core))
       if (row.facts?.lawId === id)
         out.push({
           id: row.id,
@@ -857,9 +858,13 @@ function reverseLinks(
   // names someone in the player's circle (state.ts retainLog) and otherwise
   // only counted here.
   if (found.engine === "news.stories" && typeof record.outletId === "string") {
-    const reads = [...(core.logByKind.get(NEWS_READ) ?? [])].filter(
-      (readId) => storyOfReadEvent(String(readId)) === id,
-    );
+    const reads = historyOf(
+      core,
+      { nation: true },
+      { kinds: [NEWS_READ], from: "played" },
+    )
+      .map((read) => read.id)
+      .filter((readId) => storyOfReadEvent(String(readId)) === id);
     // The desk's row of the same story holds the outlet and its reach.
     const desk = core.modules.has(PRESS_MODULE)
       ? (coreAPI(core).moduleState(PRESS_MODULE).table("stories").get(id) as

@@ -152,37 +152,6 @@ import {
   type PetitionSigner,
   worldSwing,
 } from "./elections";
-export {
-  STANCE_LOADINGS,
-  groupStance,
-  personLean,
-  popularity,
-} from "../campaign-views";
-export type { StanceProfile } from "../campaign-views";
-export { filingClerkFor } from "./filing-clerk";
-export { choosesPresident } from "../electorate-places";
-export {
-  joinParty,
-  nextPartyMeeting,
-  openParties,
-  partyAgreement,
-  partyMemberIds,
-  partyStands,
-} from "./parties";
-export { campaignDayChoices } from "../campaign-day";
-export { enrichCivicInputs } from "../civic-inputs";
-export { openInterestGroups } from "./interest-groups";
-export { openBallotMeasures } from "./ballot-measures";
-export { openRecalls } from "./recalls";
-export {
-  NATIONAL_ENGAGEMENT,
-  countedResidents,
-  countedResidentsOf,
-  engagementOf,
-} from "../electorate";
-export { StanceReader, candidateStance } from "../campaign-stances";
-export { publicOffset, questionAxis } from "../campaign-views";
-export { withMembershipDues } from "../membership-dues";
 export { refreshOfficeStaff } from "../civic-inputs";
 export { electionsParameter } from "../elections-calendar";
 

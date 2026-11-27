@@ -14,7 +14,7 @@ import { knownCard } from "../bench/card";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { lifeOf } from "./modules/people";
+import { lifeOf } from "./person-life";
 import { preStartHistory } from "./past";
 import { PAST_RACE_LOST } from "./past-elections";
 import type { PersonId } from "./types";

@@ -13,7 +13,7 @@
  */
 import { recordYearlyAddress } from "./yearly-address";
 import { recordLocalAddresses } from "./local-address";
-import { SCHOOL_STARTED, preStartHistory } from "../core2/past";
+import { SCHOOL_STARTED, historyOf as theHistory } from "../core2/past";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import type { EventAppraisal } from "../core2/emotion";
 import { familyFactsOf, formerKin, lastMetOnRow } from "../core2/closeness";
@@ -523,8 +523,12 @@ export function createDirector(
     // Someone first followed partway through a day still meets what already
     // happened to them that day (the address given the morning they begin to
     // be followed), read from the log's own index of them.
-    for (const id of core.logByPerson.get(personId) ?? []) {
-      const record = core.durableLog.get(id);
+    for (const today of theHistory(
+      core as CoreState,
+      { person: personId },
+      { from: "played", since: core.date, through: core.date },
+    )) {
+      const record = core.durableLog.get(today.id);
       if (
         record?.date === core.date &&
         (record.personIds.includes(personId) ||
@@ -599,12 +603,14 @@ export function createDirector(
     // opening describe the life as play starts and score nothing.
     // With the schools the engine ran for the years before the start.
     const past = [
-      ...(actor.pastFacts ?? []),
-      ...preStartHistory(core as CoreState, {
-        kind: SCHOOL_STARTED,
-        personId,
-      }),
+      ...theHistory(core as CoreState, { person: personId }, { from: "built" }),
+      ...theHistory(
+        core as CoreState,
+        { person: personId },
+        { kinds: [SCHOOL_STARTED], from: "past" },
+      ),
     ]
+      .map((event) => ({ id: event.id, date: event.date, kind: event.record }))
       .filter((fact) => fact.date < core.startedAt)
       .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
     for (const fact of past) {

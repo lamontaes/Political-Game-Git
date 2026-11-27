@@ -33,12 +33,7 @@ import { lastContact, relationFacts } from "./relation-facts";
 import { seriousIllnessOf } from "../core2/modules/health";
 import { familyFactsOf, meetInTalk } from "../core2/modules/people";
 import { jobTitleByKind } from "../core2/person-work";
-import {
-  PERSON_MOVED_IN,
-  heldSinceRecord,
-  preStartHistory,
-  schoolsAttended,
-} from "../core2/past";
+import { PERSON_MOVED_IN, historyOf, schoolsAttended } from "../core2/past";
 import {
   addDays,
   ageOnDate,
@@ -99,7 +94,6 @@ import type {
   CoreAPI,
   CoreModule,
   CoreState,
-  KnownFact,
   OrganizationInput,
   PersonId,
   PersonState,
@@ -112,6 +106,20 @@ import {
   resultsKnownTo,
 } from "./bring-it-up";
 import { raceMargin } from "./race-margin";
+import { composedLine } from "./talk-words";
+
+export { composedLine };
+import {
+  HEARD_FIGURE,
+  HEARD_PREFIX,
+  HEARD_QUESTION,
+  HEARD_SUBJECT,
+  HEARD_BY,
+  hear,
+  heardNow,
+  heardRows,
+  withHeard,
+} from "./talk-heard";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
@@ -137,13 +145,10 @@ import { lawInForce } from "../core2/modules/laws";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import {
   asksQuestion,
-  composeConversationLine,
   composedConversationBank,
   conversationHas,
   conversationMoves,
   CONVERSATION_WORDS,
-  SAID_ONCE_FACTS,
-  piecesSaidOnce,
   joinedReply,
   wordConversationMove,
   type ConversationPart,
@@ -166,7 +171,20 @@ import {
   bribeRoleOf,
 } from "../core2/modules/justice";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
-import { answerInTalk } from "./scene-talk";
+import {
+  answerBack,
+  answerInTalk,
+  answerLeavesOutTold,
+  answerOwnView,
+  newsAnswerTellsStand,
+  newsBackSubject,
+  newsLine,
+  newsSaidFacts,
+  newsTakesSide,
+  ownViewReplies,
+  ownViewTakes,
+  ownViewWhy,
+} from "./scene-talk";
 import {
   declineInSitting,
   openSitting,
@@ -188,7 +206,7 @@ import {
   monthsOfRentDays,
 } from "../english/count-words";
 import { sinceMonthSaid } from "../english/day-words";
-import { ILLNESS_EVENT } from "./life-news";
+import { ILLNESS_EVENT, jobHeldSince } from "./life-news";
 import { RELATIVE_NEWS_WORDS } from "../english/relative-news-words";
 import type { FinanceContractInput } from "../core2/modules/finance";
 import { SCHOOL_MODULE_ID, schoolDayOf } from "../core2/modules/people";
@@ -601,8 +619,8 @@ function startedOf(
   core: Readonly<CoreState>,
   person: Readonly<PersonState>,
 ): { date: string; factId: string } | null {
-  const held = heldSinceRecord(core as CoreState, person.id, person.jobId);
-  return held ? { date: String(held.facts.startedAt), factId: held.id } : null;
+  const held = jobHeldSince(core, person.id, person.jobId);
+  return held ? { date: String(held.facts?.startedAt), factId: held.id } : null;
 }
 
 /** How far back a recorded event still makes something to talk about. */
@@ -644,9 +662,18 @@ function recordedMoments(
   since: string,
 ): Moment[] {
   const out: Moment[] = [];
-  for (const id of core.logByPerson.get(personId) ?? []) {
-    const row = core.durableLog.get(id as never);
-    if (!row || row.date <= since || row.date > core.date) continue;
+  for (const event of historyOf(
+    core as CoreState,
+    { person: personId },
+    { from: "played", through: core.date },
+  )) {
+    if (event.date <= since) continue;
+    const row = {
+      id: event.id,
+      date: event.date,
+      kind: event.record,
+      personIds: event.personIds,
+    };
     // Only what happened to them (the owner's Q7 happenings): a speech they
     // heard or a vote they cast is not their news.
     const label = `feeling:event:${row.kind}`;
@@ -1442,9 +1469,9 @@ function jobLost(
     ? withArticle(ended.title)
     : undefined;
   if (position) facts.position = fact(position, [ended.id]);
-  const held = heldSinceRecord(core as CoreState, speaker.id, ended.id);
+  const held = jobHeldSince(core, speaker.id, ended.id);
   const years = tenureYears(
-    held ? { date: String(held.facts.startedAt), factId: held.id } : null,
+    held ? { date: String(held.facts?.startedAt), factId: held.id } : null,
     lost.date,
   );
   if (years)
@@ -2234,18 +2261,21 @@ function governmentNews(
   const lean = core.modules.has(VIEWS_MODULE_ID)
     ? viewOf(api, speaker.id)?.lean
     : undefined;
-  const ids = [...(core.logByPerson.get(speaker.id) ?? [])];
-  for (let at = ids.length - one; at >= zero; at -= one) {
-    const row = core.durableLog.get(ids[at] as never) as
-      | {
-          id: string;
-          kind: string;
-          date: string;
-          personIds?: readonly string[];
-          facts?: Readonly<Record<string, string>>;
-        }
-      | undefined;
-    if (!row || row.date <= since || row.date > core.date) continue;
+  const played = historyOf(
+    core as CoreState,
+    { person: speaker.id },
+    { from: "played", through: core.date },
+  );
+  for (let at = played.length - one; at >= zero; at -= one) {
+    const event = played[at]!;
+    const row = {
+      id: event.id,
+      kind: event.record,
+      date: event.date,
+      personIds: event.personIds,
+      facts: event.facts,
+    };
+    if (row.date <= since) continue;
     const facts = row.facts ?? {};
     const cites = [row.id];
     const fact = (text: string, ids = cites): Fact => ({
@@ -2687,15 +2717,15 @@ function actBetween(
   a: PersonId,
   b: PersonId,
 ): { id: string; what: string; byA: boolean } | null {
-  const ofA = core.logByPerson.get(a);
-  const ofB = core.logByPerson.get(b);
-  if (!ofA || !ofB) return null;
-  const [few, many] = ofA.size <= ofB.size ? [ofA, ofB] : [ofB, ofA];
   let best: { id: string; what: string; byA: boolean; date: string } | null =
     null;
-  for (const id of few) {
-    if (!many.has(id)) continue;
-    const record = core.durableLog.get(id);
+  // What the two of them did together in play, from their history.
+  for (const together of historyOf(
+    core as CoreState,
+    { person: a },
+    { from: "played", with: b },
+  )) {
+    const record = core.durableLog.get(together.id);
     const rule = record && KNOWN_BY_ACT.kinds[record.kind];
     if (!record || !rule) continue;
     const what = rule.said
@@ -2704,7 +2734,7 @@ function actBetween(
     if (!what) continue;
     if (best && record.date <= best.date) continue;
     best = {
-      id,
+      id: together.id,
       what,
       byA: record.facts?.[rule.doer] === a,
       date: record.date,
@@ -4116,87 +4146,10 @@ function pointSubject(
   };
 }
 
-/**
- * A line the English engine composes from parts (opener, core, reason,
- * closer), for a subject whose lines are made that way: the hearer's point of
- * the address and their answer to the player's reply. Null when no core can
- * be said from the facts given.
- */
-export function composedLine(
-  core: Readonly<CoreState>,
-  speakerId: PersonId,
-  subject: string,
-  facts: Facts,
-  stage: string,
-  momentKey: string,
-  recentPartKeys: readonly string[] = [],
-): Said | null {
-  // What is said once in a talk (how long they have held a stand; being
-  // glad to hear the player's voice) is not said again in it (lead, Nov 13;
-  // Words lead, Nov 14).
-  const onceSaid = SAID_ONCE_FACTS.filter((fact) =>
-    recentPartKeys.some((key) => piecesSaidOnce(fact).has(key)),
-  );
-  const line = composeConversationLine({
-    seed: core.seed,
-    subject,
-    speakerId,
-    traits: core.people.get(speakerId)?.traits ?? {},
-    facts: onceSaid.length
-      ? {
-          ...facts,
-          ...Object.fromEntries(
-            onceSaid.map((fact) => [
-              fact,
-              { text: "yes", sourceRecordIds: [speakerId] },
-            ]),
-          ),
-        }
-      : facts,
-    stage,
-    momentKey,
-    // Oldest first: what the player heard on earlier days, then today, then
-    // this talk, so a wording heard longest ago is the one said again.
-    said: [...heardOrderFor(speakerId), ...heardNow, ...recentPartKeys],
-  });
-  if (!line) return null;
-  const { asks, afterPlain, ...said } = line;
-  void asks;
-  void afterPlain;
-  return { ...said, text: sentenceStarts(shortAfterFirst(said.text, facts)) };
-}
-
 /** A question said again once the talk has named it, while it is the only one on the table (said-as questionAgain.it). */
 const QUESTION_AGAIN_WORD: string = (
   saidAsData as unknown as { questionAgain: { it: string } }
 ).questionAgain.it;
-
-/** The short forms of a question's act once the line has named it (said-as questionAgain). */
-const QUESTION_AGAIN = (
-  saidAsData as unknown as {
-    questionAgain: Readonly<Record<"against" | "to", string>>;
-  }
-).questionAgain;
-
-/**
- * A question named once in a line is said short after (lead, Nov 12: "say no
- * to raising the debt limit only with spending cuts to match" right after the
- * opener named it): where the question's own words (`about`) come first, a
- * later act in full (`against`, `to`) becomes its short form.
- */
-function shortAfterFirst(text: string, facts: Facts): string {
-  const about = facts.about?.text;
-  const at = about ? text.indexOf(about) : -one;
-  if (at < zero) return text;
-  const from = at + about!.length;
-  let rest = text.slice(from);
-  for (const key of ["against", "to"] as const) {
-    const full = facts[key]?.text;
-    if (full && rest.includes(full))
-      rest = rest.replace(full, QUESTION_AGAIN[key]);
-  }
-  return text.slice(zero, from) + rest;
-}
 
 /** The parts this speaker said earlier in the talk, so the next composed line says the point in other words. */
 const saidParts = (conversation: Conversation, speakerId: PersonId) =>
@@ -4574,19 +4527,22 @@ function playerFacts(
   if (last.kind === "home" || last.kind === "home-new") {
     // The move the run of the years before the start recorded, and where
     // the player was born, from the run's birth record (or the opening's).
-    const moved = preStartHistory(core as CoreState, {
-      kind: PERSON_MOVED_IN,
-      personId: player.id,
-    })[zero];
+    const moved = historyOf(
+      core as CoreState,
+      { person: player.id },
+      { kinds: [PERSON_MOVED_IN], from: "past" },
+    )[zero];
     const born =
-      preStartHistory(core as CoreState, {
-        kind: "person.birth",
-        personId: player.id,
-      }).find((row) => row.placeId === player.placeId) ??
-      (player.pastFacts ?? []).find(
-        (row) =>
-          row.kind === "birthplace" && row.facts?.placeId === player.placeId,
-      );
+      historyOf(
+        core as CoreState,
+        { person: player.id },
+        { kinds: ["person.birth"], from: "past" },
+      ).find((row) => row.placeId === player.placeId) ??
+      historyOf(
+        core as CoreState,
+        { person: player.id },
+        { kinds: ["birthplace"], from: "built" },
+      ).find((row) => row.facts?.placeId === player.placeId);
     if (moved) {
       facts.years = {
         text: String(
@@ -5777,10 +5733,8 @@ const DAY_TALK = (
       usualWeekDays: { value: number };
       rentCoveredMonths: { value: number };
       evictionJobLostDays: { value: number };
-      backOmitsTold: readonly string[];
       /** Kinds that may still be asked about, whose telling is answered back. */
       answersBack: readonly string[];
-      toldFigures: readonly string[];
     };
   }
 ).dayTalk;
@@ -6458,24 +6412,12 @@ function openConversationNow(
   return conversation;
 }
 
-/**
- * What the player already heard today from anyone in the household (the
- * telling's "said today"): the wording pieces, kept as the player's own
- * knowledge, one key per piece, learned on the day. A wording heard today is
- * not picked again that day, so two housemates never give the same sentence
- * (owner, Nov 12: "basically saying the same thing").
- */
-const HEARD_PREFIX = "talk:heard:";
 /** The rows that pass, or all of them when none does. */
 function fresher<T>(rows: readonly T[], keep: (row: T) => boolean): T[] {
   const kept = rows.filter(keep);
   return kept.length ? kept : [...rows];
 }
 
-/** A town or state figure told today. */
-const HEARD_FIGURE = "figure:";
-/** A policy question named today, by anyone in the house. */
-const HEARD_QUESTION = "question:";
 /** Lines that tell a stand without asking, whose replies are still the rules' own (`answersTo`). */
 const STANDS_TOLD: ReadonlySet<string> = new Set(["news-ask-core"]);
 /** A state whose bare name means the federal capital in speech (shared with the composed checks). */
@@ -6483,57 +6425,6 @@ const PLACE_SAID_ONLY_AS: Readonly<Record<string, string>> =
   composedChecksData.placeSaidOnlyAs.names;
 /** How people say the federal government: by its capital, or plainly where that name is the state's. */
 const FEDERAL_WORDS = saidAsData.federal;
-/** A subject heard today, kept beside the pieces: news one housemate told is not told again by the next. */
-const HEARD_SUBJECT = "subject:";
-let heardNow: ReadonlySet<string> = new Set();
-/** A piece heard from one speaker, kept beside the piece itself: each speaker's own wordings come round least recently used. */
-const HEARD_BY = "by:";
-/** Every piece the player has heard at home, with the day it was last heard and from whom (when kept). */
-let heardRows: readonly { key: string; at: string; by?: string }[] = [];
-
-/** The pieces the player heard, with the day each was last heard (the record keeps the last day) and the speaker, oldest first. */
-function heardByDay(
-  core: Readonly<CoreState>,
-  playerId: PersonId,
-): { key: string; at: string; by?: string }[] {
-  const rows: { key: string; at: string; by?: string }[] = [];
-  for (const [key, fact] of core.knowledgeByPerson.get(playerId) ?? []) {
-    if (!key.startsWith(HEARD_PREFIX)) continue;
-    const rest = key.slice(HEARD_PREFIX.length);
-    const by = rest.startsWith(HEARD_BY)
-      ? /^by:(?<speaker>[^:]+):(?<piece>.+)$/.exec(rest)?.groups
-      : undefined;
-    rows.push(
-      by?.speaker && by.piece
-        ? { key: by.piece, at: fact.learnedAt, by: by.speaker }
-        : { key: rest, at: fact.learnedAt },
-    );
-  }
-  return rows.sort((a, b) => a.at.localeCompare(b.at));
-}
-
-/**
- * The pieces heard, oldest first, for one speaker: what the house said, then
- * what this speaker said, so a wording this speaker used comes back last and
- * one they used longest ago first (least recently used, no dice).
- */
-function heardOrderFor(speakerId: PersonId): string[] {
-  return [
-    ...heardRows.filter((row) => !row.by).map((row) => row.key),
-    ...heardRows.filter((row) => row.by === speakerId).map((row) => row.key),
-  ];
-}
-
-function heardToday(
-  core: Readonly<CoreState>,
-  playerId: PersonId,
-): Set<string> {
-  const out = new Set<string>();
-  for (const [key, fact] of core.knowledgeByPerson.get(playerId) ?? [])
-    if (key.startsWith(HEARD_PREFIX) && fact.learnedAt === core.date)
-      out.add(key.slice(HEARD_PREFIX.length));
-  return out;
-}
 
 /**
  * Keeps every piece the other person said in this talk as heard today by the
@@ -6583,19 +6474,6 @@ export function noteHeard(core: CoreState, conversation: Conversation): void {
         sourceId: `conversation:${conversation.playerId}:${conversation.otherId}:${core.date}`,
         access: "perceived",
       });
-}
-
-/**
- * Keeps a piece as heard now. The player's record holds its pieces in the
- * order last heard, so a piece heard again moves after the rest: the least
- * recently used wording is read from that order (`heardToday`,
- * `heardByDay`), and a piece kept where it was first heard would be the
- * "oldest" every time once a day had heard them all (conversation.test,
- * Jackson Center, Ohio: one hello, "Hey.", in nearly every greeting).
- */
-function hear(core: CoreState, playerId: PersonId, fact: KnownFact): void {
-  core.knowledgeByPerson.get(playerId)?.delete(fact.key);
-  coreAPI(core).observe(playerId, fact);
 }
 
 /** The speaker's own figures a line said, as heard keys: their hourly pay, from their job record. */
@@ -6665,24 +6543,6 @@ export function noteSceneHeard(
       sourceId: `scene:${momentId}:${core.date}`,
       access: "perceived",
     });
-}
-
-/** Runs a step of the talk with what the player heard today held back from the picks. */
-function withHeard<T>(
-  core: Readonly<CoreState>,
-  playerId: PersonId,
-  run: () => T,
-): T {
-  const before = heardNow;
-  const order = heardRows;
-  heardNow = heardToday(core, playerId);
-  heardRows = heardByDay(core, playerId);
-  try {
-    return run();
-  } finally {
-    heardNow = before;
-    heardRows = order;
-  }
 }
 
 /**
@@ -7155,7 +7015,7 @@ function offerChoices(
     // News of their own life: each fact the telling just said is marked
     // `told-<fact>`, so a reply that would ask it again ("How?" after "It
     // was a car crash.") is held back (`excludesFacts`; W1's strict review).
-    ...(DAY_TALK.backOmitsTold.includes(last.kind)
+    ...(answerLeavesOutTold(last.kind)
       ? Object.fromEntries(
           (conversation.lines.at(-one)?.wording?.facts ?? []).map((key) => [
             `told-${key}`,
@@ -7174,7 +7034,7 @@ function offerChoices(
     // News of their own life: each fact the telling just said is marked
     // `told-<fact>`, so a reply that would ask it again ("How?" after "It
     // was a car crash.") is held back (`excludesFacts`; W1's strict review).
-    ...(DAY_TALK.backOmitsTold.includes(last.kind)
+    ...(answerLeavesOutTold(last.kind)
       ? Object.fromEntries(
           (conversation.lines.at(-one)?.wording?.facts ?? []).map((key) => [
             `told-${key}`,
@@ -7348,7 +7208,7 @@ function offerChoices(
       // Every reply to the address's point is answered, in composed words,
       // and so is asking someone why they stand where they do.
       (last.kind === POINT && pointAnswerable(last.facts, choiceKey)) ||
-      (last.kind === "own-view" && choiceKey === OWN_VIEW_WHY) ||
+      (last.kind === "own-view" && ownViewWhy(choiceKey)) ||
       // A day's own subject answers every reply, in composed words.
       dayBack(last.kind) ||
       // A question turned back the asker's give-back answers ("Why do you
@@ -7483,8 +7343,8 @@ function offerChoices(
   // A stand is answered by agreeing, disagreeing or asking why (owner, Nov
   // 12: "Good to know." is not a reply to a stand).
   if (last.kind === "own-view")
-    conversation.choices = conversation.choices.filter(
-      (row) => OWN_VIEW_TAKES.includes(row.move) || row.move === OWN_VIEW_WHY,
+    conversation.choices = conversation.choices.filter((row) =>
+      ownViewReplies().includes(row.move),
     );
   // A reply that only takes the line in ("Oh, I see.", "Alright.") says
   // nothing and gets nothing back: it is not offered (owner, Nov 12: "the
@@ -8348,24 +8208,27 @@ function sayNow(
     });
   // Asked why they stand where they do, they answer from the reason on
   // record (their work, or money in their town), in composed words.
-  if (last.kind === "own-view" && !choice.lie && choice.move === OWN_VIEW_WHY) {
-    const back = composedLine(
-      core,
-      otherId,
-      OWN_VIEW_BACK,
-      { ...last.facts, ...youIn(core, conversation, otherId, playerId) },
-      "default",
-      `${eventId}:back`,
-      saidParts(conversation, otherId),
-    );
+  if (last.kind === "own-view" && !choice.lie && ownViewWhy(choice.move)) {
+    const back = answerOwnView(core, {
+      replyMove: choice.move,
+      speakerId: otherId,
+      momentKey: `${eventId}:back`,
+      facts: last.facts,
+      held: undefined,
+      shape: (facts) => ({
+        ...facts,
+        ...youIn(core, conversation, otherId, playerId),
+      }),
+      saidParts: saidParts(conversation, otherId),
+    });
     if (back)
       conversation.lines.push({
         speakerId: otherId,
         subjectId: choice.answers,
-        kind: OWN_VIEW_BACK,
+        kind: back.subject,
         act: "tell",
-        ...back,
-        sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],
+        ...back.line,
+        sourceRecordIds: [...new Set([...back.line.sourceRecordIds, eventId])],
       });
     carryOn(core, conversation, data);
     return conversation;
@@ -8377,7 +8240,7 @@ function sayNow(
     last.kind === "own-view" &&
     !choice.lie &&
     last.subject.news?.question &&
-    OWN_VIEW_TAKES.includes(choice.move)
+    ownViewTakes(choice.move)
   ) {
     const question = last.subject.news.question;
     for (const hearerId of hearers) {
@@ -8395,36 +8258,27 @@ function sayNow(
   // (their work, their money): what they will do or expect, never only
   // that the two agree (words composer, Nov 12). Composed under
   // `own-view-take` by the reply's move; the talk carries on after.
-  if (
-    last.kind === "own-view" &&
-    !choice.lie &&
-    OWN_VIEW_TAKES.includes(choice.move)
-  ) {
-    const back = composedLine(
-      core,
-      otherId,
-      OWN_VIEW_TAKE,
-      {
-        ...last.facts,
+  if (last.kind === "own-view" && !choice.lie && ownViewTakes(choice.move)) {
+    const back = answerOwnView(core, {
+      replyMove: choice.move,
+      speakerId: otherId,
+      momentKey: `${eventId}:take`,
+      facts: last.facts,
+      held: conversation.topicFacts,
+      shape: (facts) => ({
+        ...facts,
         ...youIn(core, conversation, otherId, playerId),
-        // The story the talk opened on already says how it came out: no
-        // reply that waits to see.
-        ...(conversation.topicFacts?.["story-decided"]
-          ? { "story-decided": conversation.topicFacts["story-decided"] }
-          : {}),
-      },
-      choice.move,
-      `${eventId}:take`,
-      saidParts(conversation, otherId),
-    );
+      }),
+      saidParts: saidParts(conversation, otherId),
+    });
     if (back)
       conversation.lines.push({
         speakerId: otherId,
         subjectId: choice.answers,
-        kind: OWN_VIEW_TAKE,
+        kind: back.subject,
         act: "tell",
-        ...back,
-        sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],
+        ...back.line,
+        sourceRecordIds: [...new Set([...back.line.sourceRecordIds, eventId])],
       });
     // A story that already says how it came out leaves nothing to wait to
     // see: with no take that fits, the talk carries on with no filler line.
@@ -8449,7 +8303,7 @@ function sayNow(
   if (
     last.kind === "news" &&
     !choice.lie &&
-    composedConversationBank(NEWS_BACK)
+    composedConversationBank(newsBackSubject())
   ) {
     answerNews(core, conversation, data, choice, eventId, hearers, last);
     return conversation;
@@ -8458,10 +8312,9 @@ function sayNow(
   // same record, by the reply's move, and the talk carries on.
   if (dayBack(last.kind) && !choice.lie) {
     // For news of their own life, the answer back never says again a figure
-    // the telling just said ("I owed about $1,000." "...about $1,000 still
-    // doesn't seem real."): those facts are left out of it, so it says
-    // what comes next instead (W1's strict review, Nov 12).
-    const told = DAY_TALK.backOmitsTold.includes(last.kind)
+    // the telling just said (the engine's rule, the arcs file's
+    // `home.dayBack`): it is handed what the telling used.
+    const told = answerLeavesOutTold(last.kind)
       ? new Set(
           [...conversation.lines]
             .reverse()
@@ -8473,27 +8326,19 @@ function sayNow(
             )?.wording?.facts ?? [],
         )
       : new Set<string>();
-    const omitted = (key: string) =>
-      told.has(key) && DAY_TALK.toldFigures.includes(key);
-    // What was left out is marked told, so an answer can lean on it ("I go
-    // in soon.") without saying it again.
-    const backFacts = Object.fromEntries(
-      Object.entries(last.facts).flatMap(([key, value]) =>
-        omitted(key) ? [[`told-${key}`, value]] : [[key, value]],
-      ),
-    );
-    const back = composedLine(
-      core,
-      otherId,
-      `${last.kind}-back`,
-      {
-        ...nameOnce(core, conversation, otherId, playerId, backFacts),
+    const back = answerBack(core, {
+      kind: last.kind,
+      replyMove: choice.move,
+      speakerId: otherId,
+      momentKey: `${eventId}:back`,
+      facts: last.facts,
+      told,
+      shape: (facts) => ({
+        ...nameOnce(core, conversation, otherId, playerId, facts),
         ...youIn(core, conversation, otherId, playerId),
-      },
-      choice.move,
-      `${eventId}:back`,
-      saidParts(conversation, otherId),
-    );
+      }),
+      saidParts: saidParts(conversation, otherId),
+    });
     if (last.kind === "here") conversation.nameGiven = true;
     if (back)
       conversation.lines.push({
@@ -8795,24 +8640,10 @@ function dayBack(kind: string): boolean {
   );
 }
 
-/** The player's replies to where someone stands that say where the player stands. */
-const OWN_VIEW_TAKES: readonly string[] = ["agree", "disagree"];
-/** The player's reply that asks them why, and the subject their answer is composed under. */
-const OWN_VIEW_WHY = "why";
-const OWN_VIEW_BACK = "own-view-back";
-/** The subject their answer to an agreeing or disagreeing reply on where they stand is composed under. */
-const OWN_VIEW_TAKE = "own-view-take";
-
-/** The subject the other person's answer to a reply on news is composed under. */
-const NEWS_BACK = "news-back";
-
 /** Whether the teller already said the question a printed story is about: its lines tell it by that question. */
 function aboutToldBy(facts: Facts): boolean {
   return !!facts.story && !!facts.about;
 }
-/** The player's replies on news that take a side on the story's question. */
-const NEWS_SIDES: readonly string[] = ["for", "against"];
-
 /**
  * The other person's answer to the player's reply on a story or a change in
  * town: composed from the pieces under `news-back`, by the reply's move, with
@@ -8832,7 +8663,7 @@ function answerNews(
 ): void {
   const { otherId, playerId } = conversation;
   const api = coreAPI(core);
-  if (NEWS_SIDES.includes(choice.move) && last.subject.news?.question) {
+  if (newsTakesSide(choice.move) && last.subject.news?.question) {
     const stance = stanceRow(api, playerId, last.subject.news.question);
     for (const hearerId of hearers)
       learnView(api, hearerId, playerId, [stance?.id ?? playerId], eventId);
@@ -8850,18 +8681,17 @@ function answerNews(
       : {}),
     // "Who's behind it?" is asked as a why but answered as a who (lead,
     // Nov 13): the pieces that ask it are named in the rules (askedWho).
-    [`said-${(choice.wording?.parts ?? []).some((part) => ASKED_WHO.has(part)) ? "who" : choice.move}`]:
-      { text: "yes", sourceRecordIds: [eventId] },
     // One screen names a thing once: where the teller already said the
     // question, the answer says "it" and gives what else the story holds.
-    [aboutToldBy(last.facts) ? "about-said" : "about-unsaid"]: {
-      text: "yes",
-      sourceRecordIds: [eventId],
-    },
-    // A stand either way, for the answers that fit both.
-    ...(NEWS_SIDES.includes(choice.move)
-      ? { "said-side": { text: "yes", sourceRecordIds: [eventId] } }
-      : {}),
+    // And a stand either way, for the answers that fit both.
+    ...newsSaidFacts({
+      replyMove: choice.move,
+      askedWho: (choice.wording?.parts ?? []).some((part) =>
+        ASKED_WHO.has(part),
+      ),
+      questionTold: aboutToldBy(last.facts),
+      recordId: eventId,
+    }),
   };
   // When they learned of it, said in passing, from their own record of it.
   const learned = last.subject.aboutId
@@ -8888,7 +8718,7 @@ function answerNews(
     last.facts.story &&
     theirLast &&
     asksQuestion(theirLast) &&
-    ["yes", "no", "react"].includes(choice.move)
+    newsAnswerTellsStand(choice.move)
   ) {
     let told = false;
     if (choice.move === "no") {
@@ -8897,26 +8727,24 @@ function answerNews(
           ([key]) => key !== "about-said" && key !== "about-unsaid",
         ),
       );
-      const what = composedLine(
-        core,
-        otherId,
-        NEWS_BACK,
-        {
+      const what = newsLine(core, {
+        which: "back",
+        speakerId: otherId,
+        facts: {
           ...plain,
           // What it was about, by the question's full name: the ask already
           // named it, so a bare "it" would say nothing.
           "ask-told": { text: "yes", sourceRecordIds: [eventId] },
         },
-        "default",
-        `${eventId}:what`,
-        saidParts(conversation, otherId),
-      );
+        momentKey: `${eventId}:what`,
+        saidParts: saidParts(conversation, otherId),
+      });
       told = !!what;
       if (what)
         conversation.lines.push({
           speakerId: otherId,
           subjectId: choice.answers,
-          kind: NEWS_BACK,
+          kind: newsBackSubject(),
           act: "tell",
           ...what,
           sourceRecordIds: [...new Set([...what.sourceRecordIds, eventId])],
@@ -8938,19 +8766,17 @@ function answerNews(
     );
     const stand = ownViewFollows
       ? null
-      : composedLine(
-          core,
-          otherId,
-          "news-ask",
-          {
+      : newsLine(core, {
+          which: "stand",
+          speakerId: otherId,
+          facts: {
             ...last.facts,
             ...stakeMarks(theirs, "their-"),
             "player-saw": { text: "yes", sourceRecordIds: [eventId] },
           },
-          "default",
-          `${eventId}:stand`,
-          saidParts(conversation, otherId),
-        );
+          momentKey: `${eventId}:stand`,
+          saidParts: saidParts(conversation, otherId),
+        });
     if (stand || ownViewFollows || told) {
       if (stand)
         conversation.lines.push({
@@ -8965,20 +8791,18 @@ function answerNews(
       return;
     }
   }
-  const back = composedLine(
-    core,
-    otherId,
-    NEWS_BACK,
+  const back = newsLine(core, {
+    which: "back",
+    speakerId: otherId,
     facts,
-    "default",
-    `${eventId}:back`,
-    saidParts(conversation, otherId),
-  );
+    momentKey: `${eventId}:back`,
+    saidParts: saidParts(conversation, otherId),
+  });
   if (back)
     conversation.lines.push({
       speakerId: otherId,
       subjectId: choice.answers,
-      kind: NEWS_BACK,
+      kind: newsBackSubject(),
       act: "tell",
       ...back,
       sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],

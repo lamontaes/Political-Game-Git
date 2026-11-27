@@ -6,14 +6,14 @@
  * lives alone; what was owed or how many months; a relative, a shelter bed or
  * nowhere) has a telling that names the eviction, and every reply has an
  * answer that says what comes next. The answer is composed from the facts
- * the conversation hands it after the telling (`backOmitsTold`): a figure the
+ * the conversation hands it after the telling (the arcs file's `home.dayBack.omitsTold`): a figure the
  * telling said is never said again (owner, Nov 12: "basically saying the same
  * thing"). Played talks in drawn places: scripts/words/told-talk-proof.ts.
  */
 import { describe, expect, it } from "vitest";
 import { composeConversationLine } from "../english/conversation-words";
 import type { PersonId } from "../core2/types";
-import rules from "./data/conversation-rules.json" with { type: "json" };
+import { answerLeavesOutTold } from "./scene-talk";
 
 const fact = (text: string) => ({ text, sourceRecordIds: ["case:test"] });
 const OWED = "about $1,800";
@@ -60,7 +60,7 @@ describe("an eviction told through the composer", () => {
   });
 
   it("answers every reply with what comes next, and never says a figure the telling said", () => {
-    expect(rules.dayTalk.backOmitsTold).toContain("eviction");
+    expect(answerLeavesOutTold("eviction")).toBe(true);
     for (const [who, people] of Object.entries(WHO))
       for (const [where, place] of Object.entries(WHERE))
         for (const move of ["where", "comfort"]) {

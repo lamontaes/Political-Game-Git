@@ -107,3 +107,7 @@ report that prompted this skill, and the same facts rewritten to the bar.
 Stop when the mechanical check passes and the reviewer returns PASS. This
 skill never invents facts to make a story read better: if the walk did not
 establish something, the report says it was not checked.
+
+## Gotchas
+
+- Nov 26, 2026 (#10643): `npm run report:check` reads everything before the first heading as the lead (under 120 words, no code, no file path), so a pull request body that follows the template with its sections as bold paragraphs fails. Keep line 1 `Pool item: <id>` and line 3 the gate line in plain words, then give every template section a `##` heading.

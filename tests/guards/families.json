@@ -47,7 +47,8 @@
     "src/core2/gov-rules/given-name-cohorts.ts",
     "src/core2/gov-rules/person-identity.ts",
     "src/core2/government-level.ts",
-    "src/core2/fee-levels.ts"
+    "src/core2/fee-levels.ts",
+    "src/core2/retain-log.ts"
   ],
   "protected": [
     "AGENTS.md",

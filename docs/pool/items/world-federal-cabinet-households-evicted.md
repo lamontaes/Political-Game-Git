@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: history/journal-chain
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: found Nov 10 by the builder of the grievance record (pull request #8231)
 checked: fable 2026-11-10
+claimed-at: 2026-11-26T21:56:24.656Z
 ---
 
 **What.** In two drawn places a played year evicted the households of federal cabinet officials, the attorney general's among them. A sitting cabinet secretary losing their home for unpaid rent in a small town is not believable, and the player can meet these people. Either they are housed in the played town when they should not be, or their pay never reaches the household that owes the rent.

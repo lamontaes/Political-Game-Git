@@ -47,6 +47,7 @@ import {
 
 export type { SceneTalkStep };
 import type { Director } from "./ledger";
+import { composedLine, type Said } from "./talk-words";
 
 const zero = P.zero;
 const one = P.one;
@@ -199,6 +200,34 @@ const RULES = rulesFile as unknown as {
   bluntGreeting: { value: number };
 };
 export type Outcome = "resolved" | "refused" | "open";
+
+/**
+ * The families of a home conversation the engine answers by the arcs file's own
+ * rows (`home` in purpose-arcs.json): what an answer to a reply on a day's own
+ * subject leaves out of what its telling just said.
+ */
+const HOME = (
+  arcsFile as unknown as {
+    home: {
+      dayBack: {
+        omitsTold: { kinds: readonly string[]; figures: readonly string[] };
+      };
+      news: {
+        backSubject: string;
+        standSubject: string;
+        sides: readonly string[];
+        tellsStand: readonly string[];
+      };
+      ownView: {
+        why: string;
+        takes: readonly string[];
+        backSubject: string;
+        takeSubject: string;
+        takeCarries: readonly string[];
+      };
+    };
+  }
+).home;
 
 /** One line of a composed scene, with the features the grading bench records. */
 export interface SceneTalkLine {
@@ -496,6 +525,26 @@ function candidatesFor(arc: PurposeArc, move: string): string[] {
 }
 
 /**
+ * The rows in the order a speaker's traits lean toward saying their moves,
+ * the most first; a tie goes to the stable hash of the row's key. Nothing is
+ * rolled. Every pick in the exchange (the asker's answer, an auto-reply, the
+ * reply the page follows first) is this one ordering.
+ */
+function byLean<T>(
+  core: Pick<CoreState, "data">,
+  rows: readonly T[],
+  moveOf: (row: T) => string,
+  traits: Readonly<Record<string, number>>,
+  keyOf: (row: T) => string,
+): T[] {
+  return [...rows].sort(
+    (a, b) =>
+      leanOf(core, moveOf(b), traits) - leanOf(core, moveOf(a), traits) ||
+      stableHash(keyOf(a)).localeCompare(stableHash(keyOf(b))),
+  );
+}
+
+/**
  * How a person takes in what the player answered in an everyday talk, by this
  * engine's own rule (owner, Oct 29: one engine for every line, and calibration
  * reaches all of it): the `talk` purpose's answer moves for the move the
@@ -542,12 +591,12 @@ export function answerInTalk(
     });
     return line && !("unused" in line) ? [{ candidate, line }] : [];
   });
-  const [best] = worded.sort(
-    (a, b) =>
-      leanOf(core, b.candidate, traits) - leanOf(core, a.candidate, traits) ||
-      stableHash(`${input.momentKey}:${a.candidate}`).localeCompare(
-        stableHash(`${input.momentKey}:${b.candidate}`),
-      ),
+  const [best] = byLean(
+    core,
+    worded,
+    (row) => row.candidate,
+    traits,
+    (row) => `${input.momentKey}:${row.candidate}`,
   );
   if (!best) return null;
   return {
@@ -556,6 +605,191 @@ export function answerInTalk(
     pieceKey: best.line.pieceKey,
     closes: !!arc.closes?.includes(input.replyMove),
   };
+}
+
+/** Whether the answer back to a reply on this kind of day subject leaves out the figures its telling just said. */
+export function answerLeavesOutTold(kind: string): boolean {
+  return HOME.dayBack.omitsTold.kinds.includes(kind);
+}
+
+/**
+ * The facts an answer back is composed from: each figure the telling just said
+ * (`told`, the facts its wording used) is left out of them and marked
+ * `told-<fact>`, so the answer says what comes next, never the same figure
+ * again ("I owed about $1,000." "...about $1,000 still doesn't seem real."),
+ * and can still lean on it ("I go in soon.") without saying it.
+ */
+export function factsWithoutTold(
+  kind: string,
+  told: ReadonlySet<string>,
+  facts: Readonly<Record<string, Fact>>,
+): Record<string, Fact> {
+  const omits = answerLeavesOutTold(kind);
+  return Object.fromEntries(
+    Object.entries(facts).map(([key, fact]) =>
+      omits && told.has(key) && HOME.dayBack.omitsTold.figures.includes(key)
+        ? [`told-${key}`, fact]
+        : [key, fact],
+    ),
+  );
+}
+
+/**
+ * The other person's answer to the player's reply on a day's own subject: the
+ * words composed under `<kind>-back` by the reply's move, from the facts the
+ * telling left them (`factsWithoutTold`; `shape` adds what the talk alone
+ * knows, such as whether the speaker already named the player). Null where no
+ * wording fits.
+ */
+export function answerBack(
+  core: Readonly<CoreState>,
+  input: {
+    kind: string;
+    replyMove: string;
+    speakerId: PersonId;
+    momentKey: string;
+    /** The facts the day subject was told from. */
+    facts: Readonly<Record<string, Fact>>;
+    /** The facts the telling just said, which the answer leaves out. */
+    told: ReadonlySet<string>;
+    /** The talk's own additions to the facts, applied after the figures are left out. */
+    shape: (facts: Record<string, Fact>) => Record<string, Fact>;
+    /** The parts this speaker already said in the talk. */
+    saidParts: readonly string[];
+  },
+): Said | null {
+  return composedLine(
+    core,
+    input.speakerId,
+    `${input.kind}-back`,
+    input.shape(factsWithoutTold(input.kind, input.told, input.facts)),
+    input.replyMove,
+    input.momentKey,
+    input.saidParts,
+  );
+}
+
+/** The replies to where someone stands that the talk answers: asking why, and agreeing or disagreeing. */
+export function ownViewReplies(): readonly string[] {
+  return [HOME.ownView.why, ...HOME.ownView.takes];
+}
+
+/** Whether a reply to where someone stands says where the player stands (agree or disagree). */
+export function ownViewTakes(replyMove: string): boolean {
+  return HOME.ownView.takes.includes(replyMove);
+}
+
+/** Whether a reply to where someone stands asks them why. */
+export function ownViewWhy(replyMove: string): boolean {
+  return replyMove === HOME.ownView.why;
+}
+
+/**
+ * The other person's answer to the player's reply on where they stand: asked
+ * why, they answer from the reason on record (their work, or money in their
+ * town), composed under `backSubject`; agreed or disagreed with, they answer
+ * from the same reason under `takeSubject` by the reply's move, carrying the
+ * facts the talk already holds (`takeCarries`: a story that already says how
+ * it came out leaves no reply that waits to see). Null for any other reply
+ * and where no wording fits.
+ */
+export function answerOwnView(
+  core: Readonly<CoreState>,
+  input: {
+    replyMove: string;
+    speakerId: PersonId;
+    momentKey: string;
+    facts: Readonly<Record<string, Fact>>;
+    /** The facts the talk holds that a take carries on (the story's own). */
+    held: Readonly<Record<string, Fact>> | undefined;
+    /** The talk's own additions to the facts (whether the speaker already named the player). */
+    shape: (facts: Record<string, Fact>) => Record<string, Fact>;
+    saidParts: readonly string[];
+  },
+): { subject: string; line: Said } | null {
+  const { why, takes, backSubject, takeSubject, takeCarries } = HOME.ownView;
+  const asked = input.replyMove === why;
+  if (!asked && !takes.includes(input.replyMove)) return null;
+  const subject = asked ? backSubject : takeSubject;
+  const carried = asked
+    ? {}
+    : Object.fromEntries(
+        takeCarries.flatMap((name) =>
+          input.held?.[name] ? [[name, input.held[name]]] : [],
+        ),
+      );
+  const line = composedLine(
+    core,
+    input.speakerId,
+    subject,
+    { ...input.shape({ ...input.facts }), ...carried },
+    asked ? "default" : input.replyMove,
+    input.momentKey,
+    input.saidParts,
+  );
+  return line ? { subject, line } : null;
+}
+
+/** The subject the other person's answer to a reply on news is composed under. */
+export function newsBackSubject(): string {
+  return HOME.news.backSubject;
+}
+
+/** Whether a reply on news takes a side on the story's question (for or against). */
+export function newsTakesSide(replyMove: string): boolean {
+  return HOME.news.sides.includes(replyMove);
+}
+
+/** Whether a reply to a printed story the neighbor asked about is followed by where the neighbor stands. */
+export function newsAnswerTellsStand(replyMove: string): boolean {
+  return HOME.news.tellsStand.includes(replyMove);
+}
+
+/**
+ * The marks an answer on news is composed from: what the reply said (a "who's
+ * behind it?" asked as a why is answered as a who), whether the teller already
+ * said the story's question (the answer then says "it" and gives what else the
+ * story holds), and a stand either way for the answers that fit both.
+ */
+export function newsSaidFacts(input: {
+  replyMove: string;
+  askedWho: boolean;
+  questionTold: boolean;
+  recordId: string;
+}): Record<string, Fact> {
+  const mark = (): Fact => ({ text: "yes", sourceRecordIds: [input.recordId] });
+  return {
+    [`said-${input.askedWho ? "who" : input.replyMove}`]: mark(),
+    [input.questionTold ? "about-said" : "about-unsaid"]: mark(),
+    ...(newsTakesSide(input.replyMove) ? { "said-side": mark() } : {}),
+  };
+}
+
+/**
+ * A line the other person says on news, composed from the facts the talk
+ * gives under the arcs file's own subject for it: `back` (their answer to the
+ * player's reply, or what the story was about) or `stand` (where they stand,
+ * said when the player had not seen it). Null where no wording fits.
+ */
+export function newsLine(
+  core: Readonly<CoreState>,
+  input: {
+    which: "back" | "stand";
+    speakerId: PersonId;
+    facts: Readonly<Record<string, Fact>>;
+    momentKey: string;
+    saidParts: readonly string[];
+  },
+): Said | null {
+  return composedLine(
+    core,
+    input.speakerId,
+    input.which === "back" ? HOME.news.backSubject : HOME.news.standSubject,
+    input.facts,
+    "default",
+    input.momentKey,
+    input.saidParts,
+  );
 }
 
 /** Where the exchange stands as a branch grows. */
@@ -1105,13 +1339,12 @@ export function composeSceneTalk(
       // Fewer than two answers is no choice: they answer at once instead.
       if (asked && node.replies.length >= two) {
         asked.round = one;
-        const [led] = [...node.replies].sort(
-          (a, b) =>
-            leanOf(core, b.line.move, askedTraits) -
-              leanOf(core, a.line.move, askedTraits) ||
-            stableHash(`${scene}:first:${a.line.move}`).localeCompare(
-              stableHash(`${scene}:first:${b.line.move}`),
-            ),
+        const [led] = byLean(
+          core,
+          node.replies,
+          (row) => row.line.move,
+          askedTraits,
+          (row) => `${scene}:first:${row.line.move}`,
         );
         if (led) led.line.chosen = true;
         return finish({
@@ -1286,13 +1519,12 @@ export function composeSceneTalk(
           delete next.end;
           next.replies = replies;
           count += replies.length;
-          const [ledAfter] = [...replies].sort(
-            (a, b) =>
-              leanOf(core, b.line.move, askedTraits) -
-                leanOf(core, a.line.move, askedTraits) ||
-              stableHash(`${scene}:after:${a.line.move}`).localeCompare(
-                stableHash(`${scene}:after:${b.line.move}`),
-              ),
+          const [ledAfter] = byLean(
+            core,
+            replies,
+            (row) => row.line.move,
+            askedTraits,
+            (row) => `${scene}:after:${row.line.move}`,
           );
           if (ledAfter) {
             ledAfter.line.chosen = true;
@@ -1373,13 +1605,12 @@ export function composeSceneTalk(
         }
         root.replies.push({ line: opener, next: node });
         count += one + node.replies.length;
-        const [ledThen] = [...node.replies].sort(
-          (a, b) =>
-            leanOf(core, b.line.move, askedTraits) -
-              leanOf(core, a.line.move, askedTraits) ||
-            stableHash(`${scene}:middle:${a.line.move}`).localeCompare(
-              stableHash(`${scene}:middle:${b.line.move}`),
-            ),
+        const [ledThen] = byLean(
+          core,
+          node.replies,
+          (row) => row.line.move,
+          askedTraits,
+          (row) => `${scene}:middle:${row.line.move}`,
         );
         if (ledThen) {
           ledThen.line.chosen = true;
@@ -1397,13 +1628,12 @@ export function composeSceneTalk(
       };
     if (!root.replies.length) root.end = { outcome: outcomeOf(first.move) };
     // The page follows the ask the player's traits lean toward most.
-    const [led] = [...root.replies].sort(
-      (a, b) =>
-        leanOf(core, b.line.move, askedTraits) -
-          leanOf(core, a.line.move, askedTraits) ||
-        stableHash(`${scene}:root:${a.line.move}`).localeCompare(
-          stableHash(`${scene}:root:${b.line.move}`),
-        ),
+    const [led] = byLean(
+      core,
+      root.replies,
+      (row) => row.line.move,
+      askedTraits,
+      (row) => `${scene}:root:${row.line.move}`,
     );
     if (led) led.line.chosen = true;
     return finish({
@@ -1518,13 +1748,12 @@ export function composeSceneTalk(
           return line ? [{ candidate, line }] : [];
         },
       );
-      const [best] = [...answers].sort(
-        (a, b) =>
-          leanOf(core, b.candidate, askerTraits) -
-            leanOf(core, a.candidate, askerTraits) ||
-          stableHash(`${scene}:open:${a.candidate}`).localeCompare(
-            stableHash(`${scene}:open:${b.candidate}`),
-          ),
+      const [best] = byLean(
+        core,
+        answers,
+        (row) => row.candidate,
+        askerTraits,
+        (row) => `${scene}:open:${row.candidate}`,
       );
       if (best) {
         intro.push(best.line);
@@ -1618,13 +1847,12 @@ export function composeSceneTalk(
         return answer ? [{ candidate, answer }] : [];
       },
     );
-    const [best] = [...answers].sort(
-      (a, b) =>
-        leanOf(core, b.candidate, traitsOfAsker) -
-          leanOf(core, a.candidate, traitsOfAsker) ||
-        stableHash(`${scene}:${label}:auto:${a.candidate}`).localeCompare(
-          stableHash(`${scene}:${label}:auto:${b.candidate}`),
-        ),
+    const [best] = byLean(
+      core,
+      answers,
+      (row) => row.candidate,
+      traitsOfAsker,
+      (row) => `${scene}:${label}:auto:${row.candidate}`,
     );
     if (best) {
       lines.push(best.answer);
@@ -1677,8 +1905,6 @@ export function composeSceneTalk(
     root.lines = [...root.lines, rootBeat];
     rootPath = { ...rootPath, said: addParts(rootPath.said, rootBeat) };
   }
-
-  const lean = (line: SceneTalkLine) => leanOf(core, line.move, askedTraits);
 
   /** The close for an ending: a thanks or acceptance answer is itself the close. */
   const closeFor = (
@@ -2011,12 +2237,12 @@ export function composeSceneTalk(
       endNode(node, outcome, path, lastAsker);
       continue;
     }
-    const ranked = [...offered].sort(
-      (a, b) =>
-        lean(b) - lean(a) ||
-        stableHash(`${scene}:${path.id}:${a.move}`).localeCompare(
-          stableHash(`${scene}:${path.id}:${b.move}`),
-        ),
+    const ranked = byLean(
+      core,
+      offered,
+      (row) => row.move,
+      askedTraits,
+      (row) => `${scene}:${path.id}:${row.move}`,
     );
     const ledLine = path.led ? ranked[zero] : undefined;
     if (ledLine) ledLine.chosen = true;
@@ -2137,15 +2363,12 @@ export function composeSceneTalk(
           : round === one && open.length
             ? open
             : answers;
-      const [best] = [...pool].sort(
-        (a, b) =>
-          leanOf(core, b.candidate, askerTraits) -
-            leanOf(core, a.candidate, askerTraits) ||
-          stableHash(
-            `${scene}:${childPath.id}:follow:${a.candidate}`,
-          ).localeCompare(
-            stableHash(`${scene}:${childPath.id}:follow:${b.candidate}`),
-          ),
+      const [best] = byLean(
+        core,
+        pool,
+        (row) => row.candidate,
+        askerTraits,
+        (row) => `${scene}:${childPath.id}:follow:${row.candidate}`,
       );
       // On the last round a question would hang: the asker closes instead.
       const answer = last && best?.line.asks ? undefined : best?.line;
