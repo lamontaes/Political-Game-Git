@@ -15,7 +15,7 @@ import { coreAPI } from "../core2/state";
 import { petitionAsksAtDoors } from "../core2/modules/campaigns";
 import { campaignDay } from "./campaign";
 import { buildBenchWorld } from "./world";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // A petition outing's strip says the doors that opened, then how many signed
 // (Words lead, Nov 14): every opener is asked once, so the signers can never

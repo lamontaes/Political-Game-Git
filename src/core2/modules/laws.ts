@@ -16,7 +16,6 @@ import { historyOf } from "../past";
 import {
   PAST_LAW_ENACTED,
   SESSION_FACT,
-  type HistoryModule,
   type HistoryRow,
   type HistorySource,
 } from "../past-module";
@@ -229,7 +228,7 @@ const LAWS_HISTORY: HistorySource = {
   },
 };
 
-export const LAWS_MODULE: PreStartModule & HistoryModule = {
+export const LAWS_MODULE: PreStartModule = {
   // A law's dated changes before day one are its statutes, read through the
   // one history reader (`law.statute`); no copy is kept in the past's table.
   history: LAWS_HISTORY,

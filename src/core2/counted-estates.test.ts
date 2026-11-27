@@ -7,7 +7,7 @@ import { advanceCore } from "./life";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { removeCountedPerson, residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 
 // A counted death passes the dead's cash to the household that outlives
 // them, to the kin who live there in equal shares, and the town's record

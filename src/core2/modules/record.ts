@@ -26,12 +26,7 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
-import {
-  historyOf,
-  type HistoryModule,
-  type HistoryRow,
-  type HistorySource,
-} from "../past";
+import { historyOf, type HistoryRow, type HistorySource } from "../past";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, type Stance } from "../campaign-data";
 import { viewOn } from "./views";
@@ -152,7 +147,7 @@ export function voteById(api: CoreAPI, id: string): VoteRecordRow | undefined {
     VoteRecordRow | undefined;
 }
 
-export const RECORD_MODULE: CoreModule & HistoryModule = {
+export const RECORD_MODULE: CoreModule = {
   id: RECORD_MODULE_ID,
   history: RECORD_HISTORY,
   state: {
@@ -183,6 +178,18 @@ export function voteRecordId(
   personId: string,
 ): string {
   return `vote:${billId}:${question}:${personId}`;
+}
+
+/**
+ * A vote the century cast before day one, on the record as it was: its own
+ * date and its own roll, no news (the past is not told as it happens). The
+ * record engine's own write.
+ */
+export function recordPastVote(api: CoreAPI, row: VoteRecordRow): void {
+  api
+    .moduleState(RECORD_MODULE_ID)
+    .table("votes")
+    .put(row as unknown as ModuleRow);
 }
 
 /** A body's vote, on the record: who, on what question, which way. */

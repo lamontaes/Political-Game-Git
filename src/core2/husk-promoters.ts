@@ -4,8 +4,19 @@
  * what the engine recorded. A file of its own so the engine and the state
  * can both import it without an import cycle.
  */
-import type { PersonId, PersonState } from "./types";
+import type { HuskInput, PersonId, PersonState } from "./types";
 import type { CoreState } from "./types";
+
+/**
+ * A person known only by name, birth and place (another state's official, a
+ * named person outside the town) is recorded as a husk, the people engine's
+ * row for someone nobody has opened. The one write of the husk map from an
+ * engine; one already a person or a husk is left alone.
+ */
+export function recordBackgroundPerson(core: CoreState, husk: HuskInput): void {
+  if (core.people.has(husk.id) || core.husks.has(husk.id)) return;
+  core.husks.set(husk.id, husk);
+}
 
 type Promoter = (
   core: CoreState,
