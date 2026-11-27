@@ -118,7 +118,7 @@
     "why": "The life record, part 6 (pool item core-life-record-part-6-the-past-holds-what-happened-between-people) built the event from the one published table read (NHIS 2018 Table P-10a); the health engine's conditions describe a fatal illness's risk, not a survived stay's.",
     "addedBy": "opus-5234 (core-life-record-part-6)",
     "addedAt": "2026-11-11",
-    "replacement": "The share of stays by age, sex and condition (HCUP National Inpatient Sample by diagnosis), weighed by the person's health record and traits, with injuries told apart from illnesses.",
+    "replacement": "The share of stays by age, sex and condition (HCUP National Inpatient Sample by diagnosis), weighed by the person's health record and traits, with injuries told apart from illnesses. Read Nov 26, 2026 (Past and day one, map row 16, #10377): the health engine (modules/health.ts) has no survived stay to run. It books one onset per life, a serious illness that ends in death, when strain from the opening day crosses the person's own memoryless line (the lookback reaches back one illness course), and it assigns conditions on its first day, after pasts are opened; so its hazard and line cannot give a living person's earlier stays, and the death hazard has no source for stays. past-health.ts already has the engine's shape (a pull against a seeded line) and differs only in its rate table, so it is not a second rule so much as a rate with no engine counterpart. The replacement needs a survived-stay rule added to the health engine first (a CTO or owner call: keep stays as generated history, add them to play, or drop them); past-health.ts then reads it. Its cost is 2 ms of a 16.8 s build.",
     "status": "open"
   },
   {
