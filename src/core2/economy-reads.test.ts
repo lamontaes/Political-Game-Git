@@ -2,14 +2,32 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { allBudgetRows, budgetRowOf, governmentRowOf } from "./budgets-reads";
-import { allBusinessOwners, ownerOfBusiness } from "./business-reads";
+import {
+  allBudgetRows,
+  budgetRowOf,
+  employerTaxRecordsOf,
+  governmentRowOf,
+  profitTaxRecordsOf,
+  reserveSwept,
+} from "./budgets-reads";
+import {
+  allBusinessOwners,
+  allTradingMonths,
+  businessFoundings,
+  outsideCostRecordIds,
+  ownerOfBusiness,
+  tradingMonthOf,
+} from "./business-reads";
 import { allCreditLoans, bankBookRows, townBankRecord } from "./credit-reads";
 import { gameStartDate } from "./game-start";
 import {
   allCountedSeekers,
   allJobChanges,
   allPositions,
+  jobChangeOn,
+  jobChangesOfKind,
+  hasApplied,
+  offerOf,
   allSeekers,
   jobChange,
   jobChangesOf,
@@ -24,6 +42,8 @@ import { advanceCore } from "./life";
 import {
   allCountryStates,
   allMacroMonths,
+  boardSeatOf,
+  rateMeetingOf,
   countryStateByKey,
   latestMacroMonth,
   latestMacroMonthId,
@@ -112,6 +132,54 @@ describe(`the economy's read doors match what the engines keep (seed ${seed})`, 
         where,
       ).toContain(change.id);
     }
+
+    // The doors that answer from an index or a second table.
+    for (const change of changes.slice(0, 20)) {
+      expect(
+        jobChangeOn(api, change.date, change.jobId, change.kind),
+        where,
+      ).toBe(change);
+      expect(
+        jobChangesOfKind(api, change.kind).map((row) => row.id),
+        where,
+      ).toContain(change.id);
+    }
+    expect(jobChangesOfKind(api, "layoff").length, where).toBe(
+      tables.table("changes").query("byKind", ["layoff"]).length,
+    );
+    expect(offerOf(api, "offer:none"), where).toBeUndefined();
+    expect(hasApplied(api, "position:none"), where).toBe(false);
+    expect(allTradingMonths(api).length, where).toBe(
+      api.moduleState("business").table("trading").size,
+    );
+    for (const month of allTradingMonths(api).slice(0, 20))
+      expect(tradingMonthOf(api, month.id), where).toBe(month);
+    const business = api.moduleState("business");
+    expect(businessFoundings(api).length, where).toBe(
+      business.table("ages").size + business.table("foundings").size,
+    );
+    for (const owner of allBusinessOwners(api).slice(0, 20))
+      expect(outsideCostRecordIds(api, owner.id).length, where).toBe(
+        business.table("outsideCosts").query("byOrganization", [owner.id])
+          .length,
+      );
+    const taxes = api.moduleState("core2-employer-taxes-v1");
+    for (const owner of allBusinessOwners(api).slice(0, 20)) {
+      expect(employerTaxRecordsOf(api, owner.id).length, where).toBe(
+        taxes.table("shares").query("byEmployer", [owner.id]).length,
+      );
+      expect(profitTaxRecordsOf(api, owner.id).length, where).toBe(
+        taxes.table("profits").query("byBusiness", [owner.id]).length,
+      );
+    }
+    expect(reserveSwept(api, "government:none"), where).toBe(false);
+    const members = api.moduleState("macro").table("members").rows();
+    expect(members.length, where).toBeGreaterThan(0);
+    for (const member of members)
+      expect(boardSeatOf(api, String(member.personId))?.personId, where).toBe(
+        member.personId,
+      );
+    expect(rateMeetingOf(api, "meeting:none"), where).toBeUndefined();
 
     // Businesses and credit.
     const owners = allBusinessOwners(api);
