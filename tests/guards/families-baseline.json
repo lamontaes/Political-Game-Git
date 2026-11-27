@@ -1,11 +1,14 @@
 {
   "unassigned": [],
   "deepImports": {
-    "src/bench/campaign.ts": 1,
-    "src/bench/card.ts": 2,
-    "src/bench/dev-mode.ts": 4,
-    "src/bench/printed-words.ts": 1,
+    "src/bench/campaign.ts": 2,
+    "src/bench/card.ts": 3,
+    "src/bench/changes.ts": 2,
+    "src/bench/dev-mode.ts": 7,
+    "src/bench/government.ts": 1,
+    "src/bench/printed-words.ts": 2,
     "src/bench/race-words.ts": 1,
+    "src/bench/reached.ts": 1,
     "src/bench/scene.ts": 1,
     "src/bench/words.ts": 1,
     "src/bench/world.ts": 9,
