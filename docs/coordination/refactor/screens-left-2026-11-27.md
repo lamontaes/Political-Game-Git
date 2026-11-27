@@ -1,4 +1,4 @@
-# What Screens built and what is left (Nov 27, 2026, updated 12:15 p.m. ET)
+# What Screens built and what is left (Nov 27, 2026, updated 1:30 p.m. ET)
 
 The Screens session's goal was items 1 to 8 of its section in `assignments-2026-11-26.md`. "Built" here means an open pull request, because the goal forbids merging. Each item is built, or listed with the file, the pull request or door it needs, and the command to run.
 
@@ -24,9 +24,11 @@ The Screens session's goal was items 1 to 8 of its section in `assignments-2026-
   - Economy: credit, budgets, jobs, business, macro and place prices (18 opens: `bank.ts`, `budget.ts`, `openings`, dev views). The proven shapes were posted on #10377 (`reserveSweptFor`, `townBankOrganizationId`, `latestBankBooks`, `monthsOfHousehold`, `loansOfHousehold`, `paymentsOfLoan`).
   - People: housing, coverage and people (6 opens, the Money screen's dwellings and mortgages).
   - World: the rest of the news reads.
+  - The Doors session (`claude/tender-ramanujan-f3oh0l-*`, #10850, #10851) switches the director's, news' and the past's table reads with `scripts/refactor/doors-switch.py`; Screens takes the screens files only.
+  - Offices' `townOffices(api)` and `endedTermsOnSeat(api, seatId)` are new in #10860 (Elections' stack); no screens file reads those two tables.
   - Story's files (`card.ts`, `scene.ts`, `dev-mode.ts`, `government-bodies.ts`, `campaign.ts`, `bill-stage.ts`, `printed-words.ts`, `reached.ts`, `law-did.ts`, `states.ts`, `results.ts`, `changes.ts`, `dev-why.ts`) open tables the engines now have doors for. Switch them in the Story split, or run the same steps (stack on the door branch, replace the open, typecheck, hash the view before and after).
   - Record detail by id (`law-did.ts:85-90`, `states.ts:45-48`, `results.ts:171-175`) uses Core's `recordOf` and `historyEvent` once those files are free.
-- **8. The dev panel reads its steps from features.json (8b).** Approved once (8a) is decided; (8a) is built (#10841). It is in `src/bench/progress.ts`, Story's file with 13 player-text lines the English engine should hold, so it waits for Story's split. The first run of M0-14 reaches no step at Sterling, Michigan ("no open seat, first council race"), a finding for whoever owns the walk. Follow through Core's door (`dev-mode.ts:1006-1026`) needs Core to name the door for the player's circle.
+- **8. Built, one piece left.** (8a) the walk as its own spec row, M0-14, is #10841 (the owner's choice after the CTO's 10:15 line; the CTO is asked on #10377 whether to move it into M0-05's command instead). (8b) the dev panel's step table reads each step's specs from features.json: #10842, on main, one file of Story's (`progress.ts`) touched in the places the panel reads, so it folds after Story's split or is re-run by the same edit. The first run of M0-14 reaches no step at Sterling, Michigan ("no open seat, first council race"), a finding for whoever owns the walk. Follow through Core's door (`dev-mode.ts:1006-1026`) needs Core to name the door for the player's circle.
 
 ## How to re-run what is scripted
 
