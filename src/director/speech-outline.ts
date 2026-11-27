@@ -2235,6 +2235,146 @@ function readAddress(
   };
 }
 
+type AddressRead = ReturnType<typeof readAddress>;
+
+/** A block as drafted: the block less its paragraph, which `blocksOf` gives it, and whether it joins the one before. */
+type Draft = Omit<Block, "part"> & { readonly joins?: boolean };
+
+/**
+ * The world's names and the theme's subjects that every part of an address may say: the
+ * realm, the body, what it passes, the office title and the theme's name. A step of
+ * `planSpeech`; it reads the address already read and says nothing of its own.
+ */
+function worldNamesOf(
+  core: CoreState,
+  speaker: OutlineSpeaker,
+  read: Pick<
+    AddressRead,
+    | "federal"
+    | "level"
+    | "person"
+    | "kind"
+    | "voice"
+    | "country"
+    | "local"
+    | "points"
+    | "themeName"
+    | "themeCited"
+  >,
+): Facts {
+  const {
+    federal,
+    level,
+    person,
+    kind,
+    voice,
+    country,
+    local,
+    points,
+    themeName,
+    themeCited,
+  } = read;
+  const realm = federal
+    ? null
+    : level === "state"
+      ? coreStateName((speaker.jurisdiction ?? "").replace(/^US-/, ""))
+      : (local?.realmName ??
+        (core.placeMetadata.placeName ?? "").split(",")[P.zero]?.trim() ??
+        null);
+  const world: Facts = federal
+    ? worldFacts(core, person, kind, voice, country, points)
+    : {
+        ...(realm
+          ? {
+              // "the Northern Mariana Islands" where a sentence needs the
+              // article (rule 49); the bare name for a vocative or a title.
+              "realm-name": fact(
+                level === "state" ? stateInSentence(realm) : realm,
+                speaker.jurisdiction ?? person.id,
+              ),
+              "realm-bare": fact(realm, speaker.jurisdiction ?? person.id),
+            }
+          : {}),
+        ...(local?.body ? { body: fact(local.body, local.officeId) } : {}),
+        // A greeting says the body by the name its record gives it.
+        ...(local?.bodyName
+          ? { "body-name": fact(local.bodyName, local.officeId) }
+          : {}),
+        // What the body passes, as it names it: a legislature's bills, a
+        // town's or a county's ordinances (the one form rule, by the office
+        // kind on the record; line rule body-named-as-place-names-it).
+        measure: fact(
+          OUTLINES.measureWords[
+            formKindOf(
+              local
+                ? (officeKindOf(core, local.officeId) ?? "")
+                : "legislature-lower",
+            )
+          ]!,
+          local?.officeId ?? speaker.jurisdiction ?? person.id,
+        ),
+        ...(local?.officeTitle
+          ? { "office-title": fact(local.officeTitle, local.officeId) }
+          : {}),
+        ...(themeName && themeCited.length
+          ? { "theme-name": fact(themeName, ...themeCited) }
+          : {}),
+      };
+  return world;
+}
+
+/**
+ * The drafts as blocks: one paragraph per block (the block after the greeting joins its
+ * paragraph and the close joins the one before it), each with the world's names and
+ * the kind of address, and the body said by name once and as "this council" after. The
+ * last step of `planSpeech`.
+ */
+function blocksOf(
+  drafts: readonly Draft[],
+  world: Facts,
+  kindFact: Facts,
+  local: AddressRead["local"],
+): Block[] {
+  // One paragraph per block; the block after the greeting joins its
+  // paragraph, so the greeting never stands alone, and the close joins the
+  // one before it.
+  let part = -P.one;
+  // The body is named in the greeting and in the first ask; after that it is
+  // "this council" or "this board" (words lead, Nov 14, rule 40: never named
+  // five times).
+  const bodyAgain = local?.body
+    ? fact(
+        `this ${local.body.replace(/^the /, "")}`,
+        local.officeId as EntityId,
+      )
+    : null;
+  let bodyAsked = false;
+  const blocks = drafts.map((draft, at): Block => {
+    // No paragraph of one aside: what the speaker believes joins the
+    // greeting's paragraph, and the hope joins the close.
+    const before = drafts[at - P.one]?.key;
+    const together =
+      draft.joins ||
+      before === "salutation" ||
+      (draft.key === "creed" && before === "occasion") ||
+      (draft.key === "close" && before === "hope");
+    if (!together || part < P.zero) part += P.one;
+    const { joins, ...rest } = draft;
+    void joins;
+    const facts = Object.fromEntries(
+      Object.entries({ ...world, ...kindFact, ...rest.facts }).filter(
+        ([, value]) => value !== undefined,
+      ),
+    ) as Facts;
+    if (bodyAgain && facts["body-name"] && draft.key !== "salutation") {
+      if (bodyAsked) facts["body-name"] = bodyAgain;
+      else if (draft.key.startsWith("point-")) bodyAsked = true;
+    }
+    return { ...rest, facts, part };
+  });
+  return blocks;
+}
+
 /**
  * Plan a speech of one kind from its outline row and the world: the one
  * planner for the President's, a governor's and a mayor's address.
@@ -2408,7 +2548,6 @@ export function planSpeech(
       join: belief ? join : null,
     };
   });
-  type Draft = Omit<Block, "part"> & { readonly joins?: boolean };
   /**
    * What a close says after the one ask: what follows from it for the people
    * the speech named, where the ask changes the law (how the question will
@@ -2971,89 +3110,19 @@ export function planSpeech(
   // (the words lead, Nov 12: "this state" eight times, the state's name never).
   // stopgapId: SG-WORDS-local-address-conditions
   if (!federal) markWordsStopgap("SG-WORDS-local-address-conditions");
-  const realm = federal
-    ? null
-    : level === "state"
-      ? coreStateName((speaker.jurisdiction ?? "").replace(/^US-/, ""))
-      : (local?.realmName ??
-        (core.placeMetadata.placeName ?? "").split(",")[P.zero]?.trim() ??
-        null);
-  const world: Facts = federal
-    ? worldFacts(core, person, kind, voice, country, points)
-    : {
-        ...(realm
-          ? {
-              // "the Northern Mariana Islands" where a sentence needs the
-              // article (rule 49); the bare name for a vocative or a title.
-              "realm-name": fact(
-                level === "state" ? stateInSentence(realm) : realm,
-                speaker.jurisdiction ?? person.id,
-              ),
-              "realm-bare": fact(realm, speaker.jurisdiction ?? person.id),
-            }
-          : {}),
-        ...(local?.body ? { body: fact(local.body, local.officeId) } : {}),
-        // A greeting says the body by the name its record gives it.
-        ...(local?.bodyName
-          ? { "body-name": fact(local.bodyName, local.officeId) }
-          : {}),
-        // What the body passes, as it names it: a legislature's bills, a
-        // town's or a county's ordinances (the one form rule, by the office
-        // kind on the record; line rule body-named-as-place-names-it).
-        measure: fact(
-          OUTLINES.measureWords[
-            formKindOf(
-              local
-                ? (officeKindOf(core, local.officeId) ?? "")
-                : "legislature-lower",
-            )
-          ]!,
-          local?.officeId ?? speaker.jurisdiction ?? person.id,
-        ),
-        ...(local?.officeTitle
-          ? { "office-title": fact(local.officeTitle, local.officeId) }
-          : {}),
-        ...(themeName && themeCited.length
-          ? { "theme-name": fact(themeName, ...themeCited) }
-          : {}),
-      };
-  // One paragraph per block; the block after the greeting joins its
-  // paragraph, so the greeting never stands alone, and the close joins the
-  // one before it.
-  let part = -P.one;
-  // The body is named in the greeting and in the first ask; after that it is
-  // "this council" or "this board" (words lead, Nov 14, rule 40: never named
-  // five times).
-  const bodyAgain = local?.body
-    ? fact(
-        `this ${local.body.replace(/^the /, "")}`,
-        local.officeId as EntityId,
-      )
-    : null;
-  let bodyAsked = false;
-  const blocks = drafts.map((draft, at): Block => {
-    // No paragraph of one aside: what the speaker believes joins the
-    // greeting's paragraph, and the hope joins the close.
-    const before = drafts[at - P.one]?.key;
-    const together =
-      draft.joins ||
-      before === "salutation" ||
-      (draft.key === "creed" && before === "occasion") ||
-      (draft.key === "close" && before === "hope");
-    if (!together || part < P.zero) part += P.one;
-    const { joins, ...rest } = draft;
-    void joins;
-    const facts = Object.fromEntries(
-      Object.entries({ ...world, ...kindFact, ...rest.facts }).filter(
-        ([, value]) => value !== undefined,
-      ),
-    ) as Facts;
-    if (bodyAgain && facts["body-name"] && draft.key !== "salutation") {
-      if (bodyAsked) facts["body-name"] = bodyAgain;
-      else if (draft.key.startsWith("point-")) bodyAsked = true;
-    }
-    return { ...rest, facts, part };
+  const world = worldNamesOf(core, speaker, {
+    federal,
+    level,
+    person,
+    kind,
+    voice,
+    country,
+    local,
+    points,
+    themeName,
+    themeCited,
   });
+  const blocks = blocksOf(drafts, world, kindFact, local);
   return {
     blocks,
     addressKind,
