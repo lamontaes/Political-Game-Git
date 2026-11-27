@@ -113,10 +113,7 @@ import {
   ownCaseDecision,
 } from "./modules/constituent-cases";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./modules/people";
-import {
-  registerBillIntroduced,
-  registerLeaderRefusalReader,
-} from "./modules/world-legislating";
+import {} from "./modules/world-legislating";
 import { followersOf, outletsHere } from "./modules/press";
 import type { ModuleRow } from "./module-data";
 import type {
@@ -1920,6 +1917,9 @@ export const OFFICE_DAY_STATE_MODULE: CoreModule = {
   },
   // The shared office-day engine drives the lifecycle below; a world governor's address comes on its calendar day.
   onCalendarWork: governorAddressDay,
+  // What the world's legislating asks the office day: a leader's hearing for a new bill, and whether a leader refused one.
+  billIntroduced: leaderHearingAsked,
+  leaderRefusalReader: leaderRefused,
 };
 
 // The treasury pays these obligations after revenue arrives and before residual spending.
@@ -2137,7 +2137,7 @@ const LEADER_DECISION = "office-day-state.leader-request";
  * party, their tie to the member and their own traits. Registered with the
  * legislating engine, which calls it as each filed change becomes a bill.
  */
-registerBillIntroduced((api, billId) => {
+function leaderHearingAsked(api: CoreAPI, billId: string): void {
   if (!api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID)) return;
   const bill = billOf(api, billId);
   if (!bill || bill.status !== "drafted") return;
@@ -2156,7 +2156,7 @@ registerBillIntroduced((api, billId) => {
   )
     return;
   askLeaderForHearing(api, bill.sponsorId, billId, { schedule: false });
-});
+}
 
 /**
  * How far a bill runs against the person's own position, 0 to 1: the
@@ -2304,15 +2304,16 @@ export function askLeaderForHearing(
 }
 
 // The leader's refused answer keeps the bill off the floor's own order.
-registerLeaderRefusalReader(
-  (api, billId) =>
+function leaderRefused(api: CoreAPI, billId: string): boolean {
+  return (
     api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID) &&
     (
       table(api, "leaderRequests").get(
         `leader-request:${billId}`,
       ) as unknown as LeaderRequestRow | undefined
-    )?.granted === false,
-);
+    )?.granted === false
+  );
+}
 
 /**
  * The member has just offered a deal on a bill whose request the leader

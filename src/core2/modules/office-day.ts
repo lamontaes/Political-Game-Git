@@ -91,12 +91,7 @@ import {
   type DeskAction,
   type VetoReason,
 } from "./legislature";
-import {
-  filesAhead,
-  filingsOwed,
-  registerMeetingHold,
-  voteAtMeeting,
-} from "./world-legislating";
+import { filesAhead, filingsOwed, voteAtMeeting } from "./world-legislating";
 import {
   nextMeeting as nextOnRule,
   bodyPopulation,
@@ -324,6 +319,8 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     for (const kit of officeActKits()) kit.onDay?.(api);
     return undefined;
   },
+  // Whether a body's meeting is held, and what it does with the agenda filed for it.
+  meetingHold: { hold: holdsMemberFilings, filed: placeFiled },
 };
 /**
  * A player seated after a meeting's agenda was posted (appointed to a vacant
@@ -1550,7 +1547,6 @@ function placeFiled(
   table(api, "meetings").put(placed as unknown as ModuleRow);
   holdPlayerIfDue(api, placed);
 }
-registerMeetingHold(holdsMemberFilings, placeFiled);
 registerCommitteeWait((api, bill) => {
   // Only the player's own body can wait: one indexed read of the player's
   // seats answers false for every other body before any agenda is read.
