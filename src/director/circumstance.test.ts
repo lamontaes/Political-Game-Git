@@ -27,7 +27,7 @@ import type { Director } from "./ledger";
 import { lawName, purposeScene, replyInScene } from "./purpose-scene";
 import { composeScene } from "./scene";
 import { SITUATION_LIBRARY } from "./scheduling";
-import { gatherSignatures } from "../core2/campaign-petition-kit";
+import { gatherSignatures } from "../../tests/support/campaign-petition-kit";
 
 // Scenes from circumstance (owner, Oct 27, 01:30 Eastern: "if the
 // circumstances are right in the simulation, they should be callable"). A

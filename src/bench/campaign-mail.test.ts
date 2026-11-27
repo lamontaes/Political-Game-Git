@@ -38,7 +38,7 @@ import { takeCampaignDayChoice } from "../core2/campaign-day";
 import { campaignAct, campaignDay, campaignView } from "./campaign";
 import { FOLDED_AT_POST, findRecord, traceNode } from "./dev-trace";
 import controls from "./data/controls.json" with { type: "json" };
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const START = "2026-01-05";
 const runSeed =

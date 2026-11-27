@@ -225,7 +225,7 @@ import {
 } from "./sitting";
 import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
-import { directorStopgap, WORDS_STOPGAP_HITS } from "./stopgaps";
+import { stopgap, WORDS_STOPGAP_HITS } from "../core2/stopgaps";
 import {
   clockSaid,
   daysSaid,
@@ -1728,7 +1728,9 @@ function rentDue(
 ): Subject | null {
   // The lease a household signed when the world was made, by its id; one
   // signed after a move is not read (a registered stopgap).
-  directorStopgap("SG-DIRECTOR-rent-talk-first-lease", WORDS_STOPGAP_HITS);
+  stopgap("SG-DIRECTOR-rent-talk-first-lease", {
+    stopgapHits: WORDS_STOPGAP_HITS,
+  });
   const lease = core.finance.contracts.get(`lease:${speaker.householdId}`) as
     (FinanceContractInput & { endedAt?: string }) | undefined;
   if (!lease || lease.endedAt || !lease.payerIds.includes(speaker.id))
@@ -2387,7 +2389,9 @@ function governmentNews(
     }`;
     if (heardRows.some((heard) => heard.key === `${HEARD_SUBJECT}${id}`))
       continue;
-    directorStopgap("SG-DIRECTOR-town-change-reach-unread", WORDS_STOPGAP_HITS);
+    stopgap("SG-DIRECTOR-town-change-reach-unread", {
+      stopgapHits: WORDS_STOPGAP_HITS,
+    });
     return {
       id,
       kind: "government-news",

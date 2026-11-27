@@ -14,8 +14,12 @@ import { drawPlace } from "../../tests/golden-path/place";
 import { PARTIES_MODULE_ID, type PartyRow } from "./modules/parties";
 import { coreAPI } from "./state";
 import { decisionTraitWeight } from "./trait-decisions";
-import { RUN_SEED } from "./trait-test-kit";
-import { describePair, playedPairs, type PlayedCall } from "./trait-pairs";
+import { RUN_SEED } from "../../tests/support/trait-test-kit";
+import {
+  describePair,
+  playedPairs,
+  type PlayedCall,
+} from "../../scripts/core2/trait-pairs";
 
 /** The civic decisions a played window weighs for named actors (all formula decisions). */
 const CIVIC = {

@@ -9,10 +9,10 @@
  * party falling out with the other and deciding to tell someone.
  */
 import { scoreOffers, decisionFromScores } from "../choice";
-import { closenessBetween, currentCloseness } from "./people";
-import { decisionKinds } from "./people";
+import { closenessBetween, currentCloseness } from "../closeness";
+import { decisionKinds } from "../trait-decision-table";
 import rows from "../data/corruption/parameters.json" with { type: "json" };
-import { isExplicitlyControlledPersonV1 } from "../life";
+import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import type { CashJournalPosting } from "./people";
 import type { Parameter } from "../parameters";
 import type {
