@@ -3,9 +3,9 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
 import type { StaffingReceipt } from "./opening-staffing";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import type { CoreState } from "./types";
-import { daysAfterStart } from "./tooling/test-days";
+import { daysAfterStart } from "../../tests/support/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-staffing");

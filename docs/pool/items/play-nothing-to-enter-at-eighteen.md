@@ -19,7 +19,7 @@ claimed-at: 2026-10-18T15:12:02.458Z
 
 **Done when.** For a drawn place and seed where no contest is open to the 18-year-old (the two above), the bench's government screen shows what the player can do instead, from the place's records, and a test in src/bench names the place and seed and checks it; the path check reports the step the player reaches.
 
-**Files.** src/bench/government.ts, src/bench/path-check.ts
+**Files.** src/bench/government.ts, tests/golden-path/path-check.ts
 
 **Notes.** Found Oct 18 (claude/pool-notes-path-sweep) in two sweeps of the path check, 44 seeds. Manley Hot Springs is an incorporated Alaska city, but the Census government listing the game reads carries no unit for it (149 Alaska municipalities, none named Manley), so its town has no council seats; that data gap is its own question. Territories fall under the same rule: Guam's filing ages are above 18.
 

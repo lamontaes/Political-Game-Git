@@ -41,7 +41,7 @@ import {
   LEGISLATURE_MODULE_ID,
   votesOn,
 } from "../core2/modules/legislature";
-import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { OFFICES_MODULE_ID, officeById } from "../core2/modules/offices";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -160,10 +160,7 @@ function bodySaid(
   officeId: string | undefined,
 ): string | null {
   if (!officeId || !core.modules.has(OFFICES_MODULE_ID)) return null;
-  const office = coreAPI(core as CoreState)
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(officeId) as unknown as
+  const office = officeById(coreAPI(core as CoreState), officeId) as unknown as
     | {
         title: string;
         seats?: number;

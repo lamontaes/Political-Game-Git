@@ -215,5 +215,20 @@
     "addedAt": "2026-11-17",
     "replacement": "hardshipWeightPeoplePart set from Charles and Stephens 2004's hazard estimate, divided by the average layoff's stress (0.47) as the move weight is.",
     "status": "open"
+  },
+  {
+    "id": "SG-LIVES-director-kin-contact-impact",
+    "kind": "estimated-parameter",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "How much a letter from a relative elsewhere weighs, so that a close tie's letter ranks among the year's top moments.",
+    "why": "No scale item sizes a letter; the Holmes and Rahe 'change in family get-togethers' (15 units) ranks below every other moment of the year and never stages. Sized by rank in the played year (New Castle, Kentucky, seed lives-letter-a: ranks 2 to 6 of the year's moments). Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
+    "addedBy": "Lives (night crew, Nov 8)",
+    "addedAt": "2026-11-08",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A measured weight of family contact in the life-change literature, or the people engine's own appraisal of the contact.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3",
+    "area": "director"
   }
 ]

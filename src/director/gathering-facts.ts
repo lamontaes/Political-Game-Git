@@ -17,7 +17,7 @@ import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import { newsSince, type NewsFact } from "./life-news";
 
 /** The situation type that reads these facts. */
-export const GATHERING_TYPE = "gathering-missing";
+const GATHERING_TYPE = "gathering-missing";
 
 /** Days back the missing relative's news still counts as news to the family. */
 const { newsDays: NEWS_DAYS } = rulesFile.occasionFacts;

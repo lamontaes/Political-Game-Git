@@ -26,7 +26,7 @@ import {
 } from "./outcome-web-model";
 import { layOff } from "./modules/jobs";
 import { coreAPI } from "./state";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import type { CoreAPI, CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");

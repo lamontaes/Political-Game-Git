@@ -8,7 +8,7 @@ import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
 import { periodDeathChance } from "./births-counted";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 
 // Counted deaths follow each cohort's hazard, not only the oldest first, and
 // the year's total matches what the life tables expect. A random place from
