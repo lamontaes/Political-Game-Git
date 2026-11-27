@@ -37,7 +37,16 @@ import { lawChain, lawInForce } from "./laws";
 import { federalParameter } from "../office-day-federal";
 import { closenessBetween } from "../closeness";
 import { remarksOn, signUpToSpeak } from "./meetings";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  allTerms,
+  officeById,
+  servingTermsOf,
+  termById,
+  termCount,
+  townSeats,
+  type TermRow,
+} from "./offices";
 import { governments } from "./budgets";
 import { payOfficialPaycheck } from "./official-pay";
 export { SALARY_SERIES } from "./official-pay";
@@ -301,7 +310,7 @@ export const OFFICE_DAY_MODULE: CoreModule & HistoryModule = {
     // A job starts or ends before a day's work, so the roster is read here
     // and the office jobs change in the next day's calendar work: when the
     // roster grows, and on the 1st for terms that ended.
-    const terms = api.moduleState(OFFICES_MODULE_ID).table("terms").size;
+    const terms = termCount(api);
     const payday = api.state.date.endsWith("-01");
     if (payday || seenTerms.get(api.state as CoreState) !== terms) {
       seenTerms.set(api.state as CoreState, terms);
@@ -352,14 +361,7 @@ const playerOf = (api: CoreAPI) =>
  */
 export const officeHost: OfficeActHost = {
   officesOf: (api, personId) =>
-    (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("byPerson", [personId]) as unknown as TermRow[]
-    )
-      .filter((term) => term.status === "serving")
-      .map((term) => term.officeId),
+    servingTermsOf(api, personId).map((term) => term.officeId),
   keep: (api, row) => keepAct(api, row),
   prepared: (api, personId, actId) => preparedFor(api, personId, actId),
   clearPrepared: (api, personId, actId) =>
@@ -437,10 +439,7 @@ export function openingActs(api: CoreAPI): void {
   // Each serving holder's first day of service: nobody is given an act from
   // before they held the office, since they did not do it.
   const since = new Map<string, string>();
-  for (const term of api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .rows() as unknown as TermRow[]) {
+  for (const term of allTerms(api)) {
     if (
       term.status !== "serving" ||
       !term.personId ||
@@ -1882,11 +1881,10 @@ export function reviewOfficeJobs(api: CoreAPI): void {
   const seed =
     (table(api, "world").get("seed") as unknown as { seed: string } | undefined)
       ?.seed ?? "";
-  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
   for (const raw of table(api, "officeJobs").rows()) {
     const row = raw as unknown as OfficeJobRow;
     if (row.endedOn) continue;
-    const term = terms.get(row.id) as unknown as TermRow | undefined;
+    const term = termById(api, row.id);
     if (term?.status === "serving") continue;
     const ended = term?.endDate ?? api.state.date;
     if (row.jobId) {
@@ -1970,10 +1968,7 @@ function payStipends(api: CoreAPI): void {
     let row = raw as unknown as OfficeJobRow;
     if (row.jobId) continue;
     // The stipend is the pay ordinance in force on the first day it pays for.
-    const kind = (
-      api.moduleState(OFFICES_MODULE_ID).table("offices").get(row.officeId) as
-        { kind?: string } | undefined
-    )?.kind;
+    const kind = officeById(api, row.officeId)?.kind;
     const law = kind ? enactedSeatPay(api, kind, row.paidFrom) : null;
     if (law && law.annualMinor !== row.annualMinor)
       row = { ...row, annualMinor: law.annualMinor, citation: law.citation };

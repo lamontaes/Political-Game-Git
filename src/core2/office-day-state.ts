@@ -68,7 +68,14 @@ import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
 import {
   isOutsideOffice,
   OFFICES_MODULE_ID,
+  officeById,
+  officeSeats,
+  officesInJurisdiction,
   seatTerm,
+  servingTerms,
+  servingTermsOf,
+  servingTermsOfOffice,
+  termOnSeat,
   type TermRow,
 } from "./modules/offices";
 import { holderOf, officialStance } from "./modules/officials";
@@ -268,13 +275,8 @@ export function stateOfficeOf(
   // (sitting-closeness.ts), so a small world is asked too, as
   // `servingTermsOf` allows for.
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const terms = (
-    offices.table("terms").query("byPerson", [personId]) as unknown as TermRow[]
-  ).filter((t) => t.status === "serving");
-  for (const term of terms) {
-    const office = offices.table("offices").get(term.officeId) as unknown as
-      OfficeRow | undefined;
+  for (const term of servingTermsOf(api, personId)) {
+    const office = officeById(api, term.officeId);
     if (!office || office.level !== "state") continue;
     const role: StateRole | null = LEGISLATURE_KINDS.has(office.kind)
       ? "legislator"
@@ -449,10 +451,7 @@ const roomId = (chamber: string, kind: "committee" | "caucus", key: string) =>
 
 /** The state a chamber sits in. */
 function chamberState(api: CoreAPI, chamber: string): string | null {
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(chamber) as unknown as OfficeRow | undefined;
+  const office = officeById(api, chamber);
   return office?.level === "state" ? office.jurisdiction : null;
 }
 
@@ -1184,12 +1183,9 @@ export function legislativeLeaders(
   stateKey: string,
 ): readonly string[] {
   if (!api.state.modules.has(LEADERSHIP_MODULE_ID)) return [];
-  const chambers = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .query("byJurisdiction", [stateKey]) as unknown as OfficeRow[]
-  ).filter((o) => LEGISLATURE_KINDS.has(o.kind));
+  const chambers = officesInJurisdiction(api, stateKey).filter((o) =>
+    LEGISLATURE_KINDS.has(o.kind),
+  );
   const out = new Set<string>();
   for (const chamber of chambers.sort((a, b) => a.id.localeCompare(b.id)))
     for (const id of [
@@ -1234,12 +1230,9 @@ function stateOfTheState(
   stances: readonly { question: string; position: number }[],
 ): string[] {
   if (!api.state.modules.has(SPEECH_MODULE_ID)) return [];
-  const chambers = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .query("byJurisdiction", [office.stateKey]) as unknown as OfficeRow[]
-  ).filter((o) => LEGISLATURE_KINDS.has(o.kind));
+  const chambers = officesInJurisdiction(api, office.stateKey).filter((o) =>
+    LEGISLATURE_KINDS.has(o.kind),
+  );
   const legislators = chambers.flatMap((c) =>
     members(api, c.id).map(memberKey),
   );
@@ -1310,12 +1303,9 @@ function payPerDiem(api: CoreAPI): Record<string, number> {
       w >= 1 && w <= 5 && stateWeek(stateKey).sessionWeek[w - 1] === "floor"
     );
   });
-  const chambers = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .query("byJurisdiction", [stateKey]) as unknown as OfficeRow[]
-  ).filter((o) => LEGISLATURE_KINDS.has(o.kind));
+  const chambers = officesInJurisdiction(api, stateKey).filter((o) =>
+    LEGISLATURE_KINDS.has(o.kind),
+  );
   const payer = stateTreasury(api, stateKey);
   const accounts = api.accounts();
   for (const chamber of chambers)
@@ -1520,21 +1510,16 @@ function stateOfficeHoursToday(api: CoreAPI): ReadonlyMap<string, OfficeTime> {
     return out;
   const stateKey = lawChain(api).stateKey;
   if (!stateKey) return out;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   const date = api.state.date;
   const day = weekday(date);
   const workday = day >= 1 && day <= 5;
-  for (const row of offices
-    .table("offices")
-    .query("byJurisdiction", [stateKey]) as unknown as OfficeRow[]) {
+  for (const row of officesInJurisdiction(api, stateKey)) {
     if (
       row.level !== "state" ||
       !(LEGISLATURE_KINDS.has(row.kind) || row.kind === "governor")
     )
       continue;
-    for (const term of offices
-      .table("terms")
-      .query("byOfficeStatus", [row.id, "serving"]) as unknown as TermRow[]) {
+    for (const term of servingTermsOfOffice(api, row.id)) {
       const personId = term.personId;
       if (!personId || !api.state.people.get(personId)?.alive) continue;
       const office = stateOfficeOf(api, personId);
@@ -1617,19 +1602,14 @@ function computerGovernorsDay(api: CoreAPI): void {
 /** The governors the player does not control, in order, as every engine reads a seat's holder. */
 function worldGovernors(api: CoreAPI): string[] {
   const playerId = controlled(api);
-  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   const governors = new Set<string>();
-  for (const term of api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .query("byStatus", ["serving"]) as unknown as TermRow[]) {
+  for (const term of servingTerms(api)) {
     // A governor seated after the opening (a successor in line, a race's
     // winner) is a person from the first day the office acts: their seat is
     // read here, as every other engine reads a seat's holder. Another
     // place's governor stays a named official on the term until the player
     // meets or opens them.
-    const office = offices.get(term.officeId) as unknown as
-      { kind?: string; level?: string; jurisdiction?: string } | undefined;
+    const office = officeById(api, term.officeId);
     if (office?.kind !== "governor") continue;
     const held =
       term.personId || isOutsideOffice(api, office)
@@ -1941,29 +1921,17 @@ export function seatCoveringTown(
   role: StateRole,
   chamberKind?: string,
 ): { office: OfficeRow; seat: { id: string } } | null {
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   const kinds =
     role === "governor"
       ? ["governor"]
       : chamberKind
         ? [chamberKind]
         : ["legislature-lower", "legislature-unicameral", "legislature-upper"];
-  const chambers = (
-    offices
-      .table("offices")
-      .query("byJurisdiction", [
-        lawChain(api).stateKey,
-      ]) as unknown as OfficeRow[]
-  )
+  const chambers = officesInJurisdiction(api, lawChain(api).stateKey)
     .filter((o) => kinds.includes(o.kind))
     .sort((a, b) => kinds.indexOf(a.kind) - kinds.indexOf(b.kind));
   for (const office of chambers) {
-    const seat = (
-      offices.table("seats").query("byOffice", [office.id]) as unknown as {
-        id: string;
-        coversTown?: boolean;
-      }[]
-    )
+    const seat = officeSeats(api, office.id)
       .filter((s) => s.coversTown)
       .sort((a, b) => a.id.localeCompare(b.id))[0];
     if (seat) return { office, seat };
@@ -1990,18 +1958,13 @@ export function seatPlayerInStateOffice(
 ): StateOffice {
   const person = api.state.people.get(input.personId);
   if (!person?.alive) throw new Error(`No living person ${input.personId}.`);
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   const stateKey = lawChain(api).stateKey;
   const found = seatCoveringTown(api, input.role, input.chamberKind);
   if (!found)
     throw new Error(`No ${input.role} seat in ${stateKey} covers the town.`);
   const { office, seat } = found;
   const date = api.state.date;
-  const previous = (
-    offices
-      .table("terms")
-      .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[]
-  )[0];
+  const previous = termOnSeat(api, seat.id);
   seatTerm(api, {
     seatId: seat.id,
     officeId: office.id,

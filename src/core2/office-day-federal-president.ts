@@ -82,7 +82,7 @@ import {
   nthSitting,
   senateSits,
 } from "./office-day-federal-calendar";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { termOnSeat } from "./modules/offices";
 
 interface CabinetPost {
   readonly id: string;
@@ -180,15 +180,7 @@ export function nominationCandidates(
   known: boolean;
 }[] {
   const held = nominated(api);
-  const vice = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [
-        "seat:US:vice-president",
-        "serving",
-      ]) as unknown as TermRow[]
-  )[0]?.personId;
+  const vice = termOnSeat(api, "seat:US:vice-president")?.personId;
   const years = federalParameter("cabinetQualificationYears");
   return (
     api
@@ -753,15 +745,7 @@ const gave = (api: CoreAPI, personId: string, kind: string, date: string) =>
 /** The Senate's votes on nominations come on their day whoever the player controls. */
 addFederalWorldPart((api) => {
   if (!cabinetOf(api).some((c) => c.status === "nominated")) return;
-  const president = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [
-        "seat:US:president",
-        "serving",
-      ]) as unknown as TermRow[]
-  )[0]?.personId;
+  const president = termOnSeat(api, "seat:US:president")?.personId;
   if (president) confirmGivenVotes(api, president);
 });
 
@@ -773,15 +757,7 @@ addFederalWorldPart((api) => {
 addFederalWorldPart((api) => {
   const date = api.state.date;
   if (jointAddress(Number(date.slice(0, 4))).date !== date) return;
-  const president = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [
-        "seat:US:president",
-        "serving",
-      ]) as unknown as TermRow[]
-  )[0]?.personId;
+  const president = termOnSeat(api, "seat:US:president")?.personId;
   if (
     !president ||
     president === controlledPerson(api) ||
@@ -857,17 +833,7 @@ addFederalDayPart((api, personId) => {
 
 /** The vice president serving today, if the offices engine seats one. */
 export function vicePresidentOf(api: CoreAPI): string | null {
-  return (
-    (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("bySeatStatus", [
-          "seat:US:vice-president",
-          "serving",
-        ]) as unknown as TermRow[]
-    )[0]?.personId ?? null
-  );
+  return termOnSeat(api, "seat:US:vice-president")?.personId ?? null;
 }
 
 /**
