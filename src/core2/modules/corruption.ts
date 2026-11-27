@@ -24,6 +24,7 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
+import { fieldsOf } from "../module-fields";
 
 export const CORRUPTION_MODULE_ID = "corruption";
 /** A bribe taken to the press: public record the news carries. */
@@ -231,26 +232,15 @@ export function offerValues(
   };
 }
 
-/**
- * Whether the official has a say over what is asked for: a module that knows a kind of subject
- * (the legislature, for a bill) answers with the reason the official has none, or null.
- */
-export type BribeScope = (
-  api: CoreAPI,
-  subjectId: string,
-  officialId: string,
-) => string | null;
-const scopes: BribeScope[] = [];
-/** Registered by the module's opening, once however often it opens. */
-export function registerBribeScope(scope: BribeScope): void {
-  if (!scopes.includes(scope)) scopes.push(scope);
-}
 /** In words, why this official cannot be bribed for this subject; null when they can (or nothing knows the subject). */
 export function bribeRefusal(
   api: CoreAPI,
   ask: Pick<BribeAsk, "officialId" | "subjectId">,
 ): string | null {
-  for (const scope of scopes) {
+  // Whether the official has a say over what is asked for: each module that
+  // knows a kind of subject (the legislature, for a bill) carries a `bribeScope`
+  // that answers with the reason the official has none, or null.
+  for (const scope of fieldsOf(api.state as CoreState, "bribeScope")) {
     const reason = scope(api, ask.subjectId, ask.officialId);
     if (reason) return reason;
   }
