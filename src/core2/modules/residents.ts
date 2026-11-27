@@ -2572,6 +2572,10 @@ export function residentWageShortfall(
 
 export const RESIDENTS_MODULE: CoreModule = {
   id: RESIDENTS_MODULE_ID,
+  // The counted people the opening records are admitted once the core exists.
+  onOpen: (core, input) => {
+    if (input.residents) admitResidents(core, input.residents);
+  },
   onDay: runResidentsDay,
   onResultsMonth: runResidentsDay,
 };

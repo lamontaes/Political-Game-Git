@@ -91,7 +91,7 @@ engine can look it up and obey it.
   lacks); `citation` with the publisher, table, year and URL; `spread` with
   `low`, `high`, `unit` and its own `citation` (the range across places,
   years or cohorts the proof checks against); `estimatedFrom` saying how it
-  was derived. The tripwire (`src/core2/tooling/tripwires.ts`) asks an
+  was derived. The tripwire (`scripts/core2/tooling/tripwires.ts`) asks an
   ESTIMATED row for `estimatedFrom` and a `stopgapId`; a TUNABLE row for a
   spread or an `unmeasured` reason. Keep `stopgapId` on an ESTIMATED row and
   leave its `estimated-parameter` stopgap open until the figure is SOURCED.
@@ -131,8 +131,8 @@ engine can look it up and obey it.
 - **A population rate** (a quit rate, a birth rate, turnout, a share of
   households) calibrates a band the proof reports against. Its row's `spread`
   is the band; `checkRange` points at a target in
-  `src/core2/tooling/calibration-targets.json`, read by
-  `src/core2/tooling/calibration-guard.ts` and the tripwires. The engine never
+  `scripts/core2/tooling/calibration-targets.json`, read by
+  `scripts/core2/tooling/calibration-guard.ts` and the tripwires. The engine never
   reads the rate to decide who quits; the proof counts who did and checks the
   town lands in the band.
 - **A price or an amount** (a fee, a wage, a benefit, a rent) is read by the
@@ -162,7 +162,7 @@ engine can look it up and obey it.
   value and tag) / after (value, tag) / source (publisher, year) / what reads
   it (file and function).
 - Gate line: a builder runs only the tests it wrote or changed (owner, Oct 29); the checker runs `npm run typecheck` and the rest of the gate. Name here: prettier on changed files, the parameter
-  tests (`npx vitest run src/core2/tooling/tripwires.test.ts src/core2/tooling/calibration-guard.test.ts`),
+  tests (`npx vitest run scripts/core2/tooling/tripwires.test.ts scripts/core2/tooling/calibration-guard.test.ts`),
   `npm run zero-dice`, `npx vitest run tests/guards/research-data-has-reader.test.ts`,
   and the test of each engine whose read you touched.
 - A proof run: `buildBenchWorld`, a drawn place from all 56, the seed named,

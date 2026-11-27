@@ -11,7 +11,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { govReport } from "./gov-test-report";
+import { govReport } from "../../scripts/core2/gov-test-report";
 import { gameStartDate } from "./game-start";
 import type { CoreAPI, CoreState } from "./types";
 import { buildPopulation } from "./population";

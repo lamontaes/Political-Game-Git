@@ -8,7 +8,7 @@
 // Takes about ten minutes. LOAN_CAP_SEED and LOAN_CAP_PLACE name another world to replay.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
 
 const SEED =
   process.env.LOAN_CAP_SEED ??

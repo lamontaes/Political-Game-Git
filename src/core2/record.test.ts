@@ -21,7 +21,7 @@ import {
 } from "./modules/record";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { setKeepEveryonesWhy } from "./why-kept";
-import { scenario, seed, START } from "./record-test-kit";
+import { scenario, seed, START } from "../../tests/support/record-test-kit";
 import { drawPlace } from "../../scripts/core2-year/place";
 
 describe("M4-06 the record follows you", () => {

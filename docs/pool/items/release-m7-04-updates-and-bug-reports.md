@@ -29,12 +29,12 @@ checked: fable 2026-11-10
 
 **Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
 
-**Rules.** Spec approved by the owner Oct 12. Replace, never layer: the updater, the bug report and the crash capture each build on what desktop/updater.mjs and src/core2/bug-report.ts already hold. Look before you ask: read docs/packages/M7-early-access.md first.
+**Rules.** Spec approved by the owner Oct 12. Replace, never layer: the updater, the bug report and the crash capture each build on what desktop/updater.mjs and scripts/core2/bug-report.ts already hold. Look before you ask: read docs/packages/M7-early-access.md first.
 
 **Done when.** A second session, in the desktop package on main, sees a test update install itself, a data-only update change a game table without a reinstall, a thrown error in a played world in a drawn place leave a report the next launch offers to send, and a bug report arrive with its log. Each of the parts below records its own evidence.
 
 **Waits on.** Its parts: release-m7-04-part-1-crash-report-capture, release-m7-04-part-2-automatic-update, release-m7-04-part-3-content-update, and the item release-bug-report-control. Early-access preparation (AGENTS.md: saves and release work wait for it) and the weekly reschedule.
 
-**Files.** docs/roadmap/later-specs-draft.md, docs/packages/M7-early-access.md, desktop/updater.mjs, src/core2/bug-report.ts
+**Files.** docs/roadmap/later-specs-draft.md, docs/packages/M7-early-access.md, desktop/updater.mjs, scripts/core2/bug-report.ts
 
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting.

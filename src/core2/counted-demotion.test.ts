@@ -17,7 +17,7 @@ import { countedMoves } from "./modules/counted-moves";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import { isDemoted } from "./counted-groups";
 import { isExperiencedKey } from "./knowledge-retention";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import { corePlaceByKey, coreStateJurisdiction } from "./place-lookup";
 import type { CoreState } from "./types";
 

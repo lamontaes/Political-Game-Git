@@ -90,7 +90,7 @@ for (const { seed, placeKey, fails } of PINS as {
         // Retraining 10-16% plus a few points of new businesses; the band is for
         // a whole population and one town's closures are a sample of its workers,
         // so each bound widens by two standard errors at that sample's size, the
-        // rule the played-year check uses (src/bench/m1-11-check.ts). Mooresville,
+        // rule the played-year check uses (scripts/bench/m1-11-check.ts). Mooresville,
         // Alabama (seed 890a6d11…a73f): 7 of 124, 1.6 standard deviations under
         // the 9.9% six other drawn towns pooled (109 of 1,102).
         const n = decisions.length;
