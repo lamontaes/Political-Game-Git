@@ -80,7 +80,7 @@ function runningFactor(found: RunningGrade, table: CalibrationTable): number {
 }
 
 /** Sum of a speaker's trait pulls toward longer lines, each weighted by how far the trait is from the middle (levels -2 to 2). */
-export function lengthPull(
+function lengthPull(
   traits: Readonly<Record<string, number>> | undefined,
   table: CalibrationTable = CALIBRATION,
 ): number {
@@ -94,7 +94,7 @@ export function lengthPull(
 }
 
 /** Sum of a speaker's trait pulls toward one bearing. */
-export function bearingPull(
+function bearingPull(
   traits: Readonly<Record<string, number>> | undefined,
   bearing: string | undefined,
   table: CalibrationTable = CALIBRATION,
@@ -113,7 +113,7 @@ export function bearingPull(
  * no pull, more for a bearing the speaker leans toward, less (never below the
  * floor) for one they lean away from.
  */
-export function bearingFactor(
+function bearingFactor(
   bearing: string | undefined,
   traits: Readonly<Record<string, number>> | undefined,
   table: CalibrationTable = CALIBRATION,
@@ -131,7 +131,7 @@ export function bearingFactor(
  * register's target (moved longer or shorter by the speaker's trait pulls),
  * falling as it departs. 1 when the register has no target.
  */
-export function lengthFactor(
+function lengthFactor(
   register: string | undefined,
   words: number,
   traits: Readonly<Record<string, number>> | undefined,
@@ -159,15 +159,8 @@ export function movePairFactor(
 }
 
 /** Words in a line, as the bench counts them. */
-export function wordCount(text: string): number {
+function wordCount(text: string): number {
   return text.trim().split(/\s+/).filter(Boolean).length;
-}
-
-/** Sentences in a line, as the bench counts them. */
-export function sentenceCount(text: string): number {
-  return (text.match(/[^.!?]+[.!?]+(?=\s|$)/g) ?? [text]).filter((s) =>
-    s.trim(),
-  ).length;
 }
 
 /** Shares an authored weight of 1 is scaled to, so the stable pick stays an integer draw. */

@@ -1,4 +1,3 @@
-import type { GenderIdentityKey } from "../core2/modules/executive";
 import { parameter } from "../core2/parameters";
 
 /**
@@ -18,30 +17,27 @@ import { parameter } from "../core2/parameters";
  * Congressional Record, federal hearings, White House briefings) are written
  * here word for word; the other corpora supply counts only.
  */
-const SPEECH_REGISTERS = [
-  "house-one-minute",
-  "house-debate",
-  "senate-floor",
-  "committee-questioning",
-  "state-floor",
-  "council-comment",
-  "press-briefing",
-  "town-hall",
-  "rally",
-  "election-night",
-  "eulogy",
-  "small-talk",
-  "family",
-] as const;
-
-export type SpeechRegister = (typeof SPEECH_REGISTERS)[number];
+export type SpeechRegister =
+  | "house-one-minute"
+  | "house-debate"
+  | "senate-floor"
+  | "committee-questioning"
+  | "state-floor"
+  | "council-comment"
+  | "press-briefing"
+  | "town-hall"
+  | "rally"
+  | "election-night"
+  | "eulogy"
+  | "small-talk"
+  | "family";
 
 /**
  * How public a setting is. Only a public address (one speaker, an audience)
  * admits the crafted devices; an exchange in public is still turn by turn,
  * and a private room is ordinary talk.
  */
-export type RegisterSetting = "public-address" | "public-exchange" | "private";
+type RegisterSetting = "public-address" | "public-exchange" | "private";
 
 /** The crafted moves a speech can make beyond saying its business. */
 const SPEECH_DEVICES = [
@@ -58,7 +54,7 @@ export type SpeechDevice = (typeof SPEECH_DEVICES)[number];
  * A figure from the counted corpus. `basis` says whether it was measured or
  * set by hand, and `source` says from what; the game never draws against it.
  */
-export interface RegisterCheck {
+interface RegisterCheck {
   readonly key: string;
   readonly label: string;
   /** A share from 0 to 1, or a count of words for a median. */
@@ -389,72 +385,4 @@ export function registerAllows(
   device: SpeechDevice,
 ): boolean {
   return REGISTER_CARDS[register].devices.includes(device);
-}
-
-/**
- * The person a form of address points at: their recorded gender (never
- * guessed; `unstated` is a real value) and, for a colleague, where they are
- * from as the room says it — a state in Congress, a county in a state house.
- */
-export interface AddressedPerson {
-  readonly gender: GenderIdentityKey | null;
-  readonly fromLabel?: string;
-}
-
-export type AddressRole = "chair" | "colleague";
-
-/**
- * How the room addresses the chair or refers to a colleague, from the
- * register, the role and the jurisdiction's own label.
- *
- * Formulas are the Congressional Record's ("Mr. Speaker," "Madam President,"
- * "the gentlewoman from Texas," "the Senator from Maine"). "Mr." and "Madam"
- * need a recorded gender; with none the chair form is refused rather than
- * guessed, and a colleague is named by office ("the Representative from
- * Ohio"), which the Record also uses. Returns null where the register has no
- * such form.
- */
-export function formOfAddress(
-  register: SpeechRegister,
-  role: AddressRole,
-  person: AddressedPerson,
-): string | null {
-  const male = person.gender === "male";
-  const female = person.gender === "female";
-  if (role === "chair") {
-    const title =
-      register === "house-one-minute" ||
-      register === "house-debate" ||
-      register === "state-floor"
-        ? "Speaker"
-        : register === "senate-floor"
-          ? "President"
-          : register === "committee-questioning"
-            ? "Chair"
-            : null;
-    if (!title) return null;
-    if (title === "Chair")
-      return male ? "Mr. Chairman" : female ? "Madam Chair" : null;
-    return male ? `Mr. ${title}` : female ? `Madam ${title}` : null;
-  }
-  if (!person.fromLabel) return null;
-  switch (register) {
-    case "house-one-minute":
-    case "house-debate":
-      return male
-        ? `the gentleman from ${person.fromLabel}`
-        : female
-          ? `the gentlewoman from ${person.fromLabel}`
-          : `the Representative from ${person.fromLabel}`;
-    case "senate-floor":
-      return `the Senator from ${person.fromLabel}`;
-    case "state-floor":
-      return male
-        ? `the gentleman from ${person.fromLabel}`
-        : female
-          ? `the gentlelady from ${person.fromLabel}`
-          : `the Member from ${person.fromLabel}`;
-    default:
-      return null;
-  }
 }

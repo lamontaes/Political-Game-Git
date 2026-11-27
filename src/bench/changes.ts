@@ -3,7 +3,7 @@
 import { historyOf } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import { reachedBy } from "../core2/law-reach/host";
-import { LAWS_MODULE_ID } from "../core2/modules/laws";
+import { LAW_STATUTE, LAWS_MODULE_ID } from "../core2/modules/laws";
 import type { LawRowInput } from "../core2/laws-starting";
 import type { CoreState } from "../core2/types";
 
@@ -41,6 +41,31 @@ export function lawChanges(core: CoreState, personId: string) {
 
 function lawsTook(core: CoreState, personId: string) {
   const api = coreAPI(core);
+  // A series' law rows as the laws engine's history tells them (`law.statute`),
+  // each opened by its id, read once a series.
+  const table = core.modules.has(LAWS_MODULE_ID)
+    ? api.moduleState(LAWS_MODULE_ID).table("laws")
+    : undefined;
+  const statutes = new Map<string, LawRowInput[]>();
+  const statutesOf = (series: string): LawRowInput[] => {
+    if (!table || !series) return [];
+    let rows = statutes.get(series);
+    if (!rows) {
+      rows = historyOf(
+        core,
+        { nation: true },
+        { kinds: [LAW_STATUTE], about: series },
+      )
+        .filter((event) => event.facts?.series === series)
+        .flatMap((event) => {
+          const law = table.get(event.facts?.lawId ?? "") as unknown as
+            LawRowInput | undefined;
+          return law ? [law] : [];
+        });
+      statutes.set(series, rows);
+    }
+    return rows;
+  };
   return historyOf(
     core,
     { nation: true },
@@ -65,20 +90,15 @@ function lawsTook(core: CoreState, personId: string) {
           what: row.what,
         };
       });
-      // An amount (a wage, a tax rate) shows what it was before.
-      const earlier = core.modules.has(LAWS_MODULE_ID)
-        ? (
-            coreAPI(core)
-              .moduleState(LAWS_MODULE_ID)
-              .table("laws")
-              .query("bySeries", [
-                facts.jurisdiction ?? null,
-                facts.series ?? null,
-              ]) as unknown as LawRowInput[]
-          )
-            .filter((law) => law.effectiveDate < row.date)
-            .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0]
-        : undefined;
+      // An amount (a wage, a tax rate) shows what it was before: the series'
+      // law in the same jurisdiction that governed from the latest day before.
+      const earlier = statutesOf(facts.series ?? "")
+        .filter(
+          (law) =>
+            law.jurisdiction === facts.jurisdiction &&
+            law.effectiveDate < row.date,
+        )
+        .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
       return {
         id: row.id,
         was: earlier ? String(earlier.value) : null,

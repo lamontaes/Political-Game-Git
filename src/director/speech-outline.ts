@@ -28,13 +28,14 @@
  */
 import { factsMadeWith } from "./life-news";
 import { coreAPI } from "../core2/state";
+import { historyOf } from "../core2/past";
 import { historyMonths, monthKey, shiftMonth } from "../core2/macro-model";
 import type { MacroMonth } from "../core2/macro-model";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { ownStance, PRESIDENT_FACT } from "../core2/modules/officials";
 import { stanceReader } from "../core2/modules/campaigns";
-import { LAWS_MODULE_ID, reachedBy } from "../core2/modules/laws";
+import { LAW_STATUTE, LAWS_MODULE_ID, reachedBy } from "../core2/modules/laws";
 import {
   BUDGETS_MODULE_ID,
   budgetsOf,
@@ -86,7 +87,7 @@ import billCatalog from "../core2/data/legislature/bill-catalog.json" with { typ
 import { P } from "../core2/parameters";
 import {
   formKindOf,
-  LEGISLATURE_MODULE_ID,
+  sponsoredBills,
   type BillRow,
 } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
@@ -1240,20 +1241,12 @@ function conditionFigure(country: Country, topic: string): Facts {
     : {};
 }
 
-/** The bills a person sponsored, newest first, from the legislature engine's rows. */
+/** The bills a person sponsored, newest first, as their history tells them (`sponsoredBills`). */
 function billsSponsoredBy(core: CoreState, personId: string): BillRow[] {
-  if (!core.modules.has(LEGISLATURE_MODULE_ID)) return [];
-  return (
-    coreAPI(core)
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("bills")
-      .rows() as unknown as BillRow[]
-  )
-    .filter((bill) => bill.sponsorId === personId)
-    .sort(
-      (a, b) =>
-        b.introduced.localeCompare(a.introduced) || a.id.localeCompare(b.id),
-    );
+  return sponsoredBills(core, personId).sort(
+    (a, b) =>
+      b.introduced.localeCompare(a.introduced) || a.id.localeCompare(b.id),
+  );
 }
 
 /** The questions a bill answers: its policy questions and its budget lines. */
@@ -1650,14 +1643,24 @@ function conditionFacts(
     -Math.round(api.parameter("daysPerMeanYear")),
   );
   // A law under the theme that took effect this past year and reached people.
+  // The jurisdiction's law rows as the laws engine's history tells them
+  // (`law.statute`), each opened by its id.
+  const lawTable = core.modules.has(LAWS_MODULE_ID)
+    ? api.moduleState(LAWS_MODULE_ID).table("laws")
+    : undefined;
   const enacted =
-    jurisdiction && theme && core.modules.has(LAWS_MODULE_ID)
-      ? (
-          api
-            .moduleState(LAWS_MODULE_ID)
-            .table("laws")
-            .rows() as unknown as LawRowInput[]
+    jurisdiction && theme && lawTable
+      ? historyOf(
+          core,
+          { nation: true },
+          { kinds: [LAW_STATUTE], about: jurisdiction, through: core.date },
         )
+          .filter((event) => event.facts?.jurisdiction === jurisdiction)
+          .flatMap((event) => {
+            const row = lawTable.get(event.facts?.lawId ?? "") as unknown as
+              LawRowInput | undefined;
+            return row ? [row] : [];
+          })
           .filter(
             (row) =>
               row.jurisdiction === jurisdiction &&

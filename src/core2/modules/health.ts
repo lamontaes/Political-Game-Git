@@ -1274,7 +1274,8 @@ function hearBookedDay(
   }
   for (const id of [...(row.deathsByDate.get(booked) ?? [])].sort()) {
     // An unbuilt holder's death is not built either: it is written as its
-    // result, the seat it leaves (`UnbuiltHolders.died`), and counted.
+    // record (a public record, as anyone's death is) and its result, the seat
+    // it leaves (`UnbuiltHolders.died`), and counted.
     const holders = api.state.people.has(id)
       ? undefined
       : unbuiltHolderOf(api.state as CoreState, id);
@@ -1298,7 +1299,35 @@ function hearBookedDay(
       found.deathEventId = `${data.deathEventKind}:${id}:${date}`;
       found.deathDate = date;
       row.deaths += api.parameter("one");
-      holders.died(api.state as CoreState, id);
+      // Their death is a public record, as anyone's is (the death
+      // certificate): the seat it leaves names it as its cause. A record
+      // names only the people the world holds, so the holder, never built,
+      // is named by id in its facts, and the press, which names a death's
+      // people, does not print it. It is kept where the world keeps the
+      // seat's vacancy and a member's recorded vote, the player's own
+      // places; where they lived is its fact.
+      if (who)
+        api.emit({
+          id: found.deathEventId,
+          date,
+          kind: data.deathEventKind,
+          personIds: [],
+          placeId: [...api.state.visiblePlaceIds][0] ?? who.placeId,
+          source: { ...data.source, asOf: date },
+          publicRecord: true,
+          news: false,
+          facts: {
+            deceasedId: id,
+            deceasedPlaceId: who.placeId,
+            [`event:${found.deathEventId}:${DEATH_CAUSE_FACT_KEY}`]:
+              row.causeOfDeath.get(id) ?? "",
+          },
+        });
+      holders.died(
+        api.state as CoreState,
+        id,
+        who ? found.deathEventId : undefined,
+      );
       continue;
     }
     // A husk whose death falls due is built now, then dies as anyone does.

@@ -610,20 +610,27 @@ export function createDirector(
         { kinds: [SCHOOL_STARTED], from: "past" },
       ),
     ]
-      .map((event) => ({ id: event.id, date: event.date, kind: event.record }))
+      .map((event) => ({
+        id: event.id,
+        date: event.date,
+        kind: event.record,
+        mattered: event.mattered,
+      }))
       .filter((fact) => fact.date < core.startedAt)
       .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
     for (const fact of past) {
+      // How much it mattered is the reader's one score (src/core2/data/history/mattered.json);
+      // a fact the reader gives no score scores nothing.
+      if (fact.mattered === undefined) continue;
       const row = data.pastFactMoments.find((entry) =>
         fact.kind.startsWith(entry.kindPrefix),
       );
-      if (!row) continue;
       const related = [...kin]
         .filter(([otherId, relations]) => {
           const other = core.people.get(otherId);
-          if (row.counterpart === "partner")
+          if (row?.counterpart === "partner")
             return relations.includes("partner");
-          if (row.counterpart === "child-born-that-day")
+          if (row?.counterpart === "child-born-that-day")
             return (
               relations.includes("child") && other?.birthDate === fact.date
             );
@@ -634,7 +641,7 @@ export function createDirector(
         book,
         fact,
         fact.kind,
-        row.parameter,
+        fact.mattered,
         related.length === one ? related : [],
       );
     }
@@ -650,10 +657,9 @@ export function createDirector(
     book: PersonLedger,
     fact: { id: string; date: IsoDate },
     kind: string,
-    parameter: string,
+    impact: number,
     counterpartIds: PersonId[],
   ): void {
-    const impact = param(parameter);
     const moment: Moment = {
       id: `${book.personId}:${fact.date}:past:${fact.id}:${kind}`,
       personId: book.personId,

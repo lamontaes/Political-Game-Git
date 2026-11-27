@@ -10,7 +10,7 @@
  */
 import type { LineRule } from "./line-rules";
 
-export interface RulingRead {
+interface RulingRead {
   readonly id: string;
   /** `path :: heading`: the file his words are copied from, and the heading they sit under. */
   readonly source: string;
@@ -34,7 +34,7 @@ export interface RulingsReadFile {
   readonly rulings: readonly RulingRead[];
 }
 
-export interface NoteNotRule {
+interface NoteNotRule {
   readonly file: string;
   readonly key: string;
   readonly date: string;
@@ -93,9 +93,7 @@ export function gradeNotesOf(
  * the words a rule keeps from him (`from` and `examples`), or the whole note
  * sits inside one of them.
  */
-export function noteMatcher(
-  rules: readonly LineRule[],
-): (note: string) => boolean {
+function noteMatcher(rules: readonly LineRule[]): (note: string) => boolean {
   const sources = rules.flatMap((rule) => [
     ...rule.from.map((entry) => normalWords(entry.words)),
     ...(rule.examples ?? []).map((entry) => normalWords(entry.words)),

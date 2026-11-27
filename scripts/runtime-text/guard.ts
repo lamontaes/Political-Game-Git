@@ -31,7 +31,7 @@ export interface GuardBaseline {
   readonly unexplained: readonly string[];
 }
 
-export const FIXED_ORIGINS: ReadonlySet<string> = new Set([
+const FIXED_ORIGINS: ReadonlySet<string> = new Set([
   "literal",
   "literal-template",
   "literal-joined",

@@ -29,6 +29,7 @@ import {
   declinedAsks,
   likelyCarriers,
   proposeAsExecutive,
+  sponsoredBills,
   votesOn,
   whipCount,
   type BillRow,
@@ -294,11 +295,9 @@ export function seatView(core: CoreState, personId: string) {
       incompatibilities: [],
     };
   const api = coreAPI(core);
-  const bills = (
-    api.moduleState(LEGISLATURE).table("bills").rows() as unknown as BillRow[]
-  )
-    .filter((row) => row.sponsorId === personId)
-    .map((bill) => {
+  // The bills they sponsored, as their history tells them.
+  const bills = (sponsoredBills(core, personId) as unknown as BillRow[]).map(
+    (bill) => {
       const votes = votesOn(api, bill.id);
       return {
         bill,
@@ -311,7 +310,8 @@ export function seatView(core: CoreState, personId: string) {
         })),
         tally: tallyOf(votes),
       };
-    });
+    },
+  );
   // Each body's own catalog: what its level can pass, with the amount in force.
   const bodies = bodiesOf(core, personId).map((body) => ({
     ...body,

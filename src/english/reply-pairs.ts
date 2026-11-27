@@ -89,7 +89,7 @@ const FACT: Fact = { text: "yes", sourceRecordIds: [] };
  * The scenes the bank is written for, when the caller names none: each
  * purpose any use names, with each key any use of it (or of its family) names.
  */
-export function scenesOf(
+function scenesOf(
   parts: readonly BankPart[],
   families: Readonly<Record<string, string>> = {},
 ): ReplyScene[] {

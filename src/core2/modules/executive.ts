@@ -1,4 +1,5 @@
-import { heldSinceRecord, pastWorkOf, PAST_WORK_SPELL } from "../past-work";
+import { PAST_WORK_SPELL } from "../past-work";
+import { historyOf } from "../past";
 import { workedToday } from "./jobs";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 /**
@@ -481,7 +482,7 @@ function councilSides(api: CoreAPI): number[] {
     BOARD_KINDS.includes(s.office.kind),
   );
   return council
-    ? members(api, council.office.id).map((t) => partySide(t.party))
+    ? members(api, council.office.id).map((t) => leanOf(api, memberKey(t)))
     : [];
 }
 
@@ -515,12 +516,14 @@ export function postRecord(
   let relatedYears = 0;
   let workYears = 0;
   const recordIds: string[] = [];
-  for (const row of pastWorkOf(core, person.id))
-    if (
-      row.kind === PAST_WORK_SPELL &&
-      row.facts.endedAt &&
-      String(row.facts.endedAt) <= date
-    )
+  // The work spells of the simulated past, from the one history reader.
+  const spells = historyOf(
+    core,
+    { person: person.id },
+    { kinds: [PAST_WORK_SPELL], from: "past" },
+  );
+  for (const row of spells)
+    if (row.facts?.endedAt && String(row.facts.endedAt) <= date)
       workYears += yearsBetween(
         String(row.facts.startedAt),
         String(row.facts.endedAt),
@@ -528,8 +531,11 @@ export function postRecord(
   for (const id of core.work.commitmentsByPerson.get(person.id) ?? []) {
     const commitment = core.work.commitments.get(id);
     if (!commitment || commitment.startsAt > date) continue;
-    const since = heldSinceRecord(core, person.id, commitment.jobId);
-    const started = since ? String(since.facts.startedAt) : undefined;
+    // The record of the job held on day one, with when they started it.
+    const since = commitment.jobId
+      ? spells.find((row) => row.facts?.jobId === commitment.jobId)
+      : undefined;
+    const started = since ? String(since.facts?.startedAt) : undefined;
     const from =
       started && started < commitment.startsAt
         ? started
@@ -551,9 +557,11 @@ export function postRecord(
   const schooling = schoolingOn(api, person.id, date);
   const schooled = schooling === "college" || schooling === "some-college";
   if (schooled) {
-    const fact = person.pastFacts?.find(
-      (row) => row.kind === PROFILE_FACT_KINDS.education,
-    );
+    const fact = historyOf(
+      core,
+      { person: person.id },
+      { kinds: [PROFILE_FACT_KINDS.education], from: "built" },
+    )[0];
     recordIds.push(fact?.id ?? `${person.id}:${PROFILE_FACT_KINDS.education}`);
   }
   return { relatedYears, workYears, schooling, recordIds };
@@ -1137,7 +1145,7 @@ function appointStateCabinet(
       o.kind === "legislature-upper" || o.kind === "legislature-unicameral",
   );
   const senateSides = senate
-    ? members(api, senate.id).map((t) => partySide(t.party))
+    ? members(api, senate.id).map((t) => leanOf(api, memberKey(t)))
     : [];
   const date = api.state.date;
   for (const spec of posts) {
@@ -1642,7 +1650,9 @@ function stateNominationInput(
       confirmingBody: confirmation
         ? {
             name: senate!.title,
-            sides: members(api, senate!.id).map((t) => partySide(t.party)),
+            sides: members(api, senate!.id).map((t) =>
+              leanOf(api, memberKey(t)),
+            ),
           }
         : null,
       tolerance: campaignParameter("confirmationTolerance"),

@@ -132,7 +132,7 @@ export interface OfficialRow {
   };
 }
 
-const OFFICIALS_MODULE: CoreModule = {
+export const OFFICIALS_MODULE: CoreModule = {
   id: OFFICIALS_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -169,6 +169,7 @@ const OFFICIALS_MODULE: CoreModule = {
             stateKey: row.stateKey,
             officeKind: row.officeKind,
             cause: "death",
+            causeRecordId: event.id,
           });
       }
       return;
@@ -1514,10 +1515,11 @@ registerUnbuiltHolders({
   holds: (core, personId) =>
     core.modules.has(OFFICIALS_MODULE_ID) &&
     unopenedTerm(coreAPI(core), personId) !== undefined,
-  died: (core, personId) => {
+  died: (core, personId, deathRecordId) => {
     const api = coreAPI(core);
     const term = unopenedTerm(api, personId);
-    if (term?.status === "serving") vacateSeat(api, term.seatId, "death");
+    if (term?.status === "serving")
+      vacateSeat(api, term.seatId, "death", undefined, deathRecordId);
   },
 });
 

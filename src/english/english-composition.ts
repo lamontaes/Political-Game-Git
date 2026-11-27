@@ -95,7 +95,7 @@ export type LinePart = (typeof LINE_PARTS)[number];
  * relationship lines. Bands, never numbers, as `relationship-standing.ts`
  * reads them.
  */
-export interface RelationshipCondition {
+interface RelationshipCondition {
   readonly dimension: RelationshipDimension;
   readonly bands: readonly StandingBand[];
   /** When set, the reading must (or must not) be on the adverse side. */
@@ -120,7 +120,7 @@ export type LinePartVariant = AuthoredEnglishVariant & {
   readonly setsFacts?: readonly string[];
 };
 
-export interface LinePartBank {
+interface LinePartBank {
   /** A required part that cannot be worded refuses the whole line. */
   readonly required?: boolean;
   readonly variants: readonly LinePartVariant[];
@@ -137,7 +137,7 @@ export interface ComposedLineBank {
 }
 
 /** A recorded mood. The simulation records none yet, so callers omit it. */
-export interface RecordedMood {
+interface RecordedMood {
   readonly key: string;
   readonly sourceRecordIds: readonly EntityId[];
 }
@@ -184,7 +184,7 @@ export interface CompositionContext {
   readonly calibration?: CalibrationTable;
 }
 
-export interface ComposedPart {
+interface ComposedPart {
   readonly part: LinePart;
   /** `bank:part:variant`, the key a reviewer's feedback points at. */
   readonly partKey: string;
@@ -214,26 +214,6 @@ export function partKey(
   variantKey: string,
 ): string {
   return `${bank.key}:${part}:${variantKey}`;
-}
-
-/** Tag a saved event with the part keys of the line it records. */
-const LINE_PARTS_TAG_PREFIX = "english.line-parts.v1:";
-
-export function linePartsTag(parts: readonly ComposedPart[]): string {
-  return `${LINE_PARTS_TAG_PREFIX}${JSON.stringify(parts.map((part) => part.partKey))}`;
-}
-
-export function linePartsOf(tags: readonly string[]): readonly string[] | null {
-  const tag = tags.find((entry) => entry.startsWith(LINE_PARTS_TAG_PREFIX));
-  if (!tag) return null;
-  try {
-    const keys = JSON.parse(tag.slice(LINE_PARTS_TAG_PREFIX.length));
-    return Array.isArray(keys) && keys.every((key) => typeof key === "string")
-      ? keys
-      : null;
-  } catch {
-    return null;
-  }
 }
 
 /**

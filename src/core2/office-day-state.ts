@@ -520,6 +520,8 @@ const ROOMS: SittingCalendar = {
     stateDayParameter("meetingHours") * api.parameter("sittingContactShare"),
   absences(api, personId) {
     const out = new Map<string, string[]>();
+    // The calendars are one list for every world in the process: a world without this engine has none.
+    if (!api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID)) return out;
     const office = stateOfficeOf(api, personId);
     if (office?.role !== "legislator") return out;
     for (const result of table(api, "results").query("byHolder", [
