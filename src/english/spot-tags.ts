@@ -66,16 +66,15 @@ interface VariantsFile {
 }
 
 /** The tag names `spotTags` writes, in the order a sheet shows them. */
-export const SPOT_TAGS = [
-  "situation",
-  "speaker",
-  "speakerFill",
-  "listener",
-  "listenerFill",
-  "setting",
-  "stakes",
-  "tie",
-] as const;
+export type SpotTag =
+  | "situation"
+  | "speaker"
+  | "speakerFill"
+  | "listener"
+  | "listenerFill"
+  | "setting"
+  | "stakes"
+  | "tie";
 
 /** The tie facts the director gives a talk (`sitting-ties.ts`, `purpose-scene.ts`). */
 const TIE_FACTS = new Set(["stranger", "acquainted", "kin"]);
@@ -87,8 +86,6 @@ const FILL_TIES: Readonly<Record<string, string>> = {
   kin: "kin",
   "kin-visiting": "kin",
 };
-
-export type SpotTag = (typeof SPOT_TAGS)[number];
 
 /** The situation types by the purpose they play, a variant's purpose by its family's. */
 export function typesByPurpose(

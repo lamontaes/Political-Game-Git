@@ -6,10 +6,8 @@
  * nothing; each kind names the record it comes from.
  */
 import schoolDays from "./data/school-days.json" with { type: "json" };
-import { makeIsoDate } from "./kernel/dates";
 import { stableHash } from "./kernel/ids";
-import { schoolSpans, stageOf } from "./past-school";
-import { kindergartenYear } from "./past-school-calendar";
+import { schoolSpans } from "./past-school";
 import { PAST_WORK_SPELL } from "./past-work";
 import { historyOf } from "./past-history";
 import { parameter } from "./parameters";
@@ -338,14 +336,20 @@ export function sharedHistory(
   // schooler and a first grader there were never schoolmates (Account lead,
   // Nov 15: Kimberly, in high school, asked Dana, in elementary school,
   // "Remember Dortches Public Schools?").
-  const stageIn = (person: NonNullable<typeof one>, year: number) =>
-    stageOf(core, year - kindergartenYear(makeIsoDate(person.birthDate)));
+  // The stage each was at that year, from their school records' run there.
+  const stageIn = (personId: PersonId, schoolId: string, year: number) =>
+    schoolSpans(core, personId).find(
+      (span) =>
+        span.schoolId === schoolId && span.from <= year && year <= span.to,
+    )?.stage;
+  const stageA = schoolA && stageIn(a, schoolA.schoolId, schoolA.year);
   if (
     schoolA &&
     schoolB &&
     schoolA.schoolId === schoolB.schoolId &&
     schoolA.year === schoolB.year &&
-    stageIn(one, schoolA.year) === stageIn(other, schoolB.year)
+    stageA &&
+    stageA === stageIn(b, schoolB.schoolId, schoolB.year)
   )
     out.push({
       kind: "schoolmate",

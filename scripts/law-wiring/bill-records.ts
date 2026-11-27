@@ -39,7 +39,7 @@ import type { CoreAPI, CoreState } from "../../src/core2/types";
 import type { WebLinkRow } from "./catalog";
 
 /** A bill record that read a link: its id, billed day and place, and the web month row its share stood on. */
-export interface BillRead {
+interface BillRead {
   readonly id: string;
   readonly date: string;
   readonly placeId: string;
@@ -48,7 +48,7 @@ export interface BillRead {
 }
 
 /** A bill record that priced a member by a carried link's records: the member and their coverage record ids. */
-export interface CarriedRecord {
+interface CarriedRecord {
   readonly id: string;
   readonly date: string;
   readonly placeId: string;

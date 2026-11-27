@@ -247,13 +247,13 @@ export const BASELINE_FILE = ANCHOR_PATHS.baseline;
 export const BASELINE_SCHEMA = 2;
 
 /** The id-only shapes this build reads solely in order to migrate them. */
-export const LEDGER_SCHEMA_V1 = 1;
-export const BASELINE_SCHEMA_V1 = 1;
+const LEDGER_SCHEMA_V1 = 1;
+const BASELINE_SCHEMA_V1 = 1;
 
 export const LEDGER_NOTE =
   "Every computed-anchor ID ever issued, including retired ones, each with the binding provenance history first recorded for it. Append-only and immutable: an ID here is burned forever, is never re-issued, and its recorded binding is never rewritten. Retirement removes a LIVE binding and never erases the issuance recorded here. Written together with computed-anchor-baseline.json by `npm run corpus:prose -- anchors`; never hand-edit or prune.";
 
-export const BASELINE_NOTE =
+const BASELINE_NOTE =
   "Independent checkpoint of computed-anchor-ledger.json: its size, a digest of the exact issued list including binding provenance, the highest index ever issued per symbol, and the exact set of indexes issued per symbol. Retained so that losing, truncating or re-binding the ledger is detectable rather than silent, and so allocation never drops below a mark already issued. Written by `npm run corpus:prose -- anchors`; never hand-edit.";
 
 /**
@@ -402,18 +402,14 @@ export function unrecoverableIssuance(
   return { id, site: known.site ?? null, text: known.text ?? null };
 }
 
-export function unknownPartsOf(
-  issuance: AnchorIssuance,
-): IssuanceProvenancePart[] {
+function unknownPartsOf(issuance: AnchorIssuance): IssuanceProvenancePart[] {
   const unknown: IssuanceProvenancePart[] = [];
   if (issuance.site === null) unknown.push("site");
   if (issuance.text === null) unknown.push("text");
   return unknown;
 }
 
-export function sortIssuances(
-  issuances: Iterable<AnchorIssuance>,
-): AnchorIssuance[] {
+function sortIssuances(issuances: Iterable<AnchorIssuance>): AnchorIssuance[] {
   const byId = new Map<string, AnchorIssuance>();
   for (const issuance of issuances) {
     const seen = byId.get(issuance.id);
@@ -429,7 +425,7 @@ export function sortIssuances(
   );
 }
 
-export function describeIssuance(issuance: AnchorIssuance): string {
+function describeIssuance(issuance: AnchorIssuance): string {
   const unknown = unknownPartsOf(issuance);
   const parts = [
     `site ${issuance.site ?? "unrecoverable"}`,
@@ -439,10 +435,7 @@ export function describeIssuance(issuance: AnchorIssuance): string {
 }
 
 /** True when both records say exactly the same thing about the same id. */
-export function sameIssuance(
-  left: AnchorIssuance,
-  right: AnchorIssuance,
-): boolean {
+function sameIssuance(left: AnchorIssuance, right: AnchorIssuance): boolean {
   return (
     left.id === right.id && left.site === right.site && left.text === right.text
   );
@@ -465,14 +458,6 @@ export function issuedDigest(issuances: Iterable<AnchorIssuance>): string {
         )
         .join(""),
     )
-    .digest("hex")
-    .slice(0, 16);
-}
-
-/** Digest of an id-only list. Retained only to validate inherited v1 files. */
-export function issuedDigestV1(issued: Iterable<string>): string {
-  return createHash("sha256")
-    .update(sortIssued(issued).join(" "))
     .digest("hex")
     .slice(0, 16);
 }
@@ -530,9 +515,7 @@ export function parseIndexRanges(spec: string): number[] {
 }
 
 /** The exact indexes issued per symbol, as ranges. */
-export function issuedIndexesOf(
-  issued: Iterable<string>,
-): Record<string, string> {
+function issuedIndexesOf(issued: Iterable<string>): Record<string, string> {
   const bySymbol = new Map<string, number[]>();
   for (const id of issued) {
     const index = indexOfId(id);
@@ -725,45 +708,6 @@ function readIssuance(entry: unknown, path: string): AnchorIssuance {
   return { id, site: read("site"), text: read("text") };
 }
 
-/** An inherited id-only ledger, read for migration only. */
-export function loadAnchorLedgerV1(
-  path: string = LEDGER_FILE,
-): { readonly note: string; readonly issued: readonly string[] } | null {
-  if (!existsSync(path)) return null;
-  const parsed = readJson(path);
-  if (!isRecord(parsed)) {
-    throw new AnchorHistoryError(`${path} is not a JSON object.`);
-  }
-  if (parsed.schema !== LEDGER_SCHEMA_V1) {
-    throw new AnchorHistoryError(
-      `${path} declares schema ${JSON.stringify(parsed.schema ?? null)}, not the id-only schema ${LEDGER_SCHEMA_V1} this migration reads.`,
-    );
-  }
-  if (typeof parsed.note !== "string") {
-    throw new AnchorHistoryError(`${path} has no string \`note\`.`);
-  }
-  if (!Array.isArray(parsed.issued)) {
-    throw new AnchorHistoryError(
-      `${path} has no \`issued\` array (found ${JSON.stringify(parsed.issued ?? null)}). Established allocation history is required and is never defaulted to empty.`,
-    );
-  }
-  const bad = parsed.issued.filter((entry) => !isAnchorId(entry));
-  if (bad.length > 0) {
-    throw new AnchorHistoryError(
-      `${path} lists ${bad.length} entry/entries that are not anchor ids, e.g. ${JSON.stringify(bad[0] ?? null)}.`,
-    );
-  }
-  const issued = parsed.issued as string[];
-  if (new Set(issued).size !== issued.length) {
-    const seen = new Set<string>();
-    const repeated = issued.find((id) => seen.size === seen.add(id).size);
-    throw new AnchorHistoryError(
-      `${path} lists ${JSON.stringify(repeated ?? null)} more than once. This file is written de-duplicated; a repeat means it was hand-edited or hand-merged.`,
-    );
-  }
-  return { note: parsed.note, issued: sortIssued(issued) };
-}
-
 export function loadAnchorBaseline(
   path: string = BASELINE_FILE,
 ): AnchorBaseline | null {
@@ -861,53 +805,6 @@ export function loadAnchorBaseline(
     digest: parsed.digest,
     highWater,
     issuedIndexes,
-  };
-}
-
-/** An inherited checkpoint without exact membership, read for migration only. */
-export function loadAnchorBaselineV1(path: string = BASELINE_FILE): {
-  readonly note: string;
-  readonly count: number;
-  readonly digest: string;
-  readonly highWater: Readonly<Record<string, number>>;
-} | null {
-  if (!existsSync(path)) return null;
-  const parsed = readJson(path);
-  if (!isRecord(parsed)) {
-    throw new AnchorHistoryError(`${path} is not a JSON object.`);
-  }
-  if (parsed.schema !== BASELINE_SCHEMA_V1) {
-    throw new AnchorHistoryError(
-      `${path} declares schema ${JSON.stringify(parsed.schema ?? null)}, not the schema ${BASELINE_SCHEMA_V1} this migration reads.`,
-    );
-  }
-  if (
-    typeof parsed.note !== "string" ||
-    typeof parsed.count !== "number" ||
-    !Number.isInteger(parsed.count) ||
-    parsed.count < 0 ||
-    typeof parsed.digest !== "string" ||
-    !/^[0-9a-f]{16}$/.test(parsed.digest) ||
-    !isRecord(parsed.highWater)
-  ) {
-    throw new AnchorHistoryError(
-      `${path} is not a well-formed schema ${BASELINE_SCHEMA_V1} checkpoint, so it cannot be migrated. Restore it from version control.`,
-    );
-  }
-  const highWater: Record<string, number> = {};
-  for (const [symbol, mark] of Object.entries(parsed.highWater)) {
-    if (typeof mark !== "number" || !Number.isInteger(mark) || mark < 0) {
-      throw new AnchorHistoryError(
-        `${path} records a non-integer high-water mark for ${symbol}: ${JSON.stringify(mark)}.`,
-      );
-    }
-    highWater[symbol] = mark;
-  }
-  return {
-    note: parsed.note,
-    count: parsed.count,
-    digest: parsed.digest,
-    highWater,
   };
 }
 
@@ -1039,7 +936,7 @@ export function writeAnchorBaseline(
 /* Integrity                                                                  */
 /* -------------------------------------------------------------------------- */
 
-export type HistoryProblemKind =
+type HistoryProblemKind =
   | "no-history"
   | "lost-ledger"
   | "lost-baseline"
@@ -1334,12 +1231,4 @@ export function assertMonotonicAdvance(input: {
         )}\n  A regression is never converted into a new accepted baseline. Restore the pair from version control.`,
     );
   }
-}
-
-export function describeHistoryProblems(
-  problems: readonly HistoryProblem[],
-): string {
-  return problems
-    .map((problem) => `  [${problem.kind}] ${problem.detail}`)
-    .join("\n");
 }

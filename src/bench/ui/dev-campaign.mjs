@@ -1,22 +1,13 @@
-/* global fetch */
 // Dev mode's Campaign set-up panel, on the Calendar: what a campaign needs before its acts can be tried.
 // Donors give runs the campaign day's own raise-money choice (each donor decides by their own warmth
 // and means, and every gift writes the donation and the journal entries a gift writes); a person is
 // cast yes or no on the volunteer ask, which the campaign's own ask then reads in place of their lean.
 // Control names and record data only.
+import { sendDevRequest as send } from "./dev-request.mjs";
+
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { select, statusLine } from "./fields.mjs";
-
-async function send(path, input) {
-  const response = await fetch(`/api/dev/${path}`, {
-    method: input ? "POST" : "GET",
-    ...(input ? { body: JSON.stringify(input) } : {}),
-  });
-  const value = await response.json();
-  if (!response.ok) throw new Error(value.error);
-  return value;
-}
 
 /** The last result line, kept across the sheet's redraws. */
 let lastResult = "";
