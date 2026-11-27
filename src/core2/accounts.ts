@@ -13,7 +13,7 @@
  * accounts.obligation(id); // nextDueAt, arrearsMinor, paidMinor, lastReceipt
  * ```
  */
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, lastDayOfMonth } from "./kernel/dates";
 import type { CashJournalPosting } from "./modules/people";
 import type { CashJournalSourceSlot } from "./journal-state";
 import type { CoreAPI, CoreModule, CoreState, IsoDate, Source } from "./types";
@@ -671,7 +671,7 @@ export function nextDue(
   const date = new Date(`${at}T00:00:00.000Z`);
   const year = date.getUTCFullYear(),
     month = date.getUTCMonth() + cadence.every,
-    last = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+    last = lastDayOfMonth(year, month + 1);
   return makeIsoDate(
     new Date(Date.UTC(year, month, Math.min(anchorDay, last)))
       .toISOString()

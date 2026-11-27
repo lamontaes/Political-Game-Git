@@ -13,6 +13,7 @@ import type {
   PersonInput,
   Source,
 } from "./types";
+import { nthWeekdayOfMonth } from "./kernel/dates";
 
 export const BOARD = board;
 
@@ -374,10 +375,12 @@ export function nextMeetingDate(after: string): string {
   const year = Number(after.slice(0, 4));
   for (const y of [year, year + 1])
     for (const meeting of board.meetings) {
-      const first = new Date(Date.UTC(y, meeting.month - 1, 1));
-      const shift = (board.meetingWeekday - first.getUTCDay() + 7) % 7;
-      const day = 1 + shift + (meeting.nthWednesday - 1) * 7;
-      const date = isoDate(y, meeting.month, day);
+      const date = nthWeekdayOfMonth(
+        y,
+        meeting.month,
+        board.meetingWeekday,
+        meeting.nthWednesday,
+      );
       if (date > after) return date;
     }
   throw new Error("No meeting in the calendar.");

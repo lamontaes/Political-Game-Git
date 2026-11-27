@@ -5,7 +5,7 @@ import {
   withWorldEconomy,
   worldCoreData,
 } from "../core2/modules/world";
-import { generatedOpening } from "../core2/tooling/generated-world";
+import { generatedOpening } from "../core2/generated-world";
 import type { CoreEventInput, CoreModule } from "../core2/types";
 import { createHash } from "node:crypto";
 import {

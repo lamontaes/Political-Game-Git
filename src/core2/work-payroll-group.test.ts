@@ -7,9 +7,9 @@ import { advanceDate } from "./calendar";
 import { makeIsoDate } from "./kernel/dates";
 import { createLifeCore, chooseAct } from "./life";
 import { coreAPI } from "./state";
-import { payrollStockObservables } from "./tooling/payroll-observables";
-import { financeObservables } from "./tooling/finance-observables";
-import { summarizeWorkObservables } from "./tooling/work-observables";
+import { payrollStockObservables } from "../../scripts/core2/tooling/payroll-observables";
+import { financeObservables } from "../../scripts/core2/tooling/finance-observables";
+import { summarizeWorkObservables } from "../../scripts/core2/tooling/work-observables";
 import {
   ensureWorkPayrollCashModule,
   settleWorkPayrollJournal,

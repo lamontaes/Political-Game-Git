@@ -26,7 +26,7 @@ import {
   type SituationLibrary,
 } from "./scheduling";
 import { composeScene } from "./scene";
-import { DIRECTOR_STOPGAPS, openDirectorStopgapCount } from "./stopgaps";
+import { STOPGAPS, openStopgapCount } from "../core2/stopgaps";
 import type { DirectorData } from "./types";
 
 const startedAt = "2021-01-01";
@@ -478,7 +478,8 @@ describe("story director on the new core", () => {
   });
 
   it("registers every stopgap it marks and keeps numbers in data", () => {
-    const ids = new Set(DIRECTOR_STOPGAPS.map((row) => row.id));
+    const ids = new Set(STOPGAPS.map((row) => row.id));
+    const mine = STOPGAPS.filter((row) => row.area === "director");
     for (const row of Object.values(DEFAULT_DIRECTOR_DATA.parameters)) {
       expect(["SOURCED", "ESTIMATED", "TUNABLE"]).toContain(row.tag);
       // A tuned number carries its check range and its spread; a stopgap id is
@@ -488,13 +489,9 @@ describe("story director on the new core", () => {
       if (row.stopgapId) expect(ids.has(row.stopgapId)).toBe(true);
     }
     // A resolved row says how it was resolved; the rest stay open.
-    const resolved = DIRECTOR_STOPGAPS.filter(
-      (row) => row.status === "resolved",
-    );
+    const resolved = mine.filter((row) => row.status === "resolved");
     for (const row of resolved) expect(row.why).toMatch(/Resolved/);
-    expect(openDirectorStopgapCount()).toBe(
-      DIRECTOR_STOPGAPS.length - resolved.length,
-    );
+    expect(openStopgapCount(mine)).toBe(mine.length - resolved.length);
     const folder = join(process.cwd(), "src", "director");
     const literals: string[] = [];
     for (const name of readdirSync(folder)) {
@@ -517,7 +514,7 @@ describe("story director on the new core", () => {
         ts.forEachChild(node, visit);
       };
       visit(file);
-      for (const marker of text.matchAll(/directorStopgap\("([^"]+)"/g))
+      for (const marker of text.matchAll(/\bstopgap\("([^"]+)"/g))
         expect(ids.has(marker[1]!)).toBe(true);
     }
     expect(literals).toEqual([]);

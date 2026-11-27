@@ -29,7 +29,7 @@ import {
   members,
   registerCommitteeRosterProvider,
 } from "./legislature";
-import { partySide } from "../appointments";
+import { partySide } from "./offices";
 import {
   COMMITTEES,
   committeeTopics,
