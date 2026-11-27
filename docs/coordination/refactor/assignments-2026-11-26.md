@@ -158,7 +158,7 @@ The owner: "the core is where engines plug in, and it can also be very friendly 
 4. **The missing date helpers in the kernel** (weekday of a date, the nth weekday of a month, the last day of a month), with every copy pointed at the kernel (K10): elections-calendar.ts, school.ts, voting.ts, finance-state.ts, work-pay-period.ts, and the rest of the 95 files' date sums. Formatting is left as it is. The kernel's `spokenDate` (dates.ts:113) goes to Story's day-words, in step with Story's E2.
 5. **A determinism guard:** no `Math.random`, `randomBytes`, `randomUUID`, `Date.now`, `performance.now` or argument-less `new Date()` in game code outside dev panels, the play server and scripts (K11).
 6. **The record log as one module:** `retainLog` and decision-detail.ts's condense and forget steps (`durableLog.set` :274, `forgetEntry` :411) together, with the reader beside them. pre-start.ts becomes a `module.history` source like every other engine, so the reader imports no engine. `HistorySource` joins `CoreModule` (K3, K4). The reader exposes the history sources' existing `row` (past-history.ts:139-140) as the one way a screen or Story opens a record the history names; no new hook (screens SC2a; adjusted Nov 27).
-7. **Cross-engine writes through the owner's door:** official-pay.ts:476 (jobs), officials.ts:988 (background people), civic-inputs.ts:157 (public organizations) (K8). Also past-elections.ts:568-576 (offices terms), voting.ts's one write into an executive table and past-laws.ts's write into a people table, from your own guard's baseline (elections EL3; adjusted Nov 27). Also finance-state.ts's in-place edits of a job row and two person rows (Core's own `rowEdits`; economy map; adjusted Nov 27).
+7. **Cross-engine writes through the owner's door:** official-pay.ts:476 (jobs), officials.ts:988 (background people), civic-inputs.ts:157 (public organizations) (K8). Also past-elections.ts:568-576 (offices terms), voting.ts's one write into an executive table and past-laws.ts's write into a people table, from your own guard's baseline (elections EL3; adjusted Nov 27). Also finance-state.ts's in-place edits of a job row and two person rows (Core's own `rowEdits`; economy map; adjusted Nov 27). Also past-laws.ts's write into a people table and past-moves.ts's in-place person-row edit (world WO3; Past and Day One changes those files with you; adjusted Nov 27).
 8. **Fill-in out of state.ts:** `fillInPerson`, `fillInIdentity`, `promoteHusk`, `openOpeningPeerTies` and the 16 person-building imports go to the people engine behind a hook (K7). Then choice.ts calls the act path without `coreAPI` (Reach-ins' choice.ts to state.ts cycle, 14 edges).
 9. **One way to start a world:** `newGame` (saves.ts:186) takes the whole recipe (the place draw with `passOver`, the pre-start, the opening warm-up, the player). The screens' `buildBenchWorld` (src/bench/world.ts:434) and the replay both call it. Coordinate the warm-up with Past and Day One (K5). The play server's session operations (start a life, load, save, advance) are Core's doors; the route table itself stays in Screens (screens SC4; adjusted Nov 27).
 10. **The engine list as data:** the modules life.ts installs come from one list, and the direct calls (`affectAt`, `withGrief`, `admitResidents`, `openingWorkCommitments`) go through hooks. Reach-ins' cycle and reach-in items are finished here; the cycle baseline goes down. The people engine's 11 side registries (people P9) move onto the hook shape this item defines, by the People session. Measured for the final review: 74 `register*` functions game-wide (adjusted Nov 27).
@@ -383,6 +383,34 @@ The audit is economy-2026-11-27.md in this folder (rows EC1 to EC5). People's an
 3. **The finance split (EC1),** doors first, proved by the guards with no count up.
 4. **Long functions as named steps (EC4),** Economy's own, structure only.
 5. **The side registries onto Core's hook (EC3),** after Core item 10.
+
+**Rules:**
+
+- Structure only. The fixed-seed records digest is identical, and `npm run typecheck` is clean.
+- Never edit Past and Day One's files.
+- No new systems and no new registry.
+- Never loosen a check.
+- Never edit bank lines.
+- Wide moves are re-runnable scripts.
+- Use the Fable advisor liberally; it doesn't use Fable usage.
+
+**Done when** 1 to 5 are each built, or listed with why.
+
+---
+
+## World (decided by the CTO under the owner's full ownership, Nov 27)
+
+The audit is world-2026-11-27.md in this folder (rows WO1 to WO5). No new split. The past files are Past and Day One's; life.ts and the reader are Core's.
+
+**Start** when "CTO: GO World" is posted. Branch from the branch that line names.
+
+**Items, safest first:**
+
+1. **community-events-table.ts (WO4):** agree with Story on #10377 whether it's wired into the calendar or deleted, and do it.
+2. **News doors (WO2),** after #10701 is in the train. Post them, so each consumer switches its own files.
+3. **news' reads switch** to the doors other sessions build, as they land.
+4. **press.ts split by concern and long functions as named steps (WO1),** after the Story split lands its engine half.
+5. **The side registries onto Core's hook (WO5),** after Core item 10.
 
 **Rules:**
 
