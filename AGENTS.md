@@ -1,5 +1,7 @@
 # Our Civic Duty — repository guide
 
+Keep proof images out of Git. Save local captures under the ignored `test-results/proof/<item>/` directory and attach them to the pull request body or a PR comment. If direct attachment is unavailable, link the PR's CI artifact. Record the seed, viewport and proof step there.
+
 A political and government RPG with a full life simulation underneath. Every agent (Claude, Codex, Cursor, Antigravity or another) follows this file. It holds only what every session needs; procedures live in skills (`.agents/skills/`, mirrored in `.claude/skills/`), the standing rules' self-checks in `.agents/rules/standing-skills/`, and the command and constraint reference in `.agents/rules/repository-reference.md`. The code map is `ARCHITECTURE.md`; the docs map is `docs/README.md`.
 
 ## Where the game is going (owner, Oct 10, 2026)
@@ -47,6 +49,9 @@ Follow Anthropic's model guide fully (owner, Nov 9; "Which Claude model should y
 - **Mind the weekly usage.** Above about 75%, go lean: fewer helpers, no new sessions without the owner's word. Near or right after a reset, lean toward effectiveness.
 - **Helpers never copy the whole repository (owner, Oct 29: "they shouldn't. They should immediately delete what they don't need, or even more helpfully, only clone what they do need"; "This needs to be a project rule").** A full copy is about 3.3 GB, and six filled a cloud session's disk on Oct 29. A helper or sub-agent works in a sparse copy without the repository's image files (every folder stays, so typecheck, tests and guards run; images are two thirds of a copy), shares the main checkout's git objects instead of downloading them again, and links `node_modules` instead of installing it. A session that finds a full helper copy narrows it at once. Skill `helper-checkout`.
 - **Helpers.** A helper needs an independently useful bounded output and explicit path and tool ownership; no recursive delegation or duplicate full-repo review. Each works in its own files or worktree, gets a clear objective, its check and an output format, and is read-only unless its brief says otherwise; the lead reviews every diff before it becomes a PR. Preserve configured concurrency limits (Codex: two). Model effort is proportional to the actual task.
+
+- **Use the advisor liberally (owner, Nov 26: "be liberal with your, Fable advisor button that you can press, because it does not use Fable usage... take full advantage of it").** In a Claude session it costs none of the owner's usage. Call it before each change, before each design choice, whenever a result surprises you, and before you say "done". On Nov 26 it caught claims resting on headers, wrong counts and unproven fixes before they went out.
+- **Game logic only (owner, Nov 26: "I only want game logic in these files. They all have to do something").** src/ holds only code the game runs. **Dev mode (Advanced) is game:** it uses the same engines through the same front doors, with more permissions, so everything can be tested by playing. Tests, checks, measurement tooling, test kits, fixtures and notes live outside src/. A file nothing runs is deleted.
 
 ## How every session works
 

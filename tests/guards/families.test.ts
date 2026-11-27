@@ -2,14 +2,10 @@ import { execFileSync } from "child_process";
 import { readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
+import map from "./families.json";
+import { familyOf, globToRegExp } from "./family-map";
 import baseline from "./families-baseline.json";
 import { codeowners, CODEOWNERS_PATH } from "../../scripts/guards/codeowners";
-import {
-  entries,
-  families,
-  familyOf,
-  globToRegExp,
-} from "../../scripts/guards/families";
 
 /**
  * One engine per mechanic (owner: "There's one election engine... You
@@ -28,6 +24,12 @@ import {
  */
 
 const ROOT = path.resolve(__dirname, "../..");
+type Family = { id: string; name: string; entry: string[]; paths: string[] };
+const families = map.families as Family[];
+
+const entries = new Map(
+  families.map((family) => [family.id, family.entry.map(globToRegExp)]),
+);
 
 const SOURCE =
   /^(?:src\/(?:core2|director|english|bench)\/.*\.(?:ts|tsx|mjs))$/;
@@ -58,6 +60,20 @@ export function importsOf(file: string, source: string): string[] {
     out.push(/\.(ts|tsx|mjs|js|json)$/.test(target) ? target : `${target}.ts`);
   }
   return out;
+}
+
+/** The test files beside the source: each belongs to the family that answers for its failing. */
+function testFiles(): string[] {
+  return execFileSync(
+    "git",
+    ["ls-files", "src/core2", "src/director", "src/english", "src/bench"],
+    { cwd: ROOT, encoding: "utf8" },
+  )
+    .split("\n")
+    .filter(
+      (file) =>
+        SOURCE.test(file) && /\.(test|spec|browser)\.(ts|tsx|mjs)$/.test(file),
+    );
 }
 
 function deepImports(): Map<string, string[]> {
@@ -94,6 +110,14 @@ describe("one engine per mechanic: families and their boundaries", () => {
     expect(
       fresh,
       "add each file to its family's paths in tests/guards/families.json",
+    ).toEqual([]);
+  });
+
+  it("puts every test file in a family, so a red test has an owner", () => {
+    const orphans = testFiles().filter((file) => familyOf(file) === null);
+    expect(
+      orphans,
+      "add each test file to the family of the code it tests, in its paths in tests/guards/families.json (CTO, Nov 26: every file gets a family)",
     ).toEqual([]);
   });
 

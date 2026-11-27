@@ -118,7 +118,7 @@
     "why": "The life record, part 6 (pool item core-life-record-part-6-the-past-holds-what-happened-between-people) built the event from the one published table read (NHIS 2018 Table P-10a); the health engine's conditions describe a fatal illness's risk, not a survived stay's.",
     "addedBy": "opus-5234 (core-life-record-part-6)",
     "addedAt": "2026-11-11",
-    "replacement": "The share of stays by age, sex and condition (HCUP National Inpatient Sample by diagnosis), weighed by the person's health record and traits, with injuries told apart from illnesses.",
+    "replacement": "The share of stays by age, sex and condition (HCUP National Inpatient Sample by diagnosis), weighed by the person's health record and traits, with injuries told apart from illnesses. Read Nov 26, 2026 (Past and day one, map row 16, #10377): the health engine (modules/health.ts) has no survived stay to run. It books one onset per life, a serious illness that ends in death, when strain from the opening day crosses the person's own memoryless line (the lookback reaches back one illness course), and it assigns conditions on its first day, after pasts are opened; so its hazard and line cannot give a living person's earlier stays, and the death hazard has no source for stays. past-health.ts already has the engine's shape (a pull against a seeded line) and differs only in its rate table, so it is not a second rule so much as a rate with no engine counterpart. The replacement needs a survived-stay rule added to the health engine first (a CTO or owner call: keep stays as generated history, add them to play, or drop them); past-health.ts then reads it. Its cost is 2 ms of a 16.8 s build.",
     "status": "open"
   },
   {
@@ -221,6 +221,17 @@
     "status": "open"
   },
   {
+    "id": "SG-HIST-century-local-leans",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "The played town's own offices (its mayor, council and county) stand where their state stands, moved by a seeded shift of the district spread, and are counted as a two-side race, not at the town's or county's own presidential vote or as the nonpartisan contests most of them are.",
+    "why": "The century runs states and districts only; a town's and a county's own vote history is not read into it, and a local seat carries no party label (a by-party body's day-one parties come from the town's lean, townBodyParties).",
+    "addedBy": "Past and Day One (claude/relaxed-darwin-g3rxyw-century-local)",
+    "addedAt": "2026-11-27",
+    "replacement": "The century counting the town and county places (their own 2024 results as the anchor for relationships only, not for levels), with nonpartisan seats counted without a party side.",
+    "status": "open"
+  },
+  {
     "id": "SG-HIST-century-district-sizes",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/electorate-century.ts",
@@ -246,11 +257,11 @@
     "id": "SG-HIST-century-law-sessions",
     "kind": "partial-model",
     "file": "src/core2/electorate-century-laws.ts",
-    "whatItFakes": "Each Congress and each state legislature the century elects sits one session after its November, and every policy question comes up in it: no bill is drafted, no committee or leader holds one back, and members stand at their party's typical position moved by their seat, not as people with their own records.",
+    "whatItFakes": "Each Congress and each state legislature the century elects sits one session after its November, and every policy question comes up in it: no bill is drafted, no committee or leader holds one back, and members stand at their party's typical position moved by their seat, not as people with their own records. The played state's last regular sitting before day one is no longer one of these: it runs through the real bill engine (src/core2/past-sessions.ts). What stays faked is every earlier session of the played state, Congress, and every other state.",
     "why": "The century runs a hundred years of every body before day one; the bill engine runs one played body's bills, and the century's members are results until someone opens them.",
     "addedBy": "History lane (claude/history-laws)",
     "addedAt": "2026-11-17",
-    "replacement": "The century runs the bill engine for the played town's state (drafting, committee, floor, the governor's desk), with members filled in on open. Measured Nov 26, 2026 (Past and day one, map row 14, #10377): the engine route needs a CoreState with offices, seats, terms, people, the laws module and the calendar, and the century (runCentury, runLegislatures) is a pure function of the seed that runs before any of them exist. One engine session costs about 0.3 s (CPU profile of buildBenchWorld, one seed, a 16.8 s build with the century at 5.7 s of it), so 100 years of the played state is about 29 s and Congress about 29 s more, before committee, floor weeks and the governor's desk: far over the 20% speed rule. A faithful replacement has to run only the played state's last few sessions inside a pre-day-one pass in the government phase, with a decision on what the century hands over; it is not a swap of lawSession.",
+    "replacement": "The century runs the bill engine for the played state's last few sessions, and a way to run the earlier ones and the other states' within the speed rule. Done for one sitting (Nov 26, 2026, map row 14): a small world seats the members the century says sat and runs the sitting through drafting, committee, floor and the governor's desk. Measured at four drawn worlds, back to back with main: it adds 12 to 16% to the build (9.9 to 11.5 s, 10.8 to 12.1, 12.1 to 13.5, 10.2 to 11.6), under the 20% rule. A second sitting needs the century to keep a roster per year and adds about 1.3 s, over the rule, so earlier sittings stay on the century's own session.",
     "status": "open"
   },
   {

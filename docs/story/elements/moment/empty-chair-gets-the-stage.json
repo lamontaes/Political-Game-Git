@@ -1,0 +1,30 @@
+{
+  "id": "empty-chair-gets-the-stage",
+  "kind": "moment",
+  "summary": "Where an opponent does not show, the candidate who came gets the time and an empty chair stays on stage.",
+  "realLife": "Some leagues let the present candidate speak for three minutes and leave an empty chair.",
+  "sources": [
+    "Shaw Local (Kane County Chronicle), League of Women Voters explains its empty chair forum rule: https://www.shawlocal.com/news/election/2022/04/24/league-of-women-voters-explains-reasons-behind-no-empty-chair-forum-debate",
+    "Idaho Education News, discomfort or disinterest: why are candidates no-shows at public forums: https://www.idahoednews.org/voices/discomfort-or-disinterest-why-are-candidates-no-shows-at-public-forums/"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["name", "office"],
+  "gates": [],
+  "weights": {
+    "debate": 0.8
+  },
+  "inGame": "debate-accepted record for one side only; needs: an empty-chair outcome in the debate sitting",
+  "usedBy": ["invite-debate"],
+  "turns": [
+    {
+      "turn": "The absent candidate sends a stand-in",
+      "pull": "an ally on the record",
+      "writes": "a short substitute speech"
+    },
+    {
+      "turn": "The present candidate declines the empty stage",
+      "pull": "fairness",
+      "writes": "a refusal and a story"
+    }
+  ]
+}

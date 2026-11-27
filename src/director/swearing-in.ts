@@ -11,7 +11,12 @@
  */
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  TERM_HELD,
+  type TermRow,
+} from "../core2/modules/offices";
+import { historyOf } from "../core2/past";
 import { memberKey } from "../core2/modules/legislature";
 import { P } from "../core2/parameters";
 import data from "./data/swearing-in.json" with { type: "json" };
@@ -113,15 +118,24 @@ export function outgoingHolder(
   sworn: SwornOffice,
   subjectId: string,
 ): PersonId | null {
-  const api = coreAPI(core as CoreState);
-  const left = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [sworn.seatId, "ended"]) as unknown as TermRow[]
+  const terms = coreAPI(core as CoreState)
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms");
+  // The seat's terms as its history tells them, the one that ended that day
+  // opened by its id.
+  const left = historyOf(
+    core as CoreState,
+    { nation: true },
+    { kinds: [TERM_HELD], about: sworn.seatId },
   )
-    .filter((term) => term.endDate === sworn.date)
-    .map((term) => memberKey(term))
+    .filter(
+      (event) =>
+        event.facts?.status === "ended" && event.facts?.endDate === sworn.date,
+    )
+    .flatMap((event) => {
+      const term = terms.get(event.id) as unknown as TermRow | undefined;
+      return term ? [memberKey(term)] : [];
+    })
     .sort();
   return living(core, subjectId)(left[P.zero])[P.zero] ?? null;
 }

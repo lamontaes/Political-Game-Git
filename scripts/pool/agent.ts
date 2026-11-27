@@ -25,7 +25,7 @@ export interface Identity {
 }
 
 /** The tiers with no tiers.json: the standard's four levels under their own names, and no model rows. */
-export const DEFAULT_TIERS: Tiers = {
+const DEFAULT_TIERS: Tiers = {
   tiers: [
     { name: "light", level: "haiku" },
     { name: "mid", level: "sonnet" },
@@ -96,7 +96,7 @@ export function identityFile(env: NodeJS.ProcessEnv = process.env): string {
   return join(dir, "pool-agent.json");
 }
 
-export function readIdentity(file: string): Identity | null {
+function readIdentity(file: string): Identity | null {
   if (!existsSync(file)) return null;
   try {
     const raw = JSON.parse(readFileSync(file, "utf8")) as Partial<Identity>;

@@ -109,7 +109,7 @@ export function areaOf(file: string): string {
 }
 
 /** What stands in a replaced path's place, or null when the path is not on the replaced list. */
-export function replacedNow(p: string): string | null {
+function replacedNow(p: string): string | null {
   return (
     data.replaced.find((row) => p === row.old || p.startsWith(`${row.old}/`))
       ?.now ?? null

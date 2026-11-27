@@ -1,0 +1,30 @@
+{
+  "id": "ballot-box-seal-numbers-are-written-down",
+  "kind": "detail",
+  "summary": "Election workers write down the numbers of the seals on voting equipment and ballot boxes so a broken or swapped seal shows.",
+  "realLife": "Georgia's rules for absentee voting say the registrars record the seal numbers on a daily recap sheet, and a ballot box that is resealed gets new seal numbers written down. Other states keep their own seal logs.",
+  "sources": [
+    "Georgia Secretary of State, Rules and Regulations, Subject 183-1-14 Absentee Voting (rule 183-1-14-.02(13), \"The registrars shall record the seal numbers on the daily recap sheet.\"): https://rules.sos.ga.gov/gac/183-1-14"
+  ],
+  "fits": ["loading"],
+  "slots": ["place"],
+  "gates": [],
+  "weights": {},
+  "inGame": "the elections module's ballot and tally rows, read by the loading screen's progress step for elections (loading-steps.elections).",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A seal number does not match the log, so the ballots are set apart until it is explained.",
+      "pulledBy": "a mismatch found at a check",
+      "writesBack": "a flagged box row on the canvass"
+    },
+    {
+      "turn": "partial",
+      "what": "The log is complete but a number was copied wrong and corrected the same day.",
+      "pulledBy": "a clerical error",
+      "writesBack": "a corrected line on the daily sheet"
+    }
+  ],
+  "issues": ["none"]
+}

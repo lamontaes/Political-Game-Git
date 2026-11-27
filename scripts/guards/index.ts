@@ -79,6 +79,12 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/engine-tables.test.ts"),
   },
   {
+    id: "duplicate-exports",
+    rule: "Two engine families must not define an exported function with the same name and body.",
+    readMore: "docs/design/guards.md, One engine per mechanic",
+    command: vitest("tests/guards/duplicate-exports.test.ts"),
+  },
+  {
     id: "two-seeds-differ",
     rule: "Realistic, not real: no statistic but law opens on its published value, and two worlds never open on the same one; the known copies only shrink.",
     readMore:

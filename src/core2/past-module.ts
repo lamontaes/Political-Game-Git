@@ -145,11 +145,30 @@ function lawHistoryRow(row: LawHistoryRow): HistoryRow {
       body: row.body,
       billId: row.billId,
       effectiveDate: row.effectiveDate,
+      // The narrowest of its roll calls, as a share of those who voted.
+      margin: String(narrowestMargin(row.rollCalls)),
+      ...Object.fromEntries(
+        Object.entries(row.session).map(([key, value]) => [
+          `${SESSION_FACT}${key}`,
+          value,
+        ]),
+      ),
       ...(row.sponsorId ? { sponsorId: row.sponsorId } : {}),
       ...(row.signedBy ? { signedBy: row.signedBy } : {}),
     },
     publicRecord: true,
   };
+}
+
+/** How a law's session is told on its history row: `session.<key>`. */
+export const SESSION_FACT = "session.";
+
+/** The narrowest of a law's roll calls (yes less no over all who voted); 0 with none. */
+function narrowestMargin(rollCalls: readonly RollCall[]): number {
+  const margins = rollCalls.map(
+    (c) => (c.yes - c.no) / Math.max(1, c.yes + c.no),
+  );
+  return margins.length ? Math.min(...margins) : 0;
 }
 
 /**
@@ -164,10 +183,10 @@ const PAST_HISTORY: HistorySource = {
     if ("household" in scope || "employer" in scope) return;
     const api = coreAPI(core);
     if (ask.kinds.includes(PAST_LAW_ENACTED))
-      for (const row of pastTable(
-        api,
-        "laws",
-      ).rows() as unknown as LawHistoryRow[])
+      // One law's history, asked about by its law id, is read by its index.
+      for (const row of (ask.about
+        ? pastTable(api, "laws").query("byLaw", [ask.about])
+        : pastTable(api, "laws").rows()) as unknown as LawHistoryRow[])
         if (
           !("person" in scope) ||
           row.sponsorId === scope.person ||
@@ -329,6 +348,7 @@ export {
 export {
   COLLEGE_ENDED,
   COLLEGE_STARTED,
+  GRADUATION_RESULT,
   SCHOOL_FINISHED,
   SCHOOL_STARTED,
   schoolHistory,

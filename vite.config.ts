@@ -25,6 +25,7 @@ const buildIdentity = resolveBuildIdentity(process.cwd());
 // reservation.
 const TEST_WORKER_HEAP_MB = 5120;
 
+import { shippedFiles } from "./scripts/dev-lab/shipped-files";
 import { identifiedBuild } from "./scripts/dev-lab/vite-identity";
 import { RoundRobinSequencer } from "./scripts/dev-lab/round-robin-sequencer";
 
@@ -60,6 +61,7 @@ export default defineConfig({
     runtimeContentOrigin(),
     sites(),
     identifiedBuild(),
+    shippedFiles(),
   ],
   define: buildIdentityDefines(buildIdentity),
   // This repository has thousands of source modules and several HTML entry
@@ -100,10 +102,9 @@ export default defineConfig({
       // Immutable private pack authoring snapshots also use node:test.
       // Their original validators run with Node, not through Vitest discovery.
       "art/authoring/**",
-      // These three use `node:test` and run with `node --test` (see package.json
+      // These use `node:test` and run with `node --test` (see package.json
       // and the workflows), so Vitest finds no suite in them.
       "scripts/secrets/scan-tracked-secrets.test.mjs",
-      "scripts/trait-effects/generate-manifest.test.mjs",
       "src/bench/place-selection.test.mjs",
       // The year-long platform calibration reads drawn places' played years
       // (about six minutes each) until its estimate is tight enough to judge

@@ -28,6 +28,11 @@ import {
   worldCoreData,
 } from "../core2/modules/world";
 import { openLaws } from "../core2/modules/laws";
+import {
+  applyPastSessionLaws,
+  lastSittingBefore,
+  pastSessionLaws,
+} from "../core2/tooling/past-sessions";
 import type { EntityId } from "../core2/kernel/brands";
 import { coreAPI } from "../core2/state";
 import { openStartingCircle } from "../core2/modules/people";
@@ -552,6 +557,10 @@ function* benchWorldStages(
     settings.history ?? "century",
     startDate,
     placeStateKey(place.key) ?? undefined,
+    // The played state's last sitting before day one runs through the real bill engine (row 14).
+    lastSittingBefore(placeStateKey(place.key) ?? "", startDate),
+    // The town's own offices (its mayor, council and county) run from 1925 beside the legislatures.
+    { key: place.key, geoid: place.sourceGeoid ?? place.key },
   );
   const minimumPeople = settings.population ?? options.minimumPeople;
   // With no birthday chosen the player is the default age, 18.
@@ -775,6 +784,8 @@ function* benchWorldStages(
   // Government: the place's law in force, its offices and seats, and the
   // next elections with their filing rules (OPUS-GOV).
   openLaws(core);
+  // The played state's last sitting before day one, through the real bill engine (row 14).
+  applyPastSessionLaws(core, pastSessionLaws(seed, place.key, startDate));
   openOffices(core, seed, startDate);
   // Officials outside the town are people before anyone files, so state and
   // federal races draw named candidates from them (OPUS-OFFICIALS).

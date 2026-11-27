@@ -1,0 +1,30 @@
+{
+  "id": "the-constitution-orders-a-head-count-every-ten-years",
+  "kind": "detail",
+  "summary": "The Constitution requires a count of the population within every term of ten years.",
+  "realLife": "Article I, Section 2 of the Constitution requires an enumeration of the population within every subsequent term of ten years, which the Census Bureau carries out.",
+  "sources": [
+    "U.S. Census Bureau, About the Decennial Census of Population and Housing: https://www.census.gov/programs-surveys/decennial-census/about.html"
+  ],
+  "fits": ["loading"],
+  "slots": ["state"],
+  "gates": [],
+  "weights": {},
+  "inGame": "the people and electorate modules' century history rows, read by the loading screen's progress steps for history and the opening (loading-steps.history).",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A census year is skipped and the counts carry over.",
+      "pulledBy": "a break in the count",
+      "writesBack": "a gap in the population rows"
+    },
+    {
+      "turn": "partial",
+      "what": "A count is made but disputed, and the old numbers stand for a while.",
+      "pulledBy": "a dispute over the count",
+      "writesBack": "two sets of population rows for the same year"
+    }
+  ],
+  "issues": ["none"]
+}

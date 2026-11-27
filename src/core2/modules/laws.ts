@@ -11,13 +11,11 @@
 import { FEE_LEVEL_SERIES } from "../fee-levels";
 import { addDays, makeIsoDate } from "../kernel/dates";
 export { billLevelJurisdiction, billValueInForce } from "../laws-bill-values";
-import type {
-  HistoryWriter,
-  PreStartModule,
-  PreStartWindow,
-} from "../pre-start";
+import type { PreStartModule } from "../pre-start";
+import { historyOf } from "../past";
 import {
-  lawHistory,
+  PAST_LAW_ENACTED,
+  SESSION_FACT,
   type HistoryModule,
   type HistoryRow,
   type HistorySource,
@@ -110,40 +108,6 @@ const CHAIN_ID = "chain";
 const ORDER_ID = "enactment-order";
 /** The calibration date the starting policy answers are read as of. */
 const ANSWERS_AS_OF = "2024-07-01";
-
-/**
- * Pre-start government pass (M1-14): every dated phase of a law that took
- * effect between the window's start and day one is entered in the history,
- * from the law row's own dates and source, so "in force since" can be asked
- * of the world's past. Nothing is generated.
- */
-function lawHistoryPass(
-  api: CoreAPI,
-  window: PreStartWindow,
-  history: HistoryWriter,
-): void {
-  for (const row of api.moduleState(LAWS_MODULE_ID).table("laws").rows()) {
-    const law = row as unknown as LawRowInput;
-    if (law.effectiveDate < window.from || law.effectiveDate > window.through)
-      continue;
-    history.record({
-      id: `law-phase:${law.id}`,
-      date: makeIsoDate(law.effectiveDate),
-      kind: "law.phase",
-      facts: {
-        lawId: law.id,
-        series: law.series,
-        level: law.level,
-        jurisdiction: law.jurisdiction,
-        ...(law.value === null || law.value === undefined
-          ? {}
-          : { value: law.value }),
-      },
-      publicRecord: true,
-      source: sourceOf(law, api.state.date),
-    });
-  }
-}
 
 /** The record kind of a law a body passed, as the one history reader tells it. */
 export const LAW_ENACTED = "law.enacted";
@@ -262,9 +226,10 @@ const LAWS_HISTORY: HistorySource = {
 };
 
 export const LAWS_MODULE: PreStartModule & HistoryModule = {
+  // A law's dated changes before day one are its statutes, read through the
+  // one history reader (`law.statute`); no copy is kept in the past's table.
   history: LAWS_HISTORY,
   id: LAWS_MODULE_ID,
-  preStart: { phase: "government", run: lawHistoryPass },
   state: {
     schemaVersion: 1,
     tables: {
@@ -687,16 +652,23 @@ export function enactmentOf(
       session: null,
     };
   }
-  const history = lawHistory(api, row.id);
+  // A day-one law's history, from the one history reader by its law id.
+  const [history] = historyOf(
+    api.state as CoreState,
+    { nation: true },
+    { kinds: [PAST_LAW_ENACTED], about: row.id },
+  ).filter((event) => event.facts?.lawId === row.id);
   if (!history) return null;
-  const margins = history.rollCalls.map(
-    (c) => (c.yes - c.no) / Math.max(1, c.yes + c.no),
-  );
+  const facts = history.facts ?? {};
   return {
-    passedOn: history.enactedOn,
-    margin: margins.length ? Math.min(...margins) : 0,
-    body: history.body,
-    session: history.session,
+    passedOn: history.date,
+    margin: Number(facts.margin ?? 0),
+    body: facts.body ?? null,
+    session: Object.fromEntries(
+      Object.entries(facts)
+        .filter(([key]) => key.startsWith(SESSION_FACT))
+        .map(([key, value]) => [key.slice(SESSION_FACT.length), value]),
+    ),
   };
 }
 

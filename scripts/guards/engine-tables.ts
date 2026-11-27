@@ -24,7 +24,7 @@ import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
-import { familyOf } from "./families";
+import { familyOf } from "../../tests/guards/family-map";
 
 const ROOT = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),

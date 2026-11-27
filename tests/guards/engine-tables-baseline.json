@@ -16,7 +16,7 @@
       "elections": 1
     },
     "src/bench/campaign.ts": {
-      "bodies": 2,
+      "bodies": 1,
       "elections": 11,
       "executive": 2
     },
@@ -93,7 +93,7 @@
       "laws": 1
     },
     "src/bench/legislature.ts": {
-      "bodies": 2,
+      "bodies": 1,
       "executive": 6
     },
     "src/bench/m1-12-check.ts": {
@@ -138,7 +138,6 @@
       "news": 2
     },
     "src/bench/reached.ts": {
-      "bodies": 1,
       "elections": 3,
       "laws": 1,
       "news": 1
@@ -521,7 +520,7 @@
     },
     "src/director/journal.ts": {
       "bodies": 2,
-      "executive": 3,
+      "executive": 2,
       "laws": 2
     },
     "src/director/life-news.ts": {
@@ -556,7 +555,6 @@
       "executive": 1
     },
     "src/director/speech-outline.ts": {
-      "bodies": 1,
       "executive": 5,
       "jobs-businesses": 2,
       "laws": 2

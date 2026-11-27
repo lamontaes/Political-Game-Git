@@ -48,6 +48,10 @@ import {
 export type { SceneTalkStep };
 import type { Director } from "./ledger";
 import { composedLine, type Said } from "./talk-words";
+import { decisionLean } from "../core2/trait-decisions";
+import { movePairFactor, type CalibrationTable } from "../english/calibration";
+import { asksQuestion } from "../english/conversation-words";
+import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 
 const zero = P.zero;
 const one = P.one;
@@ -211,6 +215,22 @@ const HOME = (
     home: {
       dayBack: {
         omitsTold: { kinds: readonly string[]; figures: readonly string[] };
+      };
+      replyMoves: {
+        default: string;
+        answerable: readonly string[];
+        notes: readonly string[];
+      } & Readonly<Record<string, unknown>>;
+      standsTold: readonly string[];
+      topics: {
+        openingOrder: readonly string[];
+        newsSubjects: readonly string[];
+      };
+      giveBack: {
+        kinds: readonly string[];
+        answers: Readonly<Record<string, unknown>>;
+        plain: Readonly<Record<string, unknown>>;
+        covers: Readonly<Record<string, unknown>>;
       };
       news: {
         backSubject: string;
@@ -545,6 +565,94 @@ function byLean<T>(
 }
 
 /**
+ * The follow step: the other person's answer to a line. Each candidate move
+ * is worded by the caller's hook (the scene bank's `wordSceneMove` for a
+ * scene, the mined bank's composed line for a home talk), and the one the
+ * speaker's traits lean toward most is the answer, a tie to the stable hash
+ * of its key. Nothing is rolled. Null where no candidate can be worded.
+ */
+export function followStep<L>(
+  core: Pick<CoreState, "data">,
+  traits: Readonly<Record<string, number>>,
+  candidates: readonly string[],
+  word: (candidate: string) => L | null,
+  keyOf: (candidate: string) => string,
+): { candidate: string; line: L } | null {
+  const worded = candidates.flatMap((candidate) => {
+    const line = word(candidate);
+    return line ? [{ candidate, line }] : [];
+  });
+  const [best] = byLean(
+    core,
+    worded,
+    (row) => row.candidate,
+    traits,
+    (row) => keyOf(row.candidate),
+  );
+  return best ?? null;
+}
+
+/**
+ * A home talk's answer, through the same follow step a scene's answer goes
+ * through: the one candidate the family names (its subject), worded by the
+ * composed-line hook from the mined bank at the stage the family chose.
+ */
+function homeLine(
+  core: Readonly<CoreState>,
+  input: {
+    subject: string;
+    stage: string;
+    speakerId: PersonId;
+    facts: Readonly<Record<string, Fact>>;
+    momentKey: string;
+    saidParts: readonly string[];
+  },
+): Said | null {
+  const step = followStep(
+    core,
+    core.people.get(input.speakerId)?.traits ?? {},
+    [input.subject],
+    () =>
+      composedLine(
+        core,
+        input.speakerId,
+        input.subject,
+        input.facts,
+        input.stage,
+        input.momentKey,
+        input.saidParts,
+      ),
+    (candidate) => `${input.momentKey}:${candidate}`,
+  );
+  return step?.line ?? null;
+}
+
+/**
+ * A line a home talk says, composed from the mined bank and worded through the
+ * follow step: every home talk line is the engine's, by the same step a
+ * scene's answer is. The caller says who speaks, under which subject and at
+ * which stage, from what facts.
+ */
+export function composedHomeLine(
+  core: Readonly<CoreState>,
+  speakerId: PersonId,
+  subject: string,
+  facts: Readonly<Record<string, Fact>>,
+  stage: string,
+  momentKey: string,
+  saidParts: readonly string[] = [],
+): Said | null {
+  return homeLine(core, {
+    subject,
+    stage,
+    speakerId,
+    facts,
+    momentKey,
+    saidParts,
+  });
+}
+
+/**
  * How a person takes in what the player answered in an everyday talk, by this
  * engine's own rule (owner, Oct 29: one engine for every line, and calibration
  * reaches all of it): the `talk` purpose's answer moves for the move the
@@ -571,32 +679,31 @@ export function answerInTalk(
   const arc = ARCS.purposes.talk;
   if (!arc) return null;
   const traits = core.people.get(input.speakerId)?.traits ?? {};
-  const worded = candidatesFor(arc, input.replyMove).flatMap((candidate) => {
-    const line = wordSceneMove({
-      move: {
-        step: "follow",
-        move: candidate,
-        role: "asker",
-        purpose: "talk",
-        key: input.key,
-        after: input.replyMove,
-        afterPiece: input.answered,
-      },
-      facts: {},
-      seed: core.seed,
-      speakerId: input.speakerId,
-      traits,
-      momentKey: `${input.momentKey}:${candidate}`,
-      said: new Set(input.heard ?? []),
-    });
-    return line && !("unused" in line) ? [{ candidate, line }] : [];
-  });
-  const [best] = byLean(
+  const best = followStep(
     core,
-    worded,
-    (row) => row.candidate,
     traits,
-    (row) => `${input.momentKey}:${row.candidate}`,
+    candidatesFor(arc, input.replyMove),
+    (candidate) => {
+      const line = wordSceneMove({
+        move: {
+          step: "follow",
+          move: candidate,
+          role: "asker",
+          purpose: "talk",
+          key: input.key,
+          after: input.replyMove,
+          afterPiece: input.answered,
+        },
+        facts: {},
+        seed: core.seed,
+        speakerId: input.speakerId,
+        traits,
+        momentKey: `${input.momentKey}:${candidate}`,
+        said: new Set(input.heard ?? []),
+      });
+      return line && !("unused" in line) ? line : null;
+    },
+    (candidate) => `${input.momentKey}:${candidate}`,
   );
   if (!best) return null;
   return {
@@ -658,15 +765,14 @@ export function answerBack(
     saidParts: readonly string[];
   },
 ): Said | null {
-  return composedLine(
-    core,
-    input.speakerId,
-    `${input.kind}-back`,
-    input.shape(factsWithoutTold(input.kind, input.told, input.facts)),
-    input.replyMove,
-    input.momentKey,
-    input.saidParts,
-  );
+  return homeLine(core, {
+    subject: `${input.kind}-back`,
+    stage: input.replyMove,
+    speakerId: input.speakerId,
+    facts: input.shape(factsWithoutTold(input.kind, input.told, input.facts)),
+    momentKey: input.momentKey,
+    saidParts: input.saidParts,
+  });
 }
 
 /** The replies to where someone stands that the talk answers: asking why, and agreeing or disagreeing. */
@@ -718,15 +824,14 @@ export function answerOwnView(
           input.held?.[name] ? [[name, input.held[name]]] : [],
         ),
       );
-  const line = composedLine(
-    core,
-    input.speakerId,
+  const line = homeLine(core, {
     subject,
-    { ...input.shape({ ...input.facts }), ...carried },
-    asked ? "default" : input.replyMove,
-    input.momentKey,
-    input.saidParts,
-  );
+    stage: asked ? "default" : input.replyMove,
+    speakerId: input.speakerId,
+    facts: { ...input.shape({ ...input.facts }), ...carried },
+    momentKey: input.momentKey,
+    saidParts: input.saidParts,
+  });
   return line ? { subject, line } : null;
 }
 
@@ -781,15 +886,798 @@ export function newsLine(
     saidParts: readonly string[];
   },
 ): Said | null {
-  return composedLine(
-    core,
-    input.speakerId,
-    input.which === "back" ? HOME.news.backSubject : HOME.news.standSubject,
-    input.facts,
-    "default",
-    input.momentKey,
-    input.saidParts,
+  return homeLine(core, {
+    subject:
+      input.which === "back" ? HOME.news.backSubject : HOME.news.standSubject,
+    stage: "default",
+    speakerId: input.speakerId,
+    facts: input.facts,
+    momentKey: input.momentKey,
+    saidParts: input.saidParts,
+  });
+}
+
+/** The row of a give-back table for an asked kind (the table's own `about` note is not a kind). */
+function giveRow<T>(
+  table: Readonly<Record<string, unknown>>,
+  kind: string,
+): T | undefined {
+  return kind === "about" ? undefined : (table[kind] as T | undefined);
+}
+
+/** Whether the asker of this small question gives their own answer back after the player's. */
+export function asksGiveBack(kind: string): boolean {
+  return HOME.giveBack.kinds.includes(kind);
+}
+
+/** The stage of the asker's give-back for one of the player's moves, where the give-back answers that move as well as a plain answer. */
+export function giveBackStage(kind: string, move: string): string | undefined {
+  return giveRow<Record<string, string>>(HOME.giveBack.answers, kind)?.[move];
+}
+
+/** The moves that are the plain answer to this question, where it has no move named plain. */
+export function plainAnswersOf(kind: string): readonly string[] {
+  const row = giveRow<string[]>(HOME.giveBack.plain, kind);
+  return Array.isArray(row) ? row : [];
+}
+
+/** Whether the asker's give-back already told a subject of this raised kind. */
+export function giveBackCovers(kind: string, raisedKind: string): boolean {
+  const row = giveRow<string[]>(HOME.giveBack.covers, kind);
+  return Array.isArray(row) && row.includes(raisedKind);
+}
+
+/**
+ * The asker's own answer, given back after the player's: composed under
+ * `<kind>-give` at the stage the give-back chose, from the facts their own
+ * record gave. Null where no wording fits.
+ */
+export function giveBackLine(
+  core: Readonly<CoreState>,
+  input: {
+    kind: string;
+    stage: string;
+    speakerId: PersonId;
+    facts: Readonly<Record<string, Fact>>;
+    momentKey: string;
+    saidParts: readonly string[];
+  },
+): Said | null {
+  return homeLine(core, {
+    subject: `${input.kind}-give`,
+    stage: input.stage,
+    speakerId: input.speakerId,
+    facts: input.facts,
+    momentKey: input.momentKey,
+    saidParts: input.saidParts,
+  });
+}
+
+/**
+ * The move the player's answer to a line of this kind makes: "note" for one
+ * that only takes the line in ("Oh, okay."), which the talk does not answer;
+ * otherwise the move the arcs file's `home.replyMoves` names for the kind and
+ * the choice, or a plain answer.
+ */
+export function replyMoveOf(kind: string, choice: string): string {
+  const moves = HOME.replyMoves;
+  if (
+    moves.notes.some((note) => choice === note || choice.startsWith(`${note}:`))
+  )
+    return "note";
+  const own = moves[kind.replace(/-new$/, "")] as
+    Readonly<Record<string, string>> | undefined;
+  return own?.[choice] ?? moves.default;
+}
+
+/** Whether a talk answers a reply that makes this move, so a reply that ends on a question may be offered. */
+export function replyMoveAnswerable(move: string): boolean {
+  return HOME.replyMoves.answerable.includes(move);
+}
+
+/**
+ * How far the player's replies reach: above zero for someone who carries a
+ * talk on, below it for someone who keeps it short. The trait engine decides
+ * it (`conversation.reply-reach`); the calibration table reaches each reply's
+ * wording through its voice, so the same traits are not counted twice. The
+ * interview sitting orders its answers by it too.
+ */
+export function replyReach(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+): number {
+  const player = core.people.get(playerId);
+  return player
+    ? decisionLean(
+        core,
+        player,
+        "conversation.reply-reach",
+        "carry-on",
+        "keep-short",
+      )
+    : zero;
+}
+
+/**
+ * Whether a reply answers the line before it: after a question put to the
+ * player, and after news told with the teller's stand, the replies are the
+ * ones the rules name for the line's move (`answersTo`), never a bare "Wow."
+ * or "Really?" (owner, Nov 12: "the just non-replies"). Where the rules name
+ * none for the move, any reply may answer.
+ */
+export function replyAnswersAsk(input: {
+  putQuestion: boolean;
+  askedMove: string | undefined;
+  fitting: readonly string[] | undefined;
+  choiceKey: string;
+}): boolean {
+  const stand = HOME.standsTold.includes(input.askedMove ?? "");
+  return !(
+    (input.putQuestion || stand) &&
+    input.fitting &&
+    !input.fitting.includes(input.choiceKey)
   );
+}
+
+/**
+ * Whether a worded reply is offered. A reply that ends on a question is
+ * offered only where the other person can answer it (`answerable`: it raises
+ * a subject they have, asks them to tell more, or makes a move the talk
+ * answers), and no reply to a question put to the player opens with a
+ * question of its own (owner, Oct 29).
+ */
+export function replyOffered(input: {
+  asksLast: boolean;
+  answerable: boolean;
+  putQuestion: boolean;
+  opensAsking: boolean;
+}): boolean {
+  return !(
+    (input.asksLast && !input.answerable) ||
+    (input.putQuestion && input.opensAsking)
+  );
+}
+
+/**
+ * What to do with a worded reply: offer it, or, where it ends on a question
+ * the other person cannot answer, say the same move again with a wording that
+ * asks nothing (a statement), or drop it. The retry is for a reply that
+ * raises no subject, and made once.
+ */
+export function replyVerdict(input: {
+  asksLast: boolean;
+  answerable: boolean;
+  putQuestion: boolean;
+  opensAsking: boolean;
+  statementsOnly: boolean;
+  raisesSubject: boolean;
+}): "offer" | "retry-as-statement" | "drop" {
+  if (replyOffered(input)) return "offer";
+  return !input.statementsOnly && !input.raisesSubject
+    ? "retry-as-statement"
+    : "drop";
+}
+
+/**
+ * Whether a reply has something to say. A question whose answer the talk
+ * already said, by either of them, is not offered ("McKenzie's Kitchen for me,
+ * 18 years now." then "How long have you worked there?"); nor is a question
+ * the other person has no answer to on record (a pressed question is always
+ * answered); turning the question back asks it and says nothing more; and a
+ * move that turns the question back says nothing without its subject.
+ */
+export function replyHasMatter(input: {
+  /** What the reply raises: nothing, the question just asked (turned back), or another subject. */
+  raised: "none" | "turned-back" | "other";
+  /** The raised subject's answer is already in an earlier line of the talk. */
+  alreadyAnswered: boolean;
+  /** The other person has an answer to the raised subject on record. */
+  otherHasAnswer: boolean;
+  /** The reply's own wording asks a question. */
+  asks: boolean;
+  /** The reply's move is one that turns the question back. */
+  raisesAsMove: boolean;
+}): boolean {
+  if (input.raised !== "none" && input.alreadyAnswered) return false;
+  if (input.raised === "other" && !input.otherHasAnswer) return false;
+  if (input.raised === "turned-back" && !input.asks) return false;
+  if (input.raised === "none" && input.raisesAsMove && input.asks) return false;
+  return true;
+}
+
+/**
+ * The subject a reply carries the talk on to, if its move may: a reply's
+ * second move follows from its first (owner, batch 6): turning the same
+ * question back ("I'm from here. And you?"), or asking about their work after
+ * naming yours, never an unrelated subject tacked on. The question just asked
+ * may be turned back; any other subject must be one the talk has not used.
+ */
+export function replyTarget<S extends { id: string; kind: string }>(input: {
+  raises: string;
+  follows: readonly string[];
+  last: S;
+  unused: readonly S[];
+  taken: ReadonlySet<string>;
+}): S | undefined {
+  if (!input.follows.includes(input.raises)) return undefined;
+  if (input.raises === input.last.kind) return input.last;
+  return input.unused.find(
+    (row) => row.kind === input.raises && !input.taken.has(row.id),
+  );
+}
+
+/**
+ * Whether the bank's reply for a move may be offered at all: what the player
+ * already told is not offered again, and asking for more ("What happened?") is
+ * offered only when the other person has it on record and in words (a question
+ * nobody can answer is not offered).
+ */
+export function replyAvailable(input: {
+  choiceKey: string;
+  /** The reply tells the player's own subject, which the talk already has. */
+  alreadyTold: boolean;
+  /** What the other person tells when this reply asks for more. */
+  tellKind: string | undefined;
+  tellable: (kind: string) => boolean;
+}): boolean {
+  if (input.choiceKey === "own" && input.alreadyTold) return false;
+  return !(input.tellKind && !input.tellable(input.tellKind));
+}
+
+/**
+ * The replies to try for a line, in order: each move said with the subject it
+ * carries the talk on to (the first pass only), then said plainly. The caller
+ * words each; a subject it takes is not offered again, so the target is read
+ * as each reply is reached.
+ */
+export function* replyCandidates<G extends { raises?: string }, S>(
+  groups: Iterable<readonly [string, G]>,
+  again: string,
+  available: (choiceKey: string) => boolean,
+  target: (raises: string) => S | undefined,
+): Generator<{ choiceKey: string; group: G; subject: S | undefined }> {
+  for (const [choiceKey, group] of groups) {
+    if (!available(choiceKey)) continue;
+    const subject = group.raises ? target(group.raises) : undefined;
+    if (subject && !again) yield { choiceKey, group, subject };
+    yield { choiceKey, group, subject: undefined };
+  }
+}
+
+/**
+ * Whether the scales show: only when the last line is the other person's
+ * question about the player's own record, and they do not already hold the
+ * true value (`knowsTruth`, read only when the rest holds). Otherwise nothing
+ * about the player's record is in play and the scales are dimmed.
+ */
+export function scalesShow(input: {
+  ownRecordAsked: boolean;
+  askedByOther: boolean;
+  knowsTruth: () => boolean;
+}): boolean {
+  return input.ownRecordAsked && input.askedByOther && !input.knowsTruth();
+}
+
+/**
+ * The scales' set: every true reply made false, each keeping its own move
+ * (what it raises or turns back) and swapping the answer for one of the false
+ * answers, taken in turn so the set holds them all. A false reply that would
+ * read the same as another already in the set is left out; with no true reply
+ * the set is one plain false answer.
+ */
+export function scalesSet<C, B>(
+  replies: readonly C[],
+  falseAnswers: readonly B[],
+  textOf: (answer: B, reply: C | undefined) => string,
+): { reply: C | undefined; answer: B }[] {
+  const out: { reply: C | undefined; answer: B }[] = [];
+  const seen = new Set<string>();
+  const sources: readonly (C | undefined)[] = replies.length
+    ? replies
+    : [undefined];
+  sources.forEach((reply, index) => {
+    for (let step = zero; step < falseAnswers.length; step += one) {
+      const answer = falseAnswers[(index + step) % falseAnswers.length]!;
+      const text = textOf(answer, reply);
+      if (seen.has(text)) continue;
+      seen.add(text);
+      out.push({ reply, answer });
+      break;
+    }
+  });
+  return out;
+}
+
+/**
+ * The subject a raised line is composed under, when the engine composes it:
+ * the address's point under its own kind; a printed story, told by its reader
+ * (what it is about and their stand), under `news-ask` unless it is first
+ * asked about ("Did you read about it?") by the outlet's medium; and any
+ * subject with a `<kind>-say` sentence in the bank (where they stand).
+ * Otherwise the line is worded plain from the bank (`null`).
+ */
+export function raiseComposedSubject(input: {
+  kind: string;
+  pointKind: string;
+  hasStory: boolean;
+  asksFirst: boolean;
+  hasSayBank: (subject: string) => boolean;
+}): string | null {
+  if (input.kind === input.pointKind) return input.pointKind;
+  if (input.kind === "news" && input.hasStory && !input.asksFirst)
+    return "news-ask";
+  return input.hasSayBank(`${input.kind}-say`) ? `${input.kind}-say` : null;
+}
+
+/**
+ * What a raised line is composed from, marked for what the talk has already
+ * done: a question the talk already named is said again as "it" (a frame that
+ * puts the name after "is" or "than" plays only as its first naming), and
+ * where they raised the talk's subject themselves a line that invites the
+ * player to ask them is not said (Words lead).
+ */
+export function raiseFacts(
+  facts: Readonly<Record<string, Fact>>,
+  input: { named: boolean; theyOpened: boolean; speakerId: PersonId },
+): Record<string, Fact> {
+  return {
+    ...facts,
+    ...(input.named && facts.about
+      ? {
+          "about-named": {
+            text: "yes",
+            sourceRecordIds: facts.about.sourceRecordIds,
+          },
+        }
+      : {}),
+    ...(input.theyOpened
+      ? { "they-opened": { text: "yes", sourceRecordIds: [input.speakerId] } }
+      : {}),
+  };
+}
+
+/**
+ * Whether the other person says goodbye when a talk ends. Not if they just
+ * said one. Nobody says goodbye right after their own question was answered
+ * ("Do you remember the school?" "Yes." "Okay, bye." is not a talk): the
+ * answer is where it stops, or the asker has gone on to something else.
+ * People who live together close a talk as housemates do, on the last line
+ * that says something, and so does a talk about hard news of their own life
+ * (a job lost, a death): never "Come back soon." to someone who just lost
+ * their home. A call is the exception to all three: it is closed by the
+ * person called, with the phone's own goodbye, or it hangs.
+ */
+export function goodbyeSaid(input: {
+  byPhone: boolean;
+  lastWasGoodbye: boolean;
+  /** Their last line asked a question, and the player's answer came after it. */
+  theirQuestionAnswered: boolean;
+  housemates: boolean;
+  hardNews: boolean;
+}): boolean {
+  if (input.lastWasGoodbye) return false;
+  if (!input.byPhone && input.theirQuestionAnswered) return false;
+  if (input.housemates && !input.byPhone) return false;
+  return !(input.hardNews && !input.byPhone);
+}
+
+/**
+ * Whether the other person greets the player when a talk opens. People who
+ * live together don't greet each other at home; a call is the exception, and
+ * opens as a call even to someone in the player's own house: the person
+ * answering says hello first (Words lead, Nov 14).
+ */
+export function greetsFirst(input: {
+  housemates: boolean;
+  byPhone: boolean;
+}): boolean {
+  return !input.housemates || input.byPhone;
+}
+
+/**
+ * The turns a greeting is said in: the hello is its own short turn ("Hi."
+ * then "Back again?"), so a composed greeting whose first piece is the
+ * opener (`.greet-open`) is said as two lines, the opener and the rest. On a
+ * call that has two turns the player says who it is after the hello (their
+ * own words, from the same facts), and the other person goes on.
+ */
+export function greetingTurns<
+  L extends { text: string; wording?: { parts: string[]; facts: string[] } },
+>(
+  greeting: L,
+  input: { byPhone: boolean; self: () => L | null },
+): { who: "other" | "player"; line: L }[] {
+  const parts = greeting.wording?.parts ?? [];
+  const split =
+    parts.length > one && parts[zero]!.includes(".greet-open")
+      ? /^(?<hello>.*?[.!?]) (?<rest>.+)$/s.exec(greeting.text)?.groups
+      : undefined;
+  const said: L[] =
+    split?.hello && split.rest && greeting.wording
+      ? [
+          {
+            ...greeting,
+            text: split.hello,
+            wording: { ...greeting.wording, parts: [parts[zero]!], facts: [] },
+          },
+          {
+            ...greeting,
+            text: split.rest,
+            wording: { ...greeting.wording, parts: parts.slice(one) },
+          },
+        ]
+      : [greeting];
+  const self = input.byPhone && said.length > one ? input.self() : null;
+  return said.flatMap((line, at) => [
+    { who: "other" as const, line },
+    ...(at === zero && self ? [{ who: "player" as const, line: self }] : []),
+  ]);
+}
+
+/**
+ * The topics a talk does not open again: each one the listener remembers
+ * (`rows`: the topic and when it was learned) that is still inside its wait
+ * (small talk a week, a day's own subject a few days; past it, it may come back
+ * with the day's new facts).
+ */
+export function topicsStillHeld(
+  rows: readonly { value: string; learnedAt: string }[],
+  input: {
+    waitOf: (topic: string) => number | undefined;
+    daysSince: (learnedAt: string) => number;
+  },
+): string[] {
+  return rows
+    .filter((row) => {
+      const wait = input.waitOf(row.value);
+      return wait === undefined || input.daysSince(row.learnedAt) < wait;
+    })
+    .map((row) => row.value);
+}
+
+/**
+ * A parting word that is not one already said in this talk ("Nice to see
+ * you." opening and closing it): each further wording of the same move is
+ * tried, up to the limit, and the last one that could be worded stands when
+ * every one repeats a line.
+ */
+export function firstUnsaid<L extends { text: string }>(
+  tries: number,
+  said: ReadonlySet<string>,
+  word: (attempt: number) => L | null,
+): L | null {
+  let line: L | null = null;
+  for (let attempt = zero; attempt < tries; attempt += one) {
+    const next = word(attempt);
+    if (!next) break;
+    line = next;
+    if (!said.has(next.text)) break;
+  }
+  return line;
+}
+
+/**
+ * Whether a talk that opened has said nothing: hello and goodbye with nothing
+ * between is not a talk (owner, Oct 24: "that should be going to the hi, have
+ * a good day. That makes no sense."), and neither is a hard-news opener with
+ * nothing after it. With nothing on record to say, nothing is said.
+ */
+export function talkSaidNothing(kinds: readonly string[]): boolean {
+  return kinds.every((kind) => kind === "greet" || kind === "family-open");
+}
+
+/**
+ * What the speaker calls the player in an answer, left out when an earlier
+ * line of the same talk already said it (rule 105: a name once per talk), so
+ * the answer picks a wording without it. `you` is what the speaker calls them.
+ */
+export function youUnlessSaid(input: {
+  lines: readonly { speakerId: string; text: string }[];
+  speakerId: string;
+  you: Fact;
+}): { you?: Fact } {
+  const said = input.lines.some(
+    (line) =>
+      line.speakerId === input.speakerId &&
+      new RegExp(`\\b${input.you.text}\\b`, "i").test(line.text),
+  );
+  return said ? {} : { you: input.you };
+}
+
+/**
+ * The one rule for a name in a talk (rule 105): facts a line is composed
+ * from, with the speaker's name for the player left out where the speaker
+ * already said it earlier in this talk. Every composer that places the name
+ * asks here, so no bank keeps its own count.
+ */
+export function nameOnceFacts(
+  facts: Readonly<Record<string, Fact>>,
+  input: {
+    lines: readonly { speakerId: string; text: string }[];
+    speakerId: string;
+    you: Fact;
+  },
+): Record<string, Fact> {
+  if (!facts.you || youUnlessSaid(input).you) return { ...facts };
+  const rest = { ...facts };
+  delete rest.you;
+  return rest;
+}
+
+/**
+ * Whether the talk already said what a question asks for: every fact the
+ * question's subject holds is in an earlier line, by either speaker, with its
+ * words said and its record cited. One reading of what was said, never a list
+ * of question kinds.
+ */
+export function factsAlreadySaid(
+  lines: readonly { text: string; sourceRecordIds: readonly string[] }[],
+  asked: Readonly<Record<string, Fact>>,
+): boolean {
+  const facts = Object.values(asked);
+  return (
+    facts.length > zero &&
+    facts.every((fact) =>
+      lines.some(
+        (line) =>
+          line.text.includes(fact.text) &&
+          fact.sourceRecordIds.some((id) => line.sourceRecordIds.includes(id)),
+      ),
+    )
+  );
+}
+
+/** The facts the talk has not said yet: each one whose words and record an earlier line (either speaker) does not carry. */
+export function factsNotYetSaid(
+  lines: readonly { text: string; sourceRecordIds: readonly string[] }[],
+  facts: Readonly<Record<string, Fact>>,
+): Record<string, Fact> {
+  return Object.fromEntries(
+    Object.entries(facts).filter(
+      ([, fact]) => !factsAlreadySaid(lines, { fact }),
+    ),
+  );
+}
+
+/**
+ * The reply step: the replies a talk offers for the line before them. Each
+ * candidate, up to the limit, is worded by the caller's hook (a scene words a
+ * move; a home talk words a move with the subject it carries on to); a line
+ * already offered or said is not offered again, by its piece or by its text
+ * (the caller's `seen` and what this step has offered), and a candidate the
+ * bank cannot word is reported as a gap. Candidates are read one at a time,
+ * and `onOffered` runs as each reply is taken, so what one reply takes (a
+ * subject) is not taken by the next. Then, where the caller gives `extra`, one
+ * more option drawn from the player's own life is added where a piece fits,
+ * never in place of the usual replies.
+ */
+export function replyStep<
+  C,
+  L extends { parts: readonly string[]; text: string },
+>(input: {
+  candidates: Iterable<C>;
+  limit: number;
+  word: (candidate: C) => L | null;
+  extra?: (candidate: C) => L | null;
+  seen: ReadonlySet<string>;
+  onGap?: (candidate: C) => void;
+  onOffered?: (line: L, candidate: C) => void;
+}): L[] {
+  const offeredKeys = new Set<string>();
+  const repeats = (reply: L) =>
+    repeatsOffer(input.seen, { text: reply.text, piece: reply.parts[zero] }) ||
+    offeredKeys.has(reply.text) ||
+    (!!reply.parts[zero] && offeredKeys.has(reply.parts[zero]!));
+  const take = (reply: L, candidate: C) => {
+    offeredKeys.add(reply.text);
+    if (reply.parts[zero]) offeredKeys.add(reply.parts[zero]!);
+    input.onOffered?.(reply, candidate);
+  };
+  const offered: L[] = [];
+  let tried = zero;
+  for (const candidate of input.candidates) {
+    if (tried >= input.limit) break;
+    tried += one;
+    const reply = input.word(candidate);
+    if (!reply) {
+      input.onGap?.(candidate);
+      continue;
+    }
+    if (repeats(reply)) continue;
+    take(reply, candidate);
+    offered.push(reply);
+  }
+  if (input.extra)
+    for (const candidate of input.candidates) {
+      if (offered.length >= input.limit + one) break;
+      const extra = input.extra(candidate);
+      if (!extra || repeats(extra)) continue;
+      take(extra, candidate);
+      offered.push(extra);
+      break;
+    }
+  return offered;
+}
+
+/**
+ * What a reply is made of: a head with an optional tail. A home talk fills the
+ * tail (the question the reply turns back, or the subject it raises); a scene
+ * passes none, since its arcs have none. The head is the answer itself, or,
+ * where the answer is a bare question turned back ("And you?") that is said
+ * after the plain answer, the plain answer, with the question as the tail. A
+ * reply that raises another subject says its line after the answer, unless
+ * the answer already asks. Null where a subject to raise cannot be worded.
+ */
+export function shapeReply<A extends { asks: boolean }, R = A>(input: {
+  answer: A;
+  /** The answer is a bare question turned back, said after the plain answer. */
+  afterPlain?: boolean;
+  /** The plain answer that goes before it, if the bank has one that asks nothing. */
+  plain?: A | null;
+  /** The reply raises another subject: its line, or null when it cannot be worded. */
+  raised?: { line: R | null };
+}): { head: A; tail: A | R | null } | null {
+  let head = input.answer;
+  let tail: A | R | null = null;
+  if (input.afterPlain && input.plain && !input.plain.asks) {
+    head = input.plain;
+    tail = input.answer;
+  }
+  if (input.raised) {
+    if (!input.raised.line) return null;
+    if (!input.answer.asks) tail = input.raised.line;
+  }
+  return { head, tail };
+}
+
+/**
+ * Whether a reply repeats one already offered: by its piece (the first piece
+ * of the line that says it) or by its text, both (the owner's rule that every
+ * reply differs). `seen` holds the pieces and texts offered so far.
+ */
+export function repeatsOffer(
+  seen: ReadonlySet<string>,
+  reply: { text: string; piece: string | undefined },
+): boolean {
+  return seen.has(reply.text) || (!!reply.piece && seen.has(reply.piece));
+}
+
+/**
+ * Fill the menu: the first pass offers every reply the bank words for the
+ * line (each move said plainly, and carried on to the subject it leads to).
+ * Where the menu is still short of what a turn offers, up to three more passes
+ * say each move again in another wording, so where a move's wordings collided
+ * ("Of course." said twice) another wording stands in for it, never an
+ * acknowledgment. `again` names the pass: empty for the first.
+ */
+export function fillMenu(input: {
+  wanted: number;
+  count: () => number;
+  offerPass: (again: string) => void;
+}): void {
+  input.offerPass("");
+  for (
+    let again = one;
+    again <= two + one && input.count() < input.wanted;
+    again += one
+  )
+    input.offerPass(`:more${again}`);
+}
+
+/**
+ * The first wording that can be said, trying each in order: a line the bank
+ * has for the move, else the plain way of saying it. Each try is made only
+ * when the one before could not be worded. Null where none can.
+ */
+export function firstWorded<L>(tries: readonly (() => L | null)[]): L | null {
+  for (const attempt of tries) {
+    const line = attempt();
+    if (line) return line;
+  }
+  return null;
+}
+
+/** What a talk opens with when no recorded event leads, in order: what they share, the player's work or home, the day's news, the address while it is recent, the quiet day last. */
+export function openingOrder(): readonly string[] {
+  return HOME.topics.openingOrder;
+}
+
+/** Whether a subject is news of a person's own life (a job lost, an eviction, a death): a reaction to one is never answered with small talk. */
+export function isNewsSubject(kind: string): boolean {
+  return HOME.topics.newsSubjects.includes(kind);
+}
+
+/** One reply a home talk may offer, as the menu reads it. */
+export interface MenuRow {
+  key: string;
+  move: string;
+  text: string;
+  raises?: string;
+  tail?: unknown;
+  wording?: { facts: readonly string[] };
+}
+
+/**
+ * The replies a home talk offers for the line before them, from every reply
+ * the bank words: ranked by the player's traits (someone who carries talk on
+ * sees the replies that raise or ask first, someone who keeps it short sees
+ * plain answers and acknowledgments first), then the owner's grade of each
+ * move after the other person's line; four of them, each a different move, a
+ * second wording of a move offered never one of them (owner, Oct 27: "four
+ * replies are four different answers"). Then, in order: one screen names a
+ * record once (a reply that carries the talk on stays before one that only
+ * answers); where someone stands is answered by agreeing, disagreeing or
+ * asking why; and a reply that only takes the line in is not offered.
+ */
+export function shapeMenu<T extends MenuRow>(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  pool: readonly T[],
+  input: {
+    kind: string;
+    previous?: string;
+    table: CalibrationTable;
+    namesOnceKinds: readonly string[] | undefined;
+    facts: Readonly<Record<string, Fact>>;
+  },
+): T[] {
+  const pair = (row: T) =>
+    movePairFactor(
+      input.previous,
+      replyMoveOf(input.kind, row.move),
+      input.table,
+    );
+  const reach = replyReach(core, playerId);
+  const carries = (row: T) => !!row.raises || !!row.tail || asksQuestion(row);
+  const brief = (row: T) => row.move.startsWith("ack:");
+  const place = (row: T) =>
+    reach >= zero
+      ? carries(row)
+        ? zero
+        : brief(row)
+          ? two
+          : one
+      : carries(row)
+        ? two
+        : brief(row)
+          ? one
+          : zero;
+  const ranked = pool
+    .map((row, at) => ({ row, at }))
+    .sort(
+      (a, b) =>
+        pair(b.row) - pair(a.row) || place(a.row) - place(b.row) || a.at - b.at,
+    )
+    .map(({ row }) => row);
+  const count = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
+  const moves = new Set<string>();
+  let menu = ranked
+    .filter((row) => {
+      const move = row.move.startsWith("ack:") ? "ack" : row.move;
+      if (moves.has(move)) return false;
+      moves.add(move);
+      return true;
+    })
+    .slice(zero, count);
+  if (input.namesOnceKinds?.includes(input.kind)) {
+    const named = new Set<string>();
+    const kept = new Set<T>();
+    for (const row of [
+      ...menu.filter((choice) => choice.raises),
+      ...menu.filter((choice) => !choice.raises),
+    ]) {
+      const said = (row.wording?.facts ?? [])
+        .map((key) => input.facts[key]?.text)
+        .filter((text): text is string => !!text);
+      if (said.some((text) => named.has(text))) continue;
+      for (const text of said) named.add(text);
+      kept.add(row);
+    }
+    menu = menu.filter((row) => kept.has(row));
+  }
+  if (input.kind === "own-view")
+    menu = menu.filter((row) => ownViewReplies().includes(row.move));
+  return menu.filter((row) => replyMoveOf(input.kind, row.move) !== "note");
 }
 
 /** Where the exchange stands as a branch grows. */
@@ -1727,9 +2615,12 @@ export function composeSceneTalk(
       said = addParts(said, reacted);
       // The asker answers the player's character, then states the purpose.
       const moves = candidatesFor(arc, openAuto.move);
-      const answers = (moves.length ? moves : ["answer"]).flatMap(
-        (candidate) => {
-          const line = render(
+      const best = followStep(
+        core,
+        askerTraits,
+        moves.length ? moves : ["answer"],
+        (candidate) =>
+          render(
             {
               step: "follow",
               move: candidate,
@@ -1744,16 +2635,8 @@ export function composeSceneTalk(
             askerTraits,
             `auto-answer:open:${candidate}`,
             said,
-          );
-          return line ? [{ candidate, line }] : [];
-        },
-      );
-      const [best] = byLean(
-        core,
-        answers,
-        (row) => row.candidate,
-        askerTraits,
-        (row) => `${scene}:open:${row.candidate}`,
+          ),
+        (candidate) => `${scene}:open:${candidate}`,
       );
       if (best) {
         intro.push(best.line);
@@ -1828,9 +2711,12 @@ export function composeSceneTalk(
     lines.push(auto);
     current = { ...current, said: addParts(current.said, auto) };
     const answerMoves = candidatesFor(arc, hit.move);
-    const answers = (answerMoves.length ? answerMoves : ["answer"]).flatMap(
-      (candidate) => {
-        const answer = render(
+    const best = followStep(
+      core,
+      traitsOfAsker,
+      answerMoves.length ? answerMoves : ["answer"],
+      (candidate) =>
+        render(
           {
             step: "follow",
             move: candidate,
@@ -1843,24 +2729,16 @@ export function composeSceneTalk(
           traitsOfAsker,
           `auto-answer:${label}:${candidate}`,
           current.said,
-        );
-        return answer ? [{ candidate, answer }] : [];
-      },
-    );
-    const [best] = byLean(
-      core,
-      answers,
-      (row) => row.candidate,
-      traitsOfAsker,
-      (row) => `${scene}:${label}:auto:${row.candidate}`,
+        ),
+      (candidate) => `${scene}:${label}:auto:${candidate}`,
     );
     if (best) {
-      lines.push(best.answer);
+      lines.push(best.line);
       current = {
         ...current,
-        said: addParts(current.said, best.answer),
-        askerMove: best.answer.move,
-        askerPiece: best.answer.parts[zero] ?? "",
+        said: addParts(current.said, best.line),
+        askerMove: best.line.move,
+        askerPiece: best.line.parts[zero] ?? "",
       };
     }
     return { lines, path: current };
@@ -2145,8 +3023,10 @@ export function composeSceneTalk(
     // this path is never offered again.
     const fresh = [...new Set(moves)];
     const seen = new Set([...path.said, ...path.offeredPieces]);
-    const offered = fresh.slice(zero, maxReplies).flatMap((move) => {
-      const reply = render(
+    // One reply line for a move, from the bank (or, tagged, the extra option
+    // drawn from the player's own life), worded against what the path said.
+    const wordReply = (move: string, tagged: boolean) =>
+      render(
         {
           step: "reply",
           move,
@@ -2157,44 +3037,20 @@ export function composeSceneTalk(
         },
         cast.askedId,
         askedTraits,
-        `${path.id}:reply:${move}`,
+        `${path.id}:${tagged ? "tagged" : "reply"}:${move}`,
         seen,
-        false,
+        tagged,
         heard(path.said),
       );
-      if (!reply) {
-        gap("reply", move, path.askerMove);
-        return [];
-      }
-      // A line already offered or said on this path is not offered again.
-      if (seen.has(reply.parts[zero] ?? "")) return [];
-      reply.round = round;
-      return [reply];
+    const offered = replyStep({
+      candidates: fresh,
+      limit: maxReplies,
+      word: (move) => wordReply(move, false),
+      extra: (move) => wordReply(move, true),
+      seen,
+      onGap: (move) => gap("reply", move, path.askerMove),
     });
-    // One extra option from the player's own life, where a piece fits.
-    for (const move of fresh) {
-      if (offered.length >= maxReplies + one) break;
-      const extra = render(
-        {
-          step: "reply",
-          move,
-          role: "asked",
-          ...base,
-          after: path.askerMove,
-          ...(path.askerPiece ? { afterPiece: path.askerPiece } : {}),
-        },
-        cast.askedId,
-        askedTraits,
-        `${path.id}:tagged:${move}`,
-        seen,
-        true,
-        heard(path.said),
-      );
-      if (!extra || seen.has(extra.parts[zero] ?? "")) continue;
-      extra.round = round;
-      offered.push(extra);
-      break;
-    }
+    for (const reply of offered) reply.round = round;
     // At the opening a thin menu is a gap; deeper in, the asker closes the
     // talk instead of offering two tired options (real exchanges end abruptly).
     if (path.id === "root" && offered.length < three && offered.length >= two)

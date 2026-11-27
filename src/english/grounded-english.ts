@@ -24,7 +24,7 @@ export interface GroundedEnglishFact {
   readonly bare?: string;
 }
 
-export interface GroundedEnglishPerson {
+interface GroundedEnglishPerson {
   readonly personId: EntityId;
   /** Recorded personality cues may affect voice, never establish a new fact. */
   readonly traits: Readonly<Record<string, GroundedEnglishFact | undefined>>;
@@ -64,14 +64,14 @@ export interface GroundedEnglishPacket {
   };
 }
 
-export type EnglishHolder = "speaker" | "viewer";
+type EnglishHolder = "speaker" | "viewer";
 
-export interface EnglishKnowledgeRequirement {
+interface EnglishKnowledgeRequirement {
   readonly holder: EnglishHolder;
   readonly factKey: string;
 }
 
-export interface EnglishTraitRequirement {
+interface EnglishTraitRequirement {
   readonly holder: EnglishHolder;
   readonly traitKey: string;
 }
