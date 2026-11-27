@@ -49,6 +49,11 @@ const FIELDS: (keyof CoreModule)[] = [
   "leaderRefusalReader",
   "bribeScope",
   "policyHandlers",
+  "successorProviders",
+  "vacancyOffer",
+  "specialElections",
+  "stopKinds",
+  "boardAppointer",
 ];
 
 function world(): CoreState {
