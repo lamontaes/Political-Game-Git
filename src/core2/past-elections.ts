@@ -22,9 +22,8 @@ import countyVotes from "./data/county-presidential-2024.json" with { type: "jso
 import { centuryRace, centurySeatRace } from "./modules/elections";
 import tenure from "./data/offices/tenure.json" with { type: "json" };
 import territoryBallots from "../../data/research/elections/territory-ballots.json" with { type: "json" };
-import { partySide } from "./appointments";
-import { questionAxis } from "./campaign-views";
-import { novemberGeneralElectionDay } from "./gov-rules/town-election-calendar";
+import { novemberGeneralElectionDay, partySide } from "./modules/offices";
+import { countedResidents, questionAxis } from "./modules/campaigns";
 import { CAMPAIGNS_MODULE_ID, type PromiseRow } from "./modules/campaigns";
 import { leanOf } from "./modules/legislature";
 import {
@@ -36,7 +35,7 @@ import {
   recordTermElection,
 } from "./modules/offices";
 import { officialOf } from "./modules/officials";
-import { POLICY_QUESTIONS } from "./policy-answers";
+import { POLICY_QUESTIONS } from "./modules/laws";
 import type { ModuleRow } from "./module-data";
 import {
   pastIdentityName,
@@ -55,8 +54,7 @@ import {
   type PastElectionRow,
 } from "./past-module";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { countedResidents } from "./electorate";
-import { cpsAgeBand, cpsTurnout } from "./electorate-places";
+import { cpsAgeBand, cpsTurnout } from "./modules/elections";
 import { viewOf } from "./modules/views";
 import { worldLevel } from "./world-draw";
 import viewsData from "./data/views/views.json" with { type: "json" };

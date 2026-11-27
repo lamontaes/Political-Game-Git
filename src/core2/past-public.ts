@@ -25,7 +25,7 @@ import publicTraits from "./data/past/public-traits.json" with { type: "json" };
 import { CAMPAIGNS_MODULE_ID, type ImpressionRow } from "./modules/campaigns";
 import { members } from "./modules/legislature";
 import type { ModuleRow } from "./module-data";
-import { votesOf } from "./modules/record";
+import { votesOf } from "./modules/people";
 import type { TermRow } from "./modules/offices";
 import { strongestQuestions } from "./past-elections";
 import { heardOn } from "./past-news";

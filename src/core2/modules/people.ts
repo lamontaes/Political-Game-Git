@@ -221,8 +221,10 @@ export {
 export {
   RECORD_MODULE_ID,
   promisesOf,
+  recordPastVote,
   VOTE_CAST,
   voteById,
+  voteRecordId,
   votesCast,
   votesOf,
   type VoteRecordRow,
@@ -1008,3 +1010,5 @@ export { areaQuestion } from "./public-action";
 export { openingTemperaments } from "../opening-personality";
 export { namedMembers, townHouseholdSkeleton } from "../town-households";
 export { placeEarningsOf } from "../residents";
+export { drawCanonicalNameForGender } from "../person-names";
+export { profileFor } from "../opening-profile";

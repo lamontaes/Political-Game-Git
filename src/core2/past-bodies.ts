@@ -3,9 +3,8 @@
  * offices and seats, who holds them, each holder's lean and stance on a
  * question, and a named identity for someone who held a seat before them.
  */
-import { drawOfficialIdentity } from "./officials-identity";
-import { memberSupportAt } from "./officials-roster";
-import { questionAxis } from "./campaign-views";
+import { drawOfficialIdentity, memberSupportAt } from "./modules/officials";
+import { questionAxis } from "./modules/campaigns";
 import {
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
@@ -14,7 +13,7 @@ import {
 } from "./modules/legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { officialOf, officialStance } from "./modules/officials";
-import type { OfficeInput } from "./offices-local";
+import type { OfficeInput } from "./modules/offices";
 import type { CoreAPI } from "./types";
 import { pastParameter } from "./past-module";
 
