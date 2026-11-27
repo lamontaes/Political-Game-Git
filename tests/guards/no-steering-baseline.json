@@ -6,7 +6,8 @@
     "src/core2/modules/campaigns.ts": 3,
     "src/core2/modules/employer-taxes.ts": 2,
     "src/core2/modules/jobs.ts": 1,
-    "src/core2/modules/voting.ts": 2,
+    "src/core2/modules/voting-outside-races.ts": 1,
+    "src/core2/modules/voting-returns.ts": 1,
     "src/core2/opening-personality.ts": 1,
     "src/core2/starting-cash.ts": 1
   },
@@ -120,7 +121,8 @@
     "src/core2/modules/employer-taxes.ts": "Jobs",
     "src/core2/modules/jobs.ts": "Jobs",
     "src/core2/modules/macro.ts": "Money",
-    "src/core2/modules/voting.ts": "Laws",
+    "src/core2/modules/voting-outside-races.ts": "Laws",
+    "src/core2/modules/voting-returns.ts": "Laws",
     "src/core2/opening-personality.ts": "Laws",
     "src/core2/regional-model.ts": "Money",
     "src/core2/starting-cash.ts": "Laws"
