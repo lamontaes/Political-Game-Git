@@ -35,6 +35,8 @@ export {
   tomorrow,
 } from "./law-reach/group-a-records";
 export type { MechanicRow } from "./law-reach/group-a-records";
+/** Group A's parameter reader (the legal reach's table). `reachParameter` below is group B's; the two read different tables. */
+export { reachParameter as groupAReachParameter } from "./law-reach/group-a-records";
 export { recordHomeRule } from "./policy-authority";
 export {
   DEATH_WEB_REFRESH_DAY,

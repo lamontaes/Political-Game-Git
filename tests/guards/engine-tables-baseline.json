@@ -263,8 +263,7 @@
     "src/core2/modules/legislature.ts": {
       "budgets": 2,
       "elections": 2,
-      "executive": 14,
-      "laws": 3
+      "executive": 14
     },
     "src/core2/modules/meetings.ts": {
       "elections": 4
@@ -325,8 +324,7 @@
     },
     "src/core2/modules/world-legislating.ts": {
       "executive": 5,
-      "jobs-businesses": 1,
-      "laws": 1
+      "jobs-businesses": 1
     },
     "src/core2/modules/world-metrics.ts": {
       "dynamic": 1,
