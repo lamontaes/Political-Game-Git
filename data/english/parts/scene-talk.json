@@ -323,7 +323,8 @@
       "tag": {
         "move": "narrate",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["colleague-opens-negotiations-between-meetings"]
     },
     {
       "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-coming-up-name-catches-you-outside-the-chamber",
@@ -357,7 +358,11 @@
       "tag": {
         "move": "narrate",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "colleague-opens-negotiations-between-meetings",
+        "lobbyist-meets-member-outside-the-chamber"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.name-has-been-counting-votes-on-bill-all-week-now-name-is-at-your-door",
@@ -382,7 +387,8 @@
       "tag": {
         "move": "narrate",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["staff-sound-out-members-one-by-one"]
     },
     {
       "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-tomorrow-and-you-don-t-have-the-votes-yet-you-go-looking-for-first",
@@ -408,7 +414,8 @@
       "tag": {
         "move": "narrate",
         "key": "vote-sought"
-      }
+      },
+      "elements": ["staff-sound-out-members-one-by-one"]
     },
     {
       "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-today-and-you-don-t-have-the-votes-yet-you-go-looking-for-first",
@@ -433,7 +440,8 @@
       "tag": {
         "move": "narrate",
         "key": "vote-sought"
-      }
+      },
+      "elements": ["staff-sound-out-members-one-by-one"]
     },
     {
       "key": "scene-talk.narrate-narrate.it-s-the-evening-before-the-vote-on-bill-you-catch-first-on-the-way-out",
@@ -459,7 +467,8 @@
       "tag": {
         "move": "narrate",
         "key": "vote-sought"
-      }
+      },
+      "elements": ["colleague-opens-negotiations-between-meetings"]
     },
     {
       "key": "scene-talk.narrate-narrate.you-ve-counted-the-votes-on-bill-twice-it-comes-to-the-floor-tomorrow-and-first-is-still-on-your-list",
@@ -485,7 +494,11 @@
       "tag": {
         "move": "narrate",
         "key": "vote-sought"
-      }
+      },
+      "elements": [
+        "member-asked-for-a-vote-stays-undecided-until-the-floor",
+        "vote-present-until-the-floor"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.you-ve-counted-the-votes-on-bill-twice-it-comes-to-the-floor-today-and-first-is-still-on-your-list",
@@ -510,7 +523,11 @@
       "tag": {
         "move": "narrate",
         "key": "vote-sought"
-      }
+      },
+      "elements": [
+        "member-asked-for-a-vote-stays-undecided-until-the-floor",
+        "vote-present-until-the-floor"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.name-stops-by-your-office-you-told-name-you-d-vote-yes-on-bill",
@@ -682,7 +699,8 @@
       "tag": {
         "move": "request",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.state-request.i-m-counting-votes-on-bill-and-i-need-you",
@@ -707,7 +725,8 @@
       "tag": {
         "move": "request",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["staff-sound-out-members-one-by-one"]
     },
     {
       "key": "scene-talk.state-request.can-i-count-on-you-for-bill",
@@ -732,7 +751,11 @@
       "tag": {
         "move": "request",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-b7-01-are-you-still-with-us",
+        "a-question-counted-as-a-pledge"
+      ]
     },
     {
       "key": "scene-talk.state-request.bill-comes-down-to-a-vote-or-two-yours-is-one-of-them",
@@ -757,7 +780,11 @@
       "tag": {
         "move": "request",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-c03-the-deciding-vote",
+        "pattern-b7-01-are-you-still-with-us"
+      ]
     },
     {
       "key": "scene-talk.state-ask.we-re-still-good-on-bill-right",
@@ -1308,7 +1335,11 @@
       "tag": {
         "move": "bargain",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-b7-04-one-section-for-one-vote",
+        "vote-present-until-the-floor"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.we-have-votes-we-need-needed",
@@ -1422,7 +1453,11 @@
       "tag": {
         "move": "confront",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "a-question-counted-as-a-pledge",
+        "pattern-b7-01-are-you-still-with-us"
+      ]
     },
     {
       "key": "scene-talk.follow-confront.source-says-you-re-voting-no",
@@ -1796,7 +1831,8 @@
       "tag": {
         "move": "stall",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-tell.somebody-has-to-run-for-office-why-not-me",
@@ -1947,7 +1983,8 @@
       "tag": {
         "move": "ask",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["a-question-counted-as-a-pledge"]
     },
     {
       "key": "scene-talk.reply-confront.ask-source-what-they-had-for-lunch-with-my-opponent",
@@ -2562,7 +2599,12 @@
       "tag": {
         "move": "bargain",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-b7-04-one-section-for-one-vote",
+        "vote-present-until-the-floor",
+        "participant-waits-for-pending-amendments"
+      ]
     },
     {
       "key": "scene-talk.state-ask.your-amendment-is-in-bill-are-you-still-with-me",
@@ -6700,7 +6742,11 @@
       "tag": {
         "move": "stall",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-b7-04-one-section-for-one-vote",
+        "explain-vote-by-local-cost"
+      ]
     },
     {
       "key": "scene-talk.follow-bargain.i-ll-be-with-you-on-their-bill",
@@ -6775,7 +6821,8 @@
       "tag": {
         "move": "bargain",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-04-one-section-for-one-vote"]
     },
     {
       "key": "scene-talk.follow-bargain.i-ll-cut-section-price-section-in-half-that-s-as-far-as-i-go",
@@ -6800,7 +6847,8 @@
       "tag": {
         "move": "bargain",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-04-one-section-for-one-vote"]
     },
     {
       "key": "scene-talk.state-request.i-want-bill-passed-and-i-want-your-vote-on-it",
@@ -12191,7 +12239,11 @@
       "tag": {
         "move": "tell",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "petition-short-by-a-few-names",
+        "petition-the-hustle-before-the-deadline"
+      ]
     },
     {
       "key": "scene-talk.state-tell.there-aren-t-enough-names-here-for-office-yet-time-is-running-short",
@@ -12215,7 +12267,11 @@
       "tag": {
         "move": "tell",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "petition-short-by-a-few-names",
+        "petition-the-hustle-before-the-deadline"
+      ]
     },
     {
       "key": "scene-talk.state-tell.we-re-behind-on-the-petition-i-ve-been-watching-the-sheets",
@@ -12239,7 +12295,11 @@
       "tag": {
         "move": "tell",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "petition-the-hustle-before-the-deadline",
+        "petition-short-by-a-few-names"
+      ]
     },
     {
       "key": "scene-talk.state-tell.there-s-nothing-on-your-petition-yet-time-is-short",
@@ -12263,7 +12323,8 @@
       "tag": {
         "move": "tell",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.state-tell.nobody-has-signed-yet-we-can-t-wait-any-longer",
@@ -12287,7 +12348,8 @@
       "tag": {
         "move": "tell",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.reply-ask.how-bad-is-it",
@@ -12311,7 +12373,8 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names"]
     },
     {
       "key": "scene-talk.reply-ask.what-does-it-need",
@@ -12335,7 +12398,8 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names"]
     },
     {
       "key": "scene-talk.follow-answer.more-people-have-to-sign-and-soon",
@@ -12358,7 +12422,8 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.follow-answer.it-needs-more-names-and-it-needs-them-soon",
@@ -12381,7 +12446,8 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.follow-answer.doors-more-people-signing-starting-now",
@@ -12405,7 +12471,8 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.reply-promise.i-ll-go-out-and-knock-on-doors",
@@ -12447,7 +12514,8 @@
       "tag": {
         "move": "promise",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.reply-promise.then-i-m-going-out-to-ask-people",
@@ -12489,7 +12557,8 @@
       "tag": {
         "move": "promise",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.follow-thank.good-bring-the-sheets-in-before-the-deadline",
@@ -12514,7 +12583,8 @@
       "tag": {
         "move": "thank",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.follow-thank.good-that-s-what-it-needs",
@@ -12646,7 +12716,8 @@
       "tag": {
         "move": "press",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.follow-press.there-isn-t-much-later-left",
@@ -12670,7 +12741,8 @@
       "tag": {
         "move": "press",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.follow-accept.alright-it-s-your-petition",
@@ -12815,7 +12887,8 @@
       "tag": {
         "move": "narrate",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names"]
     },
     {
       "key": "scene-talk.narrate-narrate.the-petition-sheets-are-out-and-there-s-a-lot-of-white-on-them",
@@ -12838,7 +12911,8 @@
       "tag": {
         "move": "narrate",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names"]
     },
     {
       "key": "scene-talk.narrate-narrate.you-have-bill-drafted-and-no-names-on-it-but-yours-you-go-to-see-first",
@@ -13487,7 +13561,8 @@
       "tag": {
         "move": "answer",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["a-question-counted-as-a-pledge"]
     },
     {
       "key": "scene-talk.reply-confront.source-wasn-t-there-when-i-made-up-my-mind",
@@ -13513,7 +13588,11 @@
       "tag": {
         "move": "confront",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "a-question-counted-as-a-pledge",
+        "pattern-b7-01-are-you-still-with-us"
+      ]
     },
     {
       "key": "scene-talk.reply-relent.put-me-down-yes-on-bill",
@@ -13539,7 +13618,8 @@
       "tag": {
         "move": "relent",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-01-are-you-still-with-us"]
     },
     {
       "key": "scene-talk.reply-lie.you-ve-got-me-on-bill",
@@ -13565,7 +13645,8 @@
       "tag": {
         "move": "lie",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-01-are-you-still-with-us"]
     },
     {
       "key": "scene-talk.reply-refuse.i-can-t-my-district-is-the-other-way-on-about",
@@ -13592,7 +13673,8 @@
       "tag": {
         "move": "refuse",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["explain-vote-by-district-opinion"]
     },
     {
       "key": "scene-talk.reply-refuse.not-on-about-i-ve-been-against-it-too-long",
@@ -13619,7 +13701,8 @@
       "tag": {
         "move": "refuse",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["explain-vote-by-prior-pledge"]
     },
     {
       "key": "scene-talk.reply-refuse.i-m-against-about-i-can-t-vote-for-it",
@@ -13672,7 +13755,8 @@
       "tag": {
         "move": "agree",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["explain-vote-by-prior-pledge"]
     },
     {
       "key": "scene-talk.follow-refuse.i-can-t-put-that-in-bill-it-would-cost-me-votes",
@@ -13698,7 +13782,8 @@
       "tag": {
         "move": "refuse",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-04-one-section-for-one-vote"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-that-gets-me-closer-on-bill",
@@ -13748,7 +13833,8 @@
       "tag": {
         "move": "thank",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-c03-the-deciding-vote"]
     },
     {
       "key": "scene-talk.follow-accept.good-i-ll-put-you-down-on-bill",
@@ -13826,7 +13912,8 @@
       "tag": {
         "move": "threaten",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-10-the-group-remembers"]
     },
     {
       "key": "scene-talk.open-greet.i-m-down-to-one-name-on-bill-it-s-yours",
@@ -13851,7 +13938,8 @@
       "tag": {
         "move": "greet",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-c03-the-deciding-vote"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-sets-an-envelope-down-and-keeps-a-hand-on-it-wanted-is-why",
@@ -19718,7 +19806,8 @@
       "tag": {
         "move": "narrate",
         "key": "door"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
       "key": "scene-talk.narrate-narrate.you-knock-again-name-opens-up-and-sees-it-s-you",
@@ -19804,7 +19893,8 @@
       "tag": {
         "move": "request",
         "key": "door"
-      }
+      },
+      "elements": ["volunteer-opens-with-name-office-and-three-points"]
     },
     {
       "key": "scene-talk.state-request.i-m-self-i-need-names-by-due-to-run-for-office-would-you-sign",
@@ -19830,7 +19920,8 @@
       "tag": {
         "move": "request",
         "key": "door"
-      }
+      },
+      "elements": ["volunteer-opens-with-name-office-and-three-points"]
     },
     {
       "key": "scene-talk.state-request.i-m-self-trying-to-get-on-the-ballot-for-office-would-you-sign",
@@ -19856,7 +19947,8 @@
       "tag": {
         "move": "request",
         "key": "door"
-      }
+      },
+      "elements": ["volunteer-opens-with-name-office-and-three-points"]
     },
     {
       "key": "scene-talk.state-request.i-m-self-running-for-office-against-rival-would-you-sign",
@@ -19882,7 +19974,8 @@
       "tag": {
         "move": "request",
         "key": "door"
-      }
+      },
+      "elements": ["volunteer-opens-with-name-office-and-three-points"]
     },
     {
       "key": "scene-talk.state-request.hi-i-m-self-i-m-running-for-office-can-i-count-on-your-vote",
@@ -21049,7 +21142,8 @@
       "tag": {
         "move": "thank",
         "key": "door"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-for-hearing-me-out-again-i-m-running-for-office",
@@ -21226,7 +21320,8 @@
       "tag": {
         "move": "accept",
         "key": "door"
-      }
+      },
+      "elements": ["canvasser-ends-a-no-with-a-thank-you"]
     },
     {
       "key": "scene-talk.follow-accept.fair-enough-i-m-collecting-until-due-if-you-change-your-mind",
@@ -21251,7 +21346,8 @@
       "tag": {
         "move": "accept",
         "key": "door"
-      }
+      },
+      "elements": ["canvasser-ends-a-no-with-a-thank-you"]
     },
     {
       "key": "scene-talk.follow-accept.fair-enough-i-ll-come-back-before-vote-day",
@@ -23498,7 +23594,8 @@
       "tag": {
         "move": "deflect",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-11-no-and-then-again"]
     },
     {
       "key": "scene-talk.close-warn.i-ll-remember-where-you-stood-on-bill",
@@ -23524,7 +23621,11 @@
       "tag": {
         "move": "warn",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-b7-10-the-group-remembers",
+        "donor-freeze-meets-committee-business"
+      ]
     },
     {
       "key": "scene-talk.close-accept.alright-i-know-where-you-stand-on-bill",
@@ -23576,7 +23677,11 @@
       "tag": {
         "move": "press",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-b7-11-no-and-then-again",
+        "member-asked-for-a-vote-stays-undecided-until-the-floor"
+      ]
     },
     {
       "key": "scene-talk.close-warn.don-t-leave-me-short-on-bill",
@@ -23602,7 +23707,11 @@
       "tag": {
         "move": "warn",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-c03-the-deciding-vote",
+        "pattern-b7-01-are-you-still-with-us"
+      ]
     },
     {
       "key": "scene-talk.reply-confront.threaten-me-again-and-i-ll-vote-no-on-bill-out-loud",
@@ -23628,7 +23737,8 @@
       "tag": {
         "move": "confront",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-11-no-and-then-again"]
     },
     {
       "key": "scene-talk.follow-plea.i-m-not-asking-you-to-carry-it-one-yes-on-bill",
@@ -23654,7 +23764,8 @@
       "tag": {
         "move": "plea",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-02-will-you-carry-it"]
     },
     {
       "key": "scene-talk.follow-press.staying-out-isn-t-a-vote-i-need-a-yes-on-bill",
@@ -23680,7 +23791,8 @@
       "tag": {
         "move": "press",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["vote-present-until-the-floor"]
     },
     {
       "key": "scene-talk.follow-accept.fair-staying-out-of-it-helps-me-on-bill",
@@ -23706,7 +23818,8 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["vote-present-until-the-floor"]
     },
     {
       "key": "scene-talk.follow-plea.not-enough-that-s-why-i-m-standing-here-on-bill",
@@ -23758,7 +23871,8 @@
       "tag": {
         "move": "press",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-01-are-you-still-with-us"]
     },
     {
       "key": "scene-talk.follow-threaten.then-remember-bill-when-you-come-to-me",
@@ -23784,7 +23898,11 @@
       "tag": {
         "move": "threaten",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-b7-10-the-group-remembers",
+        "pattern-b7-11-no-and-then-again"
+      ]
     },
     {
       "key": "scene-talk.follow-bargain.i-ll-speak-for-yours-i-won-t-promise-bill-a-vote-back",
@@ -23888,7 +24006,11 @@
       "tag": {
         "move": "press",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "member-asked-for-a-vote-stays-undecided-until-the-floor",
+        "pattern-b7-01-are-you-still-with-us"
+      ]
     },
     {
       "key": "scene-talk.follow-press.is-that-a-no-on-bill-or-a-no-to-me",
@@ -23940,7 +24062,11 @@
       "tag": {
         "move": "plea",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "a-question-counted-as-a-pledge",
+        "pattern-b7-01-are-you-still-with-us"
+      ]
     },
     {
       "key": "scene-talk.follow-plea.it-s-one-vote-and-bill-dies-without-it",
@@ -23966,7 +24092,11 @@
       "tag": {
         "move": "plea",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-c03-the-deciding-vote",
+        "pattern-b7-01-are-you-still-with-us"
+      ]
     },
     {
       "key": "scene-talk.reply-agree.alright-put-me-down-for-about",
@@ -23992,7 +24122,8 @@
       "tag": {
         "move": "agree",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-01-are-you-still-with-us"]
     },
     {
       "key": "scene-talk.reply-relent.fine-yours-for-mine-i-m-a-yes-on-bill",
@@ -24044,7 +24175,8 @@
       "tag": {
         "move": "leave",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["colleague-opens-negotiations-between-meetings"]
     },
     {
       "key": "scene-talk.reply-deflect.how-many-do-you-have-on-bill-without-me",
@@ -24120,7 +24252,8 @@
       "tag": {
         "move": "decline",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["vote-present-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-decline.i-won-t-work-against-bill-i-can-t-vote-for-it-either",
@@ -24146,7 +24279,8 @@
       "tag": {
         "move": "decline",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["vote-present-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-stall.not-yet-ask-me-after-i-ve-read-bill",
@@ -24171,7 +24305,8 @@
       "tag": {
         "move": "stall",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-stall.let-me-read-bill-before-i-give-you-a-number",
@@ -24196,7 +24331,8 @@
       "tag": {
         "move": "stall",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-bargain.add-a-yes-on-my-next-bill-to-bill-and-we-re-done",
@@ -24246,7 +24382,11 @@
       "tag": {
         "move": "bargain",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-b7-04-one-section-for-one-vote",
+        "pattern-b7-02-will-you-carry-it"
+      ]
     },
     {
       "key": "scene-talk.reply-bargain.vote-with-me-when-mine-comes-up-and-bill-has-me",
@@ -25721,7 +25861,11 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "incumbent-will-do-one-debate-and-it-is-the-chamber's",
+        "pattern-b19-who-gets-on-the-stage"
+      ]
     },
     {
       "key": "scene-talk.state-request.we-re-setting-up-the-office-debate-on-outlet-will-you-be-on-the-stage",
@@ -25745,7 +25889,11 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "incumbent-will-do-one-debate-and-it-is-the-chamber's",
+        "pattern-b19-who-gets-on-the-stage"
+      ]
     },
     {
       "key": "scene-talk.state-request.would-you-debate-for-office-on-outlet",
@@ -25769,7 +25917,8 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["incumbent-will-do-one-debate-and-it-is-the-chamber's"]
     },
     {
       "key": "scene-talk.state-request.we-d-like-you-in-the-office-debate-on-outlet",
@@ -25793,7 +25942,8 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["incumbent-will-do-one-debate-and-it-is-the-chamber's"]
     },
     {
       "key": "scene-talk.reply-ask.how-would-the-debate-for-office-work",
@@ -25841,7 +25991,8 @@
       "tag": {
         "move": "ask",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["pattern-b19-who-gets-on-the-stage"]
     },
     {
       "key": "scene-talk.reply-ask.on-what-questions",
@@ -26084,7 +26235,11 @@
       "tag": {
         "move": "decline",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "incumbent-will-do-one-debate-and-it-is-the-chamber's",
+        "candidates-skip-forums-out-of-discomfort"
+      ]
     },
     {
       "key": "scene-talk.reply-decline.count-me-out",
@@ -26108,7 +26263,11 @@
       "tag": {
         "move": "decline",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "incumbent-will-do-one-debate-and-it-is-the-chamber's",
+        "candidates-skip-forums-out-of-discomfort"
+      ]
     },
     {
       "key": "scene-talk.reply-decline.no-debate-thanks",
@@ -26132,7 +26291,8 @@
       "tag": {
         "move": "decline",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["incumbent-will-do-one-debate-and-it-is-the-chamber's"]
     },
     {
       "key": "scene-talk.reply-decline.not-this-one",
@@ -26156,7 +26316,8 @@
       "tag": {
         "move": "decline",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["incumbent-will-do-one-debate-and-it-is-the-chamber's"]
     },
     {
       "key": "scene-talk.reply-stall.not-sure-yet",
@@ -27635,7 +27796,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "empty-chair-gets-the-stage",
+        "a-challenger-skips-the-debate-and-the-incumbent-faces-an-empty-chair"
+      ]
     },
     {
       "key": "scene-talk.follow-press.outlet-still-has-a-spot-for-you",
@@ -27659,7 +27824,8 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["empty-chair-gets-the-stage"]
     },
     {
       "key": "scene-talk.follow-press.the-invitation-from-outlet-still-stands",
@@ -27707,7 +27873,8 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["empty-chair-gets-the-stage"]
     },
     {
       "key": "scene-talk.follow-accept.it-s-up-to-you-outlet-will-keep-going",
@@ -27731,7 +27898,8 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["empty-chair-gets-the-stage"]
     },
     {
       "key": "scene-talk.follow-accept.okay-outlet-will-keep-things-going",
@@ -27755,7 +27923,8 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["empty-chair-gets-the-stage"]
     },
     {
       "key": "scene-talk.close-thank.thanks-see-you",
@@ -28005,7 +28174,11 @@
       "tag": {
         "move": "warn",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "a-challenger-skips-the-debate-and-the-incumbent-faces-an-empty-chair",
+        "empty-chair-gets-the-stage"
+      ]
     },
     {
       "key": "scene-talk.close-warn.we-ll-hold-the-office-debate-either-way",
@@ -28030,7 +28203,11 @@
       "tag": {
         "move": "warn",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "a-challenger-skips-the-debate-and-the-incumbent-faces-an-empty-chair",
+        "empty-chair-gets-the-stage"
+      ]
     },
     {
       "key": "scene-talk.close-warn.the-office-debate-happens-with-or-without-you",
@@ -28055,7 +28232,11 @@
       "tag": {
         "move": "warn",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "a-challenger-skips-the-debate-and-the-incumbent-faces-an-empty-chair",
+        "empty-chair-gets-the-stage"
+      ]
     },
     {
       "key": "scene-talk.close-promise.we-ll-stay-civil",
@@ -40127,7 +40308,8 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["empty-chair-gets-the-stage"]
     },
     {
       "key": "scene-talk.state-tell.you-have-some-names-for-office-but-the-sheets-are-still-short",
@@ -40152,7 +40334,8 @@
       "tag": {
         "move": "tell",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names"]
     },
     {
       "key": "scene-talk.state-tell.your-petition-for-office-is-coming-along-but-it-isn-t-there-yet",
@@ -40177,7 +40360,8 @@
       "tag": {
         "move": "tell",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names"]
     },
     {
       "key": "scene-talk.state-tell.your-sheets-for-office-are-still-empty",
@@ -40277,7 +40461,8 @@
       "tag": {
         "move": "tell",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names"]
     },
     {
       "key": "scene-talk.state-tell.the-petition-for-office-is-moving-just-not-fast-enough",
@@ -40302,7 +40487,8 @@
       "tag": {
         "move": "tell",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.state-tell.not-one-name-is-on-the-petition-for-office-and-we-re-running-out-of-time",
@@ -40327,7 +40513,8 @@
       "tag": {
         "move": "tell",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.state-tell.the-sheets-for-office-are-still-blank-we-need-to-get-out-there",
@@ -40378,7 +40565,8 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names"]
     },
     {
       "key": "scene-talk.reply-ask.what-would-it-take-to-get-office-on-the-ballot",
@@ -40404,7 +40592,11 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "petition-short-by-a-few-names",
+        "filing-at-the-clerks-counter"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.is-there-still-time-before-due-to-fix-this",
@@ -40430,7 +40622,8 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.reply-ask.what-happens-to-my-run-for-office-if-it-stays-short",
@@ -40456,7 +40649,11 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "a-signature-challenge-leaves-a-candidate-short",
+        "petition-short-by-a-few-names"
+      ]
     },
     {
       "key": "scene-talk.reply-promise.then-i-ll-start-knocking-on-doors-for-office",
@@ -40502,7 +40699,8 @@
       "tag": {
         "move": "promise",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.reply-promise.i-ll-get-the-names-for-office-count-me-in",
@@ -40548,7 +40746,8 @@
       "tag": {
         "move": "promise",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.reply-promise.then-i-m-going-out-to-ask-people-to-sign-for-office",
@@ -40594,7 +40793,8 @@
       "tag": {
         "move": "promise",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.reply-promise.okay-i-ll-knock-on-doors-before-due",
@@ -40640,7 +40840,8 @@
       "tag": {
         "move": "promise",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.reply-promise.yes-i-want-office-on-the-ballot-so-i-ll-go-get-the-names",
@@ -40686,7 +40887,8 @@
       "tag": {
         "move": "promise",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.reply-deflect.i-can-t-get-out-and-canvass-for-office-just-now",
@@ -41165,7 +41367,8 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names"]
     },
     {
       "key": "scene-talk.follow-answer.it-comes-down-to-more-people-signing-before-due",
@@ -41190,7 +41393,8 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.follow-answer.names-door-by-door-if-that-s-what-it-takes-to-get-office-on-the-ballot",
@@ -41215,7 +41419,11 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "petition-the-hustle-before-the-deadline",
+        "door-count-is-how-people-measure-effort"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.if-it-stays-short-office-won-t-be-on-the-ballot",
@@ -41240,7 +41448,11 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "petition-short-by-a-few-names",
+        "a-signature-challenge-leaves-a-candidate-short"
+      ]
     },
     {
       "key": "scene-talk.follow-press.the-sheets-for-office-don-t-fill-themselves-and-due-is-coming",
@@ -41266,7 +41478,8 @@
       "tag": {
         "move": "press",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.follow-press.i-d-start-before-due-if-i-were-you",
@@ -41292,7 +41505,8 @@
       "tag": {
         "move": "press",
         "key": "news-received"
-      }
+      },
+      "elements": ["clerk-tells-the-candidate-to-file-early-and-fix-mistakes"]
     },
     {
       "key": "scene-talk.follow-press.waiting-makes-office-harder-to-reach",
@@ -41318,7 +41532,8 @@
       "tag": {
         "move": "press",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
       "key": "scene-talk.follow-accept.okay-the-sheets-for-office-are-yours-to-fill",
@@ -41422,7 +41637,11 @@
       "tag": {
         "move": "thank",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "clerk-tells-the-candidate-to-file-early-and-fix-mistakes",
+        "petition-the-hustle-before-the-deadline"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.good-we-ll-get-office-on-the-ballot-yet",
@@ -41474,7 +41693,11 @@
       "tag": {
         "move": "thank",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "clerk-tells-the-candidate-to-file-early-and-fix-mistakes",
+        "petition-the-hustle-before-the-deadline"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.good-that-s-what-the-petition-for-office-needs",
@@ -41524,7 +41747,8 @@
       "tag": {
         "move": "narrate",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names"]
     },
     {
       "key": "scene-talk.narrate-narrate.a-few-names-are-on-the-petition-for-office-most-of-the-page-is-empty",
@@ -41597,7 +41821,11 @@
       "tag": {
         "move": "tell",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "petition-short-by-a-few-names",
+        "petition-the-hustle-before-the-deadline"
+      ]
     },
     {
       "key": "scene-talk.state-tell.the-petition-for-office-is-behind-where-it-needs-to-be",
@@ -41622,7 +41850,8 @@
       "tag": {
         "move": "tell",
         "key": "news-received"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names"]
     },
     {
       "key": "scene-talk.state-tell.there-aren-t-enough-names-on-the-petition-for-office-and-time-is-going",
@@ -41647,7 +41876,11 @@
       "tag": {
         "move": "tell",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "petition-short-by-a-few-names",
+        "petition-the-hustle-before-the-deadline"
+      ]
     },
     {
       "key": "scene-talk.reply-agree.yes-absolutely",
@@ -46361,7 +46594,8 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["campaign-manager-is-someone-close"]
     },
     {
       "key": "scene-talk.state-request.i-want-to-be-your-campaign-manager-for-office",
@@ -46385,7 +46619,8 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["campaign-manager-is-someone-close"]
     },
     {
       "key": "scene-talk.state-request.you-shouldn-t-run-for-office-alone-let-me-manage-it",
@@ -46409,7 +46644,8 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["campaign-manager-is-someone-close"]
     },
     {
       "key": "scene-talk.reply-ask.run-it-how",
@@ -47122,7 +47358,8 @@
       "tag": {
         "move": "promise",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["campaign-manager-takes-it-personally"]
     },
     {
       "key": "scene-talk.close-promise.i-ll-be-ready",
@@ -65216,7 +65453,8 @@
       "tag": {
         "move": "stall",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-stall.i-want-to-read-bill-one-more-time-before-i-say",
@@ -65241,7 +65479,8 @@
       "tag": {
         "move": "stall",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-stall.don-t-count-me-either-way-on-bill-yet",
@@ -65266,7 +65505,11 @@
       "tag": {
         "move": "stall",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "a-question-counted-as-a-pledge",
+        "member-asked-for-a-vote-stays-undecided-until-the-floor"
+      ]
     },
     {
       "key": "scene-talk.reply-stall.i-m-looking-hard-at-bill-and-i-ll-tell-you-when-i-know",
@@ -65291,7 +65534,11 @@
       "tag": {
         "move": "stall",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "member-asked-for-a-vote-stays-undecided-until-the-floor",
+        "participant-waits-for-pending-amendments"
+      ]
     },
     {
       "key": "scene-talk.reply-agree.i-m-a-yes-on-bill-and-i-ll-say-so-out-loud",
@@ -65316,7 +65563,8 @@
       "tag": {
         "move": "agree",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-01-are-you-still-with-us"]
     },
     {
       "key": "scene-talk.reply-agree.you-can-put-me-down-for-bill",
@@ -65341,7 +65589,8 @@
       "tag": {
         "move": "agree",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-01-are-you-still-with-us"]
     },
     {
       "key": "scene-talk.reply-agree.bill-has-my-vote",
@@ -65366,7 +65615,8 @@
       "tag": {
         "move": "agree",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-01-are-you-still-with-us"]
     },
     {
       "key": "scene-talk.reply-refuse.i-m-a-no-on-bill-and-i-d-rather-say-it-now-than-surprise-you",
@@ -65466,7 +65716,8 @@
       "tag": {
         "move": "bargain",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-04-one-section-for-one-vote"]
     },
     {
       "key": "scene-talk.reply-bargain.if-section-section-of-bill-were-different-i-could-vote-yes",
@@ -65491,7 +65742,8 @@
       "tag": {
         "move": "bargain",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-04-one-section-for-one-vote"]
     },
     {
       "key": "scene-talk.reply-bargain.section-section-is-what-stops-me-on-bill-fix-that-and-i-m-with-you",
@@ -65516,7 +65768,8 @@
       "tag": {
         "move": "bargain",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-04-one-section-for-one-vote"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-i-need-every-vote-i-can-get-for-bill",
@@ -65620,7 +65873,8 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["a-question-counted-as-a-pledge"]
     },
     {
       "key": "scene-talk.follow-accept.i-won-t-push-you-any-further-on-bill",
@@ -65672,7 +65926,8 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["staff-sound-out-members-one-by-one"]
     },
     {
       "key": "scene-talk.follow-accept.that-s-a-fair-trade-on-bill-i-ll-look-at-section-section",
@@ -65698,7 +65953,8 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-04-one-section-for-one-vote"]
     },
     {
       "key": "scene-talk.follow-press.is-that-a-no-on-bill-or-a-not-yet",
@@ -65724,7 +65980,11 @@
       "tag": {
         "move": "press",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "member-asked-for-a-vote-stays-undecided-until-the-floor",
+        "vote-present-until-the-floor"
+      ]
     },
     {
       "key": "scene-talk.follow-press.the-roll-on-bill-won-t-wait-when-will-you-know",
@@ -65760,7 +66020,11 @@
       "tag": {
         "move": "press",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "member-asked-for-a-vote-stays-undecided-until-the-floor",
+        "vote-present-until-the-floor"
+      ]
     },
     {
       "key": "scene-talk.follow-plea.i-wouldn-t-ask-if-bill-weren-t-important-please-think-about-it",
@@ -65822,7 +66086,11 @@
       "tag": {
         "move": "threaten",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-b7-10-the-group-remembers",
+        "board-member-voted-against-and-is-criticized"
+      ]
     },
     {
       "key": "scene-talk.close-thank.thank-you-i-ll-tell-people-where-bill-stands",
@@ -65874,7 +66142,8 @@
       "tag": {
         "move": "promise",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["a-question-counted-as-a-pledge"]
     },
     {
       "key": "scene-talk.close-accept.fine-i-ll-take-bill-to-the-floor-without-your-vote",
@@ -65952,7 +66221,8 @@
       "tag": {
         "move": "warn",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-10-the-group-remembers"]
     },
     {
       "key": "scene-talk.close-press.i-ll-ask-you-again-before-the-vote-on-bill",
@@ -65978,7 +66248,8 @@
       "tag": {
         "move": "press",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.close-press.this-isn-t-settled-on-bill-and-you-know-it",
@@ -66004,7 +66275,8 @@
       "tag": {
         "move": "press",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.close-warn.think-about-bill-before-the-roll-is-called",
@@ -66030,7 +66302,8 @@
       "tag": {
         "move": "warn",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-confess.you-re-right-i-haven-t-decided-on-bill-and-i-shouldn-t-have-said-i-had",
@@ -66056,7 +66329,8 @@
       "tag": {
         "move": "confess",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-01-are-you-still-with-us"]
     },
     {
       "key": "scene-talk.reply-confess.i-said-more-than-i-meant-about-bill-i-m-sorry",
@@ -66082,7 +66356,8 @@
       "tag": {
         "move": "confess",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-01-are-you-still-with-us"]
     },
     {
       "key": "scene-talk.reply-deflect.what-i-tell-you-about-bill-is-my-business",
@@ -66134,7 +66409,8 @@
       "tag": {
         "move": "deflect",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.follow-ask.why-did-you-tell-me-otherwise-about-bill",
@@ -66160,7 +66436,11 @@
       "tag": {
         "move": "ask",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "a-question-counted-as-a-pledge",
+        "pattern-b7-01-are-you-still-with-us"
+      ]
     },
     {
       "key": "scene-talk.follow-ask.what-changed-your-answer-on-bill",
@@ -66186,7 +66466,11 @@
       "tag": {
         "move": "ask",
         "key": "vote-wanted"
-      }
+      },
+      "elements": [
+        "pattern-b7-01-are-you-still-with-us",
+        "a-question-counted-as-a-pledge"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.thank-you-for-saying-so-i-d-rather-know-where-i-stand-on-bill",
@@ -66212,7 +66496,8 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["pattern-b7-01-are-you-still-with-us"]
     },
     {
       "key": "scene-talk.follow-accept.okay-at-least-now-i-know-about-bill",
@@ -66264,7 +66549,8 @@
       "tag": {
         "move": "press",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-i-ll-tell-the-others-bill-still-has-you",
@@ -66749,7 +67035,8 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.follow-accept.read-bill-first-i-d-rather-you-vote-knowing-what-s-in-it",
@@ -66775,7 +67062,8 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.follow-accept.that-s-fair-i-ll-let-you-read-bill-before-i-ask-again",
@@ -66801,7 +67089,8 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-relent.okay-you-ve-been-straight-with-me-so-i-ll-vote-yes-on-bill",
