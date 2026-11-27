@@ -9,6 +9,7 @@
       "executive": 2
     },
     "src/bench/budget.ts": {
+      "budgets": 1,
       "executive": 2
     },
     "src/bench/calendar.ts": {
@@ -53,6 +54,9 @@
     },
     "src/bench/dev-views/budget-amendments.ts": {
       "bodies": 1
+    },
+    "src/bench/dev-views/dev-closing.ts": {
+      "jobs-businesses": 4
     },
     "src/bench/dev-views/opening.ts": {
       "elections": 2,
@@ -105,6 +109,9 @@
     },
     "src/bench/officeholders.ts": {
       "executive": 1
+    },
+    "src/bench/openings.ts": {
+      "jobs-businesses": 2
     },
     "src/bench/places.ts": {
       "executive": 1
