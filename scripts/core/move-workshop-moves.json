@@ -1,7 +1,6 @@
 {
   "moved": {
     "tests/support/dev-setup.mjs": "tests/support/dev-setup.mjs",
-    "src/bench/integration-heads.json": "scripts/bench/integration-heads.json",
     "src/bench/jump-end-check.test.ts": "scripts/bench/jump-end-check.test.ts",
     "src/bench/jump-end-check.ts": "scripts/bench/jump-end-check.ts",
     "src/bench/m0-check.ts": "scripts/bench/m0-check.ts",

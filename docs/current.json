@@ -1881,12 +1881,6 @@
       "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
     },
     {
-      "old": "src/bench/integration-heads.json",
-      "now": "scripts/bench/integration-heads.json",
-      "when": "2026-11-27",
-      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
-    },
-    {
       "old": "src/bench/jump-end-check.test.ts",
       "now": "scripts/bench/jump-end-check.test.ts",
       "when": "2026-11-27",

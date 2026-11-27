@@ -222,6 +222,20 @@ const helperNames = new RegExp(
   "g",
 );
 const noteRewrites = new Map([
+  // The three bench checks it reads left src/bench with #10716's move; it reads them where they are.
+  [
+    "tests/src/bench/voting-age-row.test.ts",
+    [
+      [
+        /"m0-check\.ts",\s*"m1-10-check\.ts",\s*"verify\.mjs",\s*"whole-figures\.ts",?/g,
+        '"scripts/bench/m0-check.ts", "scripts/bench/m1-10-check.ts", "scripts/bench/verify.mjs", "src/bench/whole-figures.ts"',
+      ],
+      [
+        /new URL\(\s*`\.\/\$\{file\}`,\s*new URL\(\s*"[^"]*voting-age-row\.test\.ts",\s*import\.meta\.url,?\s*\)\.href,?\s*\)/g,
+        "new URL(`../../../${file}`, import.meta.url)",
+      ],
+    ],
+  ],
   [
     "tests/src/bench/history-reader-proof.test.ts",
     [

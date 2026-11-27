@@ -4955,7 +4955,7 @@
     "src/bench/grade-line.ts",
     "src/bench/guide-terms.ts",
     "src/bench/handler.ts",
-    "scripts/bench/integration-heads.json",
+    "src/bench/integration-heads.json",
     "src/bench/journal-pictures.ts",
     "src/bench/last-time.ts",
     "src/bench/law-did.ts",

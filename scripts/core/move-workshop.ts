@@ -105,11 +105,11 @@ function destination(file: string): string | "delete" | null {
   ) {
     // The screens' milestone proofs and tools (screens map SC6, the CTO's Nov
     // 27 12:36 a.m. line): no game file imports them.
+    // integration-heads.json stays: the bench handler reads it when it builds a world.
     if (
       CHECKS.test(base) ||
       base === "store-shots.mjs" ||
-      base === "verify.mjs" ||
-      base === "integration-heads.json"
+      base === "verify.mjs"
     )
       return `scripts/bench/${base}`;
     // The browser checks' helpers (the one way a check starts a life, sets a
