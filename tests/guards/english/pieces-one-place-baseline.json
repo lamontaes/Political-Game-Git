@@ -1,8 +1,12 @@
 {
   "about": "Copies of a person's name, pronoun or date built outside the one function (tests/guards/english/pieces-one-place.test.ts; the CTO's story audit, Nov 26, rows C1 to C6). Per file and kind; the count only shrinks.",
   "copies": {
+    "src/bench/appearance.ts": {
+      "capital": 1
+    },
     "src/bench/archive-words.ts": {
-      "name": 1
+      "name": 1,
+      "capital": 1
     },
     "src/bench/budget.ts": {
       "name": 3
@@ -15,7 +19,8 @@
     },
     "src/bench/card.ts": {
       "name": 7,
-      "pronoun": 2
+      "pronoun": 2,
+      "capital": 1
     },
     "src/bench/changes.ts": {
       "name": 1
@@ -74,11 +79,16 @@
     "src/bench/officeholders.ts": {
       "name": 1
     },
+    "src/bench/patch-notes.ts": {
+      "capital": 1
+    },
     "src/bench/places.ts": {
       "name": 3
     },
     "src/bench/play.mjs": {
-      "date": 1
+      "date": 1,
+      "list": 1,
+      "capital": 2
     },
     "src/bench/polling.ts": {
       "name": 1
@@ -86,6 +96,9 @@
     "src/bench/printed-words.ts": {
       "name": 4,
       "date": 1
+    },
+    "src/bench/race-words.ts": {
+      "list": 1
     },
     "src/bench/results.ts": {
       "name": 2
@@ -114,8 +127,14 @@
     "src/bench/ui/dev-who-named.mjs": {
       "date": 1
     },
+    "src/bench/words.ts": {
+      "capital": 2
+    },
     "src/bench/world.ts": {
       "name": 1
+    },
+    "src/director/address-render.ts": {
+      "capital": 1
     },
     "src/director/bring-it-up.ts": {
       "name": 1
@@ -125,16 +144,21 @@
     },
     "src/director/conversation.ts": {
       "name": 2,
-      "pronoun": 2
+      "pronoun": 2,
+      "capital": 1
     },
     "src/director/door-facts.ts": {
       "name": 1
+    },
+    "src/director/election-day.ts": {
+      "capital": 1
     },
     "src/director/filing-visit.ts": {
       "name": 2
     },
     "src/director/journal.ts": {
-      "name": 2
+      "name": 2,
+      "list": 1
     },
     "src/director/opening-story.ts": {
       "name": 3
@@ -143,7 +167,8 @@
       "name": 1
     },
     "src/director/purpose-scene.ts": {
-      "name": 7
+      "name": 7,
+      "list": 3
     },
     "src/director/scene-talk.ts": {
       "name": 1
@@ -153,6 +178,9 @@
     },
     "src/director/sitting.ts": {
       "name": 1
+    },
+    "src/director/speech-builder.ts": {
+      "capital": 1
     },
     "src/director/speech-outline.ts": {
       "name": 1
@@ -164,13 +192,36 @@
       "name": 2
     },
     "src/director/words.ts": {
-      "date": 1
+      "date": 1,
+      "possessive": 1
+    },
+    "src/english/bank-line.ts": {
+      "capital": 1
+    },
+    "src/english/bill-names.ts": {
+      "list": 1
+    },
+    "src/english/bill-sections.ts": {
+      "list": 1,
+      "capital": 1
     },
     "src/english/composed-checks.ts": {
       "date": 1
     },
+    "src/english/group-names.ts": {
+      "capital": 1
+    },
+    "src/english/journal-words.ts": {
+      "capital": 1
+    },
     "src/english/move-fit.ts": {
       "pronoun": 2
+    },
+    "src/english/said-as.ts": {
+      "capital": 1
+    },
+    "src/english/scene-words.ts": {
+      "capital": 1
     }
   }
 }
