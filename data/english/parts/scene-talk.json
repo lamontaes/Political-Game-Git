@@ -74846,10 +74846,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.signatures-first-and-doors-are-the-surest-way-to-get-them-money-comes-next-a-cam",
+      "key": "scene-talk.follow-answer.signatures-first-and-doors-are-the-surest-way-to-get-them-next-comes-money-a-cam",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Signatures first, and doors are the surest way to get them. Money comes next: a campaign buys ad space in the {outlet}, and its reporters cover who's running.",
+      "text": "Signatures first, and doors are the surest way to get them. Next comes money: a campaign buys ad space in the {outlet}, and its reporters cover who's running.",
       "uses": [
         {
           "subject": "scene",
@@ -74881,7 +74881,7 @@
       "key": "scene-talk.follow-answer.start-with-the-signatures-knock-on-doors-set-up-a-table-where-people-shop-and-as",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Start with the signatures. Knock on doors, set up a table where people shop, and ask your friends to sign. Money comes after that, for {office}.",
+      "text": "Start with the signatures. Knock on doors, set up a table where people shop, and ask your friends to sign. After that comes money, for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -74976,7 +74976,7 @@
       "key": "scene-talk.follow-answer.there-s-nothing-to-collect-for-office-so-start-by-knocking-on-doors-and-talking",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "There's nothing to collect for {office}, so start by knocking on doors and talking to voters. Money comes next.",
+      "text": "There's nothing to collect for {office}, so start by knocking on doors and talking to voters. Next comes money.",
       "uses": [
         {
           "subject": "scene",
