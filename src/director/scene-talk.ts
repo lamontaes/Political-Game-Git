@@ -1508,17 +1508,17 @@ export function replyStep<
  * reply that raises another subject says its line after the answer, unless
  * the answer already asks. Null where a subject to raise cannot be worded.
  */
-export function shapeReply<L extends { asks: boolean }>(input: {
-  answer: L;
+export function shapeReply<A extends { asks: boolean }, R = A>(input: {
+  answer: A;
   /** The answer is a bare question turned back, said after the plain answer. */
   afterPlain?: boolean;
   /** The plain answer that goes before it, if the bank has one that asks nothing. */
-  plain?: L | null;
+  plain?: A | null;
   /** The reply raises another subject: its line, or null when it cannot be worded. */
-  raised?: { line: L | null };
-}): { head: L; tail: L | null } | null {
+  raised?: { line: R | null };
+}): { head: A; tail: A | R | null } | null {
   let head = input.answer;
-  let tail: L | null = null;
+  let tail: A | R | null = null;
   if (input.afterPlain && input.plain && !input.plain.asks) {
     head = input.plain;
     tail = input.answer;
