@@ -1050,6 +1050,7 @@
 /src/core2/modules/news.ts @lamontaes
 /src/core2/modules/press.ts @lamontaes
 /src/core2/press-*.ts @lamontaes
+/src/core2/ad-outlet-per-world.test.ts @lamontaes
 /src/core2/outcome-news.ts @lamontaes
 /src/core2/modules/news-listeners.ts @lamontaes
 /src/core2/outcome-news-constants.ts @lamontaes
