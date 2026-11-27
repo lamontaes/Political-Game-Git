@@ -35,7 +35,7 @@ import { purposeScene, replyInScene } from "../../src/director/purpose-scene";
 import { openConversation, say } from "../../src/director/conversation";
 import { composeScene } from "../../src/director/scene";
 import type { TreeNode } from "../../src/director/scene-talk";
-import { gatherSignatures } from "../../src/core2/campaign-petition-kit";
+import { gatherSignatures } from "../../tests/support/campaign-petition-kit";
 
 const seed = process.argv[2] ?? "q1";
 const kind = process.argv[3] ?? "town";

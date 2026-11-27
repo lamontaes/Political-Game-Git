@@ -1,0 +1,15 @@
+{
+  "src/core2/choice.ts": 4,
+  "src/core2/data.ts": 3,
+  "src/core2/decision-detail.ts": 3,
+  "src/core2/free-block.ts": 3,
+  "src/core2/journal-state.ts": 1,
+  "src/core2/life.ts": 23,
+  "src/core2/module-calendar.ts": 2,
+  "src/core2/module-notifications.ts": 1,
+  "src/core2/past-history.ts": 2,
+  "src/core2/saved-trace-v1.ts": 1,
+  "src/core2/saves.ts": 4,
+  "src/core2/state.ts": 30,
+  "src/core2/types.ts": 11
+}

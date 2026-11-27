@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../tests/golden-path/place";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import {
   businessName,
   businessNameContext,
