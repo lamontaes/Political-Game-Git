@@ -77,7 +77,6 @@ import type {
 } from "../types";
 import { placeStateKey } from "../place-map";
 import { ageOfMajority } from "../age-of-majority";
-import { registerReturnedMembersLeave } from "../returned-members-move";
 
 export const MOVES_MODULE_ID = "moves";
 export const MOVES_PARAMETERS = rows as unknown as Readonly<
@@ -1794,6 +1793,8 @@ export function departuresSeen(core: CoreState): Departure[] {
 
 export const movesModule: CoreModule = {
   id: MOVES_MODULE_ID,
+  // The step that takes returned members' records away with a counted household.
+  returnedMembersLeave,
   state: {
     schemaVersion: 1,
     tables: { state: {}, pulls: {} },
@@ -1907,5 +1908,3 @@ function returnedMembersLeave(
     ),
   });
 }
-
-registerReturnedMembersLeave(returnedMembersLeave);

@@ -22,15 +22,17 @@ import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
 import { advanceCore } from "../../src/core2/life";
 import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
-import { coreAPI } from "../../src/core2/state";
+import { coreAPI, registerModule } from "../../src/core2/state";
 import {
-  registerStanceListener,
   stancesOf,
   viewOf,
   viewsModule,
   VIEWS_KEYS,
 } from "../../src/core2/modules/views";
-import type { CoreEventInput as CoreEvent } from "../../src/core2/types";
+import type {
+  CoreEventInput as CoreEvent,
+  CoreModule,
+} from "../../src/core2/types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "m1-10-check";
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
@@ -81,7 +83,11 @@ viewsModule.onEvent = (api, event, learnedBy) => {
     current = null;
   }
 };
-registerStanceListener((api, personId, topic) => {
+const heardStance: NonNullable<CoreModule["stanceListener"]> = (
+  api,
+  personId,
+  topic,
+) => {
   const stance = stancesOf(api, personId).find((s) => s.topic === topic);
   const key = `${personId}:${topic}`;
   const prior = seen.get(key) ?? { side: "", strength: 0 };
@@ -105,7 +111,7 @@ registerStanceListener((api, personId, topic) => {
     sideBefore: prior.side,
     desiredChange: side,
   });
-});
+};
 
 setBookkeeping(false);
 const w = buildBenchWorld(seed, gameStartDate(), {
@@ -113,6 +119,10 @@ const w = buildBenchWorld(seed, gameStartDate(), {
   ...(placeKey ? { placeKey } : {}),
 });
 const { core } = w;
+registerModule(core, {
+  id: "m1-10-stance-listener",
+  stanceListener: heardStance,
+});
 const api = coreAPI(core);
 const where = `${w.place.displayName} (${w.place.key}), seed ${seed}`;
 const town = core.people.get(w.playerId!)!.placeId;

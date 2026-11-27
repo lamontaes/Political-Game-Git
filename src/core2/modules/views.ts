@@ -67,7 +67,7 @@ import {
 } from "../trait-decisions";
 import { keepsWhy } from "../why-kept";
 import { placeStateKey } from "../place-map";
-import { registerStanceListener, stanceMoved } from "../stance-listeners";
+import { stanceMoved } from "../stance-listeners";
 import { VIEWS_KEYS, type CellKey } from "../views-keys";
 import { PAST_WORK_SPELL } from "../past-module";
 import { historyOf } from "../past";
@@ -1132,9 +1132,7 @@ export function agreementWith(
   return Math.max(-v("one"), Math.min(v("one"), sum / platform.length));
 }
 
-// Engines that act on the day a stance moves register in a file of their own
-// (../stance-listeners), so registering while they load never waits on this one.
-export { registerStanceListener, VIEWS_KEYS };
+export { VIEWS_KEYS };
 
 export function stancesOf(api: CoreAPI, personId: PersonId): Stance[] {
   return stancesTable(api).query("byPerson", [personId]) as unknown as Stance[];

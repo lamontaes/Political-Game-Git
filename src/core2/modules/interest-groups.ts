@@ -38,7 +38,6 @@ import {
   type HearingWitness,
 } from "./legislature";
 import { personLean } from "../campaign-views";
-import { registerStanceListener } from "../stance-listeners";
 import { viewOf, viewOn } from "./views";
 import { makeCase } from "./people";
 import { concerns, meetingParameter } from "./meetings";
@@ -128,6 +127,8 @@ function duesSlot(api: CoreAPI, id: string): CashJournalSourceSlot | undefined {
 
 export const INTEREST_GROUPS_MODULE: CoreModule = {
   id: INTEREST_GROUPS_MODULE_ID,
+  // Membership follows a person's view the day it moves.
+  stanceListener: reviewMember,
   state: {
     schemaVersion: 1,
     tables: {
@@ -991,8 +992,6 @@ function reviewMember(api: CoreAPI, personId: string, question: string): void {
     return;
   }
 }
-
-registerStanceListener(reviewMember);
 
 /**
  * What a question reaches in one resident's own life, from their records: the job the policy binds,

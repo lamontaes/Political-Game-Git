@@ -21,13 +21,7 @@ import { advanceCore } from "./life";
 import { newsKey, storyDelivered, storyOfReadEvent } from "./modules/news";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { PRESS_MODULE_ID } from "./modules/press";
-import {
-  registerStanceListener,
-  viewOf,
-  viewOn,
-  VIEWS_MODULE_ID,
-  type Stance,
-} from "./modules/views";
+import { viewOf, viewOn, VIEWS_MODULE_ID, type Stance } from "./modules/views";
 import {
   conditionQuestion,
   OUTCOME_MONTH_KIND,
@@ -35,7 +29,8 @@ import {
   webFactKey,
 } from "./outcome-news";
 import { coreAPI } from "./state";
-import type { CoreState } from "./types";
+import type { CoreModule, CoreState } from "./types";
+import { listenToStances } from "../../tests/support/stance-listener";
 
 const seed = process.env.OUTCOME_NEWS_SEED || randomBytes(8).toString("hex");
 const place = drawPlace(seed, "outcome-news");
@@ -77,7 +72,11 @@ const CONDITION_QUESTIONS = new Set(
     .map((spec) => conditionQuestion(spec.topic))
     .filter((question): question is string => question !== null),
 );
-registerStanceListener((api, personId, topic) => {
+const heardStance: NonNullable<CoreModule["stanceListener"]> = (
+  api,
+  personId,
+  topic,
+) => {
   if (!CONDITION_QUESTIONS.has(topic)) return;
   const moves = MOVES.get(api.state) ?? [];
   MOVES.set(api.state, moves);
@@ -118,7 +117,7 @@ registerStanceListener((api, personId, topic) => {
       })),
     viewNow: view ? viewOn(api, personId, topic, view.lean) : 0,
   });
-});
+};
 
 /** The month's outcome record a printed story was made from, if any. */
 const monthWireOf = (api: ReturnType<typeof coreAPI>, storyId: string) => {
@@ -142,6 +141,7 @@ function play(
     placeKey: at.key,
   });
   const core = world.core as CoreState;
+  listenToStances(core, heardStance);
   const api = coreAPI(core);
   const months = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");
   const town = core.people.get(core.playerId!)!.placeId;

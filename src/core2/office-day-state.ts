@@ -33,7 +33,6 @@ import { registerModule } from "./state";
 import { decisionLean, leanedTerm } from "./trait-decisions";
 import { closenessBetween } from "./closeness";
 import {
-  registerSittingCalendar,
   type SittingCalendar,
   type SittingDay,
 } from "./sitting-closeness";
@@ -1819,6 +1818,8 @@ export function voteOnStateFloor(
 
 export const OFFICE_DAY_STATE_MODULE: CoreModule = {
   id: OFFICE_DAY_STATE_MODULE_ID,
+  // A chamber's committees and caucuses sit on the chamber's own days.
+  sittingCalendar: ROOMS,
   state: {
     schemaVersion: 1,
     tables: {
@@ -1924,7 +1925,6 @@ registerOfficeActs({
 });
 
 export function openOfficeDayState(core: CoreState): void {
-  registerSittingCalendar(ROOMS);
   registerOfficeTime(stateOfficeHoursToday);
   if (!core.modules.has(OFFICE_DAY_STATE_MODULE_ID))
     registerModule(core, OFFICE_DAY_STATE_MODULE);
