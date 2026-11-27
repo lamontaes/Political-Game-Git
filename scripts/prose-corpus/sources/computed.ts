@@ -152,14 +152,6 @@ export function extractComputedProse(
   return { records, problems };
 }
 
-/** The records alone, for callers that handle problems separately. */
-function computedProseRecords(
-  surfaces: readonly ComputedSurface[] = COMPUTED_SURFACES,
-  anchors: readonly ComputedAnchor[] = loadAnchorFile().anchors,
-): readonly ProseRecord[] {
-  return extractComputedProse(surfaces, anchors).records;
-}
-
 /** Every literal the registry claims, for minting. */
 export function computedLiterals(
   surfaces: readonly ComputedSurface[] = COMPUTED_SURFACES,

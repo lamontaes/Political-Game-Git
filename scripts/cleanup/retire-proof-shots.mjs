@@ -24,7 +24,7 @@ const candidates = new Set(
       /^docs\/(?:play-first\/(?:shots[^/]*|screens)|reports|seen|lanes\/proof)(?:\/|$)/.test(
         file,
       ) &&
-      !/(?:^|[\/_-])(?:owner|rulings?|grading|annotated)(?:[\/_-]|\.)/i.test(
+      !/(?:^|[/_-])(?:owner|rulings?|grading|annotated)(?:[/_-]|\.)/i.test(
         file,
       ) &&
       /\.(?:png|jpe?g|gif|webp|heic|bmp|tiff?|avif)$/i.test(file),

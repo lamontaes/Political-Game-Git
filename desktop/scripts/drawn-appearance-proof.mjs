@@ -1,4 +1,3 @@
-/* global document, crypto */
 import assert from "node:assert/strict";
 
 /** Fail closed on a plausible-looking figure with the wrong saved identity. */
