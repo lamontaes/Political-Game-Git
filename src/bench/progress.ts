@@ -5,6 +5,7 @@ import type { CoreState } from "../core2/types";
 import { coreAPI } from "../core2/state";
 import { openContests, filingOfficeFor } from "../core2/modules/elections";
 import { reachedSteps } from "./reached";
+import features from "../../docs/roadmap/features.json" with { type: "json" };
 
 // M0's entry age is an exhibit-selection criterion, not a simulation rule.
 const ENTRY_AGE = 18; // docs/roadmap/features.json, M0-05 and M0-06.
@@ -44,6 +45,23 @@ const missingWorld = [
   ],
   ["Other places", "coarse other-place world module", [], null],
 ] as const;
+
+/**
+ * The specs the suite runs for a golden-path step (docs/roadmap/features.json: each row names the step it
+ * proves in `golden_path`), so the panel's steps and the suite's list are one list. "all" rows span the path.
+ */
+function specsFor(step: number | "all") {
+  return (
+    features.features as {
+      id: string;
+      title: string;
+      golden_path?: string;
+      passes: boolean;
+    }[]
+  )
+    .filter((row) => String(row.golden_path) === String(step))
+    .map((row) => ({ id: row.id, title: row.title, passes: row.passes }));
+}
 
 /** A read-only projection. Opening history is never evidence of a played step. */
 // The module that runs each later step (OPUS-GOV and OPUS-PEOPLE).
@@ -185,6 +203,7 @@ export function benchProgress(
     steps: [
       {
         step: 1,
+        specs: specsFor(1),
         label: "Turn 18",
         status: entryEvidence ? "reachable now" : "not in the new core yet",
         missingModule: entryEvidence
@@ -194,6 +213,7 @@ export function benchProgress(
       },
       {
         step: 2,
+        specs: specsFor(2),
         label: "Meet people",
         status: contactEvidence ? "reachable now" : "not in the new core yet",
         missingModule: contactEvidence
@@ -203,10 +223,12 @@ export function benchProgress(
       },
       ...missingSteps.map(([label, missingModule], index) => {
         const step = index + 3;
+        const specs = specsFor(step);
         const played = reached.find((row) => row.step === step);
         if (played)
           return {
             step,
+            specs,
             label,
             status: "reached",
             missingModule: null,
@@ -215,6 +237,7 @@ export function benchProgress(
         if (step === 3 && filingEvidence)
           return {
             step,
+            specs,
             label,
             status: "reachable now",
             missingModule: null,
@@ -224,6 +247,7 @@ export function benchProgress(
         if (moduleId && core.modules.has(moduleId))
           return {
             step,
+            specs,
             label,
             status: "reachable now",
             missingModule: null,
@@ -231,6 +255,7 @@ export function benchProgress(
           };
         return {
           step,
+          specs,
           label,
           status: "not in the new core yet",
           missingModule,
@@ -238,6 +263,7 @@ export function benchProgress(
         };
       }),
     ],
+    wholePathSpecs: specsFor("all"),
     world: missingWorld.map(([label, missingModule, modules, still]) => {
       const running = modules.filter((id) => core.modules.has(id));
       return running.length === 0

@@ -10,10 +10,16 @@ import { advanceCore } from "../../src/core2/life";
 import { residentsRuntime } from "../../src/core2/modules/residents";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { coreAPI } from "../../src/core2/state";
-import { campaignDayChoices, takeCampaignDayChoice } from "../../src/core2/campaign-day";
+import {
+  campaignDayChoices,
+  takeCampaignDayChoice,
+} from "../../src/core2/campaign-day";
 import type { CoreAPI, CoreState } from "../../src/core2/types";
 import type { ModuleRow } from "../../src/core2/module-data";
-import { OFFICES_MODULE_ID, type TermRow } from "../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../src/core2/modules/offices";
 import { holderOf } from "../../src/core2/modules/officials";
 import {
   ballot,
