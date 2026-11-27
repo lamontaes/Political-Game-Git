@@ -313,8 +313,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Words lead (leftovers deletion, Nov 16)",
-      "date": "2026-11-16",
-      "elements": ["pattern-c23-the-case-against-you"]
+      "date": "2026-11-16"
     },
     {
       "key": "conversation.asked-mutual-answer-saw.i-saw-him-my-when",
@@ -1327,8 +1326,7 @@
       ],
       "origin": "authored",
       "author": "Campaign events builder, draft for the Words lead (the Words lead's text, Nov 15)",
-      "date": "2026-11-15",
-      "elements": ["reporter-calls-on-a-recorded-no"]
+      "date": "2026-11-15"
     },
     {
       "key": "conversation.death-news-back-core.he-took-his-own-life",
@@ -1472,8 +1470,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
-      "date": "2026-11-15",
-      "elements": ["pattern-a37-the-seat-and-the-funeral"]
+      "date": "2026-11-15"
     },
     {
       "key": "conversation.death-news-back-core.somebody-shot-him",
@@ -1522,8 +1519,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
-      "date": "2026-11-15",
-      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
+      "date": "2026-11-15"
     },
     {
       "key": "conversation.death-news-back-core.he-had-illness-i-thought-you-knew",
@@ -1548,8 +1544,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
-      "date": "2026-11-15",
-      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
+      "date": "2026-11-15"
     },
     {
       "key": "conversation.death-news-back-core.he-had-illness-i-m-sorry-nobody-told-you",
@@ -1574,8 +1569,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
-      "date": "2026-11-15",
-      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
+      "date": "2026-11-15"
     },
     {
       "key": "conversation.death-news-back-core.she-took-her-own-life",
@@ -1770,10 +1764,7 @@
       "origin": "authored",
       "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
       "date": "2026-11-15",
-      "elements": [
-        "pattern-b5-04-someone-dying-someone-buried",
-        "witness-compares-two-kinds-of-care"
-      ]
+      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
     },
     {
       "key": "conversation.death-news-back-core.she-had-illness-i-thought-you-knew",
@@ -1798,11 +1789,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
-      "date": "2026-11-15",
-      "elements": [
-        "pattern-b5-04-someone-dying-someone-buried",
-        "witness-compares-two-kinds-of-care"
-      ]
+      "date": "2026-11-15"
     },
     {
       "key": "conversation.death-news-back-core.she-had-illness-i-m-sorry-nobody-told-you",
@@ -1827,8 +1814,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
-      "date": "2026-11-15",
-      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
+      "date": "2026-11-15"
     },
     {
       "key": "conversation.death-news-back-core.they-took-their-own-life",
@@ -2023,10 +2009,7 @@
       "origin": "authored",
       "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
       "date": "2026-11-15",
-      "elements": [
-        "pattern-b5-04-someone-dying-someone-buried",
-        "witness-compares-two-kinds-of-care"
-      ]
+      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
     },
     {
       "key": "conversation.death-news-back-core.they-had-illness-i-thought-you-knew",
@@ -2051,8 +2034,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
-      "date": "2026-11-15",
-      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
+      "date": "2026-11-15"
     },
     {
       "key": "conversation.death-news-back-core.they-had-illness-i-m-sorry-nobody-told-you",
@@ -2077,8 +2059,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
-      "date": "2026-11-15",
-      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
+      "date": "2026-11-15"
     },
     {
       "key": "conversation.death-news-back-core.he-took-his-own-life-none-of-us-knew",
@@ -2951,8 +2932,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-opener-lead.so-president-is-for-about-you-heard-that-too",
@@ -2975,8 +2955,7 @@
       "bearing": "warm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-opener-lead.president-made-a-point-of-about",
@@ -2999,8 +2978,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-opener-lead.president-put-about-right-up-front",
@@ -3023,8 +3001,7 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-opener-lead.the-one-thing-i-took-from-that-president-is-for-about",
@@ -3047,8 +3024,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-opener-lead.president-wants-no-part-of-about-that-part-was-plain",
@@ -3071,8 +3047,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-opener-lead.so-president-is-against-about-you-heard-that-too",
@@ -3095,8 +3070,7 @@
       "bearing": "warm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-opener-lead.president-drew-a-line-at-about",
@@ -3119,8 +3093,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-opener-lead.president-said-no-to-about-and-said-it-plainly",
@@ -3143,8 +3116,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-opener-lead.the-one-thing-i-took-from-that-president-is-against-about",
@@ -3167,8 +3139,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-opener-lead.president-came-out-for-about",
@@ -3191,8 +3162,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-opener-lead.so-president-wants-about",
@@ -3215,8 +3185,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-opener-lead.president-is-pushing-about-now",
@@ -3239,8 +3208,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-opener-lead.president-came-out-against-about",
@@ -3263,8 +3231,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-opener-lead.so-president-is-against-about-plain-and-simple",
@@ -3287,8 +3254,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-opener-lead.president-won-t-back-about",
@@ -3311,8 +3277,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-with.i-m-with-president-object-on-that-one",
@@ -3336,8 +3301,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-with.that-s-the-one-part-of-president-possessive-speech-i-agreed-with",
@@ -3361,8 +3325,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-with.president-has-that-right",
@@ -3386,8 +3349,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-with.good-i-think-we-should-to",
@@ -3411,8 +3373,7 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-with.good-i-don-t-think-we-should-to-either",
@@ -3435,8 +3396,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-with.president-got-that-one-right-i-ll-give-president-object-that",
@@ -3460,8 +3420,7 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-with.on-that-president-and-i-are-on-the-same-side",
@@ -3485,8 +3444,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-with.that-s-the-part-of-president-possessive-speech-i-d-vote-for",
@@ -3510,8 +3468,7 @@
       "bearing": "hopeful",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-with.i-can-live-with-what-president-said-there",
@@ -3535,8 +3492,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-with.president-is-right-about-that-one",
@@ -3560,8 +3516,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-with.i-ll-say-president-has-a-point-there",
@@ -3585,8 +3540,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-against.i-m-not-with-president-object-on-that",
@@ -3610,8 +3564,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-against.that-s-the-part-of-president-possessive-speech-i-can-t-go-along-with",
@@ -3635,8 +3588,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-against.president-has-that-one-wrong",
@@ -3660,8 +3612,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-against.i-don-t-think-we-should-to-whatever-president-says",
@@ -3685,8 +3636,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-against.i-think-we-should-to-and-president-is-wrong-to-fight-it",
@@ -3710,8 +3660,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-against.president-can-keep-that-one-i-don-t-want-it",
@@ -3735,8 +3684,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-against.that-s-where-president-lost-me",
@@ -3760,8 +3708,7 @@
       "bearing": "hurt",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-against.i-d-tell-decider-to-vote-it-down",
@@ -3785,8 +3732,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-against.president-and-i-part-ways-there",
@@ -3810,8 +3756,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-against.i-just-don-t-see-it-like-president-does",
@@ -3835,8 +3780,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-against.i-m-not-sold-on-that-whatever-president-says",
@@ -3860,8 +3804,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-unsure.i-d-want-to-hear-more-before-we-to",
@@ -3908,8 +3851,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-unsure.i-go-back-and-forth-on-that-one-whatever-president-says",
@@ -3932,8 +3874,7 @@
       "bearing": "anxious",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-unsure.ask-me-again-once-decider-has-had-a-go-at-it",
@@ -3959,8 +3900,7 @@
       "date": "2026-11-18",
       "elements": [
         "address-leaves-the-details-for-the-budget-week-after",
-        "lawmaker-says-the-budget-matters-more-than-the-speech",
-        "pattern-a47-the-first-word-on-the-address"
+        "lawmaker-says-the-budget-matters-more-than-the-speech"
       ]
     },
     {
@@ -3987,8 +3927,7 @@
       "date": "2026-11-18",
       "elements": [
         "address-leaves-the-details-for-the-budget-week-after",
-        "lawmaker-says-the-budget-matters-more-than-the-speech",
-        "pattern-a47-the-first-word-on-the-address"
+        "lawmaker-says-the-budget-matters-more-than-the-speech"
       ]
     },
     {
@@ -4037,8 +3976,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-year-with.i-ve-seen-that-myself-right-here-in-place",
@@ -4062,8 +4000,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-year-with.on-that-president-isn-t-wrong",
@@ -4087,8 +4024,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-year-with.president-has-that-part-right-place-feels-it",
@@ -4112,8 +4048,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-year-with.i-ll-give-president-object-that-much-it-s-true-here",
@@ -4137,8 +4072,7 @@
       "bearing": "warm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-year-against.that-s-not-how-it-looks-from-place",
@@ -4165,8 +4099,7 @@
       "date": "2026-11-18",
       "elements": [
         "county-executive-answers-the-address-with-a-home-deficit",
-        "members-bring-a-guest-to-answer-the-address",
-        "pattern-a47-the-first-word-on-the-address"
+        "members-bring-a-guest-to-answer-the-address"
       ]
     },
     {
@@ -4194,8 +4127,7 @@
       "date": "2026-11-18",
       "elements": [
         "county-executive-answers-the-address-with-a-home-deficit",
-        "members-bring-a-guest-to-answer-the-address",
-        "pattern-a47-the-first-word-on-the-address"
+        "members-bring-a-guest-to-answer-the-address"
       ]
     },
     {
@@ -4220,8 +4152,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-year-against.maybe-in-washington-not-in-place",
@@ -4246,11 +4177,7 @@
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-18",
-      "elements": [
-        "county-executive-answers-the-address-with-a-home-deficit",
-        "members-bring-a-guest-to-answer-the-address",
-        "pattern-a47-the-first-word-on-the-address"
-      ]
+      "elements": ["county-executive-answers-the-address-with-a-home-deficit"]
     },
     {
       "key": "conversation.address-point-core-year-against.president-should-come-see-place-before-saying-that",
@@ -4277,8 +4204,7 @@
       "date": "2026-11-18",
       "elements": [
         "county-executive-answers-the-address-with-a-home-deficit",
-        "members-bring-a-guest-to-answer-the-address",
-        "pattern-a47-the-first-word-on-the-address"
+        "members-bring-a-guest-to-answer-the-address"
       ]
     },
     {
@@ -4351,8 +4277,7 @@
       "bearing": "anxious",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-core-year-unsure.i-couldn-t-tell-you-if-place-is-better-off-or-not",
@@ -4423,8 +4348,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-reason-work.after-employer-cut-me-loose-this-isn-t-abstract-to-me",
@@ -4446,8 +4370,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-reason-work.employer-let-me-go-this-year-i-hear-every-word-now",
@@ -4469,8 +4392,7 @@
       "bearing": "hurt",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-reason-work.i-work-at-employer-i-hear-that-part-differently",
@@ -4492,8 +4414,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-reason-work.at-employer-we-live-with-that-every-day",
@@ -4515,8 +4436,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-reason-work.you-don-t-work-at-employer-without-noticing-that",
@@ -4538,8 +4458,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-reason-money.every-dollar-here-is-spoken-for-i-hear-that",
@@ -4561,11 +4480,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": [
-        "county-executive-answers-the-address-with-a-home-deficit",
-        "floor-minimum-wage-argued-through-the-people-behind-the-wage"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-reason-money.we-re-stretched-thin-right-now-that-part-i-notice",
@@ -4588,10 +4503,7 @@
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-18",
-      "elements": [
-        "county-executive-answers-the-address-with-a-home-deficit",
-        "floor-minimum-wage-argued-through-the-people-behind-the-wage"
-      ]
+      "elements": ["county-executive-answers-the-address-with-a-home-deficit"]
     },
     {
       "key": "conversation.address-point-reason-money.when-the-bills-are-close-you-listen-to-that",
@@ -4613,11 +4525,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": [
-        "county-executive-answers-the-address-with-a-home-deficit",
-        "floor-minimum-wage-argued-through-the-people-behind-the-wage"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-reason-town.too-many-in-place-need-work-to-let-that-go",
@@ -4639,8 +4547,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["job-seeker-explains-their-savings-are-running-out"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-reason-town.around-place-work-is-the-whole-conversation",
@@ -4662,8 +4569,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["job-seeker-explains-their-savings-are-running-out"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-reason-town.walk-down-any-street-in-place-someone-s-out-of-work",
@@ -4685,8 +4591,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["job-seeker-explains-their-savings-are-running-out"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-reason-town.rent-in-place-is-what-everybody-talks-about",
@@ -4708,11 +4613,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": [
-        "victory-first-act-is-about-what-people-pay",
-        "a-rally-feeds-the-next-councils-public-comment"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-reason-town.nobody-in-place-can-find-a-place-they-can-afford",
@@ -4734,11 +4635,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": [
-        "victory-first-act-is-about-what-people-pay",
-        "a-rally-feeds-the-next-councils-public-comment"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-reason-town.ask-anyone-in-place-what-it-costs-to-live-here",
@@ -4760,11 +4657,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": [
-        "victory-first-act-is-about-what-people-pay",
-        "a-rally-feeds-the-next-councils-public-comment"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-closer.we-ll-see-if-any-of-it-reaches-place",
@@ -4787,10 +4680,7 @@
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-18",
-      "elements": [
-        "lawmaker-says-the-budget-matters-more-than-the-speech",
-        "pattern-a47-the-first-word-on-the-address"
-      ]
+      "elements": ["lawmaker-says-the-budget-matters-more-than-the-speech"]
     },
     {
       "key": "conversation.address-point-closer.talk-is-cheap-we-ll-see-what-place-gets",
@@ -4813,10 +4703,7 @@
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-18",
-      "elements": [
-        "lawmaker-says-the-budget-matters-more-than-the-speech",
-        "pattern-a47-the-first-word-on-the-address"
-      ]
+      "elements": ["lawmaker-says-the-budget-matters-more-than-the-speech"]
     },
     {
       "key": "conversation.address-point-closer.ask-me-again-when-it-reaches-place",
@@ -4862,10 +4749,7 @@
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-18",
-      "elements": [
-        "lawmaker-says-the-budget-matters-more-than-the-speech",
-        "pattern-a47-the-first-word-on-the-address"
-      ]
+      "elements": ["lawmaker-says-the-budget-matters-more-than-the-speech"]
     },
     {
       "key": "conversation.address-point-closer.what-did-you-make-of-it",
@@ -4887,8 +4771,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-closer.where-are-you-on-that",
@@ -4910,8 +4793,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-closer.am-i-wrong-to-see-it-that-way",
@@ -4955,8 +4837,7 @@
       "bearing": "warm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-closer.tell-me-what-you-heard",
@@ -4978,8 +4859,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-closer.you-think-i-m-wrong",
@@ -5023,8 +4903,7 @@
       "bearing": "warm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-closer.did-that-land-with-you-at-all",
@@ -5135,8 +5014,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-agree.i-m-with-you-on-that-name",
@@ -5271,8 +5149,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-disagree.i-think-president-has-that-wrong",
@@ -5291,8 +5168,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-disagree.i-don-t-see-it-the-way-president-does",
@@ -5311,8 +5187,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-disagree.i-d-push-back-on-president-object-there",
@@ -5331,8 +5206,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-disagree.i-think-president-has-that-right-actually",
@@ -5351,8 +5225,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-disagree.i-don-t-know-i-m-with-president-object-on-this-one",
@@ -5371,8 +5244,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-disagree.that-s-where-we-part-ways-i-d-take-president-possessive-side",
@@ -5391,8 +5263,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-disagree.i-know-where-i-stand-on-it-whatever-president-says",
@@ -5411,8 +5282,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-disagree.i-ve-made-up-my-mind-on-president-possessive-plan-anyway",
@@ -5431,8 +5301,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-here.what-does-that-do-for-place",
@@ -5452,7 +5321,6 @@
       "author": "Story lead (Fable)",
       "date": "2026-11-18",
       "elements": [
-        "pattern-a47-the-first-word-on-the-address",
         "county-executive-answers-the-address-with-a-home-deficit",
         "members-bring-a-guest-to-answer-the-address"
       ]
@@ -5473,12 +5341,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": [
-        "pattern-a47-the-first-word-on-the-address",
-        "county-executive-answers-the-address-with-a-home-deficit",
-        "members-bring-a-guest-to-answer-the-address"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-here.how-does-that-land-in-place",
@@ -5496,12 +5359,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": [
-        "pattern-a47-the-first-word-on-the-address",
-        "county-executive-answers-the-address-with-a-home-deficit",
-        "members-bring-a-guest-to-answer-the-address"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-here.is-that-already-how-it-works-in-place",
@@ -5520,8 +5378,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["states-can-set-a-higher-minimum-wage"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-here.would-that-change-anything-in-place",
@@ -5540,12 +5397,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": [
-        "pattern-a47-the-first-word-on-the-address",
-        "county-executive-answers-the-address-with-a-home-deficit",
-        "members-bring-a-guest-to-answer-the-address"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-instead.then-what-would-you-do-about-about",
@@ -5564,8 +5416,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-instead.so-what-s-the-answer-on-about",
@@ -5584,8 +5435,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-instead.if-not-that-then-what-on-about",
@@ -5604,8 +5454,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-instead.you-don-t-like-it-what-s-your-answer-on-about",
@@ -5624,8 +5473,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-instead.what-would-you-do-about-about",
@@ -5644,8 +5492,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-answer-instead.what-s-your-fix-for-about",
@@ -5664,8 +5511,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-back-agree.good-then-it-s-not-just-me-you",
@@ -5785,8 +5631,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-back-disagree.then-we-heard-president-object-differently",
@@ -5934,11 +5779,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": [
-        "county-executive-answers-the-address-with-a-home-deficit",
-        "members-bring-a-guest-to-answer-the-address"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-back-here.in-place-town-figure-that-s-what-it-comes-to",
@@ -5963,10 +5804,7 @@
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-18",
-      "elements": [
-        "county-executive-answers-the-address-with-a-home-deficit",
-        "members-bring-a-guest-to-answer-the-address"
-      ]
+      "elements": ["members-bring-a-guest-to-answer-the-address"]
     },
     {
       "key": "conversation.address-point-back-here.it-s-already-the-law-in-state-nothing-changes-here",
@@ -5990,8 +5828,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["states-can-set-a-higher-minimum-wage"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-back-here.state-did-that-already-so-place-wouldn-t-feel-it",
@@ -6015,8 +5852,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["states-can-set-a-higher-minimum-wage"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-back-here.state-never-did-that-so-it-d-be-new-here",
@@ -6088,8 +5924,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["county-executive-answers-the-address-with-a-home-deficit"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-back-instead.i-d-have-president-object-say-it-straight-for-one-thing",
@@ -6161,8 +5996,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-back-instead.i-d-leave-it-alone-and-fix-what-s-broken-in-place",
@@ -6186,8 +6020,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["county-executive-answers-the-address-with-a-home-deficit"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-back-instead.anything-but-what-president-wants",
@@ -6288,8 +6121,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["address-plan-dropped-from-the-budget-after-local-pushback"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-back-core.decider-can-bury-it-for-all-i-care",
@@ -6313,8 +6145,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["address-plan-dropped-from-the-budget-after-local-pushback"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-back-core.then-let-s-hope-decider-gets-it-done",
@@ -6343,11 +6174,7 @@
       "bearing": "hopeful",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": [
-        "trade-deal-asked-then-passes-with-both-parties",
-        "bill-filed-within-days-to-enact-the-address"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-point-back-core.now-it-s-on-decider-to-follow-through",
@@ -6376,11 +6203,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": [
-        "trade-deal-asked-then-passes-with-both-parties",
-        "bill-filed-within-days-to-enact-the-address"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-ask-seen.did-you-see-the-president-s-speech-when",
@@ -6398,12 +6221,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": [
-        "everyone-stops-what-they-are-doing-to-hear-the-address",
-        "a-new-radio-gathers-the-family-for-the-address",
-        "pattern-a47-the-first-word-on-the-address"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-ask-seen.you-catch-the-speech-when",
@@ -6422,11 +6240,7 @@
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-18",
-      "elements": [
-        "everyone-stops-what-they-are-doing-to-hear-the-address",
-        "a-new-radio-gathers-the-family-for-the-address",
-        "pattern-a47-the-first-word-on-the-address"
-      ]
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     },
     {
       "key": "conversation.address-ask-seen.did-you-watch-the-president-when",
@@ -6444,12 +6258,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": [
-        "everyone-stops-what-they-are-doing-to-hear-the-address",
-        "a-new-radio-gathers-the-family-for-the-address",
-        "pattern-a47-the-first-word-on-the-address"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-answer-plain.i-had-it-on-when",
@@ -6469,10 +6278,7 @@
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-18",
-      "elements": [
-        "pattern-a47-the-first-word-on-the-address",
-        "a-new-radio-gathers-the-family-for-the-address"
-      ]
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     },
     {
       "key": "conversation.address-answer-plain.i-watched-when",
@@ -6491,11 +6297,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": [
-        "pattern-a47-the-first-word-on-the-address",
-        "everyone-stops-what-they-are-doing-to-hear-the-address"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-answer-agree.i-had-it-on-when-better-than-i-expected",
@@ -6514,8 +6316,7 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-answer-agree.i-watched-when-not-bad",
@@ -6534,8 +6335,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-answer-doubt.i-watched-when-i-ll-believe-it-when-i-see-it",
@@ -6554,8 +6354,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-answer-doubt.i-had-it-on-when-i-m-not-sold",
@@ -6574,8 +6373,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-answer-hope.i-saw-it-when-i-hope-some-reaches-my-place",
@@ -6594,11 +6392,7 @@
       "bearing": "hopeful",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": [
-        "pattern-a47-the-first-word-on-the-address",
-        "county-executive-answers-the-address-with-a-home-deficit"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-answer-hope.i-watched-when-here-s-hoping-my-place-sees-any-of-it",
@@ -6617,11 +6411,7 @@
       "bearing": "hopeful",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": [
-        "pattern-a47-the-first-word-on-the-address",
-        "county-executive-answers-the-address-with-a-home-deficit"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-answer-missed.no-i-had-other-things-going-when",
@@ -6640,8 +6430,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["council-skips-the-speech-for-the-picket"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-answer-missed.i-missed-it-when",
@@ -6680,8 +6469,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.address-answer-think.i-had-it-on-when-what-did-you-think",
@@ -6701,8 +6489,7 @@
       "bearing": "warm",
       "origin": "authored",
       "author": "Story lead (Fable)",
-      "date": "2026-11-18",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-raise-heard.did-you-see-what-the-paper-said-about-about",
@@ -6911,8 +6698,7 @@
       ],
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["newspaper-story-brings-library-trustees-back-to-the-table"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-answer-yes.yes-i-saw-a-story-about-about-on-the-news",
@@ -6931,8 +6717,7 @@
       ],
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["newspaper-story-brings-library-trustees-back-to-the-table"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-answer-yes.yes-the-news-had-a-story-on-about",
@@ -6951,8 +6736,7 @@
       ],
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["newspaper-story-brings-library-trustees-back-to-the-table"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-answer-yes.yes-i-heard-about-about-on-the-radio",
@@ -7047,8 +6831,7 @@
       ],
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["business-closes-story"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-answer-yes.yes-topic-is-gone",
@@ -7067,8 +6850,7 @@
       ],
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["business-closes-story"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-answer-no.no-i-hadn-t-heard-about-topic",
@@ -7184,8 +6966,7 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["speak-for-housing-in-a-hostile-room"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-answer-for.i-d-vote-for-about-myself",
@@ -7242,8 +7023,7 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["speak-for-housing-in-a-hostile-room"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-answer-against.i-m-against-about-plain-and-simple",
@@ -7262,11 +7042,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "residents-take-the-microphone-at-a-rally",
-        "neighbor-asks-you-to-the-posted-meeting"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-answer-against.i-d-vote-against-about-myself",
@@ -7285,8 +7061,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["explain-vote-by-district-opinion"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-answer-against.i-ve-never-thought-much-of-about",
@@ -7324,8 +7099,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["explain-vote-by-local-cost"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-answer-opinion.i-haven-t-made-up-my-mind-on-about",
@@ -7423,11 +7197,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "sponsors-personal-reason",
-        "sponsor-explains-the-bill-unprompted"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-answer-why.why-is-about-coming-up-now",
@@ -7466,8 +7236,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["sponsor-explains-the-bill-unprompted"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-answer-why.who-s-behind-about",
@@ -7486,11 +7255,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "trace-a-hearing-aid-form-letter-to-its-sponsor",
-        "dark-money-is-alleged-in-a-race"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-answer-worked-there.i-worked-at-topic-that-hits-home",
@@ -7509,11 +7274,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "a-plant-closes-and-the-household-splits-for-the-pension",
-        "laid-off-worker-stunned-and-distrustful"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-answer-worked-there.i-put-in-my-time-at-topic",
@@ -7532,8 +7293,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["a-plant-closes-and-the-household-splits-for-the-pension"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-answer-worked-there.topic-was-my-job-once",
@@ -7552,8 +7312,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["a-plant-closes-and-the-household-splits-for-the-pension"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-answer-worked-there.i-still-know-people-at-topic",
@@ -7572,8 +7331,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["a-plant-closes-and-the-household-splits-for-the-pension"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-ask-core.the-story-on-about-ran-ran-i-m-for-it",
@@ -7592,8 +7350,7 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["newspaper-story-brings-library-trustees-back-to-the-table"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-ask-core.there-was-a-story-on-about-ran-and-i-m-glad",
@@ -7612,8 +7369,7 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["newspaper-story-brings-library-trustees-back-to-the-table"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-ask-core.the-news-covered-about-ran-about-time",
@@ -7632,8 +7388,7 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["newspaper-story-brings-library-trustees-back-to-the-table"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-ask-core.they-covered-about-ran-i-m-all-for-it",
@@ -7652,8 +7407,7 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["newspaper-story-brings-library-trustees-back-to-the-table"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-ask-core.the-story-on-about-ran-ran-i-m-against-it",
@@ -7672,8 +7426,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["newspaper-story-brings-library-trustees-back-to-the-table"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-ask-core.there-was-a-story-on-about-ran-and-i-don-t-like-it",
@@ -7693,10 +7446,7 @@
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
       "date": "2026-11-18",
-      "elements": [
-        "newspaper-story-brings-library-trustees-back-to-the-table",
-        "a-corporate-tax-headline-follows-a-household-tax-bill"
-      ]
+      "elements": ["a-corporate-tax-headline-follows-a-household-tax-bill"]
     },
     {
       "key": "conversation.news-ask-core.the-news-covered-about-ran-it-worries-me",
@@ -7716,10 +7466,7 @@
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
       "date": "2026-11-18",
-      "elements": [
-        "newspaper-story-brings-library-trustees-back-to-the-table",
-        "a-corporate-tax-headline-follows-a-household-tax-bill"
-      ]
+      "elements": ["a-corporate-tax-headline-follows-a-household-tax-bill"]
     },
     {
       "key": "conversation.news-ask-core.they-covered-about-ran-i-think-it-s-a-mistake",
@@ -7756,8 +7503,7 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["speak-for-housing-in-a-hostile-room"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-ask-core.i-d-back-about-myself",
@@ -7775,8 +7521,7 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["speak-for-housing-in-a-hostile-room"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-ask-core.about-is-overdue-if-you-ask-me",
@@ -7812,8 +7557,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["neighbor-asks-you-to-the-posted-meeting"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-ask-core.i-d-vote-against-about",
@@ -7868,11 +7612,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "business-closes-story",
-        "reaction-comes-late-and-secondhand"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-ask-core.so-topic-closed-what-do-you-think",
@@ -7891,8 +7631,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["reaction-comes-late-and-secondhand"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-ask-core.did-topic-closing-surprise-you",
@@ -7911,8 +7650,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["business-closes-story"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-ask-core.i-worked-at-topic-once-it-hurts",
@@ -7935,11 +7673,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "a-plant-closes-and-the-household-splits-for-the-pension",
-        "laid-off-worker-stunned-and-distrustful"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-ask-core.i-know-people-at-topic-it-s-hard",
@@ -7962,8 +7696,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["a-plant-closes-and-the-household-splits-for-the-pension"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-back-core.same-here-i-heard-it-when-and-thought-so-too",
@@ -8071,8 +7804,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["a-teen-democrat-and-her-factory-dad"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-back-core.i-don-t-agree-i-heard-when-and-it-bothered-me",
@@ -8090,8 +7822,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["a-teen-democrat-and-her-factory-dad"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-back-core.we-differ-on-that-one-i-heard-it-when",
@@ -8199,8 +7930,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["a-teen-democrat-and-her-factory-dad"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-back-core.we-see-it-differently-i-heard-when-and-was-glad",
@@ -8254,8 +7984,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["a-teen-democrat-and-her-factory-dad"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-back-core.maybe-i-only-heard-about-it-when",
@@ -8310,8 +8039,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-back-core.could-be-i-haven-t-decided-and-i-heard-when",
@@ -8805,8 +8533,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["a-teen-democrat-and-her-factory-dad"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-back-core.i-don-t-agree-it-ran-ran-and-it-bothered-me",
@@ -8824,8 +8551,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["a-teen-democrat-and-her-factory-dad"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-back-core.we-differ-on-that-it-ran-ran",
@@ -8933,8 +8659,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["a-teen-democrat-and-her-factory-dad"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.news-back-core.we-see-it-differently-it-ran-ran-and-i-was-glad",
@@ -13496,8 +13221,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["town-hall-story-from-the-event"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-say-core.who-brought-up-said-when-and-it-stuck-with-me",
@@ -13535,8 +13259,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["town-hall-story-from-the-event"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-say-core.the-town-hall-when-kept-coming-back-to-said",
@@ -13555,8 +13278,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["town-hall-story-from-the-event"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-say-core.there-was-a-town-hall-when-and-folks-argued-over-said",
@@ -13618,8 +13340,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["school-board-contested-story"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-say-core.it-was-in-the-paper-that-body-settled-on-purpose",
@@ -13638,8 +13359,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["school-board-contested-story"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-say-core.the-paper-says-body-chose-purpose",
@@ -13658,8 +13378,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["school-board-contested-story"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-say-core.i-read-that-body-decided-on-purpose",
@@ -13678,8 +13397,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["school-board-contested-story"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-say-core.i-read-that-body-passed-about",
@@ -13698,8 +13416,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["school-board-contested-story"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-say-core.it-was-in-the-paper-that-body-voted-through-about",
@@ -13718,8 +13435,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["school-board-contested-story"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-say-core.the-paper-says-body-approved-about",
@@ -13738,8 +13454,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["school-board-contested-story"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-say-core.i-read-that-body-adopted-about",
@@ -13758,8 +13473,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["school-board-contested-story"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-say-closer.i-want-about-and-i-ll-say-so",
@@ -13994,8 +13708,7 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["board-member-voted-against-and-is-criticized"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-say-closer.i-wish-body-had-voted-it-down",
@@ -14014,8 +13727,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["council-rescinds-its-own-pay-raise-after-anger"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-say-closer.i-think-body-got-it-wrong",
@@ -14034,11 +13746,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "council-rescinds-its-own-pay-raise-after-anger",
-        "plan-scrapped-after-residents-push-back"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-say-closer.i-didn-t-want-body-to-do-that",
@@ -14057,11 +13765,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "council-rescinds-its-own-pay-raise-after-anger",
-        "plan-scrapped-after-residents-push-back"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-say-closer.i-don-t-know-yet-if-body-got-it-right",
@@ -14121,8 +13825,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["vote-present-until-the-floor"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-for.i-m-for-about",
@@ -14141,8 +13844,7 @@
       "bearing": "warm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["a-cashier-says-we-deserve-a-fair-wage"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-for.i-d-stand-behind-about-myself",
@@ -14161,8 +13863,7 @@
       "bearing": "warm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["store-manager-switches-to-her-own-grocery-bill"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-for.i-think-about-is-the-right-thing",
@@ -14201,8 +13902,7 @@
       "bearing": "warm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["a-cashier-says-we-deserve-a-fair-wage"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-against.i-m-against-about",
@@ -14221,8 +13921,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["resident-demands-cuts-first-before-any-tax-rise"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-against.i-wouldn-t-back-about-myself",
@@ -14241,8 +13940,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["explain-vote-by-local-cost"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-against.i-think-about-is-a-mistake",
@@ -14261,8 +13959,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["resident-demands-cuts-first-before-any-tax-rise"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-against.we-don-t-need-about-if-you-ask-me",
@@ -14281,8 +13978,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["resident-demands-cuts-first-before-any-tax-rise"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-unsure.i-can-t-tell-yet-where-i-stand-on-about",
@@ -14341,8 +14037,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-uneasy.something-about-about-makes-me-uneasy",
@@ -14400,11 +14095,7 @@
       "bearing": "anxious",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "neighbors-fear-being-the-next-house",
-        "worker-is-glad-of-the-raise-and-afraid-for-hours"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-for.i-m-glad-about-purpose",
@@ -14423,8 +14114,7 @@
       "bearing": "warm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["worker-is-glad-of-the-raise-and-afraid-for-hours"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-for.i-think-purpose-was-the-right-call",
@@ -14443,8 +14133,7 @@
       "bearing": "warm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["worker-is-glad-of-the-raise-and-afraid-for-hours"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-for.we-needed-purpose-if-you-ask-me",
@@ -14463,8 +14152,7 @@
       "bearing": "warm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["a-cashier-says-we-deserve-a-fair-wage"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-against.i-wouldn-t-have-gone-with-purpose",
@@ -14483,8 +14171,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["resident-demands-cuts-first-before-any-tax-rise"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-against.i-think-purpose-was-a-mistake",
@@ -14503,8 +14190,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["resident-demands-cuts-first-before-any-tax-rise"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-against.i-d-rather-they-hadn-t-chosen-purpose",
@@ -14523,8 +14209,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["resident-demands-cuts-first-before-any-tax-rise"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-unsure.i-haven-t-made-up-my-mind-on-purpose",
@@ -14602,11 +14287,7 @@
       "bearing": "anxious",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "speaker-says-landlords-will-pass-tax-to-renters",
-        "a-retiree-says-the-tax-bill-could-push-her-out"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-answer-uneasy.something-about-purpose-makes-me-uneasy",
@@ -14644,8 +14325,7 @@
       "bearing": "anxious",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["neighbors-fear-being-the-next-house"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-back-core.then-we-want-the-same-thing-on-about",
@@ -14799,8 +14479,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["council-member-weighs-privacy-against-theft-cameras"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-back-core.i-ll-think-harder-about-about-now",
@@ -14974,8 +14653,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["council-member-weighs-privacy-against-theft-cameras"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.government-news-back-core.i-m-not-sold-on-about-either",
@@ -15190,10 +14868,7 @@
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
       "date": "2026-11-18",
-      "elements": [
-        "worker-is-glad-of-the-raise-and-afraid-for-hours",
-        "council-member-weighs-privacy-against-theft-cameras"
-      ]
+      "elements": ["worker-is-glad-of-the-raise-and-afraid-for-hours"]
     },
     {
       "key": "conversation.government-news-back-core.it-s-a-fair-worry-on-about-though-i-still-want-it",
@@ -15616,8 +15291,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["layoff-reason-position-abolished"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-say-core.i-lost-my-place-at-employer-when-many-of-us-did",
@@ -15635,8 +15309,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["layoff-reason-position-abolished"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-say-core.employer-laid-me-off-when-and-i-m-still-reeling",
@@ -15693,10 +15366,7 @@
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
       "date": "2026-11-18",
-      "elements": [
-        "layoff-reason-position-abolished",
-        "a-plant-closes-and-the-household-splits-for-the-pension"
-      ]
+      "elements": ["a-plant-closes-and-the-household-splits-for-the-pension"]
     },
     {
       "key": "conversation.job-lost-say-core.employer-shut-its-doors-when-my-job-went-with-it",
@@ -15715,10 +15385,7 @@
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
       "date": "2026-11-18",
-      "elements": [
-        "layoff-reason-position-abolished",
-        "a-plant-closes-and-the-household-splits-for-the-pension"
-      ]
+      "elements": ["a-plant-closes-and-the-household-splits-for-the-pension"]
     },
     {
       "key": "conversation.job-lost-say-core.employer-is-gone-as-of-when-and-so-is-my-job",
@@ -15736,8 +15403,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["layoff-reason-position-abolished"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-say-core.employer-closed-when-and-i-m-still-in-shock",
@@ -15851,11 +15517,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "layoff-reason-position-abolished",
-        "layoff-line-i-cant-go-into-details"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-answer-ask.how-did-it-come-down-at-employer",
@@ -15874,11 +15536,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "private-meeting-then-outplacement-help",
-        "layoff-the-supervisor-walks-the-line"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-answer-ask.what-did-they-tell-you-at-employer",
@@ -15897,11 +15555,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "layoff-line-i-cant-go-into-details",
-        "layoff-line-this-isnt-about-your-performance"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-answer-hope.are-you-looking-for-something-new-after-employer",
@@ -15939,11 +15593,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "friends-and-family-as-job-leads",
-        "asking-a-friend-for-a-lead-after-a-layoff"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-answer-hope.have-you-started-looking-since-employer",
@@ -15981,11 +15631,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "asking-a-friend-for-a-lead-after-a-layoff",
-        "friends-and-family-as-job-leads"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-answer-help.i-m-in-your-corner-with-employer-behind-you",
@@ -16023,8 +15669,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["asking-a-friend-for-a-lead-after-a-layoff"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-answer-comfort.i-m-sorry-about-employer-that-s-a-hard-thing",
@@ -16043,11 +15688,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "remaining-staff-are-gathered-after-layoffs",
-        "laid-off-worker-stunned-and-distrustful"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-answer-comfort.losing-employer-was-not-your-fault",
@@ -16109,10 +15750,7 @@
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
       "date": "2026-11-18",
-      "elements": [
-        "layoff-line-i-cant-go-into-details",
-        "layoff-reason-position-abolished"
-      ]
+      "elements": ["layoff-line-i-cant-go-into-details"]
     },
     {
       "key": "conversation.job-lost-back-core.it-was-a-layoff-at-employer-no-real-reason",
@@ -16132,10 +15770,7 @@
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
       "date": "2026-11-18",
-      "elements": [
-        "layoff-line-this-isnt-about-your-performance",
-        "layoff-reason-position-abolished"
-      ]
+      "elements": ["layoff-line-this-isnt-about-your-performance"]
     },
     {
       "key": "conversation.job-lost-back-core.employer-cut-people-and-i-was-one-of-them",
@@ -16154,8 +15789,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["layoff-reason-position-abolished"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-back-core.employer-closed-and-that-was-the-whole-story",
@@ -16174,8 +15808,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["layoff-reason-position-abolished"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-back-core.there-was-no-reason-beyond-employer-closing",
@@ -16194,8 +15827,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["layoff-reason-position-abolished"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-back-core.employer-just-shut-down-and-i-went-with-it",
@@ -16215,10 +15847,7 @@
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
       "date": "2026-11-18",
-      "elements": [
-        "layoff-reason-position-abolished",
-        "a-plant-closes-and-the-household-splits-for-the-pension"
-      ]
+      "elements": ["a-plant-closes-and-the-household-splits-for-the-pension"]
     },
     {
       "key": "conversation.job-lost-back-core.they-said-little-at-employer-just-that-i-was-done",
@@ -16306,11 +15935,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "some-laid-off-workers-stop-looking-and-leave-the-labor-force",
-        "a-long-gap-without-work-deepens-the-pay-loss"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-back-core.i-ve-started-looking-since-employer-it-s-slow",
@@ -16329,8 +15954,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["a-long-gap-without-work-deepens-the-pay-loss"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-back-core.i-m-looking-there-s-not-much-out-there-after-employer",
@@ -16349,11 +15973,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": [
-        "some-laid-off-workers-stop-looking-and-leave-the-labor-force",
-        "reemployment-two-thirds-after-layoff"
-      ]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-back-core.not-yet-i-need-a-minute-after-employer",
@@ -16394,8 +16014,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["laid-off-worker-stunned-and-distrustful"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-back-core.not-yet-i-can-t-think-about-it-after-employer",
@@ -16454,8 +16073,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18",
-      "elements": ["laid-off-worker-stunned-and-distrustful"]
+      "date": "2026-11-18"
     },
     {
       "key": "conversation.job-lost-back-core.i-ll-let-you-know-but-employer-has-left-me-unsure",
@@ -17181,11 +16799,7 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "a-teen-democrat-and-her-factory-dad",
-        "family-agreement-decides-whether-politics-can-be-spoken"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.news-back-core.me-neither-you",
@@ -17276,10 +16890,7 @@
       "origin": "authored",
       "author": "Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "a-teen-democrat-and-her-factory-dad",
-        "family-agreement-decides-whether-politics-can-be-spoken"
-      ]
+      "elements": ["a-teen-democrat-and-her-factory-dad"]
     },
     {
       "key": "conversation.news-back-core.not-me-you-i-like-it",
@@ -19019,10 +18630,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "pattern-b5-04-someone-dying-someone-buried",
-        "births-and-deaths-in-the-family-set-down-plainly"
-      ]
+      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
     },
     {
       "key": "conversation.family-answer-gone.name-didn-t-make-it-when",
@@ -19042,10 +18650,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "pattern-b5-04-someone-dying-someone-buried",
-        "births-and-deaths-in-the-family-set-down-plainly"
-      ]
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "conversation.family-answer-gone.name-is-gone-now-it-was-when",
@@ -19065,10 +18670,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "pattern-b5-04-someone-dying-someone-buried",
-        "births-and-deaths-in-the-family-set-down-plainly"
-      ]
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "conversation.family-answer-gone.name-passed-on-when",
@@ -19087,11 +18689,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "pattern-b5-04-someone-dying-someone-buried",
-        "births-and-deaths-in-the-family-set-down-plainly"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.family-answer-ill.name-was-taken-ill-when",
@@ -19110,8 +18708,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.family-answer-ill.name-wasn-t-well-when",
@@ -19130,8 +18727,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.family-answer-ill.name-got-really-sick-when",
@@ -19150,8 +18746,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.family-answer-ill.name-came-down-sick-when",
@@ -19170,8 +18765,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.family-answer-baby.name-has-a-new-baby",
@@ -19246,10 +18840,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "pattern-b5-08-the-call-with-an-offer",
-        "new-job-at-the-same-pay-after-a-layoff"
-      ]
+      "elements": ["pattern-b5-08-the-call-with-an-offer"]
     },
     {
       "key": "conversation.family-answer-job.name-found-work-at-employer",
@@ -19365,8 +18956,7 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b6-01-the-one-who-is-far-away"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.family-answer-moved.name-ended-up-in-place",
@@ -19388,8 +18978,7 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b6-01-the-one-who-is-far-away"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.family-answer-moved.name-relocated-to-place",
@@ -19411,11 +19000,7 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "some-moves-are-for-a-job",
-        "pattern-b6-01-the-one-who-is-far-away"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.family-answer-thanks.thanks-for-asking-about-name",
@@ -20227,10 +19812,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "interested-party-answers-last",
-        "ask-if-the-name-is-for-a-grandmother"
-      ]
+      "elements": ["interested-party-answers-last"]
     },
     {
       "key": "conversation.kin-answer-is.that-s-relation-for-you",
@@ -20598,8 +20180,7 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.mutual-answer-deflect.let-s-not-get-into-name",
@@ -20620,10 +20201,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "pattern-b5-06-the-one-you-fell-out-with",
-        "father-and-daughter-who-would-rather-not-talk-politics"
-      ]
+      "elements": ["father-and-daughter-who-would-rather-not-talk-politics"]
     },
     {
       "key": "conversation.mutual-answer-care.tell-name-i-said-hi",
@@ -20771,10 +20349,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "a-brother-sends-a-gift-each-christmas-and-gets-no-reply",
-        "high-school-friends-drift-after-the-last-day"
-      ]
+      "elements": ["a-brother-sends-a-gift-each-christmas-and-gets-no-reply"]
     },
     {
       "key": "conversation.mutual-reply-not.no-word-from-name",
@@ -20796,10 +20371,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "a-brother-sends-a-gift-each-christmas-and-gets-no-reply",
-        "high-school-friends-drift-after-the-last-day"
-      ]
+      "elements": ["a-brother-sends-a-gift-each-christmas-and-gets-no-reply"]
     },
     {
       "key": "conversation.mutual-reply-not.i-haven-t-run-into-name",
@@ -20962,8 +20534,7 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["high-school-friends-drift-after-the-last-day"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.mutual-raise-seen.have-you-run-into-name",
@@ -21003,11 +20574,7 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "a-text-asking-if-you-want-to-talk",
-        "high-school-friends-drift-after-the-last-day"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.mutual-raise-seen.seen-name-lately",
@@ -21027,8 +20594,7 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["high-school-friends-drift-after-the-last-day"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.home-new-answer-mutual.place-is-there-anyone-we-both-know",
@@ -21261,8 +20827,7 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["about-one-person-in-nine-changes-residence-each-year"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.home-new-answer-detail.moved-to-place-these-days-i-m-at-my-employer",
@@ -21426,8 +20991,7 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["young-adults-mostly-live-near-where-they-grew-up"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.home-new-answer-brief.living-in-place",
@@ -21512,8 +21076,7 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["hometown-question-has-one-factual-answer"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.home-new-answer-turn.where-s-home",
@@ -21535,8 +21098,7 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["hometown-question-has-one-factual-answer"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.home-new-ask-where.from-here",
@@ -21685,8 +21247,7 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["young-adults-mostly-live-near-where-they-grew-up"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.home-answer-brief.still-in-place",
@@ -21707,8 +21268,7 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["young-adults-mostly-live-near-where-they-grew-up"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.home-answer-turn.how-about-you",
@@ -21949,8 +21509,7 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["about-one-person-in-nine-changes-residence-each-year"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.home-answer-years.going-on-years-years-living-here",
@@ -22339,8 +21898,7 @@
       "tag": {
         "move": "deflect",
         "key": "threat"
-      },
-      "elements": ["pattern-c23-the-case-against-you"]
+      }
     },
     {
       "key": "conversation.charge-answer-deflect.hard-to-say",
@@ -22459,8 +22017,7 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      },
-      "elements": ["pattern-c23-the-case-against-you"]
+      }
     },
     {
       "key": "conversation.charge-answer-tell.yes-charged",
@@ -22506,8 +22063,7 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      },
-      "elements": ["arrests-come-months-after-a-vandalism-spree"]
+      }
     },
     {
       "key": "conversation.charge-answer-tell.they-say-it-was-offense",
@@ -22530,8 +22086,7 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      },
-      "elements": ["arrests-come-months-after-a-vandalism-spree"]
+      }
     },
     {
       "key": "conversation.conviction-ask.what-s-the-verdict",
@@ -22553,8 +22108,7 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      },
-      "elements": ["pattern-c23-the-case-against-you"]
+      }
     },
     {
       "key": "conversation.conviction-ask.any-verdict-yet",
@@ -22576,8 +22130,7 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      },
-      "elements": ["pattern-c23-the-case-against-you"]
+      }
     },
     {
       "key": "conversation.acquittal-ask.did-court-rule",
@@ -22599,8 +22152,7 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      },
-      "elements": ["pattern-c23-the-case-against-you"]
+      }
     },
     {
       "key": "conversation.acquittal-ask.did-they-decide",
@@ -22622,8 +22174,7 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      },
-      "elements": ["pattern-c23-the-case-against-you"]
+      }
     },
     {
       "key": "conversation.conviction-ask-ask.the-trial-then",
@@ -22697,8 +22248,7 @@
       "tag": {
         "move": "tell",
         "key": "news-received"
-      },
-      "elements": ["pattern-c23-the-case-against-you"]
+      }
     },
     {
       "key": "conversation.conviction-answer-tell.guilty-they-said",
@@ -22720,8 +22270,7 @@
       "tag": {
         "move": "tell",
         "key": "news-received"
-      },
-      "elements": ["pattern-c23-the-case-against-you"]
+      }
     },
     {
       "key": "conversation.conviction-answer-tell.they-convicted-me-of-offense",
@@ -22843,8 +22392,7 @@
       "tag": {
         "move": "apologize",
         "key": "news-received"
-      },
-      "elements": ["drafter-apologizes-for-lost-raises-and-denies-a-crisis"]
+      }
     },
     {
       "key": "conversation.conviction-answer-confess.it-was-me",
@@ -22919,10 +22467,7 @@
         "move": "refuse",
         "key": "news-received"
       },
-      "elements": [
-        "quote-refusal-ends-interview",
-        "decline-a-quote-over-prior-coverage"
-      ]
+      "elements": ["quote-refusal-ends-interview"]
     },
     {
       "key": "conversation.conviction-answer-refuse.i-won-t-say",
@@ -22993,8 +22538,7 @@
       "tag": {
         "move": "refuse",
         "key": "news-received"
-      },
-      "elements": ["quote-refusal-ends-interview"]
+      }
     },
     {
       "key": "conversation.acquittal-answer-deflect.ask-me-later",
@@ -23264,8 +22808,7 @@
       "tag": {
         "move": "comfort",
         "key": "threat"
-      },
-      "elements": ["morning-after-the-loss-the-children-comfort-her"]
+      }
     },
     {
       "key": "conversation.charge-reply-answer-comfort.stay-strong",
@@ -23287,8 +22830,7 @@
       "tag": {
         "move": "comfort",
         "key": "threat"
-      },
-      "elements": ["morning-after-the-loss-the-children-comfort-her"]
+      }
     },
     {
       "key": "conversation.conviction-reply-answer-comfort.i-won-t-leave",
@@ -23310,8 +22852,7 @@
       "tag": {
         "move": "comfort",
         "key": "threat"
-      },
-      "elements": ["morning-after-the-loss-the-children-comfort-her"]
+      }
     },
     {
       "key": "conversation.conviction-reply-answer-comfort.we-ll-get-through",
@@ -23341,8 +22882,7 @@
       "tag": {
         "move": "comfort",
         "key": "threat"
-      },
-      "elements": ["morning-after-the-loss-the-children-comfort-her"]
+      }
     },
     {
       "key": "conversation.conviction-reply-answer-comfort.count-on-me",
@@ -23364,8 +22904,7 @@
       "tag": {
         "move": "comfort",
         "key": "threat"
-      },
-      "elements": ["morning-after-the-loss-the-children-comfort-her"]
+      }
     },
     {
       "key": "conversation.conviction-reply-answer-comfort.so-sorry",
@@ -23410,8 +22949,7 @@
       "tag": {
         "move": "comfort",
         "key": "news-received"
-      },
-      "elements": ["pattern-c23-the-case-against-you"]
+      }
     },
     {
       "key": "conversation.acquittal-reply-answer-comfort.glad-it-s-over",
@@ -23433,8 +22971,7 @@
       "tag": {
         "move": "comfort",
         "key": "news-received"
-      },
-      "elements": ["pattern-c23-the-case-against-you"]
+      }
     },
     {
       "key": "conversation.acquittal-reply-answer-comfort.what-a-relief",
@@ -23456,8 +22993,7 @@
       "tag": {
         "move": "comfort",
         "key": "news-received"
-      },
-      "elements": ["pattern-c23-the-case-against-you"]
+      }
     },
     {
       "key": "conversation.charge-reply-answer-blame.that-s-on-you",
@@ -23633,11 +23169,7 @@
       "tag": {
         "move": "blame",
         "key": "news-received"
-      },
-      "elements": [
-        "pattern-c23-the-case-against-you",
-        "pattern-c27-they-move-to-impeach-you"
-      ]
+      }
     },
     {
       "key": "conversation.acquittal-reply-answer-blame.you-dodged-it",
@@ -23660,10 +23192,7 @@
         "move": "blame",
         "key": "news-received"
       },
-      "elements": [
-        "pattern-c23-the-case-against-you",
-        "pattern-c27-they-move-to-impeach-you"
-      ]
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "conversation.charge-reply-answer-doubt.really-you",
@@ -23776,8 +23305,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["follow-up-lede-suspects-out-on-bail"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.charge-reply-answer-bail.set-at-what",
@@ -23796,8 +23324,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["follow-up-lede-suspects-out-on-bail"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.conviction-reply-answer-fine.what-s-the-fine",
@@ -23816,8 +23343,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["a-court-fines-the-teachers-union-and-parents-lose-trust"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.conviction-reply-answer-fine.fined-how-much",
@@ -23836,8 +23362,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["a-court-fines-the-teachers-union-and-parents-lose-trust"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.victimization-raise.someone-broke-in-when",
@@ -24312,8 +23837,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["reporter-names-the-allegation"]
+      }
     },
     {
       "key": "conversation.lie-doubt-question.really-now",
@@ -24357,8 +23881,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-c23-the-case-against-you"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.charge-say-core.it-s-offense-and-i-m-pleading-guilty",
@@ -24381,8 +23904,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-c23-the-case-against-you"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.charge-say-core.i-m-charged-with-offense-i-won-t-deny-it",
@@ -24477,8 +23999,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-c23-the-case-against-you"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.charge-say-core.they-re-accusing-me-of-offense",
@@ -24528,10 +24049,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "arrests-come-months-after-a-vandalism-spree",
-        "pattern-c23-the-case-against-you"
-      ]
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "conversation.charge-say-reason.bail-s-set-and-i-can-cover-it",
@@ -24647,8 +24165,7 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-c23-the-case-against-you"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.conviction-say-core.i-fought-it-and-lost-term-and-a-fine",
@@ -24891,8 +24408,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-c23-the-case-against-you"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.acquittal-say-core.the-court-cleared-me-of-offense",
@@ -25110,8 +24626,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-c23-the-case-against-you"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.charge-reply-back-core.court-is-coming",
@@ -25209,8 +24724,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["takes-blame-for-the-biggest-failure-first"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.charge-reply-back-core.that-s-true-sorry",
@@ -25291,10 +24805,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "mayor-owns-the-mistake-and-says-what-she-assumed",
-        "pattern-c22-the-secret-comes-out"
-      ]
+      "elements": ["mayor-owns-the-mistake-and-says-what-she-assumed"]
     },
     {
       "key": "conversation.charge-reply-back-core.thank-you",
@@ -25367,8 +24878,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-c22-the-secret-comes-out"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.charge-reply-back-core.not-me",
@@ -25599,11 +25109,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "mayor-owns-the-mistake-and-says-what-she-assumed",
-        "subject-apologizes-late"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.conviction-reply-back-core.i-ll-manage-it",
@@ -25675,8 +25181,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["a-court-fines-the-teachers-union-and-parents-lose-trust"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.conviction-reply-back-core.they-fined-me-fine",
@@ -25700,8 +25205,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["a-court-fines-the-teachers-union-and-parents-lose-trust"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.interview-open-open.thanks-for-your-time-i-write-for-outlet",
@@ -25723,8 +25227,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "greet"
-      },
-      "elements": ["reporter-seeks-an-unscheduled-interview"]
+      }
     },
     {
       "key": "conversation.interview-open-open.hello-i-m-a-reporter-with-outlet",
@@ -25837,8 +25340,7 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["reporter-seeks-an-unscheduled-interview"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.interview-open-open.i-write-for-outlet-and-i-m-covering-the-seat-race",
@@ -25899,8 +25401,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
+      }
     },
     {
       "key": "conversation.interview-question-ask.to-start-what-do-you-think-about-about",
@@ -26077,8 +25578,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
+      }
     },
     {
       "key": "conversation.interview-question-ask.finally-about-what-do-you-think",
@@ -26460,8 +25960,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "answer"
-      },
-      "elements": ["explain-vote-by-prior-pledge"]
+      }
     },
     {
       "key": "conversation.interview-question-answer-plain.i-d-vote-no-on-about-my-platform-says-so",
@@ -26778,8 +26277,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "answer"
-      },
-      "elements": ["reporter-calls-on-a-recorded-no"]
+      }
     },
     {
       "key": "conversation.interview-question-answer-further.i-voted-against-about-and-i-still-would",
@@ -26948,8 +26446,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "answer"
-      },
-      "elements": ["reporter-calls-on-a-recorded-no"]
+      }
     },
     {
       "key": "conversation.interview-question-answer-further.my-record-on-about-is-a-yes-vote",
@@ -26971,8 +26468,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "answer"
-      },
-      "elements": ["reporter-calls-on-a-recorded-no"]
+      }
     },
     {
       "key": "conversation.interview-question-answer-further.i-voted-no-on-about-let-that-stand",
@@ -26994,8 +26490,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "answer"
-      },
-      "elements": ["reporter-calls-on-a-recorded-no"]
+      }
     },
     {
       "key": "conversation.interview-question-answer-further.my-record-on-about-is-a-no-vote",
@@ -27304,11 +26799,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "lie"
-      },
-      "elements": [
-        "reporter-calls-on-a-recorded-no",
-        "explain-vote-by-district-opinion"
-      ]
+      }
     },
     {
       "key": "conversation.interview-question-lie-lie.i-said-no-to-about-that-day",
@@ -27546,8 +27037,7 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["reporter-calls-on-a-recorded-no"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.interview-take-plain-reply-take.you-oppose-it",
@@ -27658,8 +27148,7 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["official-explanation-and-critic-paired"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.interview-take-plain-reply-take.rival-sees-it-the-other-way",
@@ -27726,8 +27215,7 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["official-explanation-and-critic-paired"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.interview-take-further-reply-take.consistent-then",
@@ -27752,8 +27240,7 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-a30-stay-on-your-message"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.interview-take-further-reply-take.same-as-before",
@@ -27778,8 +27265,7 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-a30-stay-on-your-message"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.interview-take-further-reply-take.you-ve-shifted",
@@ -27804,11 +27290,7 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "member-accepts-electoral-cost-of-a-vote",
-        "a-view-of-the-same-person-turns-over-the-years"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.interview-take-further-reply-take.your-view-moved",
@@ -27834,10 +27316,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "member-accepts-electoral-cost-of-a-vote",
-        "a-view-of-the-same-person-turns-over-the-years"
-      ]
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "conversation.interview-take-declined-reply-take.no-answer-then",
@@ -27863,10 +27342,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "quote-refusal-ends-interview",
-        "official-declines-to-endorse"
-      ]
+      "elements": ["quote-refusal-ends-interview"]
     },
     {
       "key": "conversation.interview-take-declined-reply-take.skipping-it-then",
@@ -27892,10 +27368,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "quote-refusal-ends-interview",
-        "official-declines-to-endorse"
-      ]
+      "elements": ["quote-refusal-ends-interview"]
     },
     {
       "key": "conversation.interview-take-lie-reply-take.i-ll-print-that",
@@ -27913,8 +27386,7 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["set-terms-before-speaking-to-the-paper"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.interview-take-lie-reply-take.noted",
@@ -27975,8 +27447,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "react"
-      },
-      "elements": ["official-explanation-and-critic-paired"]
+      }
     },
     {
       "key": "conversation.debate-take-turn-reply-take.rival-may-respond-to-that",
@@ -27997,8 +27468,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "react"
-      },
-      "elements": ["give-part-of-your-turn-to-another-member"]
+      }
     },
     {
       "key": "conversation.debate-take-turn-reply-take.let-s-hear-rival-on-this",
@@ -28168,8 +27638,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "greet"
-      },
-      "elements": ["pattern-b19-who-gets-on-the-stage"]
+      }
     },
     {
       "key": "conversation.debate-open-open.this-is-the-outlet-debate-let-s-get-going",
@@ -28191,8 +27660,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "greet"
-      },
-      "elements": ["pattern-b19-who-gets-on-the-stage"]
+      }
     },
     {
       "key": "conversation.debate-open-open.this-is-the-debate-for-the-seat-race",
@@ -28246,8 +27714,7 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b19-who-gets-on-the-stage"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.debate-open-open.i-ll-moderate-this-debate-for-seat",
@@ -28265,8 +27732,7 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b19-who-gets-on-the-stage"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.debate-question-ask.to-open-the-debate-about-what-s-your-view",
@@ -28288,8 +27754,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["residents-press-a-member-on-an-apartment-plan"]
+      }
     },
     {
       "key": "conversation.debate-question-ask.our-first-topic-is-about-where-do-you-stand",
@@ -28311,8 +27776,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["residents-press-a-member-on-an-apartment-plan"]
+      }
     },
     {
       "key": "conversation.debate-question-ask.let-s-begin-with-about-what-do-you-think",
@@ -28334,8 +27798,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["residents-press-a-member-on-an-apartment-plan"]
+      }
     },
     {
       "key": "conversation.debate-question-ask.the-next-topic-is-about-what-s-your-view",
@@ -28357,8 +27820,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["residents-press-a-member-on-an-apartment-plan"]
+      }
     },
     {
       "key": "conversation.debate-question-ask.turning-now-to-about-where-do-you-stand",
@@ -28380,8 +27842,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["residents-press-a-member-on-an-apartment-plan"]
+      }
     },
     {
       "key": "conversation.debate-question-ask.let-s-move-to-about-what-do-you-think",
@@ -28403,8 +27864,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["residents-press-a-member-on-an-apartment-plan"]
+      }
     },
     {
       "key": "conversation.debate-question-ask.our-last-topic-is-about-what-s-your-view",
@@ -28426,8 +27886,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["residents-press-a-member-on-an-apartment-plan"]
+      }
     },
     {
       "key": "conversation.debate-question-ask.to-close-about-where-do-you-stand",
@@ -28471,8 +27930,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["residents-press-a-member-on-an-apartment-plan"]
+      }
     },
     {
       "key": "conversation.debate-question-ask.we-have-a-single-topic-about-what-s-your-view",
@@ -28494,8 +27952,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["residents-press-a-member-on-an-apartment-plan"]
+      }
     },
     {
       "key": "conversation.debate-question-ask.the-only-topic-is-about-where-do-you-stand",
@@ -28517,8 +27974,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["residents-press-a-member-on-an-apartment-plan"]
+      }
     },
     {
       "key": "conversation.debate-question-ask.would-you-back-about-yes-or-no",
@@ -28585,10 +28041,7 @@
       "tag": {
         "move": "ask"
       },
-      "elements": [
-        "reporter-calls-on-a-recorded-no",
-        "constituent-stops-member-after-passage"
-      ]
+      "elements": ["reporter-calls-on-a-recorded-no"]
     },
     {
       "key": "conversation.debate-question-ask.was-your-vote-on-about-the-right-call",
@@ -28637,10 +28090,7 @@
       "tag": {
         "move": "ask"
       },
-      "elements": [
-        "reporter-calls-on-a-recorded-no",
-        "constituent-stops-member-after-passage"
-      ]
+      "elements": ["reporter-calls-on-a-recorded-no"]
     },
     {
       "key": "conversation.debate-question-ask.rival-backs-about-what-s-your-view",
@@ -28662,8 +28112,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["residents-press-a-member-on-an-apartment-plan"]
+      }
     },
     {
       "key": "conversation.debate-question-ask.rival-is-in-favor-of-about-do-you-agree",
@@ -28685,8 +28134,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["residents-press-a-member-on-an-apartment-plan"]
+      }
     },
     {
       "key": "conversation.debate-question-ask.rival-opposes-about-what-s-your-view",
@@ -28708,8 +28156,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["residents-press-a-member-on-an-apartment-plan"]
+      }
     },
     {
       "key": "conversation.debate-question-ask.rival-is-against-about-do-you-agree",
@@ -28731,8 +28178,7 @@
       "date": "2026-11-19",
       "tag": {
         "move": "ask"
-      },
-      "elements": ["residents-press-a-member-on-an-apartment-plan"]
+      }
     },
     {
       "key": "conversation.debate-question-ask.rival-backs-about-and-you-don-t-why",
@@ -28781,10 +28227,7 @@
       "tag": {
         "move": "ask"
       },
-      "elements": [
-        "reporter-calls-on-a-recorded-no",
-        "residents-press-a-member-on-an-apartment-plan"
-      ]
+      "elements": ["reporter-calls-on-a-recorded-no"]
     },
     {
       "key": "conversation.debate-question-ask.rival-opposes-about-and-you-back-it-why",
@@ -28833,10 +28276,7 @@
       "tag": {
         "move": "ask"
       },
-      "elements": [
-        "reporter-calls-on-a-recorded-no",
-        "residents-press-a-member-on-an-apartment-plan"
-      ]
+      "elements": ["reporter-calls-on-a-recorded-no"]
     },
     {
       "key": "conversation.debate-close-leave-done.that-s-the-end-of-the-seat-debate",
@@ -29988,10 +29428,7 @@
         "move": "deliver-news",
         "key": "honor"
       },
-      "elements": [
-        "acceptance-restates-the-terms",
-        "pattern-b5-08-the-call-with-an-offer"
-      ]
+      "elements": ["pattern-b5-08-the-call-with-an-offer"]
     },
     {
       "key": "conversation.job-new-raise-raise.i-landed-a-spot-at-employer",
@@ -30013,10 +29450,7 @@
         "move": "deliver-news",
         "key": "honor"
       },
-      "elements": [
-        "pattern-b5-08-the-call-with-an-offer",
-        "job-offer-traces-to-an-application"
-      ]
+      "elements": ["pattern-b5-08-the-call-with-an-offer"]
     },
     {
       "key": "conversation.job-new-reply-answer-congratulate.that-s-wonderful-news-about-employer",
@@ -30148,11 +29582,7 @@
       "tag": {
         "move": "react",
         "key": "honor"
-      },
-      "elements": [
-        "job-offer-traces-to-an-application",
-        "friends-and-family-as-job-leads"
-      ]
+      }
     },
     {
       "key": "conversation.job-new-told-raise-raise.congratulations-employer-is-a-good-one",
@@ -30453,11 +29883,7 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "acceptance-restates-the-terms",
-        "offer-call-says-the-purpose-in-the-first-breath"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.job-new-detail-raise.employer-has-me-down-as-position",
@@ -30474,11 +29900,7 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "acceptance-restates-the-terms",
-        "offer-call-says-the-purpose-in-the-first-breath"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.job-new-detail-raise.employer-brought-me-in-as-position",
@@ -30495,11 +29917,7 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "acceptance-restates-the-terms",
-        "offer-call-says-the-purpose-in-the-first-breath"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.job-new-detail-reply-answer-congratulate.employer-fits-you-well",
@@ -30567,8 +29985,7 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["laid-off-workers-new-job-pays-less-per-hour"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.job-new-detail-reply-answer-brief.employer-is-a-fine-place-to-begin",
@@ -33346,8 +32763,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-say-core.we-got-evicted-when",
@@ -33395,8 +32811,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-say-core.they-evicted-us-when",
@@ -33419,8 +32834,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-say-core.we-were-behind-behind-and-the-landlord-evicted-us-when",
@@ -33494,8 +32908,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-say-core.the-landlord-made-me-leave-when",
@@ -33589,11 +33002,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "evacuees-on-a-friends-couch",
-        "pattern-b5-02-the-notice-and-the-days-after"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-answer-where.where-did-you-sleep-when",
@@ -33613,10 +33022,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "evacuees-on-a-friends-couch",
-        "pattern-b5-02-the-notice-and-the-days-after"
-      ]
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "conversation.eviction-answer-where.where-did-you-stay-when",
@@ -33635,11 +33041,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "evacuees-on-a-friends-couch",
-        "pattern-b5-02-the-notice-and-the-days-after"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-answer-where.where-did-you-end-up-when",
@@ -33658,11 +33060,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "evacuees-on-a-friends-couch",
-        "pattern-b5-02-the-notice-and-the-days-after"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-answer-where.where-ll-we-go",
@@ -33724,8 +33122,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-answer-comfort.we-ll-pull-through",
@@ -33770,8 +33167,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.host-in-host-place-took-us-in",
@@ -33796,8 +33192,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.i-m-staying-with-host-in-host-place",
@@ -33821,8 +33216,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.host-in-host-place-took-me-in",
@@ -33846,8 +33240,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.host-has-taken-us-in",
@@ -33872,8 +33265,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.we-re-with-host-for-the-time-being",
@@ -33898,8 +33290,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.we-moved-in-with-host",
@@ -33924,11 +33315,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "evacuees-on-a-friends-couch",
-        "pattern-b5-02-the-notice-and-the-days-after"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.host-has-taken-me-in",
@@ -33953,8 +33340,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.i-m-with-host-for-the-time-being",
@@ -33979,8 +33365,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.i-moved-in-with-host",
@@ -34005,11 +33390,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "evacuees-on-a-friends-couch",
-        "pattern-b5-02-the-notice-and-the-days-after"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.there-was-room-for-us-at-the-shelter-in-shelter-place",
@@ -34180,10 +33561,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "pattern-b5-02-the-notice-and-the-days-after",
-        "pattern-b5-03-the-job-ends"
-      ]
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "conversation.eviction-back-core.after-lost-at-the-money-just-ran-out",
@@ -34208,10 +33586,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "job-seeker-explains-their-savings-are-running-out",
-        "pattern-b5-03-the-job-ends"
-      ]
+      "elements": ["job-seeker-explains-their-savings-are-running-out"]
     },
     {
       "key": "conversation.eviction-back-core.we-fell-behind-after-lost-at-let-me-go",
@@ -34237,10 +33612,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "pattern-b5-02-the-notice-and-the-days-after",
-        "pattern-b5-03-the-job-ends"
-      ]
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "conversation.eviction-back-core.when-lost-at-ended-we-couldn-t-keep-up",
@@ -34266,10 +33638,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "pattern-b5-02-the-notice-and-the-days-after",
-        "pattern-b5-03-the-job-ends"
-      ]
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "conversation.eviction-back-core.i-fell-behind-after-lost-at-let-me-go",
@@ -34294,10 +33663,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "pattern-b5-02-the-notice-and-the-days-after",
-        "pattern-b5-03-the-job-ends"
-      ]
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "conversation.eviction-back-core.when-lost-at-ended-i-couldn-t-keep-up",
@@ -34322,10 +33688,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "pattern-b5-02-the-notice-and-the-days-after",
-        "pattern-b5-03-the-job-ends"
-      ]
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "conversation.eviction-back-core.i-m-lucky-host-has-room-for-me",
@@ -34350,8 +33713,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.host-will-take-care-of-me",
@@ -34376,8 +33738,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.we-re-lucky-host-has-room-for-us",
@@ -34402,8 +33763,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.host-will-take-care-of-us",
@@ -34428,8 +33788,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.we-ll-manage-with-host-s-help",
@@ -34454,8 +33813,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.we-have-host-to-lean-on",
@@ -34480,8 +33838,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.a-bed-at-shelter-place-is-enough-for-now",
@@ -34653,10 +34010,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "pattern-b5-02-the-notice-and-the-days-after",
-        "pattern-b5-03-the-job-ends"
-      ]
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "conversation.eviction-back-core.losing-lost-at-is-what-did-it-for-us",
@@ -34682,10 +34036,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "pattern-b5-02-the-notice-and-the-days-after",
-        "pattern-b5-03-the-job-ends"
-      ]
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "conversation.eviction-back-core.i-d-still-have-my-place-if-lost-at-had-kept-me",
@@ -34711,10 +34062,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "pattern-b5-02-the-notice-and-the-days-after",
-        "pattern-b5-03-the-job-ends"
-      ]
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "conversation.eviction-back-core.losing-lost-at-is-what-did-it",
@@ -34739,11 +34087,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "pattern-b5-02-the-notice-and-the-days-after",
-        "pattern-b5-03-the-job-ends"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.i-m-doing-okay-i-m-with-host",
@@ -34767,8 +34111,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.host-has-room-for-me-at-least",
@@ -34792,8 +34135,7 @@
       "bearing": "nervous",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.i-m-taking-it-day-by-day-at-host-s",
@@ -34817,8 +34159,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.it-s-not-your-fault-host-stepped-right-up",
@@ -34842,8 +34183,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.don-t-blame-yourself-host-was-there",
@@ -34867,8 +34207,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.for-the-moment-it-s-host",
@@ -34892,8 +34231,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.host-has-a-room-for-now",
@@ -34917,8 +34255,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.host-agreed-to-take-me-for-now",
@@ -34942,8 +34279,7 @@
       "bearing": "nervous",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.i-can-stay-with-host-but-not-forever",
@@ -34967,8 +34303,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.it-s-host-or-nothing-for-me",
@@ -34992,8 +34327,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.host-agreed-to-take-us-for-now",
@@ -35018,8 +34352,7 @@
       "bearing": "nervous",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.we-can-stay-with-host-but-not-forever",
@@ -35044,8 +34377,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.it-s-host-or-nothing-for-us",
@@ -35070,8 +34402,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.i-ll-be-with-host-here-for-some-time",
@@ -35095,8 +34426,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.i-m-grateful-to-stay-with-host-here",
@@ -35120,8 +34450,7 @@
       "bearing": "nervous",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.i-can-t-thank-host-here-enough",
@@ -35145,8 +34474,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.we-ll-be-with-host-here-for-some-time",
@@ -35171,8 +34499,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.we-re-grateful-to-stay-with-host-here",
@@ -35197,8 +34524,7 @@
       "bearing": "nervous",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.we-can-t-thank-host-here-enough",
@@ -35223,8 +34549,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.it-s-host-here-or-nowhere",
@@ -35248,8 +34573,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.staying-put-with-host-here-i-hope",
@@ -35273,8 +34597,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.i-m-okay-as-long-as-i-m-with-host-here",
@@ -35298,8 +34621,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.i-m-just-grateful-host-here-made-room",
@@ -35323,8 +34645,7 @@
       "bearing": "nervous",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.it-helps-that-host-here-made-room-for-me",
@@ -35348,8 +34669,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.i-m-okay-with-host-here-around",
@@ -35373,8 +34693,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.we-re-okay-as-long-as-we-re-with-host-here",
@@ -35399,8 +34718,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.we-re-grateful-host-here-made-room",
@@ -35425,8 +34743,7 @@
       "bearing": "nervous",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.it-helps-that-host-here-made-room-for-us",
@@ -35451,8 +34768,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.we-re-okay-with-host-here-around",
@@ -35477,8 +34793,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["evacuees-on-a-friends-couch"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-say-core.things-got-bad-when",
@@ -35501,8 +34816,7 @@
       "bearing": "nervous",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-say-core.it-got-rough-when",
@@ -35525,8 +34839,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.prison-news-back-core.thanks-this-is-hard-on-relation",
@@ -35621,8 +34934,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.we-were-put-out-when",
@@ -35647,8 +34959,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.we-lost-our-place-when",
@@ -35850,8 +35161,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.in-the-end-owed",
@@ -35875,8 +35185,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-back-core.we-were-behind-by-owed",
@@ -35927,8 +35236,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-answer-owed.how-far-behind",
@@ -35948,8 +35256,7 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-answer-owed.what-was-owed",
@@ -35993,8 +35300,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["household-raises-news-that-affects-them"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.illness-news-say-core.the-doctors-say-kin-has-illness",
@@ -36017,8 +35323,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["household-raises-news-that-affects-them"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.illness-news-say-core.kin-has-taken-ill-it-s-serious",
@@ -36041,8 +35346,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["deacons-ask-members-to-tell-them-of-a-hospital-stay"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.illness-news-say-core.kin-is-gravely-sick",
@@ -36065,8 +35369,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["deacons-ask-members-to-tell-them-of-a-hospital-stay"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.illness-news-say-core.relation-came-down-with-something-serious-when",
@@ -36089,8 +35392,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["household-raises-news-that-affects-them"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.illness-news-say-core.when-we-learned-relation-is-gravely-sick",
@@ -36113,8 +35415,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["deacons-ask-members-to-tell-them-of-a-hospital-stay"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.illness-news-answer-ask.how-bad-was-it-when",
@@ -36173,8 +35474,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["neighbor-brings-a-meal-when-sick"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.illness-news-back-core.thanks-relation-needs-all-of-us",
@@ -36197,8 +35497,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["neighbor-brings-a-meal-when-sick"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.illness-news-back-core.no-word-yet-on-relation",
@@ -36270,8 +35569,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["household-raises-news-that-affects-them"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.illness-news-back-core.kin-is-in-serious-trouble-i-think",
@@ -36319,8 +35617,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["household-raises-news-that-affects-them"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.illness-news-back-core.relation-is-in-serious-trouble",
@@ -36344,8 +35641,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["household-raises-news-that-affects-them"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.illness-news-back-core.not-yet-but-thanks-for-asking-about-relation",
@@ -36392,8 +35688,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["two-residents-hear-of-a-war-abroad"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.death-news-say-core.cause-took-kin-when",
@@ -36417,10 +35712,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "births-and-deaths-in-the-family-set-down-plainly",
-        "father-dies-and-a-sibling-becomes-the-earner"
-      ]
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "conversation.death-news-say-core.we-lost-kin-when-to-cause",
@@ -36444,10 +35736,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "births-and-deaths-in-the-family-set-down-plainly",
-        "father-dies-and-a-sibling-becomes-the-earner"
-      ]
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "conversation.death-news-say-core.too-young-at-age-kin-died-when",
@@ -36471,10 +35760,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "births-and-deaths-in-the-family-set-down-plainly",
-        "father-dies-and-a-sibling-becomes-the-earner"
-      ]
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "conversation.death-news-say-core.kin-passed-when-just-age",
@@ -36498,10 +35784,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "births-and-deaths-in-the-family-set-down-plainly",
-        "father-dies-and-a-sibling-becomes-the-earner"
-      ]
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "conversation.death-news-say-core.kin-died-when-only-age-far-too-soon",
@@ -36524,11 +35807,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "births-and-deaths-in-the-family-set-down-plainly",
-        "father-dies-and-a-sibling-becomes-the-earner"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.death-news-say-core.we-lost-kin-when-at-age",
@@ -36551,11 +35830,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "births-and-deaths-in-the-family-set-down-plainly",
-        "father-dies-and-a-sibling-becomes-the-earner"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.death-news-say-core.only-age-when-kin-died-when",
@@ -36579,10 +35854,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "births-and-deaths-in-the-family-set-down-plainly",
-        "father-dies-and-a-sibling-becomes-the-earner"
-      ]
+      "elements": ["father-dies-and-a-sibling-becomes-the-earner"]
     },
     {
       "key": "conversation.death-news-say-core.kin-is-gone-when-at-age",
@@ -36606,10 +35878,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "births-and-deaths-in-the-family-set-down-plainly",
-        "father-dies-and-a-sibling-becomes-the-earner"
-      ]
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "conversation.death-news-say-core.kin-has-died-it-happened-when",
@@ -36633,10 +35902,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "births-and-deaths-in-the-family-set-down-plainly",
-        "father-dies-and-a-sibling-becomes-the-earner"
-      ]
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "conversation.death-news-say-core.hard-news-kin-died-when",
@@ -36659,11 +35925,7 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "births-and-deaths-in-the-family-set-down-plainly",
-        "father-dies-and-a-sibling-becomes-the-earner"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.death-news-say-core.we-ve-lost-relation-it-was-when-at-age",
@@ -36687,10 +35949,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "elements": [
-        "births-and-deaths-in-the-family-set-down-plainly",
-        "father-dies-and-a-sibling-becomes-the-earner"
-      ]
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "conversation.death-news-say-core.relation-has-died-it-was-when",
@@ -36713,11 +35972,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": [
-        "births-and-deaths-in-the-family-set-down-plainly",
-        "father-dies-and-a-sibling-becomes-the-earner"
-      ]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.death-news-answer-condole.i-m-so-sorry-it-happened-when",
@@ -36735,8 +35990,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["deaconess-ready-to-visit-the-sick"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.death-news-answer-condole.i-m-heartbroken-that-it-happened-when",
@@ -36811,8 +36065,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["deaconess-ready-to-visit-the-sick"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.death-news-answer-okay.how-are-you-after-what-happened-when",
@@ -36830,8 +36083,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["deaconess-ready-to-visit-the-sick"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.prison-news-say-core.kin-was-convicted-of-offense-the-term-is-term",
@@ -37181,8 +36433,7 @@
       "bearing": "nervous",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["deacons-ask-members-to-tell-them-of-a-hospital-stay"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.illness-news-say-core.hard-news-about-kin-i-m-afraid",
@@ -37206,8 +36457,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["deacons-ask-members-to-tell-them-of-a-hospital-stay"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.illness-news-say-core.kin-is-very-unwell",
@@ -37231,8 +36481,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["deacons-ask-members-to-tell-them-of-a-hospital-stay"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.illness-news-say-core.there-s-troubling-news-about-kin",
@@ -37256,8 +36505,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["deacons-ask-members-to-tell-them-of-a-hospital-stay"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.illness-news-raise-raise.relation-is-seriously-unwell",
@@ -37279,8 +36527,7 @@
       "tag": {
         "move": "deliver-news",
         "key": "loss"
-      },
-      "elements": ["deacons-ask-members-to-tell-them-of-a-hospital-stay"]
+      }
     },
     {
       "key": "conversation.illness-news-raise-raise.relation-has-taken-a-turn-for-the-worse",
@@ -37302,8 +36549,7 @@
       "tag": {
         "move": "deliver-news",
         "key": "loss"
-      },
-      "elements": ["household-raises-news-that-affects-them"]
+      }
     },
     {
       "key": "conversation.eviction-say-core.i-ve-had-a-rough-time-it-began-when",
@@ -37326,8 +36572,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-say-core.i-ve-been-through-a-lot-it-started-when",
@@ -37350,8 +36595,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-say-core.we-ve-had-a-rough-time-it-began-when",
@@ -37375,8 +36619,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-say-core.we-ve-been-through-a-lot-it-started-when",
@@ -37400,8 +36643,7 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+      "date": "2026-11-19"
     },
     {
       "key": "conversation.eviction-answer-what.what-s-the-matter",
@@ -37470,8 +36712,7 @@
       "tag": {
         "key": "loss",
         "move": "condole"
-      },
-      "elements": ["morning-after-the-loss-the-children-comfort-her"]
+      }
     },
     {
       "key": "conversation.eviction-answer-comfort.i-can-t-believe-it-happened-when",
@@ -37560,8 +36801,7 @@
       "tag": {
         "key": "loss",
         "move": "comfort"
-      },
-      "elements": ["deaconess-ready-to-visit-the-sick"]
+      }
     },
     {
       "key": "conversation.death-news-answer-help.can-i-help-with-what-happened-when",
