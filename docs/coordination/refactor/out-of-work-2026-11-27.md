@@ -22,7 +22,7 @@ Lake Arrowhead's year of flows: 112 layoffs from demand below staff, 27 from clo
 
 ## The two slices
 
-1. **The opening employment rate first.** At the opening, the seekers the chooser writes should follow from the jobs the books hold and the people who live there, with the participation choice still deciding who is in the labor force. The behavior to change is how the first-day jobs and the jobless relate, in `jobs.ts` `openingSeekers` and `opening-employment.ts`, not the matching.
+1. **The opening employment rate first.** At the opening, the seekers the chooser writes should follow from the jobs the books hold and the people who live there, with the participation choice still deciding who is in the labor force. The behavior to change is how the first-day jobs and the jobless relate, in `jobs.ts` `reviewJobless` and `reviewCountedEntry` (their `opening` arguments) and `opening-employment.ts`, not the matching.
 2. **Staffing against the labor force second.** An employer's target should read the labor in reach as well as its sales (how many people look for work where it is, and how long they have), so that openings follow the supply a place has. The change goes in `readStaffingTarget` and `openReplacements`, still without dice and without pinning a count: a firm's target is a smooth function of its sales and the seekers near it.
 
 ## The test that proves each slice
