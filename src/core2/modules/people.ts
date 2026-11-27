@@ -43,7 +43,7 @@ import {
 } from "../closeness";
 import type { ModuleRow } from "../module-data";
 import { careNeedOf } from "./health";
-import { GRIEF, griefToday, recordDeath } from "../grief";
+import { GRIEF, griefToday, recordDeath, withGrief } from "../grief";
 import { ENCOUNTERS } from "../encounters";
 import { OPENING_KIN } from "../opening-kin";
 import {
@@ -98,7 +98,7 @@ import {
 /** The id a seat's holder is made under: `official:` and their term's id (officials.ts seatOfficial). */
 const OFFICIAL_PREFIX = "official:";
 import { departureRateFor, livesElsewhere, withinCountyRateFor } from "./moves";
-import { coreAPI } from "../state";
+import { coreAPI, openOpeningPeerTies } from "../state";
 import { pastViewShifts, setPastViewShifts } from "./views";
 import { pairKey } from "../kernel/ids";
 import { bookkeeping } from "../bookkeeping";
@@ -856,6 +856,14 @@ const LIFE_HISTORY: HistorySource = {
 export const PEOPLE_MODULE: PreStartModule = {
   id: PEOPLE_MODULE_ID,
   history: LIFE_HISTORY,
+  // The acts grief bears on carry its reason because this engine is loaded.
+  dataFor: withGrief,
+  // Townspeople open tied to the classmates and coworkers the records name.
+  onOpen: (core) => {
+    const opening = coreAPI(core);
+    for (const actor of core.people.values())
+      openOpeningPeerTies(core, opening, actor);
+  },
   // One row per household, replaced each week: what its time at home was made of.
   state: { schemaVersion: 1, tables: { [HOME_TIME_TABLE]: {} } },
   preStart: { phase: "people", run: peopleHistory },

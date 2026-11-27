@@ -998,6 +998,27 @@ export interface CountedWagesNotice {
 export interface CoreModule {
   id: string;
   state?: ModuleStateDefinition;
+  /**
+   * The world's data as this engine needs it (the acts grief bears on carry
+   * their reason when the people engine is loaded). Run in install order,
+   * each on what the one before returned, before the core is made.
+   */
+  dataFor?: (data: CoreData) => CoreData;
+  /**
+   * The opening input as this engine needs it (the work engine's recorded
+   * commitments and pay calendars), run in install order before the core is
+   * made, with the world's data. `afterOpen` runs once the core exists and
+   * every engine's `onOpen` has run.
+   */
+  prepareOpening?: (
+    input: CoreInput,
+    context: { readonly data: CoreData },
+  ) => {
+    readonly input: CoreInput;
+    readonly afterOpen?: (core: CoreState) => void;
+  };
+  /** Once the core is made, in install order: this engine's part of opening the world (the opening ties, the counted residents admitted). */
+  onOpen?: (core: CoreState, input: CoreInput) => void;
   /** Dated institutional work, before day hooks; emits/effects use the canonical API. */
   onCalendarWork?: (api: CoreAPI, work: Readonly<ModuleCalendarWork>) => void;
   /**
