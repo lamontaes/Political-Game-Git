@@ -1124,6 +1124,14 @@ export interface CoreModule {
    * wider `unknown` or `object`, so the engine's narrower argument type fits.
    */
 
+  /**
+   * Caches this engine keeps keyed by the world and built from the world's
+   * records: a restore refills the same world in place, so each is cleared at
+   * the end of every restore and built again on first read. A function, read
+   * at restore time, so the file that holds the caches need not have loaded
+   * when the module object is made.
+   */
+  derivedCaches?: () => readonly WeakMap<CoreState, unknown>[];
   /** A counted person's record by id, or nothing; the shared chooser asks every installed engine (`countedPersonOf`). */
   countedPerson?: (
     core: CoreState,
@@ -1293,6 +1301,51 @@ export interface CoreModule {
   policyHandlers?: Readonly<
     Record<string, (api: CoreAPI, change: unknown) => void>
   >;
+  /**
+   * Offices' five, proposed by Core from the signatures of the register
+   * functions they replace, because Offices has not posted its own (Nov 27):
+   * rename any of them until a registry moves onto it. Terms, seats and
+   * vacancies are the offices engine's own rows, so they are `unknown`. The
+   * level acts kit (`registerOfficeActs`) is a bundle of fields `CoreModule`
+   * already has (`onDay`, `offerProviders`, `effectHandlers`), so it is not a
+   * field here: Offices lists what is left of it.
+   */
+  /** Who succeeds an office kind's holder, by office kind: the person, their party and how they were reached, or null. */
+  successorProviders?: Readonly<
+    Record<
+      string,
+      (
+        api: CoreAPI,
+        input: { readonly seatId: string; readonly previous: unknown },
+      ) => {
+        readonly personId: string;
+        readonly party: string | null;
+        readonly reached: string;
+        readonly then?: () => void;
+      } | null
+    >
+  >;
+  /** Offers a vacant seat to the person this engine answers for (the player, the elections engine); true when taken. */
+  vacancyOffer?(
+    api: CoreAPI,
+    input: {
+      readonly office: unknown;
+      readonly seat: unknown;
+      readonly vacancyId: string;
+      readonly reached: string;
+    },
+  ): boolean;
+  /** Opens a real race for a seat awaiting a special election; true when this engine took the seat. */
+  specialElections?(api: CoreAPI, race: unknown): boolean;
+  /** The moments a level adds to what may stop the player. */
+  stopKinds?: readonly { readonly kind: string; readonly byDefault: boolean }[];
+  /** Picks one of the candidates for a central bank board vacancy and gives its reasons; nothing when no one is confirmed. */
+  boardAppointer?(
+    api: CoreAPI,
+    vacancy: unknown,
+    candidates: readonly unknown[],
+    sitting: readonly unknown[],
+  ): { index: number; reasons: Readonly<Record<string, number>> } | undefined;
   /**
    * What the voting engine gives the campaign, candidacy and elections engines
    * it cannot import (they are read by it): the candidate a resident would vote
