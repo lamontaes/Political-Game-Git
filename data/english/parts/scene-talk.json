@@ -72788,10 +72788,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-confront.is-the-field-for-seat-stacked-before-i-even-file",
+      "key": "scene-talk.reply-confront.is-the-field-in-place-stacked-before-i-even-file",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Is the field for {seat} stacked before I even file?",
+      "text": "Is the field in {place} stacked before I even file?",
       "uses": [
         {
           "subject": "scene",
@@ -72800,7 +72800,7 @@
           "step": "reply",
           "move": "confront",
           "role": "asked",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "braced",
@@ -72814,10 +72814,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-confront.don-t-tell-me-seat-is-already-taken",
+      "key": "scene-talk.reply-confront.don-t-tell-me-the-race-in-place-is-already-taken",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Don't tell me {seat} is already taken.",
+      "text": "Don't tell me the race in {place} is already taken.",
       "uses": [
         {
           "subject": "scene",
@@ -72826,7 +72826,7 @@
           "step": "reply",
           "move": "confront",
           "role": "asked",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "braced",
