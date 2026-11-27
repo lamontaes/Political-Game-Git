@@ -170,6 +170,8 @@ export function campaignSpeechTelling(
   candidateId: PersonId,
   officeId: string,
   party: string | null,
+  /** The stands the speaker chose to speak on (the player's picks); without them, the platform they filed on. */
+  chosen?: readonly string[],
 ): AddressTelling | null {
   const api = coreAPI(core);
   const office = officeOf(core, officeId);
@@ -180,8 +182,11 @@ export function campaignSpeechTelling(
   // takes them from there. Only a candidate with no filing for the seat (an
   // official speaking on the stump) has them chosen from their views.
   const filed = standingFiling(core, candidateId);
-  const platform =
-    filed && filed.contest.officeId === officeId && filed.filing.platform.length
+  const platform = chosen?.length
+    ? [...chosen]
+    : filed &&
+        filed.contest.officeId === officeId &&
+        filed.filing.platform.length
       ? filed.filing.platform.map((entry) =>
           entry.slice(P.zero, entry.lastIndexOf("=")),
         )
@@ -243,8 +248,15 @@ export function composeCampaignSpeech(
   candidateId: PersonId,
   officeId: string,
   party: string | null,
+  chosen?: readonly string[],
 ): LocalSpeech | null {
-  const telling = campaignSpeechTelling(core, candidateId, officeId, party);
+  const telling = campaignSpeechTelling(
+    core,
+    candidateId,
+    officeId,
+    party,
+    chosen,
+  );
   if (!telling) return null;
   const told = toldSentences(telling);
   // stopgapId: SG-WORDS-addresses-await-outline
@@ -333,6 +345,8 @@ export function speechOfRecord(
                   speakerId,
                   race.contest.officeId,
                   race.filing.party ?? null,
+                  // The stand this record is a statement of: the speech a scene plays is the one they gave on it.
+                  record.topic ? [record.topic] : undefined,
                 )
               : null;
           })()

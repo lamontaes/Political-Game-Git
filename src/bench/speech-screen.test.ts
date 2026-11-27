@@ -19,6 +19,7 @@ import { fileCandidacy, openContests } from "../core2/modules/elections";
 import { lawChain } from "../core2/modules/laws";
 import { stancesOf } from "../core2/modules/views";
 import { SPEECH_STAGES } from "../director/speech-builder";
+import { composeCampaignSpeech } from "../director/local-speeches";
 import {
   campaignView,
   speechBegin,
@@ -149,13 +150,53 @@ const run = (drawSeed: string): string | null => {
         where,
       ).toThrow();
 
+      // What the one planner says of the stands they picked, composed before the speech is given.
+      const contestRow = api
+        .moduleState("core2-elections-v1")
+        .table("contests")
+        .get(filed.contestId) as unknown as { officeId: string };
+      const planned = composeCampaignSpeech(
+        core,
+        speakerId as never,
+        contestRow.officeId,
+        (filed as { party?: string | null }).party ?? null,
+        speech.picked.flatMap((row) => (row.stand ? [row.stand.question] : [])),
+      );
       const said = speechGive(core, speakerId, speech, {
         filingId: filed.id,
         venue: scenePlaces.speechPlaces[0]!,
       });
-      expect(said.text, where).toBe(
-        speech.picked.map((row) => row.text).join(" "),
-      );
+      // The player's opener and closer stand at the ends of the speech; between them the one planner
+      // says one theme and the ask from the stands they picked (so a stand it leaves out is not said).
+      // The planner speaks for a town's race; above the town it has nothing to say yet
+      // (SG-WORDS-floor-speech-state-chambers), and the speech is the parts as picked.
+      // Where the planner speaks the whole text is pinned, in order: the opener, any credential they picked
+      // (a part with no stand), the planner's sentences without its own greeting and close (the player chose
+      // theirs), then the closer, joined by a space as `speechGive` joins them.
+      const stage = (name: string) =>
+        speech.picked.filter((row) => row.stage === name);
+      const theme = planned?.sentences.find((row) => row.section === "theme");
+      if (planned && theme)
+        expect(said.text, `the whole speech is pinned: ${where}`).toBe(
+          [
+            ...stage("opener").map((row) => row.text),
+            ...speech.picked
+              .filter((row) => row.stage === "core" && !row.stand)
+              .map((row) => row.text),
+            ...planned.sentences
+              .filter(
+                (row) => row.section !== "greeting" && row.section !== "close",
+              )
+              .map((row) => row.text),
+            ...stage("closer").map((row) => row.text),
+          ].join(" "),
+        );
+      else
+        expect(said.text, where).toBe(
+          speech.picked.map((row) => row.text).join(" "),
+        );
+      expect(said.text.startsWith(speech.picked[0]!.text), where).toBe(true);
+      expect(said.text.endsWith(speech.picked.at(-1)!.text), where).toBe(true);
       expect(said.scene.place, where).toBe(scenePlaces.speechPlaces[0]);
       if (said.reached) {
         filing = filed;

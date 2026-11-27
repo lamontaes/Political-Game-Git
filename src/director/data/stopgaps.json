@@ -929,11 +929,11 @@
     "kind": "missing-hook",
     "file": "src/director/speech-builder.ts",
     "line": 1,
-    "whatItFakes": "The player's own campaign speech is the stage builder's four picked parts, each said on its own, not planned by the one outline planner, and a player seated on a town body has no floor speech of their own.",
-    "why": "Wiring the stage choices into planSpeech is more than this pull request's hour (words builder, Nov 12); pool item words-player-speech-through-planner.",
+    "whatItFakes": "The player's own campaign speech is planned by the one outline planner from the stands they pick (one theme, the stand and its reason, the ask), but its opener, closer and credentials (work, home, children, school) are still the stage builder's own parts, said as they were picked, and a player seated on a town body has no floor speech of their own.",
+    "why": "E9 step 1 (Nov 27): the planner composes the middle of the player's speech from the stands they pick, between the stage builder's opener and closer. The stage bank cannot go whole (Nov 27, step 2 read): 6 of its 26 lines carry the owner's grades (3 closers, 1 opener, 2 stance lines; the 4 liked ones are in liked-lines-stay-baseline.json), and the planner has no points for the personal parts (work, home, children, school) or the town areas, so deleting them would drop owner-ruled content (Nov 8, the world around you). The planner's null at a federal race (no office-title fact) is fixed.",
     "addedBy": "Words builder (Opus), Nov 12",
     "addedAt": "2026-11-12",
-    "replacement": "Each stage offers the planner's points for the player's stands and /give composes the speech from the plan; the floor day offers the player composeFloorSpeech.",
+    "replacement": "The planner gets points for the personal parts and the town areas (a Story writers' job with the owner's grades kept), the stage choices read the planner's own sentences, wordSpeechPart and the speech-stages bank are deleted with the graded lines moved verbatim under the same keys, and on a town body's floor day the player is offered composeFloorSpeech.",
     "status": "open"
   },
   {

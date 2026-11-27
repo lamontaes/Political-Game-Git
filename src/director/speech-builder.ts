@@ -381,3 +381,32 @@ export function chooseSpeechPart(
 export function speechText(build: Pick<SpeechBuild, "picked">): string {
   return speechWords(build.picked);
 }
+
+/**
+ * The speech as the player gives it, once the one planner has composed what it has to say from the
+ * stands they picked: their opener, any credential they picked (work, home, children, school), what the
+ * planner says of one theme (why they run, their stand and its reason, the ask), then their closer. The
+ * planner's own greeting and close are left out, since the player chose theirs. With nothing planned (the
+ * planner had nothing to say), the parts as the player picked them.
+ */
+export function speechAsGiven(
+  build: Pick<SpeechBuild, "picked">,
+  planned: {
+    readonly sentences: readonly { section?: string; text: string }[];
+  } | null,
+): string {
+  if (!planned) return speechText(build);
+  const edge = (stage: SpeechStage) =>
+    build.picked.filter((row) => row.stage === stage);
+  const credentials = build.picked.filter(
+    (row) => row.stage === "core" && !row.stand,
+  );
+  return speechWords([
+    ...edge("opener"),
+    ...credentials,
+    ...planned.sentences
+      .filter((row) => row.section !== "greeting" && row.section !== "close")
+      .map((row) => ({ text: row.text })),
+    ...edge("closer"),
+  ]);
+}
