@@ -11,6 +11,7 @@
 import {
   CAMPAIGNS_MODULE_ID,
   causeSummaryOf,
+  impressionOf,
   petitionAsksAtDoors,
   type CauseRow,
 } from "../core2/modules/campaigns";
@@ -19,6 +20,8 @@ import {
   petitionCirculating,
   petitionSignerIds,
   type FilingRow,
+  contestOf,
+  filingsOfPerson,
 } from "../core2/modules/elections";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -43,19 +46,11 @@ export function doorsKnocked(
   // A door knocked on the race's own day or later asks for nothing: the
   // vote is in (golden-door-ask: a door scene came after the count).
   const before = (row: CauseRow) => {
-    const contestId = (
-      api
-        .moduleState(CAMPAIGNS_MODULE_ID)
-        .table("impressions")
-        .get(`${row.voterId}|${personId}`) as unknown as
-        { contestId?: string } | undefined
-    )?.contestId;
+    const contestId = impressionOf(api, row.voterId, personId)?.contestId;
     const contest =
       contestId && core.modules.has(ELECTIONS_MODULE_ID)
-        ? (api
-            .moduleState(ELECTIONS_MODULE_ID)
-            .table("contests")
-            .get(contestId) as unknown as { electionDate?: string } | undefined)
+        ? (contestOf(api, contestId) as unknown as
+            { electionDate?: string } | undefined)
         : undefined;
     return !!contest?.electionDate && contest.electionDate > core.date;
   };
@@ -156,20 +151,11 @@ export function petitionAtDoor(
   )
     return null;
   const api = coreAPI(core as CoreState);
-  const contestId = (
-    api
-      .moduleState(CAMPAIGNS_MODULE_ID)
-      .table("impressions")
-      .get(`${voterId}|${candidateId}`) as unknown as
-      { contestId?: string } | undefined
-  )?.contestId;
+  const contestId = impressionOf(api, voterId, candidateId)?.contestId;
   const filing = contestId
-    ? (
-        api
-          .moduleState(ELECTIONS_MODULE_ID)
-          .table("filings")
-          .query("byPerson", [candidateId]) as unknown as FilingRow[]
-      ).find((row) => row.contestId === contestId)
+    ? (filingsOfPerson(api, candidateId) as unknown as FilingRow[]).find(
+        (row) => row.contestId === contestId,
+      )
     : undefined;
   if (!filing || !petitionCirculating(api, filing.id)) return null;
   // Past the target plus the cushion the doors ask for the vote, not a

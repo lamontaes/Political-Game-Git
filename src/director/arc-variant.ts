@@ -47,6 +47,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import { stopgap, WORDS_STOPGAP_HITS } from "../core2/stopgaps";
 import variantFile from "./data/arc-variants.json" with { type: "json" };
 import arcsFile from "./data/purpose-arcs.json" with { type: "json" };
+import { allLeadershipPosts } from "../core2/modules/bodies-reads";
 
 interface Tagged {
   value: number;
@@ -549,11 +550,9 @@ function readOf(
   }
   if (spec.kind === "holds-post") {
     if (!core.modules.has(LEADERSHIP_MODULE_ID)) return P.zero;
-    const post = coreAPI(core as CoreState)
-      .moduleState(LEADERSHIP_MODULE_ID)
-      .table("posts")
-      .rows()
-      .find((row) => (row as { holderId?: string }).holderId === input.askerId);
+    const post = allLeadershipPosts(coreAPI(core as CoreState)).find(
+      (row) => (row as { holderId?: string }).holderId === input.askerId,
+    );
     if (!post) return P.zero;
     recordIds.add(post.id);
     return P.one;

@@ -27,7 +27,6 @@ import {
   leanOf,
   memberKey,
   members,
-  registerCommitteeRosterProvider,
 } from "./legislature";
 import { partySide } from "./offices";
 import {
@@ -41,7 +40,10 @@ import { tableTraceOn } from "../module-state";
 import { concerns } from "./meetings";
 import { campaignParameter } from "../campaign-data";
 
-export const LEADERSHIP_MODULE_ID = "core2-leadership-v1";
+// The id lives with the read doors (bodies-reads.ts), which import nothing at run
+// time, so a reader can use the doors without joining the import ring.
+export { LEADERSHIP_MODULE_ID } from "./bodies-reads";
+import { LEADERSHIP_MODULE_ID } from "./bodies-reads";
 
 type Template =
   | "federal-house"
@@ -139,17 +141,15 @@ export const LEADERSHIP_MODULE: CoreModule = {
       choices: {},
     },
   },
+  // The legislature seats a committee from the roster leadership kept.
+  committeeRoster: (api, chamber, committee) =>
+    committeeRoster(api, chamber, committee),
 };
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(LEADERSHIP_MODULE_ID).table(name);
 
 export function openLeadership(core: CoreState): void {
-  registerCommitteeRosterProvider((api, chamber, committee) =>
-    api.state.modules.has(LEADERSHIP_MODULE_ID)
-      ? committeeRoster(api, chamber, committee)
-      : null,
-  );
   if (!core.modules.has(LEADERSHIP_MODULE_ID))
     registerModule(core, LEADERSHIP_MODULE);
   void coreAPI(core);

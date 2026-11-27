@@ -269,7 +269,8 @@
         "src/core2/world-race-incumbency.test.ts",
         "src/core2/world-races-fold.test.ts",
         "src/core2/world-races-no-district.test.ts",
-        "src/core2/world-races.test.ts"
+        "src/core2/world-races.test.ts",
+        "src/core2/election-winner-names.test.ts"
       ]
     },
     {
@@ -278,7 +279,8 @@
       "entry": [
         "src/core2/modules/legislature.ts",
         "src/core2/modules/meetings.ts",
-        "src/core2/modules/world-panels.ts"
+        "src/core2/modules/world-panels.ts",
+        "src/core2/modules/bodies-reads.ts"
       ],
       "paths": [
         "src/core2/modules/legislature.ts",
@@ -286,6 +288,8 @@
         "src/core2/modules/world-legislating.ts",
         "src/core2/modules/leadership.ts",
         "src/core2/modules/world-panels.ts",
+        "src/core2/modules/bodies-reads.ts",
+        "src/core2/modules/bodies-reads.test.ts",
         "src/core2/legislature-*.ts",
         "src/core2/bill-*.ts",
         "src/core2/board-appointer.ts",
@@ -331,7 +335,13 @@
         "src/core2/town-hall-evening-cost.test.ts",
         "src/core2/town-hall-question-seat.test.ts",
         "src/core2/unemployment-program-reversal.test.ts",
-        "src/core2/world-legislating-federal.test.ts"
+        "src/core2/world-legislating-federal.test.ts",
+        "src/core2/ask-waits-for-the-chair.test.ts",
+        "src/core2/bargaining-price.test.ts",
+        "src/core2/floor-every-bill.test.ts",
+        "src/core2/record-vote-per-question.test.ts",
+        "src/core2/second-chamber-own-day.test.ts",
+        "src/core2/sitting-focus.test.ts"
       ]
     },
     {
@@ -427,7 +437,10 @@
         "src/core2/town-seat-party.test.ts",
         "src/core2/township-board-terms.test.ts",
         "src/core2/wide-races.test.ts",
-        "src/core2/civic-inputs.ts"
+        "src/core2/civic-inputs.ts",
+        "src/core2/staff-dismissal-after-attendance.test.ts",
+        "src/core2/staff-player-clock.test.ts",
+        "src/core2/succession.test.ts"
       ]
     },
     {
@@ -435,29 +448,24 @@
       "name": "Budgets, taxes and public money",
       "entry": [
         "src/core2/modules/budgets.ts",
-        "src/core2/modules/finance.ts",
         "src/core2/budgets-treasury.ts",
+        "src/core2/budgets-reads.ts",
         "src/core2/tax-index.ts",
-        "src/core2/tax-listeners.ts"
+        "src/core2/tax-listeners.ts",
+        "src/core2/modules/purchase-tax.ts"
       ],
       "paths": [
         "src/core2/modules/budgets.ts",
-        "src/core2/modules/finance.ts",
         "src/core2/modules/projects.ts",
         "src/core2/modules/contracts.ts",
         "src/core2/modules/purchase-tax.ts",
         "src/core2/modules/employer-taxes.ts",
         "src/core2/budget-*.ts",
         "src/core2/budgets-*.ts",
-        "src/core2/finance-*.ts",
         "src/core2/tax-*.ts",
-        "src/core2/accounts.ts",
-        "src/core2/act-cash.ts",
         "src/core2/school-budget-line.ts",
-        "src/core2/starting-cash.ts",
         "src/core2/world-transfer.ts",
         "src/core2/modules/outside-budgets.ts",
-        "src/core2/accounts.test.ts",
         "src/core2/bank-deposits.test.ts",
         "src/core2/bookkeeping.test.ts",
         "src/core2/budgets.test.ts",
@@ -492,7 +500,28 @@
         "src/core2/town-payers-corporate-tax.test.ts",
         "src/core2/treasury-cut-cash-limited.test.ts",
         "src/core2/treasury-government-match.test.ts",
-        "src/core2/treasury-outside-account.test.ts"
+        "src/core2/treasury-outside-account.test.ts",
+        "src/core2/act-cash.ts"
+      ]
+    },
+    {
+      "id": "finance",
+      "name": "People's and firms' money: accounts, cash and plans",
+      "entry": [
+        "src/core2/modules/finance.ts",
+        "src/core2/accounts.ts",
+        "src/core2/starting-cash.ts",
+        "src/core2/finance-types.ts",
+        "src/core2/finance-plan.ts",
+        "src/core2/finance-state.ts",
+        "src/core2/finance-cash.ts"
+      ],
+      "paths": [
+        "src/core2/modules/finance.ts",
+        "src/core2/finance-*.ts",
+        "src/core2/accounts.ts",
+        "src/core2/starting-cash.ts",
+        "src/core2/accounts.test.ts"
       ]
     },
     {
@@ -500,44 +529,36 @@
       "name": "Laws, justice and their effects",
       "entry": [
         "src/core2/modules/laws.ts",
-        "src/core2/modules/justice.ts",
         "src/core2/modules/outcome-web.ts",
         "src/core2/law-reach/applied.ts",
-        "src/core2/modules/federal-courts.ts",
         "src/core2/laws-in-force.ts",
-        "src/core2/modules/police-patrol.ts",
         "src/core2/outcome-web-reach.ts",
         "src/core2/outcome-web-model.ts",
+        "src/core2/modules/laws-reads.ts",
+        "src/core2/modules/outcome-web-reads.ts",
         "src/rules/laws/**"
       ],
       "paths": [
         "src/core2/modules/laws.ts",
-        "src/core2/modules/justice.ts",
-        "src/core2/modules/public-safety.ts",
-        "src/core2/modules/crime.ts",
-        "src/core2/modules/police-patrol.ts",
-        "src/core2/modules/corruption.ts",
         "src/core2/modules/outcome-web.ts",
+        "src/core2/modules/laws-reads.ts",
+        "src/core2/modules/laws-reads.test.ts",
+        "src/core2/modules/outcome-web-reads.ts",
         "src/core2/modules/prices-web-gaps.ts",
         "src/core2/law-reach/**",
         "src/core2/laws-*.ts",
-        "src/core2/justice-*.ts",
         "src/core2/policy-*.ts",
         "src/core2/gov-measure*.ts",
         "src/core2/state-effective-date.ts",
         "src/core2/right-to-work-dues.ts",
         "src/core2/social-security-law.ts",
         "src/core2/wage-floor.ts",
-        "src/core2/low-level-offenses.ts",
-        "src/core2/firearm-ownership.ts",
         "src/core2/paid-leave.ts",
         "src/core2/public-pay-floor.ts",
-        "src/core2/public-safety.ts",
         "src/core2/outcome-web-*.ts",
         "src/core2/health-web.ts",
         "src/core2/jobs-web.ts",
         "src/core2/term-read.ts",
-        "src/core2/modules/federal-courts.ts",
         "src/core2/law-reach/group-a-records-constants.ts",
         "src/core2/law-reach/group-b-store-constants.ts",
         "src/core2/aide-pay-market.test.ts",
@@ -553,7 +574,6 @@
         "src/core2/congress-federal-position-bills.test.ts",
         "src/core2/consumer-credit-law.test.ts",
         "src/core2/contribution-limit-reach.test.ts",
-        "src/core2/corruption-refusal.test.ts",
         "src/core2/county-body-reads-county-law.test.ts",
         "src/core2/data-privacy-law.test.ts",
         "src/core2/debt-limit-binds.test.ts",
@@ -566,7 +586,6 @@
         "src/core2/executive-head-records.test.ts",
         "src/core2/executive.test.ts",
         "src/core2/family-link-change.test.ts",
-        "src/core2/federal-courts.test.ts",
         "src/core2/federal-data-privacy-law.test.ts",
         "src/core2/federal-deficit-borrowing-cost.test.ts",
         "src/core2/federal-grant-pass-through.test.ts",
@@ -610,13 +629,11 @@
         "src/core2/law-took-effect-superseded.test.ts",
         "src/core2/law-wiring-borrowing-cost.test.ts",
         "src/core2/law-wiring-college-step.test.ts",
-        "src/core2/law-wiring-crime-web.test.ts",
         "src/core2/law-wiring-government.test.ts",
         "src/core2/law-wiring-grocery.test.ts",
         "src/core2/law-wiring-health-schools.test.ts",
         "src/core2/law-wiring-housing.test.ts",
         "src/core2/law-wiring-immigration.test.ts",
-        "src/core2/law-wiring-justice.test.ts",
         "src/core2/law-wiring-labor-web.test.ts",
         "src/core2/law-wiring-labor.test.ts",
         "src/core2/law-wiring-mortality-web.test.ts",
@@ -638,7 +655,6 @@
         "src/core2/medicare-line-medical-debt.test.ts",
         "src/core2/metrics-labor-force.test.ts",
         "src/core2/minimum-wage-history.test.ts",
-        "src/core2/modules/crime.test.ts",
         "src/core2/modules/public-action-counted.test.ts",
         "src/core2/modules/public-action-movement.test.ts",
         "src/core2/modules/public-action-rally.test.ts",
@@ -649,10 +665,8 @@
         "src/core2/outside-act-not-town-law.test.ts",
         "src/core2/outside-agenda.test.ts",
         "src/core2/paid-leave.test.ts",
-        "src/core2/pending-bribe-not-reported.test.ts",
         "src/core2/pending-law-reversal.test.ts",
         "src/core2/place-prices-learned.test.ts",
-        "src/core2/police-arrests.test.ts",
         "src/core2/polling-place-building.test.ts",
         "src/core2/pr-municipio-budget.test.ts",
         "src/core2/prices-web-environment.test.ts",
@@ -720,6 +734,12 @@
         "src/core2/work-spans-v1.ts",
         "src/core2/town-labor-pay.ts",
         "src/core2/modules/macro-constants.ts",
+        "src/core2/jobs-reads.ts",
+        "src/core2/business-reads.ts",
+        "src/core2/macro-reads.ts",
+        "src/core2/regional-reads.ts",
+        "src/core2/credit-reads.ts",
+        "src/core2/prices-reads.ts",
         "src/core2/job-lifecycle.ts"
       ],
       "paths": [
@@ -763,13 +783,18 @@
         "src/core2/question-wages.ts",
         "src/core2/legacy-wage-counters.ts",
         "src/core2/macro-model.ts",
+        "src/core2/macro-reads.ts",
         "src/core2/regional-model.ts",
+        "src/core2/regional-reads.ts",
         "src/core2/credit-deposits.ts",
+        "src/core2/credit-reads.ts",
+        "src/core2/prices-reads.ts",
         "src/core2/commuting-shares.ts",
         "src/core2/cost-of-living.ts",
         "src/core2/living-cost-split.ts",
         "src/core2/pay-by-quarter.ts",
         "src/core2/modules/macro-constants.ts",
+        "src/core2/economy-reads.test.ts",
         "src/core2/away-workers-turnover.test.ts",
         "src/core2/cannabis-sales-law.test.ts",
         "src/core2/civic-inputs-clerk-staff.test.ts",
@@ -808,7 +833,9 @@
         "src/core2/unemployment-state-fund.test.ts",
         "src/core2/unfilled-opening-pay.test.ts",
         "src/core2/wholesale-outside-buyers.test.ts",
-        "src/core2/work.test.ts"
+        "src/core2/work.test.ts",
+        "src/core2/closure-credit-line.test.ts",
+        "src/core2/public-hire-authority.test.ts"
       ]
     },
     {
@@ -1032,6 +1059,7 @@
         "src/core2/modules/public-action.test.ts",
         "src/core2/modules/speech.traits.test.ts",
         "src/core2/modules/trait-change.traits.test.ts",
+        "src/core2/modules/views.feeling.test.ts",
         "src/core2/modules/views.traits.test.ts",
         "src/core2/money-traits-played.traits.test.ts",
         "src/core2/money-traits.traits.test.ts",
@@ -1097,7 +1125,12 @@
         "src/core2/views.test.ts",
         "src/core2/vote-outcome-recorded.test.ts",
         "src/core2/world-game.test.ts",
-        "src/core2/world-poverty.test.ts"
+        "src/core2/world-poverty.test.ts",
+        "src/core2/fill-in-pooled-flows.test.ts",
+        "src/core2/journal-fold.test.ts",
+        "src/core2/medical-payer-parts.test.ts",
+        "src/core2/moves-minors.test.ts",
+        "src/core2/rerate-counted-job.test.ts"
       ]
     },
     {
@@ -1121,7 +1154,11 @@
         "src/core2/past.test.ts",
         "src/core2/pre-start-people.test.ts",
         "src/core2/pre-start.test.ts",
-        "src/core2/shared-history-past.test.ts"
+        "src/core2/shared-history-past.test.ts",
+        "src/core2/day-zero.test.ts",
+        "src/core2/pre-start-government.test.ts",
+        "src/core2/relatives-elsewhere-past.test.ts",
+        "src/core2/whole-past.test.ts"
       ]
     },
     {
@@ -1129,6 +1166,7 @@
       "name": "The clock, the world and places",
       "entry": [
         "src/core2/modules/world.ts",
+        "src/core2/modules/community-events.ts",
         "src/core2/places.ts",
         "src/core2/place-map.ts",
         "src/core2/place-lookup.ts",
@@ -1162,6 +1200,7 @@
         "src/core2/age-of-majority.ts",
         "src/core2/coarse-place.ts",
         "src/core2/community-events-table.ts",
+        "src/core2/modules/community-events.ts",
         "src/core2/world-settings.ts",
         "src/core2/player-*.ts",
         "src/core2/opening-*.ts",
@@ -1183,6 +1222,7 @@
         "src/core2/closure-by-choice.test.ts",
         "src/core2/coarse-place.test.ts",
         "src/core2/community-events-table.test.ts",
+        "src/core2/community-events.test.ts",
         "src/core2/controlled-sources-released.test.ts",
         "src/core2/country-part-counts.test.ts",
         "src/core2/credit-applicants-place.test.ts",
@@ -1241,7 +1281,8 @@
         "src/core2/world-economy-setting.test.ts",
         "src/core2/world-metrics-resident-rate.test.ts",
         "src/core2/world-settings.test.ts",
-        "src/districts/**"
+        "src/districts/**",
+        "src/maps/**"
       ]
     },
     {
@@ -1290,30 +1331,40 @@
       "id": "screens",
       "name": "Screens and the UI kit",
       "entry": ["src/bench/ui/**"],
+      "paths": ["src/bench/**", "src/release/**", "desktop/**"]
+    },
+    {
+      "id": "justice",
+      "name": "Courts, police, crime and corruption",
+      "entry": [
+        "src/core2/modules/justice.ts",
+        "src/core2/modules/federal-courts.ts",
+        "src/core2/modules/police-patrol.ts",
+        "src/core2/modules/justice-reads.ts",
+        "src/core2/modules/crime.ts",
+        "src/core2/modules/corruption.ts",
+        "src/core2/justice-law.ts",
+        "src/core2/firearm-ownership.ts"
+      ],
       "paths": [
-        "src/bench/**",
-        "src/core2/ask-waits-for-the-chair.test.ts",
-        "src/core2/bargaining-price.test.ts",
-        "src/core2/closure-credit-line.test.ts",
-        "src/core2/day-zero.test.ts",
-        "src/core2/election-winner-names.test.ts",
-        "src/core2/fill-in-pooled-flows.test.ts",
-        "src/core2/floor-every-bill.test.ts",
-        "src/core2/journal-fold.test.ts",
-        "src/core2/medical-payer-parts.test.ts",
-        "src/core2/moves-minors.test.ts",
-        "src/core2/pre-start-government.test.ts",
-        "src/core2/public-hire-authority.test.ts",
-        "src/core2/record-vote-per-question.test.ts",
-        "src/core2/relatives-elsewhere-past.test.ts",
-        "src/core2/rerate-counted-job.test.ts",
-        "src/core2/second-chamber-own-day.test.ts",
-        "src/core2/sitting-focus.test.ts",
-        "src/core2/staff-dismissal-after-attendance.test.ts",
-        "src/core2/staff-player-clock.test.ts",
-        "src/core2/succession.test.ts",
-        "src/core2/whole-past.test.ts",
-        "src/release/**"
+        "src/core2/modules/justice.ts",
+        "src/core2/modules/public-safety.ts",
+        "src/core2/modules/crime.ts",
+        "src/core2/modules/police-patrol.ts",
+        "src/core2/modules/corruption.ts",
+        "src/core2/modules/justice-reads.ts",
+        "src/core2/modules/federal-courts.ts",
+        "src/core2/justice-*.ts",
+        "src/core2/low-level-offenses.ts",
+        "src/core2/firearm-ownership.ts",
+        "src/core2/public-safety.ts",
+        "src/core2/modules/crime.test.ts",
+        "src/core2/federal-courts.test.ts",
+        "src/core2/police-arrests.test.ts",
+        "src/core2/corruption-refusal.test.ts",
+        "src/core2/pending-bribe-not-reported.test.ts",
+        "src/core2/law-wiring-justice.test.ts",
+        "src/core2/law-wiring-crime-web.test.ts"
       ]
     }
   ]
