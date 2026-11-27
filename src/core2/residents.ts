@@ -44,6 +44,7 @@ import {
   outsideLaborForce,
   placeNoninstitutionalQuartersShare,
 } from "./gov-rules/place-population";
+import { DAYS_PER_YEAR } from "./household-income";
 import { corePlaceByKey } from "./place-lookup";
 
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
@@ -180,8 +181,7 @@ function perDayWageMinor(row: WorkCommitmentInput): number {
   return (minutes * row.hourlyMinor) / 60 / row.periodDays;
 }
 
-const DAYS_PER_YEAR = 365,
-  MONTHS_PER_YEAR = 12;
+const MONTHS_PER_YEAR = 12;
 
 /** A household's monthly living costs paid outside the town, due on the 1st. */
 export function householdOutsideFlow(
