@@ -33,6 +33,7 @@
  * moves no money and fills nobody in (two-level population).
  */
 import { DAYS_PER_YEAR } from "../household-income";
+import { dwellingTenure } from "../housing-reads";
 import { MOVED_AWAY_EVENT } from "../moved-away-event";
 import { officeholderIds } from "./offices";
 import { worldRateFactor } from "../world-base-rates";
@@ -394,13 +395,8 @@ function wholeHouseholdGoes(
 
 function ownsHome(api: CoreAPI, householdId: string): boolean {
   const core = api.state as CoreState;
-  if (core.modules.has("housing")) {
-    const row = api
-      .moduleState("housing")
-      .table("dwellings")
-      .get(`dwelling:${householdId}`) as { tenure?: string } | undefined;
-    if (row?.tenure) return row.tenure === "own";
-  }
+  const held = dwellingTenure(api, householdId);
+  if (held) return held.tenure === "own";
   return ownsWithMortgage(core, householdId);
 }
 
