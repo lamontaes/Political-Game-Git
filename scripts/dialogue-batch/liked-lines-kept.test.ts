@@ -1,5 +1,6 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { STOPGAPS } from "../../src/core2/stopgaps";
 
 /**
  * A rewrite never deletes a line the owner graded good (owner, via the CTO,
@@ -9,7 +10,7 @@ import { describe, expect, it } from "vitest";
  * `restoredFrom` (`scripts/dialogue-batch/restore-liked-lines.ts`). There is
  * no list of exceptions: a liked line no scene reads yet is kept in a bank of
  * its own kind under a registered stopgap (`SG-WORDS-<bank>-no-reader` in
- * `src/director/data/stopgaps.json`) and a pool item for the scene that will
+ * the stopgap register's family files) and a pool item for the scene that will
  * read it.
  *
  * The one way a liked line leaves the banks is with its scene: on Nov 12,
@@ -102,9 +103,7 @@ describe("a line the owner graded good stays in the banks", () => {
   });
 
   it("keeps a line no scene reads under a registered stopgap for its bank, or has a reader", () => {
-    const stopgaps = JSON.parse(
-      readFileSync("src/director/data/stopgaps.json", "utf8"),
-    ) as { id: string; status: string }[];
+    const stopgaps: readonly { id: string; status: string }[] = STOPGAPS;
     for (const bank of [
       "address",
       "hearing",

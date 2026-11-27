@@ -29,7 +29,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { campaignParameter } from "../core2/campaign-data";
 import { takeCampaignDayChoice } from "../core2/campaign-day";
 import { gameStartDate } from "../core2/game-start";
-import { advanceToRaceFiling } from "../core2/gov-test-clock";
+import { advanceToRaceFiling } from "../../tests/support/gov-test-clock";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {

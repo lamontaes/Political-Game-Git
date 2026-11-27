@@ -9,7 +9,7 @@
 import { taxIndexOf } from "../tax-index";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { chooseAct } from "../choice";
-import { reviewBoardTerms } from "../central-bank-appointments";
+import { reviewBoardTerms } from "./executive";
 import { DEFAULT_DATA, extendData } from "../data";
 import macroParameters from "../data/macro/parameters.json" with { type: "json" };
 import {
@@ -84,10 +84,7 @@ export {
 import { bookkeeping } from "../bookkeeping";
 import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";
-import {
-  scaleOutsideSales,
-  type OutsideSectorFactor,
-} from "../residents-economy";
+import { scaleOutsideSales, type OutsideSectorFactor } from "./health";
 import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import { firmStaffing } from "./jobs";
 import { LAWS_MODULE_ID, stateLawInForce } from "./laws";
@@ -103,9 +100,8 @@ import {
   stepRegional,
 } from "./regional";
 import type { CoreAPI, CoreData, CoreInput, CoreState, Source } from "../types";
-
-/** Where a custom world's chosen national economy rides in the opening input (see worldGameOptions). */
-export const CUSTOM_ECONOMY_KEY = "customEconomy";
+import { CUSTOM_ECONOMY_KEY } from "./macro-constants";
+export { CUSTOM_ECONOMY_KEY };
 export const MACRO_MODULE_ID = "macro";
 /** The national economy's numbers: the central bank's and the published past's, and the country tier's (data/country). */
 export const MACRO_PARAMETERS = {

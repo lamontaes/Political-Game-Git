@@ -23,7 +23,10 @@ import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { chromium } from "playwright";
-import { fileWhenFilingOpens, startLife } from "./start-life.mjs";
+import {
+  fileWhenFilingOpens,
+  startLife,
+} from "../../tests/support/start-life.mjs";
 import {
   scanBoxes,
   scanClipped,
@@ -31,7 +34,7 @@ import {
   scanRepeated,
   scanScrollers,
   scanTitles,
-} from "./ui-look-scan.mjs";
+} from "../../tests/support/ui-look-scan.mjs";
 
 const BASELINE = new URL(
   "../../tests/guards/ui-look-baseline.json",
