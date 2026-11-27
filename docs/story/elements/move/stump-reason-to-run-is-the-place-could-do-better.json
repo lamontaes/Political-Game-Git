@@ -16,7 +16,7 @@
   "weights": {
     "campaign-speech": 0.8
   },
-  "usedBy": [],
+  "usedBy": ["speech-stages.stage-area-worse"],
   "inGame": "outcome web and macro records of the town's conditions (crime, schools, rents) a candidate can point to",
   "turns": [
     {

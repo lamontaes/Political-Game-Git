@@ -16,7 +16,7 @@
   "weights": {
     "campaign-speech": 1.0
   },
-  "usedBy": [],
+  "usedBy": ["speech-stages.stage-opener"],
   "inGame": "filing rows and the speech heard record",
   "turns": [
     {

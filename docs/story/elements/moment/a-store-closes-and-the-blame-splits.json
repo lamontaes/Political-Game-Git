@@ -1,0 +1,36 @@
+{
+  "id": "a-store-closes-and-the-blame-splits",
+  "kind": "moment",
+  "summary": "A neighborhood store closes and people name different people to blame: the landlord, the owner, the city that owned the building.",
+  "realLife": "When a neighborhood supermarket in Cleveland closed, a council member blamed the landlord: the lease was up and the rent had risen 50 percent over the last one. When a Kansas City supermarket closed, the city itself owned the property and had spent nearly $1 million in the past year to keep it open, so the closing was a city matter. When a Florida downtown lost businesses, residents blamed a sale of the building and officials said the city cannot step into private real estate deals.",
+  "sources": [
+    "The Land (Cleveland), Dave's Supermarket in Collinwood is closing April 30, leaving the area without a grocery store: https://thelandcle.org/stories/daves-supermarket-in-collinwood-is-closing-april-30-leaving-the-area-without-a-grocery-store/",
+    "KCUR, Kansas City grocery store Sun Fresh closed despite city investments: https://www.kcur.org/news/2025-08-12/kansas-city-grocery-store-sun-fresh-closed-despite-18-million-city-investments-food-desert",
+    "FOX 35 Orlando, Winter Garden residents protest loss of downtown businesses: https://www.fox35orlando.com/news/winter-garden-residents-protest-loss-downtown-businesses"
+  ],
+  "fits": ["home", "news"],
+  "slots": ["{subject}", "{who}", "{whose}"],
+  "gates": [],
+  "issues": ["none"],
+  "weights": {
+    "local-business": 0.6
+  },
+  "inGame": "change-organization (closed) in the bring-it-up rows: the blame comes from the record (who owned, who decided) or from what the speaker was told or assumed.",
+  "turns": [
+    {
+      "turn": "The blame is on the record",
+      "pull": "the closing's cause names a decider",
+      "writes": "writes the name flatly: who made the call"
+    },
+    {
+      "turn": "The blame is a guess",
+      "pull": "nothing on the person's own record says who decided",
+      "writes": "writes it as word going round: could it have been them"
+    }
+  ],
+  "usedBy": [
+    "change-organization.closed-closed",
+    "blame-record-record",
+    "blame-assumed-assumed"
+  ]
+}

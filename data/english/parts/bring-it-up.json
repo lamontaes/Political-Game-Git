@@ -87,7 +87,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-store-closes-and-the-blame-splits"]
     },
     {
       "key": "bring-it-up.change-organization.closed-closed.subject-shut-for-good",
@@ -108,7 +109,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-store-closes-and-the-blame-splits"]
     },
     {
       "key": "bring-it-up.change-organization.closed-closed.they-closed-subject-down",
@@ -129,7 +131,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-store-closes-and-the-blame-splits"]
     },
     {
       "key": "bring-it-up.change-organization.closed-closed.subject-didn-t-make-it",
@@ -151,7 +154,8 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-store-closes-and-the-blame-splits"]
     },
     {
       "key": "bring-it-up.blame-record-record.who-made-the-call",
@@ -172,7 +176,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-store-closes-and-the-blame-splits"]
     },
     {
       "key": "bring-it-up.blame-record-record.the-call-was-whose",
@@ -193,7 +198,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-store-closes-and-the-blame-splits"]
     },
     {
       "key": "bring-it-up.blame-record-record.who-decided-it",
@@ -214,7 +220,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-store-closes-and-the-blame-splits"]
     },
     {
       "key": "bring-it-up.blame-record-record.blame-who-for-it",
@@ -235,7 +242,8 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-store-closes-and-the-blame-splits"]
     },
     {
       "key": "bring-it-up.blame-record-record.who-messed-that-up",
@@ -256,7 +264,8 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-store-closes-and-the-blame-splits"]
     },
     {
       "key": "bring-it-up.blame-record-record.who-brought-this-on-us",
@@ -277,7 +286,8 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-store-closes-and-the-blame-splits"]
     },
     {
       "key": "bring-it-up.blame-record-record.you-can-thank-who",
@@ -298,7 +308,8 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-store-closes-and-the-blame-splits"]
     },
     {
       "key": "bring-it-up.blame-assumed-assumed.word-is-it-was-who",
@@ -319,7 +330,8 @@
       "bearing": "nervous",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-store-closes-and-the-blame-splits"]
     },
     {
       "key": "bring-it-up.blame-assumed-assumed.could-that-have-been-who",
@@ -340,7 +352,8 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-store-closes-and-the-blame-splits"]
     },
     {
       "key": "bring-it-up.change-news.read-read.subject-ran-something-on-topic",
@@ -361,7 +374,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-reports-the-council-vote"]
     },
     {
       "key": "bring-it-up.change-news.read-read.i-came-across-a-story-in-subject-on-topic",
@@ -382,7 +396,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-reports-the-council-vote"]
     },
     {
       "key": "bring-it-up.change-news.read-read.did-you-see-what-subject-wrote-on-topic",
@@ -403,7 +418,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-reports-the-council-vote"]
     },
     {
       "key": "bring-it-up.change-news.read-read.subject-wrote-about-topic",
@@ -424,7 +440,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-reports-the-council-vote"]
     },
     {
       "key": "bring-it-up.your-bill-passed-ordinance.subject-reports-your-ordinance-on-topic-passed",
@@ -445,7 +462,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-reports-the-council-vote"]
     },
     {
       "key": "bring-it-up.your-bill-passed-ordinance.your-ordinance-on-topic-passed-subject-says",
@@ -466,7 +484,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-reports-the-council-vote"]
     },
     {
       "key": "bring-it-up.your-bill-failed-ordinance.subject-reports-your-ordinance-on-topic-failed",
@@ -487,7 +506,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-reports-the-council-vote"]
     },
     {
       "key": "bring-it-up.your-bill-failed-ordinance.subject-says-your-ordinance-on-topic-fell-short-tough-break",
@@ -508,7 +528,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-reports-the-council-vote"]
     },
     {
       "key": "bring-it-up.your-bill-passed-act.subject-reports-your-bill-on-topic-passed",
@@ -529,7 +550,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-reports-the-council-vote"]
     },
     {
       "key": "bring-it-up.your-bill-passed-act.your-bill-on-topic-passed-subject-says",
@@ -550,7 +572,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-reports-the-council-vote"]
     },
     {
       "key": "bring-it-up.your-bill-failed-act.subject-reports-your-bill-on-topic-failed",
@@ -571,7 +594,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-reports-the-council-vote"]
     },
     {
       "key": "bring-it-up.your-bill-failed-act.subject-says-your-bill-on-topic-fell-short",
@@ -592,7 +616,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-reports-the-council-vote"]
     },
     {
       "key": "bring-it-up.lean-with.my-ballot-went-to-winner-so-i-m-happy",
@@ -610,7 +635,8 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-narrow-win-leaves-a-town-split"]
     },
     {
       "key": "bring-it-up.lean-with.winner-is-who-i-wanted",
@@ -628,7 +654,8 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-narrow-win-leaves-a-town-split"]
     },
     {
       "key": "bring-it-up.lean-with.winner-winning-suits-me-fine",
@@ -646,7 +673,8 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-narrow-win-leaves-a-town-split"]
     },
     {
       "key": "bring-it-up.lean-with.winner-is-one-of-ours-and-i-m-glad",
@@ -664,7 +692,8 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-narrow-win-leaves-a-town-split"]
     },
     {
       "key": "bring-it-up.lean-against.winner-wasn-t-my-choice",
@@ -682,7 +711,8 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-narrow-win-leaves-a-town-split"]
     },
     {
       "key": "bring-it-up.lean-against.i-m-not-happy-that-winner-won",
@@ -700,7 +730,8 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-narrow-win-leaves-a-town-split"]
     },
     {
       "key": "bring-it-up.lean-against.winner-will-have-to-win-me-over",
@@ -718,7 +749,8 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-narrow-win-leaves-a-town-split"]
     },
     {
       "key": "bring-it-up.lean-against.i-ll-see-what-winner-does-with-it",
@@ -736,7 +768,8 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["a-narrow-win-leaves-a-town-split"]
     },
     {
       "key": "bring-it-up.election-result-named.subject-printed-that-winner-won-the-race-for-seat",
@@ -754,7 +787,8 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-prints-who-won-the-race"]
     },
     {
       "key": "bring-it-up.election-result-named.subject-showed-winner-winning-the-race-for-seat",
@@ -772,7 +806,8 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-prints-who-won-the-race"]
     },
     {
       "key": "bring-it-up.election-result-named.subject-says-winner-took-the-race-for-seat",
@@ -789,7 +824,8 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-prints-who-won-the-race"]
     },
     {
       "key": "bring-it-up.election-result-unnamed.subject-printed-how-the-race-for-seat-came-out",
@@ -807,7 +843,8 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-prints-who-won-the-race"]
     },
     {
       "key": "bring-it-up.election-result-unnamed.subject-showed-how-the-race-for-seat-came-out",
@@ -825,7 +862,8 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-prints-who-won-the-race"]
     },
     {
       "key": "bring-it-up.election-result-unnamed.subject-has-word-on-the-race-for-seat",
@@ -842,7 +880,8 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-prints-who-won-the-race"]
     },
     {
       "key": "bring-it-up.election-result-known.winner-took-the-race-for-seat",
@@ -859,7 +898,8 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["the-paper-prints-who-won-the-race"]
     }
   ]
 }
