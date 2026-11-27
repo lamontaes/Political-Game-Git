@@ -56,6 +56,7 @@ const FIELDS: (keyof CoreModule)[] = [
   "stopKinds",
   "boardAppointer",
   "worldOpen",
+  "adOutlet",
 ];
 
 function world(): CoreState {
