@@ -16,7 +16,7 @@
  * constituent case in the official's office.
  */
 import { townLean } from "./campaigns";
-import { openBusinessOwnerIds } from "./business";
+import { ownersOfOpenBusinesses } from "./business";
 import { workedToday } from "./jobs";
 import {
   coreAPI,
@@ -421,7 +421,7 @@ export function staffCandidates(
   // Someone who runs an open business cannot take a post and keep it open:
   // taking it closes the firm (Dickens, Iowa: four owners hired as aides on
   // 2025-02-19, their firms closed with no successor on 2025-03-01).
-  const owners = openBusinessOwnerIds(api);
+  const owners = ownersOfOpenBusinesses(api);
   for (const person of reachablePeople(state, official, town, review)) {
     if (person.id === officialId || hired.has(person.id)) continue;
     // The person the player controls is never hired by the engine's choice
