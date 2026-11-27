@@ -63,6 +63,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import { personLean } from "./campaigns";
 import { personStance } from "./elections";
 import { campaignParameter } from "../campaign-data";
+import { fieldsOf } from "../module-fields";
 import {
   enactLaw,
   repealLaw,
@@ -858,18 +859,6 @@ function replyPull(
   };
 }
 
-let committeeWaits: ((api: CoreAPI, bill: BillRow) => boolean) | null = null;
-/**
- * The office day says a town body's committee waits for the meeting's day:
- * the committee the player sits on meets inside the vote, so the player's seat
- * votes in it (and in the floor vote) on the day, present or not.
- */
-export function registerCommitteeWait(
-  wait: (api: CoreAPI, bill: BillRow) => boolean,
-): void {
-  committeeWaits = wait;
-}
-
 /** Whether the player holds a seat on the committee that takes the bill in its first chamber. */
 export function playerSitsOnCommittee(api: CoreAPI, bill: BillRow): boolean {
   // The person the player controls, else the one they began as.
@@ -915,7 +904,12 @@ function committeesBeforeTheFloor(api: CoreAPI): void {
     if (!first || table(api, "committees").get(`committee:${id}:${first}`))
       continue;
     // A committee the player sits on meets on the meeting's day, inside the vote.
-    if (committeeWaits?.(api, bill)) continue;
+    if (
+      fieldsOf(api.state as CoreState, "committeeWait").some((wait) =>
+        wait(api, bill),
+      )
+    )
+      continue;
     holdCommittee(api, id);
   }
 }
@@ -1044,17 +1038,16 @@ function askBeforeTheRoll(api: CoreAPI): void {
   }
 }
 
-type PositionTerm = (api: CoreAPI, bill: BillRow, memberId: string) => number;
-const positionTerms: PositionTerm[] = [];
-/** The pre-vote hooks, by name; the data says which run on a committee's day. */
-const beforeVoteHooks: {
-  readonly name: string;
-  readonly run: (api: CoreAPI, billId: string) => void;
-  /** The hook casts a member's vote: it runs only where the bill is voted, never at a hearing. */
-  readonly castsVote?: boolean;
-}[] = [];
 const committeeStageHooks = new Set(committeeDayData.committeeStage);
-const afterVoteHooks: ((api: CoreAPI, billId: string) => void)[] = [];
+/**
+ * What other engines add to the legislature (organized interests lobbying, groups
+ * forming from a fiscal note, what the executive's desk keeps): the hooks each
+ * installed module carries, in install order. The data says which pre-vote hooks
+ * run on a committee's day.
+ */
+function legislatureHooksOf(api: CoreAPI) {
+  return fieldsOf(api.state as CoreState, "legislatureHooks");
+}
 /** What the executive did with a passed bill on their desk, and why. */
 export interface DeskAction {
   readonly bill: BillRow;
@@ -1065,35 +1058,6 @@ export interface DeskAction {
   readonly temperament: number;
   /** For a bill waiting on the desk: the last day to act. */
   readonly signBy?: string;
-}
-const deskHooks: ((api: CoreAPI, action: DeskAction) => void)[] = [];
-/**
- * Other engines add to a member's reasons (organized interests lobbying), act
- * on a bill before its votes (groups forming from its fiscal note) and keep
- * the executive's desk (what they signed or vetoed).
- */
-export function registerLegislatureHooks(input: {
-  readonly positionTerm?: PositionTerm;
-  readonly beforeVote?: {
-    readonly name: string;
-    readonly run: (api: CoreAPI, billId: string) => void;
-    readonly castsVote?: boolean;
-  };
-  /** After a bill's votes are counted: whoever settled something on how members voted. */
-  readonly afterVote?: (api: CoreAPI, billId: string) => void;
-  readonly onDesk?: (api: CoreAPI, action: DeskAction) => void;
-}): void {
-  if (input.positionTerm && !positionTerms.includes(input.positionTerm))
-    positionTerms.push(input.positionTerm);
-  if (
-    input.beforeVote &&
-    !beforeVoteHooks.some((hook) => hook.name === input.beforeVote!.name)
-  )
-    beforeVoteHooks.push(input.beforeVote);
-  if (input.afterVote && !afterVoteHooks.includes(input.afterVote))
-    afterVoteHooks.push(input.afterVote);
-  if (input.onDesk && !deskHooks.includes(input.onDesk))
-    deskHooks.push(input.onDesk);
 }
 
 type RosterProvider = (
@@ -1341,7 +1305,11 @@ function holdCouncilBudgetHearing(
   // A body that meets votes its budget at a meeting on the year's first day,
   // on that meeting's agenda like any item (office-day.ts); one that does not
   // votes it from the budgets calendar.
-  budgetMeeting?.place(api, bill.id, `${fy}-${gov.fiscalYearStart}`);
+  fieldsOf(api.state as CoreState, "budgetMeeting")[0]?.place(
+    api,
+    bill.id,
+    `${fy}-${gov.fiscalYearStart}`,
+  );
   runBeforeVote(api, bill.id, "hearing");
   const speakers = remarkSpeakers(api, bill.id);
   const row: BudgetHearingRow = {
@@ -1608,17 +1576,6 @@ function budgetTotal(position: MemberPosition): number {
   );
 }
 
-/** The meetings engine: puts a budget on its body's agenda for its vote day, and says whether a meeting today votes it. */
-let budgetMeeting: {
-  readonly place: (api: CoreAPI, billId: string, date: string) => void;
-  readonly votes: (api: CoreAPI, billId: string) => boolean;
-} | null = null;
-export function registerBudgetMeeting(
-  input: NonNullable<typeof budgetMeeting>,
-): void {
-  budgetMeeting = input;
-}
-
 /**
  * Whether the budgets calendar leaves a year's budget to its body's meeting:
  * the hearing's bill is on the agenda of a meeting that votes it today, or
@@ -1634,7 +1591,10 @@ function budgetVoteWaits(
     ? (table(api, "bills").get(heard.billId) as unknown as BillRow | undefined)
     : undefined;
   if (!bill?.budgetFor) return false;
-  return budgetMeeting?.votes(api, bill.id) ?? false;
+  return (
+    fieldsOf(api.state as CoreState, "budgetMeeting")[0]?.votes(api, bill.id) ??
+    false
+  );
 }
 
 /** A budget comes to its vote at its body's meeting: the year's adoption, by the one budget vote (`councilBudget`). */
@@ -3829,8 +3789,8 @@ function positionOfMember(
       0,
     );
   const c = campaignParameter("constituentWeight");
-  const lobby = positionTerms.reduce(
-    (sum, term) => sum + term(api, bill, memberId),
+  const lobby = legislatureHooksOf(api).reduce(
+    (sum, hooks) => sum + (hooks.positionTerm?.(api, bill, memberId) ?? 0),
     0,
   );
   const answersHome = parts ? parts.constituents : c * constituents;
@@ -5343,13 +5303,6 @@ export interface HearingWitness {
   readonly lifeRecordId?: string;
 }
 
-/** Who else a hearing hears on a bill's question, from another engine's records (the interest groups). */
-type HearingWitnessProvider = (
-  api: CoreAPI,
-  bill: BillRow,
-  question: string,
-) => readonly HearingWitness[];
-const hearingWitnessProviders: HearingWitnessProvider[] = [];
 /**
  * A chamber's members taking a bill from a committee that did not report it: each member signs by their
  * own decision (a signature cast for them, else their own position on the bill being for it), and the
@@ -5425,14 +5378,6 @@ export function castChairHearing(
     id: `${billId}|${memberKey(seats.chair)}|hear`,
     hear,
   } as unknown as ModuleRow);
-}
-
-/** An engine says who testifies on a question: the people its records show are concerned with it. */
-export function registerHearingWitnessProvider(
-  provider: HearingWitnessProvider,
-): void {
-  if (!hearingWitnessProviders.includes(provider))
-    hearingWitnessProviders.push(provider);
 }
 
 /**
@@ -5544,8 +5489,12 @@ function committeeStage(
   // A bill that is not a wage bill is heard on its own question: the people the interest groups'
   // records show taking a side on it, up to the hearing's size.
   if (heard && question)
-    for (const provider of hearingWitnessProviders)
-      for (const w of provider(api, bill, question.question)) {
+    for (const provider of fieldsOf(api.state as CoreState, "hearingWitnesses"))
+      for (const w of provider(
+        api,
+        bill,
+        question.question,
+      ) as readonly HearingWitness[]) {
         if (witnesses.length >= campaignParameter("hearingWitnesses")) break;
         if (!witnesses.some((row) => row.personId === w.personId))
           witnesses.push(w);
@@ -6054,7 +6003,9 @@ function runBeforeVote(
   billId: string,
   stage: "committee" | "floor" | "hearing",
 ): void {
-  for (const hook of beforeVoteHooks) {
+  for (const hook of legislatureHooksOf(api).flatMap((hooks) =>
+    hooks.beforeVote ? [hooks.beforeVote] : [],
+  )) {
     if (stage === "committee" && !committeeStageHooks.has(hook.name)) continue;
     // A hearing is not a vote: no member's vote is cast at it, and the hook
     // stays to run when the bill is voted.
@@ -6383,7 +6334,7 @@ export function holdVote(
   const result = countVote(api, billId, options.anyDay === true);
   // Votes are on the record once a bill is anything but unvoted or blocked.
   if (result.status !== "drafted" && result.status !== "blocked")
-    for (const hook of afterVoteHooks) hook(api, billId);
+    for (const hooks of legislatureHooksOf(api)) hooks.afterVote?.(api, billId);
   if (result.status === "failed") referToStudy(api, billId);
   return result;
 }
@@ -6691,8 +6642,8 @@ function executiveAction(
           signBy: deadline.date,
         },
       });
-      for (const hook of deskHooks)
-        hook(api, {
+      for (const hooks of legislatureHooksOf(api))
+        hooks.onDesk?.(api, {
           bill: waiting,
           executiveId: key,
           status: "awaiting",
@@ -6807,8 +6758,8 @@ function decideAtDesk(
     vote: status === "signed" ? "sign" : "veto",
     position,
   } as unknown as ModuleRow);
-  for (const hook of deskHooks)
-    hook(api, {
+  for (const hooks of legislatureHooksOf(api))
+    hooks.onDesk?.(api, {
       bill,
       executiveId: key,
       status: status as DeskAction["status"],
@@ -7706,7 +7657,7 @@ export function holdCommittee(
       failedOn: api.state.date,
     } as unknown as ModuleRow);
     // The bill's fate is on the record as it is when a vote ends it.
-    for (const hook of afterVoteHooks) hook(api, billId);
+    for (const hooks of legislatureHooksOf(api)) hooks.afterVote?.(api, billId);
   }
   return record;
 }
@@ -7817,8 +7768,8 @@ function deadlinePassed(api: CoreAPI, billId: string): void {
     snapshotExplicitControlV1(api.state).personId ??
     (api.state as CoreState).playerId;
   if (executiveId)
-    for (const hook of deskHooks)
-      hook(api, {
+    for (const hooks of legislatureHooksOf(api))
+      hooks.onDesk?.(api, {
         bill: unsigned,
         executiveId,
         status: "unsigned",
@@ -7981,15 +7932,6 @@ export function registerWeeklyFloorReader(
   weeklyFloorReader = reader;
 }
 
-let meetingAgendaReader:
-  ((api: CoreAPI, date: string) => readonly string[]) | null = null;
-/** The office day says which bills a town body's meeting on a date has on its agenda. */
-export function registerMeetingAgendaReader(
-  reader: (api: CoreAPI, date: string) => readonly string[],
-): void {
-  meetingAgendaReader = reader;
-}
-
 /**
  * The floor's agenda for a date: the drafted bills whose vote is scheduled
  * for it, those a legislature's weekly floor takes up that day, and those on
@@ -8001,7 +7943,10 @@ export function floorAgendaOn(api: CoreAPI, date: string): readonly BillRow[] {
   const calendar = api.moduleCalendar(LEGISLATURE_MODULE_ID);
   const weekly = new Set([
     ...(weeklyFloorReader?.(api, date) ?? []),
-    ...(meetingAgendaReader?.(api, date) ?? []),
+    ...(fieldsOf(api.state as CoreState, "meetingAgendaReader")[0]?.(
+      api,
+      date,
+    ) ?? []),
   ]);
   return (table(api, "bills").rows() as unknown as BillRow[])
     .filter(

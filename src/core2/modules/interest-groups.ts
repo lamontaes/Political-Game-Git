@@ -31,8 +31,6 @@ import {
   members,
   provisionStance,
   reachesTown,
-  registerHearingWitnessProvider,
-  registerLegislatureHooks,
   votesOn,
   type BillRow,
   type HearingWitness,
@@ -141,32 +139,21 @@ export const INTEREST_GROUPS_MODULE: CoreModule = {
   journalSourceProviders: {
     [DUES_KIND]: (api, reference) => duesSlot(api, reference.id),
   },
+  // What the interest groups add to the legislature: who testifies on a question, how groups organize before a vote, the lobbying term in a member's position and the settling of a bribe after the vote.
+  hearingWitnesses,
+  legislatureHooks: {
+    beforeVote: { name: "interest-organize", run: organize },
+    positionTerm: lobbyTerm,
+    afterVote: settleBribesAfterVote,
+  },
 };
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(INTEREST_GROUPS_MODULE_ID).table(name);
 
 export function openInterestGroups(core: CoreState): void {
-  // Registered here, not at import: the legislature module is still loading when this file is.
-  registerHearingWitnessProvider(hearingWitnesses);
   if (!core.modules.has(INTEREST_GROUPS_MODULE_ID))
     registerModule(core, INTEREST_GROUPS_MODULE);
-  registerLegislatureHooks({
-    beforeVote: { name: "interest-organize", run: organize },
-    positionTerm: lobbyTerm,
-    // A bribe taken on the bill is settled by how the official voted.
-    afterVote: (api, billId) => {
-      const votes = new Map(
-        votesOn(api, billId).map((row) => [row.memberId, row.vote]),
-      );
-      settleBribes(api, billId, (officialId) => {
-        const vote = votes.get(officialId);
-        return vote === "yes" || vote === "no" || vote === "abstain"
-          ? vote
-          : undefined;
-      });
-    },
-  });
 }
 
 function bill(api: CoreAPI, billId: string): BillRow {
@@ -1106,3 +1093,16 @@ export function meetingsOn(
 }
 
 export { coreAPI };
+
+/** A bribe taken on the bill is settled by how the official voted. */
+function settleBribesAfterVote(api: CoreAPI, billId: string): void {
+  const votes = new Map(
+    votesOn(api, billId).map((row) => [row.memberId, row.vote]),
+  );
+  settleBribes(api, billId, (officialId) => {
+    const vote = votes.get(officialId);
+    return vote === "yes" || vote === "no" || vote === "abstain"
+      ? vote
+      : undefined;
+  });
+}
