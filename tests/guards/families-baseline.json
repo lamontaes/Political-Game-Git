@@ -47,7 +47,6 @@
     "src/core2/membership-dues.ts": 1,
     "src/core2/modules/budgets.ts": 3,
     "src/core2/modules/business.ts": 1,
-    "src/core2/modules/campaigns.ts": 3,
     "src/core2/modules/candidacy.ts": 2,
     "src/core2/modules/constituent-cases.ts": 2,
     "src/core2/modules/contracts.ts": 1,
@@ -121,6 +120,7 @@
     "src/director/tooling/director-year.ts": 1,
     "src/english/mined/conversation-bank.ts": 1,
     "src/english/mined/journal-bank.ts": 1,
-    "src/english/mined/scene-bank.ts": 2
+    "src/english/mined/scene-bank.ts": 2,
+    "src/core2/modules/campaigns-base.ts": 3
   }
 }

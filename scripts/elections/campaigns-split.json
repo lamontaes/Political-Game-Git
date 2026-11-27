@@ -1,0 +1,90 @@
+{
+  "source": "src/core2/modules/campaigns.ts",
+  "base": "src/core2/modules/campaigns-base.ts",
+  "entryOnly": ["CAMPAIGNS_MODULE"],
+  "parts": [
+    {
+      "file": "src/core2/modules/campaigns-doors.ts",
+      "about": "Doors and impressions: walking the doors, what a visit leaves behind, and the counted residents' door warmth.",
+      "spans": [["DoorVisit", "doorsKnockedOf"]]
+    },
+    {
+      "file": "src/core2/modules/campaigns-work.ts",
+      "about": "What a campaign's hours and purchases cost: sellers, unit prices and a day's work.",
+      "spans": [["SELLER_KINDS", "minutesAtWork"]]
+    },
+    {
+      "file": "src/core2/modules/campaigns-volunteers.ts",
+      "about": "Volunteers: asking, joining, lapsing, managing and offering to help.",
+      "spans": [["VolunteerAsk", "offerHelp"]]
+    },
+    {
+      "file": "src/core2/modules/campaigns-rival-word.ts",
+      "about": "What a rival said, who passed it on, and how it folds.",
+      "spans": [["MessageRow", "foldRivalWord"]]
+    },
+    {
+      "file": "src/core2/modules/campaigns-asks.ts",
+      "about": "Answering an ask for a vote, and the electorate a campaign weighs.",
+      "spans": [["offerReason", "interviewHeldInTown"]]
+    },
+    {
+      "file": "src/core2/modules/campaigns-shifts.ts",
+      "about": "Volunteer canvass shifts.",
+      "spans": [["enlistVolunteer", "volunteerShifts"]]
+    },
+    {
+      "file": "src/core2/modules/campaigns-petitions.ts",
+      "about": "Contribution limits, petitions, signatures and hired circulators.",
+      "spans": [["STATE_CONTRIBUTION_SERIES", "askCircleToSign"]]
+    },
+    {
+      "file": "src/core2/modules/campaigns-money.ts",
+      "about": "Gifts and donors: asking, answering, giving, spending and posting money.",
+      "spans": [["partyFit", "postMoney"]]
+    },
+    {
+      "file": "src/core2/modules/campaigns-meetings.ts",
+      "about": "Donor meetings and the speeches given at them.",
+      "spans": [["reachablePeople", "statementSpeechPrefix"]]
+    },
+    {
+      "file": "src/core2/modules/campaigns-ads.ts",
+      "about": "Ads: the outlets, buying time and running an ad.",
+      "spans": [["adOutlet", "emitMessage"]]
+    },
+    {
+      "file": "src/core2/modules/campaigns-endorsements.ts",
+      "about": "Groups, endorsements and how outlets and groups weigh a race.",
+      "spans": [["organizedGroupsIn", "outletWeighsRace"]]
+    },
+    {
+      "file": "src/core2/modules/campaigns-polls.ts",
+      "about": "Polls, a race's causes and folding them.",
+      "spans": [["pollMargin", "foldCauses"]]
+    },
+    {
+      "file": "src/core2/modules/campaigns-turn.ts",
+      "about": "The campaign turn: mail, venues, events, asking for support, the rival's day and the day's work.",
+      "spans": [["sendMail", "campaignRecognition"]]
+    },
+    {
+      "file": "src/core2/modules/campaigns-petition-short.ts",
+      "about": "A petition found short: the telling and the answer.",
+      "spans": [["PETITION_SHORT_EVENT", "answerPetitionShort"]]
+    }
+  ],
+  "funnel": [
+    "./record",
+    "../journal-state",
+    "./drives",
+    "../opening-outside-market",
+    "../appointments",
+    "../world-transfer",
+    "../starting-cash"
+  ],
+  "leaf": {
+    "file": "src/core2/modules/campaigns-constants.ts",
+    "about": "The campaign engine's dependency-free constants: kind names, event names and literal tables."
+  }
+}
