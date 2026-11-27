@@ -12,7 +12,7 @@ import { parameter as p } from "./parameters";
 import { coreAPI, createCore } from "./state";
 import { ensureWorkCashModule, settleWorkResultJournal } from "./work-cash";
 import type { CoreAPI, CoreInput, CoreState, Source } from "./types";
-import { summarizeWorkObservables } from "./tooling/work-observables";
+import { summarizeWorkObservables } from "../../scripts/core2/tooling/work-observables";
 import {
   registerControlledPersonV1,
   retireControlledPersonV1,

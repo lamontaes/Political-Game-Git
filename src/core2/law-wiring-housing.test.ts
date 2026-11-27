@@ -21,7 +21,7 @@ import { coreAPI } from "./state";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { setJournalTrace } from "./journal-state";
-import { govReport } from "./gov-test-report";
+import { govReport } from "../../scripts/core2/gov-test-report";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import {

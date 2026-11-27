@@ -16,7 +16,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { advanceToFilingOpen } from "./gov-test-clock";
+import { advanceToFilingOpen } from "../../tests/support/gov-test-clock";
 import { applyCoreEvent, coreAPI } from "./state";
 import type { CoreState } from "./types";
 import {

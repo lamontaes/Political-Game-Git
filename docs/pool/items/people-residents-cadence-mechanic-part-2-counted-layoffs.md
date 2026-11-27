@@ -33,4 +33,4 @@ checked: fable 2026-11-10
 
 **Waits on.** people-residents-cadence-mechanic-part-1-private-jobs-measure.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/residents.ts, src/core2/modules/residents.ts, src/core2/turnover-check.ts
+**Files.** src/core2/modules/jobs.ts, src/core2/residents.ts, src/core2/modules/residents.ts, scripts/core2/turnover-check.ts
