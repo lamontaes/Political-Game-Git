@@ -1880,6 +1880,25 @@ export function contestOf(
     ContestRow | undefined;
 }
 
+/** A filing by its id; none for an id that is not one. */
+export function filingOf(
+  api: CoreAPI,
+  filingId: string,
+): FilingRow | undefined {
+  return table(api, "filings").get(filingId) as unknown as
+    FilingRow | undefined;
+}
+
+/** Every filing in a contest, in any status. */
+export function filingsInContest(
+  api: CoreAPI,
+  contestId: string,
+): readonly FilingRow[] {
+  return table(api, "filings").query("byContest", [
+    contestId,
+  ]) as unknown as FilingRow[];
+}
+
 /** Every filing a person has made or announced, in any status. */
 export function filingsOfPerson(
   api: CoreAPI,

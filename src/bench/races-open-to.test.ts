@@ -10,7 +10,9 @@ import {
   checkEligibility,
   contestOf,
   fileCandidacy,
+  filingOf,
   filingOfficeFor,
+  filingsInContest,
   filingsOfPerson,
   playerContests,
   racesOpenTo,
@@ -84,6 +86,13 @@ it(`a race the player stands in is no longer a race open to them (seed ${seed})`
       platform: [`${PLATFORM_QUESTIONS[0]}=1`],
     });
     expect(filed.status, where).not.toBe("refused");
+    if (filed.status === "refused") throw new Error(`${where}: refused`);
+    // The same filing is read three ways: by its id, by its person, by its contest.
+    expect(filingOf(api, filed.filing.id)?.personId, where).toBe(me);
+    expect(
+      filingsInContest(api, contest.id).map((row) => row.id),
+      where,
+    ).toContain(filed.filing.id);
     expect(
       filingsOfPerson(api, me).map((f) => f.contestId),
       where,
