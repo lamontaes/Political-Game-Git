@@ -246,7 +246,8 @@
       "entry": [
         "src/core2/modules/legislature.ts",
         "src/core2/modules/meetings.ts",
-        "src/core2/modules/world-panels.ts"
+        "src/core2/modules/world-panels.ts",
+        "src/core2/modules/bodies-reads.ts"
       ],
       "paths": [
         "src/core2/modules/legislature.ts",
@@ -254,6 +255,8 @@
         "src/core2/modules/world-legislating.ts",
         "src/core2/modules/leadership.ts",
         "src/core2/modules/world-panels.ts",
+        "src/core2/modules/bodies-reads.ts",
+        "src/core2/modules/bodies-reads.test.ts",
         "src/core2/legislature-*.ts",
         "src/core2/bill-*.ts",
         "src/core2/board-appointer.ts",
@@ -475,7 +478,10 @@
         "src/core2/laws-in-force.ts",
         "src/core2/modules/police-patrol.ts",
         "src/core2/outcome-web-reach.ts",
-        "src/core2/outcome-web-model.ts"
+        "src/core2/outcome-web-model.ts",
+        "src/core2/modules/laws-reads.ts",
+        "src/core2/modules/justice-reads.ts",
+        "src/core2/modules/outcome-web-reads.ts"
       ],
       "paths": [
         "src/core2/modules/laws.ts",
@@ -485,6 +491,10 @@
         "src/core2/modules/police-patrol.ts",
         "src/core2/modules/corruption.ts",
         "src/core2/modules/outcome-web.ts",
+        "src/core2/modules/laws-reads.ts",
+        "src/core2/modules/laws-reads.test.ts",
+        "src/core2/modules/justice-reads.ts",
+        "src/core2/modules/outcome-web-reads.ts",
         "src/core2/modules/prices-web-gaps.ts",
         "src/core2/law-reach/**",
         "src/core2/laws-*.ts",
@@ -806,7 +816,8 @@
         "src/core2/modules/promises.ts",
         "src/core2/modules/views-constants.ts",
         "src/core2/sitting-closeness.ts",
-        "src/core2/trait-lean.ts"
+        "src/core2/trait-lean.ts",
+        "src/core2/counted-income-fifth.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -1048,6 +1059,7 @@
         "src/core2/sibling-births.test.ts",
         "src/core2/sibling-names.test.ts",
         "src/core2/sitting-closeness.test.ts",
+        "src/core2/sitting-unowned-body.test.ts",
         "src/core2/social-security-line-poverty.test.ts",
         "src/core2/speech-retellings-fold.test.ts",
         "src/core2/speech.test.ts",

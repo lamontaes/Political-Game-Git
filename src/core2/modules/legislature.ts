@@ -35,6 +35,11 @@ import {
  * OPUS-PEOPLE's and OPUS-PLAY's; these are the engine calls they drive.
  */
 import { policyAuthority } from "./laws";
+import {
+  enactmentRowsOfSeries,
+  lawRowById,
+  storedLawRowsOfSeries,
+} from "./laws-reads";
 import { recordHomeRule } from "../laws-in-force";
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
 import committeeDayData from "../data/legislature/committee-day.json" with { type: "json" };
@@ -77,7 +82,6 @@ import {
   lawInForce,
   billLevelJurisdiction,
   billValueInForce,
-  LAWS_MODULE_ID,
   lawNeedsChange,
   questionSettled,
   type SettledQuestion,
@@ -1987,26 +1991,25 @@ export function billStances(
  */
 export function authorityFor(api: CoreAPI, provision: Provision): Authority {
   const chain = lawChain(api);
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
   if (provision.kind === "law-amount" && provision.series === "minimum-wage") {
-    const rows = laws.query("bySeriesOnly", [
+    const rows = storedLawRowsOfSeries(
+      api,
       "local-minimum-wage-authority",
-    ]) as unknown as LawRowInput[];
+    ) as LawRowInput[];
     // A state's grant of authority enacted in play counts too.
-    const enacted = api
-      .moduleState(LAWS_MODULE_ID)
-      .table("enactments")
-      .query("bySeries", [
-        "local-minimum-wage-authority",
-      ]) as unknown as EnactedAuthority[];
+    const enacted = enactmentRowsOfSeries<EnactedAuthority>(
+      api,
+      "local-minimum-wage-authority",
+    ) as EnactedAuthority[];
     const authority = localAuthority(
       rows,
       enacted,
       chain,
       api.state.date,
-      laws.query("bySeriesOnly", [
+      storedLawRowsOfSeries(
+        api,
         LOCAL_WAGE_AUTHORITY_QUESTION,
-      ]) as unknown as LawRowInput[],
+      ) as LawRowInput[],
     );
     return authority.allowed
       ? {
@@ -3140,12 +3143,7 @@ function checkedText(
   // decided it: the state's authority answer or the question that enacted it.
   for (const [i, p] of provisions.entries()) {
     const a = authority[i]!;
-    const decidedBy = a.source
-      ? (api
-          .moduleState(LAWS_MODULE_ID)
-          .table("laws")
-          .get(a.source) as unknown as LawRowInput | undefined)
-      : undefined;
+    const decidedBy = a.source ? lawRowById(api, a.source) : undefined;
     // A question answered no is no law to apply; the state's preemption is
     // the grant series' own row.
     if (
