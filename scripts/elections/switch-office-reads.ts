@@ -434,8 +434,20 @@ function fixImports(
   return out;
 }
 
+/**
+ * Files the script refuses, with why. `national-opinion.ts` reads the offices
+ * tables without importing the offices module; a door import would close an
+ * import cycle through it (the import-cycles guard counted one more edge), and
+ * no baseline rises (CTO, Nov 27, 8:21 a.m.). It waits for Core item 11.
+ */
+const REFUSED = /modules\/national-opinion\.ts$/;
+
 let changed = 0;
 for (const file of files) {
+  if (REFUSED.test(file)) {
+    console.log(`${file}: refused (closes an import cycle)`);
+    continue;
+  }
   const before = readFileSync(file, "utf8");
   let current = before;
   // Nested reads (a read inside another's arguments) take another pass.
