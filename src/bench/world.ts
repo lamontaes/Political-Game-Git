@@ -34,7 +34,7 @@ import {
   pastSessionLaws,
 } from "../core2/past-sessions";
 import type { EntityId } from "../core2/kernel/brands";
-import { coreAPI } from "../core2/state";
+import { coreAPI, registerModule } from "../core2/state";
 import { openStartingCircle } from "../core2/modules/people";
 import { openOffices } from "../core2/modules/offices";
 import {
@@ -73,7 +73,7 @@ import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/campaigns";
 import { openPublicAction } from "../core2/modules/health";
 import { openNationalOpinion } from "../core2/modules/national-opinion";
-import { openFederalCourts } from "../core2/modules/federal-courts";
+import { FEDERAL_COURTS_MODULE } from "../core2/modules/federal-courts";
 import { openNationalEvents } from "../core2/modules/national-events";
 import {
   openSittingSessions,
@@ -87,11 +87,11 @@ import { officeDayData, openOfficeDay } from "../core2/modules/president-acts";
 import { openPresidentActs } from "../core2/modules/president-acts";
 import { openCases } from "../core2/modules/executive";
 import { openJustice } from "../core2/modules/justice";
-import { openPublicSafety } from "../core2/modules/public-safety";
+import { PUBLIC_SAFETY_MODULE } from "../core2/modules/public-safety";
 import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/modules/coverage";
-import type { CoreInput, CoreState } from "../core2/types";
+import type { CoreInput, CoreModule, CoreState } from "../core2/types";
 import { OPENING_KIN } from "../core2/opening-kin";
 import { scaleFirmsToCensus } from "../core2/modules/business";
 import { collapseToTwoLevels, fullPeople } from "../core2/modules/health";
@@ -531,6 +531,19 @@ function censusScale(population: CoreInput): number {
   return real !== undefined && real > sample ? real / sample : 1;
 }
 
+/**
+ * The engines a stage of the world builder installs, in order: each installed
+ * once, then its own `worldOpen` run (the engine's opening records). The list
+ * is data the builder holds; an engine does not install itself.
+ */
+function installEngines(core: CoreState, engines: readonly CoreModule[]): void {
+  for (const engine of engines) {
+    if (core.modules.has(engine.id)) continue;
+    registerModule(core, engine);
+    engine.worldOpen?.(core);
+  }
+}
+
 function* benchWorldStages(
   seed: string,
   date: string,
@@ -862,10 +875,9 @@ function* benchWorldStages(
   openPresidentActs(core);
   // Prosecutors, trials and prisons: reads the corruption engine's records.
   openJustice(core);
-  // Ordinary crime, courts, jail, firearm laws and fire service.
-  openPublicSafety(core);
-  // The federal courts as a national flow and stock, from the Commission and the Bureau.
-  openFederalCourts(core);
+  // Ordinary crime, courts, jail, firearm laws and fire service; then the
+  // federal courts as a national flow and stock, from the Commission and the Bureau.
+  installEngines(core, [PUBLIC_SAFETY_MODULE, FEDERAL_COURTS_MODULE]);
   yield "history";
   // The world has a past (OPUS-CORE): prior elections, voting records, law
   // histories, the year's news and what the public knows, before day one.
