@@ -617,7 +617,6 @@ export function employerArrears(api: CoreAPI, employerId: string): number {
   return arrearsOf(api, employerId) + arrearsOf(api, `${employerId}:state`);
 }
 
-
 /**
  * The share of a worker's yearly wage an employer pays in payroll taxes under
  * the law in force today: Social Security and Medicare (each to its wage

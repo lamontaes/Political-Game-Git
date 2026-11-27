@@ -1066,6 +1066,8 @@ function hearingWitnesses(
   bill: BillRow,
   question: string,
 ): readonly HearingWitness[] {
+  // The provider is one for every world in the process: a world without groups has no witnesses.
+  if (!api.state.modules.has(INTEREST_GROUPS_MODULE_ID)) return [];
   // The town's groups are its residents: they testify on law that reaches
   // them (the nation's and their own chain's), as they organize over it
   // (`organize`), never at another state's committee.

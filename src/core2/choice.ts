@@ -1,5 +1,6 @@
 import decisionTable from "../../data/content/trait-decisions.json" with { type: "json" };
 import { bookkeeping } from "./bookkeeping";
+import { freezeCompactScore } from "./compact-choice";
 import { initialPersonState } from "./person-state";
 import { countedPersonOf } from "./counted-actor";
 import { parameter } from "./parameters";
@@ -476,33 +477,13 @@ export function chooseAct(
 }
 
 function compact(row: ScoredOffer): Readonly<CompactChoiceScoreV1> {
-  return Object.freeze({
+  return freezeCompactScore(row, {
     offerIndex: row.offerIndex,
     actionId: row.offer.definition.id,
     targetId: row.offer.targetId,
     availableHours: row.offer.availableHours,
     effortHours: row.effortHours,
     ...(row.offer.driveId === undefined ? {} : { driveId: row.offer.driveId }),
-    score: row.score,
-    contributions: Object.freeze({ ...row.reasons }),
-    ...(row.reasonTerms?.length
-      ? {
-          reasonTerms: Object.freeze(
-            row.reasonTerms.map((term) =>
-              Object.freeze({
-                bindingId: term.id,
-                provider: term.provider,
-                weightParameter: term.weightParameter,
-                value: term.value,
-                contribution: term.contribution,
-                ...(term.sourceIds === undefined
-                  ? {}
-                  : { sourceIds: Object.freeze([...term.sourceIds]) }),
-              }),
-            ),
-          ),
-        }
-      : {}),
   });
 }
 

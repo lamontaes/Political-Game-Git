@@ -1,24 +1,15 @@
-/* global fetch */
 // Dev mode on a bill's own page (mock fr-dev-bill): where to introduce it, how each member
 // votes, the margin, then Introduce, Hold the vote, Sign, Veto or Override. Every press goes
 // through the game's own routes (/api/dev/introduce, /api/dev/decide), which cast each member's
 // vote and run the executive's decision as the game does. Control names and member names only.
+import { sendDevRequest as send } from "./dev-request.mjs";
+
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { lookRow } from "./look-row.mjs";
 import { statusLine } from "./fields.mjs";
 import { stripSection } from "./strips.mjs";
 import { devViewNodes } from "./dev-views.mjs";
-
-async function send(path, input) {
-  const response = await fetch(`/api/dev/${path}`, {
-    method: input ? "POST" : "GET",
-    ...(input ? { body: JSON.stringify(input) } : {}),
-  });
-  const value = await response.json();
-  if (!response.ok) throw new Error(value.error);
-  return value;
-}
 
 /** The largest body whose members are listed to name each vote (layout, not a game rule). */
 const NAMED_VOTES_UP_TO = 12;

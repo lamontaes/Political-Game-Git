@@ -215,6 +215,57 @@ export function whoRemembers(
   return [...out];
 }
 
+/** The jobs engine's change records' kinds (`job-change:<kind>`). */
+const JOB_CHANGE = "job-change:";
+
+/**
+ * How a person's own list words one record of the simulated past or of play
+ * (its `life` and `what`), the table's row as `lifeOf` tells it: so a read of
+ * that record by kind tells it in the same words as the person's whole life.
+ * A record of play is worded by the row that has this person remember it (a
+ * vote: won for one, lost for the rest), with the facts its row keeps. Null
+ * where the list words no such record for them.
+ */
+export function lifeWordsOf(
+  core: CoreState,
+  personId: PersonId,
+  record: Readonly<CoreEventInput>,
+  from: "past" | "played",
+): {
+  life: string;
+  what: string;
+  facts?: Readonly<Record<string, string>>;
+} | null {
+  if (from === "past") {
+    const row = HISTORY_ROWS.get(record.kind);
+    return row ? { life: row.life, what: row.what } : null;
+  }
+  // A change the jobs engine made, as the person's list tells it (`playedJobs`).
+  if (record.kind.startsWith(JOB_CHANGE)) {
+    const kind = record.kind.slice(JOB_CHANGE.length);
+    if (kind === "hire")
+      return {
+        life: "work",
+        what: "job-started",
+        facts: { startedAt: record.date },
+      };
+    if (kind === "layoff") return { life: "work", what: "job-lost" };
+    const ended = jobEnding(kind, String(record.facts?.reasonKey ?? ""));
+    return ended ? { life: "work", what: "job-ended", facts: { ended } } : null;
+  }
+  for (const row of EVENT_ROWS.get(record.kind) ?? [])
+    if (
+      rowApplies(record, row) &&
+      rememberers(core, record, row).includes(personId)
+    )
+      return {
+        life: row.life,
+        what: row.what,
+        facts: keptFacts(record, row),
+      };
+  return null;
+}
+
 /**
  * An engine recorded something a person remembers: it goes on the list of each
  * person the table says remembers it. Called for every such record as it is
@@ -229,12 +280,11 @@ export function rememberEvent(
   for (const row of rows) rememberRow(core, event, row);
 }
 
-function rememberRow(
-  core: CoreState,
+/** The facts a row of the table keeps of a record, in the table's own words (`facts`, `set`, `topicAs`). */
+function keptFacts(
   event: Readonly<CoreEventInput>,
   row: EventRow,
-): void {
-  if (!rowApplies(event, row)) return;
+): Record<string, string> {
   const kept: Record<string, string> = { ...row.set };
   for (const key of row.facts) {
     // Some writers key a fact by its event (`event:<id>:causeOfDeath`).
@@ -244,6 +294,16 @@ function rememberRow(
   }
   if (row.topicAs && event.topic && kept[row.topicAs] === undefined)
     kept[row.topicAs] = event.topic;
+  return kept;
+}
+
+function rememberRow(
+  core: CoreState,
+  event: Readonly<CoreEventInput>,
+  row: EventRow,
+): void {
+  if (!rowApplies(event, row)) return;
+  const kept = keptFacts(event, row);
   let counts: Record<string, number> = {};
   if (row.counts) {
     try {
@@ -278,6 +338,22 @@ function rememberRow(
     });
     fold(person);
   }
+}
+
+/**
+ * The records of play a person keeps on their own list, as history rows: the
+ * one store of what the log lets go, read by the history reader beside the log.
+ */
+export function keptEventsOf(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+): (LifeEvent & { personIds: readonly PersonId[] })[] {
+  const person = core.people.get(personId) as Rememberer | undefined;
+  return (person?.remembered ?? []).map((held) => ({
+    ...held,
+    personIds: [personId, ...held.withIds],
+    from: "played" as const,
+  }));
 }
 
 /** What a person keeps only as a count: by kind and decade, as `work:1990s`. */

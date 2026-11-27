@@ -12,7 +12,7 @@ import path from "node:path";
 import { Readable } from "node:stream";
 
 export const APP_SCHEME = "app";
-export const APP_HOST = "game";
+const APP_HOST = "game";
 export const APP_ORIGIN = `${APP_SCHEME}://${APP_HOST}`;
 
 /** Standard + secure gives the origin real web semantics (IndexedDB, absolute /assets/ paths). */
@@ -26,7 +26,7 @@ export const APP_SCHEME_PRIVILEGES = {
   },
 };
 
-export const MIME_TYPES = new Map([
+const MIME_TYPES = new Map([
   [".html", "text/html; charset=utf-8"],
   [".js", "text/javascript; charset=utf-8"],
   [".mjs", "text/javascript; charset=utf-8"],
@@ -51,7 +51,7 @@ export const MIME_TYPES = new Map([
 // The game is fully local; every directive stays inside the packaged
 // origin. style 'unsafe-inline' is required by React inline style
 // attributes in the existing build; scripts remain 'self' only.
-export const CONTENT_SECURITY_POLICY = [
+const CONTENT_SECURITY_POLICY = [
   "default-src 'none'",
   "script-src 'self'",
   "style-src 'self' 'unsafe-inline'",
@@ -70,7 +70,7 @@ export const CONTENT_SECURITY_POLICY = [
  * encoded traversal, null bytes, and anything that escapes the root all
  * fail closed to null.
  */
-export function resolveContentPath(contentRoot, requestPath) {
+function resolveContentPath(contentRoot, requestPath) {
   let decoded;
   try {
     decoded = decodeURIComponent(requestPath);
@@ -85,7 +85,7 @@ export function resolveContentPath(contentRoot, requestPath) {
   return resolved;
 }
 
-export function responseHeaders(extension) {
+function responseHeaders(extension) {
   const headers = {
     "content-type": MIME_TYPES.get(extension) ?? "application/octet-stream",
     "x-content-type-options": "nosniff",

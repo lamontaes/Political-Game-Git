@@ -1,4 +1,8 @@
 import { placeStateKey } from "../place-map";
+import {
+  INSTITUTIONAL_QUARTERS,
+  type GroupQuartersType,
+} from "../group-quarters-types";
 import type {
   HistoryWriter,
   PreStartModule,
@@ -256,8 +260,34 @@ function electedHistory(t: TermRow): HistoryRow {
  */
 /** The record kind of a term the offices engine keeps (who held a seat, from when), as the reader tells it. */
 export const TERM_HELD = "office.term";
+/** The record kind of a seat that fell vacant (the offices engine's vacancies), as the one history reader tells it. */
+export const VACANCY_OPENED = "office.vacancy";
 
 /** A term, told on the day it began: the seat, the office, how its holder reached it and how it stands. */
+/** A seat that fell vacant, told on the day it did: why, and how it stands. */
+function vacancyHistory(core: CoreState, v: VacancyRow): HistoryRow {
+  return {
+    id: v.id,
+    date: v.since as HistoryRow["date"],
+    life: "politics",
+    what: "vacancy",
+    record: VACANCY_OPENED,
+    from: v.since < core.startedAt ? "past" : "played",
+    personIds: [],
+    withIds: [],
+    facts: {
+      vacancyId: v.id,
+      seatId: v.seatId,
+      officeId: v.officeId,
+      cause: v.cause,
+      status: v.status,
+      ...(v.vacatedTermId ? { vacatedTermId: v.vacatedTermId } : {}),
+      ...(v.filledBy ? { filledBy: v.filledBy } : {}),
+    },
+    publicRecord: true,
+  };
+}
+
 function termHistory(core: CoreState, t: TermRow): HistoryRow {
   return {
     id: t.id,
@@ -296,8 +326,15 @@ const OFFICES_HISTORY: HistorySource = {
     if (!core.modules.has(OFFICES_MODULE_ID) || !ask.kinds) return [];
     const races = ask.kinds.includes(ELECTED);
     const held = ask.kinds.includes(TERM_HELD);
-    if (!races && !held) return [];
+    const vacated = ask.kinds.includes(VACANCY_OPENED);
+    if (!races && !held && !vacated) return [];
     const api = coreAPI(core);
+    const vacancies = vacated
+      ? (table(api, "vacancies").rows() as unknown as VacancyRow[]).map((v) =>
+          vacancyHistory(core, v),
+        )
+      : [];
+    if (!races && !held) return vacancies;
     const terms = (ask.about
       ? ["serving", "ended"].flatMap((status) =>
           table(api, "terms").query("bySeatStatus", [ask.about!, status]),
@@ -311,7 +348,7 @@ const OFFICES_HISTORY: HistorySource = {
         out.push(electedHistory(t));
       if (held) out.push(termHistory(core, t));
     }
-    return out;
+    return [...out, ...vacancies];
   },
   row(core, id) {
     if (!core.modules.has(OFFICES_MODULE_ID)) return undefined;
@@ -327,7 +364,10 @@ const OFFICES_HISTORY: HistorySource = {
       return t ? electedHistory(t) : undefined;
     }
     const t = table(api, "terms").get(id) as unknown as TermRow | undefined;
-    return t ? termHistory(core, t) : undefined;
+    if (t) return termHistory(core, t);
+    const v = table(api, "vacancies").get(id) as unknown as
+      VacancyRow | undefined;
+    return v ? vacancyHistory(core, v) : undefined;
   },
 };
 
@@ -373,7 +413,8 @@ export const OFFICES_MODULE: PreStartModule & HistoryModule = {
     }
     for (const personId of event.personIds)
       for (const term of servingTermsOf(api, personId)) {
-        if (event.kind === "life.death") vacateSeat(api, term.seatId, "death");
+        if (event.kind === "life.death")
+          vacateSeat(api, term.seatId, "death", undefined, event.id);
         else if (
           !livesWithin(
             api,
@@ -381,7 +422,7 @@ export const OFFICES_MODULE: PreStartModule & HistoryModule = {
             event.facts?.[`person:${personId}:residence`] ?? event.topic,
           )
         )
-          vacateSeat(api, term.seatId, "moved away");
+          vacateSeat(api, term.seatId, "moved away", undefined, event.id);
       }
   },
   onCalendarWork: officesCalendarWork,
@@ -600,6 +641,11 @@ interface Suited {
   readonly fit: number;
 }
 
+/** Whether a room is one an institution houses its people in (a prison, a nursing home). */
+const institutional = (quarters: string | undefined) =>
+  quarters !== undefined &&
+  INSTITUTIONAL_QUARTERS.has(quarters as GroupQuartersType);
+
 /** How suited a resident is to a seat: the same three traits for everyone. */
 const seatFit = (traits: Readonly<Record<string, number>>) =>
   (traits["people-mind-v1:sociability"] ?? 0) +
@@ -651,6 +697,11 @@ function suitedResidents(
       // pick by press job (a reporter put into an empty seat at the opening
       // was the defect); they may still run and win it at the ballot.
       if (pressConflict(api, person.id)) return false;
+      // Nor someone an institution houses: an inmate seated on a district
+      // board at the opening was the defect (official-living, Richfield,
+      // Utah, seed evict26a).
+      if (institutional(state.households.get(person.householdId)?.quarters))
+        return false;
       return ofAge(person.birthDate);
     })
     .map((person): Suited => ({
@@ -665,6 +716,7 @@ function suitedResidents(
         voter.placeId === townPlaceId &&
         !taken.has(voter.id) &&
         voter.id !== state.playerId &&
+        !institutional(voter.quarters) &&
         ofAge(voter.birthDate),
     )
     .map((voter): Suited => ({
@@ -1804,6 +1856,8 @@ export function vacateSeat(
   cause: string,
   /** The rule the law sets for this one vacancy (a Vice Mayor's seat left by one who rose to Mayor stays vacant), else the office's own. */
   only?: VacancyRule,
+  /** The record the seat fell vacant from (a death, a move away), where the caller holds it. */
+  causeRecordId?: string,
 ): VacancyRow | null {
   const term = table(api, "terms").query("bySeatStatus", [
     seatId,
@@ -1849,6 +1903,7 @@ export function vacateSeat(
       seatId,
       cause,
       rule: office.vacancyRule.method,
+      ...(causeRecordId ? { causeRecordId } : {}),
     },
   });
   const filled = fillVacancy(api, office, seat, vacancy, term);
@@ -1871,6 +1926,8 @@ export function vacateUnheldSeat(
     readonly stateKey: string;
     readonly officeKind: string;
     readonly cause: string;
+    /** The record the seat fell vacant from (a death), where the caller holds it. */
+    readonly causeRecordId?: string;
   },
 ): VacancyRow | null {
   const office = unheldOffice(api, input);
@@ -1906,6 +1963,7 @@ export function vacateUnheldSeat(
       seatId: input.seatId,
       cause: input.cause,
       rule: office.vacancyRule.method,
+      ...(input.causeRecordId ? { causeRecordId: input.causeRecordId } : {}),
     },
   });
   const filled = fillVacancy(

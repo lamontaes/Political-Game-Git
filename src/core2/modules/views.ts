@@ -69,7 +69,8 @@ import { keepsWhy } from "../why-kept";
 import { placeStateKey } from "../place-map";
 import { registerStanceListener, stanceMoved } from "../stance-listeners";
 import { VIEWS_KEYS, type CellKey } from "../views-keys";
-import { PAST_WORK_SPELL, pastWorkOf } from "../past-module";
+import { PAST_WORK_SPELL } from "../past-module";
+import { historyOf } from "../past";
 import {
   countedGroupStance,
   countedStancesOfHousehold,
@@ -245,8 +246,27 @@ export function ageBand(age: number): string {
   return VIEWS_KEYS.ageBands[v("zero")]!;
 }
 
+/**
+ * One of a person's built facts (their education, their faith), through the
+ * one history reader. Someone still counted has none, and reads their profile.
+ */
+function builtFact(
+  core: CoreState,
+  personId: string,
+  kind: string,
+  key: string,
+): string | undefined {
+  // An education level or a faith group, as the fact was written.
+  return historyOf(
+    core,
+    { person: personId as PersonId },
+    { kinds: [kind], from: "built" },
+  )[0]?.facts?.[key] as string | undefined;
+}
+
 /** The CES cell a person's opening view is read from, and how it was chosen. */
 export function viewCell(
+  core: CoreState,
   person: PersonState,
   date: string,
   seed: string,
@@ -260,7 +280,7 @@ export function viewCell(
   // national lean, less what the place's mix of profiles at that age averages
   // (the state's, or the nation's where the survey has no state sample).
   const fact = (kind: string, key: string) =>
-    person.pastFacts?.find((row) => row.kind === kind)?.facts?.[key];
+    builtFact(core, person.id, kind, key);
   const profile = profileFor(person, seed, date);
   const educ =
     fact(PROFILE_FACT_KINDS.education, "level") ?? profile?.education;
@@ -345,7 +365,12 @@ export function countedEngagement(
       placeId: voter.placeId,
       traits: voter.traits,
     } as unknown as PersonState;
-    const { cell } = viewCell(person, api.state.startedAt, api.state.seed);
+    const { cell } = viewCell(
+      api.state as CoreState,
+      person,
+      api.state.startedAt,
+      api.state.seed,
+    );
     mean = cell.engagement ?? VIEWS_KEYS.national.engagement!;
     cache.set(key, mean);
   }
@@ -354,13 +379,13 @@ export function countedEngagement(
 
 /** A person's faith and degree against the average of their age band in their state, from their profile. */
 function profileFromAverage(
-  person: Pick<PersonState, "id" | "householdId" | "birthDate" | "placeId"> &
-    Partial<Pick<PersonState, "pastFacts">>,
+  core: CoreState,
+  person: Pick<PersonState, "id" | "householdId" | "birthDate" | "placeId">,
   date: string,
   seed: string,
 ): StanceProfile {
   const fact = (kind: string, key: string) =>
-    person.pastFacts?.find((row) => row.kind === kind)?.facts?.[key];
+    builtFact(core, person.id, kind, key);
   const profile = profileFor(person, seed, date);
   const educ =
     fact(PROFILE_FACT_KINDS.education, "level") ?? profile?.education;
@@ -392,11 +417,12 @@ function profileFromAverage(
  * key. A counted resident opens where they will when filled in.
  */
 function openingLean(
+  core: CoreState,
   person: PersonState,
   startedAt: string,
   seed: string,
 ): ReturnType<typeof viewCell> & { lean: number } {
-  const found = viewCell(person, startedAt, seed);
+  const found = viewCell(core, person, startedAt, seed);
   const share = v("householdShare");
   const z =
     share * normal(`${seed}:views:home:${person.householdId}`) +
@@ -432,6 +458,7 @@ export function countedLean(
   const kept = held.get(voter.id);
   if (kept !== undefined) return kept;
   const { lean } = openingLean(
+    api.state as CoreState,
     voter as unknown as PersonState,
     api.state.startedAt,
     api.state.seed,
@@ -450,6 +477,7 @@ export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   api.stopgap(VIEWS_DATA.stopgapId);
   const seed = api.state.seed;
   const { lean, cell, shares, basis } = openingLean(
+    api.state as CoreState,
     person,
     api.state.startedAt,
     seed,
@@ -472,7 +500,12 @@ export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
     label,
     basis,
     formedAt: api.state.date,
-    ...profileFromAverage(person, api.state.startedAt, seed),
+    ...profileFromAverage(
+      api.state as CoreState,
+      person,
+      api.state.startedAt,
+      seed,
+    ),
   };
   table.put(view as unknown as { id: string });
   return view;
@@ -512,6 +545,7 @@ function leanAndEngagement(
   const held = api.state.people.has(person.id) ? viewOf(api, person.id) : null;
   if (held) return held;
   const { lean, cell } = openingLean(
+    api.state as CoreState,
     person,
     api.state.startedAt,
     api.state.seed,
@@ -528,8 +562,13 @@ function leanAndEngagement(
 
 /** The layoffs among a person's work spells before the start, oldest first, with the day each ended and the day they next started work. */
 function layoffsOf(api: CoreAPI, personId: PersonId) {
-  const spells = pastWorkOf(api.state, personId)
-    .filter((row) => row.kind === PAST_WORK_SPELL)
+  // The work spells of the simulated past, from the one history reader.
+  const spells = historyOf(
+    api.state as CoreState,
+    { person: personId },
+    { kinds: [PAST_WORK_SPELL], from: "past" },
+  )
+    .map((event) => ({ id: event.id, facts: event.facts ?? {} }))
     .sort((a, b) =>
       String(a.facts.startedAt).localeCompare(String(b.facts.startedAt)),
     );
@@ -571,7 +610,12 @@ export function pastViewShifts(
   const start = api.state.startedAt;
   const born = makeIsoDate(person.birthDate);
   const grown = v("pastFormativeAge");
-  const { lean } = openingLean(person, start, api.state.seed);
+  const { lean } = openingLean(
+    api.state as CoreState,
+    person,
+    start,
+    api.state.seed,
+  );
   const shifts: PastShift[] = [];
   for (const parent of parents) {
     const lost = layoffsOf(api, parent.id).find((row) => {
@@ -1001,7 +1045,12 @@ export function countedStanceProfile(
   if (!kept) {
     const id = voter.id;
     kept = {
-      ...profileFromAverage(voter, api.state.startedAt, api.state.seed),
+      ...profileFromAverage(
+        api.state as CoreState,
+        voter,
+        api.state.startedAt,
+        api.state.seed,
+      ),
       seed: api.state.seed,
       // What their group has heard or lived since, read as a full person's
       // own stance is in `viewOn` (src/core2/counted-news-views.ts).

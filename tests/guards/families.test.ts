@@ -3,6 +3,7 @@ import { readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
 import map from "./families.json";
+import { familyOf, globToRegExp } from "./family-map";
 import baseline from "./families-baseline.json";
 import { codeowners, CODEOWNERS_PATH } from "../../scripts/guards/codeowners";
 
@@ -26,43 +27,9 @@ const ROOT = path.resolve(__dirname, "../..");
 type Family = { id: string; name: string; entry: string[]; paths: string[] };
 const families = map.families as Family[];
 
-/** A glob from the repository root as a regular expression. */
-export function globToRegExp(glob: string): RegExp {
-  const body = glob
-    .split("**")
-    .map((part) =>
-      part
-        .split("*")
-        .map((piece) => piece.replace(/[.+?^${}()|[\]\\]/g, "\\$&"))
-        .join("[^/]*"),
-    )
-    .join(".*");
-  return new RegExp(`^${body}$`);
-}
-
-/** How specific a glob is: an exact path beats a pattern, a longer literal beats a shorter one. */
-const specificity = (glob: string) =>
-  (glob.includes("*") ? 0 : 10_000) + glob.replace(/\*/g, "").length;
-
-const shared = map.shared.map(globToRegExp);
-const owners = families.flatMap((family) =>
-  family.paths.map((glob) => ({
-    family: family.id,
-    test: globToRegExp(glob),
-    rank: specificity(glob),
-  })),
-);
 const entries = new Map(
   families.map((family) => [family.id, family.entry.map(globToRegExp)]),
 );
-
-/** The family a file belongs to, "shared" for the kernel, or null. */
-export function familyOf(file: string): string | null {
-  if (shared.some((test) => test.test(file))) return "shared";
-  const matches = owners.filter((owner) => owner.test.test(file));
-  if (!matches.length) return null;
-  return matches.sort((a, b) => b.rank - a.rank)[0]!.family;
-}
 
 const SOURCE =
   /^(?:src\/(?:core2|director|english|bench)\/.*\.(?:ts|tsx|mjs))$/;
@@ -93,6 +60,20 @@ export function importsOf(file: string, source: string): string[] {
     out.push(/\.(ts|tsx|mjs|js|json)$/.test(target) ? target : `${target}.ts`);
   }
   return out;
+}
+
+/** The test files beside the source: each belongs to the family that answers for its failing. */
+function testFiles(): string[] {
+  return execFileSync(
+    "git",
+    ["ls-files", "src/core2", "src/director", "src/english", "src/bench"],
+    { cwd: ROOT, encoding: "utf8" },
+  )
+    .split("\n")
+    .filter(
+      (file) =>
+        SOURCE.test(file) && /\.(test|spec|browser)\.(ts|tsx|mjs)$/.test(file),
+    );
 }
 
 function deepImports(): Map<string, string[]> {
@@ -129,6 +110,14 @@ describe("one engine per mechanic: families and their boundaries", () => {
     expect(
       fresh,
       "add each file to its family's paths in tests/guards/families.json",
+    ).toEqual([]);
+  });
+
+  it("puts every test file in a family, so a red test has an owner", () => {
+    const orphans = testFiles().filter((file) => familyOf(file) === null);
+    expect(
+      orphans,
+      "add each test file to the family of the code it tests, in its paths in tests/guards/families.json (CTO, Nov 26: every file gets a family)",
     ).toEqual([]);
   });
 

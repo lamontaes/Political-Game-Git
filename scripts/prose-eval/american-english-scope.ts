@@ -7,7 +7,7 @@
  * output a generator writes — and each says why. A new directory is in scope
  * the moment it exists; nothing has to remember to add it.
  */
-export const AMERICAN_ENGLISH_EXEMPT: readonly {
+const AMERICAN_ENGLISH_EXEMPT: readonly {
   readonly pattern: RegExp;
   readonly reason: string;
 }[] = [
@@ -127,7 +127,7 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
  * Official proper names in a file that are otherwise checked: the named word
  * is allowed there, and nothing else in the file is.
  */
-export const PROPER_NAMES: readonly {
+const PROPER_NAMES: readonly {
   readonly pattern: RegExp;
   readonly names: readonly string[];
   readonly reason: string;

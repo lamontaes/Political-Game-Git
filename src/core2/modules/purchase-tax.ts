@@ -90,7 +90,6 @@ function arrearsRows(core: CoreState): Map<string, SalesTaxArrears> {
   return rows;
 }
 
-
 function taxes(core: CoreState): Map<string, PurchaseTaxState> {
   let rows = runtimes.get(core);
   if (!rows) {

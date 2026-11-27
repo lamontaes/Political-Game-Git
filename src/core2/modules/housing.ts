@@ -15,6 +15,7 @@ import { lawApplied } from "../law-reach/applied";
 import { payRentAssistance } from "../housing-assistance";
 import { governmentUnitsForState } from "../reference/government-units";
 import { placeCounty, placeStateKey } from "../place-map";
+import { householdDailyCostMinor } from "../household-cost";
 import { fullRelativesOf } from "../births-counted";
 import {
   corePlaceByKey,
@@ -29,6 +30,7 @@ import {
 } from "../kernel/dates";
 import countyNeighbors from "../data/housing/county-neighbors.json" with { type: "json" };
 import { decisionLean } from "../trait-decisions";
+import evictionSteps from "../../../data/research/housing/eviction-steps-2026.json" with { type: "json" };
 import housingData from "../data/housing/housing.json" with { type: "json" };
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -135,8 +137,40 @@ export const NOTICE_SERVED_EVENT = "housing.notice-served";
 export const HOUSING_PARAMETERS = housingParameters as unknown as Readonly<
   Record<string, Parameter>
 >;
-type Steps = (typeof housingData.eviction)[keyof typeof housingData.eviction];
-const EVICTION = housingData.eviction as Record<string, Steps>;
+/** A place's eviction steps, as the engine reads them. */
+export interface Steps {
+  readonly noticeDays: number;
+  readonly cureAllowed: boolean;
+  readonly gracePeriodDays: number;
+  readonly hearingDays: number;
+  readonly stayDays: number;
+  readonly statute: string;
+  readonly confidence: string;
+  readonly estimatedFields: readonly string[];
+}
+/**
+ * Each place's eviction steps by its two-letter code, from the one research
+ * record of them (data/research/housing/eviction-steps-2026.json, reconciled
+ * with the statute reads; CTO, Nov 26, 9:14 p.m.: one source, no hand copy).
+ */
+export const EVICTION_STEPS: Readonly<Record<string, Steps>> =
+  Object.fromEntries(
+    Object.entries(
+      evictionSteps.places as unknown as Record<string, Steps>,
+    ).map(([key, place]) => [
+      key.replace(/^US-/, ""),
+      {
+        noticeDays: place.noticeDays,
+        cureAllowed: place.cureAllowed,
+        gracePeriodDays: place.gracePeriodDays,
+        hearingDays: place.hearingDays,
+        stayDays: place.stayDays,
+        statute: place.statute,
+        confidence: place.confidence,
+        estimatedFields: place.estimatedFields,
+      },
+    ]),
+  );
 const RENT_VALUE = housingData.countyRentValue as unknown as Record<
   string,
   [number | null, number | null]
@@ -914,6 +948,8 @@ function openMissingHomes(api: CoreAPI): void {
   }
   const jobs = [...c.jobs.values()].filter((row) => !row.endsAt);
   const leases = new Map<string, FinanceContractInput>();
+  // A household already paying for its home, or one whose money no engine
+  // runs, is given no lease or mortgage here.
   const contracted = new Set<string>();
   for (const row of c.finance.contracts.values()) {
     if (!row.householdId || row.endedAt) continue;
@@ -921,6 +957,26 @@ function openMissingHomes(api: CoreAPI): void {
     if (row.id.startsWith("lease:") || row.id.startsWith(MORTGAGE_PREFIX))
       contracted.add(row.householdId);
   }
+  // Someone filled in far from the town with no pay and no cost of living
+  // (a passed-over nominee, a reserve bank's president) has a home on
+  // record, but no money moves for them (SG-WORLD-coarse-place-no-payroll,
+  // kept as the game's answer, owner, Nov 10), so no rent or mortgage is
+  // owed that nothing could pay.
+  const paid = new Set(
+    jobs.filter((row) => row.wageDailyMinor > 0).map((row) => row.personId),
+  );
+  for (const households of missing.values())
+    for (const household of households)
+      if (
+        !household.memberIds.some((id) => {
+          const person = c.people.get(id);
+          return (
+            person?.alive &&
+            (person.livingCostDailyMinor > 0 || paid.has(person.id))
+          );
+        })
+      )
+        contracted.add(household.id);
   for (const [placeId, households] of missing) {
     const place = corePlaceByJurisdictionId(placeId as EntityId);
     const stateKey = placeStateKey(placeId) ?? undefined;
@@ -1055,7 +1111,7 @@ function steps(
   api: CoreAPI,
   usps = api.state.placeMetadata?.housingState ?? "",
 ): Steps & { usps: string } {
-  const row = EVICTION[usps];
+  const row = EVICTION_STEPS[usps];
   if (!row) throw new Error("No recorded eviction steps for this place.");
   // Steps below "high" confidence are recalled, not read from the statute text yet.
   if (row.confidence !== "high") stopgap("SG-WORLD-housing-eviction-steps");
@@ -1076,7 +1132,7 @@ function householdSteps(
     home?.usps ?? api.state.placeMetadata?.housingState ?? "",
   );
   // A national-only address has no recorded state eviction law.
-  return EVICTION[usps] ? steps(api, usps) : undefined;
+  return EVICTION_STEPS[usps] ? steps(api, usps) : undefined;
 }
 
 function schedule(
@@ -1724,8 +1780,7 @@ function countedBuyWorld(api: CoreAPI): CountedBuyWorld {
 }
 
 function review(api: CoreAPI): void {
-  const c = core(api),
-    law = steps(api);
+  const law = steps(api);
   releaseVacatedRentals(api);
   rehouse(api);
   renewRentalLeases(api);
@@ -1764,11 +1819,70 @@ function review(api: CoreAPI): void {
   landlordPayout(api);
   buyHomes(api);
   weighCountedBuyers(api);
+  // Late rent is weighed on each state's own day: the day after its grace
+  // period ends (CTO, Nov 26, 7:15 p.m.), scheduled a month ahead.
+  scheduleArrearsReviews(api, nextMonthFirst(api));
+}
+
+/** The 1st of next month. */
+function nextMonthFirst(api: CoreAPI): ReturnType<typeof makeIsoDate> {
+  return makeIsoDate(
+    `${addDays(makeIsoDate(`${api.state.date.slice(0, "YYYY-MM".length)}-01`), 32).slice(0, "YYYY-MM".length)}-01`,
+  );
+}
+
+/** The calendar work that weighs one grace period's late rent. */
+const ARREARS_REVIEW = "housing-arrears-review";
+
+/**
+ * Each grace period the housing engine's households live under, once: the
+ * town's state's, and the state of every home on record (an official's
+ * household elsewhere is under its own state's law).
+ */
+function gracePeriods(api: CoreAPI): ReadonlySet<number> {
+  const states = new Set<string>([
+    String(api.state.placeMetadata?.housingState ?? ""),
+  ]);
+  for (const row of store(api).table("dwellings").rows())
+    if (row.usps) states.add(String(row.usps));
+  const graces = new Set<number>();
+  for (const usps of states)
+    if (EVICTION_STEPS[usps]) graces.add(steps(api, usps).gracePeriodDays);
+  return graces;
+}
+
+/**
+ * Schedules a month's late-rent reviews: rent falls due on the 1st, so each
+ * grace period's leases are weighed the day after it ends (a 5-day grace on
+ * the 7th, none on the 2nd).
+ */
+function scheduleArrearsReviews(
+  api: CoreAPI,
+  monthFirst: ReturnType<typeof makeIsoDate>,
+): void {
+  const calendar = api.moduleCalendar(HOUSING_MODULE_ID);
+  for (const grace of gracePeriods(api)) {
+    const date = addDays(monthFirst, grace + 1);
+    const key = `arrears:${grace}:${date}`;
+    if (date <= api.state.date || calendar.get(key)) continue;
+    schedule(api, key, date, ARREARS_REVIEW, "housing:state");
+  }
+}
+
+/** Weighs the late rent of the leases under one grace period: each household settles what it can, then the landlord weighs the leases past their grace. */
+function reviewArrears(api: CoreAPI, grace: number): void {
+  const c = core(api);
   // A household behind on rent weighs settling part of it from its spare cash before the landlord weighs the lease.
   for (const [id, row] of [...c.finance.contracts].sort((a, b) =>
     a[0].localeCompare(b[0]),
   ))
-    if (id.startsWith("lease:") && !row.endedAt && row.arrearsMinor > 0) {
+    if (
+      id.startsWith("lease:") &&
+      !row.endedAt &&
+      row.arrearsMinor > 0 &&
+      row.householdId &&
+      householdSteps(api, row.householdId)?.gracePeriodDays === grace
+    ) {
       const settled = settleArrears(api, id, "arrears-settled");
       // What the household owed, held and was willing to settle this month (paid 0 when it holds nothing beyond a month's living); a payment's ledger entries are `arrears-settled:<lease>:<date>:<payer>`.
       store(api)
@@ -1798,7 +1912,12 @@ function review(api: CoreAPI): void {
     const leaseLaw = row.householdId
       ? householdSteps(api, row.householdId)
       : undefined;
-    if (!leaseLaw || days <= leaseLaw.gracePeriodDays) continue;
+    if (
+      !leaseLaw ||
+      leaseLaw.gracePeriodDays !== grace ||
+      days <= leaseLaw.gracePeriodDays
+    )
+      continue;
     const owed = row.amountMinor > 0 ? row.arrearsMinor / row.amountMinor : 0;
     const months = days / daysPerMonth(api);
     late.push({
@@ -1811,7 +1930,11 @@ function review(api: CoreAPI): void {
     });
   }
   // Counted households behind on rent, by their group's arrears, weighed by the same reasons.
-  const town = c.placeMetadata?.housingTown;
+  // Counted households live in the town, under its state's law.
+  const town =
+    steps(api).gracePeriodDays === grace
+      ? c.placeMetadata?.housingTown
+      : undefined;
   const counted = new Map(
     (town
       ? countedLate(
@@ -2759,7 +2882,8 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
 
 /**
  * A household behind on rent settles part of what it owes: the cash its
- * members hold beyond a month of living cost, times how far their traits lean
+ * members hold beyond a month of what living costs them besides the home
+ * (never less than the everyday basket), times how far their traits lean
  * toward settling what is owed over letting it lapse (a sliding scale, no
  * fixed share). It runs each month for every full household with rent owed,
  * and once when a counted household behind is filled in (its group's arrears
@@ -2775,6 +2899,7 @@ function settleArrears(
   read: {
     cashMinor: number;
     livingMonthMinor: number;
+    keptMinor: number;
     willingness: number;
     owedMinor: number;
   };
@@ -2806,7 +2931,29 @@ function settleArrears(
     : api.parameter("zero");
   const willingness = (api.parameter("one") + lean) / 2;
   const owedMinor = lease.arrearsMinor;
-  const spare = Math.max(0, cashMinor - livingMonthMinor);
+  // Shelter is paid once (housing-shelter): what the household keeps back is
+  // a month of what living costs beyond the home it owes for, never less
+  // than a month of the everyday basket for its size. Keeping back the whole
+  // month, rent and all, left a household that held what it owed paying none.
+  const basketMonthMinor = Math.round(
+    (householdDailyCostMinor({
+      seed: c.seed,
+      stateKey: placeStateKey(
+        c.households.get(lease.householdId ?? "")?.placeId,
+      ),
+      size: Math.max(members.length, api.parameter("one")),
+      rent: null,
+      parameter: (key) => api.parameter(key),
+    }) *
+      api.parameter("jobsDaysPerYear")) /
+      api.parameter("macroMonthsPerYear"),
+  );
+  const keptMinor = Math.max(
+    basketMonthMinor,
+    livingMonthMinor -
+      Math.round(lease.amountMinor / Math.max(lease.periodMonths, 1)),
+  );
+  const spare = Math.max(0, cashMinor - keptMinor);
   const paidMinor =
     owedMinor > 0
       ? payArrears(
@@ -2818,7 +2965,7 @@ function settleArrears(
       : 0;
   return {
     paidMinor,
-    read: { cashMinor, livingMonthMinor, willingness, owedMinor },
+    read: { cashMinor, livingMonthMinor, keptMinor, willingness, owedMinor },
   };
 }
 
@@ -2899,6 +3046,12 @@ export function openHousing(api: CoreAPI): void {
     });
   }
   scheduleReview(api);
+  // This month's late-rent reviews still to come, and next month's.
+  scheduleArrearsReviews(
+    api,
+    makeIsoDate(`${api.state.date.slice(0, "YYYY-MM".length)}-01`),
+  );
+  scheduleArrearsReviews(api, nextMonthFirst(api));
 }
 
 export const HOUSING_MODULE: PreStartModule = {
@@ -2995,6 +3148,8 @@ export const HOUSING_MODULE: PreStartModule = {
     if (work.kind === "housing-review") {
       review(api);
       scheduleReview(api);
+    } else if (work.kind === ARREARS_REVIEW) {
+      reviewArrears(api, Number(work.key.split(":")[1]));
     } else if (work.kind === "housing-foreclosure-sale") {
       const caseId = work.sourceRecordIds[0]!;
       const removalAt = foreclosureSale(api, caseId);
@@ -3109,4 +3264,31 @@ export function dwellingKind(
     store(api).table("dwellings").get(`dwelling:${householdId}`) as
       { kind?: string } | undefined
   )?.kind;
+}
+
+/**
+ * What a household pays a day for its home through the housing engine (its
+ * lease or its mortgage), each living member's share; zero for a household
+ * the housing engine does not charge.
+ */
+export function homePaidDailyMinor(api: CoreAPI, householdId: string): number {
+  const state = api.state as CoreState;
+  const members =
+    state.households
+      .get(householdId)
+      ?.memberIds.filter((id) => state.people.get(id)?.alive).length ?? 0;
+  if (!members) return 0;
+  for (const id of [
+    `lease:${householdId}`,
+    `${MORTGAGE_PREFIX}${householdId}`,
+  ]) {
+    const home = state.finance.contracts.get(id);
+    if (!home || home.endedAt || home.amountMinor <= 0) continue;
+    return (
+      (home.amountMinor / Math.max(home.periodMonths, 1)) *
+      (api.parameter("monthsPerYear") / api.parameter("daysPerMeanYear")) *
+      (1 / members)
+    );
+  }
+  return 0;
 }

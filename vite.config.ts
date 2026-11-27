@@ -25,6 +25,7 @@ const buildIdentity = resolveBuildIdentity(process.cwd());
 // reservation.
 const TEST_WORKER_HEAP_MB = 5120;
 
+import { shippedFiles } from "./scripts/dev-lab/shipped-files";
 import { identifiedBuild } from "./scripts/dev-lab/vite-identity";
 import { RoundRobinSequencer } from "./scripts/dev-lab/round-robin-sequencer";
 
@@ -60,6 +61,7 @@ export default defineConfig({
     runtimeContentOrigin(),
     sites(),
     identifiedBuild(),
+    shippedFiles(),
   ],
   define: buildIdentityDefines(buildIdentity),
   // This repository has thousands of source modules and several HTML entry

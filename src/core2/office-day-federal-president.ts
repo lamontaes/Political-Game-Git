@@ -26,7 +26,6 @@ import {
   nominateAndConfirm,
   partySide,
 } from "./appointments";
-import { senateSides } from "./modules/elections";
 import { campaignParameter } from "./campaign-data";
 import { lawChain } from "./modules/laws";
 import { federalOrderable } from "./modules/executive";
@@ -315,6 +314,20 @@ export function leavePostOpen(
     releaseFederal(api, NOMINATIONS);
 }
 
+/** The sitting senators, each by their own lean: the body a cabinet nominee faces. */
+function senateLeans(api: CoreAPI): number[] {
+  return (
+    api
+      .moduleState(OFFICIALS_MODULE_ID)
+      .table("officials")
+      .rows() as unknown as OfficialRow[]
+  )
+    .filter(
+      (member) => member.officeKind === "us-senate" && member.ended == null,
+    )
+    .map((member) => officialLean(member));
+}
+
 /**
  * Nominate a cabinet secretary. With `nomineeId` the player chose them;
  * without, the character takes the candidate the appointments engine ranks
@@ -338,14 +351,21 @@ export function nominate(
   const pool = nominationCandidates(api, presidentId);
   const candidates = nomineeId ? pool.filter((c) => c.id === nomineeId) : pool;
   if (!candidates.length) throw new Error(`No one to nominate for ${postId}`);
+  // The character weighs who the Senate would confirm, as a White House vets
+  // a nominee: the first of its own ranking the sitting senators would
+  // confirm, or its first choice where none would be. The player's own
+  // choice is theirs.
   const ranked = nominateAndConfirm({
     seatKey: `cabinet:US:${postId}`,
     appointerSide: partySide(federalSeatOf(api, presidentId)?.term.party),
     weighing: appointerWeighing(api.state as CoreState, presidentId),
     candidates,
-    confirmingBody: null,
+    confirmingBody: nomineeId
+      ? null
+      : { name: CABINET.confirmation.body, sides: senateLeans(api) },
+    tolerance: campaignParameter("confirmationTolerance"),
   });
-  const chosen = ranked.nomineeId;
+  const chosen = ranked.nomineeId || ranked.reasons[0]!.candidateId;
   const voteOn = nthSitting(
     "senate",
     api.state.date,
@@ -440,6 +460,7 @@ export function confirmGivenVotes(api: CoreAPI, presidentId: string): void {
   const date = api.state.date;
   if (!senateSits(date).sits) return;
   const officials = api.moduleState(OFFICIALS_MODULE_ID).table("officials");
+  const senators = senateLeans(api);
   const years = federalParameter("cabinetQualificationYears");
   for (const row of cabinetOf(api)) {
     if (row.status !== "nominated" || !row.voteOn || row.voteOn > date)
@@ -454,9 +475,12 @@ export function confirmGivenVotes(api: CoreAPI, presidentId: string): void {
       seatKey: `cabinet:US:${row.postId}`,
       appointerSide: partySide(federalSeatOf(api, presidentId)?.term.party),
       candidates: nominee ? [nominee] : [],
+      // Each sitting senator weighs the nominee from their own lean, not their
+      // party's: a moderate of the other party confirms where a partisan
+      // would not.
       confirmingBody: {
         name: CABINET.confirmation.body,
-        sides: senateSides(api.state.seed),
+        sides: senators,
       },
       tolerance: campaignParameter("confirmationTolerance"),
     });
@@ -476,7 +500,12 @@ export function confirmGivenVotes(api: CoreAPI, presidentId: string): void {
       presidentId,
       post,
       row.nomineeId!,
-      { yes: String(decided.yes), no: String(decided.no) },
+      {
+        yes: String(decided.yes),
+        no: String(decided.no),
+        // The nomination the vote decided, by its own record.
+        causeId: `cabinet-nominated:${row.postId}:${row.date}`,
+      },
     );
   }
 }

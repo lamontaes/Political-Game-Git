@@ -15,6 +15,7 @@
  * vacant the line is read the same day; the successor holds the seat as a
  * full person, and the record and a news event follow.
  */
+import { historyOf } from "../past";
 import succession from "../../../data/research/offices/presidential-succession.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
@@ -41,6 +42,7 @@ import {
 import {
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
+  leanOf,
   memberKey,
   members,
 } from "./legislature";
@@ -129,7 +131,11 @@ function cannotServe(api: CoreAPI, personId: string | null): string | null {
     return `under ${LAW.minimumAge.value}`;
   // Natural-born and fourteen years a resident (U.S. Const. art. II, sec. 1,
   // cl. 5), read from the person's own birth record.
-  const birth = (person.pastFacts ?? []).find((f) => f.kind === NATIVITY_FACT);
+  const birth = historyOf(
+    api.state as CoreState,
+    { person: person.id },
+    { kinds: [NATIVITY_FACT], from: "built" },
+  )[0];
   if (birth?.facts?.nativity !== "native")
     return birth
       ? `not a natural-born citizen (${birth.id})`
@@ -143,9 +149,9 @@ function cannotServe(api: CoreAPI, personId: string | null): string | null {
   return null;
 }
 
-/** The party sides of a chamber's members, for a confirmation vote. */
+/** Each of a chamber's members by their own lean, for a confirmation vote (as every confirming body weighs a nominee). */
 const sides = (api: CoreAPI, chamber: string) =>
-  members(api, chamber).map((t) => partySide(t.party));
+  members(api, chamber).map((t) => leanOf(api, memberKey(t)));
 
 /** The lean scale runs from -1 to 1, so no two views sit further apart than this. */
 const LEAN_SPAN = 2;

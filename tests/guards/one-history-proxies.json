@@ -13,26 +13,188 @@
     "files": {}
   },
   "readsInTheEngines": {
-    "about": "The engines in src/core2/modules that still read a past of their own outside the one history reader (src/core2/past-history.ts): a raw past reader by name, a scan of the log, or a person's own facts or remembered list. CTO, Nov 26, from the owner: \"the reader needs to be like the main, it needs to be in the core ... it needs to be a game-wide thing.\" An engine's own tables are its present and the history it hands the reader, and are not counted. A count only goes down.",
+    "about": "The engines in src/core2/modules that still read a past of their own outside the one history reader (src/core2/past-history.ts): a raw past reader by name, a scan of the log, or a person's own facts or remembered list. CTO, Nov 26, from the owner: \"the reader needs to be like the main, it needs to be in the core ... it needs to be a game-wide thing.\" An engine's own tables are its present and the history it hands the reader, and are not counted; nor are its writers (writersInTheEngines). A count only goes down.",
     "files": {
-      "src/core2/modules/campaigns.ts": 2,
-      "src/core2/modules/candidacy.ts": 2,
-      "src/core2/modules/counted-demotion.ts": 1,
-      "src/core2/modules/elections.ts": 3,
-      "src/core2/modules/executive.ts": 5,
-      "src/core2/modules/jobs.ts": 1,
-      "src/core2/modules/laws.ts": 4,
-      "src/core2/modules/offices.ts": 9,
-      "src/core2/modules/officials.ts": 4,
-      "src/core2/modules/outcome-web.ts": 1,
-      "src/core2/modules/parties.ts": 3,
-      "src/core2/modules/people.ts": 39,
-      "src/core2/modules/press.ts": 6,
-      "src/core2/modules/renewal.ts": 1,
-      "src/core2/modules/school.ts": 5,
-      "src/core2/modules/succession.ts": 1,
-      "src/core2/modules/views.ts": 4,
-      "src/core2/modules/voting.ts": 2
+      "src/core2/modules/outcome-web.ts": 1
     }
+  },
+  "writersInTheEngines": {
+    "about": "The engines in src/core2/modules that write the past or serve it to the reader as their module's history source, and so are not reading it outside the one reader (CTO, Nov 26, 7:15 p.m.: \"Split the one-history guard's count into readers and writers. Readers may only go down. Each writer is listed with its reason, and that list may only shrink. A new writer is allowed only inside the engine that owns that record kind.\"). Each entry names the file, the raw past reader or scan it uses, what it writes and why; one the file no longer uses is taken off.",
+    "writers": [
+      {
+        "file": "src/core2/modules/people.ts",
+        "name": "lifeOf",
+        "writes": "the people engine's history source",
+        "reason": "The life source the people engine hands the one reader: its rows are each person's life."
+      },
+      {
+        "file": "src/core2/modules/people.ts",
+        "name": "bornIn",
+        "writes": "children's birthplaces",
+        "reason": "writeChildBirthplaces writes where each opening child was born."
+      },
+      {
+        "file": "src/core2/modules/people.ts",
+        "name": "pastMovesFor",
+        "writes": "a person's past, written once when they are filled in (writePast)",
+        "reason": "writePast writes a filled-in person's moves."
+      },
+      {
+        "file": "src/core2/modules/people.ts",
+        "name": "pastWorkFor",
+        "writes": "a person's past, written once when they are filled in (writePast)",
+        "reason": "writePast writes a filled-in person's work."
+      },
+      {
+        "file": "src/core2/modules/people.ts",
+        "name": "schoolHistoryFor",
+        "writes": "a person's past, written once when they are filled in (writePast)",
+        "reason": "writePast writes a filled-in person's schooling."
+      },
+      {
+        "file": "src/core2/modules/people.ts",
+        "name": "pastHealthFor",
+        "writes": "a person's past, written once when they are filled in (writePast)",
+        "reason": "writePast writes a filled-in person's health."
+      },
+      {
+        "file": "src/core2/modules/people.ts",
+        "name": "pastJusticeFor",
+        "writes": "a person's past, written once when they are filled in (writePast)",
+        "reason": "writePast writes a filled-in person's brushes with the law."
+      },
+      {
+        "file": "src/core2/modules/people.ts",
+        "name": "pastPartnersFor",
+        "writes": "a person's past, written once when they are filled in (writePast)",
+        "reason": "writePast writes a filled-in person's partners."
+      },
+      {
+        "file": "src/core2/modules/people.ts",
+        "name": "pastServiceFor",
+        "writes": "a person's past, written once when they are filled in (writePast)",
+        "reason": "writePast writes a filled-in person's military service."
+      },
+      {
+        "file": "src/core2/modules/people.ts",
+        "name": "pastMovesHistory",
+        "writes": "the moves history before day one",
+        "reason": "The people engine's pre-start pass that writes who moved where."
+      },
+      {
+        "file": "src/core2/modules/people.ts",
+        "name": "pastWorkHistory",
+        "writes": "the work history before day one",
+        "reason": "The people engine's pre-start pass that writes who worked where."
+      },
+      {
+        "file": "src/core2/modules/people.ts",
+        "name": "pastWorkOf",
+        "writes": "family.partnered",
+        "reason": "partneredRecords and partneredForFilledIn date each partnership by the partners' first jobs."
+      },
+      {
+        "file": "src/core2/modules/people.ts",
+        "name": "preStartHistory",
+        "writes": "family.partnered",
+        "reason": "partneredForFilledIn skips a partnership the pre-start history already wrote."
+      },
+      {
+        "file": "src/core2/modules/people.ts",
+        "name": "residenceOn",
+        "writes": "family.partnered",
+        "reason": "partneredRecords and partneredForFilledIn place each partnership where the partners lived that day."
+      },
+      {
+        "file": "src/core2/modules/people.ts",
+        "name": "openPastTerms",
+        "writes": "a person's past terms of office",
+        "reason": "openWholePast writes a person's past terms when they are first opened."
+      },
+      {
+        "file": "src/core2/modules/people.ts",
+        "name": ".pastFacts",
+        "writes": "a person's built facts",
+        "reason": "The people engine writes each person's built facts (fill-in, partnerships) and reads its own."
+      },
+      {
+        "file": "src/core2/modules/school.ts",
+        "name": "schoolHistory",
+        "writes": "the school history before day one",
+        "reason": "The school engine's pre-start pass."
+      },
+      {
+        "file": "src/core2/modules/school.ts",
+        "name": "schoolHistoryFor",
+        "writes": "the school history of people filled in later",
+        "reason": "The school engine's pass for people filled in after the pre-start history ran."
+      },
+      {
+        "file": "src/core2/modules/offices.ts",
+        "name": "centuryCongressSeat",
+        "writes": "day one's terms",
+        "reason": "Seats day one's members of Congress and their past terms from the century run, which is computed from the seed, not records the reader serves."
+      },
+      {
+        "file": "src/core2/modules/offices.ts",
+        "name": "centuryPresidency",
+        "writes": "day one's terms",
+        "reason": "Seats day one's president and the past terms from the century run."
+      },
+      {
+        "file": "src/core2/modules/offices.ts",
+        "name": "centuryRace",
+        "writes": "day one's terms",
+        "reason": "Writes each past presidential term from the century's race of its year."
+      },
+      {
+        "file": "src/core2/modules/offices.ts",
+        "name": "centurySeatRace",
+        "writes": "day one's terms",
+        "reason": "Writes each seat's past terms from the century's race for it."
+      },
+      {
+        "file": "src/core2/modules/officials.ts",
+        "name": "centuryOf",
+        "writes": "day one's officials",
+        "reason": "Gives an official with no recorded party the side the century left their state leaning to."
+      },
+      {
+        "file": "src/core2/modules/officials.ts",
+        "name": "centuryParties",
+        "writes": "day one's officials",
+        "reason": "Draws each official's ideal around where the century put their party."
+      },
+      {
+        "file": "src/core2/modules/elections.ts",
+        "name": "centuryOf",
+        "writes": "the elections engine's history source",
+        "reason": "centuryRows and centurySeats turn the century's races into the rows the elections engine hands the one reader."
+      },
+      {
+        "file": "src/core2/modules/elections.ts",
+        "name": "centuryLegislatures",
+        "writes": "the elections engine's history source",
+        "reason": "centurySeats reads each state legislature's century races for the reader's rows."
+      },
+      {
+        "file": "src/core2/modules/parties.ts",
+        "name": "centuryParties",
+        "writes": "day one's parties",
+        "reason": "Opens each party where the century run left it."
+      },
+      {
+        "file": "src/core2/modules/laws.ts",
+        "name": "centuryLaw",
+        "writes": "day one's laws in force",
+        "reason": "Writes the federal laws the century's Congress passed as day one's laws in force."
+      },
+      {
+        "file": "src/core2/modules/counted-demotion.ts",
+        "name": ".pastFacts",
+        "writes": "the counted record of a person returned to the counts",
+        "reason": "Folds a person's own built facts into the record the counts keep of them."
+      }
+    ]
   }
 }

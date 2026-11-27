@@ -90,7 +90,7 @@ const ACTS: readonly {
 ];
 
 /** The survey's universe: people aged 16 and over. */
-export const SURVEY_AGE = 16;
+const SURVEY_AGE = 16;
 
 /**
  * In the survey's universe on the day the year is measured: alive, a full
