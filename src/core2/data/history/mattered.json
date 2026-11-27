@@ -1,0 +1,176 @@
+{
+  "about": "How much a record mattered to the people it names, on the stress scale (Holmes and Rahe 1967, life-change units divided by 100), read by the one history reader (src/core2/past-history.ts) as each event's `mattered`, so the Journal, a card, the news and a speech read one number (CTO, Nov 26, 2:53 a.m. ET: \"Put the score on the reader's events\"). A record whose kind starts with a row's `kindPrefix` takes its parameter, the first row that fits; a record no row fits has no score, never zero. The owner's answer 5 (Oct 9, 2026): a recorded past fact scores its stress-scale row.",
+  "rows": [
+    {
+      "kindPrefix": "family:child",
+      "parameter": "historyMatteredNewFamilyMember"
+    },
+    {
+      "kindPrefix": "family:partner",
+      "parameter": "historyMatteredMarriage"
+    },
+    {
+      "kindPrefix": "school.started",
+      "parameter": "historyMatteredBeginOrEndSchool"
+    },
+    {
+      "kindPrefix": "work:",
+      "parameter": "historyMatteredWorkHoursOrConditions"
+    },
+    {
+      "kindPrefix": "person.work-spell",
+      "parameter": "historyMatteredWorkHoursOrConditions"
+    },
+    {
+      "kindPrefix": "person.moved-in",
+      "parameter": "historyMatteredChangeInResidence"
+    },
+    {
+      "kindPrefix": "person.moved-within",
+      "parameter": "historyMatteredChangeInResidence"
+    },
+    {
+      "kindPrefix": "housing.home-bought",
+      "parameter": "historyMatteredChangeInLivingConditions"
+    },
+    {
+      "kindPrefix": "family.partnership-ended",
+      "parameter": "historyMatteredMaritalSeparation"
+    },
+    {
+      "kindPrefix": "justice.imprisoned-before",
+      "parameter": "historyMatteredJailTerm"
+    },
+    {
+      "kindPrefix": "health.hospital-stay",
+      "parameter": "historyMatteredPersonalInjuryOrIllness"
+    },
+    {
+      "kindPrefix": "school.finished",
+      "parameter": "historyMatteredBeginOrEndSchool"
+    },
+    {
+      "kindPrefix": "school.college-",
+      "parameter": "historyMatteredBeginOrEndSchool"
+    }
+  ],
+  "parameters": {
+    "historyMatteredNewFamilyMember": {
+      "value": 0.39,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Gain of a new family member' row, 39 life-change units divided by 100 (Holmes and Rahe 1967). Kept as the game's answer by the owner, Nov 10, 2026 (stand-in triage: SG-P13-past-fact-estimates dropped as too in depth).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "spread": {
+        "low": 0.39,
+        "high": 0.52,
+        "unit": "life-change units divided by 100",
+        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
+      },
+      "role": "coefficient"
+    },
+    "historyMatteredMarriage": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Marriage' row, 50 life-change units divided by 100 (Holmes and Rahe 1967). Kept as the game's answer by the owner, Nov 10, 2026 (stand-in triage: SG-P13-past-fact-estimates dropped as too in depth).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "spread": {
+        "low": 0.5,
+        "high": 0.5,
+        "unit": "life-change units divided by 100",
+        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
+      },
+      "role": "coefficient"
+    },
+    "historyMatteredBeginOrEndSchool": {
+      "value": 0.26,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Begin or end school' row, 26 life-change units divided by 100 (Holmes and Rahe 1967). Kept as the game's answer by the owner, Nov 10, 2026 (stand-in triage: SG-P13-past-fact-estimates dropped as too in depth).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "spread": {
+        "low": 0.26,
+        "high": 0.34,
+        "unit": "life-change units divided by 100",
+        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
+      },
+      "role": "coefficient"
+    },
+    "historyMatteredWorkHoursOrConditions": {
+      "value": 0.2,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Change in work hours or conditions' row, 20 life-change units divided by 100 (Holmes and Rahe 1967). Kept as the game's answer by the owner, Nov 10, 2026 (stand-in triage: SG-P13-past-fact-estimates dropped as too in depth).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "spread": {
+        "low": 0.2,
+        "high": 0.37,
+        "unit": "life-change units divided by 100",
+        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
+      },
+      "role": "coefficient"
+    },
+    "historyMatteredChangeInResidence": {
+      "value": 0.2,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores its stress-scale row. This is the 'Change in residence' row, 20 life-change units divided by 100 (Holmes and Rahe 1967), read from three fetched pages that agree on it (Nov 26, 2026): https://en.wikipedia.org/wiki/Holmes_and_Rahe_stress_scale, the University at Buffalo's handout (socialwork.buffalo.edu, holmes-rahe-life-stress-inventory.pdf) and PMC10727443 (Table 3); the 1967 paper itself was not fetched (403). A move into town or within it is a change of residence.",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "spread": {
+        "low": 0.2,
+        "high": 0.2,
+        "unit": "life-change units divided by 100",
+        "citation": "The three pages give the same value."
+      },
+      "role": "coefficient"
+    },
+    "historyMatteredChangeInLivingConditions": {
+      "value": 0.25,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores its stress-scale row. This is the 'Change in living conditions' row, 25 life-change units divided by 100 (Holmes and Rahe 1967), read from three fetched pages that agree on it (Nov 26, 2026): https://en.wikipedia.org/wiki/Holmes_and_Rahe_stress_scale, the University at Buffalo's handout (socialwork.buffalo.edu, holmes-rahe-life-stress-inventory.pdf) and PMC10727443 (Table 3); the 1967 paper itself was not fetched (403). The Buffalo handout words it 'Major change in living condition (i.e. new home, remodeling, deterioration, etc.)': a home bought.",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "spread": {
+        "low": 0.25,
+        "high": 0.25,
+        "unit": "life-change units divided by 100",
+        "citation": "The three pages give the same value."
+      },
+      "role": "coefficient"
+    },
+    "historyMatteredMaritalSeparation": {
+      "value": 0.65,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores its stress-scale row. This is the 'Marital separation' row, 65 life-change units divided by 100 (Holmes and Rahe 1967), read from three fetched pages that agree on it (Nov 26, 2026): https://en.wikipedia.org/wiki/Holmes_and_Rahe_stress_scale, the University at Buffalo's handout (socialwork.buffalo.edu, holmes-rahe-life-stress-inventory.pdf) and PMC10727443 (Table 3); the 1967 paper itself was not fetched (403). A partnership that ended.",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "spread": {
+        "low": 0.65,
+        "high": 0.65,
+        "unit": "life-change units divided by 100",
+        "citation": "The three pages give the same value."
+      },
+      "role": "coefficient"
+    },
+    "historyMatteredJailTerm": {
+      "value": 0.63,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores its stress-scale row. This is the 'Jail term' row, 63 life-change units divided by 100 (Holmes and Rahe 1967), read from three fetched pages that agree on it (Nov 26, 2026): https://en.wikipedia.org/wiki/Holmes_and_Rahe_stress_scale, the University at Buffalo's handout (socialwork.buffalo.edu, holmes-rahe-life-stress-inventory.pdf) and PMC10727443 (Table 3); the 1967 paper itself was not fetched (403). The pages word it 'Imprisonment' and 'Detention in jail or other institution': a prison term served.",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "spread": {
+        "low": 0.63,
+        "high": 0.63,
+        "unit": "life-change units divided by 100",
+        "citation": "The three pages give the same value."
+      },
+      "role": "coefficient"
+    },
+    "historyMatteredPersonalInjuryOrIllness": {
+      "value": 0.53,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores its stress-scale row. This is the 'Personal injury or illness' row, 53 life-change units divided by 100 (Holmes and Rahe 1967), read from three fetched pages that agree on it (Nov 26, 2026): https://en.wikipedia.org/wiki/Holmes_and_Rahe_stress_scale, the University at Buffalo's handout (socialwork.buffalo.edu, holmes-rahe-life-stress-inventory.pdf) and PMC10727443 (Table 3); the 1967 paper itself was not fetched (403). A stay in the hospital.",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "spread": {
+        "low": 0.53,
+        "high": 0.53,
+        "unit": "life-change units divided by 100",
+        "citation": "The three pages give the same value."
+      },
+      "role": "coefficient"
+    }
+  }
+}

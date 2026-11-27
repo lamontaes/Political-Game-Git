@@ -223,7 +223,12 @@ import {
 } from "./parties";
 import { ballotCuesOf, ballotForms, ballotOrderRule } from "../ballot-order";
 import { caucusSide, nationalParty, partySide } from "../appointments";
-import { promisesOf, recordAppeal, votesOf, type RecordReason } from "./record";
+import {
+  promisesOf,
+  recordAppeal,
+  votesCast,
+  type RecordReason,
+} from "./record";
 import {
   candidacyModule,
   CANDIDACY_MODULE_ID,
@@ -1256,7 +1261,9 @@ export function pledgeDoubt(
     (status) =>
       status.status !== "open" && api.knows(voter.id, status.promise.id),
   );
-  const votes = heard.length ? votesOf(api, pledge.candidateId) : [];
+  const votes = heard.length
+    ? votesCast(api.state as CoreState, pledge.candidateId)
+    : [];
   const broken = heard.filter(
     (status) =>
       status.status === "broken" &&

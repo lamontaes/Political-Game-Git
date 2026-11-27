@@ -1,7 +1,7 @@
 {
   "id": "eviction-steps-2026",
   "retrieved": "2026-10-12",
-  "method": "Two research helpers read official code sites where they could; many state sites and Justia refused the requests, so entries below 'high' come from the helpers' recall of the statute and are unverified. The game treats every non-high entry as an estimate (stopgap SG-WORLD-housing-eviction-steps). A second pass (Oct 12) read official code sites with curl; records it confirmed carry verifiedFields and a quote. Third pass (Oct 12, 2026): hearing and stay periods read from official text for 40 places (hearingStaySources).",
+  "method": "Two research helpers read official code sites where they could; many state sites and Justia refused the requests, so entries below 'high' come from the helpers' recall of the statute and are unverified. The game treats every non-high entry as an estimate (stopgap SG-WORLD-housing-eviction-steps). A second pass (Oct 12) read official code sites with curl; records it confirmed carry verifiedFields and a quote. Third pass (Oct 12, 2026): hearing and stay periods read from official text for 40 places (hearingStaySources). Fourth pass (Nov 26, 2026): each place's grace period after rent falls due was read from its statute where a page could be fetched (graceSource: the statute, the page, a quote of at most 300 characters and whether it is the statute's own text); a grace period confirmed that way is in verifiedFields. Places the pass could not read keep their earlier figure.",
   "fields": "noticeDays (pay-or-quit), cureAllowed, gracePeriodDays, answerOrHearingDays, appealOrStayDays, removalBy, statute, sourceUrl, confidence, note",
   "places": {
     "US-AK": {
@@ -86,7 +86,8 @@
         "noticeDays",
         "cureAllowed",
         "answerOrHearingDays",
-        "appealOrStayDays"
+        "appealOrStayDays",
+        "gracePeriodDays"
       ],
       "quote": "If rent is unpaid when due and the tenant fails to pay rent within five days after written notice ... the landlord may terminate ... Before the filing of a special detainer action the rental agreement shall be reinstated if the tenant tenders all past due rent",
       "hearingStaySources": {
@@ -97,6 +98,14 @@
           "12-1178(C) (azleg.gov/ars/12/01178.htm): \"No writ of restitution shall issue until the expiration of five calendar days after the rendition of judgment.\""
         ],
         "note": "Days counted from date of the summons (issued the day the complaint is filed)."
+      },
+      "graceSource": {
+        "statute": "A.R.S. 33-1368",
+        "sourceUrl": "https://www.azleg.gov/ars/33/01368.htm",
+        "quote": "fails to pay rent within five days after written notice by the landlord of nonpayment",
+        "what": "none",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-CA": {
@@ -129,7 +138,8 @@
         "noticeDays",
         "cureAllowed",
         "answerOrHearingDays",
-        "appealOrStayDays"
+        "appealOrStayDays",
+        "gracePeriodDays"
       ],
       "quote": "(1)(d) ... ten days' notice in writing has been duly served upon the tenant ... requiring in the alternative the payment of the rent or the possession of the premises",
       "hearingStaySources": {
@@ -141,6 +151,14 @@
           "13-40-122(1)(b): \"...the officer shall not execute a writ of restitution concerning a residential tenancy until at least ten days after entry of the judgment\""
         ],
         "note": "Source is the Office of Legislative Legal Services' C.R.S. 2024 uncertified printout (2025 PDF not posted at that URL). Writ may issue after 48 hours, but a residential writ cannot be executed for 10 days after judgment (30 days for SSI/SSDI/Colorado Works recipients, with small-landlord exceptions). File's 2 reflects only the writ-issuance delay."
+      },
+      "graceSource": {
+        "statute": "C.R.S. 38-12-105(1)(a)",
+        "sourceUrl": "https://colorado.public.law/statutes/crs_38-12-105",
+        "quote": "A landlord shall not ... Charge a tenant or home owner a late fee unless a rent payment is late by at least seven calendar days",
+        "what": "late-fee grace",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-CT": {
@@ -155,7 +173,15 @@
       "sourceUrl": "https://www.cga.ct.gov/current/pub/chap_832.htm",
       "confidence": "low",
       "note": "from recall of the statute; not fetched or verified this session; 3 full-day notice to quit after 9-day grace; tenant can cure only before notice to quit (§ 47a-15); 5-day stay excludes Sundays and holidays; pre-notice requirements added in 2021.",
-      "verificationFailed": "cga.ct.gov returned empty/no connection"
+      "verificationFailed": "cga.ct.gov returned empty/no connection",
+      "graceSource": {
+        "statute": "C.G.S. 47a-15a",
+        "sourceUrl": "https://prdext3.cga.ct.gov/2023/rpt/pdf/2023-R-0220.pdf",
+        "quote": "the landlord may evict the tenant after a nine-day grace period ... If the tenant pays the rent during the grace period, he or she cannot be evicted for nonpayment (CGS 47a-15a).",
+        "what": "rent-late grace",
+        "readOn": "2026-11-26",
+        "verbatim": false
+      }
     },
     "US-DC": {
       "noticeDays": 10,
@@ -184,6 +210,14 @@
           "42-3505.01a(b)(1): \"...a housing provider shall deliver to the tenant a notice confirming the date of eviction not fewer than 21 days before the date of eviction\""
         ],
         "note": "Minimum only; no statutory maximum. The 21 days is the landlord's eviction-date notice, a floor between notice and removal rather than a stay from judgment (writ timing itself is under Superior Court L&T rules, not checked)."
+      },
+      "graceSource": {
+        "statute": "D.C. Code 42-3505.31",
+        "sourceUrl": "https://code.dccouncil.gov/us/dc/council/code/sections/42-3505.31",
+        "quote": "within 5 days, or any longer grace period that may be provided in the lease",
+        "what": "late-fee grace",
+        "readOn": "2026-11-26",
+        "verbatim": false
       }
     },
     "US-DE": {
@@ -202,7 +236,8 @@
         "noticeDays",
         "cureAllowed",
         "answerOrHearingDays",
-        "appealOrStayDays"
+        "appealOrStayDays",
+        "gracePeriodDays"
       ],
       "quote": "5502(a): notify the tenant in writing that unless payment is made within a time mentioned in such notice, to be not less than 7 days after the date notice was given or sent, the landlord may file a court action to terminate",
       "hearingStaySources": {
@@ -214,6 +249,14 @@
           "5717(a): \"...a party aggrieved by the judgment ... may request in writing, within 5 days after judgment, a trial de novo\"; 5715(b): \"...shall give at least 24 hours' notice to the person or persons to be removed\""
         ],
         "note": "Writ cannot issue until the 5-day trial-de-novo window runs (motion to vacate default is 10 days), then 24 hours' notice. Mediation requirement may delay trial."
+      },
+      "graceSource": {
+        "statute": "25 Del. C. 5501(d)",
+        "sourceUrl": "https://delcode.delaware.gov/title25/c055/index.html",
+        "quote": "The late charge shall not be imposed within 5 days of the agreed time for payment of rent.",
+        "what": "late-fee grace",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-FL": {
@@ -243,6 +286,14 @@
           "83.62(1): \"...commanding the sheriff to put the landlord in possession after 24 hours' notice conspicuously posted on the premises.\""
         ],
         "note": "Stay is 24 hours after posting of the writ (recorded as 1 day). 83.59(2) applies the 51.011 summary procedure."
+      },
+      "graceSource": {
+        "statute": "Fla. Stat. 83.56(3)",
+        "sourceUrl": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0083/Sections/0083.56.html",
+        "quote": "If the tenant fails to pay rent when due and the default continues for 3 days, excluding Saturday, Sunday, and legal holidays, after delivery of written demand",
+        "what": "none",
+        "readOn": "2026-11-26",
+        "verbatim": false
       }
     },
     "US-GA": {
@@ -271,13 +322,22 @@
       "sourceUrl": "https://law.justia.com/codes/guam/2022/title-21/division-1/chapter-21/",
       "confidence": "low",
       "note": "Only a secondary source gives 5 days for 21 GCA 21103; statute not read (Justia returned 403).",
-      "verificationFailed": "guamcourts.org Compiler of Laws connection fails through the proxy."
+      "verificationFailed": "guamcourts.org Compiler of Laws connection fails through the proxy.",
+      "graceSource": {
+        "statute": "21 GCA 48104(c)",
+        "sourceUrl": "https://col.guamcourts.gov/sites/default/files/21gc048_Q.pdf",
+        "quote": "Rent is payable without demand or notice at the time and place agreed upon by the parties.",
+        "what": "none",
+        "readOn": "2026-11-26",
+        "verbatim": true
+      },
+      "verifiedFields": ["gracePeriodDays"]
     },
     "US-HI": {
       "noticeDays": 5,
       "noticeDayType": "business",
       "cureAllowed": true,
-      "gracePeriodDays": 5,
+      "gracePeriodDays": 0,
       "answerOrHearingDays": null,
       "appealOrStayDays": 0,
       "removalBy": "sheriff",
@@ -286,7 +346,7 @@
       "confidence": "low",
       "note": "from recall of the statute; not fetched or verified this session; 5-business-day notice; 5-day late-charge grace.",
       "verificationFailed": "capitol.hawaii.gov blocked by Cloudflare",
-      "verifiedFields": ["appealOrStayDays"],
+      "verifiedFields": ["appealOrStayDays", "gracePeriodDays"],
       "hearingStaySources": {
         "statute": "HRS 666-8, 666-11, 666-14",
         "sourceUrl": "https://data.capitol.hawaii.gov/hrscurrent/Vol13_Ch0601-0676/HRS0666/HRS_0666-0011.htm",
@@ -296,6 +356,14 @@
           "666-8: \"The summons shall be served as provided by the rules of court.\""
         ],
         "note": "No statutory waiting period; the writ issues upon judgment (case note: 'Writ may issue at any time after judgment unless stayed by law', 23 H. 65). Return-day timing is left to court rules (DCRCP), not checked. www.capitol.hawaii.gov returned 403; data.capitol.hawaii.gov serves the same official HRS."
+      },
+      "graceSource": {
+        "statute": "HRS 521-21(f)",
+        "sourceUrl": "https://data.capitol.hawaii.gov/hrscurrent/Vol12_Ch0501-0588/HRS0521/HRS_0521-0021.htm",
+        "quote": "Where the rental agreement provides for a late charge payable to the landlord for rent not paid when due, the late charge shall not exceed eight per cent of the amount of rent due.",
+        "what": "none",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-IA": {
@@ -314,7 +382,8 @@
         "noticeDays",
         "cureAllowed",
         "answerOrHearingDays",
-        "appealOrStayDays"
+        "appealOrStayDays",
+        "gracePeriodDays"
       ],
       "quote": "If rent is unpaid when due and the tenant fails to pay rent within three days after written notice by the landlord of nonpayment ... the landlord may terminate the rental agreement.",
       "hearingStaySources": {
@@ -326,6 +395,14 @@
           "648.22 (legis.iowa.gov/docs/code/648.22.pdf): \"...an execution for the defendant's removal within three days from the judgment shall issue accordingly\""
         ],
         "note": "Min 3 days is service-to-hearing; max 8 (15 with plaintiff consent) is measured from filing. 648.22 wording 'removal within three days' read as a 3-day removal window."
+      },
+      "graceSource": {
+        "statute": "Iowa Code 562A.9(4)",
+        "sourceUrl": "https://www.legis.iowa.gov/docs/code/562A.9.pdf",
+        "quote": "a rental agreement shall not provide for a late fee that exceeds twelve dollars per day or a total amount of sixty dollars per month",
+        "what": "none",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-ID": {
@@ -354,6 +431,14 @@
           "6-316(2): \"...a residential tenant shall have seventy-two (72) hours to remove his belongings from the premises\""
         ],
         "note": "Max 12 is measured from filing. Stay is 72 hours (3 days)."
+      },
+      "graceSource": {
+        "statute": "Idaho Code 6-303",
+        "sourceUrl": "https://legislature.idaho.gov/statutesrules/idstat/title6/t6ch3/sect6-303/",
+        "quote": "after default in the payment of rent ... and three (3) days' notice, in writing, requiring its payment",
+        "what": "none",
+        "readOn": "2026-11-26",
+        "verbatim": false
       }
     },
     "US-IL": {
@@ -400,7 +485,8 @@
         "noticeDays",
         "noticeDayType",
         "cureAllowed",
-        "answerOrHearingDays"
+        "answerOrHearingDays",
+        "gracePeriodDays"
       ],
       "quote": "The landlord may terminate the rental agreement if rent is unpaid when due and the tenant fails to pay rent within three days, after written notice ... computed as three consecutive 24-hour periods.",
       "hearingStaySources": {
@@ -412,6 +498,14 @@
           "61-3808(b): \"The writ of restitution shall be executed within 14 days after the person named in the writ receives it\""
         ],
         "note": "Min is 3 days (file has 7). No minimum waiting period before the writ issues; 61-3808 only sets a 14-day outer limit for executing it."
+      },
+      "graceSource": {
+        "statute": "K.S.A. 58-2545(c)",
+        "sourceUrl": "https://ksrevisor.gov/statutes/chapters/ch58/058_025_0045.html",
+        "quote": "Rent is due \"without demand or notice at the time and place agreed upon by the parties.\" (no late-fee or grace provision in the act's rent section)",
+        "what": "none",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-KY": {
@@ -484,13 +578,21 @@
           "c.239 s.5(a): \"...that party shall file a notice of appeal with the court within 10 days after the entry of the judgment. An execution upon a judgment rendered pursuant to section 3 shall not issue until the expiration of 10 days after the entry of the judgment.\""
         ],
         "note": "answerOrHearingDays NOT directly verified: mass.gov returned 403 to direct fetch. A search summary of the official mass.gov page for Rule 2(b) gives: service 'no later than the seventh day nor earlier than the thirtieth day before the entry day', trial on the second Thursday after entry; this matches the file's [7,30] but counts days before the entry date, not from service. Amendments to the rules were proposed in 2025; adoption not confirmed."
+      },
+      "graceSource": {
+        "statute": "M.G.L. c.186 s.15B(1)(c)",
+        "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section15B",
+        "quote": "No lease or other rental agreement shall impose any interest or penalty for failure to pay rent [...] (effective only after thirty days past due; sentence truncated by fetch tool)",
+        "what": "late-fee grace",
+        "readOn": "2026-11-26",
+        "verbatim": false
       }
     },
     "US-MD": {
       "noticeDays": 10,
       "noticeDayType": "calendar",
       "cureAllowed": true,
-      "gracePeriodDays": 5,
+      "gracePeriodDays": 0,
       "answerOrHearingDays": [5, 5],
       "appealOrStayDays": 4,
       "removalBy": "sheriff",
@@ -503,7 +605,8 @@
         "cureAllowed",
         "statute",
         "answerOrHearingDays",
-        "appealOrStayDays"
+        "appealOrStayDays",
+        "gracePeriodDays"
       ],
       "quote": "Before a landlord may file a complaint ... the landlord shall provide to the tenant a written notice of the landlord's intent to file a claim ... if the tenant does not cure within 10 days after the written notice is provided",
       "hearingStaySources": {
@@ -515,6 +618,14 @@
           "8-401(i)(1): \"The tenant or the landlord may appeal ... at any time within 4 days from the rendition of the judgment.\""
         ],
         "note": "Trial day is measured from filing, not service; adjournment up to 1 day."
+      },
+      "graceSource": {
+        "statute": "Md. Code, Real Prop. 8-208(d)(3)",
+        "sourceUrl": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=grp&section=8-208&enactments=false",
+        "quote": "Provides for a penalty for the late payment of rent in excess of 5% of the amount of unpaid rent due (5% is a cap; no grace days in text)",
+        "what": "none",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-ME": {
@@ -533,7 +644,8 @@
         "noticeDays",
         "cureAllowed",
         "answerOrHearingDays",
-        "appealOrStayDays"
+        "appealOrStayDays",
+        "gracePeriodDays"
       ],
       "quote": "14 M.R.S. 6002(1)(A)/(3): 7-day notice in writing; if the tenant pays the full amount of rent due before the expiration of the 7-day notice, that notice is void",
       "hearingStaySources": {
@@ -545,6 +657,14 @@
           "14 M.R.S. 6005 (legislature.maine.gov/statutes/14/title14sec6005.html): \"Seven calendar days after the judgment is entered, the court shall issue the writ of possession to remove the defendant.\""
         ],
         "note": "Return-day minimum rose from 7 to 14 days in Feb 2024 (court rule, not statute). A third-party site mentions a Jan 2026 amendment to 80D that I could not confirm on courts.maine.gov. 6008: appeal window ends at writ issuance or 30 days, whichever first."
+      },
+      "graceSource": {
+        "statute": "14 M.R.S. 6028",
+        "sourceUrl": "https://legislature.maine.gov/statutes/14/title14sec6028.html",
+        "quote": "A payment of rent is late if it is not made within 15 days from the time the payment is due.",
+        "what": "rent-late grace",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-MI": {
@@ -593,7 +713,8 @@
         "noticeDays",
         "cureAllowed",
         "answerOrHearingDays",
-        "appealOrStayDays"
+        "appealOrStayDays",
+        "gracePeriodDays"
       ],
       "quote": "Your landlord can file an eviction case if you do not pay the total amount due or move out within 14 days from the date of this notice. (504B.321 subd. 1a)",
       "hearingStaySources": {
@@ -605,6 +726,14 @@
           "504B.365(a): \"...relinquish possession and leave, taking family and all personal property from the premises within 24 hours.\""
         ],
         "note": "Writ issues immediately; tenant gets 24 hours after the officer's demand (1 day). In contested non-default cases the court must also stay the writ for a reasonable period up to 7 days. Days measured from issuance of summons."
+      },
+      "graceSource": {
+        "statute": "Minn. Stat. 504B.177(a)",
+        "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/504B.177",
+        "quote": "A landlord of a residential building may not charge a late fee if the rent is paid after the due date, unless the tenant and landlord have agreed in writing that a late fee may be imposed.",
+        "what": "none",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-MO": {
@@ -686,7 +815,12 @@
       "sourceUrl": "https://leg.mt.gov/bills/mca/title_0700/chapter_0240/part_0040/section_0220/0700-0240-0040-0220.html",
       "confidence": "high",
       "note": "MCA 70-24-422(2) read. Other fields still recall.",
-      "verifiedFields": ["noticeDays", "cureAllowed", "answerOrHearingDays"],
+      "verifiedFields": [
+        "noticeDays",
+        "cureAllowed",
+        "answerOrHearingDays",
+        "gracePeriodDays"
+      ],
       "quote": "If rent is unpaid when due and the tenant fails to pay rent within 3 days after written notice by the landlord of nonpayment ... the landlord may terminate the rental agreement",
       "hearingStaySources": {
         "statute": "MCA 70-27-114(1)(b)",
@@ -695,6 +829,14 @@
           "70-27-114(1)(b): \"notify the defendant to appear and answer within 10 days of service and that the relief sought will be taken against the defendant if the defendant does not appear.\""
         ],
         "note": "Montana Code Annotated 2025 on archive.legmt.gov (official Legislature archive). Stay/writ timing not checked."
+      },
+      "graceSource": {
+        "statute": "MCA 70-24-201",
+        "sourceUrl": "https://mca.legmt.gov/bills/mca/title_0700/chapter_0240/part_0020/section_0010/0700-0240-0020-0010.html",
+        "quote": "Rent is payable without demand or notice at the time and place agreed upon by the parties.",
+        "what": "none",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-NC": {
@@ -709,7 +851,7 @@
       "sourceUrl": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_42/GS_42-3.html",
       "confidence": "medium",
       "note": "Read 42-3 and 42-26/42-29. 42-3 implies forfeiture if rent unpaid 10 days after demand in leases with a fixed rent date (practice: landlords serve a 10-day demand; treat as 10 calendar days if the lease has no other rule). Original null left because the 42-26 ground does not itself require the demand. 42-29 summons service text read; 5-day late-fee grace (42-46) text was not confirmed in retrieved output.",
-      "verifiedFields": ["statute", "appealOrStayDays"],
+      "verifiedFields": ["statute", "appealOrStayDays", "gracePeriodDays"],
       "quote": "G.S. 42-3: forfeiture of the term is implied \"upon failure to pay the rent within 10 days after a demand is made by the lessor or his agent on said lessee for all past-due rent\"",
       "hearingStaySources": {
         "statute": "N.C.G.S. 7A-214, 7A-223, 7A-228(a)-(b), 42-34, 42-36.2(a)",
@@ -720,6 +862,14 @@
           "42-36.2(a): \"The time within which the sheriff shall have to execute the writ shall be no more than five days from the sheriff's receipt thereof.\""
         ],
         "note": "Statute sets no minimum service-to-trial period for summary ejectment (the 5-day minimum expressly excludes it) and a 30-day maximum from commencement; I found no 7-day figure in 7A-214/7A-223/42-29, so file's [7,7] is not supported by these sections. Removal delay is the 10-day appeal window; 42-36.2 also requires 2 days' (5 by mail) notice before the sheriff executes the writ."
+      },
+      "graceSource": {
+        "statute": "N.C.G.S. 42-46(a)",
+        "sourceUrl": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_42/GS_42-46.html",
+        "quote": "to be chargeable only if any rental payment is five calendar days or more late",
+        "what": "late-fee grace",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-ND": {
@@ -767,7 +917,8 @@
         "noticeDays",
         "noticeDayType",
         "cureAllowed",
-        "answerOrHearingDays"
+        "answerOrHearingDays",
+        "gracePeriodDays"
       ],
       "quote": "76-1431(2): If rent is unpaid when due and the tenant fails to pay rent within seven calendar days after written notice by the landlord of nonpayment ... the landlord may terminate the rental agreement.",
       "hearingStaySources": {
@@ -779,6 +930,14 @@
           "25-21,223: \"...the summons shall be served within three days, excluding nonjudicial days, from the date of its issuance\""
         ],
         "note": "Writ issues on request after judgment; possession restored on a date not more than 10 days after the writ issues (an outer limit, no minimum waiting period stated)."
+      },
+      "graceSource": {
+        "statute": "Neb. Rev. Stat. 76-1414(3)",
+        "sourceUrl": "https://nebraskalegislature.gov/laws/statutes.php?statute=76-1414",
+        "quote": "Rent shall be payable without demand or notice at the time and place agreed upon by the parties.",
+        "what": "none",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-NH": {
@@ -839,13 +998,22 @@
       "sourceUrl": "https://law.justia.com/codes/new-mexico/chapter-47/article-8/",
       "confidence": "low",
       "note": "Recalled, not read; 3-day written pay-or-quit under Uniform Owner-Resident Relations Act (check for recent amendments); hearing timing set by magistrate rules.",
-      "verificationFailed": "nmonesource.com serves a JavaScript shell with no statute text; Justia 403."
+      "verificationFailed": "nmonesource.com serves a JavaScript shell with no statute text; Justia 403.",
+      "graceSource": {
+        "statute": "NMSA 47-8-15(D) (as amended 2025 SB 267)",
+        "sourceUrl": "https://nmlegis.gov/Sessions/25%20Regular/final/SB0267.PDF",
+        "quote": "if the resident does not pay rent in accordance with the rental agreement, the owner may charge the resident a late fee in an amount not to exceed five percent of the rent",
+        "what": "none",
+        "readOn": "2026-11-26",
+        "verbatim": true
+      },
+      "verifiedFields": ["gracePeriodDays"]
     },
     "US-NV": {
       "noticeDays": 7,
       "noticeDayType": "judicial",
       "cureAllowed": true,
-      "gracePeriodDays": 0,
+      "gracePeriodDays": 3,
       "answerOrHearingDays": 7,
       "appealOrStayDays": 10,
       "removalBy": "sheriff or constable",
@@ -860,7 +1028,8 @@
         "appealOrStayDays",
         "removalBy",
         "statute",
-        "answerOrHearingDays"
+        "answerOrHearingDays",
+        "gracePeriodDays"
       ],
       "quote": "NRS 40.253(1): notice \"requiring in the alternative the payment of the rent or the surrender of the premises: (a) Before the close of business on the seventh judicial day following the day of service\"",
       "hearingStaySources": {
@@ -872,6 +1041,14 @@
           "40.253: \"The sheriff or constable shall remove the tenant not earlier than 24 hours but not later than 36 hours after the posting of the order.\""
         ],
         "note": "In Nevada's summary eviction the tenant's answer (affidavit) is due by the end of the 7-judicial-day notice period; the statute sets no separate hearing deadline. File value [10,10] is not supported. Did not re-verify appealOrStayDays (already verified in file as 10); removal itself is 24-36 hours after posting of the order."
+      },
+      "graceSource": {
+        "statute": "NRS 118A.210(4)(a)",
+        "sourceUrl": "https://www.leg.state.nv.us/nrs/nrs-118a.html",
+        "quote": "no late fee may be charged or imposed until at least 3 calendar days after the date that rent is due;",
+        "what": "late-fee grace",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-NY": {
@@ -887,7 +1064,11 @@
       "confidence": "medium",
       "note": "Recalled, not read; 14-day written rent demand (HSTPA 2019); petition returnable 10-17 days after service; warrant execution needs 14 days notice; 5-day late-fee grace.",
       "verificationFailed": "nysenate.gov returns Cloudflare 403/challenge and the legislation API needs a key; no official text retrieved.",
-      "verifiedFields": ["answerOrHearingDays", "appealOrStayDays"],
+      "verifiedFields": [
+        "answerOrHearingDays",
+        "appealOrStayDays",
+        "gracePeriodDays"
+      ],
       "hearingStaySources": {
         "statute": "RPAPL 732(1)-(3), 733(1), 749(2)(a)",
         "sourceUrl": "https://www.nysenate.gov/legislation/laws/RPA/732",
@@ -897,6 +1078,14 @@
           "RPAPL 749(2)(a): \"The officer to whom the warrant is directed and delivered shall give at least fourteen days' notice, in writing\""
         ],
         "note": "Read via WebFetch (nysenate.gov returns 403 to curl). For nonpayment, RPAPL 732 governs: answer within 10 days of service, trial 3-8 days after joinder. The file's [10,17] comes from RPAPL 733(1), which expressly excludes nonpayment proceedings ('Except as provided in section seven hundred thirty-two ... relating to a proceeding for non-payment of rent'). Whether a local court rule displaces 732 was not checked."
+      },
+      "graceSource": {
+        "statute": "N.Y. Real Prop. Law 238-a(2)",
+        "sourceUrl": "https://www.nysenate.gov/legislation/laws/RPP/238-A",
+        "quote": "unless the payment of rent has not been made within five days of the date it was due,",
+        "what": "late-fee grace",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-OH": {
@@ -939,7 +1128,8 @@
         "noticeDays",
         "cureAllowed",
         "answerOrHearingDays",
-        "appealOrStayDays"
+        "appealOrStayDays",
+        "gracePeriodDays"
       ],
       "quote": "41 O.S. 131(B): \"A landlord may terminate a rental agreement for failure to pay rent when due, if the tenant fails to pay the rent within five (5) days after written notice of landlord's demand for payment.\"",
       "hearingStaySources": {
@@ -951,6 +1141,14 @@
           "1148.10A(A): \"...the plaintiff or agent of the plaintiff or officer shall return in forty-eight (48) hours to restore the plaintiff possession of the premises by executing the writ\""
         ],
         "note": "Writ issues on request after judgment (no waiting period); tenant gets 48 hours' notice before execution (recorded as 2). A new-trial motion within 3 days does not stay execution. File's 10-day stay is not supported."
+      },
+      "graceSource": {
+        "statute": "41 O.S. 109(B); 41 O.S. 131(B)",
+        "sourceUrl": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os41.pdf",
+        "quote": "Rent shall be payable at the time and place agreed to by the parties. [131(B): terminate if tenant fails to pay within five (5) days after written notice of landlord's demand]",
+        "what": "none",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-OR": {
@@ -1077,7 +1275,8 @@
         "noticeDays",
         "cureAllowed",
         "answerOrHearingDays",
-        "appealOrStayDays"
+        "appealOrStayDays",
+        "gracePeriodDays"
       ],
       "hearingStaySources": {
         "statute": "S.C. Code 27-37-20, 27-37-40, 27-37-100, 27-37-160",
@@ -1088,6 +1287,14 @@
           "27-37-160: \"...present to the occupants a copy of the writ and give the occupants twenty-four hours to vacate voluntarily.\""
         ],
         "note": "The 10-day show-cause period is in chapter 37 (Ejectment), not 27-40-710. The 5 days in 27-37-100 is an outer limit for the magistrate to issue the writ, not a mandatory wait; the tenant's guaranteed period after the writ is 24 hours (recorded as 1). File value 5 is defensible only as the writ-issuance outer limit."
+      },
+      "graceSource": {
+        "statute": "S.C. Code 27-40-310(c)",
+        "sourceUrl": "https://www.scstatehouse.gov/code/t27c040.php",
+        "quote": "Rent is payable without demand or notice at the time and place agreed upon by the parties.",
+        "what": "none",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-SD": {
@@ -1125,7 +1332,16 @@
       "sourceUrl": "https://law.justia.com/codes/tennessee/title-66/chapter-28/part-5/",
       "confidence": "medium",
       "note": "URLTA counties: rent 5 days late, then 14-day notice to cure; non-URLTA counties use common law demand; detainer warrant return 3-6 days; 10 days to appeal.",
-      "verificationFailed": "wapp.capitol.tn.gov code pages are a JavaScript app (no text via curl); Justia returns 403."
+      "verificationFailed": "wapp.capitol.tn.gov code pages are a JavaScript app (no text via curl); Justia returns 403.",
+      "graceSource": {
+        "statute": "Tenn. Code 66-28-201(d)",
+        "sourceUrl": "https://codes.findlaw.com/tn/title-66-property/tn-code-sect-66-28-201/",
+        "quote": "There shall be a five-day grace period beginning the day the rent was due to the day a fee for the late payment of rent may be charged.",
+        "what": "late-fee grace",
+        "readOn": "2026-11-26",
+        "verbatim": true
+      },
+      "verifiedFields": ["gracePeriodDays"]
     },
     "US-TX": {
       "noticeDays": 3,
@@ -1163,7 +1379,16 @@
       "sourceUrl": "https://law.justia.com/codes/utah/title-78b/chapter-6/part-8/",
       "confidence": "medium",
       "note": "Recalled, not read; 3 business days notice; answer 3 business days after service; hearing within 10 days of request.",
-      "verificationFailed": "le.utah.gov connection fails through the proxy (no response)."
+      "verificationFailed": "le.utah.gov connection fails through the proxy (no response).",
+      "graceSource": {
+        "statute": "Utah Code 57-22-4(5)(a)",
+        "sourceUrl": "https://le.utah.gov/xcode/Title57/Chapter22/C57-22-S4_2021050520210505.html",
+        "quote": "An owner may not charge a renter: (a) a late fee that exceeds the greater of: (i) 10% of the rent agreed to in the rental agreement; or (ii) $75",
+        "what": "none",
+        "readOn": "2026-11-26",
+        "verbatim": true
+      },
+      "verifiedFields": ["gracePeriodDays"]
     },
     "US-VA": {
       "noticeDays": 14,
@@ -1182,7 +1407,8 @@
         "cureAllowed",
         "statute",
         "answerOrHearingDays",
-        "appealOrStayDays"
+        "appealOrStayDays",
+        "gracePeriodDays"
       ],
       "quote": "55.1-1245(F): \"If rent is unpaid when due, and the tenant fails to pay rent within 14 days after written notice is served on him ... the landlord may terminate the rental agreement\"",
       "hearingStaySources": {
@@ -1194,6 +1420,14 @@
           "8.01-470: \"...the officer to whom a writ of eviction has been delivered to be executed shall, at least 72 hours before execution, serve notice of intent to execute\""
         ],
         "note": "Min 10 = service before return day; max 21 from filing (up to 30 if court cannot hear sooner). Removal delay: 10-day appeal window plus 72-hour notice of execution."
+      },
+      "graceSource": {
+        "statute": "Va. Code 55.1-1204(C)(4)-(5) (default terms when no written lease); (E) late charge only if in lease",
+        "sourceUrl": "https://law.lis.virginia.gov/vacode/title55.1/chapter12/section55.1-1204/",
+        "quote": "Rent payments shall be due on the first day of each month during the tenancy and shall be considered late if not paid by the fifth of the month",
+        "what": "rent-late grace",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-VI": {
@@ -1222,7 +1456,12 @@
       "sourceUrl": "https://legislature.vermont.gov/statutes/section/09/137/04467",
       "confidence": "high",
       "note": "Read 4467(a). Cure by paying rent due through the end of the rental period in which payment is made. Hearing/writ fields not verified.",
-      "verifiedFields": ["noticeDays", "cureAllowed", "appealOrStayDays"],
+      "verifiedFields": [
+        "noticeDays",
+        "cureAllowed",
+        "appealOrStayDays",
+        "gracePeriodDays"
+      ],
       "quote": "9 V.S.A. 4467(a): termination date \"shall be at least 14 days after the date of the actual notice. The rental agreement shall not terminate if the tenant pays or tenders rent due through the end of the rental period\"",
       "hearingStaySources": {
         "statute": "12 V.S.A. 4853a(b), 4854",
@@ -1232,13 +1471,21 @@
           "4853a(b): \"A hearing on the motion shall be held any time after 14 days' notice to the parties.\""
         ],
         "note": "12 V.S.A. ch. 169 sets no answer period; the answer deadline comes from the general civil rules (V.R.C.P. 12(a), not checked here). 4853a(b) is the rent-escrow motion hearing (14 days' notice), not the merits hearing."
+      },
+      "graceSource": {
+        "statute": "9 V.S.A. 4455(a)",
+        "sourceUrl": "https://legislature.vermont.gov/statutes/section/09/137/04455",
+        "quote": "Rent is payable without demand or notice at the time and place agreed upon by the parties.",
+        "what": "none",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-WA": {
       "noticeDays": 14,
       "noticeDayType": "calendar",
       "cureAllowed": true,
-      "gracePeriodDays": 0,
+      "gracePeriodDays": 5,
       "answerOrHearingDays": [7, 30],
       "appealOrStayDays": 5,
       "removalBy": "sheriff",
@@ -1251,7 +1498,8 @@
         "cureAllowed",
         "statute",
         "answerOrHearingDays",
-        "appealOrStayDays"
+        "appealOrStayDays",
+        "gracePeriodDays"
       ],
       "quote": "RCW 59.12.030(3): notice \"requiring in the alternative the payment of the rent or the surrender of the detained premises ... for the period of 14 days after service for tenancies under chapter 59.18 RCW.\"",
       "hearingStaySources": {
@@ -1263,6 +1511,14 @@
           "59.18.390(1): \"The sheriff shall, upon receiving the writ of restitution, forthwith serve a copy thereof upon the tenant ... and shall not execute the same for three days thereafter.\""
         ],
         "note": "Show-cause hearing window. Stay is 5 court days (nonpayment), and the sheriff must also wait 3 days after serving the writ."
+      },
+      "graceSource": {
+        "statute": "RCW 59.18.170(2)",
+        "sourceUrl": "https://app.leg.wa.gov/RCW/default.aspx?cite=59.18.170",
+        "quote": "The landlord may not charge a late fee for rent that is paid within five days following its due date.",
+        "what": "late-fee grace",
+        "readOn": "2026-11-26",
+        "verbatim": true
       }
     },
     "US-WI": {

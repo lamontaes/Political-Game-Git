@@ -139,7 +139,7 @@
     "HI": {
       "noticeDays": 5,
       "cureAllowed": true,
-      "gracePeriodDays": 5,
+      "gracePeriodDays": 0,
       "hearingDays": 7,
       "stayDays": 0,
       "statute": "HRS § 521-68, § 521-21, § 666-",
@@ -229,7 +229,7 @@
     "MD": {
       "noticeDays": 10,
       "cureAllowed": true,
-      "gracePeriodDays": 5,
+      "gracePeriodDays": 0,
       "hearingDays": 5,
       "stayDays": 4,
       "statute": "Md. Code, Real Prop. § 8-401, § 8-208(d)",
@@ -369,7 +369,7 @@
     "NV": {
       "noticeDays": 7,
       "cureAllowed": true,
-      "gracePeriodDays": 0,
+      "gracePeriodDays": 3,
       "hearingDays": 7,
       "stayDays": 10,
       "statute": "NRS 40.253, 40.385, 40.290-40.420",
@@ -529,7 +529,7 @@
     "WA": {
       "noticeDays": 14,
       "cureAllowed": true,
-      "gracePeriodDays": 0,
+      "gracePeriodDays": 5,
       "hearingDays": 7,
       "stayDays": 5,
       "statute": "RCW 59.12.030(3), 59.18.057",

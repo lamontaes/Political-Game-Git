@@ -164,17 +164,22 @@ describe("paying within the notice period", () => {
         modules: [HOUSING_MODULE],
       }),
       api = coreAPI(core);
-    // Month by month until the landlord serves notice.
+    // Day by day until the landlord serves notice: late rent is weighed the
+    // day after the state's grace period ends, which in South Carolina (none)
+    // is the 2nd, and the household then has the notice's days to pay.
     const noticed = () =>
       (
         api.moduleState("housing").snapshot().tables.cases as unknown as {
           noticeAt: string;
         }[]
       ).length > 0;
-    for (const month of ["02", "03", "04", "05", "06", "07"]) {
-      advanceCore(core, `2021-${month}-07`);
-      if (noticed()) break;
-    }
+    for (let day = 0; day < 180 && !noticed(); day++)
+      advanceCore(
+        core,
+        new Date(Date.parse(`${core.date}T00:00:00Z`) + 86_400_000)
+          .toISOString()
+          .slice(0, 10),
+      );
     expect(noticed()).toBe(true);
     // The broke household is paid after the notice (a payday), from the landlord-unrelated payer.
     transferCash(api, "fixture:payday", "payer", "broke", 1_000_000, src);
