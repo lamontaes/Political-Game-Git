@@ -20,7 +20,7 @@ import { fileForOffice } from "../bench/government";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { advanceToFilingOpen } from "../core2/gov-test-clock";
+import { advanceToFilingOpen } from "../../tests/support/gov-test-clock";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { campaignFor, enlistVolunteer } from "../core2/modules/campaigns";
 import { playerContests } from "../core2/modules/elections";
