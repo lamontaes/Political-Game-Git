@@ -11,9 +11,9 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-export const LINES_2026_DIRECTORY = "data/research/district-lines-2026";
-export const LINES_2026_FILE = `${LINES_2026_DIRECTORY}/lines-2026.json`;
-export const LINES_2026_VINTAGE = "census-bef-cd120-2026";
+const LINES_2026_DIRECTORY = "data/research/district-lines-2026";
+const LINES_2026_FILE = `${LINES_2026_DIRECTORY}/lines-2026.json`;
+const LINES_2026_VINTAGE = "census-bef-cd120-2026";
 
 /**
  * A whole place is one district code. Otherwise the place lists the districts
@@ -29,7 +29,7 @@ export type PlaceLines =
       readonly residual: boolean;
     };
 
-export interface StateLines2026 {
+interface StateLines2026 {
   readonly stateFips: string;
   readonly stateUsps: string;
   /** Three-digit county code to a district code or the districts with land. */
@@ -46,10 +46,10 @@ export interface Lines2026 {
   readonly states: Readonly<Record<string, StateLines2026>>;
 }
 
-export const ENACTMENT_DATES_FILE = `${LINES_2026_DIRECTORY}/enactment-dates.json`;
+const ENACTMENT_DATES_FILE = `${LINES_2026_DIRECTORY}/enactment-dates.json`;
 
 /** The day one state's 2026 plan became law or took effect, with its source. */
-export interface StateEnactment {
+interface StateEnactment {
   readonly stateUsps: string;
   /** First game date (YYYY-MM-DD) the state's 2026 lines are in force. */
   readonly effectiveFrom: string;

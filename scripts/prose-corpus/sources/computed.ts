@@ -57,7 +57,7 @@ export interface ComputedSurface {
  * removed with that engine; the game's prose now comes from the English
  * engine's banks, and a computed surface is added here only for a live file.
  */
-export const COMPUTED_SURFACES: readonly ComputedSurface[] = [];
+const COMPUTED_SURFACES: readonly ComputedSurface[] = [];
 
 /** Is this literal a sentence a player reads, or machinery? */
 function looksLikeProse(literal: ScannedLiteral): boolean {
@@ -153,7 +153,7 @@ export function extractComputedProse(
 }
 
 /** The records alone, for callers that handle problems separately. */
-export function computedProseRecords(
+function computedProseRecords(
   surfaces: readonly ComputedSurface[] = COMPUTED_SURFACES,
   anchors: readonly ComputedAnchor[] = loadAnchorFile().anchors,
 ): readonly ProseRecord[] {

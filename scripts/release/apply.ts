@@ -31,10 +31,10 @@ import {
 } from "./transaction";
 
 export const NOTES_PATH = "PATCH_NOTES.md";
-export const PACKAGE_PATH = "package.json";
-export const LOCKFILE_PATH = "package-lock.json";
+const PACKAGE_PATH = "package.json";
+const LOCKFILE_PATH = "package-lock.json";
 
-export interface PlannedWrite {
+interface PlannedWrite {
   readonly path: string;
   readonly contents: string;
 }
@@ -73,7 +73,7 @@ function formatWrite(root: string, write: PlannedWrite): PlannedWrite {
  * that other lanes have their own opinions about, so the edit is the narrowest
  * one that does the job: the top-level `version` line, and nothing else.
  */
-export function bumpPackageVersion(
+function bumpPackageVersion(
   text: string,
   from: string,
   to: string,

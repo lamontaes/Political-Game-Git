@@ -93,7 +93,7 @@ function compareVersions(left: string, right: string): number {
 }
 
 /** Wrap prose at 80 columns, so generated notes read like the hand-written ones. */
-export function wrapProse(
+function wrapProse(
   text: string,
   indent: string,
   firstIndent: string,
