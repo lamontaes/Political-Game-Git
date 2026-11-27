@@ -625,10 +625,6 @@
           "actKinds": ["delay", "play-safe"]
         },
         {
-          "id": "undecided",
-          "actKinds": ["delay", "play-safe"]
-        },
-        {
           "id": "come-back",
           "actKinds": ["delay", "play-safe"]
         },
