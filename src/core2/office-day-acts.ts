@@ -45,7 +45,7 @@ import {
   requestInterview,
 } from "./modules/press";
 import { appoint, appointmentsIn, postsToFill } from "./modules/executive";
-import { townSeats } from "./modules/offices";
+import { officeById, townSeats } from "./modules/offices";
 import { leanedYesWithTerm } from "./trait-decisions";
 import { lawChain } from "./modules/laws";
 import {
@@ -604,15 +604,9 @@ function addressDue(
     Number(api.state.date.slice(5, 7)) > api.parameter("stateOfCityLastMonth")
   )
     return false;
-  const offices = api.moduleState("core2-offices-v1").table("offices");
   const executive = host
     .officesOf(api, personId)
-    .some((id) =>
-      headsLocalExecutive(
-        (offices.get(id) as unknown as { kind: string } | undefined)?.kind ??
-          "",
-      ),
-    );
+    .some((id) => headsLocalExecutive(officeById(api, id)?.kind ?? ""));
   return (
     executive &&
     !host.given(api, personId, "state-of-the-city", api.state.date.slice(0, 4))
@@ -630,14 +624,9 @@ export function budgetProposalDue(
   personId: string,
 ): { governmentId: string; fiscalYearStarts: string } | null {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
-  const offices = api.moduleState("core2-offices-v1").table("offices");
   const kind = host
     .officesOf(api, personId)
-    .map(
-      (id) =>
-        (offices.get(id) as unknown as { kind: string } | undefined)?.kind ??
-        "",
-    )
+    .map((id) => officeById(api, id)?.kind ?? "")
     .find((k) => headsLocalExecutive(k));
   if (!kind) return null;
   const level = executiveRow(kind)!.level;
@@ -712,360 +701,381 @@ function pendingBillsOf(api: CoreAPI, personId: string): BillRow[] {
 
 // ---- What they do --------------------------------------------------------
 
-export function officeActHandlers(host: OfficeActHost) {
-  return {
-    /**
-     * The office's open cases are decided: the player's prepared decisions,
-     * else the character's own sense of duty, the rule every office uses
-     * for a case nobody decided (the cases engine's `ownCaseDecision`).
-     */
-    "office-hours": (api: CoreAPI, actorId: string) => {
-      const prepared = host.prepared(api, actorId, "office-hours");
-      for (const row of casesFor(api, actorId)) {
-        if (row.status !== "open") continue;
-        const chosen = prepared?.cases?.[row.id];
-        let decision = chosen;
-        let duty: number | null = null;
-        if (!decision) {
-          const own = ownCaseDecision(api, actorId, row);
-          duty = own.duty;
-          decision = own.decision;
-        }
-        handleCase(api, row.id, decision, duty);
-        host.keep(api, {
-          personId: actorId,
-          kind: "case",
-          how: chosen ? "did" : "own-choice",
-          recordId: row.id,
-          position: duty,
-          detail: decision,
-        });
+/**
+ * The office's open cases are decided: the player's prepared decisions,
+ * else the character's own sense of duty, the rule every office uses
+ * for a case nobody decided (the cases engine's `ownCaseDecision`).
+ */
+function officeHoursAct(host: OfficeActHost) {
+  return (api: CoreAPI, actorId: string) => {
+    const prepared = host.prepared(api, actorId, "office-hours");
+    for (const row of casesFor(api, actorId)) {
+      if (row.status !== "open") continue;
+      const chosen = prepared?.cases?.[row.id];
+      let decision = chosen;
+      let duty: number | null = null;
+      if (!decision) {
+        const own = ownCaseDecision(api, actorId, row);
+        duty = own.duty;
+        decision = own.decision;
       }
-      // The hours themselves are an act, so the next due day counts from today.
+      handleCase(api, row.id, decision, duty);
       host.keep(api, {
         personId: actorId,
-        kind: "office-hours",
-        how: prepared ? "did" : "own-choice",
-        recordId: `${actorId}:${api.state.date}`,
-        position: null,
-        detail: "held office hours",
-      });
-      host.clearPrepared(api, actorId, "office-hours");
-    },
-    /** A town hall: the host answers as prepared, or from their own view. */
-    "town-hall": (api: CoreAPI, actorId: string) => {
-      const prepared = host.prepared(api, actorId, "town-hall");
-      // One a day: a forum they hosted for their race today was it.
-      if (heldTownHallToday(api, actorId)) {
-        host.clearPrepared(api, actorId, "town-hall");
-        return;
-      }
-      const row = holdTownHall(api, {
-        hostId: actorId,
-        ...(prepared?.answers ? { answers: prepared.answers } : {}),
-      });
-      host.keep(api, {
-        personId: actorId,
-        kind: "town-hall",
-        how: prepared?.answers ? "did" : "own-choice",
+        kind: "case",
+        how: chosen ? "did" : "own-choice",
         recordId: row.id,
-        position: null,
-        detail: `${row.attendeeIds.length} came; ${row.questions.length} questions`,
+        position: duty,
+        detail: decision,
       });
+    }
+    // The hours themselves are an act, so the next due day counts from today.
+    host.keep(api, {
+      personId: actorId,
+      kind: "office-hours",
+      how: prepared ? "did" : "own-choice",
+      recordId: `${actorId}:${api.state.date}`,
+      position: null,
+      detail: "held office hours",
+    });
+    host.clearPrepared(api, actorId, "office-hours");
+  };
+}
+
+/** A town hall: the host answers as prepared, or from their own view. */
+function townHallAct(host: OfficeActHost) {
+  return (api: CoreAPI, actorId: string) => {
+    const prepared = host.prepared(api, actorId, "town-hall");
+    // One a day: a forum they hosted for their race today was it.
+    if (heldTownHallToday(api, actorId)) {
       host.clearPrepared(api, actorId, "town-hall");
-    },
-    /**
-     * An interview with the outlet that reaches the most people here among
-     * those that have not had the official on yet. The
-     * outlet decides whether it has room and interest; the answers are the
-     * player's where prepared, else the official's own positions.
-     */
-    interview: (api: CoreAPI, actorId: string) => {
-      // The outlets that have not had them on yet, widest reach first.
-      const had = new Set(
-        interviewsFor(api, actorId).map((row) => row.outletId),
-      );
-      const prepared = host.prepared(api, actorId, "interview");
-      const open = [...outletsHere(api)].filter((o) => !had.has(o.id));
-      // The player's pick where they made one; else the character's.
-      const outlet =
-        open.find((o) => o.id === prepared?.outletId) ??
-        open
-          .map((o) => ({ o, reach: followersOf(api, o.id).length }))
-          .sort((a, b) => b.reach - a.reach || a.o.id.localeCompare(b.o.id))[0]
-          ?.o;
-      if (!outlet) return;
-      const asked = requestInterview(api, {
-        outletId: outlet.id,
-        personId: actorId,
-      });
-      if (asked.status !== "invited") {
-        host.keep(api, {
-          personId: actorId,
-          kind: "interview",
-          how: prepared ? "did" : "own-choice",
-          recordId: asked.id,
-          position: null,
-          detail: `declined: ${asked.reason ?? "no reason"}`,
-        });
-        return;
-      }
-      const speaker = officeholderSpeaker(api, actorId) ?? {
-        personId: actorId,
-        party: null,
-        filing: null,
-      };
-      const own = candidateAnswers(api, asked.questions, speaker);
-      const answers = own.map((a) =>
-        prepared?.answers && a.question in prepared.answers
-          ? {
-              question: a.question,
-              position: prepared.answers[a.question] ?? null,
-            }
-          : a,
-      );
-      const done = answerInterview(api, asked.id, answers);
+      return;
+    }
+    const row = holdTownHall(api, {
+      hostId: actorId,
+      ...(prepared?.answers ? { answers: prepared.answers } : {}),
+    });
+    host.keep(api, {
+      personId: actorId,
+      kind: "town-hall",
+      how: prepared?.answers ? "did" : "own-choice",
+      recordId: row.id,
+      position: null,
+      detail: `${row.attendeeIds.length} came; ${row.questions.length} questions`,
+    });
+    host.clearPrepared(api, actorId, "town-hall");
+  };
+}
+
+/**
+ * An interview with the outlet that reaches the most people here among
+ * those that have not had the official on yet. The
+ * outlet decides whether it has room and interest; the answers are the
+ * player's where prepared, else the official's own positions.
+ */
+function interviewAct(host: OfficeActHost) {
+  return (api: CoreAPI, actorId: string) => {
+    // The outlets that have not had them on yet, widest reach first.
+    const had = new Set(interviewsFor(api, actorId).map((row) => row.outletId));
+    const prepared = host.prepared(api, actorId, "interview");
+    const open = [...outletsHere(api)].filter((o) => !had.has(o.id));
+    // The player's pick where they made one; else the character's.
+    const outlet =
+      open.find((o) => o.id === prepared?.outletId) ??
+      open
+        .map((o) => ({ o, reach: followersOf(api, o.id).length }))
+        .sort((a, b) => b.reach - a.reach || a.o.id.localeCompare(b.o.id))[0]
+        ?.o;
+    if (!outlet) return;
+    const asked = requestInterview(api, {
+      outletId: outlet.id,
+      personId: actorId,
+    });
+    if (asked.status !== "invited") {
       host.keep(api, {
         personId: actorId,
         kind: "interview",
-        how: prepared?.answers ? "did" : "own-choice",
-        recordId: done.id,
+        how: prepared ? "did" : "own-choice",
+        recordId: asked.id,
         position: null,
-        detail: `${outlet.id}: ${done.status}`,
+        detail: `declined: ${asked.reason ?? "no reason"}`,
       });
-      host.clearPrepared(api, actorId, "interview");
-    },
-    /**
-     * A conversation with a colleague about the actor's pending bills: the
-     * actor learns where they stand and why, and offers the deal they
-     * prepared, if any; the colleague decides it from their own position.
-     */
-    "talk-to-colleague": (api: CoreAPI, actorId: string, offer: ActOffer) => {
-      const deal = host.prepared(api, actorId, "talk-to-colleague")?.deals?.[
-        offer.targetId
-      ];
-      for (const bill of pendingBillsOf(api, actorId)) {
-        if (
-          !members(api, bill.bodyOfficeId).some(
-            (t) => memberKey(t) === offer.targetId,
-          )
-        )
-          continue;
-        const position = learnStake(
-          api,
-          bill.id,
-          offer.targetId,
-          "conversation",
-        );
-        const dealt = deal
-          ? offerDeal(api, {
-              billId: bill.id,
-              memberId: offer.targetId,
-              kind: deal,
-            })
-          : null;
-        // A leader who refused to schedule the bill hears what they were
-        // offered and answers again.
-        if (dealt?.accepted) reanswerLeaderRequest(api, actorId, bill.id);
-        host.keep(api, {
-          personId: actorId,
-          kind: "talk-to-colleague",
-          how: "did",
-          recordId: `${bill.id}|${offer.targetId}`,
-          position: dealt ? dealt.after.total : position.total,
-          detail: dealt
-            ? `${deal}: ${dealt.accepted ? "accepted" : "declined"}`
-            : "asked",
-        });
-      }
-    },
-    /**
-     * The annual address: the speaker argues for the change prepared, else
-     * for their own strongest view, to everyone who follows the town's
-     * outlets; each listener weighs it by the speech engine's own rule.
-     */
-    "state-of-the-city": (api: CoreAPI, actorId: string) => {
-      const prepared = host.prepared(api, actorId, "state-of-the-city");
-      const person = api.state.people.get(actorId);
-      if (!person) return;
-      let topic = prepared?.topic;
-      let strength: number | null = null;
-      if (!topic) {
-        const lean = personLean(api.state.people, person, 0);
-        const best = Object.keys(POLICY_QUESTIONS)
-          .filter((q) => questionAxis(q) !== 0)
-          .map((q) => ({ q, s: personStance(lean, q) }))
-          .sort(
-            (a, b) => Math.abs(b.s) - Math.abs(a.s) || a.q.localeCompare(b.q),
-          )[0];
-        if (!best || best.s === 0) return;
-        strength = best.s;
-        topic = {
-          question: best.q,
-          desiredChange: best.s > 0 ? "enact" : "repeal",
-        };
-      }
-      const audience = new Set<string>();
-      for (const outlet of outletsHere(api))
-        for (const id of followersOf(api, outlet.id))
-          if (id !== actorId) audience.add(id);
-      const id = `state-of-the-city:${actorId}:${api.state.date}`;
-      deliverSpeech(api, {
-        groupUnwatched: true,
-        id,
-        speakerId: actorId,
-        placeId: lawChain(api).townPlaceId,
-        topic: topic.question,
-        desiredChange: topic.desiredChange,
-        audienceIds: [...audience].sort(),
-        occasion: { recordId: id, kind: "state-of-the-city" },
-      });
-      host.keep(api, {
-        personId: actorId,
-        kind: "state-of-the-city",
-        how: prepared?.topic ? "did" : "own-choice",
-        recordId: id,
-        position: strength,
-        detail: `${topic.desiredChange} ${topic.question}; ${audience.size} heard it`,
-      });
-      host.clearPrepared(api, actorId, "state-of-the-city");
-    },
-    /**
-     * The executive sends the budget in its season: the player's changes by
-     * line where they made them, else the executive's own priorities by the
-     * budgets engine's rule (their lean on each line), which the council or
-     * board reads when it votes the budget at the year's start.
-     */
-    "propose-budget": (api: CoreAPI, actorId: string) => {
-      const due = budgetProposalDue(api, host, actorId);
-      if (!due) return;
-      const prepared = host.prepared(api, actorId, "propose-budget");
-      let changes: Readonly<Record<string, number>> | undefined =
-        prepared?.budget?.changes;
-      let advice = "";
-      if (!changes) {
-        // The character proposes their own priorities by the budgets rule;
-        // an aide who reads the council tells them which lines it will not
-        // pass, and each at-risk line is cut to the share of those read who
-        // favor it, so what they send is what the council can pass.
-        const own = executiveBudgetChanges(
-          api,
-          due.governmentId,
-          Number(due.fiscalYearStarts.slice(0, 4)),
-        );
-        if (own && Object.keys(own.changes).length) {
-          changes = own.changes;
-          const aide = servingStaffOf(api, actorId)[0];
-          const trimmed: Record<string, number> = {};
-          const advised: string[] = [];
-          for (const [line, delta] of Object.entries(own.changes).sort(
-            ([x], [y]) => x.localeCompare(y),
-          )) {
-            // One line at a time: a line the aide cannot read stays as proposed.
-            const heard = aide
-              ? adviseOnBudget(api, aide.id, due.governmentId, {
-                  [line]: delta,
-                })
-              : null;
-            const row = heard?.lines[0];
-            if (heard && row) advised.push(heard.work.id);
-            const share = row?.atRisk
-              ? Math.min(
-                  ...row.chambers.map((c) =>
-                    c.favor + c.oppose > 0 ? c.favor / (c.favor + c.oppose) : 1,
-                  ),
-                )
-              : 1;
-            const cut = Math.round(delta * share);
-            if (cut !== 0) trimmed[line] = cut;
+      return;
+    }
+    const speaker = officeholderSpeaker(api, actorId) ?? {
+      personId: actorId,
+      party: null,
+      filing: null,
+    };
+    const own = candidateAnswers(api, asked.questions, speaker);
+    const answers = own.map((a) =>
+      prepared?.answers && a.question in prepared.answers
+        ? {
+            question: a.question,
+            position: prepared.answers[a.question] ?? null,
           }
-          changes = trimmed;
-          if (advised.length) advice = `; advice ${advised.join(",")}`;
+        : a,
+    );
+    const done = answerInterview(api, asked.id, answers);
+    host.keep(api, {
+      personId: actorId,
+      kind: "interview",
+      how: prepared?.answers ? "did" : "own-choice",
+      recordId: done.id,
+      position: null,
+      detail: `${outlet.id}: ${done.status}`,
+    });
+    host.clearPrepared(api, actorId, "interview");
+  };
+}
+
+/**
+ * A conversation with a colleague about the actor's pending bills: the
+ * actor learns where they stand and why, and offers the deal they
+ * prepared, if any; the colleague decides it from their own position.
+ */
+function talkToColleagueAct(host: OfficeActHost) {
+  return (api: CoreAPI, actorId: string, offer: ActOffer) => {
+    const deal = host.prepared(api, actorId, "talk-to-colleague")?.deals?.[
+      offer.targetId
+    ];
+    for (const bill of pendingBillsOf(api, actorId)) {
+      if (
+        !members(api, bill.bodyOfficeId).some(
+          (t) => memberKey(t) === offer.targetId,
+        )
+      )
+        continue;
+      const position = learnStake(api, bill.id, offer.targetId, "conversation");
+      const dealt = deal
+        ? offerDeal(api, {
+            billId: bill.id,
+            memberId: offer.targetId,
+            kind: deal,
+          })
+        : null;
+      // A leader who refused to schedule the bill hears what they were
+      // offered and answers again.
+      if (dealt?.accepted) reanswerLeaderRequest(api, actorId, bill.id);
+      host.keep(api, {
+        personId: actorId,
+        kind: "talk-to-colleague",
+        how: "did",
+        recordId: `${bill.id}|${offer.targetId}`,
+        position: dealt ? dealt.after.total : position.total,
+        detail: dealt
+          ? `${deal}: ${dealt.accepted ? "accepted" : "declined"}`
+          : "asked",
+      });
+    }
+  };
+}
+
+/**
+ * The annual address: the speaker argues for the change prepared, else
+ * for their own strongest view, to everyone who follows the town's
+ * outlets; each listener weighs it by the speech engine's own rule.
+ */
+function stateOfTheCityAct(host: OfficeActHost) {
+  return (api: CoreAPI, actorId: string) => {
+    const prepared = host.prepared(api, actorId, "state-of-the-city");
+    const person = api.state.people.get(actorId);
+    if (!person) return;
+    let topic = prepared?.topic;
+    let strength: number | null = null;
+    if (!topic) {
+      const lean = personLean(api.state.people, person, 0);
+      const best = Object.keys(POLICY_QUESTIONS)
+        .filter((q) => questionAxis(q) !== 0)
+        .map((q) => ({ q, s: personStance(lean, q) }))
+        .sort(
+          (a, b) => Math.abs(b.s) - Math.abs(a.s) || a.q.localeCompare(b.q),
+        )[0];
+      if (!best || best.s === 0) return;
+      strength = best.s;
+      topic = {
+        question: best.q,
+        desiredChange: best.s > 0 ? "enact" : "repeal",
+      };
+    }
+    const audience = new Set<string>();
+    for (const outlet of outletsHere(api))
+      for (const id of followersOf(api, outlet.id))
+        if (id !== actorId) audience.add(id);
+    const id = `state-of-the-city:${actorId}:${api.state.date}`;
+    deliverSpeech(api, {
+      groupUnwatched: true,
+      id,
+      speakerId: actorId,
+      placeId: lawChain(api).townPlaceId,
+      topic: topic.question,
+      desiredChange: topic.desiredChange,
+      audienceIds: [...audience].sort(),
+      occasion: { recordId: id, kind: "state-of-the-city" },
+    });
+    host.keep(api, {
+      personId: actorId,
+      kind: "state-of-the-city",
+      how: prepared?.topic ? "did" : "own-choice",
+      recordId: id,
+      position: strength,
+      detail: `${topic.desiredChange} ${topic.question}; ${audience.size} heard it`,
+    });
+    host.clearPrepared(api, actorId, "state-of-the-city");
+  };
+}
+
+/**
+ * The executive sends the budget in its season: the player's changes by
+ * line where they made them, else the executive's own priorities by the
+ * budgets engine's rule (their lean on each line), which the council or
+ * board reads when it votes the budget at the year's start.
+ */
+function proposeBudgetAct(host: OfficeActHost) {
+  return (api: CoreAPI, actorId: string) => {
+    const due = budgetProposalDue(api, host, actorId);
+    if (!due) return;
+    const prepared = host.prepared(api, actorId, "propose-budget");
+    let changes: Readonly<Record<string, number>> | undefined =
+      prepared?.budget?.changes;
+    let advice = "";
+    if (!changes) {
+      // The character proposes their own priorities by the budgets rule;
+      // an aide who reads the council tells them which lines it will not
+      // pass, and each at-risk line is cut to the share of those read who
+      // favor it, so what they send is what the council can pass.
+      const own = executiveBudgetChanges(
+        api,
+        due.governmentId,
+        Number(due.fiscalYearStarts.slice(0, 4)),
+      );
+      if (own && Object.keys(own.changes).length) {
+        changes = own.changes;
+        const aide = servingStaffOf(api, actorId)[0];
+        const trimmed: Record<string, number> = {};
+        const advised: string[] = [];
+        for (const [line, delta] of Object.entries(own.changes).sort(
+          ([x], [y]) => x.localeCompare(y),
+        )) {
+          // One line at a time: a line the aide cannot read stays as proposed.
+          const heard = aide
+            ? adviseOnBudget(api, aide.id, due.governmentId, {
+                [line]: delta,
+              })
+            : null;
+          const row = heard?.lines[0];
+          if (heard && row) advised.push(heard.work.id);
+          const share = row?.atRisk
+            ? Math.min(
+                ...row.chambers.map((c) =>
+                  c.favor + c.oppose > 0 ? c.favor / (c.favor + c.oppose) : 1,
+                ),
+              )
+            : 1;
+          const cut = Math.round(delta * share);
+          if (cut !== 0) trimmed[line] = cut;
         }
+        changes = trimmed;
+        if (advised.length) advice = `; advice ${advised.join(",")}`;
       }
-      if (changes)
-        setBudgetPriorities(api, {
-          governmentId: due.governmentId,
-          setBy: actorId,
-          changes,
-        });
-      host.keep(api, {
-        personId: actorId,
-        kind: "propose-budget",
-        how: prepared?.budget ? "did" : "own-choice",
-        recordId: changes
-          ? `priorities:${due.governmentId}`
-          : `priorities:${due.governmentId}:executive-rule`,
-        position: null,
-        detail: `${due.governmentId} budget for the year starting ${due.fiscalYearStarts}${advice}`,
+    }
+    if (changes)
+      setBudgetPriorities(api, {
+        governmentId: due.governmentId,
+        setBy: actorId,
+        changes,
       });
-      host.clearPrepared(api, actorId, "propose-budget");
-    },
-    /**
-     * The appointing official fills a vacant town post: the candidate their
-     * own reasons rank first, confirmed by the council where the form asks it.
-     */
-    /** The ribbon of a finished public work is cut: a public record and a news item. */
-    "cut-ribbon": (api: CoreAPI, actorId: string, offer: ActOffer) => {
-      const ribbon = cutRibbon(api, {
-        projectId: offer.targetId,
-        cutBy: actorId,
-      });
-      if (!ribbon) return;
-      host.keep(api, {
-        personId: actorId,
-        kind: "cut-ribbon",
-        how: "did",
-        recordId: ribbon.projectId,
-        position: null,
-        detail: ribbon.projectId,
-      });
-    },
-    "name-department-head": (
-      api: CoreAPI,
-      actorId: string,
-      offer: ActOffer,
-    ) => {
-      // The player's pick where they made one for this post; else the
-      // candidate the official's own reasons rank first.
-      const prepared = host.prepared(api, actorId, "name-department-head");
-      const picked =
-        prepared?.nominee?.post === offer.targetId
-          ? prepared.nominee.personId
-          : undefined;
-      const row = appoint(api, {
-        post: offer.targetId,
-        ...(picked ? { personId: picked } : {}),
-      });
-      host.clearPrepared(api, actorId, "name-department-head");
-      host.keep(api, {
-        personId: actorId,
-        kind: "name-department-head",
-        how: picked ? "did" : "own-choice",
-        recordId: row?.id ?? `appointment:town:${offer.targetId}`,
-        position: null,
-        detail: row
-          ? `${row.holderId}${row.confirmation ? `; ${row.confirmation.yes} to ${row.confirmation.no}` : ""}`
-          : "no candidate confirmed",
-      });
-    },
-    /** An hour with a department head: they come to know each other. */
-    "meet-department-head": (
-      api: CoreAPI,
-      actorId: string,
-      offer: ActOffer,
-    ) => {
-      const hours = api.parameter("meetHeadActHours");
-      api.relationship(actorId, offer.targetId, "contact", hours);
-      host.keep(api, {
-        personId: actorId,
-        kind: "meet-department-head",
-        how: "did",
-        recordId: offer.targetId,
-        position: null,
-        detail: `${hours} hours`,
-      });
-    },
+    host.keep(api, {
+      personId: actorId,
+      kind: "propose-budget",
+      how: prepared?.budget ? "did" : "own-choice",
+      recordId: changes
+        ? `priorities:${due.governmentId}`
+        : `priorities:${due.governmentId}:executive-rule`,
+      position: null,
+      detail: `${due.governmentId} budget for the year starting ${due.fiscalYearStarts}${advice}`,
+    });
+    host.clearPrepared(api, actorId, "propose-budget");
+  };
+}
+
+/**
+ * The appointing official fills a vacant town post: the candidate their
+ * own reasons rank first, confirmed by the council where the form asks it.
+ */
+/** The ribbon of a finished public work is cut: a public record and a news item. */
+function cutRibbonAct(host: OfficeActHost) {
+  return (api: CoreAPI, actorId: string, offer: ActOffer) => {
+    const ribbon = cutRibbon(api, {
+      projectId: offer.targetId,
+      cutBy: actorId,
+    });
+    if (!ribbon) return;
+    host.keep(api, {
+      personId: actorId,
+      kind: "cut-ribbon",
+      how: "did",
+      recordId: ribbon.projectId,
+      position: null,
+      detail: ribbon.projectId,
+    });
+  };
+}
+
+function nameDepartmentHeadAct(host: OfficeActHost) {
+  return (api: CoreAPI, actorId: string, offer: ActOffer) => {
+    // The player's pick where they made one for this post; else the
+    // candidate the official's own reasons rank first.
+    const prepared = host.prepared(api, actorId, "name-department-head");
+    const picked =
+      prepared?.nominee?.post === offer.targetId
+        ? prepared.nominee.personId
+        : undefined;
+    const row = appoint(api, {
+      post: offer.targetId,
+      ...(picked ? { personId: picked } : {}),
+    });
+    host.clearPrepared(api, actorId, "name-department-head");
+    host.keep(api, {
+      personId: actorId,
+      kind: "name-department-head",
+      how: picked ? "did" : "own-choice",
+      recordId: row?.id ?? `appointment:town:${offer.targetId}`,
+      position: null,
+      detail: row
+        ? `${row.holderId}${row.confirmation ? `; ${row.confirmation.yes} to ${row.confirmation.no}` : ""}`
+        : "no candidate confirmed",
+    });
+  };
+}
+
+/** An hour with a department head: they come to know each other. */
+function meetDepartmentHeadAct(host: OfficeActHost) {
+  return (api: CoreAPI, actorId: string, offer: ActOffer) => {
+    const hours = api.parameter("meetHeadActHours");
+    api.relationship(actorId, offer.targetId, "contact", hours);
+    host.keep(api, {
+      personId: actorId,
+      kind: "meet-department-head",
+      how: "did",
+      recordId: offer.targetId,
+      position: null,
+      detail: `${hours} hours`,
+    });
+  };
+}
+
+export function officeActHandlers(host: OfficeActHost) {
+  return {
+    "office-hours": officeHoursAct(host),
+    "town-hall": townHallAct(host),
+    interview: interviewAct(host),
+    "talk-to-colleague": talkToColleagueAct(host),
+    "state-of-the-city": stateOfTheCityAct(host),
+    "propose-budget": proposeBudgetAct(host),
+    "cut-ribbon": cutRibbonAct(host),
+    "name-department-head": nameDepartmentHeadAct(host),
+    "meet-department-head": meetDepartmentHeadAct(host),
   };
 }
 

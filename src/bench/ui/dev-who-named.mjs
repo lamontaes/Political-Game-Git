@@ -46,7 +46,7 @@ function personLine(row, labels, open) {
   return li;
 }
 
-const slots = {
+export const slots = {
   calendar: ({ labels, send }) => {
     const list = el("div", { className: "dev-who-named-list" });
     const result = statusLine();
