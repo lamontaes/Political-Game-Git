@@ -10,7 +10,10 @@
  */
 import { describe, expect, it } from "vitest";
 import { schoolsOf } from "../bench/words";
-import { piecesInput, piecesSource } from "./core-pieces-fixture";
+import {
+  piecesInput,
+  piecesSource,
+} from "../../tests/support/core-pieces-fixture";
 import { createLifeCore } from "./life";
 import {
   PERSON_MOVED_IN,

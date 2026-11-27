@@ -19,6 +19,6 @@ claimed-at: 2026-10-24T03:13:30.329Z
 
 **Done when.** docs/roadmap/features.json has a command for M1-13 that plays a year in the runner's drawn place, fails naming each clause no engine or source covers, was run on main with place and seed in the PR body, and fails when moves between states name no cause.
 
-**Files.** src/bench/m1-13-check.ts, docs/roadmap/features.json
+**Files.** scripts/bench/m1-13-check.ts, docs/roadmap/features.json
 
 **Notes.** Split by the M0-M2 lead from roadmap-m1-places-history-flags (CTO branch).
