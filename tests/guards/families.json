@@ -1064,7 +1064,8 @@
         "src/core2/views.test.ts",
         "src/core2/vote-outcome-recorded.test.ts",
         "src/core2/world-game.test.ts",
-        "src/core2/world-poverty.test.ts"
+        "src/core2/world-poverty.test.ts",
+        "src/core2/people-fill-in.ts"
       ]
     },
     {

@@ -1,4 +1,5 @@
 import type { HistorySource } from "./past-history";
+import type { RecordedIdentity } from "./state";
 import type { GroupQuartersType } from "./group-quarters-types";
 import type { PurchaseTaxInput } from "./modules/purchase-tax";
 import type { MarketEntry } from "./modules/residents";
@@ -1016,6 +1017,26 @@ export interface CoreModule {
   ) => {
     readonly input: CoreInput;
     readonly afterOpen?: (core: CoreState) => void;
+  };
+  /**
+   * Filling a person in, the people engine's work: a counted resident and
+   * their household become full people, a husk or a recorded identity is
+   * built into one. The state's calls to it (`fillInPerson`, `personOrFillIn`,
+   * `fillInIdentity`, `promoteHusk`, `fillInCount`) reach the one module that
+   * carries it, so the state imports none of what a person is built from.
+   */
+  fillIn?: {
+    readonly person: (core: CoreState, personId: PersonId) => PersonState;
+    readonly personOrFillIn: (
+      core: CoreState,
+      personId: PersonId,
+    ) => PersonState | undefined;
+    readonly identity: (
+      core: CoreState,
+      identity: RecordedIdentity,
+    ) => PersonState;
+    readonly promoteHusk: (core: CoreState, input: PersonInput) => PersonState;
+    readonly count: (core: CoreState) => number;
   };
   /** Once the core is made, in install order: this engine's part of opening the world (the opening ties, the counted residents admitted). */
   onOpen?: (core: CoreState, input: CoreInput) => void;

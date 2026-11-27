@@ -98,7 +98,8 @@ import {
 /** The id a seat's holder is made under: `official:` and their term's id (officials.ts seatOfficial). */
 const OFFICIAL_PREFIX = "official:";
 import { departureRateFor, livesElsewhere, withinCountyRateFor } from "./moves";
-import { coreAPI, openOpeningPeerTies } from "../state";
+import { coreAPI } from "../state";
+import { PEOPLE_FILL_IN, openOpeningPeerTies } from "../people-fill-in";
 import { pastViewShifts, setPastViewShifts } from "./views";
 import { pairKey } from "../kernel/ids";
 import { bookkeeping } from "../bookkeeping";
@@ -858,6 +859,8 @@ export const PEOPLE_MODULE: PreStartModule = {
   history: LIFE_HISTORY,
   // The acts grief bears on carry its reason because this engine is loaded.
   dataFor: withGrief,
+  // Filling a person in: the state calls this engine for it (people-fill-in.ts).
+  fillIn: PEOPLE_FILL_IN,
   // Townspeople open tied to the classmates and coworkers the records name.
   onOpen: (core) => {
     const opening = coreAPI(core);

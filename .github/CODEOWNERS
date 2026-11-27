@@ -934,6 +934,7 @@
 /src/core2/vote-outcome-recorded.test.ts @lamontaes
 /src/core2/world-game.test.ts @lamontaes
 /src/core2/world-poverty.test.ts @lamontaes
+/src/core2/people-fill-in.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes
