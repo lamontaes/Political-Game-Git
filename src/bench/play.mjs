@@ -1758,7 +1758,6 @@ $("talk-next").addEventListener("click", async () => {
   // A story's end hands the room back to the one scene renderer, so the people in it can be
   // clicked to talk again (a story draws them without a click).
   await renderScene();
-  if (landHome()) return;
   if (!$("continue").hidden) $("continue").click();
 });
 // Skip scene ends the address at once; the room is handed back as at its last Continue.
@@ -1768,30 +1767,8 @@ $("talk-skip").addEventListener("click", async () => {
   renderTalk(undefined);
   show("talk", false);
   await renderScene();
-  if (landHome()) return;
   if (!$("continue").hidden) $("continue").click();
 });
-/**
- * The opening's landing at home, once the address ends (played or skipped):
- * the narrator's one line naming the day as people say it, at home (the
- * server words it from the scene bank). True when it is shown.
- */
-let landing = null;
-function landHome() {
-  if (!landing) return false;
-  const line = landing;
-  landing = null;
-  show("talk", true);
-  setWho(undefined, undefined);
-  narrateFirst(
-    [talkLine({ kind: "speech narration", text: line.text })],
-    () => {
-      renderTalk(undefined);
-      show("talk", false);
-    },
-  );
-  return true;
-}
 $("talk-leave").addEventListener("click", async () => {
   if (filing) {
     await post("/api/filing/leave");
@@ -7993,11 +7970,12 @@ async function enterAs(life, personId) {
  * Loading worth watching (Lane 4, path 3): while the first scene is drawn,
  * the world just built tells its past. A year counter runs through the
  * years of your life; each year writes its lines of your story into the
- * journal and prints the headlines you heard that year; the state's map
- * fills in county by county, your districts last. Everything comes from the
+ * journal. Everything comes from the
  * built world's records (/api/newlife/story, loading.ts). A click, or the
  * end of the years, finishes it. Resolves when it is done.
  */
+/** How long the loading story's last line stays before the card closes (ms). Engineering value, not a game number. */
+const LAST_LINE_MS = 2500;
 function playLoadingStory(story) {
   const panel = $("loading-story");
   const years = story?.years ?? [];
@@ -8014,12 +7992,23 @@ function playLoadingStory(story) {
     const finish = () => {
       window.clearTimeout(timer);
       panel.removeEventListener("click", finish);
+      // Every line shows whole once the story ends: a line still being
+      // written when the years run out or the player clicks is never left
+      // cut mid-word (the CTO, Nov 24: "Utah has its usual prob").
+      journal.classList.add("written");
       $("loading-year").textContent = String(years.at(-1).year);
       resolve();
     };
     panel.addEventListener("click", finish);
     const next = () => {
-      if (at >= years.length) return finish();
+      // The last line is written whole and stays long enough to read before
+      // the card closes (pre-grade round 5, Nov 24: the card closed while
+      // "It's January 2025..." was still fading in).
+      if (at >= years.length) {
+        journal.classList.add("written");
+        timer = window.setTimeout(finish, LAST_LINE_MS);
+        return;
+      }
       const year = years[at];
       // The counter runs up to the year, a year at a time.
       if (shown < year.year) {
@@ -8031,7 +8020,6 @@ function playLoadingStory(story) {
       $("loading-year").textContent = String(year.year);
       journal.append(
         ...year.lines.map((row) => prose(row.text, "loading-line")),
-        ...year.headlines.map((row) => prose(row.headline, "loading-headline")),
       );
       at += 1;
       timer = window.setTimeout(next, step);
@@ -8069,10 +8057,12 @@ function followBuild(bar, onStory) {
   bar.firstElementChild.style.width = "0";
   // A poll still in flight when the build ends leaves the line alone.
   let built = false;
-  // The step's own dry lines (controls.loadingLines), one at a time, a new one every few seconds,
+  // The step's own dry lines (from the build's progress), one at a time, a new one every few seconds,
   // never the same line twice in one load. Each load starts at the next place in the pool, so
   // two loads in a row do not open on the same line.
   let quip = { stage: "", text: "" };
+  // The pools come with the build's progress, said for the place being built.
+  let lines = {};
   const used = new Set();
   let started = 0;
   try {
@@ -8082,7 +8072,7 @@ function followBuild(bar, onStory) {
     // Private windows and blocked storage just start at the top of each pool.
   }
   const nextQuip = (stage) => {
-    const pool = controls.loadingLines?.[stage] ?? [];
+    const pool = lines[stage] ?? [];
     const fresh = pool.filter((line) => !used.has(line));
     if (!fresh.length) return quip.stage === stage ? quip.text : "";
     const text = fresh[started % fresh.length];
@@ -8108,6 +8098,7 @@ function followBuild(bar, onStory) {
   const poll = setInterval(async () => {
     const p = await api("/api/newlife/progress").catch(() => undefined);
     if (p?.story) onStory?.();
+    if (p?.lines) lines = p.lines;
     if (!p || built) return;
     // The step in plain words, and a bar that shows how many steps are done; no counts.
     const at =
@@ -8195,8 +8186,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     };
     show("front", false);
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;
-    // The line that lands the player at home after the address.
-    landing = opening?.home?.landing ?? null;
     // Home that evening (the server's rule for the opening day), with the
     // night's news to pick up, then the first choices pointed out.
     for (const id of ["rings", "card"]) show(id, true);
@@ -8208,8 +8197,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     // and sets the one backdrop the opening loads. The night's news pops up
     // after it opens, so it waits until the speech ends (C5; owner, Nov 7:
     // "News pop-ups wait until the scene ends").
+    // The address scene says its own arrival; nothing lands the player twice
+    // (owner, Nov 23, P7 and P19: "I thought I was sitting at the kitchen table").
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
-    else landHome();
     showNewsSurface(news);
   } catch (error) {
     bar.hidden = true;
