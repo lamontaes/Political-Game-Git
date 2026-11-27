@@ -6,8 +6,8 @@ description: >
   differ in what they say, cite elements and issues, give elements their turns,
   pass the sameness gate and the pre-grade, and keep working without waiting.
   Use before writing, rewriting or deleting any line under data/english/parts
-  or any element under docs/story/elements. Area rules: speech-writer,
-  journal-writer, news-writer; talk scenes also follow scene-standard.
+  or any element under docs/story/elements. Area rules (speeches, the Journal,
+  the news) are parts of this skill; talk scenes also follow story-check.
 ---
 
 # Story writer

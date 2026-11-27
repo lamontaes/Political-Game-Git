@@ -718,37 +718,37 @@
     },
     {
       "old": ".agents/skills/scene-first-report",
-      "now": ".agents/skills/story-check/references/scene-standard/scene-first-report.md",
+      "now": ".agents/skills/scene-standard/references/scene-first-report.md",
       "when": "2026-11-17",
       "why": "Merged into the scene-standard skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
     },
     {
       "old": ".claude/skills/scene-first-report",
-      "now": ".claude/skills/story-check/references/scene-standard/scene-first-report.md",
+      "now": ".claude/skills/scene-standard/references/scene-first-report.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
     },
     {
       "old": ".agents/skills/speech-planner",
-      "now": ".agents/skills/story/references/words-engine/speech-planner.md",
+      "now": ".agents/skills/words-engine/references/speech-planner.md",
       "when": "2026-11-17",
       "why": "Merged into the words-engine skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
     },
     {
       "old": ".claude/skills/speech-planner",
-      "now": ".claude/skills/story/references/words-engine/speech-planner.md",
+      "now": ".claude/skills/words-engine/references/speech-planner.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
     },
     {
       "old": ".agents/skills/term-read",
-      "now": ".agents/skills/story/references/words-engine/term-read.md",
+      "now": ".agents/skills/words-engine/references/term-read.md",
       "when": "2026-11-17",
       "why": "Merged into the words-engine skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
     },
     {
       "old": ".claude/skills/term-read",
-      "now": ".claude/skills/story/references/words-engine/term-read.md",
+      "now": ".claude/skills/words-engine/references/term-read.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
     },

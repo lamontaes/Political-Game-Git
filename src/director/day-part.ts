@@ -2,7 +2,7 @@
  * The hour a scene or a talk plays at, read from the player's clock, and the
  * marks it gives a line (the daytime and its half, or the evening). One reader
  * for every director file: a scene's narration and a talk's goodbye both say
- * the hour only where the clock makes it true (`story-check` (scene-standard part), the
+ * the hour only where the clock makes it true (`scene-standard`, the
  * time-of-day marks). Thresholds live in `./data/scene-talk-rules.json`.
  */
 import {

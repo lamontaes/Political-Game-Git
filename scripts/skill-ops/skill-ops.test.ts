@@ -239,10 +239,7 @@ describe("SKILL-OPS1 project delegation profile", () => {
 });
 
 describe("SKILL-OPS1 civic prose correction", () => {
-  const civic = readFileSync(
-    join(SKILL_ROOT, "story-writer", "references", "civic-prose.md"),
-    "utf8",
-  );
+  const civic = skillText("civic-prose");
   const compactCivic = civic.replace(/\s+/g, " ");
 
   it("routes prose work while retaining brief-orientation boundaries", () => {
@@ -251,15 +248,14 @@ describe("SKILL-OPS1 civic prose correction", () => {
         REPO_ROOT,
         ".agents",
         "skills",
-        "story-writer",
-        "references",
         "civic-prose",
+        "references",
         "owner-authoring-contract.md",
       ),
       "utf8",
     );
     const compactOwner = ownerContract.replace(/\s+/g, " ");
-    expect(civic).toContain("civic-prose/owner-authoring-contract.md");
+    expect(civic).toContain("references/owner-authoring-contract.md");
     expect(compactCivic).toContain(
       "A concise orientation is allowed when the screen does not already provide it",
     );
@@ -278,21 +274,13 @@ describe("SKILL-OPS1 civic prose correction", () => {
   it("resolves relocated markdown and contract paths from their new directories", () => {
     const relocated = [
       join(REPO_ROOT, ".agents", "rules", "repository-reference.md"),
+      join(REPO_ROOT, ".agents", "skills", "civic-prose", "SKILL.md"),
       join(
         REPO_ROOT,
         ".agents",
         "skills",
-        "story-writer",
-        "references",
-        "civic-prose.md",
-      ),
-      join(
-        REPO_ROOT,
-        ".agents",
-        "skills",
-        "story-writer",
-        "references",
         "civic-prose",
+        "references",
         "owner-authoring-contract.md",
       ),
     ];

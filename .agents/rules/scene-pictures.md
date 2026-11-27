@@ -1,6 +1,6 @@
 # Every scene has a picture row, and a missing picture never holds work back (owner, Nov 14, 2026, 02:00 UTC)
 
-Every role follows this file. The skill `story` (pictures part) says how; the guard `story` (pictures part) holds it.
+Every role follows this file. The skill `scene-pictures` says how; the guard `scene-pictures` holds it.
 
 The owner's words (Nov 14, 02:00 UTC, relayed by the coordinator): "make that a perm thing and a skill... do not let pics hold it back. it can be generated later." And at 01:42 UTC: "be sure everything is already mapped to pictures. If there is no picture, make sure that it's easy to find and that it's easy to add or adjust to. So that way... this is a pipeline in the future."
 

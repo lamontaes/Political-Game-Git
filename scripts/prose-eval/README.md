@@ -140,7 +140,7 @@ command line and the served configuration confirmed in the session transcript.
 
 ## Codex portability
 
-The repository-native `$civic-prose` skill is at
+The repository-native `$story-writer` skill is at
 `.agents/skills/story-writer/references/civic-prose.md`. Its entire contents are byte-identical to
 `.claude/skills/story-writer/references/civic-prose/`, which remains the editorial authority. The
 portability regression checks the complete file inventory and bytes, the
@@ -164,7 +164,7 @@ Claude-style skill preload. No runtime model calls or source rewrites are added.
 Explicit writer prompt:
 
 ```text
-Use $civic-prose. Invoke civic-prose-writer with the following one canonical
+Use $story-writer. Invoke civic-prose-writer with the following one canonical
 FACT PACKET. Return the child's raw result envelope unchanged.
 <packet>
 ```
@@ -201,7 +201,7 @@ from pathlib import Path
 role = "civic-prose-grounding-reviewer"  # or civic-prose-writer
 config = tomllib.loads(Path(f".codex/agents/{role}.toml").read_text())
 prompt = Path("/absolute/path/review-input.txt").read_text()
-# For the writer, the input explicitly invokes $civic-prose plus one packet.
+# For the writer, the input explicitly invokes $story-writer plus one packet.
 subprocess.run(
     [
         "codex", "exec", "--strict-config", "-C", str(Path.cwd()),

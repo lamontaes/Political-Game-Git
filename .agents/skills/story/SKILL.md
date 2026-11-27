@@ -17,8 +17,6 @@ Story is the director (`src/director`), the English engine (`src/english`) and t
 
 **Look first:** run the `look-first` search before building, fixing, filing or asking.
 
-**The pieces of a sentence are said in one place each** (CTO's story audit, Nov 26; guard `pieces-one-place`): a person's name by `said-as.ts`, their pronoun by `pronoun-words.ts` (the person's own set first), a spoken date by `day-words.ts`, a written date, a list (no serial comma), a possessive and a sentence-opening capital by `plain-words.mjs`. Never build one by hand.
-
 ## Parts
 
 Read the part for the job. Each is a whole skill kept as it was, so every owner quote and rule is in it.

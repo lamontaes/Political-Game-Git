@@ -98,7 +98,7 @@ Before a PR opens, answer each line below in the PR body in one sentence, or wri
 
 ### Rules with their own skill
 
-`no-dice`, `one-rule-all-places`, `estimate-not-unknown`, `wire-to-the-world` (self-checks in `.agents/rules/standing-skills/`); `ask-why`, `look-first`, `day-one-in-motion`, `researcher`, `speed-work`, `story` (pictures part), `story-check` (scene-standard part), `player-screen-text`, `done-proof` (seen-in-game part), `remove-a-stopgap`, `current-pointers`.
+`no-dice`, `one-rule-all-places`, `estimate-not-unknown`, `wire-to-the-world` (self-checks in `.agents/rules/standing-skills/`); `ask-why`, `look-first`, `day-one-in-motion`, `researcher`, `speed-work`, `scene-pictures`, `story-check` (scene-standard part), `player-screen-text`, `done-proof` (seen-in-game part), `remove-a-stopgap`, `current-pointers`.
 
 ### Two more lines (Account lead, Nov 15)
 

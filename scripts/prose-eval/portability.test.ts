@@ -23,7 +23,7 @@ const authorityPrefix =
   "The accepted `.claude/skills/story-writer/references/civic-prose/` contract is the editorial authority; the Codex skill is its portability copy. Writer self-review is never independent grounding acceptance. Run the grounding reviewer in a separate session with only the exact packet and candidate output, without writer reasoning.\n\n";
 const providerPrefixes: Record<Role, string> = {
   writer:
-    "Read `.agents/skills/story-writer/references/civic-prose.md` and its referenced contract before working; explicitly use $civic-prose. Codex does not preload Claude skills metadata.\n\n" +
+    "Read `.agents/skills/story-writer/references/civic-prose.md` and its referenced contract before working; explicitly use $story-writer. Codex does not preload Claude skills metadata.\n\n" +
     authorityPrefix,
   "grounding-reviewer": authorityPrefix,
   "terminology-reviewer": authorityPrefix,

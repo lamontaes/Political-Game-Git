@@ -9,7 +9,7 @@ model: inherit
 effort: medium
 tools: Read, Grep, Glob
 skills:
-  - civic-prose
+  - story-writer
 ---
 
 You are the civic prose specialist for Our Civic Duty, a politics-and-government

@@ -19,6 +19,7 @@ import {
   mkdirSync,
   readFileSync,
   readdirSync,
+  rmdirSync,
   writeFileSync,
 } from "node:fs";
 import path from "node:path";
@@ -90,7 +91,12 @@ export function foldSkills() {
       for (const sub of readdirSync(abs(`${from}/${entry.name}`))) {
         const target = `${references}/${old}/${entry.name === "references" ? "" : `${entry.name}/`}${sub}`;
         mkdirSync(path.dirname(abs(target)), { recursive: true });
-        git("mv", `${from}/${entry.name}/${sub}`, target);
+        // Copy then git rm, so a file already at the target (a skill restored after a fold) is overwritten, not an error.
+        writeFileSync(
+          abs(target),
+          readFileSync(abs(`${from}/${entry.name}/${sub}`)),
+        );
+        git("rm", "-q", "-f", `${from}/${entry.name}/${sub}`);
         // A file that stood in references/ now sits beside examples/, so its link to them is one step shorter.
         if (target.endsWith(".md") && entry.name === "references") {
           const text = readFileSync(abs(target), "utf8");
@@ -155,8 +161,14 @@ export function repoint() {
         new RegExp(`(\\.agents|\\.claude)/skills/${old}\\b`, "g"),
         `$1/skills/${into}/references/${old}`,
       );
-      // A name in backticks is re-pointed in the current files; a folded skill's own text keeps the names it was written with.
+      // A skill invoked by its dollar name is invoked as the skill that holds it now.
+      if (!RECORDS.some((dir) => file.startsWith(dir)))
+        next = next.replace(new RegExp(`[$]${old}\\b`, "g"), () => "$" + into);
+      // A name in backticks is re-pointed in the current .md files only (a backtick is a template literal in code), and
+      // `scene-pictures` is also a guard id and a rule file, so its name stays. A folded skill's own text and a record keep the names they were written with.
       if (
+        /\.(md|mdc)$/.test(file) &&
+        old !== "scene-pictures" &&
         !file.includes("/references/") &&
         !RECORDS.some((dir) => file.startsWith(dir))
       )
@@ -173,29 +185,95 @@ export function repoint() {
   return changed;
 }
 
-/** The folders a fold leaves empty are removed. */
-export function sweepEmpty() {
-  for (const old of Object.keys(FOLDED))
-    if (existsSync(abs(`${AGENTS}/${old}`)))
-      execFileSync("find", [
-        abs(`${AGENTS}/${old}`),
-        "-type",
-        "d",
-        "-empty",
-        "-delete",
-      ]);
+/** Every file under a folder, as paths relative to it. */
+function filesUnder(root, prefix = "") {
+  const out = [];
+  for (const entry of readdirSync(path.join(root, prefix), {
+    withFileTypes: true,
+  })) {
+    const rel = prefix ? `${prefix}/${entry.name}` : entry.name;
+    if (entry.isDirectory()) out.push(...filesUnder(root, rel));
+    else out.push(rel);
+  }
+  return out.sort();
 }
 
-/** The Claude mirror is the agents root, byte for byte (the pointer pass edits skills in both). */
+/** The folders a fold leaves empty: each is removed with rmdir, which refuses a folder that holds anything. */
+export function sweepEmpty() {
+  const prune = (dir) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true }))
+      if (entry.isDirectory()) prune(path.join(dir, entry.name));
+    if (readdirSync(dir).length === 0) rmdirSync(dir);
+  };
+  for (const old of Object.keys(FOLDED))
+    if (existsSync(abs(`${AGENTS}/${old}`))) prune(abs(`${AGENTS}/${old}`));
+}
+
+/** The Claude mirror is the agents root, byte for byte: changed files are copied, and files the agents root no longer holds are taken out with git. */
 export function mirror() {
-  execFileSync("rm", ["-rf", abs(CLAUDE)]);
-  execFileSync("cp", ["-R", abs(AGENTS), abs(CLAUDE)]);
+  const source = filesUnder(abs(AGENTS));
+  const have = new Set(source);
+  for (const file of filesUnder(abs(CLAUDE)))
+    if (!have.has(file)) git("rm", "-q", "-f", `${CLAUDE}/${file}`);
+  for (const file of source) {
+    const to = abs(`${CLAUDE}/${file}`);
+    const from = readFileSync(abs(`${AGENTS}/${file}`));
+    if (existsSync(to) && readFileSync(to).equals(from)) continue;
+    mkdirSync(path.dirname(to), { recursive: true });
+    writeFileSync(to, from);
+  }
   git("add", "-A", CLAUDE);
+}
+
+/** Each old skill's path goes on docs/current.json's replaced list. */
+export function replacedList() {
+  const file = abs("docs/current.json");
+  const data = JSON.parse(readFileSync(file, "utf8"));
+  const have = new Set(data.replaced.map((row) => row.old));
+  for (const [old, [into]] of Object.entries(FOLDED))
+    for (const root of [".agents", ".claude"]) {
+      const from = `${root}/skills/${old}`;
+      if (have.has(from)) continue;
+      data.replaced.push({
+        old: from,
+        now: `${root}/skills/${into}/references/${old}.md`,
+        when: "2026-11-27",
+        why: `Story is one engine (owner, Nov 26): the ${old} skill is a part of ${into}, kept whole.`,
+      });
+    }
+  writeFileSync(file, `${JSON.stringify(data, null, 2)}\n`);
+}
+
+/** AGENTS.md's skills index: the twelve folded lines go, and the three Story skills are listed. */
+export function agentsIndex() {
+  const file = abs("AGENTS.md");
+  const text = readFileSync(file, "utf8");
+  const at = text.indexOf("Load a skill when its trigger fits");
+  const lines = text.slice(at).split("\n");
+  const out = [];
+  for (const line of lines) {
+    const old = /^- `([a-z-]+)`: /.exec(line)?.[1];
+    if (old && old in FOLDED) continue;
+    if (/^- `story(?:-check|-writer)?`( \(|: )/.test(line)) continue;
+    out.push(line);
+    if (line.startsWith("- `speed-work`:"))
+      out.push(
+        "- `story`: Story, the one engine (the English engine, the director, scenes and words): how it works, the owner's rulings on words, wiring a scene's cause, scene pictures, the press desk's reach",
+        "- `story-check`: how Story's lines are checked: the scene standard, the owner's-ear pre-grade and the words stamp",
+        "- `story-writer`: the one writing loop for every Story line, with the bank pieces, elements, speeches, the Journal and the news as parts",
+      );
+  }
+  writeFileSync(file, text.slice(0, at) + out.join("\n"));
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === import.meta.filename) {
   foldSkills();
   process.stdout.write(`${repoint()} files re-pointed\n`);
+  agentsIndex();
+  replacedList();
+  execFileSync("node", ["--import", "tsx", "scripts/current/write.ts"], {
+    cwd: ROOT,
+  });
   sweepEmpty();
   mirror();
 }

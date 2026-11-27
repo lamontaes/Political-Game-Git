@@ -95,7 +95,7 @@ export interface BankPart {
   bearing?: string;
   uses: PartUse[];
   /**
-   * A piece of a sentence the engine joins (the `story` (engine part) skill, "How a
+   * A piece of a sentence the engine joins (the `words-engine` skill, "How a
    * joined piece says so"): `of` names the sentence, `part` which part of it
    * this is, and `required` whether every such sentence has that part.
    */
