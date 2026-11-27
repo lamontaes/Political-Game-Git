@@ -73116,10 +73116,10 @@
       ]
     },
     {
-      "key": "scene-talk.narrate-returns-call.winner-wins-office-with-cast-ballots-counted",
+      "key": "scene-talk.narrate-returns-call.winner-wins-the-race-for-office-with-cast-ballots-counted",
       "move": "narrate-returns-call",
       "kind": "spoken",
-      "text": "{winner} wins {office}, with {cast} ballots counted.",
+      "text": "{winner} wins the race for {office}, with {cast} ballots counted.",
       "uses": [
         {
           "subject": "scene",
@@ -73142,10 +73142,10 @@
       "elements": ["close-count-ends-in-a-concession"]
     },
     {
-      "key": "scene-talk.narrate-returns-call.the-count-is-done-winner-takes-office",
+      "key": "scene-talk.narrate-returns-call.the-count-is-done-and-winner-takes-the-race-for-office",
       "move": "narrate-returns-call",
       "kind": "spoken",
-      "text": "The count is done: {winner} takes {office}.",
+      "text": "The count is done, and {winner} takes the race for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -73168,10 +73168,10 @@
       "elements": ["close-count-ends-in-a-concession"]
     },
     {
-      "key": "scene-talk.narrate-returns-unopposed.winner-was-unopposed-for-office-and-wins-it-with-cast-ballots-cast",
+      "key": "scene-talk.narrate-returns-unopposed.winner-ran-unopposed-for-office-and-wins-it-with-cast-ballots-cast",
       "move": "narrate-returns-unopposed",
       "kind": "spoken",
-      "text": "{winner} was unopposed for {office}, and wins it with {cast} ballots cast.",
+      "text": "{winner} ran unopposed for {office} and wins it, with {cast} ballots cast.",
       "uses": [
         {
           "subject": "scene",
@@ -73259,32 +73259,6 @@
           "move": "returns-mine",
           "role": "narrator",
           "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "narrate",
-        "key": "election-day"
-      },
-      "elements": ["close-count-ends-in-a-concession"]
-    },
-    {
-      "key": "scene-talk.narrate-returns-mine.winner-takes-it",
-      "move": "narrate-returns-mine",
-      "kind": "spoken",
-      "text": "{winner} takes it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "election-night",
-          "key": "election-day",
-          "step": "narrate",
-          "move": "returns-mine",
-          "role": "narrator",
-          "requiresFacts": ["lost", "winner"]
         }
       ],
       "bearing": "calm",
