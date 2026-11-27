@@ -1231,7 +1231,7 @@ function sittingExecutiveNow(
   };
 }
 
-export const SITTING_CALENDAR = {
+const SITTING_CALENDAR = {
   // The readers are one list for every world in the process: a world that has not opened this
   // engine yet (a small world's neighbor) owns no body.
   owns: (api: CoreAPI, officeId: string) =>
@@ -1253,10 +1253,6 @@ export const SITTING_CALENDAR = {
   // The bodies a person sits on, and for an executive the bodies of their
   // own government they sit with.
   bodiesOf: (api: CoreAPI, personId: string) => {
-    // As `owns`: a world that has not opened this engine yet sits on no body
-    // here. The reader list is one for every world in the process, and a body
-    // listed here that `owns` then refuses had no reader to open it.
-    if (!api.state.modules.has(WORLD_LEGISLATING_MODULE_ID)) return [];
     const terms = servingTermsOf(api, personId);
     const sitsOn = terms
       .map((term) => term.officeId)
