@@ -4235,6 +4235,27 @@ export function storiesPrinted(
     .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
 }
 
+/** One interview row by its id, or undefined (the door the screens read an interview's questions through). */
+export function interviewOf(
+  api: CoreAPI,
+  interviewId: string,
+): InterviewRow | undefined {
+  if (!api.state.modules.has(PRESS_MODULE_ID)) return undefined;
+  return table(api, "interviews").get(interviewId) as unknown as
+    InterviewRow | undefined;
+}
+
+/** The stories the desk printed from one wire item, by the wire item's id. */
+export function storiesOfWire(
+  api: CoreAPI,
+  wireId: string,
+): readonly PrintedStory[] {
+  if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
+  return table(api, "stories").query("byWire", [
+    wireId,
+  ]) as unknown as PrintedStory[];
+}
+
 /** A town outlet's people: its head and reporters, with their roles. */
 export function staffOf(api: CoreAPI, outletId: string): readonly StaffRow[] {
   if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
