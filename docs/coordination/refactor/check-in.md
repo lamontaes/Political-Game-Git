@@ -20,3 +20,17 @@
 - **Run only the tests you write or change** ("builders build; checkers check", owner, Oct 29). Never delete or loosen a check, and never edit bank lines.
 - **Don't do any of these:** both-ways reruns of failures, hand-run Heavy checks, waiting for folds, conflict fixes for trains, `ready` lines. Merging, trains, CI evidence and conflicts are the CTO's, and only when something depends on them.
 - **Check-in:** one line, covering what you built and what's next.
+
+**Never block (Nov 26 evening; three sessions stopped today waiting on the CTO or ran out of queue):**
+- Nothing you do waits on the CTO. When a choice is open, take the option that changes no game behavior and keeps every check as strict, write it down, and keep going. Ask in your check-in line, but keep building while you wait.
+- When your queue runs out, post "queue done" and take the next item from the refactor map's open rows that no other session holds.
+
+**Where to branch from:** the newest open train (`train/nov26-c`, PR #10682) until it lands, then main. That keeps your work off the conflicts it already settled.
+
+**The one conflict job that's yours:** if a train names your branch as conflicting, merge the train branch into yours, keep both sides' intent, prove it the way you proved the change, and push. Only you know your change. Everything else about trains stays the CTO's.
+
+**Shared list files:** if many of your branches would edit the same list (a known-red list, a baseline, an index), make the edits in one branch of their own, so the fixes don't collide.
+
+**Wide changes are scripts:** a change across many files that other sessions are editing (moving files, stripping comments, renaming) is a re-runnable script plus its output. The CTO re-runs it on main after the other branches land.
+
+**Cloud sessions see only GitHub:** name repo paths and branches only, never a path on the owner's Mac.
