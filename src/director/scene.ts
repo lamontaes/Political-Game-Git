@@ -107,15 +107,19 @@ function livesWith(
   );
 }
 
-export function composeScene(
+/**
+ * Read what a scene is made of from the moment, the person and the binding: who is there, the
+ * people and places as the player knows them, the moment's own record and the narrator's line
+ * worded by the English engine. The first step of `composeScene`; null when the person or the
+ * moment is not in the ledger.
+ */
+function readScene(
   core: Readonly<CoreState>,
   director: Director,
   personId: PersonId,
   entry: ScheduleEntry,
   words?: SceneWords,
-  /** The minute of the day the scene plays at; without it, the moment's stop or the day's start. */
-  minuteOfDay?: number,
-): Scene | null {
+) {
   const book = director.ledger.people.get(personId);
   const moment = book?.momentsById.get(entry.momentId);
   const person = core.people.get(personId);
@@ -196,7 +200,26 @@ export function composeScene(
       fallbackSourceId: moment.causeId,
       ...(words ? { words } : {}),
     });
+  return { moment, person, binding, named, who, place, fromRecord, render };
+}
 
+type SceneRead = NonNullable<ReturnType<typeof readScene>>;
+type Arrival = ReturnType<typeof arrivalOf>;
+type Lead = ReturnType<typeof leadOf>;
+
+/**
+ * The scene's first line: the day, the place and the person the player meets, worded by the
+ * English engine, and the setting line that stands in for it when no arrival is worded. The
+ * second step of `composeScene`; it starts the list of lines the scene says.
+ */
+function arrivalOf(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  entry: ScheduleEntry,
+  read: SceneRead,
+  minuteOfDay?: number,
+) {
+  const { moment, binding, named, who, fromRecord, render } = read;
   // Every scene opens on one line that names the day, the place and the
   // person the player meets (owner, Nov 8: "If it's June 7th, it says first
   // thing on June 7th. You head to the clerk's office and speak to Maria
@@ -300,6 +323,22 @@ export function composeScene(
       );
   if (arrival) sentences.push(arrival);
   else if (setting) sentences.push(setting);
+  return { sentences, opener, talkToId, settingOrg, arrival };
+}
+
+/**
+ * The lead line of the scene: who came and why, worded from the moment's record, and who the
+ * scene has now named so a later line says them by first name. The third step of `composeScene`.
+ */
+function leadOf(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  read: SceneRead,
+  arrived: Arrival,
+) {
+  const { moment, person, binding, named, who, place, fromRecord, render } =
+    read;
+  const { sentences, talkToId, settingOrg, arrival } = arrived;
   // Said in full once, so later lines call them by their first name.
   if (talkToId && arrival?.usedFactKeys?.includes("name")) named.add(talkToId);
   const wasNamed = talkToId ? named.has(talkToId) : false;
@@ -353,6 +392,24 @@ export function composeScene(
   if (aboutId && !aboutWasNamed && !lead?.usedFactKeys?.includes("about"))
     named.delete(aboutId);
 
+  return { lead };
+}
+
+/**
+ * How the scene opens and what caused it: the opening line (unless the lead already said who
+ * came), the cause line a scene that tells it carries, and the line for how the player heard of
+ * it. The fourth step of `composeScene`; the lines go on the scene's list in their order.
+ */
+function openingOf(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  read: SceneRead,
+  arrived: Arrival,
+  ledFrom: Lead,
+) {
+  const { moment, person, binding, who, place, fromRecord, render } = read;
+  const { sentences, opener, talkToId } = arrived;
+  const { lead } = ledFrom;
   // How the scene opens, from its first move: the one who opens it and
   // what they came to do ("Your mother has something to tell you.").
   const openerId = opener?.personIds.find((id) => id !== personId);
@@ -430,30 +487,19 @@ export function composeScene(
     render(move, facts, `${moment.id}:heard`),
   );
   if (heardHow) sentences.push(heardHow);
+}
 
-  // The sentences are one paragraph, so the narrator sets the scene before
-  // anyone speaks.
-  const narration: SceneLine[] = sentences.length
-    ? [
-        {
-          text: sceneParagraph(sentences),
-          parts: sentences.flatMap((line) => line.parts ?? []),
-          // A sitting that took in a later cause the same day cites it too.
-          // The sentence of what led here cites the record that led here,
-          // whatever facts it names ("Your daughter has been born." named the
-          // daughter by the family record and cited no birth, Neillsville,
-          // Wisconsin, seed birth-n1).
-          sourceRecordIds: [
-            ...new Set([
-              ...sentences.flatMap((line) => line.sourceRecordIds),
-              // The scene is staged from its cause, said or not.
-              moment.causeId,
-              ...(binding.joined ?? []).map((row) => row.causeId),
-            ]),
-          ],
-        },
-      ]
-    : [];
+/**
+ * The speech a scene plays in its speaker's own words, when the moment's record is one the player
+ * hears: the address parts, who is speaking and whether the player heard it. The last step of
+ * `composeScene` before it returns.
+ */
+function speechOf(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  read: SceneRead,
+) {
+  const { moment, binding } = read;
   // A speech's own words: an address's as its record kept them, a floor or
   // campaign speech composed from its record by the one planner.
   const record = core.durableLog.get(moment.causeId);
@@ -513,6 +559,50 @@ export function composeScene(
       : heard && heard.speakerId !== personId
         ? { ...heard, montage: false, inRoom: true }
         : undefined;
+  return { speech };
+}
+
+export function composeScene(
+  core: Readonly<CoreState>,
+  director: Director,
+  personId: PersonId,
+  entry: ScheduleEntry,
+  words?: SceneWords,
+  /** The minute of the day the scene plays at; without it, the moment's stop or the day's start. */
+  minuteOfDay?: number,
+): Scene | null {
+  const read = readScene(core, director, personId, entry, words);
+  if (!read) return null;
+  const { moment, binding } = read;
+
+  const arrived = arrivalOf(core, personId, entry, read, minuteOfDay);
+  const { sentences, talkToId, arrival } = arrived;
+  const ledFrom = leadOf(core, personId, read, arrived);
+  openingOf(core, personId, read, arrived, ledFrom);
+  // The sentences are one paragraph, so the narrator sets the scene before
+  // anyone speaks.
+  const narration: SceneLine[] = sentences.length
+    ? [
+        {
+          text: sceneParagraph(sentences),
+          parts: sentences.flatMap((line) => line.parts ?? []),
+          // A sitting that took in a later cause the same day cites it too.
+          // The sentence of what led here cites the record that led here,
+          // whatever facts it names ("Your daughter has been born." named the
+          // daughter by the family record and cited no birth, Neillsville,
+          // Wisconsin, seed birth-n1).
+          sourceRecordIds: [
+            ...new Set([
+              ...sentences.flatMap((line) => line.sourceRecordIds),
+              // The scene is staged from its cause, said or not.
+              moment.causeId,
+              ...(binding.joined ?? []).map((row) => row.causeId),
+            ]),
+          ],
+        },
+      ]
+    : [];
+  const { speech } = speechOf(core, personId, read);
   const occasion = OCCASIONS.get(binding.typeKey);
   return {
     momentId: moment.id,

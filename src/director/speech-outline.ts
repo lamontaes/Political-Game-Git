@@ -80,6 +80,7 @@ import {
   questionPoint,
 } from "../english/question-names";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
+import { hasOutline } from "../english/outline-planner";
 import { questionSubject } from "../english/policy-names";
 import addressData from "./data/opening-address.json" with { type: "json" };
 import outlineData from "./data/speech-outlines.json" with { type: "json" };
@@ -97,7 +98,7 @@ import { earlierAddressPieces } from "./address-render";
 import { coreStateName } from "../core2/place-lookup";
 import { markWordsStopgap } from "./stopgaps";
 import { isOutsideMarket, stateInSentence } from "./words";
-import { changeSaid, countSaid, moneySaid } from "../english/count-words";
+import { changeSaid, countSaid } from "../english/count-words";
 import { measureWords } from "../english/area-names";
 import { addDays, daysBetweenText } from "../core2/kernel/dates";
 import type { IsoDate } from "../core2/kernel/brands";
@@ -907,6 +908,8 @@ export interface OutlineSpeaker {
   readonly local?: {
     readonly level: PolicyLevel;
     readonly officeId: string;
+    /** The speaker's serving term, whose end says the years left; absent for a candidate. */
+    readonly termId?: string;
     readonly party: string | null;
     readonly questions: readonly string[];
     readonly realmName: string | null;
@@ -1626,16 +1629,6 @@ function conditionFacts(
             : "condition-budget-steady"
       ] = before ? fact("yes", before.id) : fact("yes", budget.id);
       out["budget-year"] = fact(String(budget.fiscalYear), budget.id);
-      // How far ahead or short this government's year is, as people say a
-      // sum ("about $40,000"): the year is the same in every world, the gap
-      // is this government's own.
-      if (balance > band || balance < -band)
-        out["budget-gap"] = fact(
-          moneySaid(
-            Math.abs(sum(budget.revenueMinor) - sum(budget.spendingMinor)),
-          ),
-          budget.id,
-        );
     }
   }
   const yearAgo = addDays(
@@ -2008,16 +2001,21 @@ function asidesOf(
 }
 
 /**
- * Plan a speech of one kind from its outline row and the world: the one
- * planner for the President's, a governor's and a mayor's address.
+ * Read what an address of this kind is about from the world and the speaker: the row,
+ * the speaker's stands, the theme and its points, the kind of address, the worst
+ * condition it answers, the story it opens on and the figures it may carry. The
+ * first step of `planSpeech`; it only reads, and returns what the later steps use.
  */
-export function planSpeech(
+function readAddress(
   core: CoreState,
   kindKey: string,
   speaker: OutlineSpeaker,
-): SpeechPlan {
+) {
   const row = outlineOf(kindKey);
   const kind = row.bank;
+  // Told by the outline planner where its row is named by the kind's bank
+  // (`campaign` is told by the row `campaign-speech`).
+  const told = hasOutline(kind ?? kindKey);
   // A kind said at any level (a floor speech, a campaign speech) takes the
   // speaker's own level from their office row.
   const level = speaker.local?.level ?? row.level;
@@ -2204,47 +2202,198 @@ export function planSpeech(
       ]),
     ),
   };
-  const move = (
-    role: string,
-    options: { topic?: string; required?: boolean } = {},
-  ) => openingMove(kind, voice, role, { ...options, addressKind });
-  // An ask whose belief is folded into it is said by the bank's folded cores
-  // alone, else a plain core would do and the belief would go unsaid (rule 38).
-  const askMove = (join: string | null) => {
-    const plain = move("ask");
-    if (join !== "belief-folded" || !plain) return plain;
-    const folded = plain.bank.parts.core.variants.filter((variant) =>
-      variant.requiresFacts?.includes("belief-folded"),
-    );
-    return folded.length
-      ? {
-          ...plain,
-          bank: {
-            ...plain.bank,
-            parts: { ...plain.bank.parts, core: { variants: folded } },
-          },
-        }
-      : plain;
+  return {
+    told,
+    row,
+    kind,
+    level,
+    person,
+    voice,
+    federal,
+    country,
+    official,
+    local,
+    theme,
+    firstYear,
+    addressKind,
+    crisis,
+    response,
+    story,
+    pointStands,
+    asks,
+    turnsTo,
+    themeLead,
+    themeName,
+    themeCited,
+    topicOf,
+    points,
+    themeFacts,
+    kindFact,
   };
-  const party = (official?.party ?? "").toLowerCase();
-  const creedFacts: Facts = official
-    ? {
-        [`party-${PARTY_FACT[party] ?? "other"}`]: fact("yes", official.id),
-      }
-    : {};
-  const asides = asidesOf(person, row.asides);
-  const ownRecord = row.ownRecord && !firstYear;
+}
 
-  // Each point's plan: its shape (one per point, in the order the speaker's
-  // traits pull), the speaker's side, how that side describes the question
-  // today, the belief's family and pole, its figure and its name's number.
-  const order = shapeOrder(person);
-  // The beliefs this speaker said before, in earlier addresses, then here.
-  const beliefsSaid = earlierAddressPieces(core, person.id);
-  const beliefsHere = new Set<string>();
-  // What the points planned so far say, in order.
-  const spoken: string[] = [];
-  const shapesUsed = new Set<string>();
+type AddressRead = ReturnType<typeof readAddress>;
+
+/** A block as drafted: the block less its paragraph, which `blocksOf` gives it, and whether it joins the one before. */
+type Draft = Omit<Block, "part"> & { readonly joins?: boolean };
+
+/**
+ * The world's names and the theme's subjects that every part of an address may say: the
+ * realm, the body, what it passes, the office title and the theme's name. A step of
+ * `planSpeech`; it reads the address already read and says nothing of its own.
+ */
+function worldNamesOf(
+  core: CoreState,
+  speaker: OutlineSpeaker,
+  read: Pick<
+    AddressRead,
+    | "federal"
+    | "level"
+    | "person"
+    | "kind"
+    | "voice"
+    | "country"
+    | "local"
+    | "points"
+    | "themeName"
+    | "themeCited"
+  >,
+): Facts {
+  const {
+    federal,
+    level,
+    person,
+    kind,
+    voice,
+    country,
+    local,
+    points,
+    themeName,
+    themeCited,
+  } = read;
+  const realm = federal
+    ? null
+    : level === "state"
+      ? coreStateName((speaker.jurisdiction ?? "").replace(/^US-/, ""))
+      : (local?.realmName ??
+        (core.placeMetadata.placeName ?? "").split(",")[P.zero]?.trim() ??
+        null);
+  const world: Facts = federal
+    ? worldFacts(core, person, kind, voice, country, points)
+    : {
+        ...(realm
+          ? {
+              // "the Northern Mariana Islands" where a sentence needs the
+              // article (rule 49); the bare name for a vocative or a title.
+              "realm-name": fact(
+                level === "state" ? stateInSentence(realm) : realm,
+                speaker.jurisdiction ?? person.id,
+              ),
+              "realm-bare": fact(realm, speaker.jurisdiction ?? person.id),
+            }
+          : {}),
+        ...(local?.body ? { body: fact(local.body, local.officeId) } : {}),
+        // A greeting says the body by the name its record gives it.
+        ...(local?.bodyName
+          ? { "body-name": fact(local.bodyName, local.officeId) }
+          : {}),
+        // What the body passes, as it names it: a legislature's bills, a
+        // town's or a county's ordinances (the one form rule, by the office
+        // kind on the record; line rule body-named-as-place-names-it).
+        measure: fact(
+          OUTLINES.measureWords[
+            formKindOf(
+              local
+                ? (officeKindOf(core, local.officeId) ?? "")
+                : "legislature-lower",
+            )
+          ]!,
+          local?.officeId ?? speaker.jurisdiction ?? person.id,
+        ),
+        ...(local?.officeTitle
+          ? { "office-title": fact(local.officeTitle, local.officeId) }
+          : {}),
+        ...(themeName && themeCited.length
+          ? { "theme-name": fact(themeName, ...themeCited) }
+          : {}),
+      };
+  return world;
+}
+
+/**
+ * The drafts as blocks: one paragraph per block (the block after the greeting joins its
+ * paragraph and the close joins the one before it), each with the world's names and
+ * the kind of address, and the body said by name once and as "this council" after. The
+ * last step of `planSpeech`.
+ */
+function blocksOf(
+  drafts: readonly Draft[],
+  world: Facts,
+  kindFact: Facts,
+  local: AddressRead["local"],
+): Block[] {
+  // One paragraph per block; the block after the greeting joins its
+  // paragraph, so the greeting never stands alone, and the close joins the
+  // one before it.
+  let part = -P.one;
+  // The body is named in the greeting and in the first ask; after that it is
+  // "this council" or "this board" (words lead, Nov 14, rule 40: never named
+  // five times).
+  const bodyAgain = local?.body
+    ? fact(
+        `this ${local.body.replace(/^the /, "")}`,
+        local.officeId as EntityId,
+      )
+    : null;
+  let bodyAsked = false;
+  const blocks = drafts.map((draft, at): Block => {
+    // No paragraph of one aside: what the speaker believes joins the
+    // greeting's paragraph, and the hope joins the close.
+    const before = drafts[at - P.one]?.key;
+    const together =
+      draft.joins ||
+      before === "salutation" ||
+      (draft.key === "creed" && before === "occasion") ||
+      (draft.key === "close" && before === "hope");
+    if (!together || part < P.zero) part += P.one;
+    const { joins, ...rest } = draft;
+    void joins;
+    const facts = Object.fromEntries(
+      Object.entries({ ...world, ...kindFact, ...rest.facts }).filter(
+        ([, value]) => value !== undefined,
+      ),
+    ) as Facts;
+    if (bodyAgain && facts["body-name"] && draft.key !== "salutation") {
+      if (bodyAsked) facts["body-name"] = bodyAgain;
+      else if (draft.key.startsWith("point-")) bodyAsked = true;
+    }
+    return { ...rest, facts, part };
+  });
+  return blocks;
+}
+
+/**
+ * Plan each point of the address: its shape (one per point, in the order the speaker's
+ * traits pull), the speaker's side, how that side describes the question today, the
+ * belief's family and pole, its figure and its name's number. A step of `planSpeech`;
+ * the shapes, beliefs and sayings used so far are filled in as the points are planned.
+ */
+function plannedPointsOf(
+  core: CoreState,
+  read: Pick<
+    AddressRead,
+    "kind" | "person" | "pointStands" | "topicOf" | "voice"
+  >,
+  used: {
+    readonly order: ReturnType<typeof shapeOrder>;
+    readonly beliefsSaid: ReturnType<typeof earlierAddressPieces>;
+    readonly beliefsHere: Set<string>;
+    readonly spoken: string[];
+    readonly shapesUsed: Set<string>;
+  },
+): PlannedPoint[] {
+  const { kind, person, pointStands, topicOf, voice } = read;
+  const { order, beliefsSaid, beliefsHere, spoken, shapesUsed } = used;
   const planned: PlannedPoint[] = pointStands.map((stand, at) => {
     const side = stand.stance > P.zero ? "for" : "against";
     const family = questionFamily(stand.question);
@@ -2341,7 +2490,6 @@ export function planSpeech(
       join: belief ? join : null,
     };
   });
-  type Draft = Omit<Block, "part"> & { readonly joins?: boolean };
   /**
    * What a close says after the one ask: what follows from it for the people
    * the speech named, where the ask changes the law (how the question will
@@ -2354,173 +2502,491 @@ export function planSpeech(
   // answer, or the theme's own lead where the row's one point is the answer;
   // else the first point.
   // Whether a meaning line (which leads with the "On X," tag) is said.
-  let tagSaid = false;
-  const closing = turnsTo[P.zero] ?? themeLead ?? pointStands[P.zero];
-  // The hour the kind is given at (rule 141): a close says good night only
-  // in the evening.
-  const closeHour: Facts =
-    row.minute && dayParts(row.minute.value).includes("evening")
-      ? { evening: fact("yes", `${kindKey}:minute`) }
-      : {};
-  const bodyHold: Facts = federal ? {} : bodyHoldFacts(core, level, speaker);
-  const closeFacts = (): Facts => {
-    const first = closing;
-    const plan = first ? planned[pointStands.indexOf(first)] : undefined;
-    if (!first) return {};
-    const side = first.stance > P.zero ? "for" : "against";
-    const cited = `question:${first.question}`;
-    const changes = first.stance > P.zero !== first.law.inForce;
-    const after = changes
-      ? questionToday(first.question, !first.law.inForce, side)
+  return planned;
+}
+
+/**
+ * The facts the close of an address may carry: its hour, the ask said in it, whether the
+ * speaker's party holds the body, and what the first point would change and why, each only
+ * if it says something the speech has not said (rule 41). A step of `planSpeech`.
+ */
+function closeFactsOf(c: {
+  readonly closing: AddressRead["pointStands"][number] | undefined;
+  readonly planned: readonly PlannedPoint[];
+  readonly pointStands: AddressRead["pointStands"];
+  readonly theme: AddressRead["theme"];
+  readonly asks: AddressRead["asks"];
+  readonly spoken: readonly string[];
+  readonly closeHour: Facts;
+  readonly bodyHold: Facts;
+  /** Whether a tag ("On X, ...") has been said already in the address. */
+  readonly tag: { said: boolean };
+}): Facts {
+  const {
+    closing,
+    planned,
+    pointStands,
+    theme,
+    asks,
+    spoken,
+    closeHour,
+    bodyHold,
+    tag,
+  } = c;
+  const first = closing;
+  const plan = first ? planned[pointStands.indexOf(first)] : undefined;
+  if (!first) return {};
+  const side = first.stance > P.zero ? "for" : "against";
+  const cited = `question:${first.question}`;
+  const changes = first.stance > P.zero !== first.law.inForce;
+  const after = changes
+    ? questionToday(first.question, !first.law.inForce, side)
+    : null;
+  const reason = questionReasons(first.question, side).reason;
+  const short = theme ? OUTLINES.themeShort[theme] : undefined;
+  // A close says something new (rule 41): nothing that shares most of its
+  // words with what the speech said already, the ask included.
+  const said = SUBJECT_WORDS.of(
+    [
+      ...spoken,
+      ...pointStands.flatMap((stand) => [
+        questionTo(stand.question),
+        questionAbout(stand.question),
+        questionSide(stand.question, "for"),
+        questionSide(stand.question, "against"),
+      ]),
+    ]
+      .filter(Boolean)
+      .join(" "),
+  );
+  const sayingNew = (text: string) =>
+    SUBJECT_WORDS.of(text).filter((word) => said.includes(word)).length <
+    OUTLINES.theme.closeSharedWordsLeast.value;
+  return {
+    // The address's own hour, an ask said in it, and whether the speaker's
+    // party holds the body (the Words lead's closes, Nov 16).
+    ...closeHour,
+    ...(asks.length
+      ? {
+          asked: fact("yes", cited),
+          // Which side the ask took, so a close that holds the speaker to
+          // it says the side the speech asked for (CTO, Nov 19).
+          [`asked-${side}`]: fact("yes", cited),
+          // The ask's own question by its name, said in the close.
+          ...(questionAbout(first.question)
+            ? { "asked-about": fact(questionAbout(first.question)!, cited) }
+            : {}),
+        }
+      : {}),
+    ...bodyHold,
+    ...(after && sayingNew(after) && !(plan?.todays ?? []).includes(after)
+      ? { "first-after": fact(clauseOf(after), cited, first.law.id) }
+      : {}),
+    ...(reason && sayingNew(reason) && !plan?.belief
+      ? { "first-reason": fact(reason, cited) }
+      : {}),
+    // A tag ("On X, ...") is said once in an address: not after a meaning
+    // line, and not for a theme that does not sit after "On" (round 4).
+    ...(short &&
+    !tag.said &&
+    !OUTLINES.themeShortNoOn.themes.includes(theme ?? "")
+      ? { "theme-short": fact(short, cited) }
+      : {}),
+  };
+}
+
+/** One say of the address's opening mover: a role (and a topic) worded from the speaker's bank. */
+type Move = (
+  role: string,
+  options?: { topic?: string; required?: boolean },
+) => ReturnType<typeof openingMove>;
+
+/**
+ * A crisis or combative address's first point: the term's worst condition, said with
+ * its fact. Over the years the speaker has held office where the bank says
+ * the measure that way (context, then what it has meant), else as the
+ * record's one line of it (story-says), never both, so it is said once.
+ */
+function crisisDraftOf(
+  core: CoreState,
+  speaker: OutlineSpeaker,
+  topic: string,
+  c: {
+    readonly country: AddressRead["country"];
+    readonly move: Move;
+    /** Whether a tag ("On X, ...") has been said already; a context said over the years says it. */
+    readonly tag: { said: boolean };
+  },
+): Draft {
+  const { country, move, tag } = c;
+  const context = contextFacts(core, topic, country, speaker.serviceStart);
+  // Said over the years only where the bank holds a context piece for the
+  // topic; else the record's one line of it (a place's work, pay and prices
+  // have story-says lines and no context pieces yet), never silence.
+  const told =
+    context[`context-${topic}`] && bankSaysContext(topic)
+      ? move("context", { topic })
       : null;
-    const reason = questionReasons(first.question, side).reason;
-    const short = theme ? OUTLINES.themeShort[theme] : undefined;
-    // A close says something new (rule 41): nothing that shares most of its
-    // words with what the speech said already, the ask included.
-    const said = SUBJECT_WORDS.of(
-      [
-        ...spoken,
-        ...pointStands.flatMap((stand) => [
-          questionTo(stand.question),
-          questionAbout(stand.question),
-          questionSide(stand.question, "for"),
-          questionSide(stand.question, "against"),
-        ]),
-      ]
-        .filter(Boolean)
-        .join(" "),
-    );
-    const sayingNew = (text: string) =>
-      SUBJECT_WORDS.of(text).filter((word) => said.includes(word)).length <
-      OUTLINES.theme.closeSharedWordsLeast.value;
-    return {
-      // The address's own hour, an ask said in it, and whether the speaker's
-      // party holds the body (the Words lead's closes, Nov 16).
-      ...closeHour,
-      ...(asks.length
-        ? {
-            asked: fact("yes", cited),
-            // Which side the ask took, so a close that holds the speaker to
-            // it says the side the speech asked for (CTO, Nov 19).
-            [`asked-${side}`]: fact("yes", cited),
-            // The ask's own question by its name, said in the close.
-            ...(questionAbout(first.question)
-              ? { "asked-about": fact(questionAbout(first.question)!, cited) }
+  if (told) tag.said = true;
+  return {
+    key: `crisis-${topic}`,
+    level: "country",
+    facts: {
+      ...badFacts(country, topic),
+      ...context,
+      // Too short a time in office to say it over years: its figure.
+      ...(told ? {} : conditionFigure(country, topic)),
+    },
+    moves: told
+      ? [
+          told,
+          ...(spanAgrees(topic, context) ? [move("meaning", { topic })] : []),
+        ]
+      : [move("story-says", { topic })],
+  };
+}
+
+/**
+ * A hurt address's body in its order: the condition, then its answer from
+ * the speaker's record in the same paragraph (citing the bill they
+ * sponsored on it, where one is), then a sentence the engine words that
+ * turns to the theme, which opens the next paragraph.
+ */
+function hurtOrderOf(
+  drafts: Draft[],
+  c: {
+    readonly crisis: AddressRead["crisis"];
+    readonly response: AddressRead["response"];
+    readonly turnsTo: AddressRead["turnsTo"];
+    readonly themeName: AddressRead["themeName"];
+    readonly move: Move;
+  },
+): Draft[] {
+  const { crisis, response, turnsTo, themeName, move } = c;
+  if (!crisis || !response) return drafts;
+  const answerKey = `point-${response.stand.question}`;
+  const turnKey = turnsTo[P.zero] ? `point-${turnsTo[P.zero]!.question}` : null;
+  return drafts.flatMap((draft): Draft[] => {
+    if (draft.key === answerKey)
+      return [
+        {
+          ...draft,
+          joins: true,
+          facts: response.bill
+            ? Object.fromEntries(
+                Object.entries(draft.facts).map(([key, row]) => [
+                  key,
+                  row.sourceRecordIds.includes(
+                    `question:${response.stand.question}` as EntityId,
+                  )
+                    ? fact(row.text, ...row.sourceRecordIds, response.bill!.id)
+                    : row,
+                ]),
+              )
+            : draft.facts,
+        },
+      ];
+    if (draft.key === turnKey && themeName)
+      return [
+        {
+          key: "turn",
+          level: "country",
+          facts: {
+            // From the answer just given to the theme.
+            ...(questionAbout(response.stand.question)
+              ? {
+                  "turn-from": fact(
+                    questionAbout(response.stand.question)!,
+                    `question:${response.stand.question}`,
+                  ),
+                }
               : {}),
-          }
-        : {}),
-      ...bodyHold,
-      ...(after && sayingNew(after) && !(plan?.todays ?? []).includes(after)
-        ? { "first-after": fact(clauseOf(after), cited, first.law.id) }
-        : {}),
-      ...(reason && sayingNew(reason) && !plan?.belief
-        ? { "first-reason": fact(reason, cited) }
-        : {}),
-      // A tag ("On X, ...") is said once in an address: not after a meaning
-      // line, and not for a theme that does not sit after "On" (round 4).
-      ...(short &&
-      !tagSaid &&
-      !OUTLINES.themeShortNoOn.themes.includes(theme ?? "")
-        ? { "theme-short": fact(short, cited) }
-        : {}),
-    };
-  };
-  /**
-   * A crisis or combative address's first point: the term's worst condition, said with
-   * its fact. Over the years the speaker has held office where the bank says
-   * the measure that way (context, then what it has meant), else as the
-   * record's one line of it (story-says), never both, so it is said once.
-   */
-  const crisisDraft = (topic: string): Draft => {
-    const context = contextFacts(core, topic, country, speaker.serviceStart);
-    // Said over the years only where the bank holds a context piece for the
-    // topic; else the record's one line of it (a place's work, pay and prices
-    // have story-says lines and no context pieces yet), never silence.
-    const told =
-      context[`context-${topic}`] && bankSaysContext(topic)
-        ? move("context", { topic })
-        : null;
-    if (told) tagSaid = true;
-    return {
-      key: `crisis-${topic}`,
-      level: "country",
-      facts: {
-        ...badFacts(country, topic),
-        ...context,
-        // Too short a time in office to say it over years: its figure.
-        ...(told ? {} : conditionFigure(country, topic)),
-      },
-      moves: told
-        ? [
-            told,
-            ...(spanAgrees(topic, context) ? [move("meaning", { topic })] : []),
-          ]
-        : [move("story-says", { topic })],
-    };
-  };
-  /**
-   * A hurt address's body in its order: the condition, then its answer from
-   * the speaker's record in the same paragraph (citing the bill they
-   * sponsored on it, where one is), then a sentence the engine words that
-   * turns to the theme, which opens the next paragraph.
-   */
-  const hurtOrder = (drafts: Draft[]): Draft[] => {
-    if (!crisis || !response) return drafts;
-    const answerKey = `point-${response.stand.question}`;
-    const turnKey = turnsTo[P.zero]
-      ? `point-${turnsTo[P.zero]!.question}`
+            "turn-to": fact(
+              themeName,
+              ...turnsTo.map((row) => `question:${row.question}`),
+            ),
+          },
+          moves: [move("turn")],
+        },
+        { ...draft, joins: true },
+      ];
+    return [draft];
+  });
+}
+
+type SectionCtx = Parameters<typeof sectionsOf>[2];
+
+/**
+ * The theme section: the speaker's own points, one block each, with the crisis and its answer
+ * first in a hurt address, then the close of the theme. The longest entry of the sections table.
+ */
+function themeDraftsOf(
+  core: CoreState,
+  speaker: OutlineSpeaker,
+  c: SectionCtx,
+): Draft[] {
+  const {
+    addressKind,
+    country,
+    crisis,
+    federal,
+    person,
+    pointStands,
+    response,
+    row,
+    theme,
+    themeFacts,
+    topicOf,
+    turnsTo,
+    move,
+    askMove,
+    crisisDraft,
+    hurtOrder,
+    ownRecord,
+    planned,
+    tag,
+  } = c;
+  // A crisis or combative address's first point is the term's worst
+  // condition, said with its fact; its answer from the speaker's record
+  // follows in the same paragraph, then a turn to the theme (hurtOrder).
+  const crisisDrafts = crisis ? [crisisDraft(crisis)] : [];
+  // A number of years is said once in an address (words lead, Nov 14,
+  // rule 39): the first figure that says it keeps it, and a later point
+  // goes without a figure.
+  // A good term says one good thing from the record first (rule 48),
+  // in an area no point's figure tells again.
+  const figured = new Set(
+    pointStands.map((stand) => topicOf.get(stand.question)),
+  );
+  // The measure nearest the address's subject is praised first (round 4).
+  const nearTheme = new Set(theme ? subjectsOf(theme).flatMap(topicsOf) : []);
+  const goodTopic =
+    !crisis && !federal && ownRecord && addressKind !== "mourning"
+      ? ([...TERM_AREAS, ...Object.keys(TOPIC_CLAIMS)]
+          .filter(
+            (topic) => country.facts[`${topic}-better`] && !figured.has(topic),
+          )
+          .sort(
+            (a, b) =>
+              Number(nearTheme.has(b)) - Number(nearTheme.has(a)) ||
+              (country.movement[b] ?? P.zero) -
+                (country.movement[a] ?? P.zero) ||
+              a.localeCompare(b),
+          )[P.zero] ?? null)
       : null;
-    return drafts.flatMap((draft): Draft[] => {
-      if (draft.key === answerKey)
-        return [
-          {
-            ...draft,
-            joins: true,
-            facts: response.bill
-              ? Object.fromEntries(
-                  Object.entries(draft.facts).map(([key, row]) => [
-                    key,
-                    row.sourceRecordIds.includes(
-                      `question:${response.stand.question}` as EntityId,
-                    )
-                      ? fact(
-                          row.text,
-                          ...row.sourceRecordIds,
-                          response.bill!.id,
-                        )
-                      : row,
-                  ]),
-                )
-              : draft.facts,
+  const goodDrafts: Draft[] = goodTopic
+    ? [
+        {
+          key: `good-${goodTopic}`,
+          level: "country",
+          facts: {
+            [`${goodTopic}-better`]: country.facts[`${goodTopic}-better`]!,
+            "good-name": fact(
+              OUTLINES.topicWords[goodTopic] ?? goodTopic,
+              ...country.facts[`${goodTopic}-better`]!.sourceRecordIds,
+            ),
+            ...contextFacts(core, goodTopic, country, speaker.serviceStart),
           },
-        ];
-      if (draft.key === turnKey && themeName)
-        return [
-          {
-            key: "turn",
-            level: "country",
-            facts: {
-              // From the answer just given to the theme.
-              ...(questionAbout(response.stand.question)
-                ? {
-                    "turn-from": fact(
-                      questionAbout(response.stand.question)!,
-                      `question:${response.stand.question}`,
-                    ),
-                  }
-                : {}),
-              "turn-to": fact(
-                themeName,
-                ...turnsTo.map((row) => `question:${row.question}`),
-              ),
-            },
-            moves: [move("turn")],
-          },
-          { ...draft, joins: true },
-        ];
-      return [draft];
-    });
-  };
+          moves: [move("story-says", { topic: goodTopic })],
+        },
+      ]
+    : [];
+  let yearsSaid =
+    crisisDrafts.some((draft) => draft.facts["context-years"]) ||
+    goodDrafts.some((draft) => draft.facts["context-years"]);
+  return hurtOrder([
+    ...crisisDrafts,
+    ...goodDrafts,
+    ...pointStands.map((stand, at): Draft => {
+      const plan = planned[at]!;
+      const shape = OUTLINES.pointShapes.shapes[plan.shape]!;
+      const rank =
+        stand.stance < P.zero ? "rank-line" : (RANKS[at] ?? "rank-line");
+      const facts = standFacts(stand, person.id, rank);
+      // A budget line's ask is not padded with what the line spends now
+      // (rule 46): an amount is said only at the ask's own size.
+      // An unnumbered speech lists no ranks ("no ask list by number"), and a
+      // belief that leads into the ask takes the opener's place.
+      if (!row.numberedAsks || plan.join === "belief-leads") delete facts[rank];
+      // A federal stand is said as federal only by a federal speaker.
+      if (!federal) delete facts["federal-level"];
+      const topic = topicOf.get(stand.question);
+      const belief = plan.belief?.text ?? null;
+      const cited = [`question:${stand.question}`, stand.law.id];
+      const figuredFacts: Facts =
+        topic && !yearsSaid
+          ? contextFacts(core, topic, country, speaker.serviceStart)
+          : {};
+      if (figuredFacts["context-years"]) yearsSaid = true;
+      // Trouble only where the year went the wrong way and the span's
+      // context says the same way: "a lot of folks got back to work" is
+      // never followed by "that's workers waking up with no job to go to".
+      const trouble =
+        !!topic &&
+        wrongBy(country, topic) > P.zero &&
+        spanAgrees(topic, figuredFacts);
+      // A meaning line leads with the address's one tag (round 4).
+      if (topic && (figuredFacts["context-years"] || !yearsSaid) && trouble)
+        tag.said = true;
+      const figureMoves =
+        topic && (figuredFacts["context-years"] || !yearsSaid)
+          ? [
+              move("context", { topic }),
+              // A figure is called trouble only where the records say it
+              // went the wrong way (rule 45); else it is stated plainly.
+              ...(trouble
+                ? [
+                    move("meaning", { topic }),
+                    // The year's claim, only by one who governed it.
+                    ...(ownRecord ? [move("story-says", { topic })] : []),
+                    move("tie"),
+                  ]
+                : []),
+            ]
+          : [];
+      // One turn line between two points, never before the first (the
+      // Words lead, Nov 16, rule 3): the next point said by its plain
+      // name. A hurt address's turn to its theme is hurtOrder's.
+      const last = pointStands[at - P.one];
+      const turns =
+        !!last &&
+        !(crisis && response && turnsTo[P.zero] === stand) &&
+        !!questionAbout(stand.question) &&
+        !!questionAbout(last.question);
+      return {
+        key: `point-${stand.question}`,
+        level: "country",
+        facts: {
+          ...themeFacts,
+          ...(turns
+            ? {
+                // The point just made and the next, by their plain names.
+                "turn-from": fact(
+                  questionAbout(last!.question)!,
+                  `question:${last!.question}`,
+                ),
+                "turn-to": fact(
+                  questionAbout(stand.question)!,
+                  `question:${stand.question}`,
+                ),
+              }
+            : {}),
+          ...(topic && figureMoves.length
+            ? {
+                ...figuredFacts,
+                "figure-ties": fact("yes", ...cited),
+              }
+            : {}),
+          ...facts,
+          [`about-${plan.number}`]: fact("yes", `question:${stand.question}`),
+          // Every wording of how the question stands for this side: the
+          // composer's pick among the bank's today pieces spreads them.
+          ...Object.fromEntries(
+            plan.todays.flatMap((said, at) => {
+              // The wording's slot ending, in words (`todaySlots`): a slot
+              // name holds no digit.
+              const n = OUTLINES.todaySlots[at];
+              if (n === undefined) return [];
+              return [
+                [`today${n}`, fact(said, ...cited)],
+                // A wording that is not a complaint, for a speaker who
+                // defends what is in force to ask about.
+                ...(questionTodayComplains(said)
+                  ? []
+                  : [[`today-works${n}`, fact("yes", ...cited)]]),
+                // A condition said in the past takes no "As of right
+                // now" or "For now" opener (round 6).
+                ...(PAST_TENSE.test(said)
+                  ? []
+                  : [[`today-clause${n}`, fact(clauseOf(said), ...cited)]]),
+                [
+                  `today-question${n}`,
+                  fact(clauseOf(said).replace(/[.!?]$/, ""), ...cited),
+                ],
+              ];
+            }),
+          ),
+          ...(belief
+            ? {
+                belief: fact(belief, person.id, `question:${stand.question}`),
+                "belief-sentence": fact(
+                  `${belief.charAt(P.zero).toLocaleUpperCase("en-US")}${belief.slice(P.one)}.`,
+                  person.id,
+                  `question:${stand.question}`,
+                ),
+                [plan.join!]: fact("yes", person.id),
+              }
+            : {}),
+          ...(plan.shape === "question-first"
+            ? { "asks-question": fact("yes", `question:${stand.question}`) }
+            : {}),
+        },
+        moves: [
+          ...(turns ? [move("turn")] : []),
+          ...shape.moves.flatMap((name) =>
+            name === "figure"
+              ? figureMoves
+              : [name === "ask" ? askMove(plan.join) : move(name)],
+          ),
+        ],
+      };
+    }),
+  ]);
+}
+
+/**
+ * The sections an address may say, each a thunk that drafts its blocks. A step of
+ * `planSpeech`: it only builds the table; the order and which are said come after.
+ */
+function sectionsOf(
+  core: CoreState,
+  speaker: OutlineSpeaker,
+  c: Pick<
+    AddressRead,
+    | "addressKind"
+    | "country"
+    | "crisis"
+    | "federal"
+    | "kind"
+    | "level"
+    | "local"
+    | "person"
+    | "pointStands"
+    | "response"
+    | "row"
+    | "story"
+    | "theme"
+    | "themeFacts"
+    | "topicOf"
+    | "turnsTo"
+  > & {
+    readonly move: Move;
+    readonly askMove: (join: string | null) => ReturnType<Move>;
+    readonly closeFacts: () => Facts;
+    readonly closing: AddressRead["pointStands"][number] | undefined;
+    readonly creedFacts: Facts;
+    readonly crisisDraft: (topic: string) => Draft;
+    readonly hurtOrder: (drafts: Draft[]) => Draft[];
+    readonly ownRecord: boolean | undefined;
+    readonly planned: readonly PlannedPoint[];
+    readonly tag: { said: boolean };
+  },
+) {
+  const {
+    federal,
+    kind,
+    level,
+    local,
+    person,
+    pointStands,
+    story,
+    theme,
+    themeFacts,
+    move,
+    closeFacts,
+    closing,
+    creedFacts,
+  } = c;
   const sections: Record<Section, () => Draft[]> = {
     // The world's story, said before anything the speaker asks for: what the
     // records say the country, state or place has been through, then what
@@ -2611,205 +3077,7 @@ export function planSpeech(
     // where the question's row lets that side use one, tied to the question;
     // what the speaker believes, by the question's family and the speaker's
     // pole of it; and the ask, plainly for or against.
-    theme: () => {
-      // A crisis or combative address's first point is the term's worst
-      // condition, said with its fact; its answer from the speaker's record
-      // follows in the same paragraph, then a turn to the theme (hurtOrder).
-      const crisisDrafts = crisis ? [crisisDraft(crisis)] : [];
-      // A number of years is said once in an address (words lead, Nov 14,
-      // rule 39): the first figure that says it keeps it, and a later point
-      // goes without a figure.
-      // A good term says one good thing from the record first (rule 48),
-      // in an area no point's figure tells again.
-      const figured = new Set(
-        pointStands.map((stand) => topicOf.get(stand.question)),
-      );
-      // The measure nearest the address's subject is praised first (round 4).
-      const nearTheme = new Set(
-        theme ? subjectsOf(theme).flatMap(topicsOf) : [],
-      );
-      const goodTopic =
-        !crisis && !federal && ownRecord && addressKind !== "mourning"
-          ? ([...TERM_AREAS, ...Object.keys(TOPIC_CLAIMS)]
-              .filter(
-                (topic) =>
-                  country.facts[`${topic}-better`] && !figured.has(topic),
-              )
-              .sort(
-                (a, b) =>
-                  Number(nearTheme.has(b)) - Number(nearTheme.has(a)) ||
-                  (country.movement[b] ?? P.zero) -
-                    (country.movement[a] ?? P.zero) ||
-                  a.localeCompare(b),
-              )[P.zero] ?? null)
-          : null;
-      const goodDrafts: Draft[] = goodTopic
-        ? [
-            {
-              key: `good-${goodTopic}`,
-              level: "country",
-              facts: {
-                [`${goodTopic}-better`]: country.facts[`${goodTopic}-better`]!,
-                "good-name": fact(
-                  OUTLINES.topicWords[goodTopic] ?? goodTopic,
-                  ...country.facts[`${goodTopic}-better`]!.sourceRecordIds,
-                ),
-                ...contextFacts(core, goodTopic, country, speaker.serviceStart),
-              },
-              moves: [move("story-says", { topic: goodTopic })],
-            },
-          ]
-        : [];
-      let yearsSaid =
-        crisisDrafts.some((draft) => draft.facts["context-years"]) ||
-        goodDrafts.some((draft) => draft.facts["context-years"]);
-      return hurtOrder([
-        ...crisisDrafts,
-        ...goodDrafts,
-        ...pointStands.map((stand, at): Draft => {
-          const plan = planned[at]!;
-          const shape = OUTLINES.pointShapes.shapes[plan.shape]!;
-          const rank =
-            stand.stance < P.zero ? "rank-line" : (RANKS[at] ?? "rank-line");
-          const facts = standFacts(stand, person.id, rank);
-          // A budget line's ask is not padded with what the line spends now
-          // (rule 46): an amount is said only at the ask's own size.
-          // An unnumbered speech lists no ranks ("no ask list by number"), and a
-          // belief that leads into the ask takes the opener's place.
-          if (!row.numberedAsks || plan.join === "belief-leads")
-            delete facts[rank];
-          // A federal stand is said as federal only by a federal speaker.
-          if (!federal) delete facts["federal-level"];
-          const topic = topicOf.get(stand.question);
-          const belief = plan.belief?.text ?? null;
-          const cited = [`question:${stand.question}`, stand.law.id];
-          const figuredFacts: Facts =
-            topic && !yearsSaid
-              ? contextFacts(core, topic, country, speaker.serviceStart)
-              : {};
-          if (figuredFacts["context-years"]) yearsSaid = true;
-          // Trouble only where the year went the wrong way and the span's
-          // context says the same way: "a lot of folks got back to work" is
-          // never followed by "that's workers waking up with no job to go to".
-          const trouble =
-            !!topic &&
-            wrongBy(country, topic) > P.zero &&
-            spanAgrees(topic, figuredFacts);
-          // A meaning line leads with the address's one tag (round 4).
-          if (topic && (figuredFacts["context-years"] || !yearsSaid) && trouble)
-            tagSaid = true;
-          const figureMoves =
-            topic && (figuredFacts["context-years"] || !yearsSaid)
-              ? [
-                  move("context", { topic }),
-                  // A figure is called trouble only where the records say it
-                  // went the wrong way (rule 45); else it is stated plainly.
-                  ...(trouble
-                    ? [
-                        move("meaning", { topic }),
-                        // The year's claim, only by one who governed it.
-                        ...(ownRecord ? [move("story-says", { topic })] : []),
-                        move("tie"),
-                      ]
-                    : []),
-                ]
-              : [];
-          // One turn line between two points, never before the first (the
-          // Words lead, Nov 16, rule 3): the next point said by its plain
-          // name. A hurt address's turn to its theme is hurtOrder's.
-          const last = pointStands[at - P.one];
-          const turns =
-            !!last &&
-            !(crisis && response && turnsTo[P.zero] === stand) &&
-            !!questionAbout(stand.question) &&
-            !!questionAbout(last.question);
-          return {
-            key: `point-${stand.question}`,
-            level: "country",
-            facts: {
-              ...themeFacts,
-              ...(turns
-                ? {
-                    // The point just made and the next, by their plain names.
-                    "turn-from": fact(
-                      questionAbout(last!.question)!,
-                      `question:${last!.question}`,
-                    ),
-                    "turn-to": fact(
-                      questionAbout(stand.question)!,
-                      `question:${stand.question}`,
-                    ),
-                  }
-                : {}),
-              ...(topic && figureMoves.length
-                ? {
-                    ...figuredFacts,
-                    "figure-ties": fact("yes", ...cited),
-                  }
-                : {}),
-              ...facts,
-              [`about-${plan.number}`]: fact(
-                "yes",
-                `question:${stand.question}`,
-              ),
-              // Every wording of how the question stands for this side: the
-              // composer's pick among the bank's today pieces spreads them.
-              ...Object.fromEntries(
-                plan.todays.flatMap((said, at) => {
-                  // The wording's slot ending, in words (`todaySlots`): a slot
-                  // name holds no digit.
-                  const n = OUTLINES.todaySlots[at];
-                  if (n === undefined) return [];
-                  return [
-                    [`today${n}`, fact(said, ...cited)],
-                    // A wording that is not a complaint, for a speaker who
-                    // defends what is in force to ask about.
-                    ...(questionTodayComplains(said)
-                      ? []
-                      : [[`today-works${n}`, fact("yes", ...cited)]]),
-                    // A condition said in the past takes no "As of right
-                    // now" or "For now" opener (round 6).
-                    ...(PAST_TENSE.test(said)
-                      ? []
-                      : [[`today-clause${n}`, fact(clauseOf(said), ...cited)]]),
-                    [
-                      `today-question${n}`,
-                      fact(clauseOf(said).replace(/[.!?]$/, ""), ...cited),
-                    ],
-                  ];
-                }),
-              ),
-              ...(belief
-                ? {
-                    belief: fact(
-                      belief,
-                      person.id,
-                      `question:${stand.question}`,
-                    ),
-                    "belief-sentence": fact(
-                      `${belief.charAt(P.zero).toLocaleUpperCase("en-US")}${belief.slice(P.one)}.`,
-                      person.id,
-                      `question:${stand.question}`,
-                    ),
-                    [plan.join!]: fact("yes", person.id),
-                  }
-                : {}),
-              ...(plan.shape === "question-first"
-                ? { "asks-question": fact("yes", `question:${stand.question}`) }
-                : {}),
-            },
-            moves: [
-              ...(turns ? [move("turn")] : []),
-              ...shape.moves.flatMap((name) =>
-                name === "figure"
-                  ? figureMoves
-                  : [name === "ask" ? askMove(plan.join) : move(name)],
-              ),
-            ],
-          };
-        }),
-      ]);
-    },
+    theme: () => themeDraftsOf(core, speaker, c),
     people: () => [
       {
         key: "people",
@@ -2882,6 +3150,151 @@ export function planSpeech(
         facts: { ...draft.facts, ...closeFacts() } as Facts,
       })),
   };
+  return sections;
+}
+
+/**
+ * Plan a speech of one kind from its outline row and the world: the one
+ * planner for the President's, a governor's and a mayor's address.
+ */
+export function planSpeech(
+  core: CoreState,
+  kindKey: string,
+  speaker: OutlineSpeaker,
+): SpeechPlan {
+  const {
+    told,
+    row,
+    kind,
+    level,
+    person,
+    voice,
+    federal,
+    country,
+    official,
+    local,
+    theme,
+    firstYear,
+    addressKind,
+    crisis,
+    response,
+    story,
+    pointStands,
+    asks,
+    turnsTo,
+    themeLead,
+    themeName,
+    themeCited,
+    topicOf,
+    points,
+    themeFacts,
+    kindFact,
+  } = readAddress(core, kindKey, speaker);
+  const move = (
+    role: string,
+    options: { topic?: string; required?: boolean } = {},
+  ) => openingMove(kind, voice, role, { ...options, addressKind });
+  // An ask whose belief is folded into it is said by the bank's folded cores
+  // alone, else a plain core would do and the belief would go unsaid (rule 38).
+  const askMove = (join: string | null) => {
+    const plain = move("ask");
+    if (join !== "belief-folded" || !plain) return plain;
+    const folded = plain.bank.parts.core.variants.filter((variant) =>
+      variant.requiresFacts?.includes("belief-folded"),
+    );
+    return folded.length
+      ? {
+          ...plain,
+          bank: {
+            ...plain.bank,
+            parts: { ...plain.bank.parts, core: { variants: folded } },
+          },
+        }
+      : plain;
+  };
+  const party = (official?.party ?? "").toLowerCase();
+  const creedFacts: Facts = official
+    ? {
+        [`party-${PARTY_FACT[party] ?? "other"}`]: fact("yes", official.id),
+      }
+    : {};
+  const asides = asidesOf(person, row.asides);
+  const ownRecord = row.ownRecord && !firstYear;
+
+  // Each point's plan: its shape (one per point, in the order the speaker's
+  // traits pull), the speaker's side, how that side describes the question
+  // today, the belief's family and pole, its figure and its name's number.
+  const order = shapeOrder(person);
+  // The beliefs this speaker said before, in earlier addresses, then here.
+  const beliefsSaid = earlierAddressPieces(core, person.id);
+  const beliefsHere = new Set<string>();
+  // What the points planned so far say, in order.
+  const spoken: string[] = [];
+  const shapesUsed = new Set<string>();
+  const planned = plannedPointsOf(
+    core,
+    { kind, person, pointStands, topicOf, voice },
+    {
+      order,
+      beliefsSaid,
+      beliefsHere,
+      spoken,
+      shapesUsed,
+    },
+  );
+  const tag = { said: false };
+  const closing = turnsTo[P.zero] ?? themeLead ?? pointStands[P.zero];
+  // The hour the kind is given at (rule 141): a close says good night only
+  // in the evening.
+  const closeHour: Facts =
+    row.minute && dayParts(row.minute.value).includes("evening")
+      ? { evening: fact("yes", `${kindKey}:minute`) }
+      : {};
+  const bodyHold: Facts = federal ? {} : bodyHoldFacts(core, level, speaker);
+  const closeFacts = (): Facts =>
+    closeFactsOf({
+      closing,
+      planned,
+      pointStands,
+      theme,
+      asks,
+      spoken,
+      closeHour,
+      bodyHold,
+      tag,
+    });
+  const crisisDraft = (topic: string): Draft =>
+    crisisDraftOf(core, speaker, topic, { country, move, tag });
+  const hurtOrder = (drafts: Draft[]): Draft[] =>
+    hurtOrderOf(drafts, { crisis, response, turnsTo, themeName, move });
+  const sections = sectionsOf(core, speaker, {
+    addressKind,
+    country,
+    crisis,
+    federal,
+    kind,
+    level,
+    local,
+    person,
+    pointStands,
+    response,
+    row,
+    story,
+    theme,
+    themeFacts,
+    topicOf,
+    turnsTo,
+    move,
+    askMove,
+    closeFacts,
+    closing,
+    creedFacts,
+    crisisDraft,
+    hurtOrder,
+    ownRecord,
+    planned,
+    tag,
+  });
   // The story's order where it has one for this level, else the kind's own.
   const sectionOrder =
     (story.sections as readonly Section[] | null) ?? row.sections;
@@ -2897,96 +3310,29 @@ export function planSpeech(
     )
     // A section the bank has no piece for (one whose pieces carry nothing)
     // is left out before the paragraphs are counted, so the greeting joins
-    // what is actually said next.
-    .filter((draft) => draft.moves.some(Boolean));
+    // what is actually said next. A kind the one outline planner tells keeps
+    // every block: its words live in the outline bank, and the blocks carry
+    // the facts it says (the Story lead, Nov 24: with the old inaugural
+    // pieces deleted, every inaugural lost its stand).
+    .filter((draft) => told || draft.moves.some(Boolean));
   // The world's names and the theme's subjects, which every part may say.
   // A governor or a mayor says the place by name and the theme in words
   // (the words lead, Nov 12: "this state" eight times, the state's name never).
   // stopgapId: SG-WORDS-local-address-conditions
   if (!federal) markWordsStopgap("SG-WORDS-local-address-conditions");
-  const realm = federal
-    ? null
-    : level === "state"
-      ? coreStateName((speaker.jurisdiction ?? "").replace(/^US-/, ""))
-      : (local?.realmName ??
-        (core.placeMetadata.placeName ?? "").split(",")[P.zero]?.trim() ??
-        null);
-  const world: Facts = federal
-    ? worldFacts(core, person, kind, voice, country, points)
-    : {
-        ...(realm
-          ? {
-              // "the Northern Mariana Islands" where a sentence needs the
-              // article (rule 49); the bare name for a vocative or a title.
-              "realm-name": fact(
-                level === "state" ? stateInSentence(realm) : realm,
-                speaker.jurisdiction ?? person.id,
-              ),
-              "realm-bare": fact(realm, speaker.jurisdiction ?? person.id),
-            }
-          : {}),
-        ...(local?.body ? { body: fact(local.body, local.officeId) } : {}),
-        // A greeting says the body by the name its record gives it.
-        ...(local?.bodyName
-          ? { "body-name": fact(local.bodyName, local.officeId) }
-          : {}),
-        // What the body passes, as it names it: a legislature's bills, a
-        // town's or a county's ordinances (the one form rule, by the office
-        // kind on the record; line rule body-named-as-place-names-it).
-        measure: fact(
-          OUTLINES.measureWords[
-            formKindOf(
-              local
-                ? (officeKindOf(core, local.officeId) ?? "")
-                : "legislature-lower",
-            )
-          ]!,
-          local?.officeId ?? speaker.jurisdiction ?? person.id,
-        ),
-        ...(local?.officeTitle
-          ? { "office-title": fact(local.officeTitle, local.officeId) }
-          : {}),
-        ...(themeName && themeCited.length
-          ? { "theme-name": fact(themeName, ...themeCited) }
-          : {}),
-      };
-  // One paragraph per block; the block after the greeting joins its
-  // paragraph, so the greeting never stands alone, and the close joins the
-  // one before it.
-  let part = -P.one;
-  // The body is named in the greeting and in the first ask; after that it is
-  // "this council" or "this board" (words lead, Nov 14, rule 40: never named
-  // five times).
-  const bodyAgain = local?.body
-    ? fact(
-        `this ${local.body.replace(/^the /, "")}`,
-        local.officeId as EntityId,
-      )
-    : null;
-  let bodyAsked = false;
-  const blocks = drafts.map((draft, at): Block => {
-    // No paragraph of one aside: what the speaker believes joins the
-    // greeting's paragraph, and the hope joins the close.
-    const before = drafts[at - P.one]?.key;
-    const together =
-      draft.joins ||
-      before === "salutation" ||
-      (draft.key === "creed" && before === "occasion") ||
-      (draft.key === "close" && before === "hope");
-    if (!together || part < P.zero) part += P.one;
-    const { joins, ...rest } = draft;
-    void joins;
-    const facts = Object.fromEntries(
-      Object.entries({ ...world, ...kindFact, ...rest.facts }).filter(
-        ([, value]) => value !== undefined,
-      ),
-    ) as Facts;
-    if (bodyAgain && facts["body-name"] && draft.key !== "salutation") {
-      if (bodyAsked) facts["body-name"] = bodyAgain;
-      else if (draft.key.startsWith("point-")) bodyAsked = true;
-    }
-    return { ...rest, facts, part };
+  const world = worldNamesOf(core, speaker, {
+    federal,
+    level,
+    person,
+    kind,
+    voice,
+    country,
+    local,
+    points,
+    themeName,
+    themeCited,
   });
+  const blocks = blocksOf(drafts, world, kindFact, local);
   return {
     blocks,
     addressKind,
@@ -3026,7 +3372,7 @@ function spanAgrees(topic: string, facts: Facts): boolean {
 }
 
 /** The speaker's serving term by its id, with its end, from the offices engine. */
-function termOf(
+export function termOf(
   core: CoreState,
   termId: string | null,
 ): { term?: { id: string; endDate: string } } {

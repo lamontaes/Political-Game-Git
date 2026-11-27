@@ -1,11 +1,9 @@
 import { corePlaceByJurisdictionId } from "./place-lookup";
-import {
-  HOUSEHOLD_MIX_META,
-  HOUSEHOLD_MIX_ROWS,
-} from "./household-mix.generated";
+import mixData from "./data/household-mix.json" with { type: "json" };
 import type { EntityId } from "./kernel/brands";
 
-export { HOUSEHOLD_MIX_META };
+/** Where the counts came from, and how many geographies the survey gave and withheld. */
+export const HOUSEHOLD_MIX_META = mixData.meta;
 
 /** The shapes a town's households are drawn in. */
 export type HouseholdShape =
@@ -38,16 +36,10 @@ let table: ReadonlyMap<string, readonly number[]> | null = null;
 function rows(): ReadonlyMap<string, readonly number[]> {
   if (table) return table;
   const map = new Map<string, readonly number[]>();
-  for (const row of HOUSEHOLD_MIX_ROWS.split(";")) {
-    const colon = row.indexOf(":");
-    map.set(
-      row.slice(0, colon),
-      row
-        .slice(colon + 1)
-        .split(",")
-        .map(Number),
-    );
-  }
+  for (const [geography, ...counts] of mixData.rows as readonly (
+    string | number
+  )[][])
+    map.set(geography as string, counts as number[]);
   return (table = map);
 }
 

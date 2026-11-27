@@ -1,0 +1,29 @@
+{
+  "id": "candidate-calls-the-mailer-deceit",
+  "kind": "voice",
+  "summary": "A candidate answers a mailer by saying plainly that it tells voters something false about them.",
+  "realLife": "A Florida school board candidate called an opposing mailer deceit and said it was tricking voters into thinking she had said something she had not.",
+  "sources": [
+    "Flagler Live via Yahoo, Flagler school board candidate targeted by outside attack ads and mailers: https://www.yahoo.com/now/straight-deceit-flagler-school-board-090010774.html"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["issue", "opponent"],
+  "gates": [],
+  "weights": {
+    "rival-word": 0.8
+  },
+  "inGame": "the player's reply moves (deny, disagree, confront) in rival-word, the views engine's record of what the player actually holds on the issue",
+  "usedBy": ["rival-word"],
+  "turns": [
+    {
+      "turn": "The mailer is true and the candidate says so",
+      "pull": "the player's own record",
+      "writes": "a confess reply and a lost voter"
+    },
+    {
+      "turn": "The candidate says nothing and lets it run",
+      "pull": "a cautious trait",
+      "writes": "a late news story"
+    }
+  ]
+}
