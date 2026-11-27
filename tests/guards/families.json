@@ -48,6 +48,7 @@
     "src/core2/gov-rules/person-identity.ts",
     "src/core2/government-level.ts",
     "src/core2/fee-levels.ts",
+    "src/core2/retain-log.ts",
     "src/core2/bug-report.test.ts",
     "src/core2/condition-pack.test.ts",
     "src/core2/factory-core-v1.test.ts",
@@ -84,7 +85,8 @@
         "src/core2/modules/national-opinion.ts",
         "src/core2/modules/serve-asks.ts",
         "src/core2/filing-rule-office.ts",
-        "src/core2/voting-module-id.ts"
+        "src/core2/voting-module-id.ts",
+        "src/core2/modules/candidacy-constants.ts"
       ],
       "paths": [
         "src/core2/modules/elections.ts",
@@ -118,6 +120,7 @@
         "src/core2/gov-test-clock.ts",
         "src/core2/campaign-data.ts",
         "src/core2/modules/national-opinion.ts",
+        "src/core2/modules/candidacy-constants.ts",
         "src/core2/at-large-choices.test.ts",
         "src/core2/at-large-race.test.ts",
         "src/core2/ballot-dead-candidate.test.ts",
@@ -470,7 +473,9 @@
         "src/core2/law-reach/applied.ts",
         "src/core2/modules/federal-courts.ts",
         "src/core2/laws-in-force.ts",
-        "src/core2/modules/police-patrol.ts"
+        "src/core2/modules/police-patrol.ts",
+        "src/core2/outcome-web-reach.ts",
+        "src/core2/outcome-web-model.ts"
       ],
       "paths": [
         "src/core2/modules/laws.ts",
@@ -500,6 +505,8 @@
         "src/core2/jobs-web.ts",
         "src/core2/term-read.ts",
         "src/core2/modules/federal-courts.ts",
+        "src/core2/law-reach/group-a-records-constants.ts",
+        "src/core2/law-reach/group-b-store-constants.ts",
         "src/core2/aide-pay-market.test.ts",
         "src/core2/amounts-read-the-law.test.ts",
         "src/core2/benefits-paid-at-the-close.test.ts",
@@ -677,7 +684,8 @@
         "src/core2/modules/regional.ts",
         "src/core2/macro-model.ts",
         "src/core2/work-spans-v1.ts",
-        "src/core2/town-labor-pay.ts"
+        "src/core2/town-labor-pay.ts",
+        "src/core2/modules/macro-constants.ts"
       ],
       "paths": [
         "src/core2/shared-time.ts",
@@ -726,6 +734,7 @@
         "src/core2/cost-of-living.ts",
         "src/core2/living-cost-split.ts",
         "src/core2/pay-by-quarter.ts",
+        "src/core2/modules/macro-constants.ts",
         "src/core2/away-workers-turnover.test.ts",
         "src/core2/cannabis-sales-law.test.ts",
         "src/core2/civic-inputs-clerk-staff.test.ts",
@@ -794,7 +803,11 @@
         "src/core2/home-distance.ts",
         "src/core2/life-stake-rule.ts",
         "src/core2/coverage-module-id.ts",
-        "src/core2/modules/promises.ts"
+        "src/core2/modules/promises.ts",
+        "src/core2/modules/views-constants.ts",
+        "src/core2/sitting-closeness.ts",
+        "src/core2/trait-lean.ts",
+        "src/core2/counted-income-fifth.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -894,6 +907,9 @@
         "src/core2/life-stakes.ts",
         "src/core2/coverage-module-id.ts",
         "src/core2/modules/promises.ts",
+        "src/core2/housing-construction-constants.ts",
+        "src/core2/modules/views-constants.ts",
+        "src/core2/residents-constants.ts",
         "src/core2/attack-grudge.test.ts",
         "src/core2/audit-18-data.test.ts",
         "src/core2/back-to-the-counts.test.ts",
@@ -1098,7 +1114,8 @@
         "src/core2/game-start.ts",
         "src/core2/output-numbers.ts",
         "src/core2/output-number-readers.ts",
-        "src/core2/player-warm-up.ts"
+        "src/core2/player-warm-up.ts",
+        "src/core2/national-disaster-record.ts"
       ],
       "paths": [
         "src/core2/modules/world.ts",
@@ -1123,6 +1140,7 @@
         "src/core2/modules/national-events.ts",
         "src/core2/national-disaster-event.ts",
         "src/core2/modules/climate.ts",
+        "src/core2/national-disaster-record.ts",
         "src/core2/agreement-jobs-free.test.ts",
         "src/core2/appointment-names-appointer.test.ts",
         "src/core2/appointment-record-appointee.test.ts",
@@ -1210,6 +1228,7 @@
         "src/core2/press-*.ts",
         "src/core2/outcome-news.ts",
         "src/core2/modules/news-listeners.ts",
+        "src/core2/outcome-news-constants.ts",
         "src/core2/law-knowledge.test.ts",
         "src/core2/modules/news.traits.test.ts",
         "src/core2/modules/press.traits.test.ts",

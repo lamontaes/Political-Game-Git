@@ -18,7 +18,7 @@ import type { ModuleTable } from "./module-state";
 import { isoDateFromParts } from "./kernel/dates";
 import { townOutsideOf } from "./opening-outside-market";
 import { placeStateKey } from "./place-map";
-import { transferCash } from "./world-transfer";
+import { transferCash } from "./budgets-treasury";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 export interface PropertyTaxTerms {

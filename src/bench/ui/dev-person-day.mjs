@@ -35,7 +35,7 @@ function dayNode(day, labels) {
   );
 }
 
-export const slots = {
+const slots = {
   async person({ personId, labels, send }) {
     return dayNode(
       await send(`person-day?id=${encodeURIComponent(personId)}`),

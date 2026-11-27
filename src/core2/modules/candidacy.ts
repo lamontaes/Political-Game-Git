@@ -51,7 +51,7 @@ import { CAMPAIGNS_MODULE_ID } from "./campaigns";
 import { candidatePlatform } from "../campaign-stances";
 import { contestPositions, standReasons } from "../contest-positions";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
-import type { OfficeInput } from "../offices-local";
+import type { OfficeInput } from "./offices";
 import {
   announceCandidacy,
   withdrawFiling,
@@ -86,15 +86,15 @@ import { DEFAULT_DRIVES_DATA } from "./drives";
 import { countedChildrenOf, residentFacts } from "./residents";
 import { countedResidents, type CountedVoter } from "../electorate";
 import { presidentSide, tideAgainstPresident } from "../electorate-inputs";
-import { partySide } from "../appointments";
+import { partySide } from "./offices";
 import { approvalGapPoints } from "./national-opinion";
-import { revolvingDoorFor } from "../law-reach/group-a-voting";
+import { revolvingDoorFor } from "../laws-in-force";
 import { countedVoters, seatLastMargin } from "./voting";
 import { normalCdf } from "../kernel/normal";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-data";
-
-export const CANDIDACY_MODULE_ID = "candidacy";
+import { CANDIDACY_MODULE_ID } from "./candidacy-constants";
+export { CANDIDACY_MODULE_ID };
 export const CANDIDACY_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
 const STOPGAP = "SG-P15-candidacy-weights";
 

@@ -26,7 +26,7 @@ import {
   racesOf,
   type RaceRow,
 } from "../core2/modules/voting";
-import { partySide } from "../core2/appointments";
+import { partySide } from "../core2/modules/offices";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "m2-10-check";

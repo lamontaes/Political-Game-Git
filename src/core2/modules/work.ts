@@ -9,7 +9,7 @@ import {
 } from "../kernel/dates";
 import { parameter, PARAMETERS } from "../parameters";
 import { runWorkPayrollDay } from "../work-payroll-dispatch";
-import { FinanceReadGuard } from "../finance-plan";
+import { FinanceReadGuard } from "../budgets-treasury";
 
 import { careNeedOf } from "./health";
 import type { Parameter } from "../parameters";
@@ -28,8 +28,6 @@ import type {
   WorkData,
   WorkScheduleSlot,
 } from "../types";
-
-export { DEFAULT_WORK_DATA } from "../work-data";
 
 const remainder = (value: number, period: number) =>
   ((value % period) + period) % period;

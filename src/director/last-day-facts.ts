@@ -11,7 +11,7 @@ import type { NewsFact } from "./life-news";
 import { organizationName } from "./words";
 
 /** The situation type that reads these facts. */
-export const LAST_DAY_TYPE = "last-day";
+const LAST_DAY_TYPE = "last-day";
 
 export function lastDayFacts(
   core: Readonly<CoreState>,
