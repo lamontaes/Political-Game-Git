@@ -1386,14 +1386,19 @@ function holdCouncilBudgetHearing(
   });
 }
 
-function councilBudget(
+/** The chambers that vote a government's budget: what `budgetChambers` returns when it finds them. */
+type BudgetChambers = NonNullable<ReturnType<typeof budgetChambers>>;
+
+/**
+ * The bill a council's budget vote is held on, with its provisions, or null
+ * where no section is left to vote on (last year's budget carries by rule).
+ */
+function budgetBillFor(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
-): BudgetRow | null {
-  const chambers = budgetChambers(api, gov);
-  if (!chambers || !chambers.chambers.every((c) => members(api, c).length))
-    return null;
+  chambers: BudgetChambers,
+): { bill: BillRow; provisions: Provision[] } | null {
   // The bill the hearing was held on is the bill voted; with no hearing held
   // (a year inside its hearing lead when the world opened) it is drafted now.
   const heard = budgetHearingOf(api, gov.id, fy);
@@ -1415,78 +1420,104 @@ function councilBudget(
       sponsorId: sections!.sponsor,
       provisions,
     });
-  // Each member's duty to adopt a budget sits beside their views on its
-  // changes; every chamber must pass it (the U.S. Senate by cloture first).
-  const player =
-    snapshotExplicitControlV1(api.state).personId ??
-    (api.state as CoreState).playerId;
-  const roll = (kept: readonly Provision[]) => {
-    const trial = { ...bill, provisions: kept } as BillRow;
-    const tallies: {
-      chamber: string;
-      title: string;
-      yes: number;
-      no: number;
-    }[] = [];
-    const rows: ModuleRow[] = [];
-    for (const chamber of chambers.chambers) {
-      let yes = 0;
-      let no = 0;
-      const against: string[] = [];
-      for (const member of members(api, chamber)) {
-        const key = memberKey(member);
-        const position = positionOn(api, trial, key);
-        const total = budgetTotal(position);
-        // A member's cast vote stands (the player's press, or their own
-        // position left to the character); the player is never voted for, so
-        // a player who cast nothing abstains, as on an override.
-        const chosen = table(api, "choices").get(
-          `${bill.id}|${key}`,
-        ) as unknown as
-          { vote: "yes" | "no" | "abstain" | "absent" } | undefined;
-        const vote =
-          chosen?.vote ??
-          (key === player
-            ? "abstain"
-            : total > 0
-              ? "yes"
-              : total < 0
-                ? "no"
-                : "abstain");
-        if (vote === "yes") yes += 1;
-        else if (vote === "no") {
-          no += 1;
-          against.push(key);
-        }
-        rows.push({
-          id: `vote:${bill.id}:${key}`,
-          billId: bill.id,
-          memberId: key,
-          chamber,
-          vote,
-          position: { ...position, total },
-        } as unknown as ModuleRow);
+  return { bill, provisions };
+}
+
+/** One voting round on a budget bill's kept changes: each chamber's tally, the member vote rows and the members against. */
+interface BudgetRoll {
+  adopted: boolean;
+  tallies: { chamber: string; title: string; yes: number; no: number }[];
+  rows: ModuleRow[];
+  against: string[];
+}
+
+/**
+ * One round of the budget vote. Each member's duty to adopt a budget sits
+ * beside their views on its changes; every chamber must pass it (the U.S.
+ * Senate by cloture first).
+ */
+function budgetRoll(
+  api: CoreAPI,
+  bill: BillRow,
+  chambers: BudgetChambers,
+  kept: readonly Provision[],
+  player: string | null | undefined,
+): BudgetRoll {
+  const trial = { ...bill, provisions: kept } as BillRow;
+  const tallies: BudgetRoll["tallies"] = [];
+  const rows: ModuleRow[] = [];
+  for (const chamber of chambers.chambers) {
+    let yes = 0;
+    let no = 0;
+    const against: string[] = [];
+    for (const member of members(api, chamber)) {
+      const key = memberKey(member);
+      const position = positionOn(api, trial, key);
+      const total = budgetTotal(position);
+      // A member's cast vote stands (the player's press, or their own
+      // position left to the character); the player is never voted for, so
+      // a player who cast nothing abstains, as on an override.
+      const chosen = table(api, "choices").get(
+        `${bill.id}|${key}`,
+      ) as unknown as { vote: "yes" | "no" | "abstain" | "absent" } | undefined;
+      const vote =
+        chosen?.vote ??
+        (key === player
+          ? "abstain"
+          : total > 0
+            ? "yes"
+            : total < 0
+              ? "no"
+              : "abstain");
+      if (vote === "yes") yes += 1;
+      else if (vote === "no") {
+        no += 1;
+        against.push(key);
       }
-      // The chamber's own name from its body record (House, Senate, Assembly...), never its key.
-      const named = bodyOf(api, chamber);
-      tallies.push({
+      rows.push({
+        id: `vote:${bill.id}:${key}`,
+        billId: bill.id,
+        memberId: key,
         chamber,
-        title: named?.bodyName ?? named?.governmentName ?? "",
-        yes,
-        no,
-      });
-      const cloture =
-        chamber === FEDERAL_SENATE &&
-        yes <
-          Math.ceil(
-            members(api, chamber).length *
-              campaignParameter("senateClotureShare"),
-          );
-      if (yes <= no || cloture)
-        return { adopted: false, tallies, rows, against };
+        vote,
+        position: { ...position, total },
+      } as unknown as ModuleRow);
     }
-    return { adopted: true, tallies, rows, against: [] as string[] };
-  };
+    // The chamber's own name from its body record (House, Senate, Assembly...), never its key.
+    const named = bodyOf(api, chamber);
+    tallies.push({
+      chamber,
+      title: named?.bodyName ?? named?.governmentName ?? "",
+      yes,
+      no,
+    });
+    const cloture =
+      chamber === FEDERAL_SENATE &&
+      yes <
+        Math.ceil(
+          members(api, chamber).length *
+            campaignParameter("senateClotureShare"),
+        );
+    if (yes <= no || cloture) return { adopted: false, tallies, rows, against };
+  }
+  return { adopted: true, tallies, rows, against: [] as string[] };
+}
+
+/** Vote the budget, and negotiate it with its opponents until it passes or no change is left. */
+function negotiateBudget(
+  api: CoreAPI,
+  bill: BillRow,
+  chambers: BudgetChambers,
+  provisions: readonly Provision[],
+  player: string | null | undefined,
+): {
+  kept: readonly Provision[];
+  result: BudgetRoll;
+  halved: Map<string, number>;
+  dropped: string[];
+} {
+  const roll = (kept: readonly Provision[]) =>
+    budgetRoll(api, bill, chambers, kept, player);
   // A rejected budget is negotiated, not abandoned: the leaders meet its
   // opponents in the failing chamber halfway on the change they object to
   // most, halving it, and vote again; a change halved as far as the
@@ -1525,6 +1556,30 @@ function councilBudget(
     result = roll(kept);
   }
   if (!kept.length) result = { ...result, adopted: false };
+  return { kept, result, halved, dropped };
+}
+
+function councilBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): BudgetRow | null {
+  const chambers = budgetChambers(api, gov);
+  if (!chambers || !chambers.chambers.every((c) => members(api, c).length))
+    return null;
+  const filed = budgetBillFor(api, gov, fy, chambers);
+  if (!filed) return null;
+  const { bill, provisions } = filed;
+  const player =
+    snapshotExplicitControlV1(api.state).personId ??
+    (api.state as CoreState).playerId;
+  const { kept, result, halved, dropped } = negotiateBudget(
+    api,
+    bill,
+    chambers,
+    provisions,
+    player,
+  );
   for (const row of result.rows) table(api, "votes").put(row);
   // Each chamber's roll call on the budget is public record the press reads,
   // like any bill's.
