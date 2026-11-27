@@ -5,7 +5,11 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { describe, expect, it } from "vitest";
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
-import { HOUSING_MODULE, setRightToCounsel } from "./modules/housing";
+import {
+  EVICTION_STEPS,
+  HOUSING_MODULE,
+  setRightToCounsel,
+} from "./modules/housing";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
 import { transferCash } from "./world-transfer";
@@ -88,7 +92,7 @@ function input(usps: string): CoreInput {
 describe("eviction follows the place's steps", () => {
   it("serves notice once rent owed outweighs the landlord's patience after the grace period, files after the cure deadline, and removes only after judgment", () => {
     const usps = "TX",
-      law = housingData.eviction[usps];
+      law = EVICTION_STEPS[usps]!;
     const core = createLifeCore(input(usps), {
         data: worldCoreData(),
         modules: [HOUSING_MODULE],

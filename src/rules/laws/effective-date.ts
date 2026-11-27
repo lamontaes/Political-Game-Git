@@ -1,6 +1,3 @@
-/** Standalone date rules for statutes whose enacted records supply no date. */
-import { LAWS_PARAMETERS } from "./parameters";
-
 export type DateValue = string;
 
 type YearlyDay =
@@ -54,26 +51,6 @@ export type StatuteEffectiveRule =
 export interface StatuteDateContext {
   readonly sessionEnds?: (year: number) => readonly DateValue[];
   readonly finalPassageAt?: () => DateValue | null;
-}
-
-type EffectiveDateBasis =
-  "enacted-date" | "state-rule" | "estimated-state-rule" | "game-default";
-
-interface EnactmentDateFacts {
-  readonly resolvedAt: DateValue;
-  readonly finalPassageAt?: DateValue | null;
-  readonly effectiveAt?: DateValue | null;
-  readonly effectiveDateBasis?: "source-default" | "game-default";
-  readonly gameProfile?: { readonly version?: string; readonly days: number };
-  readonly stateKey?: string | null;
-  readonly stateRule?: StatuteEffectiveRule | null;
-  readonly estimatedStateRule?: boolean;
-  readonly context?: StatuteDateContext;
-}
-
-interface OperativeDate {
-  readonly date: DateValue;
-  readonly basis: EffectiveDateBasis;
 }
 
 export function stateStatuteOperativeAt(

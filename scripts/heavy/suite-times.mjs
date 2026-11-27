@@ -1,4 +1,3 @@
-/* global console, process */
 /**
  * Adds up the heavy set's test times: reads every vitest JSON report in a
  * folder (one a shard) and prints, as a Markdown table, the whole run's time,

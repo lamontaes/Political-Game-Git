@@ -127,14 +127,3 @@ export interface ProseRecord {
    */
   readonly contextRevision: string;
 }
-
-/** A realized line seen in a transcript, linked back to its template. */
-interface ProseRealizationRecord {
-  /** The template this came from, or null when no template could be matched. */
-  readonly templateId: string | null;
-  readonly text: string;
-  /** Stable digest of the realized text, for comparison across runs. */
-  readonly textHash: string;
-  readonly seedKey: string;
-  readonly beatOrdinal: number;
-}
