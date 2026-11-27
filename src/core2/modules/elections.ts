@@ -1886,6 +1886,11 @@ export function filingsInContest(
   ]) as unknown as FilingRow[];
 }
 
+/** Every contest, as the records stand (the calendar, filing and the count read them one by one). */
+export function allContests(api: CoreAPI): readonly ContestRow[] {
+  return table(api, "contests").rows() as unknown as ContestRow[];
+}
+
 /** Every filing a person has made or announced, in any status. */
 export function filingsOfPerson(
   api: CoreAPI,

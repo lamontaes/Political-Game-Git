@@ -31,6 +31,15 @@ import path from "node:path";
 import ts from "typescript";
 
 const check = process.argv.includes("--check");
+/** `--elections`: the same rewrite for the elections module's tables (contests, filings) onto the elections doors. */
+const ELECTIONS_MODE = process.argv.includes("--elections");
+const MODULE_ID = ELECTIONS_MODULE_PATTERN();
+function ELECTIONS_MODULE_PATTERN(): RegExp {
+  return ELECTIONS_MODE
+    ? /^ELECTIONS(_MODULE(_ID)?)?$/
+    : /^OFFICES_MODULE(_ID)?$/;
+}
+const DOOR_MODULE = ELECTIONS_MODE ? "elections" : "offices";
 const files = process.argv.slice(2).filter((a) => !a.startsWith("--"));
 
 type Door = (api: string, args: string[]) => string;
@@ -47,6 +56,41 @@ function doorFor(
   const text = (e: ts.Expression) => e.getText(sf);
   const list = (e: ts.Expression | undefined) =>
     e && ts.isArrayLiteralExpression(e) ? e.elements : null;
+  if (ELECTIONS_MODE) {
+    if (table === "contests" && method === "get" && args.length === 1)
+      return {
+        name: "contestOf",
+        make: (api, a) => `contestOf(${api}, ${a[0]})`,
+      };
+    if (table === "contests" && method === "rows" && args.length === 0)
+      return { name: "allContests", make: (api) => `allContests(${api})` };
+    if (table === "filings" && method === "get" && args.length === 1)
+      return {
+        name: "filingOf",
+        make: (api, a) => `filingOf(${api}, ${a[0]})`,
+      };
+    if (
+      table === "filings" &&
+      method === "query" &&
+      args.length === 2 &&
+      ts.isStringLiteral(args[0]!) &&
+      ts.isArrayLiteralExpression(args[1]!) &&
+      args[1]!.elements.length === 1
+    ) {
+      const key = args[1]!.elements[0]!.getText(sf);
+      if (args[0]!.text === "byPerson")
+        return {
+          name: "filingsOfPerson",
+          make: (api) => `filingsOfPerson(${api}, ${key})`,
+        };
+      if (args[0]!.text === "byContest")
+        return {
+          name: "filingsInContest",
+          make: (api) => `filingsInContest(${api}, ${key})`,
+        };
+    }
+    return null;
+  }
   if (method === "get" && args.length === 1) {
     const name = {
       offices: "officeById",
@@ -152,9 +196,7 @@ function moduleStateLocal(
             ts.isPropertyAccessExpression(d.initializer.expression) &&
             d.initializer.expression.name.text === "moduleState" &&
             ts.isIdentifier(d.initializer.expression.expression) &&
-            /^OFFICES_MODULE(_ID)?$/.test(
-              d.initializer.arguments[0]?.getText(sf) ?? "",
-            )
+            MODULE_ID.test(d.initializer.arguments[0]?.getText(sf) ?? "")
           )
             return d.initializer;
         }
@@ -188,11 +230,12 @@ function officesTable(
     recv.expression.name.text === "moduleState" &&
     ts.isIdentifier(recv.expression.expression) &&
     recv.arguments.length === 1 &&
-    /^OFFICES_MODULE(_ID)?$/.test(recv.arguments[0]!.getText(sf))
+    MODULE_ID.test(recv.arguments[0]!.getText(sf))
   )
     return { api: recv.expression.expression.text, table: arg.text };
   if (
     ts.isIdentifier(recv.expression) &&
+    !ELECTIONS_MODE &&
     recv.expression.text === "offices" &&
     recv.arguments.length === 1 &&
     ts.isIdentifier(recv.arguments[0]!)
@@ -334,9 +377,7 @@ function dropUnusedAliases(file: string, source: string): string {
         ts.isCallExpression(d.initializer) &&
         ts.isPropertyAccessExpression(d.initializer.expression) &&
         d.initializer.expression.name.text === "moduleState" &&
-        /^OFFICES_MODULE(_ID)?$/.test(
-          d.initializer.arguments[0]?.getText(sf) ?? "",
-        )
+        MODULE_ID.test(d.initializer.arguments[0]?.getText(sf) ?? "")
       ) {
         const name = d.name.text;
         let uses = 0;
@@ -374,7 +415,7 @@ function fixImports(
   const rel = (() => {
     const r = path.posix.relative(
       path.posix.dirname(file),
-      "src/core2/modules/offices",
+      `src/core2/modules/${DOOR_MODULE}`,
     );
     return r.startsWith(".") ? r : `./${r}`;
   })();
@@ -382,7 +423,7 @@ function fixImports(
     (s): s is ts.ImportDeclaration =>
       ts.isImportDeclaration(s) &&
       ts.isStringLiteral(s.moduleSpecifier) &&
-      /(^|\/)offices$/.test(s.moduleSpecifier.text) &&
+      new RegExp(`(^|/)${DOOR_MODULE}$`).test(s.moduleSpecifier.text) &&
       !!s.importClause?.namedBindings &&
       ts.isNamedImports(s.importClause.namedBindings) &&
       !s.importClause.isTypeOnly,
