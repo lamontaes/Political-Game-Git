@@ -19,7 +19,8 @@ const TEST_NAME = /\.(?:test|spec|browser|node-test)\.[cm]?[jt]sx?$/;
 const TEST_FOLDER = /(?:^|\/)(?:__tests__|__snapshots__)\//;
 const CODE = /\.[cm]?[jt]sx?$/;
 const RUNNER_IMPORT =
-  /(?:\bfrom\s*|\bimport\s*\(?\s*|\brequire\(\s*)["'](?:vitest|node:test)["']/;
+  /(?:\bfrom\s*|\bimport\s*\(?\s*|\brequire\(\s*)["'](?:vitest(?:\/[\w-]+)?|node:test)["']/;
+const TEST_SETTINGS = /(?:^|\/)vitest\.config\.[cm]?[jt]s$/;
 
 export type Finding = { file: string; reason: string };
 
@@ -31,6 +32,8 @@ export function gameOnlyFinding(
   if (!GAME_ROOTS.test(file)) return null;
   if (TEST_NAME.test(file))
     return { file, reason: "a test file belongs under tests/" };
+  if (TEST_SETTINGS.test(file))
+    return { file, reason: "test runner settings belong under tests/" };
   if (TEST_FOLDER.test(file))
     return { file, reason: "a test folder belongs under tests/" };
   if (CODE.test(file) && RUNNER_IMPORT.test(read()))

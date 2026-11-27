@@ -47,6 +47,11 @@ const knownHelpers = [
   "src/director/reply-set-check.ts",
 ];
 const supportPath = (f) => "tests/support/" + p.basename(f);
+// The director's own test runner settings sit beside its tests, not in the game.
+const testSettings = [
+  "src/director/vitest.config.ts",
+  "src/director/tsconfig.json",
+];
 const importsVitest = (f) =>
   /\.[cm]?[jt]sx?$/.test(f) &&
   !test.test(f) &&
@@ -56,7 +61,7 @@ const importsVitest = (f) =>
 const moves = new Map();
 for (const f of tracked) {
   if (!f.startsWith("src/") || !fs.existsSync(f)) continue;
-  if (test.test(f)) moves.set(f, "tests/" + f);
+  if (test.test(f) || testSettings.includes(f)) moves.set(f, "tests/" + f);
   else if (knownHelpers.includes(f) || importsVitest(f))
     moves.set(f, supportPath(f));
 }
@@ -300,8 +305,22 @@ const config = new Map([
     [['"src/core2/**/*.test.ts"', '"tests/src/core2/**/*.test.ts"']],
   ],
   [
+    "scripts/core2/tooling/vitest.config.ts",
+    [['"src/core2/**/*.test.ts"', '"tests/src/core2/**/*.test.ts"']],
+  ],
+  [
     "src/director/vitest.config.ts",
     [['"src/director/**/*.test.ts"', '"tests/src/director/**/*.test.ts"']],
+  ],
+  [
+    "src/director/tsconfig.json",
+    [
+      ['"../../tsconfig.app.json"', '"../../../tsconfig.app.json"'],
+      [
+        '"include": ["./**/*.ts", "./**/*.mts"]',
+        '"include": ["./**/*.ts", "./**/*.mts", "../../../src/director/**/*.ts", "../../../src/director/**/*.mts"]',
+      ],
+    ],
   ],
 ]);
 // The node project typechecked the tests that sat inside the folders it names.

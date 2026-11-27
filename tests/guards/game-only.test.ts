@@ -29,6 +29,7 @@ describe("the game folder holds only game code", () => {
       "art/a.test.mjs",
       "src/core2/__snapshots__/a.snap",
       "src/core2/__tests__/helper.ts",
+      "src/director/vitest.config.ts",
     ])
       expect(gameOnlyFinding(file, none), file).not.toBeNull();
     for (const code of [
@@ -36,6 +37,7 @@ describe("the game folder holds only game code", () => {
       "import { test } from 'node:test';",
       'const { it } = require("vitest");',
       'await import("vitest");',
+      'import { defineConfig } from "vitest/config";',
     ])
       expect(
         gameOnlyFinding("src/core2/kit.ts", () => code),
