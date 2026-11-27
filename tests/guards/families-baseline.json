@@ -1,6 +1,7 @@
 {
   "unassigned": [],
   "deepImports": {
+    "src/bench/archive-words.ts": 1,
     "src/bench/bank.ts": 1,
     "src/bench/campaign.ts": 2,
     "src/bench/card.ts": 3,
@@ -22,7 +23,6 @@
     "src/bench/race-words.ts": 1,
     "src/bench/reached.ts": 1,
     "src/bench/scene.ts": 1,
-    "src/bench/words.ts": 1,
     "src/bench/world.ts": 34,
     "src/core2/accounts.ts": 1,
     "src/core2/act-cash.ts": 1,

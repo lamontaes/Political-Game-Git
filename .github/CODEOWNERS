@@ -1064,6 +1064,15 @@
 /src/english/** @lamontaes
 /data/english/** @lamontaes
 /src/core2/speech-craft.test.ts @lamontaes
+/src/bench/archive-words.ts @lamontaes
+/src/bench/archive-words.test.ts @lamontaes
+/src/bench/guide-terms.ts @lamontaes
+/src/bench/guide-terms.test.ts @lamontaes
+/src/bench/printed-words.ts @lamontaes
+/src/bench/printed-words.test.ts @lamontaes
+/src/bench/race-words.ts @lamontaes
+/src/bench/race-words.test.ts @lamontaes
+/src/bench/words.ts @lamontaes
 
 # Screens and the UI kit (screens)
 /src/bench/** @lamontaes
