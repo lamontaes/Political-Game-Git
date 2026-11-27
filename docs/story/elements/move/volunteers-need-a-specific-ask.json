@@ -1,0 +1,30 @@
+{
+  "id": "volunteers-need-a-specific-ask",
+  "kind": "move",
+  "summary": "A specific request, such as a set number of shifts, gets a clear yes or no where a vague one gets a polite maybe.",
+  "realLife": "Phone-banking guides for small campaigns recommend asking for a set number of shifts.",
+  "sources": [
+    "CallHub, phone banking for local elections: https://callhub.io/blog/phone-banking/phone-banking-local-election/",
+    "Down Home NC, canvassers and phone bankers for endorsed candidates: https://downhomenc.org/?p=13563"
+  ],
+  "fits": ["campaign"],
+  "slots": ["office"],
+  "gates": [],
+  "weights": {
+    "volunteer": 0.8
+  },
+  "inGame": "volunteer-offered record, the player's answer (yes puts them on the campaign's volunteers)",
+  "usedBy": ["offer-help"],
+  "turns": [
+    {
+      "turn": "The candidate asks vaguely and gets a maybe",
+      "pull": "a low-organized candidate",
+      "writes": "a stalled offer"
+    },
+    {
+      "turn": "The volunteer names their own hours",
+      "pull": "work-hour records",
+      "writes": "a clearer yes"
+    }
+  ]
+}
