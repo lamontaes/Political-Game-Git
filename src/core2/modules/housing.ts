@@ -15,6 +15,7 @@ import { lawApplied } from "../law-reach/applied";
 import { payRentAssistance } from "../housing-assistance";
 import { governmentUnitsForState } from "../reference/government-units";
 import { placeCounty, placeStateKey } from "../place-map";
+import { householdDailyCostMinor } from "../household-cost";
 import { fullRelativesOf } from "../births-counted";
 import {
   corePlaceByKey,
@@ -2789,7 +2790,8 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
 
 /**
  * A household behind on rent settles part of what it owes: the cash its
- * members hold beyond a month of living cost, times how far their traits lean
+ * members hold beyond a month of what living costs them besides the home
+ * (never less than the everyday basket), times how far their traits lean
  * toward settling what is owed over letting it lapse (a sliding scale, no
  * fixed share). It runs each month for every full household with rent owed,
  * and once when a counted household behind is filled in (its group's arrears
@@ -2805,6 +2807,7 @@ function settleArrears(
   read: {
     cashMinor: number;
     livingMonthMinor: number;
+    keptMinor: number;
     willingness: number;
     owedMinor: number;
   };
@@ -2836,7 +2839,29 @@ function settleArrears(
     : api.parameter("zero");
   const willingness = (api.parameter("one") + lean) / 2;
   const owedMinor = lease.arrearsMinor;
-  const spare = Math.max(0, cashMinor - livingMonthMinor);
+  // Shelter is paid once (housing-shelter): what the household keeps back is
+  // a month of what living costs beyond the home it owes for, never less
+  // than a month of the everyday basket for its size. Keeping back the whole
+  // month, rent and all, left a household that held what it owed paying none.
+  const basketMonthMinor = Math.round(
+    (householdDailyCostMinor({
+      seed: c.seed,
+      stateKey: placeStateKey(
+        c.households.get(lease.householdId ?? "")?.placeId,
+      ),
+      size: Math.max(members.length, api.parameter("one")),
+      rent: null,
+      parameter: (key) => api.parameter(key),
+    }) *
+      api.parameter("jobsDaysPerYear")) /
+      api.parameter("macroMonthsPerYear"),
+  );
+  const keptMinor = Math.max(
+    basketMonthMinor,
+    livingMonthMinor -
+      Math.round(lease.amountMinor / Math.max(lease.periodMonths, 1)),
+  );
+  const spare = Math.max(0, cashMinor - keptMinor);
   const paidMinor =
     owedMinor > 0
       ? payArrears(
@@ -2848,7 +2873,7 @@ function settleArrears(
       : 0;
   return {
     paidMinor,
-    read: { cashMinor, livingMonthMinor, willingness, owedMinor },
+    read: { cashMinor, livingMonthMinor, keptMinor, willingness, owedMinor },
   };
 }
 

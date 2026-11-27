@@ -24,6 +24,8 @@ type CaseRow = {
   settledFrom: {
     cashMinor: number;
     livingMonthMinor: number;
+    /** What it kept back: a month of living beyond the home, at least the basket. */
+    keptMinor: number;
     willingness: number;
     owedMinor: number;
   };
@@ -90,10 +92,8 @@ it("an open counted eviction case follows its household to the lease, and the ho
       expect(lease!.arrearsMinor + row.settledAtFillInMinor, where).toBe(owed);
       expect(row.settledAtFillInMinor, where).toBeLessThanOrEqual(
         Math.round(
-          Math.max(
-            0,
-            row.settledFrom.cashMinor - row.settledFrom.livingMonthMinor,
-          ) * row.settledFrom.willingness,
+          Math.max(0, row.settledFrom.cashMinor - row.settledFrom.keptMinor) *
+            row.settledFrom.willingness,
         ) + 1,
       );
       expect(row.settledFrom.willingness, where).toBeGreaterThanOrEqual(0);
