@@ -687,8 +687,7 @@
         "src/core2/modules/regional.ts",
         "src/core2/macro-model.ts",
         "src/core2/work-spans-v1.ts",
-        "src/core2/town-labor-pay.ts",
-        "src/core2/modules/credit.ts"
+        "src/core2/town-labor-pay.ts"
       ],
       "paths": [
         "src/core2/shared-time.ts",

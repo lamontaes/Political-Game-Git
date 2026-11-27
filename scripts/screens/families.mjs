@@ -20,7 +20,6 @@ const ROOT = path.resolve(
   "..",
 );
 const MAP = path.join(ROOT, "tests", "guards", "families.json");
-const BASELINE = path.join(ROOT, "tests", "guards", "families-baseline.json");
 
 // Each test is filed with the engine its pool item or its first line names.
 const TESTS = {
@@ -49,14 +48,6 @@ const TESTS = {
 // A family another session renames or splits is followed by its first successor that exists
 // (Offices splits executive into offices and governing); with none, the test stays where it is.
 const SUCCESSORS = { executive: ["governing", "offices"] };
-// A family's entry the screens now import through (the door Screens asked for): the file is
-// already in the family's paths; the guard counts an import of a non-entry file as a deep import.
-const ENTRIES = [["jobs-businesses", "src/core2/modules/credit.ts"]];
-// The baseline only shrinks: making credit.ts an entry turns these files' imports of it from deep to front-door.
-const LOWER = {
-  "src/core2/modules/housing.ts": 4,
-  "src/core2/modules/world.ts": 2,
-};
 const GIVES = [
   ["screens", "desktop/**"],
   ["clock-places", "src/maps/**"],
@@ -79,34 +70,16 @@ for (const [name, to] of Object.entries(TESTS)) {
     if (other !== target) other.paths = other.paths.filter((p) => p !== file);
   if (!target.paths.includes(file)) target.paths.push(file);
 }
-for (const [id, file] of ENTRIES) {
-  const target = family(id);
-  if (!target) console.log(`No family ${id}: ${file} is not made an entry.`);
-  else if (!target.entry.includes(file)) target.entry.push(file);
-}
 for (const [id, glob] of GIVES) {
   const target = family(id);
   if (!target) console.log(`No family ${id}: ${glob} is not given.`);
   else if (!target.paths.includes(glob)) target.paths.push(glob);
 }
 writeFileSync(MAP, JSON.stringify(map, null, 2) + "\n");
-const baseline = JSON.parse(readFileSync(BASELINE, "utf8"));
-for (const [file, count] of Object.entries(LOWER))
-  if (baseline.deepImports[file] > count) baseline.deepImports[file] = count;
-writeFileSync(BASELINE, JSON.stringify(baseline, null, 2) + "\n");
-execFileSync(
-  "npx",
-  [
-    "prettier",
-    "--write",
-    "tests/guards/families.json",
-    "tests/guards/families-baseline.json",
-  ],
-  {
-    cwd: ROOT,
-    stdio: "ignore",
-  },
-);
+execFileSync("npx", ["prettier", "--write", "tests/guards/families.json"], {
+  cwd: ROOT,
+  stdio: "ignore",
+});
 execFileSync("node", ["--import", "tsx", "scripts/guards/codeowners.ts"], {
   cwd: ROOT,
   stdio: "inherit",
