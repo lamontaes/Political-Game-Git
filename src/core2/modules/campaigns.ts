@@ -5516,16 +5516,11 @@ export function statementSpeechPrefix(
   return `speech:${candidateId}:${date}:`;
 }
 
-/** Where an ad is bought: an outlet and its followers (the press registers it). */
-let adOutlet:
-  | ((api: CoreAPI) => {
-      organizationId: string;
-      followerIds: readonly string[];
-      countedFollowers: number;
-    } | null)
-  | null = null;
-export function registerAdOutlet(fn: typeof adOutlet): void {
-  adOutlet = fn;
+/** Where an ad is bought: the outlet and its followers, from the press module that carries `adOutlet` (the first one installed in this world). */
+function adOutlet(api: CoreAPI) {
+  return (
+    carriersOf(api.state as CoreState, "adOutlet")[0]?.adOutlet?.(api) ?? null
+  );
 }
 
 /**
@@ -5542,7 +5537,7 @@ export function adAudience(
   /** Counted adults the ad reaches, by the same rule times their count. */
   readonly countedViewers: number;
 } | null {
-  const outlet = adOutlet?.(api) ?? null;
+  const outlet = adOutlet(api);
   if (!outlet) return null;
   const contacts = Math.floor(
     (amount / 1000) * campaignParameter("adContactsPerThousandMinor"),
@@ -5570,7 +5565,7 @@ export function adTimeForSale(api: CoreAPI): boolean {
   return (
     (api.state as CoreState).modules.has(CAMPAIGNS_MODULE_ID) &&
     table(api, "town").get("town") !== undefined &&
-    (adOutlet?.(api) ?? null) !== null
+    adOutlet(api) !== null
   );
 }
 

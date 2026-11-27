@@ -1340,6 +1340,7 @@
         "src/core2/modules/news.ts",
         "src/core2/modules/press.ts",
         "src/core2/press-*.ts",
+        "src/core2/ad-outlet-per-world.test.ts",
         "src/core2/outcome-news.ts",
         "src/core2/modules/news-listeners.ts",
         "src/core2/outcome-news-constants.ts",
