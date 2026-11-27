@@ -25,10 +25,6 @@ import {
 import { withholdingOnPay } from "./budgets";
 import { standing, type ContestRow, type FilingRow } from "./elections";
 import {
-  AD_KIND,
-  CAMPAIGNS_MODULE_ID,
-  DONATION_KIND,
-  PURCHASE_KIND,
   ageOn,
   campaignFor,
   elections,
@@ -36,7 +32,6 @@ import {
   holdMoneySlot,
   medianTransactionBalance,
   partySide,
-  postedToday,
   rivalFiling,
   save,
   table,
@@ -50,6 +45,13 @@ import type {
   GiftRow,
   MoneyRecord,
 } from "./campaigns-base";
+import {
+  AD_KIND,
+  CAMPAIGNS_MODULE_ID,
+  DONATION_KIND,
+  PURCHASE_KIND,
+  postedToday,
+} from "./campaigns-constants";
 import { backingReasons, contributionLimit } from "./campaigns-petitions";
 import type { Purchase } from "./campaigns-work";
 

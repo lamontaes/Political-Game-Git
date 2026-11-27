@@ -8,6 +8,7 @@ import unitPrices from "../../../data/research/campaign-reality/campaign-unit-pr
 import type { CoreAPI, CoreState } from "../types";
 import { worldLevel } from "../world-draw";
 import { outsideMarketAccount, townOutsideOf, townRow } from "./campaigns-base";
+import { sellerCache } from "./campaigns-constants";
 
 /**
  * The kinds of business that sell what a campaign buys, by the census
@@ -33,7 +34,6 @@ const SELLER_KINDS: Readonly<Record<Purchase, readonly string[]>> = {
   ],
 };
 export type Purchase = "poll" | "mail" | "event";
-const sellerCache = new WeakMap<object, Map<string, string | null>>();
 
 /**
  * Who sells a campaign what it buys: a business in town of a fitting kind

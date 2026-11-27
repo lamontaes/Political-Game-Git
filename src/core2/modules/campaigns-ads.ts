@@ -12,17 +12,19 @@ import { VIEWS_MODULE_ID, VIEWS_SPEAKER_KEY } from "./views";
 import { hearAsGroups, hearsAsPerson } from "../hearer-groups";
 import { townShareOfRace } from "./campaigns-asks";
 import {
-  AD_KIND,
-  CAMPAIGNS_MODULE_ID,
-  CANVASS_MESSAGE_KIND,
   campaignFor,
-  clamp,
   recordAppeal,
   save,
   table,
   townRow,
 } from "./campaigns-base";
 import type { CampaignRow, CauseRow } from "./campaigns-base";
+import {
+  AD_KIND,
+  CAMPAIGNS_MODULE_ID,
+  CANVASS_MESSAGE_KIND,
+  clamp,
+} from "./campaigns-constants";
 import { reach } from "./campaigns-doors";
 import { nextTopic } from "./campaigns-meetings";
 import { postMoney, spend } from "./campaigns-money";

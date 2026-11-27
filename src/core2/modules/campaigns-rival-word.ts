@@ -13,7 +13,8 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import { campaignParameter } from "../campaign-data";
 import { stanceRow } from "./views";
 import { standing, type ContestRow, type FilingRow } from "./elections";
-import { RIVAL_WORD_EVENT, elections, table, townRow } from "./campaigns-base";
+import { elections, table, townRow } from "./campaigns-base";
+import { RIVAL_WORD_EVENT } from "./campaigns-constants";
 import { newestWord } from "./campaigns-turn";
 import type { RivalWordRow } from "./campaigns-turn";
 

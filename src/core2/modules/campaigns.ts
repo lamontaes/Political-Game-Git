@@ -8,10 +8,6 @@ import { type Stance } from "../campaign-data";
 import { type ContestRow, type FilingRow, worldSwing } from "./elections";
 import { answerAskForVote, answerOffer } from "./campaigns-asks";
 import {
-  AD_KIND,
-  CAMPAIGNS_MODULE_ID,
-  DONATION_KIND,
-  PURCHASE_KIND,
   campaignFor,
   elections,
   heldSlots,
@@ -25,6 +21,13 @@ import type {
   CashJournalSourceSlot,
   EndorsementRow,
 } from "./campaigns-base";
+import {
+  AD_KIND,
+  CAMPAIGNS_MODULE_ID,
+  DONATION_KIND,
+  PURCHASE_KIND,
+  townLeans,
+} from "./campaigns-constants";
 import {
   answerEndorsementAsk,
   answerVolunteerAsk,
@@ -49,9 +52,6 @@ export type { DoorVisit } from "./campaigns-doors";
 export { publishedUnitPrice, seller, unitPrice } from "./campaigns-work";
 export type { Purchase } from "./campaigns-work";
 export {
-  VOLUNTEER_JOINED_EVENT,
-  VOLUNTEER_LAPSED_EVENT,
-  VOLUNTEER_OFFERED_EVENT,
   askToManage,
   askToVolunteer,
   castVolunteer,
@@ -73,7 +73,6 @@ export {
   townShareOfRace,
 } from "./campaigns-asks";
 export {
-  VOLUNTEER_SHIFT_EVENT,
   canvassHoursFree,
   enlistVolunteer,
   shiftReason,
@@ -133,8 +132,6 @@ export {
   runAd,
 } from "./campaigns-ads";
 export {
-  ENDORSEMENT_ASKED_EVENT,
-  VOLUNTEER_ASKED_EVENT,
   askForEndorsement,
   endorsementWeighing,
   endorsementsOf,
@@ -156,7 +153,6 @@ export {
 } from "./campaigns-polls";
 export type { CauseSummaryRow, CauseSums } from "./campaigns-polls";
 export {
-  CAMPAIGN_STEPPED_UP_EVENT,
   askForSupport,
   campaignRecognition,
   campaignTurn,
@@ -176,7 +172,6 @@ export type {
   SteppedUpRow,
 } from "./campaigns-turn";
 export {
-  PETITION_SHORT_EVENT,
   petitionShiftYield,
   petitionShortReading,
   petitionTeller,
@@ -186,8 +181,18 @@ export type { PetitionShortReading } from "./campaigns-petition-short";
 export {
   CAMPAIGNS_MODULE_ID,
   CAMPAIGN_ACTS,
+  CAMPAIGN_STEPPED_UP_EVENT,
   CANVASS_MESSAGE_KIND,
+  ENDORSEMENT_ASKED_EVENT,
+  PETITION_SHORT_EVENT,
   RIVAL_WORD_EVENT,
+  VOLUNTEER_ASKED_EVENT,
+  VOLUNTEER_JOINED_EVENT,
+  VOLUNTEER_LAPSED_EVENT,
+  VOLUNTEER_OFFERED_EVENT,
+  VOLUNTEER_SHIFT_EVENT,
+} from "./campaigns-constants";
+export {
   campaignFor,
   impressionOf,
   parsePlatform,
@@ -425,7 +430,6 @@ export function townLean(api: CoreAPI): number {
   townLeans.set(api.state, { date: api.state.date, lean });
   return lean;
 }
-const townLeans = new WeakMap<object, { date: string; lean: number }>();
 
 /**
  * Someone who files campaigns for themselves from that day: the filing's

@@ -25,6 +25,10 @@ import {
   townRow,
 } from "./campaigns-base";
 import type { CampaignRow } from "./campaigns-base";
+import {
+  VOLUNTEER_JOINED_EVENT,
+  VOLUNTEER_OFFERED_EVENT,
+} from "./campaigns-constants";
 import { inTouchSince } from "./campaigns-rival-word";
 
 /**
@@ -74,11 +78,6 @@ export function volunteerReason(
     campaignParameter("volunteerThreshold")
   );
 }
-
-/** The kind of the record written when someone joins a campaign's volunteers. */
-export const VOLUNTEER_JOINED_EVENT = "campaign-volunteer-joined";
-/** The kind of the record written when a volunteer's reasons have weakened past giving evenings. */
-export const VOLUNTEER_LAPSED_EVENT = "campaign-volunteer-lapsed";
 
 /**
  * Writes the record of someone joining a campaign: when, and the ask or the
@@ -281,13 +280,6 @@ export const onStaff = (
     : [...campaign.staffIds, personId],
   volunteerIds: campaign.volunteerIds.filter((id) => id !== personId),
 });
-
-/**
- * The kind of an offer to help a candidate's campaign, from someone who heard
- * they filed: its `role` fact is "manager" for an offer to run it, else
- * "volunteer".
- */
-export const VOLUNTEER_OFFERED_EVENT = "volunteer-offered";
 
 /**
  * People who know a candidate offer to help once word of the filing reaches

@@ -43,7 +43,6 @@ import {
   ageOn,
   campaignFor,
   causeGroupsIn,
-  clamp,
   elections,
   promisesOf,
   rivalFiling,
@@ -57,6 +56,11 @@ import type {
   EndorsementRow,
   OrganizedGroup,
 } from "./campaigns-base";
+import {
+  ENDORSEMENT_ASKED_EVENT,
+  VOLUNTEER_ASKED_EVENT,
+  clamp,
+} from "./campaigns-constants";
 import { reach } from "./campaigns-doors";
 import { askToVolunteer, castVolunteer } from "./campaigns-volunteers";
 
@@ -535,12 +539,6 @@ export function askForEndorsement(
     settleObligation(api, weighing.obligationId, id);
   return weighing.yes;
 }
-
-/** The kind of the event that asks the player to endorse a candidate: the scene's cause. */
-export const ENDORSEMENT_ASKED_EVENT = "endorsement-asked";
-
-/** A campaign asking the player to give it evenings (the record a `volunteer-ask` scene stages from). */
-export const VOLUNTEER_ASKED_EVENT = "volunteer-asked";
 
 /** The player's kept answer to one campaign's ask to volunteer. */
 interface VolunteerAskRow {

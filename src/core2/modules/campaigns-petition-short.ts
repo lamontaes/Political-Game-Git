@@ -11,10 +11,8 @@ import { filingClerkFor } from "./filing-clerk";
 import { campaignParameter } from "../campaign-data";
 import { petitionCirculating, petitionOf, type ContestRow } from "./elections";
 import { campaignFor, elections, townRow } from "./campaigns-base";
+import { PETITION_SHORT_EVENT } from "./campaigns-constants";
 import { petitionAsksAtDoors, signaturesToGather } from "./campaigns-petitions";
-
-/** The kind of the record that a player's petition is behind and someone tells them: the director stages the scene from it. */
-export const PETITION_SHORT_EVENT = "petition-short";
 
 /**
  * The signatures one canvass shift of the player's own adds to a petition: the

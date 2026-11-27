@@ -24,7 +24,6 @@ import {
 import {
   ageOn,
   campaignFor,
-  clamp,
   elections,
   impressionOf,
   rivalFiling,
@@ -38,6 +37,7 @@ import type {
   CauseRow,
   ImpressionRow,
 } from "./campaigns-base";
+import { HOST_DECISION, clamp } from "./campaigns-constants";
 import { causeSourceId, rapport, reach, retell } from "./campaigns-doors";
 import { donationAnswer, filingOf } from "./campaigns-money";
 import type { DonationWhy } from "./campaigns-money";
@@ -205,13 +205,6 @@ function canJoinDonorMeeting(
     !rivalFiling(api, campaign, person.id)
   );
 }
-
-/** The trait decision a donor meeting's host settles: giving a campaign their time. */
-const HOST_DECISION = {
-  id: "campaigns.volunteer",
-  yes: "volunteer",
-  no: "decline",
-} as const;
 
 /**
  * A possible host's reasons to lend their home for an evening, read without

@@ -45,6 +45,7 @@ import type {
   PledgeRow,
   PollRow,
 } from "./campaigns-base";
+import { CAMPAIGN_STEPPED_UP_EVENT, contestsSeen } from "./campaigns-constants";
 import {
   adultIdsAt,
   countedAdultsAt,
@@ -797,9 +798,6 @@ export function rivalDay(
   };
 }
 
-/** The kind of a world candidate campaigning harder because they know a rival stands ahead. */
-export const CAMPAIGN_STEPPED_UP_EVENT = "campaign-stepped-up";
-
 /** One reading of the race that made a world candidate campaign harder. */
 export interface SteppedUpRow {
   /** `<filingId>:<sourceRecordId>`: each reading is kept once. */
@@ -1181,8 +1179,6 @@ export function campaignTurn(
     dayAct,
   };
 }
-
-const contestsSeen = new WeakMap<object, number>();
 
 /**
  * Every few days, each world candidate on the ballot of a contest the town

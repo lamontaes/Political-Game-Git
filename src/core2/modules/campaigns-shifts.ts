@@ -23,10 +23,13 @@ import {
   townRow,
 } from "./campaigns-base";
 import type { CampaignRow } from "./campaigns-base";
-import { closeDoorWalk, openDoorWalk, walkWith } from "./campaigns-doors";
 import {
   VOLUNTEER_JOINED_EVENT,
   VOLUNTEER_LAPSED_EVENT,
+  VOLUNTEER_SHIFT_EVENT,
+} from "./campaigns-constants";
+import { closeDoorWalk, openDoorWalk, walkWith } from "./campaigns-doors";
+import {
   recordVolunteerJoined,
   volunteerLapseReason,
   volunteerReason,
@@ -139,9 +142,6 @@ export interface VolunteerShift {
   /** Counted residents who opened, reached as a count. */
   readonly countedReached: number;
 }
-
-/** The kind of a volunteer's evening of doors for a campaign the player's circle is in. */
-export const VOLUNTEER_SHIFT_EVENT = "volunteer-shift";
 
 /**
  * A campaign's volunteers walk its doors. On a day the campaign works, each

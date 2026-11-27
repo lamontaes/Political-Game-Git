@@ -28,7 +28,6 @@ import {
 import { townElectorate } from "./campaigns-asks";
 import {
   campaignFor,
-  clamp,
   elections,
   impressionOf,
   partySide,
@@ -37,17 +36,10 @@ import {
   townRow,
 } from "./campaigns-base";
 import type { CampaignRow } from "./campaigns-base";
+import { STATE_CONTRIBUTION_SERIES, clamp } from "./campaigns-constants";
 import { circleOf } from "./campaigns-meetings";
 import { filingOf, partyFit, spend } from "./campaigns-money";
 import { unitPrice } from "./campaigns-work";
-
-/** The law series holding each office class's limit, where the research gives a state a number. */
-const STATE_CONTRIBUTION_SERIES: Readonly<Record<string, string>> = {
-  governor: "state-contribution-limit-governor",
-  stateSenate: "state-contribution-limit-state-senate",
-  stateHouse: "state-contribution-limit-state-house",
-  local: "state-contribution-limit-local",
-};
 
 /** The individual contribution limit for this contest, in minor units (null: no limit), and its source. */
 export function contributionLimit(

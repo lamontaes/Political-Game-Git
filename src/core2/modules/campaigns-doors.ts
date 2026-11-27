@@ -19,10 +19,8 @@ import { groupQuartersProfileOf } from "../gov-rules/place-population";
 import type { GroupQuartersType } from "../group-quarters-types";
 import { emitMessage } from "./campaigns-ads";
 import {
-  CANVASS_MESSAGE_KIND,
   ageOn,
   campaignFor,
-  clamp,
   impressionOf,
   pledgesOf,
   save,
@@ -35,6 +33,7 @@ import type {
   CauseRow,
   PledgeRow,
 } from "./campaigns-base";
+import { CANVASS_MESSAGE_KIND, clamp } from "./campaigns-constants";
 import { askToSign, petitionAsksAtDoors } from "./campaigns-petitions";
 import { atWork } from "./campaigns-work";
 

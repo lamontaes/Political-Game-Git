@@ -23,11 +23,8 @@ import {
   townRow,
 } from "./campaigns-base";
 import type { CampaignRow } from "./campaigns-base";
-import {
-  VOLUNTEER_OFFERED_EVENT,
-  onStaff,
-  volunteerReason,
-} from "./campaigns-volunteers";
+import { VOLUNTEER_OFFERED_EVENT, townShares } from "./campaigns-constants";
+import { onStaff, volunteerReason } from "./campaigns-volunteers";
 
 /**
  * Whether someone who heard of a filing offers to help unasked: the same
@@ -210,11 +207,6 @@ export function townElectorate(api: CoreAPI): number {
       total += row.weight;
   return total;
 }
-
-const townShares = new WeakMap<
-  object,
-  Map<string, { readonly asOf: string; readonly share: number }>
->();
 
 /**
  * The share of a race's voters who live in the town, 0 to 1: one for a town

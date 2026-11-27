@@ -82,5 +82,9 @@
     "../appointments",
     "../world-transfer",
     "../starting-cash"
-  ]
+  ],
+  "leaf": {
+    "file": "src/core2/modules/campaigns-constants.ts",
+    "about": "The campaign engine's dependency-free constants: kind names, event names and literal tables."
+  }
 }

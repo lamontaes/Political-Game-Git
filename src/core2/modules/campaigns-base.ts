@@ -25,6 +25,8 @@ import {
   type ContestRow,
   type FilingRow,
 } from "./elections";
+import type { CAMPAIGN_ACTS } from "./campaigns-constants";
+import { CAMPAIGNS_MODULE_ID } from "./campaigns-constants";
 export { outsideMarketAccount, townOutsideOf };
 export { partySide };
 export type { CashJournalSourceSlot };
@@ -32,11 +34,6 @@ export { transferCash };
 export { medianTransactionBalance };
 export { causeGroupsIn };
 export { promisesOf, recordAppeal, votesCast };
-
-export const CAMPAIGNS_MODULE_ID = "core2-campaigns-v1";
-export const DONATION_KIND = "campaigns:donation";
-export const AD_KIND = "campaigns:ad-buy";
-export const PURCHASE_KIND = "campaigns:purchase";
 
 export interface CampaignRow {
   readonly id: string;
@@ -173,25 +170,6 @@ export interface ImpressionRow {
   readonly warmth: number;
   readonly causes: number;
 }
-
-/** Every act a campaign takes; a heard speech's occasion kind is one of these when it was given on the trail. */
-export const CAMPAIGN_ACTS = [
-  "door",
-  "volunteer-door",
-  "speech",
-  "interview",
-  "town-hall",
-  "debate",
-  "retold",
-  "ad",
-  "attack-ad",
-  "endorsement",
-  "group-endorsement",
-  "donation-ask",
-  "constituent-case",
-  "mail",
-  "event",
-] as const;
 export type CampaignAct = (typeof CAMPAIGN_ACTS)[number];
 
 /** Why one person's view of one candidate changed, once. */
@@ -363,16 +341,6 @@ export const heldSlots = new WeakMap<
   object,
   Map<string, CashJournalSourceSlot>
 >();
-/**
- * The ids of the campaign payments posted today, kept for the day only: a
- * second post of an id on its day throws, as the journal's posted marker did
- * while every slot was kept. The engine's own ids carry their date, so no
- * later day repeats one (see postMoney).
- */
-export const postedToday = new WeakMap<
-  object,
-  { readonly date: string; readonly ids: Set<string> }
->();
 export function holdMoneySlot(api: CoreAPI, record: MoneyRecord): void {
   const map =
     heldSlots.get(api.state) ?? new Map<string, CashJournalSourceSlot>();
@@ -400,7 +368,6 @@ export function table(api: CoreAPI, name: string) {
 export function elections(api: CoreAPI, name: string) {
   return api.moduleState(ELECTIONS_MODULE_ID).table(name);
 }
-export const clamp = (x: number) => Math.max(-1, Math.min(1, x));
 export const ageOn = (
   person: Readonly<Pick<PersonState, "birthDate">>,
   date: string,
@@ -661,13 +628,3 @@ export function rivalFiling(
   }
   return null;
 }
-
-/** The kind of word of a rival's message, passed to a candidate by someone it reached. */
-export const RIVAL_WORD_EVENT = "rival-word";
-
-/**
- * The kind of a campaign's message that is an evening of the candidate's own
- * doors: what they said to the people who opened, kept so word of it passes
- * on like word of an ad, but never a paid message (`emitMessage`).
- */
-export const CANVASS_MESSAGE_KIND = "campaign-canvass";

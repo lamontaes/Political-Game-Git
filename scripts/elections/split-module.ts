@@ -40,6 +40,13 @@ interface Manifest {
    * counts each file's own).
    */
   readonly funnel?: readonly string[];
+  /**
+   * A leaf with no imports for the source's dependency-free constants: every
+   * top-level `const` that refers to no import and no other top-level
+   * declaration (a kind name, a literal table, an empty cache) moves there, so
+   * no file's load order can leave one uninitialized.
+   */
+  readonly leaf?: { readonly file: string; readonly about: string };
   readonly parts: readonly {
     readonly file: string;
     readonly about: string;
@@ -108,6 +115,7 @@ if (verifyRef) {
   const files = [
     manifest.source,
     manifest.base,
+    ...(manifest.leaf ? [manifest.leaf.file] : []),
     ...manifest.parts.map((p) => p.file),
   ];
   const body = (sf: ts.SourceFile) =>
@@ -116,7 +124,11 @@ if (verifyRef) {
         (st) => !ts.isImportDeclaration(st) && !ts.isExportDeclaration(st),
       )
       .map((st) =>
-        stripExport(sf.text.slice(st.getFullStart(), st.getEnd())).trim(),
+        stripExport(
+          sf.text
+            .slice(st.getFullStart(), st.getEnd())
+            .replace(/^\s*\/\*\*[^]*?split-module\.ts[^]*?\*\/\s*/, ""),
+        ).trim(),
       );
   const was = body(before).sort();
   const now = files
@@ -296,6 +308,20 @@ function visit(node: ts.Node, index: number): void {
 programSf.statements.forEach((st, i) => {
   if (!ts.isImportDeclaration(st)) visit(st, i);
 });
+
+// The dependency-free constants go to the leaf, wherever they sat.
+const LEAF = manifest.leaf?.file;
+if (LEAF)
+  sts.forEach((st, i) => {
+    if (
+      ts.isVariableStatement(st) &&
+      st.declarationList.flags & ts.NodeFlags.Const &&
+      refsOf[i]!.stmts.size === 0 &&
+      refsOf[i]!.imports.size === 0 &&
+      !declaredNames(st).some((n) => (manifest.entryOnly ?? []).includes(n))
+    )
+      owner[i] = LEAF;
+  });
 
 // What the parts need from the entry moves to the base, with what that needs.
 const entryOnly = new Set(manifest.entryOnly ?? []);
@@ -480,6 +506,14 @@ for (const part of manifest.parts)
       `/**\n * ${part.about}\n *\n * Split out of ${path.basename(manifest.source)} by scripts/elections/split-module.ts (structure only);\n * ${path.basename(manifest.source)} re-exports every export of this file by name.\n */`,
     ),
   );
+if (LEAF && owner.includes(LEAF))
+  out.set(
+    LEAF,
+    build(
+      LEAF,
+      `/**\n * ${manifest.leaf!.about}\n *\n * Imports nothing, so no load order can find one of these uninitialized (scripts/elections/split-module.ts).\n * ${path.basename(manifest.source)} re-exports every export of this file by name.\n */`,
+    ),
+  );
 if (owner.includes(BASE) || funnel.size)
   out.set(
     BASE,
@@ -548,7 +582,11 @@ if (owner.includes(BASE) || funnel.size)
       );
   }
   const reexports: string[] = [];
-  for (const file of [...manifest.parts.map((p) => p.file), BASE]) {
+  for (const file of [
+    ...manifest.parts.map((p) => p.file),
+    ...(LEAF ? [LEAF] : []),
+    BASE,
+  ]) {
     const values: string[] = [];
     const types: string[] = [];
     sts.forEach((st, i) => {
