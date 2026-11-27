@@ -8,7 +8,12 @@ import {
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
 import { countedJobsOf } from "./modules/residents";
 import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
-import { ageOnDate, makeIsoDate, daysBetweenText } from "./kernel/dates";
+import {
+  ageOnDate,
+  makeIsoDate,
+  daysBetweenText,
+  lastDayOfMonth,
+} from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
 import { webFactorFor } from "./outcome-web-reach";
 import { traceWebPriceLaws } from "./modules/outcome-web";
@@ -287,9 +292,7 @@ export function financeNextDate(
   const day = billingDay ?? date.getUTCDate();
   const year = date.getUTCFullYear(),
     month = date.getUTCMonth() + months;
-  const last = new Date(
-    Date.UTC(year, month + p("one"), p("zero")),
-  ).getUTCDate();
+  const last = lastDayOfMonth(year, month + p("one"));
   const next = new Date(Date.UTC(year, month, Math.min(day, last)))
     .toISOString()
     .split("T")[p("zero")]!;

@@ -10,7 +10,7 @@
  * purchases. The residents engine then moves that money through the one
  * balanced journal on recorded dates.
  */
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, lastDayOfMonth } from "./kernel/dates";
 import { stopgap } from "./stopgaps";
 import {
   OUTSIDE_MARKET_KIND,
@@ -153,7 +153,7 @@ function dayOf(date: string): number {
 export function nextMonthDay(from: IsoDate, day: number, months = 1): IsoDate {
   const at = new Date(`${from}T00:00:00.000Z`);
   const candidate = (year: number, month: number) => {
-    const last = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+    const last = lastDayOfMonth(year, month + 1);
     return new Date(Date.UTC(year, month, Math.min(day, last)))
       .toISOString()
       .slice(0, 10);

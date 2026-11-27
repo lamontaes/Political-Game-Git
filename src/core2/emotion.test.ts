@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import eventInputs from "./tooling/fixtures/event-inputs.json" with { type: "json" };
+import eventInputs from "../../tests/fixtures/event-inputs.json" with { type: "json" };
 
 import { affectAt, appraiseEvent } from "./emotion";
 import { P, parameter } from "./parameters";

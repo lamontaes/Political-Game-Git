@@ -15,7 +15,7 @@ import {
 import { outletsHere } from "./modules/press";
 import { corePlaceByKey } from "./place-lookup";
 import { coreAPI } from "./state";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // P50: an announced candidate, whose filing has not opened, asks a paper for
 // an interview and is not turned away as if the race were over.

@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { advanceToRaceFiling } from "../core2/gov-test-clock";
+import { advanceToRaceFiling } from "../../tests/support/gov-test-clock";
 import { coreAPI } from "../core2/state";
 import {
   ballot,

@@ -3,7 +3,7 @@ import { createLifeCore } from "./life";
 import { partnershipsModule } from "./modules/partnerships";
 import { coreAPI } from "./state";
 import { drawPlace } from "../../tests/golden-path/place";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import type { PersonId } from "./types";
 
 // The player's answer to a proposal changes the couple's stage (Lives, Nov 8,
