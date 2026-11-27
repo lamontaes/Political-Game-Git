@@ -580,6 +580,92 @@ export function termsOfPerson(
   ]) as unknown as TermRow[];
 }
 
+/** Every office the offices engine keeps, in its table's order. */
+export function allOffices(api: CoreAPI): readonly OfficeInput[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  return table(api, "offices").rows() as unknown as OfficeInput[];
+}
+
+/**
+ * The offices of one jurisdiction (a state's key, `US`, or a local government's id) as the table holds
+ * them now. A read only: `officesOfState` also creates another state's offices on first read.
+ */
+export function officesInJurisdiction(
+  api: CoreAPI,
+  jurisdiction: string,
+): readonly OfficeInput[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  return table(api, "offices").query("byJurisdiction", [
+    jurisdiction,
+  ]) as unknown as OfficeInput[];
+}
+
+/** The seats of one office, in the table's order. */
+export function officeSeats(
+  api: CoreAPI,
+  officeId: string,
+): readonly SeatInput[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  return table(api, "seats").query("byOffice", [
+    officeId,
+  ]) as unknown as SeatInput[];
+}
+
+/** Every seat the offices engine keeps, in its table's order. */
+export function allSeats(api: CoreAPI): readonly SeatInput[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  return table(api, "seats").rows() as unknown as SeatInput[];
+}
+
+/** Every term, serving and ended, in its table's order. */
+export function allTerms(api: CoreAPI): readonly TermRow[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  return table(api, "terms").rows() as unknown as TermRow[];
+}
+
+/** How many terms the engine has recorded (grows when anyone is seated), for a reader that watches for change. */
+export function termCount(api: CoreAPI): number {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return 0;
+  return table(api, "terms").size;
+}
+
+/** Every term serving now. */
+export function servingTerms(api: CoreAPI): readonly TermRow[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  return table(api, "terms").query("byStatus", [
+    "serving",
+  ]) as unknown as TermRow[];
+}
+
+/** The terms serving in one office (every seat of it). */
+export function servingTermsOfOffice(
+  api: CoreAPI,
+  officeId: string,
+): readonly TermRow[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  return table(api, "terms").query("byOfficeStatus", [
+    officeId,
+    "serving",
+  ]) as unknown as TermRow[];
+}
+
+/** The terms serving on one seat (one, once the seat is held; none while it is vacant). */
+export function servingTermsOnSeat(
+  api: CoreAPI,
+  seatId: string,
+): readonly TermRow[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  return table(api, "terms").query("bySeatStatus", [
+    seatId,
+    "serving",
+  ]) as unknown as TermRow[];
+}
+
+/** The term serving on a seat, or undefined where the seat is vacant. */
+export function termOnSeat(api: CoreAPI, seatId: string): TermRow | undefined {
+  return servingTermsOnSeat(api, seatId)[0];
+}
+
 /** A vacancy by its id, or undefined where there is none. */
 export function vacancyById(
   api: CoreAPI,
