@@ -1,0 +1,55 @@
+{
+  "src/bench/m0-check.ts": {
+    "performance.now": 2
+  },
+  "src/bench/m1-14-check.ts": {
+    "performance.now": 2
+  },
+  "src/bench/path-check.ts": {
+    "performance.now": 2
+  },
+  "src/bench/verify.mjs": {
+    "new Date()": 2,
+    "randomUUID": 1,
+    "randomInt": 3
+  },
+  "src/core2/campaign-incumbent-response-test-kit.ts": {
+    "randomBytes": 1
+  },
+  "src/core2/money-traits-kit.ts": {
+    "randomBytes": 1
+  },
+  "src/core2/record-test-kit.ts": {
+    "randomBytes": 1
+  },
+  "src/core2/tooling/drives-proof.ts": {
+    "performance.now": 5
+  },
+  "src/core2/tooling/finance-measure.ts": {
+    "new Date()": 1,
+    "performance.now": 9
+  },
+  "src/core2/tooling/m0-07-turnover-check.ts": {
+    "randomBytes": 1
+  },
+  "src/core2/tooling/macro-proof.ts": {
+    "randomBytes": 1,
+    "performance.now": 2
+  },
+  "src/core2/tooling/measure.ts": {
+    "new Date()": 1,
+    "performance.now": 11
+  },
+  "src/core2/tooling/officials-year.ts": {
+    "performance.now": 4
+  },
+  "src/core2/tooling/world-drift.ts": {
+    "Date.now": 2
+  },
+  "src/core2/trait-test-kit.ts": {
+    "randomBytes": 1
+  },
+  "src/director/tooling/director-year.ts": {
+    "performance.now": 2
+  }
+}
