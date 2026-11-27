@@ -1,0 +1,8 @@
+# W3 played packet: the door and the donor's call (Nov 27, 2026)
+
+Played through the game's own producers by `scripts/words/door-walk.ts` and `scripts/words/donor-walk.ts`, every reply pressed. Nothing here is composed from stand-in facts.
+
+- `door-bardolph-il.txt`: `node --import tsx scripts/words/door-walk.ts --seed w3d --min-need 0`. Bardolph, Illinois (place seed in the file's first line). A reporter files for the district's board seat; the door scenes show a refusal, a signature, a sick resident, with each branch's ending. The resident's yes or no comes from the petition record, so the scene never offers the resident's "ask" or "deflect"; the gap list's "ask-signature: reply ask, reply deflect" is not a missing line.
+- `donor-hinton-wv.txt`: `node --import tsx scripts/words/donor-walk.ts --seed w3don3`. Hinton, West Virginia, the first 220 lines of 2,771 (the whole walk prints every variant of the family): a friend's gift that comes with a call about a bill, every reply pressed, with the facts each line leans on.
+- Two other donor walks (`--seed w3don2`: Conway, New Hampshire; `--seed w3don4`) staged no donor scene: "the request that states donor-ask.small cannot be worded from the records given". Those worlds' gifts name no bill, and the donor's request is about one. A gift with no bill in the world gets no ask; that is by design, not a missing line.
+- **Found, not fixed:** in Hinton a commuter's employer says as "the Buyers and sellers outside the town" ("Have someone from the Buyers and sellers outside the town bring it to my office"). The `employer` fact reads the outside market's name where a person's employer belongs. It is a fact, not a line.
