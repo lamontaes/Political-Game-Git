@@ -1,0 +1,10 @@
+{
+  "version": "question-amounts-v1",
+  "about": "A policy question whose answer an amount in force already gives: the state's income tax is adopted where its rate is above zero. The century's sessions vote the yes/no question but not yet the amount, so in a century world the question opens with the answer the amount in force gives (stopgap SG-HIST-century-question-follows-amount, CTO line 6995081181 on #9747), and a bill on the question repeals or restores the amount.",
+  "questions": {
+    "us-policy-positions:fiscal.adopt-income-tax": {
+      "series": "income-tax",
+      "yesWhen": "above-zero"
+    }
+  }
+}
