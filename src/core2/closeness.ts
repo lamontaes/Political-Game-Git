@@ -358,7 +358,7 @@ function owedToday(
  * How close two people would be after `hours` more together today (negative
  * takes time away): their tie's hours faded to today, less any strain the
  * row owes, plus the hours another engine's record says they shared
- * (`registerSharedHours`). Never below zero. With no tie and nothing shared
+ * (the `sharedHours` module field). Never below zero. With no tie and nothing shared
  * it is zero; with `hours` zero it is today's closeness.
  */
 export function closenessBetweenAfter(
@@ -397,7 +397,7 @@ function rowHours(
 /**
  * The hours a tie stands on today: its row's hours faded to today, less any
  * strain the row owes, plus the hours another engine's record says the two
- * shared (`registerSharedHours`). What a share of the tie is taken from (a
+ * shared (the `sharedHours` module field). What a share of the tie is taken from (a
  * lie found out, scene-talk-rules endingStrain trust-lost).
  */
 export function tieHoursBetween(
