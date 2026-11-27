@@ -170,12 +170,27 @@ const run = (drawSeed: string): string | null => {
       // says one theme and the ask from the stands they picked (so a stand it leaves out is not said).
       // The planner speaks for a town's race; above the town it has nothing to say yet
       // (SG-WORDS-floor-speech-state-chambers), and the speech is the parts as picked.
+      // Where the planner speaks the whole text is pinned, in order: the opener, any credential they picked
+      // (a part with no stand), the planner's sentences without its own greeting and close (the player chose
+      // theirs), then the closer, joined by a space as `speechGive` joins them.
+      const stage = (name: string) =>
+        speech.picked.filter((row) => row.stage === name);
       const theme = planned?.sentences.find((row) => row.section === "theme");
-      if (theme)
-        expect(
-          said.text,
-          `the planner's theme is in the speech: ${where}`,
-        ).toContain(theme.text);
+      if (planned && theme)
+        expect(said.text, `the whole speech is pinned: ${where}`).toBe(
+          [
+            ...stage("opener").map((row) => row.text),
+            ...speech.picked
+              .filter((row) => row.stage === "core" && !row.stand)
+              .map((row) => row.text),
+            ...planned.sentences
+              .filter(
+                (row) => row.section !== "greeting" && row.section !== "close",
+              )
+              .map((row) => row.text),
+            ...stage("closer").map((row) => row.text),
+          ].join(" "),
+        );
       else
         expect(said.text, where).toBe(
           speech.picked.map((row) => row.text).join(" "),
