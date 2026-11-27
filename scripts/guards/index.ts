@@ -72,6 +72,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/families.test.ts"),
   },
   {
+    id: "engine-tables",
+    rule: "One engine does not open another engine's records: no new module table opened, row put or removed, state map written or state row edited in place from another family; the counts only shrink.",
+    readMore:
+      "scripts/guards/engine-tables.ts, its header; tests/guards/engine-tables-baseline.json",
+    command: vitest("tests/guards/engine-tables.test.ts"),
+  },
+  {
     id: "two-seeds-differ",
     rule: "Realistic, not real: no statistic but law opens on its published value, and two worlds never open on the same one; the known copies only shrink.",
     readMore:

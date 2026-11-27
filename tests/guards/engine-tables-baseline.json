@@ -234,6 +234,9 @@
     "src/core2/medical-bills.ts": {
       "dynamic": 1
     },
+    "src/core2/module-state.ts": {
+      "dynamic": 1
+    },
     "src/core2/modules/budgets.ts": {
       "executive": 1,
       "laws": 2
@@ -404,6 +407,9 @@
     "src/core2/past-school.ts": {
       "dynamic": 1
     },
+    "src/core2/person-life.ts": {
+      "jobs-businesses": 1
+    },
     "src/core2/person-work.ts": {
       "executive": 1
     },
@@ -429,12 +435,18 @@
     "src/core2/record-test-kit.ts": {
       "elections": 2
     },
+    "src/core2/resting-stress.ts": {
+      "dynamic": 1
+    },
     "src/core2/session-law-audit.ts": {
       "laws": 1
     },
     "src/core2/shared-history.ts": {
       "elections": 2,
       "people": 1
+    },
+    "src/core2/state.ts": {
+      "dynamic": 2
     },
     "src/core2/tax-index.ts": {
       "jobs-businesses": 1
@@ -583,9 +595,15 @@
     },
     "src/core2/press-money.ts": {
       "dynamic": 2
+    },
+    "src/core2/state.ts": {
+      "dynamic": 1
     }
   },
   "mapWrites": {
+    "src/core2/civic-inputs.ts": {
+      "publicOrganizations": 1
+    },
     "src/core2/decision-detail.ts": {
       "relationships": 1
     },
@@ -605,6 +623,32 @@
       "people": 2,
       "publicOrganizations": 1,
       "relationships": 1
+    }
+  },
+  "rowEdits": {
+    "src/core2/finance-state.ts": {
+      "JobInput": 1,
+      "PersonState": 2
+    },
+    "src/core2/free-block.ts": {
+      "PersonState": 1
+    },
+    "src/core2/job-lifecycle.ts": {
+      "PersonState": 2
+    },
+    "src/core2/modules/residents.ts": {
+      "OrganizationInput": 1
+    },
+    "src/core2/past-moves.ts": {
+      "PersonState": 1
+    },
+    "src/core2/state.ts": {
+      "JobInput": 2,
+      "PersonState": 28,
+      "Relationship": 7
+    },
+    "src/core2/work-attendance.ts": {
+      "PersonState": 4
     }
   }
 }

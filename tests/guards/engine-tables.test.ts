@@ -1,43 +1,30 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import path from "node:path";
 import { beforeAll, describe, expect, it } from "vitest";
 import {
+  baselineOf,
   measure,
+  type Baseline,
   type Counts,
-  type Measurement,
 } from "../../scripts/guards/engine-tables";
 
 /**
  * One engine does not open another engine's records (core review K8, Nov 26;
  * owner: "Every system is already built: find the engine that does it and
  * wire through it"). A file in one family may not open a module table
- * another family owns, put or remove a row in one, or write straight into a
- * state map another engine owns; it asks the owner's front door.
+ * another family owns, put or remove a row in one, write straight into a
+ * state map another engine owns, or edit a state row in place that another
+ * engine owns; it asks the owner's front door.
  *
  * What is counted and what is not is written in
  * scripts/guards/engine-tables.ts. The baseline is what the code does today
  * and only shrinks: a file may not gain a count, and a count that has fallen
- * must be lowered here. UPDATE_ENGINE_TABLES=1 rewrites the baseline after a
- * cut (it refuses to write a higher count than the file holds).
+ * must be lowered here. scripts/guards/write-engine-tables-baseline.ts writes
+ * it: with --shrink-only after a cut (it refuses a higher count), without it
+ * when the families move (the CTO re-runs it when a train folds in work that
+ * renames or moves families).
  */
 const BASELINE = path.join(__dirname, "engine-tables-baseline.json");
-type Baseline = Pick<Measurement, "opens" | "writes" | "mapWrites">;
-
-/** Writes the scan could not follow from the table back to its module are reported, not held to a baseline. */
-function held(measured: Measurement): Baseline {
-  const writes: Counts = {};
-  for (const [file, row] of Object.entries(measured.writes)) {
-    const kept = Object.fromEntries(
-      Object.entries(row).filter(([key]) => key !== "unplaced"),
-    );
-    if (Object.keys(kept).length) writes[file] = kept;
-  }
-  return {
-    opens: measured.opens,
-    writes,
-    mapWrites: measured.mapWrites,
-  };
-}
 
 function compare(
   kind: keyof Baseline,
@@ -69,16 +56,7 @@ function compare(
 describe("one engine does not open another engine's records", () => {
   let now: Baseline;
   beforeAll(() => {
-    now = held(measure());
-    if (process.env.UPDATE_ENGINE_TABLES) {
-      const known = JSON.parse(readFileSync(BASELINE, "utf8")) as Baseline;
-      const raised = (Object.keys(now) as (keyof Baseline)[]).flatMap(
-        (kind) => compare(kind, now[kind], known[kind]).over,
-      );
-      if (raised.length)
-        throw new Error(`The baseline only shrinks:\n${raised.join("\n")}`);
-      writeFileSync(BASELINE, JSON.stringify(now, null, 2) + "\n");
-    }
+    now = baselineOf(measure());
   }, 180_000);
 
   const known = JSON.parse(readFileSync(BASELINE, "utf8")) as Baseline;
@@ -97,13 +75,17 @@ describe("one engine does not open another engine's records", () => {
     );
   });
 
+  it("edits no state row in place that another engine owns, more than before", () => {
+    expect(compare("rowEdits", now.rowEdits, known.rowEdits).over).toEqual([]);
+  });
+
   it("only shrinks: lowers a count as soon as a cut lands", () => {
-    const stale = (Object.keys(now) as (keyof Baseline)[]).flatMap(
+    const stale = (Object.keys(known) as (keyof Baseline)[]).flatMap(
       (kind) => compare(kind, now[kind], known[kind]).stale,
     );
     expect(
       stale,
-      "run UPDATE_ENGINE_TABLES=1 npx vitest run tests/guards/engine-tables.test.ts",
+      "run node --import tsx scripts/guards/write-engine-tables-baseline.ts --shrink-only",
     ).toEqual([]);
   });
 });

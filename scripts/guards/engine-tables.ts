@@ -7,11 +7,15 @@
  * The owner of a module table is the file whose module object holds both the
  * module's `id` and its `state` tables; the caller's engine is the family of
  * the file the call is in (tests/guards/families.json). Module rows are
- * frozen when they are put and read, so a row cannot be edited in place; the
+ * frozen when they are put and read, so a module row cannot be edited in place; the
  * write kinds measured here are `put`, `putOwned`, `remove` and `restore`,
  * followed from the table back to the `moduleState` call it came from
  * through variables. A table handed to a function as an argument is followed
  * no further, and is counted as a write the scan cannot place.
+ *
+ * State rows (`PersonState`, `JobInput` and the rest) are plain mutable
+ * objects, so a file in another family can also assign a field in place; those
+ * edits are counted by the row type's owner (`ROW_OWNER`).
  *
  * Read by tests/guards/engine-tables.test.ts. About 30 seconds: it builds a
  * type-checker program over the game's source.
@@ -28,7 +32,7 @@ const ROOT = path.resolve(
   "..",
 );
 
-/** `core.<map>` state maps: the engine that owns each. The core's own maps are not listed. */
+/** `core.<map>` state maps: the engine that owns each. The core's own maps are not listed. `publicOrganizations` is the offices and institutions row, which the executive engine owns. */
 export const STATE_MAP_OWNER: Readonly<Record<string, string>> = {
   people: "people",
   husks: "people",
@@ -38,8 +42,21 @@ export const STATE_MAP_OWNER: Readonly<Record<string, string>> = {
   memberships: "people",
   jobs: "jobs-businesses",
   organizations: "jobs-businesses",
-  publicOrganizations: "elections",
+  publicOrganizations: "executive",
 };
+
+/** The state rows an engine owns, by the type a row is read as: editing one in place from another family is a write the owner does not see. */
+export const ROW_OWNER: Readonly<Record<string, string>> = {
+  PersonState: "people",
+  HuskInput: "people",
+  HouseholdInput: "people",
+  Relationship: "people",
+  Membership: "people",
+  JobInput: "jobs-businesses",
+  OrganizationInput: "jobs-businesses",
+  PublicOrganization: "executive",
+};
+const MUTATORS = new Set(["add", "set", "delete", "push", "splice", "clear"]);
 const WRITE_ON_MAP = new Set(["set", "delete", "clear"]);
 const WRITE_ON_TABLE = new Set(["put", "putOwned", "remove", "restore"]);
 
@@ -51,8 +68,8 @@ export interface Measurement {
   writes: Counts;
   /** caller file -> state map -> direct writes into another engine's map. */
   mapWrites: Counts;
-  /** caller file -> `moduleState` calls whose module id is not a constant. */
-  dynamic: Record<string, number>;
+  /** caller file -> state row type -> rows edited in place (an assignment, `++`, `delete` or a Set/Map/array change on a field). */
+  rowEdits: Counts;
 }
 
 function sourceFiles(): string[] {
@@ -97,16 +114,33 @@ export function measure(): Measurement {
     const type = checker.getTypeAtLocation(node);
     return type.isStringLiteral() ? type.value : null;
   };
+  /** `api.moduleState(id)` or the free function `moduleState(core, id)`. */
   const isModuleStateCall = (node: ts.Node): node is ts.CallExpression =>
     ts.isCallExpression(node) &&
-    ts.isPropertyAccessExpression(node.expression) &&
-    node.expression.name.text === "moduleState" &&
-    node.arguments.length === 1;
+    ((ts.isPropertyAccessExpression(node.expression) &&
+      node.expression.name.text === "moduleState" &&
+      node.arguments.length === 1) ||
+      (ts.isIdentifier(node.expression) &&
+        node.expression.text === "moduleState" &&
+        node.arguments.length === 2));
+  const idArgument = (call: ts.CallExpression) =>
+    call.arguments[call.arguments.length - 1]!;
 
   const owner = new Map<string, string>();
   const calls: { file: string; node: ts.CallExpression }[] = [];
   const tableWrites: { file: string; receiver: ts.Expression }[] = [];
   const mapWrites: { file: string; map: string }[] = [];
+  const rowEdits: { file: string; row: string }[] = [];
+  /** The state row type an expression is read as, when it is one an engine owns. */
+  const rowTypeOf = (expression: ts.Expression): string | null => {
+    const name = checker.getNonNullableType(
+      checker.getTypeAtLocation(expression),
+    ).symbol?.name;
+    return name !== undefined && ROW_OWNER[name] !== undefined ? name : null;
+  };
+  const isAssignment = (kind: ts.SyntaxKind) =>
+    kind >= ts.SyntaxKind.FirstAssignment &&
+    kind <= ts.SyntaxKind.LastAssignment;
 
   for (const source of program.getSourceFiles()) {
     if (!mine.has(source.fileName)) continue;
@@ -155,6 +189,37 @@ export function measure(): Measurement {
         )
           mapWrites.push({ file, map: receiver.name.text });
       }
+      // A row edited in place: its field assigned, counted, deleted or changed.
+      const target = (() => {
+        if (
+          ts.isBinaryExpression(node) &&
+          isAssignment(node.operatorToken.kind)
+        )
+          return node.left;
+        if (
+          (ts.isPrefixUnaryExpression(node) ||
+            ts.isPostfixUnaryExpression(node)) &&
+          (node.operator === ts.SyntaxKind.PlusPlusToken ||
+            node.operator === ts.SyntaxKind.MinusMinusToken)
+        )
+          return node.operand;
+        if (ts.isDeleteExpression(node)) return node.expression;
+        if (
+          ts.isCallExpression(node) &&
+          ts.isPropertyAccessExpression(node.expression) &&
+          MUTATORS.has(node.expression.name.text)
+        )
+          return node.expression.expression;
+        return null;
+      })();
+      if (
+        target &&
+        (ts.isPropertyAccessExpression(target) ||
+          ts.isElementAccessExpression(target))
+      ) {
+        const row = rowTypeOf(target.expression);
+        if (row) rowEdits.push({ file, row });
+      }
       ts.forEachChild(node, visit);
     };
     visit(source);
@@ -164,7 +229,7 @@ export function measure(): Measurement {
     opens: {},
     writes: {},
     mapWrites: {},
-    dynamic: {},
+    rowEdits: {},
   };
   const crosses = (file: string, ownerFile: string | undefined) => {
     if (!ownerFile) return null;
@@ -174,10 +239,13 @@ export function measure(): Measurement {
   };
 
   for (const { file, node } of calls) {
-    const id = literal(node.arguments[0]!);
+    const id = literal(idArgument(node));
     if (id === null) {
       bump(out.opens, file, "dynamic");
-      out.dynamic[file] = (out.dynamic[file] ?? 0) + 1;
+      continue;
+    }
+    if (!owner.has(id)) {
+      bump(out.opens, file, "unknown-owner");
       continue;
     }
     const to = crosses(file, owner.get(id));
@@ -258,7 +326,7 @@ export function measure(): Measurement {
       bump(out.writes, file, "unplaced");
       continue;
     }
-    const id = literal(call.arguments[0]!);
+    const id = literal(idArgument(call));
     if (id === null) {
       bump(out.writes, file, "dynamic");
       continue;
@@ -271,6 +339,9 @@ export function measure(): Measurement {
     const to = STATE_MAP_OWNER[map]!;
     if (familyOf(file) !== to) bump(out.mapWrites, file, map);
   }
+
+  for (const { file, row } of rowEdits)
+    if (familyOf(file) !== ROW_OWNER[row]) bump(out.rowEdits, file, row);
 
   const sorted = (counts: Counts): Counts =>
     Object.fromEntries(
@@ -289,7 +360,29 @@ export function measure(): Measurement {
     opens: sorted(out.opens),
     writes: sorted(out.writes),
     mapWrites: sorted(out.mapWrites),
-    dynamic: Object.fromEntries(Object.entries(out.dynamic).sort()),
+    rowEdits: sorted(out.rowEdits),
+  };
+}
+
+export type Baseline = Pick<
+  Measurement,
+  "opens" | "writes" | "mapWrites" | "rowEdits"
+>;
+
+/** What the guard holds: writes the scan could not follow from the table back to its module are reported, not held. */
+export function baselineOf(measured: Measurement): Baseline {
+  const writes: Counts = {};
+  for (const [file, row] of Object.entries(measured.writes)) {
+    const kept = Object.fromEntries(
+      Object.entries(row).filter(([key]) => key !== "unplaced"),
+    );
+    if (Object.keys(kept).length) writes[file] = kept;
+  }
+  return {
+    opens: measured.opens,
+    writes,
+    mapWrites: measured.mapWrites,
+    rowEdits: measured.rowEdits,
   };
 }
 
@@ -303,7 +396,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   console.error(
     `tables opened across families: ${total(result.opens)} in ${Object.keys(result.opens).length} files; ` +
       `rows written: ${total(result.writes)} in ${Object.keys(result.writes).length} files; ` +
-      `state maps written: ${total(result.mapWrites)} in ${Object.keys(result.mapWrites).length} files`,
+      `state maps written: ${total(result.mapWrites)} in ${Object.keys(result.mapWrites).length} files; ` +
+      `state rows edited in place: ${total(result.rowEdits)} in ${Object.keys(result.rowEdits).length} files`,
   );
   console.log(JSON.stringify(result, null, 2));
 }
