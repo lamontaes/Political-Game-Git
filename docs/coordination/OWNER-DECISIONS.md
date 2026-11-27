@@ -2,6 +2,15 @@
 
 The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
+## Nov 26, 2026, about 9:50 p.m.: words land in batches, again (owner, verbatim; recorded by the CTO)
+
+- Asked what should let a part of the story merge: "i've already ruled on this multiple times. I can't approve everything so this is why I need batches that affect a lot of stuff in their sentencing and the scenarios and stuff and then when I actually play I can I can see how this stuff works, but you can play and at least see how the sentences and stuff work I mean I don't understand why I have to keep ruling"
+  - **The standing rule** (Nov 8, Nov 9 "I'm also not gonna grade 6,000 individual lines", Nov 11 "merge in batches", Nov 24 "each batch counts only after the sameness gate and the pre-grader pass it"):
+    - Words land in batches. A part counts once it passes the sameness gate and pre-grade and plays right at three drawn places. Then it goes in one words PR onto main, with its scenes before and after, and the CTO trains it.
+    - He grades small batches by voice. A grade reaches every line that shares its pattern across the game, and he sees the rest when he plays.
+    - **Nothing waits for his approval line by line.** #10390's "nothing merges until he plays it in the installed game" was wrong, and is why the Story branch piled up. Never ask him this again.
+  - **"History, next":** History splits story/first-evening. Its engine half lands on main like any engine change; its words half becomes data only and lands in batches under this rule.
+
 ## 2026-11-26, about 1:40 p.m. ET: just the game in the game folder; builders only
 
 - **"No tests, no notes, other than stopgaps... no attributions, nothing. Just straight game code. Like if I were to download a game online and I were to open the folder and look at all the files, it should just be the game stuff."** His pick: **game folder clean, workshop separate**, run after the builders finish.
