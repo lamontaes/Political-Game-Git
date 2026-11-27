@@ -35,7 +35,8 @@ import { allGovernmentUnits } from "./reference/government-units";
  * place had the case.
  */
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const PLACES = 8;
+/** How many places a test draws before it fails by name; HOOKS_PLACES shortens it for a check that is meant to fail. */
+const PLACES = Number(process.env.HOOKS_PLACES ?? 8);
 /** A world that opens after the November 2026 races' filing closed and before their election day (the date `closed-town-race-at-opening` uses). */
 const CLOSED_AT_OPENING = "2026-10-12";
 /** Places whose charter elects council seats by ward (the research the council method reads). */
