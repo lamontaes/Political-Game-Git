@@ -5541,31 +5541,18 @@ export function chairHears(api: CoreAPI, bill: BillRow, chamber: string) {
   };
 }
 
-function committeeStage(
+/** What a committee hears on a bill: the question the bill asks, as the stance of its first section that has one. */
+type HearingQuestion = NonNullable<ReturnType<typeof provisionStance>>;
+
+/** The seated members of a chamber's committee on a bill. */
+type CommitteeRoster = NonNullable<ReturnType<typeof committeeSeats>>["roster"];
+
+/** The workers a wage bill's hearing hears: those paid under the proposed floor, lowest pay first. */
+function wageWitnesses(
   api: CoreAPI,
   bill: BillRow,
-  chamber: string,
-): CommitteeRecord | null {
-  const all = members(api, chamber);
-  if (all.length <= campaignParameter("committeeOfTheWholeMaximum"))
-    return null;
-  // A committee that already met on the bill (on its own day, ahead of the floor) is not convened again.
-  const met = table(api, "committees").get(
-    `committee:${bill.id}:${chamber}`,
-  ) as unknown as CommitteeRecord | undefined;
-  if (met) return met;
-  const { roster } = committeeSeats(api, bill, chamber)!;
-  const {
-    heard,
-    chair,
-    castHear,
-    agreed,
-    chairPosition,
-    hearingTrait,
-    cosponsorPull,
-  } = chairHears(api, bill, chamber);
-  // The chair's reasons are kept on the committee record; the sponsor's ask of
-  // the chair (`hold-chair-sought`) reads them.
+  heard: boolean,
+): HearingWitness[] {
   const witnesses: HearingWitness[] = [];
   if (heard) {
     const wage = bill.provisions.find((p) => p.series === "minimum-wage");
@@ -5586,19 +5573,17 @@ function committeeStage(
         });
     }
   }
-  // Each witness makes their case to the committee's members who are people
-  // (the speech engine moves each by the witness's standing with them), and
-  // the committee then votes on where its members stand after hearing it.
-  const question = bill.provisions
-    .map((p) =>
-      provisionStance(
-        api,
-        p,
-        billLevel(api, bill),
-        billJurisdiction(api, bill),
-      ),
-    )
-    .find((row) => row !== null);
+  return witnesses;
+}
+
+/** The people the interest groups' records show taking a side on the question, added up to the hearing's size. */
+function addInterestWitnesses(
+  api: CoreAPI,
+  bill: BillRow,
+  witnesses: HearingWitness[],
+  heard: boolean,
+  question: HearingQuestion | undefined,
+): void {
   // A bill that is not a wage bill is heard on its own question: the people the interest groups'
   // records show taking a side on it, up to the hearing's size.
   if (heard && question)
@@ -5608,6 +5593,18 @@ function committeeStage(
         if (!witnesses.some((row) => row.personId === w.personId))
           witnesses.push(w);
       }
+}
+
+/** Each witness makes their case to the committee's members who are people. */
+function deliverHearingSpeeches(
+  api: CoreAPI,
+  bill: BillRow,
+  chamber: string,
+  roster: CommitteeRoster,
+  witnesses: readonly HearingWitness[],
+  heard: boolean,
+  question: HearingQuestion | undefined,
+): void {
   if (heard && question && api.state.modules.has(SPEECH_MODULE_ID)) {
     const room = roster.flatMap((t) =>
       t.personId && api.state.people.get(t.personId)?.alive ? [t.personId] : [],
@@ -5631,10 +5628,15 @@ function committeeStage(
           },
         });
   }
-  // Markup: the committee's holdouts trade for sections of their own, and
-  // its most opposed member may move a pill, as on the floor.
-  if (heard)
-    floorAmendments(api, bill, chamber, "committee", roster.map(memberKey));
+}
+
+/** The committee's members' votes on where they stand after the hearing. */
+function committeeVotes(
+  api: CoreAPI,
+  bill: BillRow,
+  roster: CommitteeRoster,
+  heard: boolean,
+): CommitteeRecord["votes"][number][] {
   const votes: CommitteeRecord["votes"][number][] = [];
   if (heard)
     for (const member of roster) {
@@ -5654,36 +5656,19 @@ function committeeStage(
               : "abstain");
       votes.push({ memberId, vote, position });
     }
-  const yes = votes.filter((v) => v.vote === "yes").length;
-  const no = votes.filter((v) => v.vote === "no").length;
-  const voted = heard && yes > no;
-  const discharge = voted ? null : dischargePetition(api, bill, chamber);
-  const record: CommitteeRecord = {
-    id: `committee:${bill.id}:${chamber}`,
-    billId: bill.id,
-    chamber,
-    date: api.state.date,
-    committee: committeeFor(bill),
-    chairId: memberKey(chair),
-    memberIds: roster.map(memberKey),
-    heard,
-    ...(castHear ? { chairPicked: true as const } : {}),
-    chairReasons: {
-      position: chairPosition,
-      hearingTrait,
-      ...(agreed?.replyId ? { agreedReplyId: agreed.replyId } : {}),
-      ...(bill.cosponsors?.length
-        ? { cosponsorIds: bill.cosponsors, cosponsorPull }
-        : {}),
-    },
-    votes,
-    witnesses,
-    yes,
-    no,
-    reported: voted || discharge?.discharged === true,
-    ...(discharge ? { discharge } : {}),
-  };
-  table(api, "committees").put(record as unknown as ModuleRow);
+  return votes;
+}
+
+/** The committee's hearing (or the bill's being held) as a public record. */
+function recordCommittee(
+  api: CoreAPI,
+  bill: BillRow,
+  chamber: string,
+  record: CommitteeRecord,
+  agreed: unknown,
+  question: HearingQuestion | undefined,
+): void {
+  const { heard, yes, no, witnesses } = record;
   api.emit({
     // A hearing the chair set after agreeing in the scene that followed a hold is a record of its own.
     id: `committee:${bill.id}:${chamber}${agreed ? ":after-hold" : ""}`,
@@ -5737,6 +5722,93 @@ function committeeStage(
         : (question?.question.split(":")[1]?.split(".")[0] ?? ""),
     },
   });
+}
+
+function committeeStage(
+  api: CoreAPI,
+  bill: BillRow,
+  chamber: string,
+): CommitteeRecord | null {
+  const all = members(api, chamber);
+  if (all.length <= campaignParameter("committeeOfTheWholeMaximum"))
+    return null;
+  // A committee that already met on the bill (on its own day, ahead of the floor) is not convened again.
+  const met = table(api, "committees").get(
+    `committee:${bill.id}:${chamber}`,
+  ) as unknown as CommitteeRecord | undefined;
+  if (met) return met;
+  const { roster } = committeeSeats(api, bill, chamber)!;
+  const {
+    heard,
+    chair,
+    castHear,
+    agreed,
+    chairPosition,
+    hearingTrait,
+    cosponsorPull,
+  } = chairHears(api, bill, chamber);
+  // The chair's reasons are kept on the committee record; the sponsor's ask of
+  // the chair (`hold-chair-sought`) reads them.
+  const witnesses = wageWitnesses(api, bill, heard);
+  // Each witness makes their case to the committee's members who are people
+  // (the speech engine moves each by the witness's standing with them), and
+  // the committee then votes on where its members stand after hearing it.
+  const question = bill.provisions
+    .map((p) =>
+      provisionStance(
+        api,
+        p,
+        billLevel(api, bill),
+        billJurisdiction(api, bill),
+      ),
+    )
+    .find((row) => row !== null);
+  addInterestWitnesses(api, bill, witnesses, heard, question);
+  deliverHearingSpeeches(
+    api,
+    bill,
+    chamber,
+    roster,
+    witnesses,
+    heard,
+    question,
+  );
+  // Markup: the committee's holdouts trade for sections of their own, and
+  // its most opposed member may move a pill, as on the floor.
+  if (heard)
+    floorAmendments(api, bill, chamber, "committee", roster.map(memberKey));
+  const votes = committeeVotes(api, bill, roster, heard);
+  const yes = votes.filter((v) => v.vote === "yes").length;
+  const no = votes.filter((v) => v.vote === "no").length;
+  const voted = heard && yes > no;
+  const discharge = voted ? null : dischargePetition(api, bill, chamber);
+  const record: CommitteeRecord = {
+    id: `committee:${bill.id}:${chamber}`,
+    billId: bill.id,
+    chamber,
+    date: api.state.date,
+    committee: committeeFor(bill),
+    chairId: memberKey(chair),
+    memberIds: roster.map(memberKey),
+    heard,
+    ...(castHear ? { chairPicked: true as const } : {}),
+    chairReasons: {
+      position: chairPosition,
+      hearingTrait,
+      ...(agreed?.replyId ? { agreedReplyId: agreed.replyId } : {}),
+      ...(bill.cosponsors?.length
+        ? { cosponsorIds: bill.cosponsors, cosponsorPull }
+        : {}),
+    },
+    votes,
+    witnesses,
+    yes,
+    no,
+    reported: voted || discharge?.discharged === true,
+    ...(discharge ? { discharge } : {}),
+  };
+  table(api, "committees").put(record as unknown as ModuleRow);
+  recordCommittee(api, bill, chamber, record, agreed, question);
   return record;
 }
 
