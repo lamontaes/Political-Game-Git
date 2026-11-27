@@ -17,7 +17,7 @@
     },
     "src/bench/campaign.ts": {
       "bodies": 1,
-      "elections": 11,
+      "elections": 3,
       "executive": 2
     },
     "src/bench/card.ts": {
@@ -41,7 +41,6 @@
     "src/bench/dev-mode.ts": {
       "bodies": 10,
       "dynamic": 1,
-      "elections": 1,
       "executive": 4,
       "jobs-businesses": 2,
       "laws": 9,
@@ -74,10 +73,9 @@
       "laws": 1
     },
     "src/bench/election-night.ts": {
-      "elections": 2
+      "elections": 1
     },
     "src/bench/filing.ts": {
-      "elections": 3,
       "executive": 1
     },
     "src/bench/government-bodies.ts": {
@@ -86,7 +84,7 @@
       "executive": 3
     },
     "src/bench/government.ts": {
-      "elections": 6,
+      "elections": 3,
       "executive": 6
     },
     "src/bench/law-did.ts": {
@@ -123,12 +121,12 @@
       "news": 2
     },
     "src/bench/reached.ts": {
-      "elections": 3,
+      "elections": 2,
       "laws": 1,
       "news": 1
     },
     "src/bench/results.ts": {
-      "elections": 2
+      "elections": 1
     },
     "src/bench/scene.ts": {
       "executive": 2,

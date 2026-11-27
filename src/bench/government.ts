@@ -29,7 +29,6 @@ import {
   atLargeGroup,
   campaigning,
   checkEligibility,
-  ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingOfficeFor,
   filingOf,
@@ -42,6 +41,7 @@ import {
   playerFilingBar,
   seatIsAnotherDistrict,
   type ContestRow,
+  contestOf,
 } from "../core2/modules/elections";
 import {
   candidateIdentity,
@@ -812,10 +812,8 @@ export function announceForOffice(
       (controls.localRaces.refusal as Record<string, string>)[bar] ??
         controls.localRaces.refusal["not-your-office"],
     );
-  const contest = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("contests")
-    .get(contestId) as unknown as ContestRow | undefined;
+  const contest = contestOf(api, contestId) as unknown as
+    ContestRow | undefined;
   if (!contest) throw new Error(controls.localRaces.refusal["not-your-office"]);
   // The party the player is tied to, as the counter's filing reads it.
   const parties = core.modules.has(PARTIES_MODULE_ID) ? partiesHere(api) : [];
@@ -848,10 +846,8 @@ export function fileForOffice(
   // their views on the questions this seat takes up (the same read a
   // simulated candidate's filing makes), and none for a question they have no
   // view on.
-  const contest = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("contests")
-    .get(contestId) as unknown as ContestRow | undefined;
+  const contest = contestOf(api, contestId) as unknown as
+    ContestRow | undefined;
   return fileCandidacy(api, {
     personId,
     contestId,

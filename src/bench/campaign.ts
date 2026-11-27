@@ -34,6 +34,9 @@ import {
   petitionCirculating,
   petitionOf,
   petitionSigners,
+  filingsOfPerson,
+  contestOf,
+  filingOf,
 } from "../core2/modules/elections";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
@@ -96,8 +99,6 @@ import controls from "./data/controls.json" with { type: "json" };
 /** The voters a poll asks when the player commissions one from the Campaigns screen. */
 const POLL_SAMPLE = campaignParameter("pollSampleSize");
 
-const ELECTIONS = "core2-elections-v1";
-
 /**
  * A filing's petition as the screens show it, read from the petition record:
  * the signatures the law asks, the last day and the signatures held. The
@@ -152,10 +153,7 @@ export function campaignView(core: CoreState, personId: string) {
   if (!core.modules.has(CAMPAIGNS)) return { campaigns: [], venues: [] };
   const api = coreAPI(core);
   const filings = (
-    api
-      .moduleState(ELECTIONS)
-      .table("filings")
-      .query("byPerson", [personId]) as unknown as FilingRow[]
+    filingsOfPerson(api, personId) as unknown as FilingRow[]
   ).filter((row) => raceLive(api, row));
   const pictures = filings.length ? trailPictures(core, personId) : {};
   return {
@@ -172,10 +170,8 @@ export function campaignView(core: CoreState, personId: string) {
       }[];
       const causes = contestStanding(api, filing.contestId, personId);
       // The race by its own record: the office and the day it is decided.
-      const contest = api
-        .moduleState(ELECTIONS)
-        .table("contests")
-        .get(filing.contestId) as unknown as ContestRow | undefined;
+      const contest = contestOf(api, filing.contestId) as unknown as
+        ContestRow | undefined;
       return {
         filing,
         // The other candidates on the contest's filings, by name: what the
@@ -281,10 +277,7 @@ export function runningMatePicked(
   filingId: string,
 ) {
   const api = coreAPI(core);
-  const filing = api
-    .moduleState(ELECTIONS)
-    .table("filings")
-    .get(filingId) as unknown as FilingRow | undefined;
+  const filing = filingOf(api, filingId) as unknown as FilingRow | undefined;
   if (filing?.personId !== personId)
     throw new Error("That isn't one of your races.");
   chooseRunningMateForMe(api, filingId);
@@ -302,10 +295,7 @@ export function runningMateAsked(
   askedId: string,
 ) {
   const api = coreAPI(core);
-  const filing = api
-    .moduleState(ELECTIONS)
-    .table("filings")
-    .get(filingId) as unknown as FilingRow | undefined;
+  const filing = filingOf(api, filingId) as unknown as FilingRow | undefined;
   if (filing?.personId !== personId)
     throw new Error("That isn't one of your races.");
   const row = askToServe(api, { seat: "ticket", filingId, personId: askedId });
@@ -333,10 +323,10 @@ function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
     const person = core.people.get(id as PersonId);
     return person ? `${person.givenName} ${person.familyName}` : null;
   };
-  const contest = api
-    .moduleState(ELECTIONS)
-    .table("contests")
-    .get(ticket.ticketContestId) as unknown as ContestRow;
+  const contest = contestOf(
+    api,
+    ticket.ticketContestId,
+  ) as unknown as ContestRow;
   const mateName = ticket.mateId ? nameOf(ticket.mateId) : null;
   // Who turned the player down, and who may be asked now (owner, Nov 14: a
   // no stands for now; ask again later).
@@ -756,8 +746,7 @@ export function campaignAct(
       // When nothing was bought, the line says why from the campaign's own
       // books: nothing raised since filing, all of it spent, or money left.
       const filedOn = (
-        api.moduleState(ELECTIONS).table("filings").get(input.filingId) as
-          { filedOn?: string } | undefined
+        filingOf(api, input.filingId) as { filedOn?: string } | undefined
       )?.filedOn;
       return {
         ...rows,
@@ -1310,15 +1299,11 @@ export function donationAsksView(core: CoreState, personId: string) {
     cashMinor: person?.liquidMinor ?? 0,
     asks: asks.map((ask) => {
       const candidate = core.people.get(ask.candidateId);
-      const filing = api
-        .moduleState(ELECTIONS)
-        .table("filings")
-        .get(ask.campaignId) as unknown as FilingRow | undefined;
+      const filing = filingOf(api, ask.campaignId) as unknown as
+        FilingRow | undefined;
       const contest = filing
-        ? (api
-            .moduleState(ELECTIONS)
-            .table("contests")
-            .get(filing.contestId) as unknown as ContestRow | undefined)
+        ? (contestOf(api, filing.contestId) as unknown as
+            ContestRow | undefined)
         : undefined;
       return {
         id: ask.id,
