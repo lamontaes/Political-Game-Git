@@ -11,8 +11,8 @@ import {
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
 import { placeStateKey } from "../core2/place-map";
-import { buildPopulation, inHousehold } from "../core2/population";
-import { enrichCivicInputs } from "../core2/civic-inputs";
+import { buildPopulation, inHousehold } from "../core2/modules/coverage";
+import { enrichCivicInputs } from "../core2/past";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
 import { createLifeCore } from "../core2/life";
@@ -32,7 +32,7 @@ import {
   applyPastSessionLaws,
   lastSittingBefore,
   pastSessionLaws,
-} from "../core2/tooling/past-sessions";
+} from "../core2/past-sessions";
 import type { EntityId } from "../core2/kernel/brands";
 import { coreAPI } from "../core2/state";
 import { openStartingCircle } from "../core2/modules/people";
@@ -44,56 +44,56 @@ import {
   setHistoryMode,
 } from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
-import { openParties } from "../core2/modules/parties";
+import { openParties } from "../core2/modules/campaigns";
 import { openVoting, openWorldRaces } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
-import { openOutsideBudgets } from "../core2/modules/outside-budgets";
-import { openOfficialPay } from "../core2/modules/official-pay";
-import { openCrime } from "../core2/modules/crime";
+import { openOutsideBudgets } from "../core2/budgets-treasury";
+import { openOfficialPay } from "../core2/modules/executive";
+import { openCrime } from "../core2/modules/justice";
 import { openPatrol } from "../core2/modules/police-patrol";
 import { openCoverage } from "../core2/modules/coverage";
-import { openHomelessCount } from "../core2/modules/homeless-count";
+import { openHomelessCount } from "../core2/modules/coverage";
 import { openGrievance } from "../core2/modules/people";
-import { openEstates } from "../core2/estates";
-import { openEmployerTaxes } from "../core2/modules/employer-taxes";
-import { openContracts } from "../core2/modules/contracts";
-import { openProjects } from "../core2/modules/projects";
+import { openEstates } from "../core2/modules/health";
+import { openEmployerTaxes } from "../core2/budgets-treasury";
+import { openContracts } from "../core2/budgets-treasury";
+import { openProjects } from "../core2/budgets-treasury";
 import { openLegislature } from "../core2/modules/legislature";
 import { openOfficials } from "../core2/modules/officials";
-import { openLawReach } from "../core2/law-reach/host";
+import { openLawReach } from "../core2/modules/justice";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { openStaff } from "../core2/modules/staff";
 import { openServeAsks } from "../core2/modules/serve-asks";
 import { PROMISES_MODULE } from "../core2/modules/promises";
-import { openLeadership } from "../core2/modules/leadership";
-import { openSuccession } from "../core2/modules/succession";
+import { openLeadership } from "../core2/modules/meetings";
+import { openSuccession } from "../core2/modules/office-day";
 import { openExecutive } from "../core2/modules/executive";
-import { openInterestGroups } from "../core2/modules/interest-groups";
-import { openPublicAction } from "../core2/modules/public-action";
+import { openInterestGroups } from "../core2/modules/campaigns";
+import { openPublicAction } from "../core2/modules/health";
 import { openNationalOpinion } from "../core2/modules/national-opinion";
 import { openFederalCourts } from "../core2/modules/federal-courts";
 import { openNationalEvents } from "../core2/modules/national-events";
 import {
   openSittingSessions,
   openWorldLegislating,
-} from "../core2/modules/world-legislating";
-import { openBallotMeasures } from "../core2/modules/ballot-measures";
-import { openRecalls } from "../core2/modules/recalls";
+} from "../core2/modules/meetings";
+import { openBallotMeasures } from "../core2/modules/campaigns";
+import { openRecalls } from "../core2/modules/campaigns";
 import { openHouseholdOutlets, openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
-import { officeDayData, openOfficeDay } from "../core2/office-day-levels";
+import { officeDayData, openOfficeDay } from "../core2/modules/president-acts";
 import { openPresidentActs } from "../core2/modules/president-acts";
-import { openCases } from "../core2/modules/constituent-cases";
+import { openCases } from "../core2/modules/executive";
 import { openJustice } from "../core2/modules/justice";
 import { openPublicSafety } from "../core2/modules/public-safety";
 import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
-import { renewalData } from "../core2/births-setup";
+import { renewalData } from "../core2/modules/coverage";
 import type { CoreInput, CoreState } from "../core2/types";
 import { OPENING_KIN } from "../core2/opening-kin";
-import { scaleFirmsToCensus } from "../core2/census-firms";
-import { collapseToTwoLevels, fullPeople } from "../core2/residents";
+import { scaleFirmsToCensus } from "../core2/modules/business";
+import { collapseToTwoLevels, fullPeople } from "../core2/modules/health";
 import { buildOpeningEconomy } from "../core2/opening-economy";
 import {
   addOutsideMarket,
@@ -102,7 +102,7 @@ import {
 import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { withOrigins } from "../core2/opening-origin";
-import { representativeSample } from "../core2/representative-sample";
+import { representativeSample } from "../core2/modules/health";
 import { seededUnit } from "../core2/seeded";
 import { withCountySample } from "../core2/opening-county-sample";
 import { withRoles } from "../core2/opening-roles";

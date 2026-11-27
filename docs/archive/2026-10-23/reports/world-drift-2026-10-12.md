@@ -4,7 +4,7 @@ Over 20 game years in three random towns, the national economy never left its re
 
 ## What the runs show
 
-All figures come from `src/core2/tooling/world-drift.ts`, one 20-year run per town, saved as `drift-<key>.json`.
+All figures come from `scripts/core2/tooling/world-drift.ts`, one 20-year run per town, saved as `drift-<key>.json`.
 
 **The national economy stays inside its real ranges (measured).** In each town the tool made 766 checks: every 12-month change in each national monthly and quarterly series, against the 1990–2026 bands (`src/core2/macro-model.ts:249`). None of the 766 fell outside, in any of the three towns.
 

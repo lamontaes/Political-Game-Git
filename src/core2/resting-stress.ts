@@ -13,7 +13,7 @@
  */
 import reachParameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { moduleState } from "./module-state";
-import { webReach } from "./modules/laws";
+import { webReach } from "./outcome-web-reach";
 import { parameterValues } from "./parameters";
 import { stopgap } from "./stopgaps";
 import type { CoreState, PersonInput } from "./types";

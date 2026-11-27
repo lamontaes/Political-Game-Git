@@ -89,4 +89,4 @@ export function openThePast(core: CoreState, seed: string): PastSummary {
 export { heldSinceRecord } from "./past-work";
 export { schoolsAttended } from "./past-school";
 export { PRIOR_ELECTION } from "./past-elections";
-export { refreshOfficeStaff } from "./civic-inputs";
+export { enrichCivicInputs, refreshOfficeStaff } from "./civic-inputs";

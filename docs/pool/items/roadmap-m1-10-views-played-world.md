@@ -19,7 +19,7 @@ claimed-at: 2026-10-24T15:14:51.052Z
 
 **Done when.** A command for M1-10 plays a year in the runner's drawn place, names a big event, the people it touched and their stance changes by record id, shows untouched people's stances unmoved by it, and checks opening views against the answer keys; run on main with place and seed in the PR body.
 
-**Files.** src/bench/m1-10-check.ts, docs/roadmap/features.json
+**Files.** scripts/bench/m1-10-check.ts, docs/roadmap/features.json
 
 **Notes.** From the merger's send-back on #5875, Oct 24.
 

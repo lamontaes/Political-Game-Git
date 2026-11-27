@@ -7,7 +7,7 @@ import {
 } from "./place-lookup";
 import { coreAPI } from "./state";
 import { drawPlace } from "../../tests/golden-path/place";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import type { EntityId } from "./kernel/brands";
 import type { PersonInput } from "./types";
 
