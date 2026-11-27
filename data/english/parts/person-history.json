@@ -4568,6 +4568,15 @@
       "kind": "written"
     },
     {
+      "key": "person-history.story.partner.widowed.third.revised",
+      "move": "story",
+      "text": "{who} was widowed when {name} died in {year}.",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
       "key": "person-history.story.partner.widowed.third.w2",
       "move": "story",
       "text": "{name} died in {year}, leaving {who} widowed.",
@@ -4586,9 +4595,27 @@
       "kind": "written"
     },
     {
+      "key": "person-history.story.partner.widowed.they.revised",
+      "move": "story",
+      "text": "They were widowed when {name} died in {year}.",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
       "key": "person-history.story.partner.widowed.they.w2",
       "move": "story",
       "text": "{name} died in {year}, leaving they widowed.",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.they.w2.revised",
+      "move": "story",
+      "text": "{name} died in {year}, leaving them widowed.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
@@ -4604,9 +4631,27 @@
       "kind": "written"
     },
     {
+      "key": "person-history.story.partner.widowed.i.revised",
+      "move": "story",
+      "text": "I was widowed when {name} died in {year}.",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
       "key": "person-history.story.partner.widowed.i.w2",
       "move": "story",
       "text": "{name} died in {year}, leaving I widowed.",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.i.w2.revised",
+      "move": "story",
+      "text": "{name} died in {year}, leaving me widowed.",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
