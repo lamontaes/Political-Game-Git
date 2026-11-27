@@ -39,9 +39,9 @@ describe("properName", () => {
 });
 
 describe("a date is said without its year (the owner's rule, no-year-in-speech)", () => {
-  it('says a day in this year plainly and a day in the next year with "next year"', () => {
+  it("says a day plainly, in this year or another", () => {
     expect(spokenDate("2025-11-04", "2025-06-01")).toBe("November 4");
-    expect(spokenDate("2026-06-02", "2025-11-10")).toBe("June 2 next year");
+    expect(spokenDate("2026-06-02", "2025-11-10")).toBe("June 2");
   });
   it("never carries a year, in any gap", () => {
     for (const iso of ["2024-02-03", "2026-02-03", "2028-02-03", "2031-12-31"])
