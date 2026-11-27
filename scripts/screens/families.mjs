@@ -1,4 +1,4 @@
-/* global console, process */
+/* global console */
 /**
  * Screens' one edit to tests/guards/families.json (SC6 and SC7 of docs/coordination/refactor/screens-2026-11-27.md),
  * re-runnable on any state of the file: it moves each core2 test the screens family was holding to the family that
