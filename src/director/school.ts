@@ -65,8 +65,11 @@ export function schoolFinished(
     }));
 }
 
-/** A person's graduation results from the one history reader, oldest first. */
-function graduationsOf(
+/**
+ * A person's graduation results (a school year's end, passed or not) as the
+ * one history reader tells them, oldest first, each by its own id.
+ */
+export function graduationsOf(
   core: Readonly<CoreState>,
   personId: PersonId,
 ): HistoryEvent[] {
@@ -81,21 +84,6 @@ function graduationsOf(
   } catch {
     return [];
   }
-}
-
-/**
- * The graduation results the school engine has written for a person (a
- * school year's end, passed or not), oldest first, each cited by its own id.
- */
-export function graduationResults(
-  core: Readonly<CoreState>,
-  personId: PersonId,
-): { id: string; date: string; passed: boolean }[] {
-  return graduationsOf(core, personId).map((event) => ({
-    id: event.id,
-    date: event.date,
-    passed: event.facts?.passed === "yes",
-  }));
 }
 
 /**

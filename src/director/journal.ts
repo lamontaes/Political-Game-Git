@@ -58,7 +58,7 @@ import {
   spokenDate,
   stateInSentence,
 } from "./words";
-import { graduationResults, schoolResult } from "./school";
+import { graduationsOf, schoolResult } from "./school";
 import {
   PAST_WORK_OUT,
   PAST_WORK_SPELL,
@@ -68,6 +68,7 @@ import {
   historyOf,
   schoolsAttended,
   sharedHistory,
+  type HistoryEvent,
 } from "../core2/past";
 import { pastParameter } from "../core2/past-module";
 import { moneySaid } from "../english/count-words";
@@ -150,42 +151,25 @@ type JournalMoment = Pick<
   readonly beat?: string;
 };
 
-/**
- * A person's records of the asked kinds from the simulated past, read from
- * the one history reader, as the Journal reads a record: its kind, day, place,
- * the people it names and its facts.
- */
+/** A person's events of the asked kinds from the simulated past, as the one history reader tells them. */
 function pastOf(
   core: Readonly<CoreState>,
   personId: PersonId,
   kinds: readonly string[],
-) {
+): HistoryEvent[] {
   return historyOf(
     core as CoreState,
     { person: personId },
     { kinds, from: "past" },
-  ).map((event) => ({
-    id: event.id,
-    date: event.date,
-    kind: event.record,
-    placeId: event.placeId,
-    personIds: event.personIds,
-    facts: event.facts ?? {},
-  }));
+  );
 }
 
-/** The facts a person was made with (their family, their children), from the one history reader, in the order their record holds them. */
-function madeWith(core: Readonly<CoreState>, personId: PersonId) {
-  return historyOf(
-    core as CoreState,
-    { person: personId },
-    { from: "built" },
-  ).map((event) => ({
-    id: event.id,
-    date: event.date,
-    kind: event.record,
-    facts: event.facts,
-  }));
+/** The facts a person was made with (their family, their children), as the one history reader tells them, in the order their record holds them. */
+function madeWith(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+): HistoryEvent[] {
+  return historyOf(core as CoreState, { person: personId }, { from: "built" });
 }
 
 /**
@@ -337,7 +321,7 @@ function householdMoments(
   const parentIds = new Set(
     made
       .filter((fact) =>
-        ["family:parent", "family:other-parent"].includes(fact.kind),
+        ["family:parent", "family:other-parent"].includes(fact.record),
       )
       .map((fact) => fact.facts?.otherPersonId),
   );
@@ -346,8 +330,10 @@ function householdMoments(
   for (const fact of made) {
     const id = fact.facts?.otherPersonId as PersonId | undefined;
     const kin = id ? core.people.get(id) : undefined;
-    const parent = ["family:parent", "family:other-parent"].includes(fact.kind);
-    if (!kin?.alive || !(parent || fact.kind === "family:sibling")) continue;
+    const parent = ["family:parent", "family:other-parent"].includes(
+      fact.record,
+    );
+    if (!kin?.alive || !(parent || fact.record === "family:sibling")) continue;
     const category = familyCategory(person, kin, parent);
     const group = familyGroups.get(category) ?? [];
     if (!group.includes(id!)) group.push(id!);
@@ -375,10 +361,12 @@ function householdMoments(
   for (const fact of made) {
     const otherId = fact.facts?.otherPersonId;
     const relative = otherId ? core.people.get(otherId) : undefined;
-    const parent = ["family:parent", "family:other-parent"].includes(fact.kind);
+    const parent = ["family:parent", "family:other-parent"].includes(
+      fact.record,
+    );
     if (
       !relative?.alive ||
-      !(parent || fact.kind === "family:sibling") ||
+      !(parent || fact.record === "family:sibling") ||
       toldOf.has(relative.id)
     )
       continue;
@@ -387,7 +375,7 @@ function householdMoments(
     group.forEach((id) => toldOf.add(id));
     const born = relative.birthDate > bornOn ? relative.birthDate : bornOn;
     moments.push({
-      ...base(fact.id, fact.kind === "family:sibling" ? born : bornOn),
+      ...base(fact.id, fact.record === "family:sibling" ? born : bornOn),
       // Several brothers and sisters have their own wordings (plural verbs).
       causeKind:
         group.length > one && category.startsWith("household:sibling-")
@@ -414,7 +402,7 @@ function householdMoments(
   // The day they and their partner set up home, where their records put
   // them then.
   for (const row of history(FAMILY_PARTNERED, person.id)) {
-    const otherId = row.personIds?.find((id) => id !== person.id);
+    const otherId = row.personIds.find((id) => id !== person.id);
     const actFacts = placeOf(row.placeId, row.id);
     if (otherId && actFacts.place)
       moments.push({
@@ -428,7 +416,7 @@ function householdMoments(
   const parents = [...parentIds].filter((id): id is string => !!id);
   const parentsMet = parents.length
     ? history(FAMILY_PARTNERED, parents[zero] as PersonId).find((row) =>
-        parents.every((id) => row.personIds?.includes(id as PersonId)),
+        parents.every((id) => row.personIds.includes(id as PersonId)),
       )
     : undefined;
   if (parentsMet) {
@@ -582,7 +570,7 @@ function householdMoments(
     }
     if (!job) continue;
     const held = pastOf(core, earner.id, [PAST_WORK_SPELL]).find(
-      (row) => row.facts.jobId === job.id,
+      (row) => row.facts?.jobId === job.id,
     );
     const employer = employerName(core, job.organizationId, job.id);
     const cause = held?.id ?? job.id;
@@ -590,18 +578,18 @@ function householdMoments(
     // remembers it: the start of the job they hold ("started at ... when I
     // was 15 and still works there"), or the move to it from the one before.
     const spells = pastOf(core, earner.id, [PAST_WORK_SPELL]).sort((a, b) =>
-      String(a.facts.startedAt).localeCompare(String(b.facts.startedAt)),
+      String(a.facts?.startedAt).localeCompare(String(b.facts?.startedAt)),
     );
     const last = spells.at(-one);
-    const startedAt = String(last?.facts.startedAt ?? "");
+    const startedAt = String(last?.facts?.startedAt ?? "");
     const remembered =
       !!last &&
       !!employer &&
       startedAt >= remembers &&
       startedAt < grown &&
-      String(last.facts.organizationId) === job.organizationId;
+      String(last.facts?.organizationId) === job.organizationId;
     const before = remembered ? spells.at(-P.two) : undefined;
-    const from = before?.facts.organizationId
+    const from = before?.facts?.organizationId
       ? employerName(core, String(before.facts.organizationId), before.id)
       : undefined;
     const moved = !!from && from.text !== employer?.text;
@@ -654,26 +642,26 @@ function pastWorkMoments(
 ): JournalMoment[] {
   const records = pastOf(core, person.id, [PAST_WORK_SPELL, PAST_WORK_OUT]);
   const employer = (row: (typeof records)[number] | undefined) => {
-    return row?.facts.organizationId
+    return row?.facts?.organizationId
       ? employerName(core, String(row.facts.organizationId), row.id)
       : undefined;
   };
   const spells = records
-    .filter((row) => row.kind === PAST_WORK_SPELL)
+    .filter((row) => row.record === PAST_WORK_SPELL)
     .sort((a, b) =>
-      String(a.facts.startedAt).localeCompare(String(b.facts.startedAt)),
+      String(a.facts?.startedAt).localeCompare(String(b.facts?.startedAt)),
     );
   const outAfter = new Map(
     records
-      .filter((row) => row.kind === PAST_WORK_OUT && row.facts.causeRecordId)
-      .map((row) => [String(row.facts.causeRecordId), row]),
+      .filter((row) => row.record === PAST_WORK_OUT && row.facts?.causeRecordId)
+      .map((row) => [String(row.facts?.causeRecordId), row]),
   );
   // What a job paid an hour, as people round it, from the spell's own record.
   const paid = (row: (typeof records)[number]): Facts =>
-    Number(row.facts.hourlyMinor) > zero
+    Number(row.facts?.hourlyMinor) > zero
       ? {
           wage: {
-            text: moneySaid(Number(row.facts.hourlyMinor)),
+            text: moneySaid(Number(row.facts?.hourlyMinor)),
             sourceRecordIds: [row.id],
           },
         }
@@ -685,23 +673,23 @@ function pastWorkMoments(
     before: (typeof records)[number] | undefined,
   ): Facts => {
     if (!before) return {};
-    const was = moneySaid(Number(before.facts.hourlyMinor));
-    if (was === moneySaid(Number(now.facts.hourlyMinor))) return {};
+    const was = moneySaid(Number(before.facts?.hourlyMinor));
+    if (was === moneySaid(Number(now.facts?.hourlyMinor))) return {};
     const key =
-      Number(now.facts.hourlyMinor) > Number(before.facts.hourlyMinor)
+      Number(now.facts?.hourlyMinor) > Number(before.facts?.hourlyMinor)
         ? "paid-more-than"
         : "paid-less-than";
     return { [key]: { text: was, sourceRecordIds: [before.id] } };
   };
   // How long a job lasted, from the dates on its own record.
   const held = (row: (typeof records)[number]): Facts =>
-    row.facts.endedAt
+    row.facts?.endedAt
       ? {
           held: {
             text: spanSaid(
               daysBetween(
-                makeIsoDate(String(row.facts.startedAt)),
-                makeIsoDate(String(row.facts.endedAt)),
+                makeIsoDate(String(row.facts?.startedAt)),
+                makeIsoDate(String(row.facts?.endedAt)),
               ),
             ),
             sourceRecordIds: [row.id],
@@ -728,7 +716,7 @@ function pastWorkMoments(
   });
   return spells.flatMap((row, at): JournalMoment[] => {
     const moments: JournalMoment[] = [];
-    const facts = row.facts;
+    const facts = row.facts ?? {};
     const where = employer(row);
     // Where they lived when they held it, from the spell's own record: a job
     // held before a move keeps no employer the town knows, and is told by
@@ -749,15 +737,15 @@ function pastWorkMoments(
       );
     if (facts.how === "after-out-of-work") {
       const out = [...outAfter.values()].find(
-        (entry) => entry.facts.endedAt === facts.startedAt,
+        (entry) => entry.facts?.endedAt === facts.startedAt,
       );
       // The job whose loss began the time out of work.
       const lost = out
-        ? spells.find((entry) => entry.id === String(out.facts.causeRecordId))
+        ? spells.find((entry) => entry.id === String(out.facts?.causeRecordId))
         : undefined;
       const days = out
         ? daysBetween(
-            makeIsoDate(String(out.facts.startedAt)),
+            makeIsoDate(String(out.facts?.startedAt)),
             makeIsoDate(String(facts.startedAt)),
           )
         : undefined;
@@ -821,10 +809,10 @@ function schoolFinishedMoments(
   core: Readonly<CoreState>,
   person: PersonState,
 ): JournalMoment[] {
-  return graduationResults(core, person.id).map((row) => ({
-    id: row.id,
-    date: row.date as IsoDate,
-    causeId: row.id,
+  return graduationsOf(core, person.id).map((event) => ({
+    id: event.id,
+    date: event.date,
+    causeId: event.id,
     causeKind: SCHOOL_FINISHED,
     counterpartIds: [],
     selfNamed: true,
@@ -889,7 +877,7 @@ function sceneEndingMoments(
 ): JournalMoment[] {
   return book.schedule.flatMap((entry) =>
     (entry.replies ?? []).flatMap((id): JournalMoment[] => {
-      const reply = core.durableLog.get(id);
+      const reply = historyEvent(core as CoreState, id);
       const keeps = reply?.facts?.keeps;
       const otherId = reply?.personIds.find((row) => row !== personId);
       if (!reply || typeof keeps !== "string" || keeps === "none" || !otherId)
@@ -897,7 +885,7 @@ function sceneEndingMoments(
       return [
         {
           id,
-          date: reply.date as IsoDate,
+          date: reply.date,
           causeId: id,
           // A promise made on someone's own question is told by its name
           // (ruling 72, a door); one given only as "I'll look at it" is told
@@ -1028,55 +1016,41 @@ function officeActMoments(
     core as CoreState,
     { person: personId },
     { kinds: [OFFICE_ACT] },
-  )
-    .flatMap((event) => {
-      // The office day's own acts name their kind; an act a state office
-      // logged as its own record is told by that office's scenes.
-      const facts = event.facts;
-      return facts?.kind
-        ? [
-            {
-              id: event.id,
-              date: event.date,
-              kind: facts.kind,
-              detail: facts.detail ?? "",
-              recordId: facts.recordId ?? "",
-            },
-          ]
-        : [];
-    })
-    .flatMap((act): JournalMoment[] => {
-      const moment = (causeKind: string, actFacts?: Facts): JournalMoment => ({
-        id: act.id,
-        date: act.date as IsoDate,
-        causeId: act.id,
-        causeKind,
-        counterpartIds: [],
-        hindsight: zero,
-        impact: zero,
-        echoes: [],
-        ...(actFacts ? { actFacts } : {}),
-      });
-      if (act.kind === "town-hall") return [moment("act:town-hall")];
-      if (act.kind === "interview")
-        return act.detail.startsWith("declined")
-          ? []
-          : [moment("act:interview")];
-      if (act.kind !== "vote" || !["yes", "no"].includes(act.detail)) return [];
-      // The legislature's own record of the vote is told already: one line
-      // a vote (the journal printed every vote twice, Oct 29).
-      if (told.has(act.recordId)) return [];
-      const bill = bills.get(act.recordId) as unknown as BillRow | undefined;
-      if (!bill) return [];
-      return [
-        moment(`act:vote-${act.detail}`, {
-          law: {
-            text: billNumberName(bill.form.kind, bill.number, words),
-            sourceRecordIds: [bill.id],
-          },
-        }),
-      ];
+  ).flatMap((act): JournalMoment[] => {
+    // The office day's own acts name their kind; an act a state office
+    // logged as its own record is told by that office's scenes.
+    const kind = act.facts?.kind;
+    const detail = act.facts?.detail ?? "";
+    const recordId = act.facts?.recordId ?? "";
+    const moment = (causeKind: string, actFacts?: Facts): JournalMoment => ({
+      id: act.id,
+      date: act.date,
+      causeId: act.id,
+      causeKind,
+      counterpartIds: [],
+      hindsight: zero,
+      impact: zero,
+      echoes: [],
+      ...(actFacts ? { actFacts } : {}),
     });
+    if (kind === "town-hall") return [moment("act:town-hall")];
+    if (kind === "interview")
+      return detail.startsWith("declined") ? [] : [moment("act:interview")];
+    if (kind !== "vote" || !["yes", "no"].includes(detail)) return [];
+    // The legislature's own record of the vote is told already: one line
+    // a vote (the journal printed every vote twice, Oct 29).
+    if (told.has(recordId)) return [];
+    const bill = bills.get(recordId) as unknown as BillRow | undefined;
+    if (!bill) return [];
+    return [
+      moment(`act:vote-${detail}`, {
+        law: {
+          text: billNumberName(bill.form.kind, bill.number, words),
+          sourceRecordIds: [bill.id],
+        },
+      }),
+    ];
+  });
 }
 
 export function composeJournal(
@@ -1254,7 +1228,7 @@ export function composeJournal(
       const move = pastOf(core, personId, [PERSON_MOVED_IN]).find(
         (entry) => entry.id === moment.causeId,
       );
-      const from = placeLabel(String(move?.facts.fromPlaceId ?? ""));
+      const from = placeLabel(String(move?.facts?.fromPlaceId ?? ""));
       // Only a place that is not the one they moved to (a county and its
       // seat are one answer).
       if (
@@ -1265,7 +1239,7 @@ export function composeJournal(
         facts["moved-from"] = { text: from, sourceRecordIds: [move.id] };
       const children = made.flatMap((entry) => {
         const child =
-          entry.kind === "family:child" && entry.date < moment.date
+          entry.record === "family:child" && entry.date < moment.date
             ? core.people.get(entry.facts?.otherPersonId as PersonId)
             : undefined;
         const relation = child ? kin.get(child.id) : undefined;
@@ -1304,7 +1278,7 @@ export function composeJournal(
     if (moment.causeKind === "family:child") {
       facts["age-then"] = ageThen(person.birthDate, person.id);
       const earlier = made.some(
-        (entry) => entry.kind === "family:child" && entry.date < moment.date,
+        (entry) => entry.record === "family:child" && entry.date < moment.date,
       );
       if (!earlier)
         facts.firstborn = {

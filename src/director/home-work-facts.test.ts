@@ -33,7 +33,7 @@ import { careFacts } from "./care-facts";
 import { homeWorkFacts } from "./home-work-facts";
 import { rescueFacts } from "./rescue-facts";
 import { purposeScene } from "./purpose-scene";
-import { graduationResults } from "./school";
+import { graduationsOf } from "./school";
 import { employerWords } from "./words";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../core2/business-books";
 import { schoolShortSaid, workplaceSaid } from "../english/workplace-words";
@@ -463,10 +463,11 @@ it(`the scenes of home and work life carry the employer, the years, the school, 
 
     // A school year's end (the results the played months wrote): any graduation result a full person has.
     const graduate = [...core.people.values()]
-      .map((row) => ({ row, result: graduationResults(core, row.id)[0] }))
+      .map((row) => ({ row, result: graduationsOf(core, row.id)[0] }))
       .find((row) => row.result);
     if (graduate?.result) {
-      const type = graduate.result.passed ? "diploma-home" : "no-diploma-home";
+      const passed = graduate.result.facts?.passed === "yes";
+      const type = passed ? "diploma-home" : "no-diploma-home";
       const facts = homeWorkFacts(
         core,
         type,
@@ -476,12 +477,9 @@ it(`the scenes of home and work life carry the employer, the years, the school, 
         say(core),
       );
       expect(Object.keys(facts), `${where}: ${graduate.result.id}`).toContain(
-        graduate.result.passed ? "passed" : "not-passed",
+        passed ? "passed" : "not-passed",
       );
-      expect(
-        facts[graduate.result.passed ? "not-passed" : "passed"],
-        where,
-      ).toBeUndefined();
+      expect(facts[passed ? "not-passed" : "passed"], where).toBeUndefined();
       if (facts.school) {
         expect(facts.school.sourceRecordIds, where).toContain(
           graduate.result.id,
@@ -499,7 +497,7 @@ it(`the scenes of home and work life carry the employer, the years, the school, 
           `${where}: ${graduate.result.id} had no school on record`,
         );
       note(
-        graduate.result.passed ? "school: passed" : "school: not passed",
+        passed ? "school: passed" : "school: not passed",
         where,
         graduate.result.id,
       );
