@@ -10,6 +10,7 @@ import {
   engagementOf,
 } from "../electorate";
 import { VOTING_MODULE_ID } from "../voting-module-id";
+import { electionLawTurnoutCost } from "../laws-in-force";
 import { ageOnElection, turnoutWeb } from "../turnout-web";
 import {
   openingVoterCarry,
@@ -30,7 +31,7 @@ import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-data";
 import { cpsAgeBand, cpsTurnout } from "../electorate-places";
 import { weeklyWorkOf } from "./voting-appeal";
-import { electionLawTurnoutCost, table, town } from "./voting-base";
+import { table, town } from "./voting-base";
 import { keepPollDay, registrationReading } from "./voting-polling-day";
 
 /**

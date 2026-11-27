@@ -13,6 +13,12 @@ import {
 } from "../electorate";
 import { VOTING_MODULE_ID } from "../voting-module-id";
 import {
+  barredFromVoting,
+  recordRedistricting,
+  automaticRegistrationInForce,
+  sameDayRegistrationInForce,
+} from "../laws-in-force";
+import {
   countedParts,
   ensureKeptOff,
   keptOffOf,
@@ -55,16 +61,7 @@ import {
   mayVoteOn,
   townAdults,
 } from "./voting-appeal";
-import {
-  ageOn,
-  automaticRegistrationInForce,
-  barredFromVoting,
-  electionsParameter,
-  recordRedistricting,
-  sameDayRegistrationInForce,
-  table,
-  town,
-} from "./voting-base";
+import { ageOn, electionsParameter, table, town } from "./voting-base";
 import { countedScale, countedVoters } from "./voting-count";
 import { decideTurnout, decisions, turnoutReasons } from "./voting-turnout";
 import type { TurnoutDecision } from "./voting-turnout";

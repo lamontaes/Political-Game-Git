@@ -17,6 +17,7 @@ import {
   type CountedVoter,
 } from "../electorate";
 import { VOTING_MODULE_ID } from "../voting-module-id";
+import { barredFromVoting } from "../laws-in-force";
 import { feelingBetween } from "../closeness";
 import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import type { CoreAPI, CoreState, PersonState } from "../types";
@@ -50,18 +51,17 @@ import {
 } from "./views";
 import { appealOfShare, electorateParameter } from "../electorate-inputs";
 import { residentsRuntime } from "./residents";
+import { scandalsOf } from "../laws-in-force";
 import { convictionsOf } from "./justice";
 import { newsKey, trustWeight } from "./news";
 import {
   ageOn,
-  barredFromVoting,
   caseWarmthsOf,
   electionsParameter,
   holds,
   partySide,
   promisesOf,
   recordAppeal,
-  scandalsOf,
   seatHolder,
   slug,
   town,

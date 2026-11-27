@@ -32,7 +32,7 @@ const rules = [
   [
     "words-engine/references/checks.md",
     /^- \*\*The machine's limits\.\*\*.*$/m,
-    `- **The machine's limits.** Run one world test at a time. \`src/bench/path-check.ts\` needs \`node --max-old-space-size=6144\`. A bench browser check needs \`BENCH_BROWSER=/opt/pw-browsers/chromium\` in a cloud container. ${instruction} For a legacy checker with a fixed tracked path, keep only the captures from your run and leave the tracked path unchanged. Vitest here swallows \`console.log\`, so write evidence lines with \`process.stdout.write\`.`,
+    `- **The machine's limits.** Run one world test at a time. \`tests/golden-path/path-check.ts\` needs \`node --max-old-space-size=6144\`. A bench browser check needs \`BENCH_BROWSER=/opt/pw-browsers/chromium\` in a cloud container. ${instruction} For a legacy checker with a fixed tracked path, keep only the captures from your run and leave the tracked path unchanged. Vitest here swallows \`console.log\`, so write evidence lines with \`process.stdout.write\`.`,
   ],
   [
     "words-engine/references/checks.md",

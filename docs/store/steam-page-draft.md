@@ -42,7 +42,7 @@ Measured on the shipping build before the page goes live (M7-01). Today's develo
 
 ## Screenshots
 
-From real play, with nothing staged: `src/bench/store-shots.mjs` captures them at 1920×1080. The current set (title, the opening, home, conversation, family, map, calendar, election night) is in the session; capsule art comes from the CTO's art pipeline.
+From real play, with nothing staged: `scripts/bench/store-shots.mjs` captures them at 1920×1080. The current set (title, the opening, home, conversation, family, map, calendar, election night) is in the session; capsule art comes from the CTO's art pipeline.
 
 ## Open questions for the owner
 

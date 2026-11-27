@@ -35,7 +35,7 @@ branch: claude/pool-laws-end-to-end-proof
 
 **Waits on.** Nothing. The journal row and bank lines it once waited for are on main (src/director/data/journal-rows.json has the `event:law.effect-learned` row; item words-law-effect-learned-journal was closed as built).
 
-**Files.** src/core2/laws-end-to-end.test.ts (new), src/bench/path-check.ts, scripts/law-wiring/year.ts, docs/reports/law-wiring-2026-10-20.md, docs/roadmap/features.json, data/english/parts/journal.json, data/english/parts/scene-words.json
+**Files.** src/core2/laws-end-to-end.test.ts (new), tests/golden-path/path-check.ts, scripts/law-wiring/year.ts, docs/reports/law-wiring-2026-10-20.md, docs/roadmap/features.json, data/english/parts/journal.json, data/english/parts/scene-words.json
 
 **Notes.** Added Oct 24 by the CTO as the laws lead's acceptance (docs/archive/2026-10-23/work-orders/lead-laws-2026-10-24.md). Built last, once the families land; the lead may start it earlier on a stopgap and say so. Where a link of the chain breaks, file it as its own item and name it here.
 

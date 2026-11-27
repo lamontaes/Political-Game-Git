@@ -1,7 +1,7 @@
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 import { gameStartDate } from "../core2/game-start";
-import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { ageOnDate, makeIsoDate, lastDayOfMonth } from "../core2/kernel/dates";
 import {
   getNameCorpus,
   givenNamePoolForStatedGender,
@@ -15,7 +15,7 @@ import { governmentUnitsForPlace } from "../core2/reference/government-units";
 import { placeCountyGeoids, placeStateKey } from "../core2/place-map";
 import { originForChosen } from "./whole-figures";
 import { PLAYER_MIN_AGE } from "./world";
-import { municipiosForPlace } from "../core2/gov-rules/county-governing-body-rules";
+import { municipiosForPlace } from "../core2/modules/executive";
 import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { parameter } from "../core2/parameters";
 import { realLocalities } from "../core2/places";
@@ -125,7 +125,7 @@ export function birthYears(month: number, day: number) {
 /** A birthday drawn by seed and draw number, an adult as the old creator drew. */
 export function drawBirthday(seed: string, draw: number) {
   const month = 1 + (hash(`${seed}:month:${draw}`) % 12);
-  const length = new Date(Date.UTC(2001, month, 0)).getUTCDate();
+  const length = lastDayOfMonth(2001, month);
   const day = 1 + (hash(`${seed}:day:${draw}`) % length);
   const years = birthYears(month, day);
   const { year } = years[hash(`${seed}:year:${draw}`) % years.length]!;

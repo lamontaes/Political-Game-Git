@@ -55,7 +55,6 @@ docs/dehardwire/census.json
 
 # Written by npm run audit:scan; regenerated on every run, so never committed.
 scripts/audit/scan-result.json
-.bench-local/
 __pycache__/
 
 # Helper agents work in their own git worktrees here; a nested worktree is

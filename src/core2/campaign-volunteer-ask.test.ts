@@ -14,7 +14,7 @@ import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
-import { advanceToFilingOpen } from "./gov-test-clock";
+import { advanceToFilingOpen } from "../../tests/support/gov-test-clock";
 import { applyCoreEvent, coreAPI } from "./state";
 import { createLifeCore } from "./life";
 import type { CoreEventInput, CoreState, PersonId } from "./types";

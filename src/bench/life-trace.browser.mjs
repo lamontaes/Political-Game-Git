@@ -5,7 +5,7 @@
 // ("Your life") open the Trace with dev mode on, and none takes a click with dev mode off.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
+import { startLife } from "../../tests/support/start-life.mjs";
 
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER || undefined,

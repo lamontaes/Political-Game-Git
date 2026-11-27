@@ -7,7 +7,7 @@
 // Screenshots go to DEBATE_SHOTS (default docs/reports/four-screens-2026-10-27).
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { finishTalk } from "./start-life.mjs";
+import { finishTalk } from "../../tests/support/start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const shots =

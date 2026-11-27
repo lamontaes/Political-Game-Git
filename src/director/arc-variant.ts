@@ -44,9 +44,10 @@ import { partyTie } from "../core2/modules/elections";
 import { electorateSides, scandalStoriesOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { directorStopgap, WORDS_STOPGAP_HITS } from "./stopgaps";
+import { stopgap, WORDS_STOPGAP_HITS } from "../core2/stopgaps";
 import variantFile from "./data/arc-variants.json" with { type: "json" };
 import arcsFile from "./data/purpose-arcs.json" with { type: "json" };
+import { allLeadershipPosts } from "../core2/modules/bodies-reads";
 
 interface Tagged {
   value: number;
@@ -549,11 +550,9 @@ function readOf(
   }
   if (spec.kind === "holds-post") {
     if (!core.modules.has(LEADERSHIP_MODULE_ID)) return P.zero;
-    const post = coreAPI(core as CoreState)
-      .moduleState(LEADERSHIP_MODULE_ID)
-      .table("posts")
-      .rows()
-      .find((row) => (row as { holderId?: string }).holderId === input.askerId);
+    const post = allLeadershipPosts(coreAPI(core as CoreState)).find(
+      (row) => (row as { holderId?: string }).holderId === input.askerId,
+    );
     if (!post) return P.zero;
     recordIds.add(post.id);
     return P.one;
@@ -778,7 +777,7 @@ export function chooseVariant(
     variantOpen(row, input.cause.facts),
   );
   if (!open.length) return null;
-  directorStopgap("SG-STORY-arc-variant-weights", WORDS_STOPGAP_HITS);
+  stopgap("SG-STORY-arc-variant-weights", { stopgapHits: WORDS_STOPGAP_HITS });
   const recordIds = new Set<string>();
   const reads: Record<string, number> = {};
   const read = (name: string) =>
