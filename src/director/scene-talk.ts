@@ -1359,46 +1359,61 @@ export function factsNotYetSaid(
 
 /**
  * The reply step: the replies a talk offers for the line before them. Each
- * candidate move, up to the limit, is worded by the caller's hook; a line
- * already offered or said on the path is not offered again, and a move the
- * bank cannot word is reported as a gap. Then one extra option drawn from the
- * player's own life (the hook's tagged wording) is added where a piece fits,
+ * candidate, up to the limit, is worded by the caller's hook (a scene words a
+ * move; a home talk words a move with the subject it carries on to); a line
+ * already offered or said is not offered again, by its piece or by its text
+ * (the caller's `seen` and what this step has offered), and a candidate the
+ * bank cannot word is reported as a gap. Candidates are read one at a time,
+ * and `onOffered` runs as each reply is taken, so what one reply takes (a
+ * subject) is not taken by the next. Then, where the caller gives `extra`, one
+ * more option drawn from the player's own life is added where a piece fits,
  * never in place of the usual replies.
  */
 export function replyStep<
-  L extends { parts: string[]; round: number; text: string },
+  C,
+  L extends { parts: readonly string[]; text: string },
 >(input: {
-  moves: readonly string[];
+  candidates: Iterable<C>;
   limit: number;
-  word: (move: string, tagged: boolean) => L | null;
+  word: (candidate: C) => L | null;
+  extra?: (candidate: C) => L | null;
   seen: ReadonlySet<string>;
-  round: number;
-  onGap: (move: string) => void;
+  onGap?: (candidate: C) => void;
+  onOffered?: (line: L, candidate: C) => void;
 }): L[] {
-  const offeredTexts = new Set<string>();
+  const offeredKeys = new Set<string>();
   const repeats = (reply: L) =>
     repeatsOffer(input.seen, { text: reply.text, piece: reply.parts[zero] }) ||
-    offeredTexts.has(reply.text);
-  const offered = input.moves.slice(zero, input.limit).flatMap((move) => {
-    const reply = input.word(move, false);
+    offeredKeys.has(reply.text) ||
+    (!!reply.parts[zero] && offeredKeys.has(reply.parts[zero]!));
+  const take = (reply: L, candidate: C) => {
+    offeredKeys.add(reply.text);
+    if (reply.parts[zero]) offeredKeys.add(reply.parts[zero]!);
+    input.onOffered?.(reply, candidate);
+  };
+  const offered: L[] = [];
+  let tried = zero;
+  for (const candidate of input.candidates) {
+    if (tried >= input.limit) break;
+    tried += one;
+    const reply = input.word(candidate);
     if (!reply) {
-      input.onGap(move);
-      return [];
+      input.onGap?.(candidate);
+      continue;
     }
-    if (repeats(reply)) return [];
-    offeredTexts.add(reply.text);
-    reply.round = input.round;
-    return [reply];
-  });
-  for (const move of input.moves) {
-    if (offered.length >= input.limit + one) break;
-    const extra = input.word(move, true);
-    if (!extra || repeats(extra)) continue;
-    offeredTexts.add(extra.text);
-    extra.round = input.round;
-    offered.push(extra);
-    break;
+    if (repeats(reply)) continue;
+    take(reply, candidate);
+    offered.push(reply);
   }
+  if (input.extra)
+    for (const candidate of input.candidates) {
+      if (offered.length >= input.limit + one) break;
+      const extra = input.extra(candidate);
+      if (!extra || repeats(extra)) continue;
+      take(extra, candidate);
+      offered.push(extra);
+      break;
+    }
   return offered;
 }
 
@@ -2946,13 +2961,14 @@ export function composeSceneTalk(
         heard(path.said),
       );
     const offered = replyStep({
-      moves: fresh,
+      candidates: fresh,
       limit: maxReplies,
-      word: wordReply,
+      word: (move) => wordReply(move, false),
+      extra: (move) => wordReply(move, true),
       seen,
-      round,
       onGap: (move) => gap("reply", move, path.askerMove),
     });
+    for (const reply of offered) reply.round = round;
     // At the opening a thin menu is a gap; deeper in, the asker closes the
     // talk instead of offering two tired options (real exchanges end abruptly).
     if (path.id === "root" && offered.length < three && offered.length >= two)
