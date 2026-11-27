@@ -337,6 +337,374 @@ const SIDE_VERB = /^(?:say no to|repeal|keep|end) /;
 /** The slots that say a side of a question with its name inside ("say no to {about}"). */
 const AGAIN_INSIDE: readonly string[] = ["side", "first-side"];
 /**
+ * Say one block of the address: its facts told by the said-as reader, its words drafted from the bank,
+ * and the sentences it makes pushed on the telling's list. A step of `composeBlocks`; what the
+ * address has said so far is carried in `c`.
+ */
+interface BlockCtx {
+  readonly core: CoreState;
+  readonly president: PersonState;
+  readonly stage: ReturnType<typeof chairStage>;
+  readonly craft: readonly string[];
+  readonly sentences: OpeningSentence[];
+  readonly said: string[];
+  readonly subjectSaid: Map<string, number>;
+  readonly named: Map<string, number>;
+  readonly telling: ReturnType<typeof tellingOf>;
+  readonly viaSaidAs: (key: string, row: Facts[string], say: boolean) => string;
+  readonly tellOf: (facts: Facts) => Facts;
+  readonly nameOf: (key: string, text: string) => string;
+  readonly viceSaid: Set<string>[];
+  readonly ledIn: Set<string>;
+  readonly questionsNamed: Set<string>;
+  readonly questionOf: (row: Facts[string] | undefined) => string | null;
+  readonly againOf: (facts: Facts) => Facts;
+  /** What changes block to block: whether the turn to the Vice President is still to come, and the paragraph the last sentence stood in. */
+  readonly st: { vpAhead: boolean; paragraph: number | null };
+}
+
+function sayBlock(c: BlockCtx, block: Block): true | null {
+  const {
+    core,
+    president,
+    stage,
+    craft,
+    sentences,
+    said,
+    subjectSaid,
+    named,
+    telling,
+    viaSaidAs,
+    tellOf,
+    nameOf,
+    viceSaid,
+    ledIn,
+    questionsNamed,
+    questionOf,
+    againOf,
+    st,
+  } = c;
+  // A pronoun points back only within its st.paragraph: a new st.paragraph says
+  // the person by role again ("she and I" three paragraphs after her name).
+  if (block.part !== st.paragraph) {
+    st.paragraph = block.part;
+    delete telling.text.lastPersonId;
+  }
+  const moves = block.moves.filter((row): row is OpeningMove => !!row);
+  // stopgapId: SG-PEOPLE-address-register
+  markWordsStopgap("SG-PEOPLE-address-register");
+  // In the President's own voice: their recorded traits pull each pick,
+  // and a crafted device is theirs only once the record shows the
+  // addresses that earned it. Each move is said on its own, so a name from
+  // the world already said twice is left to the wordings that do without
+  // it, unless none can say the move.
+  const sayMove = (move: OpeningMove, facts: Facts, retry = P.zero) =>
+    composeAddress(
+      packet(
+        `opening:${core.date}:${president.id}/${block.key}${retry ? `#${retry}` : ""}`,
+        core.seed,
+        president.id,
+        stage,
+        facts,
+        [president.id],
+      ),
+      "election-night",
+      [move],
+      {
+        speakerTraits: president.traits,
+        recentPartKeys: said,
+        addressesGiven: craft.length,
+      },
+    );
+  const address = { moves: [] as ComposedMove[] };
+  // The facts each said move was worded with, the people as the telling had them.
+  const toldOf: Facts[] = [];
+  for (const planned of moves) {
+    const told = tellOf(againOf(block.facts));
+    // No lead-in ("To Congress,", "Across the country,") is said twice in
+    // an address; a move whose lead-ins are all said goes without one.
+    const opener = planned.bank.parts.opener;
+    const unsaid = opener?.variants.filter(
+      (variant) =>
+        !ledIn.has(variant.kind === "template" ? variant.text : variant.key),
+    );
+    // A meaning line says "that" of the fact line before it, so it plays
+    // only after its own fact line in the same block (words lead, round 6).
+    if (
+      (planned.key === "meaning" || planned.key.startsWith("meaning-")) &&
+      !address.moves.some((done) => /^context(-|$)/.test(done.move))
+    )
+      return true;
+    const move: OpeningMove =
+      opener && unsaid!.length < opener.variants.length
+        ? {
+            ...planned,
+            bank: {
+              ...planned.bank,
+              parts: {
+                ...planned.bank.parts,
+                opener: { ...opener, variants: unsaid! },
+              },
+            },
+          }
+        : planned;
+    // A name is said at most `namesSaid` times (one fewer before the turn
+    // to the Vice President, which always names them), and a subject's
+    // words ("take-home pay") at most `subjectsSaid` times, counted by the
+    // words said; only a required move says one again.
+    const counted = (key: string) =>
+      WORLD_NAMES.includes(key) || !!personSlot(key) || key.startsWith("say-");
+    const limit = (key: string) =>
+      PERSON_NAMES.includes(key) || personSlot(key)
+        ? SHAPE.parameters.namesSaid.value -
+          (personSlot(key)?.person === "vice-president" &&
+          st.vpAhead &&
+          block.key !== "to-vp"
+            ? P.one
+            : P.zero)
+        : // A subject is named once, then said another way (owner, Nov
+          // 12: "good news on a stronger economy ... report on a stronger
+          // economy"); the greeting and the close may name it once more.
+          SHAPE.parameters.subjectsSaid.value +
+          (move.required || block.required ? P.one : P.zero);
+    const within = (keys: (key: string) => boolean) =>
+      Object.fromEntries(
+        Object.entries(told).filter(
+          ([key, row]) =>
+            !keys(key) ||
+            (named.get(nameOf(key, row.text)) ?? P.zero) < limit(key),
+        ),
+      );
+    // A lead-in that names a time is not joined to a core that names the
+    // same time ("In the year now behind us, this was a year when ...").
+    const timeTwice = (row: ReturnType<typeof sayMove>) =>
+      row.kind === "rendered" &&
+      row.moves.some((said) => {
+        const lead = said.parts.find((part) => part.part === "opener");
+        const rest = said.parts.filter((part) => part.part !== "opener");
+        return (
+          !!lead &&
+          TIME_WORDS.some(
+            (word) =>
+              new RegExp(`\\b${word}\\b`, "i").test(lead.text) &&
+              rest.some((part) =>
+                new RegExp(`\\b${word}\\b`, "i").test(part.text),
+              ),
+          )
+        );
+      });
+    const bare: OpeningMove = {
+      ...move,
+      bank: {
+        ...move.bank,
+        parts: Object.fromEntries(
+          Object.entries(move.bank.parts).filter(([line]) => line !== "opener"),
+        ) as typeof move.bank.parts,
+      },
+    };
+    // A required move gives up a subject's limit before a name's.
+    const echoesVice = (row: ReturnType<typeof sayMove>) =>
+      row.kind === "rendered" &&
+      row.moves.some((done) => {
+        if (
+          !done.parts.some((part) => usedKeys(part).includes("vice-president"))
+        )
+          return false;
+        const runs = fourWordRuns(
+          done.text,
+          block.facts["vice-president"]?.text,
+        );
+        return viceSaid.some((earlier) =>
+          [...runs].some((run) => earlier.has(run)),
+        );
+      });
+    // A sentence says a person's full name once (said-as): a greeting that
+    // addresses the Vice President by name and a core joined to it that
+    // names them again ("Vice President Brian Franklin, ... I am grateful
+    // to Vice President Brian Franklin") is drawn again.
+    const fullNames = PEOPLE.flatMap((person) => {
+      const id = block.facts[person]?.sourceRecordIds[P.zero];
+      if (!id) return [];
+      const said = saidPersonOf(core, id, telling);
+      return [`${said.givenName} ${said.familyName}`];
+    });
+    const namesTwice = (row: ReturnType<typeof sayMove>) =>
+      row.kind === "rendered" &&
+      fullNames.some((name) => row.text.split(name).length - P.one > P.one);
+    // A subject's word is said at most the composed check's budget in one
+    // speech (speech-has-one-theme): a wording that would say one more
+    // time is drawn again, a few times, and the fewest over stands.
+    const overBy = (row: ReturnType<typeof sayMove>) => {
+      if (row.kind !== "rendered") return P.zero;
+      const names = new Set(
+        Object.entries(told)
+          .filter(([key]) => !!personSlot(key))
+          .flatMap(([, value]) => SUBJECT_WORDS.wordsOf(value.text)),
+      );
+      const counts = new Map(subjectSaid);
+      let over = P.zero;
+      for (const word of SUBJECT_WORDS.of(row.text)) {
+        if (names.has(word)) continue;
+        const now = (counts.get(word) ?? P.zero) + P.one;
+        counts.set(word, now);
+        if (now > SUBJECT_WORDS.most()) over += P.one;
+      }
+      return over;
+    };
+    const tries = [
+      within(counted),
+      ...(move.required || block.required || block.key === "to-vp"
+        ? [
+            within((key) => PERSON_NAMES.includes(key) || !!personSlot(key)),
+            told,
+          ]
+        : []),
+    ].flatMap((facts) => {
+      // The Vice President is not praised twice in the same words: a
+      // sentence that would repeat four words of an earlier one naming them
+      // is drawn again, a few times, before it stands.
+      let said = sayMove(move, facts);
+      for (
+        let retry = P.one;
+        retry <= SHAPE.parameters.redraws.value &&
+        (echoesVice(said) || namesTwice(said) || overBy(said) > P.zero);
+        retry += P.one
+      ) {
+        const again = sayMove(move, facts, retry);
+        if (
+          again.kind === "rendered" &&
+          !echoesVice(again) &&
+          !namesTwice(again) &&
+          (echoesVice(said) || namesTwice(said) || overBy(again) < overBy(said))
+        )
+          said = again;
+      }
+      // A sentence that only sets the scene (a figure, a condition, a
+      // hope) and would still say a subject word past the
+      // budget after its redraws is left out: the point stands on its
+      // belief and its ask (speech-has-one-theme).
+      if (
+        overBy(said) > P.zero &&
+        !move.required &&
+        !block.required &&
+        LEFT_OUT_PAST_BUDGET.some(
+          (role) => move.key === role || move.key.startsWith(`${role}-`),
+        )
+      )
+        return [];
+      return timeTwice(said) ? [sayMove(bare, facts)] : [said];
+    });
+    const result = tries.find((row) => row.kind === "rendered") ?? null;
+    if (result?.kind === "rendered")
+      for (const done of result.moves)
+        if (
+          done.parts.some((part) => usedKeys(part).includes("vice-president"))
+        )
+          viceSaid.push(
+            fourWordRuns(done.text, block.facts["vice-president"]?.text),
+          );
+    if (result?.kind !== "rendered") {
+      if (move.required || block.required) return null;
+      return true;
+    }
+    for (const done of result.moves) {
+      address.moves.push(done);
+      toldOf.push(told);
+      if (block.key === "to-vp") st.vpAhead = false;
+      for (const part of done.parts)
+        if (part.part === "opener") ledIn.add(part.text);
+      for (const key of new Set(done.parts.flatMap((part) => usedKeys(part)))) {
+        const text = told[key]?.text;
+        if (counted(key) && text)
+          named.set(
+            nameOf(key, text),
+            (named.get(nameOf(key, text)) ?? P.zero) + P.one,
+          );
+        // The shared reader records the mention once the sentence said it.
+        const row = told[key];
+        const slot = personSlot(key);
+        if (slot && row && block.facts[slot.person])
+          viaSaidAs(key, block.facts[slot.person]!, true);
+      }
+      // A later move of this block does not repeat this one's wordings.
+      said.push(...done.parts.map((part) => part.partKey));
+      // A question said in this sentence is said again by its second name.
+      for (const key of done.parts.flatMap((part) => usedKeys(part))) {
+        const question = questionOf(told[key]);
+        if (question && NAMING_KEYS.test(key)) questionsNamed.add(question);
+      }
+      const nameWords = new Set(
+        Object.entries(told)
+          .filter(([key]) => !!personSlot(key))
+          .flatMap(([, value]) => SUBJECT_WORDS.wordsOf(value.text)),
+      );
+      for (const word of SUBJECT_WORDS.of(done.text))
+        if (!nameWords.has(word))
+          subjectSaid.set(word, (subjectSaid.get(word) ?? P.zero) + P.one);
+    }
+  }
+  if (!address.moves.length) {
+    if (block.required) return null;
+    return true;
+  }
+  for (const [at, move] of address.moves.entries()) {
+    const facts = toldOf[at] ?? block.facts;
+    const used = new Set(move.parts.flatMap((part) => usedKeys(part)));
+    // A crafted device cites the addresses that earned it.
+    const earned = move.parts.some((part) => part.device) ? craft : [];
+    const visit = used.has("place")
+      ? block.facts.place?.sourceRecordIds
+          .map((id) => /:visit:(US-[A-Z]{2})$/.exec(id)?.[P.one])
+          .find(Boolean)
+      : undefined;
+    const pieces = move.parts.map((part) => part.variantKey);
+    const values = Object.fromEntries(
+      [...used].sort().map((key) => [key, facts[key]?.text ?? ""]),
+    );
+    const bare = Object.fromEntries(
+      [...used].flatMap((key) =>
+        facts[key]?.bare !== undefined ? [[key, facts[key]!.bare!]] : [],
+      ),
+    );
+    sentences.push({
+      level: block.level,
+      part: block.part,
+      // Said as its record will keep it (address-render.ts): the pieces
+      // filled with what each slot said, by the one function every view reads.
+      text: sentenceText({ pieces, values, bare }),
+      facts: [...used].sort(),
+      pieces,
+      values,
+      ...(Object.keys(bare).length ? { bare } : {}),
+      ...(visit ? { stateKey: visit } : {}),
+      ...(block.facts.about &&
+      block.facts.to &&
+      (block.facts["stance-for"] || block.facts["stance-against"])
+        ? {
+            stand: {
+              about: block.facts.about.text,
+              to: block.facts.to.text,
+              stance: block.facts["stance-for"]
+                ? ("for" as const)
+                : ("against" as const),
+            },
+          }
+        : {}),
+      sourceRecordIds: [
+        ...new Set([
+          president.id,
+          ...[...used].flatMap(
+            (key) => block.facts[key]?.sourceRecordIds ?? [],
+          ),
+          ...earned,
+        ]),
+      ],
+    });
+  }
+  return true;
+}
+
+/**
  * The slots whose saying names the question: its name and its sides. How it
  * stands today does not name it ("Why fix what works, when ...?"), so a
  * sentence after one still says the question's full name once.
@@ -435,7 +803,10 @@ export function composeBlocks(
   // The lead-ins said so far, by their words.
   const ledIn = new Set<string>();
   // Whether the turn to the Vice President, which always names them, is still to come.
-  let vpAhead = blocks.some((block) => block.key === "to-vp");
+  const st: { vpAhead: boolean; paragraph: number | null } = {
+    vpAhead: blocks.some((block) => block.key === "to-vp"),
+    paragraph: null,
+  };
   // The questions this speech has named (speech-has-one-theme; the words
   // lead, Nov 12: "The subject is said once, then varied"): once a sentence
   // has said a question by its name or one of its sides, every later sentence
@@ -477,336 +848,27 @@ export function composeBlocks(
         ];
       }),
     );
-  let paragraph: number | null = null;
-  for (const block of blocks) {
-    // A pronoun points back only within its paragraph: a new paragraph says
-    // the person by role again ("she and I" three paragraphs after her name).
-    if (block.part !== paragraph) {
-      paragraph = block.part;
-      delete telling.text.lastPersonId;
-    }
-    const moves = block.moves.filter((row): row is OpeningMove => !!row);
-    // stopgapId: SG-PEOPLE-address-register
-    markWordsStopgap("SG-PEOPLE-address-register");
-    // In the President's own voice: their recorded traits pull each pick,
-    // and a crafted device is theirs only once the record shows the
-    // addresses that earned it. Each move is said on its own, so a name from
-    // the world already said twice is left to the wordings that do without
-    // it, unless none can say the move.
-    const sayMove = (move: OpeningMove, facts: Facts, retry = P.zero) =>
-      composeAddress(
-        packet(
-          `opening:${core.date}:${president.id}/${block.key}${retry ? `#${retry}` : ""}`,
-          core.seed,
-          president.id,
-          stage,
-          facts,
-          [president.id],
-        ),
-        "election-night",
-        [move],
-        {
-          speakerTraits: president.traits,
-          recentPartKeys: said,
-          addressesGiven: craft.length,
-        },
-      );
-    const address = { moves: [] as ComposedMove[] };
-    // The facts each said move was worded with, the people as the telling had them.
-    const toldOf: Facts[] = [];
-    for (const planned of moves) {
-      const told = tellOf(againOf(block.facts));
-      // No lead-in ("To Congress,", "Across the country,") is said twice in
-      // an address; a move whose lead-ins are all said goes without one.
-      const opener = planned.bank.parts.opener;
-      const unsaid = opener?.variants.filter(
-        (variant) =>
-          !ledIn.has(variant.kind === "template" ? variant.text : variant.key),
-      );
-      // A meaning line says "that" of the fact line before it, so it plays
-      // only after its own fact line in the same block (words lead, round 6).
-      if (
-        (planned.key === "meaning" || planned.key.startsWith("meaning-")) &&
-        !address.moves.some((done) => /^context(-|$)/.test(done.move))
-      )
-        continue;
-      const move: OpeningMove =
-        opener && unsaid!.length < opener.variants.length
-          ? {
-              ...planned,
-              bank: {
-                ...planned.bank,
-                parts: {
-                  ...planned.bank.parts,
-                  opener: { ...opener, variants: unsaid! },
-                },
-              },
-            }
-          : planned;
-      // A name is said at most `namesSaid` times (one fewer before the turn
-      // to the Vice President, which always names them), and a subject's
-      // words ("take-home pay") at most `subjectsSaid` times, counted by the
-      // words said; only a required move says one again.
-      const counted = (key: string) =>
-        WORLD_NAMES.includes(key) ||
-        !!personSlot(key) ||
-        key.startsWith("say-");
-      const limit = (key: string) =>
-        PERSON_NAMES.includes(key) || personSlot(key)
-          ? SHAPE.parameters.namesSaid.value -
-            (personSlot(key)?.person === "vice-president" &&
-            vpAhead &&
-            block.key !== "to-vp"
-              ? P.one
-              : P.zero)
-          : // A subject is named once, then said another way (owner, Nov
-            // 12: "good news on a stronger economy ... report on a stronger
-            // economy"); the greeting and the close may name it once more.
-            SHAPE.parameters.subjectsSaid.value +
-            (move.required || block.required ? P.one : P.zero);
-      const within = (keys: (key: string) => boolean) =>
-        Object.fromEntries(
-          Object.entries(told).filter(
-            ([key, row]) =>
-              !keys(key) ||
-              (named.get(nameOf(key, row.text)) ?? P.zero) < limit(key),
-          ),
-        );
-      // A lead-in that names a time is not joined to a core that names the
-      // same time ("In the year now behind us, this was a year when ...").
-      const timeTwice = (row: ReturnType<typeof sayMove>) =>
-        row.kind === "rendered" &&
-        row.moves.some((said) => {
-          const lead = said.parts.find((part) => part.part === "opener");
-          const rest = said.parts.filter((part) => part.part !== "opener");
-          return (
-            !!lead &&
-            TIME_WORDS.some(
-              (word) =>
-                new RegExp(`\\b${word}\\b`, "i").test(lead.text) &&
-                rest.some((part) =>
-                  new RegExp(`\\b${word}\\b`, "i").test(part.text),
-                ),
-            )
-          );
-        });
-      const bare: OpeningMove = {
-        ...move,
-        bank: {
-          ...move.bank,
-          parts: Object.fromEntries(
-            Object.entries(move.bank.parts).filter(
-              ([line]) => line !== "opener",
-            ),
-          ) as typeof move.bank.parts,
-        },
-      };
-      // A required move gives up a subject's limit before a name's.
-      const echoesVice = (row: ReturnType<typeof sayMove>) =>
-        row.kind === "rendered" &&
-        row.moves.some((done) => {
-          if (
-            !done.parts.some((part) =>
-              usedKeys(part).includes("vice-president"),
-            )
-          )
-            return false;
-          const runs = fourWordRuns(
-            done.text,
-            block.facts["vice-president"]?.text,
-          );
-          return viceSaid.some((earlier) =>
-            [...runs].some((run) => earlier.has(run)),
-          );
-        });
-      // A sentence says a person's full name once (said-as): a greeting that
-      // addresses the Vice President by name and a core joined to it that
-      // names them again ("Vice President Brian Franklin, ... I am grateful
-      // to Vice President Brian Franklin") is drawn again.
-      const fullNames = PEOPLE.flatMap((person) => {
-        const id = block.facts[person]?.sourceRecordIds[P.zero];
-        if (!id) return [];
-        const said = saidPersonOf(core, id, telling);
-        return [`${said.givenName} ${said.familyName}`];
-      });
-      const namesTwice = (row: ReturnType<typeof sayMove>) =>
-        row.kind === "rendered" &&
-        fullNames.some((name) => row.text.split(name).length - P.one > P.one);
-      // A subject's word is said at most the composed check's budget in one
-      // speech (speech-has-one-theme): a wording that would say one more
-      // time is drawn again, a few times, and the fewest over stands.
-      const overBy = (row: ReturnType<typeof sayMove>) => {
-        if (row.kind !== "rendered") return P.zero;
-        const names = new Set(
-          Object.entries(told)
-            .filter(([key]) => !!personSlot(key))
-            .flatMap(([, value]) => SUBJECT_WORDS.wordsOf(value.text)),
-        );
-        const counts = new Map(subjectSaid);
-        let over = P.zero;
-        for (const word of SUBJECT_WORDS.of(row.text)) {
-          if (names.has(word)) continue;
-          const now = (counts.get(word) ?? P.zero) + P.one;
-          counts.set(word, now);
-          if (now > SUBJECT_WORDS.most()) over += P.one;
-        }
-        return over;
-      };
-      const tries = [
-        within(counted),
-        ...(move.required || block.required || block.key === "to-vp"
-          ? [
-              within((key) => PERSON_NAMES.includes(key) || !!personSlot(key)),
-              told,
-            ]
-          : []),
-      ].flatMap((facts) => {
-        // The Vice President is not praised twice in the same words: a
-        // sentence that would repeat four words of an earlier one naming them
-        // is drawn again, a few times, before it stands.
-        let said = sayMove(move, facts);
-        for (
-          let retry = P.one;
-          retry <= SHAPE.parameters.redraws.value &&
-          (echoesVice(said) || namesTwice(said) || overBy(said) > P.zero);
-          retry += P.one
-        ) {
-          const again = sayMove(move, facts, retry);
-          if (
-            again.kind === "rendered" &&
-            !echoesVice(again) &&
-            !namesTwice(again) &&
-            (echoesVice(said) ||
-              namesTwice(said) ||
-              overBy(again) < overBy(said))
-          )
-            said = again;
-        }
-        // A sentence that only sets the scene (a figure, a condition, a
-        // hope) and would still say a subject word past the
-        // budget after its redraws is left out: the point stands on its
-        // belief and its ask (speech-has-one-theme).
-        if (
-          overBy(said) > P.zero &&
-          !move.required &&
-          !block.required &&
-          LEFT_OUT_PAST_BUDGET.some(
-            (role) => move.key === role || move.key.startsWith(`${role}-`),
-          )
-        )
-          return [];
-        return timeTwice(said) ? [sayMove(bare, facts)] : [said];
-      });
-      const result = tries.find((row) => row.kind === "rendered") ?? null;
-      if (result?.kind === "rendered")
-        for (const done of result.moves)
-          if (
-            done.parts.some((part) => usedKeys(part).includes("vice-president"))
-          )
-            viceSaid.push(
-              fourWordRuns(done.text, block.facts["vice-president"]?.text),
-            );
-      if (result?.kind !== "rendered") {
-        if (move.required || block.required) return null;
-        continue;
-      }
-      for (const done of result.moves) {
-        address.moves.push(done);
-        toldOf.push(told);
-        if (block.key === "to-vp") vpAhead = false;
-        for (const part of done.parts)
-          if (part.part === "opener") ledIn.add(part.text);
-        for (const key of new Set(
-          done.parts.flatMap((part) => usedKeys(part)),
-        )) {
-          const text = told[key]?.text;
-          if (counted(key) && text)
-            named.set(
-              nameOf(key, text),
-              (named.get(nameOf(key, text)) ?? P.zero) + P.one,
-            );
-          // The shared reader records the mention once the sentence said it.
-          const row = told[key];
-          const slot = personSlot(key);
-          if (slot && row && block.facts[slot.person])
-            viaSaidAs(key, block.facts[slot.person]!, true);
-        }
-        // A later move of this block does not repeat this one's wordings.
-        said.push(...done.parts.map((part) => part.partKey));
-        // A question said in this sentence is said again by its second name.
-        for (const key of done.parts.flatMap((part) => usedKeys(part))) {
-          const question = questionOf(told[key]);
-          if (question && NAMING_KEYS.test(key)) questionsNamed.add(question);
-        }
-        const nameWords = new Set(
-          Object.entries(told)
-            .filter(([key]) => !!personSlot(key))
-            .flatMap(([, value]) => SUBJECT_WORDS.wordsOf(value.text)),
-        );
-        for (const word of SUBJECT_WORDS.of(done.text))
-          if (!nameWords.has(word))
-            subjectSaid.set(word, (subjectSaid.get(word) ?? P.zero) + P.one);
-      }
-    }
-    if (!address.moves.length) {
-      if (block.required) return null;
-      continue;
-    }
-    for (const [at, move] of address.moves.entries()) {
-      const facts = toldOf[at] ?? block.facts;
-      const used = new Set(move.parts.flatMap((part) => usedKeys(part)));
-      // A crafted device cites the addresses that earned it.
-      const earned = move.parts.some((part) => part.device) ? craft : [];
-      const visit = used.has("place")
-        ? block.facts.place?.sourceRecordIds
-            .map((id) => /:visit:(US-[A-Z]{2})$/.exec(id)?.[P.one])
-            .find(Boolean)
-        : undefined;
-      const pieces = move.parts.map((part) => part.variantKey);
-      const values = Object.fromEntries(
-        [...used].sort().map((key) => [key, facts[key]?.text ?? ""]),
-      );
-      const bare = Object.fromEntries(
-        [...used].flatMap((key) =>
-          facts[key]?.bare !== undefined ? [[key, facts[key]!.bare!]] : [],
-        ),
-      );
-      sentences.push({
-        level: block.level,
-        part: block.part,
-        // Said as its record will keep it (address-render.ts): the pieces
-        // filled with what each slot said, by the one function every view reads.
-        text: sentenceText({ pieces, values, bare }),
-        facts: [...used].sort(),
-        pieces,
-        values,
-        ...(Object.keys(bare).length ? { bare } : {}),
-        ...(visit ? { stateKey: visit } : {}),
-        ...(block.facts.about &&
-        block.facts.to &&
-        (block.facts["stance-for"] || block.facts["stance-against"])
-          ? {
-              stand: {
-                about: block.facts.about.text,
-                to: block.facts.to.text,
-                stance: block.facts["stance-for"]
-                  ? ("for" as const)
-                  : ("against" as const),
-              },
-            }
-          : {}),
-        sourceRecordIds: [
-          ...new Set([
-            president.id,
-            ...[...used].flatMap(
-              (key) => block.facts[key]?.sourceRecordIds ?? [],
-            ),
-            ...earned,
-          ]),
-        ],
-      });
-    }
-  }
+  const ctx: BlockCtx = {
+    core,
+    president,
+    stage,
+    craft,
+    sentences,
+    said,
+    subjectSaid,
+    named,
+    telling,
+    viaSaidAs,
+    tellOf,
+    nameOf,
+    viceSaid,
+    ledIn,
+    questionsNamed,
+    questionOf,
+    againOf,
+    st,
+  };
+  for (const block of blocks) if (sayBlock(ctx, block) === null) return null;
   return sentences;
 }
 
