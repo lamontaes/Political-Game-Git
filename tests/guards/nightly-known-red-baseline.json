@@ -28,7 +28,6 @@
   "src/core2/speech-afterward-pledge.test.ts",
   "src/core2/staff-dismissal-after-attendance.test.ts",
   "src/core2/staff-hire-employed.test.ts",
-  "src/core2/staff-player-clock.test.ts",
   "src/core2/trait-coverage.test.ts",
   "src/core2/two-level-elections.test.ts",
   "src/core2/work-closeness.test.ts",
