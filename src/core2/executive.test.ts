@@ -8,7 +8,7 @@
 import { buildBenchWorld } from "../bench/world";
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { govReport } from "./gov-test-report";
+import { govReport } from "../../scripts/core2/gov-test-report";
 import { gameStartDate } from "./game-start";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";

@@ -28,7 +28,7 @@ import { coreAPI } from "./state";
 import { justiceChains } from "./justice-chain";
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // The player's own act, in the world the owner plays (a seed nobody chose):
 // the player offers bribes to the town's members; a member who refuses may

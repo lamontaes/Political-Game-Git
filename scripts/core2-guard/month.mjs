@@ -67,7 +67,7 @@ export async function prepareWorld({ seed, placeKey, startDate }) {
   // generated world). Older revisions without it time the full-population
   // opening below.
   const generated = await moduleAt(
-    "src/core2/tooling/generated-world.ts",
+    "src/core2/generated-world.ts",
   ).catch(() => undefined);
   if (generated?.generatedOpening) {
     const started = performance.now();
@@ -171,13 +171,13 @@ export async function runMonth({
     { createLifeCore, advanceCore },
     { addDays, makeIsoDate },
   ] = await Promise.all([
-    moduleAt("src/core2/tooling/opening-input-budget.ts"),
-    moduleAt("src/core2/tooling/measured-json.ts"),
+    moduleAt("scripts/core2/tooling/opening-input-budget.ts"),
+    moduleAt("scripts/core2/tooling/measured-json.ts"),
     moduleAt("src/core2/life.ts"),
     moduleAt("src/core2/kernel/dates.ts"),
   ]);
   const registry = JSON.parse(
-    readFileSync("src/core2/tooling/opening-input-budgets.json", "utf8"),
+    readFileSync("scripts/core2/tooling/opening-input-budgets.json", "utf8"),
   );
   const census = censusOpeningInput(input),
     budget = openingInputBudget(census, registry),

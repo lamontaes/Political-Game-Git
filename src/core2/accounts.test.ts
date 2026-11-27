@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { piecesInput, piecesSource } from "./core-pieces-fixture";
+import { piecesInput, piecesSource } from "../../tests/support/core-pieces-fixture";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { heldTransferIds } from "./accounts";

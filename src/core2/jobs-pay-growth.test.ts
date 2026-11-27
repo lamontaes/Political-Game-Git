@@ -8,7 +8,7 @@
  */
 import { describe, expect, it } from "vitest";
 import { howTheyWork, withinJobRaise } from "./modules/jobs";
-import { coreWithPeople, drawnTraits } from "./money-traits-kit";
+import { coreWithPeople, drawnTraits } from "../../tests/support/money-traits-kit";
 import { coreAPI } from "./state";
 
 const core = coreWithPeople(drawnTraits("pay-growth", 300));

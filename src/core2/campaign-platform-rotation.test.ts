@@ -42,7 +42,7 @@ import { viewsModule } from "./modules/views";
 import { candidateStance } from "./campaign-stances";
 import { contestPositions } from "./contest-positions";
 import type { CoreAPI, CoreState } from "./types";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const START = "2026-01-05";
 /** Pinned: the run seed and the three salts name three places, the same every run. */

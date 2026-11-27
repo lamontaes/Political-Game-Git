@@ -8,7 +8,7 @@ import "../bench/world";
 import { drawPlace } from "../../tests/golden-path/place";
 import { describe, expect, it } from "vitest";
 import { fileClaim } from "./jobs-benefits";
-import { adultsOf, drawnRaceWorld, RUN_SEED } from "./trait-test-kit";
+import { adultsOf, drawnRaceWorld, RUN_SEED } from "../../tests/support/trait-test-kit";
 import type { JobInput } from "./types";
 
 const SEED = `${RUN_SEED}:one-open-claim`;

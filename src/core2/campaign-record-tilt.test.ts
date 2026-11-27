@@ -21,7 +21,7 @@ import { platformShares } from "./campaign-stances";
 import { campaignFor } from "./modules/campaigns";
 import { fileCandidacy, openContests } from "./modules/elections";
 import { OFFICES_MODULE_ID } from "./modules/offices";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const SEED = "a7c13e";
 const DRAWS = [0, 1, 2] as const;

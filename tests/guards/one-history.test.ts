@@ -145,8 +145,8 @@ const VIEW_DIRS = ["src/bench", "src/director", "src/english"];
  */
 const NOT_VIEWS: Readonly<Record<string, string>> = {
   "src/bench/world.ts": "builds the world from its input",
-  "src/bench/m1-12-check.ts": "checks the pre-start history's own records",
-  "src/bench/m1-14-check.ts": "checks the pre-start history's own records",
+  "scripts/bench/m1-12-check.ts": "checks the pre-start history's own records",
+  "scripts/bench/m1-14-check.ts": "checks the pre-start history's own records",
 };
 const RAW_PAST_READERS = [
   "preStartHistory",

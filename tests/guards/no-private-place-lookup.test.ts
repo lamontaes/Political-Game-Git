@@ -19,7 +19,7 @@ const COUNTY_LOOKUPS =
 const COUNTY_WAITING = new Set([
   "src/core2/reference/government-units.ts",
   "src/core2/place-map.ts",
-  "src/core2/tooling/place-map-build.ts",
+  "scripts/core2/tooling/place-map-build.ts",
 ]);
 
 // A town's state is read with placeStateKey, never by looking the place record

@@ -32,7 +32,7 @@ import {
   fileCandidacy,
   type ContestRow,
 } from "../core2/modules/elections";
-import { gatherSignatures } from "../core2/campaign-petition-kit";
+import { gatherSignatures } from "../../tests/support/campaign-petition-kit";
 import { advanceToRaceFiling } from "../core2/gov-test-clock";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";

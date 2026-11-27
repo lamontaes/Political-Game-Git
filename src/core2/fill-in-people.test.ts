@@ -3,7 +3,7 @@ import { makeIsoDate } from "./kernel/dates";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { buildOpeningKin, type KinHouseholdInput } from "./opening-kin";
 import { buildPopulation } from "./population";
-import { piecesInput, piecesSource } from "./core-pieces-fixture";
+import { piecesInput, piecesSource } from "../../tests/support/core-pieces-fixture";
 import { advanceCore, createLifeCore } from "./life";
 import { fillInIdentity } from "./state";
 

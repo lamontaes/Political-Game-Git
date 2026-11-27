@@ -11,7 +11,7 @@
 import { historyOf } from "../core2/past";
 import type { GovernmentLevel } from "../core2/government-level";
 import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
-import { moneySince, watchMoney } from "../core2/tooling/money-watch";
+import { moneySince, watchMoney } from "./dev-money-watch";
 import { ownUpkeep, reserveHours } from "../core2/free-block";
 import { homeUpkeep } from "../core2/closeness";
 import { heldDrivesOf, PEOPLE_MODULE_ID } from "../core2/modules/people";

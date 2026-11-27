@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { piecesInput, piecesSource as source } from "./core-pieces-fixture";
+import { piecesInput, piecesSource as source } from "../../tests/support/core-pieces-fixture";
 import { coreAPI, assertCoreIntegrity } from "./state";
 import { createRenewalCore } from "./births-setup";
 import { buildNewborn } from "./births-people";

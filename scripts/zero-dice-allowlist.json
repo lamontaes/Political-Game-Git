@@ -36,7 +36,7 @@
       "replacement": null
     },
     {
-      "file": "src/bench/m0-check.ts",
+      "file": "scripts/bench/m0-check.ts",
       "kind": "list-pick",
       "build": null,
       "count": 1,
