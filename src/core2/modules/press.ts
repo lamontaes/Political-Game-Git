@@ -2080,27 +2080,7 @@ export function interviewQuestions(
     if (!reader) readers.set(key, (reader = stanceReader(api, id, party)));
     return reader;
   };
-  for (const p of promisesOf(api, personId))
-    if (p.status === "broken")
-      add(p.promise.stance.question, pressParameter("brokenPromiseNewsWeight"));
-  // The seat's record: the race's incumbent, or an officeholder between races.
-  const holds = filing
-    ? isIncumbent(api, contestOf(api, filing.contestId), personId)
-    : servingTerms(api, personId).length > 0;
-  if (holds)
-    for (const vote of votesCast(api.state as CoreState, personId).slice(
-      -pressParameter("recordVotesConsidered"),
-    ))
-      add(vote.stance.question, pressParameter("recordVoteNewsWeight"));
-  // The candidate's party: a recorded vote against their party's side.
-  const side = partySide(speaker.party);
-  if (side)
-    for (const v of votesCast(api.state as CoreState, personId))
-      if (
-        Math.sign(v.stance.position) ===
-        -side * Math.sign(questionAxis(v.stance.question))
-      )
-        add(v.stance.question, pressParameter("partyBreakNewsWeight"));
+  scoreFromRecord(api, speaker, add);
   const own = platformOf(api, speaker);
   const rivals = filing
     ? ballot(api, filing.contestId).filter((f) => f.id !== filing.id)
@@ -2119,33 +2099,8 @@ export function interviewQuestions(
       statedPosition(api, speaker, own, q, speakerReader),
     ]),
   );
-  // The asking outlet's readers: how far the candidate stands from the side
-  // the outlet's line takes, on what its followers care about.
-  if (outlet) {
-    const followers = followersOf(api, outlet.id);
-    // Each follower's lean, read once for every question.
-    const leans = questions.length
-      ? followers.map((id) => leanOf(api, id))
-      : [];
-    for (const q of questions) {
-      const care = leans.length
-        ? leans.reduce(
-            (s, lean) => s + Math.abs((lean / 2) * questionAxis(q)),
-            0,
-          ) / leans.length
-        : 0;
-      const line = Math.sign((outlet.lean / 2) * questionAxis(q));
-      add(
-        q,
-        (pressParameter("outletReadersNewsWeight") *
-          care *
-          Math.abs(
-            line - standingOn(api, speaker, q, speakerReader).position,
-          )) /
-          2,
-      );
-    }
-  }
+  if (outlet)
+    scoreOutletReaders(api, speaker, speakerReader, questions, outlet, add);
   // The asking reporter's own causes on a policy question.
   const reporterId = outlet?.reporterIds
     ? reporterFor(
@@ -2194,7 +2149,81 @@ export function interviewQuestions(
     for (const [q] of score)
       if (!seat.has(q))
         score.set(q, pressParameter("townConcernNewsWeight") * concern(q));
-  // Asked before, on the record: less to learn from asking again.
+  scoreAskedBefore(api, personId, score);
+  return [...score]
+    .filter(([, v]) => v > 0)
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, pressParameter("questionsPerInterview"))
+    .map(([q]) => q);
+}
+
+/** What the seat's own record makes news: broken promises, the votes cast, and votes against the party's side. */
+function scoreFromRecord(
+  api: CoreAPI,
+  speaker: Speaker,
+  add: (q: string | undefined, weight: number) => void,
+): void {
+  const filing = speaker.filing;
+  const personId = speaker.personId;
+  for (const p of promisesOf(api, personId))
+    if (p.status === "broken")
+      add(p.promise.stance.question, pressParameter("brokenPromiseNewsWeight"));
+  // The seat's record: the race's incumbent, or an officeholder between races.
+  const holds = filing
+    ? isIncumbent(api, contestOf(api, filing.contestId), personId)
+    : servingTerms(api, personId).length > 0;
+  if (holds)
+    for (const vote of votesCast(api.state as CoreState, personId).slice(
+      -pressParameter("recordVotesConsidered"),
+    ))
+      add(vote.stance.question, pressParameter("recordVoteNewsWeight"));
+  // The candidate's party: a recorded vote against their party's side.
+  const side = partySide(speaker.party);
+  if (side)
+    for (const v of votesCast(api.state as CoreState, personId))
+      if (
+        Math.sign(v.stance.position) ===
+        -side * Math.sign(questionAxis(v.stance.question))
+      )
+        add(v.stance.question, pressParameter("partyBreakNewsWeight"));
+}
+
+/** The asking outlet's readers: how far the candidate stands from the side the outlet's line takes, on what its followers care about. */
+function scoreOutletReaders(
+  api: CoreAPI,
+  speaker: Speaker,
+  speakerReader: StanceReader,
+  questions: readonly string[],
+  outlet: Pick<OutletRow, "id" | "lean">,
+  add: (q: string | undefined, weight: number) => void,
+): void {
+  const followers = followersOf(api, outlet.id);
+  // Each follower's lean, read once for every question.
+  const leans = questions.length ? followers.map((id) => leanOf(api, id)) : [];
+  for (const q of questions) {
+    const care = leans.length
+      ? leans.reduce(
+          (s, lean) => s + Math.abs((lean / 2) * questionAxis(q)),
+          0,
+        ) / leans.length
+      : 0;
+    const line = Math.sign((outlet.lean / 2) * questionAxis(q));
+    add(
+      q,
+      (pressParameter("outletReadersNewsWeight") *
+        care *
+        Math.abs(line - standingOn(api, speaker, q, speakerReader).position)) /
+        2,
+    );
+  }
+}
+
+/** Asked before, on the record: less to learn from asking again. */
+function scoreAskedBefore(
+  api: CoreAPI,
+  personId: string,
+  score: Map<string, number>,
+): void {
   const asked = new Map<string, number>();
   for (const row of table(api, "interviews").query("byCandidate", [
     personId,
@@ -2204,11 +2233,6 @@ export function interviewQuestions(
   for (const [q, times] of asked)
     if (score.has(q))
       score.set(q, score.get(q)! - pressParameter("askedAgainPenalty") * times);
-  return [...score]
-    .filter(([, v]) => v > 0)
-    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-    .slice(0, pressParameter("questionsPerInterview"))
-    .map(([q]) => q);
 }
 
 /**
@@ -2589,30 +2613,7 @@ function publish(
   );
   const reporterId =
     row.reporterId ?? reporterFor(api, outlet, row.candidateId, row.contestId);
-  // The interview is time together: a reporter and a candidate who never
-  // met now have, and those who had grow closer.
-  if (reporterId && api.state.people.has(row.candidateId)) {
-    const hours = pressParameter("interviewHours");
-    if (
-      !api.meet(reporterId, row.candidateId, {
-        placeId: lawChain(api).townPlaceId,
-        sourceId: row.id,
-        cause: "interview",
-        hours,
-      })
-    )
-      api.relationship(
-        reporterId,
-        row.candidateId,
-        "contact",
-        hours,
-        undefined,
-        {
-          cause: "interview",
-          sourceId: row.id,
-        },
-      );
-  }
+  meetAtInterview(api, row, reporterId);
   // How it reads in print: the outlet's line, the reporter's and publisher's
   // ties to the candidate and the candidate's ad money at the outlet.
   const said = statements[0];
@@ -2688,8 +2689,48 @@ function publish(
     storyId,
   };
   record(api, done);
-  // A position the candidate's own votes contradict: the reporter may check
-  // the record and print what they find, weeks later.
+  scheduleDigs(api, row, answers, reporterId);
+  emitPublished(api, row, answers, statements.length, storyId);
+  return done;
+}
+
+/** The interview is time together: a reporter and a candidate who never met now have, and those who had grow closer. */
+function meetAtInterview(
+  api: CoreAPI,
+  row: InterviewRow,
+  reporterId: string | null | undefined,
+): void {
+  if (reporterId && api.state.people.has(row.candidateId)) {
+    const hours = pressParameter("interviewHours");
+    if (
+      !api.meet(reporterId, row.candidateId, {
+        placeId: lawChain(api).townPlaceId,
+        sourceId: row.id,
+        cause: "interview",
+        hours,
+      })
+    )
+      api.relationship(
+        reporterId,
+        row.candidateId,
+        "contact",
+        hours,
+        undefined,
+        {
+          cause: "interview",
+          sourceId: row.id,
+        },
+      );
+  }
+}
+
+/** A position the candidate's own votes contradict: the reporter may check the record and print what they find, weeks later. */
+function scheduleDigs(
+  api: CoreAPI,
+  row: InterviewRow,
+  answers: readonly InterviewAnswer[],
+  reporterId: string | null | undefined,
+): void {
   answers.forEach((answer, index) => {
     if (
       answer.position === null ||
@@ -2715,6 +2756,16 @@ function publish(
       sourceRecordIds: [row.id, String(index)],
     });
   });
+}
+
+/** The interview's published record, which the director reads to stage it. */
+function emitPublished(
+  api: CoreAPI,
+  row: InterviewRow,
+  answers: readonly InterviewAnswer[],
+  answered: number,
+  storyId: string | null,
+): void {
   api.emit({
     id: `interview-published:${row.id}`,
     date: api.state.date,
@@ -2731,8 +2782,8 @@ function publish(
       outletId: row.outletId,
       candidateId: row.candidateId,
       ...(row.contestId ? { contestId: row.contestId } : {}),
-      answered: String(statements.length),
-      declined: String(answers.length - statements.length),
+      answered: String(answered),
+      declined: String(answers.length - answered),
       // That the candidate sat for it: the sitting is the interview's scene,
       // so the director stages no second one after it.
       ...(api.state.durableLog.has(`${INTERVIEW_ACCEPTED_EVENT}:${row.id}`)
@@ -2741,7 +2792,6 @@ function publish(
       ...(storyId ? { storyId } : {}),
     },
   });
-  return done;
 }
 
 /**
