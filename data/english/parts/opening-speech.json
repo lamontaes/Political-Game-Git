@@ -626,7 +626,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
-      "date": "2026-11-16"
+      "date": "2026-11-16",
+      "elements": [
+        "sotu-close-thanks-and-says-good-evening",
+        "stump-ends-on-thanks-or-an-inclusive-promise"
+      ]
     },
     {
       "key": "opening-speech.close.ld-you-know-what-i-m-asking-for-on-so-hold-me-to-it",
@@ -655,7 +659,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
-      "date": "2026-11-16"
+      "date": "2026-11-16",
+      "elements": ["vow-pinned-to-a-dated-deliverable"]
     },
     {
       "key": "opening-speech.close.ld-the-has-the-votes-to-do-this-and-i-mean-to-ask-for-them",
@@ -684,7 +689,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
-      "date": "2026-11-16"
+      "date": "2026-11-16",
+      "elements": [
+        "sots-close-asks-to-get-to-work",
+        "vote-it-up-or-down-and-put-country-before-party"
+      ]
     },
     {
       "key": "opening-speech.close.ld-i-can-t-do-this-without-the-and-i-won-t-pretend-i-can",
@@ -713,7 +722,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
-      "date": "2026-11-16"
+      "date": "2026-11-16",
+      "elements": [
+        "sots-close-asks-to-get-to-work",
+        "jokes-then-offers-the-opposition-a-meeting"
+      ]
     },
     {
       "key": "opening-speech.close.ld-local-knows-what-i-m-asking-for-on-so-hold-me-to-it",
@@ -742,7 +755,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
-      "date": "2026-11-16"
+      "date": "2026-11-16",
+      "elements": [
+        "vow-pinned-to-a-dated-deliverable",
+        "asks-of-lawmakers-in-state-addresses"
+      ]
     },
     {
       "key": "opening-speech.ask.plain-redraft-i-ll-protect-law-name-and-i-ll-veto-any",
@@ -786,7 +803,8 @@
       },
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.ask.plain-redraft-i-ll-protect-law-name-and-i-ll-veto-any-2",
@@ -830,7 +848,8 @@
       },
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.ask.polished-redraft-law-name-stays-and-i-will-veto-any-bill-that",
@@ -1014,7 +1033,8 @@
       },
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.ask.plain-redraft-i-ll-protect-law-name-because-belief-and-i-ll",
@@ -1062,7 +1082,11 @@
       },
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "ask-in-the-middle-belief-after",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.ask.plain-redraft-i-ll-protect-law-name-because-belief-and-i-ll-2",
@@ -1110,7 +1134,11 @@
       },
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "ask-in-the-middle-belief-after",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.ask.polished-redraft-law-name-stays-because-belief-and-i-will-veto-any",
@@ -1143,7 +1171,8 @@
       },
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.polished-redraft-law-name-stay-because-belief-and-i-will-veto-any",
@@ -1254,7 +1283,8 @@
       },
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.pledge.polished-policy-redraft-i-ll-tell-you-what-my-plan-on-hardest-will-cost",
@@ -4251,7 +4281,8 @@
       "topic": "inflation",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["diagnosis-before-acts", "hard-year-names-the-trouble-first"]
     },
     {
       "key": "opening-speech.context.plain-inflation-up-worded-for-context-years-years-now-prices-just-keep",
@@ -4281,7 +4312,8 @@
       "topic": "inflation",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["diagnosis-before-acts", "hard-year-names-the-trouble-first"]
     },
     {
       "key": "opening-speech.context.polished-unemployment-up-worded-over-the-last-context-years-years-more-people",
@@ -4319,7 +4351,8 @@
       "topic": "unemployment",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["diagnosis-before-acts", "hard-year-names-the-trouble-first"]
     },
     {
       "key": "opening-speech.context.polished-unemployment-down-worded-over-the-last-context-years-years-more-people",
@@ -4357,7 +4390,8 @@
       "topic": "unemployment",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["sotu-opens-on-economic-figures"]
     },
     {
       "key": "opening-speech.context.plain-unemployment-up-worded-for-context-years-years-more-folks-have-been",
@@ -4395,7 +4429,8 @@
       "topic": "unemployment",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["diagnosis-before-acts", "hard-year-names-the-trouble-first"]
     },
     {
       "key": "opening-speech.context.plain-unemployment-down-worded-these-last-context-years-years-a-lot-of",
@@ -4433,7 +4468,8 @@
       "topic": "unemployment",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["sotu-opens-on-economic-figures"]
     },
     {
       "key": "opening-speech.context.polished-mortgage-up-worded-for-context-years-years-a-home-loan-has",
@@ -4463,7 +4499,8 @@
       "topic": "mortgage",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["diagnosis-before-acts", "hard-year-names-the-trouble-first"]
     },
     {
       "key": "opening-speech.context.plain-mortgage-up-worded-for-context-years-years-mortgages-kept-getting-pricier",
@@ -4493,7 +4530,8 @@
       "topic": "mortgage",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": ["diagnosis-before-acts", "hard-year-names-the-trouble-first"]
     },
     {
       "key": "opening-speech.context.polished-wages-up-worded-over-the-last-context-years-years-pay-has",
@@ -4523,7 +4561,11 @@
       "topic": "wages",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "sotu-opens-on-economic-figures",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.context.plain-wages-up-worded-for-context-years-years-paychecks-went-up-and",
@@ -4553,7 +4595,11 @@
       "topic": "wages",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "sotu-opens-on-economic-figures",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.context.polished-growth-up-worded-for-context-years-years-the-economy-has-grown",
@@ -4583,7 +4629,11 @@
       "topic": "growth",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "inaugural-point-opens-on-a-contrast",
+        "sotu-opens-on-economic-figures"
+      ]
     },
     {
       "key": "opening-speech.context.plain-growth-up-worded-the-economy-has-grown-these-last-context-years",
@@ -4613,7 +4663,11 @@
       "topic": "growth",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
-      "date": "2026-11-17"
+      "date": "2026-11-17",
+      "elements": [
+        "sotu-opens-on-economic-figures",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.salutation.n19-polished-chief-justice-speaker-addressed-members-of-congress-my-fello",
@@ -5503,7 +5557,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "name-who-failed-and-say-what-if-the-body-will-not-act",
+        "vote-it-up-or-down-and-put-country-before-party"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-polished-this-administration-will-work-to-to-and-i-will-sign-the-bill",
@@ -5534,7 +5592,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "promise-written-as-when-you-then-we"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-polished-i-ask-congress-to-to-because-i-believe-belief",
@@ -5577,7 +5639,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "ask-in-the-middle-belief-after",
+        "name-who-failed-and-say-what-if-the-body-will-not-act"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-polished-i-believe-belief-and-so-i-ask-this-congress-to-to",
@@ -5620,7 +5686,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "ask-in-the-middle-belief-after",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-plain-send-me-a-bill-to-to-and-i-ll-sign-it-the-day-it-lands",
@@ -5651,7 +5721,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "promise-written-as-when-you-then-we",
+        "vote-it-up-or-down-and-put-country-before-party"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-plain-it-s-time-to-to-and-i-m-asking-congress-to-get-it-done",
@@ -5682,7 +5756,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "name-who-failed-and-say-what-if-the-body-will-not-act",
+        "vote-it-up-or-down-and-put-country-before-party"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-plain-i-believe-belief-that-s-why-i-want-congress-to-to",
@@ -5725,7 +5803,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-plain-we-should-to-because-belief",
@@ -5768,7 +5850,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "ask-in-the-middle-belief-after",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-polished-i-will-not-sign-a-bill-for-about",
@@ -5799,7 +5885,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.ask.n19-polished-on-about-my-answer-to-congress-is-no",
@@ -5873,7 +5960,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "ask-in-the-middle-belief-after",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-polished-i-believe-belief-and-so-i-oppose-about",
@@ -5916,7 +6007,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-plain-on-about-my-answer-is-no-and-it-ll-stay-no",
@@ -6021,7 +6116,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-plain-i-believe-belief-so-on-about-the-answer-is-no",
@@ -6064,7 +6163,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.ask.n19-polished-i-will-ask-congress-to-repeal-law-name",
@@ -6095,7 +6195,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["repeal-pledge-passes-but-waits-on-certification"]
     },
     {
       "key": "opening-speech.ask.n19-polished-i-will-work-to-undo-law-name-and-i-ask-congress-to-join-me",
@@ -6126,7 +6227,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "repeal-pledge-passes-but-waits-on-certification",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-polished-i-will-ask-congress-to-repeal-law-name-because-i-believe-bel",
@@ -6169,7 +6274,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "repeal-pledge-passes-but-waits-on-certification",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-plain-law-name-has-to-go-and-i-m-asking-congress-to-repeal-it",
@@ -6200,7 +6309,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "repeal-pledge-passes-but-waits-on-certification",
+        "vote-it-up-or-down-and-put-country-before-party"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-plain-send-me-a-repeal-of-law-name-and-i-ll-sign-it",
@@ -6231,7 +6344,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "promise-written-as-when-you-then-we",
+        "repeal-pledge-passes-but-waits-on-certification"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-plain-i-want-law-name-repealed-because-i-believe-belief",
@@ -6274,7 +6391,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "repeal-pledge-passes-but-waits-on-certification",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-polished-i-will-defend-law-name-and-i-will-veto-any-bill-that-would-r",
@@ -6305,7 +6426,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.ask.n19-polished-law-name-stays-the-law-while-i-hold-this-office",
@@ -6336,7 +6458,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.ask.n19-polished-i-will-defend-law-name-because-i-believe-belief",
@@ -6379,7 +6502,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "ask-in-the-middle-belief-after",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.ask.n19-polished-since-i-believe-belief",
@@ -6410,7 +6537,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.ask.n19-polished-because-i-am-convinced-belief",
@@ -6441,7 +6569,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.ask.n19-plain-since-i-think-belief",
@@ -6472,7 +6601,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.ask.n19-plain-because-i-m-sure-belief",
@@ -6503,7 +6633,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.ask.n19-polished-first",
@@ -6658,7 +6789,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["turn-word-joins"]
     },
     {
       "key": "opening-speech.ask.n19-plain-and-last",
@@ -6689,7 +6821,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["turn-word-joins"]
     },
     {
       "key": "opening-speech.ask.n19-polished-above-all",
@@ -6751,7 +6884,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["turn-word-joins"]
     },
     {
       "key": "opening-speech.ask.n19-polished-my-reason-is-simple-belief",
@@ -6798,7 +6932,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.ask.n19-polished-i-hold-this-view-because-belief",
@@ -6829,7 +6964,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.ask.n19-plain-the-reason-s-simple-belief",
@@ -6860,7 +6996,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.ask.n19-plain-i-feel-that-way-because-belief",
@@ -6891,7 +7028,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.ask.n19-both-belief-sentence",
@@ -6938,7 +7076,11 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.close.n19-you-know-where-i-stand-on-asked-about-hold-me-to-it",
@@ -6967,7 +7109,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "pattern-c38-the-promise-and-the-bill-on-your-desk",
+        "explain-vote-by-prior-pledge"
+      ]
     },
     {
       "key": "opening-speech.close.n19-my-answer-on-asked-about-will-not-change-hold-me-to-it",
@@ -6996,7 +7142,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "pattern-c38-the-promise-and-the-bill-on-your-desk",
+        "explain-vote-by-prior-pledge"
+      ]
     },
     {
       "key": "opening-speech.close.n19-on-asked-about-my-answer-stays-no-hold-me-to-that",
@@ -7025,7 +7175,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "pattern-c38-the-promise-and-the-bill-on-your-desk",
+        "explain-vote-by-prior-pledge"
+      ]
     },
     {
       "key": "opening-speech.close.n19-i-have-asked-for-action-on-asked-about-hold-me-to-it",
@@ -7054,7 +7208,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["vow-pinned-to-a-dated-deliverable"]
     },
     {
       "key": "opening-speech.close.n19-i-asked-for-asked-about-tonight-hold-me-to-it",
@@ -7083,7 +7238,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["vow-pinned-to-a-dated-deliverable"]
     },
     {
       "key": "opening-speech.close.n19-local-stays-no",
@@ -7122,7 +7278,8 @@
       "bearing": "firm",
       "author": "Story lead",
       "date": "2026-11-19",
-      "origin": "authored"
+      "origin": "authored",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.close.n19-local-stand",
@@ -7161,7 +7318,11 @@
       "bearing": "firm",
       "author": "Story lead",
       "date": "2026-11-19",
-      "origin": "authored"
+      "origin": "authored",
+      "elements": [
+        "pattern-c38-the-promise-and-the-bill-on-your-desk",
+        "explain-vote-by-prior-pledge"
+      ]
     },
     {
       "key": "opening-speech.story-says.both-families-in-realm-name-spend-less-on-groceries-and-gas-than-when-this",
@@ -8877,7 +9038,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.plain-here-s-the-reason-belief",
@@ -8910,7 +9072,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.polished-here-is-my-reason-belief",
@@ -8943,7 +9106,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.both-i-take-this-stand-because-belief",
@@ -8976,7 +9140,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.plain-i-d-like-law-name-gone-because-belief-and-ask-body-name-to-drop-them",
@@ -9010,7 +9175,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "repeal-pledge-passes-but-waits-on-certification",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.plain-i-d-like-law-name-gone-because-belief-and-ask-body-name-to-drop-it",
@@ -9044,7 +9213,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "repeal-pledge-passes-but-waits-on-certification",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.plain-i-ll-stand-by-law-name-while-i-m-office-title-because-belief",
@@ -9077,7 +9250,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.polished-i-will-stand-by-law-name-while-i-am-office-title-because-belief",
@@ -9110,7 +9284,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.plain-i-m-asking-body-name-to-drop-law-name-because-belief",
@@ -9143,7 +9318,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "repeal-pledge-passes-but-waits-on-certification",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.polished-i-will-urge-body-name-to-do-away-with-law-name-because-belief",
@@ -9176,7 +9355,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "repeal-pledge-passes-but-waits-on-certification",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.polished-i-will-ask-body-name-to-end-law-name-because-belief",
@@ -9209,7 +9392,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "repeal-pledge-passes-but-waits-on-certification",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.polished-i-will-stand-up-for-law-name-before-body-name-because-belief",
@@ -9242,7 +9429,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.plain-anyone-who-wants-to-undo-law-name-will-have-to-go-through-me-because-b",
@@ -9338,7 +9526,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.plain-i-ll-hold-the-line-on-law-name-because-belief-and-nobody-gets-them-pas",
@@ -9434,7 +9623,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.polished-i-will-keep-law-name-because-belief-and-fight-any-repeal-of-them",
@@ -9482,7 +9672,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.plain-i-ll-hold-the-line-on-law-name-because-belief-and-nobody-gets-past-me",
@@ -9578,7 +9769,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.polished-i-will-keep-law-name-because-belief-and-fight-any-repeal-of-it",
@@ -9658,7 +9850,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "repeal-pledge-passes-but-waits-on-certification",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.plain-i-d-like-the-legislature-to-end-law-name-because-belief-and-i-ll-sign",
@@ -9690,7 +9886,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "asks-of-lawmakers-in-state-addresses",
+        "promise-written-as-when-you-then-we",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.plain-i-ll-sign-a-repeal-of-law-name-as-soon-as-the-legislature-sends-one-be",
@@ -9722,7 +9923,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "promise-written-as-when-you-then-we",
+        "repeal-pledge-passes-but-waits-on-certification",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.polished-law-name-should-go-because-belief-and-i-will-sign-the-repeal",
@@ -9754,7 +9960,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "repeal-pledge-passes-but-waits-on-certification",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.polished-i-would-like-the-legislature-to-end-law-name-because-belief-and-i-will",
@@ -9786,7 +9996,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "asks-of-lawmakers-in-state-addresses",
+        "promise-written-as-when-you-then-we",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.polished-i-will-sign-a-repeal-of-law-name-as-soon-as-the-legislature-sends-one-2",
@@ -9818,7 +10033,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "promise-written-as-when-you-then-we",
+        "repeal-pledge-passes-but-waits-on-certification",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.plain-i-m-against-about-because-belief-i-ll-ask-body-name-to-vote-them-down",
@@ -9852,7 +10072,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.polished-i-oppose-about-because-belief-and-i-ask-body-name-to-reject-them",
@@ -9886,7 +10107,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.plain-i-m-against-about-because-belief-and-i-ll-veto-them",
@@ -9952,7 +10174,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.polished-i-support-about-because-belief-so-i-ask-body-name-to-side-before-the-y",
@@ -9986,7 +10209,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "ask-in-the-middle-belief-after",
+        "mayor-tax-request-refused-but-state-funds-the-program"
+      ]
     },
     {
       "key": "opening-speech.ask.polished-i-want-about-because-belief-and-i-want-body-name-to-side",
@@ -10020,7 +10247,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.polished-on-about-i-ask-body-name-to-side-because-belief",
@@ -10054,7 +10282,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-tax-request-refused-but-state-funds-the-program",
+        "ask-in-the-middle-belief-after"
+      ]
     },
     {
       "key": "opening-speech.ask.polished-i-back-about-because-belief-and-i-am-asking-body-name-to-side-this-yea",
@@ -10088,7 +10320,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.plain-i-m-for-about-because-belief-and-i-d-like-us-to-side-before-long",
@@ -10136,7 +10369,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.plain-i-m-in-favor-of-about-because-belief-so-let-s-side-this-year",
@@ -10184,7 +10418,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.plain-i-m-behind-about-because-belief-and-i-want-us-to-side-soon",
@@ -10232,7 +10467,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.plain-i-m-for-about-because-belief-so-let-s-side-this-year",
@@ -10280,7 +10516,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.polished-i-stand-for-about-because-belief-and-i-would-like-to-see-us-side-soon",
@@ -10328,7 +10565,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.polished-i-support-about-because-belief-and-i-want-us-to-side",
@@ -10376,7 +10614,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.plain-i-m-against-about-because-belief-i-ll-ask-body-name-to-vote-it-down",
@@ -10410,7 +10649,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.polished-i-oppose-about-because-belief-and-i-ask-body-name-to-reject-it",
@@ -10444,7 +10684,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.plain-i-m-against-about-because-belief-and-i-ll-veto-it",
@@ -10510,7 +10751,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.salutation.plain-friends-and-neighbors",
@@ -10702,7 +10944,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.polished-our-budget-year-books-balance-about-even-though-with-less-to-spare-tha",
@@ -10727,7 +10970,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.plain-we-came-out-about-even-for-budget-year-and-that-s-better-than-last-yea",
@@ -10752,7 +10996,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.polished-our-books-balance-about-even-for-budget-year-a-step-up-from-the-year-b",
@@ -10777,7 +11022,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.plain-we-re-taking-in-budget-gap-more-than-we-spend-in-budget-year-and-i-d-l",
@@ -10803,7 +11049,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.polished-in-budget-year-we-are-bringing-in-budget-gap-more-than-we-spend-and-i",
@@ -10829,7 +11076,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.plain-realm-name-broke-about-even-for-budget-year-with-less-cushion-than-las",
@@ -10970,7 +11218,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.plain-we-broke-about-even-in-budget-year-so-any-new-spending-has-to-come-fro",
@@ -11007,7 +11256,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.polished-the-budget-year-budget-balances-out-and-it-leaves-little-room-for-new",
@@ -11044,7 +11294,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.polished-we-came-out-about-even-in-budget-year-so-anything-new-has-to-be-paid-f",
@@ -11081,7 +11332,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.plain-we-ended-up-budget-gap-short-for-budget-year-worse-than-last-year-and",
@@ -11120,7 +11372,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.budget-condition.plain-we-re-budget-gap-short-in-budget-year-a-bigger-hole-than-last-year-and",
@@ -11159,7 +11412,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.budget-condition.polished-budget-year-left-us-budget-gap-short-worse-than-last-year-and-i-will-n",
@@ -11198,7 +11452,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.budget-condition.polished-we-are-budget-gap-short-for-budget-year-a-bigger-hole-than-the-year-be",
@@ -11237,7 +11492,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.budget-condition.plain-we-re-budget-gap-short-in-budget-year-though-that-s-better-than-last-y",
@@ -11276,7 +11532,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.budget-condition.plain-we-re-still-budget-gap-short-for-budget-year-but-the-hole-is-smaller-t",
@@ -11315,7 +11572,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.budget-condition.polished-the-budget-year-budget-is-still-budget-gap-short-but-by-less-than-the",
@@ -11354,7 +11612,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.budget-condition.plain-realm-name-is-spending-budget-gap-more-than-it-takes-in-for-budget-yea",
@@ -11381,7 +11640,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["figures-belong-to-state-addresses"]
     },
     {
       "key": "opening-speech.budget-condition.plain-we-re-running-budget-gap-in-the-hole-for-budget-year-and-we-ve-got-to",
@@ -11420,7 +11680,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.budget-condition.polished-the-budget-year-budget-spends-budget-gap-more-than-it-brings-in-and-i",
@@ -11459,7 +11720,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.budget-condition.polished-for-budget-year-our-spending-runs-budget-gap-past-our-income-and-closi",
@@ -11498,7 +11760,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.budget-condition.plain-we-ve-got-budget-gap-to-spare-for-budget-year-but-less-than-last-year",
@@ -11537,7 +11800,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.plain-we-re-still-budget-gap-ahead-in-budget-year-but-the-cushion-is-thinner",
@@ -11576,7 +11840,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.polished-our-budget-year-books-show-budget-gap-to-spare-less-than-the-year-befo",
@@ -11615,7 +11880,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.polished-the-budget-year-budget-is-still-budget-gap-in-the-black-though-the-cus",
@@ -11654,7 +11920,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.plain-we-came-out-budget-gap-ahead-in-budget-year-better-than-last-year-and",
@@ -11693,7 +11960,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.plain-we-closed-out-budget-year-budget-gap-ahead-a-better-year-than-the-last",
@@ -11732,7 +12000,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.polished-the-budget-year-budget-ended-budget-gap-ahead-better-than-the-year-bef",
@@ -11771,7 +12040,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.polished-we-finished-budget-year-budget-gap-ahead-better-than-the-year-before-a",
@@ -11810,7 +12080,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"]
     },
     {
       "key": "opening-speech.budget-condition.plain-realm-name-is-bringing-in-budget-gap-more-than-it-spends-for-budget-ye",
@@ -11837,7 +12108,11 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-opens-on-economic-figures",
+        "figures-belong-to-state-addresses"
+      ]
     },
     {
       "key": "opening-speech.close.plain-if-we-get-this-done-first-after-thanks-realm-bare",
@@ -11866,7 +12141,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-looks-ahead",
+        "sotu-close-thanks-and-says-good-evening"
+      ]
     },
     {
       "key": "opening-speech.close.polished-if-we-act-first-after-thank-you-realm-bare",
@@ -11895,7 +12174,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-looks-ahead",
+        "sotu-close-thanks-and-says-good-evening"
+      ]
     },
     {
       "key": "opening-speech.close.plain-it-comes-down-to-this-first-reason-good-night-realm-bare",
@@ -11926,7 +12209,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sots-close-calls-back-to-an-earlier-address",
+        "sotu-close-thanks-and-says-good-evening"
+      ]
     },
     {
       "key": "opening-speech.close.polished-my-reason-is-first-reason-good-night-and-thank-you-realm-bare",
@@ -11957,7 +12244,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-close-thanks-and-says-good-evening"]
     },
     {
       "key": "opening-speech.close.polished-you-have-my-word-on-theme-short-realm-bare-and-my-thanks",
@@ -11986,7 +12274,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "stump-ends-on-thanks-or-an-inclusive-promise",
+        "inaugural-vows-as-we-will-promises"
+      ]
     },
     {
       "key": "opening-speech.close.plain-thanks-for-listening-realm-bare-and-good-night",
@@ -12017,7 +12309,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-thanks-and-says-good-evening",
+        "stump-ends-on-thanks-or-an-inclusive-promise"
+      ]
     },
     {
       "key": "opening-speech.close.polished-good-night-realm-bare-and-thank-you-for-listening",
@@ -12048,7 +12344,11 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-thanks-and-says-good-evening",
+        "stump-ends-on-thanks-or-an-inclusive-promise"
+      ]
     },
     {
       "key": "opening-speech.ask.plain-i-d-like-law-name-gone-and-ask-body-name-to-drop-them",
@@ -12080,7 +12380,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["repeal-pledge-passes-but-waits-on-certification"]
     },
     {
       "key": "opening-speech.ask.plain-i-d-like-law-name-gone-and-ask-body-name-to-drop-it",
@@ -12112,7 +12413,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["repeal-pledge-passes-but-waits-on-certification"]
     },
     {
       "key": "opening-speech.ask.plain-i-ll-stand-by-law-name-while-i-m-office-title",
@@ -12205,7 +12507,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["repeal-pledge-passes-but-waits-on-certification"]
     },
     {
       "key": "opening-speech.ask.polished-i-will-urge-body-name-to-do-away-with-law-name",
@@ -12236,7 +12539,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["repeal-pledge-passes-but-waits-on-certification"]
     },
     {
       "key": "opening-speech.ask.polished-i-will-ask-body-name-to-end-law-name",
@@ -12267,7 +12571,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["repeal-pledge-passes-but-waits-on-certification"]
     },
     {
       "key": "opening-speech.ask.polished-i-will-stand-up-for-law-name-before-body-name",
@@ -12840,7 +13145,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "repeal-pledge-passes-but-waits-on-certification",
+        "asks-of-lawmakers-in-state-addresses"
+      ]
     },
     {
       "key": "opening-speech.ask.plain-i-d-like-the-legislature-to-end-law-name-and-i-ll-sign-the-bill-that-d",
@@ -12866,7 +13175,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "asks-of-lawmakers-in-state-addresses",
+        "promise-written-as-when-you-then-we",
+        "repeal-pledge-passes-but-waits-on-certification"
+      ]
     },
     {
       "key": "opening-speech.ask.plain-i-ll-sign-a-repeal-of-law-name-as-soon-as-the-legislature-sends-one",
@@ -12892,7 +13206,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "promise-written-as-when-you-then-we",
+        "repeal-pledge-passes-but-waits-on-certification"
+      ]
     },
     {
       "key": "opening-speech.ask.polished-law-name-should-go-and-i-will-sign-the-repeal",
@@ -12918,7 +13236,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "repeal-pledge-passes-but-waits-on-certification",
+        "asks-of-lawmakers-in-state-addresses"
+      ]
     },
     {
       "key": "opening-speech.ask.polished-i-would-like-the-legislature-to-end-law-name-and-i-will-sign-the-bill",
@@ -12944,7 +13266,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "asks-of-lawmakers-in-state-addresses",
+        "promise-written-as-when-you-then-we"
+      ]
     },
     {
       "key": "opening-speech.ask.polished-i-will-sign-a-repeal-of-law-name-as-soon-as-the-legislature-sends-one",
@@ -12970,7 +13296,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "promise-written-as-when-you-then-we",
+        "repeal-pledge-passes-but-waits-on-certification"
+      ]
     },
     {
       "key": "opening-speech.question.plain-is-it-okay-with-you-that-today-question-third",
@@ -15682,7 +16012,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.polished-since-i-am-convinced-that-belief",
@@ -15715,7 +16046,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.ask.both-because-i-think-belief",
@@ -15748,7 +16080,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "opening-speech.today.plain-around-here-today-clause",
@@ -16128,7 +16461,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-tax-request-refused-but-state-funds-the-program"]
     },
     {
       "key": "opening-speech.ask.polished-i-want-about-and-i-want-body-name-to-side",
@@ -16160,7 +16494,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-tax-request-refused-but-state-funds-the-program"]
     },
     {
       "key": "opening-speech.ask.polished-on-about-i-ask-body-name-to-side",
@@ -16192,7 +16527,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-tax-request-refused-but-state-funds-the-program"]
     },
     {
       "key": "opening-speech.ask.polished-i-back-about-and-i-am-asking-body-name-to-side-this-year",
@@ -16224,7 +16560,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-tax-request-refused-but-state-funds-the-program"]
     },
     {
       "key": "opening-speech.ask.plain-i-m-for-about-and-i-d-like-us-to-side-before-long",
@@ -16258,7 +16595,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-proposes-insurance-rule-council-passes-it-and-a-group-sues"
+      ]
     },
     {
       "key": "opening-speech.ask.plain-i-m-in-favor-of-about-so-let-s-side-this-year",
@@ -16292,7 +16632,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-proposes-insurance-rule-council-passes-it-and-a-group-sues"
+      ]
     },
     {
       "key": "opening-speech.ask.plain-i-m-behind-about-and-i-want-us-to-side-soon",
@@ -16326,7 +16669,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-proposes-insurance-rule-council-passes-it-and-a-group-sues"
+      ]
     },
     {
       "key": "opening-speech.ask.plain-i-m-for-about-so-let-s-side-this-year",
@@ -16360,7 +16706,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-proposes-insurance-rule-council-passes-it-and-a-group-sues"
+      ]
     },
     {
       "key": "opening-speech.ask.polished-i-stand-for-about-and-i-would-like-to-see-us-side-soon",
@@ -16394,7 +16743,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-proposes-insurance-rule-council-passes-it-and-a-group-sues"
+      ]
     },
     {
       "key": "opening-speech.ask.polished-i-support-about-and-i-want-us-to-side",
@@ -16428,7 +16780,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-proposes-insurance-rule-council-passes-it-and-a-group-sues"
+      ]
     },
     {
       "key": "opening-speech.meaning.plain-we-ve-all-been-asked-to-live-with-more-pollution-in-context-name-than",
@@ -17552,7 +17907,11 @@
       "topic": "environment",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-admits-a-setback-briefly",
+        "takes-blame-for-the-biggest-failure-first"
+      ]
     },
     {
       "key": "opening-speech.context.polished-over-the-context-years-years-i-have-held-this-office-our-air-and-water",
@@ -17590,7 +17949,11 @@
       "topic": "environment",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-admits-a-setback-briefly",
+        "takes-blame-for-the-biggest-failure-first"
+      ]
     },
     {
       "key": "opening-speech.context.plain-in-the-context-years-years-i-ve-had-this-job-the-roads-have-worn-out-f",
@@ -17620,7 +17983,8 @@
       "topic": "roads",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.context.polished-over-the-context-years-years-i-have-held-this-office-our-roads-and-bri",
@@ -17650,7 +18014,8 @@
       "topic": "roads",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.context.plain-in-the-context-years-years-i-ve-had-this-job-folks-health-has-gotten-w",
@@ -17680,7 +18045,11 @@
       "topic": "health",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-admits-a-setback-briefly",
+        "takes-blame-for-the-biggest-failure-first"
+      ]
     },
     {
       "key": "opening-speech.context.polished-over-the-context-years-years-i-have-held-this-office-health-has-gotten",
@@ -17710,7 +18079,11 @@
       "topic": "health",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-admits-a-setback-briefly",
+        "takes-blame-for-the-biggest-failure-first"
+      ]
     },
     {
       "key": "opening-speech.context.plain-our-schools-have-slipped-in-the-context-years-years-i-ve-had-this-job",
@@ -17748,7 +18121,8 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.context.polished-over-the-context-years-years-i-have-held-this-office-our-schools-have",
@@ -17786,7 +18160,8 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-admits-a-setback-briefly"]
     },
     {
       "key": "opening-speech.context.plain-crime-has-gone-up-in-the-context-years-years-i-ve-had-this-job-and-fol",
@@ -17816,7 +18191,11 @@
       "topic": "crime",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "neighbors-fear-being-the-next-house",
+        "mayor-admits-a-setback-briefly"
+      ]
     },
     {
       "key": "opening-speech.context.polished-over-the-context-years-years-i-have-held-this-office-crime-has-risen-a",
@@ -17846,7 +18225,11 @@
       "topic": "crime",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "neighbors-fear-being-the-next-house",
+        "mayor-admits-a-setback-briefly"
+      ]
     },
     {
       "key": "opening-speech.context.plain-rents-have-kept-going-up-in-the-context-years-years-i-ve-had-this-job",
@@ -17876,7 +18259,11 @@
       "topic": "rent",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "candidate-talks-rent-as-a-neighbor-pushed-out",
+        "mayor-admits-a-setback-briefly"
+      ]
     },
     {
       "key": "opening-speech.context.polished-over-the-context-years-years-i-have-held-this-office-rents-have-kept-r",
@@ -17906,7 +18293,11 @@
       "topic": "rent",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "candidate-talks-rent-as-a-neighbor-pushed-out",
+        "mayor-admits-a-setback-briefly"
+      ]
     },
     {
       "key": "opening-speech.ask.plain-i-m-asking-body-name-to-to-and-i-m-not-letting-up",
@@ -17932,7 +18323,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-tax-request-refused-but-state-funds-the-program"]
     },
     {
       "key": "opening-speech.ask.polished-i-ask-body-name-to-to-and-i-will-keep-asking",
@@ -17958,7 +18350,8 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["mayor-tax-request-refused-but-state-funds-the-program"]
     },
     {
       "key": "opening-speech.story-says.plain-our-kids-are-learning-more-than-they-did-context-years-years-ago-and-t",
@@ -18400,7 +18793,11 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "asks-of-lawmakers-in-state-addresses",
+        "vote-it-up-or-down-and-put-country-before-party"
+      ]
     },
     {
       "key": "opening-speech.ask.polished-i-ask-the-legislature-to-to-and-i-will-keep-asking",
@@ -18421,7 +18818,11 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "asks-of-lawmakers-in-state-addresses",
+        "vote-it-up-or-down-and-put-country-before-party"
+      ]
     },
     {
       "key": "opening-speech.story-says.plain-our-kids-are-learning-more-than-they-were-and-realm-name-is-better-off",
@@ -28326,7 +28727,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.the-answer-to-hardest-is-more-freedom-not-more",
@@ -28361,7 +28763,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-point-opens-on-a-contrast",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.we-believe-in-shared-effort-on-hardest",
@@ -28396,7 +28802,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.if-hardest-hurts-working-families-government-owes-them-real",
@@ -28431,7 +28838,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-in-home-state-and-in-fairness-i",
@@ -28466,7 +28874,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-can-solve-hardest-together-stand-together",
@@ -28501,7 +28910,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-appeals-to-the-whole-people",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-can-solve-hardest-together-i-will-not-pretend",
@@ -28536,7 +28949,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-appeals-to-the-whole-people",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-serve-home-state-and-the-nation-hold-steady",
@@ -28571,7 +28988,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.i-trust-folks-to-beat-hardest",
@@ -28606,7 +29024,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.you-can-t-fix-hardest-by-letting-government-take",
@@ -28676,7 +29098,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.we-should-pull-together-on-hardest",
@@ -28711,7 +29138,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.nobody-should-have-to-take-on-hardest-alone-stick",
@@ -28746,7 +29177,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.i-believe-in-fairness-for-home-state-we-ll",
@@ -28781,7 +29216,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.hardest-doesn-t-care-which-party-you-re-in",
@@ -28816,7 +29255,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "blame-shared-by-both-sides",
+        "sotu-opens-on-a-bipartisan-gesture"
+      ]
     },
     {
       "key": "opening-speech.creed.we-can-fix-hardest-together-we-ll-get-through",
@@ -28851,7 +29295,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-appeals-to-the-whole-people",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.i-work-for-home-state-and-everyone-stick-together",
@@ -28886,7 +29334,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "victory-first-words-to-those-who-did-not-vote-for-you",
+        "stump-ends-on-thanks-or-an-inclusive-promise",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.more-freedom-is-the-answer-on-hardest",
@@ -28921,7 +29374,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-trust-home-state-to-lead-itself-stand-firm",
@@ -28956,7 +29410,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-credit-hard-work-for-best-stand-firm",
@@ -28991,7 +29446,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["household-comparison-for-public-debt-and-small-steps"]
     },
     {
       "key": "opening-speech.creed.nobody-who-works-should-carry-hardest-by-themselves",
@@ -29026,7 +29482,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-in-home-state-and-in-fairness-stand",
@@ -29061,7 +29518,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-can-solve-hardest-together-stand-firm",
@@ -29096,7 +29554,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-appeals-to-the-whole-people",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.hardest-belongs-to-no-party-and-neither-does-its",
@@ -29131,7 +29593,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "blame-shared-by-both-sides",
+        "sotu-opens-on-a-bipartisan-gesture"
+      ]
     },
     {
       "key": "opening-speech.creed.we-serve-home-state-and-the-nation-stand-firm",
@@ -29166,7 +29633,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.i-trust-folks-to-beat-hardest-i-m-standing",
@@ -29201,7 +29669,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.i-trust-home-state-to-run-itself-i-m",
@@ -29236,7 +29708,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.we-can-thank-hard-work-for-best-i-m",
@@ -29271,7 +29747,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["household-comparison-for-public-debt-and-small-steps"]
     },
     {
       "key": "opening-speech.creed.everyone-deserves-some-help-with-hardest",
@@ -29306,7 +29783,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.we-should-pull-together-on-hardest-i-m-standing",
@@ -29341,7 +29822,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.i-believe-in-fairness-for-home-state-i-m",
@@ -29376,7 +29861,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.we-can-fix-hardest-together-i-m-standing-firm",
@@ -29411,7 +29900,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-appeals-to-the-whole-people",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.i-ll-work-with-anybody-on-hardest-red-or",
@@ -29446,7 +29939,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "divide-a-bill-among-bipartisan-pairs",
+        "jokes-then-offers-the-opposition-a-meeting",
+        "vote-it-up-or-down-and-put-country-before-party"
+      ]
     },
     {
       "key": "opening-speech.creed.i-work-for-home-state-and-everyone-i-m",
@@ -29481,7 +29979,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "victory-first-words-to-those-who-did-not-vote-for-you",
+        "stump-ends-on-thanks-or-an-inclusive-promise"
+      ]
     },
     {
       "key": "opening-speech.creed.the-gains-on-best-came-from-effort",
@@ -29516,7 +30018,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.creed.we-trust-home-state-to-lead-itself-look-ahead",
@@ -29551,7 +30054,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-trust-people-to-meet-hardest-look-ahead",
@@ -29586,7 +30090,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-best-is-worth-protecting-look-ahead",
@@ -29621,7 +30126,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-in-home-state-and-in-fairness-look",
@@ -29656,7 +30162,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-in-shared-effort-on-hardest-look-ahead",
@@ -29691,7 +30198,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-all-share-credit-for-best-look-ahead",
@@ -29726,7 +30234,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "retiring-mayor-credits-the-team-not-the-legacy",
+        "blame-shared-by-both-sides"
+      ]
     },
     {
       "key": "opening-speech.creed.we-serve-home-state-and-the-nation-look-ahead",
@@ -29761,7 +30273,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-can-solve-hardest-together-the-future-is-ours",
@@ -29796,7 +30309,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-appeals-to-the-whole-people",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-can-thank-hard-work-for-best",
@@ -29831,7 +30348,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "household-comparison-for-public-debt-and-small-steps",
+        "retiring-mayor-credits-the-team-not-the-legacy"
+      ]
     },
     {
       "key": "opening-speech.creed.i-trust-home-state-to-run-itself-look-ahead",
@@ -29866,7 +30387,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim",
+        "sotu-close-looks-ahead"
+      ]
     },
     {
       "key": "opening-speech.creed.i-trust-folks-to-beat-hardest-look-ahead-folks",
@@ -29901,7 +30427,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim",
+        "sotu-close-looks-ahead"
+      ]
     },
     {
       "key": "opening-speech.creed.we-should-protect-best-together-look-ahead-folks",
@@ -29936,7 +30467,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.i-believe-in-fairness-for-home-state-look-ahead",
@@ -29971,7 +30503,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim",
+        "sotu-close-looks-ahead"
+      ]
     },
     {
       "key": "opening-speech.creed.we-should-pull-together-on-hardest-look-ahead-folks",
@@ -30006,7 +30543,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.everyone-from-every-side-helped-with-best",
@@ -30041,7 +30582,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "blame-shared-by-both-sides",
+        "retiring-mayor-credits-the-team-not-the-legacy"
+      ]
     },
     {
       "key": "opening-speech.creed.i-work-for-home-state-and-everyone-look-ahead",
@@ -30076,7 +30621,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "victory-first-words-to-those-who-did-not-vote-for-you",
+        "stump-ends-on-thanks-or-an-inclusive-promise",
+        "sotu-close-looks-ahead"
+      ]
     },
     {
       "key": "opening-speech.creed.we-can-fix-hardest-together-brighter-days-are-coming",
@@ -30111,7 +30661,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-appeals-to-the-whole-people",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-credit-hard-work-for-best-we-are-grateful",
@@ -30146,7 +30700,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "household-comparison-for-public-debt-and-small-steps",
+        "retiring-mayor-credits-the-team-not-the-legacy"
+      ]
     },
     {
       "key": "opening-speech.creed.we-trust-home-state-to-lead-itself-we-are",
@@ -30181,7 +30739,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-trust-people-to-meet-hardest-this-victory-belongs",
@@ -30216,7 +30775,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-best-is-worth-protecting-we-are-grateful",
@@ -30251,7 +30811,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-in-home-state-and-in-fairness-we",
@@ -30286,7 +30847,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-in-shared-effort-on-hardest-this-victory",
@@ -30321,7 +30883,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "victory-ends-on-a-call-to-work"
+      ]
     },
     {
       "key": "opening-speech.creed.we-all-share-credit-for-best-we-are-grateful",
@@ -30356,7 +30922,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "retiring-mayor-credits-the-team-not-the-legacy",
+        "blame-shared-by-both-sides"
+      ]
     },
     {
       "key": "opening-speech.creed.we-serve-home-state-and-the-nation-we-are",
@@ -30391,7 +30961,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-can-solve-hardest-together-this-victory-belongs-to",
@@ -30426,7 +30997,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-appeals-to-the-whole-people",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.i-want-people-free-to-keep-best-growing",
@@ -30461,7 +31036,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.i-trust-home-state-to-run-itself-we-re",
@@ -30496,7 +31075,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.i-trust-folks-to-beat-hardest-it-feels-good",
@@ -30531,7 +31114,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.we-should-protect-best-together-we-re-grateful",
@@ -30566,7 +31153,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.i-believe-in-fairness-for-home-state-we-re",
@@ -30601,7 +31189,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.we-should-pull-together-on-hardest-it-feels-good",
@@ -30636,7 +31228,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-close-appeals-to-the-whole-people"]
     },
     {
       "key": "opening-speech.creed.we-all-had-a-hand-in-best-we-re",
@@ -30671,7 +31264,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "retiring-mayor-credits-the-team-not-the-legacy",
+        "blame-shared-by-both-sides"
+      ]
     },
     {
       "key": "opening-speech.creed.i-work-for-home-state-and-everyone-we-re",
@@ -30706,7 +31303,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "victory-first-words-to-those-who-did-not-vote-for-you",
+        "stump-ends-on-thanks-or-an-inclusive-promise"
+      ]
     },
     {
       "key": "opening-speech.creed.we-can-fix-hardest-together-it-feels-good-and",
@@ -30741,7 +31342,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-appeals-to-the-whole-people",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-trust-people-not-programs-on-hardest",
@@ -30776,7 +31381,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-trust-people-to-meet-hardest-we-mourn-them",
@@ -30881,7 +31487,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-in-home-state-and-in-fairness-we-2",
@@ -30916,7 +31523,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.creed.we-will-keep-the-progress-on-best-as-a",
@@ -30986,7 +31596,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.creed.we-serve-home-state-and-the-nation-no-one",
@@ -31021,7 +31634,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.creed.i-trust-folks-to-beat-hardest-we-miss-them",
@@ -31056,7 +31672,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-with-a-tribute-to-the-dead"]
     },
     {
       "key": "opening-speech.creed.i-trust-home-state-to-run-itself-nobody-has",
@@ -31126,7 +31743,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.creed.nobody-should-have-to-take-on-hardest-alone",
@@ -31161,7 +31781,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.creed.i-believe-in-fairness-for-home-state-nobody-has",
@@ -31196,7 +31817,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-with-a-tribute-to-the-dead"]
     },
     {
       "key": "opening-speech.creed.the-work-on-best-goes-on-even-now",
@@ -31231,7 +31853,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-can-fix-hardest-together-we-miss-them",
@@ -31266,7 +31889,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.creed.i-work-for-home-state-and-everyone-nobody-has",
@@ -31301,7 +31927,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-with-a-tribute-to-the-dead"]
     },
     {
       "key": "opening-speech.creed.the-answer-on-hardest-starts-with-people-not-programs",
@@ -31336,7 +31963,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.creed.we-trust-home-state-to-lead-itself-results-are",
@@ -31371,7 +32002,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.every-family-in-home-state-knows-the-value-of",
@@ -31406,7 +32038,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "household-comparison-for-public-debt-and-small-steps",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.the-people-of-home-state-rely-on-themselves-watch",
@@ -31441,7 +32077,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-credit-hard-work-for-best-results-are-what",
@@ -31476,7 +32113,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["household-comparison-for-public-debt-and-small-steps"]
     },
     {
       "key": "opening-speech.creed.we-gained-on-best-because-people-were-free-to",
@@ -31511,7 +32149,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-trust-effort-to-keep-best-growing-watch-the",
@@ -31546,7 +32188,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-gained-on-best-because-people-were-free-to-2",
@@ -31581,7 +32224,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-believe-in-home-state-and-in-fairness",
@@ -31616,7 +32263,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-in-a-fair-shot-for-every-family",
@@ -31651,7 +32299,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-best-is-worth-protecting-results-are-what",
@@ -31686,7 +32335,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-best-is-worth-protecting-watch-the-results",
@@ -31721,7 +32371,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-best-is-worth-protecting",
@@ -31756,7 +32407,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-can-solve-hardest-together",
@@ -31791,7 +32443,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-appeals-to-the-whole-people",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-can-solve-hardest-together-results-are-what-count",
@@ -31826,7 +32482,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-appeals-to-the-whole-people",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-serve-home-state-and-the-nation-results-are",
@@ -31861,7 +32521,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.i-answer-to-the-people-of-home-state-and",
@@ -31896,7 +32557,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "vow-pinned-to-a-dated-deliverable"
+      ]
     },
     {
       "key": "opening-speech.creed.i-answer-to-the-people-of-home-state-and-2",
@@ -31931,7 +32596,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["vote-it-up-or-down-and-put-country-before-party"]
     },
     {
       "key": "opening-speech.creed.we-all-share-credit-for-best-results-are-what",
@@ -31966,7 +32632,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "retiring-mayor-credits-the-team-not-the-legacy",
+        "blame-shared-by-both-sides"
+      ]
     },
     {
       "key": "opening-speech.creed.i-trust-folks-to-beat-hardest-watch-what-happens",
@@ -32001,7 +32671,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.i-trust-home-state-to-run-itself-i-ll",
@@ -32036,7 +32710,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim",
+        "mayor-reports-the-budget-as-a-plain-bill-on-the-average-home"
+      ]
     },
     {
       "key": "opening-speech.creed.i-trust-home-state-to-run-itself-watch-what",
@@ -32071,7 +32750,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.i-trust-home-state-to-run-itself",
@@ -32106,7 +32789,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.we-can-thank-hard-work-for-best-i-ll",
@@ -32141,7 +32828,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "household-comparison-for-public-debt-and-small-steps",
+        "retiring-mayor-credits-the-team-not-the-legacy"
+      ]
     },
     {
       "key": "opening-speech.creed.i-want-to-keep-rules-light-so-best-keeps",
@@ -32176,7 +32867,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["lawmaker-says-the-budget-matters-more-than-the-speech"]
     },
     {
       "key": "opening-speech.creed.we-got-best-because-folks-were-free-to-build",
@@ -32211,7 +32903,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-got-best-because-folks-were-free-to-build-2",
@@ -32246,7 +32942,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-should-pull-together-on-hardest-watch-what-happens",
@@ -32281,7 +32981,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.we-should-protect-best-together-i-ll-tell-you",
@@ -32316,7 +33020,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-should-protect-best-together-watch-what-happens",
@@ -32351,7 +33056,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-should-protect-best-together",
@@ -32386,7 +33092,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-can-fix-hardest-together",
@@ -32421,7 +33128,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-appeals-to-the-whole-people",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.i-work-for-home-state-and-everyone-i-ll",
@@ -32456,7 +33167,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "victory-first-words-to-those-who-did-not-vote-for-you",
+        "stump-ends-on-thanks-or-an-inclusive-promise",
+        "mayor-reports-the-budget-as-a-plain-bill-on-the-average-home"
+      ]
     },
     {
       "key": "opening-speech.creed.i-work-for-home-state-and-everyone-watch-what",
@@ -32491,7 +33207,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "victory-first-words-to-those-who-did-not-vote-for-you",
+        "stump-ends-on-thanks-or-an-inclusive-promise"
+      ]
     },
     {
       "key": "opening-speech.creed.i-work-for-home-state-and-everyone",
@@ -32526,7 +33246,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "victory-first-words-to-those-who-did-not-vote-for-you",
+        "stump-ends-on-thanks-or-an-inclusive-promise"
+      ]
     },
     {
       "key": "opening-speech.creed.we-all-had-a-hand-in-best-i-ll",
@@ -32561,7 +33285,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "retiring-mayor-credits-the-team-not-the-legacy",
+        "blame-shared-by-both-sides"
+      ]
     },
     {
       "key": "opening-speech.creed.we-did-not-get-best-from-one-party-alone",
@@ -32596,7 +33324,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "blame-shared-by-both-sides",
+        "balanced-pairs-with-a-direct-ask"
+      ]
     },
     {
       "key": "opening-speech.hope.we-can-leave-hardest-behind-us",
@@ -52603,7 +53335,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "parallel-run-of-to-those-addresses",
+        "ask-of-listeners-comes-last"
+      ]
     },
     {
       "key": "opening-speech.call.to-fellow-citizens",
@@ -52633,7 +53369,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["parallel-run-of-to-those-addresses"]
     },
     {
       "key": "opening-speech.call.to-everybody-listening",
@@ -52663,7 +53400,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "parallel-run-of-to-those-addresses",
+        "ask-of-listeners-comes-last"
+      ]
     },
     {
       "key": "opening-speech.call.send-your-concerns-about-hardest-to-your-representatives",
@@ -52696,7 +53437,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "chief-asks-residents-to-keep-calling-it-in",
+        "ask-of-listeners-comes-last"
+      ]
     },
     {
       "key": "opening-speech.call.you-can-shape-the-answer-on-hardest-by-voting",
@@ -52729,7 +53474,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-of-listeners-comes-last", "stump-the-vote-ask-is-soft"]
     },
     {
       "key": "opening-speech.call.any-of-you-can-help-with-hardest-starting-with",
@@ -52762,7 +53508,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "ask-of-listeners-comes-last",
+        "balanced-pairs-with-a-direct-ask"
+      ]
     },
     {
       "key": "opening-speech.call.get-involved-on-hardest-and-stay-involved-after-tonight",
@@ -52795,7 +53545,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-closes-on-community-with-an-invitation",
+        "ask-of-listeners-comes-last"
+      ]
     },
     {
       "key": "opening-speech.call.get-involved-so-that-best-lasts",
@@ -52828,7 +53582,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-closes-on-community-with-an-invitation",
+        "ask-of-listeners-comes-last"
+      ]
     },
     {
       "key": "opening-speech.call.you-can-protect-the-progress-on-best-by-staying",
@@ -52861,7 +53619,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-closes-on-community-with-an-invitation",
+        "stump-the-vote-ask-is-soft"
+      ]
     },
     {
       "key": "opening-speech.call.any-of-you-can-help-guard-best",
@@ -52894,7 +53656,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "ask-of-listeners-comes-last",
+        "balanced-pairs-with-a-direct-ask"
+      ]
     },
     {
       "key": "opening-speech.call.send-your-thanks-to-the-people-behind-best",
@@ -52927,7 +53693,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-of-listeners-comes-last"]
     },
     {
       "key": "opening-speech.call.any-town-can-use-your-time-in-home-state",
@@ -52960,7 +53727,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "ask-of-listeners-comes-last",
+        "balanced-pairs-with-a-direct-ask"
+      ]
     },
     {
       "key": "opening-speech.call.you-can-serve-your-community-in-home-state-or",
@@ -52993,7 +53764,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "stump-the-vote-ask-is-soft",
+        "mayor-closes-on-community-with-an-invitation"
+      ]
     },
     {
       "key": "opening-speech.call.get-to-know-your-neighbors-in-home-state-or",
@@ -53026,7 +53801,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "neighbors-help-after-trouble",
+        "mayor-closes-on-community-with-an-invitation"
+      ]
     },
     {
       "key": "opening-speech.call.get-your-neighbors-talking-about-hardest",
@@ -53059,7 +53838,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-of-listeners-comes-last", "stump-the-vote-ask-is-soft"]
     },
     {
       "key": "opening-speech.call.send-a-letter-about-hardest-and-keep-sending-them",
@@ -53092,7 +53872,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "chief-asks-residents-to-keep-calling-it-in",
+        "ask-of-listeners-comes-last"
+      ]
     },
     {
       "key": "opening-speech.call.you-don-t-need-a-title-to-help-with",
@@ -53125,7 +53909,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "balanced-pairs-with-a-direct-ask",
+        "ask-of-listeners-comes-last"
+      ]
     },
     {
       "key": "opening-speech.call.don-t-sit-out-the-debate-on-hardest",
@@ -53158,7 +53946,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "ask-of-listeners-comes-last",
+        "balanced-pairs-with-a-direct-ask"
+      ]
     },
     {
       "key": "opening-speech.call.don-t-let-best-slip-while-nobody-s-looking",
@@ -53191,7 +53983,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "ask-of-listeners-comes-last",
+        "chief-asks-residents-to-keep-calling-it-in"
+      ]
     },
     {
       "key": "opening-speech.call.get-to-know-the-people-behind-best-and-help",
@@ -53224,7 +54020,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "neighbors-help-after-trouble",
+        "ask-of-listeners-comes-last"
+      ]
     },
     {
       "key": "opening-speech.call.you-can-keep-best-going-by-showing-up",
@@ -53257,7 +54057,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-closes-on-community-with-an-invitation",
+        "stump-the-vote-ask-is-soft"
+      ]
     },
     {
       "key": "opening-speech.call.you-can-help-a-neighbor-in-home-state-or",
@@ -53290,7 +54094,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "neighbors-help-after-trouble",
+        "ask-of-listeners-comes-last"
+      ]
     },
     {
       "key": "opening-speech.call.get-involved-close-to-home-whether-that-s-home",
@@ -53323,7 +54131,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-closes-on-community-with-an-invitation",
+        "stump-the-vote-ask-is-soft"
+      ]
     },
     {
       "key": "opening-speech.call.don-t-wait-to-be-asked-in-home-state",
@@ -53356,7 +54168,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["ask-of-listeners-comes-last", "stump-the-vote-ask-is-soft"]
     },
     {
       "key": "opening-speech.families.to-every-family",
@@ -58566,7 +59379,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-point-opens-on-a-contrast",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.we-trust-people-to-meet-hardest-we-will-not",
@@ -58634,7 +59451,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.we-believe-a-fair-shot-should-not-depend-on",
@@ -58668,7 +59489,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.hardest-belongs-to-no-party-and-neither-does-its-2",
@@ -58702,7 +59524,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "blame-shared-by-both-sides",
+        "sotu-opens-on-a-bipartisan-gesture"
+      ]
     },
     {
       "key": "opening-speech.creed.there-is-nothing-red-or-blue-about-hardest-stand",
@@ -58736,7 +59563,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "balanced-pairs-with-a-direct-ask",
+        "winner-calls-the-losing-side-kin"
+      ]
     },
     {
       "key": "opening-speech.creed.we-don-t-need-a-bigger-government-to-beat",
@@ -58770,7 +59601,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-need-less-red-tape-and-lower-costs-to",
@@ -58804,7 +59639,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.a-working-family-shouldn-t-have-to-fight-hardest",
@@ -58838,7 +59677,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.everyone-deserves-some-help-with-hardest-hold-steady-folks",
@@ -58872,7 +59712,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.hardest-doesn-t-care-which-party-you-re-in-2",
@@ -58906,7 +59750,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.there-is-no-team-on-hardest-just-neighbors-hold",
@@ -58940,7 +59788,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "winner-calls-the-losing-side-kin",
+        "balanced-pairs-with-a-direct-ask"
+      ]
     },
     {
       "key": "opening-speech.creed.we-trust-people-to-meet-hardest-stand-firm",
@@ -58974,7 +59826,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.the-answer-on-hardest-starts-with-people-not-programs-2",
@@ -59008,7 +59861,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.creed.if-hardest-hurts-working-families-government-owes-them-real-2",
@@ -59042,7 +59899,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "name-who-failed-and-say-what-if-the-body-will-not-act"
+      ]
     },
     {
       "key": "opening-speech.creed.we-believe-in-shared-effort-on-hardest-stand-firm",
@@ -59076,7 +59937,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.i-will-work-with-anyone-on-hardest-whatever-their",
@@ -59110,7 +59972,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "divide-a-bill-among-bipartisan-pairs",
+        "jokes-then-offers-the-opposition-a-meeting",
+        "vote-it-up-or-down-and-put-country-before-party"
+      ]
     },
     {
       "key": "opening-speech.creed.i-will-work-with-anyone-on-hardest-whatever-their-2",
@@ -59144,7 +60011,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "divide-a-bill-among-bipartisan-pairs",
+        "jokes-then-offers-the-opposition-a-meeting",
+        "vote-it-up-or-down-and-put-country-before-party"
+      ]
     },
     {
       "key": "opening-speech.creed.you-can-t-fix-hardest-by-letting-government-take-2",
@@ -59246,7 +60118,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "name-who-failed-and-say-what-if-the-body-will-not-act",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.nobody-should-have-to-take-on-hardest-alone-i",
@@ -59280,7 +60156,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.creed.there-is-no-team-on-hardest-just-neighbors-i",
@@ -59314,7 +60191,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "winner-calls-the-losing-side-kin",
+        "balanced-pairs-with-a-direct-ask"
+      ]
     },
     {
       "key": "opening-speech.creed.i-answer-to-people-not-a-party-on-hardest",
@@ -59348,7 +60229,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "name-who-failed-and-say-what-if-the-body-will-not-act"
+      ]
     },
     {
       "key": "opening-speech.creed.we-trust-effort-to-keep-best-growing-hope-is",
@@ -59382,7 +60267,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-the-gains-on-best-came-from-effort",
@@ -59416,7 +60302,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.creed.we-trust-effort-to-keep-best-growing-the-future",
@@ -59450,7 +60337,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-the-gains-on-best-came-from-effort-2",
@@ -59484,7 +60372,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.creed.the-progress-on-best-shows-what-a-fair-shot",
@@ -59518,7 +60407,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.the-progress-on-best-shows-what-a-fair-shot-2",
@@ -59552,7 +60442,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.the-work-on-best-proves-that-working-families-do",
@@ -59586,7 +60477,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.our-gains-on-best-are-a-reason-to-do",
@@ -59620,7 +60512,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.each-side-can-take-some-credit-for-best-we",
@@ -59654,7 +60550,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "blame-shared-by-both-sides",
+        "retiring-mayor-credits-the-team-not-the-legacy"
+      ]
     },
     {
       "key": "opening-speech.creed.each-side-can-take-some-credit-for-best",
@@ -59688,7 +60588,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "blame-shared-by-both-sides",
+        "retiring-mayor-credits-the-team-not-the-legacy"
+      ]
     },
     {
       "key": "opening-speech.creed.there-is-nothing-partisan-about-the-good-news-on",
@@ -59722,7 +60626,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["balanced-pairs-with-a-direct-ask"]
     },
     {
       "key": "opening-speech.creed.the-progress-on-best-did-not-come-from-one",
@@ -59756,7 +60661,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "blame-shared-by-both-sides",
+        "balanced-pairs-with-a-direct-ask"
+      ]
     },
     {
       "key": "opening-speech.creed.i-want-people-free-to-keep-best-growing-look",
@@ -59790,7 +60699,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "sotu-close-looks-ahead"
+      ]
     },
     {
       "key": "opening-speech.creed.we-can-thank-hard-work-for-best-hope-is",
@@ -59824,7 +60737,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "household-comparison-for-public-debt-and-small-steps",
+        "retiring-mayor-credits-the-team-not-the-legacy"
+      ]
     },
     {
       "key": "opening-speech.creed.we-can-thank-hard-work-for-best-brighter-days",
@@ -59858,7 +60775,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "household-comparison-for-public-debt-and-small-steps",
+        "retiring-mayor-credits-the-team-not-the-legacy"
+      ]
     },
     {
       "key": "opening-speech.creed.if-we-keep-taxes-low-we-can-keep-best",
@@ -59892,7 +60813,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.hardest-doesn-t-care-which-party-you-re-in-3",
@@ -59926,7 +60848,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "sotu-close-looks-ahead"
+      ]
     },
     {
       "key": "opening-speech.creed.hardest-doesn-t-care-which-party-you-re-in-4",
@@ -59960,7 +60886,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "sotu-close-looks-ahead"
+      ]
     },
     {
       "key": "opening-speech.creed.there-is-no-team-on-hardest-just-neighbors-we",
@@ -59994,7 +60924,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "winner-calls-the-losing-side-kin",
+        "balanced-pairs-with-a-direct-ask"
+      ]
     },
     {
       "key": "opening-speech.creed.we-can-fix-hardest-together-we-ll-make-it",
@@ -60028,7 +60962,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-appeals-to-the-whole-people",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.the-progress-on-best-belongs-to-the-people-who",
@@ -60062,7 +61000,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["victory-ends-on-a-call-to-work"]
     },
     {
       "key": "opening-speech.creed.the-gains-on-best-came-from-effort-we-are",
@@ -60096,7 +61035,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.creed.the-progress-on-best-shows-what-a-fair-shot-3",
@@ -60130,7 +61070,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "victory-ends-on-a-call-to-work"
+      ]
     },
     {
       "key": "opening-speech.creed.the-progress-on-best-shows-what-a-fair-shot-4",
@@ -60164,7 +61108,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.hardest-belongs-to-no-party-and-neither-does-its-3",
@@ -60198,7 +61143,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "victory-ends-on-a-call-to-work"
+      ]
     },
     {
       "key": "opening-speech.creed.i-want-people-free-to-keep-best-growing-it",
@@ -60232,7 +61181,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.the-good-news-on-best-shows-a-fair-shot",
@@ -60266,7 +61219,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "victory-ends-on-a-call-to-work"
+      ]
     },
     {
       "key": "opening-speech.creed.the-good-news-on-best-shows-a-fair-shot-2",
@@ -60300,7 +61257,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-did-not-get-best-from-one-party-alone-2",
@@ -60334,7 +61292,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["balanced-pairs-with-a-direct-ask"]
     },
     {
       "key": "opening-speech.creed.everybody-can-take-a-little-credit-for-best",
@@ -60368,7 +61327,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "blame-shared-by-both-sides",
+        "retiring-mayor-credits-the-team-not-the-legacy"
+      ]
     },
     {
       "key": "opening-speech.creed.the-answer-on-hardest-starts-with-people-not-programs-3",
@@ -60402,7 +61365,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.creed.more-freedom-is-the-answer-on-hardest-we-mourn",
@@ -60470,7 +61437,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.creed.hardest-belongs-to-no-party-and-neither-does-its-4",
@@ -60504,7 +61474,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-with-a-tribute-to-the-dead"]
     },
     {
       "key": "opening-speech.creed.hardest-belongs-to-no-party-and-neither-does-its-5",
@@ -60538,7 +61509,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-opens-with-a-tribute-to-the-dead"]
     },
     {
       "key": "opening-speech.creed.we-can-solve-hardest-together-no-one-grieves-alone",
@@ -60572,7 +61544,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.you-can-t-fix-hardest-by-letting-government-take-4",
@@ -60640,7 +61616,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.i-believe-in-fairness-for-home-state",
@@ -60674,7 +61654,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.we-trust-people-to-meet-hardest-results-are-what",
@@ -60708,7 +61692,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.a-hard-year-with-hardest-is-no-reason-to",
@@ -60742,7 +61727,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "household-comparison-for-public-debt-and-small-steps",
+        "inaugural-point-opens-on-a-contrast"
+      ]
     },
     {
       "key": "opening-speech.creed.we-are-a-country-that-lifts-up-people-in",
@@ -60776,7 +61765,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-gained-on-best-because-people-of-every-party",
@@ -60810,7 +61800,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "credit-across-party-lines-after-storm",
+        "balanced-pairs-with-a-direct-ask"
+      ]
     },
     {
       "key": "opening-speech.creed.there-is-nothing-partisan-about-the-good-news-on-2",
@@ -60844,7 +61838,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["balanced-pairs-with-a-direct-ask"]
     },
     {
       "key": "opening-speech.creed.i-trust-folks-to-beat-hardest-i-ll-tell",
@@ -60878,7 +61873,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim",
+        "mayor-reports-the-budget-as-a-plain-bill-on-the-average-home"
+      ]
     },
     {
       "key": "opening-speech.creed.we-don-t-need-a-bigger-government-to-beat-2",
@@ -60912,7 +61912,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-should-pull-together-on-hardest-i-ll-tell",
@@ -60946,7 +61950,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.nobody-should-have-to-take-on-hardest-alone-i-2",
@@ -60980,7 +61988,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.creed.we-can-fix-hardest-together-i-ll-tell-you",
@@ -61014,7 +62023,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-appeals-to-the-whole-people",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-can-fix-hardest-together-watch-what-happens",
@@ -61048,7 +62061,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-appeals-to-the-whole-people",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-trust-home-state-to-lead-itself-i-will",
@@ -61082,7 +62099,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.every-family-in-home-state-knows-the-value-of-2",
@@ -61116,7 +62134,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "household-comparison-for-public-debt-and-small-steps",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.we-ll-keep-best-going-while-we-grieve-nobody",
@@ -61150,7 +62172,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.creed.we-believe-in-shared-effort-on-hardest-results-are",
@@ -61184,7 +62209,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.nobody-who-works-should-carry-hardest-by-themselves-watch",
@@ -61218,7 +62244,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.nobody-who-works-should-carry-hardest-by-themselves-someone",
@@ -61252,7 +62279,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "vow-pinned-to-a-dated-deliverable"
+      ]
     },
     {
       "key": "opening-speech.creed.i-believe-in-fairness-for-home-state-i-ll",
@@ -61286,7 +62317,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim",
+        "mayor-reports-the-budget-as-a-plain-bill-on-the-average-home"
+      ]
     },
     {
       "key": "opening-speech.creed.i-believe-in-fairness-for-home-state-watch-what",
@@ -61320,7 +62356,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.nobody-in-home-state-should-have-to-go-it",
@@ -61354,7 +62394,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.pledge.the-first-call-on-my-time-is-hardest",
@@ -65222,7 +66263,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.the-people-of-home-state-want-results-not-labels",
@@ -65256,7 +66301,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "balanced-pairs-with-a-direct-ask",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.nobody-in-home-state-waits-around-for-somebody-to",
@@ -65290,7 +66339,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.i-believe-in-fairness-for-home-state-hold-steady",
@@ -65324,7 +66377,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.i-answer-to-home-state-and-the-whole-country",
@@ -65358,7 +66415,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "sotu-close-appeals-to-the-whole-people"
+      ]
     },
     {
       "key": "opening-speech.creed.nobody-in-home-state-waits-for-rescue-they-rely",
@@ -65392,7 +66453,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.every-family-from-home-state-to-every-other-place",
@@ -65426,7 +66488,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "name-who-failed-and-say-what-if-the-body-will-not-act",
+        "vote-it-up-or-down-and-put-country-before-party"
+      ]
     },
     {
       "key": "opening-speech.creed.the-people-of-home-state-want-results-not-labels-2",
@@ -65460,7 +66526,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["balanced-pairs-with-a-direct-ask"]
     },
     {
       "key": "opening-speech.creed.nobody-in-home-state-waits-around-for-somebody-to-2",
@@ -65494,7 +66561,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.nobody-in-home-state-should-have-to-go-it-2",
@@ -65528,7 +66596,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.i-answer-to-home-state-and-the-whole-country-2",
@@ -65562,7 +66631,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["vote-it-up-or-down-and-put-country-before-party"]
     },
     {
       "key": "opening-speech.creed.we-trust-home-state-to-lead-itself",
@@ -65596,7 +66666,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.nobody-in-home-state-waits-for-rescue-they-rely-2",
@@ -65630,7 +66701,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-trust-the-people-of-home-state",
@@ -65698,7 +66770,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-no-family-should-face-hardest-alone-look",
@@ -65732,7 +66805,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.if-hardest-hurts-working-families-government-owes-them-real-3",
@@ -65766,7 +66840,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-looks-ahead",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.nobody-who-works-should-carry-hardest-by-themselves-look",
@@ -65800,7 +66878,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-no-family-should-face-hardest-alone-the",
@@ -65834,7 +66913,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-in-home-state-and-in-fairness-we-3",
@@ -65868,7 +66948,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-in-a-fair-shot-for-every-family-2",
@@ -65902,7 +66983,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-in-a-fair-shot-for-every-family-3",
@@ -65936,7 +67018,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-believe-the-people-of-home-state-deserve-the",
@@ -65970,7 +67053,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.the-people-of-home-state-want-results-not-labels-3",
@@ -66004,7 +67088,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "balanced-pairs-with-a-direct-ask",
+        "winner-calls-the-losing-side-kin"
+      ]
     },
     {
       "key": "opening-speech.creed.the-people-of-home-state-want-results-not-labels-4",
@@ -66038,7 +67126,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "balanced-pairs-with-a-direct-ask",
+        "winner-calls-the-losing-side-kin"
+      ]
     },
     {
       "key": "opening-speech.creed.we-serve-home-state-and-the-nation-the-future",
@@ -66072,7 +67164,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.nobody-in-home-state-waits-around-for-somebody-to-3",
@@ -66106,7 +67199,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.nobody-in-home-state-waits-around-for-somebody-to-4",
@@ -66140,7 +67234,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-trust-folks-in-home-state-to-run-their",
@@ -66174,7 +67269,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-don-t-need-a-bigger-government-to-beat-3",
@@ -66208,7 +67304,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-don-t-need-a-bigger-government-to-beat-4",
@@ -66242,7 +67342,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-don-t-need-a-bigger-government-to-beat-5",
@@ -66276,7 +67380,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.i-trust-folks-to-beat-hardest-we-ll-make",
@@ -66310,7 +67418,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.let-s-keep-best-out-of-the-party-fight",
@@ -66336,7 +67448,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "sotu-opens-on-a-bipartisan-gesture"
+      ]
     },
     {
       "key": "opening-speech.creed.i-answer-to-home-state-and-the-whole-country-3",
@@ -66362,7 +67478,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "sotu-close-looks-ahead"
+      ]
     },
     {
       "key": "opening-speech.creed.i-answer-to-people-not-a-party-on-hardest-2",
@@ -66388,7 +67508,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "sotu-close-looks-ahead"
+      ]
     },
     {
       "key": "opening-speech.creed.we-did-not-get-best-from-one-party-alone-3",
@@ -66414,7 +67538,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-opens-on-a-bipartisan-gesture",
+        "blame-shared-by-both-sides"
+      ]
     },
     {
       "key": "opening-speech.creed.we-trust-people-to-meet-hardest-onward",
@@ -66448,7 +67576,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.nobody-who-works-should-carry-hardest-by-themselves-onward",
@@ -66482,7 +67611,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "victory-ends-on-a-call-to-work"
+      ]
     },
     {
       "key": "opening-speech.creed.the-people-of-home-state-want-results-not-labels-5",
@@ -66516,7 +67649,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "balanced-pairs-with-a-direct-ask",
+        "victory-ends-on-a-call-to-work"
+      ]
     },
     {
       "key": "opening-speech.creed.each-side-can-take-some-credit-for-best-onward",
@@ -66550,7 +67687,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "blame-shared-by-both-sides",
+        "retiring-mayor-credits-the-team-not-the-legacy"
+      ]
     },
     {
       "key": "opening-speech.creed.nobody-in-home-state-waits-around-for-somebody-to-5",
@@ -66584,7 +67725,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "victory-ends-on-a-call-to-work"
+      ]
     },
     {
       "key": "opening-speech.creed.i-trust-folks-to-beat-hardest-we-re-grateful",
@@ -66618,7 +67763,12 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim",
+        "retiring-mayor-credits-the-team-not-the-legacy"
+      ]
     },
     {
       "key": "opening-speech.creed.nobody-should-have-to-take-on-hardest-alone-it",
@@ -66686,7 +67836,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "victory-ends-on-a-call-to-work"
+      ]
     },
     {
       "key": "opening-speech.creed.nobody-in-home-state-waits-for-rescue-they-rely-3",
@@ -66720,7 +67874,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.creed.we-are-a-country-that-lifts-up-people-in-3",
@@ -66788,7 +67945,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.creed.we-will-keep-the-progress-on-best-as-a-2",
@@ -66856,7 +68017,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.the-work-on-best-goes-on-even-now-we",
@@ -66890,7 +68055,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.creed.we-should-pull-together-on-hardest-we-miss-them",
@@ -66924,7 +68093,10 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "opening-speech.creed.we-credit-hard-work-for-best-hold-us-to",
@@ -66958,7 +68130,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["household-comparison-for-public-debt-and-small-steps"]
     },
     {
       "key": "opening-speech.creed.the-progress-on-best-shows-what-a-fair-shot-5",
@@ -66992,7 +68165,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-can-solve-hardest-together-watch-the-results",
@@ -67026,7 +68200,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-got-best-because-folks-were-free-to-build-3",
@@ -67060,7 +68235,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "point-opens-on-a-claim",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.we-did-not-get-best-from-one-party-alone-4",
@@ -67094,7 +68273,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "blame-shared-by-both-sides",
+        "balanced-pairs-with-a-direct-ask"
+      ]
     },
     {
       "key": "opening-speech.pledge.my-first-request-of-congress-is-to-first-to-2",
@@ -67806,7 +68989,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-point-opens-on-a-contrast",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.more-freedom-is-the-answer-on-hardest-hope-is",
@@ -67840,7 +69027,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["sotu-close-looks-ahead"]
     },
     {
       "key": "opening-speech.creed.hardest-belongs-to-no-party-and-neither-does-its-6",
@@ -67874,7 +69062,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "sotu-close-looks-ahead"
+      ]
     },
     {
       "key": "opening-speech.creed.hardest-belongs-to-no-party-and-neither-does-its-7",
@@ -67908,7 +69100,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "sotu-close-looks-ahead"
+      ]
     },
     {
       "key": "opening-speech.creed.we-can-address-hardest-without-reaching-for-a-party",
@@ -67942,7 +69138,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["balanced-pairs-with-a-direct-ask"]
     },
     {
       "key": "opening-speech.creed.there-is-nothing-red-or-blue-about-hardest-the",
@@ -67976,7 +69173,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "balanced-pairs-with-a-direct-ask",
+        "winner-calls-the-losing-side-kin"
+      ]
     },
     {
       "key": "opening-speech.creed.the-good-news-on-best-shows-a-fair-shot-3",
@@ -68010,7 +69211,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.the-good-news-on-best-shows-a-fair-shot-4",
@@ -68044,7 +69246,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-got-best-because-working-people-got-some-help",
@@ -68078,7 +69281,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.let-s-use-the-progress-on-best-to-help",
@@ -68112,7 +69319,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "sotu-close-looks-ahead"
+      ]
     },
     {
       "key": "opening-speech.creed.nobody-in-home-state-should-have-to-go-it-3",
@@ -68146,7 +69357,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.nobody-in-home-state-should-have-to-go-it-4",
@@ -68180,7 +69392,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.we-should-be-there-for-families-in-home-state",
@@ -68214,7 +69427,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "opening-speech.creed.nobody-should-have-to-take-on-hardest-alone-brighter",
@@ -68248,7 +69462,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.creed.if-hardest-is-hurting-you-government-should-step-in-2",
@@ -68282,7 +69497,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-looks-ahead",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.nobody-should-have-to-take-on-hardest-alone-look",
@@ -68316,7 +69535,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "opening-speech.creed.if-hardest-is-hurting-you-government-should-step-in-3",
@@ -68350,7 +69570,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "sotu-close-looks-ahead",
+        "inaugural-leans-on-belief-image-pledge"
+      ]
     },
     {
       "key": "opening-speech.creed.the-good-news-on-best-should-reach-every-street",
@@ -68384,7 +69608,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "point-opens-on-a-claim"
+      ]
     },
     {
       "key": "opening-speech.creed.we-did-not-get-best-from-one-party-alone-5",
@@ -68418,7 +69646,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "blame-shared-by-both-sides",
+        "balanced-pairs-with-a-direct-ask"
+      ]
     },
     {
       "key": "opening-speech.creed.let-s-keep-best-out-of-the-party-fight-2",
@@ -68452,7 +69684,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "sotu-close-looks-ahead"
+      ]
     },
     {
       "key": "opening-speech.creed.i-answer-to-home-state-and-the-whole-country-5",
@@ -68486,7 +69722,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "vote-it-up-or-down-and-put-country-before-party",
+        "sotu-close-looks-ahead"
+      ]
     },
     {
       "key": "opening-speech.creed.nobody-in-home-state-ever-asked-me-to-pick",
@@ -68520,7 +69760,11 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "winner-calls-the-losing-side-kin",
+        "balanced-pairs-with-a-direct-ask"
+      ]
     },
     {
       "key": "opening-speech.creed.each-party-can-take-credit-for-best-and-share",
@@ -68554,7 +69798,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["blame-shared-by-both-sides"]
     },
     {
       "key": "opening-speech.hope.i-will-ask-vice-president-object-to-help-me",
@@ -69676,7 +70921,11 @@
       "topic": "rent",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "candidate-talks-rent-as-a-neighbor-pushed-out",
+        "diagnosis-before-acts"
+      ]
     },
     {
       "key": "opening-speech.context.for-context-years-years-now-rent-has-kept-going",
@@ -69706,7 +70955,11 @@
       "topic": "rent",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "candidate-talks-rent-as-a-neighbor-pushed-out",
+        "diagnosis-before-acts"
+      ]
     },
     {
       "key": "opening-speech.context.in-the-last-context-years-years-crime-has-grown",
@@ -69736,7 +70989,11 @@
       "topic": "crime",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "neighbors-fear-being-the-next-house",
+        "diagnosis-before-acts"
+      ]
     },
     {
       "key": "opening-speech.context.for-context-years-years-crime-has-gone-up-and",
@@ -69766,7 +71023,11 @@
       "topic": "crime",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "neighbors-fear-being-the-next-house",
+        "diagnosis-before-acts"
+      ]
     },
     {
       "key": "opening-speech.context.across-context-years-years-our-schools-have-slipped-and",
@@ -69804,7 +71065,11 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "candidate-talks-schools-through-the-teacher-who-cannot-afford-to-stay",
+        "diagnosis-before-acts"
+      ]
     },
     {
       "key": "opening-speech.context.these-past-context-years-years-schools-have-slipped-and",
@@ -69842,7 +71107,11 @@
       "topic": "schools",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "candidate-talks-schools-through-the-teacher-who-cannot-afford-to-stay",
+        "diagnosis-before-acts"
+      ]
     },
     {
       "key": "opening-speech.context.across-context-years-years-health-care-has-grown-harder",
@@ -69872,7 +71141,11 @@
       "topic": "health",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "hard-year-names-the-trouble-first",
+        "stump-reason-to-run-is-the-place-could-do-better"
+      ]
     },
     {
       "key": "opening-speech.context.for-context-years-years-it-s-gotten-harder-to",
@@ -69902,7 +71175,11 @@
       "topic": "health",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "hard-year-names-the-trouble-first",
+        "stump-reason-to-run-is-the-place-could-do-better"
+      ]
     },
     {
       "key": "opening-speech.context.over-context-years-years-our-roads-and-bridges-have",
@@ -69932,7 +71209,11 @@
       "topic": "roads",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "road-funding-plan-meets-the-other-chambers-rival-plan",
+        "diagnosis-before-acts"
+      ]
     },
     {
       "key": "opening-speech.context.in-context-years-years-our-roads-and-bridges-have",
@@ -69962,7 +71243,11 @@
       "topic": "roads",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": [
+        "road-funding-plan-meets-the-other-chambers-rival-plan",
+        "diagnosis-before-acts"
+      ]
     },
     {
       "key": "opening-speech.context.in-the-last-context-years-years-our-air-and",
@@ -70000,7 +71285,8 @@
       "topic": "environment",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["diagnosis-before-acts", "hard-year-names-the-trouble-first"]
     },
     {
       "key": "opening-speech.context.these-last-context-years-years-our-air-and-water",
@@ -70038,7 +71324,8 @@
       "topic": "environment",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["diagnosis-before-acts", "hard-year-names-the-trouble-first"]
     },
     {
       "key": "opening-speech.meaning.for-families-context-name-shows-up-at-every-register",
