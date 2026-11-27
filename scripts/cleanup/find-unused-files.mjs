@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { posix as path } from "node:path";
 const [, , report, browser, playApi] = process.argv;
 if (!report || !browser || !playApi)
@@ -12,7 +12,9 @@ const git = (...args) =>
 process.chdir(git("rev-parse", "--show-toplevel").trim());
 const read = (file) => JSON.parse(readFileSync(file, "utf8"));
 const shipped = new Set([...read(browser).files, ...read(playApi).files]);
-const files = git("ls-files", "-z").split("\0").filter(Boolean);
+const files = git("ls-files", "-z")
+  .split("\0")
+  .filter((file) => file && existsSync(file));
 const rows = read(report).issues.filter((row) => row.files.length);
 const candidates = new Set(rows.map((row) => row.file));
 const aliases = new Map();

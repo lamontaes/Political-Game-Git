@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import ts from "typescript";
 
 type Finding = { name: string };
@@ -18,6 +18,28 @@ if (!inventory || !engine)
     "Usage: remove-unused-exports.ts KNIP-REPORT.json PATH-PREFIX [--apply]",
   );
 const apply = process.argv.includes("--apply");
+const pendingUses = new Set([
+  "candidateLean",
+  "campaignMentorOf",
+  "placeLeanRow",
+  "declineInterview",
+  "CABINET_POSTS",
+  "decideDeskItems",
+  "pushOpinion",
+]);
+const declarationTypes = new Set([
+  "MoneyLine",
+  "LawChainLevel",
+  "LawReachSide",
+  "OutlookPoint",
+  "HealthCase",
+  "PlayerOfferV1",
+  "PlayerStopV1",
+  "SavedEarnedPeriodCauseV1",
+  "SavedPaymentCauseV1",
+  "SavedSourceResolutionV1",
+  "OpeningIncomeRecipient",
+]);
 const { issues } = JSON.parse(readFileSync(inventory, "utf8")) as {
   issues: Row[];
 };
@@ -27,7 +49,11 @@ const git = (...args: string[]) =>
     maxBuffer: 128 * 1024 * 1024,
   });
 process.chdir(git("rev-parse", "--show-toplevel").trim());
-const tracked = new Set(git("ls-files", "-z").split("\0").filter(Boolean));
+const tracked = new Set(
+  git("ls-files", "-z")
+    .split("\0")
+    .filter((file) => !!file && existsSync(file)),
+);
 const own = (file: string) =>
   file === engine || file.startsWith(engine.replace(/\/$/, "") + "/");
 const rows = issues.filter((row) => own(row.file));
@@ -124,6 +150,26 @@ for (const row of rows) {
       "keep",
       "Resolve the loader's runtime route before treating this as a missing subject.",
     );
+  for (const name of direct)
+    if (pendingUses.has(name)) {
+      direct.delete(name);
+      note(
+        file,
+        name,
+        "keep",
+        "Named in an active builder or producer work item.",
+      );
+    }
+  for (const name of direct)
+    if (declarationTypes.has(name)) {
+      direct.delete(name);
+      note(
+        file,
+        name,
+        "keep",
+        "TypeScript needs this name for emitted public declarations.",
+      );
+    }
   if (!direct.size || !tracked.has(file)) continue;
   if (
     /\.(?:test|node-test|spec|browser|d)\.|\.generated\.|(?:^|\/)(?:bank|banks|scene|scenes)[-/]|\/mined\/|\/data\//.test(
@@ -182,7 +228,27 @@ for (const row of rows) {
               ts.SyntaxKind.NullKeyword,
             ].includes(d.initializer.kind)),
       );
+    const start = statement.getStart(ast);
+    const attached = ts
+      .getLeadingCommentRanges(source, statement.getFullStart())
+      ?.at(-1);
+    const doc =
+      attached &&
+      source.startsWith("/**", attached.pos) &&
+      /^\r?\n[ \t]*$/.test(source.slice(attached.end, start))
+        ? attached
+        : undefined;
+    const protectedDoc =
+      doc &&
+      /\b(?:owner|CTO|ruling|SG-|stopgap)\b/i.test(
+        source.slice(doc.pos, doc.end),
+      );
+    const authoringText =
+      /^(?:src\/english|src\/director)\//.test(file) &&
+      /["'`]/.test(statement.getText(ast));
     const gone =
+      !authoringText &&
+      !protectedDoc &&
       (pure || literal) &&
       names.every(
         (name) =>
@@ -193,7 +259,7 @@ for (const row of rows) {
             ),
           ].length === 1,
       );
-    const from = gone ? statement.getStart(ast) : marker.getStart(ast);
+    const from = gone ? (doc?.pos ?? start) : marker.getStart(ast);
     const end = gone ? statement.end : marker.end;
     const following = source.slice(end);
     const trim = gone
@@ -220,6 +286,11 @@ for (const row of rows) {
     let output = source;
     for (const { from, to } of edits.reverse())
       output = output.slice(0, from) + output.slice(to);
+    if (!/(?:\r?\n){2,}$/.test(source))
+      output = output.replace(
+        /(?:\r?\n){2,}$/,
+        source.endsWith("\r\n") ? "\r\n" : "\n",
+      );
     writeFileSync(file, output);
   }
 }
