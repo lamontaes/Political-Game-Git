@@ -25,7 +25,10 @@ import type {
   PersonState,
 } from "../types";
 
-export const CORRUPTION_MODULE_ID = "corruption";
+// The id lives with the read doors (justice-reads.ts), which import nothing at run
+// time, so a reader can use the doors without joining the import ring.
+export { CORRUPTION_MODULE_ID } from "./justice-reads";
+import { CORRUPTION_MODULE_ID } from "./justice-reads";
 /** A bribe taken to the press: public record the news carries. */
 export const SCANDAL_REPORTED = "scandal.reported";
 /** A bribe offered to the player's seat: the cause record of the bribe-offer scene. */

@@ -140,9 +140,6 @@
     "src/core2/board-appointer.ts": {
       "executive": 1
     },
-    "src/core2/budgets-treasury.ts": {
-      "laws": 1
-    },
     "src/core2/campaign-day.ts": {
       "bodies": 1
     },
@@ -205,8 +202,7 @@
       "dynamic": 1
     },
     "src/core2/modules/budgets.ts": {
-      "executive": 1,
-      "laws": 2
+      "executive": 1
     },
     "src/core2/modules/campaigns.ts": {
       "bodies": 1,
@@ -259,8 +255,7 @@
     "src/core2/modules/legislature.ts": {
       "budgets": 2,
       "elections": 2,
-      "executive": 14,
-      "laws": 3
+      "executive": 14
     },
     "src/core2/modules/meetings.ts": {
       "elections": 4
@@ -280,14 +275,11 @@
       "dynamic": 2,
       "elections": 2
     },
-    "src/core2/modules/place-prices.ts": {
-      "laws": 1
-    },
     "src/core2/modules/press.ts": {
       "elections": 14,
       "executive": 4,
       "jobs-businesses": 5,
-      "laws": 6,
+      "justice": 6,
       "people": 2
     },
     "src/core2/modules/public-action.ts": {
@@ -320,8 +312,7 @@
     },
     "src/core2/modules/world-legislating.ts": {
       "executive": 5,
-      "jobs-businesses": 1,
-      "laws": 1
+      "jobs-businesses": 1
     },
     "src/core2/modules/world-metrics.ts": {
       "dynamic": 1,
@@ -389,9 +380,6 @@
       "elections": 1,
       "executive": 2
     },
-    "src/core2/question-wages.ts": {
-      "laws": 2
-    },
     "src/core2/race-places.ts": {
       "executive": 3
     },
@@ -444,12 +432,12 @@
       "bodies": 1,
       "executive": 2,
       "jobs-businesses": 1,
-      "laws": 1,
+      "justice": 1,
       "news": 1,
       "people": 1
     },
     "src/director/custody-facts.ts": {
-      "laws": 2
+      "justice": 2
     },
     "src/director/door-facts.ts": {
       "elections": 1
