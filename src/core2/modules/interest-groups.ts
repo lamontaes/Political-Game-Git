@@ -127,8 +127,6 @@ function duesSlot(api: CoreAPI, id: string): CashJournalSourceSlot | undefined {
 
 export const INTEREST_GROUPS_MODULE: CoreModule = {
   id: INTEREST_GROUPS_MODULE_ID,
-  // Membership follows a person's view the day it moves.
-  stanceListener: reviewMember,
   state: {
     schemaVersion: 1,
     tables: {
