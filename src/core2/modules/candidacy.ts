@@ -75,7 +75,7 @@ import {
   atLargeGroup,
 } from "./elections";
 import { filingOfficerIds } from "./filing-clerk";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, servingTermsOf, type TermRow } from "./offices";
 import {
   PARTIES_MODULE_ID,
   partiesHere,
@@ -337,12 +337,7 @@ export function candidacyReasons(
     .table("contests")
     .get(contest.contestId) as unknown as ContestRow | undefined;
   const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
-  const held = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("byPerson", [person.id]) as unknown as TermRow[]
-  ).filter((term) => term.status === "serving");
+  const held = servingTermsOf(api, person.id);
   const currentRank = held.reduce((highest, term) => {
     const office = offices.get(term.officeId) as unknown as
       OfficeInput | undefined;
@@ -760,14 +755,7 @@ export function decideToRun(
       person.id,
       person.householdId,
       ...(api.state.modules.has(OFFICES_MODULE_ID)
-        ? (
-            api
-              .moduleState(OFFICES_MODULE_ID)
-              .table("terms")
-              .query("byPerson", [person.id]) as unknown as TermRow[]
-          )
-            .filter((term) => term.status === "serving")
-            .map((term) => term.id)
+        ? servingTermsOf(api, person.id).map((term) => term.id)
         : []),
       ...(contest.poolFacts?.get(person.id)?.sourceIds ?? []),
     ],
