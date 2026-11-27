@@ -34,7 +34,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Its parts: campaign-real-race-played-proof, campaign-incumbent-hears-the-race, campaign-donor-reasons-refit and campaign-like-real-races-part-1-path-check-wins.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/modules/voting.ts, src/bench/campaign.ts, src/bench/path-check.ts
+**Files.** src/core2/modules/campaigns.ts, src/core2/modules/voting.ts, src/bench/campaign.ts, tests/golden-path/path-check.ts
 
 **Notes.** Filed by the CTO, Oct 29, from the owner's voice note on the governing brief (OWNER-DECISIONS, Oct 29 21:40 UTC). Read: OWNER-DECISIONS, DECISION-REGISTER, the governing brief's four research notes; searched the pool for twins.
 

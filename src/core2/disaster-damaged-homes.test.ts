@@ -14,7 +14,7 @@ import {
 import households from "./data/disasters/households.json" with { type: "json" };
 import { residentsAccountFor } from "./modules/residents";
 import { coreAPI } from "./state";
-import { townsWithDamage } from "./tooling/disaster-damage-screen";
+import { townsWithDamage } from "../../scripts/core2/tooling/disaster-damage-screen";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 

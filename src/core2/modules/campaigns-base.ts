@@ -4,13 +4,10 @@
  */
 import { outsideMarketAccount, townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
-import { partySide } from "../appointments";
 import type { CoreAPI, PersonState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { CashJournalSourceSlot } from "../journal-state";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { transferCash } from "../world-transfer";
-import { medianTransactionBalance } from "../starting-cash";
 import { campaignParameter, type Stance } from "../campaign-data";
 import { candidatePlatform, platformShares } from "../campaign-stances";
 import { contestPositions } from "../contest-positions";
@@ -25,13 +22,9 @@ import {
   type ContestRow,
   type FilingRow,
 } from "./elections";
-import type { CAMPAIGN_ACTS } from "./campaigns-constants";
-import { CAMPAIGNS_MODULE_ID } from "./campaigns-constants";
+import { CAMPAIGNS_MODULE_ID, CAMPAIGN_ACTS } from "./campaigns-constants";
 export { outsideMarketAccount, townOutsideOf };
-export { partySide };
 export type { CashJournalSourceSlot };
-export { transferCash };
-export { medianTransactionBalance };
 export { causeGroupsIn };
 export { promisesOf, recordAppeal, votesCast };
 

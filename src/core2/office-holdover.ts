@@ -4,7 +4,7 @@
  * no row of its own follows the family default, which carries its estimate.
  */
 import holdover from "./data/offices/holdover.json" with { type: "json" };
-import type { OfficeFamily } from "./elections-calendar";
+import type { OfficeFamily } from "./modules/elections";
 
 export type HoldoverRule = "holds-over" | "vacant";
 

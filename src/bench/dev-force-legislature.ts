@@ -19,6 +19,7 @@
  * `scene-forced` and never counts as played.
  */
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { allBills } from "../core2/modules/bodies-reads";
 import {
   askToCarry,
   authorityFor,
@@ -157,10 +158,7 @@ function sectionFor(
     }))
     .filter((section) => authorityFor(api, section).allowed);
   if (!sections.length) return undefined;
-  const drafted = api
-    .moduleState("core2-legislature-v1")
-    .table("bills")
-    .rows().length;
+  const drafted = allBills(api).length;
   return sections[drafted % sections.length];
 }
 

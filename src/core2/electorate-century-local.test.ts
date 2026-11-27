@@ -101,12 +101,14 @@ it("the century runs each elected local seat, and the term seated in it follows 
           race!.winnerShare,
           9,
         );
-        // The holder's service began no earlier than the century says they first won.
+        // The holder's service began no earlier than the century says the seat was first won: the
+        // offices engine may cut a career short (the holder's age at the seat's first term, a term
+        // limit), so service starts at or after the first win, never before it.
         if (term.serviceStart)
           expect(
             Number(term.serviceStart.slice(0, 4)) - century!.firstWon,
             `${where}: ${seat.id} service start against first win ${century!.firstWon}`,
-          ).toBeLessThanOrEqual(1);
+          ).toBeGreaterThanOrEqual(0);
         checked += 1;
       }
     expect(

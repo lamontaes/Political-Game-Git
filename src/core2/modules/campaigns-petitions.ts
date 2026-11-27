@@ -5,6 +5,7 @@
  * campaigns.ts re-exports every export of this file by name.
  */
 import { shareValue } from "../shares";
+import { partySide } from "./offices";
 import { closenessBetween } from "./people";
 import { leanedYes } from "../trait-decisions";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
@@ -30,7 +31,6 @@ import {
   campaignFor,
   elections,
   impressionOf,
-  partySide,
   save,
   townOutsideOf,
   townRow,

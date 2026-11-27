@@ -42,6 +42,11 @@ import { screenLine } from "../english/screen-words";
 import { billPaper, personName } from "./legislature";
 import { townSeats } from "../core2/modules/offices";
 import { deskWaiting } from "../core2/modules/office-day";
+import {
+  allBills,
+  billById,
+  memberChoiceOn,
+} from "../core2/modules/bodies-reads";
 
 const LEGISLATURE = "core2-legislature-v1";
 const OFFICES = "core2-offices-v1";
@@ -122,10 +127,7 @@ export type ToldSide = "for" | "against" | "open";
 export function billStage(core: CoreState, billId: string, asId?: string) {
   if (!core.modules.has(LEGISLATURE)) throw new Error("No bills on record.");
   const api = coreAPI(core);
-  const bill = api
-    .moduleState(LEGISLATURE)
-    .table("bills")
-    .get(billId) as unknown as BillRow | undefined;
+  const bill = billById(api, billId) as unknown as BillRow | undefined;
   if (!bill) throw new Error("That bill is not before any body.");
   const offices = api.moduleState(OFFICES).table("offices");
   // A body's own name (the House of Representatives, a council), else its office's title.
@@ -304,10 +306,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     members(api, chamber).some((term) => memberKey(term) === player),
   );
   const chosen = (
-    api
-      .moduleState(LEGISLATURE)
-      .table("choices")
-      .get(`${bill.id}|${player}`) as
+    memberChoiceOn(api, bill.id, player) as
       { vote: "yes" | "no" | "abstain" } | undefined
   )?.vote;
   // The chamber whose turn it is (the other chamber once one passed it) and whether its roll is
@@ -402,10 +401,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
       overridePending: sits && overridePending(api, bill.id),
       overrideChosen:
         (
-          api
-            .moduleState(LEGISLATURE)
-            .table("choices")
-            .get(`${bill.id}|${player}|override`) as
+          memberChoiceOn(api, bill.id, `${player}|override`) as
             { vote: "yes" | "no" | "abstain" } | undefined
         )?.vote ?? null,
       chosen: chosen ?? null,
@@ -551,10 +547,7 @@ export function followedBills(core: CoreState, asId?: string) {
         : [],
     ),
   );
-  const rows = api
-    .moduleState(LEGISLATURE)
-    .table("bills")
-    .rows() as unknown as BillRow[];
+  const rows = allBills(api) as unknown as BillRow[];
   return (
     rows
       // The state's and Congress's bills, and the bills of the place's own council and county board:

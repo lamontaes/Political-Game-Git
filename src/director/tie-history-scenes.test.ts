@@ -20,6 +20,7 @@ import { fileForOffice } from "../bench/government";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
+import { advanceToFilingOpen } from "../core2/gov-test-clock";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { campaignFor, enlistVolunteer } from "../core2/modules/campaigns";
 import { playerContests } from "../core2/modules/elections";
@@ -41,6 +42,10 @@ it("a campaign volunteer is met as someone known, with distinct replies", () => 
     const world = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
+      // Built for the birthday the test then applies: a world built for the
+      // default age keeps that age, and every race refuses a 19-year-old
+      // (`applyChosenPerson`, creator.ts).
+      playerBirthDate: "1985-06-01",
     });
     const { core, director } = world;
     const me = world.playerId! as PersonId;
@@ -52,6 +57,8 @@ it("a campaign volunteer is met as someone known, with distinct replies", () => 
       birthMonth: 6,
       birthDay: 1,
     });
+    // Filing opens on a real day by place, so play to the first one.
+    advanceToFilingOpen(core);
     director.watch(core, me);
     const api = coreAPI(core);
     const filed = [...playerContests(api)]

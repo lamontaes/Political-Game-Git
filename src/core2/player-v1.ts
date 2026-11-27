@@ -4,7 +4,7 @@ import { advanceDate, duePeople } from "./calendar";
 import type { DuePerson } from "./calendar";
 import { chooseAct } from "./choice";
 import { compactOriginalAnswer } from "./compact-choice";
-import { FinanceReadGuard } from "./finance-plan";
+import { FinanceReadGuard } from "./budgets-treasury";
 import {
   activate,
   availableActs,
