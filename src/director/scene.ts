@@ -489,46 +489,17 @@ function openingOf(
   if (heardHow) sentences.push(heardHow);
 }
 
-export function composeScene(
+/**
+ * The speech a scene plays in its speaker's own words, when the moment's record is one the player
+ * hears: the address parts, who is speaking and whether the player heard it. The last step of
+ * `composeScene` before it returns.
+ */
+function speechOf(
   core: Readonly<CoreState>,
-  director: Director,
   personId: PersonId,
-  entry: ScheduleEntry,
-  words?: SceneWords,
-  /** The minute of the day the scene plays at; without it, the moment's stop or the day's start. */
-  minuteOfDay?: number,
-): Scene | null {
-  const read = readScene(core, director, personId, entry, words);
-  if (!read) return null;
+  read: SceneRead,
+) {
   const { moment, binding } = read;
-
-  const arrived = arrivalOf(core, personId, entry, read, minuteOfDay);
-  const { sentences, talkToId, arrival } = arrived;
-  const ledFrom = leadOf(core, personId, read, arrived);
-  openingOf(core, personId, read, arrived, ledFrom);
-  // The sentences are one paragraph, so the narrator sets the scene before
-  // anyone speaks.
-  const narration: SceneLine[] = sentences.length
-    ? [
-        {
-          text: sceneParagraph(sentences),
-          parts: sentences.flatMap((line) => line.parts ?? []),
-          // A sitting that took in a later cause the same day cites it too.
-          // The sentence of what led here cites the record that led here,
-          // whatever facts it names ("Your daughter has been born." named the
-          // daughter by the family record and cited no birth, Neillsville,
-          // Wisconsin, seed birth-n1).
-          sourceRecordIds: [
-            ...new Set([
-              ...sentences.flatMap((line) => line.sourceRecordIds),
-              // The scene is staged from its cause, said or not.
-              moment.causeId,
-              ...(binding.joined ?? []).map((row) => row.causeId),
-            ]),
-          ],
-        },
-      ]
-    : [];
   // A speech's own words: an address's as its record kept them, a floor or
   // campaign speech composed from its record by the one planner.
   const record = core.durableLog.get(moment.causeId);
@@ -588,6 +559,50 @@ export function composeScene(
       : heard && heard.speakerId !== personId
         ? { ...heard, montage: false, inRoom: true }
         : undefined;
+  return { speech };
+}
+
+export function composeScene(
+  core: Readonly<CoreState>,
+  director: Director,
+  personId: PersonId,
+  entry: ScheduleEntry,
+  words?: SceneWords,
+  /** The minute of the day the scene plays at; without it, the moment's stop or the day's start. */
+  minuteOfDay?: number,
+): Scene | null {
+  const read = readScene(core, director, personId, entry, words);
+  if (!read) return null;
+  const { moment, binding } = read;
+
+  const arrived = arrivalOf(core, personId, entry, read, minuteOfDay);
+  const { sentences, talkToId, arrival } = arrived;
+  const ledFrom = leadOf(core, personId, read, arrived);
+  openingOf(core, personId, read, arrived, ledFrom);
+  // The sentences are one paragraph, so the narrator sets the scene before
+  // anyone speaks.
+  const narration: SceneLine[] = sentences.length
+    ? [
+        {
+          text: sceneParagraph(sentences),
+          parts: sentences.flatMap((line) => line.parts ?? []),
+          // A sitting that took in a later cause the same day cites it too.
+          // The sentence of what led here cites the record that led here,
+          // whatever facts it names ("Your daughter has been born." named the
+          // daughter by the family record and cited no birth, Neillsville,
+          // Wisconsin, seed birth-n1).
+          sourceRecordIds: [
+            ...new Set([
+              ...sentences.flatMap((line) => line.sourceRecordIds),
+              // The scene is staged from its cause, said or not.
+              moment.causeId,
+              ...(binding.joined ?? []).map((row) => row.causeId),
+            ]),
+          ],
+        },
+      ]
+    : [];
+  const { speech } = speechOf(core, personId, read);
   const occasion = OCCASIONS.get(binding.typeKey);
   return {
     momentId: moment.id,
