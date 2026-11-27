@@ -62,9 +62,6 @@ import {
   standing,
   type ContestRow,
   type FilingRow,
-  contestOf as contestRowOf,
-  filingOf,
-  filingsOfPerson,
 } from "./elections";
 import {
   CAMPAIGNS_MODULE_ID,
@@ -1612,7 +1609,10 @@ export function countedFollowers(api: CoreAPI, outletId: string): number {
 }
 
 function contestOf(api: CoreAPI, contestId: string): ContestRow {
-  return contestRowOf(api, contestId) as unknown as ContestRow;
+  return api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as ContestRow;
 }
 
 /**
@@ -2366,7 +2366,10 @@ function arrange(
   outletId: string,
   askedBy: InterviewRow["askedBy"],
 ): InterviewRow {
-  const filing = filingOf(api, filingId) as unknown as FilingRow;
+  const filing = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .get(filingId) as unknown as FilingRow;
   if (!filing) throw new Error(`No filing ${filingId}`);
   return arrangeWith(api, asSpeaker(filing), outletId, askedBy);
 }
@@ -2559,7 +2562,10 @@ export function answerInterview(
 /** Who an interview row is with: the filing's candidate, else the officeholder. */
 function speakerOf(api: CoreAPI, row: InterviewRow): Speaker {
   if (row.filingId) {
-    const filing = filingOf(api, row.filingId) as unknown as FilingRow;
+    const filing = api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .get(row.filingId) as unknown as FilingRow;
     return asSpeaker(filing);
   }
   return (
@@ -3061,10 +3067,10 @@ function adMoneyAt(
   )
     return 0;
   let spent = 0;
-  for (const filing of filingsOfPerson(
-    api,
-    personId,
-  ) as unknown as FilingRow[]) {
+  for (const filing of api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .query("byPerson", [personId]) as unknown as FilingRow[]) {
     const contest = contestOf(api, filing.contestId);
     if (!contest || contest.electionDate < api.state.date) continue;
     spent +=
@@ -3641,10 +3647,10 @@ function countedFollowersNow(api: CoreAPI, outlet: OutletRow): number {
 function rivalsOf(api: CoreAPI, personId: string): readonly string[] {
   if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
   const out = new Set<string>();
-  for (const filing of filingsOfPerson(
-    api,
-    personId,
-  ) as unknown as FilingRow[]) {
+  for (const filing of api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .query("byPerson", [personId]) as unknown as FilingRow[]) {
     if (!standing(filing)) continue;
     const contest = contestOf(api, filing.contestId);
     if (!contest || contest.electionDate < api.state.date) continue;
@@ -4953,7 +4959,10 @@ export function platformAnswers(
   questions: readonly string[],
 ): readonly InterviewAnswer[] {
   const filing = filingId
-    ? (filingOf(api, filingId) as unknown as FilingRow | undefined)
+    ? (api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .get(filingId) as unknown as FilingRow | undefined)
     : undefined;
   const platform = filing ? platformOf(api, filing) : [];
   return questions.map((question): InterviewAnswer => {
@@ -4990,7 +4999,10 @@ export function standsOnRecord(
   questions: readonly string[],
 ): readonly StandOnRecord[] {
   const filing = filingId
-    ? (filingOf(api, filingId) as unknown as FilingRow | undefined)
+    ? (api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .get(filingId) as unknown as FilingRow | undefined)
     : undefined;
   const reader = filing
     ? stanceReader(api, filing.personId, filing.party ?? null)
