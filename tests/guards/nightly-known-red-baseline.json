@@ -23,7 +23,6 @@
   "src/core2/partner-from-counts.test.ts",
   "src/core2/past-justice.test.ts",
   "src/core2/pre-start.test.ts",
-  "src/core2/president-orders.test.ts",
   "src/core2/press-amount-law.test.ts",
   "src/core2/second-chamber-own-day.test.ts",
   "src/core2/small-town-treasury-payroll.test.ts",
