@@ -8,7 +8,7 @@
  */
 
 /** The spot identity fields of a use: what the pickers treat as alternatives. */
-export const SPOT_FIELDS = [
+const SPOT_FIELDS = [
   "subject",
   "role",
   "move",

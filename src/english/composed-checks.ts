@@ -91,7 +91,7 @@ function namedPeople(sample: ComposedSample): NamedPerson[] {
 // ---- person-said-by-role-pronoun-or-relationship ----
 
 /** A full name said more than once on one screen (lines and offered replies together). */
-export const fullNameOncePerScreen: ComposedCheck = (text, sample) => {
+const fullNameOncePerScreen: ComposedCheck = (text, sample) => {
   const found: ComposedBreak[] = [];
   const people = namedPeople(sample);
   screenTexts(text).forEach((said, screen) => {
@@ -122,7 +122,7 @@ const ROLE_BEFORE = new RegExp(
  * mention in the text, about someone the listener was not given: not the
  * speaker or listener, not in the room, not of the player's household.
  */
-export const noBareFullNameUnintroduced: ComposedCheck = (text, sample) => {
+const noBareFullNameUnintroduced: ComposedCheck = (text, sample) => {
   const known = new Set([
     ...text.presentIds,
     ...sample.householdIds,
@@ -206,7 +206,7 @@ function opensClause(segment: string): boolean {
 }
 
 /** Two full clauses joined by a comma alone. */
-export const noCommaSplice: ComposedCheck = (text) => {
+const noCommaSplice: ComposedCheck = (text) => {
   const found: ComposedBreak[] = [];
   text.screens.forEach((screen, at) => {
     for (const line of screen.lines)
@@ -252,7 +252,7 @@ const END_OF_DAY_SPARED = data.endOfDaySpared.map(
 );
 
 /** A line looking ahead to a part of the day already under way or over, or end-of-day talk in the morning. */
-export const noOverDaypart: ComposedCheck = (text) => {
+const noOverDaypart: ComposedCheck = (text) => {
   const found: ComposedBreak[] = [];
   text.screens.forEach((screen, at) => {
     for (const line of screen.lines)
@@ -318,7 +318,7 @@ function openerOf(text: ComposedText): ComposedLine | undefined {
  * The same opener from the same speaker to the same listener on `loopDays`
  * days within one `loopWindowDays` window (read at the text that makes it so).
  */
-export const noDailySubjectLoop: ComposedCheck = (text, sample) => {
+const noDailySubjectLoop: ComposedCheck = (text, sample) => {
   if (!TALK_KINDS.includes(text.kind) || !text.speakerId) return [];
   const opener = openerOf(text)?.sentences[zero];
   if (!opener) return [];
@@ -358,7 +358,7 @@ export const noDailySubjectLoop: ComposedCheck = (text, sample) => {
  * A sentence one speaker said that another speaker of the same household
  * already said the same day (names set aside).
  */
-export const noEchoBetweenSpeakers: ComposedCheck = (text, sample) => {
+const noEchoBetweenSpeakers: ComposedCheck = (text, sample) => {
   if (!TALK_KINDS.includes(text.kind)) return [];
   const household = new Set(sample.householdIds);
   const at = sample.texts.indexOf(text);
@@ -479,7 +479,7 @@ export function holdsCatalogName(text: string): string | null {
 }
 
 /** A spoken line whose filled text holds a policy's catalog name or its `about` wording. */
-export const noCatalogNameInSpeech: ComposedCheck = (text) => {
+const noCatalogNameInSpeech: ComposedCheck = (text) => {
   const found: ComposedBreak[] = [];
   text.screens.forEach((screen, at) => {
     for (const line of screen.lines) {
@@ -520,7 +520,7 @@ export function onlyAcknowledges(text: string): boolean {
  * In a talk, an answer from the other person that only acknowledges what the
  * player said, or a talk that closes on a promise to talk again.
  */
-export const noNonReply: ComposedCheck = (text, sample) => {
+const noNonReply: ComposedCheck = (text, sample) => {
   if (!TALK_KINDS.includes(text.kind)) return [];
   const found: ComposedBreak[] = [];
   let playerSaid = false;
@@ -585,7 +585,7 @@ export const noNonReply: ComposedCheck = (text, sample) => {
 const ASK_AFTER = data.askAfter;
 
 /** A line asking after someone who is in the room. */
-export const notAskedAfterWhilePresent: ComposedCheck = (text, sample) => {
+const notAskedAfterWhilePresent: ComposedCheck = (text, sample) => {
   if (!TALK_KINDS.includes(text.kind)) return [];
   const present = sample.people.filter(
     (person) =>
@@ -627,7 +627,7 @@ const KNOWN_FACTS = data.knownFactQuestions.map(
 );
 
 /** A housemate asking the player what a household already knows: their work, their home, their name. */
-export const housemateDoesNotAskKnownFact: ComposedCheck = (text, sample) => {
+const housemateDoesNotAskKnownFact: ComposedCheck = (text, sample) => {
   if (!TALK_KINDS.includes(text.kind)) return [];
   const household = new Set(sample.householdIds);
   const found: ComposedBreak[] = [];
@@ -674,7 +674,7 @@ const SPEECH_KINDS: readonly ComposedKind[] = [
  * else in speech is matched only by the spelling the data gives for it
  * (`placeSaidOnlyAs` in data/english/composed-checks.json).
  */
-export const speechNamesNoStrayPlace: ComposedCheck = (text, sample) => {
+const speechNamesNoStrayPlace: ComposedCheck = (text, sample) => {
   if (!SPEECH_KINDS.includes(text.kind)) return [];
   const own = new Set(text.ownPlaces ?? []);
   const stray = [
@@ -741,7 +741,7 @@ const subjectWords = (sentence: string): string[] =>
     .map(stem);
 
 /** The same ask said twice in one speech (by its subject words). */
-export const askSaidOnce: ComposedCheck = (text) => {
+const askSaidOnce: ComposedCheck = (text) => {
   if (!SPEECH_KINDS.includes(text.kind)) return [];
   const asks: { words: Set<string>; sentence: string; screen: number }[] = [];
   const found: ComposedBreak[] = [];
@@ -786,7 +786,7 @@ export const SUBJECT_WORDS = {
 };
 
 /** A subject's word said more than `subjectBudget` times in one speech (names of people set aside). */
-export const subjectBudget: ComposedCheck = (text, sample) => {
+const subjectBudget: ComposedCheck = (text, sample) => {
   if (!SPEECH_KINDS.includes(text.kind)) return [];
   const nameWords = new Set(
     sample.people.flatMap((person) => words(person.full)),
@@ -834,7 +834,7 @@ const POINT_GROUPS: readonly { tag: string; texts: readonly string[] }[] =
   );
 
 /** One paragraph of a speech that makes one point twice: two wordings of one `points` group (the lead, Nov 12: "to people who know the work. Because I believe an officer should be judged by people who have done the job"). */
-export const pointMadeOnce: ComposedCheck = (text) => {
+const pointMadeOnce: ComposedCheck = (text) => {
   if (!SPEECH_KINDS.includes(text.kind)) return [];
   const found: ComposedBreak[] = [];
   screenTexts(text).forEach((screen, at) => {
@@ -863,7 +863,7 @@ const DOUBLED = new RegExp(data.doubledWord, "i");
 const NOTE_KINDS: readonly ComposedKind[] = ["journal:note", "news:toast"];
 
 /** A Journal note or news toast that leans on a sentence it is shown without, or doubles a word. */
-export const noteStandsAlone: ComposedCheck = (text) => {
+const noteStandsAlone: ComposedCheck = (text) => {
   if (!NOTE_KINDS.includes(text.kind)) return [];
   const found: ComposedBreak[] = [];
   text.screens.forEach((screen, at) => {
@@ -898,7 +898,7 @@ const STAND_IN = new RegExp(data.actStandIn, "i");
  * with no act named before it in the same text (pre-grade of #8879, Nov 12:
  * "Do what? 'Do that'?").
  */
-export const actNamed: ComposedCheck = (text) => {
+const actNamed: ComposedCheck = (text) => {
   const found: ComposedBreak[] = [];
   text.screens.forEach((screen, at) => {
     for (const line of screen.lines)
@@ -927,7 +927,7 @@ const CONCESSION_BEFORE = new RegExp(data.concessionBefore, "i");
  * contrary said before it in the same line: the frame names what it
  * concedes or it is not said (words composer, Nov 12).
  */
-export const concessionNamesWhat: ComposedCheck = (text) => {
+const concessionNamesWhat: ComposedCheck = (text) => {
   const found: ComposedBreak[] = [];
   text.screens.forEach((screen, at) => {
     for (const line of screen.lines)
@@ -966,7 +966,7 @@ const FIGURE_PATTERNS: RegExp[] = (
 ).map((source) => new RegExp(source, "i"));
 
 /** A spoken line that quotes a rate, a percentage, an index or a statistic (owner, Nov 14: people say how it sits, not the figure). */
-export const noFigureInTalk: ComposedCheck = (text) => {
+const noFigureInTalk: ComposedCheck = (text) => {
   const found: ComposedBreak[] = [];
   text.screens.forEach((screen, at) => {
     for (const line of screen.lines)
@@ -998,7 +998,7 @@ const THEY_FORMS =
  * same sentence ("the Hansens", "your parents") can be listed wrongly; the rule
  * is a sample and lists, it pulls nothing.
  */
-export const pronounFitsThePerson: ComposedCheck = (text, sample) => {
+const pronounFitsThePerson: ComposedCheck = (text, sample) => {
   const found: ComposedBreak[] = [];
   const gendered = sample.people.filter(
     (person) => person.pronoun === "he" || person.pronoun === "she",
@@ -1044,7 +1044,7 @@ const AGREEMENT_ONLY = data.agreementOnly.map(
  * do.") and nothing else: what the speaker expects, who they will tell or
  * what they will do is never left out (words composer, Nov 12).
  */
-export const answerAddsSomething: ComposedCheck = (text, sample) => {
+const answerAddsSomething: ComposedCheck = (text, sample) => {
   const found: ComposedBreak[] = [];
   text.screens.forEach((screen, at) => {
     for (const line of screen.lines) {
@@ -1098,7 +1098,7 @@ const DAYS_IN_YEAR = 366;
  * after the line is said (owner via the coordinator, Nov 12). A sample with
  * no calendar is read as holding none.
  */
-export const voteMonthOnCalendar: ComposedCheck = (text, sample) => {
+const voteMonthOnCalendar: ComposedCheck = (text, sample) => {
   const found: ComposedBreak[] = [];
   const said = Date.parse(`${text.date}T00:00:00Z`);
   const held = new Set(
@@ -1138,7 +1138,7 @@ const ORGANIZATION = new RegExp(
  * lines and the replies it offers): after the first naming it is said by the tie,
  * "work" or "school" (said-as ownPlace; owner via the coordinator, Nov 12).
  */
-export const organizationNamedOnce: ComposedCheck = (text) => {
+const organizationNamedOnce: ComposedCheck = (text) => {
   const found: ComposedBreak[] = [];
   // Said aloud only: a printed story names its subject as print does.
   if (!text.kind.startsWith("talk") && text.kind !== "scene") return found;
@@ -1178,7 +1178,7 @@ const PAY_QUESTIONS = Object.entries(
  * someone it would not touch). Own pay is a reason only for a raise, and only
  * at or under the proposal times payNear.
  */
-export const reasonFitsTheSide: ComposedCheck = (text) => {
+const reasonFitsTheSide: ComposedCheck = (text) => {
   const found: ComposedBreak[] = [];
   const said = screenTexts(text).join(" ");
   const plain = plainQuotes(said);
@@ -1212,7 +1212,7 @@ const PRESENCE_LEAD =
  * "With Vice President Sandra Solomon here, I'll tell you plainly... what
  * does that have to do with anything?").
  */
-export const nameCheckDoesWork: ComposedCheck = (text) => {
+const nameCheckDoesWork: ComposedCheck = (text) => {
   if (!SPEECH_KINDS.includes(text.kind)) return [];
   const found: ComposedBreak[] = [];
   text.screens.forEach((screen, at) => {
@@ -1240,7 +1240,7 @@ export const nameCheckDoesWork: ComposedCheck = (text) => {
  * words with the screens before it, places, people and the close's own
  * frame words (`closeFrameWords`) set aside.
  */
-export const closeNamesTheBody: ComposedCheck = (text, sample) => {
+const closeNamesTheBody: ComposedCheck = (text, sample) => {
   if (!SPEECH_KINDS.includes(text.kind) || text.screens.length < 2) return [];
   const last = text.screens.at(-one)!;
   const close = last.lines.at(-one)?.text;
@@ -1282,7 +1282,7 @@ export const closeNamesTheBody: ComposedCheck = (text, sample) => {
  * family, Don't look for my name ..."; the Story lead's read of #9831, the
  * Alaska governor). The words are the composer's own list of them.
  */
-export const noCapitalAfterComma: ComposedCheck = (text) => {
+const noCapitalAfterComma: ComposedCheck = (text) => {
   const found: ComposedBreak[] = [];
   text.screens.forEach((screen, at) => {
     for (const line of screen.lines)

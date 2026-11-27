@@ -81,6 +81,12 @@ export function schoolName(
 export const SCHOOL_STARTED = ownPastKind("school.started");
 /** The end of high school before the start: the diploma's day, the school it was from. */
 export const SCHOOL_FINISHED = ownPastKind("school.finished");
+/**
+ * A senior's school year's end in play as history (`school.graduation`): the
+ * graduation result the school engine wrote on the year's last school day,
+ * graduated or not, by the result's own id.
+ */
+export const GRADUATION_RESULT = "school.graduation";
 /** The fall after high school, for someone whose schooling went on to college. */
 export const COLLEGE_STARTED = ownPastKind("school.college-started");
 /** The end of college: a bachelor's for `college`, the years of `some-college` without one. */
@@ -401,9 +407,11 @@ export interface SchoolSpan {
 
 /**
  * The school years a person spent at each school, read from their school
- * records: a record opens a run at its school, and the run lasts until the
- * next record or, for the last one, until the person's last school year or
- * today's school year, whichever comes first.
+ * records: a record opens a run at its school in the year of its grade, and
+ * the run lasts until the next record or, for the last one, until the school
+ * year the record of their school's end names (the high school the simulated
+ * past finished, or a graduation the school engine wrote in play), and no
+ * later than today's school year.
  */
 export function schoolSpans(
   core: Readonly<CoreState>,
@@ -413,19 +421,36 @@ export function schoolSpans(
   if (!person) return [];
   const rows = schoolsAttended(core, personId);
   if (!rows.length) return [];
+  const schoolYear = (date: string) =>
+    date.slice(5) >= data.schoolYear.firstDay
+      ? Number(date.slice(0, 4))
+      : Number(date.slice(0, 4)) - 1;
+  const thisYear = schoolYear(core.date);
+  const finished = historyOf(
+    core as CoreState,
+    { person: personId as PersonId },
+    { kinds: [SCHOOL_FINISHED, GRADUATION_RESULT] },
+  )
+    .filter((event) =>
+      event.record === GRADUATION_RESULT
+        ? event.facts?.passed === "yes"
+        : event.facts?.passed !== "false",
+    )
+    .at(-1);
+  // A start record's grade names its school year (its date can fall before
+  // the calendar's first day). Where no record says when school ended
+  // (someone still in school), the calendar's last school year for their
+  // class bounds the run.
   const kindergarten = kindergartenYear(makeIsoDate(person.birthDate));
-  const today = Number(core.date.slice(0, 4));
-  const thisYear =
-    core.date.slice(5) >= data.schoolYear.firstDay ? today : today - 1;
+  const graduation =
+    kindergarten + SCHOOL_STAGE_CALENDAR.endsAfterYears.high - 1;
   const lastYear = Math.min(
-    kindergarten + SCHOOL_STAGE_CALENDAR.endsAfterYears.high - 1,
+    finished ? schoolYear(finished.date) : graduation,
     thisYear,
   );
   return rows.map((row, index) => {
     const from = kindergarten + row.grade;
     const next = rows[index + 1];
-    const graduation =
-      kindergarten + SCHOOL_STAGE_CALENDAR.endsAfterYears.high - 1;
     const to = next ? kindergarten + next.grade - 1 : lastYear;
     return {
       schoolId: row.schoolId,
@@ -433,7 +458,10 @@ export function schoolSpans(
       from,
       to,
       recordId: row.recordId,
-      ...(!next && to === graduation ? { final: true } : {}),
+      ...(!next &&
+      (finished ? to === schoolYear(finished.date) : to === graduation)
+        ? { final: true }
+        : {}),
     };
   });
 }

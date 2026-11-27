@@ -461,7 +461,7 @@ const AMERICAN_TOO: readonly string[] = [
 ];
 
 /** British spelling → American spelling, lower case. */
-export const AMERICAN_SPELLING: ReadonlyMap<string, string> = generated();
+const AMERICAN_SPELLING: ReadonlyMap<string, string> = generated();
 
 /**
  * Proper nouns spelled the British way that are correct here.
@@ -470,7 +470,7 @@ export const AMERICAN_SPELLING: ReadonlyMap<string, string> = generated();
  * Centre, Alabama, and Sulphur, Oklahoma — and a foreign party is called what it is called. Matched as
  * whole phrases, case-sensitive, before any word is looked up.
  */
-export const PROPER_NOUN_PHRASES: readonly string[] = [
+const PROPER_NOUN_PHRASES: readonly string[] = [
   "Centre County",
   "Centre, Alabama",
   "Centre, AL",
@@ -491,7 +491,7 @@ export const PROPER_NOUN_PHRASES: readonly string[] = [
  * itself is preserved, and only where it appears joined to the rest of an
  * identifier (with a hyphen, underscore, dot or slash).
  */
-export const PRESERVED_IDENTIFIERS: readonly string[] = [
+const PRESERVED_IDENTIFIERS: readonly string[] = [
   "returning-favour",
   "favour-request",
   "source-colour",

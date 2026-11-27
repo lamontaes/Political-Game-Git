@@ -17,7 +17,7 @@ import { POLICY_QUESTIONS } from "../../src/core2/policy-answers";
 import { policyHandlerKeys } from "../../src/core2/law-reach/host";
 import { registerLawReach } from "../../src/core2/law-reach/index";
 
-export type LawKind = "question" | "budget-line" | "amount";
+type LawKind = "question" | "budget-line" | "amount";
 
 export interface LawEntry {
   /** The policy key law reach and the laws table use: a question, a series, or "budget-line:<line>". */
@@ -59,7 +59,7 @@ const STARTING = (
  * Starting-law series that are not a law a body passes: each stands in for
  * the laws it summarizes, which are in the list themselves.
  */
-export const NOT_A_LAW: Readonly<Record<string, string>> = {
+const NOT_A_LAW: Readonly<Record<string, string>> = {
   "local-sales-tax-average":
     "the average local sales tax rate where a place has no city row of its own (an estimate standing in for local sales-tax laws, which the sales-tax amount covers)",
 };

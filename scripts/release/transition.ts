@@ -4,7 +4,7 @@ import { basename, join } from "node:path";
 import { CHANGES_DIR, parseDeclaration } from "./declarations";
 import { consumedIds, parseLedger } from "./ledger";
 
-export const ROLLOUT_PATH = join("docs", "release", "rollout.json");
+const ROLLOUT_PATH = join("docs", "release", "rollout.json");
 
 export type DeclarationComparisonMode = "pr" | "push";
 
@@ -203,7 +203,7 @@ function pushBranchPoint(
  * Shared lane files written straight to main by the play-first lane: the
  * progress log and the lead sheets. None of them changes the client.
  */
-export const LANE_STATUS_PATHS: ReadonlySet<string> = new Set([
+const LANE_STATUS_PATHS: ReadonlySet<string> = new Set([
   "docs/play-first/PROGRESS.md",
   "docs/coordination/LEADS-2026-10-24.md",
   "docs/coordination/MERGE-FIRST.md",

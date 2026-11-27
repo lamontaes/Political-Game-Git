@@ -3,7 +3,7 @@ import { coreAPI } from "../core2/state";
 import { resultOf } from "../core2/modules/voting";
 import type { FilingRow } from "../core2/modules/elections";
 import type { BallotRow } from "../core2/modules/voting";
-import type { BillRow } from "../core2/modules/legislature";
+import { sponsoredBills, type BillRow } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
@@ -105,14 +105,10 @@ export function reachedSteps(
     if (won.length) out.push({ step: 5, recordIds: won.map((r) => r!.id) });
   }
   if (has(core, "core2-legislature-v1")) {
+    // The bills they sponsored, as their history tells them.
     const bills = (
-      api
-        .moduleState("core2-legislature-v1")
-        .table("bills")
-        .rows() as unknown as BillRow[]
-    ).filter(
-      (b) => b.sponsorId === personId && (!since || b.introduced >= since),
-    );
+      sponsoredBills(core, personId) as unknown as BillRow[]
+    ).filter((b) => !since || b.introduced >= since);
     if (bills.length) out.push({ step: 6, recordIds: bills.map((b) => b.id) });
     const dealt = bills.filter((b) => b.deals.length);
     if (dealt.length) out.push({ step: 7, recordIds: dealt.map((b) => b.id) });

@@ -20,6 +20,8 @@ import { medianTransactionBalance } from "./starting-cash";
 import { seededNormal } from "./officials-roster";
 import { outsideGovernment } from "./outside-governments";
 import { outsideAccountOf } from "./budgets-treasury";
+import { homePaidDailyMinor } from "./modules/housing";
+import { placeStateKey } from "./place-map";
 import type { CoreAPI } from "./types";
 
 export interface OfficialHousehold {
@@ -108,7 +110,9 @@ export function giveLivingCost(
 /**
  * What someone spends on living for a number of days, out of what they hold,
  * to the outside account. A caller paying many people at once finds that
- * account once and passes it.
+ * account once and passes it. Shelter is paid once (housing-shelter): what a
+ * home the housing engine charges for costs them is paid there, so it comes
+ * out of what goes outside, never below the everyday basket without a home.
  */
 export function spendLivingCost(
   api: CoreAPI,
@@ -118,18 +122,31 @@ export function spendLivingCost(
 ): void {
   const person = api.state.people.get(personId);
   if (!person?.alive || !outside || days <= 0) return;
+  const home = homePaidDailyMinor(api, person.householdId);
+  const daily = home
+    ? Math.max(
+        householdDailyCostMinor({
+          seed: api.state.seed,
+          stateKey: placeStateKey(person.placeId),
+          size: api.parameter("one"),
+          rent: null,
+          parameter: (key) => api.parameter(key),
+        }),
+        person.livingCostDailyMinor - home,
+      )
+    : person.livingCostDailyMinor;
   const accounts = api.accounts();
   accounts.transfer({
     id: `living:${personId}:${api.state.date}`,
     from: accounts.main(personId),
     to: accounts.main(outside),
-    amountMinor: person.livingCostDailyMinor * days,
+    amountMinor: Math.round(daily * days),
     reasonKey: "official.living",
     partial: true,
     source: {
       tag: "ESTIMATED",
       asOf: api.state.date,
-      citation: `${days} days of the household's living cost (official-living).`,
+      citation: `${days} days of the household's living cost (official-living)${home ? ", less its home, paid where it lives" : ""}.`,
       estimatedFrom: "BLS Consumer Expenditure Survey and HUD fair market rent",
     },
   });
