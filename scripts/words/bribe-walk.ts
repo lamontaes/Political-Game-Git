@@ -367,7 +367,7 @@ const offerers = (memberId: PersonId, sitting: readonly PersonId[]) => {
   );
   return list;
 };
-// Asks made before a season passes, and the season in days (director.json: seasonCap of six in 91 days).
+// Asks made before the walk lets a season of days pass, and the season in days.
 const SEASON_ASKS = 5;
 const SEASON_DAYS = 92;
 const STAKES = [200_000, 30_000_000, 500_000_000, 5_000_000_000];
@@ -418,8 +418,8 @@ const variety = (
   const played = new Set<string>();
   let failures = 0;
   for (const [at, who] of asks.entries()) {
-    // The director stages a kind of scene only so often in a season (seasonCap in director.json,
-    // six in 91 days), so a season passes after every five asks.
+    // The walk lets a season of days pass after every five asks, so each ask is its own record
+    // on its own day (the director holds only a repeat of the same record with nothing new).
     if (at && at % SEASON_ASKS === 0) day(SEASON_DAYS);
     const subject = next();
     if (!subject) continue;

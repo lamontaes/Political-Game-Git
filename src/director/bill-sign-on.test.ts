@@ -393,7 +393,7 @@ describe("asking colleagues to sign on", () => {
         livePlayer(core, player, addDays(makeIsoDate(core.date), 2));
         const found = staged().find((row) => row.causeId === id);
         // The player's own ask is not held by a season count: the record
-        // limits it (scheduling.ts pressedByPlayer), so the second ask plays.
+        // limits it (each cause is its own scene), so the second ask plays.
         expect(found, `${where}: the second ask is staged`).toBeTruthy();
         const { entry, unit } = found!;
         const result = purposeScene(core, director, player, entry, {
