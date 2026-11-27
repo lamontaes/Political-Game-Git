@@ -19,6 +19,6 @@ claimed-at: 2026-10-24T03:01:51.231Z
 
 **Done when.** docs/roadmap/features.json has a command for M1-14 that, in the runner's drawn place, checks the start date, recent dated life events for the player's household, the economy's months against the published figures, dated law changes, and prior years' budgets, prints the load time and size, was run on main with place and seed in the PR body, and fails when a recorded economy figure differs from the published one.
 
-**Files.** src/bench/m1-14-check.ts, docs/roadmap/features.json
+**Files.** scripts/bench/m1-14-check.ts, docs/roadmap/features.json
 
 **Notes.** Split by the M0-M2 lead from roadmap-m1-places-history-flags (CTO branch).

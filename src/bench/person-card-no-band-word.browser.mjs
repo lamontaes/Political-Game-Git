@@ -8,7 +8,7 @@
 // event. Run against a fresh bench: node src/bench/person-card-no-band-word.browser.mjs
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
 
 const BANDS =
   /barely know|know each other|are friendly|are close|very close|grew closer|drifted apart|grew apart/i;

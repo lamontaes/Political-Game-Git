@@ -10,7 +10,7 @@
 // Connecticut 0944690); RACE_DAY the day to play to (default 2025-05-20).
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
+import { startLife } from "../../tests/support/start-life.mjs";
 
 const [shots] = process.argv.slice(2);
 const day = process.env.RACE_DAY ?? "2025-05-20";

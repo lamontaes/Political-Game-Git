@@ -6,7 +6,7 @@ import { gameStartDate } from "../core2/game-start";
 import type { PersonId } from "../core2/types";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { gatherSignatures } from "../core2/campaign-petition-kit";
+import { gatherSignatures } from "../../tests/support/campaign-petition-kit";
 import { playerContests } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import { composeJournal } from "../director/journal";
