@@ -11,7 +11,7 @@ import { closenessBetween, registerSharedHours } from "../closeness";
 import { createLifeCore } from "../life";
 import { buildPopulation } from "../population";
 import { coreAPI } from "../state";
-import { RUN_SEED } from "../trait-test-kit";
+import { RUN_SEED } from "../../../tests/support/trait-test-kit";
 import { drawPlace } from "../../../tests/golden-path/place";
 import { deliverSpeech, speechModule } from "./speech";
 import { standingWith, viewOf, viewsModule } from "./views";
