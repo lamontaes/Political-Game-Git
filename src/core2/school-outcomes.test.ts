@@ -41,7 +41,7 @@ import { ageOn } from "./counted-groups";
 import { fullHouseholdIncomes, incomeBandOn } from "./counted-income-fifth";
 import { webReach } from "./outcome-web-reach";
 import { setBookkeeping } from "./bookkeeping";
-import { personalityCataloguePack } from "./personality-catalogue";
+import { personalityTraitPack } from "./personality-catalogue";
 import { qualifiedTraitKey } from "./trait-packs";
 import { coreAPI, fillInPerson } from "./state";
 import type { CoreState } from "./types";
@@ -119,7 +119,7 @@ const rows = <T>(core: CoreState, name: string) =>
 
 describe("school standing", () => {
   it("reads study traits people carry, by their qualified keys", () => {
-    const pack = personalityCataloguePack();
+    const pack = personalityTraitPack();
     const known = new Set(
       pack.traits.map((trait) => qualifiedTraitKey(pack.pack, trait.key)),
     );

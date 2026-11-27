@@ -5,7 +5,6 @@ import type {
   TraitPack,
   TraitScale,
 } from "./trait-packs";
-import { personalityTraitEffects } from "./trait-effects";
 
 /**
  * The personality catalog: the named qualities a person can be known for,
@@ -30,11 +29,10 @@ import { personalityTraitEffects } from "./trait-effects";
  * unrecorded, which is unknown rather than "not like that". The catalog is
  * what a person may be; the record is what they are known to be.
  *
- * **What argues.** Each profile names the kinds of decision its scales are
- * meant for, and a lean is admitted only against a decision that publishes
- * itself. The first is whether an officeholder runs again
- * (`CATALOGUE_EFFECTS`); every other quality is recorded, shown and moved by
- * what happens to people, and changes no outcome yet.
+ * **What argues.** A quality reaches a decision through its row in
+ * `data/content/trait-act-pulls.json`: the act kinds it pulls toward and away
+ * from, read by the one chooser for every labeled decision. The pack carries
+ * no lean rows of its own.
  */
 
 export const PERSONALITY_PACK = "personality-v1";
@@ -193,61 +191,11 @@ function declarationFor(row: CatalogueScale): TraitDeclaration {
   };
 }
 
-/**
- * The qualities that bear on whether somebody holding an office runs again.
- * Each reads only when the person is known for it; nobody's silence on a
- * scale is read as its opposite.
- */
-const CATALOGUE_EFFECTS: TraitPack["effects"] = [
-  {
-    decision: "career.consider-another-term",
-    leans: [
-      {
-        option: "seek",
-        trait: `${PERSONALITY_PACK}:facet-ambitious`,
-        pole: "high",
-        explanation: "They want more from public life, and the seat is how.",
-      },
-      {
-        option: "seek",
-        trait: `${PERSONALITY_PACK}:facet-duty-bound`,
-        pole: "high",
-        explanation: "They see the office as a duty they are not done with.",
-      },
-      {
-        option: "seek",
-        trait: `${PERSONALITY_PACK}:facet-work-centered`,
-        pole: "high",
-        explanation: "The work has become most of their life.",
-      },
-      {
-        option: "step-down",
-        trait: `${PERSONALITY_PACK}:facet-contented`,
-        pole: "high",
-        explanation: "They have done what they came to do.",
-      },
-      {
-        option: "step-down",
-        trait: `${PERSONALITY_PACK}:facet-restless`,
-        pole: "high",
-        explanation: "Years of the same work have worn on them.",
-      },
-    ],
-  },
-  ...personalityTraitEffects(),
-];
-
-/** The personality traits as a pack; the decisions that lean on them are added by the build that declares those decisions. */
-export function personalityTraitPack(
-  effects: TraitPack["effects"] = [],
-): TraitPack {
+/** The personality traits as a pack. They reach decisions through `data/content/trait-act-pulls.json`, not through lean rows. */
+export function personalityTraitPack(): TraitPack {
   return {
     pack: PERSONALITY_PACK,
     traits: CATALOGUE_SCALES.map(declarationFor),
-    effects,
+    effects: [],
   };
-}
-
-export function personalityCataloguePack(): TraitPack {
-  return personalityTraitPack(CATALOGUE_EFFECTS);
 }

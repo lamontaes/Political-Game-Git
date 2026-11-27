@@ -827,7 +827,6 @@
         "src/core2/person-*.ts",
         "src/core2/personality-*.ts",
         "src/core2/trait-*.ts",
-        "src/core2/trait-effects/**",
         "src/core2/household-*.ts",
         "src/core2/housing-*.ts",
         "src/core2/hud-rents.ts",

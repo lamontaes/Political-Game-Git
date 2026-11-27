@@ -703,7 +703,6 @@
 /src/core2/person-*.ts @lamontaes
 /src/core2/personality-*.ts @lamontaes
 /src/core2/trait-*.ts @lamontaes
-/src/core2/trait-effects/** @lamontaes
 /src/core2/household-*.ts @lamontaes
 /src/core2/housing-*.ts @lamontaes
 /src/core2/hud-rents.ts @lamontaes
