@@ -24,9 +24,33 @@ json.dump(d,open(P,'w'),indent=2,ensure_ascii=False); open(P,'a').write('\n')
 subprocess.run(['npx','prettier','--write',P],check=True,capture_output=True)
 subprocess.run(['node','--import','tsx','scripts/guards/codeowners.ts'],check=True)
 print('offices paths',len(off_paths),'governing paths',len(gov_paths))
-# Lower the families baseline by what the guard now says (only ever lowers; a file at 0 is dropped).
-out=subprocess.run(['npx','vitest','run','tests/guards/families.test.ts'],capture_output=True,text=True)
-text=re.sub(r'\x1b\[[0-9;]*m','',out.stdout+out.stderr)
+def glob_rx(g):
+    parts=g.split('**')
+    return re.compile('^'+'.*'.join('[^/]*'.join(re.escape(x) for x in p.split('*')) for p in parts)+'$')
+def guard():
+    out=subprocess.run(['npx','vitest','run','tests/guards/families.test.ts'],capture_output=True,text=True)
+    return out.returncode,re.sub(r'\x1b\[[0-9;]*m','',out.stdout+out.stderr)
+def save():
+    json.dump(d,open(P,'w'),indent=2,ensure_ascii=False); open(P,'a').write('\n')
+    subprocess.run(['npx','prettier','--write',P],check=True,capture_output=True)
+    subprocess.run(['node','--import','tsx','scripts/guards/codeowners.ts'],check=True)
+fams={f['id']:f for f in d['families']}
+# 1. A file of one half importing a non-entry file of the other half raised the guard's count: make those files entries
+#    of the half that owns them (doors first, so no count ever rises), until the guard is satisfied.
+for _ in range(8):
+    code,text=guard()
+    added=0
+    for line in re.findall(r'"([^" ]+) \((offices|governing)\): \d+ imports inside other families, \d+ known: ([^"]*?)\. Import the family',text):
+        importer,fam_id,targets=line
+        other='governing' if fam_id=='offices' else 'offices'
+        for t in [x.strip() for x in targets.split(',')]:
+            if any(glob_rx(g).match(t) for g in fams[other]['paths']) and t not in fams[other]['entry'] \
+               and not any(glob_rx(e).match(t) for e in fams[other]['entry']):
+                fams[other]['entry'].append(t); added+=1; print('entry of',other+':',t,'(read by',importer+')')
+    if not added: break
+    save()
+# 2. Lower the baseline by what the guard now says (only ever lowers; a file at 0 is dropped).
+code,text=guard()
 BP='tests/guards/families-baseline.json'
 b=json.load(open(BP))
 lowered=0
@@ -39,3 +63,8 @@ for f,old,new in re.findall(r'"([^"]+): lower (\d+) to (\d+)"',text):
 json.dump(b,open(BP,'w'),indent=2,ensure_ascii=False); open(BP,'a').write('\n')
 subprocess.run(['npx','prettier','--write',BP],check=True,capture_output=True)
 print('lowered',lowered,'baseline entries')
+# 3. Fail loudly: the guard must pass now, with no count above its baseline.
+code,text=guard()
+if code!=0:
+    print(text[-3000:]); print('FAILED: the families guard still fails after the split; settle what it names by hand.'); raise SystemExit(1)
+print('families guard passes: no count above its baseline')
