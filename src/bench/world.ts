@@ -52,6 +52,7 @@ import { openOutsideBudgets } from "../core2/budgets-treasury";
 import { openOfficialPay } from "../core2/modules/executive";
 import { openCrime } from "../core2/modules/justice";
 import { openPatrol } from "../core2/modules/police-patrol";
+import { openCommunityEvents } from "../core2/modules/community-events";
 import { openCoverage } from "../core2/modules/coverage";
 import { openHomelessCount } from "../core2/modules/coverage";
 import { openGrievance } from "../core2/modules/people";
@@ -810,6 +811,8 @@ function* benchWorldStages(
   openCrime(core);
   // The hours the police line pays its staff, a row per place and month.
   openPatrol(core);
+  // The town's year of community events, booked on the calendar.
+  openCommunityEvents(core);
   openEstates(core);
   openEmployerTaxes(core);
   yield "legislature";

@@ -987,6 +987,7 @@
 /src/core2/age-of-majority.ts @lamontaes
 /src/core2/coarse-place.ts @lamontaes
 /src/core2/community-events-table.ts @lamontaes
+/src/core2/modules/community-events.ts @lamontaes
 /src/core2/world-settings.ts @lamontaes
 /src/core2/player-*.ts @lamontaes
 /src/core2/opening-*.ts @lamontaes
@@ -1008,6 +1009,7 @@
 /src/core2/closure-by-choice.test.ts @lamontaes
 /src/core2/coarse-place.test.ts @lamontaes
 /src/core2/community-events-table.test.ts @lamontaes
+/src/core2/community-events.test.ts @lamontaes
 /src/core2/controlled-sources-released.test.ts @lamontaes
 /src/core2/country-part-counts.test.ts @lamontaes
 /src/core2/credit-applicants-place.test.ts @lamontaes
