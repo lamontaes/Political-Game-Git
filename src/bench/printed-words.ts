@@ -19,6 +19,7 @@ import {
   atLargeGroup,
   ELECTIONS_MODULE_ID,
   type ContestRow,
+  partyOf,
 } from "../core2/modules/elections";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { BUSINESS_MODULE_ID } from "../core2/modules/business";
@@ -65,7 +66,6 @@ import { JOURNAL_WORDS, seatSaid } from "../english/journal-words";
 import { raceMemberTitle } from "../director/cause-facts";
 import { storyTopicName } from "../english/policy-names";
 import { questionAbout, questionPlainWords } from "../english/question-names";
-import { partyOf } from "../core2/modules/campaigns";
 import { reachScopeOf } from "../core2/law-reach/applied";
 import {
   causeGroupForm,
