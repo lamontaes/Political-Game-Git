@@ -146,15 +146,18 @@ export function valueWords(
   unit: string | undefined,
   places = 2,
 ): string {
+  // A fee reads against what it is today ("125 percent of today's fee"), not as a bare percent.
   const kind = !unit
     ? "percent"
-    : unit.startsWith("percent")
-      ? "percent"
-      : unit;
+    : unit in BILL_SECTIONS.units
+      ? unit
+      : unit.startsWith("percent")
+        ? "percent"
+        : unit;
   const template = BILL_SECTIONS.units[kind];
   if (!template) return String(value);
   return fill(template, {
-    value: kind === "percent" ? Number(value.toFixed(places)) : value,
+    value: kind.startsWith("percent") ? Number(value.toFixed(places)) : value,
     dollars: kind === "minor/hour" ? dollars(value) : dollars(value * 100),
   });
 }
