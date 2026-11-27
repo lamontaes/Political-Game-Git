@@ -83,3 +83,13 @@ Base inspected is main at `231ab84861`. The work list is the 71-path seeded base
 - Main does not yet have the separate seeded-list branch. A repair branch must carry the exact removal and must not restore already resolved rows when integrated. Start from the seed only if the baseline is absent.
 
 **Campaign team fixed and pushed.** Branch cleanup/nov27-campaign-team-acceptance (326173a0a0). Reproduced on main at Hyde Park, Pennsylvania (4236592), seed t1:5: a manager's offer existed, the staff list correctly did not yet contain that person, and the test expected the opposite. The revised test checks the empty staff slot while the offer is pending, then records the player's agreement through the existing event handler and checks the original staff, volunteer, names, and totals. It passes at the original seed. No production file or importing test changed. The branch's baseline removes only this path (71 → 70), using the seed snapshot because main does not carry the baseline yet. The developer-mode acceptance file is running next on main.
+
+**Direct ownership exclusions found by the two-day scan** (no duplicate changes to these files):
+
+| Test | Cause or reported failure | Why this builder leaves it |
+| --- | --- | --- |
+| src/core2/opening-key-people.test.ts | Territory case expects no president, but the ruling makes the President and Vice President known in every place, including territories. | Opening is reserved and active commit a154be8437 rewrites the UI ranking expectation. |
+| src/core2/opening-terms-in-office.test.ts | The old assertion expects no opening terms with real first dates. The now-landed take-office rule starts each term on its actual first day. | Opening is reserved and bf0a9f6974 already changes the test. |
+| src/core2/partner-from-counts.test.ts | The played-world setup and 40-day advance took about 31 seconds against a 30-second limit in the other owner's trace. | bf0a9f6974 owns this test. The suggested timeout change is not adopted or counted as a fix here. |
+| src/core2/past-justice.test.ts | The older assertion recognizes arrest cards through one line of copy instead of their arrest-record identity. | Past is reserved and bf0a9f6974 already changes this check. |
+| src/director/eviction-talk-words.test.ts | The two-night red was an answer repeating the already-said time word. That answer path is moving from a conversation rule list to the scene-talk engine. | Active Talk commit 536dff267f changes the test and the engine. No bank change or competing test rewrite. |
