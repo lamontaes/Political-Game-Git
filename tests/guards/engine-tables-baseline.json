@@ -5,8 +5,7 @@
       "people": 1
     },
     "src/bench/bill-stage.ts": {
-      "bodies": 4,
-      "executive": 2
+      "bodies": 4
     },
     "src/bench/budget.ts": {
       "budgets": 1
@@ -19,7 +18,6 @@
       "elections": 11
     },
     "src/bench/card.ts": {
-      "executive": 4,
       "people": 1
     },
     "src/bench/changes.ts": {
@@ -116,7 +114,6 @@
       "elections": 2
     },
     "src/bench/scene.ts": {
-      "executive": 2,
       "people": 1
     },
     "src/bench/states.ts": {

@@ -41,11 +41,10 @@ import reachB from "../core2/data/laws/reach-group-b.json" with { type: "json" }
 import type { CoreAPI, CoreState } from "../core2/types";
 import { screenLine } from "../english/screen-words";
 import { billPaper, personName } from "./legislature";
-import { townSeats } from "../core2/modules/offices";
+import { townSeats, officeById } from "../core2/modules/offices";
 import { deskWaiting } from "../core2/modules/office-day";
 
 const LEGISLATURE = "core2-legislature-v1";
-const OFFICES = "core2-offices-v1";
 
 /** Where a bill stands, as a code the screens word. */
 export type BillStageCode =
@@ -128,11 +127,10 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     .table("bills")
     .get(billId) as unknown as BillRow | undefined;
   if (!bill) throw new Error("That bill is not before any body.");
-  const offices = api.moduleState(OFFICES).table("offices");
   // A body's own name (the House of Representatives, a council), else its office's title.
   const title = (id: string) =>
     bodyOf(api, id)?.bodyName ??
-    (offices.get(id) as { title?: string } | undefined)?.title ??
+    (officeById(api, id) as { title?: string } | undefined)?.title ??
     "";
   const you =
     asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId ?? "";
@@ -746,10 +744,8 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
           title:
             bodyOf(api, chamberNow(api, bill))?.bodyName ??
             (
-              api
-                .moduleState(OFFICES)
-                .table("offices")
-                .get(chamberNow(api, bill)) as { title?: string } | undefined
+              officeById(api, chamberNow(api, bill)) as
+                { title?: string } | undefined
             )?.title ??
             null,
           since: bill.chambersPassed.at(-1)!.on,
