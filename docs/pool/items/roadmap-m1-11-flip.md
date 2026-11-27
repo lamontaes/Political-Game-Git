@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** M1-11 reads 'Over a year, job losses, evictions and closures form drives at a researched rate, and a drive's target is a real person or institution involved in the event.' Its command now runs drives-economy.test.ts and the played-year check (src/bench/m1-11-check.ts, merged with #5959). On main 24b7349573 the runner draws Steamboat Springs, Colorado, where all three kinds of event happened in the year and the check passes.
+**What.** M1-11 reads 'Over a year, job losses, evictions and closures form drives at a researched rate, and a drive's target is a real person or institution involved in the event.' Its command now runs drives-economy.test.ts and the played-year check (scripts/bench/m1-11-check.ts, merged with #5959). On main 24b7349573 the runner draws Steamboat Springs, Colorado, where all three kinds of event happened in the year and the check passes.
 
 **Rules.** Wire to the world: the flag flips only on its command passing in the runner's drawn place and the spec played in the bench. Never edit a spec's test text; only passes changes.
 

@@ -25,9 +25,7 @@ const [{ createLifeCore, advanceCore }, { addDays, makeIsoDate }] =
   ]);
 console.error(JSON.stringify({ drawn: place }));
 const prepStarted = performance.now();
-const { generatedOpening } = await moduleAt(
-  "src/core2/tooling/generated-world.ts",
-);
+const { generatedOpening } = await moduleAt("src/core2/generated-world.ts");
 // The opening the game uses: economy with outside buyers, two-level by default.
 const input = generatedOpening(place, {
   economy: !flag("--no-economy"),

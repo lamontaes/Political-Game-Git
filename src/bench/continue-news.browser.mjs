@@ -6,7 +6,7 @@
 // BENCH_SEED a world to replay.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
 const port = process.env.BENCH_PORT ?? "3000";
 const shot = process.env.BENCH_SHOT;
 const browser = await chromium.launch({

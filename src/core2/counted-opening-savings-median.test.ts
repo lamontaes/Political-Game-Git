@@ -21,7 +21,7 @@ import {
   worldCoreData,
 } from "./modules/world";
 import { coreAPI } from "./state";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 
 it("the median counted household holds about its survey median on day 1 (Staples, Connecticut)", () => {
   const place = drawPlace("probe-a", "exit-a");

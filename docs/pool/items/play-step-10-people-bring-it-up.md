@@ -16,8 +16,8 @@ source: added with npm run pool -- add
 
 **Rules.** An effect is a read, not a record: the read event is what a person remembers and brings up, not a table. No hand-written player text: the subject comes from the authored English data (bill-sections), the line from the existing bring-it-up banks. The chain is the acceptance: law took effect, story printed, a reader remembers it, the reader says it. One rule, all 56 places: the check draws places and names them.
 
-**Done when.** `GOLDEN_PATH_SEED=pc-d node --import tsx src/bench/path-check.ts` reports step 10 (Deer Island, Oregon: the player's county minimum-wage law took effect December 17, 2026), and a test in src/director (bring-it-up-law.test.ts) finds, in a drawn place, a reader of a printed story about a law taking effect who brings it up naming the law's subject and the outlet, tied to the read event by record id.
+**Done when.** `GOLDEN_PATH_SEED=pc-d node --import tsx tests/golden-path/path-check.ts` reports step 10 (Deer Island, Oregon: the player's county minimum-wage law took effect December 17, 2026), and a test in src/director (bring-it-up-law.test.ts) finds, in a drawn place, a reader of a printed story about a law taking effect who brings it up naming the law's subject and the outlet, tied to the read event by record id.
 
-**Files.** src/core2/modules/news.ts, src/director/question-names.ts, src/director/bring-it-up.ts, src/bench/reached.ts, src/bench/path-check.ts
+**Files.** src/core2/modules/news.ts, src/director/question-names.ts, src/director/bring-it-up.ts, src/bench/reached.ts, tests/golden-path/path-check.ts
 
 **Notes.** Step 11 (the next election uses the record) is not detected yet. Only four law amounts have an authored subject (income tax, sales tax, minimum wage, public pay floor); other series and budget lines are read but cannot be spoken until the English data names them.
