@@ -105,6 +105,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/one-history.test.ts"),
   },
   {
+    id: "determinism",
+    rule: "Determinism holds: game code reads no Math.random, randomBytes, randomUUID, Date.now, performance.now or argument-less new Date() outside the dev panels and the play server; the tools still in src only shrink.",
+    readMore:
+      "tests/guards/determinism.test.ts, its header; the core audit, row K11",
+    command: vitest("tests/guards/determinism.test.ts"),
+  },
+  {
     id: "scene-pictures",
     rule: "Every scene type is mapped to a picture in the one list, and a missing picture never holds work back: a scene with no fitting picture ships on its fallback with a line in the pictures-wanted list.",
     readMore:
