@@ -38,14 +38,10 @@ import {
   type SittingDay,
 } from "./sitting-closeness";
 import { roomTime } from "./modules/people";
-import {
-  chargeOfficeHours,
-  registerOfficeTime,
-  type OfficeTime,
-} from "./modules/work";
+import { chargeOfficeHours, type OfficeTime } from "./modules/work";
 import { personLean, personStance } from "./campaign-views";
 import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
-import { lineForPost, registerLinePayments } from "./budgets-treasury";
+import { lineForPost } from "./budgets-treasury";
 import { outsideGovernment } from "./outside-governments";
 import { stableHash, pairKey } from "./kernel/ids";
 import { addDays, makeIsoDate, weekdayOf } from "./kernel/dates";
@@ -102,6 +98,7 @@ import {
   BUDGETS_MODULE_ID,
   governments,
   setBudgetPriorities,
+  type GovernmentRow,
 } from "./modules/budgets";
 import {
   CASES_MODULE_ID,
@@ -1819,6 +1816,10 @@ export function voteOnStateFloor(
 
 export const OFFICE_DAY_STATE_MODULE: CoreModule = {
   id: OFFICE_DAY_STATE_MODULE_ID,
+  // The per diem a state legislator is owed, which the treasury pays at its close (`linePayments`).
+  linePayments: perDiemLinePayments,
+  // The hours a state legislator's session, committee and caucus days take from their day.
+  officeTime: stateOfficeHoursToday,
   state: {
     schemaVersion: 1,
     tables: {
@@ -1836,13 +1837,16 @@ export const OFFICE_DAY_STATE_MODULE: CoreModule = {
 };
 
 // The treasury pays these obligations after revenue arrives and before residual spending.
-registerLinePayments((api, gov) =>
-  api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID) &&
-  gov.level === "state" &&
-  gov.id === lawChain(api).stateKey
+function perDiemLinePayments(
+  api: CoreAPI,
+  gov: GovernmentRow,
+): Record<string, number> {
+  return api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID) &&
+    gov.level === "state" &&
+    gov.id === lawChain(api).stateKey
     ? payPerDiem(api)
-    : {},
-);
+    : {};
+}
 
 registerOfficeActs({
   id: "state-calendar",
@@ -1925,7 +1929,6 @@ registerOfficeActs({
 
 export function openOfficeDayState(core: CoreState): void {
   registerSittingCalendar(ROOMS);
-  registerOfficeTime(stateOfficeHoursToday);
   if (!core.modules.has(OFFICE_DAY_STATE_MODULE_ID))
     registerModule(core, OFFICE_DAY_STATE_MODULE);
 }
