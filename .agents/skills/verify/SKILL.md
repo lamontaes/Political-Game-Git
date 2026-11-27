@@ -26,8 +26,8 @@ node .claude/skills/verify/scripts/verify.mjs --screen politics/Metrics --dev
 ```
 
 - **No flags:** the changed files' checks, then every guard. The checks are the focus stages that `scripts/agent-test-cadence.mjs` plans for the files changed against `origin/main`: the changed test files, `zero-dice` and `zero-real-data` for engine files, `old-imports` for code, the pool check for pool items, `test:skill-ops` for instruction files. Then `npm run guards`, with `CHANGED_FILES` set as the CI guards job sets it.
-- **`--screen <tab>[/<button>...]`** (repeatable): the ring tab's `data-tab` name (`politics`, `who`, `calendar`, `news`), then the buttons to press in its sheet by their words. The script starts `src/bench/server.ts` when nothing answers on port 3000 and stops it after, starts a new life in a drawn place with `startLife` (`src/bench/start-life.mjs`, which plays the opening as a player does), opens each screen and saves a 1440x900 picture.
-- **`--dev`:** dev mode on (`devModeOn`, `src/bench/dev-setup.mjs`) before the screens.
+- **`--screen <tab>[/<button>...]`** (repeatable): the ring tab's `data-tab` name (`politics`, `who`, `calendar`, `news`), then the buttons to press in its sheet by their words. The script starts `src/bench/server.ts` when nothing answers on port 3000 and stops it after, starts a new life in a drawn place with `startLife` (`tests/support/start-life.mjs`, which plays the opening as a player does), opens each screen and saves a 1440x900 picture.
+- **`--dev`:** dev mode on (`devModeOn`, `tests/support/dev-setup.mjs`) before the screens.
 - **`--place <key> --seed <seed>`:** replay one place and seed, only to reproduce a red. A drawn place is the default and the rule (`drawn-place-tests`).
 - **`--out <dir>`** (logs and pictures; default a folder in the system temp directory named for the head), **`--base <ref>`**, **`--no-guards`**, **`--typecheck`**, **`--observe`** (report only, always exit 0).
 

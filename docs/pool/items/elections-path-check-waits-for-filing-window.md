@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 
 **Done when.** path-check reaches election night in Storrs, Connecticut at storrs-1 and Murray, Nebraska at 1d3f0e18ca4ba7e5 on main, naming the race and its filing day, and in each of the other six fixed towns either does the same or names the first race date it waited for; a test fails when path-check stops before a filing window opens.
 
-**Files.** tests/golden-path/path-check.ts, src/bench/start-life.mjs
+**Files.** tests/golden-path/path-check.ts, tests/support/start-life.mjs
 
 **Notes.** TODO
 

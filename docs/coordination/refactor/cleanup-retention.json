@@ -4745,7 +4745,7 @@
       "reason": "Resolve the loader's runtime route before treating this as a missing subject."
     },
     {
-      "file": "src/bench/start-life.mjs",
+      "file": "tests/support/start-life.mjs",
       "name": "watchRequests",
       "reason": "Matching identifier outside its declaration: .agents/skills/red-main/SKILL.md, .claude/skills/red-main/SKILL.md"
     },

@@ -112,6 +112,13 @@ function destination(file: string): string | "delete" | null {
       base === "integration-heads.json"
     )
       return `scripts/bench/${base}`;
+    // The browser checks' helpers (the one way a check starts a life, sets a
+    // campaign up through dev mode, and scans the menus' look): only checks
+    // and the play walks import them (the CTO's Nov 27 12:36 a.m. line sent
+    // them with Cleanup's move of the browser tests, whose mover moves tests
+    // only).
+    if (["start-life.mjs", "dev-setup.mjs", "ui-look-scan.mjs"].includes(base))
+      return `${SUPPORT}${base}`;
     // The hand-run golden-path walk sits with the golden-path suite that imports it.
     if (base === "path-check.ts" || base === "path-check-step-11.test.ts")
       return `tests/golden-path/${base}`;

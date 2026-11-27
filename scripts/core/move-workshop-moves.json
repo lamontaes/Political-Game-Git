@@ -1,5 +1,6 @@
 {
   "moved": {
+    "src/bench/dev-setup.mjs": "tests/support/dev-setup.mjs",
     "src/bench/integration-heads.json": "scripts/bench/integration-heads.json",
     "src/bench/jump-end-check.test.ts": "scripts/bench/jump-end-check.test.ts",
     "src/bench/jump-end-check.ts": "scripts/bench/jump-end-check.ts",
@@ -19,7 +20,9 @@
     "src/bench/m2-10-seating.ts": "scripts/bench/m2-10-seating.ts",
     "src/bench/path-check-step-11.test.ts": "tests/golden-path/path-check-step-11.test.ts",
     "src/bench/path-check.ts": "tests/golden-path/path-check.ts",
+    "src/bench/start-life.mjs": "tests/support/start-life.mjs",
     "src/bench/store-shots.mjs": "scripts/bench/store-shots.mjs",
+    "src/bench/ui-look-scan.mjs": "tests/support/ui-look-scan.mjs",
     "src/bench/verify.mjs": "scripts/bench/verify.mjs",
     "src/core2/bug-report.ts": "scripts/core2/bug-report.ts",
     "src/core2/campaign-incumbent-response-test-kit.ts": "tests/support/campaign-incumbent-response-test-kit.ts",

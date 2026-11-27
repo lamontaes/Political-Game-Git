@@ -2119,6 +2119,24 @@
       "now": "scripts/core2/session-law-audit.ts",
       "when": "2026-11-27",
       "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/dev-setup.mjs",
+      "now": "tests/support/dev-setup.mjs",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/start-life.mjs",
+      "now": "tests/support/start-life.mjs",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
+    },
+    {
+      "old": "src/bench/ui-look-scan.mjs",
+      "now": "tests/support/ui-look-scan.mjs",
+      "when": "2026-11-27",
+      "why": "Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move."
     }
   ]
 }

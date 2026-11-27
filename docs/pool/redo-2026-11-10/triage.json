@@ -11728,10 +11728,10 @@
   {
     "id": "tests-talk-history-one-exchange",
     "verdict": "rewrite",
-    "reason": "Still wanted; the browser check reads a talk with one exchange. src/bench/talk-history.browser.mjs and src/bench/start-life.mjs both exist.",
+    "reason": "Still wanted; the browser check reads a talk with one exchange. src/bench/talk-history.browser.mjs and tests/support/start-life.mjs both exist.",
     "causeKind": "Measured",
     "cause": "Nibbe, Montana, seed 9300f75f-9b1d-48b4-8d84-c409754ff9a4: talk to the first person in the room after the President's address; the talk is one reply, the answer with Continue, then it ends, so src/bench/talk-history.browser.mjs finds no second reply.",
-    "fix": "Make the check talk to a person whose talk has two or more exchanges in play (pick the next person, or a later talk) through src/bench/start-life.mjs, then read the history block. Do not accept a one-exchange talk.",
+    "fix": "Make the check talk to a person whose talk has two or more exchanges in play (pick the next person, or a later talk) through tests/support/start-life.mjs, then read the history block. Do not accept a one-exchange talk.",
     "root": "rc2-done-from-records",
     "model": "sonnet",
     "effort": "low",
