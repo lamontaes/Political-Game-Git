@@ -1,0 +1,29 @@
+{
+  "id": "petition-can-be-contested",
+  "kind": "consequence",
+  "summary": "A candidate who is ruled short can contest the clerk's ruling or fall back to the days left to cure.",
+  "realLife": "A council candidate planned to challenge the city clerk's finding that she was seven signatures short.",
+  "sources": [
+    "Corrales Comment, city council candidate to challenge ballot ruling after falling short by seven signatures: https://corralescomment.com/2025/07/11/city-council-candidate-to-challenge-ballot-ruling-after-falling-short-by-seven-signatures/"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["office"],
+  "gates": ["petition-short"],
+  "weights": {
+    "petition": 0.7
+  },
+  "inGame": "needs: a challenge or cure step after a short petition; the clerk's check exists, a formal contest does not",
+  "usedBy": ["petition-short"],
+  "turns": [
+    {
+      "turn": "The candidate accepts the ruling and drops out",
+      "pull": "low stubbornness",
+      "writes": "a withdrawal and a family talk"
+    },
+    {
+      "turn": "The candidate cures it in the days left",
+      "pull": "days remaining",
+      "writes": "a second canvass and a late filing"
+    }
+  ]
+}
