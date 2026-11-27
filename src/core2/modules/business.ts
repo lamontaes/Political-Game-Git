@@ -186,6 +186,8 @@ interface Market {
   staff: number;
   /** The incumbents' annual demand, nominal. */
   demandMinor: number;
+  /** How many real firms a record of this market stands for: the incumbents' mean payroll weight (1 at the sample's size). */
+  weight: number;
 }
 
 function store(api: CoreAPI) {
@@ -1883,6 +1885,7 @@ function marketRoom(api: CoreAPI): Market[] {
       demand: number;
       nominal: number;
       capacity: number;
+      weights: number;
       incumbents: string[];
       staff: number;
     }
@@ -1897,6 +1900,7 @@ function marketRoom(api: CoreAPI): Market[] {
       demand: 0,
       nominal: 0,
       capacity: 0,
+      weights: 0,
       incumbents: [],
       staff: 0,
     };
@@ -1904,6 +1908,7 @@ function marketRoom(api: CoreAPI): Market[] {
     row.demand += book.annualDemandMinor / (book.price / book.anchorPrice || 1);
     row.nominal += book.annualDemandMinor;
     row.capacity += book.capacityMinor;
+    row.weights += businessScaleOf(c, id);
     row.incumbents.push(id);
     row.staff += staffNow(c, id);
     out.set(key, row);
@@ -1915,6 +1920,7 @@ function marketRoom(api: CoreAPI): Market[] {
     incumbents: row.incumbents,
     staff: row.staff,
     demandMinor: row.nominal,
+    weight: row.weights / Math.max(1, row.incumbents.length),
   }));
 }
 
@@ -1989,14 +1995,19 @@ function foundings(api: CoreAPI): void {
       monthlyIncome *
         p("macroMonthsPerYear") *
         p("businessFounderLoanIncomeMultiple");
-    return Math.max(0, Math.log((startupCost(api, row) + 1) / (reach + 1)));
+    return Math.max(
+      0,
+      Math.log((startupCost(api, row) / row.weight + 1) / (reach + 1)),
+    );
   };
   /** The owner's prospect against what this person earns now (with a floor for the jobless). */
   const prospect = (row: Market, monthlyIncome: number) => {
     const floor =
       medianPay(row.placeId) * p("businessProspectIncomeFloorShare");
     const income = Math.max(monthlyIncome, floor);
-    return income > 0 ? Math.log((prospectMonthly(api, row) + 1) / income) : 0;
+    return income > 0
+      ? Math.log((prospectMonthly(api, row) / row.weight + 1) / income)
+      : 0;
   };
   const markets = marketRoom(api)
     .filter(
@@ -2269,6 +2280,30 @@ function foundOption(
   };
 }
 
+/**
+ * Whether a market's founding is due this month. A record in a market stands for `weight` real
+ * firms, and one founding of it is `weight` of them opened at once, so a market that attracts a
+ * founder every month would open a firm a month for every record's worth of firms, a flood the
+ * size of the town's weight. The founding builds as a pull of one over the weight a month, as the
+ * jobs engine's turnover builds, and is made when the pull reaches one whole (a market at the
+ * sample's size, weight 1, founds the month a founder is ready, as before).
+ */
+function foundingDue(api: CoreAPI, market: Market): boolean {
+  if (market.weight <= 1) return true;
+  const c = core(api);
+  const table = store(api).table("foundingPulls");
+  const key = `${market.placeId}|${market.kindId}`;
+  const held = table.get(key) as { pull: number; month: string } | undefined;
+  const month = c.date.slice(0, 7);
+  // One month's pull, however many founders a month weighs.
+  let pull =
+    (held?.pull ?? 0) + (held?.month === month ? 0 : 1 / market.weight);
+  const due = pull >= 1;
+  if (due) pull -= 1;
+  table.put({ id: key, pull, month } as never);
+  return due;
+}
+
 function found(
   api: CoreAPI,
   founderId: string,
@@ -2277,6 +2312,7 @@ function found(
 ): boolean {
   const c = core(api),
     p = (key: string) => api.parameter(key);
+  if (!foundingDue(api, market)) return false;
   const kindId = market.kindId;
   const founder = ownerPerson(c, founderId)!.person;
   const id = location
@@ -2776,6 +2812,7 @@ export const BUSINESS_MODULE: PreStartModule = {
       draws: { indexes: { byOrganization: { fields: ["organizationId"] } } },
       trading: {},
       foundings: {},
+      foundingPulls: {},
       successions: {},
       closures: {},
       ages: {},
