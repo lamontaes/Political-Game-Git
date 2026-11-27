@@ -15,7 +15,7 @@ import { describe, expect, it } from "vitest";
 import { applyChosenPerson } from "../bench/creator";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
-import { gatherSignatures } from "./campaign-petition-kit";
+import { gatherSignatures } from "../../tests/support/campaign-petition-kit";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";

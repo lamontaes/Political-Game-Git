@@ -21,7 +21,7 @@ import {
 } from "./law-reach/group-a-voting";
 import { CAMPAIGNS_MODULE_ID } from "./modules/campaigns";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
-import { crimeChange } from "./modules/crime";
+import { crimeChange } from "./laws-in-force";
 import { OUTCOME_WEB_MODULE_ID, placeOutcome } from "./modules/outcome-web";
 import { recordAppeal } from "./modules/record";
 import type { CoreAPI, PersonState } from "./types";

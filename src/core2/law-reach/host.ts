@@ -21,8 +21,11 @@ import {
 import type { LawRowInput } from "../laws-starting";
 import { inForceOn } from "../laws-in-force";
 import { registerLawReach } from "./index";
-import { REACH_A_MODULE_ID } from "./group-a-records";
-import { REACH_B_MODULE_ID, STANDING_BENEFIT_PROGRAMS } from "./group-b-store";
+import { REACH_A_MODULE_ID } from "./group-a-records-constants";
+import {
+  REACH_B_MODULE_ID,
+  STANDING_BENEFIT_PROGRAMS,
+} from "./group-b-store-constants";
 import {
   appliedTo,
   endApplied,

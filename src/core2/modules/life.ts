@@ -6,7 +6,7 @@ import { closenessBetween } from "../closeness";
 import { VIEWS_MODULE_ID, stanceRow } from "./views";
 import { appraiseEvent, affectAt } from "../emotion";
 import { parameterValues } from "../parameters";
-import { webReach } from "./laws";
+import { webReach } from "../outcome-web-reach";
 import type {
   ActOffer,
   ActionDefinition,

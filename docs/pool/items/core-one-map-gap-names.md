@@ -19,6 +19,6 @@ claimed-at: 2026-11-05T08:48:44.698Z
 
 **Done when.** docs/reports/place-map-gaps.md lists all 646 county-area gaps by name.
 
-**Files.** src/core2/tooling/place-map-check.ts
+**Files.** scripts/core2/tooling/place-map-check.ts
 
 **Notes.** TODO
