@@ -79,13 +79,10 @@ for (const seed of seeds) {
   // Only the played town's households: the dwellings table also holds the
   // places opened around it.
   const townId = core.placeMetadata?.housingTown ?? "";
-  const placeOf = (householdId: string): string | undefined =>
-    core.households.get(householdId)?.placeId ??
-    (() => {
-      const at = rt?.store.householdOf.get(householdId);
-      return at === undefined ? undefined : rt!.store.households[at]!.placeId;
-    })();
-  const inTown = (householdId: string) => placeOf(householdId) === townId;
+  // A household with no full record is a counted one, which the opening
+  // places in the played town; the table also holds the places around it.
+  const inTown = (householdId: string) =>
+    (core.households.get(householdId)?.placeId ?? townId) === townId;
   const pick = (tenure: "own" | "rent", only?: Set<string>) =>
     rows
       .filter(
