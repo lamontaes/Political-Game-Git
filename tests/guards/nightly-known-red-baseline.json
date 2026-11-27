@@ -46,6 +46,5 @@
   "src/director/talk-silence-heard.test.ts",
   "src/director/tie-history-scenes.test.ts",
   "src/director/time-of-day.test.ts",
-  "src/english/opening-speech-ties.test.ts",
-  "tests/levers-and-powers-catalog.test.ts"
+  "src/english/opening-speech-ties.test.ts"
 ]
