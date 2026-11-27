@@ -1,0 +1,71 @@
+{
+  "source": "src/core2/modules/voting.ts",
+  "base": "src/core2/modules/voting-base.ts",
+  "entryOnly": ["VOTING_MODULE"],
+  "parts": [
+    {
+      "file": "src/core2/modules/voting-appeal.ts",
+      "about": "One named voter's appeal for each candidate, on the one appeal function every voter uses: what reached them, their party tie, their tie to a candidate, the incumbent's record and a scandal they know; the contest as the voter sees it; who may vote; and the electorate's sides.",
+      "spans": [["candidateFacts", "electorateSides"]]
+    },
+    {
+      "file": "src/core2/modules/voting-turnout.ts",
+      "about": "Whether each voter turns out, and the reasons the turnout record keeps.",
+      "spans": [["turnoutReasons", "decideTurnout"]]
+    },
+    {
+      "file": "src/core2/modules/voting-primary.ts",
+      "about": "Primaries: who files, the nominees, and the primary's count.",
+      "spans": [["fileStandingCandidates", "countPrimary"]]
+    },
+    {
+      "file": "src/core2/modules/voting-polling-day.ts",
+      "about": "The polling day: what is on the ballot, polling places, wards, precincts, registration and casting a ballot.",
+      "spans": [["localOnBallot", "castBallot"]]
+    },
+    {
+      "file": "src/core2/modules/voting-count.ts",
+      "about": "The count: holding the election, settling the count, an empty race and the mandate.",
+      "spans": [["winningPersonId", "countedVoters"]]
+    },
+    {
+      "file": "src/core2/modules/voting-returns.ts",
+      "about": "The rest of the electorate's sample, the kept count, recounts, the returns and taking office.",
+      "spans": [["restOfTown", "officialIdentity"]]
+    },
+    {
+      "file": "src/core2/modules/voting-counted-ballots.ts",
+      "about": "The counted residents' ballots, kept by column, and a race's result record.",
+      "spans": [["ballotOf", "resultOf"]]
+    },
+    {
+      "file": "src/core2/modules/voting-outside-races.ts",
+      "about": "Races counted from afar: the world's races, their results, folding old ones, and deciding a race outside the town.",
+      "spans": [
+        ["worldRacesOpen", "foldOutsideRaces"],
+        ["nextRaceYear", "scheduleElection"],
+        ["seatRace", "keepRace"]
+      ]
+    },
+    {
+      "file": "src/core2/modules/voting-college.ts",
+      "about": "Special elections, contingent elections and the electoral college.",
+      "spans": [["classes", "inaugurate"]]
+    },
+    {
+      "file": "src/core2/modules/voting-tickets.ts",
+      "about": "Running mates and tickets.",
+      "spans": [["ticketOf", "presidentialOf"]]
+    }
+  ],
+  "funnel": [
+    "../law-reach/group-a-voting",
+    "./constituent-cases",
+    "../appointments",
+    "./record",
+    "./corruption",
+    "../officials-identity",
+    "../office-holdover",
+    "../coarse-place"
+  ]
+}

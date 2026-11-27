@@ -120,7 +120,6 @@
     "src/core2/modules/staff.ts": 3,
     "src/core2/modules/succession.ts": 3,
     "src/core2/modules/views.ts": 1,
-    "src/core2/modules/voting.ts": 8,
     "src/core2/modules/work.ts": 1,
     "src/core2/modules/world-metrics.ts": 1,
     "src/core2/modules/world.ts": 3,
@@ -193,6 +192,7 @@
     "src/director/tooling/director-year.ts": 1,
     "src/english/mined/conversation-bank.ts": 1,
     "src/english/mined/journal-bank.ts": 1,
-    "src/english/mined/scene-bank.ts": 2
+    "src/english/mined/scene-bank.ts": 2,
+    "src/core2/modules/voting-base.ts": 8
   }
 }
