@@ -51,7 +51,7 @@ Follow Anthropic's model guide fully (owner, Nov 9; "Which Claude model should y
 - **Helpers.** A helper needs an independently useful bounded output and explicit path and tool ownership; no recursive delegation or duplicate full-repo review. Each works in its own files or worktree, gets a clear objective, its check and an output format, and is read-only unless its brief says otherwise; the lead reviews every diff before it becomes a PR. Preserve configured concurrency limits (Codex: two). Model effort is proportional to the actual task.
 
 - **Use the advisor liberally (owner, Nov 26: "be liberal with your, Fable advisor button that you can press, because it does not use Fable usage... take full advantage of it").** In a Claude session it costs none of the owner's usage. Call it before each change, before each design choice, whenever a result surprises you, and before you say "done". On Nov 26 it caught claims resting on headers, wrong counts and unproven fixes before they went out.
-- **Game logic only (owner, Nov 26: "I only want game logic in these files. They all have to do something").** src/ holds only code the game runs. Tests, checks, dev tooling, test kits, fixtures and notes live outside it. A file nothing runs is deleted.
+- **Game logic only (owner, Nov 26: "I only want game logic in these files. They all have to do something").** src/ holds only code the game runs. **Dev mode (Advanced) is game:** it uses the same engines through the same front doors, with more permissions, so everything can be tested by playing. Tests, checks, measurement tooling, test kits, fixtures and notes live outside src/. A file nothing runs is deleted.
 
 ## How every session works
 

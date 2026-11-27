@@ -15,7 +15,7 @@ description: >
 ## Two rules for every session (owner, Nov 26)
 
 - **Use the advisor liberally.** "be liberal with your, Fable advisor button that you can press, because it does not use Fable usage... take full advantage of it." Call it before each change and design choice, whenever a result surprises you, and before "done". It costs no usage.
-- **Game logic only.** "I only want game logic in these files. They all have to do something." src/ holds only code the game runs. Tests, checks, dev tooling, kits, fixtures and notes go outside it, and a file nothing runs is deleted.
+- **Game logic only.** "I only want game logic in these files. They all have to do something." src/ holds only code the game runs. Dev mode (Advanced) is game: the same engines through the same front doors, with more permissions. Tests, checks, measurement tooling, kits, fixtures and notes go outside it, and a file nothing runs is deleted.
 
 ## Open
 
