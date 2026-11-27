@@ -79,7 +79,7 @@ export const GUARDS: readonly Guard[] = [
   },
   {
     id: "core-imports-no-engine",
-    rule: "The core imports no engine; engines plug in: no file of the core family imports a file of an engine family at run time, and the counts only shrink.",
+    rule: "The core imports no engine; engines plug in: no file of the core family imports a file of an engine family, and the counts only shrink.",
     readMore:
       "tests/guards/core-imports-no-engine.test.ts, its header; tests/guards/families.json, the core family",
     command: vitest("tests/guards/core-imports-no-engine.test.ts"),
