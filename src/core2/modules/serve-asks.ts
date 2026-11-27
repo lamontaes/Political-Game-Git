@@ -53,7 +53,7 @@ import {
   type ContestRow,
   type FilingRow,
 } from "./elections";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, servingTermsOf, type TermRow } from "./offices";
 import { officialOf } from "./officials";
 import {
   fillInStateCandidate,
@@ -290,14 +290,9 @@ function platformOf(api: CoreAPI, filing: FilingRow): readonly Stance[] {
 /** A seat the person holds now, from the offices engine's terms. */
 function servingTerm(api: CoreAPI, personId: string): TermRow | undefined {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
-  return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("byPerson", [personId]) as unknown as TermRow[]
-  )
-    .filter((t) => t.status === "serving")
-    .sort((a, b) => a.id.localeCompare(b.id))[0];
+  return [...servingTermsOf(api, personId)].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  )[0];
 }
 
 /**

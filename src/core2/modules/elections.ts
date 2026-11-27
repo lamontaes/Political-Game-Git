@@ -86,6 +86,7 @@ import {
   governorTicketStage,
   OFFICES_MODULE_ID,
   registerVacancyOffer,
+  servingTermsOf,
   townSeats,
   type GovernorTicketStage,
   type OfficeInput,
@@ -1156,15 +1157,7 @@ const offerSeatToPlayer = (
   if (!playerMayFileForKind(office.kind, townLocalKinds(api))) return false;
   // One seat at a time: a player serving in an office is not offered another, as the body's own pick
   // passes over anyone serving.
-  if (
-    (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("byPerson", [player.id]) as unknown as TermRow[]
-    ).some((term) => term.status === "serving")
-  )
-    return false;
+  if (servingTermsOf(api, player.id).length > 0) return false;
   const district = (seat as { district?: string | null }).district;
   if (
     district &&
