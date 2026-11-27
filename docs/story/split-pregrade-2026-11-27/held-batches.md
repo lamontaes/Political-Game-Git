@@ -69,6 +69,6 @@ Compared to the base of each pull request, over the same bank file: **no piece's
 
 Closed on GitHub; it is a script and a generated list, not words. Not read.
 
-## Addendum, 5:25 p.m.: the donor and bribe walks at three drawn places for #10839 and #10837
+## Addendum, 5:22 p.m.: the donor and bribe walks at three drawn places for #10839 and #10837
 
 `scripts/words/donor-walk.ts` and `bribe-walk.ts` (seed `pw27`, labels a, b, c: Newcastle OK, Waimea HI, Manitou KY, and Yorktown IN for the donor walk; the donor walk skipped one place for "no council or board race open for filing") were run on the heads of #10839 and #10837. Of #10839's 30 restored lines, three played in those walks: "Can we close the door? It's about Ordinance 2025-19." (4 times), "I'll keep this short. It's about Ordinance 2025-3." and "I wanted to thank you in person about Ordinance 2025-3." All three read as the graded line plus a plain insert, and the bill is called by its formal name ("Ordinance 2025-19"), which `bill-called-by-what-people-call-it` asks people not to do. The restored "Alright. I'll see about {office}." did not play (its walks only played the older "Alright." close). **None of #10837's 23 restored lines played** (its press-comment and confirm-vote lines are not reached by these two walks), so for #10837 and the remaining 27 of #10839 the three-place play check was not run.
