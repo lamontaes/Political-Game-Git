@@ -718,37 +718,37 @@
     },
     {
       "old": ".agents/skills/scene-first-report",
-      "now": ".agents/skills/scene-standard/references/scene-first-report.md",
+      "now": ".agents/skills/story-check/references/scene-standard/scene-first-report.md",
       "when": "2026-11-17",
       "why": "Merged into the scene-standard skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
     },
     {
       "old": ".claude/skills/scene-first-report",
-      "now": ".claude/skills/scene-standard/references/scene-first-report.md",
+      "now": ".claude/skills/story-check/references/scene-standard/scene-first-report.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
     },
     {
       "old": ".agents/skills/speech-planner",
-      "now": ".agents/skills/words-engine/references/speech-planner.md",
+      "now": ".agents/skills/story/references/words-engine/speech-planner.md",
       "when": "2026-11-17",
       "why": "Merged into the words-engine skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
     },
     {
       "old": ".claude/skills/speech-planner",
-      "now": ".claude/skills/words-engine/references/speech-planner.md",
+      "now": ".claude/skills/story/references/words-engine/speech-planner.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
     },
     {
       "old": ".agents/skills/term-read",
-      "now": ".agents/skills/words-engine/references/term-read.md",
+      "now": ".agents/skills/story/references/words-engine/term-read.md",
       "when": "2026-11-17",
       "why": "Merged into the words-engine skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
     },
     {
       "old": ".claude/skills/term-read",
-      "now": ".claude/skills/words-engine/references/term-read.md",
+      "now": ".claude/skills/story/references/words-engine/term-read.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
     },
@@ -1819,6 +1819,150 @@
       "now": "Generated calendar proof in the ignored test-results directory",
       "when": "2026-11-27",
       "why": "Review captures belong to their pull requests, not the repository."
+    },
+    {
+      "old": ".agents/skills/words-engine",
+      "now": ".agents/skills/story/references/words-engine.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the words-engine skill is a part of story, kept whole."
+    },
+    {
+      "old": ".claude/skills/words-engine",
+      "now": ".claude/skills/story/references/words-engine.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the words-engine skill is a part of story, kept whole."
+    },
+    {
+      "old": ".agents/skills/scene-producers",
+      "now": ".agents/skills/story/references/scene-producers.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the scene-producers skill is a part of story, kept whole."
+    },
+    {
+      "old": ".claude/skills/scene-producers",
+      "now": ".claude/skills/story/references/scene-producers.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the scene-producers skill is a part of story, kept whole."
+    },
+    {
+      "old": ".agents/skills/scene-pictures",
+      "now": ".agents/skills/story/references/scene-pictures.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the scene-pictures skill is a part of story, kept whole."
+    },
+    {
+      "old": ".claude/skills/scene-pictures",
+      "now": ".claude/skills/story/references/scene-pictures.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the scene-pictures skill is a part of story, kept whole."
+    },
+    {
+      "old": ".agents/skills/press-desk-reach",
+      "now": ".agents/skills/story/references/press-desk-reach.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the press-desk-reach skill is a part of story, kept whole."
+    },
+    {
+      "old": ".claude/skills/press-desk-reach",
+      "now": ".claude/skills/story/references/press-desk-reach.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the press-desk-reach skill is a part of story, kept whole."
+    },
+    {
+      "old": ".agents/skills/civic-prose",
+      "now": ".agents/skills/story-writer/references/civic-prose.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the civic-prose skill is a part of story-writer, kept whole."
+    },
+    {
+      "old": ".claude/skills/civic-prose",
+      "now": ".claude/skills/story-writer/references/civic-prose.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the civic-prose skill is a part of story-writer, kept whole."
+    },
+    {
+      "old": ".agents/skills/scenes-from-life",
+      "now": ".agents/skills/story-writer/references/scenes-from-life.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the scenes-from-life skill is a part of story-writer, kept whole."
+    },
+    {
+      "old": ".claude/skills/scenes-from-life",
+      "now": ".claude/skills/story-writer/references/scenes-from-life.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the scenes-from-life skill is a part of story-writer, kept whole."
+    },
+    {
+      "old": ".agents/skills/speech-writer",
+      "now": ".agents/skills/story-writer/references/speech-writer.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the speech-writer skill is a part of story-writer, kept whole."
+    },
+    {
+      "old": ".claude/skills/speech-writer",
+      "now": ".claude/skills/story-writer/references/speech-writer.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the speech-writer skill is a part of story-writer, kept whole."
+    },
+    {
+      "old": ".agents/skills/journal-writer",
+      "now": ".agents/skills/story-writer/references/journal-writer.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the journal-writer skill is a part of story-writer, kept whole."
+    },
+    {
+      "old": ".claude/skills/journal-writer",
+      "now": ".claude/skills/story-writer/references/journal-writer.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the journal-writer skill is a part of story-writer, kept whole."
+    },
+    {
+      "old": ".agents/skills/news-writer",
+      "now": ".agents/skills/story-writer/references/news-writer.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the news-writer skill is a part of story-writer, kept whole."
+    },
+    {
+      "old": ".claude/skills/news-writer",
+      "now": ".claude/skills/story-writer/references/news-writer.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the news-writer skill is a part of story-writer, kept whole."
+    },
+    {
+      "old": ".agents/skills/pre-grade",
+      "now": ".agents/skills/story-check/references/pre-grade.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the pre-grade skill is a part of story-check, kept whole."
+    },
+    {
+      "old": ".claude/skills/pre-grade",
+      "now": ".claude/skills/story-check/references/pre-grade.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the pre-grade skill is a part of story-check, kept whole."
+    },
+    {
+      "old": ".agents/skills/words-stamp-read",
+      "now": ".agents/skills/story-check/references/words-stamp-read.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the words-stamp-read skill is a part of story-check, kept whole."
+    },
+    {
+      "old": ".claude/skills/words-stamp-read",
+      "now": ".claude/skills/story-check/references/words-stamp-read.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the words-stamp-read skill is a part of story-check, kept whole."
+    },
+    {
+      "old": ".agents/skills/scene-standard",
+      "now": ".agents/skills/story-check/references/scene-standard.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the scene-standard skill is a part of story-check, kept whole."
+    },
+    {
+      "old": ".claude/skills/scene-standard",
+      "now": ".claude/skills/story-check/references/scene-standard.md",
+      "when": "2026-11-27",
+      "why": "Story is one engine (owner, Nov 26): the scene-standard skill is a part of story-check, kept whole."
     }
   ]
 }

@@ -1,6 +1,6 @@
 # Wildermyth: how its scenes and words work
 
-Studied Oct 26, 2026 from the game's own data files (read-only, on the owner's Mac), because the owner holds Wildermyth up as the standard for our scenes and dialogue. This is a description of its mechanisms in our words, not its text. The rules we take from it are in `.agents/skills/scene-standard/SKILL.md`.
+Studied Oct 26, 2026 from the game's own data files (read-only, on the owner's Mac), because the owner holds Wildermyth up as the standard for our scenes and dialogue. This is a description of its mechanisms in our words, not its text. The rules we take from it are in `.agents/skills/story-check/references/scene-standard.md`.
 
 ## A scene has four parts
 

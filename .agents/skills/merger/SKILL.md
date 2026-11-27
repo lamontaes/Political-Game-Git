@@ -147,7 +147,7 @@ When several pull requests are stacked and the desk gated them together on one t
    - A removed player control or screen action not named in the body with where it moved, or a pool item for it.
    - Developer text on a player screen, in the diff or the after screenshot (`player-screen-text`): record kinds, ids, ISO dates, unrounded numbers, status codes, debug labels. Name file and line.
    - A screen change that names no mock line, or adds a second renderer for a control that already has one (`screen-to-mock`).
-   - A scene or talk whose outcome writes nothing back, or that a player cannot reach in ordinary play (`scene-standard`).
+   - A scene or talk whose outcome writes nothing back, or that a player cannot reach in ordinary play (`story-check` (scene-standard part)).
    - A test that asserts a known defect (an ISO date on screen, a masthead that only says "News").
 
    **Core rules**

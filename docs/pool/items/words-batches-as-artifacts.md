@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** scripts/dialogue-batch/held-page/build.py builds the batch 22 page from data/english/batches/batch-22.json, the published artifact saves a test grade to its store and the session reads it back with ArtifactData, and both copies of the words-engine skill say the session publishes each batch and folds the grades.
 
-**Files.** scripts/dialogue-batch/held-page/build.py, scripts/dialogue-batch/held-page/template.html, .agents/skills/words-engine/SKILL.md, .claude/skills/words-engine/SKILL.md
+**Files.** scripts/dialogue-batch/held-page/build.py, scripts/dialogue-batch/held-page/template.html, .agents/skills/story/references/words-engine.md, .claude/skills/story/references/words-engine.md
 
 **Notes.** TODO
 

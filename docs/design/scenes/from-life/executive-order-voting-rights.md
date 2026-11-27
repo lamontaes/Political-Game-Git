@@ -1,6 +1,6 @@
 # Episode: the governor signs an order, and someone it reaches is in the room
 
-Scenes from life (`scenes-from-life`), owner's Oct 27 executive brief ("signing... with the sponsor in the room", executive at every level). Calibration only: no real person's name or words ship, and none are in the packet. A researcher's packet for the director engineer (CTO change of role, Oct 27). The director's build item is `scene-executive-order-signed`.
+Scenes from life (`story-writer` (elements part)), owner's Oct 27 executive brief ("signing... with the sponsor in the room", executive at every level). Calibration only: no real person's name or words ship, and none are in the packet. A researcher's packet for the director engineer (CTO change of role, Oct 27). The director's build item is `scene-executive-order-signed`.
 
 ## Sources
 

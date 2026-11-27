@@ -1,6 +1,6 @@
 # Words: the English engine and the story director
 
-The Words session's status and log, newest first. Only the Words session writes this file. The handoff is `.agents/skills/words-engine/SKILL.md`; the owner's rulings are in `docs/coordination/OWNER-DECISIONS.md`.
+The Words session's status and log, newest first. Only the Words session writes this file. The handoff is `.agents/skills/story/references/words-engine.md`; the owner's rulings are in `docs/coordination/OWNER-DECISIONS.md`.
 
 - **Owns:** the director (`src/director/`: what happens and why, by record; roles, purpose, stakes, the move at each turn; no words) and the English engine (`src/english/`: how it is said; fills each move from the banks), with `data/english/`, `scripts/english-corpus/`, `scripts/dialogue-batch/` and `docs/grading/`.
 - **Three rules that never break:** no words in the director; grade by move; banks are never hand-merged, they are regenerated on top of main.

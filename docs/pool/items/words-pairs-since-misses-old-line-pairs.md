@@ -46,4 +46,4 @@ Add one line to the words-engine skill's "Keeping line-rules green" saying that 
 
 **Waits on.** Nothing.
 
-**Files.** scripts/words/reply-pairs.ts, .agents/skills/words-engine/SKILL.md, .claude/skills/words-engine/SKILL.md
+**Files.** scripts/words/reply-pairs.ts, .agents/skills/story/references/words-engine.md, .claude/skills/story/references/words-engine.md

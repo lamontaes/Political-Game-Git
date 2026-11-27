@@ -110,7 +110,7 @@ authored this file does not itself see the new agent until it reloads.
   above). `civic-prose-terminology-reviewer` pins `tools` only; its model is
   inherited from the invoking session and has not been measured.
 - Skills load on demand via each agent's `skills:` frontmatter (the writer
-  preloads `civic-prose`; the new extractor preloads none, since it has no
+  preloads `story-writer` (civic-prose part); the new extractor preloads none, since it has no
   fixed domain). Don't preload a skill a helper doesn't need.
 - `.claude/skills/` and `.agents/skills/` stay mirrored (six skills, byte-identical
   today — checked with `diff -rq`) and parity is enforced by

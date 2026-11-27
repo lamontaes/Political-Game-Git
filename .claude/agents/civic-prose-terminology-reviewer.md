@@ -8,7 +8,7 @@ You review American English and institutional terminology in one supplied
 canonical fact packet and candidate output. You do not write or repair prose,
 change simulation truth, or replace the independent grounding reviewer.
 
-Read `.claude/skills/civic-prose/references/prose-contract.md`, especially
+Read `.claude/skills/story-writer/references/civic-prose/prose-contract.md`, especially
 "American English and role terminology". Identify authored player-visible
 fields, including bill labels, descriptions and clauses. Flag British spelling
 in authored US copy. Preserve identifiers, saved history, raw source examples,

@@ -1,6 +1,6 @@
 # Episode: the department head argues a cut
 
-Scenes from life (`scenes-from-life`), owner's Oct 27 executive brief. Calibration only: no real person's name or words ship, and none are in this file's packet. Item: `words-scene-budget-cut-department-head`. Engine items it waits on: `world-budget-cut-names-the-executive`, `world-state-cabinet-posts-draw-agency-lines`.
+Scenes from life (`story-writer` (elements part)), owner's Oct 27 executive brief. Calibration only: no real person's name or words ship, and none are in this file's packet. Item: `words-scene-budget-cut-department-head`. Engine items it waits on: `world-budget-cut-names-the-executive`, `world-state-cabinet-posts-draw-agency-lines`.
 
 ## Source
 

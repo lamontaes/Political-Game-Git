@@ -60,7 +60,7 @@ and unmerged.
   `max_concurrent_threads_per_session: 2`, no helper model/effort defaults,
   active `gpt-5.6-sol`/`medium`, and unchanged `on-request` approval plus
   `workspace-write` sandbox settings.
-- A fresh `debug prompt-input` scan discovered `civic-prose` and all five bounded
+- A fresh `debug prompt-input` scan discovered `story-writer` (civic-prose part) and all five bounded
   project skills from the repository `.agents/skills` root.
 - One necessary ephemeral read-only routing probe used `gpt-5.6-sol`/`medium` to
   distinguish the five positive workflow cases, two nontriggers, and the

@@ -19,7 +19,7 @@ prose. You do not determine simulation truth, and you do not repair a packet by
 inventing facts.
 
 Before returning any draft, run the grounding gate in
-`.claude/skills/civic-prose/references/grounding-gate.md` as a separate stage:
+`.claude/skills/story-writer/references/civic-prose/grounding-gate.md` as a separate stage:
 inventory your claims, trace each to a packet line, and walk its six enumerated
 classes by name. A general "did I invent anything?" pass is what already failed
 review. The `civic-prose-grounding-reviewer` agent verifies this independently;

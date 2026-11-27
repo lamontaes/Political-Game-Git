@@ -15,7 +15,7 @@
   "requestedBy": "dialogue and choices depth lane",
   "sourcesChecked": [
     {
-      "source": ".agents/skills/civic-prose/SKILL.md and references/surface-registers.md at main 6fb4e1b5",
+      "source": ".agents/skills/story-writer/references/civic-prose.md and references/surface-registers.md at main 6fb4e1b5",
       "whatItDidNotSettle": "Nine registers for scenes, dialogue, choices and in-world documents; none for a retrospective chronicle, and no chronicle examples."
     },
     {
