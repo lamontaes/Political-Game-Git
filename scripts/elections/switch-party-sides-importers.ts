@@ -22,6 +22,12 @@ const MOVED = new Set([
 const STATEMENT =
   /(import|export)(\s+type)?\s*\{([^}]*)\}\s*from\s*(["'])([^"']*\/appointments|\.\/appointments)\4;?/g;
 
+/**
+ * Never edited by this script: the century and place files are Past and Day
+ * One's (owner, Nov 27), and the realistic-not-real test is a check that
+ * judges the world, which no session edits.
+ */
+const NEVER = /electorate-century|electorate-places|realistic-not-real/;
 const check = process.argv.includes("--check");
 const exceptAt = process.argv.indexOf("--except");
 const except = new Set(
@@ -42,7 +48,8 @@ const files = execFileSync(
     (f) =>
       f !== "src/core2/appointments.ts" &&
       f !== "src/core2/party-sides.ts" &&
-      !except.has(f),
+      !except.has(f) &&
+      !NEVER.test(f),
   );
 
 let changed = 0;

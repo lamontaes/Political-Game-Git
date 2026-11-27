@@ -50,7 +50,7 @@ import federalBudget from "../../data/research/money/federal-budget-fy2025.json"
 import { publishedStateStake, stateStake } from "./budget-stakes";
 import { serviceChargeShares } from "./budgets-service-charges";
 import { lawChain } from "./modules/laws";
-import { partyName } from "./party-sides";
+import { partyName } from "./appointments";
 import { allOfficials } from "./modules/officials";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { centuryRecordVotes } from "./modules/elections";

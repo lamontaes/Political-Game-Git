@@ -22,7 +22,7 @@ import COUNTY_PRESIDENTIAL from "./data/county-presidential-2024.json" with { ty
 import PLACE_CITIZENSHIP from "./data/place-citizenship-2024.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
-import { nationalParty, partySide } from "./party-sides";
+import { nationalParty, partySide } from "./appointments";
 import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import { bookkeeping } from "./bookkeeping";
 import { campaignParameter } from "./campaign-data";

@@ -9,7 +9,7 @@
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { partySide } from "./party-sides";
+import { partySide } from "./appointments";
 import { setBookkeeping } from "./bookkeeping";
 import {
   centuryLegislatures,
