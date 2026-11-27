@@ -8,7 +8,7 @@ import { select, numberBox, statusLine } from "./fields.mjs";
 
 const money = (minor) => `$${Math.round(minor / 100).toLocaleString("en-US")}`;
 
-export const slots = {
+const slots = {
   panels: async ({ labels, send, onDone }) => {
     const bodies = await send("lawmaking-bodies");
     if (!bodies.length) return null;

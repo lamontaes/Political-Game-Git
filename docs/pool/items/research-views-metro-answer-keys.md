@@ -21,7 +21,7 @@ checked: fable 2026-11-10
 
 **What.** Roadmap M1-10 says views are checked against state and metro answer keys. src/core2/modules/views.ts reads VIEWS_KEYS with state keys (CES 2024) and a national key only; no metro key exists, and a territory such as Barrigada, Guam opens on the national key ('no state sample'). M1-10 stays false until metro keys exist and the check reads them. The work is to add metro keys from fetched survey data with sample sizes and spread, read them in views.ts, and make the M1-10 command check a drawn place against its metro key where one exists.
 
-**Cause.** Found in code: `VIEWS_KEYS` (src/core2/modules/views.ts, line 69) carries state keys (CES 2024) and a national key only; src/bench/m1-10-check.ts checks against them, so a territory such as Barrigada, Guam falls to the national key.
+**Cause.** Found in code: `VIEWS_KEYS` (src/core2/modules/views.ts, line 69) carries state keys (CES 2024) and a national key only; scripts/bench/m1-10-check.ts checks against them, so a territory such as Barrigada, Guam falls to the national key.
 
 **Fix.** Add metro keys from fetched CES or comparable survey data with sample sizes and spread to data/research/views/, read them in views.ts, and make the M1-10 command check a drawn place against its metro key where one exists.
 
@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** data/research/views/derive-ces-2024-views.py, src/core2/modules/views.ts, src/bench/m1-10-check.ts
+**Files.** data/research/views/derive-ces-2024-views.py, src/core2/modules/views.ts, scripts/bench/m1-10-check.ts
 
 **Notes.** TODO
 

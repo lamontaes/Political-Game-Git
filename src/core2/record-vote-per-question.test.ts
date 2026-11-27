@@ -20,7 +20,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { recentVotesOf } from "../bench/government-bodies";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
-import { govReport } from "./gov-test-report";
+import { govReport } from "../../scripts/core2/gov-test-report";
 import { CAMPAIGNS_MODULE_ID, type PromiseRow } from "./modules/campaigns";
 import {
   billOf,

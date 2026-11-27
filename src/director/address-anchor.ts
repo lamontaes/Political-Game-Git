@@ -20,7 +20,7 @@
 import { historyOf } from "../core2/past";
 import type { EntityId } from "../core2/kernel/brands";
 import { ageOnDate } from "../core2/kernel/dates";
-import { fullHouseholdIncomes } from "../core2/household-cost";
+import { fullHouseholdIncomes } from "../core2/counted-income-fifth";
 import { coverageOf } from "../core2/modules/coverage";
 import { CRIME_EVENT } from "../core2/modules/justice";
 import { careNeedOf, seriousIllnessOf } from "../core2/modules/health";

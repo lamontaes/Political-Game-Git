@@ -19,7 +19,7 @@ source: "Golden-path M1-11 red on the Train at Hagåtña, Guam, seen on #9517 an
 checked:
 ---
 
-**What.** The golden path's M1-11 check (src/bench/m1-11-check.ts, part 4) fails at Hagåtña, Guam: a grudge formed from an eviction aims at a person while the eviction's record names the landlord, an organization. The check reads the drives engine's own rule for who an event names, so the drive and the rule disagree. Seen: the person who was evicted holds the grudge against someone other than the landlord who evicted them, so the anger a player hears about lands on the wrong party.
+**What.** The golden path's M1-11 check (scripts/bench/m1-11-check.ts, part 4) fails at Hagåtña, Guam: a grudge formed from an eviction aims at a person while the eviction's record names the landlord, an organization. The check reads the drives engine's own rule for who an event names, so the drive and the rule disagree. Seen: the person who was evicted holds the grudge against someone other than the landlord who evicted them, so the anger a player hears about lands on the wrong party.
 
 **Cause.** Needs cause. Measured: `node --import tsx tests/golden-path/runner.mjs` on the clean Train b22cd35098a85476d01e5be194994ec95a9e8f01 and on #9517 (place and seed from `drawPlace(commit, "M1-11")` in tests/golden-path/place.ts; seed fe5e99cc00adab224ffd81bf9c9cb46644f8c29f0f75555ef4eb5e9e451c0051) printed "grudge:grudge:person_8ae04906bdbc84e5 of person_58adb96d72735d54 aims at person_8ae04906bdbc84e5, the event names organization_7300129f134f265e". The drives engine's `responsibleId` names the organization; the drive that formed holds a person as its target. Which writer sets that target (the drives engine reading a different fact than `responsibleId`, or a grudge written from a later record about the same eviction) is not found yet; the trace is to follow that drive to its writer at that place and seed and compare the target it set with `responsibleId`. The earlier drives items on misaimed grudges are done.
 
@@ -33,4 +33,4 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/m1-11-check.ts, src/core2/modules/drives.ts, tests/golden-path/place.ts
+**Files.** scripts/bench/m1-11-check.ts, src/core2/modules/drives.ts, tests/golden-path/place.ts

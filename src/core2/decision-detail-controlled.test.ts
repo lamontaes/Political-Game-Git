@@ -18,7 +18,7 @@ import { gameStartDate } from "./game-start";
 import { advanceCore } from "./life";
 import { parameter } from "./parameters";
 import { registerControlledPersonV1 } from "./player-control-state-v1";
-import { daysAfterStart } from "./tooling/test-days";
+import { daysAfterStart } from "../../tests/support/test-days";
 import type { PersonId } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");

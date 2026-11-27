@@ -2,7 +2,7 @@
 // tab's dev panels row: each office on the Elections page, offered or not, and the one reason.
 import { el } from "./dom.mjs";
 
-export const slots = {
+const slots = {
   panels: async ({ labels, send }) => {
     const { offers } = await send("election-offers");
     return el(

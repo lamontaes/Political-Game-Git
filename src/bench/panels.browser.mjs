@@ -6,7 +6,11 @@
 // against the panel.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { leaveTalk, startLife, someoneToTalkTo } from "./start-life.mjs";
+import {
+  leaveTalk,
+  startLife,
+  someoneToTalkTo,
+} from "../../tests/support/start-life.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
