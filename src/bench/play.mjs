@@ -1597,6 +1597,7 @@ $("continue").addEventListener("click", () => {
 let lying = false;
 /** Who you are talking to: their name on the box, and their bust lit on the strip above it. */
 async function setWho(personId, name, apart = false) {
+  void loadMyFace();
   talkPersonId = personId;
   talkApart = apart;
   $("talk-name").textContent = name ?? "";
@@ -1613,6 +1614,14 @@ async function setWho(personId, name, apart = false) {
   talkFace = c.face ?? undefined;
   drawTalkStrip();
 }
+/** The player's own face, the one the title screen's life carries, for their row in a talk. */
+let myFace;
+let myFaceOf;
+async function loadMyFace() {
+  if (myFaceOf === me?.id) return;
+  myFaceOf = me?.id;
+  myFace = (await api("/api/title").catch(() => undefined))?.life?.face;
+}
 /** A talk's lines: what you said before, what they said before, and what is said now. */
 function spokenLines(lines) {
   return transcript(
@@ -1624,6 +1633,7 @@ function spokenLines(lines) {
     {
       mineWho: $("card-name").textContent,
       theirWho: $("talk-name").textContent,
+      mineMark: myFace ? () => drawFace(myFace) : undefined,
     },
   );
 }
@@ -2773,6 +2783,7 @@ function playExchange(story) {
       {
         mineWho: $("card-name").textContent,
         theirWho: story.names[talk.askerId],
+        mineMark: myFace ? () => drawFace(myFace) : undefined,
       },
     );
   // The path is the index of each reply chosen, from the first.

@@ -12,10 +12,34 @@ const $ = (id) => document.getElementById(id);
  * the other person said before, quieter, apart, with `who` named over it), `speech` (what
  * is being said now), `narration` or `label` (a record's status). A lying line is red; a held one is underlined in the grading view.
  */
-export function talkLine({ kind = "speech", text, who, lying, held, grade }) {
+export function talkLine({
+  kind = "speech",
+  text,
+  who,
+  lying,
+  held,
+  grade,
+  mark,
+}) {
   const classes = [kind];
   if (lying) classes.push("lying");
   if (held) classes.push("held");
+  // The player's own line is a row of its own: their small face (a mark the play screen makes), their name, what they said.
+  if (kind.includes("mine"))
+    return el(
+      "li",
+      { className: classes.join(" ") },
+      ...(mark ? [mark()] : []),
+      el(
+        "div",
+        { className: "mine-text" },
+        ...(who
+          ? [el("span", { className: "history-who", textContent: who })]
+          : []),
+        text,
+      ),
+      ...(grade ? [gradeControl(grade)] : []),
+    );
   return el(
     "li",
     { className: classes.join(" ") },
@@ -33,9 +57,10 @@ export function talkLine({ kind = "speech", text, who, lying, held, grade }) {
  * being said now"): the player's past lines (`history mine`, named), the other person's
  * past lines (`history theirs`, named), and what is said now (`speech`, everything after
  * the player's last line). `lines` are `{ text, mine, lying, held, grade }`, oldest first;
- * `keep` is how many past lines stay above the line said now.
+ * `keep` is how many past lines stay above the line said now; `mineMark` makes the small mark
+ * of the player's own face for their row (the play screen draws it; this part draws no face).
  */
-export function transcript(lines, { mineWho, theirWho, keep = 1 }) {
+export function transcript(lines, { mineWho, theirWho, mineMark, keep = 1 }) {
   const lastMine = lines.findLastIndex((line) => line.mine);
   const past = lastMine < 0 ? [] : lines.slice(0, lastMine + 1).slice(-keep);
   const now = lines.slice(lastMine + 1);
@@ -45,6 +70,7 @@ export function transcript(lines, { mineWho, theirWho, keep = 1 }) {
         ...line,
         kind: `history ${line.mine ? "mine" : "theirs"}`,
         who: line.mine ? mineWho : theirWho,
+        ...(line.mine && mineMark ? { mark: mineMark } : {}),
       }),
     ),
     ...now.map((line) => talkLine({ ...line, kind: "speech" })),
