@@ -470,7 +470,8 @@
         "src/core2/finance-types.ts",
         "src/core2/finance-plan.ts",
         "src/core2/finance-state.ts",
-        "src/core2/finance-cash.ts"
+        "src/core2/finance-cash.ts",
+        "src/core2/finance-reads.ts"
       ],
       "paths": [
         "src/core2/modules/finance.ts",
@@ -708,7 +709,8 @@
         "src/core2/macro-reads.ts",
         "src/core2/regional-reads.ts",
         "src/core2/credit-reads.ts",
-        "src/core2/prices-reads.ts"
+        "src/core2/prices-reads.ts",
+        "src/core2/work-reads.ts"
       ],
       "paths": [
         "src/core2/shared-time.ts",
