@@ -2,10 +2,10 @@
   "part": "W2 filing",
   "scenes": [
     {
-      "place": "Monroe, Louisiana (2251410)",
-      "runSeed": "pk27",
+      "place": "Kingston, New Mexico (3536090)",
+      "runSeed": "pg27",
       "draw": 0,
-      "race": "contest:seat:gus2025:127842:council:0:2026-04-07",
+      "race": "contest:seat:US-NM:us-senate:0:2026-11-03",
       "counter": [
         {
           "step": "the counter opens",
@@ -13,13 +13,13 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Spencer Valentine, with the clerk of court. If you're running in Monroe, you're in the right spot.",
+              "text": "Michelle Warren, with the Secretary of State. If you're running in New Mexico, you're in the right spot.",
               "elements": []
             }
           ],
           "offered": [
-            "[pick] It's alderman I'm after.",
-            "[pick] I want the papers for mayor."
+            "[pick] I'm here to run for the U.S. Senate.",
+            "[pick] I'd like to be on the ballot for governor."
           ],
           "taken": ""
         },
@@ -29,29 +29,29 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Spencer Valentine, with the clerk of court. If you're running in Monroe, you're in the right spot.",
+              "text": "Michelle Warren, with the Secretary of State. If you're running in New Mexico, you're in the right spot.",
               "elements": []
             },
             {
               "n": 2,
               "speaker": "player",
-              "text": "It's alderman I'm after.",
+              "text": "I'm here to run for the U.S. Senate.",
               "elements": []
             },
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have three candidates for alderman so far, and Meghan Reyes filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on April 7, 2026. The Monroe Board of Aldermen meets, argues it out and votes. You'd be one of the votes. Everything has to be back to me by January 13, 2026.",
+              "text": "We have six candidates for the U.S. Senate so far, and Jessica Scott filed first a few days ago. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. I can print what the U.S. Senate does for you, so you know the job before you sign. Everything has to be back to me by February 3.",
               "elements": []
             }
           ],
           "offered": [
-            "[file] Alright, Spencer. Let's get the papers for alderman done.",
-            "[ask] Has anyone else filed for alderman yet?",
-            "[ask] Is the field for alderman stacked before I even file?",
-            "[leave] Let me hold off, Spencer. I'll be back before January 13, 2026."
+            "[file] Alright, Michelle. Let's get the papers for the U.S. Senate done.",
+            "[ask] Who else is running for the U.S. Senate?",
+            "[ask] Is the field in Kingston stacked before I even file?",
+            "[leave] Let me hold off, Michelle. I'll be back before February 3."
           ],
-          "taken": "pick:contest:seat:gus2025:127842:council:0:2026-04-07"
+          "taken": "pick:contest:seat:US-NM:us-senate:0:2026-11-03"
         },
         {
           "step": "a question asked",
@@ -59,37 +59,37 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Spencer Valentine, with the clerk of court. If you're running in Monroe, you're in the right spot.",
+              "text": "Michelle Warren, with the Secretary of State. If you're running in New Mexico, you're in the right spot.",
               "elements": []
             },
             {
               "n": 2,
               "speaker": "player",
-              "text": "It's alderman I'm after.",
+              "text": "I'm here to run for the U.S. Senate.",
               "elements": []
             },
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have three candidates for alderman so far, and Meghan Reyes filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on April 7, 2026. The Monroe Board of Aldermen meets, argues it out and votes. You'd be one of the votes. Everything has to be back to me by January 13, 2026.",
+              "text": "We have six candidates for the U.S. Senate so far, and Jessica Scott filed first a few days ago. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. I can print what the U.S. Senate does for you, so you know the job before you sign. Everything has to be back to me by February 3.",
               "elements": []
             },
             {
               "n": 4,
               "speaker": "player",
-              "text": "Has anyone else filed for alderman yet?",
+              "text": "Who else is running for the U.S. Senate?",
               "elements": []
             },
             {
               "n": 5,
               "speaker": "clerk",
-              "text": "Meghan Reyes was the first in for alderman, a few days ago.",
+              "text": "Jessica Scott was the first in for the U.S. Senate, a few days ago, and that makes six candidates so far.",
               "elements": []
             }
           ],
           "offered": [
-            "[file] Good to know. File me for alderman anyway.",
-            "[leave] I'll sleep on that, Spencer, and come back before January 13, 2026."
+            "[file] Then I'll file. The U.S. Senate ought to have a real choice.",
+            "[leave] I'll sleep on that, Michelle, and come back before February 3."
           ],
           "taken": "say:1"
         },
@@ -99,43 +99,43 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Spencer Valentine, with the clerk of court. If you're running in Monroe, you're in the right spot.",
+              "text": "Michelle Warren, with the Secretary of State. If you're running in New Mexico, you're in the right spot.",
               "elements": []
             },
             {
               "n": 2,
               "speaker": "player",
-              "text": "It's alderman I'm after.",
+              "text": "I'm here to run for the U.S. Senate.",
               "elements": []
             },
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have three candidates for alderman so far, and Meghan Reyes filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on April 7, 2026. The Monroe Board of Aldermen meets, argues it out and votes. You'd be one of the votes. Everything has to be back to me by January 13, 2026.",
+              "text": "We have six candidates for the U.S. Senate so far, and Jessica Scott filed first a few days ago. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. I can print what the U.S. Senate does for you, so you know the job before you sign. Everything has to be back to me by February 3.",
               "elements": []
             },
             {
               "n": 4,
               "speaker": "player",
-              "text": "Has anyone else filed for alderman yet?",
+              "text": "Who else is running for the U.S. Senate?",
               "elements": []
             },
             {
               "n": 5,
               "speaker": "clerk",
-              "text": "Meghan Reyes was the first in for alderman, a few days ago.",
+              "text": "Jessica Scott was the first in for the U.S. Senate, a few days ago, and that makes six candidates so far.",
               "elements": []
             },
             {
               "n": 6,
               "speaker": "player",
-              "text": "Good to know. File me for alderman anyway.",
+              "text": "Then I'll file. The U.S. Senate ought to have a real choice.",
               "elements": []
             },
             {
               "n": 7,
               "speaker": "clerk",
-              "text": "You're in. Alderman now has you and three others.",
+              "text": "Done. Your name goes on the list for the U.S. Senate, behind Jessica Scott, who filed first.",
               "elements": []
             }
           ],
@@ -144,30 +144,40 @@
         }
       ],
       "petition": {
-        "narration": "You don't need signatures for the Monroe Board of Aldermen. Your name goes on the ballot for April 7, 2026. Have you run a campaign before?",
+        "narration": "Now the signatures: 13,319 of them, from voters here, by February 3. Have you run a campaign before, or should I walk you through it?",
         "replies": [
           {
-            "offered": "I have. I'll bring what you need for the Monroe Board of Aldermen.",
+            "offered": "Yes, I know how it works. I'll handle the U.S. Senate myself.",
             "move": "agree",
             "then": [
               {
                 "speaker": "the clerk",
-                "text": "Then you're as good as on the ballot. See you on April 7, 2026."
+                "text": "Good. Go over each name before February 3. I only take the ones that hold up."
               }
             ]
           },
           {
-            "offered": "Not yet. Where do I even start with the Monroe Board of Aldermen?",
+            "offered": "Not yet. Where do I even start with the U.S. Senate?",
             "move": "ask",
             "then": [
               {
                 "speaker": "the clerk",
-                "text": "You don't need signatures, so start by knocking on doors and talking to people. Then comes money, and the Monroe Observer sells ad space and covers the race."
+                "text": "Doors first: signatures come one neighbor at a time. Then you'll want money, and a way to reach the voters who don't answer for the U.S. Senate."
               }
             ]
           },
           {
-            "offered": "No, I haven't, and I want to think about the Monroe Board of Aldermen first. I'll be back.",
+            "offered": "Who decided the U.S. Senate takes that many?",
+            "move": "confront",
+            "then": [
+              {
+                "speaker": "the clerk",
+                "text": "That's the law's number, not mine, and February 3 is the law's day too."
+              }
+            ]
+          },
+          {
+            "offered": "No, I haven't, and I want to think about the U.S. Senate first. I'll be back.",
             "move": "leave",
             "then": []
           }
@@ -175,10 +185,10 @@
       }
     },
     {
-      "place": "Boneau, Montana (3008162)",
-      "runSeed": "pk27",
+      "place": "Bennettsville, South Carolina (4505680)",
+      "runSeed": "pg27",
       "draw": 1,
-      "race": "contest:seat:US-MT:us-senate:0:2026-11-03",
+      "race": "contest:seat:gus2025:174941:council:0:2025-11-04",
       "counter": [
         {
           "step": "the counter opens",
@@ -186,15 +196,13 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Amanda Sheppard, with the Secretary of State. If you're running in Montana, you're in the right spot.",
+              "text": "Solomon Castillo, with the municipal election commission. If you're running in Bennettsville, you're in the right spot.",
               "elements": []
             }
           ],
           "offered": [
-            "[pick] It's the U.S. Senate I'm after.",
-            "[pick] I'd like to be on the ballot for Congress in the 2nd District.",
-            "[pick] I'd like to file for the state Senate in the 16th District.",
-            "[pick] It's the state House in the 32nd District I'm after."
+            "[pick] I'd like to be on the ballot for the Bennettsville City Council.",
+            "[pick] It's mayor I'm after."
           ],
           "taken": ""
         },
@@ -204,29 +212,29 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Amanda Sheppard, with the Secretary of State. If you're running in Montana, you're in the right spot.",
+              "text": "Solomon Castillo, with the municipal election commission. If you're running in Bennettsville, you're in the right spot.",
               "elements": []
             },
             {
               "n": 2,
               "speaker": "player",
-              "text": "It's the U.S. Senate I'm after.",
+              "text": "I'd like to be on the ballot for the Bennettsville City Council.",
               "elements": []
             },
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have four candidates for the U.S. Senate so far, and Jason Gill filed first a few days ago. It's a 6-year term, and the election is on November 3. I can print what the U.S. Senate does for you, so you know the job before you sign. The last day to file is March 4, and I can't bend that date for anyone.",
+              "text": "We have two candidates for the council so far, and Melissa Chan filed first yesterday. There's no primary for this one. Everyone who files goes straight onto the ballot on November 4. The Bennettsville City Council meets, argues it out and votes. You'd be one of the votes. The papers are due August 21, so you've got time if you start today.",
               "elements": []
             }
           ],
           "offered": [
-            "[file] Alright, Amanda. Let's get the papers for the U.S. Senate done.",
-            "[ask] Is the U.S. Senate contested, or am I walking into it alone?",
-            "[ask] Don't tell me the U.S. Senate is already taken.",
-            "[leave] Let me hold off, Amanda. I'll be back before March 4."
+            "[file] Alright, Solomon. Let's get the papers for the council done.",
+            "[ask] Has anyone else filed for the council yet?",
+            "[ask] Is the field in Bennettsville stacked before I even file?",
+            "[leave] Let me hold off, Solomon. I'll be back before August 21."
           ],
-          "taken": "pick:contest:seat:US-MT:us-senate:0:2026-11-03"
+          "taken": "pick:contest:seat:gus2025:174941:council:0:2025-11-04"
         },
         {
           "step": "a question asked",
@@ -234,37 +242,37 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Amanda Sheppard, with the Secretary of State. If you're running in Montana, you're in the right spot.",
+              "text": "Solomon Castillo, with the municipal election commission. If you're running in Bennettsville, you're in the right spot.",
               "elements": []
             },
             {
               "n": 2,
               "speaker": "player",
-              "text": "It's the U.S. Senate I'm after.",
+              "text": "I'd like to be on the ballot for the Bennettsville City Council.",
               "elements": []
             },
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have four candidates for the U.S. Senate so far, and Jason Gill filed first a few days ago. It's a 6-year term, and the election is on November 3. I can print what the U.S. Senate does for you, so you know the job before you sign. The last day to file is March 4, and I can't bend that date for anyone.",
+              "text": "We have two candidates for the council so far, and Melissa Chan filed first yesterday. There's no primary for this one. Everyone who files goes straight onto the ballot on November 4. The Bennettsville City Council meets, argues it out and votes. You'd be one of the votes. The papers are due August 21, so you've got time if you start today.",
               "elements": []
             },
             {
               "n": 4,
               "speaker": "player",
-              "text": "Is the U.S. Senate contested, or am I walking into it alone?",
+              "text": "Has anyone else filed for the council yet?",
               "elements": []
             },
             {
               "n": 5,
               "speaker": "clerk",
-              "text": "Jason Gill was the first in for the U.S. Senate, a few days ago.",
+              "text": "Melissa Chan was the first in for the council, yesterday, and that makes two candidates so far.",
               "elements": []
             }
           ],
           "offered": [
-            "[file] Good to know. File me for the U.S. Senate anyway.",
-            "[leave] I'll sleep on that, Amanda, and come back before March 4."
+            "[file] Good to know. File me for the council anyway.",
+            "[leave] I'll sleep on that, Solomon, and come back before August 21."
           ],
           "taken": "say:1"
         },
@@ -274,43 +282,43 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Amanda Sheppard, with the Secretary of State. If you're running in Montana, you're in the right spot.",
+              "text": "Solomon Castillo, with the municipal election commission. If you're running in Bennettsville, you're in the right spot.",
               "elements": []
             },
             {
               "n": 2,
               "speaker": "player",
-              "text": "It's the U.S. Senate I'm after.",
+              "text": "I'd like to be on the ballot for the Bennettsville City Council.",
               "elements": []
             },
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have four candidates for the U.S. Senate so far, and Jason Gill filed first a few days ago. It's a 6-year term, and the election is on November 3. I can print what the U.S. Senate does for you, so you know the job before you sign. The last day to file is March 4, and I can't bend that date for anyone.",
+              "text": "We have two candidates for the council so far, and Melissa Chan filed first yesterday. There's no primary for this one. Everyone who files goes straight onto the ballot on November 4. The Bennettsville City Council meets, argues it out and votes. You'd be one of the votes. The papers are due August 21, so you've got time if you start today.",
               "elements": []
             },
             {
               "n": 4,
               "speaker": "player",
-              "text": "Is the U.S. Senate contested, or am I walking into it alone?",
+              "text": "Has anyone else filed for the council yet?",
               "elements": []
             },
             {
               "n": 5,
               "speaker": "clerk",
-              "text": "Jason Gill was the first in for the U.S. Senate, a few days ago.",
+              "text": "Melissa Chan was the first in for the council, yesterday, and that makes two candidates so far.",
               "elements": []
             },
             {
               "n": 6,
               "speaker": "player",
-              "text": "Good to know. File me for the U.S. Senate anyway.",
+              "text": "Good to know. File me for the council anyway.",
               "elements": []
             },
             {
               "n": 7,
               "speaker": "clerk",
-              "text": "Done. Your name goes on the list for the U.S. Senate next to Jason Gill's.",
+              "text": "Done. Your name goes on the list for the council, behind Melissa Chan, who filed first.",
               "elements": []
             }
           ],
@@ -319,40 +327,30 @@
         }
       ],
       "petition": {
-        "narration": "This race has its own petition: 13,735 signatures, due March 4.",
+        "narration": "You don't need signatures for the Bennettsville City Council. Your name goes on the ballot for November 4. Have you run a campaign before?",
         "replies": [
           {
-            "offered": "Understood. I'll bring the 13,735 signatures to this counter.",
+            "offered": "I have. I'll bring what you need for the Bennettsville City Council.",
             "move": "agree",
             "then": [
               {
                 "speaker": "the clerk",
-                "text": "Good. Go over each name before March 4. I only take the ones that hold up."
+                "text": "Then you're as good as on the ballot. See you on November 4."
               }
             ]
           },
           {
-            "offered": "What if I'm short by March 4?",
+            "offered": "No, I haven't. Walk me through the Bennettsville City Council.",
             "move": "ask",
             "then": [
               {
                 "speaker": "the clerk",
-                "text": "Then your name stays off the ballot for the U.S. Senate. That's the rule, and I can't change it."
+                "text": "There's nothing to collect for the Bennettsville City Council, so start by knocking on doors and talking to voters. Next comes money."
               }
             ]
           },
           {
-            "offered": "That many signatures just to run for the U.S. Senate?",
-            "move": "confront",
-            "then": [
-              {
-                "speaker": "the clerk",
-                "text": "The law sets the number and the day, March 4. I just count them."
-              }
-            ]
-          },
-          {
-            "offered": "I'll start with the people I know in Boneau.",
+            "offered": "No, I haven't, and I want to think about the Bennettsville City Council first. I'll be back.",
             "move": "leave",
             "then": []
           }
@@ -360,10 +358,10 @@
       }
     },
     {
-      "place": "Onenoa, American Samoa (territory:AS:onenoa)",
-      "runSeed": "pk27",
+      "place": "Walland, Tennessee (4777700)",
+      "runSeed": "pg27",
       "draw": 2,
-      "race": "contest:seat:US-AS:us-house:at-large:2026-11-03",
+      "race": "contest:seat:US-TN:lower:008:0:2025-09-26:special",
       "counter": [
         {
           "step": "the counter opens",
@@ -371,51 +369,12 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Jason Hendricks, with the American Samoa Election Office. If you're running in American Samoa, you're in the right spot.",
+              "text": "Michael Pickett, with the State Election Commission. If you're running in Tennessee, you're in the right spot.",
               "elements": []
             }
           ],
           "offered": [
-            "[pick] I'm here to run for delegate.",
-            "[pick] I want the papers for the state Senate.",
-            "[pick] I'd like to file for the state Senate.",
-            "[pick] I'd like to file for the state Senate.",
-            "[pick] I'm here to run for the state Senate.",
-            "[pick] It's the state Senate I'm after.",
-            "[pick] I'd like to file for the state Senate.",
-            "[pick] I'm here to run for the state Senate.",
-            "[pick] It's the state Senate I'm after.",
-            "[pick] I'd like to file for the state Senate.",
-            "[pick] I'm here to run for the state Senate.",
-            "[pick] I'd like to file for the state Senate.",
-            "[pick] I'm here to run for the state Senate.",
-            "[pick] It's the state Senate I'm after.",
-            "[pick] I'd like to file for the state Senate.",
-            "[pick] It's the state Senate I'm after.",
-            "[pick] I'd like to be on the ballot for the state Senate.",
-            "[pick] I'm here to run for the state Senate.",
-            "[pick] I'd like to be on the ballot for the state Senate.",
-            "[pick] It's the state House I'm after.",
-            "[pick] I want the papers for the state House.",
-            "[pick] I'm here to run for the state House.",
-            "[pick] I'd like to file for the state House.",
-            "[pick] It's the state House I'm after.",
-            "[pick] I'm here to run for the state House.",
-            "[pick] I'd like to be on the ballot for the state House.",
-            "[pick] I'd like to be on the ballot for the state House.",
-            "[pick] I'd like to file for the state House.",
-            "[pick] It's the state House I'm after.",
-            "[pick] I want the papers for the state House.",
-            "[pick] I'd like to file for the state House.",
-            "[pick] I'm here to run for the state House.",
-            "[pick] I'd like to be on the ballot for the state House.",
-            "[pick] It's the state House I'm after.",
-            "[pick] I'd like to file for the state House.",
-            "[pick] I'd like to be on the ballot for the state House.",
-            "[pick] I'd like to be on the ballot for the state House.",
-            "[pick] I'd like to file for the state House.",
-            "[pick] I'd like to file for the state House.",
-            "[pick] I'd like to be on the ballot for the state House."
+            "[pick] I'd like to file for the state House in the 8th District."
           ],
           "taken": ""
         },
@@ -425,29 +384,29 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Jason Hendricks, with the American Samoa Election Office. If you're running in American Samoa, you're in the right spot.",
+              "text": "Michael Pickett, with the State Election Commission. If you're running in Tennessee, you're in the right spot.",
               "elements": []
             },
             {
               "n": 2,
               "speaker": "player",
-              "text": "I'm here to run for delegate.",
+              "text": "I'd like to file for the state House in the 8th District.",
               "elements": []
             },
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have one candidate for delegate so far, and Jeffrey Roach filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on November 3. You'd speak for Onenoa and the rest of the district in Washington and vote on what the House takes up. You have until September 1. After that I can't take it, whatever happened.",
+              "text": "We have four candidates for the state House in the 8th District so far, and Robert Cross filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on September 26. You'd carry Walland and the rest of your district to the capitol and vote on every bill that reaches the floor. Get it all in by August 12. If you're unsure of anything, ask me before then.",
               "elements": []
             }
           ],
           "offered": [
-            "[file] Alright, Jason. Let's get the papers for delegate done.",
-            "[ask] Has anyone else filed for delegate yet?",
-            "[ask] Don't tell me delegate is already taken.",
-            "[leave] Let me hold off, Jason. I'll be back before September 1."
+            "[file] Alright, Michael. Let's get the papers for the state House in the 8th District done.",
+            "[ask] Is the state House in the 8th District contested, or am I walking into it alone?",
+            "[ask] Is the field in Walland stacked before I even file?",
+            "[leave] Let me hold off, Michael. I'll be back before August 12."
           ],
-          "taken": "pick:contest:seat:US-AS:us-house:at-large:2026-11-03"
+          "taken": "pick:contest:seat:US-TN:lower:008:0:2025-09-26:special"
         },
         {
           "step": "a question asked",
@@ -455,37 +414,37 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Jason Hendricks, with the American Samoa Election Office. If you're running in American Samoa, you're in the right spot.",
+              "text": "Michael Pickett, with the State Election Commission. If you're running in Tennessee, you're in the right spot.",
               "elements": []
             },
             {
               "n": 2,
               "speaker": "player",
-              "text": "I'm here to run for delegate.",
+              "text": "I'd like to file for the state House in the 8th District.",
               "elements": []
             },
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have one candidate for delegate so far, and Jeffrey Roach filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on November 3. You'd speak for Onenoa and the rest of the district in Washington and vote on what the House takes up. You have until September 1. After that I can't take it, whatever happened.",
+              "text": "We have four candidates for the state House in the 8th District so far, and Robert Cross filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on September 26. You'd carry Walland and the rest of your district to the capitol and vote on every bill that reaches the floor. Get it all in by August 12. If you're unsure of anything, ask me before then.",
               "elements": []
             },
             {
               "n": 4,
               "speaker": "player",
-              "text": "Has anyone else filed for delegate yet?",
+              "text": "Is the state House in the 8th District contested, or am I walking into it alone?",
               "elements": []
             },
             {
               "n": 5,
               "speaker": "clerk",
-              "text": "Jeffrey Roach was the first in for delegate, a few days ago.",
+              "text": "Robert Cross was the first in for the state House in the 8th District, a few days ago, and that makes four candidates so far.",
               "elements": []
             }
           ],
           "offered": [
-            "[file] That doesn't change my mind. Let's file for delegate.",
-            "[leave] I'll sleep on that, Jason, and come back before September 1."
+            "[file] Good to know. File me for the state House in the 8th District anyway.",
+            "[leave] I'll sleep on that, Michael, and come back before August 12."
           ],
           "taken": "say:1"
         },
@@ -495,43 +454,43 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Jason Hendricks, with the American Samoa Election Office. If you're running in American Samoa, you're in the right spot.",
+              "text": "Michael Pickett, with the State Election Commission. If you're running in Tennessee, you're in the right spot.",
               "elements": []
             },
             {
               "n": 2,
               "speaker": "player",
-              "text": "I'm here to run for delegate.",
+              "text": "I'd like to file for the state House in the 8th District.",
               "elements": []
             },
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have one candidate for delegate so far, and Jeffrey Roach filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on November 3. You'd speak for Onenoa and the rest of the district in Washington and vote on what the House takes up. You have until September 1. After that I can't take it, whatever happened.",
+              "text": "We have four candidates for the state House in the 8th District so far, and Robert Cross filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on September 26. You'd carry Walland and the rest of your district to the capitol and vote on every bill that reaches the floor. Get it all in by August 12. If you're unsure of anything, ask me before then.",
               "elements": []
             },
             {
               "n": 4,
               "speaker": "player",
-              "text": "Has anyone else filed for delegate yet?",
+              "text": "Is the state House in the 8th District contested, or am I walking into it alone?",
               "elements": []
             },
             {
               "n": 5,
               "speaker": "clerk",
-              "text": "Jeffrey Roach was the first in for delegate, a few days ago.",
+              "text": "Robert Cross was the first in for the state House in the 8th District, a few days ago, and that makes four candidates so far.",
               "elements": []
             },
             {
               "n": 6,
               "speaker": "player",
-              "text": "That doesn't change my mind. Let's file for delegate.",
+              "text": "Good to know. File me for the state House in the 8th District anyway.",
               "elements": []
             },
             {
               "n": 7,
               "speaker": "clerk",
-              "text": "Done. Your name goes on the list for delegate next to Jeffrey Roach's.",
+              "text": "Done. Your name goes on the list for the state House in the 8th District, behind Robert Cross, who filed first.",
               "elements": []
             }
           ],
@@ -540,40 +499,40 @@
         }
       ],
       "petition": {
-        "narration": "You'll need 300 signatures by September 1, and I only count the ones that hold up. Have you done this before?",
+        "narration": "Now the signatures: 25 of them, from voters here, by August 12. Have you run a campaign before, or should I walk you through it?",
         "replies": [
           {
-            "offered": "Yes, I know how it works. I'll handle delegate myself.",
+            "offered": "Yes, I know how it works. I'll handle the state House in the 8th District myself.",
             "move": "agree",
             "then": [
               {
                 "speaker": "the clerk",
-                "text": "Good. Go over each name before September 1. I only take the ones that hold up."
+                "text": "Good. Go over each name before August 12. I only take the ones that hold up."
               }
             ]
           },
           {
-            "offered": "Not yet. Where do I even start with delegate?",
+            "offered": "Not yet. Where do I even start with the state House in the 8th District?",
             "move": "ask",
             "then": [
               {
                 "speaker": "the clerk",
-                "text": "Signatures first, and doors are the surest way to get them. Next comes money: a campaign buys ad space in the Onenoa Messenger, and its reporters cover who's running."
+                "text": "Start with the signatures. Knock on doors, and set up a table where people shop. After that comes money, and the Walland Register sells ad space and sends reporters to cover the race."
               }
             ]
           },
           {
-            "offered": "Who decided delegate takes that many?",
+            "offered": "That many signatures just to run for the state House in the 8th District?",
             "move": "confront",
             "then": [
               {
                 "speaker": "the clerk",
-                "text": "That's the law's number, not mine, and September 1 is the law's day too."
+                "text": "The law sets the number and the day, August 12. I just count them."
               }
             ]
           },
           {
-            "offered": "No, I haven't, and I want to think about delegate first. I'll be back.",
+            "offered": "No, I haven't, and I want to think about the state House in the 8th District first. I'll be back.",
             "move": "leave",
             "then": []
           }
