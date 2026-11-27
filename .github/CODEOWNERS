@@ -62,6 +62,7 @@
 /src/core2/past-history.ts @lamontaes
 /src/core2/journal.ts @lamontaes
 /src/core2/journal-state.ts @lamontaes
+/src/core2/cash-host.ts @lamontaes
 
 # Elections and campaigns (elections)
 /src/core2/modules/elections.ts @lamontaes
@@ -359,7 +360,6 @@
 /src/core2/tax-*.ts @lamontaes
 /src/core2/accounts.ts @lamontaes
 /src/core2/act-cash.ts @lamontaes
-/src/core2/cash-host.ts @lamontaes
 /src/core2/school-budget-line.ts @lamontaes
 /src/core2/starting-cash.ts @lamontaes
 /src/core2/world-transfer.ts @lamontaes

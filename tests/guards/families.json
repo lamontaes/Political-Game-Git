@@ -79,7 +79,8 @@
         "src/core2/life.ts",
         "src/core2/past-history.ts",
         "src/core2/journal.ts",
-        "src/core2/journal-state.ts"
+        "src/core2/journal-state.ts",
+        "src/core2/cash-host.ts"
       ],
       "paths": [
         "src/core2/kernel/**",
@@ -107,7 +108,8 @@
         "src/core2/life.ts",
         "src/core2/past-history.ts",
         "src/core2/journal.ts",
-        "src/core2/journal-state.ts"
+        "src/core2/journal-state.ts",
+        "src/core2/cash-host.ts"
       ]
     },
     {
@@ -455,7 +457,6 @@
         "src/core2/tax-*.ts",
         "src/core2/accounts.ts",
         "src/core2/act-cash.ts",
-        "src/core2/cash-host.ts",
         "src/core2/school-budget-line.ts",
         "src/core2/starting-cash.ts",
         "src/core2/world-transfer.ts",
