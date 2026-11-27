@@ -1164,10 +1164,16 @@ function step(core: CoreState, days: number): void {
   if (trace.on) billCollector?.collect(core);
 }
 
-function build(drawn: ReturnType<typeof drawLawPlace>) {
+type LawWiringPlace = ReturnType<typeof drawLawPlace> & {
+  /** Use a different opening recipe for a checker fixture; ordinary runs use the game default. */
+  readonly history?: "century" | "today";
+};
+
+function build(drawn: LawWiringPlace) {
   return buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: drawn.key,
+    ...(drawn.history ? { settings: { history: drawn.history } } : {}),
   });
 }
 
@@ -1203,7 +1209,7 @@ const NULL_SERIES = "law-wiring-null-control";
  * only what this law's own content does differs from it).
  */
 export function runControl(
-  drawn: ReturnType<typeof drawLawPlace>,
+  drawn: LawWiringPlace,
   laws: readonly LawEntry[],
   nullLaw: boolean,
 ): Control {
@@ -1283,7 +1289,7 @@ export function runControl(
 }
 
 export function checkLaw(
-  drawn: ReturnType<typeof drawLawPlace>,
+  drawn: LawWiringPlace,
   law: LawEntry,
   control: Control,
   /** The level the law is changed at (`levelsFor`); left out, the town's lowest that may pass it. */

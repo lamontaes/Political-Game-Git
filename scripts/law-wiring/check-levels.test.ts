@@ -18,7 +18,10 @@ import {
   type Control,
 } from "./check";
 
-const drawn = drawLawPlace("take-effect-2");
+// This fixture compares the sourced $7.25 federal and $11.13 state floors.
+// The simulated century at the same seed enacted a $17 federal floor,
+// which correctly makes a state-only raise to $12.24 inoperative.
+const drawn = { ...drawLawPlace("take-effect-2"), history: "today" } as const;
 const law = (key: string) => allLaws().find((l) => l.key === key)!;
 const RENT = "us-policy-positions:housing-land-use.rent-stabilization";
 
