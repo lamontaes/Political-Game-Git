@@ -23,17 +23,11 @@ import {
   WORK_MODULE,
   discretionaryHours,
   recordDiscretionaryActivity,
-  openingWorkCommitments,
 } from "./modules/work";
-import {
-  openingWorkPayrollCalendars,
-  OPENING_PAYROLL_CALENDAR_STOPGAP,
-} from "./opening-payroll-calendar";
 import { LIFE_MODULE } from "./modules/life";
 import { PEOPLE_MODULE } from "./modules/people";
-import { withGrief } from "./grief";
 import { FINANCE_MODULE } from "./modules/finance";
-import { RESIDENTS_MODULE, admitResidents } from "./modules/residents";
+import { RESIDENTS_MODULE } from "./modules/residents";
 import { ACCOUNTS_MODULE } from "./budgets-treasury";
 import { COUNTED_MOVES_MODULE } from "./modules/counted-moves";
 import { COUNTED_DEMOTION_MODULE } from "./modules/counted-demotion";
@@ -50,7 +44,6 @@ import {
   coreAPI,
   createCore,
   resolveOperation,
-  openOpeningPeerTies,
 } from "./state";
 import type {
   ActOffer,
@@ -71,6 +64,49 @@ export type Controller = (
   offers: readonly ActOffer[],
 ) => string | undefined;
 
+/**
+ * The base world's engines, in install order, and when each is installed: the
+ * one list `createLifeCore` installs and `coverBaseWorld` declares saveable.
+ * A mod adds an engine through `options.modules` (the plug, `registerModule`,
+ * is the registry); an engine's own part of opening the world is its module's
+ * `dataFor`, `prepareOpening` and `onOpen`, not a call in this file.
+ */
+interface BaseEngine {
+  readonly module: CoreModule;
+  readonly when?: (world: {
+    readonly input: CoreInput;
+    readonly scheduledWork: boolean;
+  }) => boolean;
+}
+const hasResidents = ({ input }: { input: CoreInput }) => !!input.residents;
+function baseEngines(): readonly BaseEngine[] {
+  // Built when a world is made, not as this file loads: an engine that reads
+  // this file can load before the engines listed here have.
+  return [
+    { module: LIFE_MODULE },
+    { module: PEOPLE_MODULE },
+    { module: SCHOOL_MODULE },
+    { module: DISASTERS_MODULE },
+    // Attendance accrues wages; recorded payday cash precedes purchase budgets.
+    // Firms use their recorded working capital, not future customer receipts.
+    { module: WORK_MODULE, when: ({ scheduledWork }) => scheduledWork },
+    { module: FINANCE_MODULE, when: ({ input }) => !!input.finance },
+    { module: ACCOUNTS_MODULE },
+    // Sales taxes in force collect on each paid sale (none until a law sets one).
+    {
+      module: PURCHASE_TAX_MODULE,
+      when: ({ input }) => !!(input.finance || input.residents),
+    },
+    // The game's worlds (two levels) also claim retirement during play.
+    { module: RESIDENTS_MODULE, when: hasResidents },
+    { module: RETIREMENT_CLAIMS_MODULE, when: hasResidents },
+    // Counted people move between places from causes (one model, two tiers).
+    { module: COUNTED_MOVES_MODULE, when: hasResidents },
+    // Filled-in people long out of the player's life return to the counts.
+    { module: COUNTED_DEMOTION_MODULE, when: hasResidents },
+  ];
+}
+
 // The base world's engines keep all their state where a world snapshot
 // reaches it (src/core2/snapshot.test.ts proves the round trip). Declared
 // when the first base world is made, not as this file loads: an engine that
@@ -80,18 +116,7 @@ function coverBaseWorld(): void {
   if (baseCovered) return;
   baseCovered = true;
   declareSnapshotCovered(
-    LIFE_MODULE.id,
-    PEOPLE_MODULE.id,
-    SCHOOL_MODULE.id,
-    DISASTERS_MODULE.id,
-    WORK_MODULE.id,
-    FINANCE_MODULE.id,
-    ACCOUNTS_MODULE.id,
-    PURCHASE_TAX_MODULE.id,
-    RESIDENTS_MODULE.id,
-    RETIREMENT_CLAIMS_MODULE.id,
-    COUNTED_MOVES_MODULE.id,
-    COUNTED_DEMOTION_MODULE.id,
+    ...baseEngines().map((engine) => engine.module.id),
     // Installed on first use: the journal's cash writers.
     ...[
       DEFAULT_DATA.finance?.cashJournal?.moduleId,
@@ -111,84 +136,38 @@ export function createLifeCore(
 ): CoreState {
   coverBaseWorld();
   const { scheduledWork = true, ...coreOptions } = options;
+  const world = { input, scheduledWork };
+  const modules = [
+    ...baseEngines()
+      .filter((engine) => !engine.when || engine.when(world))
+      .map((engine) => engine.module),
+    ...(options.modules ?? []),
+  ];
   const data = options.data ?? DEFAULT_DATA;
-  const primaryJobByPerson = new Map(
-    input.people.map((person) => [person.id, person.jobId]),
-  );
-  const payroll =
-    scheduledWork && data.work
-      ? openingWorkPayrollCalendars(
-          {
-            ...input,
-            workCommitments:
-              input.workCommitments ??
-              openingWorkCommitments(
-                input.jobs.filter(
-                  (job) =>
-                    primaryJobByPerson.get(job.personId) === job.id &&
-                    (job.endsAt === undefined || job.endsAt > input.startedAt),
-                ),
-                input.organizations,
-                input.startedAt,
-                data.work,
-                data.parameters,
-              ),
-          },
-          { parameters: data.parameters },
-        )
-      : undefined;
-  const preparedInput = scheduledWork
-    ? payroll
-      ? {
-          ...input,
-          workCommitments: payroll.workCommitments,
-          workPayrollCalendars: payroll.calendars,
-          gaps: [...input.gaps, ...payroll.gaps],
-        }
-      : input
+  // Each engine's part of the opening input, in install order; with no work
+  // engine, no recorded commitments or pay calendars.
+  let preparedInput = scheduledWork
+    ? input
     : { ...input, workCommitments: [], workPayrollCalendars: [] };
+  const afterOpen: ((core: CoreState) => void)[] = [];
+  if (scheduledWork)
+    for (const module of modules) {
+      const prepared = module.prepareOpening?.(preparedInput, { data });
+      if (!prepared) continue;
+      preparedInput = prepared.input;
+      if (prepared.afterOpen) afterOpen.push(prepared.afterOpen);
+    }
+  // Each engine's part of the world's data, in install order.
+  let worldData = scheduledWork ? data : { ...data, work: undefined };
+  for (const module of modules)
+    if (module.dataFor) worldData = module.dataFor(worldData);
   const core = createCore(preparedInput, {
     ...coreOptions,
-    // P15 part 4: the people module is always loaded here, so the acts grief
-    // bears on carry its reason (withGrief), as drives add their own acts.
-    data: withGrief(
-      scheduledWork
-        ? (options.data ?? DEFAULT_DATA)
-        : { ...(options.data ?? DEFAULT_DATA), work: undefined },
-    ),
-    modules: [
-      LIFE_MODULE,
-      PEOPLE_MODULE,
-      SCHOOL_MODULE,
-      DISASTERS_MODULE,
-      // Attendance accrues wages; recorded payday cash precedes purchase budgets.
-      // Firms use their recorded working capital, not future customer receipts.
-      ...(scheduledWork ? [WORK_MODULE] : []),
-      ...(input.finance ? [FINANCE_MODULE] : []),
-      ACCOUNTS_MODULE,
-      // Sales taxes in force collect on each paid sale (none until a law sets one).
-      ...(input.finance || input.residents ? [PURCHASE_TAX_MODULE] : []),
-      // The game's worlds (two levels) also claim retirement during play.
-      ...(input.residents
-        ? [
-            RESIDENTS_MODULE,
-            RETIREMENT_CLAIMS_MODULE,
-            // Counted people move between places from causes (one model, two tiers).
-            COUNTED_MOVES_MODULE,
-            // Filled-in people long out of the player's life return to the counts.
-            COUNTED_DEMOTION_MODULE,
-          ]
-        : []),
-      ...(options.modules ?? []),
-    ],
+    data: worldData,
+    modules,
   });
-  // Townspeople open tied to the classmates and coworkers the records name.
-  const opening = coreAPI(core);
-  for (const actor of core.people.values())
-    openOpeningPeerTies(core, opening, actor);
-  if (input.residents) admitResidents(core, input.residents);
-  if (payroll?.estimates.length)
-    coreAPI(core).stopgap(OPENING_PAYROLL_CALENDAR_STOPGAP);
+  for (const module of modules) module.onOpen?.(core, input);
+  for (const after of afterOpen) after(core);
   core.gaps.add(
     "Recorded work is scored and earned on its scheduled dates; cash settles on separately recorded employer paydays. Remaining free hours hold several scored acts from one scoring pass per activation, at most one per need a day. Sleep reserve, shift placement and opening pay-calendar conventions remain tunable; education, care, consumption and a complete diary are not modeled.",
   );

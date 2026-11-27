@@ -6,7 +6,7 @@
  * gets a legal reach record; counted groups get one row
  * with their count. A repeal ends every open row the same day.
  */
-import { ageInYears } from "../kernel/dates";
+import { ageInYears, addDays, makeIsoDate } from "../kernel/dates";
 import reach from "../data/laws/reach-group-a.json" with { type: "json" };
 import parameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import publicPayFloor from "../data/laws/public-pay-floor.json" with { type: "json" };
@@ -252,10 +252,7 @@ export function putMechanic(api: CoreAPI, row: MechanicRow): void {
 const ageOn = (birthDate: string, date: string) => ageInYears(birthDate, date);
 export { ageOn };
 
-export const tomorrow = (date: string) =>
-  new Date(Date.parse(`${date}T00:00:00Z`) + 86_400_000)
-    .toISOString()
-    .slice(0, 10);
+export const tomorrow = (date: string) => addDays(makeIsoDate(date), 1);
 
 export function townPeople(api: CoreAPI): readonly PersonState[] {
   const town = lawChain(api).townPlaceId;

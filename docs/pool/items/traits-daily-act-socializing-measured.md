@@ -26,7 +26,7 @@ Newton, Pladevall-Guyer, Gonzalez and Smith (2018, Health and Retirement Study 2
 
 **Cause.** Found in code: src/core2/data/parameters.json traitWeightLifeDailyAct is 1 (TUNABLE, line 5821) and data/research/trait-effect-sizes.json row life.daily-act (line 918) is empty (effect null, no source). The item's Notes quote Newton et al. 2018 (odds ratio 1.41 per scale point, SD 0.57, log odds gap 0.43 between thirds).
 
-**Fix.** Add the Newton et al. 2018 row with its quote, refit traitWeightLifeDailyAct with scripts/traits/trait-calibrate.ts over two drawn places' played days, add src/core2/life-daily-act.traits.test.ts (new) beside the other trait tests using src/core2/trait-test-kit.ts, and remove the life.daily-act gap row.
+**Fix.** Add the Newton et al. 2018 row with its quote, refit traitWeightLifeDailyAct with scripts/traits/trait-calibrate.ts over two drawn places' played days, add src/core2/life-daily-act.traits.test.ts (new) beside the other trait tests using tests/support/trait-test-kit.ts, and remove the life.daily-act gap row.
 
 **Time box.** 4 hours for one Sonnet session.
 
@@ -36,7 +36,7 @@ Newton, Pladevall-Guyer, Gonzalez and Smith (2018, Health and Retirement Study 2
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/data/parameters.json, data/research/trait-effect-sizes.json, data/content/trait-decision-gaps.json, src/core2/trait-test-kit.ts, scripts/traits/trait-calibrate.ts, src/core2/life-daily-act.traits.test.ts (new)
+**Files.** src/core2/data/parameters.json, data/research/trait-effect-sizes.json, data/content/trait-decision-gaps.json, tests/support/trait-test-kit.ts, scripts/traits/trait-calibrate.ts, src/core2/life-daily-act.traits.test.ts (new)
 
 **Notes.** Filed Oct 26 by the traits lead; a helper fetched and quoted both studies (scratch research notes); the pick data pull is queued.
 

@@ -7,8 +7,8 @@ import {
   type PublicSchoolDistrictReceipt,
 } from "./opening-public-schools";
 import { parameter as p } from "./parameters";
-import { generatedOpening } from "./tooling/generated-world";
-import { daysAfterStart } from "./tooling/test-days";
+import { generatedOpening } from "./generated-world";
+import { daysAfterStart } from "../../tests/support/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-public-schools");

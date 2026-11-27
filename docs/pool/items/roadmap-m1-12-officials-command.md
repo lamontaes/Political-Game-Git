@@ -19,7 +19,7 @@ claimed-at: 2026-10-24T05:15:41.978Z
 
 **Done when.** docs/roadmap/features.json has a command for M1-12 that opens every serving official's card in the runner's drawn place, fails naming each clause and the offices short of it, was run on main with place and seed in the PR body, and fails when officials get no colleague ties.
 
-**Files.** src/bench/m1-12-check.ts, docs/roadmap/features.json
+**Files.** scripts/bench/m1-12-check.ts, docs/roadmap/features.json
 
 **Notes.** Split by the M0-M2 lead from roadmap-m1-people-politics-flags (CTO branch).
 

@@ -17,7 +17,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { gatherSignatures } from "../core2/campaign-petition-kit";
+import { gatherSignatures } from "../../tests/support/campaign-petition-kit";
 import { playerContests } from "../core2/modules/elections";
 import { endorsementsOf } from "../core2/modules/campaigns";
 import { coreAPI } from "../core2/state";
