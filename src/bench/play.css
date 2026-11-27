@@ -4682,7 +4682,9 @@ select.release-pick {
   transform: translateX(-50%);
   z-index: 7;
   width: min(640px, calc(var(--vw) - 2 * var(--gutter)));
-  height: min(420px, calc(var(--vh) - 2 * var(--gutter) - 230px));
+  /* The panel grows with its lines up to the cap, so a short story never
+     leaves the top half empty (the CTO, Nov 24). */
+  max-height: min(420px, calc(var(--vh) - 2 * var(--gutter) - 230px));
   padding: 20px 24px;
   display: flex;
   flex-direction: column;
@@ -4715,11 +4717,8 @@ select.release-pick {
   margin: 0 0 8px;
   animation: loading-write 0.6s ease both;
 }
-.loading-headline {
-  font: 600 var(--t-label)/1.35 var(--ui);
-  color: rgba(242, 237, 228, 0.78);
-  border-left: 2px solid var(--gold);
-  padding-left: 10px;
+.loading-journal.written p {
+  animation: none;
 }
 @keyframes loading-write {
   from {

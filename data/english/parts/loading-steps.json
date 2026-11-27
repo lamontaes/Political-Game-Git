@@ -1,0 +1,645 @@
+{
+  "schema": "english-parts/1",
+  "register": "loading-steps",
+  "description": "The dry line under the lit step on the loading card while the world builds (owner, Nov 24, via the CTO 7140490160: the sarcasm belongs in the progress messages). One bank for the thirteen build steps (BuildStage in src/bench/world.ts): the move is the step's key. Each line says, drily, what the game is really doing at that step. Nothing here is about the player's life; no element stands behind these lines.",
+  "slots": {
+    "place": "The start place as the loading card says it, from the place the build resolves.",
+    "state": "That place's state, as a sentence says it (stateInSentence)."
+  },
+  "maxWords": 30,
+  "parts": [
+    {
+      "key": "loading-steps.people.putting-people-in-houses-in-place-the-houses-were-already-there",
+      "move": "people",
+      "kind": "written",
+      "text": "Putting people in houses in {place}. The houses were already there.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "people",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["average-household-size-is-two-and-a-half"]
+    },
+    {
+      "key": "loading-steps.people.handing-out-names-in-place",
+      "move": "people",
+      "kind": "written",
+      "text": "Handing out names in {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "people",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["birth-is-a-form-the-state-keeps"]
+    },
+    {
+      "key": "loading-steps.past.back-dating-place-so-everyone-has-been-there-a-while",
+      "move": "past",
+      "kind": "written",
+      "text": "Back-dating {place} so everyone has been there a while.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "past",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["hometown-question-has-one-factual-answer"]
+    },
+    {
+      "key": "loading-steps.past.writing-up-the-layoffs-that-brought-people-to-place",
+      "move": "past",
+      "kind": "written",
+      "text": "Writing up the layoffs that brought people to {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "past",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["a-plant-closing-needs-advance-notice-under-the-warn-act"]
+    },
+    {
+      "key": "loading-steps.economy.pricing-groceries-rent-and-gas-in-place",
+      "move": "economy",
+      "kind": "written",
+      "text": "Pricing groceries, rent and gas in {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "economy",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["a-price-index-follows-a-basket-of-what-people-buy"]
+    },
+    {
+      "key": "loading-steps.economy.printing-money-for-state",
+      "move": "economy",
+      "kind": "written",
+      "text": "Printing money for {state}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "economy",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["currency-is-ordered-from-the-treasurys-printer-each-year"]
+    },
+    {
+      "key": "loading-steps.economy.printing-more-money-for-state",
+      "move": "economy",
+      "kind": "written",
+      "text": "Printing more money for {state}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "economy",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["currency-is-ordered-from-the-treasurys-printer-each-year"]
+    },
+    {
+      "key": "loading-steps.economy.printing-even-more-money-for-state",
+      "move": "economy",
+      "kind": "written",
+      "text": "Printing even more money for {state}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "economy",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["currency-is-ordered-from-the-treasurys-printer-each-year"]
+    },
+    {
+      "key": "loading-steps.government.deciding-who-holds-which-office-in-place-and-since-when",
+      "move": "government",
+      "kind": "written",
+      "text": "Deciding who holds which office in {place}, and since when.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "government",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["served-out-the-term-and-the-years-named"]
+    },
+    {
+      "key": "loading-steps.government.swearing-in-the-officials-of-place",
+      "move": "government",
+      "kind": "written",
+      "text": "Swearing in the officials of {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "government",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["introduce-the-official-who-administers-the-oath"]
+    },
+    {
+      "key": "loading-steps.government.handing-out-government-contracts-in-state",
+      "move": "government",
+      "kind": "written",
+      "text": "Handing out government contracts in {state}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "government",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["a-federal-contract-is-let-by-full-and-open-competition"]
+    },
+    {
+      "key": "loading-steps.elections.setting-the-election-dates-for-place-so-someone-can-be-disappointed-on-time",
+      "move": "elections",
+      "kind": "written",
+      "text": "Setting the election dates for {place}, so someone can be disappointed on time.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "elections",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["federal-election-day-falls-on-a-fixed-tuesday"]
+    },
+    {
+      "key": "loading-steps.elections.registering-the-voters-of-place-some-of-them-will-read-the-form",
+      "move": "elections",
+      "kind": "written",
+      "text": "Registering the voters of {place}. Some of them will read the form.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "elections",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["registering-is-a-form-at-the-motor-vehicle-office"]
+    },
+    {
+      "key": "loading-steps.budgets.writing-the-budget-for-place",
+      "move": "budgets",
+      "kind": "written",
+      "text": "Writing the budget for {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "budgets",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["school-nurse-in-health-budget"]
+    },
+    {
+      "key": "loading-steps.cabinet.appointing-the-cabinet-of-state",
+      "move": "cabinet",
+      "kind": "written",
+      "text": "Appointing the cabinet of {state}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "cabinet",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a18-the-appointment-with-a-string-on-it"]
+    },
+    {
+      "key": "loading-steps.workings.sending-reporters-to-the-town-hall-in-place-they-will-wait",
+      "move": "workings",
+      "kind": "written",
+      "text": "Sending reporters to the town hall in {place}. They will wait.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "workings",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["fact-sheet-after-presidents-statement"]
+    },
+    {
+      "key": "loading-steps.opening.finding-your-house-in-place-your-household-and-your-first-problem",
+      "move": "opening",
+      "kind": "written",
+      "text": "Finding your house in {place}, your household and your first problem.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "opening",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["average-household-size-is-two-and-a-half"]
+    },
+    {
+      "key": "loading-steps.elections.drawing-district-lines-in-state-somebody-will-complain-about-them",
+      "move": "elections",
+      "kind": "written",
+      "text": "Drawing district lines in {state}. Somebody will complain about them.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "elections",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": [
+        "the-census-hands-each-state-its-population-for-redrawing-districts"
+      ]
+    },
+    {
+      "key": "loading-steps.history.taking-the-census-in-state-again",
+      "move": "history",
+      "kind": "written",
+      "text": "Taking the census in {state}, again.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "history",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["the-constitution-orders-a-head-count-every-ten-years"]
+    },
+    {
+      "key": "loading-steps.history.redrawing-the-districts-in-state-after-each-census",
+      "move": "history",
+      "kind": "written",
+      "text": "Redrawing the districts in {state} after each census.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "history",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": [
+        "the-census-hands-each-state-its-population-for-redrawing-districts"
+      ]
+    },
+    {
+      "key": "loading-steps.core.opening-place-s-fiscal-year-on-the-state-s-date",
+      "move": "core",
+      "kind": "written",
+      "text": "Opening {place}'s fiscal year on the state's date.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "core",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["most-states-start-their-fiscal-year-on-the-first-of-july"]
+    },
+    {
+      "key": "loading-steps.core.counting-up-the-people-of-place-for-the-first-time",
+      "move": "core",
+      "kind": "written",
+      "text": "Counting up the people of {place} for the first time.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "core",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["the-constitution-orders-a-head-count-every-ten-years"]
+    },
+    {
+      "key": "loading-steps.budgets.opening-the-books-for-the-new-fiscal-year-in-state",
+      "move": "budgets",
+      "kind": "written",
+      "text": "Opening the books for the new fiscal year in {state}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "budgets",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["most-states-start-their-fiscal-year-on-the-first-of-july"]
+    },
+    {
+      "key": "loading-steps.budgets.putting-the-money-for-the-nurse-under-the-right-department-in-place",
+      "move": "budgets",
+      "kind": "written",
+      "text": "Putting the money for the nurse under the right department in {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "budgets",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["school-nurse-in-health-budget"]
+    },
+    {
+      "key": "loading-steps.budgets.finding-room-in-the-budget-for-place-s-child-care",
+      "move": "budgets",
+      "kind": "written",
+      "text": "Finding room in the budget for {place}'s child care.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "budgets",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["child-care-seat-between-programs"]
+    },
+    {
+      "key": "loading-steps.warmup.withholding-income-tax-from-the-first-paychecks-in-place",
+      "move": "warmup",
+      "kind": "written",
+      "text": "Withholding income tax from the first paychecks in {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "warmup",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["a-first-paycheck-has-income-tax-taken-out"]
+    },
+    {
+      "key": "loading-steps.warmup.letting-the-electric-bills-pile-up-in-place",
+      "move": "warmup",
+      "kind": "written",
+      "text": "Letting the electric bills pile up in {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "warmup",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["lights-out-before-the-evening-is-over"]
+    },
+    {
+      "key": "loading-steps.legislature.sending-bills-through-committee-in-state",
+      "move": "legislature",
+      "kind": "written",
+      "text": "Sending bills through committee in {state}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "legislature",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["unopposed-through-committee-and-floor"]
+    },
+    {
+      "key": "loading-steps.legislature.holding-the-leadership-ballots-in-state-before-anyone-is-sworn-in",
+      "move": "legislature",
+      "kind": "written",
+      "text": "Holding the leadership ballots in {state} before anyone is sworn in.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "legislature",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["oath-waits-for-speaker"]
+    },
+    {
+      "key": "loading-steps.cabinet.filling-vacancies-in-state-by-appointment",
+      "move": "cabinet",
+      "kind": "written",
+      "text": "Filling vacancies in {state} by appointment.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "cabinet",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["vacancy-rules-stated-flat"]
+    },
+    {
+      "key": "loading-steps.cabinet.naming-a-committee-to-pick-a-replacement-in-state",
+      "move": "cabinet",
+      "kind": "written",
+      "text": "Naming a committee to pick a replacement in {state}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "cabinet",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["a-nominating-committee-picks-a-replacement"]
+    },
+    {
+      "key": "loading-steps.workings.posting-the-agenda-in-place-before-the-meeting",
+      "move": "workings",
+      "kind": "written",
+      "text": "Posting the agenda in {place} before the meeting.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "workings",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["not-on-the-agenda-as-a-checkable-hook"]
+    },
+    {
+      "key": "loading-steps.workings.setting-the-next-meeting-date-in-place",
+      "move": "workings",
+      "kind": "written",
+      "text": "Setting the next meeting date in {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "workings",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["next-meeting-date"]
+    },
+    {
+      "key": "loading-steps.workings.recording-who-was-absent-in-place",
+      "move": "workings",
+      "kind": "written",
+      "text": "Recording who was absent in {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "workings",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["kicker-says-who-was-absent"]
+    },
+    {
+      "key": "loading-steps.opening.leaving-the-lights-on-in-place",
+      "move": "opening",
+      "kind": "written",
+      "text": "Leaving the lights on in {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "opening",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["lights-out-before-the-evening-is-over"]
+    },
+    {
+      "key": "loading-steps.opening.counting-who-is-home-in-place",
+      "move": "opening",
+      "kind": "written",
+      "text": "Counting who is home in {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "opening",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["three-in-ten-households-are-one-person"]
+    },
+    {
+      "key": "loading-steps.elections.checking-the-ballot-boxes-in-place-one-more-time",
+      "move": "elections",
+      "kind": "written",
+      "text": "Checking the ballot boxes in {place} one more time.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "elections",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["ballot-box-seal-numbers-are-written-down"]
+    }
+  ]
+}
