@@ -22,18 +22,13 @@ import { payVeterans } from "./group-b-veterans";
 import type { CoreAPI } from "../types";
 import { registerPolicyHandler } from "./host";
 import { povertyLineDollars } from "./poverty-line";
-import { registerTreasuryRule } from "../budgets-treasury";
 import {
   endPlaceRule,
   PLACE_PRICES_MODULE_ID,
   poorRoadShareAt,
   setRoadCondition,
 } from "../modules/place-prices";
-import {
-  carriedMeasureOf,
-  governments,
-  registerMonthlyProgram,
-} from "../modules/budgets";
+import { carriedMeasureOf, governments } from "../modules/budgets";
 import {
   lawChain,
   lawInForce,
@@ -1126,7 +1121,7 @@ function rerun(api: CoreAPI, row: ActiveRow): void {
  * the welfare line, preschool, vouchers, and the benefits whose amount or
  * income limit is the law's own value: SSI, child care and home energy
  * assistance). The budgets engine's monthly close runs them
- * (`registerMonthlyProgram`), so who is paid or covered follows the laws in
+ * (the host's `monthlyProgram`), so who is paid or covered follows the laws in
  * force and people's records when the treasury pays, not on a schedule of
  * law reach's own.
  */
@@ -1153,7 +1148,7 @@ function review(api: CoreAPI): void {
 }
 
 /** The treasury's monthly close: each benefit program reads its laws and pays. */
-function runBenefitPrograms(api: CoreAPI): void {
+export function runBenefitPrograms(api: CoreAPI): void {
   forgetTownFacts(api);
   for (const row of rowsOf<ActiveRow>(api, "active"))
     if (PROGRAM_KEYS.has(row.id)) rerun(api, row);
@@ -1166,7 +1161,7 @@ function runBenefitPrograms(api: CoreAPI): void {
  * pension funding, a minimum reserve) before it pays: each one in force is
  * applied to the budget it then pays from.
  */
-function reviewFiscalRules(api: CoreAPI): void {
+export function reviewFiscalRules(api: CoreAPI): void {
   if (!api.state.modules.has(LAWS_MODULE_ID)) return;
   forgetTownFacts(api);
   for (const key of TREASURY_RULE_KEYS) reviewFiscalRule(api, key);
@@ -1193,8 +1188,6 @@ export function registerGroupB(): void {
   if (registered) return;
   registered = true;
   setReachReview(review);
-  registerMonthlyProgram(runBenefitPrograms);
-  registerTreasuryRule(reviewFiscalRules);
   for (const key of TREASURY_RULE_KEYS)
     registerPolicyHandler(`${LOCAL_POWER_PREFIX}${key}`, (api) => {
       forgetTownFacts(api);

@@ -1136,17 +1136,10 @@ function closeMonth(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   api.stopgap("SG-GOV-outside-revenue-monthly");
   closeTreasuries(api, work.source);
   // Standing programs a law has a treasury pay each month (a state's
-  // redistricting commission), registered by the engines that apply them.
-  for (const pay of monthlyPrograms) pay(api, work.source);
+  // redistricting commission), carried (`monthlyProgram`) by the modules of the engines that apply them.
+  for (const pay of fieldsOf(api.state, "monthlyProgram"))
+    pay(api, work.source);
   scheduleOutsideRevenue(api, api.state.date);
-}
-
-const monthlyPrograms: ((api: CoreAPI, source: Source) => void)[] = [];
-/** An engine registers a program its law has a treasury pay at each month's close. */
-export function registerMonthlyProgram(
-  pay: (api: CoreAPI, source: Source) => void,
-): void {
-  if (!monthlyPrograms.includes(pay)) monthlyPrograms.push(pay);
 }
 
 const GROCERY_EXEMPTION =

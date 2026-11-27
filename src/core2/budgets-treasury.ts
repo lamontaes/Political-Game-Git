@@ -11,13 +11,7 @@
  * short. Social Security paid in town follows the federal line.
  */
 import { publicPayTreasuries } from "./public-work-pay";
-import {
-  linePayers,
-  registerLinePayments,
-  registerTreasuryRule,
-  treasuryRules,
-  type LineAddition,
-} from "./budgets-line-payers";
+import { type LineAddition } from "./budgets-line-payers";
 import spendingData from "./data/budgets/treasury-spending.json" with { type: "json" };
 import payeeData from "./data/budgets/spending-payees.json" with { type: "json" };
 import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
@@ -467,7 +461,7 @@ export function lineForPost(
 // The registry of in-town engines that pay a line this month without a payday
 // lives in a leaf module: engines register at import time, and a registry held
 // here was read before it was set when an engine's file was entered first.
-export { registerLinePayments, registerTreasuryRule, type LineAddition };
+export type { LineAddition };
 
 /** The recorded payment of a bill's carried change to a line. */
 const BILL_LINE_PAID = "budget-line-paid";
@@ -1601,7 +1595,7 @@ function payFromTier(
 export function closeTreasuries(api: CoreAPI, source: Source): void {
   const outside = outsideAccountOf(api);
   if (!outside) return;
-  for (const rule of treasuryRules) rule(api);
+  for (const rule of fieldsOf(api.state, "treasuryRule")) rule(api);
   const accounts = api.accounts();
   const date = api.state.date;
   const months = treasuryParameter("monthsPerYear");
@@ -1796,8 +1790,10 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     const chargedSince = sinceClose.charged ?? {};
     table(api, "sinceClose").put({ id: gov.id, lines: {} } as ModuleRow);
     const inTown: Record<string, number> = { ...since };
-    for (const payer of linePayers)
-      for (const [line, minor] of Object.entries(payer(api, gov)))
+    for (const carrier of carriersOf(api.state, "linePayments"))
+      for (const [line, minor] of Object.entries(
+        carrier.linePayments!(api, gov),
+      ))
         inTown[line] = (inTown[line] ?? 0) + minor;
     // A line pays its twelfth and whatever it fell short last month.
     const owed =
