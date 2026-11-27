@@ -75,6 +75,7 @@ import { researchedHolderParty } from "../offices-holder-parties";
 // The Elections family reads the researched holder party through this entry.
 export { researchedHolderParty } from "../offices-holder-parties";
 export { partySide } from "../party-sides";
+export { drawOfficialIdentity } from "../officials-identity";
 import {
   electedWithGovernorOnTicket,
   isOutsideOffice,

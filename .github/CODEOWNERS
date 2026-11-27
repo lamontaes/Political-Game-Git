@@ -74,6 +74,11 @@
 /src/core2/modules/interest-groups.ts @lamontaes
 /src/core2/ballot-order.ts @lamontaes
 /src/core2/party-sides.ts @lamontaes
+/src/core2/gov-rules/county-election-calendar.ts @lamontaes
+/src/core2/gov-rules/town-election-calendar.ts @lamontaes
+/src/core2/gov-rules/municipal-ballot-rules.ts @lamontaes
+/src/core2/gov-rules/municipal-election-rule-packs.ts @lamontaes
+/src/core2/gov-rules/municipal-election-rules.ts @lamontaes
 /src/core2/campaign-*.ts @lamontaes
 /src/core2/candidate-*.ts @lamontaes
 /src/core2/contest-positions.ts @lamontaes
@@ -1089,6 +1094,7 @@
 /src/core2/modules/news.ts @lamontaes
 /src/core2/modules/press.ts @lamontaes
 /src/core2/press-*.ts @lamontaes
+/src/core2/ad-outlet-per-world.test.ts @lamontaes
 /src/core2/outcome-news.ts @lamontaes
 /src/core2/modules/news-listeners.ts @lamontaes
 /src/core2/outcome-news-constants.ts @lamontaes
