@@ -40,6 +40,17 @@ export const countedPlaceOf = (placeId: string) =>
 export function isDemoted(person: { readonly placeId: string }): boolean {
   return person.placeId.startsWith(COUNTED_PLACE_PREFIX);
 }
+/**
+ * The real place a place id names. A demoted person and a counted household
+ * stand at `counted:<place>` (the rule for who counts as in town); a reader
+ * that needs the place itself asks here and gets `<place>`, and a real place
+ * id comes back as it is.
+ */
+export function realPlaceOf(placeId: string): string {
+  return placeId.startsWith(COUNTED_PLACE_PREFIX)
+    ? placeId.slice(COUNTED_PLACE_PREFIX.length)
+    : placeId;
+}
 
 /** A member's place in the counts. */
 export const enum MemberState {
