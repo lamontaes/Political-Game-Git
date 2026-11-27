@@ -1,6 +1,7 @@
 /**
- * The offices doors (OF2 of docs/coordination/refactor/offices-2026-11-27.md): an office, a seat,
- * a term or a vacancy by id, a seat's office, a person's terms and the open vacancies. In a played world of a
+ * The offices doors (OF2, OF3 of docs/coordination/refactor/offices-2026-11-27.md): an office, a seat,
+ * a term or a vacancy by id, a seat's office, a person's terms, the open vacancies, and one "who holds"
+ * door over the offices engine's terms and the officials engine's seated rows. In a played world of a
  * place drawn from all 56, each door answers what the table it replaces answers, and reading them
  * changes no record.
  */
@@ -14,16 +15,20 @@ import { coreAPI } from "./state";
 import {
   OFFICES_MODULE_ID,
   officeById,
+  officeholderIds,
   officeOfSeat,
   openVacancies,
   seatById,
+  seatsHeldBy,
   servingTermsOf,
   termById,
   termsOfPerson,
   vacancyById,
+  whoHolds,
   type TermRow,
   type VacancyRow,
 } from "./modules/offices";
+import { OFFICIALS_MODULE_ID, allOfficials } from "./modules/officials";
 
 const seed = process.env.OFFICES_SEED ?? randomBytes(8).toString("hex");
 
@@ -45,6 +50,7 @@ it(
         (name) => offices.table(name).size,
       );
     const before = sizes();
+    const officialsBefore = allOfficials(api).length;
 
     const terms = offices.table("terms").rows() as unknown as TermRow[];
     expect(terms.length, where).toBeGreaterThan(0);
@@ -83,7 +89,42 @@ it(
       new Set(vacancies.filter((v) => v.status !== "filled").map((v) => v.id)),
     );
 
+    // Who holds a seat: the serving term's person, else the officials engine's seated member.
+    const serving = terms.filter((t) => t.status === "serving");
+    for (const term of serving.slice(0, 400)) {
+      const held = whoHolds(api, term.seatId);
+      expect(held?.term?.id, where).toBe(term.id);
+      expect(held?.personId, where).toBe(
+        term.personId ?? held?.official?.id ?? null,
+      );
+    }
+    // Every seated official is found by their seat and holds that seat; where the term names no person, they are the holder.
+    const seated = allOfficials(api).filter((row) => row.ended === null);
+    expect(seated.length, where).toBeGreaterThan(0);
+    for (const row of seated.slice(0, 400)) {
+      const held = whoHolds(api, row.seatId);
+      expect(held?.official?.id, `${where}: ${row.seatId}`).toBe(row.id);
+      expect(held?.personId, `${where}: ${row.seatId}`).toBe(
+        held?.term?.personId ?? row.id,
+      );
+      expect(seatsHeldBy(api, row.id), where).toContain(row.seatId);
+    }
+    expect(whoHolds(api, "seat:none"), where).toBeNull();
+
+    // The officeholders of the day are the officials engine's seated rows and the terms that name a person.
+    const expected = new Set<string>();
+    for (const row of allOfficials(api))
+      if (row.ended === null) expected.add(row.id);
+    for (const t of serving)
+      if (typeof t.personId === "string") expected.add(t.personId);
+    expect(officeholderIds(api), where).toEqual(expected);
+    for (const id of [...expected].slice(0, 200))
+      expect(seatsHeldBy(api, id).length, `${where}: ${id}`).toBeGreaterThan(0);
+    expect(seatsHeldBy(api, "person:nobody"), where).toEqual([]);
+    expect(core.modules.has(OFFICIALS_MODULE_ID), where).toBe(true);
+
     // Reading is not writing.
     expect(sizes(), where).toEqual(before);
+    expect(allOfficials(api).length, where).toBe(officialsBefore);
   },
 );
