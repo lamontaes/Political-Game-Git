@@ -22,7 +22,6 @@
   "src/core2/law-knowledge.test.ts",
   "src/core2/law-reach/school-aid.test.ts",
   "src/core2/law-reach/veterans-reach.test.ts",
-  "src/core2/legislature-rooms.test.ts",
   "src/core2/modules/health.traits.test.ts",
   "src/core2/national-answer-law.test.ts",
   "src/core2/opening-key-people.test.ts",
