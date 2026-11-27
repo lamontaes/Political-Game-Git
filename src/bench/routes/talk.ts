@@ -16,10 +16,8 @@ import { chapterPicture } from "../journal-pictures";
 import { SITUATION_LIBRARY } from "../../director/scheduling";
 import { storyScene, storyReply } from "../story";
 import { writeLineGrade } from "../grade-line";
+import type { Route } from "../session-state";
 import {
-  Route,
-  RouteContext,
-  ServerState,
   gapMarker,
   namesFor,
   requireCore,

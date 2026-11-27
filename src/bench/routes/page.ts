@@ -25,13 +25,8 @@ import controls from "../data/controls.json" with { type: "json" };
 import { policyNames, budgetLineNames, actionNames } from "../words";
 import { benchProgress } from "../progress";
 import { stateRollCall } from "../states";
-import {
-  Route,
-  RouteContext,
-  ServerState,
-  requireCore,
-  state,
-} from "../session-state";
+import type { Route } from "../session-state";
+import { requireCore, state } from "../session-state";
 
 export const pageRoutes: readonly Route[] = [
   {

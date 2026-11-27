@@ -21,10 +21,8 @@ import { knownCard, personCard } from "../card";
 import { personOrFillIn } from "../../core2/state";
 import { openingsView } from "../openings";
 import { makeIsoDate } from "../../core2/kernel/dates";
+import type { Route } from "../session-state";
 import {
-  Route,
-  RouteContext,
-  ServerState,
   namesFor,
   requireCore,
   sceneNow,

@@ -12,10 +12,10 @@ import {
   statePlaces,
   type ElectoratePlace,
 } from "./electorate-places";
-import { partySide } from "./modules/offices";
+import { partySide, officeSeats, termById } from "./modules/offices";
 import { townDistrict, type SeatInput } from "./modules/offices";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { type TermRow } from "./modules/offices";
 import territoryPlaces from "./data/places/territory-places.json" with { type: "json" };
 import { shareValue } from "./shares";
 import type { CoreAPI } from "./types";
@@ -87,16 +87,11 @@ export function basePlaces(
       : { places: [], home: null };
   }
   if (contest.family === "stateLegislative") {
-    const seats = api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("seats")
-      .query("byOffice", [contest.officeId]) as unknown as SeatInput[];
+    const seats = officeSeats(api, contest.officeId) as unknown as SeatInput[];
     const districts = new Set(seats.map((s) => s.district)).size;
     const holder = contest.incumbentTermId
-      ? (api
-          .moduleState(OFFICES_MODULE_ID)
-          .table("terms")
-          .get(contest.incumbentTermId) as unknown as TermRow | undefined)
+      ? (termById(api, contest.incumbentTermId) as unknown as
+          TermRow | undefined)
       : undefined;
     const county = countyPlaceIdOf(
       api.state.placeMetadata.countyNames as string | undefined,
@@ -194,12 +189,9 @@ export function wideElectorate(
   const districts =
     contest.family === "stateLegislative"
       ? new Set(
-          (
-            api
-              .moduleState(OFFICES_MODULE_ID)
-              .table("seats")
-              .query("byOffice", [contest.officeId]) as unknown as SeatInput[]
-          ).map((s) => s.district ?? ""),
+          (officeSeats(api, contest.officeId) as unknown as SeatInput[]).map(
+            (s) => s.district ?? "",
+          ),
         ).size || 1
       : 1;
   const eligible = Math.max(

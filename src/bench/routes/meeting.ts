@@ -25,15 +25,8 @@ import { calendarItems } from "../calendar";
 import type { PersonId } from "../../core2/types";
 import { applyForOpeningAs, leaveJobAs } from "../openings";
 import { officeCases, decideCase } from "../office-cases";
-import {
-  Route,
-  RouteContext,
-  ServerState,
-  requireCore,
-  shownMinute,
-  sitDown,
-  state,
-} from "../session-state";
+import type { Route } from "../session-state";
+import { requireCore, shownMinute, sitDown, state } from "../session-state";
 
 export const meetingRoutes: readonly Route[] = [
   {

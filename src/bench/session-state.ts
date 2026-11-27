@@ -2,12 +2,13 @@
 // and src/bench/routes/ import (a route file never imports handler.ts). Moved by scripts/screens/split-routes.mjs.
 import type { CoreState, PersonId } from "../core2/types";
 import type { Director } from "../director/ledger";
-import { BenchPlayer } from "./player";
+import type { BenchPlayer } from "./player";
 import { type Conversation, openConversation } from "../director/conversation";
 import { type BenchFilingVisit } from "./filing";
 import type { SpeechBuild } from "../director/speech-builder";
 import { type LoadingStory } from "./loading";
-import { openingFrames, openingArrivalMinute } from "./opening";
+import type { openingFrames } from "./opening";
+import { openingArrivalMinute } from "./opening";
 import { DevMode } from "./dev-mode";
 import { type Game } from "../core2/saves";
 import { visitPlace } from "./places";

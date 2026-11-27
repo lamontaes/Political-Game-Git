@@ -23,14 +23,8 @@ import {
   nominationDecide,
 } from "../office";
 import type { PersonId } from "../../core2/types";
-import {
-  Route,
-  RouteContext,
-  ServerState,
-  requireCore,
-  sitDown,
-  state,
-} from "../session-state";
+import type { Route } from "../session-state";
+import { requireCore, sitDown, state } from "../session-state";
 
 export const billsRoutes: readonly Route[] = [
   // A bill as one paper document, read from its own records.

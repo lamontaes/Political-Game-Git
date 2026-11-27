@@ -5,7 +5,8 @@ import { bustPath } from "../bust";
 import { frontPng } from "../mannequin-plates";
 import { occluderPath } from "../occluders";
 import { backdropPath } from "../scene";
-import { NEWSPAPER_ART, Route, RouteContext } from "../session-state";
+import type { Route } from "../session-state";
+import { NEWSPAPER_ART } from "../session-state";
 
 export const artRoutes: readonly Route[] = [
   {

@@ -9,13 +9,8 @@ import {
 } from "../election-night";
 import { campaignDay } from "../campaign";
 import { pollingScene } from "../polling";
-import {
-  Route,
-  RouteContext,
-  ServerState,
-  requireCore,
-  state,
-} from "../session-state";
+import type { Route } from "../session-state";
+import { requireCore, state } from "../session-state";
 
 export const electionsRoutes: readonly Route[] = [
   {

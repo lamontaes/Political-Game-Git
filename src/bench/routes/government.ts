@@ -14,13 +14,8 @@ import {
   governmentView,
 } from "../government";
 import { governmentBodies } from "../government-bodies";
-import {
-  Route,
-  RouteContext,
-  ServerState,
-  requireCore,
-  state,
-} from "../session-state";
+import type { Route } from "../session-state";
+import { requireCore, state } from "../session-state";
 
 export const governmentRoutes: readonly Route[] = [
   {

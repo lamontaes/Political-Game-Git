@@ -8,6 +8,8 @@
  * itself from here, and GET /api/dev/views lists each view's part and labels for the page.
  */
 import { readdir } from "node:fs/promises";
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 import type { DevMode } from "./dev-mode";
 
 /** What a view's route is given: the bench's DevMode, the query and, for a POST, the body. */
@@ -90,8 +92,35 @@ export function devViewList(): {
     }));
 }
 
-const FOLDER = new URL("./dev-views/", import.meta.url);
 let loading: Promise<void> | undefined;
+
+type ViewModules = Record<string, { default?: DevView } | undefined>;
+
+/**
+ * Every view file's module by its path in src/bench/dev-views/, tests left out. Where a bundler builds
+ * the code (the installed game's play server, the test runner) it reads the folder itself, at build time;
+ * run straight from source by node, `import.meta.glob` does not exist and the folder is read when asked.
+ */
+async function viewModules(): Promise<ViewModules> {
+  try {
+    return import.meta.glob(
+      ["./dev-views/[a-z]*.ts", "!./dev-views/*.test.ts"],
+      {
+        eager: true,
+      },
+    ) as ViewModules;
+  } catch {
+    // Written with join, not a URL beside this file: the packaging script copies whatever such a URL names, tests too.
+    const folder = join(import.meta.dirname, "dev-views");
+    const files = await readdir(folder).catch(() => [] as string[]);
+    const found: ViewModules = {};
+    for (const file of files.filter((f) => /^[a-z-]+\.ts$/.test(f)))
+      found[`./dev-views/${file}`] = (await import(
+        pathToFileURL(join(folder, file)).href
+      )) as { default?: DevView };
+    return found;
+  }
+}
 
 /**
  * Registers every view in src/bench/dev-views/ once, on the first dev-mode request. A file's
@@ -99,11 +128,10 @@ let loading: Promise<void> | undefined;
  */
 export function loadDevViews(): Promise<void> {
   loading ??= (async () => {
-    const files = await readdir(FOLDER).catch(() => [] as string[]);
-    for (const file of files.filter((f) => /^[a-z-]+\.ts$/.test(f)).sort()) {
-      const module = (await import(new URL(file, FOLDER).href)) as {
-        default?: DevView;
-      };
+    const modules = await viewModules();
+    for (const path of Object.keys(modules).sort()) {
+      const file = path.replace("./dev-views/", "");
+      const module = modules[path]!;
       if (!module.default)
         throw new Error(
           `src/bench/dev-views/${file} exports no dev-mode view.`,
