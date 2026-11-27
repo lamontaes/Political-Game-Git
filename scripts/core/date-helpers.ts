@@ -136,5 +136,31 @@ for (const file of files) {
   if (!process.argv.includes("--plan"))
     writeFileSync(path.join(ROOT, file), text);
 }
+// The zero-dice allowlist names an allowed line by its text: a line this script
+// rewrote keeps its entry, spelled the new way.
+const ALLOWLIST = path.join(ROOT, "scripts/zero-dice-allowlist.json");
+if (!process.argv.includes("--plan")) {
+  const list = JSON.parse(readFileSync(ALLOWLIST, "utf8"));
+  let respelled = 0;
+  for (const entry of list.entries as { file: string; code?: string }[]) {
+    if (!entry.code || LIVE.test(entry.file)) continue;
+    const spelled = entry.code
+      .replace(WEEKDAY_TEXT, (_m, e: string) => `weekdayOf(${e.trim()})`)
+      .replace(WEEKDAY_ISO, (_m, e: string) => `weekdayOf(${e.trim()})`)
+      .replace(
+        LAST_DAY,
+        (_m, y: string, m: string) =>
+          `lastDayOfMonth(${y.trim()}, ${m.trim()})`,
+      );
+    if (spelled !== entry.code) {
+      entry.code = spelled;
+      respelled += 1;
+    }
+  }
+  if (respelled) {
+    writeFileSync(ALLOWLIST, JSON.stringify(list, null, 2) + "\n");
+    console.log(`${respelled} allowlist entries respelled`);
+  }
+}
 console.log(`${changed} files; left for a later run, in live sessions' files:`);
 for (const file of skipped) console.log(`  ${file}`);

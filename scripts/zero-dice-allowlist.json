@@ -29,7 +29,7 @@
       "kind": "list-pick",
       "build": null,
       "count": 1,
-      "code": "const month = 1 + (hash(`${seed}:month:${draw}`) % 12); const length = new Date(Date.UTC(2001, month, 0)).getUTCDate(); const day = 1 + (hash(`${seed}:day:${draw}`) % length);",
+      "code": "const month = 1 + (hash(`${seed}:month:${draw}`) % 12); const length = lastDayOfMonth(2001, month); const day = 1 + (hash(`${seed}:day:${draw}`) % length);",
       "class": "IDENTITY",
       "keyedBy": "seed + draw",
       "reason": "A created character's birthday: who they are.",
