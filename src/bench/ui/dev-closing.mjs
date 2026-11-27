@@ -158,4 +158,4 @@ async function devClosingPanel({ labels, refresh, send }) {
 }
 
 /** Where it draws: under the Metrics board (ui/dev-views.mjs). */
-const slots = { metrics: devClosingPanel };
+export const slots = { metrics: devClosingPanel };
