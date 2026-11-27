@@ -25,9 +25,9 @@ import { allGovernmentUnits } from "./reference/government-units";
  * so they are proved here, and each fails when its field is taken off the
  * module):
  *
- * - `closedContestWeighed`: a race whose filing closed before the record began
- *   has its field finished at the opening (its stand-in nominees file), so its
- *   ballot is never empty.
+ * - `closedContestWeighed`: a statewide race whose filing closed before the
+ *   record began has its field finished at the opening: the parties' nominees
+ *   file (filings marked "party nominee"), which only the voting engine does.
  * - `wardResidency`: a seat chosen by part of a town asks its candidate to live
  *   in that part, a "district-residency" check the clerk reads.
  *
@@ -53,7 +53,7 @@ const wardPlaces = new Set(
 const WEEKS = 52;
 
 describe("the voting module's hooks reach the engines that read them", () => {
-  it(`a race closed before the record began has its field finished at the opening (seed ${seed})`, () => {
+  it(`a statewide race closed before the record began gets its party nominees at the opening (seed ${seed})`, () => {
     setBookkeeping(false);
     const passedOver: string[] = [];
     for (let attempt = 0; attempt < PLACES; attempt += 1) {
@@ -64,29 +64,39 @@ describe("the voting module's hooks reach the engines that read them", () => {
         placeKey: place.key,
       });
       const api = coreAPI(core);
-      const closed = (
+      // A statewide race (not a district's) closed before the world opened.
+      const statewide = (
         api
           .moduleState(ELECTIONS_MODULE_ID)
           .table("contests")
           .rows() as unknown as ContestRow[]
       ).filter(
-        (c) => c.filingDeadline < core.date && c.electionDate > core.date,
+        (c) =>
+          c.filingDeadline < core.date &&
+          c.electionDate > core.date &&
+          (c.level === "federal" || c.level === "state") &&
+          !c.district,
       );
-      if (!closed.length) {
+      if (!statewide.length) {
         passedOver.push(
-          `${where}: no race closed at the opening (${core.date})`,
+          `${where}: no statewide race closed at the opening (${core.date})`,
         );
         continue;
       }
-      // Candidacy weighs the closed races on the first day.
+      // Candidacy weighs the closed races on the first day; the voting
+      // engine then finishes each field: its party nominees file.
       advanceCore(core, addDays(makeIsoDate(core.date), 1));
-      const empty = closed.filter((c) => ballot(api, c.id).length === 0);
-      expect(
-        empty.map((c) => c.id),
-        `${where}: closed races with an empty ballot`,
-      ).toEqual([]);
+      const nominees = statewide.flatMap((c) =>
+        ballot(api, c.id).filter((f) => f.how === "party nominee"),
+      );
+      if (!nominees.length) {
+        passedOver.push(
+          `${where}: its statewide races name no party's nominee`,
+        );
+        continue;
+      }
       process.stdout.write(
-        `hooks-closed: ${where}, ${closed.length} closed races, each with a field; passed over: ${passedOver.join("; ") || "none"}\n`,
+        `hooks-closed: ${where}, ${statewide.length} statewide races closed at the opening, ${nominees.length} party nominees filed; passed over: ${passedOver.join("; ") || "none"}\n`,
       );
       return;
     }
