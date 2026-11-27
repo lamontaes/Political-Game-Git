@@ -101,3 +101,30 @@ export function governmentWithoutProperName(
 ): boolean {
   return namesOf(listed, governmentId).kind === null;
 }
+
+/**
+ * The kinds of government whose proper name ("County of Maui", "Charter
+ * Township of Green") people say after the place ("Maui County", "Green
+ * Township"). A town, city or village is said by its name alone.
+ */
+const SAID_AFTER_PLACE = ["County", "Parish", "Borough", "Township"] as const;
+
+/**
+ * A government's proper name as people say it in a sentence, the one rule
+ * for the offices engine's body names and the speeches: "Charter Township of
+ * Green" is "Green Township", "County of Maui" is "Maui County", "Town of
+ * Groton" is "Groton", and a Puerto Rico "Moca Municipio" is "Moca". The offices
+ * engine's body names read it too (Words lead, Nov 14: one rule, so the paper,
+ * the meeting panel and every other view read one name). A legal form ahead of the kind ("Charter", "Civil", "Metro") is not said.
+ */
+export function governmentSaidName(proper: string): string {
+  // A Puerto Rico municipality is listed "Moca Municipio" and said "Moca".
+  const municipio = /^(.+) Municipio$/.exec(proper)?.[1];
+  if (municipio) return municipio;
+  const [, kind, name] =
+    /^(?:Charter |Civil |Metro )?(\w+) of (.+)$/.exec(proper) ?? [];
+  if (!kind || !name) return proper;
+  return (SAID_AFTER_PLACE as readonly string[]).includes(kind)
+    ? `${name} ${kind}`
+    : name;
+}
