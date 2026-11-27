@@ -2,7 +2,78 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 5768,
-  "no": {},
-  "yesHash": "14yo9h68vhz"
+  "judged": 5822,
+  "no": {
+    "068hfdllnl5": {
+      "keys": [
+        "scene-talk.follow-refuse.that-s-the-law-s-number-not-mine-and-due-is-the-law-s-day-too",
+        "scene-talk.reply-agree.yes-i-know-how-it-works-i-ll-handle-office-myself"
+      ],
+      "why": "The clerk's line is a retort about the law's number and day, not a question about experience, so a yes with an offer to bring what is needed does not answer it."
+    },
+    "06x1l03y38x": {
+      "keys": [
+        "scene-talk.follow-refuse.the-law-sets-the-number-and-the-day-due-i-just-count-them",
+        "scene-talk.reply-agree.yes-i-know-how-it-works-i-ll-handle-office-myself"
+      ],
+      "why": "The clerk's line is a retort about the law's number and day, not a question about experience, so a yes with an offer to bring what is needed does not answer it."
+    },
+    "0v7nh6ypc1p": {
+      "keys": [
+        "scene-talk.state-tell.you-don-t-need-signatures-for-office-your-name-goes-on-the-ballot-for-vote-day-h",
+        "scene-talk.reply-agree.good-then-i-m-on-the-ballot-for-vote-day"
+      ],
+      "why": "The candidate reacts to the clerk's information but never answers the clerk's question about having done this before."
+    },
+    "0yb5i7ibfmj": {
+      "keys": [
+        "scene-talk.state-tell.now-the-signatures-signatures-of-them-from-voters-here-by-due-have-you-run-a-cam",
+        "scene-talk.reply-leave.then-i-d-better-get-started-due-comes-fast"
+      ],
+      "why": "The candidate reacts to the clerk's information but never answers the clerk's question about having done this before."
+    },
+    "1c185e0qzhz": {
+      "keys": [
+        "scene-talk.follow-refuse.the-law-sets-the-number-and-the-day-due-i-just-count-them",
+        "scene-talk.reply-agree.i-have-i-ll-bring-what-you-need-for-office"
+      ],
+      "why": "The clerk's line is a retort about the law's number and day, not a question about experience, so a yes with an offer to bring what is needed does not answer it."
+    },
+    "1lpjr66jwzu": {
+      "keys": [
+        "scene-talk.state-tell.next-comes-the-petition-signatures-signatures-from-voters-here-due-back-to-me-by",
+        "scene-talk.reply-leave.then-i-d-better-get-started-due-comes-fast"
+      ],
+      "why": "The candidate reacts to the clerk's information but never answers the clerk's question about having done this before."
+    },
+    "1oq6vepnz2h": {
+      "keys": [
+        "scene-talk.follow-refuse.that-s-the-law-s-number-not-mine-and-due-is-the-law-s-day-too",
+        "scene-talk.reply-agree.i-have-i-ll-bring-what-you-need-for-office"
+      ],
+      "why": "The clerk's line is a retort about the law's number and day, not a question about experience, so a yes with an offer to bring what is needed does not answer it."
+    },
+    "1sybodqt7bv": {
+      "keys": [
+        "scene-talk.state-tell.there-s-no-petition-for-this-one-and-the-vote-is-vote-day-have-you-done-this-bef",
+        "scene-talk.reply-agree.good-then-i-m-on-the-ballot-for-vote-day"
+      ],
+      "why": "The candidate reacts to the clerk's information but never answers the clerk's question about having done this before."
+    },
+    "1yt34s77crg": {
+      "keys": [
+        "scene-talk.state-tell.you-ll-need-signatures-signatures-by-due-and-i-only-count-the-ones-that-hold-up",
+        "scene-talk.reply-leave.then-i-d-better-get-started-due-comes-fast"
+      ],
+      "why": "The candidate reacts to the clerk's information but never answers the clerk's question about having done this before."
+    },
+    "1z9my89nwn7": {
+      "keys": [
+        "scene-talk.state-tell.this-one-needs-a-single-signature-from-a-voter-here-due-due-have-you-run-a-campa",
+        "scene-talk.reply-leave.then-i-d-better-get-started-due-comes-fast"
+      ],
+      "why": "The candidate reacts to the clerk's information but never answers the clerk's question about having done this before."
+    }
+  },
+  "yesHash": "2b3nljgit59"
 }

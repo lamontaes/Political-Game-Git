@@ -74942,10 +74942,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.you-don-t-need-signatures-so-start-with-the-doors-and-talk-to-people-then-comes",
+      "key": "scene-talk.follow-answer.you-don-t-need-signatures-so-start-by-knocking-on-doors-and-talking-to-people-th",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "You don't need signatures, so start with the doors and talk to people. Then comes money, and {outlet} sells ad space and covers the race.",
+      "text": "You don't need signatures, so start by knocking on doors and talking to people. Then comes money, and {outlet} sells ad space and covers the race.",
       "uses": [
         {
           "subject": "scene",
@@ -74973,10 +74973,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.there-s-nothing-to-collect-for-office-so-start-with-the-doors-and-talk-to-voters",
+      "key": "scene-talk.follow-answer.there-s-nothing-to-collect-for-office-so-start-by-knocking-on-doors-and-talking",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "There's nothing to collect for {office}, so start with the doors and talk to voters. Money comes next.",
+      "text": "There's nothing to collect for {office}, so start by knocking on doors and talking to voters. Money comes next.",
       "uses": [
         {
           "subject": "scene",
@@ -75005,10 +75005,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-leave.thanks-that-helps-i-ll-start-with-the-doors-in-place",
+      "key": "scene-talk.reply-leave.thanks-that-helps-i-ll-start-knocking-on-doors-in-place",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Thanks, that helps. I'll start with the doors in {place}.",
+      "text": "Thanks, that helps. I'll start knocking on doors in {place}.",
       "uses": [
         {
           "subject": "scene",
