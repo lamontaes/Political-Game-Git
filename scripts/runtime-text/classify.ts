@@ -24,7 +24,7 @@ import {
  * status in the record and a label in a screen; it is reported as the literal
  * with `alsoRecordValue` set, so a hand-written label never hides as data.
  */
-export type TextOrigin =
+type TextOrigin =
   | "engine"
   | "kit13"
   | "literal"
@@ -34,7 +34,7 @@ export type TextOrigin =
   | "record"
   | "unresolved";
 
-export interface RenderedText {
+interface RenderedText {
   readonly text: string;
   readonly kind: string;
   readonly screen: string;
@@ -78,7 +78,7 @@ const FORMATTED = [
   /^\d+(?:st|nd|rd|th)$/,
 ];
 
-export const KIT13_LABELS: ReadonlySet<string> = new Set(
+const KIT13_LABELS: ReadonlySet<string> = new Set(
   JSON.parse(
     readFileSync(
       join(process.cwd(), "scripts/runtime-text/kit13-labels.json"),
@@ -87,7 +87,7 @@ export const KIT13_LABELS: ReadonlySet<string> = new Set(
   ) as string[],
 );
 
-export function classifyTexts(input: {
+function classifyTexts(input: {
   readonly rendered: readonly RenderedText[];
   readonly engine: ReadonlyMap<string, { bank: string; variant?: string }>;
   readonly coverage: ReadonlyMap<string, Coverage>;

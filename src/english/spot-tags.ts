@@ -66,7 +66,7 @@ interface VariantsFile {
 }
 
 /** The tag names `spotTags` writes, in the order a sheet shows them. */
-export const SPOT_TAGS = [
+const SPOT_TAGS = [
   "situation",
   "speaker",
   "speakerFill",

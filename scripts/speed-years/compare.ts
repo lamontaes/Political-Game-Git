@@ -32,7 +32,7 @@ export interface SpeedReceipt {
 }
 
 /** No change makes a year more than 5 percent slower (CTO, Nov 8; the median of three runs is the caller's). */
-export const SLOWER_LIMIT = 1.05;
+const SLOWER_LIMIT = 1.05;
 
 /** Timing is comparable only for the same route, host and complete years. */
 export function compareYears(

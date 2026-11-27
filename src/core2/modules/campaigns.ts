@@ -116,7 +116,7 @@ import {
   settleObligation,
   type BillRow,
 } from "./legislature";
-import { promisesOf, recordAppeal, votesOf } from "./record";
+import { promisesOf, recordAppeal, votesCast } from "./record";
 import { withholdingOnPay } from "./budgets";
 import {
   areasAnswered,
@@ -152,6 +152,8 @@ import {
   type PetitionSigner,
   worldSwing,
 } from "./elections";
+export { refreshOfficeStaff } from "../civic-inputs";
+export { electionsParameter } from "../elections-calendar";
 
 export { candidatePlatform } from "../campaign-stances";
 export { contestPositions } from "../contest-positions";
@@ -5978,7 +5980,7 @@ function attackTarget(
   for (const row of raceCampaigns(api, campaign.contestId)) {
     if (row.candidateId === campaign.candidateId) continue;
     const items =
-      votesOf(api, row.candidateId).length +
+      votesCast(api.state as CoreState, row.candidateId).length +
       promisesOf(api, row.candidateId).length;
     if (items > 0 && (!best || items > best.items)) best = { row, items };
   }

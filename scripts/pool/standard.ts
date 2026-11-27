@@ -5,7 +5,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 export const MODELS = ["haiku", "sonnet", "opus", "fable"];
-export const EFFORTS = ["low", "medium", "high"];
+const EFFORTS = ["low", "medium", "high"];
 export const SECTIONS = [
   "What",
   "Cause",
@@ -16,14 +16,9 @@ export const SECTIONS = [
   "Waits on",
   "Files",
 ];
-export const CAUSE_KINDS = [
-  "Found in code:",
-  "Measured:",
-  "Design:",
-  "Needs cause.",
-];
+const CAUSE_KINDS = ["Found in code:", "Measured:", "Design:", "Needs cause."];
 /** The Fix an item with no known cause carries (owner, Nov 10: no work unless Fable found the fix). */
-export const NO_FIX = "None until the cause is found.";
+const NO_FIX = "None until the cause is found.";
 
 /** Pulls one bolded section ("**What.**") out of an item body. */
 export function section(text: string, name: string): string {
@@ -129,7 +124,7 @@ export function readRoots(poolDir: string): Set<string> | null {
   return ids;
 }
 
-export const SEEN_KINDS = ["Seen:", "Feeds:", "Guards:"] as const;
+const SEEN_KINDS = ["Seen:", "Feeds:", "Guards:"] as const;
 export type SeenKind = (typeof SEEN_KINDS)[number];
 /** An item id: lowercase words joined by hyphens. */
 const ITEM_ID = /^[a-z0-9]+(?:-[a-z0-9]+)+/;
@@ -141,14 +136,14 @@ const NOT_YET_SWEPT = ["open", "claimed", "blocked", "in-pr"];
  * exemption in standardProblems, when the depth sweep of Nov 10
  * (docs/pool/DEPTH-SWEEP.md) is merged.
  */
-export const SWEEP_PENDING_CHECKED = "fable 2026-11-10";
+const SWEEP_PENDING_CHECKED = "fable 2026-11-10";
 
 /**
  * Five items filed on Nov 10 before this rule, with no `checked:` field yet,
  * that are on the depth sweep's lists: the sweep writes their sentence.
  * Deleted with SWEEP_PENDING_CHECKED when the sweep is merged.
  */
-export const SWEEP_PENDING_IDS: readonly string[] = [
+const SWEEP_PENDING_IDS: readonly string[] = [
   "core2-three-test-files-cannot-load",
   "laws-price-questions-without-an-axis",
   "play-plain-text-check-stops-at-filing-counter",

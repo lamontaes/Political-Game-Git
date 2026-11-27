@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: history/journal-chain
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: found Nov 10 by the builder of the grievance record (pull request #8231)
 checked: fable 2026-11-10
+claimed-at: 2026-11-26T21:56:24.656Z
 ---
 
 **What.** In two drawn places a played year evicted the households of federal cabinet officials, the attorney general's among them. A sitting cabinet secretary losing their home for unpaid rent in a small town is not believable, and the player can meet these people. Either they are housed in the played town when they should not be, or their pay never reaches the household that owes the rent.
@@ -36,3 +37,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/official-pay.ts, src/core2/official-living.ts, src/core2/modules/housing.ts, src/core2/modules/officials.ts, data/research/offices/official-salaries-2026.json, src/core2/modules/grievance.test.ts
 
 **Notes.** Nov 11 (cause finder for Fable B): reproduced on main d64255aa with probes outside the repository (the eviction events by person, the attorney general's lease, cash and pay row month by month, and the officials table against the pay table). The households are the outgoing cabinet's, ended on the opening day, never given savings, and housed on the state record by `openMissingHomes`.
+
+Nov 26 (History, history/journal-chain, CTO 4:20 p.m.: "Trace it and fix the cause"): traced with a played year at the Talk engines' three draws (`told-talk-proof.ts`'s `drawPlace("talkmerge3:<n>", "told-talk")`: Washington, D.C. 1150000; West Dennis, Massachusetts 2575820; Bennington, Vermont 5004750). The cabinet rows that are evicted are not the outgoing cabinet: they are the field the President passed over, which `nominate` in src/core2/modules/succession.ts seats and then marks `ended` with `seated: false` on the day it chooses. So this item's fix (1), savings and a living cost at the post's pay, would make money move for people who never held that pay, against the owner's Nov 10 ruling on SG-WORLD-coarse-place-no-payroll ("no money moves for them"). Built instead: (1) `openMissingHomes` (src/core2/modules/housing.ts) writes no lease or mortgage for a household where no member has a paid job or a living cost (the passed-over field, the Fed's governors and reserve bank presidents: 33 at D.C., 23 at West Dennis); the home stays on record. (2) Shelter is paid once: `spendLivingCost` (src/core2/official-living.ts) takes the household's lease or mortgage payment out of what goes outside, never below the everyday basket without shelter. Before, a D.C. council member paid an $8,721 living cost (the pay curve, which already counts housing) plus a $6,227 lease on $150,000 pay. (3) This item's fix (2): "cabinet-secretary" maps to `cabinetSecretary` in `FEDERAL_KEYS`, $250,600 from OPM's 2025 Executive Schedule Level I (Salary Table No. 2025-EX, read Nov 26; its freeze note names no positions and no frozen figure, so the scheduled rate is used). At Bennington, all 15 sitting secretaries had a pay row from the federal payer by Feb 2. This item's question (3): the secretaries are seated after the pay engine opens, so they have no pay row on day 0 and the pay engine seats them the next day. In a year, removals of these households went from 56 to 6 at D.C., 66 to 0 at West Dennis and 68 to 5 at Bennington. Left, by household (a year at the pushed head, 63124326): at D.C., five press outlet owners (TV, radio, newspaper), who are on no payroll and draw down their savings, which this item's fix (4) says to file separately, and one council member (`official:term:seat:US-DC:unicameral:004:0:2025-01-20`, removed Dec 26). That member's months now leave about $850 to spare (pay about $12,700, tax $3,100, living $2,500, lease $6,227). But on Feb 1 the lease took the $3,019 on hand before that day's paycheck arrived, and the finance engine asks for arrears only at the next due date, so by April 2 they held $7,082 and still owed $2,209. At the head, four of D.C.'s council members and one California House member were behind by March 2 (was 10 of 183), and no household with nothing to pay from was charged (was 33). At Bennington, five Vermont legislators were removed in December and January (`official:term:seat:US-VT:lower:A-R:0`, `:lower:WA6:0`, `:lower:R10:0`, `:lower:Y-6:1`, `:upper:ADD:1`): they hold a part-time seat's pay and no other work. West Dennis had none. Not done: this item's Done when still fails on those six officials. The rent-before-paycheck timing and the part-time seats are their engines' causes, not this item's. The two tests `official-living` and `official-salary-statewide` are red on main ef7d845b at seed evict26a, on the same assertions as here (a sitting town official with no living cost; no other state's officials left counted), so the new spend check has not run in the committed test. It held exactly in a local copy without those two assertions (seed evict26b, Lady Lake, Florida; the President's household).

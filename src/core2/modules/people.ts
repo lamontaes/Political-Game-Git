@@ -19,7 +19,9 @@
 import {
   REMEMBERED_RECORD_KINDS,
   builtFactsOf,
+  keptEventsOf,
   lifeOf,
+  lifeWordsOf,
   rememberEvent,
 } from "../person-life";
 import {
@@ -75,6 +77,7 @@ import {
 import type {
   ActOffer,
   CoreAPI,
+  CoreEventInput,
   CoreState,
   OfferRound,
   PersonId,
@@ -233,7 +236,9 @@ export { MOVED_AWAY_EVENT } from "./moves";
 // A business's staff in heads and the limit on its outside orders, for dev mode's Businesses.
 export { countedHeadcountOf, limitOutsideSales } from "../residents-economy";
 // A person's life as one list, for the screens that tell it (the card, the You screen).
-export { type LifeEvent } from "../person-life";
+// The people family's face for its own tests and tools: a view reads a
+// person's past through historyOf (tests/guards/one-history.test.ts holds it).
+export { lifeOf, type LifeEvent } from "../person-life";
 
 export { heldDrivesOf } from "./drives";
 // A relative's letter and a missed family gathering, for the director's letter scene.
@@ -830,6 +835,11 @@ const LIFE_HISTORY: HistorySource = {
   id: "life",
   life: true,
   open: (core, personId) => openWholePast(core, personId),
+  // The records of play a person keeps that the log let go.
+  kept: (core, personId) => keptEventsOf(core, personId),
+  // A record read by kind is told in the words the person's own list tells it in.
+  words: (core, personId, record, from) =>
+    lifeWordsOf(core, personId, record as unknown as CoreEventInput, from),
   rows(core, scope, ask) {
     if (!("person" in scope)) return [];
     // A read by kind takes only the facts the person was made with of those

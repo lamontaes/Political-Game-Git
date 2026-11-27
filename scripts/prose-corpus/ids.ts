@@ -64,14 +64,14 @@ export function proseId(input: {
   return `prose:${domain}:${bank}:${stableKey}#${field}`;
 }
 
-export interface ParsedProseId {
+interface ParsedProseId {
   readonly domain: string;
   readonly bank: string;
   readonly stableKey: string;
   readonly field: string;
 }
 
-export function parseProseId(id: string): ParsedProseId | null {
+function parseProseId(id: string): ParsedProseId | null {
   const hash = id.indexOf("#");
   if (!id.startsWith("prose:") || hash < 0) return null;
   const head = id.slice("prose:".length, hash);
@@ -87,7 +87,7 @@ export function parseProseId(id: string): ParsedProseId | null {
   };
 }
 
-export interface IdCollision {
+interface IdCollision {
   readonly id: string;
   readonly sources: readonly string[];
 }
@@ -101,7 +101,7 @@ export interface IdCollision {
  * then an owner's mark is ambiguous and a differential report cannot tell
  * which one changed.
  */
-export function findIdCollisions(
+function findIdCollisions(
   records: readonly ProseRecord[],
 ): readonly IdCollision[] {
   const byId = new Map<string, string[]>();
@@ -118,7 +118,7 @@ export function findIdCollisions(
   return collisions.sort((left, right) => (left.id < right.id ? -1 : 1));
 }
 
-export function assertNoIdCollisions(records: readonly ProseRecord[]): void {
+function assertNoIdCollisions(records: readonly ProseRecord[]): void {
   const collisions = findIdCollisions(records);
   if (collisions.length === 0) return;
   const detail = collisions

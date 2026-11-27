@@ -7,7 +7,7 @@
  */
 import { lawApplied } from "./applied";
 import { residentsRuntime } from "../modules/residents";
-import { countedJobHeads } from "../residents-economy";
+import { countedJobHeads } from "../modules/residents";
 import type { CoreAPI, CoreState, JobInput } from "../types";
 
 /**

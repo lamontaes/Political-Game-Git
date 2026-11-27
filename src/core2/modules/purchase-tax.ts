@@ -90,12 +90,6 @@ function arrearsRows(core: CoreState): Map<string, SalesTaxArrears> {
   return rows;
 }
 
-export function purchaseTaxArrears(
-  core: CoreState,
-): ReadonlyMap<string, Readonly<SalesTaxArrears>> {
-  return arrearsRows(core);
-}
-
 function taxes(core: CoreState): Map<string, PurchaseTaxState> {
   let rows = runtimes.get(core);
   if (!rows) {

@@ -26,7 +26,7 @@ export interface Ledger {
   readonly entries: readonly LedgerEntry[];
 }
 
-export const EMPTY_LEDGER: Ledger = { entries: [] };
+const EMPTY_LEDGER: Ledger = { entries: [] };
 
 export function parseLedger(text: string, where: string): Ledger {
   let parsed: unknown;

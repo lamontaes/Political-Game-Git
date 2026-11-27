@@ -3900,7 +3900,7 @@ export function addressPointFor(
   const follows =
     !!view &&
     view.engagement >
-      (viewCell(speaker, core.startedAt, core.seed).cell.engagement ??
+      (viewCell(core, speaker, core.startedAt, core.seed).cell.engagement ??
         VIEWS_KEYS.national.engagement!);
   const lived = open.find(
     (row) => row.kind === "year" && yearStand(row) !== "unsure",

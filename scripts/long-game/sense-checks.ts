@@ -63,7 +63,7 @@ const SLACK = 1e-6;
 const FIRST = 3;
 
 /** A place holds more jobs than it has adults. */
-export function jobsNotOverAdults(world: WorldReading): SenseResult {
+function jobsNotOverAdults(world: WorldReading): SenseResult {
   const id = "jobs-not-over-adults";
   const bad = world.places
     .map((p) => ({
@@ -88,7 +88,7 @@ export function jobsNotOverAdults(world: WorldReading): SenseResult {
 }
 
 /** A count of people or households below zero, or not a number, anywhere. */
-export function noNegativeCounts(world: WorldReading): SenseResult {
+function noNegativeCounts(world: WorldReading): SenseResult {
   const id = "no-negative-counts";
   const fields = [
     "households",
@@ -112,7 +112,7 @@ export function noNegativeCounts(world: WorldReading): SenseResult {
 }
 
 /** The country tier's own impossible counts (`countryProblems`). */
-export function countryTierCounts(world: WorldReading): SenseResult {
+function countryTierCounts(world: WorldReading): SenseResult {
   const id = "country-tier-counts";
   const bad = world.countryProblems;
   return {

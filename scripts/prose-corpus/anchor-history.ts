@@ -247,13 +247,13 @@ export const BASELINE_FILE = ANCHOR_PATHS.baseline;
 export const BASELINE_SCHEMA = 2;
 
 /** The id-only shapes this build reads solely in order to migrate them. */
-export const LEDGER_SCHEMA_V1 = 1;
-export const BASELINE_SCHEMA_V1 = 1;
+const LEDGER_SCHEMA_V1 = 1;
+const BASELINE_SCHEMA_V1 = 1;
 
 export const LEDGER_NOTE =
   "Every computed-anchor ID ever issued, including retired ones, each with the binding provenance history first recorded for it. Append-only and immutable: an ID here is burned forever, is never re-issued, and its recorded binding is never rewritten. Retirement removes a LIVE binding and never erases the issuance recorded here. Written together with computed-anchor-baseline.json by `npm run corpus:prose -- anchors`; never hand-edit or prune.";
 
-export const BASELINE_NOTE =
+const BASELINE_NOTE =
   "Independent checkpoint of computed-anchor-ledger.json: its size, a digest of the exact issued list including binding provenance, the highest index ever issued per symbol, and the exact set of indexes issued per symbol. Retained so that losing, truncating or re-binding the ledger is detectable rather than silent, and so allocation never drops below a mark already issued. Written by `npm run corpus:prose -- anchors`; never hand-edit.";
 
 /**
@@ -402,18 +402,14 @@ export function unrecoverableIssuance(
   return { id, site: known.site ?? null, text: known.text ?? null };
 }
 
-export function unknownPartsOf(
-  issuance: AnchorIssuance,
-): IssuanceProvenancePart[] {
+function unknownPartsOf(issuance: AnchorIssuance): IssuanceProvenancePart[] {
   const unknown: IssuanceProvenancePart[] = [];
   if (issuance.site === null) unknown.push("site");
   if (issuance.text === null) unknown.push("text");
   return unknown;
 }
 
-export function sortIssuances(
-  issuances: Iterable<AnchorIssuance>,
-): AnchorIssuance[] {
+function sortIssuances(issuances: Iterable<AnchorIssuance>): AnchorIssuance[] {
   const byId = new Map<string, AnchorIssuance>();
   for (const issuance of issuances) {
     const seen = byId.get(issuance.id);
@@ -429,7 +425,7 @@ export function sortIssuances(
   );
 }
 
-export function describeIssuance(issuance: AnchorIssuance): string {
+function describeIssuance(issuance: AnchorIssuance): string {
   const unknown = unknownPartsOf(issuance);
   const parts = [
     `site ${issuance.site ?? "unrecoverable"}`,
@@ -439,10 +435,7 @@ export function describeIssuance(issuance: AnchorIssuance): string {
 }
 
 /** True when both records say exactly the same thing about the same id. */
-export function sameIssuance(
-  left: AnchorIssuance,
-  right: AnchorIssuance,
-): boolean {
+function sameIssuance(left: AnchorIssuance, right: AnchorIssuance): boolean {
   return (
     left.id === right.id && left.site === right.site && left.text === right.text
   );
@@ -470,7 +463,7 @@ export function issuedDigest(issuances: Iterable<AnchorIssuance>): string {
 }
 
 /** Digest of an id-only list. Retained only to validate inherited v1 files. */
-export function issuedDigestV1(issued: Iterable<string>): string {
+function issuedDigestV1(issued: Iterable<string>): string {
   return createHash("sha256")
     .update(sortIssued(issued).join(" "))
     .digest("hex")
@@ -530,9 +523,7 @@ export function parseIndexRanges(spec: string): number[] {
 }
 
 /** The exact indexes issued per symbol, as ranges. */
-export function issuedIndexesOf(
-  issued: Iterable<string>,
-): Record<string, string> {
+function issuedIndexesOf(issued: Iterable<string>): Record<string, string> {
   const bySymbol = new Map<string, number[]>();
   for (const id of issued) {
     const index = indexOfId(id);
@@ -726,7 +717,7 @@ function readIssuance(entry: unknown, path: string): AnchorIssuance {
 }
 
 /** An inherited id-only ledger, read for migration only. */
-export function loadAnchorLedgerV1(
+function loadAnchorLedgerV1(
   path: string = LEDGER_FILE,
 ): { readonly note: string; readonly issued: readonly string[] } | null {
   if (!existsSync(path)) return null;
@@ -865,7 +856,7 @@ export function loadAnchorBaseline(
 }
 
 /** An inherited checkpoint without exact membership, read for migration only. */
-export function loadAnchorBaselineV1(path: string = BASELINE_FILE): {
+function loadAnchorBaselineV1(path: string = BASELINE_FILE): {
   readonly note: string;
   readonly count: number;
   readonly digest: string;
@@ -1039,7 +1030,7 @@ export function writeAnchorBaseline(
 /* Integrity                                                                  */
 /* -------------------------------------------------------------------------- */
 
-export type HistoryProblemKind =
+type HistoryProblemKind =
   | "no-history"
   | "lost-ledger"
   | "lost-baseline"
@@ -1336,9 +1327,7 @@ export function assertMonotonicAdvance(input: {
   }
 }
 
-export function describeHistoryProblems(
-  problems: readonly HistoryProblem[],
-): string {
+function describeHistoryProblems(problems: readonly HistoryProblem[]): string {
   return problems
     .map((problem) => `  [${problem.kind}] ${problem.detail}`)
     .join("\n");
