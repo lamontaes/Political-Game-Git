@@ -25,7 +25,7 @@ branch: claude/pool-tests-talk-history-one-exchange
 
 **Cause.** Measured: in Nibbe, Montana, seed 9300f75f-9b1d-48b4-8d84-c409754ff9a4, the first person in the room after the President's address has a talk of one reply, the person's answer with Continue, then it ends, so src/bench/talk-history.browser.mjs finds no second reply and the history block goes unchecked.
 
-**Fix.** Make the check talk to a person whose talk has two or more exchanges in play (the next person, or a later talk) through the shared start-a-life helper src/bench/start-life.mjs, then read the history block. Do not accept a one-exchange talk.
+**Fix.** Make the check talk to a person whose talk has two or more exchanges in play (the next person, or a later talk) through the shared start-a-life helper tests/support/start-life.mjs, then read the history block. Do not accept a one-exchange talk.
 
 **Time box.** 2 hours for one Sonnet session.
 
@@ -35,7 +35,7 @@ branch: claude/pool-tests-talk-history-one-exchange
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/talk-history.browser.mjs, src/bench/start-life.mjs
+**Files.** src/bench/talk-history.browser.mjs, tests/support/start-life.mjs
 
 **Notes.** TODO
 

@@ -6,6 +6,7 @@ import {
   ageOnDate,
   makeIsoDate,
   daysBetweenText,
+  weekdayOf,
 } from "../kernel/dates";
 import { parameter, PARAMETERS } from "../parameters";
 import { runWorkPayrollDay } from "../work-payroll-dispatch";
@@ -102,10 +103,7 @@ export function openingWorkCommitments(
       anchorDate:
         supplied?.anchorDate ??
         (pattern.anchorOperation === "civil-week"
-          ? addDays(
-              makeIsoDate(startedAt),
-              -new Date(makeIsoDate(startedAt)).getUTCDay(),
-            )
+          ? addDays(makeIsoDate(startedAt), -weekdayOf(startedAt))
           : pattern.anchorOperation === "opening-date"
             ? makeIsoDate(startedAt)
             : (() => {
@@ -1051,7 +1049,7 @@ export function catchUpScheduledWork(
 }
 
 export function workWeekStart(date: string, api: CoreAPI): string {
-  const day = new Date(makeIsoDate(date)).getUTCDay();
+  const day = weekdayOf(date);
   const offset = remainder(
     day - api.parameter("mondayIndex"),
     api.parameter("daysPerWeek"),

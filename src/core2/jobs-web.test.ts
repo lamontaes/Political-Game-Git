@@ -9,7 +9,7 @@
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { worldWith } from "./tooling/world-with";
+import { worldWith } from "../../tests/support/world-with";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";

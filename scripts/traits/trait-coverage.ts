@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import {
   buildTraitCoverage,
   REPOSITORY_ROOT,
-} from "../../src/core2/tooling/trait-coverage";
+} from "../core2/tooling/trait-coverage";
 
 const coverage = buildTraitCoverage();
 writeFileSync(
