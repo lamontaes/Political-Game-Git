@@ -863,6 +863,7 @@
 /src/core2/modules/public-action.test.ts @lamontaes
 /src/core2/modules/speech.traits.test.ts @lamontaes
 /src/core2/modules/trait-change.traits.test.ts @lamontaes
+/src/core2/modules/views.feeling.test.ts @lamontaes
 /src/core2/modules/views.traits.test.ts @lamontaes
 /src/core2/money-traits-played.traits.test.ts @lamontaes
 /src/core2/money-traits.traits.test.ts @lamontaes
