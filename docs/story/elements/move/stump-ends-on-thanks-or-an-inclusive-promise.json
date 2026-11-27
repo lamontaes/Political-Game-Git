@@ -16,7 +16,7 @@
   "weights": {
     "campaign-speech": 0.7
   },
-  "usedBy": [],
+  "usedBy": ["speech-stages.stage-closer"],
   "inGame": "the place record and the person's household",
   "turns": [
     {

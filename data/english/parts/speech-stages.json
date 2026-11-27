@@ -31,7 +31,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-announcement-situation"]
     },
     {
       "key": "speech-stages.stage-opener.what-a-pleasure-to-stand-here-in-place",
@@ -51,7 +52,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-announcement-situation"]
     },
     {
       "key": "speech-stages.stage-opener.i-m-glad-to-be-among-friends-in-place",
@@ -71,7 +73,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-announcement-situation"]
     },
     {
       "key": "speech-stages.stage-opener.it-means-a-lot-to-be-in-place-with-you",
@@ -91,7 +94,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-announcement-situation"]
     },
     {
       "key": "speech-stages.stage-opener.so-many-neighbors-showed-up-here-in-place",
@@ -111,7 +115,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-announcement-situation"]
     },
     {
       "key": "speech-stages.stage-closer.thank-you-for-hearing-me-out-place",
@@ -131,7 +136,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "speech-stages.stage-closer.god-bless-you-and-god-bless-place",
@@ -151,7 +157,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "speech-stages.stage-closer.that-s-what-i-came-to-say-place-thank-you",
@@ -171,7 +178,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "speech-stages.stage-closer.let-s-go-build-a-better-place",
@@ -191,7 +199,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "speech-stages.stage-work.i-worked-at-employer-for-years-years-i-know-what-it-takes-to-earn-a-paycheck-in",
@@ -211,7 +220,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-brief-personal-story-as-credentials"]
     },
     {
       "key": "speech-stages.stage-work.i-work-at-employer-and-i-earn-my-living-right-here-in-place",
@@ -231,7 +241,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-brief-personal-story-as-credentials"]
     },
     {
       "key": "speech-stages.stage-home.i-call-place-home-i-know-these-streets-and-the-people-on-them",
@@ -251,7 +262,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-brief-personal-story-as-credentials"]
     },
     {
       "key": "speech-stages.stage-children.i-m-raising-number-children-in-place-what-we-decide-now-is-what-they-inherit",
@@ -271,7 +283,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-brief-personal-story-as-credentials"]
     },
     {
       "key": "speech-stages.stage-school.i-went-to-school-what-our-kids-learn-there-is-what-we-hand-to-the-next-generatio",
@@ -291,7 +304,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-brief-personal-story-as-credentials"]
     },
     {
       "key": "speech-stages.stage-stance-enact.let-s-talk-about-issue-goal-i-say-yes-and-i-ll-say-it-again-anywhere-in-place",
@@ -311,7 +325,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
       "key": "speech-stages.stage-stance-enact.on-issue-here-s-where-i-stand-goal-yes-ask-me-why-and-i-ll-tell-you",
@@ -331,7 +346,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
       "key": "speech-stages.stage-stance-enact.i-want-to-be-clear-about-issue-goal-yes-and-i-want-you-to-hold-me-to-it",
@@ -351,7 +367,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
       "key": "speech-stages.stage-stance-repeal.let-s-talk-about-issue-goal-i-say-no-and-i-ll-say-it-again-anywhere-in-place",
@@ -371,7 +388,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
       "key": "speech-stages.stage-stance-repeal.on-issue-here-s-where-i-stand-goal-no-ask-me-why-and-i-ll-tell-you",
@@ -391,7 +409,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
       "key": "speech-stages.stage-area-worse.people-in-place-keep-telling-me-issue-has-gotten-worse-and-i-believe-them",
@@ -411,7 +430,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-reason-to-run-is-the-place-could-do-better"]
     },
     {
       "key": "speech-stages.stage-area-worse.ask-around-place-about-issue-and-the-answer-is-the-same-it-is-worse-than-it-was",
@@ -431,7 +451,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-reason-to-run-is-the-place-could-do-better"]
     },
     {
       "key": "speech-stages.stage-area-worse.something-has-slipped-on-issue-in-place-and-we-should-be-honest-about-it",
@@ -451,7 +472,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-reason-to-run-is-the-place-could-do-better"]
     },
     {
       "key": "speech-stages.stage-area-worse.issue-in-place-was-better-when-this-term-began-i-want-to-talk-about-what-changed",
@@ -471,7 +493,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["stump-reason-to-run-is-the-place-could-do-better"]
     },
     {
       "key": "speech-stages.stage-area-better.i-have-good-news-on-issue-in-place-it-is-better-than-it-was-and-that-is-your-doi",

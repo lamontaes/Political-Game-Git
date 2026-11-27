@@ -16,7 +16,10 @@
   "weights": {
     "campaign-speech": 0.9
   },
-  "usedBy": [],
+  "usedBy": [
+    "speech-stages.stage-stance-enact",
+    "speech-stages.stage-stance-repeal"
+  ],
   "inGame": "candidate platform from the campaigns module (the questions a candidate holds most strongly) and the seat's own questions",
   "turns": [
     {
