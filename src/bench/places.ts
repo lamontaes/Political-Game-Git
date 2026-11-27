@@ -12,7 +12,7 @@ import { backdropStaging } from "./staging";
 import { backdropFor, orgPlace, staffOf, peopleHere } from "./scene";
 import { isOnShift } from "./shift";
 import { hasBackdrop } from "./backdrop-places";
-import type { PlayerPacketV1 } from "../core2/player-v1";
+import type { PlayerPacketV1 } from "../core2/modules/world";
 import type { CoreState } from "../core2/types";
 
 // Engineering page size for the list, not a model value.

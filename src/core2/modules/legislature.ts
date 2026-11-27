@@ -5,7 +5,7 @@ import type {
 import { parsePlatform, townLean } from "./campaigns";
 import { keepsWhy } from "../why-kept";
 import { lawApplied } from "../law-reach/applied";
-import type { OfficeInput } from "../offices-local";
+import type { OfficeInput } from "./offices";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import {
   lineItemVetoOf,
@@ -34,7 +34,13 @@ import {
  * Meeting scenes, committee hearings and the bill paper's screens are
  * OPUS-PEOPLE's and OPUS-PLAY's; these are the engine calls they drive.
  */
-import { policyAuthority, recordHomeRule } from "../policy-authority";
+import { policyAuthority } from "./laws";
+import {
+  enactmentRowsOfSeries,
+  lawRowById,
+  storedLawRowsOfSeries,
+} from "./laws-reads";
+import { recordHomeRule } from "../laws-in-force";
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
 import committeeDayData from "../data/legislature/committee-day.json" with { type: "json" };
 import dischargeData from "../data/legislature/discharge.json" with { type: "json" };
@@ -64,7 +70,8 @@ import {
 } from "../past";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { personLean, personStance } from "../campaign-views";
+import { personLean } from "./campaigns";
+import { personStance } from "./elections";
 import { campaignParameter } from "../campaign-data";
 import {
   enactLaw,
@@ -75,7 +82,6 @@ import {
   lawInForce,
   billLevelJurisdiction,
   billValueInForce,
-  LAWS_MODULE_ID,
   lawNeedsChange,
   questionSettled,
   type SettledQuestion,
@@ -87,15 +93,15 @@ import {
   officeLawJurisdiction,
   type EnactedAuthority,
 } from "../laws-in-force";
-import type { LawRowInput } from "../laws-starting";
+import type { LawRowInput } from "../laws-in-force";
 import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { lastVoteOn, recordVote, type VoteRecordRow } from "./record";
 import { viewOn } from "./views";
 import { carriesRevenue, revenueGivenUp } from "../budgets-treasury";
-import { ownStance } from "../officials-roster";
+import { ownStance } from "./officials";
 import { closenessBetween } from "../closeness";
 import { bribePull, registerBribeScope } from "./corruption";
-import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
 import {
   BUDGETS_MODULE_ID,
   amendBudget,
@@ -112,7 +118,8 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "./budgets";
-import { partyName, partySide } from "../appointments";
+import { partyName } from "./executive";
+import { partySide } from "./offices";
 import {
   atLarge,
   currentOfficial,
@@ -132,7 +139,7 @@ import {
   leanedTerm,
   leanedYes,
 } from "../trait-decisions";
-import { stateActEffectiveDate } from "../state-effective-date";
+import { stateActEffectiveDate } from "./laws";
 import representation from "../data/offices/federal-representation.json" with { type: "json" };
 import proposalData from "../data/legislature/executive-proposal.json" with { type: "json" };
 import vetoWindowData from "../../../data/research/laws/veto-windows-2023.json" with { type: "json" };
@@ -1379,14 +1386,19 @@ function holdCouncilBudgetHearing(
   });
 }
 
-function councilBudget(
+/** The chambers that vote a government's budget: what `budgetChambers` returns when it finds them. */
+type BudgetChambers = NonNullable<ReturnType<typeof budgetChambers>>;
+
+/**
+ * The bill a council's budget vote is held on, with its provisions, or null
+ * where no section is left to vote on (last year's budget carries by rule).
+ */
+function budgetBillFor(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
-): BudgetRow | null {
-  const chambers = budgetChambers(api, gov);
-  if (!chambers || !chambers.chambers.every((c) => members(api, c).length))
-    return null;
+  chambers: BudgetChambers,
+): { bill: BillRow; provisions: Provision[] } | null {
   // The bill the hearing was held on is the bill voted; with no hearing held
   // (a year inside its hearing lead when the world opened) it is drafted now.
   const heard = budgetHearingOf(api, gov.id, fy);
@@ -1408,78 +1420,104 @@ function councilBudget(
       sponsorId: sections!.sponsor,
       provisions,
     });
-  // Each member's duty to adopt a budget sits beside their views on its
-  // changes; every chamber must pass it (the U.S. Senate by cloture first).
-  const player =
-    snapshotExplicitControlV1(api.state).personId ??
-    (api.state as CoreState).playerId;
-  const roll = (kept: readonly Provision[]) => {
-    const trial = { ...bill, provisions: kept } as BillRow;
-    const tallies: {
-      chamber: string;
-      title: string;
-      yes: number;
-      no: number;
-    }[] = [];
-    const rows: ModuleRow[] = [];
-    for (const chamber of chambers.chambers) {
-      let yes = 0;
-      let no = 0;
-      const against: string[] = [];
-      for (const member of members(api, chamber)) {
-        const key = memberKey(member);
-        const position = positionOn(api, trial, key);
-        const total = budgetTotal(position);
-        // A member's cast vote stands (the player's press, or their own
-        // position left to the character); the player is never voted for, so
-        // a player who cast nothing abstains, as on an override.
-        const chosen = table(api, "choices").get(
-          `${bill.id}|${key}`,
-        ) as unknown as
-          { vote: "yes" | "no" | "abstain" | "absent" } | undefined;
-        const vote =
-          chosen?.vote ??
-          (key === player
-            ? "abstain"
-            : total > 0
-              ? "yes"
-              : total < 0
-                ? "no"
-                : "abstain");
-        if (vote === "yes") yes += 1;
-        else if (vote === "no") {
-          no += 1;
-          against.push(key);
-        }
-        rows.push({
-          id: `vote:${bill.id}:${key}`,
-          billId: bill.id,
-          memberId: key,
-          chamber,
-          vote,
-          position: { ...position, total },
-        } as unknown as ModuleRow);
+  return { bill, provisions };
+}
+
+/** One voting round on a budget bill's kept changes: each chamber's tally, the member vote rows and the members against. */
+interface BudgetRoll {
+  adopted: boolean;
+  tallies: { chamber: string; title: string; yes: number; no: number }[];
+  rows: ModuleRow[];
+  against: string[];
+}
+
+/**
+ * One round of the budget vote. Each member's duty to adopt a budget sits
+ * beside their views on its changes; every chamber must pass it (the U.S.
+ * Senate by cloture first).
+ */
+function budgetRoll(
+  api: CoreAPI,
+  bill: BillRow,
+  chambers: BudgetChambers,
+  kept: readonly Provision[],
+  player: string | null | undefined,
+): BudgetRoll {
+  const trial = { ...bill, provisions: kept } as BillRow;
+  const tallies: BudgetRoll["tallies"] = [];
+  const rows: ModuleRow[] = [];
+  for (const chamber of chambers.chambers) {
+    let yes = 0;
+    let no = 0;
+    const against: string[] = [];
+    for (const member of members(api, chamber)) {
+      const key = memberKey(member);
+      const position = positionOn(api, trial, key);
+      const total = budgetTotal(position);
+      // A member's cast vote stands (the player's press, or their own
+      // position left to the character); the player is never voted for, so
+      // a player who cast nothing abstains, as on an override.
+      const chosen = table(api, "choices").get(
+        `${bill.id}|${key}`,
+      ) as unknown as { vote: "yes" | "no" | "abstain" | "absent" } | undefined;
+      const vote =
+        chosen?.vote ??
+        (key === player
+          ? "abstain"
+          : total > 0
+            ? "yes"
+            : total < 0
+              ? "no"
+              : "abstain");
+      if (vote === "yes") yes += 1;
+      else if (vote === "no") {
+        no += 1;
+        against.push(key);
       }
-      // The chamber's own name from its body record (House, Senate, Assembly...), never its key.
-      const named = bodyOf(api, chamber);
-      tallies.push({
+      rows.push({
+        id: `vote:${bill.id}:${key}`,
+        billId: bill.id,
+        memberId: key,
         chamber,
-        title: named?.bodyName ?? named?.governmentName ?? "",
-        yes,
-        no,
-      });
-      const cloture =
-        chamber === FEDERAL_SENATE &&
-        yes <
-          Math.ceil(
-            members(api, chamber).length *
-              campaignParameter("senateClotureShare"),
-          );
-      if (yes <= no || cloture)
-        return { adopted: false, tallies, rows, against };
+        vote,
+        position: { ...position, total },
+      } as unknown as ModuleRow);
     }
-    return { adopted: true, tallies, rows, against: [] as string[] };
-  };
+    // The chamber's own name from its body record (House, Senate, Assembly...), never its key.
+    const named = bodyOf(api, chamber);
+    tallies.push({
+      chamber,
+      title: named?.bodyName ?? named?.governmentName ?? "",
+      yes,
+      no,
+    });
+    const cloture =
+      chamber === FEDERAL_SENATE &&
+      yes <
+        Math.ceil(
+          members(api, chamber).length *
+            campaignParameter("senateClotureShare"),
+        );
+    if (yes <= no || cloture) return { adopted: false, tallies, rows, against };
+  }
+  return { adopted: true, tallies, rows, against: [] as string[] };
+}
+
+/** Vote the budget, and negotiate it with its opponents until it passes or no change is left. */
+function negotiateBudget(
+  api: CoreAPI,
+  bill: BillRow,
+  chambers: BudgetChambers,
+  provisions: readonly Provision[],
+  player: string | null | undefined,
+): {
+  kept: readonly Provision[];
+  result: BudgetRoll;
+  halved: Map<string, number>;
+  dropped: string[];
+} {
+  const roll = (kept: readonly Provision[]) =>
+    budgetRoll(api, bill, chambers, kept, player);
   // A rejected budget is negotiated, not abandoned: the leaders meet its
   // opponents in the failing chamber halfway on the change they object to
   // most, halving it, and vote again; a change halved as far as the
@@ -1518,6 +1556,30 @@ function councilBudget(
     result = roll(kept);
   }
   if (!kept.length) result = { ...result, adopted: false };
+  return { kept, result, halved, dropped };
+}
+
+function councilBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): BudgetRow | null {
+  const chambers = budgetChambers(api, gov);
+  if (!chambers || !chambers.chambers.every((c) => members(api, c).length))
+    return null;
+  const filed = budgetBillFor(api, gov, fy, chambers);
+  if (!filed) return null;
+  const { bill, provisions } = filed;
+  const player =
+    snapshotExplicitControlV1(api.state).personId ??
+    (api.state as CoreState).playerId;
+  const { kept, result, halved, dropped } = negotiateBudget(
+    api,
+    bill,
+    chambers,
+    provisions,
+    player,
+  );
   for (const row of result.rows) table(api, "votes").put(row);
   // Each chamber's roll call on the budget is public record the press reads,
   // like any bill's.
@@ -1984,26 +2046,25 @@ export function billStances(
  */
 export function authorityFor(api: CoreAPI, provision: Provision): Authority {
   const chain = lawChain(api);
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
   if (provision.kind === "law-amount" && provision.series === "minimum-wage") {
-    const rows = laws.query("bySeriesOnly", [
+    const rows = storedLawRowsOfSeries(
+      api,
       "local-minimum-wage-authority",
-    ]) as unknown as LawRowInput[];
+    ) as LawRowInput[];
     // A state's grant of authority enacted in play counts too.
-    const enacted = api
-      .moduleState(LAWS_MODULE_ID)
-      .table("enactments")
-      .query("bySeries", [
-        "local-minimum-wage-authority",
-      ]) as unknown as EnactedAuthority[];
+    const enacted = enactmentRowsOfSeries<EnactedAuthority>(
+      api,
+      "local-minimum-wage-authority",
+    ) as EnactedAuthority[];
     const authority = localAuthority(
       rows,
       enacted,
       chain,
       api.state.date,
-      laws.query("bySeriesOnly", [
+      storedLawRowsOfSeries(
+        api,
         LOCAL_WAGE_AUTHORITY_QUESTION,
-      ]) as unknown as LawRowInput[],
+      ) as LawRowInput[],
     );
     return authority.allowed
       ? {
@@ -3137,12 +3198,7 @@ function checkedText(
   // decided it: the state's authority answer or the question that enacted it.
   for (const [i, p] of provisions.entries()) {
     const a = authority[i]!;
-    const decidedBy = a.source
-      ? (api
-          .moduleState(LAWS_MODULE_ID)
-          .table("laws")
-          .get(a.source) as unknown as LawRowInput | undefined)
-      : undefined;
+    const decidedBy = a.source ? lawRowById(api, a.source) : undefined;
     // A question answered no is no law to apply; the state's preemption is
     // the grant series' own row.
     if (
@@ -6408,9 +6464,20 @@ export function holdEveryChamber(api: CoreAPI, billId: string): BillRow {
   return held;
 }
 
-function countVote(api: CoreAPI, billId: string, anyDay: boolean): BillRow {
+/**
+ * A bill that may be voted on the floor today: ended (returned as it stands)
+ * where it is not drafted, waits on the next chamber's own sitting, or is
+ * blocked by its text; else the bill with its text checked and the
+ * before-the-vote hooks run.
+ */
+function readyForFloor(
+  api: CoreAPI,
+  billId: string,
+  anyDay: boolean,
+): { ended: BillRow } | { bill: BillRow } {
   let bill = table(api, "bills").get(billId) as unknown as BillRow;
-  if (bill.status !== "drafted" && bill.status !== "blocked") return bill;
+  if (bill.status !== "drafted" && bill.status !== "blocked")
+    return { ended: bill };
   // A bill one chamber passed is voted by the next only on that chamber's own
   // sitting; with none booked it waits, and dies when the session ends.
   if (
@@ -6418,19 +6485,30 @@ function countVote(api: CoreAPI, billId: string, anyDay: boolean): BillRow {
     !anyDay &&
     !(bill.nextChamberOn && api.state.date >= bill.nextChamberOn)
   )
-    return bill;
+    return { ended: bill };
   bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
   table(api, "bills").put(bill as unknown as ModuleRow);
-  if (bill.status === "blocked") return bill;
+  if (bill.status === "blocked") return { ended: bill };
   runBeforeVote(api, billId, "floor");
   bill = table(api, "bills").get(billId) as unknown as BillRow;
-  if (bill.status !== "drafted") return bill;
+  if (bill.status !== "drafted") return { ended: bill };
   bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
   table(api, "bills").put(bill as unknown as ModuleRow);
-  if (bill.status === "blocked") return bill;
-  const chambers = chambersOf(api, bill);
-  const before = bill.chambersPassed ?? [];
-  const chamber = chambers[before.length]!;
+  if (bill.status === "blocked") return { ended: bill };
+  return { bill };
+}
+
+/**
+ * The committee's stage before the floor: ended (the bill as the committee left
+ * it) where it did not report the bill out; else the bill as its markup left it,
+ * citing the report that sent it to the floor.
+ */
+function reportFromCommittee(
+  api: CoreAPI,
+  billInput: BillRow,
+  chamber: string,
+): { ended: BillRow } | { bill: BillRow } {
+  let bill = billInput;
   const committee = committeeStage(api, bill, chamber);
   // The bill as its markup left it.
   bill = table(api, "bills").get(bill.id) as unknown as BillRow;
@@ -6443,16 +6521,27 @@ function countVote(api: CoreAPI, billId: string, anyDay: boolean): BillRow {
     table(api, "bills").put(held as unknown as ModuleRow);
     if (committee.heard)
       recordFailure(api, held, chamber, "committee", committee);
-    return held;
+    return { ended: held };
   }
   // The floor's vote cites the report that sent the bill to it.
   if (committee && !bill.committeeId) {
     bill = { ...bill, committeeId: committee.id };
     table(api, "bills").put(bill as unknown as ModuleRow);
   }
-  recordPromises(api, bill, chamber);
-  bill = floorAmendments(api, bill, chamber);
-  const counted = chamberVote(api, bill, chamber);
+  return { bill };
+}
+
+/**
+ * The floor's tally after a count: a tie goes to the presiding officer who may
+ * break one, and the U.S. Senate first needs three fifths of its sworn members
+ * to end debate.
+ */
+function floorTally(
+  api: CoreAPI,
+  bill: BillRow,
+  chamber: string,
+  counted: { yes: number; no: number },
+): { tally: { yes: number; no: number }; cloture: boolean } {
   // A tie: the presiding officer who may break one does (the Vice President
   // in the U.S. Senate, a lieutenant governor where the state's law says);
   // otherwise a tied vote fails.
@@ -6483,6 +6572,23 @@ function countVote(api: CoreAPI, billId: string, anyDay: boolean): BillRow {
       Math.ceil(
         members(api, chamber).length * campaignParameter("senateClotureShare"),
       );
+  return { tally, cloture };
+}
+
+function countVote(api: CoreAPI, billId: string, anyDay: boolean): BillRow {
+  const ready = readyForFloor(api, billId, anyDay);
+  if ("ended" in ready) return ready.ended;
+  let bill = ready.bill;
+  const chambers = chambersOf(api, bill);
+  const before = bill.chambersPassed ?? [];
+  const chamber = chambers[before.length]!;
+  const reported = reportFromCommittee(api, bill, chamber);
+  if ("ended" in reported) return reported.ended;
+  bill = reported.bill;
+  recordPromises(api, bill, chamber);
+  bill = floorAmendments(api, bill, chamber);
+  const counted = chamberVote(api, bill, chamber);
+  const { tally, cloture } = floorTally(api, bill, chamber, counted);
   // The roll is closed: its member rows go to the record with the outcome.
   recordRoll(api, counted.rows, !(tally.yes <= tally.no || cloture));
   if (tally.yes <= tally.no || cloture) {
@@ -7487,6 +7593,153 @@ export function sectionDates(
  * after enactment unless it names a date; a state act by its state's default
  * rule. Each section's date is `sectionDates`.
  */
+/** What the steps of `enact` share: the bill, the body it passed in, how its rows are cited and the terms its act records. */
+interface EnactContext {
+  api: CoreAPI;
+  bill: BillRow;
+  jurisdiction: string;
+  level: ReturnType<typeof effectiveRule>["level"];
+  citation: string;
+  estimate: boolean;
+  terms: Record<string, unknown> | undefined;
+}
+
+/** A section that repeals a law series: the repeal takes effect on the section's date. */
+function repealSeriesStep(
+  ctx: EnactContext,
+  provision: Provision & { series: string },
+  effectiveDate: string,
+): void {
+  const { api, bill, jurisdiction, level, citation, terms } = ctx;
+  repealLaw(api, {
+    jurisdiction,
+    level,
+    series: provision.series,
+    effectiveDate,
+    measureId: bill.number,
+    citation,
+    terms: { ...(terms ?? {}), repealedByBill: bill.id },
+  });
+}
+
+/** A section that sets a law's amount: the bill sets the amount, never the unit. */
+function enactAmountStep(
+  ctx: EnactContext,
+  provision: Provision & { series: string },
+  effectiveDate: string,
+): void {
+  const { api, bill, jurisdiction, level, citation, estimate, terms } = ctx;
+  const current = amendedRow(api, provision.series, jurisdiction, level);
+  const shaped = shapedRate(current, provision);
+  enactLaw(api, {
+    jurisdiction,
+    level,
+    series: provision.series,
+    value: provision.value,
+    // A bill sets the law's amount, never its unit: a section that names
+    // no unit amends the law in the law's own unit.
+    unit:
+      shaped?.unit ??
+      provision.unit ??
+      current?.unit ??
+      (provision.series === "minimum-wage" ? "minor/hour" : "percent"),
+    effectiveDate,
+    measureId: bill.number,
+    citation,
+    estimate,
+    // The bill itself, not only its number: numbers repeat across bodies
+    // and sessions, and a recall or the record finds the bill by this.
+    terms: {
+      ...amendedTerms(current, shaped?.terms),
+      ...(terms ?? {}),
+      enactedByBill: bill.id,
+    },
+  });
+}
+
+/** A section that changes a budget line: the line is amended the day the bill becomes law. */
+function enactBudgetLineStep(
+  ctx: EnactContext,
+  provision: Provision & { line: string },
+  enactedValue: number,
+): void {
+  const { bill, jurisdiction } = ctx;
+  const { api } = ctx;
+  // stopgapId: SG-LEGISLATURE-dated-budget-line-amended-on-enactment
+  // A budget section's own date is not read yet: the line is amended
+  // the day the bill becomes law, whatever date the section names.
+  amendBudget(api, {
+    governmentId: jurisdiction,
+    line: provision.line,
+    deltaMinor: enactedValue,
+    measureId: bill.number,
+    carry: true,
+  });
+  if (provision.requestId && provision.recipientId)
+    payProjectGrant(api, {
+      requestId: provision.requestId,
+      fromGovernmentId: jurisdiction,
+      amountMinor: enactedValue,
+      measureId: bill.number,
+    });
+}
+
+/**
+ * A section that answers a policy question: the repeat it records where it only
+ * restates what is already law at this level, else null after writing the law.
+ */
+function enactQuestionStep(
+  ctx: EnactContext,
+  provision: Provision & { question: string },
+  effectiveDate: string,
+): NonNullable<BillRow["repeats"]>[number] | null {
+  const { api, bill, jurisdiction, level, citation, estimate, terms } = ctx;
+  const question = policySeriesAtLevel(provision.question, level);
+  // A section that only repeats what is already law at this level (in
+  // force, or passed earlier and waiting on its date) changes nothing: it
+  // writes no new law and the act records the row it repeats. A bill's
+  // sections are written when it passes, not when they were added, so
+  // another bill may have made the same law in between.
+  const settled = questionSettled(
+    api,
+    jurisdiction,
+    question,
+    provision.value,
+    bill.id,
+    effectiveDate,
+  );
+  if (
+    settled &&
+    (settled.why === "restates-in-force" || settled.why === "restates-pending")
+  ) {
+    return { question: provision.question, ...settled };
+  }
+  enactLaw(api, {
+    jurisdiction,
+    level,
+    series: question,
+    value: provision.value > 0 ? 1 : 0,
+    effectiveDate,
+    measureId: bill.number,
+    citation,
+    estimate,
+    // The bill itself, not only its number: numbers repeat across bodies
+    // and sessions, and a recall or the record finds the bill by this.
+    terms: {
+      ...(terms ?? {}),
+      enactedByBill: bill.id,
+      // How strongly the sponsor holds the question (their own record or
+      // views), for a reader that needs the rate or size they would
+      // write: a flat tax that replaces a graduated one is read from it.
+      sponsorStance:
+        Math.round(
+          memberStanceOn(api, bill.sponsorId, provision.question) * 1000,
+        ) / 1000,
+    },
+  });
+  return null;
+}
+
 function enact(
   api: CoreAPI,
   bill: BillRow,
@@ -7528,6 +7781,15 @@ function enact(
       }
     | undefined;
   const repeats: NonNullable<BillRow["repeats"]>[number][] = [];
+  const ctx: EnactContext = {
+    api,
+    bill,
+    jurisdiction,
+    level,
+    citation,
+    estimate,
+    terms,
+  };
   const dates = sectionDates(
     bill.provisions,
     api.state.date,
@@ -7552,110 +7814,32 @@ function enact(
       provision.series &&
       provision.repeal
     ) {
-      repealLaw(api, {
-        jurisdiction,
-        level,
-        series: provision.series,
-        effectiveDate,
-        measureId: bill.number,
-        citation,
-        terms: { ...(terms ?? {}), repealedByBill: bill.id },
-      });
-      continue;
-    }
-    if (provision.kind === "law-amount" && provision.series) {
-      const current = amendedRow(api, provision.series, jurisdiction, level);
-      const shaped = shapedRate(current, provision);
-      enactLaw(api, {
-        jurisdiction,
-        level,
-        series: provision.series,
-        value: provision.value,
-        // A bill sets the law's amount, never its unit: a section that names
-        // no unit amends the law in the law's own unit.
-        unit:
-          shaped?.unit ??
-          provision.unit ??
-          current?.unit ??
-          (provision.series === "minimum-wage" ? "minor/hour" : "percent"),
-        effectiveDate,
-        measureId: bill.number,
-        citation,
-        estimate,
-        // The bill itself, not only its number: numbers repeat across bodies
-        // and sessions, and a recall or the record finds the bill by this.
-        terms: {
-          ...amendedTerms(current, shaped?.terms),
-          ...(terms ?? {}),
-          enactedByBill: bill.id,
-        },
-      });
-    }
-    if (provision.kind === "budget-line" && provision.line) {
-      // stopgapId: SG-LEGISLATURE-dated-budget-line-amended-on-enactment
-      // A budget section's own date is not read yet: the line is amended
-      // the day the bill becomes law, whatever date the section names.
-      amendBudget(api, {
-        governmentId: jurisdiction,
-        line: provision.line,
-        deltaMinor: enactedValue,
-        measureId: bill.number,
-        carry: true,
-      });
-      if (provision.requestId && provision.recipientId)
-        payProjectGrant(api, {
-          requestId: provision.requestId,
-          fromGovernmentId: jurisdiction,
-          amountMinor: enactedValue,
-          measureId: bill.number,
-        });
-    }
-    if (provision.kind === "policy-question" && provision.question) {
-      const question = policySeriesAtLevel(provision.question, level);
-      // A section that only repeats what is already law at this level (in
-      // force, or passed earlier and waiting on its date) changes nothing: it
-      // writes no new law and the act records the row it repeats. A bill's
-      // sections are written when it passes, not when they were added, so
-      // another bill may have made the same law in between.
-      const settled = questionSettled(
-        api,
-        jurisdiction,
-        question,
-        provision.value,
-        bill.id,
+      repealSeriesStep(
+        ctx,
+        provision as Provision & { series: string },
         effectiveDate,
       );
-      if (
-        settled &&
-        (settled.why === "restates-in-force" ||
-          settled.why === "restates-pending")
-      ) {
-        repeats.push({ question: provision.question, ...settled });
-        continue;
-      }
-      enactLaw(api, {
-        jurisdiction,
-        level,
-        series: question,
-        value: provision.value > 0 ? 1 : 0,
+      continue;
+    }
+    if (provision.kind === "law-amount" && provision.series)
+      enactAmountStep(
+        ctx,
+        provision as Provision & { series: string },
         effectiveDate,
-        measureId: bill.number,
-        citation,
-        estimate,
-        // The bill itself, not only its number: numbers repeat across bodies
-        // and sessions, and a recall or the record finds the bill by this.
-        terms: {
-          ...(terms ?? {}),
-          enactedByBill: bill.id,
-          // How strongly the sponsor holds the question (their own record or
-          // views), for a reader that needs the rate or size they would
-          // write: a flat tax that replaces a graduated one is read from it.
-          sponsorStance:
-            Math.round(
-              memberStanceOn(api, bill.sponsorId, provision.question) * 1000,
-            ) / 1000,
-        },
-      });
+      );
+    if (provision.kind === "budget-line" && provision.line)
+      enactBudgetLineStep(
+        ctx,
+        provision as Provision & { line: string },
+        enactedValue,
+      );
+    if (provision.kind === "policy-question" && provision.question) {
+      const repeat = enactQuestionStep(
+        ctx,
+        provision as Provision & { question: string },
+        effectiveDate,
+      );
+      if (repeat) repeats.push(repeat);
     }
   }
   const next: BillRow = {

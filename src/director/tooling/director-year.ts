@@ -30,7 +30,7 @@ import type {
   PersonId,
 } from "../../core2/types";
 import { createDirector, type Director } from "../ledger";
-import { openDirectorStopgapCount } from "../stopgaps";
+import { openStopgapCount } from "../../core2/stopgaps";
 
 interface Options {
   input: string;
@@ -335,7 +335,7 @@ async function main() {
     seconds: result.seconds,
     memory: { before: result.before, after: result.after },
     directorStopgapHits: [...result.director.ledger.stopgapHits].sort(),
-    openDirectorStopgaps: openDirectorStopgapCount(),
+    openStopgaps: openStopgapCount(),
     lives: detailed.map((id) =>
       lifeSummary(result.core, result.director, id, result.traces.get(id)),
     ),

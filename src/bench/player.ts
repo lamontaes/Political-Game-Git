@@ -7,7 +7,7 @@ import {
   earliestPlayerStopV1,
   type PlayerPacketV1,
   type PlayerMomentV1,
-} from "../core2/player-v1";
+} from "../core2/modules/world";
 import { parameter } from "../core2/parameters";
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
 import type { CoreState } from "../core2/types";
