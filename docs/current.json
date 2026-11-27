@@ -1867,6 +1867,12 @@
       "now": "tests/source/household-mix.test.ts holds its derivation",
       "when": "2026-11-27",
       "why": "Content is data (People item 2): the game imports the data file, and the derivation runs as a test, not as a generator that writes code."
+    },
+    {
+      "old": "src/core2/gov-rules/invented-person-age.ts",
+      "now": "src/core2/person-invented-age.ts",
+      "when": "2026-11-27",
+      "why": "How an invented person gets an age is the people engine's; the Lawmaking scope correction sends it there."
     }
   ]
 }
