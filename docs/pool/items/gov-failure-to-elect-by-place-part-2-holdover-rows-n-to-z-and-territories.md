@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** Research before building: each row cites statute or constitution. One rule, all 56 places: rules live in data per place. Estimate, never UNKNOWN: a place whose rule is not found keeps the family default marked ESTIMATED with the reason.
 
-**Done when.** A second session plays a one-year world in a drawn place in this range (named with its seed) with an empty race and sees the holdover or dated repeat election record by id as the place's row says; `src/core2/voting.test.ts` checks one place's holdover and one repeat election date, and `SG-GOV-empty-race-law` is resolved in `src/core2/data/stopgaps/gov.json`.
+**Done when.** A second session plays a one-year world in a drawn place in this range (named with its seed) with an empty race and sees the holdover or dated repeat election record by id as the place's row says; `tests/src/core2/voting.test.ts` checks one place's holdover and one repeat election date, and `SG-GOV-empty-race-law` is resolved in `src/core2/data/stopgaps/gov.json`.
 
 **Waits on.** Network access to the state statute sites. Also gov-failure-to-elect-by-place-part-1-holdover-rows-a-to-m (the stopgap resolves when both halves land).
 
-**Files.** src/core2/data/offices/holdover.json, src/core2/modules/voting.ts, src/core2/office-holdover.ts, src/core2/voting.test.ts, src/core2/data/stopgaps/gov.json
+**Files.** src/core2/data/offices/holdover.json, src/core2/modules/voting.ts, src/core2/office-holdover.ts, tests/src/core2/voting.test.ts, src/core2/data/stopgaps/gov.json
 
 **Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Research citations of holdover law, seen nowhere.

@@ -11,10 +11,15 @@
  */
 import type { CoreAPI, CoreState } from "../types";
 import { lawChain } from "../modules/laws";
-import { residentsRuntime } from "../modules/residents";
-import { serviceOf, veteranShare } from "../past";
+import { residentsRuntime } from "../residents-reads";
+import { serviceOf, veteranShare } from "../past-work";
 import { reachParameter, townFacts } from "./group-b-people";
 import { getRow, putRow, REACH_B_MODULE_ID } from "./group-b-store";
+import {
+  VETERANS_INCOME_ROW,
+  VETERANS_KEY,
+  VETERANS_LINE,
+} from "./group-b-store-constants";
 import { coreAPI } from "../state";
 import {
   federalBenefitLine,
@@ -22,13 +27,6 @@ import {
   reconcileObligations,
   recordLineShare,
 } from "./group-b-money";
-
-/** The federal budget line veterans' benefits are paid from, and its law-reach key. */
-export const VETERANS_LINE = "veterans";
-export const VETERANS_KEY = `budget-line:${VETERANS_LINE}`;
-
-/** The record of each household's month of veterans' benefits (the reach's `taken` table). */
-const VETERANS_INCOME_ROW = `veterans|${VETERANS_KEY}`;
 
 /**
  * What the veterans line pays each household a year, in minor units, named
@@ -48,18 +46,6 @@ export function veteransIncomeByHousehold(
   for (const [id, monthly] of Object.entries(row?.monthlyByHousehold ?? {}))
     out.set(id, monthly * reachParameter("monthsPerYear"));
   return out;
-}
-
-/** What the veterans line pays one household a year (a lookup, never the whole map). */
-export function veteransIncomeOf(core: CoreState, householdId: string): number {
-  if (!core.modules.has(REACH_B_MODULE_ID)) return 0;
-  const row = getRow<{ monthlyByHousehold: Record<string, number> }>(
-    coreAPI(core),
-    "taken",
-    VETERANS_INCOME_ROW,
-  );
-  const monthly = row?.monthlyByHousehold?.[householdId];
-  return monthly === undefined ? 0 : monthly * reachParameter("monthsPerYear");
 }
 
 /** Whether a full resident served, read once per world from the past's service pass. */

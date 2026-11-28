@@ -32,4 +32,4 @@ source: added with npm run pool -- add
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/press-staff.ts, src/core2/modules/press.ts, src/core2/data/press/staff.json, src/core2/press-owner-household.test.ts
+**Files.** src/core2/press-staff.ts, src/core2/modules/press.ts, src/core2/data/press/staff.json, tests/src/core2/press-owner-household.test.ts

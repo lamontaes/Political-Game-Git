@@ -7,7 +7,7 @@
   "head": "d524292988be225798c206d63b9f0150a52cd4e7",
   "sourceDiff": [
     "src/core2/modules/press.ts",
-    "src/core2/press-local-concern.test.ts"
+    "tests/src/core2/press-local-concern.test.ts"
   ],
   "heapMiB": 8192,
   "semiSpaceMiB": 64,

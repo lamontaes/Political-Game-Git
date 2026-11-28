@@ -20,9 +20,9 @@ checked: fable 2026-11-10
 claimed-at: 2026-11-11T01:24:58.766Z
 ---
 
-**What.** Confirmer replay of Lane 1 path 3 on main 2e321723d8: New Game in Murray, Nebraska (3133425, replay 1d3f0e18ca4ba7e5), Emily Carter (person_ea1ae075f260430c) filed for Council member on June 2, 2026, knocked doors every week (Campaigns shows 54 doors after the first evening and 4,105 by November), and won November 3, 2026, 110 to 37, 34 and 4. Path 3 also asks to see the race's record showing that people who promised voted more than their neighbors (17% against 19% before #7163). No screen, results row or printed run log carries that comparison, and path-check prints the count of door yeses but not their turnout. The comparison exists only inside `src/core2/door-pledge.test.ts`, which a confirmer cannot count.
+**What.** Confirmer replay of Lane 1 path 3 on main 2e321723d8: New Game in Murray, Nebraska (3133425, replay 1d3f0e18ca4ba7e5), Emily Carter (person_ea1ae075f260430c) filed for Council member on June 2, 2026, knocked doors every week (Campaigns shows 54 doors after the first evening and 4,105 by November), and won November 3, 2026, 110 to 37, 34 and 4. Path 3 also asks to see the race's record showing that people who promised voted more than their neighbors (17% against 19% before #7163). No screen, results row or printed run log carries that comparison, and path-check prints the count of door yeses but not their turnout. The comparison exists only inside `tests/src/core2/door-pledge.test.ts`, which a confirmer cannot count.
 
-**Cause.** Found in code: `src/bench/path-check.ts` line 385 prints the count of door yeses (`door yes N`) but not whether they voted; the comparison exists only in `src/core2/door-pledge.test.ts`. Measured: Murray, Nebraska (3133425, replay 1d3f0e18ca4ba7e5).
+**Cause.** Found in code: `tests/golden-path/path-check.ts` line 385 prints the count of door yeses (`door yes N`) but not whether they voted; the comparison exists only in `tests/src/core2/door-pledge.test.ts`. Measured: Murray, Nebraska (3133425, replay 1d3f0e18ca4ba7e5).
 
 **Fix.** Print, in path-check's campaign line or the race's results record, the share of door-yes people who voted and the share of other adults who voted, reading the campaigns pledges table and the ballots. No new screen.
 
@@ -34,6 +34,6 @@ claimed-at: 2026-11-11T01:24:58.766Z
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/path-check.ts, src/core2/modules/campaigns.ts, src/bench/election-night.ts, src/core2/door-pledge.test.ts
+**Files.** tests/golden-path/path-check.ts, src/core2/modules/campaigns.ts, src/bench/election-night.ts, tests/src/core2/door-pledge.test.ts
 
 **Notes.** TODO

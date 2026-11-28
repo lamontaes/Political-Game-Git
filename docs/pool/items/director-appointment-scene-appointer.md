@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** In a played world (buildBenchWorld) in a drawn place from a seed the builder did not choose (named in the failure message), a test watches each appointee the day they are named and runs 420 days to the first governor term that ends, and checks the appointment record, the appointee in the scene and exactly one appointer who is not the appointee, by record id.
 
-**Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/director/director.test.ts
+**Files.** src/director/scheduling.ts, src/director/data/situation-types.json, tests/src/director/director.test.ts
 
 **Notes.** Body repaired from the item's title and its pull request on 2026-10-16.
 

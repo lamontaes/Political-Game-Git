@@ -67,7 +67,7 @@ import { expectedRenterHouseholds } from "../../src/core2/modules/housing";
 import type { CoreModule, CoreState } from "../../src/core2/types";
 import policies from "../../scripts/core2-guard/policies.json" with { type: "json" };
 
-/** The bench's opening day (src/bench/m0-check.ts). */
+/** The bench's opening day (scripts/bench/m0-check.ts). */
 const OPENING_DATE = gameStartDate();
 const nightly = process.env.GOLDEN_PATH_MODE === "nightly";
 /** The runner's own draw for its first world, so its receipt names the place that ran. */
@@ -118,7 +118,7 @@ const ROUTINE_ACTS = new Set(["rest", "contact-known-person"]);
 
 /**
  * Modules that wait for a cause an ordinary year may not raise (M0-13, CTO
- * ruling Nov 8). Each is listed only because `src/core2/forced-causes.test.ts`
+ * ruling Nov 8). Each is listed only because `tests/src/core2/forced-causes.test.ts`
  * forces its cause in a played world and shows the module acting on it. Such a
  * module idle in the year reads "unobserved", not broken. Every other module
  * idle or unchanged is still broken; add a module here only with its forced test.
@@ -127,14 +127,14 @@ const CAUSE_GATED: Record<string, string> = {
   "core2-ballot-measures-v1": "a measure placed on a ballot",
   "core2-estates-v1": "a person of means dying",
   "core2-executive-v1": "an appointed post losing its holder",
-  // Forced by src/core2/recalls.test.ts (an ordinance starts a recall).
+  // Forced by tests/src/core2/recalls.test.ts (an ordinance starts a recall).
   "core2-recalls-v1":
     "an ordinance that aggrieves enough residents to petition",
-  // Forced in a played world by src/core2/succession.test.ts (the president dies).
+  // Forced in a played world by tests/src/core2/succession.test.ts (the president dies).
   "core2-succession-v1": "a president or vice president dying",
-  // Forced by src/core2/office-day-federal.test.ts (a federal office day).
+  // Forced by tests/src/core2/office-day-federal.test.ts (a federal office day).
   "core2-office-day-federal-v1": "a federal officeholder's working day",
-  // Forced by src/bench/dev-bribe.test.ts (dev mode's forced bribe).
+  // Forced by tests/src/bench/dev-bribe.test.ts (dev mode's forced bribe).
   corruption: "an official offered a bribe",
 };
 

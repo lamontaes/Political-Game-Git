@@ -17,8 +17,8 @@ claimed-at: 2026-10-27T16:17:17.615Z
 
 **Rules.** Wire to the world: the scene reads the election module's own election-result record and casts a candidate it names whom the player knows, never a drawn person. Replace, never layer: the celebration cause that would restage the player's own win beside race-won is deleted, not kept waiting. No dice: who tells is scored on tie and sociability.
 
-**Done when.** In a buildBenchWorld drawn place with the seed named, a played year through the player clock in src/director/circumstance.test.ts stages news-arrives from an election-result record id, cast as a candidate the record names whom the player knows, and the scene web report shows two fewer rows waiting on a producer.
+**Done when.** In a buildBenchWorld drawn place with the seed named, a played year through the player clock in tests/src/director/circumstance.test.ts stages news-arrives from an election-result record id, cast as a candidate the record names whom the player knows, and the scene web report shows two fewer rows waiting on a producer.
 
-**Files.** src/director/data/circumstances.json, src/director/data/situation-types.json, src/director/circumstance.test.ts
+**Files.** src/director/data/circumstances.json, src/director/data/situation-types.json, tests/src/director/circumstance.test.ts
 
 **Notes.** TODO

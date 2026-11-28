@@ -22,7 +22,8 @@
  * office day says they stayed away is a day they did not sit (`absences`).
  * Nothing rolls a die.
  */
-import { halfLifeDays, registerSharedHours } from "./closeness";
+import { halfLifeDays } from "./closeness";
+import { fieldsOf } from "./module-fields";
 import { knownAmong } from "./encounters";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState, PersonId } from "./types";
@@ -70,18 +71,8 @@ export interface SittingCalendar {
   ) => ReadonlyMap<string, readonly string[]>;
 }
 
-const calendars: SittingCalendar[] = [];
-/** Each engine that keeps bodies' calendars registers what it knows. */
-export function registerSittingCalendar(reader: SittingCalendar): void {
-  if (!calendars.includes(reader)) calendars.push(reader);
-  // Registered when a world opens, never as the file loads: in an import
-  // cycle the closeness module's holder may not exist yet.
-  registerSharedHours(sittingHours, {
-    kind: COLLEAGUE_KIND,
-    knownTo: sittingKnownTo,
-    together: sittingTogether,
-  });
-}
+/** Each engine that keeps bodies' calendars carries what it knows as its `sittingCalendar` field. */
+const calendarsOf = (core: CoreState) => fieldsOf(core, "sittingCalendar");
 
 const DAY_MS = 86_400_000;
 const days = new Map<string, number>();
@@ -339,9 +330,8 @@ function fadedDaysSince(k: Kept, s: BodySeries, since: string): number {
  * shares no body.
  */
 export function sittingHours(core: object, a: PersonId, b: PersonId): number {
-  if (!calendars.length) return 0;
   const state = core as CoreState;
-  if (!state.modules) return 0;
+  if (!state.modules || !calendarsOf(state).length) return 0;
   const k = keptFor(state);
   const mine = bodiesOf(k, a);
   if (!mine.length) return 0;
@@ -376,7 +366,7 @@ export function sittingHoursByBody(
   a: PersonId,
   b: PersonId,
 ): readonly { readonly bodyId: string; readonly hours: number }[] {
-  if (!calendars.length || !core.modules) return [];
+  if (!core.modules || !calendarsOf(core).length) return [];
   const k = keptFor(core);
   const theirs = bodiesOf(k, b);
   return bodiesOf(k, a)
@@ -388,10 +378,12 @@ export function sittingHoursByBody(
 }
 
 /** The colleagues a person knows through the bodies they sit on today, nearest first. */
-function sittingKnownTo(core: object, id: PersonId): readonly PersonId[] {
-  if (!calendars.length) return [];
+export function sittingKnownTo(
+  core: object,
+  id: PersonId,
+): readonly PersonId[] {
   const state = core as CoreState;
-  if (!state.modules) return [];
+  if (!state.modules || !calendarsOf(state).length) return [];
   const k = keptFor(state);
   const bodies = bodiesOf(k, id);
   if (!bodies.length) return [];
@@ -407,14 +399,13 @@ function sittingKnownTo(core: object, id: PersonId): readonly PersonId[] {
  * shared in a body they both sit on today, through today; null before their
  * first. The body is the record.
  */
-function sittingTogether(
+export function sittingTogether(
   core: object,
   a: PersonId,
   b: PersonId,
 ): { first: string; last: string; sourceId: string } | null {
-  if (!calendars.length) return null;
   const state = core as CoreState;
-  if (!state.modules) return null;
+  if (!state.modules || !calendarsOf(state).length) return null;
   const k = keptFor(state);
   const mine = bodiesOf(k, a);
   if (!mine.length) return null;
@@ -451,14 +442,14 @@ function readerFor(
   api: CoreAPI,
   officeId: string,
 ): SittingCalendar | undefined {
-  return calendars.find((c) => c.owns(api, officeId));
+  return calendarsOf(api.state).find((c) => c.owns(api, officeId));
 }
 
 /** The bodies a person sits on today, from every engine that keeps bodies, kept for the day. */
 function bodiesOf(k: Kept, id: string): readonly string[] {
   let held = k.bodiesOf.get(id);
   if (!held) {
-    held = calendars.flatMap((c) => c.bodiesOf(k.api, id));
+    held = calendarsOf(k.api.state).flatMap((c) => c.bodiesOf(k.api, id));
     k.bodiesOf.set(id, held);
   }
   return held;
@@ -472,7 +463,7 @@ function absencesOf(
   let held = k.absent.get(id);
   if (!held) {
     const all = new Map<string, string[]>();
-    for (const c of calendars)
+    for (const c of calendarsOf(k.api.state))
       for (const [body, dates] of c.absences?.(k.api, id) ?? [])
         all.set(body, [...(all.get(body) ?? []), ...dates]);
     held = all;
@@ -517,7 +508,7 @@ export function noSittingTie(
   core: CoreState,
   personId: PersonId,
 ): "no-body" | "no-sitting-yet" | "known-colleagues-not-full" | null {
-  if (!calendars.length) return "no-body";
+  if (!calendarsOf(core).length) return "no-body";
   const k = keptFor(core);
   const bodies = bodiesOf(k, personId);
   if (!bodies.length) return "no-body";

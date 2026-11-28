@@ -51,7 +51,7 @@ import {
   servingStaffOf,
   staffCandidates,
 } from "../core2/modules/staff";
-import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { officeById, termsOfPerson } from "../core2/modules/offices";
 import { billOf as legislatureBillOf } from "../core2/modules/legislature";
 import { deskVetoReasons } from "../core2/modules/office-day";
 import type { CoreState } from "../core2/types";
@@ -59,7 +59,6 @@ import {
   billOf,
   bodyOf,
   learnedStakesOf,
-  LEGISLATURE_MODULE_ID,
   memberKey,
   members,
   votesOn,
@@ -106,6 +105,7 @@ import { budgetProposalDue } from "../core2/modules/office-day";
 import { budgetsOf, governmentOfJurisdiction } from "../core2/modules/budgets";
 import { lineName } from "./budget";
 import { headsExecutive } from "../core2/offices-executives";
+import { allBills } from "../core2/modules/bodies-reads";
 
 /** A bill as the meeting and the desk show it: its real name, number, sponsor, remarks and votes; its sections are on the paper (Read the bill). */
 export function billItem(core: CoreState, bill: BillRow) {
@@ -397,15 +397,8 @@ const STOP_SWITCHES = [
 
 /** Which switches this seat has: a local body's meetings, a legislator's floor, an executive's desk. */
 function seatSwitches(api: ReturnType<typeof coreAPI>, personId: string) {
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const executive = (
-    offices.table("terms").query("byPerson", [personId]) as unknown as {
-      status: string;
-      officeId: string;
-    }[]
-  ).some((term) => {
-    const office = offices.table("offices").get(term.officeId) as unknown as
-      { kind: string } | undefined;
+  const executive = termsOfPerson(api, personId).some((term) => {
+    const office = officeById(api, term.officeId);
     return term.status === "serving" && headsExecutive(office?.kind ?? "");
   });
   const federal = federalSeatOf(api, personId);
@@ -450,7 +443,7 @@ export function officeStops(
   const api = coreAPI(core);
   const row = seatSwitches(api, personId).find((r) => r.key === key);
   if (!row) throw new Error("Your seat has no such stop.");
-  const known = stopKinds();
+  const known = stopKinds(core);
   setStops(
     api,
     personId,
@@ -719,12 +712,7 @@ const DEALS = ["favor", "back-their-item"] as const;
 
 /** The player's own bills drafted and waiting for a vote. */
 function pendingBills(api: ReturnType<typeof coreAPI>, personId: string) {
-  return (
-    api
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("bills")
-      .rows() as unknown as BillRow[]
-  )
+  return (allBills(api) as unknown as BillRow[])
     .filter((b) => b.sponsorId === personId && b.status === "drafted")
     .sort((a, b) => a.id.localeCompare(b.id));
 }

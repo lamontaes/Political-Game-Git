@@ -19,7 +19,7 @@ claimed-at: 2026-10-18T02:21:08.416Z
 
 **Done when.** The ballot-order test passes on the recorded failing seed and a fresh drawn place, with the actual rotation behavior explained by record ids and every existing voting assertion preserved or replaced by a demonstrated correct invariant.
 
-**Files.** src/core2/ballot-order.test.ts, src/core2/modules/voting.ts
+**Files.** tests/src/core2/ballot-order.test.ts, src/core2/modules/voting.ts
 
 **Notes.** Merger reproduced the identical zero-vote assertion on PR #4933 and clean captured main on 2026-10-18. Evidence: merger-oct17/4933-ballot-main-same-seed.log.
 

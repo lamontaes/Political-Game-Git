@@ -29,7 +29,7 @@ checked: S2 2026-11-14
 
 **Rules.** Replace, never layer: the PR 9122 helper is deleted in the same change.
 
-**Done when.** At three drawn places (the three pinned in `src/director/job-lost-talk-played.test.ts`) a staged closure leaves a moment whose money kind is `job-ended` and the helper is gone; the Journal's lost-job line is also seen at one of them. A second session, on main, plays a life to a closed employer and sees the lost-job telling and the Journal line.
+**Done when.** At three drawn places (the three pinned in `tests/src/director/job-lost-talk-played.test.ts`) a staged closure leaves a moment whose money kind is `job-ended` and the helper is gone; the Journal's lost-job line is also seen at one of them. A second session, on main, plays a life to a closed employer and sees the lost-job telling and the Journal line.
 
 **Waits on.** PR 9122 on the train.
 

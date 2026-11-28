@@ -17,7 +17,7 @@ claimed-at: 2026-10-16T16:45:22.060Z
 
 **Rules.** No hand-written player text: the speech is worded by the English engine through `composeOpeningSpeech` and `openingSpeechKind(year)`; no line is typed by hand; An effect is a read, not a record: the opening reads the offices records and the speech lights only the people the address names; Replace, never layer: the speechless opening stand-in is deleted when the speech lands; One rule, all 56 places: holders come from the offices records for all 56 places, no place named; Estimate, never UNKNOWN: a missing official shows the seat, never UNKNOWN; This is a game, not a spreadsheet: skipping with Escape stays; Placeholders: SG-PLAY-opening-without-speech closes only when the speech is shown.
 
-**Done when.** A test in src/director/opening-story.test.ts asserts the picture for the `state-of-the-union` kind is the House floor and an inaugural year keeps its picture, in a drawn place (buildBenchWorld, seed named in the PR body), plus a browser spec. The owner plays it: The State of the Union opens on the House floor.
+**Done when.** A test in tests/src/director/opening-story.test.ts asserts the picture for the `state-of-the-union` kind is the House floor and an inaugural year keeps its picture, in a drawn place (buildBenchWorld, seed named in the PR body), plus a browser spec. The owner plays it: The State of the Union opens on the House floor.
 
 **Files.** src/bench/opening.ts, src/director/opening-sequence.ts, src/director/opening-story.ts, src/bench/data/opening-pictures.json, scripts/english-corpus/opening-speech-bank.ts
 

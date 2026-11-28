@@ -12,15 +12,16 @@
 import thresholds from "./data/world-metrics/poverty-thresholds-2024.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { ageOn, type HouseholdKind } from "./counted-groups";
-import { assistanceIncomeByHousehold } from "./law-reach/group-b-money";
+import { assistanceIncomeByHousehold } from "./modules/laws";
 import {
   ssiIncomeByHousehold,
   veteransIncomeByHousehold,
 } from "./modules/laws";
-import type { ClaimRow } from "./jobs-benefits";
-import { reachParameter } from "./law-reach/group-b-people";
-import { householdIncome, residentsRuntime } from "./modules/residents";
+import { openClaims } from "./jobs-reads";
+import { reachParameter } from "./law-reach/reach-parameters";
+import { householdIncome, residentsRuntime } from "./residents-reads";
 import { retirementClaims } from "./modules/retirement-claims";
+import { awardYearMinor, jobYearMinor } from "./household-income";
 import { coreAPI } from "./state";
 import { sinceOpeningIndex } from "./tax-index";
 import type { CoreState } from "./types";
@@ -89,10 +90,7 @@ function claimIncome(core: CoreState): Map<string, number> {
   retirementClaimIncome(core, out);
   if (!core.modules.has("jobs")) return out;
   const rt = residentsRuntime(core);
-  for (const claim of coreAPI(core)
-    .moduleState("jobs")
-    .table("claims")
-    .query("open", [true]) as unknown as ClaimRow[]) {
+  for (const claim of openClaims(coreAPI(core))) {
     const named = core.people.get(claim.personId)?.householdId;
     const m =
       named === undefined ? rt?.store.countedMember(claim.personId) : undefined;
@@ -201,11 +199,7 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
   for (const contract of core.finance.contracts.values()) {
     if (contract.endedAt || !contract.recipientIncome) continue;
     const id = contract.recipientIncome.householdId;
-    awards.set(
-      id,
-      (awards.get(id) ?? 0) +
-        (contract.amountMinor * 12) / Math.max(1, contract.periodMonths),
-    );
+    awards.set(id, (awards.get(id) ?? 0) + awardYearMinor(contract));
   }
   // The welfare line's cash assistance is public assistance, which the
   // Census counts in the income poverty status is computed from.
@@ -227,7 +221,7 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
       if (!person?.alive) continue;
       ages.push(ageOnDate(makeIsoDate(person.birthDate), date));
       const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
-      if (job && job.endsAt === undefined) income += job.wageDailyMinor * 365;
+      if (job && job.endsAt === undefined) income += jobYearMinor(job);
     }
     add(household.id, household.placeId, true, ages, income, 1);
   }

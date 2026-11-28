@@ -19,6 +19,6 @@ claimed-at: 2026-11-06T02:22:50.058Z
 
 **Done when.** resolveLawInForce sets aside a town's income tax while the state's local-income-tax-authority row in force says 0; a test on a drawn place shows 5 with the grant and 4 after it is withdrawn.
 
-**Files.** src/core2/laws-in-force.ts,src/core2/modules/laws.ts,src/core2/local-income-tax-grant.test.ts
+**Files.** src/core2/laws-in-force.ts,src/core2/modules/laws.ts,tests/src/core2/local-income-tax-grant.test.ts
 
 **Notes.** TODO

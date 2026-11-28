@@ -17,8 +17,8 @@ claimed-at: 2026-10-20T02:42:47.485Z
 
 **Rules.** No dice: members file the changes their own reasons favor against the law in force, and the test reads that, not a roll. One rule, all 56 places: the place and seed are drawn and named in every failure.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, src/core2/bills-every-topic.test.ts finds a bill for every topic family of the question catalog and for the schools, health, highways and police budget lines, and names the place, key and seed when one is missing.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, tests/src/core2/bills-every-topic.test.ts finds a bill for every topic family of the question catalog and for the schools, health, highways and police budget lines, and names the place, key and seed when one is missing.
 
-**Files.** src/core2/bills-every-topic.test.ts
+**Files.** tests/src/core2/bills-every-topic.test.ts
 
 **Notes.** Passed on seeds bt-1 (Lake View, South Carolina, place 4539715), bt-2 (Frazee, Minnesota, 2722472) and bt-3 (Evans, Georgia, 1328044). The original stub had no body; I read "not only odd ones" as the topic spread, and if the owner meant something else (for example the order or volume of bills), this item should be reopened with that spelled out.

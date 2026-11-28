@@ -30,14 +30,11 @@ import defenseContracts from "../../data/research/federal/defense-contracts-by-s
 import { GOV_MEASURES } from "./gov-measure-keys";
 import type { CoreAPI, CoreState } from "./types";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
-import {
-  ELECTIONS_MODULE_ID,
-  ballot,
-  isLocalFamily,
-  type ContestRow,
-} from "./modules/elections";
+import type { ContestRow } from "./modules/elections";
+import { ELECTIONS_MODULE_ID, ballot, isLocalFamily } from "./elections-reads";
 import { VOTING_MODULE_ID, resultOf, type ResultRow } from "./modules/voting";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import type { TermRow } from "./modules/offices";
+import { OFFICES_MODULE_ID } from "./offices-reads";
 import {
   BUDGETS_MODULE_ID,
   baseBudget,

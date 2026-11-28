@@ -30,13 +30,14 @@ import type { ModuleRow } from "../module-data";
 import { personLean, publicSupport } from "../campaign-views";
 import { campaignParameter } from "../campaign-data";
 import { lawChain, LAWS_MODULE_ID } from "./laws";
-import type { LawRowInput } from "../laws-starting";
+import type { LawRowInput } from "../laws-in-force";
 import { LEGISLATURE_MODULE_ID, votesOn, type BillRow } from "./legislature";
 import {
-  OFFICES_MODULE_ID,
   servingTermsOf,
   vacateSeat,
   type TermRow,
+  termById,
+  officeById,
 } from "./offices";
 import {
   countedVoters,
@@ -57,6 +58,7 @@ import {
   addMonths,
   ageInYears,
   daysBetweenText as daysBetween,
+  addDaysText as addDays,
 } from "../kernel/dates";
 import { nextElectionForSeat } from "../elections-calendar";
 import { ELECTIONS_MODULE_ID } from "./elections";
@@ -153,11 +155,6 @@ const table = (api: CoreAPI) =>
 const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
   ageInYears(p.birthDate, date);
 
-const addDays = (date: string, days: number) =>
-  new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000)
-    .toISOString()
-    .slice(0, 10);
-
 function adults(api: CoreAPI): readonly Readonly<PersonState>[] {
   const town = lawChain(api).townPlaceId;
   const adultAge = api.parameter("votingAge");
@@ -233,11 +230,12 @@ function grievance(
  * same office). A person who no longer serves there has none.
  */
 export function termOf(api: CoreAPI, memberId: string): TermRow | undefined {
-  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
   if (!memberId.startsWith("official:"))
     return servingTermsOf(api, memberId)[0];
-  const minted = terms.get(memberId.slice("official:".length)) as unknown as
-    TermRow | undefined;
+  const minted = termById(
+    api,
+    memberId.slice("official:".length),
+  ) as unknown as TermRow | undefined;
   if (!minted?.personId) return undefined;
   const serving = servingTermsOf(api, minted.personId);
   return (
@@ -420,10 +418,8 @@ export function signatureBase(
       };
   }
   if (kind === "votes-cast-last-election") {
-    const office = api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .get(term.officeId) as unknown as { level?: string } | undefined;
+    const office = officeById(api, term.officeId) as unknown as
+      { level?: string } | undefined;
     const top = office?.level ? lastVotesAtLevel(api, office.level) : undefined;
     if (top)
       return {
@@ -481,10 +477,7 @@ export function recallRule(api: CoreAPI) {
 export function openToRecall(api: CoreAPI, term: TermRow): boolean {
   // The term began one term's length before it ends (a term held at the
   // opening records the opening as its start).
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(term.officeId) as unknown as
+  const office = officeById(api, term.officeId) as unknown as
     (OfficeInput & { termYears?: number }) | undefined;
   const years = office?.termYears ?? undefined;
   const since =
@@ -667,10 +660,7 @@ function noteMisconduct(api: CoreAPI, event: Readonly<CoreEventInput>): void {
 /** Whether a term's office is a city's, a county's or a township's, which the municipal recall rule covers. */
 function localOffice(api: CoreAPI, term: TermRow): boolean {
   const level = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .get(term.officeId) as unknown as { level?: string } | undefined
+    officeById(api, term.officeId) as unknown as { level?: string } | undefined
   )?.level;
   return level === "city" || level === "county" || level === "township";
 }

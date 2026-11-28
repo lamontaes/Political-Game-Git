@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** `src/core2/law-wiring-rights-env.test.ts` fails with GOLDEN_PATH_SEED=cto1 in Fivepointville, Pennsylvania (place 4226232) at "restriction on abortion journal entry: expected undefined to be truthy". It fails the same on Train head a62a2fda with no other change, so it is not the privacy size test. The checks before it in the same run (the duties, the consumer data privacy law among them) pass. Seen: dev mode's reach of an abortion restriction (who the law reached), which would name women reached with no dollar that moved.
+**What.** `tests/src/core2/law-wiring-rights-env.test.ts` fails with GOLDEN_PATH_SEED=cto1 in Fivepointville, Pennsylvania (place 4226232) at "restriction on abortion journal entry: expected undefined to be truthy". It fails the same on Train head a62a2fda with no other change, so it is not the privacy size test. The checks before it in the same run (the duties, the consumer data privacy law among them) pass. Seen: dev mode's reach of an abortion restriction (who the law reached), which would name women reached with no dollar that moved.
 
 **Cause.** Needs cause. Looked at: the test's assertion at the "restriction on abortion" note (about line 470); not followed into the engine that should post the entry.
 
@@ -32,6 +32,6 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/law-wiring-rights-env.test.ts
+**Files.** tests/src/core2/law-wiring-rights-env.test.ts
 
-**Notes.** Effects thread, Nov 16, 2026: `GOLDEN_PATH_SEED=cto1 npx vitest run --dir . src/core2/law-wiring-rights-env.test.ts` on a62a2fda, red.
+**Notes.** Effects thread, Nov 16, 2026: `GOLDEN_PATH_SEED=cto1 npx vitest run --dir . tests/src/core2/law-wiring-rights-env.test.ts` on a62a2fda, red.

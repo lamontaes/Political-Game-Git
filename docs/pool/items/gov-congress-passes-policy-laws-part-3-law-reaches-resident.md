@@ -29,8 +29,8 @@ checked: fable 2026-11-10
 
 **Rules.** One engine per mechanic: the same legislature engine and law-reach as every law. No dice. Wire to the world: a federal law reaches named people through law-reach. The chain is the acceptance: bill, vote, desk, law in force, the person reached.
 
-**Done when.** A second session plays a year from a drawn place (named with its seed, not chosen by the builder) and sees Congress enact a policy law by law record id, signed or vetoed at the president's desk, and one named person in the town reached by it through law-reach; a test in `src/core2/world-legislating-federal.test.ts` names the place, seed and record ids.
+**Done when.** A second session plays a year from a drawn place (named with its seed, not chosen by the builder) and sees Congress enact a policy law by law record id, signed or vetoed at the president's desk, and one named person in the town reached by it through law-reach; a test in `tests/src/core2/world-legislating-federal.test.ts` names the place, seed and record ids.
 
 **Waits on.** gov-congress-passes-policy-laws-part-1-question-list-from-data and gov-congress-passes-policy-laws-part-2-stances-on-questions.
 
-**Files.** src/core2/modules/world-legislating.ts, src/core2/modules/legislature.ts, src/core2/law-reach, src/core2/world-legislating-federal.test.ts (new)
+**Files.** src/core2/modules/world-legislating.ts, src/core2/modules/legislature.ts, src/core2/law-reach, tests/src/core2/world-legislating-federal.test.ts (new)

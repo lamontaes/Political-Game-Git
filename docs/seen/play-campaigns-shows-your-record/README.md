@@ -1,6 +1,6 @@
 # Campaigns shows your record in office: before and after
 
-Pool item `play-campaigns-shows-your-record`, PR #8471. Each picture is Politics, Elections, the race the player holds (the one whose last winner is the player), at 1440x900 on the bench, with the same seed before (`origin/main`) and after (this branch). Replay: `BENCH_SEED=<seed> node src/bench/campaigns-record.browser.mjs` against a bench on the branch.
+Pool item `play-campaigns-shows-your-record`, PR #8471. Each picture is Politics, Elections, the race the player holds (the one whose last winner is the player), at 1440x900 on the bench, with the same seed before (`origin/main`) and after (this branch). Replay: `BENCH_SEED=<seed> node tests/src/bench/campaigns-record.browser.mjs` against a bench on the branch.
 
 | Place                    | Seed                                   | Before                      | After                      |
 | ------------------------ | -------------------------------------- | --------------------------- | -------------------------- |

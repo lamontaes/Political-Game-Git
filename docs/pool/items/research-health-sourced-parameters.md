@@ -43,7 +43,7 @@ checked: fable 2026-11-10
 
 Looked at Oct 20 (claude, claude/political-game-pool-yucp92-w), nothing sourced. Both rows are calibrations to run, not figures to look up: SG-P10-resilience-scale asks for the base death-rate scale and the chronic-condition weights fitted together and checked against the SSA life table across many places and ages (the 0.106 came from two generated towns), and SG-P10-event-severity asks for the Holmes-Rahe stress and mood impulses checked against published bereavement and illness affect trajectories, which needs an instrument-matched source and a model of what the engine's mood and stress units stand for. The first needs a batch of played years in drawn places comparing yearly deaths to the life table's expected count; the second needs the instrument chosen first. A builder who can run six or more towns for a year each can take the first.
 
-Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): merging main still conflicts in scripts/health/mortality-band.ts and src/core2/player-money-year.test.ts; finish on that branch, merge main into it first.
+Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): merging main still conflicts in scripts/health/mortality-band.ts and tests/src/core2/player-money-year.test.ts; finish on that branch, merge main into it first.
 
 PR #5080 carries the Bonanno 2002 bereavement band (data/research/health/bereavement-trajectories-bonanno-2002.json, read by scripts/health/bereavement-band.ts) but resolves neither row; this item stays open for both calibrations.
 

@@ -31,7 +31,7 @@ branch:
 
 **Rules.** An effect is a read, not a record (owner, Oct 13): a scene staged on the ledger that nothing plays is a record nobody reads, so the fix is the reader, shown in play. No dice: whether the reporter calls follows the vote's record and the pace rules already in the director, never a chance. One rule, all 56 places: the check plays a drawn place and names it with its seed.
 
-**Done when.** A second session, at 1440x900 on main, plays an Advanced life as a seated local member in a drawn place it names with its seed. It drafts a bill from Your office and plays days through its floor vote. Within the next day the reporter's call opens on its own, naming the bill and the count. src/director/director.test.ts and src/director/scheduling tests pass.
+**Done when.** A second session, at 1440x900 on main, plays an Advanced life as a seated local member in a drawn place it names with its seed. It drafts a bill from Your office and plays days through its floor vote. Within the next day the reporter's call opens on its own, naming the bill and the count. tests/src/director/director.test.ts and src/director/scheduling tests pass.
 
 **Waits on.** words-run-press-comment-lines-are-composed (the lines the call says).
 

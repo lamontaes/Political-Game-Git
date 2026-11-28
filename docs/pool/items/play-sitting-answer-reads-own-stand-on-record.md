@@ -28,7 +28,7 @@ root: rc10-screens-keep-own-facts
 
 **Rules.** No dice. A stand is a read of records another engine already keeps.
 
-**Done when.** In a pinned place, a filing with no platform asked a seat's questions returns the player's own stand on each question the record holds and none where it holds none (src/core2/stands-on-record.test.ts); a second session sitting for a debate sees a menu with both sides and a way not to answer on a question outside the filed three, and what they pick is what the held debate stores.
+**Done when.** In a pinned place, a filing with no platform asked a seat's questions returns the player's own stand on each question the record holds and none where it holds none (tests/src/core2/stands-on-record.test.ts); a second session sitting for a debate sees a menu with both sides and a way not to answer on a question outside the filed three, and what they pick is what the held debate stores.
 
 **Waits on.** Nothing.
 

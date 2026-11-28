@@ -32,7 +32,10 @@
  * there is the same dated record, witnessed by their relatives in town; it
  * moves no money and fills nobody in (two-level population).
  */
+import { DAYS_PER_YEAR } from "../household-income";
+import { dwellingTenure } from "../housing-reads";
 import { MOVED_AWAY_EVENT } from "../moved-away-event";
+import { officeholderIds } from "../offices-reads";
 import { worldRateFactor } from "../world-base-rates";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import {
@@ -49,7 +52,7 @@ import {
 } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
 import { sellHome } from "../housing-sale";
-import { endLivingPlan } from "../cost-of-living";
+import { endLivingPlan } from "./business";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { currentCloseness } from "../closeness";
 import {
@@ -57,10 +60,11 @@ import {
   destinationWeights,
   placeLeavingConditions,
 } from "./counted-moves";
-import { webReach, type Subject } from "../outcome-web-reach";
+import { webReach } from "../outcome-web-reach";
+import { type Subject } from "../laws-in-force";
 import { registerModule } from "../state";
 import { isDemoted } from "../counted-groups";
-import { townPlaceOf } from "./residents";
+import { townPlaceOf } from "../residents-reads";
 import type { Parameter } from "../parameters";
 import type { EntityId } from "../kernel/brands";
 import type {
@@ -76,7 +80,6 @@ import type {
 } from "../types";
 import { placeStateKey } from "../place-map";
 import { ageOfMajority } from "../age-of-majority";
-import { registerReturnedMembersLeave } from "../returned-members-move";
 
 export const MOVES_MODULE_ID = "moves";
 export const MOVES_PARAMETERS = rows as unknown as Readonly<
@@ -391,44 +394,9 @@ function wholeHouseholdGoes(
 
 function ownsHome(api: CoreAPI, householdId: string): boolean {
   const core = api.state as CoreState;
-  if (core.modules.has("housing")) {
-    const row = api
-      .moduleState("housing")
-      .table("dwellings")
-      .get(`dwelling:${householdId}`) as { tenure?: string } | undefined;
-    if (row?.tenure) return row.tenure === "own";
-  }
+  const held = dwellingTenure(api, householdId);
+  if (held) return held.tenure === "own";
   return ownsWithMortgage(core, householdId);
-}
-
-/**
- * Who holds an office today: the officials roster's seated members and the
- * offices engine's serving terms. Read by module id: the offices engine
- * imports this one.
- */
-const officeByCore = new WeakMap<
-  CoreState,
-  { date: string; ids: Set<string> }
->();
-function officeholders(api: CoreAPI): ReadonlySet<PersonId> {
-  const core = api.state as CoreState;
-  const held = officeByCore.get(core);
-  if (held?.date === core.date) return held.ids;
-  const ids = new Set<string>();
-  if (core.modules.has("core2-officials-v1"))
-    for (const row of api
-      .moduleState("core2-officials-v1")
-      .table("officials")
-      .rows())
-      if (row.ended === null) ids.add(row.id);
-  if (core.modules.has("core2-offices-v1"))
-    for (const row of api
-      .moduleState("core2-offices-v1")
-      .table("terms")
-      .query("byStatus", ["serving"]))
-      if (typeof row.personId === "string") ids.add(row.personId);
-  officeByCore.set(core, { date: core.date, ids });
-  return ids;
 }
 
 /** What holds this person in town, each a weight against the pull. */
@@ -476,10 +444,10 @@ export function holdsOf(
     kin: m(api, "movesKinHold") * diminishing(api, relatives),
     // Holding office is a job, and the strongest hold: leaving town gives up the seat.
     job:
-      person.jobId || officeholders(api).has(person.id)
+      person.jobId || officeholderIds(api).has(person.id)
         ? m(api, "movesJobHold")
         : zero,
-    office: officeholders(api).has(person.id)
+    office: officeholderIds(api).has(person.id)
       ? m(api, "movesOfficeHold")
       : zero,
     // A lean toward change and risk loosens the hold; one toward keeping
@@ -538,7 +506,7 @@ export function householdIncome(
   const ids: string[] = [];
   const wages: { personId: string; minor: number }[] = [];
   let minor = api.parameter("zero");
-  const perMonth = m(api, "movesDaysPerYear") / api.parameter("monthsPerYear");
+  const perMonth = DAYS_PER_YEAR / api.parameter("monthsPerYear");
   for (const id of core.households.get(householdId)?.memberIds ?? []) {
     const member = core.people.get(id);
     if (!member?.alive) continue;
@@ -794,8 +762,8 @@ function action(id: string, leaving: boolean): ActionDefinition {
     ],
   };
 }
-export const MOVE_AWAY = action("move-away", true);
-export const STAY_PUT = action("stay-put", false);
+const MOVE_AWAY = action("move-away", true);
+const STAY_PUT = action("stay-put", false);
 
 /** Where they go: a relative living elsewhere, else the state the destination weighing ranks highest, else their own state. */
 function destinationFor(
@@ -1276,7 +1244,7 @@ function accumulate(
   if (!band) return;
   // A seat holds its holder: only a recorded event (a job lost, a death at
   // home, an eviction, kin leaving) builds their pull while they serve.
-  if (officeholders(api).has(person.id)) return;
+  if (officeholderIds(api).has(person.id)) return;
   const pull = pullOf(api, person);
   const { factor, pushes } = netFactor(api, person);
   const conditions = place ?? placeConditions(api, person.placeId);
@@ -1325,7 +1293,7 @@ function accumulate(
 function openingPulls(api: CoreAPI, adults: readonly PersonState[]): void {
   const zero = api.parameter("zero");
   const one = api.parameter("one");
-  const seated = officeholders(api);
+  const seated = officeholderIds(api);
   const rows = adults
     .filter((person) => bandOf(api, person) && !seated.has(person.id))
     .map((person) => {
@@ -1464,7 +1432,7 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
   }
   // An officeholder in the household leaves only for a recorded cause (an
   // event's pull), never on a partner's stage of life alone.
-  const seated = officeholders(api);
+  const seated = officeholderIds(api);
   if (
     going.some((id) => seated.has(id)) &&
     !Object.keys(pull.causes).some((key) => EVENT_PULLS[key] !== undefined)
@@ -1793,6 +1761,8 @@ export function departuresSeen(core: CoreState): Departure[] {
 
 export const movesModule: CoreModule = {
   id: MOVES_MODULE_ID,
+  // The step that takes returned members' records away with a counted household.
+  returnedMembersLeave,
   state: {
     schemaVersion: 1,
     tables: { state: {}, pulls: {} },
@@ -1906,5 +1876,3 @@ function returnedMembersLeave(
     ),
   });
 }
-
-registerReturnedMembersLeave(returnedMembersLeave);

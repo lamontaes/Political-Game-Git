@@ -27,7 +27,7 @@ import type {
   PlaceId,
   Source,
 } from "../types";
-import { OFFICES_MODULE_ID, townSeats } from "./offices";
+import { OFFICES_MODULE_ID, townSeats } from "../offices-reads";
 import { placePopulation } from "../gov-rules/place-population";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
@@ -37,7 +37,7 @@ import {
   type Hazard,
 } from "./climate";
 import type { ModuleRow } from "../module-data";
-import { dwellingKind, ownedHomes } from "./housing";
+import { dwellingKind, ownedHomes } from "../housing-reads";
 import {
   countedMovesRunning,
   moveCountedHouseholdAway,

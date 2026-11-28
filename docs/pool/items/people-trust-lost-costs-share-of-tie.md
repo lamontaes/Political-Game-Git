@@ -29,8 +29,8 @@ merged-at: 2026-11-15T21:50:37.192Z
 
 **Rules.** Wire to the world: the ending writes through the one relationship writer every engine reads. No dice: the cost comes from the tie's hours and the row's share, never a chance.
 
-**Done when.** At the named place territory:AS:maia seed 0b6c599b2140735b80cdc730a4793e7054568c52f90bd08df2761745ff6cdc21, `src/director/ending-strain-share.test.ts` shows a trust-lost ending taking the same share of the closest pair's tie and of two legislators' tie, the close pair losing more hours, and a strained ending costing both one hour; a second session sees it in dev mode on main.
+**Done when.** At the named place territory:AS:maia seed 0b6c599b2140735b80cdc730a4793e7054568c52f90bd08df2761745ff6cdc21, `tests/src/director/ending-strain-share.test.ts` shows a trust-lost ending taking the same share of the closest pair's tie and of two legislators' tie, the close pair losing more hours, and a strained ending costing both one hour; a second session sees it in dev mode on main.
 
 **Waits on.** core-strain-lost-on-shared-time-ties (#9491) on the Train.
 
-**Files.** src/director/purpose-scene.ts, src/core2/closeness.ts, src/director/data/scene-talk-rules.json, src/director/ending-strain-share.test.ts (new)
+**Files.** src/director/purpose-scene.ts, src/core2/closeness.ts, src/director/data/scene-talk-rules.json, tests/src/director/ending-strain-share.test.ts (new)

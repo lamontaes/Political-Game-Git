@@ -26,10 +26,10 @@ root: none
 
 **Rules.** One engine for candidacy: the skipped path reads the same decision rule as the played one. No dice: no percentage of races is given a candidate. One rule, all 56 places: measure in three drawn places. An effect is a read: the filers appear on the ballot, in the count and on the race card.
 
-**Done when.** A second session builds a place from the four above and two it draws, skips four years and plays the same four years, and sees total filers within 5% and uncontested races within one of each other, in each; sees a skipped year's race card list the same candidates as the played world's; and sees `src/core2/results-mode-elections.test.ts` pass.
+**Done when.** A second session builds a place from the four above and two it draws, skips four years and plays the same four years, and sees total filers within 5% and uncontested races within one of each other, in each; sees a skipped year's race card list the same candidates as the played world's; and sees `tests/src/core2/results-mode-elections.test.ts` pass.
 
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/candidacy.ts, src/core2/life.ts, src/core2/modules/elections.ts
 
-**Notes.** Filed by hand on the Account lead's branch (pool add pushes to main). Measured with `src/core2/results-mode-elections.test.ts` from #8606 merged into train 5fc60b90; the probe script is not in the repository.
+**Notes.** Filed by hand on the Account lead's branch (pool add pushes to main). Measured with `tests/src/core2/results-mode-elections.test.ts` from #8606 merged into train 5fc60b90; the probe script is not in the repository.

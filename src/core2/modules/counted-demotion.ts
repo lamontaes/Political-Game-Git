@@ -12,23 +12,21 @@
  * Named officials, the player's household and circle are never demoted.
  */
 import { daysBetweenText as daysBetween, makeIsoDate } from "../kernel/dates";
+import { householdStatusRow } from "../housing-reads";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
-import {
-  COUNTED_PLACE_PREFIX,
-  countedPlaceOf,
-  isDemoted,
-  type Tenure,
-} from "../counted-groups";
-import { workedToday } from "./jobs";
+import { countedPlaceOf, isDemoted, type Tenure } from "../counted-groups";
+import { workedToday } from "../job-lifecycle";
 import { addCountedJob } from "../residents-economy";
 import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
 import { stableHash } from "../kernel/ids";
 import { lastTogether } from "../closeness";
-import { endLivingPlan } from "../cost-of-living";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
-import { VIEWS_MODULE_ID } from "./views";
-import { ELECTIONS_MODULE_ID } from "./elections";
-import { CANDIDACY_MODULE_ID, type CandidacyDecision } from "./candidacy";
+import { endLivingPlan } from "./business";
+import { servingTerms } from "../offices-reads";
+import { allBusinessOwners } from "../business-reads";
+import { VIEWS_MODULE_ID } from "./views-constants";
+import { ELECTIONS_MODULE_ID, contestOf } from "../elections-reads";
+import type { CandidacyDecision } from "./candidacy";
+import { CANDIDACY_MODULE_ID } from "./candidacy-constants";
 import {
   countedFundOf,
   countedSpread,
@@ -87,12 +85,8 @@ export function protectedPeople(api: CoreAPI): Set<PersonId> {
     for (const id of player.familyIds) out.add(id);
     for (const id of player.knownIds) out.add(id);
   }
-  if (core.modules.has(OFFICES_MODULE_ID))
-    for (const term of api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("byStatus", ["serving"]) as unknown as TermRow[])
-      if (term.personId) out.add(term.personId);
+  for (const term of servingTerms(api))
+    if (term.personId) out.add(term.personId);
   for (const job of core.jobs.values()) {
     if (job.endsAt !== undefined) continue;
     const employer = core.organizations.get(job.organizationId);
@@ -105,9 +99,7 @@ export function protectedPeople(api: CoreAPI): Set<PersonId> {
     )
       out.add(job.personId);
   }
-  if (core.modules.has("business"))
-    for (const row of api.moduleState("business").table("owners").rows())
-      out.add((row as unknown as { ownerId: string }).ownerId);
+  for (const row of allBusinessOwners(api)) out.add(row.ownerId);
   // Someone who has decided to run for office is in public life until their
   // race is decided, like those who hold one: their decision waits for its
   // filing day (Las Piedras, Puerto Rico: ten runners back in the counts by
@@ -116,14 +108,12 @@ export function protectedPeople(api: CoreAPI): Set<PersonId> {
     core.modules.has(CANDIDACY_MODULE_ID) &&
     core.modules.has(ELECTIONS_MODULE_ID)
   ) {
-    const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
     for (const row of api
       .moduleState(CANDIDACY_MODULE_ID)
       .table("decisions")
       .rows() as unknown as CandidacyDecision[]) {
       if (!row.run) continue;
-      const contest = contests.get(row.contestId) as unknown as
-        { electionDate: string } | undefined;
+      const contest = contestOf(api, row.contestId);
       if (contest && contest.electionDate >= core.date) out.add(row.personId);
     }
   }
@@ -187,8 +177,7 @@ export function canReturnToCounts(
   if (!rt) return { ok: false, reason: "no residents runtime" };
   const home = core.households.get(householdId);
   if (!home) return { ok: false, reason: "no such household" };
-  if (home.placeId.startsWith(COUNTED_PLACE_PREFIX))
-    return { ok: false, reason: "already in the counts" };
+  if (isDemoted(home)) return { ok: false, reason: "already in the counts" };
   if (!countsKeptAt(rt, home.placeId))
     return { ok: false, reason: "no counts kept at its place" };
   for (const id of home.memberIds) {
@@ -342,11 +331,7 @@ export function demoteHousehold(
   };
   // A household without a home returns to the counts without one: the
   // housing engine's status row goes on reading it from its counted record.
-  if (
-    core.modules.has("housing") &&
-    api.moduleState("housing").table("statuses").get(householdId)
-  )
-    tenure = "none";
+  if (householdStatusRow(api, householdId)) tenure = "none";
   const h = returnToCounts(core, record, {
     tenure,
     parts,
@@ -489,7 +474,7 @@ function review(api: CoreAPI): void {
   ))
     if (
       !rt.filledAt.has(home.id) &&
-      !home.placeId.startsWith(COUNTED_PLACE_PREFIX) &&
+      !isDemoted(home) &&
       countsKeptAt(rt, home.placeId)
     )
       rt.filledAt.set(home.id, makeIsoDate(core.date));
@@ -498,7 +483,7 @@ function review(api: CoreAPI): void {
   )) {
     if (daysBetween(filledAt, api.state.date) < days) continue;
     const home = core.households.get(householdId);
-    if (!home || home.placeId.startsWith(COUNTED_PLACE_PREFIX)) continue;
+    if (!home || isDemoted(home)) continue;
     let last = filledAt;
     let eligible = true;
     for (const id of home.memberIds) {

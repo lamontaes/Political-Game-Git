@@ -29,7 +29,7 @@ checked: fable 2026-11-10
 
 **Rules.** One rule, all 56 places: the mode and numbering come from the drawn place's row in data, keyed by postal code, never a state named in logic. No dice: the member mode changes who may move a bill, never a chance; the executive still decides from their own position on it. No hand-written player text: the enacting clause wording is the Words item words-local-enacting-clause-by-state, not typed into code.
 
-**Done when.** A second session, in a played world (buildBenchWorld) in a drawn place from all 56 with a seed the builder did not choose, finds a town body's ordinance carrying the number its place's row gives (bill record id named), and the tests in src/core2/legislature.test.ts show an executive in a member-mode place moving a bill as a member while one in a by-request place has a member carry it (carry record id).
+**Done when.** A second session, in a played world (buildBenchWorld) in a drawn place from all 56 with a seed the builder did not choose, finds a town body's ordinance carrying the number its place's row gives (bill record id named), and the tests in tests/src/core2/legislature.test.ts show an executive in a member-mode place moving a bill as a member while one in a by-request place has a member carry it (carry record id).
 
 **Waits on.** Nothing. words-local-enacting-clause-by-state changes the local branch of the same function, `bodyNumbering` (the enacting clause by place): merge main in before pushing, and if it has merged, read the place's row once for both the clause and the numbering.
 

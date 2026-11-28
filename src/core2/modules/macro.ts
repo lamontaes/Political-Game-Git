@@ -49,7 +49,6 @@ import { stateStake } from "../budgets-treasury";
 import {
   COUNTRY_AGE_BANDS,
   countryFlows,
-  registerCountryFlowsReader,
   countryMoney,
   countryPartFigures,
   countryPeople,
@@ -84,15 +83,14 @@ export {
 import { bookkeeping } from "../bookkeeping";
 import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";
-import {
-  scaleOutsideSales,
-  type OutsideSectorFactor,
-} from "../residents-economy";
+import type { OutsideSectorFactor } from "./health";
+import { scaleOutsideSales } from "../residents-economy";
 import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import { firmStaffing } from "./jobs";
 import { LAWS_MODULE_ID, stateLawInForce } from "./laws";
 import { openingRegionMonths, stateFigures } from "../regional-model";
-import { coarseSteps, type PreStartModule } from "../pre-start";
+import type { PreStartModule } from "../pre-start";
+import { coarseSteps } from "../pre-start-history";
 import {
   LATEST_MONTH_LAG,
   REGIONAL_PARAMETERS,
@@ -103,9 +101,8 @@ import {
   stepRegional,
 } from "./regional";
 import type { CoreAPI, CoreData, CoreInput, CoreState, Source } from "../types";
-
-/** Where a custom world's chosen national economy rides in the opening input (see worldGameOptions). */
-export const CUSTOM_ECONOMY_KEY = "customEconomy";
+import { CUSTOM_ECONOMY_KEY } from "./macro-constants";
+export { CUSTOM_ECONOMY_KEY };
 export const MACRO_MODULE_ID = "macro";
 /** The national economy's numbers: the central bank's and the published past's, and the country tier's (data/country). */
 export const MACRO_PARAMETERS = {
@@ -451,8 +448,6 @@ export function countryFlowsNow(api: CoreAPI): {
     flows: countryFlows(tier, lawNow(api), rulesOf(api)),
   };
 }
-
-registerCountryFlowsReader(countryFlowsNow);
 
 /** One state's figures today and at the opening, by FIPS code. */
 export function countryStateNow(api: CoreAPI, fips: string) {
@@ -1183,6 +1178,8 @@ export function linkCreditLineToPrime(
 
 export const MACRO_MODULE: PreStartModule = {
   id: MACRO_MODULE_ID,
+  // Every state's people and this month's movers, as the economy engine reads them (the movers' engine asks for it).
+  countryFlows: countryFlowsNow,
   // History before the start (M1-14): this world's months (the published
   // months moved by its own offsets, the rule its opening month follows),
   // and each change in the policy rate.

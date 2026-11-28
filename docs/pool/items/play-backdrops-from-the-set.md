@@ -17,8 +17,8 @@ claimed-at: 2026-10-27T23:19:20.480Z
 
 **Rules.** One rule, all 56 places: one picker for every scene, business and town, no town named in logic. Replace, never layer: the first-painted choice for these places is replaced by the family pick.
 
-**Done when.** In three drawn towns with seeds, a screenshot grid of the street scene at morning, midday and night and a played-world proof list each town's businesses by organization record id and the backdrop chosen; src/bench/backdrop-families.test.ts checks a town keeps its picture, towns differ across the whole family, and night picks a night painting.
+**Done when.** In three drawn towns with seeds, a screenshot grid of the street scene at morning, midday and night and a played-world proof list each town's businesses by organization record id and the backdrop chosen; tests/src/bench/backdrop-families.test.ts checks a town keeps its picture, towns differ across the whole family, and night picks a night painting.
 
-**Files.** src/bench/scene.ts, src/bench/story.ts, src/bench/data/scene-places.json, src/bench/backdrop-families.test.ts
+**Files.** src/bench/scene.ts, src/bench/story.ts, src/bench/data/scene-places.json, tests/src/bench/backdrop-families.test.ts
 
 **Notes.** TODO

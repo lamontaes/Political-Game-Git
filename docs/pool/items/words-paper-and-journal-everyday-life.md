@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** The four parts (blocked-on). Parts 1 and 2 are alternatives the CTO has not ruled between: a roundup in src/core2/modules/press.ts or a per-outlet memory in src/english/english-newscast.ts.
 
-**Files.** data/english/parts/news.json, data/english/parts/headlines.json, data/english/parts/journal.json, src/bench/printed-words.ts, src/core2/modules/press.ts, src/bench/printed-words.test.ts, src/english/english-newscast.ts
+**Files.** data/english/parts/news.json, data/english/parts/headlines.json, data/english/parts/journal.json, src/bench/printed-words.ts, src/core2/modules/press.ts, tests/src/bench/printed-words.test.ts, src/english/english-newscast.ts
 
 **Notes.** Filed by the CTO, Nov 1 18:00, on the owner's question. Read: OWNER-DECISIONS (Oct 30 press briefs, Nov 1 every life simulated), the briefs column (#6824). Searched the pool for obituary, wedding, anniversary, letters to the editor and festival: no twin.
 

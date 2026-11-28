@@ -18,9 +18,9 @@ claimed-at:
 
 **Rules.** Replace, never layer: the old modules are deleted once nothing in the core imports them, and the PR body counts the lines removed. Build only what the golden path needs: port what the opening reads and write the rest fresh. One rule, all 56 places: the same town by record id for a drawn place before and after. Bookkeeping is a debug switch: validation stays out of play.
 
-**Done when.** After the child items are done, the grep prints nothing, the typecheck passes, and in a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body) the opening builds the same town by record id as on the base commit, shown by src/core2/population.test.ts.
+**Done when.** After the child items are done, the grep prints nothing, the typecheck passes, and in a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body) the opening builds the same town by record id as on the base commit, shown by tests/src/core2/population.test.ts.
 
-**Files.** src/core2/population.ts, src/core2/opening-employment.ts, src/core2/opening-work.ts, src/core2/town-households.ts, src/core2/opening-people.ts, src/core2/tooling/generated-world.ts
+**Files.** src/core2/population.ts, src/core2/opening-employment.ts, src/core2/opening-work.ts, src/core2/town-households.ts, src/core2/opening-people.ts, src/core2/generated-world.ts
 
 **Notes.** Follows core-old-imports-14 (PR #4773). One module per session; start with the smallest leaf the opening builders share.
 

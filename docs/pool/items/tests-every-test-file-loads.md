@@ -32,12 +32,12 @@ merged-at: 2026-11-16T01:05:08.726Z
 
 **Rules.** Ask why: every failure the check prints names the file and the first line of its error, so the cause can be followed without a rerun. One rule, all 56 places: the check loads every test file the same way and names no file or engine in its code. Red main comes first: a file that cannot load is a red, and this check is how it is seen. Keep it simple: one script and one place it runs, with no new service. Never weaken a test: the check adds no skip list beyond the folders the workflow already leaves out, and a file that fails is fixed or filed, never excused. Follow .agents/skills/red-main/SKILL.md for what a red found by this check becomes.
 
-**Done when.** A second session, on main, runs `npm run tests:load` and reads a pass with the count of test files checked and the seconds it took. It then breaks one import on a scratch branch (it puts back the top-level read of a table across the views and campaign engines that pull request 8243 removed), runs the check again, and reads a failure that names src/core2/elections-law.test.ts. This is a check, so there is no drawn place to play; the test of the check is that break.
+**Done when.** A second session, on main, runs `npm run tests:load` and reads a pass with the count of test files checked and the seconds it took. It then breaks one import on a scratch branch (it puts back the top-level read of a table across the views and campaign engines that pull request 8243 removed), runs the check again, and reads a failure that names tests/src/core2/elections-law.test.ts. This is a check, so there is no drawn place to play; the test of the check is that break.
 
 **Waits on.** Nothing.
 
 **Files.** scripts/tests-load/check.ts (new), tests/guards/test-files-load.test.ts (new), .github/workflows/validate.yml, package.json, .agents/rules/repository-reference.md
 
-**Notes (Fable, Nov 10, a fourth case).** The national economy command (src/core2/tooling/m1-02-check.ts) could not load on main after pull request 8231: src/core2/modules/grievance.ts read an event's name from the housing engine while it was half loaded. Fixed in pull request 8246. It was a command, not a test file, so the golden-path commands are now part of this check.
+**Notes (Fable, Nov 10, a fourth case).** The national economy command (scripts/core2/tooling/m1-02-check.ts) could not load on main after pull request 8231: src/core2/modules/grievance.ts read an event's name from the housing engine while it was half loaded. Fixed in pull request 8246. It was a command, not a test file, so the golden-path commands are now part of this check.
 
 **Notes.** Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:12 UTC) on branch claude/pool-tests-every-test-file-loads.

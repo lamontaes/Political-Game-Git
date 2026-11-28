@@ -47,12 +47,18 @@ import {
   congressStateKeys,
   rosterLabel,
   publishedStatePlaces,
+  townEligibleVoters,
 } from "./electorate-places";
 import { seededUnit } from "./seeded";
+import { pastParameter } from "./past-reads";
 import senateClasses from "../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import { readinessOf } from "./turnout";
 import { gameStartDate } from "./game-start";
-import { stateOffices } from "./modules/offices";
+import {
+  localOfficesForPlace,
+  seatTermEnd,
+  stateOffices,
+} from "./modules/offices";
 import tenure from "./data/offices/tenure.json" with { type: "json" };
 import stateOfficeResearch from "../../data/research/offices/state-offices.json" with { type: "json" };
 import statewideParties from "../../data/research/offices/statewide-executive-parties-2026.json" with { type: "json" };
@@ -102,6 +108,9 @@ const townSittings = new Map<
   { year: number; conveneAt: string; adjournAt: string }
 >();
 
+/** The played town's place key: its own and its county's offices are counted seat by seat. */
+const townPlaces = new Map<string, { key: string; geoid: string }>();
+
 export function setHistoryMode(
   seed: string,
   mode: HistoryMode,
@@ -110,11 +119,14 @@ export function setHistoryMode(
   townState?: string,
   /** The played state's last regular sitting before day one, which the real bill engine runs. */
   sitting?: { year: number; conveneAt: string; adjournAt: string },
+  /** The played town's place key and geoid: its mayor, council and county offices are run from 1925. */
+  townPlace?: { key: string; geoid: string },
 ): void {
   if (mode === "century") modes.delete(seed);
   else modes.set(seed, mode);
   if (startDate) openings.set(seed, startDate);
   if (townState) townStates.set(seed, townState);
+  if (townPlace) townPlaces.set(seed, townPlace);
   if (sitting) townSittings.set(seed, sitting);
   else townSittings.delete(seed);
 }
@@ -209,7 +221,7 @@ export interface CenturySeat {
   /** `<state key>:senate:<index>` or `<state key>:house:<district>`. */
   readonly key: string;
   readonly stateKey: string;
-  readonly chamber: "senate" | "house" | "executive" | "legislature";
+  readonly chamber: "senate" | "house" | "executive" | "legislature" | "local";
   /** The seat in the roster: the Senate seat's index, or the House district as the roster keys it. */
   readonly rosterKey: string;
   /** A Senate seat's class (1 to 3); 0 for the House and an executive. */
@@ -227,6 +239,8 @@ export interface CenturySeat {
    * results, its races not kept; a race is counted for it only when someone opens it.
    */
   readonly hidden?: boolean;
+  /** A local seat's own electorate: the town's or county's eligible voters. */
+  readonly eligible?: number;
   /** The holder's side now (+1 Republican, -1 Democratic). */
   side: number;
   /** The named-only holder: the same id for every term one person won. */
@@ -1092,7 +1106,7 @@ function careerOf(
   seed: string,
   seatKey: string,
   year: number,
-  chamber: "senate" | "house" | "executive" | "legislature",
+  chamber: "senate" | "house" | "executive" | "legislature" | "local",
   executiveTermYears = 4,
 ): number {
   const termYears =
@@ -1105,7 +1119,9 @@ function careerOf(
           ? "usHouseTenureYears"
           : chamber === "legislature"
             ? "stateLegislatorTenureYears"
-            : "statewideExecutiveTenureYears"
+            : chamber === "local"
+              ? "localOfficialTenureYears"
+              : "statewideExecutiveTenureYears"
     ]!.value / termYears;
   const mean = Math.max(1, (sitting + 1) / 2);
   const p = 1 / mean;
@@ -1210,6 +1226,104 @@ function openingLegislatures(
         });
       }
     }
+  return seats;
+}
+
+/**
+ * The year of the election behind a term that starts on `termStart`: the November before a term
+ * that starts in the first quarter, else the lead the offices engine gives a local election
+ * before the term (`localElectionLeadDays`), as `electionBehind` dates it. `fallback` where the
+ * seat's term has no end.
+ */
+function localElectionYear(termStart: string | null, fallback: number): number {
+  if (!termStart) return fallback;
+  const year = Number(termStart.slice(0, 4));
+  if (termStart.slice(5, 7) <= "03") return year - 1;
+  const lead = TENURE.localElectionLeadDays?.value ?? 0;
+  return Number(
+    new Date(Date.parse(`${termStart}T00:00:00Z`) - lead * 86_400_000)
+      .toISOString()
+      .slice(0, 4),
+  );
+}
+
+/**
+ * The played town's own offices in 1925, as the offices engine lists them (`localOfficesForPlace`:
+ * which seats exist, their terms and their cycles, never who holds them): a mayor, a council or
+ * township board, the county's board and officers. Each seat stands where its state does, moved
+ * by its own seeded shift, and carries its own electorate (the town's eligible voters, or the
+ * county's; a ward seat its share of them). Local seats are counted seat by seat like the played
+ * state's legislature, but only the played town's: every other place's local bodies are not run.
+ */
+// stopgapId: SG-HIST-century-local-leans
+function openingLocal(
+  seed: string,
+  leans: Readonly<Record<string, number>>,
+  districtLeans: Record<string, number>,
+  townPlace: { key: string; geoid: string },
+  stateKey: string,
+  startDate: string,
+): Map<string, CenturySeat> {
+  const first = centuryParameter("centuryFirstYear");
+  const placeKey = townPlace.key;
+  const seats = new Map<string, CenturySeat>();
+  const usps = stateKey.slice(3);
+  const town = townEligibleVoters(placeKey, usps, seed);
+  const counties = publishedStatePlaces(usps, seed);
+  for (const office of localOfficesForPlace(placeKey)) {
+    if (!office.elected) continue;
+    const officeKey = office.id.slice("office:".length);
+    const whole =
+      office.level === "county"
+        ? (counties.find(
+            (place) => place.id === `county:${usps}|${office.governmentName}`,
+          )?.eligible ?? town)
+        : town;
+    if (!whole || whole <= 0) continue;
+    const termYears = office.termYears ?? 4;
+    for (let index = 0; index < office.seats; index += 1) {
+      const key = `seat:${officeKey}:${index}`;
+      const ward =
+        office.districted && index < (office.wardSeats ?? office.seats);
+      districtLeans[key] = Math.max(
+        0,
+        Math.min(
+          1,
+          placeOpeningLean(seed, leans, stateKey) +
+            centuryShift(seed, `century:lean:${key}`) *
+              centuryParameter("centuryDistrictLeanSpread"),
+        ),
+      );
+      seats.set(key, {
+        key,
+        stateKey,
+        chamber: "local",
+        rosterKey: ward ? String(index + 1) : "at-large",
+        senateClass: 0,
+        termYears,
+        cycleYear: localElectionYear(
+          seatTermEnd({
+            office,
+            seat: { index },
+            stateKey,
+            placeGeoid: townPlace.geoid,
+            date: startDate,
+          }),
+          first + 1,
+        ),
+        officeId: office.id,
+        eligible: ward
+          ? whole / Math.max(1, office.wardSeats ?? office.seats)
+          : whole,
+        side: districtLeans[key]! >= 0.5 ? 1 : -1,
+        holderId: `century:member:${key}:${first}`,
+        firstWon: first,
+        termsWon: 1,
+        careerTerms: careerOf(seed, key, first, "local", termYears),
+        races: [],
+      });
+    }
+  }
   return seats;
 }
 
@@ -1366,7 +1480,10 @@ function congressElections(
       else hidden.set(group, [seat]);
       continue;
     }
-    const house = seat.chamber === "house" || seat.chamber === "legislature";
+    const house =
+      seat.chamber === "house" ||
+      seat.chamber === "legislature" ||
+      seat.chamber === "local";
     const placeId = house ? seat.key : seat.stateKey;
     const lean =
       (house ? districtLeans[seat.key] : leans[seat.stateKey]) ?? 0.5;
@@ -1375,9 +1492,12 @@ function congressElections(
     // its holder keeps the seat (stopgap SG-HIST-century-uncounted-seats).
     // stopgapId: SG-HIST-century-uncounted-seats
     if (stateEligible <= 0) continue;
-    const eligible = house
-      ? districtEligible(seed, seats, seat, stateEligible)
-      : stateEligible;
+    const eligible =
+      seat.chamber === "local"
+        ? (seat.eligible ?? 0)
+        : house
+          ? districtEligible(seed, seats, seat, stateEligible)
+          : stateEligible;
     // A holder runs again until their career ends or the office's term limit stops them.
     const runs =
       seat.termsWon < Math.min(seat.careerTerms, seat.termLimit ?? Infinity);
@@ -1386,7 +1506,9 @@ function congressElections(
         ? "usHouse"
         : seat.chamber === "legislature"
           ? "stateLegislative"
-          : "statewideExecutive";
+          : seat.chamber === "local"
+            ? "local"
+            : "statewideExecutive";
     const typicalSpend = typicalSpendPerVote(family) * eligible;
     const field: CandidateInputs[] = [-1, 1].map((side) => ({
       id: `party:${side > 0 ? "R" : "D"}`,
@@ -1446,6 +1568,32 @@ function congressElections(
     );
 }
 
+/** The played town's local races over the century, by seed: elections held, holders who ran again, holders who won. */
+const localTallies = new Map<
+  string,
+  { held: number; ran: number; kept: number }
+>();
+
+/** How the played town's local incumbents fared across the century's elections (a read for checks against real rates). */
+export function centuryLocalTally(
+  seed: string,
+): Readonly<{ held: number; ran: number; kept: number }> | undefined {
+  return localTallies.get(seed);
+}
+
+/**
+ * A local race's ballots against the count's (the presidential year's turnout): the same year's
+ * for a presidential November, a midterm's in an even year, and a local election off the federal
+ * calendar's in an odd one (the past's sourced ratios, data/past/parameters.json).
+ */
+function localTurnoutRatio(year: number): number {
+  if (year % 4 === 0) return 1;
+  return pastParameter(
+    null,
+    year % 2 === 0 ? "pastMidtermTurnoutRatio" : "pastLocalTurnoutRatio",
+  );
+}
+
 /** A seat after its race: the holder kept or replaced, and (for a seat a player can open) the race kept. */
 function settle(
   seed: string,
@@ -1462,6 +1610,13 @@ function settle(
         ? -1
         : seat.side;
   const kept = runs && winnerSide === seat.side;
+  if (seat.chamber === "local") {
+    const tally = localTallies.get(seed) ?? { held: 0, ran: 0, kept: 0 };
+    tally.held += 1;
+    if (runs) tally.ran += 1;
+    if (kept) tally.kept += 1;
+    localTallies.set(seed, tally);
+  }
   if (kept) seat.termsWon += 1;
   else {
     seat.side = winnerSide;
@@ -1482,7 +1637,10 @@ function settle(
     winnerSide,
     winnerShare:
       winnerSide > 0 ? share.republicanShare : 1 - share.republicanShare,
-    votes: Math.round(share.republican + share.democratic),
+    votes: Math.round(
+      (share.republican + share.democratic) *
+        (seat.chamber === "local" ? localTurnoutRatio(year) : 1),
+    ),
     incumbentRan: runs,
   });
   // A seat of another state keeps only its last race, shown when someone opens its member.
@@ -1813,6 +1971,7 @@ export function* runCentury(
 }
 
 const legislatureRuns = new Map<string, Map<string, CenturySeat>>();
+const localRuns = new Map<string, ReadonlyMap<string, CenturySeat>>();
 
 /**
  * The played state's last regular sitting before day one, the one the real bill engine runs in a
@@ -1866,9 +2025,21 @@ export function* runLegislatures(
     districtLeans,
     startDate,
   );
+  const townPlace = townPlaces.get(seed);
+  const townState = townStates.get(seed);
+  // The played town's own offices run beside the legislatures, on the same yearly count.
+  if (townPlace && townState)
+    for (const [key, seat] of openingLocal(
+      seed,
+      century.opening.leans,
+      districtLeans,
+      townPlace,
+      townState,
+      startDate,
+    ))
+      seats.set(key, seat);
   const voters = centuryVoters();
   const stateLaws = new Map<string, CenturyLaw>();
-  const townState = townStates.get(seed);
   const pastSitting = townState ? townSittings.get(seed) : undefined;
   let pastRoster:
     | {
@@ -1935,6 +2106,14 @@ export function* runLegislatures(
       }
     yield { year, done: at + 1, total: years.length };
   }
+  // The played town's own offices ran beside the legislatures; they are read apart from them.
+  const local = new Map<string, CenturySeat>();
+  for (const [seatKey, seat] of [...seats])
+    if (seat.chamber === "local") {
+      local.set(seatKey, seat);
+      seats.delete(seatKey);
+    }
+  localRuns.set(key, local);
   legislatureRuns.set(key, seats);
   legislatureLaws.set(key, stateLaws);
   if (townState && pastSitting && pastRoster)
@@ -1990,6 +2169,7 @@ function stateChambers(
     { stateKey: string; members: { side: number; lean: number }[] }
   >();
   for (const seat of seats.values()) {
+    if (seat.chamber !== "legislature") continue;
     const office = seat.officeId ?? `${seat.stateKey}:${seat.rosterChamber}`;
     const row = byOffice.get(office) ?? {
       stateKey: seat.stateKey,
@@ -2057,6 +2237,19 @@ export function centuryLegislatures(
     const step = run.next();
     if (step.done) return step.value;
   }
+}
+
+/**
+ * The played town's own offices by the offices engine's seat id (`seat:<office>:<index>`), run
+ * with the legislatures on first read: empty where the build named no town.
+ */
+export function centuryLocalSeats(
+  seed: string,
+  startDate: string,
+): ReadonlyMap<string, CenturySeat> {
+  centuryLegislatures(seed, startDate);
+  const years = centuryYears(startDate);
+  return localRuns.get(`${seed}|${years.at(-1) ?? ""}`) ?? new Map();
 }
 
 /** A world's century, run once per seed and start year. */
@@ -2195,6 +2388,11 @@ export function centuryLegislatureRoster(
  * The century's seat behind an offices seat: a seat in Congress (`seat:<state>:us-senate:<i>`,
  * `seat:<state>:us-house:<district>`) or a statewide executive (`seat:<state>:<office kind>`).
  */
+/** Whether an office's jurisdiction is a town's, a township's or a county's: the nation's and the states' begin "US". */
+function isLocalJurisdiction(jurisdiction: string): boolean {
+  return !jurisdiction.startsWith("US");
+}
+
 /**
  * The keys the century may hold an office's seat under, in the order to try
  * them: a Senate seat by its index, a state legislative seat by the offices
@@ -2206,6 +2404,8 @@ export function centurySeatKeys(
   seat: { readonly id: string; readonly district?: string | null },
 ): readonly string[] {
   const stateKey = office.jurisdiction;
+  // A local office (the town's, a township's or the county's): the offices engine's own seat id.
+  if (isLocalJurisdiction(stateKey)) return [seat.id];
   if (office.kind === "us-senate")
     return [`${stateKey}:senate:${seat.id.split(":").at(-1)}`];
   if (office.kind.startsWith("legislature-")) return [seat.id];
@@ -2233,7 +2433,9 @@ export function centuryCongressSeat(
   // A state legislative seat is the legislatures' run's; every other the century's.
   const seats = office.kind.startsWith("legislature-")
     ? centuryLegislatures(seed, date)
-    : centuryOf(seed, date).seats;
+    : !isLocalJurisdiction(office.jurisdiction)
+      ? centuryOf(seed, date).seats
+      : centuryLocalSeats(seed, date);
   for (const key of centurySeatKeys(office, seat)) {
     const held = seats.get(key);
     if (held) return held;
@@ -2261,11 +2463,11 @@ export function centuryRecordVotes(
   const century = centuryOf(seed, openingOf(seed));
   const president = century.presidencies.find((row) => row.id === recordId);
   if (president) return president.votes;
+  const key = recordId.slice("century:".length).replace(/:\d+$/, "");
   const seat =
-    century.seats.get(recordId.slice("century:".length).replace(/:\d+$/, "")) ??
-    centuryLegislatures(seed, openingOf(seed)).get(
-      recordId.slice("century:".length).replace(/:\d+$/, ""),
-    );
+    century.seats.get(key) ??
+    centuryLegislatures(seed, openingOf(seed)).get(key) ??
+    centuryLocalSeats(seed, openingOf(seed)).get(key);
   return seat?.races.find((race) => race.id === recordId)?.votes;
 }
 

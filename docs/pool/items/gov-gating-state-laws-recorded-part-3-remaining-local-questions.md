@@ -29,8 +29,8 @@ checked: fable 2026-11-10
 
 **Rules.** One rule, all 56 places: gating laws are per place in data. Research before building: each row cites the statute and retrieval date. The chain is the acceptance: a refused or allowed ordinance cites the law record by id. Estimate, never UNKNOWN.
 
-**Done when.** A second session plays a one-year world in a drawn place (named with its seed), introduces a every remaining local question question and sees the gating law's id as the reason it was allowed or refused; `src/core2/policy-authority.test.ts` covers one preempted and one permitted question. No question returns a disputed missing grant in the drawn place and `SG-GOV-policy-power-unresolved` is resolved in `src/core2/data/stopgaps/gov.json`.
+**Done when.** A second session plays a one-year world in a drawn place (named with its seed), introduces a every remaining local question question and sees the gating law's id as the reason it was allowed or refused; `tests/src/core2/policy-authority.test.ts` covers one preempted and one permitted question. No question returns a disputed missing grant in the drawn place and `SG-GOV-policy-power-unresolved` is resolved in `src/core2/data/stopgaps/gov.json`.
 
 **Waits on.** Network access to the state statute sites. Also parts 1 and 2.
 
-**Files.** src/core2/policy-authority.ts, src/core2/policy-authority.test.ts, src/core2/data/stopgaps/gov.json
+**Files.** src/core2/policy-authority.ts, tests/src/core2/policy-authority.test.ts, src/core2/data/stopgaps/gov.json

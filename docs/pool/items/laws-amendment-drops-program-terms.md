@@ -28,8 +28,8 @@ root: rc8-law-judged-by-paperwork
 
 **Rules.** One engine per mechanic: one amendment rule for every series, no per-series flag. Replace, never layer: the per-series flag and the fallback are deleted.
 
-**Done when.** A second session passes a SNAP raise through Congress in dev mode at a drawn place and sees benefits paid at the raised amount on the bill card, and src/core2/law-amendment-terms.test.ts passes on main.
+**Done when.** A second session passes a SNAP raise through Congress in dev mode at a drawn place and sees benefits paid at the raised amount on the bill card, and tests/src/core2/law-amendment-terms.test.ts passes on main.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/legislature.ts, src/core2/law-reach/group-b-food-aid.ts, src/core2/data/legislature/series-powers.json, src/core2/law-amendment-terms.test.ts (new)
+**Files.** src/core2/modules/legislature.ts, src/core2/law-reach/group-b-food-aid.ts, src/core2/data/legislature/series-powers.json, tests/src/core2/law-amendment-terms.test.ts (new)

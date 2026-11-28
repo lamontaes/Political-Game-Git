@@ -18,11 +18,11 @@ root: none
 source: M4's gate on #9130 (Nov 14, 2026), seed 22ca6468e73eb7aa
 ---
 
-**What.** `src/director/press-comment-variants.test.ts` fails with no line composed at GOLDEN_PATH_SEED=22ca6468e73eb7aa. All 12 drawn places are passed over before a reporter's call: nine bills are not voted within 120 days (Westminster VT, Browns Mills NJ, La Grange IL, Stanley ND, Ahuimanu HI, Dedham MA, Rafael González PR, McLendon-Chisholm TX, Love Valley NC), two places have no resident member (Red Hook VI, Merizo GU), and in Fowler CO every local reporter has a tie to the member. A test red by the luck of the draw holds every train run it lands on.
+**What.** `tests/src/director/press-comment-variants.test.ts` fails with no line composed at GOLDEN_PATH_SEED=22ca6468e73eb7aa. All 12 drawn places are passed over before a reporter's call: nine bills are not voted within 120 days (Westminster VT, Browns Mills NJ, La Grange IL, Stanley ND, Ahuimanu HI, Dedham MA, Rafael González PR, McLendon-Chisholm TX, Love Valley NC), two places have no resident member (Red Hook VI, Merizo GU), and in Fowler CO every local reporter has a tie to the member. A test red by the luck of the draw holds every train run it lands on.
 
 Guards: the train's unit job.
 
-**Cause.** Found in code: src/director/press-comment-variants.test.ts draws `ATTEMPTS = 12` places from `GOLDEN_PATH_SEED` or a random seed (line 20) and expects one to prove the call (line 354). Most drawn bills sit more than `VOTE_DAYS = 120` days, so the draw often runs out.
+**Cause.** Found in code: tests/src/director/press-comment-variants.test.ts draws `ATTEMPTS = 12` places from `GOLDEN_PATH_SEED` or a random seed (line 20) and expects one to prove the call (line 354). Most drawn bills sit more than `VOTE_DAYS = 120` days, so the draw often runs out.
 
 **Fix.** Test only, per skill drawn-place-tests and the train rule (account lead, Nov 14): pin the test to named places and seeds that reach a call. Keep about a minute's run, with an explicit timeout, and leave every assertion unchanged.
 
@@ -34,6 +34,6 @@ Guards: the train's unit job.
 
 **Waits on.** nothing.
 
-**Files.** src/director/press-comment-variants.test.ts
+**Files.** tests/src/director/press-comment-variants.test.ts
 
 - Nov 17, Red main: the cause is not slow bodies. The test drafted only the town's four most settled questions, and where the body may decide none of them the draft is blocked and never voted. Fixed in the test without a pin, on the CTO's Nov 16 rules: the member brings the most settled question the body may decide. The same pull request fixes the national probe, red at Chetopa, Kansas (seed 9e06037dac12a152).

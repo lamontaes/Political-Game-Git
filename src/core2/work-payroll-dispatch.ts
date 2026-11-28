@@ -5,10 +5,10 @@ import type {
 } from "./work-payroll-cash";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { drawSavingsToCover } from "./accounts";
-import { withQuarterPay } from "./pay-by-quarter";
 import { cashJournalParameters } from "./cash-host";
 import { FinancePlanningSession, FinanceReadGuard } from "./finance-plan";
 import { ensureFinanceCashModule } from "./finance-cash";
+import { withQuarterPay } from "./pay-by-quarter";
 import { admittedWorkPayrollCalendarMatches } from "./work-attendance";
 import {
   ensureWorkPayrollCashModule,

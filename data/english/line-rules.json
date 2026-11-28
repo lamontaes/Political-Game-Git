@@ -265,6 +265,36 @@
       }
     },
     {
+      "id": "no-line-that-only-restates-the-date",
+      "says": "No line is nothing but the date or the place the screen already shows (\"It's January 2025.\"); a line that names the evening while telling what is happening then is fine.",
+      "judges": "line",
+      "from": [
+        {
+          "date": "2026-11-24",
+          "words": "shouldn't really say this because the date is in the bottom left",
+          "via": "the owner's grade of \"It's January 2025.\" (bad) and of 1.14 \"It's the evening of January 20. The news replays...\" (passed); the CTO's reading, 7142760180 on #10377"
+        }
+      ],
+      "status": "enforced",
+      "failsBuild": true,
+      "test": {
+        "kind": "patterns",
+        "patterns": [
+          "^(?:It's|It is|Today is)\\s+(?:the\\s+\\w+\\s+of\\s+)?(?:(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|January|February|March|April|May|June|July|August|September|October|November|December)|\\{(?:weekday|day|month|date|start-month)\\})(?:\\s+\\d{1,2}(?:st|nd|rd|th)?)?(?:,?\\s+(?:\\d{4}|\\{(?:year|start-year)\\}))?\\.$",
+          "^(?:You're|You are|We're|We are)\\s+(?:in|at)\\s+\\{(?:place|town|city)\\}\\.$"
+        ]
+      },
+      "catches": [
+        "It's January 2025.",
+        "It's {start-month} {start-year}.",
+        "You're in {place}."
+      ],
+      "spares": [
+        "It's the evening of January 20. The news replays President Simon's noon speech.",
+        "In {start-month} {start-year} you have no job yet."
+      ]
+    },
+    {
       "id": "no-day-or-place-in-scene-words",
       "says": "Scene words never name the day, the date, the time or the place; the screen already shows them.",
       "judges": "line",
@@ -3317,7 +3347,7 @@
       "status": "enforced",
       "test": {
         "kind": "place",
-        "by": "src/english/most-specific-line-wins.test.ts"
+        "by": "tests/src/english/most-specific-line-wins.test.ts"
       },
       "note": "Enforced by the composer: useFit in src/english/scene-talk-words.ts ranks a variant over its family, a situation key over none, a reply written for the line it answers over one for its kind, and a piece that needs a fact on the record over a generic one. The test it names reads what wordSceneMove says, on made pieces and at every spot of the shipped scene-talk bank where a fact-tied and a generic piece share a spot."
     },

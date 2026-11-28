@@ -33,7 +33,7 @@ Seen: the evening before a floor vote in a drawn place, the colleague asks; the 
 
 **Waits on.** The recount of the line-inserts count (#9757) before the count can fall.
 
-**Files.** data/english/parts/scene-talk.json, data/english/pulled.json, src/director/vote-ask-facts.ts, src/director/bill-question-facts.ts, src/director/donor-ask-facts.ts, src/director/purpose-scene.ts, src/director/arc-variant.ts, src/director/ask-vote-paths.test.ts, scripts/words/ask-vote-walk.ts
+**Files.** data/english/parts/scene-talk.json, data/english/pulled.json, src/director/vote-ask-facts.ts, src/director/bill-question-facts.ts, src/director/donor-ask-facts.ts, src/director/purpose-scene.ts, src/director/arc-variant.ts, tests/src/director/ask-vote-paths.test.ts, scripts/words/ask-vote-walk.ts
 
 **Notes.**
 

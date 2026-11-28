@@ -27,6 +27,6 @@ claimed-at: 2026-10-27
 
 **Screenshot.** The composed scene's lines in the PR body, with place and seed.
 
-**Files.** src/director/opening-story.ts, src/english/english-opening-speech.ts, data/english/parts/opening-speech.json, src/director/opening-address.test.ts, src/director/opening-asks.test.ts, src/director/opening-story.test.ts
+**Files.** src/director/opening-story.ts, src/english/english-opening-speech.ts, data/english/parts/opening-speech.json, tests/src/director/opening-address.test.ts, tests/src/director/opening-asks.test.ts, tests/src/director/opening-story.test.ts
 
 **Notes.** Built by the finisher with a helper; review by the director engineer (`Review: director`).

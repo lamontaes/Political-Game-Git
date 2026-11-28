@@ -17,13 +17,10 @@
 import data from "./data/opening-private-tuition.json" with { type: "json" };
 import { bookkeeping } from "./bookkeeping";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import type { FinanceContractInput } from "./finance-types";
-import { setEverydayPurchase } from "./cost-of-living";
-import {
-  countedSchoolFamilies,
-  countedTuitionPlans,
-  setCountedTuition,
-} from "./modules/residents";
+import type { FinanceContractInput } from "./modules/finance";
+import { setEverydayPurchase } from "./modules/business";
+import { countedSchoolFamilies, setCountedTuition } from "./resident-schooling";
+import { countedTuitionPlans } from "./residents-reads";
 import {
   privateShareOf,
   worldPrivateTuitionAnnualUsd,

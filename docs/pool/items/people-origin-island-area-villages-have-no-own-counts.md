@@ -34,6 +34,6 @@ branch:
 
 **Waits on.** Nothing.
 
-**Files.** data/source/place-race-origin/, scripts/source/export-place-race-origin.ts, src/core2/opening-origin.test.ts, src/core2/data/stopgaps/lives.json
+**Files.** data/source/place-race-origin/, scripts/source/export-place-race-origin.ts, tests/src/core2/opening-origin.test.ts, src/core2/data/stopgaps/lives.json
 
 **Notes.** Filed Nov 14 by the thread that built the state rows (PR for people-protected-traits-on-record-part-1-race-on-record). The mixed-couple half of the stopgap is already owned by people-opening-household-cannot-be-a-mixed-couple.

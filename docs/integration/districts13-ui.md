@@ -30,4 +30,4 @@ A new life started in a Census place that the 2024 relationship files show wholl
 
 ## Proof owned here
 
-Focused tests in `src/districts/query.test.ts` and `src/presentation/districts13.test.ts`: refusal boundaries, interrupted residence, old-save UNKNOWN, picker-is-not-membership, whole-place Adak join, ordinary filing/election/fiscal without a forced win. Independent review of the membership boundary is distinct from this author run.
+Focused tests in `tests/src/districts/query.test.ts` and `src/presentation/districts13.test.ts`: refusal boundaries, interrupted residence, old-save UNKNOWN, picker-is-not-membership, whole-place Adak join, ordinary filing/election/fiscal without a forced win. Independent review of the membership boundary is distinct from this author run.

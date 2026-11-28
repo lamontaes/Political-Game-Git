@@ -34,6 +34,6 @@ Seen: a person card, the Journal, the news and the dev views name the same past 
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/past-history.ts, src/core2/past.ts, src/core2/person-life.ts, tests/guards/one-history.test.ts, src/bench/history-reader-proof.test.ts
+**Files.** src/core2/past-history.ts, src/core2/past.ts, src/core2/person-life.ts, tests/guards/one-history.test.ts, tests/src/bench/history-reader-proof.test.ts
 
 **Notes.** Nov 26: the port is on branch history/main.

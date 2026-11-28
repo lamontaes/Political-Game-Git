@@ -30,10 +30,10 @@ merged-at: 2026-11-24T23:04:20.426Z
 
 **Rules.** One rule, all 56 places (every pay-authority owner, not one town). Review: words (src/director/words.ts is the Words session's reader).
 
-**Done when.** A second session, in a drawn place whose opening has a worker at a public pay-authority owner, sees that worker's employer said by name in a work scene (dev mode's layoff for that worker), and `src/director/public-employer-said.test.ts` passes.
+**Done when.** A second session, in a drawn place whose opening has a worker at a public pay-authority owner, sees that worker's employer said by name in a work scene (dev mode's layoff for that worker), and `tests/src/director/public-employer-said.test.ts` passes.
 
 **Waits on.** The Jobs session's yes to the re-export and the Words session's review (asked on #10377, 7142310689).
 
-**Files.** src/director/words.ts, src/director/scene.ts, src/director/view-learned.ts, src/director/speech-outline.ts, src/director/conversation.ts, src/core2/modules/jobs.ts, src/director/public-employer-said.test.ts (new)
+**Files.** src/director/words.ts, src/director/scene.ts, src/director/view-learned.ts, src/director/speech-outline.ts, src/director/conversation.ts, src/core2/modules/jobs.ts, tests/src/director/public-employer-said.test.ts (new)
 
 **Notes.** Filed by Board mock (lane 8), Nov 24. The Coordinator asked for all five director reads through one helper (19:35Z). The bench reads `outsideFlow` the same way and is left for the Screens session: src/bench/card.ts (95, 124, 1250, 1816), src/bench/printed-words.ts (3391, 3504), src/bench/campaign.ts (382) and src/bench/dev-views/dev-closing.ts (108, 335).

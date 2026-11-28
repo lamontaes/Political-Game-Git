@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice: the plan follows the woman's own records, never a percentage; CDC rates check totals only. One model, two tiers: a full woman is a consistent member of the counted group she stands for. Replace, never layer: one planning path for a woman with or without a partner.
 
-**Done when.** In a one-year buildBenchWorld run in three drawn places (named, with seeds), full women's births per thousand by 5-year age band are within the CDC band rate's spread, shown by person-birth record ids, and a test in src/core2/births-plan.test.ts or a new births-full-coverage test states the share of full women aged 20 to 39 who can plan a birth.
+**Done when.** In a one-year buildBenchWorld run in three drawn places (named, with seeds), full women's births per thousand by 5-year age band are within the CDC band rate's spread, shown by person-birth record ids, and a test in tests/src/core2/births-plan.test.ts or a new births-full-coverage test states the share of full women aged 20 to 39 who can plan a birth.
 
 **Files.** src/core2/modules/renewal.ts,src/core2/births-plan.ts
 

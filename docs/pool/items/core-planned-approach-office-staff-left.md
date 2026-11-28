@@ -17,8 +17,8 @@ claimed-at: 2026-10-25T10:12:32.415Z
 
 **Rules.** Wire to the world: a planned visit happens only if the office still has someone to receive it on the day. Replace, never layer: the staffed-office check moves from the offer provider into an eligibility rule that both the offer and the planned day read; no second check beside it.
 
-**Done when.** In a played world on clean main, the Springboro seed above runs past 2025-02-22 without the throw, and a test in src/core2/life.test.ts shows a planned approach dropped on its day once the office has no staff: no office.approached record and no callback, where the same test without the rule throws.
+**Done when.** In a played world on clean main, the Springboro seed above runs past 2025-02-22 without the throw, and a test in tests/src/core2/life.test.ts shows a planned approach dropped on its day once the office has no staff: no office.approached record and no callback, where the same test without the rule throws.
 
-**Files.** src/core2/modules/life.ts, src/core2/data/content.json, src/core2/life.test.ts
+**Files.** src/core2/modules/life.ts, src/core2/data/content.json, tests/src/core2/life.test.ts
 
 **Notes.** TODO

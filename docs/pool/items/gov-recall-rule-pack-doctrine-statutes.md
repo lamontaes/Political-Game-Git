@@ -17,9 +17,9 @@ claimed-at:
 
 **Rules.** One rule, all 56 places: the doctrine, grounds and scope are per-place rows in the pack, never a state named in logic. Research before building: each corrected row quotes the statute it came from, and a recall that cannot happen under that law never starts.
 
-**Done when.** A test in src/core2/recalls.test.ts reads the corrected pack rows for the three places, and in a one-year run of the played world (buildBenchWorld, a drawn place and seed named in the PR) a South Dakota or Wyoming town's recall rule prints its grounds and scope with the statute citation from the pack.
+**Done when.** A test in tests/src/core2/recalls.test.ts reads the corrected pack rows for the three places, and in a one-year run of the played world (buildBenchWorld, a drawn place and seed named in the PR) a South Dakota or Wyoming town's recall rule prints its grounds and scope with the statute citation from the pack.
 
-**Files.** data/municipal-elections/92O-national-state-baseline.json, src/core2/gov-rules/municipal-ballot-rules.ts, src/core2/recalls.test.ts, data/research/core/recall-timing-statutes-2026.json
+**Files.** data/municipal-elections/92O-national-state-baseline.json, src/core2/gov-rules/municipal-ballot-rules.ts, tests/src/core2/recalls.test.ts, data/research/core/recall-timing-statutes-2026.json
 
 **Notes.** 2026-10-25 (claude/recall-rule-statutes): South Dakota read from SDCL 9-13-29 to 9-13-35 (sdlegislature.gov): grounds required and listed, 15% of registered voters, 60 days, the officer runs against challengers. Wyoming read from W.S. 15-4-110 in the official Title 15 PDF (wyoleg.gov): commission-form only, 25% of registered electors, a general statement of grounds; 15-1-1101 is quasi-municipal districts; HB0022 failed in the Senate Committee of the Whole on 2026-03-03. Mississippi: the code text could not be fetched (the Legislature's site returned 503, Justia 403); its row rests on WLBT's January 13, 2023 report and the 25-5 section titles, and is flagged in the pack and the timing file to re-read. The resolver now uses a form-conditional state's statutory default (Maine, Ohio, Oklahoma, Rhode Island, Texas and now Wyoming default to no recall) instead of the national estimate.
 

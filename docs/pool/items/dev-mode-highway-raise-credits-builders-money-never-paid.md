@@ -32,4 +32,4 @@ root: rc8-law-judged-by-paperwork
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/dev-mode.ts, src/bench/dev-mode.test.ts
+**Files.** src/bench/dev-mode.ts, tests/src/bench/dev-mode.test.ts

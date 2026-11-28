@@ -36,7 +36,7 @@
     "src/core2/data/laws/reach-group-b-parameters.json": 60,
     "src/core2/data/macro/parameters.json": 51,
     "src/core2/data/meetings/parameters.json": 18,
-    "src/core2/data/moves/parameters.json": 19,
+    "src/core2/data/moves/parameters.json": 18,
     "src/core2/data/news/parameters.json": 8,
     "src/core2/data/office-day/federal-parameters.json": 14,
     "src/core2/data/office-day/parameters.json": 7,
@@ -176,7 +176,7 @@
       "what": "web outcomes pulled toward their level rows"
     },
     {
-      "file": "src/core2/macro.test.ts",
+      "file": "tests/src/core2/macro.test.ts",
       "lines": "87-104",
       "shape": "band assertion",
       "owner": "Money",
@@ -190,7 +190,7 @@
       "what": "checks played measures against real ranges"
     },
     {
-      "file": "src/core2/counted-moves-balance.test.ts",
+      "file": "tests/src/core2/counted-moves-balance.test.ts",
       "lines": "",
       "shape": "band assertion",
       "owner": "Lives",

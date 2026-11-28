@@ -17,9 +17,9 @@ claimed-at: 2026-10-25T19:39:42.814Z
 
 **Rules.** No hand-written player text: every line is a mined bank piece, held out of play until graded, never typed into the director. Ask why: the subject names the victimization record id as its source, so the scene's reason is on the record. Replace, never layer: use the existing happenings and subject machinery that eviction uses, not a second conversation path.
 
-**Done when.** In a one-year buildBenchWorld run in a place drawn from all 56 (place and seed named, bounded redraw where no full household is victimized), a conversation with a victim raises a victimization subject whose source record is the crime record id; src/director/conversation-crime.test.ts proves it and fails when the subject is removed, and the PR names the bank parts and their graded or held state.
+**Done when.** In a one-year buildBenchWorld run in a place drawn from all 56 (place and seed named, bounded redraw where no full household is victimized), a conversation with a victim raises a victimization subject whose source record is the crime record id; tests/src/director/conversation-crime.test.ts proves it and fails when the subject is removed, and the PR names the bank parts and their graded or held state.
 
-**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, data/english/parts/conversation.json, src/director/conversation-crime.test.ts
+**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, data/english/parts/conversation.json, tests/src/director/conversation-crime.test.ts
 
 **Notes.** Added Oct 24 by the effects lead for effects-end-to-end-proof (its scene step), after web-views-lived-crime-moves-stance.
 

@@ -10,7 +10,7 @@ lead: jobs
 claimed-by:
 pr: #7930
 blocked-on:
-source: Money, Nov 9; src/core2/fill-in-paid-once.test.ts
+source: Money, Nov 9; tests/src/core2/fill-in-paid-once.test.ts
 claimed-at:
 ---
 
@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** No dice; sliding scales: a worker with a time need of 0.77 should work fewer shifts, not none. Wire to the world: the choice reads the person's stress, needs, job and the employer's schedule. One model, two tiers.
 
-**Done when.** At the same place and seed, `npx vitest run src/core2/fill-in-paid-once.test.ts` and a count of missed against planned days for the 30 filled-in workers shows no worker missing every planned day without a recorded cause (sickness, leave, an employer closure) named by record id.
+**Done when.** At the same place and seed, `npx vitest run tests/src/core2/fill-in-paid-once.test.ts` and a count of missed against planned days for the 30 filled-in workers shows no worker missing every planned day without a recorded cause (sickness, leave, an employer closure) named by record id.
 
 **Files.** src/core2/work-attendance.ts, src/core2/modules/work.ts
 

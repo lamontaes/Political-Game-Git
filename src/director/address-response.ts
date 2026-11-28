@@ -15,9 +15,9 @@ import { makeCase } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { standsAt } from "./opening-story";
+import { standsAt } from "./speech-outline";
 
-export const ADDRESS_RESPONSE_EVENT = "governor.response";
+const ADDRESS_RESPONSE_EVENT = "governor.response";
 const CHAMBERS = ["legislature-upper", "legislature-lower"] as const;
 
 /** Who answers: the other party's leader on the floor, else the farthest from the governor's ideal. */

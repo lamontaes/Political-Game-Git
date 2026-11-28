@@ -1,18 +1,18 @@
 import { bookkeeping } from "./bookkeeping";
 /** The recorded work owner composes the act, wage, credit and time in one journal. */
-import { cashJournalParameters } from "./cash-host";
+import { cashJournalParameters } from "./budgets-treasury";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import { registerModule } from "./state";
 import {
   FinancePlanningSession,
   guardWorkFinanceResult,
   prepareWorkFinancePlan,
-} from "./finance-plan";
+} from "./budgets-treasury";
 import {
   admitSelectedCashAct,
   cancelUncompletedCashAct,
   resolveSelectedCashAct,
-} from "./act-cash";
+} from "./budgets-treasury";
 import {
   admitCompositeFinanceCreditSources,
   cancelCompositeFinanceCreditSources,
@@ -20,30 +20,30 @@ import {
   finishCompositeFinanceCreditSources,
   releaseCompositeFinanceCreditSources,
   resolveCompositeFinanceCreditSources,
-} from "./finance-cash";
+} from "./budgets-treasury";
 import {
   activityAgeId,
   plannedWorkMinutesOnDate,
   workWeekStart,
-} from "./modules/work";
+} from "./work-reads";
 import { validateDatedWorkResult } from "./work-state";
 import {
   preparePublicWorkPay,
   resolvePublicWorkPayDue,
 } from "./public-work-pay";
-import type { CashActSelection } from "./act-cash";
-import type { CreditReceipt } from "./finance-types";
-import type { PreparedFinancePlan } from "./finance-plan";
+import type { CashActSelection } from "./budgets-treasury";
+import type { CreditReceipt } from "./budgets-treasury";
+import type { PreparedFinancePlan } from "./budgets-treasury";
+import type { CashJournalPosting } from "./modules/people";
 import type {
-  CashJournalPosting,
   CashJournalSourceRef,
   ResolvedCashJournalSource,
-} from "./journal";
+} from "./modules/health";
 import type {
   CashJournalPostedMarker,
   CashJournalSourceProvider,
   CashJournalSourceSlot,
-} from "./journal-state";
+} from "./modules/health";
 import type {
   CoreAPI,
   CoreModule,

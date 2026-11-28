@@ -18,7 +18,7 @@ claimed-at: 2026-10-16T19:09:25.366Z
 
 **Rules.** No dice: the weights follow traits, never a roll. Sliding scales: nothing flips at a threshold. An effect is a read: the nomination reads the appointer's person record. Ask why: the nomination's reasons keep the weights used. One rule, all 56 places.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place, seed named) a nomination lists the appointer as a person with the weights their traits set, by nomination and person id, and two appointers with different traits rank the same pool differently in a test in src/core2/appointments.test.ts.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place, seed named) a nomination lists the appointer as a person with the weights their traits set, by nomination and person id, and two appointers with different traits rank the same pool differently in a test in tests/src/core2/appointments.test.ts.
 
 **Files.** src/core2/appointments.ts, src/core2/modules/executive.ts, data/content/trait-decisions.json
 

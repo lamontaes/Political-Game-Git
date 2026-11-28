@@ -33,6 +33,6 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/health.ts, src/core2/modules/school.ts, src/core2/modules/outcome-web.ts, src/core2/data/outcome-web/outcome-web.json, src/core2/data/outcome-web/coverage.json, src/core2/outcome-web.test.ts
+**Files.** src/core2/modules/health.ts, src/core2/modules/school.ts, src/core2/modules/outcome-web.ts, src/core2/data/outcome-web/outcome-web.json, src/core2/data/outcome-web/coverage.json, tests/src/core2/outcome-web.test.ts
 
 **Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added two researched links to the outcome web; the web's estimates stand and no screen shows the difference.

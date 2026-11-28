@@ -21,7 +21,7 @@ claimed-at: 2026-11-04T07:16:05.022Z
 
 **Done when.** buttons.browser.mjs passes 10 of 10 fresh runs on a restarted bench, including the seed above; a before/after screenshot of the race list in that place.
 
-**Files.** src/bench/play.css, src/bench/ui/menu.mjs, src/bench/buttons.browser.mjs
+**Files.** src/bench/play.css, src/bench/ui/menu.mjs, tests/src/bench/buttons.browser.mjs
 
 **Time box.** 2 hours; if not done, push what exists, open the draft PR, write the handoff.
 

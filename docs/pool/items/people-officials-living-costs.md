@@ -17,9 +17,9 @@ claimed-at:
 
 **Rules.** Estimate, never UNKNOWN: both figures are marked ESTIMATED with their sources. One rule, all 56 places: no state named in logic; the region and rent are read from data. An effect is a read: the bribe decision's need term reads both. Replace, never layer: officials with a living cost already (local officeholders from the opening) keep theirs and are not given a second.
 
-**Done when.** In a played world in a place drawn from all 56 with a seed the builder did not choose, every serving officeholder has a living cost and savings, a month of the cost leaves their account on each payday, and a bribe offered to a seated official shows a need term computed from their cost and cash, named by bribe record id. The test is `src/core2/official-living.test.ts`.
+**Done when.** In a played world in a place drawn from all 56 with a seed the builder did not choose, every serving officeholder has a living cost and savings, a month of the cost leaves their account on each payday, and a bribe offered to a seated official shows a need term computed from their cost and cash, named by bribe record id. The test is `tests/src/core2/official-living.test.ts`.
 
-**Files.** src/core2/official-living.ts, src/core2/modules/official-pay.ts, src/core2/hud-rents.ts, src/core2/state.ts, src/core2/types.ts, src/core2/official-living.test.ts
+**Files.** src/core2/official-living.ts, src/core2/modules/official-pay.ts, src/core2/hud-rents.ts, src/core2/state.ts, src/core2/types.ts, tests/src/core2/official-living.test.ts
 
 **Notes.** Officials outside the town spend to the outside account (their sellers are not in town); an official with a real opening living plan keeps theirs.
 

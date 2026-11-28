@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T18:12:54.512Z
 
 **Rules.** Wire to the world: a living cost is paid from the cash household members hold, and the same dollar leaves their accounts. No dice: the members' cash decides who pays, never a share or a roll.
 
-**Done when.** In the played world (`buildBenchWorld`, a drawn town with its place and seed named in the output), households pay at least 90 percent of the living costs asked over 90 days, and `src/core2/living-costs-arrears.test.ts` states it; it passes in Odessa, Delaware, Tenakee Springs, Alaska and Groton, Massachusetts.
+**Done when.** In the played world (`buildBenchWorld`, a drawn town with its place and seed named in the output), households pay at least 90 percent of the living costs asked over 90 days, and `tests/src/core2/living-costs-arrears.test.ts` states it; it passes in Odessa, Delaware, Tenakee Springs, Alaska and Groton, Massachusetts.
 
 **Files.** src/core2/modules/residents.ts
 

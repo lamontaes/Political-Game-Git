@@ -31,10 +31,10 @@ branch: claude/f1-stipend-posts
 
 **Rules.** Estimate, never UNKNOWN. One rule, all 56 places. No dice: a share and a schedule, never a roll. Replace, never layer: the cut-rate path is deleted in the same change. One mechanism for public pay: states and the country use the same startPublicJob.
 
-**Done when.** A second session, in buildBenchWorld at Woolstock, Iowa (draw case-help-pinned-1:help:37) and at a drawn place nobody chose, finds no public post's commitment under the minimum wage, every part-time post's scheduled minutes times its rate equal to its line's daily pay, no short-pay case for any public post holder, and a worker in an ordinary job paid under the floor still opening one; src/core2/stipend-post-pay.test.ts, src/core2/wage-floor-exempt.test.ts and the staff and executive tests pass; SG-GOV-officer-stipend-hours is gone.
+**Done when.** A second session, in buildBenchWorld at Woolstock, Iowa (draw case-help-pinned-1:help:37) and at a drawn place nobody chose, finds no public post's commitment under the minimum wage, every part-time post's scheduled minutes times its rate equal to its line's daily pay, no short-pay case for any public post holder, and a worker in an ordinary job paid under the floor still opening one; tests/src/core2/stipend-post-pay.test.ts, tests/src/core2/wage-floor-exempt.test.ts and the staff and executive tests pass; SG-GOV-officer-stipend-hours is gone.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/public-payroll.ts, src/core2/data/stopgaps/gov.json, src/core2/stipend-post-pay.test.ts
+**Files.** src/core2/public-payroll.ts, src/core2/data/stopgaps/gov.json, tests/src/core2/stipend-post-pay.test.ts
 
 **Notes.** Revived from dropped (Nov 10) by Account lead F1, Nov 15, 2026, at the coordinator's word after Woolstock's 94-cent commitment. The other thread's `jobs-short-pay-case-pay-is-94-cents-an-hour-at-woolstock` (#9328) names the same case from the case side.

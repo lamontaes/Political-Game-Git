@@ -60,7 +60,7 @@ import {
 import { monthEvent } from "./press";
 import { closedNewspapers } from "./press";
 import severityData from "../data/disasters/severity.json" with { type: "json" };
-import { ELECTIONS_MODULE_ID } from "./elections";
+import { ELECTIONS_MODULE_ID } from "../elections-reads";
 import { VOTING_MODULE_ID } from "../voting-module-id";
 
 /** The disasters engine's news event for a disaster, which carries its severity (src/core2/modules/disasters.ts). */
@@ -107,6 +107,7 @@ const SCHOOL_MEASURED = new Set([
 ]);
 
 export { OUTCOME_WEB_MODULE_ID, WEB_LINKS };
+export { carriedLink } from "../outcome-web-model";
 /** The factor an engine in another family multiplies its own rate by (medical-bills.ts). */
 export { webReach, type WebReach } from "../outcome-web-reach";
 // The trace of laws the web carries into business prices, for the price engine.
@@ -919,16 +920,4 @@ export function outcomeWebFactor(
   if (scaleOf(measure) === "level") return 1;
   // The links' own push: a level the town's records set is not the web's factor.
   return record.push ?? record.value / record.base;
-}
-
-/**
- * A researched link's row, for the engine that carries it (the row's
- * `carriedBy` names that engine): the engine applies the row's size to its
- * own records and the web does not run the link.
- */
-export function carriedLink(key: string): WebLink {
-  const link = WEB_LINKS.find((row) => row.key === key);
-  if (!link?.carriedBy || link.size === null)
-    throw new Error(`${key} is not a carried link with a researched size`);
-  return link;
 }

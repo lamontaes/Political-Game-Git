@@ -32,11 +32,11 @@ merged-at: 2026-11-12T22:00:34.734Z
 
 **Rules.** Replace, never layer: the fix replaces the faulty code in the same change, and a test asserts the feature and fails when nothing is found. One engine per mechanic: the year cost and the monthly settlement read one price-law rule, not two copies.
 
-**Done when.** A second session, in a drawn place and seed named in the PR, computes a business's year cost with businessEnergyCostYear and the sum of twelve monthly settlements for the same law and finds them equal, and src/core2/place-prices.test.ts holds that comparison and fails when the two rules differ. The decision on employers without books is written in the item notes.
+**Done when.** A second session, in a drawn place and seed named in the PR, computes a business's year cost with businessEnergyCostYear and the sum of twelve monthly settlements for the same law and finds them equal, and tests/src/core2/place-prices.test.ts holds that comparison and fails when the two rules differ. The decision on employers without books is written in the item notes.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/place-prices.ts, src/core2/place-prices.test.ts, src/core2/modules/interest-groups.ts
+**Files.** src/core2/modules/place-prices.ts, tests/src/core2/place-prices.test.ts, src/core2/modules/interest-groups.ts
 
 **Notes.** Item 15 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5180 by the CTO, Oct 26.
 

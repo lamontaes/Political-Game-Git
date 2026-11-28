@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: a counted commuter is read by the same rule as a full one times their count. Replace, never layer: the standing unplaced-wages flow is deleted in the same change. Estimate, never UNKNOWN: the pay stays the place's ACS median earnings, marked ESTIMATED with its spread. An effect is a read, not a record: the withholding is paid to the treasury by the journal.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 and a seed the builder did not choose (name both in the PR body), a named commuter has a job with the outside employer, is paid on its calendar, and has withholding paid to a treasury, shown by job and journal record ids, and the old unplaced-wages flow is gone; src/core2/residents.test.ts and the tripwire tests pass.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 and a seed the builder did not choose (name both in the PR body), a named commuter has a job with the outside employer, is paid on its calendar, and has withholding paid to a treasury, shown by job and journal record ids, and the old unplaced-wages flow is gone; tests/src/core2/residents.test.ts and the tripwire tests pass.
 
 **Files.** src/core2/residents.ts, src/core2/modules/residents.ts, src/core2/opening-employment.ts
 

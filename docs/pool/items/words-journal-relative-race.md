@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 
 **Done when.** In a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, named in the PR body, the slot the journal entry for a relative's election result is worded from engine or mined parts in data/english/parts/journal.json and cites the election-result record and its winner by record id; the rewritten director test that now asserts the slot is empty asserts the real line instead, and tests/english-parts-banks.test.ts passes.
 
-**Files.** data/english/parts/journal.json, src/director/journal.ts, src/director/journal.test.ts
+**Files.** data/english/parts/journal.json, src/director/journal.ts, tests/src/director/journal.test.ts
 
 **Notes.** Filed by fs11vb while rewriting the 17 director tests for PR #5647, as the CTO required for every slot left without engine parts.
 

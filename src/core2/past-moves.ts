@@ -27,7 +27,7 @@ import {
   preStartWindowOf,
   recordPreStartLater,
   wholePastOnce,
-} from "./pre-start";
+} from "./pre-start-history";
 import { ownPastKind } from "./own-past-kinds";
 import { coreAPI } from "./state";
 import { stopgap } from "./stopgaps";
@@ -41,7 +41,7 @@ import type {
 } from "./types";
 import { townWithin } from "./places-elsewhere";
 import { tenureScaleOf } from "./opening-tenure";
-import { openingTenureOf } from "./modules/housing";
+import { openingTenureOf } from "./housing-reads";
 
 export const PERSON_MOVED_IN = ownPastKind("person.moved-in");
 /** The past fact a person's birthplace is kept as (src/core2/person-birthplace.ts). */

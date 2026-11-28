@@ -18,9 +18,9 @@ source: split from gov-stopgap-world-legislating-missing-mechanic by pool feeder
 
 **Rules.** Replace, never layer: the stopgap call and comment are deleted in the same change and the row is marked resolved, never deleted. No dice: Congress files what its members' reasons favor where the law in force differs. An effect is a read, not a record: only a question with a reader is admitted. Wire to the world: a federal bill filed here reaches the town through the effect readers.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, every module installed) in a place drawn from all 56 with a seed the builder did not choose, a federal session files, passes and enacts at least one federal-only bill, shown by session, bill and law record ids, whose law row an engine reads; src/core2/world-legislating-federal.test.ts proves it and SG-GOV-federal-proposal-coverage is resolved in src/core2/data/stopgaps.json.
+**Done when.** In a one-year run of the played world (buildBenchWorld, every module installed) in a place drawn from all 56 with a seed the builder did not choose, a federal session files, passes and enacts at least one federal-only bill, shown by session, bill and law record ids, whose law row an engine reads; tests/src/core2/world-legislating-federal.test.ts proves it and SG-GOV-federal-proposal-coverage is resolved in src/core2/data/stopgaps.json.
 
-**Files.** src/core2/modules/world-legislating.ts, src/core2/data/stopgaps.json, src/core2/world-legislating-federal.test.ts
+**Files.** src/core2/modules/world-legislating.ts, src/core2/data/stopgaps.json, tests/src/core2/world-legislating-federal.test.ts
 
 **Notes.** Oct 20 (pool feeder): part 4 of 4 of gov-stopgap-world-legislating-missing-mechanic.
 

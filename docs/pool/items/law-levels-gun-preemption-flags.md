@@ -19,6 +19,6 @@ claimed-at: 2026-11-06T02:03:57.302Z
 
 **Done when.** The three gun questions and permit-to-carry bar towns in every state except CT HI MA NJ NY (CA, CO unchanged); a test reads all 56 places.
 
-**Files.** data/research/laws/starting-law-2026/justice-public-safety.json,src/core2/gun-preemption-flags.test.ts
+**Files.** data/research/laws/starting-law-2026/justice-public-safety.json,tests/src/core2/gun-preemption-flags.test.ts
 
 **Notes.** TODO

@@ -18,7 +18,7 @@ claimed-at: 2026-10-20T09:47:38.757Z
 
 **Rules.** Replace, never layer: the old scaffolding is deleted in the same change. One model, two tiers: the opening fills full people only where they matter.
 
-**Done when.** In a drawn place (name and seed in the PR body) population.ts imports nothing from simulation/world or simulation/types, the same town opens by record id (a fingerprint of people, households and memberships equal before and after), and src/core2/population.test.ts passes; the PR counts old files removed.
+**Done when.** In a drawn place (name and seed in the PR body) population.ts imports nothing from simulation/world or simulation/types, the same town opens by record id (a fingerprint of people, households and memberships equal before and after), and tests/src/core2/population.test.ts passes; the PR counts old files removed.
 
 **Files.** src/core2/population.ts, src/core2/types.ts, docs/coordination/core.md
 

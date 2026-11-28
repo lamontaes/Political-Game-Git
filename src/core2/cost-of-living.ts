@@ -21,8 +21,8 @@
  * at the seller's place, so sales-tax laws still collect.
  */
 import { transfer } from "./accounts";
-import { daysBetween, makeIsoDate } from "./kernel/dates";
-import type { FinanceContractInput } from "./finance-types";
+import { daysBetween, makeIsoDate, lastDayOfMonth } from "./kernel/dates";
+import type { FinanceContractInput } from "./modules/finance";
 import type { CoreAPI, CoreState, IsoDate, Source } from "./types";
 
 export const EVERYDAY_LIVING_KIND = "household.everyday-living";
@@ -218,7 +218,7 @@ function nextMonth(at: IsoDate, day: number): IsoDate {
   const date = new Date(`${at}T00:00:00.000Z`);
   const year = date.getUTCFullYear(),
     month = date.getUTCMonth() + 1;
-  const last = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+  const last = lastDayOfMonth(year, month + 1);
   return makeIsoDate(
     new Date(Date.UTC(year, month, Math.min(day, last)))
       .toISOString()

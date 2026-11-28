@@ -22,14 +22,14 @@ import { printStory, readingDelay, type Story } from "./modules/news";
 import { writeArchiveStory } from "./modules/press";
 import type { PastTown } from "./past-bodies";
 import type { PastClosureRow } from "./past-business";
-import {
-  pastParameter,
-  shiftDays,
-  type LawHistoryRow,
-  type PastBillRow,
-  type PastElectionRow,
+import type {
+  LawHistoryRow,
+  PastBillRow,
+  PastElectionRow,
 } from "./past-module";
+import { pastParameter, shiftDays } from "./past-reads";
 import type { CoreAPI, CoreEventInput, PersonState } from "./types";
+import { allBudgetRows } from "./budgets-reads";
 
 /** The day a reader hears a story, by the news engine's delivery rule; null if never. */
 export function heardOn(
@@ -136,10 +136,7 @@ export function buildNewsArchive(
       no: String(bill.rollCall.no),
     });
   if (api.state.modules.has("core2-budgets-v1"))
-    for (const budget of api
-      .moduleState("core2-budgets-v1")
-      .table("budgets")
-      .rows() as unknown as {
+    for (const budget of allBudgetRows(api) as unknown as {
       id: string;
       governmentId: string;
       fiscalYear: number;

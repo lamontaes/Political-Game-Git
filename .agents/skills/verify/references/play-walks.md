@@ -15,7 +15,7 @@ Each was one or two presses from the opening. Each would have been the first thi
 
 ## The walks
 
-They live in `scripts/play-walks/` and share `scripts/play-walks/lib.mjs`. Each takes a folder for its pictures and log, starts a new life through the one helper every browser check uses (`src/bench/start-life.mjs`), and prints the log at the end.
+They live in `scripts/play-walks/` and share `scripts/play-walks/lib.mjs`. Each takes a folder for its pictures and log, starts a new life through the one helper every browser check uses (`tests/support/start-life.mjs`), and prints the log at the end.
 
 | Walk           | What it plays                                                                                                                                                                                      | Run                                                     |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
@@ -99,4 +99,4 @@ A new life offers no Call on day 1: calls need weeks of play, and the card's tie
 
 - **A talk's opening subject is on `talk.last.subject.kind`, not on the line's kind.** Before calling a talk reachable or unreachable, read the holds in conversation.ts (rule 52 asks "Where are you from?" only of two people from different places). A played town's people all live in it; the only full people living elsewhere are officials, and no screen puts a player in a talk with them.
 - **Stage a layoff with `layOffWorker(api, jobId)` (jobs.ts) and a closure with `closeBusinessByChoice`.** The closure moves the town's own rate more than the layoff (Marion OR: 1.6, 2.5, 3.3 percent), so the same town can read differently. Vitest sets the env var MODE; name your own switch something else.
-- **A walk waits for the box to change after a press.** A walk that rereads the talk box on a timer and presses the first reply again while the first answer is in flight sends the turn before and the bench refuses it ("Not an offered line: 1:yes", the Journal walk at New Haven, Vermont). `playTalk` in scripts/play-walks/lib.mjs waits until the box differs or closes; a double press in the real page is checked by src/bench/talk-double-press.browser.mjs (by hand).
+- **A walk waits for the box to change after a press.** A walk that rereads the talk box on a timer and presses the first reply again while the first answer is in flight sends the turn before and the bench refuses it ("Not an offered line: 1:yes", the Journal walk at New Haven, Vermont). `playTalk` in scripts/play-walks/lib.mjs waits until the box differs or closes; a double press in the real page is checked by tests/src/bench/talk-double-press.browser.mjs (by hand).

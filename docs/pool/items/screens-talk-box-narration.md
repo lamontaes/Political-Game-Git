@@ -17,8 +17,8 @@ claimed-at: 2026-10-27T23:20:02.421Z
 
 **Rules.** This is a game, not a spreadsheet: a control that does nothing is a defect, so Say nothing and Leave show only where they are a real choice; replace, never layer, so the subtitle and its bank are deleted; four dynamic choices with say nothing beside them stand (LAW.md section 4).
 
-**Done when.** In a drawn place (name the place and seed), src/bench/talk-box.browser.mjs passes on a restarted bench: the first beat with nothing to answer shows Continue alone at the bottom left and Continue closes it; replies show no Continue; before and after screenshots are in the PR body.
+**Done when.** In a drawn place (name the place and seed), tests/src/bench/talk-box.browser.mjs passes on a restarted bench: the first beat with nothing to answer shows Continue alone at the bottom left and Continue closes it; replies show no Continue; before and after screenshots are in the PR body.
 
-**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/play.html, src/bench/ui/talk-box.mjs, src/bench/talk-box.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/play.html, src/bench/ui/talk-box.mjs, tests/src/bench/talk-box.browser.mjs
 
 **Notes.** CTO relay, 23:25 UTC Oct 27. lead: play-first.

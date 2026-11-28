@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** A test opens Scenic, Arizona with that seed and a drawn place and asserts every kin move date is at or before the start, naming the place, seed and one kin record id.
 
-**Files.** src/core2/opening-kin.test.ts
+**Files.** tests/src/core2/opening-kin.test.ts
 
 **Notes.** core.md line 223, checked Oct 15; the full seed is in the core.md bullet.
 

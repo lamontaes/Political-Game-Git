@@ -36,6 +36,6 @@ Seen: Politics, Budgets for a town at 1440 by 900. Seen: the same page with the 
 
 **Waits on.** Nothing
 
-**Files.** src/bench/play.mjs,src/bench/budgets-who-wrote.browser.mjs (new)
+**Files.** src/bench/play.mjs,tests/src/bench/budgets-who-wrote.browser.mjs (new)
 
 **Notes.** Seen in the game (2026-11-25, Dead stops tracer): Essex, Massachusetts, seed e2dc126b-f10e-45ac-b004-aa9b6098fc2b, main b84540133d: After dev mode ran to the first adopted budget (July 1, 2025), Politics > Budgets for the Town of Essex showed the chosen department's rows (Elementary and secondary education, 5.6 million dollars, last year, since last year, asked) above the town's totals in the same column, and Who wrote it read Adopted by Essex Select Board, adopted July 1, 2025; the Massachusetts tab read Adopted by House of Representatives; budgets-who-wrote.browser.mjs passed (3 governments, two columns each).

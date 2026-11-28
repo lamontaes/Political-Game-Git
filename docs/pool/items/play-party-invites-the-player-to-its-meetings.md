@@ -39,6 +39,6 @@ Seen: Beesleys Point, New Jersey (seed 1c0c38ab-cccf-45f2-943d-b108847e2981), no
 
 **Waits on.** Story's `party-meeting-invite` scene.
 
-**Files.** src/core2/modules/parties.ts, src/core2/scene-replies.ts (new), src/core2/modules/press.ts, src/core2/modules/parties-player-meeting.test.ts (new), src/core2/data/opening/day-zero.json
+**Files.** src/core2/modules/parties.ts, src/core2/scene-replies.ts (new), src/core2/modules/press.ts, tests/src/core2/modules/parties-player-meeting.test.ts (new), src/core2/data/opening/day-zero.json
 
 **Notes.** Filed and built by the Blockers lane, Nov 17. Replaces the plan in #9744 for this road. The opening skip at parties.ts `openParties` stays: the owner ruled on Nov 8 that the player chooses their own party.

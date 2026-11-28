@@ -1,11 +1,19 @@
-import { execFileSync } from "child_process";
 import { readFileSync } from "fs";
-import path from "path";
 import { describe, expect, it } from "vitest";
 import map from "./families.json";
-import { familyOf, globToRegExp } from "./family-map";
+import { globToRegExp } from "./family-map";
 import baseline from "./families-baseline.json";
 import { codeowners, CODEOWNERS_PATH } from "../../scripts/guards/codeowners";
+import {
+  deepImports,
+  importsOf,
+  sources,
+  testFiles,
+  type Family,
+} from "../../scripts/guards/families-measure";
+import { familyOf } from "./family-map";
+
+export { importsOf };
 
 /**
  * One engine per mechanic (owner: "There's one election engine... You
@@ -23,79 +31,7 @@ import { codeowners, CODEOWNERS_PATH } from "../../scripts/guards/codeowners";
  * family that owns it) and lower the count.
  */
 
-const ROOT = path.resolve(__dirname, "../..");
-type Family = { id: string; name: string; entry: string[]; paths: string[] };
 const families = map.families as Family[];
-
-const entries = new Map(
-  families.map((family) => [family.id, family.entry.map(globToRegExp)]),
-);
-
-const SOURCE =
-  /^(?:src\/(?:core2|director|english|bench)\/.*\.(?:ts|tsx|mjs))$/;
-function sources(): string[] {
-  return execFileSync(
-    "git",
-    ["ls-files", "src/core2", "src/director", "src/english", "src/bench"],
-    { cwd: ROOT, encoding: "utf8" },
-  )
-    .split("\n")
-    .filter(
-      (file) =>
-        SOURCE.test(file) &&
-        !/\.(test|spec|browser)\.(ts|tsx|mjs)$/.test(file) &&
-        !/\.d\.m?ts$/.test(file),
-    );
-}
-
-/** The repository files a source imports by relative path. */
-export function importsOf(file: string, source: string): string[] {
-  const out: string[] = [];
-  for (const match of source.matchAll(
-    /(?:^|\n)\s*(?:import|export)\s[^;]*?from\s*["'](\.{1,2}\/[^"']+)["']/g,
-  )) {
-    const target = path.posix.normalize(
-      path.posix.join(path.posix.dirname(file), match[1]!),
-    );
-    out.push(/\.(ts|tsx|mjs|js|json)$/.test(target) ? target : `${target}.ts`);
-  }
-  return out;
-}
-
-/** The test files beside the source: each belongs to the family that answers for its failing. */
-function testFiles(): string[] {
-  return execFileSync(
-    "git",
-    ["ls-files", "src/core2", "src/director", "src/english", "src/bench"],
-    { cwd: ROOT, encoding: "utf8" },
-  )
-    .split("\n")
-    .filter(
-      (file) =>
-        SOURCE.test(file) && /\.(test|spec|browser)\.(ts|tsx|mjs)$/.test(file),
-    );
-}
-
-function deepImports(): Map<string, string[]> {
-  const out = new Map<string, string[]>();
-  for (const file of sources()) {
-    const from = familyOf(file);
-    if (!from || from === "shared") continue;
-    const reached = importsOf(file, readFileSync(path.join(ROOT, file), "utf8"))
-      .map((target) => target.replace(/\.js$/, ".ts"))
-      .filter((target) => {
-        const to = familyOf(target);
-        return (
-          to !== null &&
-          to !== "shared" &&
-          to !== from &&
-          !entries.get(to)!.some((test) => test.test(target))
-        );
-      });
-    if (reached.length) out.set(file, reached);
-  }
-  return out;
-}
 
 describe("one engine per mechanic: families and their boundaries", () => {
   const files = sources();
@@ -114,7 +50,10 @@ describe("one engine per mechanic: families and their boundaries", () => {
   });
 
   it("puts every test file in a family, so a red test has an owner", () => {
-    const orphans = testFiles().filter((file) => familyOf(file) === null);
+    const tests = testFiles();
+    // The list is read from where the tests sit; an empty list would pass this check by seeing nothing.
+    expect(tests.length).toBeGreaterThan(0);
+    const orphans = tests.filter((file) => familyOf(file) === null);
     expect(
       orphans,
       "add each test file to the family of the code it tests, in its paths in tests/guards/families.json (CTO, Nov 26: every file gets a family)",

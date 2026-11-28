@@ -72,16 +72,30 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/families.test.ts"),
   },
   {
+    id: "engine-tables",
+    rule: "One engine does not open another engine's records: no new module table opened, row put or removed, state map written or state row edited in place from another family; the counts only shrink.",
+    readMore:
+      "scripts/guards/engine-tables.ts, its header; tests/guards/engine-tables-baseline.json",
+    command: vitest("tests/guards/engine-tables.test.ts"),
+  },
+  {
     id: "duplicate-exports",
     rule: "Two engine families must not define an exported function with the same name and body.",
     readMore: "docs/design/guards.md, One engine per mechanic",
     command: vitest("tests/guards/duplicate-exports.test.ts"),
   },
   {
+    id: "core-imports-no-engine",
+    rule: "The core imports no engine; engines plug in: no file of the core family imports a file of an engine family, and the counts only shrink.",
+    readMore:
+      "tests/guards/core-imports-no-engine.test.ts, its header; tests/guards/families.json, the core family",
+    command: vitest("tests/guards/core-imports-no-engine.test.ts"),
+  },
+  {
     id: "two-seeds-differ",
     rule: "Realistic, not real: no statistic but law opens on its published value, and two worlds never open on the same one; the known copies only shrink.",
     readMore:
-      "src/core2/realistic-not-real.test.ts, its header; docs/coordination/OWNER-DECISIONS.md, Realistic not real",
+      "tests/src/core2/realistic-not-real.test.ts, its header; docs/coordination/OWNER-DECISIONS.md, Realistic not real",
     // Two played worlds: its npm script gives it the heap it needs.
     command: ["npm", "run", "-s", "zero-real-data"],
   },
@@ -103,6 +117,13 @@ export const GUARDS: readonly Guard[] = [
     readMore:
       "tests/guards/one-history-proxies.json, its about line; docs/coordination/OWNER-DECISIONS.md, One history",
     command: vitest("tests/guards/one-history.test.ts"),
+  },
+  {
+    id: "determinism",
+    rule: "Determinism holds: game code reads no Math.random, randomBytes, randomUUID, Date.now, performance.now or argument-less new Date() outside the dev panels and the play server; the tools still in src only shrink.",
+    readMore:
+      "tests/guards/determinism.test.ts, its header; the core audit, row K11",
+    command: vitest("tests/guards/determinism.test.ts"),
   },
   {
     id: "scene-pictures",
@@ -167,6 +188,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/person-card-headings.test.ts"),
   },
   {
+    id: "import-cycles",
+    rule: "One order to load in: source files that import each other in a ring load in an order nobody chose; the imports on a cycle only shrink.",
+    readMore:
+      "tests/guards/import-cycles-baseline.json; tests/guards/import-cycles.test.ts",
+    command: vitest("tests/guards/import-cycles.test.ts"),
+  },
+  {
     id: "ui-tokens",
     rule: "One UI system: a size, a corner or a color is named once in the root of play.css and every rule reads the name; the hand-typed count only shrinks.",
     readMore: "tests/guards/ui-tokens-baseline.json; src/bench/ui/README.md",
@@ -210,7 +238,7 @@ export const GUARDS: readonly Guard[] = [
     rule: "Every number lives in a parameter table, and every stopgap the director marks is registered.",
     readMore: "AGENTS.md, Placeholders",
     command: vitest(
-      "src/director/director.test.ts",
+      "tests/src/director/director.test.ts",
       "-t",
       "registers every stopgap it marks and keeps numbers in data",
     ),
@@ -234,6 +262,12 @@ export const GUARDS: readonly Guard[] = [
     readMore:
       ".agents/rules/smart-and-look-first.md; .claude/skills/look-first/SKILL.md",
     command: ["node", "scripts/guards/reading-line.mjs"],
+  },
+  {
+    id: "game-only",
+    rule: "The game folder holds only the game: no test file, and no file that imports a test runner, under src, public or art.",
+    readMore: "docs/design/guards.md, game-only; scripts/guards/game-only.ts",
+    command: vitest("tests/guards/game-only.test.ts"),
   },
   {
     id: "check-changes",

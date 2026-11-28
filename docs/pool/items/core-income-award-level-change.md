@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Every dollar balances: the recipient's amount and the funding contract that pays it change by the same sum from the same due date, with arrears untouched. Wire to the world: the retiree's household reads the new amount. No dice: the law's level decides the award. Replace, never layer: the opening-award exemption and its stopgap marker are deleted.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) a Social Security cut or raise changes a named full retiree's award from the next due date, shown by the award contract id, the funding contract id and the cash journal record id for the first changed payment; the finance state test and src/core2/budgets.test.ts pass and SG-GOV-opening-award-level is resolved.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) a Social Security cut or raise changes a named full retiree's award from the next due date, shown by the award contract id, the funding contract id and the cash journal record id for the first changed payment; the finance state test and tests/src/core2/budgets.test.ts pass and SG-GOV-opening-award-level is resolved.
 
 **Files.** src/core2/finance-state.ts, src/core2/budgets-treasury.ts, src/core2/opening-income-funding.ts, src/core2/data/stopgaps.json
 

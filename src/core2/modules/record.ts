@@ -28,35 +28,21 @@ import type {
 } from "../types";
 import {
   historyOf,
-  type HistoryModule,
   type HistoryRow,
   type HistorySource,
-} from "../past";
+} from "../past-history";
 import type { ModuleRow } from "../module-data";
-import { campaignParameter, type Stance } from "../campaign-data";
+import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
 import { CAMPAIGNS_MODULE_ID, type PromiseRow } from "./campaigns";
-
-export const RECORD_MODULE_ID = "core2-record-v1";
-
-export interface VoteRecordRow {
-  readonly id: string;
-  readonly personId: string;
-  readonly date: string;
-  readonly body: string;
-  /**
-   * The measure by its own id: the bill's id (or a past measure's), which no
-   * other bill shares. The record keys a vote by this and the question, never
-   * by the number below, which repeats across bodies and sessions.
-   */
-  readonly billId: string;
-  /** The measure's designation for display ("H.R. 25", "2026-001"); not a key. */
-  readonly measureId: string;
-  readonly stance: Stance;
-  /** The stance's question again, as the key a person's latest vote on it is found by. */
-  readonly question: string;
-  readonly passed: boolean | null;
-}
+import { RECORD_MODULE_ID, voteRecordId } from "./record-writes";
+import { type VoteRecordRow } from "./record-writes";
+export { type VoteRecordRow } from "./record-writes";
+export {
+  RECORD_MODULE_ID,
+  recordPastVote,
+  voteRecordId,
+} from "./record-writes";
 
 export interface PromiseStatus {
   readonly promise: PromiseRow;
@@ -152,7 +138,7 @@ export function voteById(api: CoreAPI, id: string): VoteRecordRow | undefined {
     VoteRecordRow | undefined;
 }
 
-export const RECORD_MODULE: CoreModule & HistoryModule = {
+export const RECORD_MODULE: CoreModule = {
   id: RECORD_MODULE_ID,
   history: RECORD_HISTORY,
   state: {
@@ -170,19 +156,6 @@ export const RECORD_MODULE: CoreModule & HistoryModule = {
 
 export function openRecord(core: CoreState): void {
   if (!core.modules.has(RECORD_MODULE_ID)) registerModule(core, RECORD_MODULE);
-}
-
-/**
- * A member's vote on one question of one measure: one record per member, per
- * question, per bill. A bill with two sections on two questions leaves two
- * records, and a later bill that reuses the number leaves the first alone.
- */
-export function voteRecordId(
-  billId: string,
-  question: string,
-  personId: string,
-): string {
-  return `vote:${billId}:${question}:${personId}`;
 }
 
 /** A body's vote, on the record: who, on what question, which way. */

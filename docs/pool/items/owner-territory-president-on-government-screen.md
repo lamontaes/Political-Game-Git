@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T22:53:52.214Z
 
 **Rules.** No hand-written player text: the mark is a control name in controls.json. One rule, all 56 places: whether a place chooses the President comes from the 2024 presidential results data, not a named place. An effect is a read: the screen reads the flag.
 
-**Done when.** In a drawn territory town and a drawn state town (buildBenchWorld, place and seed named), governmentView lists the President and Vice President with chosenByHere false for the territory and true for the state, proven by src/bench/government-territory.test.ts.
+**Done when.** In a drawn territory town and a drawn state town (buildBenchWorld, place and seed named), governmentView lists the President and Vice President with chosenByHere false for the territory and true for the state, proven by tests/src/bench/government-territory.test.ts.
 
 **Files.** src/core2/opening-key-people.ts, src/core2/electorate-places.ts, src/bench/government.ts, src/bench/play.mjs, src/bench/data/controls.json
 

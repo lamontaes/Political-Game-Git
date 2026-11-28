@@ -5,7 +5,7 @@
 import type { CoreAPI } from "./types";
 import { drawOfficialIdentity } from "./officials-identity";
 import { ELECTIONS_MODULE_ID } from "./modules/elections";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { OFFICES_MODULE_ID, type TermRow, termById } from "./modules/offices";
 
 /**
  * Who a candidate id names, for any kind of candidate: a resident (their own
@@ -33,10 +33,7 @@ export function candidateIdentity(
     };
   if (!candidateId.startsWith("official:")) return null;
   const key = candidateId.slice("official:".length);
-  const term = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .get(key) as unknown as TermRow | undefined;
+  const term = termById(api, key) as unknown as TermRow | undefined;
   if (term)
     return {
       givenName: term.identity.givenName,

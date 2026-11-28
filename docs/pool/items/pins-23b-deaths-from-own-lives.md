@@ -31,13 +31,13 @@ Seen: dev mode, a person's health row, shows the strain's age, housing and web f
 
 **Done when.**
 
-- `src/core2/deaths-from-own-lives.test.ts` passes and fails on the old code (the mortality table row and the state ratio read).
+- `tests/src/core2/deaths-from-own-lives.test.ts` passes and fails on the old code (the mortality table row and the state ratio read).
 - At a drawn place over a played year, counted deaths follow the hazard of each person's own age, housing and web factors (`counted-deaths-spread.test.ts` passes).
 
 - A second session opens dev mode at a drawn place it chose, plays a year, and sees a counted death's illness and the person's health row show their age, housing and web factors with no state ratio, and sees two places' deaths differ with their own illness and housing.
 
 **Waits on.** Nothing.
 
-**Files.** `src/core2/births-counted.ts`, `src/core2/modules/health.ts`, `src/core2/world-base-rates.ts`, `src/core2/data/parameters.json`, `src/core2/deaths-from-own-lives.test.ts`, `src/core2/counted-deaths-spread.test.ts`, `src/core2/realistic-not-real.test.ts`.
+**Files.** `src/core2/births-counted.ts`, `src/core2/modules/health.ts`, `src/core2/world-base-rates.ts`, `src/core2/data/parameters.json`, `tests/src/core2/deaths-from-own-lives.test.ts`, `tests/src/core2/counted-deaths-spread.test.ts`, `tests/src/core2/realistic-not-real.test.ts`.
 
 **Notes.** Nov 17 (Lives): rows 8 and 9 of family 23 (death cause, teen cannabis) and the rest of row 10 follow in their own pull requests.

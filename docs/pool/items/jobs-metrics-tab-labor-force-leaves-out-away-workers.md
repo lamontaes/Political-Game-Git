@@ -32,4 +32,4 @@ root: rc10-screens-keep-own-facts
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/world-metrics.ts, src/bench/printed-words.ts, src/core2/metrics-labor-force.test.ts
+**Files.** src/core2/modules/world-metrics.ts, src/bench/printed-words.ts, tests/src/core2/metrics-labor-force.test.ts

@@ -19,6 +19,6 @@ claimed-at: 2026-11-07T20:54:17.949Z
 
 **Done when.** A generated-world test in a drawn place names replay and record ids, finds all three ages in Congress's catalog, refuses other levels, and follows a replacement age through the existing Social Security reader. A prior-value amendment restores the prior age. Distinguish changing an age law from abolishing the entire benefit program.
 
-**Files.** src/core2/data/legislature/series-powers.json,scripts/research/build-bill-catalog.py,src/core2/data/legislature/bill-catalog.json,data/english/bill-sections.json,src/core2/social-security-age-bills.test.ts
+**Files.** src/core2/data/legislature/series-powers.json,scripts/research/build-bill-catalog.py,src/core2/data/legislature/bill-catalog.json,data/english/bill-sections.json,tests/src/core2/social-security-age-bills.test.ts
 
 **Notes.** Astra, Nov 7 all-starting-laws audit. Sources read: 42 USC 402(a), 402(w), 416(l), 1304. One-session scope, no helpers, two-hour time box. Congress authority only; no new preemption doctrine.

@@ -17,8 +17,8 @@ claimed-at: 2026-10-17T12:07:26.163Z
 
 **Rules.** Fix at the root: the household moves whole, and nobody is left at a counted place without a counted record. No dice.
 
-**Done when.** `src/core2/fill-in-returning-dead-member.test.ts` returns a drawn place's household to the counts, removes one member as a counted person, fills the other in, and checks the household is back and none of its living members stays at a counted place; it fails on main with the crash's own error. The path check on seed swf4d9a322 (Cullowhee, North Carolina) runs to its end instead of stopping.
+**Done when.** `tests/src/core2/fill-in-returning-dead-member.test.ts` returns a drawn place's household to the counts, removes one member as a counted person, fills the other in, and checks the household is back and none of its living members stays at a counted place; it fails on main with the crash's own error. The path check on seed swf4d9a322 (Cullowhee, North Carolina) runs to its end instead of stopping.
 
-**Files.** src/core2/state.ts, src/core2/fill-in-returning-dead-member.test.ts
+**Files.** src/core2/state.ts, tests/src/core2/fill-in-returning-dead-member.test.ts
 
 **Notes.** Found by the eight-place path-check sweep, Oct 17 (claude). Open question for the people area: should `removeCountedPerson` also mark the full record dead, so no alive person with a counted place and no counted record can exist? Not changed here.

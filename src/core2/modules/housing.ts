@@ -36,24 +36,26 @@ import housingParameters from "../data/housing/parameters.json" with { type: "js
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { bookkeeping } from "../bookkeeping";
-import { depositsHeld, withdrawSavings } from "../accounts";
-import { transferCash } from "../world-transfer";
+import { depositsHeld, withdrawSavings } from "./budgets";
+import { transferCash } from "../budgets-treasury";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
-import { COUNTED_PLACE_PREFIX, type CountedHousehold } from "../counted-groups";
+import { realPlaceOf, type CountedHousehold } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
+import { awardYearMinor, DAYS_PER_YEAR } from "../household-income";
 import { unplacedPoolOf, type ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
+import { latestMacroMonth, macroMonthAt } from "../macro-reads";
 import { formerHome } from "../housing-former-home";
 import type { ModuleRow } from "../module-data";
 import type { EntityId } from "../kernel/brands";
-import { bankYes, lendMortgage, monthlyIncome, mortgageRoom } from "./credit";
+import { bankYes, lendMortgage, monthlyIncome, mortgageRoom } from "./business";
 import { BUY_PULL, buyMarket, weighHome } from "../housing-buy";
 import {
   buyCountedHomes,
   type CountedBuyWorld,
   settleCountedNewcomers,
 } from "../housing-counted-buy";
-import { CREDIT_PARAMETERS } from "./credit";
+import { CREDIT_PARAMETERS } from "./business";
 import { DEFAULT_DATA } from "../data";
 import {
   MORTGAGE_PREFIX,
@@ -61,7 +63,7 @@ import {
   openingMortgages,
   type MortgageTerms,
 } from "../housing-mortgages";
-import { endFlowPart } from "../residents-economy";
+import { endFlowPart } from "../resident-flows";
 import { withoutOutsideShelter } from "../housing-shelter";
 import { billPropertyTax, stateEffectiveRate } from "../housing-property-tax";
 import {
@@ -96,12 +98,8 @@ import {
   type CompletedRentalOffer,
   renewRentalLeases,
 } from "../housing-occupancy";
-import {
-  DAYS_PER_YEAR,
-  openingUnplaced,
-  regroupHousehold,
-  residentsRuntime,
-} from "./residents";
+import { openingUnplaced, regroupHousehold } from "../resident-households";
+import { residentsRuntime } from "../residents-reads";
 import { LAWS_MODULE_ID, lawChain, lawInForce, webReach } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
@@ -130,8 +128,31 @@ import type {
   JobInput,
   Source,
 } from "../types";
+import { DWELLINGS_KEY } from "../housing-reads";
+import {
+  HOUSING_MODULE_ID,
+  collectRents,
+  core,
+  countedHousehold,
+  median,
+  ownedHomes,
+  townFiguresByPlace,
+  townPayByPlace,
+} from "../housing-reads";
+export {
+  HOUSING_MODULE_ID,
+  dwellingKind,
+  dwellingMovedIn,
+  homePaidDailyMinor,
+  ownedHomes,
+  townFiguresByPlace,
+} from "../housing-reads";
+export { openingTenureOf } from "../housing-reads";
 
-export const HOUSING_MODULE_ID = "housing";
+function store(api: CoreAPI) {
+  return api.moduleState(HOUSING_MODULE_ID);
+}
+
 /** The record a household is served notice by: pay what is owed or leave. */
 export const NOTICE_SERVED_EVENT = "housing.notice-served";
 export const HOUSING_PARAMETERS = housingParameters as unknown as Readonly<
@@ -362,7 +383,7 @@ export function publishedRentValueOf(
     NATIONAL.rentValue;
   return [row?.[0] || state[0], row?.[1] || state[1]];
 }
-const DWELLINGS_KEY = "housingDwellings";
+
 /** The year each owner bought its home (the opening's draw from ACS B25038), read by the housing history. */
 const HOME_BOUGHT_KEY = "housingHomeBought";
 /** Housing's numbers with the economy's and credit's beside them (the price path and the mortgages read both). */
@@ -550,15 +571,37 @@ function groupDwellings(
   });
 }
 
-/** Annual pay of a household's members from their recorded current jobs. */
+/**
+ * What a household has coming in a day on the opening's records: its members'
+ * recorded current jobs plus the income awards paid to it (retirement,
+ * survivors; `household-income.ts`). The award is the part a household living
+ * on retirement has, so it is ranked and priced by what it is paid and not as
+ * one that earns nothing.
+ */
 function householdIncome(
   jobs: readonly JobInput[],
   memberIds: readonly string[],
+  awardsDaily: number,
 ): number {
   const members = new Set(memberIds);
-  return jobs
-    .filter((job) => members.has(job.personId) && job.endsAt === undefined)
-    .reduce((sum, job) => sum + job.wageDailyMinor, 0);
+  return (
+    jobs
+      .filter((job) => members.has(job.personId) && job.endsAt === undefined)
+      .reduce((sum, job) => sum + job.wageDailyMinor, 0) + awardsDaily
+  );
+}
+
+/** The daily pay of the income awards among `contracts`, by the household each is paid to. */
+function awardsDailyByHousehold(
+  contracts: readonly FinanceContractInput[],
+): ReadonlyMap<string, number> {
+  const out = new Map<string, number>();
+  for (const row of contracts) {
+    const home = row.recipientIncome?.householdId;
+    if (home)
+      out.set(home, (out.get(home) ?? 0) + awardYearMinor(row) / DAYS_PER_YEAR);
+  }
+  return out;
 }
 
 /**
@@ -633,20 +676,6 @@ export function expectedRenterHouseholds(
   return homes.length - Math.round((homes.length * tenure[1]) / tenure[0]);
 }
 
-/** Each town home's tenure as the opening wrote it (`withHousing`), by household id; empty before it. */
-export function openingTenureOf(world: {
-  readonly placeMetadata?: Readonly<Record<string, string>>;
-}): ReadonlyMap<string, "own" | "rent"> {
-  const rows = JSON.parse(world.placeMetadata?.[DWELLINGS_KEY] ?? "[]") as [
-    string,
-    string,
-  ][];
-  const tenure = new Map<string, "own" | "rent">();
-  for (const [id, kind] of rows)
-    if (kind === "own" || kind === "rent") tenure.set(id, kind);
-  return tenure;
-}
-
 export function withHousing(input: CoreInput): CoreInput {
   const town = housingTownOf(input);
   if (!town) return input;
@@ -658,6 +687,7 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
   const [medianRent] = rentValueOf(town.county, input.seed);
   if (!tenure || !medianRent) return input;
   const people = new Map(input.people.map((row) => [row.id, row]));
+  const fullAwards = awardsDailyByHousehold(input.finance?.contracts ?? []);
   const oldestOf = (births: readonly string[]) =>
     Math.min(...births.map((date) => Number(date.slice(0, 4))));
   const unplaced = input.residents
@@ -676,7 +706,11 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
         id: row.id,
         counted: false,
         memberIds: row.memberIds,
-        income: householdIncome(input.jobs, row.memberIds),
+        income: householdIncome(
+          input.jobs,
+          row.memberIds,
+          fullAwards.get(row.id) ?? 0,
+        ),
         oldest: oldestOf(
           row.memberIds.map((id) => people.get(id)?.birthDate ?? "9999"),
         ),
@@ -699,7 +733,11 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
         // What the household will be paid, as the residents' opening counts it:
         // its recorded jobs and its share of the place's unplaced workers.
         income:
-          householdIncome(row.jobs, row.household.memberIds) +
+          householdIncome(
+            row.jobs,
+            row.household.memberIds,
+            awardsDailyByHousehold(row.contracts).get(row.household.id) ?? 0,
+          ) +
           ((unplaced?.workers.get(row.household.id) ?? 0) *
             (unplaced?.payByPool.get(
               unplacedPoolOf(row.household.placeId, false),
@@ -929,11 +967,6 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
   );
 }
 
-function store(api: CoreAPI) {
-  return api.moduleState(HOUSING_MODULE_ID);
-}
-const core = (api: CoreAPI) => api.state as CoreState;
-
 /** Opening kin and officials can arrive after the town's housing input was built. */
 function openMissingHomes(api: CoreAPI): void {
   const c = core(api);
@@ -994,6 +1027,14 @@ function openMissingHomes(api: CoreAPI): void {
       (place ? mapCountyGeoid(place.key) : undefined) ??
       (stateCounty ? `${stateCounty.slice(0, 2)}000` : `${NATION}:${usps}`);
     const memberIds = new Set(households.flatMap((row) => row.memberIds));
+    const homeIds = new Set(households.map((row) => row.id));
+    const liveAwards = [...c.finance.contracts.values()].filter(
+      (row) =>
+        !row.endedAt &&
+        row.recipientIncome &&
+        homeIds.has(row.recipientIncome.householdId),
+    ) as unknown as FinanceContractInput[];
+    const fullAwards = awardsDailyByHousehold(liveAwards);
     const input: CoreInput = {
       seed: c.seed,
       startedAt: makeIsoDate(c.date),
@@ -1013,7 +1054,10 @@ function openMissingHomes(api: CoreAPI): void {
       jobs: jobs.filter((row) => memberIds.has(row.personId)),
       organizations: [...c.organizations.values()],
       finance: {
-        contracts: [],
+        // The income awards its households are paid, so a retired household
+        // is ranked and priced by them (`householdIncome`); only newly made
+        // leases and mortgages are added to the world from what comes back.
+        contracts: liveAwards,
         facilities: [],
         businesses: [...c.finance.businesses.values()],
         gaps: [],
@@ -1069,7 +1113,11 @@ function openMissingHomes(api: CoreAPI): void {
       county,
       households.map((row) => ({
         ...row,
-        income: householdIncome(input.jobs, row.memberIds),
+        income: householdIncome(
+          input.jobs,
+          row.memberIds,
+          fullAwards.get(row.id) ?? 0,
+        ),
       })),
       dwellings,
     ))
@@ -1097,14 +1145,6 @@ function housingPlace(
     usps: String(row?.usps ?? api.state.placeMetadata?.housingState ?? ""),
     county: String(row?.county ?? api.state.placeMetadata?.housingCounty ?? ""),
   };
-}
-
-/** A counted household's record in the groups' store, by household id (never built as a person record). */
-function countedHousehold(c: CoreState, householdId: string) {
-  const store = residentsRuntime(c)?.store;
-  const at = store?.householdOf.get(householdId);
-  const h = at === undefined ? undefined : store!.households[at];
-  return h && !h.gone ? h : undefined;
 }
 
 function steps(
@@ -1457,12 +1497,8 @@ function landlordPayout(api: CoreAPI): void {
 /** The economy's consumer price level by month (history and simulated), for prices past the published data. */
 function macroPrices(api: CoreAPI): PriceLevel | undefined {
   if (!(api.state as CoreState).modules.has("macro")) return undefined;
-  const months = api.moduleState("macro").table("months");
   return (date) =>
-    (
-      months.get(`macro-month:${date.slice(0, "YYYY-MM".length)}`) as
-        { priceIndex: number } | undefined
-    )?.priceIndex;
+    macroMonthAt(api, date.slice(0, "YYYY-MM".length))?.priceIndex;
 }
 
 /** Members under 18, from their birth dates. */
@@ -2269,45 +2305,6 @@ function daysPerMonth(api: CoreAPI): number {
   );
 }
 
-const median = (values: number[]) => {
-  const sorted = values.filter((v) => v > 0).sort((a, b) => a - b);
-  return sorted.length ? sorted[Math.floor(sorted.length / 2)]! : 0;
-};
-
-/**
- * Each requested place's rents (a renting household's lease while it runs,
- * else the rent on its dwelling) and the renting households they stand for:
- * a counted household counts as many as its weight says.
- */
-function collectRents(
-  api: CoreAPI,
-  places: ReadonlyMap<string, { rents: number[]; renters: number }>,
-): void {
-  const c = core(api),
-    residents = residentsRuntime(c);
-  for (const row of store(api).table("dwellings").rows() as unknown as {
-    householdId: string;
-    tenure: string;
-    rentMinor?: number;
-  }[]) {
-    if (row.tenure !== "rent") continue;
-    const at =
-      c.households.get(row.householdId)?.placeId ??
-      countedHousehold(c, row.householdId)?.placeId;
-    const place = at === undefined ? undefined : places.get(at);
-    if (!place) continue;
-    const lease = c.finance.contracts.get(`lease:${row.householdId}`);
-    place.rents.push(
-      lease && !lease.endedAt ? lease.amountMinor : (row.rentMinor ?? 0),
-    );
-    const counted = residents?.store.householdOf.get(row.householdId);
-    place.renters +=
-      counted === undefined
-        ? 1
-        : residents!.store.weightOf(residents!.store.households[counted]!);
-  }
-}
-
 /** A town's typical monthly rent alone: `townFigures`' rent, without reading home values and pay. */
 function townRentMinor(api: CoreAPI, placeId: string): number {
   const place = { rents: [] as number[], renters: 0 };
@@ -2320,63 +2317,6 @@ export interface TownHousingFigures {
   rentMinor: number;
   monthlyPayMinor: number;
   renters: number;
-}
-
-/** Read the requested places together without rescanning every dwelling for each place. */
-export function townFiguresByPlace(
-  api: CoreAPI,
-  placeIds: ReadonlySet<string>,
-): Map<string, TownHousingFigures> {
-  const grouped = new Map(
-    [...placeIds].map((id) => [
-      id,
-      {
-        values: [] as number[],
-        rents: [] as number[],
-        // The renting households these rents stand for: a counted household
-        // counts as many as its weight says.
-        renters: 0,
-      },
-    ]),
-  );
-  if (!grouped.size) return new Map();
-  const homes = ownedHomes(
-    api,
-    placeIds.size === 1 ? placeIds.values().next().value : undefined,
-  );
-  for (const row of homes)
-    grouped.get(row.placeId)?.values.push(row.valueMinor);
-  collectRents(api, grouped);
-  const pay = townPayByPlace(api, placeIds);
-  return new Map(
-    [...grouped].map(([id, row]) => [
-      id,
-      {
-        homeValueMinor: median(row.values),
-        rentMinor: median(row.rents),
-        monthlyPayMinor: pay.get(id) ?? 0,
-        renters: row.renters,
-      },
-    ]),
-  );
-}
-
-/** Each place's median monthly pay at the jobs its firms hold. */
-function townPayByPlace(
-  api: CoreAPI,
-  placeIds: ReadonlySet<string>,
-): Map<string, number> {
-  const c = core(api);
-  const pay = new Map<string, number[]>([...placeIds].map((id) => [id, []]));
-  const days = api.parameter("jobsDaysPerYear"),
-    months = api.parameter("macroMonthsPerYear");
-  for (const job of c.jobs.values()) {
-    if (job.endsAt !== undefined) continue;
-    const at = c.organizations.get(job.organizationId)?.placeId;
-    if (at !== undefined)
-      pay.get(at)?.push((job.wageDailyMinor * days) / months);
-  }
-  return new Map([...pay].map(([id, rows]) => [id, median(rows)]));
 }
 
 /**
@@ -2417,17 +2357,7 @@ function stepPriceLevels(api: CoreAPI): void {
     );
   }
   const month = c.date.slice(0, "YYYY-MM".length);
-  const latest = c.modules.has("macro")
-    ? (
-        api.moduleState("macro").table("state").get("macro:state") as
-          { latestMonth: string } | undefined
-      )?.latestMonth
-    : undefined;
-  const macroMonth = latest
-    ? (api.moduleState("macro").table("months").get(`macro-month:${latest}`) as
-        | { id: string; mortgage30Pct: number; hourlyEarnings: number }
-        | undefined)
-    : undefined;
+  const macroMonth = latestMacroMonth(api);
   const p = (key: string) => api.parameter(key);
   const opened =
     (
@@ -2612,9 +2542,7 @@ function countedCaseWeight(api: CoreAPI, householdId: string): number {
 function payCounsel(api: CoreAPI, caseId: string, caseSite: string) {
   const c = core(api);
   // A counted household's place is the town's counted tier (`counted:<town>`); its case is the town's like a full household's.
-  const placeId = caseSite.startsWith(COUNTED_PLACE_PREFIX)
-    ? caseSite.slice(COUNTED_PLACE_PREFIX.length)
-    : caseSite;
+  const placeId = realPlaceOf(caseSite);
   const row = store(api).table("counsel").get(placeId) as
     { inForce?: boolean; fundedById?: string } | undefined;
   const statute =
@@ -3187,116 +3115,3 @@ export const HOUSING_MODULE: PreStartModule = {
     openHousing(api);
   },
 };
-
-/** Owned homes for property tax (OPUS-GOV): each owner household's place and the home's value today. */
-export function ownedHomes(
-  api: CoreAPI,
-  atPlaceId?: string,
-): { householdId: string; placeId: string; valueMinor: number }[] {
-  const c = api.state as CoreState;
-  if (!c.modules.has(HOUSING_MODULE_ID)) return [];
-  const out: { householdId: string; placeId: string; valueMinor: number }[] =
-    [];
-  for (const row of store(api).table("dwellings").rows() as unknown as {
-    householdId: string;
-    tenure: string;
-    valueMinor?: number;
-    priceLevel?: number;
-  }[]) {
-    if (row.tenure !== "own" || !row.valueMinor) continue;
-    const placeId =
-      c.households.get(row.householdId)?.placeId ??
-      countedHousehold(c, row.householdId)?.placeId;
-    if (!placeId || (atPlaceId !== undefined && placeId !== atPlaceId))
-      continue;
-    // The one value rule: the value when valued times the place's level now
-    // over its level then (an opening home, the opening's level).
-    out.push({
-      householdId: row.householdId,
-      placeId,
-      valueMinor: homeValueToday(api, placeId, row.valueMinor, row.priceLevel),
-    });
-  }
-  return out;
-}
-
-/**
- * Whether a household owns or rents its home, from its dwelling record, and
- * for a renter the rent it pays (the dwelling's, else its lease's); undefined
- * with no dwelling.
- */
-export function dwellingTenure(
-  api: CoreAPI,
-  householdId: string,
-):
-  { tenure: "own" | "rent"; recordId: string; rentMinor?: number } | undefined {
-  const c = api.state as CoreState;
-  if (!c.modules.has(HOUSING_MODULE_ID)) return undefined;
-  const recordId = `dwelling:${householdId}`;
-  const row = store(api).table("dwellings").get(recordId) as
-    { tenure?: string; rentMinor?: number } | undefined;
-  if (row?.tenure === "own") return { tenure: "own", recordId };
-  if (row?.tenure !== "rent") return undefined;
-  const rentMinor =
-    row.rentMinor ??
-    c.finance.contracts.get(`lease:${householdId}`)?.amountMinor;
-  return { tenure: "rent", recordId, ...(rentMinor ? { rentMinor } : {}) };
-}
-
-/**
- * The day a household began living in its present home, where it changed
- * homes in play (rented again after an eviction, bought a house): the
- * record's own date. Undefined for the home it opened in, whose date the
- * past moves hold, so a reader (voter registration) takes the address as
- * changed only by a move on record.
- */
-export function dwellingMovedIn(
-  api: CoreAPI,
-  householdId: string,
-): string | undefined {
-  if (!(api.state as CoreState).modules.has(HOUSING_MODULE_ID))
-    return undefined;
-  const row = store(api).table("dwellings").get(`dwelling:${householdId}`) as
-    { since?: string; basis?: string } | undefined;
-  return row?.basis && row.basis !== "opening" ? row.since : undefined;
-}
-
-/** The kind of home a household lives in (house, rowhouse, apartment, mobile-home, farmhouse), for the home picture. */
-export function dwellingKind(
-  api: CoreAPI,
-  householdId: string,
-): string | undefined {
-  if (!(api.state as CoreState).modules.has(HOUSING_MODULE_ID))
-    return undefined;
-  return (
-    store(api).table("dwellings").get(`dwelling:${householdId}`) as
-      { kind?: string } | undefined
-  )?.kind;
-}
-
-/**
- * What a household pays a day for its home through the housing engine (its
- * lease or its mortgage), each living member's share; zero for a household
- * the housing engine does not charge.
- */
-export function homePaidDailyMinor(api: CoreAPI, householdId: string): number {
-  const state = api.state as CoreState;
-  const members =
-    state.households
-      .get(householdId)
-      ?.memberIds.filter((id) => state.people.get(id)?.alive).length ?? 0;
-  if (!members) return 0;
-  for (const id of [
-    `lease:${householdId}`,
-    `${MORTGAGE_PREFIX}${householdId}`,
-  ]) {
-    const home = state.finance.contracts.get(id);
-    if (!home || home.endedAt || home.amountMinor <= 0) continue;
-    return (
-      (home.amountMinor / Math.max(home.periodMonths, 1)) *
-      (api.parameter("monthsPerYear") / api.parameter("daysPerMeanYear")) *
-      (1 / members)
-    );
-  }
-  return 0;
-}

@@ -13,7 +13,6 @@
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
 import data from "../data/electorate/national-opinion.json";
-import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 
 export const NATIONAL_OPINION_MODULE_ID = "national-opinion";
@@ -376,7 +375,3 @@ export const NATIONAL_OPINION_MODULE: CoreModule = {
 };
 
 /** Install the engine in a world (after the macro module). */
-export function openNationalOpinion(core: CoreState): void {
-  if (!core.modules.has(NATIONAL_OPINION_MODULE_ID))
-    registerModule(core, NATIONAL_OPINION_MODULE);
-}

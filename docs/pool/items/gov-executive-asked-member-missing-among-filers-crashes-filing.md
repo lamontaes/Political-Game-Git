@@ -22,7 +22,7 @@ source: found while building meetings-resident-player-speaks-at-public-comment; 
 
 **Cause.** Found in code: reproduced Nov 13 at Sheyenne ND (3872580), Twin Creeks MT (3075550) and Booth WV (5409148). The fault is in Congress's opening only, not a state legislature's: `openSession` in src/core2/modules/world-legislating.ts files the House and the Senate as two groups, but passed the House as `body` to both. In the Senate group the executive's request (`proposeAsExecutive`) picked its member from the House roster, which is not among the 100 senators in `input.filers`, so `fileChanges` looked it up with `find(...)!` and handed `undefined` to `filerOf`, which threw at `memberKey`. A state legislature does not hit it, because its one group holds every chamber's members. Fixed by pull request #9047 (the Senate group names the Senate as its body, so the President asks a senator); this item adds the regression test.
 
-**Fix.** Pull request #9047's change is the fix. The unchecked `find(...)!` at the lookup in `fileChanges` stays as #9047 left it (the asked member now always sits in the chamber filed); replacing it with a lookup that cannot return `undefined` is left for after the train merges. The test in src/core2/world-legislating-federal.test.ts opens Congress at the three places and checks each bill the President asked a member to carry sits in that member's chamber.
+**Fix.** Pull request #9047's change is the fix. The unchecked `find(...)!` at the lookup in `fileChanges` stays as #9047 left it (the asked member now always sits in the chamber filed); replacing it with a lookup that cannot return `undefined` is left for after the train merges. The test in tests/src/core2/world-legislating-federal.test.ts opens Congress at the three places and checks each bill the President asked a member to carry sits in that member's chamber.
 
 **Same defect.** `release-main-red-senate-files-in-its-own-chamber` (#9047) is the same bug; its change is contained in #9053 and closes both items.
 
@@ -34,8 +34,8 @@ source: found while building meetings-resident-player-speaks-at-public-comment; 
 
 **Waits on.** Nothing
 
-**Files.** src/core2/world-legislating-federal.test.ts
+**Files.** tests/src/core2/world-legislating-federal.test.ts
 
 **Notes.**
 
-Nov 13, account lead T21: golden-path-year `M1-11` on pull request #9030's head crashed at the same line. Twin Creeks, Montana (key 3075550), place seed d888b20564f96beac8772cf19a02d37f8e6ca065c294cc49e35b9327a498592f, with `GOLDEN_PATH_SEED` and `GOLDEN_PATH_PLACE_KEY` set and `node --import tsx src/bench/m1-11-check.ts`: `TypeError: Cannot read properties of undefined (reading 'personId')` at `memberKey`, from `filerOf`, `fileChanges` and `openSession` in world-legislating.ts. It reproduces the same way on current main and on the train branch (#9052), so it is not from #9030.
+Nov 13, account lead T21: golden-path-year `M1-11` on pull request #9030's head crashed at the same line. Twin Creeks, Montana (key 3075550), place seed d888b20564f96beac8772cf19a02d37f8e6ca065c294cc49e35b9327a498592f, with `GOLDEN_PATH_SEED` and `GOLDEN_PATH_PLACE_KEY` set and `node --import tsx scripts/bench/m1-11-check.ts`: `TypeError: Cannot read properties of undefined (reading 'personId')` at `memberKey`, from `filerOf`, `fileChanges` and `openSession` in world-legislating.ts. It reproduces the same way on current main and on the train branch (#9052), so it is not from #9030.

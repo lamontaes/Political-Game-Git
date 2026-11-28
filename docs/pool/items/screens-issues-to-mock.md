@@ -34,6 +34,6 @@ Seen: Politics > Issues on main, beside `docs/mocks/2026-11-08-play/renders/pl-i
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/ui/issue-filter.mjs, src/bench/play.mjs, src/bench/play.css, src/bench/issues-law.browser.mjs, src/bench/issues-levels.browser.mjs, src/bench/issues-level-words.browser.mjs
+**Files.** src/bench/ui/issue-filter.mjs, src/bench/play.mjs, src/bench/play.css, tests/src/bench/issues-law.browser.mjs, tests/src/bench/issues-levels.browser.mjs, tests/src/bench/issues-level-words.browser.mjs
 
 **Notes.** Crew line #9747, item 4. The mock's "What people here think", "Where I stand" and "What it moves" sections need records the law page does not read yet.

@@ -31,11 +31,11 @@ claimed-at: 2026-11-11T04:55:46.347Z
 
 **Rules.** Ask why: the estimate line words the same cited bill the section text names, from the record's designation and form through the English engine's spokenDesignation, never a second wording. No hand-written player text in code: the words come from the bank.
 
-**Done when.** A second session, in a drawn place where a law passed in play is amended by a new bill, sees the bill paper's estimate line and its section text name the cited bill the same way ('amending Ordinance 2025-3'), shown by src/bench/bill-paper.test.ts with the record id of the enacting bill and by a screenshot; both web-address guards are gone.
+**Done when.** A second session, in a drawn place where a law passed in play is amended by a new bill, sees the bill paper's estimate line and its section text name the cited bill the same way ('amending Ordinance 2025-3'), shown by tests/src/bench/bill-paper.test.ts with the record id of the enacting bill and by a screenshot; both web-address guards are gone.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/legislature.ts, src/bench/play.mjs, src/bench/bill-paper.test.ts
+**Files.** src/bench/legislature.ts, src/bench/play.mjs, tests/src/bench/bill-paper.test.ts
 
 **You will see.** A bill amending a law your town passed reads "amending Ordinance 2025-3" in its section and the same words on its estimate line.
 

@@ -21,7 +21,7 @@ root: none
 **What.** A pull request's golden-path check goes red on a spec the pull request never touched. The spec's drawn place is a colony, a prison town or a barracks, where every adult lives in group quarters, so the world build throws before day one. Nothing a player sees changes.
 Seen: the golden-path-year job of #9795, spec M1-11 at Spink Colony, South Dakota.
 
-**Cause.** Measured: at Spink Colony, South Dakota (4660180), seed 21d14f456ab919b7b3861ddb44b75227a50ad06f4afe5a70150e42b576267963, by `GOLDEN_PATH_SEED=21d14f456ab919b7b3861ddb44b75227a50ad06f4afe5a70150e42b576267963 GOLDEN_PATH_PLACE_KEY=4660180 node --max-old-space-size=8192 --import tsx src/bench/m1-11-check.ts` on main 74e6551b: the build throws `NoPlayerHereError` (all 81 adults live in group quarters) from `entrantChoice` in src/bench/world.ts. The runner draws one place per spec from every locality (tests/golden-path/place.ts) and hands the key to the command. `passOver` in src/bench/world.ts passes such a place over for a new game's draw but throws when a key is given, and the runner's key is a draw, not an ask. Nine bench checks and about 35 test files build by that key. At least 94 of the 32,508 localities hold nearly everyone in group quarters.
+**Cause.** Measured: at Spink Colony, South Dakota (4660180), seed 21d14f456ab919b7b3861ddb44b75227a50ad06f4afe5a70150e42b576267963, by `GOLDEN_PATH_SEED=21d14f456ab919b7b3861ddb44b75227a50ad06f4afe5a70150e42b576267963 GOLDEN_PATH_PLACE_KEY=4660180 node --max-old-space-size=8192 --import tsx scripts/bench/m1-11-check.ts` on main 74e6551b: the build throws `NoPlayerHereError` (all 81 adults live in group quarters) from `entrantChoice` in src/bench/world.ts. The runner draws one place per spec from every locality (tests/golden-path/place.ts) and hands the key to the command. `passOver` in src/bench/world.ts passes such a place over for a new game's draw but throws when a key is given, and the runner's key is a draw, not an ask. Nine bench checks and about 35 test files build by that key. At least 94 of the 32,508 localities hold nearly everyone in group quarters.
 
 **Fix.** In `passOver` (src/bench/world.ts), a key that is the runner's drawn key (`GOLDEN_PATH_PLACE_KEY`) is passed over like a new game's draw: the build takes the same state's next place by key, names the place passed over on stdout and in the world's opening record, and dev mode's "How this world opened" shows it. A place asked for by key any other way still throws.
 
@@ -33,4 +33,4 @@ Seen: the golden-path-year job of #9795, spec M1-11 at Spink Colony, South Dakot
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/world.ts, src/bench/new-game-passover.test.ts
+**Files.** src/bench/world.ts, tests/src/bench/new-game-passover.test.ts

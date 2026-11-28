@@ -29,16 +29,16 @@ merged-at: 2026-11-11T16:34:08.395Z
 
 1. In src/bench/ui/roster-screen.mjs, `render` is handed a third argument, `shows(key)`: the page says whose page it now is. The list lights that row, or none when the key is `null`, and forgets which entry it had open, so the row left behind opens on a click. This is in the shared list part, so every screen built on it can use it.
 2. In src/bench/ui/people-screen.mjs, opening a name from a card calls `shows` with that person's id when they are on the list and `null` when they are not.
-3. src/bench/people.browser.mjs follows a name from a card and fails unless the lit row is the person shown (or none), and the first row shows its person again on one click.
+3. tests/src/bench/people.browser.mjs follows a name from a card and fails unless the lit row is the person shown (or none), and the first row shows its person again on one click.
 
 **Time box.** 1 hour for the lead. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
 **Rules.** Replace, never layer: the list's own marking moves into one function and no second way to light a row is added. No hand-written player text in code: the change adds no words. One rule, all 56 places: the check draws its place and names it with its seed.
 
-**Done when.** A second session, in the running game on main at 1440x900, starts a new life in a drawn place it writes down with its seed, opens People, chooses a person whose card names someone else and clicks that name. The card shows the person named; their row is lit if they are on the list and no row is lit if they are not; one click on the first person's row shows the first person again. The browser check src/bench/people.browser.mjs passes on a fresh bench.
+**Done when.** A second session, in the running game on main at 1440x900, starts a new life in a drawn place it writes down with its seed, opens People, chooses a person whose card names someone else and clicks that name. The card shows the person named; their row is lit if they are on the list and no row is lit if they are not; one click on the first person's row shows the first person again. The browser check tests/src/bench/people.browser.mjs passes on a fresh bench.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/ui/roster-screen.mjs, src/bench/ui/people-screen.mjs, src/bench/people.browser.mjs
+**Files.** src/bench/ui/roster-screen.mjs, src/bench/ui/people-screen.mjs, tests/src/bench/people.browser.mjs
 
 **Notes.** Written by the lead (Fable B), Nov 11, 2026. Found while checking Escape on a card over a menu: in People a name does not open a card over the menu, it changes the page beside the list. Before and after pictures at 1440x900 are under docs/seen/people-list-follows-the-card/ (the same life, replayed by its seed); the card opens in about 60 ms before and after.

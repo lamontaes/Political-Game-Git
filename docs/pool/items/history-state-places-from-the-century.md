@@ -34,10 +34,10 @@ Seen: `src/core2/electorate-places.ts` `statePlaces` builds every place with `ma
 
 **Rules.** No dice; one rule for all 56 places; replace, never layer.
 
-**Done when.** A second session starts a new game at a drawn place it writes down with its seed, turns dev mode on, opens Politics, Metrics, and sees "Your state on day one" equal the century's last count in the state. At drawn worlds every state's vote-weighted lean in `statePlaces` equals the century's, and src/core2/electorate-century-state-places.test.ts passes.
+**Done when.** A second session starts a new game at a drawn place it writes down with its seed, turns dev mode on, opens Politics, Metrics, and sees "Your state on day one" equal the century's last count in the state. At drawn worlds every state's vote-weighted lean in `statePlaces` equals the century's, and tests/src/core2/electorate-century-state-places.test.ts passes.
 
 **Waits on.** history-officials-drawn-around-century-parties (#9968), which this branch is stacked on.
 
-**Files.** src/core2/electorate-places.ts, src/core2/electorate-century.ts, src/core2/electorate-century-state-places.test.ts (new)
+**Files.** src/core2/electorate-places.ts, src/core2/electorate-century.ts, tests/src/core2/electorate-century-state-places.test.ts (new)
 
 **Notes.** Filed by the History lane, Nov 17, 2026. Counties' own century results (each county carrying its own count) are the rest of 8a, after World B's #9862 and a speed reading.

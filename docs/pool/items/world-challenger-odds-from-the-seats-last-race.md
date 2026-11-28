@@ -21,7 +21,7 @@ lead: world
 
 **Cause.** Found in code: `reasonsFrom` in `src/core2/modules/candidacy.ts` multiplied standing by the typed level `candidacyChallengerOdds` (0.15, ESTIMATED from published re-election rates), a pin: the world's value moved with the published figure.
 
-**Fix.** The odds are one less the normal curve at the holder's last winning lead over a swing spread (`candidacySwingSpread`, ESTIMATED, the strength of a swing, never a level). The lead is read from the seat's own newest counted race (`seatLastMargin` in `voting.ts`, from the race rows' major-party votes or the town contest's count); an open seat keeps odds of one. `candidacyChanceWeight` and the bar are untouched (the pool item `elections-a-persons-read-of-their-chance-cannot-move-who-runs` says not to re-weigh). `src/core2/candidacy-challenger-odds.test.ts` draws places, plays the first general election and checks the odds fall as the lead rises.
+**Fix.** The odds are one less the normal curve at the holder's last winning lead over a swing spread (`candidacySwingSpread`, ESTIMATED, the strength of a swing, never a level). The lead is read from the seat's own newest counted race (`seatLastMargin` in `voting.ts`, from the race rows' major-party votes or the town contest's count); an open seat keeps odds of one. `candidacyChanceWeight` and the bar are untouched (the pool item `elections-a-persons-read-of-their-chance-cannot-move-who-runs` says not to re-weigh). `tests/src/core2/candidacy-challenger-odds.test.ts` draws places, plays the first general election and checks the odds fall as the lead rises.
 
 **Time box.** 3 hours.
 
@@ -31,4 +31,4 @@ lead: world
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/candidacy.ts, src/core2/modules/voting.ts, src/core2/data/candidacy/parameters.json, src/core2/candidacy-challenger-odds.test.ts
+**Files.** src/core2/modules/candidacy.ts, src/core2/modules/voting.ts, src/core2/data/candidacy/parameters.json, tests/src/core2/candidacy-challenger-odds.test.ts

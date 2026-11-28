@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: a business adds a location or a founder opens one because its own books, market room and owner decide it, never a yearly chance; real BDS rates check the totals only. Ranges are not targets (owner, Nov 8): nothing is pulled to the BDS range. One rule, all 56 places: the parameters live in data and the fix names no place.
 
-**Done when.** A second session, in Cochituate, Massachusetts (a drawn place, seed 93a558a5898ee167fd5c49b69a4183c546da870c3754f7688faeb29392d6d4dc), runs three years with `src/core2/tooling/m1-08-check.ts` and sees at least one founding row that names a parent business, with the market's room, the parent's sales and its cash by record id. The owner's decision for that business names the growth that moved it.
+**Done when.** A second session, in Cochituate, Massachusetts (a drawn place, seed 93a558a5898ee167fd5c49b69a4183c546da870c3754f7688faeb29392d6d4dc), runs three years with `scripts/core2/tooling/m1-08-check.ts` and sees at least one founding row that names a parent business, with the market's room, the parent's sales and its cash by record id. The owner's decision for that business names the growth that moved it.
 
 **Waits on.** business-never-adds-location-part-1-counted-founding-room and business-never-adds-location-part-2-all-markets.
 
-**Files.** src/core2/modules/business.ts, src/core2/data/business/parameters.json, src/core2/tooling/m1-08-check.ts, src/core2/business.test.ts
+**Files.** src/core2/modules/business.ts, src/core2/data/business/parameters.json, scripts/core2/tooling/m1-08-check.ts, tests/src/core2/business.test.ts
 
 **Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have let a business open a second location from demand outgrowing capacity; no screen or scene shows a business's locations, and the town's founding count is already fixed by parts 1 and 2.

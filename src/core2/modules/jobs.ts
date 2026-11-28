@@ -99,7 +99,6 @@ import {
   layoffPerQuarter,
   workAgeFactor,
   workLeans,
-  type HistoryModule,
   type HistoryRow,
   type HistorySource,
 } from "../past";
@@ -1301,9 +1300,21 @@ function reviewHours(
   return factor;
 }
 
+/** What one employer's staffing review reads this month: its demand's staffing, the sales that staffing implies, and the target the two make. */
+interface StaffingRead {
+  readonly projected: number;
+  readonly trading: BusinessTradingMonth | undefined;
+  readonly observedStaff: number;
+  readonly salesStaff: number;
+  readonly target: number;
+}
+
+type BookOf = NonNullable<
+  ReturnType<CoreState["finance"]["businesses"]["get"]>
+>;
+
 function reviewEmployers(api: CoreAPI): void {
-  const c = core(api),
-    p = (key: string) => api.parameter(key);
+  const c = core(api);
   const opened =
     (
       store(api).table("state").get("jobs:state") as
@@ -1330,293 +1341,461 @@ function reviewEmployers(api: CoreAPI): void {
       staff,
     );
     let posted = positions.reduce((n, row) => n + positionHeads(row), 0);
-    const projected =
-      (book.capacityMinor > 0
-        ? // Real demand: the books' demand in the business's own opening prices.
-          (row.openingStaff * book.annualDemandMinor) /
-          ((book.price / book.anchorPrice || 1) * book.capacityMinor)
-        : row.openingStaff) *
-      // The season: the industry's staffing this month against the opening's (BLS CES seasonal factors).
-      seasonalStaffing(book.kindId, c.date, opened, c.seed);
-    const trading = businessTradingMonth(api, row.id);
-    raiseUnfilledPay(api, row.id, positions, trading, staff);
-    // A new business still hiring has made no sales of its own to read: it plans from its books' demand.
-    const observedStaff =
-      !row.hiring && trading && trading.days > 0 && book.capacityMinor > 0
-        ? (row.openingStaff * trading.salesMinor * p("jobsDaysPerYear")) /
-          (trading.days *
-            (book.price / book.anchorPrice || 1) *
-            book.capacityMinor)
-        : projected;
-    const previousSalesStaff = row.salesStaff ?? projected;
-    const salesStaff =
-      previousSalesStaff +
-      p("jobsStaffGapActedPerMonth") * (observedStaff - previousSalesStaff);
-    // The market forecast already reads regional and national conditions.
-    // Actual receipts let firms diverge when customers pay different sellers.
-    // A higher wage floor reaches the employer through its own books: the
-    // payroll it raises is paid out of the same receipts the staffing target
-    // and the loss memory (`affordableStaff`) read, and its prices follow its
-    // costs. No separate factor moves the target.
-    const demandTarget =
-      projected * (1 - p("jobsSalesForecastWeight")) +
-      salesStaff * p("jobsSalesForecastWeight");
-    const target =
-      trading && trading.lossMonths > 0
-        ? affordableStaff(demandTarget, staff, trading)
-        : demandTarget;
-    // Demand that falls short of the staff is split between everyone's hours and their heads, smoothly (see reviewHours).
-    const hoursFactor = reviewHours(
+    const reading = readStaffingTarget(
+      api,
+      row,
+      book,
+      positions,
+      staff,
+      opened,
+    );
+    const { projected, observedStaff, salesStaff, target } = reading;
+    const surplus = withdrawSurplus(
+      api,
+      row,
+      book,
+      jobs,
+      positions,
+      withdrawable,
+      staff,
+      posted,
+      reading,
+    );
+    const { hoursFactor, effectiveStaff, carry } = surplus;
+    posted = surplus.posted;
+    const opening = openReplacements(
       api,
       row,
       jobs,
+      positions,
+      posted,
+      surplus,
+      reading,
+    );
+    const { gap, shrinkAdjustment, leavers } = opening;
+    const shrunk = shrinkStaff(
+      api,
+      row,
+      book,
+      positions,
+      withdrawable,
+      opening.need,
+      shrinkAdjustment,
+      reading,
+    );
+    const need = shrunk.need;
+    announceStaffReduced(api, row, shrunk.jobChangeIds, reading);
+    saveEmployerReview(api, row, positions, {
       staff,
+      need,
+      salesStaff,
+      hoursFactor,
+      effectiveStaff,
       target,
-      trading?.lossMonths ?? p("zero"),
-    );
-    const effectiveStaff = staff * hoursFactor;
-    const monthlyPayroll = book.annualPayrollMinor / p("macroMonthsPerYear");
-    const cash = c.organizations.get(row.id)!.liquidMinor;
-    // Hiring leans on the cash in reach of a few months of payroll; a gap below staff needs no cash to act on.
-    const reach =
-      cash / (cash + p("jobsCashCoverMonths") * monthlyPayroll || 1);
-    // Staff and postings beyond the target lapse gradually: each position of surplus withdraws a share of a posting a month, the rest carried.
-    const excess = Math.max(
-      0,
-      Math.min(posted, effectiveStaff + posted - target),
-    );
-    let carry =
-      excess > 0
-        ? (row.withdrawCarry ?? 0) + p("jobsWithdrawActedPerMonth") * excess
-        : 0;
-    while (carry >= 1 && withdrawable()) {
-      const position = positions.pop()!;
+      projected,
+      observedStaff,
+      carry,
+      gap,
+      leavers,
+    });
+  }
+}
+
+/** The staffing an employer's demand and its own sales call for: the books' demand in the opening's prices, the season, what its sales have read, the loss memory. */
+function readStaffingTarget(
+  api: CoreAPI,
+  row: EmployerRow,
+  book: BookOf,
+  positions: PositionRow[],
+  staff: number,
+  opened: string,
+): StaffingRead {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const projected =
+    (book.capacityMinor > 0
+      ? // Real demand: the books' demand in the business's own opening prices.
+        (row.openingStaff * book.annualDemandMinor) /
+        ((book.price / book.anchorPrice || 1) * book.capacityMinor)
+      : row.openingStaff) *
+    // The season: the industry's staffing this month against the opening's (BLS CES seasonal factors).
+    seasonalStaffing(book.kindId, c.date, opened, c.seed);
+  const trading = businessTradingMonth(api, row.id);
+  raiseUnfilledPay(api, row.id, positions, trading, staff);
+  // A new business still hiring has made no sales of its own to read: it plans from its books' demand.
+  const observedStaff =
+    !row.hiring && trading && trading.days > 0 && book.capacityMinor > 0
+      ? (row.openingStaff * trading.salesMinor * p("jobsDaysPerYear")) /
+        (trading.days *
+          (book.price / book.anchorPrice || 1) *
+          book.capacityMinor)
+      : projected;
+  const previousSalesStaff = row.salesStaff ?? projected;
+  const salesStaff =
+    previousSalesStaff +
+    p("jobsStaffGapActedPerMonth") * (observedStaff - previousSalesStaff);
+  // The market forecast already reads regional and national conditions.
+  // Actual receipts let firms diverge when customers pay different sellers.
+  // A higher wage floor reaches the employer through its own books: the
+  // payroll it raises is paid out of the same receipts the staffing target
+  // and the loss memory (`affordableStaff`) read, and its prices follow its
+  // costs. No separate factor moves the target.
+  const demandTarget =
+    projected * (1 - p("jobsSalesForecastWeight")) +
+    salesStaff * p("jobsSalesForecastWeight");
+  const target =
+    trading && trading.lossMonths > 0
+      ? affordableStaff(demandTarget, staff, trading)
+      : demandTarget;
+  return { projected, trading, observedStaff, salesStaff, target };
+}
+
+/** Hours before heads: demand short of the staff is split between everyone's hours and their heads, and postings past the target lapse a share a month. */
+function withdrawSurplus(
+  api: CoreAPI,
+  row: EmployerRow,
+  book: BookOf,
+  jobs: ReturnType<typeof currentJobs>,
+  positions: PositionRow[],
+  withdrawable: () => boolean,
+  staff: number,
+  postedBefore: number,
+  { target, trading }: StaffingRead,
+): {
+  hoursFactor: number;
+  effectiveStaff: number;
+  reach: number;
+  carry: number;
+  posted: number;
+} {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  let posted = postedBefore;
+  // Demand that falls short of the staff is split between everyone's hours and their heads, smoothly (see reviewHours).
+  const hoursFactor = reviewHours(
+    api,
+    row,
+    jobs,
+    staff,
+    target,
+    trading?.lossMonths ?? p("zero"),
+  );
+  const effectiveStaff = staff * hoursFactor;
+  const monthlyPayroll = book.annualPayrollMinor / p("macroMonthsPerYear");
+  const cash = c.organizations.get(row.id)!.liquidMinor;
+  // Hiring leans on the cash in reach of a few months of payroll; a gap below staff needs no cash to act on.
+  const reach = cash / (cash + p("jobsCashCoverMonths") * monthlyPayroll || 1);
+  // Staff and postings beyond the target lapse gradually: each position of surplus withdraws a share of a posting a month, the rest carried.
+  const excess = Math.max(
+    0,
+    Math.min(posted, effectiveStaff + posted - target),
+  );
+  let carry =
+    excess > 0
+      ? (row.withdrawCarry ?? 0) + p("jobsWithdrawActedPerMonth") * excess
+      : 0;
+  while (carry >= 1 && withdrawable()) {
+    const position = positions.pop()!;
+    store(api)
+      .table("positions")
+      .put({ ...position, status: "withdrawn" });
+    carry -= positionHeads(position);
+    posted -= positionHeads(position);
+  }
+  if (!positions.length || excess === 0) carry = 0;
+  return { hoursFactor, effectiveStaff, reach, carry, posted };
+}
+
+/** The month's gap in heads and the postings it opens: leavers' roles first, then the role furthest below the mix. */
+function openReplacements(
+  api: CoreAPI,
+  row: EmployerRow,
+  jobs: ReturnType<typeof currentJobs>,
+  positions: PositionRow[],
+  posted: number,
+  { effectiveStaff, reach }: { effectiveStaff: number; reach: number },
+  { target, trading }: StaffingRead,
+): {
+  need: number;
+  gap: number;
+  shrinkAdjustment: number;
+  leavers: NonNullable<EmployerRow["leavers"]>;
+} {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const gap = target - effectiveStaff - posted;
+  // A firm losing money cannot defer the unaffordable payroll as long as
+  // an ordinary demand adjustment. The same loss memory that supports a
+  // closure moves its response smoothly toward the full staffing gap.
+  const lossPressure =
+    (trading?.lossMonths ?? 0) / (1 + (trading?.lossMonths ?? 0));
+  const adjustment = p("jobsStaffGapActedPerMonth");
+  const shrinkAdjustment = adjustment + (1 - adjustment) * lossPressure;
+  // Replacements for leavers count only while staff is below target; above it, attrition does the shrinking.
+  // A shrink carried from an earlier month is stale once the firm is short of staff: a leaver's job is still owed.
+  const owed = (row.leavers ?? []).reduce((n, l) => n + (l.heads ?? 1), 0);
+  let need =
+    (gap > 0 ? Math.max(row.need, owed) : Math.min(row.need, 0)) +
+    (gap > 0 ? adjustment * gap * reach : shrinkAdjustment * gap);
+  // A new business's first roles come from its template business.
+  const from = jobs.length || !row.templateFromId ? row.id : row.templateFromId;
+  const activeTemplates = from === row.id ? jobs : currentJobs(api, from);
+  const templateEmployer =
+    from === row.id
+      ? row
+      : (store(api).table("employers").get(from) as EmployerRow | undefined);
+  // A live firm does not forget its roles when its last worker leaves.
+  // Retained jobs still supply the schedule and pay for a replacement.
+  const fromJobs = activeTemplates.length
+    ? activeTemplates
+    : Object.values(templateEmployer?.mix ?? row.mix ?? {}).flatMap((role) => {
+        const job = jobById(api, role.templateJobId);
+        return job ? [job] : [];
+      });
+  // With no role to copy, a business can't open positions; its need waits, never past its gap.
+  if (!fromJobs.length && need > 0) need = Math.min(need, Math.max(0, gap));
+  // The roles the staff is made of (cooks and servers alike, counted workers included), and what the employer holds of each now.
+  const mix =
+    row.mix ?? roleMix(fromJobs, fullJobs(api, from), (job) => headsOf(c, job));
+  const have: Record<string, number> = {};
+  for (const job of jobs)
+    have[roleOf(job)] = (have[roleOf(job)] ?? 0) + headsOf(c, job);
+  for (const position of positions)
+    have[position.occupation] =
+      (have[position.occupation] ?? 0) + positionHeads(position);
+  // What a new opening stands for when no leaver's job is being replaced: the employer's counted workers' typical weight.
+  const countedStaff = jobs.filter((job) => !c.jobs.has(job.id));
+  const typical = countedStaff.length
+    ? staffHeads(c, countedStaff) / countedStaff.length
+    : 1;
+  const live = fullJobs(api, from);
+  const copyable = (role: string): JobInput | undefined => {
+    const ofRole = fromJobs.filter((job) => roleOf(job) === role);
+    // A full person's job gives a new position its schedule and payday; a counted job when there is none.
+    const full = ofRole.filter((job) => live.some((row) => row.id === job.id));
+    const pool = full.length ? full : ofRole;
+    if (pool.length)
+      return [...pool].sort((a, b) => a.id.localeCompare(b.id))[
+        (positions.length + Math.floor(need)) % pool.length
+      ];
+    // A role nobody holds now is copied from the job that held it.
+    const id = mix[role]?.templateJobId;
+    return id
+      ? (c.jobs.get(id) ?? residentsRuntime(c)?.jobs.get(id))
+      : undefined;
+  };
+  const leavers = [...(row.leavers ?? [])];
+  // A leaver recorded with no weight stood for one job.
+  const standsFor = (leaver?: { heads?: number }) =>
+    leaver ? (leaver.heads ?? 1) : typical;
+  while (need >= standsFor(leavers[0]) && fromJobs.length) {
+    // A leaver's role is refilled first, as that role; then the role furthest below the mix.
+    const replaces = leavers.shift();
+    const stands = standsFor(replaces);
+    const left = replaces ? jobById(api, replaces.jobId) : undefined;
+    const role =
+      left && copyable(roleOf(left))
+        ? roleOf(left)
+        : rolesByDeficit(mix, have, stands).find((r) => copyable(r));
+    const template = role ? copyable(role) : undefined;
+    if (!template) {
+      if (replaces) leavers.unshift(replaces);
+      break;
+    }
+    have[roleOf(template)] = (have[roleOf(template)] ?? 0) + stands;
+    const id = `position:${row.id}:${api.state.date}:${Math.floor(need)}`;
+    store(api)
+      .table("positions")
+      .put({
+        id,
+        organizationId: row.id,
+        placeId: c.organizations.get(row.id)!.placeId,
+        templateJobId: template.id,
+        title: template.title,
+        occupation: roleOf(template),
+        hourlyMinor: payFor(api, row.id, template),
+        openedAt: api.state.date,
+        status: "open",
+        ...(stands === 1 ? {} : { heads: stands }),
+        reasonKey: replaces
+          ? jobsData.reasons.replacement
+          : jobsData.reasons.opening,
+        ...(replaces
+          ? {
+              replacesJobId: replaces.jobId,
+              replacesPersonId: replaces.personId,
+            }
+          : {}),
+        gap,
+        target,
+      });
+    need -= stands;
+  }
+  return { need, gap, shrinkAdjustment, leavers };
+}
+
+/** A shortfall of postings still owed a cut: the newest postings withdraw, then the staff is laid off, worst-placed first. */
+function shrinkStaff(
+  api: CoreAPI,
+  row: EmployerRow,
+  book: BookOf,
+  positions: PositionRow[],
+  withdrawable: () => boolean,
+  needBefore: number,
+  shrinkAdjustment: number,
+  { target, projected, observedStaff, salesStaff, trading }: StaffingRead,
+): { need: number; jobChangeIds: string[] } {
+  let need = needBefore;
+  const jobChangeIds: string[] = [];
+  for (;;) {
+    if (withdrawable()) {
+      const position = positions[positions.length - 1]!;
+      if (need > -positionHeads(position)) break;
+      positions.pop();
       store(api)
         .table("positions")
         .put({ ...position, status: "withdrawn" });
-      carry -= positionHeads(position);
-      posted -= positionHeads(position);
+      need += positionHeads(position);
+      continue;
     }
-    if (!positions.length || excess === 0) carry = 0;
-    const gap = target - effectiveStaff - posted;
-    // A firm losing money cannot defer the unaffordable payroll as long as
-    // an ordinary demand adjustment. The same loss memory that supports a
-    // closure moves its response smoothly toward the full staffing gap.
-    const lossPressure =
-      (trading?.lossMonths ?? 0) / (1 + (trading?.lossMonths ?? 0));
-    const adjustment = p("jobsStaffGapActedPerMonth");
-    const shrinkAdjustment = adjustment + (1 - adjustment) * lossPressure;
-    // Replacements for leavers count only while staff is below target; above it, attrition does the shrinking.
-    // A shrink carried from an earlier month is stale once the firm is short of staff: a leaver's job is still owed.
-    const owed = (row.leavers ?? []).reduce((n, l) => n + (l.heads ?? 1), 0);
-    let need =
-      (gap > 0 ? Math.max(row.need, owed) : Math.min(row.need, 0)) +
-      (gap > 0 ? adjustment * gap * reach : shrinkAdjustment * gap);
-    // A new business's first roles come from its template business.
-    const from =
-      jobs.length || !row.templateFromId ? row.id : row.templateFromId;
-    const activeTemplates = from === row.id ? jobs : currentJobs(api, from);
-    const templateEmployer =
-      from === row.id
-        ? row
-        : (store(api).table("employers").get(from) as EmployerRow | undefined);
-    // A live firm does not forget its roles when its last worker leaves.
-    // Retained jobs still supply the schedule and pay for a replacement.
-    const fromJobs = activeTemplates.length
-      ? activeTemplates
-      : Object.values(templateEmployer?.mix ?? row.mix ?? {}).flatMap(
-          (role) => {
-            const job = jobById(api, role.templateJobId);
-            return job ? [job] : [];
-          },
-        );
-    // With no role to copy, a business can't open positions; its need waits, never past its gap.
-    if (!fromJobs.length && need > 0) need = Math.min(need, Math.max(0, gap));
-    // The roles the staff is made of (cooks and servers alike, counted workers included), and what the employer holds of each now.
-    const mix =
-      row.mix ??
-      roleMix(fromJobs, fullJobs(api, from), (job) => headsOf(c, job));
-    const have: Record<string, number> = {};
-    for (const job of jobs)
-      have[roleOf(job)] = (have[roleOf(job)] ?? 0) + headsOf(c, job);
-    for (const position of positions)
-      have[position.occupation] =
-        (have[position.occupation] ?? 0) + positionHeads(position);
-    // What a new opening stands for when no leaver's job is being replaced: the employer's counted workers' typical weight.
-    const countedStaff = jobs.filter((job) => !c.jobs.has(job.id));
-    const typical = countedStaff.length
-      ? staffHeads(c, countedStaff) / countedStaff.length
-      : 1;
-    const live = fullJobs(api, from);
-    const copyable = (role: string): JobInput | undefined => {
-      const ofRole = fromJobs.filter((job) => roleOf(job) === role);
-      // A full person's job gives a new position its schedule and payday; a counted job when there is none.
-      const full = ofRole.filter((job) =>
-        live.some((row) => row.id === job.id),
-      );
-      const pool = full.length ? full : ofRole;
-      if (pool.length)
-        return [...pool].sort((a, b) => a.id.localeCompare(b.id))[
-          (positions.length + Math.floor(need)) % pool.length
-        ];
-      // A role nobody holds now is copied from the job that held it.
-      const id = mix[role]?.templateJobId;
-      return id
-        ? (c.jobs.get(id) ?? residentsRuntime(c)?.jobs.get(id))
-        : undefined;
-    };
-    const leavers = [...(row.leavers ?? [])];
-    // A leaver recorded with no weight stood for one job.
-    const standsFor = (leaver?: { heads?: number }) =>
-      leaver ? (leaver.heads ?? 1) : typical;
-    while (need >= standsFor(leavers[0]) && fromJobs.length) {
-      // A leaver's role is refilled first, as that role; then the role furthest below the mix.
-      const replaces = leavers.shift();
-      const stands = standsFor(replaces);
-      const left = replaces ? jobById(api, replaces.jobId) : undefined;
-      const role =
-        left && copyable(roleOf(left))
-          ? roleOf(left)
-          : rolesByDeficit(mix, have, stands).find((r) => copyable(r));
-      const template = role ? copyable(role) : undefined;
-      if (!template) {
-        if (replaces) leavers.unshift(replaces);
-        break;
-      }
-      have[roleOf(template)] = (have[roleOf(template)] ?? 0) + stands;
-      const id = `position:${row.id}:${api.state.date}:${Math.floor(need)}`;
-      store(api)
-        .table("positions")
-        .put({
-          id,
-          organizationId: row.id,
-          placeId: c.organizations.get(row.id)!.placeId,
-          templateJobId: template.id,
-          title: template.title,
-          occupation: roleOf(template),
-          hourlyMinor: payFor(api, row.id, template),
-          openedAt: api.state.date,
-          status: "open",
-          ...(stands === 1 ? {} : { heads: stands }),
-          reasonKey: replaces
-            ? jobsData.reasons.replacement
-            : jobsData.reasons.opening,
-          ...(replaces
-            ? {
-                replacesJobId: replaces.jobId,
-                replacesPersonId: replaces.personId,
-              }
-            : {}),
-          gap,
-          target,
-        });
-      need -= stands;
-    }
-    const jobChangeIds: string[] = [];
-    for (;;) {
-      if (withdrawable()) {
-        const position = positions[positions.length - 1]!;
-        if (need > -positionHeads(position)) break;
-        positions.pop();
-        store(api)
-          .table("positions")
-          .put({ ...position, status: "withdrawn" });
-        need += positionHeads(position);
-        continue;
-      }
-      if (need > -1) break;
-      const staff = currentJobs(api, row.id);
-      if (!staff.length) break;
-      const laid = layOff(
-        api,
-        row.id,
-        staff,
-        -need,
-        {
-          target,
-          projected,
-          observedStaff,
-          salesStaff,
-          shrinkAdjustment,
-          demand: book.annualDemandMinor,
-          capacity: book.capacityMinor,
-          ...(trading
-            ? {
-                salesMinor: trading.salesMinor,
-                payrollMinor: trading.payrollMinor,
-                costsMinor: trading.costsMinor,
-                complianceMinor: trading.complianceMinor,
-                lossMonths: trading.lossMonths,
-              }
-            : {}),
-        },
-        trading?.id,
-      );
-      // The next worker to go stands for more jobs than the staff is over by,
-      // or worked today already: wait for the next review.
-      if (laid === "over" || laid === undefined) break;
-      if (laid?.id) jobChangeIds.push(laid.id);
-      need += laid?.heads ?? 1;
-    }
-    if (jobChangeIds.length) {
-      // The employer's staffing announcement goes to the existing press wire;
-      // reporters decide whether to cover it. Private claims are not published.
-      const owner = ownerOf(api, row.id);
-      api.emit({
-        id: `event:business.staff-reduced:${row.id}:${c.date}`,
-        date: c.date,
-        kind: "business.staff-reduced",
-        personIds: owner && c.people.has(owner) ? [owner] : [],
-        placeId: c.organizations.get(row.id)!.placeId,
-        topic: row.id,
-        publicRecord: true,
-        facts: {
-          organizationId: row.id,
-          jobChangeIds: JSON.stringify(jobChangeIds),
-          jobsLost: String(jobChangeIds.length),
-          projectedStaff: String(projected),
-          targetStaff: String(target),
-          // The staff the business has after the cut, from its own jobs: what a story says still work there.
-          staffAfter: String(staffHeads(c, currentJobs(api, row.id))),
-          ...(trading
-            ? {
-                tradingId: trading.id,
-                salesMinor: String(trading.salesMinor),
-                costsMinor: String(trading.costsMinor),
-                lossMonths: String(trading.lossMonths),
-              }
-            : {}),
-        },
-        source: source(
-          api,
-          "The employer's staffing decision and completed trading month.",
-        ),
-      });
-    }
-    // A new business is hiring while its opening postings stand; its first hire, or the postings lapsing, ends it.
-    const { hiring, ...kept } = row;
-    const stillHiring =
-      hiring && !(staff > 0) && (!row.staffing || positions.length > 0);
-    // Leavers not refilled this month wait while staff is below target; above it, attrition does the shrinking.
-    store(api)
-      .table("employers")
-      .put({
-        ...kept,
-        ...(stillHiring ? { hiring: true as const } : {}),
-        need,
+    if (need > -1) break;
+    const staff = currentJobs(api, row.id);
+    if (!staff.length) break;
+    const laid = layOff(
+      api,
+      row.id,
+      staff,
+      -need,
+      {
+        target,
+        projected,
+        observedStaff,
         salesStaff,
-        hoursFactor,
-        staffing: {
-          staff: effectiveStaff,
-          target,
-          projected,
-          observedStaff,
-          at: c.date,
-        },
-        withdrawCarry: carry,
-        leavers: gap > 0 ? leavers : [],
-      });
+        shrinkAdjustment,
+        demand: book.annualDemandMinor,
+        capacity: book.capacityMinor,
+        ...(trading
+          ? {
+              salesMinor: trading.salesMinor,
+              payrollMinor: trading.payrollMinor,
+              costsMinor: trading.costsMinor,
+              complianceMinor: trading.complianceMinor,
+              lossMonths: trading.lossMonths,
+            }
+          : {}),
+      },
+      trading?.id,
+    );
+    // The next worker to go stands for more jobs than the staff is over by,
+    // or worked today already: wait for the next review.
+    if (laid === "over" || laid === undefined) break;
+    if (laid?.id) jobChangeIds.push(laid.id);
+    need += laid?.heads ?? 1;
   }
+  return { need, jobChangeIds };
+}
+
+/** The employer's staffing announcement goes to the press wire; reporters decide whether to cover it. */
+function announceStaffReduced(
+  api: CoreAPI,
+  row: EmployerRow,
+  jobChangeIds: readonly string[],
+  { projected, target, trading }: StaffingRead,
+): void {
+  const c = core(api);
+  if (jobChangeIds.length) {
+    // The employer's staffing announcement goes to the existing press wire;
+    // reporters decide whether to cover it. Private claims are not published.
+    const owner = ownerOf(api, row.id);
+    api.emit({
+      id: `event:business.staff-reduced:${row.id}:${c.date}`,
+      date: c.date,
+      kind: "business.staff-reduced",
+      personIds: owner && c.people.has(owner) ? [owner] : [],
+      placeId: c.organizations.get(row.id)!.placeId,
+      topic: row.id,
+      publicRecord: true,
+      facts: {
+        organizationId: row.id,
+        jobChangeIds: JSON.stringify(jobChangeIds),
+        jobsLost: String(jobChangeIds.length),
+        projectedStaff: String(projected),
+        targetStaff: String(target),
+        // The staff the business has after the cut, from its own jobs: what a story says still work there.
+        staffAfter: String(staffHeads(c, currentJobs(api, row.id))),
+        ...(trading
+          ? {
+              tradingId: trading.id,
+              salesMinor: String(trading.salesMinor),
+              costsMinor: String(trading.costsMinor),
+              lossMonths: String(trading.lossMonths),
+            }
+          : {}),
+      },
+      source: source(
+        api,
+        "The employer's staffing decision and completed trading month.",
+      ),
+    });
+  }
+}
+
+/** What the review leaves on the employer's row: its staffing reading, what it still needs, the hours factor and the leavers it did not refill. */
+function saveEmployerReview(
+  api: CoreAPI,
+  row: EmployerRow,
+  positions: readonly PositionRow[],
+  review: {
+    staff: number;
+    need: number;
+    salesStaff: number;
+    hoursFactor: number;
+    effectiveStaff: number;
+    target: number;
+    projected: number;
+    observedStaff: number;
+    carry: number;
+    gap: number;
+    leavers: NonNullable<EmployerRow["leavers"]>;
+  },
+): void {
+  const c = core(api);
+  const {
+    staff,
+    need,
+    salesStaff,
+    hoursFactor,
+    effectiveStaff,
+    target,
+    projected,
+    observedStaff,
+    carry,
+    gap,
+    leavers,
+  } = review;
+  // A new business is hiring while its opening postings stand; its first hire, or the postings lapsing, ends it.
+  const { hiring, ...kept } = row;
+  const stillHiring =
+    hiring && !(staff > 0) && (!row.staffing || positions.length > 0);
+  // Leavers not refilled this month wait while staff is below target; above it, attrition does the shrinking.
+  store(api)
+    .table("employers")
+    .put({
+      ...kept,
+      ...(stillHiring ? { hiring: true as const } : {}),
+      need,
+      salesStaff,
+      hoursFactor,
+      staffing: {
+        staff: effectiveStaff,
+        target,
+        projected,
+        observedStaff,
+        at: c.date,
+      },
+      withdrawCarry: carry,
+      leavers: gap > 0 ? leavers : [],
+    });
 }
 
 /** What an employer's last staffing review read, in jobs: who works there (hours-weighted), what its demand needs, and the two demand readings that make the target. */
@@ -2265,7 +2444,12 @@ function reviewRegionalFinds(api: CoreAPI): void {
         : undefined;
       const pull =
         (seeker.regionalPull ?? p("zero")) +
-        findPerQuarter(api, at.meanOverNow, lean, age) * month;
+        findPerQuarter(api, at.meanOverNow, lean, age) *
+          month *
+          // A household a few days from the rent searches up to twice as hard as one with a year of money behind it (its need as a share of the most need can be): the same need the apply and look choices read, so spells differ by person (a long tail and a quick find) instead of every search ending the same month.
+          (p("one") +
+            Math.max(p("zero"), unemployedNeed(api, seeker.personId)) /
+              p("jobsUnemployedNeedWeight"));
       if (pull >= p("one")) {
         // Progress at one: an opening near them is theirs to win in the weekly matching; with none, the job is a regional one.
         // A month of weekly matching is theirs; if it did not hire them, the job is a regional one.
@@ -2273,7 +2457,13 @@ function reviewRegionalFinds(api: CoreAPI): void {
           store(api)
             .table(table)
             .put({ ...seeker, regionalPull: pull, localTried: true } as never);
-        else found.push(seeker);
+        else {
+          // The pull built so far is theirs even if no regional job takes them this month.
+          store(api)
+            .table(table)
+            .put({ ...seeker, regionalPull: pull } as never);
+          found.push(seeker);
+        }
       } else
         store(api)
           .table(table)
@@ -3300,15 +3490,35 @@ function vacancyDays(api: CoreAPI, position: PositionRow): number {
 
 /** Seekers apply; employers offer their best-placed applicant; applicants accept or decline. */
 function runWeek(api: CoreAPI): void {
-  const c = core(api),
-    p = (key: string) => api.parameter(key);
+  const c = core(api);
   // A position held for the player's answer is no one else's this week.
   const positions = fillableOpenings(api);
   if (!positions.length) return;
-  const byPlace = new Map<string, PositionRow[]>();
-  for (const row of positions)
-    byPlace.set(row.placeId, [...(byPlace.get(row.placeId) ?? []), row]);
-  // The player's applications stand while their opening does: one for a filled or withdrawn opening is dropped.
+  dropStalePlayerApplications(api);
+  const { applications, counted } = collectApplications(api, positions);
+  const countedExperience = countedExperienceOf(api, counted);
+  // Each seeker's fit for an occupation, worked out once a week.
+  const fits = new Map<string, number>();
+  for (const position of positions) {
+    // A full person can take only a role whose schedule is on record.
+    const fullRole = roleTemplate(c, position) !== undefined;
+    const applicants = applications
+      .get(position.id)
+      ?.filter((row) => fullRole || isCounted(api, row.personId));
+    if (!applicants?.length) continue;
+    hireForPosition(
+      api,
+      position,
+      applicants,
+      fits,
+      countedExperience,
+      applications,
+    );
+  }
+}
+
+/** The player's applications stand while their opening does: one for a filled or withdrawn opening is dropped. */
+function dropStalePlayerApplications(api: CoreAPI): void {
   const applied = store(api).table("playerApplications");
   for (const row of applied.rows()) {
     const held = store(api)
@@ -3316,6 +3526,18 @@ function runWeek(api: CoreAPI): void {
       .get(row.id as string) as PositionRow | undefined;
     if (held?.status !== "open") applied.remove(row.id as string);
   }
+}
+
+/** Every seeker, the player and every counted seeker weigh the openings near them and apply; the week's applications by position. */
+function collectApplications(
+  api: CoreAPI,
+  positions: readonly PositionRow[],
+): { applications: Map<string, SeekerRow[]>; counted: SeekerRow[] } {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const byPlace = new Map<string, PositionRow[]>();
+  for (const row of positions)
+    byPlace.set(row.placeId, [...(byPlace.get(row.placeId) ?? []), row]);
   const applications = new Map<string, SeekerRow[]>();
   const apply = (positionId: string, seeker: SeekerRow) => {
     if (outOfCivilianWork(api, seeker.personId)) return;
@@ -3406,8 +3628,16 @@ function runWeek(api: CoreAPI): void {
     const nearby = byPlace.get(seeker.placeId);
     if (nearby && findingReady(seeker)) consider(seeker, nearby);
   }
-  // Counted applicants retain their work history. Read it once for this
-  // matching round, including jobs hired and ended during play.
+  return { applications, counted };
+}
+
+/** Counted applicants retain their work history, read once for this matching round. */
+function countedExperienceOf(
+  api: CoreAPI,
+  counted: readonly SeekerRow[],
+): Map<string, number> {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
   const countedExperience = new Map<string, number>();
   const rt = residentsRuntime(c);
   if (rt && counted.length) {
@@ -3427,226 +3657,209 @@ function runWeek(api: CoreAPI): void {
       countedExperience.set(key, (countedExperience.get(key) ?? 0) + years);
     }
   }
-  // Each seeker's fit for an occupation, worked out once a week.
-  const fits = new Map<string, number>();
-  for (const position of positions) {
-    // A full person can take only a role whose schedule is on record.
-    const fullRole = roleTemplate(c, position) !== undefined;
-    const applicants = applications
-      .get(position.id)
-      ?.filter((row) => fullRole || isCounted(api, row.personId));
-    if (!applicants?.length) continue;
-    const fit = (seeker: SeekerRow) => {
-      const key = `${seeker.personId}|${position.occupation}`;
-      let value = fits.get(key);
-      if (value === undefined)
-        fits.set(
-          key,
-          (value =
-            p("jobsFitExperienceWeight") *
-              (isCounted(api, seeker.personId)
-                ? (countedExperience.get(key) ?? 0)
-                : experienceYears(api, seeker.personId, position.occupation)) +
-            howTheyWork(api, seeker.personId) +
-            // An official's word for them counts as one more reason, and
-            // fades the longer ago it was given.
-            p("jobsFitReferralWeight") *
-              referralStanding(api, seeker.personId)),
+  return countedExperience;
+}
+
+/** One opening's week: its applicants ranked by fit, offered the job in order until one takes it. */
+function hireForPosition(
+  api: CoreAPI,
+  position: PositionRow,
+  applicants: readonly SeekerRow[],
+  fits: Map<string, number>,
+  countedExperience: ReadonlyMap<string, number>,
+  applications: Map<string, SeekerRow[]>,
+): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const fit = (seeker: SeekerRow) => {
+    const key = `${seeker.personId}|${position.occupation}`;
+    let value = fits.get(key);
+    if (value === undefined)
+      fits.set(
+        key,
+        (value =
+          p("jobsFitExperienceWeight") *
+            (isCounted(api, seeker.personId)
+              ? (countedExperience.get(key) ?? 0)
+              : experienceYears(api, seeker.personId, position.occupation)) +
+          howTheyWork(api, seeker.personId) +
+          // An official's word for them counts as one more reason, and
+          // fades the longer ago it was given.
+          p("jobsFitReferralWeight") * referralStanding(api, seeker.personId)),
+      );
+    return value;
+  };
+  // Where no law bars it, a small employer weighs an older applicant down;
+  // a ban in the town takes that off, and the pick is made on fit alone.
+  const bias = ageBiasAt(
+    api,
+    position.placeId,
+    staffHeads(c, currentJobs(api, position.organizationId)),
+  );
+  const birthOf = (personId: string) =>
+    c.people.get(personId)?.birthDate ?? residentFacts(c, personId)?.birthDate;
+  // A public employer that may ask about a criminal record weighs an applicant
+  // with a conviction down; a ban-the-box law in the town takes that off.
+  const recordBias = recordBiasAt(
+    api,
+    position.organizationId,
+    position.placeId,
+  );
+  const weighed = (seeker: SeekerRow, penalized: boolean) => {
+    const born = penalized && bias ? birthOf(seeker.personId) : undefined;
+    return (
+      fit(seeker) -
+      (born && bias ? bias.penaltyOf(born) : 0) -
+      (recordBias && !recordBias.ban
+        ? recordBias.penaltyOf(seeker.personId)
+        : 0)
+    );
+  };
+  // Under a ban-the-box law: who the penalty would have chosen, to tell whether the ban changed the hire.
+  const unbanned = (seeker: SeekerRow) =>
+    weighed(seeker, !bias?.ban) -
+    (recordBias?.ban ? recordBias.penaltyOf(seeker.personId) : 0);
+  const pick = (pool: readonly SeekerRow[], penalized: boolean) => {
+    let top = pool[0]!;
+    for (const row of pool) {
+      const gap = weighed(row, penalized) - weighed(top, penalized);
+      if (gap > 0 || (gap === 0 && row.id.localeCompare(top.id) < 0)) top = row;
+    }
+    return top;
+  };
+  // An opening that stands for several jobs stays open after a hire; one who already held a job of it is not offered it again.
+  // A declined offer leaves the opening available to the next applicant.
+  let pool = applicants.filter(
+    (row) => !c.jobs.has(`job:${position.id}:${row.personId}`),
+  );
+  // Nothing the loop below does (an offer, a decline, a placement that
+  // fails) changes a remaining applicant's fit, kept in `fits`, or their
+  // birth date, so each is weighed once and the employer works down the
+  // ranking, picking whom the scan would. Where no ranking stands
+  // (`rankedOrder`), the scan picks; bookkeeping runs it beside the
+  // ranking and throws on any difference.
+  // A public opening's ranking is kept by record: each applicant's place and weight, and whether a conviction is on their record, so the law's reach reads in the order itself.
+  if (recordBias)
+    recordRanking(
+      api,
+      recordBias,
+      position.id,
+      pool.map((row) => ({
+        personId: row.personId,
+        weight: weighed(row, !bias?.ban),
+      })),
+    );
+  const order = rankedOrder(pool, (row) => weighed(row, !bias?.ban));
+  const penalizedOrder =
+    order && bias?.ban
+      ? rankedOrder(pool, (row) => weighed(row, true))
+      : undefined;
+  const ranked = order && (!bias?.ban || penalizedOrder) ? pool : undefined;
+  const taken = new Uint8Array(ranked?.length ?? 0);
+  const top = order && ranked && walkRanking(order, taken);
+  const topPenalized = penalizedOrder && walkRanking(penalizedOrder, taken);
+  const scanning = !ranked || bookkeeping();
+  let left = ranked?.length ?? 0;
+  while (ranked ? left : pool.length) {
+    const at = top ? top() : -1;
+    const best = ranked ? ranked[at]! : pick(pool, !bias?.ban);
+    // Under the ban: would the penalty have chosen someone else?
+    const overruled =
+      !!bias?.ban &&
+      (ranked ? ranked[topPenalized!()]! : pick(pool, true)).id !== best.id;
+    if (ranked) {
+      taken[at] = 1;
+      left--;
+    }
+    if (scanning) {
+      if (
+        ranked &&
+        (pick(pool, !bias?.ban) !== best ||
+          (!!bias?.ban && pick(pool, true).id !== best.id) !== overruled)
+      )
+        throw new Error(
+          `Hiring for ${position.id}: the ranking picked ${best.id}, the scan another.`,
         );
-      return value;
-    };
-    // Where no law bars it, a small employer weighs an older applicant down;
-    // a ban in the town takes that off, and the pick is made on fit alone.
-    const bias = ageBiasAt(
-      api,
-      position.placeId,
-      staffHeads(c, currentJobs(api, position.organizationId)),
-    );
-    const birthOf = (personId: string) =>
-      c.people.get(personId)?.birthDate ??
-      residentFacts(c, personId)?.birthDate;
-    // A public employer that may ask about a criminal record weighs an applicant
-    // with a conviction down; a ban-the-box law in the town takes that off.
-    const recordBias = recordBiasAt(
-      api,
-      position.organizationId,
-      position.placeId,
-    );
-    const weighed = (seeker: SeekerRow, penalized: boolean) => {
-      const born = penalized && bias ? birthOf(seeker.personId) : undefined;
-      return (
-        fit(seeker) -
-        (born && bias ? bias.penaltyOf(born) : 0) -
-        (recordBias && !recordBias.ban
-          ? recordBias.penaltyOf(seeker.personId)
-          : 0)
-      );
-    };
-    // Under a ban-the-box law: who the penalty would have chosen, to tell whether the ban changed the hire.
-    const unbanned = (seeker: SeekerRow) =>
-      weighed(seeker, !bias?.ban) -
-      (recordBias?.ban ? recordBias.penaltyOf(seeker.personId) : 0);
-    const pick = (pool: readonly SeekerRow[], penalized: boolean) => {
-      let top = pool[0]!;
-      for (const row of pool) {
-        const gap = weighed(row, penalized) - weighed(top, penalized);
-        if (gap > 0 || (gap === 0 && row.id.localeCompare(top.id) < 0))
-          top = row;
-      }
-      return top;
-    };
-    // An opening that stands for several jobs stays open after a hire; one who already held a job of it is not offered it again.
-    // A declined offer leaves the opening available to the next applicant.
-    let pool = applicants.filter(
-      (row) => !c.jobs.has(`job:${position.id}:${row.personId}`),
-    );
-    // Nothing the loop below does (an offer, a decline, a placement that
-    // fails) changes a remaining applicant's fit, kept in `fits`, or their
-    // birth date, so each is weighed once and the employer works down the
-    // ranking, picking whom the scan would. Where no ranking stands
-    // (`rankedOrder`), the scan picks; bookkeeping runs it beside the
-    // ranking and throws on any difference.
-    // A public opening's ranking is kept by record: each applicant's place and weight, and whether a conviction is on their record, so the law's reach reads in the order itself.
-    if (recordBias)
-      recordRanking(
-        api,
-        recordBias,
-        position.id,
-        pool.map((row) => ({
-          personId: row.personId,
-          weight: weighed(row, !bias?.ban),
-        })),
-      );
-    const order = rankedOrder(pool, (row) => weighed(row, !bias?.ban));
-    const penalizedOrder =
-      order && bias?.ban
-        ? rankedOrder(pool, (row) => weighed(row, true))
+      pool = pool.filter((row) => row !== best);
+      if (ranked && pool.length !== left)
+        throw new Error(
+          `Hiring for ${position.id}: the ranking holds ${left} applicants, the scan ${pool.length}.`,
+        );
+    }
+    let placed = false;
+    if (isCounted(api, best.personId)) {
+      // A counted seeker answers the offer by the same reasons a full person
+      // weighs, every trait included.
+      const person = {
+        id: best.personId,
+        traits: traitsOf(api, best.personId),
+      };
+      // An employed worker measures the offer against the job they hold now, and moving costs something.
+      const current = best.employed
+        ? countedJobOfPerson(c, best.personId)?.hourlyMinor
         : undefined;
-    const ranked = order && (!bias?.ban || penalizedOrder) ? pool : undefined;
-    const taken = new Uint8Array(ranked?.length ?? 0);
-    const top = order && ranked && walkRanking(order, taken);
-    const topPenalized = penalizedOrder && walkRanking(penalizedOrder, taken);
-    const scanning = !ranked || bookkeeping();
-    let left = ranked?.length ?? 0;
-    while (ranked ? left : pool.length) {
-      const at = top ? top() : -1;
-      const best = ranked ? ranked[at]! : pick(pool, !bias?.ban);
-      // Under the ban: would the penalty have chosen someone else?
-      const overruled =
-        !!bias?.ban &&
-        (ranked ? ranked[topPenalized!()]! : pick(pool, true)).id !== best.id;
-      if (ranked) {
-        taken[at] = 1;
-        left--;
-      }
-      if (scanning) {
-        if (
-          ranked &&
-          (pick(pool, !bias?.ban) !== best ||
-            (!!bias?.ban && pick(pool, true).id !== best.id) !== overruled)
-        )
-          throw new Error(
-            `Hiring for ${position.id}: the ranking picked ${best.id}, the scan another.`,
-          );
-        pool = pool.filter((row) => row !== best);
-        if (ranked && pool.length !== left)
-          throw new Error(
-            `Hiring for ${position.id}: the ranking holds ${left} applicants, the scan ${pool.length}.`,
-          );
-      }
-      let placed = false;
-      if (isCounted(api, best.personId)) {
-        // A counted seeker answers the offer by the same reasons a full person
-        // weighs, every trait included.
-        const person = {
-          id: best.personId,
-          traits: traitsOf(api, best.personId),
-        };
-        // An employed worker measures the offer against the job they hold now, and moving costs something.
-        const current = best.employed
-          ? countedJobOfPerson(c, best.personId)?.hourlyMinor
-          : undefined;
-        const reference = current ?? best.referenceHourlyMinor;
-        const accepts = leanedByKinds(
-          c,
-          person,
-          "jobs.counted-accept",
-          jobsData.actions.accept.actKinds,
-          jobsData.actions.decline.actKinds,
-          acceptScore(p, position.hourlyMinor, reference, best.employed),
-        );
-        placed = accepts && hireCounted(api, position, best, fit(best));
-      } else if (controlled(c, best.personId)) {
-        // A past decline or lapse is an answer, not a permanent hold, but the
-        // employer asks again only with something changed since.
-        if (
-          store(api)
-            .table("offers")
-            .get(`job-offer:${position.id}:${best.personId}`) ||
-          !offerChanged(api, position, best.personId)
-        )
-          continue;
-        offerToPlayer(api, position, best.personId, fit(best));
-        placed = true;
-      } else {
-        const held = best.employed
-          ? c.jobs.get(c.people.get(best.personId)?.jobId ?? "")
-          : undefined;
-        const reference = held?.hourlyMinor ?? best.referenceHourlyMinor;
-        const answer = chooseAct(c, best.personId, [
-          offer("decline", position.id, {}),
-          offer("accept", position.id, {
-            baseline: p("jobsAcceptBaseline"),
-            switchCost: best.employed ? p("jobsSwitchCost") : 0,
-            pay:
-              p("jobsApplyPayWeight") *
-              (reference > 0 ? position.hourlyMinor / reference - 1 : 0),
-            needWork: best.employed ? 0 : p("jobsUnemployedNeedWeight"),
-          }),
-        ]);
-        if (answer.selected!.definition.id !== jobsData.actions.accept.id)
-          continue;
-        hire(api, position, best, fit(best));
-        placed =
-          c.people.get(best.personId)?.jobId ===
-          `job:${position.id}:${best.personId}`;
-      }
-      if (!placed) continue;
-      if (recordBias?.ban && recordBias.hasRecord(best.personId)) {
-        // Would the penalty have chosen someone else among those still in the pool?
-        const rivals = applicants.filter(
-          (row) =>
-            row !== best && !c.jobs.has(`job:${position.id}:${row.personId}`),
-        );
-        if (
-          rivals.some((row) => unbanned(row) > unbanned(best)) &&
-          !isCounted(api, best.personId)
-        )
-          recordHiredWithRecordUnderBan(
-            api,
-            recordBias,
-            {
-              personId: best.personId,
-              organizationId: position.organizationId,
-            },
-            Math.round(
-              position.hourlyMinor *
-                ((
-                  c.jobs.get(position.templateJobId) ??
-                  residentsRuntime(c)?.jobs.get(position.templateJobId)
-                )?.hoursDaily ?? 0) *
-                p("jobsDaysPerYear"),
-            ),
-          );
-      }
-      if (overruled && bias)
-        recordHiredUnderBan(
+      const reference = current ?? best.referenceHourlyMinor;
+      const accepts = leanedByKinds(
+        c,
+        person,
+        "jobs.counted-accept",
+        jobsData.actions.accept.actKinds,
+        jobsData.actions.decline.actKinds,
+        acceptScore(p, position.hourlyMinor, reference, best.employed),
+      );
+      placed = accepts && hireCounted(api, position, best, fit(best));
+    } else if (controlled(c, best.personId)) {
+      // A past decline or lapse is an answer, not a permanent hold, but the
+      // employer asks again only with something changed since.
+      if (
+        store(api)
+          .table("offers")
+          .get(`job-offer:${position.id}:${best.personId}`) ||
+        !offerChanged(api, position, best.personId)
+      )
+        continue;
+      offerToPlayer(api, position, best.personId, fit(best));
+      placed = true;
+    } else {
+      const held = best.employed
+        ? c.jobs.get(c.people.get(best.personId)?.jobId ?? "")
+        : undefined;
+      const reference = held?.hourlyMinor ?? best.referenceHourlyMinor;
+      const answer = chooseAct(c, best.personId, [
+        offer("decline", position.id, {}),
+        offer("accept", position.id, {
+          baseline: p("jobsAcceptBaseline"),
+          switchCost: best.employed ? p("jobsSwitchCost") : 0,
+          pay:
+            p("jobsApplyPayWeight") *
+            (reference > 0 ? position.hourlyMinor / reference - 1 : 0),
+          needWork: best.employed ? 0 : p("jobsUnemployedNeedWeight"),
+        }),
+      ]);
+      if (answer.selected!.definition.id !== jobsData.actions.accept.id)
+        continue;
+      hire(api, position, best, fit(best));
+      placed =
+        c.people.get(best.personId)?.jobId ===
+        `job:${position.id}:${best.personId}`;
+    }
+    if (!placed) continue;
+    if (recordBias?.ban && recordBias.hasRecord(best.personId)) {
+      // Would the penalty have chosen someone else among those still in the pool?
+      const rivals = applicants.filter(
+        (row) =>
+          row !== best && !c.jobs.has(`job:${position.id}:${row.personId}`),
+      );
+      if (
+        rivals.some((row) => unbanned(row) > unbanned(best)) &&
+        !isCounted(api, best.personId)
+      )
+        recordHiredWithRecordUnderBan(
           api,
-          bias,
+          recordBias,
           {
             personId: best.personId,
-            counted: isCounted(api, best.personId),
-            heads: positionHeads(position),
+            organizationId: position.organizationId,
           },
           Math.round(
             position.hourlyMinor *
@@ -3657,11 +3870,29 @@ function runWeek(api: CoreAPI): void {
               p("jobsDaysPerYear"),
           ),
         );
-      for (const row of applications.values())
-        for (let i = row.length - 1; i >= 0; i--)
-          if (row[i]!.personId === best.personId) row.splice(i, 1);
-      break;
     }
+    if (overruled && bias)
+      recordHiredUnderBan(
+        api,
+        bias,
+        {
+          personId: best.personId,
+          counted: isCounted(api, best.personId),
+          heads: positionHeads(position),
+        },
+        Math.round(
+          position.hourlyMinor *
+            ((
+              c.jobs.get(position.templateJobId) ??
+              residentsRuntime(c)?.jobs.get(position.templateJobId)
+            )?.hoursDaily ?? 0) *
+            p("jobsDaysPerYear"),
+        ),
+      );
+    for (const row of applications.values())
+      for (let i = row.length - 1; i >= 0; i--)
+        if (row[i]!.personId === best.personId) row.splice(i, 1);
+    break;
   }
 }
 
@@ -5362,7 +5593,7 @@ const JOBS_HISTORY: HistorySource = {
   },
 };
 
-export const JOBS_MODULE: CoreModule & HistoryModule = {
+export const JOBS_MODULE: CoreModule = {
   id: JOBS_MODULE_ID,
   history: JOBS_HISTORY,
   state: {

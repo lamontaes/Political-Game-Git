@@ -17,8 +17,8 @@ claimed-at: 2026-10-18T18:49:11.056Z
 
 **Rules.** One rule, all 56 places: the test draws a place and names it; no place is named in logic. Wire to the world: the stock must follow the counted renters the same way a full renter's is followed. Estimate, never UNKNOWN: a town with renters has rental units.
 
-**Done when.** The test passes in ten drawn places with seeds the builder did not choose, shown by place and seed, and a town with counted renters never opens with zero rental units; a test in src/core2/counted-weight-housing.test.ts covers the zero case.
+**Done when.** The test passes in ten drawn places with seeds the builder did not choose, shown by place and seed, and a town with counted renters never opens with zero rental units; a test in tests/src/core2/counted-weight-housing.test.ts covers the zero case.
 
-**Files.** src/core2/counted-weight-housing.test.ts, src/core2/housing-construction.ts
+**Files.** tests/src/core2/counted-weight-housing.test.ts, src/core2/housing-construction.ts
 
 **Notes.** Found while running the residents tests for the household release change; the tests do not touch anything that change edited. Not diagnosed beyond the two reproductions.

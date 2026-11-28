@@ -19,7 +19,7 @@ claimed-at: 2026-10-18T19:18:03.694Z
 
 **Done when.** A `speed:year` script exists, and in a drawn place (buildBenchWorld, seed named in the PR body) one year with the module runs within 20% of the same world without it, one process at a time on one machine. The owner plays it: Measure and cut the post-session slowdown.
 
-**Files.** src/core2/modules/world-legislating.ts, src/bench/world.ts, src/bench/world-modules.test.ts, scripts/core2-year/
+**Files.** src/core2/modules/world-legislating.ts, src/bench/world.ts, tests/src/bench/world-modules.test.ts, scripts/core2-year/
 
 **Notes.** Checklist line from play.md; verify against main before starting.
 

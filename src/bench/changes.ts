@@ -2,10 +2,11 @@
 // it reached, from the law-reach records. Read-only.
 import { historyOf } from "../core2/past";
 import { coreAPI } from "../core2/state";
-import { reachedBy } from "../core2/law-reach/host";
+import { reachedBy } from "../core2/modules/laws";
 import { LAW_STATUTE, LAWS_MODULE_ID } from "../core2/modules/laws";
-import type { LawRowInput } from "../core2/laws-starting";
+import type { LawRowInput } from "../core2/laws-in-force";
 import type { CoreState } from "../core2/types";
+import { allLawRows, lawRowById } from "../core2/modules/laws-reads";
 
 // Engineering page size for the names shown per law, not a model value.
 const NAMED = 4;
@@ -14,10 +15,7 @@ const NAMED = 4;
 function enactedAhead(core: CoreState) {
   if (!core.modules.has(LAWS_MODULE_ID)) return [];
   return (
-    coreAPI(core)
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .rows() as unknown as (LawRowInput & {
+    allLawRows(coreAPI(core)) as unknown as (LawRowInput & {
       terms?: { enactedBy?: string };
     })[]
   )
@@ -43,12 +41,10 @@ function lawsTook(core: CoreState, personId: string) {
   const api = coreAPI(core);
   // A series' law rows as the laws engine's history tells them (`law.statute`),
   // each opened by its id, read once a series.
-  const table = core.modules.has(LAWS_MODULE_ID)
-    ? api.moduleState(LAWS_MODULE_ID).table("laws")
-    : undefined;
+  const hasLaws = core.modules.has(LAWS_MODULE_ID);
   const statutes = new Map<string, LawRowInput[]>();
   const statutesOf = (series: string): LawRowInput[] => {
-    if (!table || !series) return [];
+    if (!hasLaws || !series) return [];
     let rows = statutes.get(series);
     if (!rows) {
       rows = historyOf(
@@ -58,7 +54,7 @@ function lawsTook(core: CoreState, personId: string) {
       )
         .filter((event) => event.facts?.series === series)
         .flatMap((event) => {
-          const law = table.get(event.facts?.lawId ?? "") as unknown as
+          const law = lawRowById(api, event.facts?.lawId ?? "") as unknown as
             LawRowInput | undefined;
           return law ? [law] : [];
         });

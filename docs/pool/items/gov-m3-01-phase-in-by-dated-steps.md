@@ -20,6 +20,6 @@ claimed-at: 2026-10-30T07:20:28.526Z
 
 **Done when.** A test in a drawn place built with buildBenchWorld and the seed it prints drafts a minimum-wage or budget amount in two dated steps through `seatAct`, passes it by the body's vote, and finds `lawInForce` at the first step's amount the day after the first date and at the second step's amount the day after the second, with each law row naming the bill by record id; the M3-01 command names the test file.
 
-**Files.** src/bench/legislature.ts, src/core2/bill-catalog.ts, src/core2/modules/legislature.ts, src/bench/bill-paper.test.ts
+**Files.** src/bench/legislature.ts, src/core2/bill-catalog.ts, src/core2/modules/legislature.ts, tests/src/bench/bill-paper.test.ts
 
 **Notes.** Filed by the governing lead, Oct 29, from the M3-01 command (branch governing/m3-spec-commands). src/bench is the lane's; ask before editing. A percent-a-year phase-in is the ruling's other form; build the dated steps first and register the other as a stopgap if it is not built in the same unit.

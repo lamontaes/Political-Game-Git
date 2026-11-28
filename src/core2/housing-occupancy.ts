@@ -10,17 +10,18 @@ import {
 import lawParameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 import construction from "./data/housing/construction.json" with { type: "json" };
 import type { ProjectRow, StockRow } from "./housing-construction";
+import { householdIncome, residentsRuntime } from "./residents-reads";
+import { regroupHousehold } from "./resident-households";
 import {
-  householdIncome,
-  regroupHousehold,
-  residentsRuntime,
-} from "./modules/residents";
-import { claimsInGroup, fundBalance, savingWeight } from "./counted-money";
+  claimsInGroup,
+  fundBalance,
+  savingWeight,
+} from "./counted-money-reads";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { nextDue } from "./housing-homeless";
-import { reopenResidentFlow, setResidentFlowAmount } from "./residents-economy";
-import { lawApplied } from "./law-reach/applied";
-import { CONSTRUCTION_LAW_KEYS } from "./housing-construction";
+import { reopenResidentFlow, setResidentFlowAmount } from "./resident-flows";
+import { lawApplied, emitLawEffectLearned } from "./law-reach/applied";
+import { CONSTRUCTION_LAW_KEYS } from "./housing-construction-constants";
 import { webFactorFor } from "./outcome-web-reach";
 import type { CountedHousehold } from "./counted-groups";
 import type { CoreAPI, CoreState, Source } from "./types";
@@ -614,11 +615,9 @@ function noticeRentRenewal(
     source,
   });
   const scale = api.parameter("housingRentSavingImpulseScale");
-  api.emit({
+  emitLawEffectLearned(api, {
     id: `event:law.effect-learned:${tenant.leaseId}:${api.state.date}`,
-    date: api.state.date,
-    kind: "law.effect-learned",
-    personIds: [head.id],
+    personId: head.id,
     placeId: head.placeId,
     topic: RENT_STABILIZATION,
     desiredChange: "enact",
@@ -628,7 +627,6 @@ function noticeRentRenewal(
       learnedFrom: `event:${noticeId}:experienced`,
       savedMinor: String(saved),
     },
-    publicRecord: false,
     source: {
       ...source,
       citation: `Learned from the renewal notice for ${tenant.leaseId} that ${rent.lawId} held the rent below the market`,

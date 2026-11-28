@@ -19,9 +19,9 @@ root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
 ---
 
-**What.** MORTALITY_WEB_SEED=m2 GOLDEN_PATH_SEED=m2 npx vitest run src/core2/law-wiring-mortality-web.test.ts fails on main with: Sale Creek, Tennessee [4766220], seed m2:5 person_ad93ce081ff8fceb: no coverage part (own 1, parts []). The person is paid coverage by two spells dated 2025-03-23, reach-b:coverage:us-policy-positions:health-human-services.expand-medicaid-eligibility:US-TN|person_ad93ce081ff8fceb:2025-03-23 and the same law's medicaid-match spell for the United States, yet their own death-hazard factor reads exactly 1 and carries no coverage-to-mortality-55-64 part. Found Oct 29 by Merger 1 while checking the mortality-own-records PR (#6731) on a seed its author did not choose, sent back, then merged by Merger 3 after a new head that does not change this result; either the hazard misses a person holding both a state and a federal coverage spell, or this person is outside the link's age band or lag at the look and the test should pass them over with a named reason.
+**What.** MORTALITY_WEB_SEED=m2 GOLDEN_PATH_SEED=m2 npx vitest run tests/src/core2/law-wiring-mortality-web.test.ts fails on main with: Sale Creek, Tennessee [4766220], seed m2:5 person_ad93ce081ff8fceb: no coverage part (own 1, parts []). The person is paid coverage by two spells dated 2025-03-23, reach-b:coverage:us-policy-positions:health-human-services.expand-medicaid-eligibility:US-TN|person_ad93ce081ff8fceb:2025-03-23 and the same law's medicaid-match spell for the United States, yet their own death-hazard factor reads exactly 1 and carries no coverage-to-mortality-55-64 part. Found Oct 29 by Merger 1 while checking the mortality-own-records PR (#6731) on a seed its author did not choose, sent back, then merged by Merger 3 after a new head that does not change this result; either the hazard misses a person holding both a state and a federal coverage spell, or this person is outside the link's age band or lag at the look and the test should pass them over with a named reason.
 
-**Cause.** Measured: `MORTALITY_WEB_SEED=m2 GOLDEN_PATH_SEED=m2 npx vitest run src/core2/law-wiring-mortality-web.test.ts` fails in Sale Creek, Tennessee (4766220), draw m2:5: person_ad93ce081ff8fceb has own factor 1 and no coverage-to-mortality-55-64 part although two coverage spells dated 2025-03-23 pay them. The factor is `ownCoverageFactor` in src/core2/health-own.ts; the test throws at its "no coverage part" check (line 461 of src/core2/law-wiring-mortality-web.test.ts).
+**Cause.** Measured: `MORTALITY_WEB_SEED=m2 GOLDEN_PATH_SEED=m2 npx vitest run tests/src/core2/law-wiring-mortality-web.test.ts` fails in Sale Creek, Tennessee (4766220), draw m2:5: person_ad93ce081ff8fceb has own factor 1 and no coverage-to-mortality-55-64 part although two coverage spells dated 2025-03-23 pay them. The factor is `ownCoverageFactor` in src/core2/health-own.ts; the test throws at its "no coverage part" check (line 461 of tests/src/core2/law-wiring-mortality-web.test.ts).
 
 **Fix.** Read the person's age and the link's lag at the look from their record. If they are in band, make the hazard in src/core2/health-own.ts read both the state and the federal spell; if not, make the test pass them over with a named reason.
 
@@ -33,6 +33,6 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/law-wiring-mortality-web.test.ts, src/core2/health-own.ts, src/core2/health-web.ts
+**Files.** tests/src/core2/law-wiring-mortality-web.test.ts, src/core2/health-own.ts, src/core2/health-web.ts
 
 **Notes.** Reproduce with the command in What. The send-back is in my comment on #6731 (Oct 29 about 02:45 UTC).

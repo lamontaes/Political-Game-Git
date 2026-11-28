@@ -32,7 +32,7 @@ root: none
 
 **Waits on.** gov-governor-running-mates (#9080) on the train.
 
-**Files.** src/core2/modules/voting.ts, src/core2/modules/officials.ts, src/core2/modules/elections.ts, src/bench/campaign.ts, src/bench/play.mjs, src/core2/governor-running-mates.test.ts
+**Files.** src/core2/modules/voting.ts, src/core2/modules/officials.ts, src/core2/modules/elections.ts, src/bench/campaign.ts, src/bench/play.mjs, tests/src/core2/governor-running-mates.test.ts
 
 **Notes.**
 

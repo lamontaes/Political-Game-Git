@@ -19,7 +19,7 @@ claimed-at: 2026-10-16T15:55:16.305Z
 
 **Done when.** In a played world (buildBenchWorld, every module installed) in a drawn place and seed, a test kills a retiree in a group of three and checks the funding lists two awards with their summed amount and the next due date settles, by contract and award record ids; the Kagman year runs to its end. It fails on the old code.
 
-**Files.** src/core2/finance-state.ts, src/core2/retirement-group-death.test.ts
+**Files.** src/core2/finance-state.ts, tests/src/core2/retirement-group-death.test.ts
 
 **Notes.** Body repaired from the item's title and its pull request on 2026-10-16.
 

@@ -33,6 +33,6 @@ claimed-at:
 
 **Waits on.** The jurisdiction fix (world-medical-bills-outside-the-sellers-jurisdiction-go-outside).
 
-**Files.** src/core2/medical-bills.ts, src/core2/law-reach/group-b-money.ts, src/core2/law-reach/group-b-people.ts, src/core2/law-reach/group-b.ts, src/bench/dev-mode.ts, src/bench/dev-medicaid-outside-town.test.ts (new)
+**Files.** src/core2/medical-bills.ts, src/core2/law-reach/group-b-money.ts, src/core2/law-reach/group-b-people.ts, src/core2/law-reach/group-b.ts, src/bench/dev-mode.ts, tests/src/bench/dev-medicaid-outside-town.test.ts (new)
 
 **Notes.** #9660 (laws thread): the town and the places the residents runtime bills in its state are covered by one rule (`townStatePlaces`, `placesFacts`). At West Union 40 days in, 0 billed outside the town were on Medicaid before and 558 after; dev mode's person card shows the law (`laws`, read with `reachOn`). The other town-only handlers are filed as their own items, listed in the PR body.

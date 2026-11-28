@@ -23,13 +23,33 @@
   "files": [
     "data/research/laws/starting-law-2026/index.ts",
     "scripts/core2-year/place.ts",
-    "tests/golden-path/place.ts"
+    "tests/golden-path/place.ts",
+    "tests/support/campaign-incumbent-response-test-kit.ts",
+    "tests/support/campaign-petition-kit.ts",
+    "tests/support/campaign-platform-test-kit.ts",
+    "tests/support/campaign-race-test-kit.ts",
+    "tests/support/core-pieces-fixture.ts",
+    "tests/support/counted-moves-balance-kit.ts",
+    "tests/support/gov-test-clock.ts",
+    "tests/support/housing-sale-buyer-fixture.ts",
+    "tests/support/law-test-start.ts",
+    "tests/support/money-traits-kit.ts",
+    "tests/support/record-test-kit.ts",
+    "tests/support/resident-adults-test-kit.ts",
+    "tests/support/test-days.ts",
+    "tests/support/trait-test-kit.ts",
+    "tests/support/world-with.ts",
+    "tests/golden-path/path-check.ts",
+    "tests/support/census-scale-closures-support.ts",
+    "tests/support/reply-set-check.ts"
   ],
-  "include": ["src"],
+  "include": ["src", "scripts/core2/**/*.ts", "scripts/bench/**/*.ts"],
   "exclude": [
     "src/**/*.test.ts",
     "src/**/*.test.tsx",
     "src/cli",
-    "src/persistence"
+    "src/persistence",
+    "scripts/core2/**/*.test.ts",
+    "scripts/bench/**/*.test.ts"
   ]
 }

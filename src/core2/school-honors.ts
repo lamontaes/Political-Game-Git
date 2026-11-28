@@ -25,7 +25,7 @@ import data from "./data/school/honors.json" with { type: "json" };
 import schoolDays from "./data/school-days.json" with { type: "json" };
 import outcomes from "./data/school/outcomes.json" with { type: "json" };
 import { ageOn } from "./counted-groups";
-import { countedHouseholdsByPlace } from "./modules/residents";
+import { countedHouseholdsByPlace } from "./residents-reads";
 import { schoolName, schoolOfPlace } from "./past-module";
 import { SCHOOL_MODULE_ID } from "./school-measures";
 import {
@@ -35,6 +35,7 @@ import {
   type Student,
 } from "./school-outcomes";
 import type { CoreAPI, CoreState, PersonId } from "./types";
+import { weekdayOf } from "./kernel/dates";
 
 export const SCHOOL_HONOR_EVENT = data.event;
 
@@ -146,7 +147,7 @@ function basisOf(honor: HonorDefinition): HonorBasis {
 export function isHonorDay(date: string, day: HonorDay): boolean {
   if (date.slice(5, 7) !== day.month) return false;
   if (day.date !== undefined) return date.slice(8) === day.date;
-  const weekday = new Date(`${date}T00:00:00Z`).getUTCDay();
+  const weekday = weekdayOf(date);
   const nth =
     Math.floor((Number(date.slice(8)) - 1) / data.calendar.daysPerWeek) + 1;
   return weekday === day.weekday && nth === day.nth;

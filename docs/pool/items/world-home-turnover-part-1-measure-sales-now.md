@@ -35,6 +35,6 @@ branch: claude/pool-world-home-turnover-part-1-measure-sales-now
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/housing.ts, src/core2/housing-sale.ts, src/core2/housing.test.ts
+**Files.** src/core2/modules/housing.ts, src/core2/housing-sale.ts, tests/src/core2/housing.test.ts
 
 **Notes.** Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:50 UTC) on branch claude/pool-world-home-turnover-part-1-measure-sales-now.

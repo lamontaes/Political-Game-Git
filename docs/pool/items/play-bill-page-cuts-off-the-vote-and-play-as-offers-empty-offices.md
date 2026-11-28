@@ -23,7 +23,7 @@ checked: fable 2026-11-11
 
 **Cause.** Found in code: `officeholders` in src/bench/officeholders.ts lists every serving term in the offices table and never asks `isOutsideOffice` (src/core2/modules/offices.ts, line 258), the one test for another place's office. `openBillPaper` in src/bench/play.mjs passes `billStageSections(...)` to `show()` after the bill's board, so they sit below a three-column grid as tall as its longest column, and `#sheet-body` scrolls (`overflow-y: auto` in src/bench/play.css). `billStageSections` in src/bench/ui/bill-stage.mjs draws the Staff section whenever `stage.yours.mayRedraft` is true, and its buttons only from `stage.sectionsAmendable`, which is empty when no section has a law in force.
 
-**Fix.** Skip a term whose office `isOutsideOffice` in `officeholders`. Give `billPaper` (src/bench/ui/bill-paper.mjs) the stage sections to stand in its first column, under Where it is, and make the bill board keep to the sheet's height with each column scrolling inside itself. Draw the Staff section only when `stage.sectionsAmendable` has an entry. In src/bench/bill-stage.browser.mjs, stop drafting around a body with no subject in force: fail by name with the seed and the subjects passed over.
+**Fix.** Skip a term whose office `isOutsideOffice` in `officeholders`. Give `billPaper` (src/bench/ui/bill-paper.mjs) the stage sections to stand in its first column, under Where it is, and make the bill board keep to the sheet's height with each column scrolling inside itself. Draw the Staff section only when `stage.sectionsAmendable` has an entry. In tests/src/bench/bill-stage.browser.mjs, stop drafting around a body with no subject in force: fail by name with the seed and the subjects passed over.
 
 **Time box.** 4 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -33,4 +33,4 @@ checked: fable 2026-11-11
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/officeholders.ts, src/bench/ui/bill-paper.mjs, src/bench/ui/bill-stage.mjs, src/bench/play.mjs, src/bench/play.css, src/bench/data/controls.json, src/bench/bill-stage.browser.mjs
+**Files.** src/bench/officeholders.ts, src/bench/ui/bill-paper.mjs, src/bench/ui/bill-stage.mjs, src/bench/play.mjs, src/bench/play.css, src/bench/data/controls.json, tests/src/bench/bill-stage.browser.mjs

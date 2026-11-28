@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T01:40:09.097Z
 
 **Rules.** Speed: a town's game year must run in under two minutes and no change may make a year more than 20 percent slower; Replace, never layer: the repeated build is removed where it happens, in the function itself.
 
-**Done when.** npm run speed:year on seed m7a and the payroll tests in src/core2/work-pay-period.test.ts pass with monthBoundary below 1 percent of a fresh profile, shown in the PR body.
+**Done when.** npm run speed:year on seed m7a and the payroll tests in tests/src/core2/work-pay-period.test.ts pass with monthBoundary below 1 percent of a fresh profile, shown in the PR body.
 
 **Files.** src/core2/work-pay-period.ts
 

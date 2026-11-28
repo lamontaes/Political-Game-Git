@@ -19,9 +19,9 @@ claimed-at:
 
 **Rules.** Never close a row by deleting it: each row is marked resolved with the record that closes it. Replace, never layer: the static residence map and the gross-pay base are deleted when the real reads land. An effect is a read, not a record: withholding reads the recorded chain and the exemption terms on the paycheck day.
 
-**Done when.** Both stopgap rows are resolved in src/core2/data/stopgaps.json: in a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a worker who lives outside the town is withheld from by their residence's recorded law and a local-tax paycheck is taken after the exemption, shown by paycheck and law row ids in src/core2/tax-withholding.test.ts.
+**Done when.** Both stopgap rows are resolved in src/core2/data/stopgaps.json: in a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a worker who lives outside the town is withheld from by their residence's recorded law and a local-tax paycheck is taken after the exemption, shown by paycheck and law row ids in tests/src/core2/tax-withholding.test.ts.
 
-**Files.** src/core2/modules/budgets.ts, src/core2/tax-withholding.ts, src/core2/data/stopgaps.json, src/core2/tax-withholding.test.ts
+**Files.** src/core2/modules/budgets.ts, src/core2/tax-withholding.ts, src/core2/data/stopgaps.json, tests/src/core2/tax-withholding.test.ts
 
 **Notes.** First row: Payroll withholding for a worker who lives outside the town reads the law of the worker's residence from the starting-law rows (the town's recorded rows where a jurisdiction is shared with the town), so a law enacted in
 

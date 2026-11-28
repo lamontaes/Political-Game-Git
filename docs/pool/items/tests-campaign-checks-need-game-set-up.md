@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 
 **Done when.** ad-buy, plain-text and volunteer-shift pass in three drawn places named with seeds; the PR names the dev route or helper that sets up money, a filing seat and a willing volunteer. Merge or close tests-plain-text-no-travel-filing-place with it.
 
-**Files.** src/bench/ad-buy.browser.mjs,src/bench/plain-text.browser.mjs,src/bench/volunteer-shift.browser.mjs,src/bench/campaign-trail.mjs,src/bench/trail-act.mjs
+**Files.** tests/src/bench/ad-buy.browser.mjs,tests/src/bench/plain-text.browser.mjs,tests/src/bench/volunteer-shift.browser.mjs,src/bench/campaign-trail.mjs,src/bench/trail-act.mjs
 
 **Notes.** Fixer 2, Nov 8: found while finishing the screens. See also tests-plain-text-no-travel-filing-place. Dev mode needs a route for money, a filing seat and a volunteer's willingness.
 

@@ -1,6 +1,6 @@
 # Politics → Government, drawn as a game menu
 
-Taken by `src/bench/politics.browser.mjs` on the bench, Oct 29, 2026, in a drawn place: Calabash, North Carolina (a town of five council seats in Brunswick County). The check draws a new place each run.
+Taken by `tests/src/bench/politics.browser.mjs` on the bench, Oct 29, 2026, in a drawn place: Calabash, North Carolina (a town of five council seats in Brunswick County). The check draws a new place each run.
 
 - `mock-vs-after.png`: the approved mock (since deleted) beside the game's Local view.
 - `government-local.png`, `government-state.png`, `government-federal.png`: each level's Legislative view.

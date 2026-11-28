@@ -19,6 +19,6 @@ claimed-at: 2026-11-06T17:02:37.996Z
 
 **Done when.** A federal mandate row is always loaded for a state-level question the research answers for the nation with an effective date; resolveLawInForce lets it govern from that date over the state and town rows; a drawn-place test shows the state's no governs before and the federal row from the day.
 
-**Files.** src/core2/modules/laws.ts,src/core2/laws-in-force.ts,src/core2/federal-mandate-levels.test.ts
+**Files.** src/core2/modules/laws.ts,src/core2/laws-in-force.ts,tests/src/core2/federal-mandate-levels.test.ts
 
 **Notes.** TODO

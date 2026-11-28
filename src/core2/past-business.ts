@@ -23,9 +23,9 @@ import {
   stateExitShare,
 } from "./modules/business";
 import businessData from "./data/business/business.json" with { type: "json" };
-import { businessName, businessNameContext } from "./business-names";
+import { businessName, businessNameContext } from "./modules/business";
 import type { PastTown } from "./past-bodies";
-import { pastParameter, shiftDays } from "./past-module";
+import { pastParameter, shiftDays } from "./past-reads";
 import type { CoreAPI, PersonState } from "./types";
 
 export interface PastClosureRow {
