@@ -299,9 +299,13 @@ it("the executive's budget act opens in its season and its changes are what the 
     // The line as the budget in force carries it at the close (an act may
     // have amended it since the vote; the treasury reads it then).
     const inForce = budgetsOf(api, city.id).find((b) => b.id === adopted!.id)!;
+    // What a registered pass-through adds to the line (a grant's change, school
+    // aid) is not the council's act, and each year's own is in force as it is
+    // computed, so it is read off both before the two are compared.
+    const withoutThrough = (b: typeof inForce) =>
+      (b.spendingMinor[line] ?? 0) - (b.passThroughMinor?.[line] ?? 0);
     expect(
-      (inForce.spendingMinor[line] ?? 0) -
-        (oldBudget!.spendingMinor[line] ?? 0),
+      withoutThrough(inForce) - withoutThrough(oldBudget!),
       `${where}: ${line} moved by the passed change`,
     ).toBe(passed);
     expect(passed, `${where}: a change on ${line} passed`).not.toBe(0);
