@@ -2,15 +2,99 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 5766,
+  "judged": 5808,
   "no": {
+    "00py6b6m3pf": {
+      "keys": [
+        "scene-talk.follow-ask.why-is-source-wrong",
+        "scene-talk.reply-withdraw.i-know-what-i-said-about-bill-but-circumstances-have-changed-i-can-t-i-m-sorry"
+      ],
+      "why": "A withdrawal of support does not answer a question about why the source is wrong."
+    },
+    "0dwyali7cq3": {
+      "keys": [
+        "scene-talk.follow-plea.i-could-lose-my-primary-over-bill",
+        "scene-talk.reply-bargain.this-is-a-two-way-street-on-bill-i-ll-need-your-vote-on-mine"
+      ],
+      "why": "ignores the fear of losing a primary and asks the worried person for even more"
+    },
+    "0ivgwp380rw": {
+      "keys": [
+        "scene-talk.state-ask.your-amendment-is-in-bill-are-you-still-with-me",
+        "scene-talk.reply-bargain.this-is-a-two-way-street-on-bill-i-ll-need-your-vote-on-mine"
+      ],
+      "why": "the amendment is already in and 'still with me' assumes a deal, so bargaining afresh ignores it"
+    },
+    "0o4lkmtxwkq": {
+      "keys": [
+        "scene-talk.state-ask.can-you-tell-me-how-you-ll-vote-on-bill",
+        "scene-talk.reply-answer.even-then-it-s-the-right-call-on-bill"
+      ],
+      "why": "'Even then' has no antecedent and the reply never gives the vote that was asked for"
+    },
+    "11u13yb3bbv": {
+      "keys": [
+        "scene-talk.follow-ask.why-is-source-wrong",
+        "scene-talk.reply-answer.even-then-it-s-the-right-call-on-bill"
+      ],
+      "why": "'Even then' has nothing to point back to and never says why the source is wrong"
+    },
     "1524b77vnvj": {
       "keys": [
         "scene-talk.follow-answer.worse-than-our-poll-had-it-it-wasnt-close",
         "scene-talk.reply-refuse.not-yet-i-m-not-calling-opponent-until-the-count-is-certain"
       ],
       "why": "The aide only states that the loss was not close and asks for nothing, so \"Not yet. I'm not calling...\" answers a request that was never made."
+    },
+    "180nzlw00xu": {
+      "keys": [
+        "scene-talk.follow-ask.why-is-source-wrong",
+        "scene-talk.reply-withdraw.i-m-really-worried-about-the-vote-on-bill-i-can-t-do-it"
+      ],
+      "why": "A withdrawal of support does not answer a question about why the source is wrong."
+    },
+    "1efrhs5umc1": {
+      "keys": [
+        "scene-talk.state-ask.i-put-your-amendment-in-bill-i-m-counting-on-your-vote-today",
+        "scene-talk.reply-bargain.this-is-a-two-way-street-on-bill-i-ll-need-your-vote-on-mine"
+      ],
+      "why": "the speaker already gave the amendment, so asking for reciprocity ignores the trade already made"
+    },
+    "1hdfp7j3q7r": {
+      "keys": [
+        "scene-talk.state-ask.can-you-tell-me-how-you-ll-vote-on-bill",
+        "scene-talk.reply-answer.i-voted-against-it-it-wasn-t-right-for-place"
+      ],
+      "why": "Asked how they will vote, the reply speaks of a vote already cast."
+    },
+    "1luwdm3xwqr": {
+      "keys": [
+        "scene-talk.state-ask.can-you-tell-me-how-you-ll-vote-on-bill",
+        "scene-talk.reply-answer.i-couldn-t-vote-for-it-that-s-all-there-is-to-it"
+      ],
+      "why": "Asked how they will vote, the reply speaks of a vote already cast ('couldn't vote for it')."
+    },
+    "22kjcgs1kef": {
+      "keys": [
+        "scene-talk.state-ask.can-you-tell-me-how-you-ll-vote-on-bill",
+        "scene-talk.reply-answer.people-here-want-it-i-voted-with-them"
+      ],
+      "why": "Asked how they will vote, the reply speaks of a vote already cast."
+    },
+    "29rbpni4uid": {
+      "keys": [
+        "scene-talk.state-ask.can-you-tell-me-how-you-ll-vote-on-bill",
+        "scene-talk.reply-answer.i-voted-against-it-place-deserves-better-than-that"
+      ],
+      "why": "Asked how they will vote, the reply speaks of a vote already cast."
+    },
+    "2bgy69abe7k": {
+      "keys": [
+        "scene-talk.follow-ask.why-is-source-wrong",
+        "scene-talk.reply-bargain.this-is-a-two-way-street-on-bill-i-ll-need-your-vote-on-mine"
+      ],
+      "why": "asked why a source is wrong, the reply bargains for a vote instead of answering"
     }
   },
-  "yesHash": "1je7g4lwiz2"
+  "yesHash": "1npz1tmvwxc"
 }
