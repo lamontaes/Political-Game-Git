@@ -32,14 +32,11 @@ import { sessionYear, type SessionWindow } from "./state-session-calendar";
 import { registerModule } from "./state";
 import { decisionLean, leanedTerm } from "./trait-decisions";
 import { closenessBetween } from "./closeness";
-import {
-  registerSittingCalendar,
-  type SittingCalendar,
-  type SittingDay,
-} from "./sitting-closeness";
+import { type SittingCalendar, type SittingDay } from "./sitting-closeness";
 import { roomTime } from "./modules/people";
 import { chargeOfficeHours, type OfficeTime } from "./modules/work";
-import { personLean, personStance } from "./campaign-views";
+import { personLean } from "./modules/campaigns";
+import { personStance } from "./modules/elections";
 import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { lineForPost } from "./budgets-treasury";
 import { outsideGovernment } from "./outside-governments";
@@ -1902,6 +1899,8 @@ export function voteOnStateFloor(
 
 export const OFFICE_DAY_STATE_MODULE: CoreModule = {
   id: OFFICE_DAY_STATE_MODULE_ID,
+  // A chamber's committees and caucuses sit on the chamber's own days.
+  sittingCalendar: ROOMS,
   // The per diem a state legislator is owed, which the treasury pays at its close (`linePayments`).
   linePayments: perDiemLinePayments,
   // The hours a state legislator's session, committee and caucus days take from their day.
@@ -2017,7 +2016,6 @@ registerOfficeActs({
 });
 
 export function openOfficeDayState(core: CoreState): void {
-  registerSittingCalendar(ROOMS);
   if (!core.modules.has(OFFICE_DAY_STATE_MODULE_ID))
     registerModule(core, OFFICE_DAY_STATE_MODULE);
 }

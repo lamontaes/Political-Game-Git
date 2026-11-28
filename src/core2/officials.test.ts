@@ -39,7 +39,7 @@ import {
   type CandidateRow,
 } from "./modules/officials";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import { realLocalities } from "./places";
 
 const START = "2026-01-05";

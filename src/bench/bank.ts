@@ -2,6 +2,11 @@
 import { bankDeposit, personOutflowsForMonth } from "../core2/budgets-treasury";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
+import {
+  bankBookRows,
+  householdCreditMonths,
+  townBankRecord,
+} from "../core2/credit-reads";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 
@@ -28,12 +33,13 @@ interface SpendingLine {
 export function bankView(core: CoreState, personId: string) {
   const person = core.people.get(personId);
   if (!person || !core.modules.has("credit")) return null;
-  const store = coreAPI(core).moduleState("credit");
-  const bank = store.table("banks").get("credit:bank");
+  const api = coreAPI(core);
+  const store = api.moduleState("credit");
+  const bank = townBankRecord(api);
   const bankId = String(bank?.organizationId ?? "");
   const organization = core.organizations.get(bankId);
   if (!organization) return null;
-  const latest = [...store.table("books").rows()].sort((a, b) =>
+  const latest = [...bankBookRows(api)].sort((a, b) =>
     String(b.date).localeCompare(String(a.date)),
   )[0];
   const deposit = bankDeposit(core, bankId, person.householdId);
@@ -52,12 +58,7 @@ export function bankView(core: CoreState, personId: string) {
     : null;
   // The household's last month as the credit engine kept it, and the latest
   // payments on the loans it owes: why the cash fell short.
-  const months = store
-    .table("households")
-    .query("byHousehold", [person.householdId]) as unknown as Record<
-    string,
-    unknown
-  >[];
+  const months = householdCreditMonths(api, person.householdId);
   const month = [...months].sort((a, b) =>
     String(b.date).localeCompare(String(a.date)),
   )[0];

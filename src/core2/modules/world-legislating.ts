@@ -57,8 +57,9 @@ import type {
   PersonState,
   Source,
 } from "../types";
-import { nextMeeting } from "./offices";
-import { registerSittingCalendar, type SittingDay } from "../sitting-closeness";
+import { nextMeetingOf } from "../office-day-calendar";
+import { officeById } from "./offices";
+import { SITTING_SHARED_HOURS, type SittingDay } from "../sitting-closeness";
 import {
   addDays,
   makeIsoDate,
@@ -189,9 +190,73 @@ export function levelMayDecide(
     : !beyondPower(provision, "local") && authorityFor(api, provision).allowed;
 }
 
+/** A body's next regular meeting after `after`, by its office's id. */
+const nextMeeting = (
+  api: CoreAPI,
+  officeId: string,
+  after: string,
+  countyGeoid?: string,
+) => nextMeetingOf(api, officeById(api, officeId), after, countyGeoid);
+
 export const WORLD_LEGISLATING_MODULE_ID = "core2-world-legislating-v1";
 
+const SITTING_CALENDAR = {
+  // The readers are one list for every world in the process: a world that has not opened this
+  // engine yet (a small world's neighbor) owns no body.
+  owns: (api: CoreAPI, officeId: string) =>
+    api.state.modules.has(WORLD_LEGISLATING_MODULE_ID) &&
+    bodyOf(api, officeId) !== undefined,
+  // The members, and the executive who sits with them (a mayor at the
+  // council's meetings), each from the day their service began.
+  seats: (api: CoreAPI, officeId: string) => {
+    const seats = members(api, officeId).map((term) => ({
+      personId: memberKey(term),
+      since: term.serviceStart ?? term.startDate,
+    }));
+    const executive = sittingExecutive(api, officeId);
+    return executive &&
+      !seats.some((seat) => seat.personId === executive.personId)
+      ? [...seats, executive]
+      : seats;
+  },
+  // The bodies a person sits on, and for an executive the bodies of their
+  // own government they sit with.
+  bodiesOf: (api: CoreAPI, personId: string) => {
+    const terms = servingTermsOf(api, personId);
+    const sitsOn = terms
+      .map((term) => term.officeId)
+      .filter((officeId) => bodyOf(api, officeId) !== undefined);
+    for (const term of terms) {
+      const office = api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .get(term.officeId) as unknown as
+        { kind: string; jurisdiction: string } | undefined;
+      if (!office || !headsLocalExecutive(office.kind)) continue;
+      for (const other of api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .query("byJurisdiction", [office.jurisdiction]) as unknown as {
+        id: string;
+      }[])
+        if (
+          !sitsOn.includes(other.id) &&
+          bodyOf(api, other.id) !== undefined &&
+          sittingExecutive(api, other.id)?.personId === personId
+        )
+          sitsOn.push(other.id);
+    }
+    return sitsOn;
+  },
+  sittings: sittingsBetween,
+  contactHoursPerDay: sittingContactHours,
+};
+
 export const WORLD_LEGISLATING_MODULE: CoreModule = {
+  // The chambers' and town bodies' calendars and seats, and the hours their
+  // members have shared sitting together (read when two members' closeness is asked).
+  sittingCalendar: SITTING_CALENDAR,
+  sharedHours: SITTING_SHARED_HOURS,
   id: WORLD_LEGISLATING_MODULE_ID,
   // The hours a town body's meetings take from its members' days.
   officeTime: townMeetingHoursToday,
@@ -223,7 +288,6 @@ export function openWorldLegislating(
   /** Only this legislature sits (a past pass for the played state: no Congress, no other state). */
   only?: string,
 ): void {
-  registerSittingCalendar(SITTING_CALENDAR);
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID))
     registerModule(core, WORLD_LEGISLATING_MODULE);
   const api = coreAPI(core);
@@ -1210,58 +1274,6 @@ function sittingExecutiveNow(
     since: term.serviceStart ?? term.startDate,
   };
 }
-
-const SITTING_CALENDAR = {
-  // The readers are one list for every world in the process: a world that has not opened this
-  // engine yet (a small world's neighbor) owns no body.
-  owns: (api: CoreAPI, officeId: string) =>
-    api.state.modules.has(WORLD_LEGISLATING_MODULE_ID) &&
-    bodyOf(api, officeId) !== undefined,
-  // The members, and the executive who sits with them (a mayor at the
-  // council's meetings), each from the day their service began.
-  seats: (api: CoreAPI, officeId: string) => {
-    const seats = members(api, officeId).map((term) => ({
-      personId: memberKey(term),
-      since: term.serviceStart ?? term.startDate,
-    }));
-    const executive = sittingExecutive(api, officeId);
-    return executive &&
-      !seats.some((seat) => seat.personId === executive.personId)
-      ? [...seats, executive]
-      : seats;
-  },
-  // The bodies a person sits on, and for an executive the bodies of their
-  // own government they sit with.
-  bodiesOf: (api: CoreAPI, personId: string) => {
-    const terms = servingTermsOf(api, personId);
-    const sitsOn = terms
-      .map((term) => term.officeId)
-      .filter((officeId) => bodyOf(api, officeId) !== undefined);
-    for (const term of terms) {
-      const office = api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("offices")
-        .get(term.officeId) as unknown as
-        { kind: string; jurisdiction: string } | undefined;
-      if (!office || !headsLocalExecutive(office.kind)) continue;
-      for (const other of api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("offices")
-        .query("byJurisdiction", [office.jurisdiction]) as unknown as {
-        id: string;
-      }[])
-        if (
-          !sitsOn.includes(other.id) &&
-          bodyOf(api, other.id) !== undefined &&
-          sittingExecutive(api, other.id)?.personId === personId
-        )
-          sitsOn.push(other.id);
-    }
-    return sitsOn;
-  },
-  sittings: sittingsBetween,
-  contactHoursPerDay: sittingContactHours,
-};
 
 /**
  * The hours a town or county body's meeting takes from each member's day, and
