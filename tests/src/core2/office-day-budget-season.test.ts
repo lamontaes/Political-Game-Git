@@ -78,7 +78,6 @@ const seed =
 const hookRuns = new Map<string, number>();
 const HOOK_MODULE: CoreModule = {
   id: "budget-season-test-hook",
-  state: { schemaVersion: 1, tables: {} },
   legislatureHooks: {
     beforeVote: {
       name: "budget-season-test",
@@ -108,7 +107,7 @@ it("the executive's budget act opens in its season and its changes are what the 
       tried.push(`${where}: no mayor or city government`);
       continue;
     }
-    const mayorId = memberKey(mayor.holder!);
+    let mayorId = memberKey(mayor.holder!);
     // Go to the first day of the season: the lead time before the next fiscal year.
     const lead = api.parameter("budgetProposalLeadDays");
     const year = Number(core.date.slice(0, 4));
@@ -119,6 +118,15 @@ it("the executive's budget act opens in its season and its changes are what the 
     const open = addDays(makeIsoDate(next), -(lead - 1));
     if (core.date < open) advanceCore(core, open);
     if (core.date > open) continue;
+    // The seat's holder on the day the season opens: a term may have turned over since the world opened.
+    const seated = townSeats(api).find(
+      (s) => s.office.kind === "mayor" && s.holder?.personId,
+    );
+    if (!seated) {
+      tried.push(`${where}: no mayor on ${open}`);
+      continue;
+    }
+    mayorId = memberKey(seated.holder!);
     const due = budgetProposalDue(api, officeHost, mayorId);
     expect(due, `${where}: the season opened on ${open}`).not.toBeNull();
     expect(
@@ -291,9 +299,13 @@ it("the executive's budget act opens in its season and its changes are what the 
     // The line as the budget in force carries it at the close (an act may
     // have amended it since the vote; the treasury reads it then).
     const inForce = budgetsOf(api, city.id).find((b) => b.id === adopted!.id)!;
+    // What a registered pass-through adds to the line (a grant's change, school
+    // aid) is not the council's act, and each year's own is in force as it is
+    // computed, so it is read off both before the two are compared.
+    const withoutThrough = (b: typeof inForce) =>
+      (b.spendingMinor[line] ?? 0) - (b.passThroughMinor?.[line] ?? 0);
     expect(
-      (inForce.spendingMinor[line] ?? 0) -
-        (oldBudget!.spendingMinor[line] ?? 0),
+      withoutThrough(inForce) - withoutThrough(oldBudget!),
       `${where}: ${line} moved by the passed change`,
     ).toBe(passed);
     expect(passed, `${where}: a change on ${line} passed`).not.toBe(0);
@@ -604,7 +616,7 @@ it("as mayor, a budget the council amends is voted at the amended amount, and th
       tried.push(`${where}: no mayor or city government`);
       continue;
     }
-    const mayorId = memberKey(mayor.holder!);
+    let mayorId = memberKey(mayor.holder!);
     const lead = api.parameter("budgetProposalLeadDays");
     const year = Number(core.date.slice(0, 4));
     const next =
@@ -614,6 +626,15 @@ it("as mayor, a budget the council amends is voted at the amended amount, and th
     const open = addDays(makeIsoDate(next), -(lead - 1));
     if (core.date < open) advanceCore(core, open);
     if (core.date > open) continue;
+    // The seat's holder on the day the season opens: a term may have turned over since the world opened.
+    const seated = townSeats(api).find(
+      (s) => s.office.kind === "mayor" && s.holder?.personId,
+    );
+    if (!seated) {
+      tried.push(`${where}: no mayor on ${open}`);
+      continue;
+    }
+    mayorId = memberKey(seated.holder!);
     expect(
       budgetProposalDue(api, officeHost, mayorId),
       `${where}: the season opened on ${open}`,
