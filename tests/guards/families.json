@@ -1257,7 +1257,8 @@
         "src/core2/housing-sale.ts",
         "src/core2/housing-property-tax.ts",
         "src/core2/housing-mortgages.ts",
-        "src/core2/housing-reads.ts"
+        "src/core2/housing-reads.ts",
+        "src/core2/housing-writes.ts"
       ],
       "paths": [
         "src/core2/modules/housing.ts",

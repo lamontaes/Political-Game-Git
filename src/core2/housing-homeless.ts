@@ -16,7 +16,6 @@
  * household removed, holds no home (tenure "none"), and the same rule places
  * it, counts it and rents to it again from its counted record.
  */
-import { addDays, makeIsoDate } from "./kernel/dates";
 import shelterData from "./data/housing/shelter-beds.json" with { type: "json" };
 import {
   currentCloseness,
@@ -49,9 +48,18 @@ import { HOUSING_STATUS_EVENT } from "./housing-status-event";
 import type { ModuleRow } from "./module-data";
 import { webFactorFor } from "./outcome-web-reach";
 import type { CoreAPI, CoreState, PersonId } from "./types";
+export {
+  HEALTH_STATUS_FACTORS,
+  housingHealthFactor,
+  nextDue,
+} from "./housing-reads";
+
+const HOUSING = "housing";
+const table = (api: CoreAPI, name: string) =>
+  api.moduleState(HOUSING).table(name);
+const core = (api: CoreAPI) => api.state as CoreState;
 
 export { HOUSING_STATUS_EVENT };
-const HOUSING = "housing";
 
 export type HousingStatus =
   "housed" | "doubled-up" | "sheltered" | "unsheltered";
@@ -72,10 +80,6 @@ export interface HousingStatusRow {
   readonly reasonRecordIds: readonly string[];
 }
 
-const table = (api: CoreAPI, name: string) =>
-  api.moduleState(HOUSING).table(name);
-const core = (api: CoreAPI) => api.state as CoreState;
-
 /** A person's housing today: housed unless their household's row says otherwise. */
 export function housingStatusOf(
   api: CoreAPI,
@@ -89,54 +93,6 @@ export function housingStatusOf(
     HousingStatusRow | undefined;
   return row?.status ?? "housed";
 }
-
-/**
- * What housing weighs on a household's health today, for the engines that
- * set the chance of a serious illness (health.ts for full people,
- * births-counted.ts for counted ones): the hazard factor of its housing
- * status, times the eviction factor for the days after its last removal
- * (Collinson et al. 2024), with the status and eviction day it read.
- */
-export function housingHealthFactor(
-  api: CoreAPI,
-  householdId: string,
-): { factor: number; status: HousingStatus; evictedOn?: string } {
-  const one = api.parameter("one");
-  if (!core(api).modules.has(HOUSING)) return { factor: one, status: "housed" };
-  const row = table(api, "statuses").get(householdId) as
-    HousingStatusRow | undefined;
-  const status: HousingStatus = row?.status ?? "housed";
-  let evictedOn: string | undefined;
-  for (const found of table(api, "cases").query("byHousehold", [
-    householdId,
-  ]) as unknown as { removedAt?: string }[])
-    if (found.removedAt && (!evictedOn || found.removedAt > evictedOn))
-      evictedOn = found.removedAt;
-  const date = core(api).date;
-  const evicted =
-    evictedOn !== undefined &&
-    evictedOn <= date &&
-    date <
-      addDays(
-        makeIsoDate(evictedOn),
-        api.parameter("healthEvictionEffectDays"),
-      );
-  return {
-    factor:
-      api.parameter(HEALTH_STATUS_FACTORS[status]) *
-      (evicted ? api.parameter("healthEvictionHazardFactor") : one),
-    status,
-    ...(evicted ? { evictedOn } : {}),
-  };
-}
-
-/** The health engine's hazard factor for each housing status (homelessness item 5). */
-export const HEALTH_STATUS_FACTORS: Readonly<Record<HousingStatus, string>> = {
-  housed: "one",
-  "doubled-up": "healthDoubledUpHazardFactor",
-  sheltered: "healthShelteredHazardFactor",
-  unsheltered: "healthUnshelteredHazardFactor",
-};
 
 /** A place's people by housing status, full and counted together. */
 export function housingStatusCounts(
@@ -846,14 +802,4 @@ export function leaveCountedHome(api: CoreAPI, h: CountedHousehold): boolean {
   h.tenure = "none";
   regroupHousehold(rt, h, c.date);
   return rt.store.countedCount(h) > 0;
-}
-
-/** The first of next month, when a household that rents again pays. */
-export function nextDue(date: string): string {
-  return (
-    addDays(makeIsoDate(`${date.slice(0, "YYYY-MM".length)}-01`), 32).slice(
-      0,
-      "YYYY-MM".length,
-    ) + "-01"
-  );
 }

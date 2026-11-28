@@ -12,6 +12,10 @@ import { residentsRuntime } from "./residents-reads";
 import type { TownHousingFigures } from "./modules/housing";
 import { homeValueToday } from "./housing-price-level";
 import { MORTGAGE_PREFIX } from "./housing-mortgages";
+import type { HousingStatus } from "./housing-homeless";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import type { PropertyTaxTerms } from "./housing-property-tax";
+import { fieldsOf } from "./module-fields";
 
 const HOUSING_ID = "housing";
 const HOMELESS_COUNT_ID = "core2-homeless-count-v1";
@@ -326,4 +330,92 @@ export function homePaidDailyMinor(api: CoreAPI, householdId: string): number {
     );
   }
   return 0;
+}
+
+/**
+ * What housing weighs on a household's health today, for the engines that
+ * set the chance of a serious illness (health.ts for full people,
+ * births-counted.ts for counted ones): the hazard factor of its housing
+ * status, times the eviction factor for the days after its last removal
+ * (Collinson et al. 2024), with the status and eviction day it read.
+ */
+export function housingHealthFactor(
+  api: CoreAPI,
+  householdId: string,
+): { factor: number; status: HousingStatus; evictedOn?: string } {
+  const one = api.parameter("one");
+  if (!core(api).modules.has(HOUSING_ID))
+    return { factor: one, status: "housed" };
+  const row = housing(api).table("statuses").get(householdId) as
+    HousingStatusRow | undefined;
+  const status: HousingStatus = row?.status ?? "housed";
+  let evictedOn: string | undefined;
+  for (const found of housing(api)
+    .table("cases")
+    .query("byHousehold", [householdId]) as unknown as { removedAt?: string }[])
+    if (found.removedAt && (!evictedOn || found.removedAt > evictedOn))
+      evictedOn = found.removedAt;
+  const date = core(api).date;
+  const evicted =
+    evictedOn !== undefined &&
+    evictedOn <= date &&
+    date <
+      addDays(
+        makeIsoDate(evictedOn),
+        api.parameter("healthEvictionEffectDays"),
+      );
+  return {
+    factor:
+      api.parameter(HEALTH_STATUS_FACTORS[status]) *
+      (evicted ? api.parameter("healthEvictionHazardFactor") : one),
+    status,
+    ...(evicted ? { evictedOn } : {}),
+  };
+}
+
+/** The health engine's hazard factor for each housing status (homelessness item 5). */
+export const HEALTH_STATUS_FACTORS: Readonly<Record<HousingStatus, string>> = {
+  housed: "one",
+  "doubled-up": "healthDoubledUpHazardFactor",
+  sheltered: "healthShelteredHazardFactor",
+  unsheltered: "healthUnshelteredHazardFactor",
+};
+
+/** The first of next month, when a household that rents again pays. */
+export function nextDue(date: string): string {
+  return (
+    addDays(makeIsoDate(`${date.slice(0, "YYYY-MM".length)}-01`), 32).slice(
+      0,
+      "YYYY-MM".length,
+    ) + "-01"
+  );
+}
+
+/**
+ * The property tax rate in force where owners are billed, as a share of home
+ * value, and the law row it stands on; none until a government's rate is
+ * registered.
+ */
+export function propertyTaxRateInForce(
+  api: CoreAPI,
+  placeId: string,
+): { share: number; recordId: string | null } | null {
+  // The rate in force is the town's law; other places are not billed by it.
+  if (api.state.placeMetadata?.housingTown !== placeId) return null;
+  const registered = terms(api, placeId);
+  return registered
+    ? { share: registered.rate, recordId: registered.lawRowId ?? null }
+    : null;
+}
+
+/** The rate, cap and payee in force; none where no law is registered (the budgets engine registers it from the law in force). */
+export function terms(
+  api: CoreAPI,
+  placeId: string,
+): PropertyTaxTerms | undefined {
+  for (const source of fieldsOf(api.state, "propertyTax")) {
+    const found = source(api, placeId);
+    if (found) return found;
+  }
+  return undefined;
 }
