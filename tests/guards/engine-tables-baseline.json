@@ -1,23 +1,4 @@
 {
-  "mapWrites": {
-    "src/core2/decision-detail.ts": {
-      "relationships": 1
-    },
-    "src/core2/modules/official-pay.ts": {
-      "jobs": 1
-    },
-    "src/core2/state.ts": {
-      "familyLinks": 4,
-      "households": 11,
-      "husks": 5,
-      "jobs": 3,
-      "memberships": 2,
-      "organizations": 2,
-      "people": 2,
-      "publicOrganizations": 1,
-      "relationships": 1
-    }
-  },
   "opens": {
     "src/bench/bank.ts": {
       "homes": 1,
@@ -138,13 +119,11 @@
       "dynamic": 1
     },
     "src/core2/modules/budgets.ts": {
-      "laws": 2,
-      "offices": 1
+      "laws": 2
     },
     "src/core2/modules/campaigns.ts": {
       "bodies": 1,
-      "news": 1,
-      "offices": 2
+      "news": 1
     },
     "src/core2/modules/constituent-cases.ts": {
       "jobs-businesses": 1
@@ -211,9 +190,6 @@
     "src/core2/modules/record.ts": {
       "elections": 1
     },
-    "src/core2/modules/residents.ts": {
-      "jobs-businesses": 1
-    },
     "src/core2/modules/staff.ts": {
       "bodies": 2
     },
@@ -222,7 +198,7 @@
     },
     "src/core2/modules/voting.ts": {
       "jobs-businesses": 1,
-      "offices": 29
+      "offices": 5
     },
     "src/core2/modules/world-legislating.ts": {
       "jobs-businesses": 1,
@@ -264,9 +240,7 @@
       "jobs-businesses": 1
     },
     "src/core2/press-desk.ts": {
-      "bodies": 2,
-      "laws": 1,
-      "offices": 2
+      "bodies": 2
     },
     "src/core2/press-money.ts": {
       "dynamic": 4
@@ -376,6 +350,39 @@
       "offices": 2
     }
   },
+  "writes": {
+    "src/core2/justice-pretrial.ts": {
+      "dynamic": 2
+    },
+    "src/core2/medical-bills.ts": {
+      "dynamic": 2
+    },
+    "src/core2/press-money.ts": {
+      "dynamic": 2
+    },
+    "src/core2/state.ts": {
+      "dynamic": 1
+    }
+  },
+  "mapWrites": {
+    "src/core2/decision-detail.ts": {
+      "relationships": 1
+    },
+    "src/core2/modules/official-pay.ts": {
+      "jobs": 1
+    },
+    "src/core2/state.ts": {
+      "familyLinks": 4,
+      "households": 11,
+      "husks": 5,
+      "jobs": 3,
+      "memberships": 2,
+      "organizations": 2,
+      "people": 2,
+      "publicOrganizations": 1,
+      "relationships": 1
+    }
+  },
   "rowEdits": {
     "src/core2/finance-state.ts": {
       "JobInput": 1,
@@ -400,20 +407,6 @@
     },
     "src/core2/work-attendance.ts": {
       "PersonState": 4
-    }
-  },
-  "writes": {
-    "src/core2/justice-pretrial.ts": {
-      "dynamic": 2
-    },
-    "src/core2/medical-bills.ts": {
-      "dynamic": 2
-    },
-    "src/core2/press-money.ts": {
-      "dynamic": 2
-    },
-    "src/core2/state.ts": {
-      "dynamic": 1
     }
   }
 }
