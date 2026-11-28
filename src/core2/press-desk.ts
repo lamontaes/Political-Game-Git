@@ -38,7 +38,7 @@ import {
   VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
 } from "./modules/views";
-import { residentsRuntime } from "./modules/residents";
+import { residentsRuntime } from "./residents-reads";
 import { onContestRoll, VOTING_MODULE_ID } from "./modules/voting";
 import { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./modules/elections";
 import { lawRowById } from "./modules/laws-reads";

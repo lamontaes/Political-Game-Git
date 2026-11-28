@@ -12,7 +12,7 @@ import {
   countedParameter,
   residentsRuntime,
   unplacedPayPerWorker,
-} from "./modules/residents";
+} from "./residents-reads";
 import type { CoreState, PlaceId } from "./types";
 
 export interface ReachRule {

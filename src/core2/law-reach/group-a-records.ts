@@ -38,8 +38,8 @@ import {
   householdOwnsFirearm,
 } from "../firearm-ownership";
 import { lawChain, yesLevels } from "../modules/laws";
-import { residentsRuntime } from "../modules/residents";
-import { countedJobHeads } from "../modules/residents";
+import { residentsRuntime } from "../residents-reads";
+import { countedJobHeads } from "../counted-job-heads";
 import {
   isOutsideOffice,
   OFFICES_MODULE_ID,

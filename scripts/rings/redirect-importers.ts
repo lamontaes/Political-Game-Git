@@ -124,11 +124,67 @@ for (const st of hubSf.statements) {
       }
 }
 const hubOwn = declares(hub);
+/** What a file re-exports by name (its own `export { a } from` and its `import { a }; export { a }`), and its `export *` files. */
+function reexportsOf(file: string): {
+  named: Map<string, { file: string; name: string }>;
+  stars: string[];
+} {
+  const sf = parse(file, read(file));
+  const named = new Map<string, { file: string; name: string }>();
+  const fileStars: string[] = [];
+  const imported = new Map<string, { file: string; name: string }>();
+  for (const st of sf.statements) {
+    if (ts.isImportDeclaration(st) && !st.importClause?.isTypeOnly) {
+      const t = resolve(file, (st.moduleSpecifier as ts.StringLiteral).text);
+      const nb = st.importClause?.namedBindings;
+      if (t && nb && ts.isNamedImports(nb))
+        for (const e of nb.elements)
+          if (!e.isTypeOnly)
+            imported.set(e.name.text, {
+              file: t,
+              name: (e.propertyName ?? e.name).text,
+            });
+    }
+    if (!ts.isExportDeclaration(st) || st.isTypeOnly) continue;
+    if (st.moduleSpecifier) {
+      const t = resolve(file, (st.moduleSpecifier as ts.StringLiteral).text);
+      if (!t) continue;
+      if (!st.exportClause) fileStars.push(t);
+      else if (ts.isNamedExports(st.exportClause))
+        for (const e of st.exportClause.elements)
+          if (!e.isTypeOnly)
+            named.set(e.name.text, {
+              file: t,
+              name: (e.propertyName ?? e.name).text,
+            });
+    } else if (st.exportClause && ts.isNamedExports(st.exportClause))
+      for (const e of st.exportClause.elements) {
+        const from = imported.get((e.propertyName ?? e.name).text);
+        if (from && !e.isTypeOnly) named.set(e.name.text, from);
+      }
+  }
+  return { named, stars: fileStars };
+}
+/** Follows re-exports to the file that declares the name. */
+function declaring(
+  at: { file: string; name: string },
+  depth = 0,
+): { file: string; name: string } {
+  if (depth > 8 || declares(at.file).has(at.name)) return at;
+  const { named, stars: st } = reexportsOf(at.file);
+  const next = named.get(at.name);
+  if (next) return declaring(next, depth + 1);
+  for (const s of st)
+    if (declares(s).has(at.name) || reexportsOf(s).named.has(at.name))
+      return declaring({ file: s, name: at.name }, depth + 1);
+  return at;
+}
 function source(name: string): { file: string; name: string } | null {
   const r = reexports.get(name);
-  if (r) return r;
+  if (r) return declaring(r);
   if (hubOwn.has(name)) return null;
-  for (const s of stars) if (declares(s).has(name)) return { file: s, name };
+  for (const s of stars)
+    if (declares(s).has(name)) return declaring({ file: s, name });
   return null;
 }
 
