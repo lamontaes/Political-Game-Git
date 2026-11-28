@@ -20,9 +20,10 @@ import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
 import { stableHash } from "../kernel/ids";
 import { lastTogether } from "../closeness";
 import { endLivingPlan } from "./business";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { servingTerms } from "./offices";
+import { allBusinessOwners } from "../business-reads";
 import { VIEWS_MODULE_ID } from "./views-constants";
-import { ELECTIONS_MODULE_ID } from "./elections";
+import { ELECTIONS_MODULE_ID, contestOf } from "./elections";
 import { CANDIDACY_MODULE_ID, type CandidacyDecision } from "./candidacy";
 import {
   countedFundOf,
@@ -82,12 +83,8 @@ export function protectedPeople(api: CoreAPI): Set<PersonId> {
     for (const id of player.familyIds) out.add(id);
     for (const id of player.knownIds) out.add(id);
   }
-  if (core.modules.has(OFFICES_MODULE_ID))
-    for (const term of api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("byStatus", ["serving"]) as unknown as TermRow[])
-      if (term.personId) out.add(term.personId);
+  for (const term of servingTerms(api))
+    if (term.personId) out.add(term.personId);
   for (const job of core.jobs.values()) {
     if (job.endsAt !== undefined) continue;
     const employer = core.organizations.get(job.organizationId);
@@ -100,9 +97,7 @@ export function protectedPeople(api: CoreAPI): Set<PersonId> {
     )
       out.add(job.personId);
   }
-  if (core.modules.has("business"))
-    for (const row of api.moduleState("business").table("owners").rows())
-      out.add((row as unknown as { ownerId: string }).ownerId);
+  for (const row of allBusinessOwners(api)) out.add(row.ownerId);
   // Someone who has decided to run for office is in public life until their
   // race is decided, like those who hold one: their decision waits for its
   // filing day (Las Piedras, Puerto Rico: ten runners back in the counts by
@@ -111,14 +106,12 @@ export function protectedPeople(api: CoreAPI): Set<PersonId> {
     core.modules.has(CANDIDACY_MODULE_ID) &&
     core.modules.has(ELECTIONS_MODULE_ID)
   ) {
-    const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
     for (const row of api
       .moduleState(CANDIDACY_MODULE_ID)
       .table("decisions")
       .rows() as unknown as CandidacyDecision[]) {
       if (!row.run) continue;
-      const contest = contests.get(row.contestId) as unknown as
-        { electionDate: string } | undefined;
+      const contest = contestOf(api, row.contestId);
       if (contest && contest.electionDate >= core.date) out.add(row.personId);
     }
   }
