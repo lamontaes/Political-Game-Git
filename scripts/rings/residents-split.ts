@@ -231,6 +231,35 @@ const steps: Step[] = [
       names: ["countedSchoolFamilies", "setCountedTuition"],
       doc: "The counted families' school tuition: the households with children in a private school, and setting the tuition a household pays. They are the residents engine's own writers, moved here as written; modules/residents.ts re-exports both.",
     },
+  }, // Added Nov 28 (Rings' addendum for People): the outside sales and staffing
+  // scale, which reach no ring file once the steps above have run.
+  {
+    move: {
+      hub: C + "residents-economy.ts",
+      leaf: C + "resident-outside-sales.ts",
+      names: [
+        "staffedScale",
+        "weightedPayrollMinor",
+        "outputLostPerYear",
+        "perYear",
+        "DAYS_PER_YEAR",
+        "MONTHS_PER_YEAR",
+        "limitOf",
+        "outputLimits",
+        "purchaseShareOf",
+        "CUSTOMER_KINDS",
+        "shiftPurchaseShare",
+        "outsideFactors",
+        "shareOfFlow",
+        "outsideShares",
+        "flowFactor",
+        "outsideBases",
+        "scaleOutsideSales",
+        "divideOutsideSales",
+        "OUTSIDE_NOTE",
+      ],
+      doc: "The counted economy's outside sales and staffing scale: each employer's share of outside buyers and purchases, the output a short-staffed firm loses, and the writes that shift and scale those flows. Written for the residents engine; src/core2/residents-economy.ts re-exports them and keeps the counted jobs, which call the residents module.",
+    },
   },
 ];
 
@@ -269,6 +298,7 @@ const LEAVES = [
   "counted-job-heads.ts",
   "resident-households.ts",
   "resident-schooling.ts",
+  "resident-outside-sales.ts",
 ].map((f) => C + f);
 
 const RESIDENTS_READS_DOC =

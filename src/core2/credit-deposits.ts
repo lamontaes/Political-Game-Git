@@ -1,6 +1,6 @@
 /** Savings decisions in the existing bank review; all cash uses accounts/postJournal. */
 import { bankDeposit, moveBankDeposit } from "./accounts";
-import { staffedScale } from "./residents-economy";
+import { staffedScale } from "./resident-outside-sales";
 import { fundOf, fundBalance } from "./counted-money-reads";
 import { residentsRuntime } from "./residents-reads";
 import type { CoreAPI, CoreState, Source } from "./types";

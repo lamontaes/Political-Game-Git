@@ -1292,6 +1292,8 @@
 /tests/src/core2/counted-job-heads.ts @lamontaes
 /src/core2/resident-households.ts @lamontaes
 /tests/src/core2/resident-households.ts @lamontaes
+/src/core2/resident-outside-sales.ts @lamontaes
+/tests/src/core2/resident-outside-sales.ts @lamontaes
 /src/core2/resident-schooling.ts @lamontaes
 /tests/src/core2/resident-schooling.ts @lamontaes
 
