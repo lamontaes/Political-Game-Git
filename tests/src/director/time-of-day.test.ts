@@ -1,5 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
+import { meetingAdjourn } from "../../../src/bench/office";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
@@ -233,6 +234,13 @@ it(`a scene says what hour it is only when its own hour makes it true (seed ${se
           const ids = packet.stop.modules.map((stop) => stop.recordId);
           today.push(...ids);
           seen.push(...scenesAtStop(core, director, personId, ids, where));
+          // A meeting holds the clock until the player takes it up or ends
+          // it (`office-day.meeting` is a held stop, so a plain Continue
+          // brings the same stop back); this player does not stay for it, as
+          // the meeting screen's own Adjourn ends it.
+          for (const stop of packet.stop.modules)
+            if (stop.reasonKey === "office-day.meeting")
+              meetingAdjourn(core, stop.recordId);
           packet = resumePlayerV1(core, {
             kind: "stop",
             pauseId: packet.pauseId,
