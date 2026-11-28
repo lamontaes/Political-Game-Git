@@ -35,7 +35,7 @@
     "exitPollBase": {
       "value": -2.25,
       "tag": "ESTIMATED",
-      "source": "A voter's reluctance to stop for an exit pollster's questionnaire before their engagement, interest and temperament: set so about 45% of the voters approached tell, the response rate Edison Research gives (Pew Research Center, 'Just how does the general election exit poll work, anyway?', November 2, 2016: \"about 45% of the voters the firm approaches agree to fill out questionnaires\"; earlier \"more like 60%\"). Fitted on the named voters of three drawn race towns (src/core2/trait-test-kit.ts drawnRaceWorld, 30 days to two days past the race, every module): Finklea, South Carolina (place key 4525405, seed 100a9eddd8c1, 586 voters with a choice), Silver City, Nevada (3266800, 62fd4b12c74d, 122) and Douglas, Nebraska (3113505, d6f5f50c5452, 209): 46.5% pooled, 34% to 52% by town.",
+      "source": "A voter's reluctance to stop for an exit pollster's questionnaire before their engagement, interest and temperament: set so about 45% of the voters approached tell, the response rate Edison Research gives (Pew Research Center, 'Just how does the general election exit poll work, anyway?', November 2, 2016: \"about 45% of the voters the firm approaches agree to fill out questionnaires\"; earlier \"more like 60%\"). Fitted on the named voters of three drawn race towns (tests/support/trait-test-kit.ts drawnRaceWorld, 30 days to two days past the race, every module): Finklea, South Carolina (place key 4525405, seed 100a9eddd8c1, 586 voters with a choice), Silver City, Nevada (3266800, 62fd4b12c74d, 122) and Douglas, Nebraska (3113505, d6f5f50c5452, 209): 46.5% pooled, 34% to 52% by town.",
       "spread": [-2.6, -1.9]
     },
     "exitPollEngagementWeight": {
@@ -47,7 +47,7 @@
     "exitPollInterestWeight": {
       "value": 0.5,
       "tag": "ESTIMATED",
-      "source": "How much more readily a voter tells the pollster the more the day's races mattered to them (their own gap between the candidates, the turnout decision's interest): people take part more in a survey on a topic that matters to them (Pew Research Center 2017, citing topic salience). Sets the scale of the case; the base, the engagement weight and the trait weight are fitted against it. Fitted on the named voters of three drawn race towns (src/core2/trait-test-kit.ts drawnRaceWorld, 30 days to two days past the race, every module): Finklea, South Carolina (place key 4525405, seed 100a9eddd8c1, 586 voters with a choice), Silver City, Nevada (3266800, 62fd4b12c74d, 122) and Douglas, Nebraska (3113505, d6f5f50c5452, 209).",
+      "source": "How much more readily a voter tells the pollster the more the day's races mattered to them (their own gap between the candidates, the turnout decision's interest): people take part more in a survey on a topic that matters to them (Pew Research Center 2017, citing topic salience). Sets the scale of the case; the base, the engagement weight and the trait weight are fitted against it. Fitted on the named voters of three drawn race towns (tests/support/trait-test-kit.ts drawnRaceWorld, 30 days to two days past the race, every module): Finklea, South Carolina (place key 4525405, seed 100a9eddd8c1, 586 voters with a choice), Silver City, Nevada (3266800, 62fd4b12c74d, 122) and Douglas, Nebraska (3113505, d6f5f50c5452, 209).",
       "spread": [0.25, 1]
     },
     "filingWindowDays": {

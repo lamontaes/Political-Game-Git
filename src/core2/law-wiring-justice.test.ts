@@ -36,6 +36,7 @@ import {
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
+  localPowerBarred,
   yesLevels,
 } from "./modules/laws";
 import { countedHouseholdOf, residentsRuntime } from "./modules/residents";
@@ -108,10 +109,14 @@ function setQuestion(api: CoreAPI, key: string, value: 0 | 1): void {
     }
     return;
   }
-  const at =
-    levels.find((l) => l.level === "city") ??
-    levels.find((l) => l.level === "county") ??
-    levels.find((l) => l.level === "state")!;
+  // The lowest level that has the power: where the state bars its places from
+  // making their own rule on the question (`localPowerBarred`), a city's or
+  // county's act never governs, so the test enacts it as the state.
+  const at = localPowerBarred(api, key)
+    ? levels.find((l) => l.level === "state")!
+    : (levels.find((l) => l.level === "city") ??
+      levels.find((l) => l.level === "county") ??
+      levels.find((l) => l.level === "state")!);
   enactLaw(api, {
     jurisdiction: at.jurisdiction,
     level: at.level,

@@ -19,13 +19,21 @@
  * pool is built.
  */
 import { seededBetween } from "./past-module";
-import { partySide } from "./appointments";
+import {
+  partySide,
+  termsOfPerson,
+  seatById,
+  officeById,
+  servingTerms,
+  termById,
+  endedTermsOnSeat,
+} from "./modules/offices";
 import { officeFamily } from "./elections-calendar";
 import { OFFICIALS_DATA } from "./officials-roster";
 import rows from "./data/candidacy/parameters.json" with { type: "json" };
 import type { Parameter } from "./parameters";
 import type { CoreAPI, PersonId, PersonState } from "./types";
-import type { OfficeInput } from "./offices-local";
+import type { OfficeInput } from "./modules/offices";
 import type { ContestRow } from "./modules/elections";
 import { isOutsideOffice, type TermRow } from "./modules/offices";
 import { holderOf, type OfficialRow } from "./modules/officials";
@@ -36,7 +44,6 @@ export const CANDIDACY_MODULE_ID = "candidacy";
 export const CANDIDACY_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
 
 // Module ids, read by name (see the file comment).
-const OFFICES = "core2-offices-v1";
 const OFFICIALS = "core2-officials-v1";
 const PARTIES = "core2-parties-v1";
 const ELECTIONS = "core2-elections-v1";
@@ -105,9 +112,6 @@ export interface RaceScope {
   readonly lean: number;
 }
 
-function offices(api: CoreAPI) {
-  return api.moduleState(OFFICES);
-}
 function officialRows(api: CoreAPI): readonly OfficialRow[] {
   if (!api.state.modules.has(OFFICIALS)) return [];
   return api
@@ -147,9 +151,7 @@ export function partyOf(api: CoreAPI, personId: PersonId): string | null {
       .get(personId) as unknown as OfficialRow | undefined;
     if (row?.party) return row.party;
   }
-  const terms = offices(api)
-    .table("terms")
-    .query("byPerson", [personId]) as unknown as TermRow[];
+  const terms = termsOfPerson(api, personId) as unknown as TermRow[];
   const latest = terms
     .filter((term) => term.party)
     .sort((a, b) => b.startDate.localeCompare(a.startDate))[0];
@@ -161,20 +163,14 @@ export function seatParty(
   api: CoreAPI,
   contest: Pick<ContestRow, "seatId" | "incumbentTermId">,
 ): string | null {
-  const terms = offices(api).table("terms");
   const incumbent = contest.incumbentTermId
-    ? (terms.get(contest.incumbentTermId) as unknown as TermRow | undefined)
+    ? (termById(api, contest.incumbentTermId) as unknown as TermRow | undefined)
     : undefined;
   if (incumbent?.party) return incumbent.party;
-  const seat = offices(api).table("seats").get(contest.seatId) as unknown as
+  const seat = seatById(api, contest.seatId) as unknown as
     { party?: string | null } | undefined;
   if (seat?.party) return seat.party;
-  const last = (
-    terms.query("bySeatStatus", [
-      contest.seatId,
-      "ended",
-    ]) as unknown as TermRow[]
-  )
+  const last = (endedTermsOnSeat(api, contest.seatId) as unknown as TermRow[])
     .slice()
     .sort((a, b) => (b.endDate ?? "").localeCompare(a.endDate ?? ""))[0];
   return last?.party ?? null;
@@ -238,9 +234,8 @@ const officeFamily0 = (office: OfficeInput | undefined) =>
 
 /** What a contest covers: its jurisdiction, the share of its voters its seat reaches and the party it is held under. */
 export function raceScope(api: CoreAPI, contest: ContestRow): RaceScope {
-  const office = offices(api)
-    .table("offices")
-    .get(contest.officeId) as unknown as OfficeInput | undefined;
+  const office = officeById(api, contest.officeId) as unknown as
+    OfficeInput | undefined;
   const national = office?.kind === "president";
   const town = {
     stateKey: placeStateKey(api.state.placeMetadata?.placeKey) ?? "",
@@ -319,17 +314,13 @@ export function standingPool(
  * Another place's legislators stay named on their terms and out of the pool.
  */
 function fillStatewideHolders(api: CoreAPI): void {
-  const officeTable = offices(api).table("offices");
-  const seats = offices(api).table("seats");
   let legislators = false;
-  for (const term of offices(api)
-    .table("terms")
-    .query("byStatus", ["serving"]) as unknown as TermRow[]) {
+  for (const term of servingTerms(api) as unknown as TermRow[]) {
     if (term.personId) continue;
-    const office = officeTable.get(term.officeId) as unknown as
+    const office = officeById(api, term.officeId) as unknown as
       OfficeInput | undefined;
     if (office?.elected === false || !isOutsideOffice(api, office)) continue;
-    const seat = seats.get(term.seatId) as unknown as
+    const seat = seatById(api, term.seatId) as unknown as
       { district: string | null } | undefined;
     if (seat?.district === null) holderOf(api, term);
     else legislators = true;
@@ -368,16 +359,14 @@ function buildPool(api: CoreAPI, scope: RaceScope): readonly PoolMember[] {
     draft.roleStanding = Math.max(draft.roleStanding, roleStanding);
     drafts.set(personId, draft);
   };
-  const officeTable = offices(api).table("offices");
 
   // Officeholders at every level whom voters elect: the officials engine's
   // people (the state's own, or, for a national race, every member of
   // Congress and every place's governor and statewide officers) ...
   const seen = new Set<PersonId>();
-  const terms = offices(api).table("terms");
   const elected = (officeId: string | undefined) =>
     (officeId
-      ? (officeTable.get(officeId) as unknown as OfficeInput | undefined)
+      ? (officeById(api, officeId) as unknown as OfficeInput | undefined)
       : undefined
     )?.elected !== false;
   if (scope.national) fillStatewideHolders(api);
@@ -389,7 +378,7 @@ function buildPool(api: CoreAPI, scope: RaceScope): readonly PoolMember[] {
       : row.stateKey === scope.stateKey && !nationalExec;
     if (!inScope) continue;
     const term = row.termId
-      ? (terms.get(row.termId) as unknown as TermRow | undefined)
+      ? (termById(api, row.termId) as unknown as TermRow | undefined)
       : undefined;
     if (term && !elected(term.officeId)) continue;
     seen.add(row.id);
@@ -402,13 +391,11 @@ function buildPool(api: CoreAPI, scope: RaceScope): readonly PoolMember[] {
   }
   // ... and the offices engine's terms (the town's mayor, council and county
   // officials, whom the officials engine does not carry).
-  for (const term of terms.query("byStatus", [
-    "serving",
-  ]) as unknown as TermRow[]) {
+  for (const term of servingTerms(api) as unknown as TermRow[]) {
     if (!term.personId || seen.has(term.personId)) continue;
     if (!elected(term.officeId)) continue;
     if (term.seatId.startsWith("seat:US:") && !scope.national) continue;
-    const office = officeTable.get(term.officeId) as unknown as
+    const office = officeById(api, term.officeId) as unknown as
       OfficeInput | undefined;
     // Another place's holder (one filled in for a national pool, or opened
     // by the player) has no standing in the town's state's races.
@@ -449,11 +436,9 @@ function buildPool(api: CoreAPI, scope: RaceScope): readonly PoolMember[] {
         ContestRow | undefined;
       if (!past || past.electionDate >= api.state.date) continue;
       for (const personId of weighed.runIds) {
-        const won = (
-          offices(api)
-            .table("terms")
-            .query("byPerson", [personId]) as unknown as TermRow[]
-        ).some((term) => term.reached.includes(past.electionDate));
+        const won = (termsOfPerson(api, personId) as unknown as TermRow[]).some(
+          (term) => term.reached.includes(past.electionDate),
+        );
         if (!won)
           add(
             personId,
@@ -515,13 +500,10 @@ const appointed = new WeakMap<object, { date: string; ids: Set<PersonId> }>();
 export function appointedHolders(api: CoreAPI): ReadonlySet<PersonId> {
   const held = appointed.get(api.state);
   if (held && held.date === api.state.date) return held.ids;
-  const officeTable = offices(api).table("offices");
   const ids = new Set<PersonId>();
-  for (const term of offices(api)
-    .table("terms")
-    .query("byStatus", ["serving"]) as unknown as TermRow[]) {
+  for (const term of servingTerms(api) as unknown as TermRow[]) {
     if (!term.personId) continue;
-    const office = officeTable.get(term.officeId) as unknown as
+    const office = officeById(api, term.officeId) as unknown as
       OfficeInput | undefined;
     if (office && !office.elected) ids.add(term.personId);
   }

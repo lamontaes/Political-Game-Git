@@ -8,7 +8,7 @@ import { createHash } from "node:crypto";
 import { setBookkeeping } from "./bookkeeping";
 import { setKeepEveryonesWhy } from "./why-kept";
 import { describe, expect, it } from "vitest";
-import { govReport } from "./gov-test-report";
+import { govReport } from "../../scripts/core2/gov-test-report";
 import { buildPopulation } from "./population";
 import { governments, openBudgets } from "./modules/budgets";
 import { advanceCore, createLifeCore } from "./life";

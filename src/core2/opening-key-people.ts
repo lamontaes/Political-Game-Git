@@ -15,7 +15,8 @@ import {
   members,
 } from "./modules/legislature";
 import {
-  OFFICES_MODULE_ID,
+  allOffices,
+  officesInJurisdiction,
   seatsOfOffices,
   townSeats,
 } from "./modules/offices";
@@ -55,9 +56,6 @@ const DATA = keyData as unknown as {
   mostPowerfulPost: Record<string, string>;
 };
 
-const offices = (api: CoreAPI) =>
-  api.moduleState(OFFICES_MODULE_ID).table("offices");
-
 /** The player's state, by its jurisdiction key. */
 /** The chambers whose most powerful person is key: Congress's two and the player's state's own. */
 function chambersOf(
@@ -65,7 +63,7 @@ function chambersOf(
   state: string | null,
 ): readonly { id: string; kind: string }[] {
   const own = state
-    ? (offices(api).query("byJurisdiction", [state]) as unknown as OfficeRow[])
+    ? (officesInJurisdiction(api, state) as unknown as OfficeRow[])
     : [];
   return [
     { id: FEDERAL_HOUSE, kind: "us-house" },
@@ -122,12 +120,12 @@ export function keyPeopleOf(
       row.person = { ...row.person, leads: person.leads };
     found.set(person.id, row);
   };
-  const allOffices = offices(api).rows() as unknown as OfficeRow[];
+  const everyOffice = allOffices(api) as unknown as OfficeRow[];
   // An office's title by its id, else by its kind (a member of Congress is
   // seated in their own state's seat, which this world may not list by id).
   const titleOf = (officeId: string, kind?: string) =>
-    allOffices.find((row) => row.id === officeId)?.title ??
-    allOffices.find((row) => row.kind === kind)?.title ??
+    everyOffice.find((row) => row.id === officeId)?.title ??
+    everyOffice.find((row) => row.kind === kind)?.title ??
     "";
 
   // The seats over the player's town: the president, the vice president, and the player's own.
@@ -139,7 +137,7 @@ export function keyPeopleOf(
   const over = townSeats(api);
   const heads = seatsOfOffices(
     api,
-    (offices(api).rows() as unknown as OfficeRow[]).filter(
+    (allOffices(api) as unknown as OfficeRow[]).filter(
       (row) =>
         row.kind === "president" ||
         row.kind === "vice-president" ||

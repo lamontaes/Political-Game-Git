@@ -17,7 +17,7 @@
  */
 import { townLean } from "./campaigns";
 import { openBusinessOwnerIds } from "./business";
-import { workedToday } from "../job-lifecycle";
+import { workedToday } from "./jobs";
 import {
   coreAPI,
   fillInIdentity,
@@ -27,7 +27,7 @@ import {
 } from "../state";
 import { drawOfficialIdentity } from "../officials-identity";
 import { openingTemperaments } from "../opening-personality";
-import { countedResidents } from "../electorate";
+import { countedResidents } from "./campaigns";
 import {
   corePlaceByJurisdictionId,
   coreSeatOfGovernmentPlace,
@@ -145,7 +145,7 @@ export interface WorkRecord {
   readonly result: Readonly<Record<string, unknown>>;
 }
 
-export const STAFF_MODULE: CoreModule = {
+const STAFF_MODULE: CoreModule = {
   id: STAFF_MODULE_ID,
   state: {
     schemaVersion: 1,

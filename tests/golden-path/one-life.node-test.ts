@@ -1,7 +1,7 @@
 /**
  * The golden path is one life: the person who turned 18 files, campaigns,
  * wins or loses and tries again, and then, as the winner, proposes the bill.
- * The headless check (src/bench/path-check.ts) never switches to a seated
+ * The headless check (tests/golden-path/path-check.ts) never switches to a seated
  * official, and it prints the one player id it played as. Run with
  *   node --max-old-space-size=8192 --import tsx tests/golden-path/one-life.node-test.ts
  * The place is the one the seed draws from all 56 (GOLDEN_PATH_SEED fixes it).
@@ -16,7 +16,7 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 describe(`the golden path is one life (seed ${seed})`, () => {
   it("never selects another person after the player is chosen", () => {
-    const source = readFileSync("src/bench/path-check.ts", "utf8");
+    const source = readFileSync("tests/golden-path/path-check.ts", "utf8");
     const selects = source.match(/player\.select\(/g) ?? [];
     assert.equal(selects.length, 1, "path-check selects the player once");
     assert.match(source, /player\.select\(me\)/);
@@ -29,7 +29,7 @@ describe(`the golden path is one life (seed ${seed})`, () => {
         "--max-old-space-size=8192",
         "--import",
         "tsx",
-        "src/bench/path-check.ts",
+        "tests/golden-path/path-check.ts",
       ],
       {
         env: { ...process.env, GOLDEN_PATH_SEED: seed },

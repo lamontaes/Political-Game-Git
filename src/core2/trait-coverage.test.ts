@@ -17,7 +17,7 @@ import {
   resolvedDecisions,
   traitTable,
   type ResolvedDecision,
-} from "./tooling/trait-coverage";
+} from "../../scripts/core2/tooling/trait-coverage";
 import type { ActOffer, CoreState, PersonState } from "./types";
 
 // Owner, Oct 6 and Oct 12, 2026: every trait is wired into every decision a

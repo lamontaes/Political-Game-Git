@@ -44,7 +44,7 @@ import {
 import { wideElectorate } from "./race-places";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const FAMILIES = [
   "statewideExecutive",

@@ -351,7 +351,7 @@ function scheduleInauguration(api: CoreAPI, date: string): void {
   });
 }
 
-export const NATIONAL_OPINION_MODULE: CoreModule = {
+const NATIONAL_OPINION_MODULE: CoreModule = {
   id: NATIONAL_OPINION_MODULE_ID,
   state: {
     schemaVersion: 1,
