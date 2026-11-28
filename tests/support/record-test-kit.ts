@@ -35,8 +35,16 @@ import {
 } from "../../src/core2/modules/campaigns";
 import { openParties } from "../../src/core2/modules/parties";
 import { fileRunners, weighContest } from "../../src/core2/modules/candidacy";
-import { ballotOf, holdElection, openVoting } from "../../src/core2/modules/voting";
-import { openRecord, promisesOf, recordVote } from "../../src/core2/modules/record";
+import {
+  ballotOf,
+  holdElection,
+  openVoting,
+} from "../../src/core2/modules/voting";
+import {
+  openRecord,
+  promisesOf,
+  recordVote,
+} from "../../src/core2/modules/record";
 import { openPress } from "../../src/core2/modules/press";
 import { PLATFORM_QUESTIONS } from "../../src/core2/campaign-data";
 import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
