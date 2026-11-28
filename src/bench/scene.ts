@@ -1,5 +1,5 @@
 import { historyOf } from "../core2/past";
-import { servingTermsOf } from "../core2/modules/offices";
+import { officeById, servingTermsOf, termById } from "../core2/modules/offices";
 import { roleWord } from "./card";
 import { hash as fnv, readRecipe } from "./appearance";
 import { ageOnDate } from "../core2/kernel/dates";
@@ -112,13 +112,12 @@ const OFFICE_WORK = scenePlaces.officeWorkplaces as unknown as Record<
 
 /** The kinds of office a person is serving in now. */
 function servingOfficeKinds(core: CoreState, personId: string): string[] {
-  const state = core.modules.has(OFFICES)
-    ? coreAPI(core).moduleState(OFFICES)
-    : null;
-  return servingTermsOf(coreAPI(core), personId).map(
+  const api = coreAPI(core);
+  const known = core.modules.has(OFFICES);
+  return servingTermsOf(api, personId).map(
     (term) =>
       (
-        state?.table("offices").get(term.officeId) as
+        (known ? officeById(api, term.officeId) : undefined) as
           { kind?: string } | undefined
       )?.kind ?? "",
   );
@@ -693,7 +692,7 @@ export function looksOf(core: CoreState, id: string): Looks | null {
       ...(look ? { look } : {}),
     };
   }
-  const term = coreAPI(core).moduleState(OFFICES).table("terms").get(id) as
+  const term = termById(coreAPI(core), id) as
     | {
         identity?: { birthDate: string; gender: string };
       }
