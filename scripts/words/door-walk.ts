@@ -2,12 +2,12 @@
  * Plays the door in a drawn place and prints every talk whole (Story lead, Nov 17; development
  * tooling like scene-samples.ts, shipped play never imports it).
  *
- *   node --import tsx scripts/words/door-walk.ts --seed <word> [--label a] [--min-need 25]
+ *   node --import tsx scripts/words/door-walk.ts --seed <word> [--label a] [--min-need 25] [--attempts 12]
  *     [--lead-months 0] [--after-window 60] [--speech]
  *
  * The place is drawn from all 56 by seed and label. A local resident files through the elections
- * engine, preferring a seat whose petition needs at least `--min-need` names (a place that has none
- * says SKIP), after `--lead-months` of life so the views engine holds stands. Every campaign day the
+ * engine, preferring a seat whose petition needs at least `--min-need` names (a place that has none is
+ * passed over by name and the next place is drawn, up to `--attempts`), after `--lead-months` of life so the views engine holds stands. Every campaign day the
  * engine offers is canvassed through the petition window and then `--after-window` more days; each
  * staged door scene (signature, first knock, second knock) is composed with purposeScene and its whole
  * tree is printed with every reply pressed, with the facts it leans on and the piece keys said.
@@ -37,6 +37,7 @@ import { purposeScene } from "../../src/director/purpose-scene";
 import { speechAct, speechOccasion } from "../../src/director/scheduling";
 import type { TreeNode } from "../../src/director/scene-talk";
 import { drawPlace } from "../core2-year/place";
+import { walkPlaces } from "./walk-places";
 
 const option = (name: string, fallback: string) => {
   const at = process.argv.indexOf(`--${name}`);
@@ -45,6 +46,8 @@ const option = (name: string, fallback: string) => {
 const seed = option("seed", "");
 if (!seed) throw new Error("--seed <word> is required");
 const label = option("label", "a");
+
+const walk = walkPlaces(option, label);
 const minNeed = Number(option("min-need", "25"));
 const leadMonths = Number(option("lead-months", "0"));
 const afterWindow = Number(option("after-window", "60"));
@@ -56,8 +59,9 @@ const LABELS = [
 ];
 
 setBookkeeping(false);
-const place = drawPlace(seed, `door-walk:${label}`);
+const place = drawPlace(seed, `door-walk:${walk.drawLabel}`);
 const where = `${place.name} (${place.key}), seed ${place.seed}`;
+
 console.log(`# PLACE ${where}`);
 const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
   twoLevel: true,
@@ -221,8 +225,7 @@ for (const row of adults.slice(0, 60)) {
   if (filing) break;
 }
 if (!filing || !personId) {
-  console.log(`SKIP: no seat whose petition needs ${minNeed} names`);
-  process.exit(0);
+  walk.passOver(where, `no seat whose petition needs ${minNeed} names`);
 }
 const due = petitionOf(api, filing.id)!.due;
 const days =
