@@ -1,0 +1,12 @@
+{
+  "about": "Questions whose everyday name is the catalog's own phrase (CTO and OPUS, Nov 28, 4:27 a.m.: 'That's how people really talk about these laws... realism wins.'). Shrink-only: a new entry needs a CTO line naming the question; an entry is removed as soon as its said stops holding the catalog's phrase. policy-name-in-speech.test.ts reads it.",
+  "questions": {
+    "us-policy-positions:fiscal.adopt-income-tax": "People call it 'an income tax'; there is no other word for it.",
+    "us-federal-positions:labor-commerce.raise-federal-minimum-wage": "Everyone says 'the minimum wage'.",
+    "us-policy-positions:labor-workforce.local-minimum-wage-authority": "Everyone says 'the minimum wage'; the question is who sets it.",
+    "us-policy-positions:labor-workforce.raise-minimum-wage": "Everyone says 'the minimum wage'.",
+    "us-policy-positions:labor-workforce.right-to-work": "People name the law 'right-to-work' themselves.",
+    "us-policy-positions:environment-energy.bottle-deposit": "People call it 'the bottle deposit' at the register.",
+    "us-policy-positions:justice-public-safety.stand-your-ground": "People name the law 'stand-your-ground' themselves."
+  }
+}

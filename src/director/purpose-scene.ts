@@ -1210,7 +1210,7 @@ function composeBinding(
       .table("townHalls")
       .get(said.townHallId) as unknown as TownHallRow | undefined;
     const asking = hall?.questions.find((row) => row.askedBy === askerId);
-    const issue = asking ? questionAbout(asking.question) : null;
+    const issue = asking ? questionSaid(asking.question) : null;
     if (hall && asking && issue) {
       facts.issue = {
         text: issue,
@@ -1243,7 +1243,7 @@ function composeBinding(
   // does when the host declined to answer: the protester wants to hear where
   // they stand.
   if (said.actionId && said.question && record?.kind !== RALLY_EVENT) {
-    const issue = questionAbout(said.question);
+    const issue = questionSaid(said.question);
     if (issue) {
       facts.issue = {
         text: issue,
@@ -1717,9 +1717,9 @@ function composeBinding(
             ),
         );
     const issue = split
-      ? questionAbout(split.question)
+      ? questionSaid(split.question)
       : ducked
-        ? questionAbout(ducked.question)
+        ? questionSaid(ducked.question)
         : null;
     if (issue && ducked) {
       facts.issue = {
