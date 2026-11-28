@@ -5,13 +5,13 @@
  * immigration partnership reach the town's households (see
  * `public-safety.ts`).
  */
-import { coreAPI, registerModule } from "../state";
+import { coreAPI } from "../state";
 import {
   openingSafetyMonth,
   PUBLIC_SAFETY_MODULE_ID,
   runSafetyMonth,
 } from "../public-safety";
-import type { CoreModule, CoreState } from "../types";
+import type { CoreModule } from "../types";
 
 export const PUBLIC_SAFETY_MODULE: CoreModule = {
   id: PUBLIC_SAFETY_MODULE_ID,
@@ -24,14 +24,10 @@ export const PUBLIC_SAFETY_MODULE: CoreModule = {
       months: { indexes: { byPlace: { fields: ["placeId"] } } },
     },
   },
+  // The month's ordinary crime, courts, jail, firearm laws and fire service, run once as the world opens.
+  worldOpen: (core) => openingSafetyMonth(coreAPI(core)),
   onDay(api) {
     if (api.state.date.endsWith("-06")) runSafetyMonth(api);
     return undefined;
   },
 };
-
-export function openPublicSafety(core: CoreState): void {
-  if (core.modules.has(PUBLIC_SAFETY_MODULE_ID)) return;
-  registerModule(core, PUBLIC_SAFETY_MODULE);
-  openingSafetyMonth(coreAPI(core));
-}

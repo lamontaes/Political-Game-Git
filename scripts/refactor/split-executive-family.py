@@ -6,24 +6,25 @@ P='tests/guards/families.json'
 d=json.load(open(P))
 fam=[f for f in d['families'] if f['id']=='executive']
 if not fam:
-    print('no executive family: already split'); raise SystemExit(0)
-fam=fam[0]
-GOV_SRC=['src/core2/modules/executive.ts','src/core2/modules/office-day.ts','src/core2/modules/president-acts.ts','src/core2/modules/staff.ts','src/core2/modules/constituent-cases.ts','src/core2/office-day-*.ts','src/core2/office-holdover.ts']
-GOV_TEST=re.compile(r'^src/core2/(staff[-.]|constituent-case|case-referral-read|president-|executive-appoints-known|emergency-declaration|federal-casework|governor-appointment-job-ends|governor-pick-from-the-state|public-post-schedule)')
-SEATS_ENTRIES=['src/core2/appointments.ts','src/core2/officials-identity.ts','src/core2/official-living.ts','src/core2/outside-governments.ts','src/core2/modules/official-pay.ts','src/core2/gov-rules/local-governments.ts']
-GOV_ENTRY=['src/core2/modules/executive.ts','src/core2/modules/office-day.ts','src/core2/modules/president-acts.ts','src/core2/modules/staff.ts','src/core2/modules/constituent-cases.ts','src/core2/office-day-calendar.ts']
-def isgov(g): return g in GOV_SRC or bool(GOV_TEST.match(g))
-gov_paths=[g for g in fam['paths'] if isgov(g)]+['src/core2/office-day-*.ts','src/core2/office-holdover.ts']
-off_paths=[g for g in fam['paths'] if not isgov(g)]
-off_entry=[e for e in fam['entry'] if e not in GOV_ENTRY]+[e for e in SEATS_ENTRIES if e not in fam['entry']]
-offices={'id':'offices','name':'Offices and seats','entry':off_entry,'paths':off_paths}
-governing={'id':'governing','name':"Governing: the officeholder's day",'entry':GOV_ENTRY,'paths':gov_paths}
-i=d['families'].index(fam)
-d['families'][i:i+1]=[offices,governing]
-json.dump(d,open(P,'w'),indent=2,ensure_ascii=False); open(P,'a').write('\n')
-subprocess.run(['npx','prettier','--write',P],check=True,capture_output=True)
-subprocess.run(['node','--import','tsx','scripts/guards/codeowners.ts'],check=True)
-print('offices paths',len(off_paths),'governing paths',len(gov_paths))
+    print('no executive family: the split is already in families.json; settling entries and the baseline only')
+else:
+    fam=fam[0]
+    GOV_SRC=['src/core2/modules/executive.ts','src/core2/modules/office-day.ts','src/core2/modules/president-acts.ts','src/core2/modules/staff.ts','src/core2/modules/constituent-cases.ts','src/core2/office-day-*.ts','src/core2/office-holdover.ts']
+    GOV_TEST=re.compile(r'^src/core2/(staff[-.]|constituent-case|case-referral-read|president-|executive-appoints-known|emergency-declaration|federal-casework|governor-appointment-job-ends|governor-pick-from-the-state|public-post-schedule)')
+    SEATS_ENTRIES=['src/core2/appointments.ts','src/core2/officials-identity.ts','src/core2/official-living.ts','src/core2/outside-governments.ts','src/core2/modules/official-pay.ts','src/core2/gov-rules/local-governments.ts']
+    GOV_ENTRY=['src/core2/modules/executive.ts','src/core2/modules/office-day.ts','src/core2/modules/president-acts.ts','src/core2/modules/staff.ts','src/core2/modules/constituent-cases.ts','src/core2/office-day-calendar.ts']
+    def isgov(g): return g in GOV_SRC or bool(GOV_TEST.match(g))
+    gov_paths=[g for g in fam['paths'] if isgov(g)]+['src/core2/office-day-*.ts','src/core2/office-holdover.ts']
+    off_paths=[g for g in fam['paths'] if not isgov(g)]
+    off_entry=[e for e in fam['entry'] if e not in GOV_ENTRY]+[e for e in SEATS_ENTRIES if e not in fam['entry']]
+    offices={'id':'offices','name':'Offices and seats','entry':off_entry,'paths':off_paths}
+    governing={'id':'governing','name':"Governing: the officeholder's day",'entry':GOV_ENTRY,'paths':gov_paths}
+    i=d['families'].index(fam)
+    d['families'][i:i+1]=[offices,governing]
+    json.dump(d,open(P,'w'),indent=2,ensure_ascii=False); open(P,'a').write('\n')
+    subprocess.run(['npx','prettier','--write',P],check=True,capture_output=True)
+    subprocess.run(['node','--import','tsx','scripts/guards/codeowners.ts'],check=True)
+    print('offices paths',len(off_paths),'governing paths',len(gov_paths))
 def glob_rx(g):
     parts=g.split('**')
     return re.compile('^'+'.*'.join('[^/]*'.join(re.escape(x) for x in p.split('*')) for p in parts)+'$')

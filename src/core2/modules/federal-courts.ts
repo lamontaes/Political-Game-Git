@@ -21,7 +21,6 @@ import ussc from "../../../data/research/justice/ussc-federal-sentencing-fy2025.
 import groups from "../data/justice/federal-groups.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { lawApplied } from "../law-reach/applied";
-import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { lawInForce } from "./laws";
 
@@ -242,7 +241,7 @@ function schedule(api: CoreAPI): void {
   });
 }
 
-const FEDERAL_COURTS_MODULE: CoreModule = {
+export const FEDERAL_COURTS_MODULE: CoreModule = {
   id: FEDERAL_COURTS_MODULE_ID,
   state: { schemaVersion: 1, tables: { state: {}, months: {} } },
   onCalendarWork(api, work) {
@@ -260,9 +259,3 @@ const FEDERAL_COURTS_MODULE: CoreModule = {
     schedule(api);
   },
 };
-
-/** Install the engine in a world (after the laws). */
-export function openFederalCourts(core: CoreState): void {
-  if (!core.modules.has(FEDERAL_COURTS_MODULE_ID))
-    registerModule(core, FEDERAL_COURTS_MODULE);
-}

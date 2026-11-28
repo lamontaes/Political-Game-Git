@@ -5,7 +5,7 @@ import { el } from "./dom.mjs";
 import { idLink, tableRows } from "./dev-view.mjs";
 import { traceBox } from "./dev-trace-box.mjs";
 
-const slots = {
+export const slots = {
   async calendar({ labels, send }) {
     const rows = await send("printed-stories");
     if (!rows.length) return null;
