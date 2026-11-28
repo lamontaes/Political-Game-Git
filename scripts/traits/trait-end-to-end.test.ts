@@ -61,6 +61,13 @@ interface Weighed {
   date: string;
   /** The act or weighed record that kept the reasons. */
   record: string;
+  /**
+   * That record's kind, read from the log the day it was harvested: a
+   * neighbor's routine entry (not the player's) is dropped from the log after
+   * `circleActRetentionMonths` (`dropOldCircleActs`), so a year later the log
+   * no longer holds it, and what the people kept is the state it changed.
+   */
+  recordKind: string;
   /** Each option's trait reason (chooser), or the lean toward yes as `yes` against `no` at 0 (formula). */
   trait: Map<string, number>;
   picked: string;
@@ -133,6 +140,7 @@ function harvest(
       kind: [...trait.keys()].sort().join("|"),
       date: row.date,
       record: id,
+      recordKind: row.kind,
       trait,
       picked: row.actionId!,
     });
@@ -388,8 +396,8 @@ describe("two neighbors with opposite temperaments in the same situation", () =>
       for (const r of reasons)
         for (const side of [r.a, r.b])
           expect(
-            world.core.durableLog.get(side.shown.record)?.kind,
-            `${label}: ${r.kind}`,
+            side.shown.recordKind,
+            `${label}: ${r.kind} (${side.shown.record})`,
           ).toMatch(/^person\.(acted|weighed)$/);
       expect(
         outcomes.filter((o) => o.differ).length,
