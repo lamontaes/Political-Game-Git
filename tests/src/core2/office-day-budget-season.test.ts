@@ -78,7 +78,6 @@ const seed =
 const hookRuns = new Map<string, number>();
 const HOOK_MODULE: CoreModule = {
   id: "budget-season-test-hook",
-  state: { schemaVersion: 1, tables: {} },
   legislatureHooks: {
     beforeVote: {
       name: "budget-season-test",
