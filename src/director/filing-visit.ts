@@ -772,6 +772,10 @@ function raceFacts(
   return facts;
 }
 
+/** A title that names a body ("municipal election commission"), not a job a person holds. */
+const AGENCY_TITLE =
+  /\b(?:commission|board|offices?|department|bureau|division|agency|authority|system|council)\b/i;
+
 /**
  * The narrator's setup at the counter, from the filing-clerk scene's own
  * narration (the director fires the same scene when a filing is made): who
@@ -816,7 +820,10 @@ export function counterNarration(
     post: {
       text: clerk.heads
         ? agencyHeadSaid(clerk.heads)
-        : titleInSentence(clerk.title),
+        : AGENCY_TITLE.test(clerk.title)
+          ? // The record names the body, not the person's job: the person is its filing clerk.
+            `filing clerk at the ${titleInSentence(clerk.title)}`
+          : titleInSentence(clerk.title),
       sourceRecordIds: [clerk.recordId],
     },
   };

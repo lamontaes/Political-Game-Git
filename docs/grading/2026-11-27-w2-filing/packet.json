@@ -7,7 +7,7 @@
       "draw": 0,
       "race": "contest:seat:US-NM:us-senate:0:2026-11-03",
       "narration": [
-        "Late in the morning on December 8th, you walk into the Secretary of State's office. Michelle Warren looks up from a stack of forms."
+        "Michelle Warren is the Secretary of State here, and is stamping a pile of forms when you come up."
       ],
       "counter": [
         {
@@ -44,7 +44,7 @@
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "Jessica Scott got in a few days ago. Counting that name, the list for the U.S. Senate stands at six candidates. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. I can print the duties of the U.S. Senate for you, so you know the job before you sign. Everything has to be back to me by February 3.",
+              "text": "Jessica Scott got in a few days ago. Counting that name, the list for the U.S. Senate stands at six candidates. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. The duties of the U.S. Senate are published, and I can print a copy for you. Everything has to be back to me by February 3.",
               "elements": []
             }
           ],
@@ -74,7 +74,7 @@
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "Jessica Scott got in a few days ago. Counting that name, the list for the U.S. Senate stands at six candidates. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. I can print the duties of the U.S. Senate for you, so you know the job before you sign. Everything has to be back to me by February 3.",
+              "text": "Jessica Scott got in a few days ago. Counting that name, the list for the U.S. Senate stands at six candidates. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. The duties of the U.S. Senate are published, and I can print a copy for you. Everything has to be back to me by February 3.",
               "elements": []
             },
             {
@@ -114,7 +114,7 @@
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "Jessica Scott got in a few days ago. Counting that name, the list for the U.S. Senate stands at six candidates. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. I can print the duties of the U.S. Senate for you, so you know the job before you sign. Everything has to be back to me by February 3.",
+              "text": "Jessica Scott got in a few days ago. Counting that name, the list for the U.S. Senate stands at six candidates. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. The duties of the U.S. Senate are published, and I can print a copy for you. Everything has to be back to me by February 3.",
               "elements": []
             },
             {
@@ -138,7 +138,7 @@
             {
               "n": 7,
               "speaker": "clerk",
-              "text": "That's filed. Jessica Scott was first in for the U.S. Senate, and you're on the list after them.",
+              "text": "That's filed. Emma Ochoa was the last in for the U.S. Senate, and you come right after.",
               "elements": []
             }
           ],
@@ -196,7 +196,7 @@
       "draw": 1,
       "race": "contest:seat:gus2025:174941:council:0:2025-11-04",
       "narration": [
-        "Late in the morning on June 23rd, you walk into the municipal election commission's office. Solomon Castillo looks up from a stack of forms."
+        "Solomon Castillo, the filing clerk at the municipal election commission, looks up from a stack of forms as you come in."
       ],
       "counter": [
         {
@@ -327,7 +327,7 @@
             {
               "n": 7,
               "speaker": "clerk",
-              "text": "You're on the list for the council now, after Melissa Chan, who filed first.",
+              "text": "Your papers are in, and your name follows Victoria Love's on the list for the council.",
               "elements": []
             }
           ],
@@ -357,7 +357,7 @@
             "then": [
               {
                 "speaker": "the clerk",
-                "text": "There's nothing to collect before November 4, so start by knocking on doors and talking to voters. Next comes money."
+                "text": "There's nothing to collect, so start by knocking on doors and talking to voters before November 4. After that, you'll need money."
               }
             ]
           },
@@ -375,7 +375,7 @@
       "draw": 2,
       "race": "contest:seat:US-TN:lower:008:0:2025-09-26:special",
       "narration": [
-        "Late in the morning on June 30th, you walk into the State Election Commission. Michael Pickett looks up from a stack of forms."
+        "Michael Pickett, the head of the State Election Commission, looks up from a stack of forms as you come in."
       ],
       "counter": [
         {
@@ -505,7 +505,7 @@
             {
               "n": 7,
               "speaker": "clerk",
-              "text": "You're on the list for the state House in the 8th District now, after Robert Cross, who filed first.",
+              "text": "Your papers are in, and your name follows DeAndre Drake's on the list for the state House in the 8th District.",
               "elements": []
             }
           ],
