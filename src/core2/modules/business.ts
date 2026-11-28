@@ -22,7 +22,7 @@ import {
   weightedPayrollMinor,
   purchaseShareOf,
   shiftPurchaseShare,
-} from "../residents-economy";
+} from "../resident-outside-sales";
 import { depositsHeld, withdrawSavings } from "./budgets";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };

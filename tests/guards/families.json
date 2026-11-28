@@ -966,6 +966,7 @@
         "src/core2/resident-flows.ts",
         "src/core2/counted-job-heads.ts",
         "src/core2/resident-households.ts",
+        "src/core2/resident-outside-sales.ts",
         "src/core2/resident-schooling.ts"
       ],
       "paths": [
@@ -1231,6 +1232,7 @@
         "src/core2/resident-flows.ts",
         "src/core2/counted-job-heads.ts",
         "src/core2/resident-households.ts",
+        "src/core2/resident-outside-sales.ts",
         "src/core2/resident-schooling.ts"
       ]
     },
