@@ -42,7 +42,7 @@ import {
   VOTING_MODULE_ID,
 } from "./modules/voting";
 import { contingentElection } from "./contingent-election";
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-10-20";

@@ -21,11 +21,8 @@ import type { ModuleRow } from "./module-data";
 import { makeIsoDate, weekdayOf } from "./kernel/dates";
 import { closenessBetween } from "./closeness";
 import { candidateStance } from "./modules/campaigns";
-import {
-  appointerWeighing,
-  nominateAndConfirm,
-  partySide,
-} from "./appointments";
+import { appointerWeighing, nominateAndConfirm } from "./appointments";
+import { partySide } from "./party-sides";
 import { campaignParameter } from "./campaign-data";
 import { lawChain } from "./modules/laws";
 import { federalOrderable } from "./modules/executive";
@@ -48,7 +45,7 @@ import {
   setBudgetPriorities,
 } from "./modules/budgets";
 import { CAMPAIGNS_MODULE_ID, touchImpression } from "./modules/campaigns";
-import { personLean } from "./campaign-views";
+import { personLean } from "./modules/campaigns";
 import { agreementWith } from "./modules/views";
 import {
   candidateAnswers,

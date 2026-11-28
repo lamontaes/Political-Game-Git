@@ -48,7 +48,7 @@ import {
  * (SG-GOV-territory-legislature-race).
  */
 import { countedResidents, registerElectorate } from "../electorate";
-import { partyName } from "../appointments";
+import { partyName } from "../party-sides";
 import { recordedRaceShare } from "../offices-past-results";
 import { leanedScore } from "../trait-decisions";
 import { coreAPI, fillInPerson, registerModule } from "../state";
@@ -3179,7 +3179,7 @@ export {
 } from "./constituent-cases";
 export type { OfficeLevel } from "../offices-local";
 /** A government's title as people say it, read through the executive family's entry. */
-export { partySide } from "../appointments";
+export { partySide } from "../party-sides";
 export { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
 export {
   CORPUS,
@@ -3188,7 +3188,6 @@ export {
   worldWinnerShare,
   type PastRace,
 } from "../offices-past-results";
-export { nextMeeting } from "../office-day-calendar";
 
 const ticketPlaces = (
   stateOfficesResearch as unknown as {
