@@ -12,7 +12,7 @@ import exempt from "./data/laws/minimum-wage-exempt.json" with { type: "json" };
 import { lawApplied } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawInForce, stateLawInForce } from "./modules/laws";
 import { placeStateKey } from "./place-map";
-import { residentsRuntime } from "./modules/residents";
+import { residentsRuntime } from "./residents-reads";
 import { countedJobHeads, rerateCountedJobs } from "./residents-economy";
 import type { LawRowInput } from "./laws-starting";
 import type { CoreAPI, CoreState, Source } from "./types";

@@ -20,7 +20,7 @@ import { lawApplied } from "../law-reach/applied";
 import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
 import { addResidentFlow, endFlowPart } from "../residents-economy";
 import { leanedTerm } from "../trait-decisions";
-import { residentsRuntime } from "./residents";
+import { residentsRuntime } from "../residents-reads";
 import { isDemoted } from "../counted-groups";
 import type {
   CoreAPI,

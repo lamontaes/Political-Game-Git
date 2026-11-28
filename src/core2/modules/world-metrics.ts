@@ -10,7 +10,7 @@
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
-import { residentsRuntime } from "./residents";
+import { residentsRuntime } from "../residents-reads";
 import { povertyByPlace } from "../world-poverty";
 import {
   HOUSING_MODULE_ID,

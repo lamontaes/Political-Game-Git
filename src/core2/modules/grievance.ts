@@ -34,7 +34,7 @@ import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { ownerOf } from "./business";
 import { JOBS_MODULE_ID } from "./jobs";
 import { jobChange, jobChangesOf } from "../jobs-reads";
-import { residentFacts, residentsRuntime } from "./residents";
+import { residentFacts, residentsRuntime } from "../residents-reads";
 
 export const GRIEVANCE_MODULE_ID = "grievance";
 const JOB_LOST = "work.job-lost";
