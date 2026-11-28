@@ -93,3 +93,19 @@ export function homelessCountOf(
       { homeless: number } | undefined
   )?.homeless;
 }
+
+export const DWELLINGS_KEY = "housingDwellings";
+
+/** Each town home's tenure as the opening wrote it (`withHousing`), by household id; empty before it. */
+export function openingTenureOf(world: {
+  readonly placeMetadata?: Readonly<Record<string, string>>;
+}): ReadonlyMap<string, "own" | "rent"> {
+  const rows = JSON.parse(world.placeMetadata?.[DWELLINGS_KEY] ?? "[]") as [
+    string,
+    string,
+  ][];
+  const tenure = new Map<string, "own" | "rent">();
+  for (const [id, kind] of rows)
+    if (kind === "own" || kind === "rent") tenure.set(id, kind);
+  return tenure;
+}

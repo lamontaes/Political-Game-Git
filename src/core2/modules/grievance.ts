@@ -31,7 +31,7 @@ import { registerModule } from "../state";
 import { HOUSING_STATUS_EVENT } from "../housing-status-event";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
-import { ownerOf } from "./business";
+import { ownerOfBusiness as ownerOf } from "../business-reads";
 import { JOBS_MODULE_ID } from "./jobs";
 import { jobChange, jobChangesOf } from "../jobs-reads";
 import { residentFacts, residentsRuntime } from "../residents-reads";

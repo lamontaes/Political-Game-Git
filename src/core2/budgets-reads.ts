@@ -5,6 +5,8 @@ import type {
   ProfitTaxRecord,
 } from "./modules/employer-taxes";
 import type { CoreAPI, CoreState } from "./types";
+import type { ContractAwardRow } from "./modules/contracts";
+import type { CoreAPI } from "./types";
 
 /** The module ids, written here (the engines' own files name the same strings) so a door reads the tables without loading the engines. A door that named the wrong table fails `economy-reads.test.ts`, which reads each door in a played world. */
 const BUDGETS_MODULE_ID = "core2-budgets-v1";
@@ -79,4 +81,20 @@ export function profitTaxRecordsOf(
     .moduleState(EMPLOYER_TAXES_MODULE_ID)
     .table("profits")
     .query("byBusiness", [organizationId]) as unknown as ProfitTaxRecord[];
+}
+
+export const CONTRACTS_MODULE_ID = "contracts";
+
+export const table = (api: CoreAPI) =>
+  api.moduleState(CONTRACTS_MODULE_ID).table("awards");
+
+/** Every award a government has made. */
+export function contractsOf(
+  api: CoreAPI,
+  governmentId: string,
+): readonly ContractAwardRow[] {
+  if (!api.state.modules.has(CONTRACTS_MODULE_ID)) return [];
+  return table(api).query("byGovernment", [
+    governmentId,
+  ]) as unknown as ContractAwardRow[];
 }

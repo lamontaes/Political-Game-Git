@@ -29,7 +29,7 @@ import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { GovernmentRow } from "./budgets";
-import { ownerOf } from "./business";
+import { ownerOfBusiness as ownerOf } from "../business-reads";
 import {
   CORRUPTION_MODULE_ID,
   considerBribe,
@@ -37,8 +37,9 @@ import {
   settleBribe,
 } from "./corruption";
 import { governingMembers, memberKey } from "./legislature";
+import { CONTRACTS_MODULE_ID, table } from "../budgets-reads";
+export { CONTRACTS_MODULE_ID, contractsOf } from "../budgets-reads";
 
-export const CONTRACTS_MODULE_ID = "contracts";
 const PARAMETERS = rows as unknown as Readonly<Record<string, Parameter>>;
 const c = (key: string) => PARAMETERS[key]!.value;
 const DECISION = "contracts.award";
@@ -90,9 +91,6 @@ export interface ContractAwardRow {
   /** The day of the latest payment, "" until the first (projects.ts reads it for the work's finish). */
   readonly lastPaidOn: string;
 }
-
-const table = (api: CoreAPI) =>
-  api.moduleState(CONTRACTS_MODULE_ID).table("awards");
 
 /** The relation a conflicted member has to the firm's owner when they are the owner. */
 export const OWNER_RELATION = "self";
@@ -154,17 +152,6 @@ export function awardsOn(
   return [
     ...(table(api).query("byDate", [date]) as unknown as ContractAwardRow[]),
   ].sort((a, b) => a.id.localeCompare(b.id));
-}
-
-/** Every award a government has made. */
-export function contractsOf(
-  api: CoreAPI,
-  governmentId: string,
-): readonly ContractAwardRow[] {
-  if (!api.state.modules.has(CONTRACTS_MODULE_ID)) return [];
-  return table(api).query("byGovernment", [
-    governmentId,
-  ]) as unknown as ContractAwardRow[];
 }
 
 function award(
