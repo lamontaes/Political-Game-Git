@@ -40,7 +40,7 @@ import { campaignParameter, PLATFORM_QUESTIONS } from "../campaign-data";
 import { homeDistanceMiles } from "../home-distance";
 import { viewOn } from "./views";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
-import { MOVED_AWAY_EVENT } from "./moves";
+import { MOVED_AWAY_EVENT } from "../moved-away-event";
 import { closenessBetween } from "../closeness";
 import { ACCEPTING_MOVES, REFUSING_MOVES } from "../scene-replies";
 import {
