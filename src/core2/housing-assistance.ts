@@ -23,7 +23,7 @@ import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { tenants } from "./housing-occupancy";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import { noteLinePaid } from "./budgets-treasury";
-import { transferCash } from "./world-transfer";
+import { transferCash } from "./budgets-treasury";
 import type { CoreAPI, CoreState } from "./types";
 
 export const HOUSING_ASSISTANCE_KEY = HOUSING_LINE_KEY;

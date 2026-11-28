@@ -133,11 +133,6 @@
     },
     "stopgapId": "SG-P15-moves-weights"
   },
-  "movesDaysPerYear": {
-    "value": 365,
-    "tag": "SOURCED",
-    "citation": "Days in a calendar year: a job's daily wage times this, over the months in a year, is the household's monthly pay that its rent or mortgage is weighed against."
-  },
   "movesHousingCostWeight": {
     "value": 1.04,
     "tag": "TUNABLE",

@@ -33,6 +33,7 @@ import {
   countryStateMonth,
   countryStates,
 } from "./macro";
+import { latestMacroMonthId } from "../macro-reads";
 import { regionalLevel, regionalRegistered } from "./regional";
 import type { LawInForceAnswer } from "../laws-in-force";
 import { ageOn, type CountedHousehold } from "../counted-groups";
@@ -57,7 +58,7 @@ import type { ResidentHouseholdRecord } from "../residents";
 import type { ModuleRow } from "../module-data";
 import { registerWorldMapPart } from "../snapshot";
 import { coreAPI } from "../state";
-import type { HistoryModule, HistoryRow, HistorySource } from "../past";
+import type { HistoryRow, HistorySource } from "../past";
 import type {
   CoreAPI,
   CoreModule,
@@ -258,10 +259,7 @@ function stateIncomeTax(
 export function stateUnemployment(api: CoreAPI): Map<string, number> {
   const out = new Map<string, number>();
   if (!api.state.modules.has("macro")) return out;
-  const latest = (
-    api.moduleState("macro").table("state").get("macro:state") as
-      { latestMonth?: string } | undefined
-  )?.latestMonth;
+  const latest = latestMacroMonthId(api);
   if (!latest) return out;
   for (const state of countryStates(api)) {
     const row = countryStateMonth(api, state.fips, latest);
@@ -2164,7 +2162,7 @@ const MOVES_HISTORY: HistorySource = {
   },
 };
 
-export const COUNTED_MOVES_MODULE: CoreModule & HistoryModule = {
+export const COUNTED_MOVES_MODULE: CoreModule = {
   id: COUNTED_MOVES_MODULE_ID,
   history: MOVES_HISTORY,
   state: {

@@ -15,7 +15,7 @@ milestone: play-first
 claimed-at:
 ---
 
-**What.** `src/core2/jobs-offer-deadline-held.test.ts` fails on seed `43f77fe652c5e64808e664675ffaca45b21c8a7c` (place 3933376) with "Vote or leave the polling place first". Its run of weekly presses reaches election day, the bench holds the character at the polling place, and the test never leaves the polls. It fails identically on clean main, so it predates PR #6206. `src/bench/path-check.ts` met the same hold on Oct 17 (tests-path-check-polling-place) and answers it by leaving the polls.
+**What.** `src/core2/jobs-offer-deadline-held.test.ts` fails on seed `43f77fe652c5e64808e664675ffaca45b21c8a7c` (place 3933376) with "Vote or leave the polling place first". Its run of weekly presses reaches election day, the bench holds the character at the polling place, and the test never leaves the polls. It fails identically on clean main, so it predates PR #6206. `tests/golden-path/path-check.ts` met the same hold on Oct 17 (tests-path-check-polling-place) and answers it by leaving the polls.
 
 **Rules.** One rule, all 56 places: the test keeps drawing a random place and seed and names both, and it must pass on every draw, not only the lucky ones. No dice: the test answers the polls the way a player would (leave), never by forcing a vote.
 

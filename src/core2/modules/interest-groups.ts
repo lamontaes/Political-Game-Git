@@ -38,24 +38,20 @@ import {
   type HearingWitness,
 } from "./legislature";
 import { personLean } from "../campaign-views";
-import { registerStanceListener } from "../stance-listeners";
 import { viewOf, viewOn } from "./views";
-import { makeCase } from "./speech";
+import { makeCase } from "./people";
 import { concerns, meetingParameter } from "./meetings";
 import type { PersonState } from "../types";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { type TermRow, officeById, allSeats } from "./offices";
 import { ownerOf } from "./business";
-import { lobbyingBarredUntil } from "../law-reach/group-a-voting";
-import { groupBPolicy } from "../law-reach/group-b";
+import { lobbyingBarredUntil } from "../laws-in-force";
+import { groupBPolicy } from "../laws-in-force";
 import { businessEnergyCostYear } from "./place-prices";
 import { businessDataPrivacyCostYear } from "./business";
-import { jobsAt } from "../law-reach/group-b-money";
-import { reachParameter } from "../law-reach/group-b-people";
-import {
-  CORRUPTION_MODULE_ID,
-  considerBribe,
-  settleBribes,
-} from "./corruption";
+import { jobsAt } from "../laws-in-force";
+import { reachParameter } from "../laws-in-force";
+import { CORRUPTION_MODULE_ID, considerBribe } from "./laws";
+import { settleBribes } from "../laws-in-force";
 
 export const INTEREST_GROUPS_MODULE_ID = "core2-interest-groups-v1";
 const DUES_KIND = "interest-group-dues";
@@ -144,6 +140,7 @@ export const INTEREST_GROUPS_MODULE: CoreModule = {
   journalSourceProviders: {
     [DUES_KIND]: (api, reference) => duesSlot(api, reference.id),
   },
+  stanceListener: reviewMember,
 };
 
 const table = (api: CoreAPI, name: string) =>
@@ -542,15 +539,13 @@ function lobbyistFor(
 
 /** Whom the group meets: a town body's members, or the town's own legislators in a larger body. */
 function lobbied(api: CoreAPI, b: BillRow): readonly TermRow[] {
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(b.bodyOfficeId) as unknown as { kind: string } | undefined;
+  const office = officeById(api, b.bodyOfficeId) as unknown as
+    { kind: string } | undefined;
   const local = office?.kind === "council" || office?.kind === "county-board";
   if (local) return members(api, b.bodyOfficeId);
   const seats = new Set(
     (
-      api.moduleState(OFFICES_MODULE_ID).table("seats").rows() as unknown as {
+      allSeats(api) as unknown as {
         id: string;
         coversTown?: boolean;
       }[]
@@ -994,8 +989,6 @@ function reviewMember(api: CoreAPI, personId: string, question: string): void {
     return;
   }
 }
-
-registerStanceListener(reviewMember);
 
 /**
  * What a question reaches in one resident's own life, from their records: the job the policy binds,

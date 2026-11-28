@@ -21,4 +21,4 @@ claimed-at: 2026-10-18T08:16:53.787Z
 
 **Files.** src/core2/modules/elections.ts, src/core2/data/elections/federal-qualifications.json
 
-**Notes.** Found Oct 18 (claude/federal-office-age) running `src/bench/path-check.ts` in Carolina, Rhode Island (seed pc5): the 18-year-old filed for U.S. Senator and was on the ballot. The governor's and other statewide offices keep the state's own ages (Rhode Island's is 18). The office family `statewideExecutive` still covers Senate and President for the state's filing office and deadlines; only the age floor is separate. The Constitution's other requirements (citizenship years) are not checked.
+**Notes.** Found Oct 18 (claude/federal-office-age) running `tests/golden-path/path-check.ts` in Carolina, Rhode Island (seed pc5): the 18-year-old filed for U.S. Senator and was on the ballot. The governor's and other statewide offices keep the state's own ages (Rhode Island's is 18). The office family `statewideExecutive` still covers Senate and President for the state's filing office and deadlines; only the age floor is separate. The Constitution's other requirements (citizenship years) are not checked.

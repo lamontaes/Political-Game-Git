@@ -11,7 +11,11 @@
  * are not modeled.
  */
 
-import { daysBetween, makeIsoDate } from "./kernel/dates";
+import {
+  daysBetween,
+  makeIsoDate,
+  weekdayOf as weekdayNumber,
+} from "./kernel/dates";
 import type { EntityId, IsoDate } from "./kernel/brands";
 import {
   WORK_PATTERNS,
@@ -165,7 +169,7 @@ export interface WorkSchedule {
 export const EPOCH = makeIsoDate("2000-01-02"); // a Sunday
 
 function weekdayOf(date: IsoDate): Weekday {
-  return new Date(`${date}T12:00:00Z`).getUTCDay() as Weekday;
+  return weekdayNumber(date) as Weekday;
 }
 
 function weekIndex(date: IsoDate): number {

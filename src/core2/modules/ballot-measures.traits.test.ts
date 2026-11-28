@@ -15,13 +15,15 @@ import { openLaws } from "./laws";
 import { openCampaigns } from "./campaigns";
 import { openOffices } from "./offices";
 import { openElections } from "./elections";
+import { openParties } from "./parties";
+import { openVoting } from "./voting";
 import {
   measuresOf,
   measureVoteOf,
   openBallotMeasures,
 } from "./ballot-measures";
 import { decisionLean } from "../trait-decisions";
-import { weightOf } from "../trait-test-kit";
+import { weightOf } from "../../../tests/support/trait-test-kit";
 import measures from "../data/elections/ballot-measures.json" with { type: "json" };
 import { searchCorePlaces } from "../place-lookup";
 
@@ -66,6 +68,8 @@ describe("ballot-measures.vote reads the voter's calibrated lean toward change",
     openOffices(core, SEED, core.date);
     openElections(core);
     openCampaigns(core);
+    openParties(core);
+    openVoting(core);
     openBallotMeasures(core);
     const api = coreAPI(core);
     // The town's own state's measures are decided by its named voters.
