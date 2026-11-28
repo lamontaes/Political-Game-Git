@@ -13,7 +13,7 @@
 import { recordDraw } from "./kernel/draw-recorder";
 import officialsData from "./data/officials/officials.json" with { type: "json" };
 import { stableHash } from "./kernel/ids";
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import { personStance, publicOffset } from "./campaign-views";
 import { axisOf, PLATFORM_QUESTIONS } from "./campaign-data";
 

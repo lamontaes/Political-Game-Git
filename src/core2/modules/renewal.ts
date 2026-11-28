@@ -21,19 +21,19 @@ import { applyCountedFlows, partnerByAge } from "../births-counted";
 import { nextMonthDay } from "../residents";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
-import { declareSnapshotCovered, registerSnapshotPart } from "../snapshot";
+import { declareSnapshotCovered, type SnapshotPart } from "../snapshot";
 
 export const RENEWAL_MODULE_ID = "core2-renewal-v1";
 const INACTIVE_TIER = "husk";
 const initialized = new WeakSet<object>();
-registerSnapshotPart("renewal-initialized", {
+const INITIALIZED_PART: SnapshotPart = {
   save: (core) => initialized.has(core),
   restore(core, done) {
     if (done === true) initialized.add(core);
     else initialized.delete(core);
     forgetBirthConditions(core);
   },
-});
+};
 // Plans, pregnancies, births and calendar work already use snapshot-backed
 // module records. The remaining lookup caches rebuild from current records.
 declareSnapshotCovered(RENEWAL_MODULE_ID);
@@ -688,6 +688,7 @@ function countedMonth(api: CoreAPI): void {
 }
 
 export const RENEWAL_MODULE: CoreModule = {
+  snapshotParts: { "renewal-initialized": INITIALIZED_PART },
   id: RENEWAL_MODULE_ID,
   state: {
     schemaVersion: 1,

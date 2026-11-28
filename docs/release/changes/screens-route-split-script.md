@@ -3,4 +3,4 @@ id: screens-route-split-script
 impact: none
 ---
 
-A re-runnable script for splitting the play server's route table by screen; it changes no game file until it is run.
+The play server's route table is split by screen (scripts/screens/split-routes.mjs, applied); every route answers as before.

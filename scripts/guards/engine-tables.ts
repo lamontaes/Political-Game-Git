@@ -32,7 +32,7 @@ const ROOT = path.resolve(
   "..",
 );
 
-/** `core.<map>` state maps: the engine that owns each. The core's own maps are not listed. `publicOrganizations` is the offices and institutions row, which the executive engine owns. */
+/** `core.<map>` state maps: the engine that owns each. The core's own maps are not listed. `publicOrganizations` is the offices and institutions row, which the offices engine owns. */
 export const STATE_MAP_OWNER: Readonly<Record<string, string>> = {
   people: "people",
   husks: "people",
@@ -42,7 +42,7 @@ export const STATE_MAP_OWNER: Readonly<Record<string, string>> = {
   memberships: "people",
   jobs: "jobs-businesses",
   organizations: "jobs-businesses",
-  publicOrganizations: "executive",
+  publicOrganizations: "offices",
 };
 
 /** The state rows an engine owns, by the type a row is read as: editing one in place from another family is a write the owner does not see. */
@@ -54,7 +54,7 @@ export const ROW_OWNER: Readonly<Record<string, string>> = {
   Membership: "people",
   JobInput: "jobs-businesses",
   OrganizationInput: "jobs-businesses",
-  PublicOrganization: "executive",
+  PublicOrganization: "offices",
 };
 const MUTATORS = new Set(["add", "set", "delete", "push", "splice", "clear"]);
 const WRITE_ON_MAP = new Set(["set", "delete", "clear"]);
