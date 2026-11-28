@@ -523,7 +523,11 @@ function editTsconfig(): void {
   const add = (list: string[], entries: string[]) => {
     for (const entry of entries) if (!list.includes(entry)) list.push(entry);
   };
-  add(config.include, ["scripts/core2/**/*.ts", "scripts/bench/**/*.ts"]);
+  add(config.include, [
+    "scripts/core2/**/*.ts",
+    "scripts/bench/**/*.ts",
+    "scripts/director/**/*.ts",
+  ]);
   add(config.exclude, [
     "scripts/core2/**/*.test.ts",
     "scripts/bench/**/*.test.ts",
