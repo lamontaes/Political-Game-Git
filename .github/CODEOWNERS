@@ -416,36 +416,25 @@
 
 # Laws, justice and their effects (laws)
 /src/core2/modules/laws.ts @lamontaes
-/src/core2/modules/justice.ts @lamontaes
-/src/core2/modules/public-safety.ts @lamontaes
-/src/core2/modules/crime.ts @lamontaes
-/src/core2/modules/police-patrol.ts @lamontaes
-/src/core2/modules/corruption.ts @lamontaes
 /src/core2/modules/outcome-web.ts @lamontaes
 /src/core2/modules/laws-reads.ts @lamontaes
 /src/core2/modules/laws-reads.test.ts @lamontaes
-/src/core2/modules/justice-reads.ts @lamontaes
 /src/core2/modules/outcome-web-reads.ts @lamontaes
 /src/core2/modules/prices-web-gaps.ts @lamontaes
 /src/core2/law-reach/** @lamontaes
 /src/core2/laws-*.ts @lamontaes
-/src/core2/justice-*.ts @lamontaes
 /src/core2/policy-*.ts @lamontaes
 /src/core2/gov-measure*.ts @lamontaes
 /src/core2/state-effective-date.ts @lamontaes
 /src/core2/right-to-work-dues.ts @lamontaes
 /src/core2/social-security-law.ts @lamontaes
 /src/core2/wage-floor.ts @lamontaes
-/src/core2/low-level-offenses.ts @lamontaes
-/src/core2/firearm-ownership.ts @lamontaes
 /src/core2/paid-leave.ts @lamontaes
 /src/core2/public-pay-floor.ts @lamontaes
-/src/core2/public-safety.ts @lamontaes
 /src/core2/outcome-web-*.ts @lamontaes
 /src/core2/health-web.ts @lamontaes
 /src/core2/jobs-web.ts @lamontaes
 /src/core2/term-read.ts @lamontaes
-/src/core2/modules/federal-courts.ts @lamontaes
 /src/core2/law-reach/group-a-records-constants.ts @lamontaes
 /src/core2/law-reach/group-b-store-constants.ts @lamontaes
 /src/core2/aide-pay-market.test.ts @lamontaes
@@ -461,7 +450,6 @@
 /src/core2/congress-federal-position-bills.test.ts @lamontaes
 /src/core2/consumer-credit-law.test.ts @lamontaes
 /src/core2/contribution-limit-reach.test.ts @lamontaes
-/src/core2/corruption-refusal.test.ts @lamontaes
 /src/core2/county-body-reads-county-law.test.ts @lamontaes
 /src/core2/data-privacy-law.test.ts @lamontaes
 /src/core2/debt-limit-binds.test.ts @lamontaes
@@ -474,7 +462,6 @@
 /src/core2/executive-head-records.test.ts @lamontaes
 /src/core2/executive.test.ts @lamontaes
 /src/core2/family-link-change.test.ts @lamontaes
-/src/core2/federal-courts.test.ts @lamontaes
 /src/core2/federal-data-privacy-law.test.ts @lamontaes
 /src/core2/federal-deficit-borrowing-cost.test.ts @lamontaes
 /src/core2/federal-grant-pass-through.test.ts @lamontaes
@@ -491,7 +478,6 @@
 /src/core2/graduated-repeal-flat-rate.test.ts @lamontaes
 /src/core2/groundwater-law.test.ts @lamontaes
 /src/core2/group-quarters-means-reach.test.ts @lamontaes
-/src/core2/gun-preemption-flags.test.ts @lamontaes
 /src/core2/health-web-particulates.test.ts @lamontaes
 /src/core2/health-web.test.ts @lamontaes
 /src/core2/hold-record-sponsor.test.ts @lamontaes
@@ -518,13 +504,11 @@
 /src/core2/law-took-effect-superseded.test.ts @lamontaes
 /src/core2/law-wiring-borrowing-cost.test.ts @lamontaes
 /src/core2/law-wiring-college-step.test.ts @lamontaes
-/src/core2/law-wiring-crime-web.test.ts @lamontaes
 /src/core2/law-wiring-government.test.ts @lamontaes
 /src/core2/law-wiring-grocery.test.ts @lamontaes
 /src/core2/law-wiring-health-schools.test.ts @lamontaes
 /src/core2/law-wiring-housing.test.ts @lamontaes
 /src/core2/law-wiring-immigration.test.ts @lamontaes
-/src/core2/law-wiring-justice.test.ts @lamontaes
 /src/core2/law-wiring-labor-web.test.ts @lamontaes
 /src/core2/law-wiring-labor.test.ts @lamontaes
 /src/core2/law-wiring-mortality-web.test.ts @lamontaes
@@ -546,7 +530,6 @@
 /src/core2/medicare-line-medical-debt.test.ts @lamontaes
 /src/core2/metrics-labor-force.test.ts @lamontaes
 /src/core2/minimum-wage-history.test.ts @lamontaes
-/src/core2/modules/crime.test.ts @lamontaes
 /src/core2/modules/public-action-counted.test.ts @lamontaes
 /src/core2/modules/public-action-movement.test.ts @lamontaes
 /src/core2/modules/public-action-rally.test.ts @lamontaes
@@ -557,10 +540,8 @@
 /src/core2/outside-act-not-town-law.test.ts @lamontaes
 /src/core2/outside-agenda.test.ts @lamontaes
 /src/core2/paid-leave.test.ts @lamontaes
-/src/core2/pending-bribe-not-reported.test.ts @lamontaes
 /src/core2/pending-law-reversal.test.ts @lamontaes
 /src/core2/place-prices-learned.test.ts @lamontaes
-/src/core2/police-arrests.test.ts @lamontaes
 /src/core2/polling-place-building.test.ts @lamontaes
 /src/core2/pr-municipio-budget.test.ts @lamontaes
 /src/core2/prices-web-environment.test.ts @lamontaes
@@ -610,6 +591,27 @@
 /src/core2/withholding-zero-rate.test.ts @lamontaes
 /src/core2/world-legislating.test.ts @lamontaes
 /src/rules/laws/** @lamontaes
+/src/core2/gun-preemption-flags.test.ts @lamontaes
+
+# Courts, police, crime and corruption (justice)
+/src/core2/modules/justice.ts @lamontaes
+/src/core2/modules/public-safety.ts @lamontaes
+/src/core2/modules/crime.ts @lamontaes
+/src/core2/modules/police-patrol.ts @lamontaes
+/src/core2/modules/corruption.ts @lamontaes
+/src/core2/modules/justice-reads.ts @lamontaes
+/src/core2/modules/federal-courts.ts @lamontaes
+/src/core2/justice-*.ts @lamontaes
+/src/core2/low-level-offenses.ts @lamontaes
+/src/core2/firearm-ownership.ts @lamontaes
+/src/core2/public-safety.ts @lamontaes
+/src/core2/modules/crime.test.ts @lamontaes
+/src/core2/federal-courts.test.ts @lamontaes
+/src/core2/police-arrests.test.ts @lamontaes
+/src/core2/corruption-refusal.test.ts @lamontaes
+/src/core2/pending-bribe-not-reported.test.ts @lamontaes
+/src/core2/law-wiring-justice.test.ts @lamontaes
+/src/core2/law-wiring-crime-web.test.ts @lamontaes
 
 # Jobs, businesses and the economy (jobs-businesses)
 /src/core2/shared-time.ts @lamontaes

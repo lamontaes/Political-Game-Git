@@ -154,7 +154,10 @@ import bodyRows from "../data/offices/bodies.json" with { type: "json" };
 import { headsExecutive } from "../offices-executives";
 import { ELECTIONS_MODULE_ID, worldRoster, type FilingRow } from "./elections";
 
-export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
+// The id lives with the read doors (bodies-reads.ts), which import nothing at run
+// time, so a reader can use the doors without joining the import ring.
+export { LEGISLATURE_MODULE_ID } from "./bodies-reads";
+import { LEGISLATURE_MODULE_ID } from "./bodies-reads";
 
 /**
  * What the engines that feed the legislature carry as a field (the world's

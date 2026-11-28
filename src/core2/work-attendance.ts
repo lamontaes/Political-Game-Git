@@ -32,6 +32,7 @@ import type {
   WorkResultInput,
 } from "./types";
 import { registerSnapshotPart } from "./snapshot";
+import { recordActChosen } from "./person-state";
 
 const nativeSet = Map.prototype.set,
   nativeDelete = Map.prototype.delete,
@@ -1114,9 +1115,6 @@ function writeActor(a: Priced) {
     after,
     nextActor,
   } = a;
-  nextActor.lastChoice = selectedId;
-  nextActor.lastReason = input.reasonKey;
-  nextActor.actCount = after;
   const actualKinds = r.field(actor, "actsByKind");
   r.payload(actualKinds, zero, one);
   const kinds = play
@@ -1130,7 +1128,12 @@ function writeActor(a: Priced) {
       zero,
     ),
   );
-  nextActor.actsByKind = kinds;
+  recordActChosen(nextActor, {
+    lastChoice: selectedId,
+    lastReason: input.reasonKey,
+    actCount: after,
+    actsByKind: kinds,
+  });
   carryTraitScores(actor, nextActor);
   batch.map(r.field(core, "people"), actorView.id, nextActor);
   const month = date.slice(zero, batch.parameter("isoMonthCharacters")),

@@ -15,6 +15,7 @@ import type {
   JobInput,
   WorkCommitmentInput,
 } from "./types";
+import { clearEndedJob, dropWorkGoal } from "./person-state";
 
 export function startRecordedJob(
   core: CoreState,
@@ -134,7 +135,7 @@ export function endRecordedJob(
   // After a shift worked today, the job's end date is tomorrow (exclusive for new work), so
   // today's shift lies inside the job and its payroll stands; the work commitment ends today.
   job.endsAt = workedToday ? addDays(makeIsoDate(core.date), 1) : core.date;
-  if (actor.jobId === jobId) delete actor.jobId;
+  clearEndedJob(actor, jobId);
   refreshOfficeStaff(core, job.organizationId);
   for (const commitmentId of core.work.commitmentsByPerson.get(actor.id) ??
     []) {
@@ -153,7 +154,47 @@ export function endRecordedJob(
     }
     if (residues && !residues.size)
       core.work.byPeriodResidue.delete(commitment.periodDays);
-    actor.goals.delete(`work:${commitment.id}`);
+    dropWorkGoal(actor, commitment.id);
+  }
+  api.observe(actor.id, {
+    key: `job:${jobId}:status`,
+    value: "ended",
+    learnedAt: core.date,
+    sourceId,
+    access: "self",
+  });
+}
+
+/**
+ * An employer closes and one of its jobs ends today (finance-state.ts's
+ * closure). Not `endRecordedJob`: a closure ends the job today even after a
+ * shift worked, never throws, ends every commitment of the job as it stands
+ * and refreshes the office staff before the person's job is cleared.
+ */
+export function endClosedEmployerJob(
+  core: CoreState,
+  api: CoreAPI,
+  jobId: string,
+  sourceId: string,
+): void {
+  const job = core.jobs.get(jobId)!;
+  job.endsAt = core.date;
+  refreshOfficeStaff(core, job.organizationId);
+  const actor = core.people.get(job.personId)!;
+  clearEndedJob(actor, jobId);
+  for (const commitmentId of core.work.commitmentsByPerson.get(actor.id) ??
+    []) {
+    const commitment = core.work.commitments.get(commitmentId)!;
+    if (commitment.jobId !== jobId) continue;
+    commitment.endsAt = core.date;
+    const residues = core.work.byPeriodResidue.get(commitment.periodDays);
+    for (const [residue, ids] of residues ?? []) {
+      ids.delete(commitmentId);
+      if (!ids.size) residues!.delete(residue);
+    }
+    if (residues && !residues.size)
+      core.work.byPeriodResidue.delete(commitment.periodDays);
+    dropWorkGoal(actor, commitment.id);
   }
   api.observe(actor.id, {
     key: `job:${jobId}:status`,

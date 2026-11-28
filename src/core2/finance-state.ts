@@ -1,4 +1,3 @@
-import { refreshOfficeStaff } from "./modules/campaigns";
 import { verifyCurrentWorkPayrollGroup } from "./work-payroll-cash";
 import {
   countedWagesEarned,
@@ -52,6 +51,7 @@ import type {
   PersonState,
   Source,
 } from "./types";
+import { endClosedEmployerJob } from "./job-lifecycle";
 
 export function emptyFinanceRuntime(at: string): FinanceRuntime {
   return {
@@ -1829,34 +1829,8 @@ function windDownEmployer(
   book.closingReasonKey = reasonKey;
   closure.creditLines = closeCreditLines(core, api, closure);
   removeIndex(core.finance.reviewsDueAt, book.nextReviewedAt, organizationId);
-  for (const jobId of endedJobIds) {
-    const job = core.jobs.get(jobId)!;
-    job.endsAt = core.date;
-    refreshOfficeStaff(core, job.organizationId);
-    const actor = core.people.get(job.personId)!;
-    if (actor.jobId === jobId) delete actor.jobId;
-    for (const commitmentId of core.work.commitmentsByPerson.get(actor.id) ??
-      []) {
-      const commitment = core.work.commitments.get(commitmentId)!;
-      if (commitment.jobId !== jobId) continue;
-      commitment.endsAt = core.date;
-      const residues = core.work.byPeriodResidue.get(commitment.periodDays);
-      for (const [residue, ids] of residues ?? []) {
-        ids.delete(commitmentId);
-        if (!ids.size) residues!.delete(residue);
-      }
-      if (residues && !residues.size)
-        core.work.byPeriodResidue.delete(commitment.periodDays);
-      actor.goals.delete(`work:${commitment.id}`);
-    }
-    api.observe(actor.id, {
-      key: `job:${jobId}:status`,
-      value: "ended",
-      learnedAt: core.date,
-      sourceId: sourceReceiptId,
-      access: "self",
-    });
-  }
+  for (const jobId of endedJobIds)
+    endClosedEmployerJob(core, api, jobId, sourceReceiptId);
   for (const id of core.finance.contractsByBusiness.get(organizationId) ?? []) {
     const row = core.finance.contracts.get(id)!;
     row.endedAt = core.date;
