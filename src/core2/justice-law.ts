@@ -8,7 +8,7 @@
 import sentencing from "../../data/research/justice/sentencing-ranges-2026.json" with { type: "json" };
 import disposition from "../../data/research/justice/time-to-disposition-2026.json" with { type: "json" };
 import type { CoreAPI, PersonId, Source } from "./types";
-import { lawChain } from "./modules/laws";
+import { lawChain } from "./modules/laws-reads";
 import { appointmentsIn, EXECUTIVE_MODULE_ID } from "./modules/executive";
 import type { TermRow } from "./modules/offices";
 import { OFFICES_MODULE_ID, servingTermsOf } from "./offices-reads";

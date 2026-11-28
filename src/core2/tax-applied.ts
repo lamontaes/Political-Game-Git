@@ -6,7 +6,7 @@
  * level, against those questions too.
  */
 import { lawApplied } from "./law-reach/applied";
-import { lawInForce } from "./modules/laws";
+import { lawInForce } from "./modules/laws-reads";
 import type { WithholdingLine } from "./tax-withholding";
 import {
   ADOPT_INCOME_TAX_QUESTION,

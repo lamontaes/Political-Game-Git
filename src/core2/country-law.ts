@@ -18,7 +18,7 @@ import { unemploymentTermsOf } from "./jobs-reads";
 import { withholdingFor } from "./budgets-treasury";
 import type { LawInForceAnswer } from "./laws-in-force";
 import { resolveLawInForce } from "./laws-resolve";
-import { stateOpeningLawRows } from "./modules/laws";
+import { stateOpeningLawRows } from "./modules/laws-reads";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 
 /** The federal position whose law admits more immigrants (the moves research's own series). */

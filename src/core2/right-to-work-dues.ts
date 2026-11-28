@@ -14,7 +14,7 @@
 import { daysBetweenText as daysBetween } from "./kernel/dates";
 import { worldUnionRatePct } from "./union-rate";
 import type { CoreAPI, CoreState } from "./types";
-import { lawChain, lawInForce } from "./modules/laws";
+import { lawChain, lawInForce } from "./modules/laws-reads";
 import { residentsRuntime } from "./residents-reads";
 import { setResidentFlowAmount } from "./resident-flows";
 import { lawApplied } from "./law-reach/applied";

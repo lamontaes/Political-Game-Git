@@ -21,7 +21,7 @@ import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { CashJournalSourceSlot } from "../journal-state";
-import { lawChain, lawInForce, lawInForceToday } from "./laws";
+import { lawChain, lawInForce, lawInForceToday } from "./laws-reads";
 import { lawApplied } from "../law-reach/applied";
 import { residentFacts, residentsRuntime } from "../residents-reads";
 import { businessScaleOf, countedHeadsOf } from "../counted-job-heads";

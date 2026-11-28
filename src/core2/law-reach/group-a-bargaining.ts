@@ -38,7 +38,7 @@ import {
   REACH_A_MODULE_ID,
   tomorrow,
 } from "./group-a-records";
-import { yesLevels } from "../modules/laws";
+import { yesLevels } from "../modules/laws-reads";
 
 const KEY = data.series;
 const KIND = data.contractKind;

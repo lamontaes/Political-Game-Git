@@ -10,7 +10,7 @@
  */
 import type { CoreAPI, CoreState } from "../types";
 import { townSeats } from "../offices-reads";
-import { lawChain } from "./laws";
+import { lawChain } from "./laws-reads";
 import {
   agencyHeadsIn,
   appointmentsIn,

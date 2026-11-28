@@ -17,7 +17,7 @@
  * calendar for that day. Nobody too young to follow the news hears it.
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { lawRows } from "./modules/laws";
+import { lawRows } from "./modules/laws-reads";
 import { printStory, readingDelay, type Story } from "./modules/news";
 import { writeArchiveStory } from "./modules/press";
 import type { PastTown } from "./past-bodies";

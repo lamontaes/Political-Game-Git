@@ -13,7 +13,7 @@
  * SG-GOV-REACH-B-assistance-benefits).
  */
 import type { CoreAPI, CoreState } from "../types";
-import { lawChain, lawInForce } from "../modules/laws";
+import { lawChain, lawInForce } from "../modules/laws-reads";
 import { residentsRuntime } from "../residents-reads";
 import {
   povertyLineDollars,

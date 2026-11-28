@@ -34,7 +34,7 @@ import {
   firearmOwnershipRate,
   householdOwnsFirearm,
 } from "../firearm-ownership";
-import { lawChain, yesLevels } from "../modules/laws";
+import { lawChain, yesLevels } from "../modules/laws-reads";
 import { residentsRuntime } from "../residents-reads";
 import { countedJobHeads } from "../counted-job-heads";
 import type { TermRow } from "../modules/offices";
