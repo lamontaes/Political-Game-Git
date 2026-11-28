@@ -28,6 +28,7 @@ import type { Fact } from "../english/scene-talk-words";
 import { billQuestionRead, type LeanOf } from "./bill-question-facts";
 import { billTitleOf, billTitleSaid } from "../english/bill-names";
 import { employerSaid } from "../english/journal-words";
+import { OUTSIDE_MARKET_KIND } from "../core2/opening-outside-market";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { businessNameSaid } from "./words";
 
@@ -55,7 +56,10 @@ export function donorAskFacts(
   facts["donor-first"] = { text: donor.givenName, sourceRecordIds: [donorId] };
   const job = donor.jobId ? core.jobs.get(donor.jobId) : undefined;
   const org = job ? core.organizations.get(job.organizationId) : undefined;
-  if (job && org && !job.endsAt)
+  // The outside market is where outside work is booked, not a place anyone
+  // works ("someone from the Buyers and sellers outside the town"); a commuter
+  // has no employer to name here.
+  if (job && org && !job.endsAt && org.kind !== OUTSIDE_MARKET_KIND)
     facts.employer = {
       // As people say it: "the government of Utah", never "Utah treasury".
       text: employerSaid(businessNameSaid(org), org),

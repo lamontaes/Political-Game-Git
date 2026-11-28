@@ -716,11 +716,13 @@ function composeBinding(
       : undefined;
   const number = said.number ?? named?.number;
   if (number) {
-    // Said as a clerk reads it: a bare number takes its form's word first.
-    facts.bill = {
-      text: spokenDesignation(number, named?.form.kind ?? ""),
-      sourceRecordIds: [billId ?? moment.causeId, moment.causeId],
-    };
+    // By what people call it ("the Fair Wage Act") where the bill has a name;
+    // said as a clerk reads it, a bare number with its form's word first, only
+    // where it has none (readers, Nov 27: "Ordinance 2025-19" in every line).
+    facts.bill = billSaid(named, number, named?.form.kind ?? "", [
+      billId ?? moment.causeId,
+      moment.causeId,
+    ]);
   }
   // A bill that cuts: a budget line taken down or a law repealed, from its own
   // sections, so nobody asks why it cuts a program when it raises a fee.
@@ -764,10 +766,11 @@ function composeBinding(
       ? billOf(coreAPI(core as CoreState), said.enactedBy)
       : undefined;
     if (bill?.number)
-      facts.bill = {
-        text: spokenDesignation(bill.number, bill.form.kind),
-        sourceRecordIds: [bill.id, said.lawId, moment.causeId],
-      };
+      facts.bill = billSaid(bill, bill.number, bill.form.kind, [
+        bill.id,
+        said.lawId,
+        moment.causeId,
+      ]);
   }
   // What the asked person did on the cause's bill (or the bill that enacted
   // its law) and why, from their row of the roll (vote-stand-facts.ts), so no
@@ -1419,10 +1422,10 @@ function composeBinding(
       said.sponsorId === askedId &&
       said.billFraming === "against"
     ) {
-      facts.bill = {
-        text: spokenDesignation(bill.number, bill.form.kind),
-        sourceRecordIds: [bill.id, ...cited],
-      };
+      facts.bill = billSaid(bill, bill.number, bill.form.kind, [
+        bill.id,
+        ...cited,
+      ]);
       facts["about-bill"] = facts.bill;
     } else if (said.subjectId === askedId && said.subjectFraming === "against")
       facts["about-you"] = { text: asked.givenName, sourceRecordIds: cited };
@@ -3909,4 +3912,24 @@ function turnoutOf(
   return value === "few" || value === "group" || value === "crowd"
     ? value
     : undefined;
+}
+
+/**
+ * A bill as people say it: by its name ("the Fair Wage Act") where it has one,
+ * and by its number with its form's word ("Ordinance 2025-19") only where it
+ * has none.
+ */
+function billSaid(
+  bill: Parameters<typeof billTitleOf>[0] | undefined,
+  number: string,
+  formKind: string,
+  sourceRecordIds: readonly string[],
+): Fact {
+  const title = bill ? billTitleOf(bill) : null;
+  return {
+    text: title
+      ? billTitleSaid(title.title)
+      : spokenDesignation(number, formKind),
+    sourceRecordIds,
+  };
 }
