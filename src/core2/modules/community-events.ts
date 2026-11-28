@@ -19,7 +19,7 @@
  */
 import { coreAPI } from "../state";
 import { moduleCalendar } from "../module-calendar";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate, weekdayOf } from "../kernel/dates";
 import {
   communityEventsFor,
   communityPlaceType,
@@ -74,11 +74,8 @@ const table = (api: CoreAPI) =>
 const core = (api: CoreAPI) => api.state as CoreState;
 const pad = (n: number) => String(n).padStart(2, "0");
 const day = (y: number, m: number, d: number) => `${y}-${pad(m)}-${pad(d)}`;
-const weekday = (date: string) => new Date(`${date}T00:00:00Z`).getUTCDay();
-const plus = (date: string, days: number) =>
-  new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000)
-    .toISOString()
-    .slice(0, 10);
+const weekday = weekdayOf;
+const plus = (date: string, days: number) => addDays(makeIsoDate(date), days);
 
 /** The first Saturday on or after a date, or the last one before the end when none is left. */
 function saturdayFrom(date: string, end: string): string {
