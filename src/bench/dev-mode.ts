@@ -97,6 +97,7 @@ import {
   ELECTIONS_MODULE_ID,
   petitionOf,
   playerContests,
+  contestOf,
 } from "../core2/modules/elections";
 import {
   campaignFor,
@@ -2400,10 +2401,8 @@ export class DevMode {
         has(this.core, OFFICES_MODULE_ID)
       ) {
         const contest = has(this.core, ELECTIONS_MODULE_ID)
-          ? (this.api
-              .moduleState(ELECTIONS_MODULE_ID)
-              .table("contests")
-              .get(facts.contestId) as { officeId?: string } | undefined)
+          ? (contestOf(this.api, facts.contestId) as
+              { officeId?: string } | undefined)
           : undefined;
         const office = contest?.officeId
           ? this.api

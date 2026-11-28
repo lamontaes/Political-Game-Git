@@ -30,17 +30,19 @@ import {
   atLargeGroup,
   campaigning,
   checkEligibility,
-  ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingOfficeFor,
+  filingOf,
   filingRulesFor,
+  filingsInContest,
+  filingsOfPerson,
   filingWindowOpen,
   playerContests,
   notYourOfficeWhy,
   playerFilingBar,
   seatIsAnotherDistrict,
   type ContestRow,
-  type FilingRow,
+  contestOf,
 } from "../core2/modules/elections";
 import {
   candidateIdentity,
@@ -272,10 +274,7 @@ function partyFacts(core: CoreState, place: string) {
 export function governmentView(core: CoreState, personId: string) {
   const api = coreAPI(core);
   const place = facePlace(core, personId);
-  const filings = api
-    .moduleState(ELECTIONS)
-    .table("filings")
-    .query("byPerson", [personId]) as unknown as FilingRow[];
+  const filings = filingsOfPerson(api, personId);
   const seats = townSeats(api);
   // Who sets each level's law: the government its seats name ("Texas").
   const governmentOf = new Map<string, string>();
@@ -520,12 +519,7 @@ export function localRaces(core: CoreState) {
     .filter(({ contest, group }) => group[0]!.id === contest.id)
     .map(({ contest, group }) => {
       const filers = group
-        .flatMap(
-          (seat) =>
-            elections
-              .table("filings")
-              .query("byContest", [seat.id]) as unknown as FilingRow[],
-        )
+        .flatMap((seat) => filingsInContest(api, seat.id))
         // Everyone running: filed, and announced while the window is ahead
         // (owner, Nov 17: "other people should be able to announce").
         .filter(campaigning)
@@ -569,12 +563,8 @@ export function localRaces(core: CoreState) {
       const announced = core.playerId
         ? group.some(
             (seat) =>
-              (
-                elections
-                  .table("filings")
-                  .get(`filing:${seat.id}:${core.playerId}`) as unknown as
-                  FilingRow | undefined
-              )?.status === "announced",
+              filingOf(api, `filing:${seat.id}:${core.playerId}`)?.status ===
+              "announced",
           )
         : false;
       const cannotFile = cannotFileFor(api, core.playerId, contest.id);
@@ -805,10 +795,8 @@ export function announceForOffice(
       (controls.localRaces.refusal as Record<string, string>)[bar] ??
         controls.localRaces.refusal["not-your-office"],
     );
-  const contest = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("contests")
-    .get(contestId) as unknown as ContestRow | undefined;
+  const contest = contestOf(api, contestId) as unknown as
+    ContestRow | undefined;
   if (!contest) throw new Error(controls.localRaces.refusal["not-your-office"]);
   // The party the player is tied to, as the counter's filing reads it.
   const parties = core.modules.has(PARTIES_MODULE_ID) ? partiesHere(api) : [];
@@ -841,10 +829,8 @@ export function fileForOffice(
   // their views on the questions this seat takes up (the same read a
   // simulated candidate's filing makes), and none for a question they have no
   // view on.
-  const contest = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("contests")
-    .get(contestId) as unknown as ContestRow | undefined;
+  const contest = contestOf(api, contestId) as unknown as
+    ContestRow | undefined;
   return fileCandidacy(api, {
     personId,
     contestId,
