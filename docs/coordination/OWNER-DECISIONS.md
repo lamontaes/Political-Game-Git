@@ -2,6 +2,170 @@
 
 The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
+## Nov 27, 2026, 8:06 p.m.: conflict flagged, the day and place in scene narration (CTO, by the most-recent rule)
+
+- **Nov 8** (the filing counter): "it says first thing on June 7th. You head to the clerk's office...". It's held by src/bench/filing-intro.test.ts, which required the date in every counter's opening.
+- **Nov 24** (the same wording in another scene, "Late in the morning on January 21st, you knock"): "no ... you already know what day and time it is. Like, it says it on your thing". That's rule `no-day-or-place-in-narration`.
+- **The Nov 24 ruling governs** (the most recent wins). Scene narration doesn't say the day or the place, because the player card shows both. filing-intro.test.ts now requires the clerk's name and title instead. Applied to W2, the filing counter (#10812).
+
+## Nov 27, 2026, about 5:30 p.m.: the loading card's step names vary too (owner; recorded by the CTO)
+
+- Shown the warm-up step's two texts, the original "Letting the country, the state and the town run two months on their own before your first evening." and Story split's "Giving the world a head start": **"Neither of those are good. They both suck."**
+- Asked what he pictures (inline question), he picked **"Names vary too"**: the step name itself comes from a bank, like the dry line under it, so neither line is the same text on every load. That makes two varied lines per step.
+  - **One rule for every step on the loading card**, not only the warm-up. Today each step has one fixed name in src/bench/data/controls.json and two pieces in data/english/parts/loading-steps.json.
+  - **Nothing is deleted** (his Nov 25 rule). The fixed names become pieces in the step-name bank. His grade "both bad" is recorded as grade rows, and the engine's grade filter (admittedParts) holds those two texts back.
+  - **Words:** his Nov 24 loading ruling holds. Short, sarcastic jokes about what the game really builds, mixed with plain ones, some in escalating series ("Printing money. Printing more money."), with no developer talk. Depth, not breadth: many versions per step for both lines. They land as one words batch through the sameness gate, the pre-grade and the three-place check.
+
+## Nov 26, 2026, about 9:50 p.m.: words land in batches, again (owner, verbatim; recorded by the CTO)
+
+- Asked what should let a part of the story merge: "i've already ruled on this multiple times. I can't approve everything so this is why I need batches that affect a lot of stuff in their sentencing and the scenarios and stuff and then when I actually play I can I can see how this stuff works, but you can play and at least see how the sentences and stuff work I mean I don't understand why I have to keep ruling"
+  - **The standing rule** (Nov 8, Nov 9 "I'm also not gonna grade 6,000 individual lines", Nov 11 "merge in batches", Nov 24 "each batch counts only after the sameness gate and the pre-grader pass it"):
+    - Words land in batches. A part counts once it passes the sameness gate and pre-grade and plays right at three drawn places. Then it goes in one words PR onto main, with its scenes before and after, and the CTO trains it.
+    - He grades small batches by voice. A grade reaches every line that shares its pattern across the game, and he sees the rest when he plays.
+    - **Nothing waits for his approval line by line.** #10390's "nothing merges until he plays it in the installed game" was wrong, and is why the Story branch piled up. Never ask him this again.
+  - **"History, next":** History splits story/first-evening. Its engine half lands on main like any engine change; its words half becomes data only and lands in batches under this rule.
+
+## 2026-11-26, about 1:40 p.m. ET: just the game in the game folder; builders only
+
+- **"No tests, no notes, other than stopgaps... no attributions, nothing. Just straight game code. Like if I were to download a game online and I were to open the folder and look at all the files, it should just be the game stuff."** His pick: **game folder clean, workshop separate**, run after the builders finish.
+  - Tests move out of `src/` into `tests/`.
+  - Owner quotes, dates and attributions come out of code comments; stopgap markers stay, and rulings go to this file first.
+  - Docs, skills and CI stay outside the game folder.
+  - The shipped app holds only game files.
+  - A guard keeps it that way.
+  - Spec: `docs/coordination/refactor/game-only-pass.md`. The cleanup session does it as its last step.
+- **12:45 p.m.:** "all of these need to be builders only. You can do the merging and all that shit... I'm not worried about landing stuff. I'm worried about stuff getting built and removed and changed and fixed."
+- **12:20 p.m.:** "I give you standing approval for whatever you need. A part of being CTO is making decisions in my absence... just tell me what you approve." Auto-mode refusals still stand.
+
+## 2026-11-26, about 12:15 p.m. ET: row 14, branches, stale PRs (his picks on the CTO's inline questions)
+
+- **Row 14 (the century's laws): "Last few sessions."** The 1925 century keeps its own vote for its early years. The real bill engine runs only the played state's last few sessions, in a pre-day-one pass, so loading stays near today's time. Measured by Past and Day One on Nov 26: the whole century through the engine would add at least 250% to loading (about 58 s on a 12 s build). Built by Past and Day One; it changes the world, so it stays open for his review.
+- **Branches:** "Turn on auto-delete + I run it." He turns on GitHub's "Automatically delete head branches" setting and runs `cto-notes/tools/delete_merged_branches.py` on the saved manifest of 6,704 merged-PR branches. Auto mode refused the bulk delete for the CTO.
+- **Stale PRs: "Close all 88."** That's 50 based on main and untouched for more than 7 days, plus 38 on bases that can never reach main (`train/nov17b`, `train/nov18`, `claude/story-cut-before-nov15`). Closed at 12:15 p.m. with a reason on each; their branches stay.
+- **Overnight, Nov 26, about 2:40 a.m.:** "You are me while I'm asleep." The CTO's decisions made in his name are listed in `cto-notes/overnight/2026-11-26-morning.md`, under "What I decided as you."
+
+## Nov 25, 2026, about 1:28 p.m.: one history, read by everything (owner, verbatim; recorded by the CTO)
+
+- "WELL IT ALL NEEDS TO BE LINKED TO THE SAME THING WHICH IS WHAT I KEEP SAYING!!!!!!!!!! THE JOURNAL, DIRECTOR, PERSON CARDS, ETC ALL PULL FROM THE SAME HISTORY. STOP MAKING NEW SYSTEMS FOR NEW THINGS WHEN THEY ALL USE THE SAME THING!!!!!!!!!"
+  - Every reader pulls from the one history the world simulates: the Journal, the director, the person cards, the loading story, the news and the newscast. A reader may tell it differently. None of them keeps its own list of moments or its own sections.
+  - No new system for a new screen or kind of text. Extend the one history and its one telling instead.
+  - The 1:20 p.m. causes, read again under this ruling: the loading story's SECTION_YEAR, the Journal's own moment builders, and a news that holds no history are each a separate system over the same records. Fold them onto the one history; don't patch any one of them alone.
+
+## Nov 25, 2026, about 1:20 p.m.: a wrong line is an engine problem; stop deleting lines (owner, verbatim; recorded by the CTO)
+
+- "STOP DOING SHIT BY LINES SPECIFICALLY. IF IT'S WRONG IT'S AN ENGINE PROBLEM!!!!!!!!!!!!!!!!!!!!!!!"
+- "lines need to be stopped deleting when I say stuff is messed up. The problem isn't the lines themselves, it's how it's structured. Like, when they're wrong, you need to see why they're written like that and update the fucking code. This is why we keep fucking reverting, because they keep starting from zero."
+- "I hate when you edit specific fucking scenes or specific banks, because that leaves the problem in the entire engine. This is why every day for months I keep saying it needs to infect the entire engine. This should get exponentially better. It already should with all those goddamn rulings I have already on the GitHub."
+- "This is why everything needs to be different and be testing different things, so that way I can calibrate."
+- On the Journal: "You were born in 2007 under a Democratic president. That's not a story ... these are just lines of facts." On the news: "History doesn't even appear on news stations and stuff. You show me this shit on the news saying it's fixed, and it's still one line."
+- **What this means for every session:**
+  - When he faults a line, find why the engine wrote it or picked it, and change that code so the fix reaches every scene and bank. Lines are not deleted, rewritten or hand-edited to fix it.
+  - This replaces the bank-wide cuts of Nov 17 to 19 (#10063 deleted 13,596 lines by date, every line he had graded good among them). It also replaces this morning's line deletions.
+  - Each grading round tests different engine approaches side by side, so he can calibrate.
+- **The engine causes behind what he named, checked in the code at story/first-evening:**
+  1. The loading story and the Journal are built as one sentence per kind of record (`src/bench/loading.ts` SECTION_YEAR: born, school, moved, finished, college, job, lost, now; `src/director/journal.ts`: householdMoments, pastWorkMoments, "one sentence per person"). That guarantees a list of facts whatever the lines say.
+  2. The news never reads the simulated history (`src/bench/nation-news.ts` and `src/english/english-newscast.ts` hold no history records), and it words a story in one line.
+  3. The outline planner's only joining rule is `after`, a list of moves a sentence may follow. Nothing checks that a sentence follows from what was said before it.
+  4. The scene engine lost move kinds in the cut and the rebuild: 76 before Nov 18, 35 now. The press scene went from 24 steps and moves to 6. Nov 24's no-leave/deflect/stall order removed the moves themselves from the reply planner. The order should have made every reply carry its stance.
+  5. The loading card hands the town and state to every progress step.
+
+## Nov 25, 2026, about 1:00 p.m.: no town in the loading steps, no waiting asides, no agree-only replies (owner, verbatim; recorded by the CTO)
+
+- "sending reporters to the town hall on Evendale, they will wait. First of all, whatever that shit, like, they will wait, or someone is there with you, like, that type of shit, I hate that. Remove it all."
+- "Second, it's talking about Evendale. Stop. It should not be that specific. It's talking about the country at wide."
+  - The loading steps speak of the whole country being built and never name the player's town or state. This replaces the Story lead's Nov 24 note that each step names the build's town or state. The loading story of the player's own life still names their town.
+- "Third, there are replies like, I agree. Proudly so. Why are these coming back in? Look, oh my God, there was grading that was good. Why am I reverting to the beginning every single time?"
+  - No line only agrees, accepts or waits ("Proudly, yes.", "I'm with you.", "Count me in.", "I'll wait.").
+  - Lines he graded up stay in the banks. A batch that replaces a bank keeps his passed lines.
+- Done by the CTO on story/first-evening at 4054f490: the lines cut, and two rules that fail the build (`no-agreement-only-line`, `loading-steps-speak-of-the-country`). The word-for-word notes are in `cto-notes/grading/2026-11-25-verbatim.md`.
+
+## Nov 25, 2026, about 12:50 p.m.: campaign first (owner, verbatim; recorded by the CTO)
+
+- "Wait, what was done yesterday? Why are we still doing the president stuff and the stuff you're how? Why are we not doing campaign stuff?"
+  - Asked what the writers lead with when Neon or the builder account picks the work back up, he chose **"Campaign first"**: door knocking sessions, donors, volunteers, endorsements and the race, then election night. The opening stays as it is on the Story branch until it reaches main.
+  - He is also testing ChatGPT Pro on the door-knocking bank (prompt in the CTO's notes), judged blind, mixed in with the crew's lines.
+
+## Nov 23-24, 2026, about 11:05 p.m. to 12:20 a.m.: the story session (owner, verbatim; recorded by the CTO)
+
+- **Start the story session, and get it right this time:** "it doesnt look like anything is working. i do want to start the story session. how do you propose finally getting this right. take your time"
+  - The CTO's plan, approved at about 12:20 a.m.:
+    - stop adding one-line pieces;
+    - one stretch at a time, starting with the first evening;
+    - an outline built from real speeches, with many shapes and no forced context, stand, ask;
+    - the Journal and news told as stories;
+    - few pieces, written by the Story lead;
+    - his ear is the gate, and nothing merges until he passes it in a played game.
+  - The plan is in `cto-notes/goals-2026-11-24-story.md`, posted on #9750.
+- **Words are back in the builder account's work, through the Story lead:** "go ahead. and have the other account start it. i'm going to bed so have story work through the night. once the other builders finish then have them transition to story"
+  - This replaces Nov 23's "keep words out of the coordinator's work". The Coordinator opens the Story lead and sends it builders as their rows finish.
+  - The merger desk, the Replay and Red main keep their jobs.
+- **Story works on everything, and testers send the CTO screenshots:** "it needs to work on everything generally. most of it sucks. need playtestsrs to send you screenshots to review. no more replies from me tonight" (about 12:45 a.m.)
+  - Story's scope is every text a player reads. The engine comes first, then the first evening, then the rest in the order a new life meets it. His ear is still the gate.
+  - Every played check (the Player, the pre-grader, Story's packets, the Replay) posts screenshots for the CTO on the crew line. The CTO reviews them on the hour. Merges don't wait on that review; builds do.
+
+## Nov 24, 2026, about 1:25 p.m.: people in a scene go in the top-right corner (owner, verbatim; recorded by the CTO)
+
+- "the people are not supposed to be at the bottom. They're supposed to be at the top right... they were designed last week... Literally look at the files."
+  - The design is `docs/mocks/2026-11-16-speaker/`. His Nov 16, 5:43 p.m. pick: "the design of a but the people in the top tight like c". "Tight" was "right": mock C puts the quiet people in the top-right corner.
+  - The speaker's bust is on the dialogue card. Everyone else is small, in the top-right corner. No strip at the bottom of a room.
+  - **Correction:** this replaces "the others in a row at the top" in the Nov 23 Desk answer below, which followed the README's misreading.
+
+## Nov 24, 2026, about 1:00 p.m.: the game's laws and issues dictate what gets made (owner, verbatim; recorded by the CTO)
+
+- "A great place to, I guess, build exponentially would be, I mean, I mentioned this before, looking at all the laws and issues and, you know, putting things toward those... I think using what's in the game to help dictate what to be made will help immensely."
+  - Every element names the issues it touches (`issues`: bill-catalog policy ids or question keys, or "none").
+  - A coverage map of policy by kind of text by direction by level shows the holes, and writers fill them issue first, in both directions, at every level.
+  - Lines tagged with a policy play when that policy is live in the player's world.
+
+## Nov 24, 2026, about 8:55 to 9:50 a.m.: the element bank, every line tied to an element, and turns (owner, verbatim; recorded by the CTO)
+
+- **A shared element bank:** "all of these shouldn't be necessarily written independently... use real life for everything... There should be a place where they can all see, I guess, the elements... the Codex writers... can do research and putting the elements in there, and you can check them." The bank is `docs/story/elements/<kind>/<id>.json`. The CTO checks element PRs.
+- **The loop:** "find like real life scenes... look at what the code can do and make that... Look at all my examples." Elements name the game parts that carry them (`inGame`), or "needs: …", which becomes an owner question. His own examples become elements too.
+- **Every line and turns:** "every single line in the game right now needs to be go back and matched to an element or an element created if there's not one. And I guess by very nature, the opposite of most of these elements should also be possible as well, just like the laws... a scene with 10 elements except for flipped... negative... or neutral."
+  - Every line in every bank is tied to an element. A line nothing real stands behind is deleted.
+  - Every element carries `turns` (opposite, neutral, partial), each with what pulls it and what it writes back. The director picks the turn from the world.
+  - A guard counts lines with no element and elements with no turns, against baselines that only shrink.
+
+## Nov 24, 2026, about 8:45 a.m.: the story engine as one system (owner, verbatim; recorded by the CTO)
+
+- "No. Oh my God. Don't work on the address. Work on speeches. Don't work on the first evening's entry. Work on the journal. Don't work at the talk at home. Work at home stuff. Don't work on the... Or yes, work on the news. Why are you doing these incremental little steps? This is why nothing is getting done. The story engine is supposed to work together. I don't understand why it takes so long."
+  - Story work is scoped by system: speeches (every kind), the Journal (the whole life story), home (everything at home) and the news (every kind).
+  - One planner, one telling and one sameness gate serve all text.
+  - The first evening is a test place, not the scope. This replaces "one stretch at a time" from the Nov 24, 12:20 a.m. plan.
+- **About 8:48 a.m., the scope is the whole life:** "Oh my! But you don't understand. There's literally everything... there needs to be this stuff beforehand. So everything while you're campaigning and stuff... After 2 months, how you don't understand how the story and English engine are supposed to work."
+  - The story and English engine cover every situation across a life: before the first evening, campaigning, office, home, work and community.
+  - That means all 89 scene types (only 9 composed in play on Nov 24) plus speeches, the Journal and the news, worked at once.
+  - Eight Sonnet writers are scoped by area of life under the Story lead.
+- **About 8:51 a.m., depth, not breadth:** "And it doesn't matter if they have no lines. I'm complaining about the same stuff every playthrough. There needs to be more variety. Like a million times more variety. Like, oh my God. Depth, not breadth."
+  - Variety goes into everything a life already plays, with hundreds of versions per slot. Each is multiplied by the person's own voice, inserts from the records, the planner's shape and the situation.
+  - Empty scene types wait. The 89-type count is not the measure; distinct lines per slot and the sameness gate across many drawn lives are.
+
+## Nov 24, 2026, about 8:30 a.m.: more Story sessions now (owner, verbatim; recorded by the CTO)
+
+- "The ad count is at 42% for the week. It needs to open multiple more Sonnet sessions for story. I'm sick of waiting." ("ad count" is his voice note for "account".)
+  - The builder account isn't near its limit. Its "allowed_warning" reading is not a reason to go lean.
+  - Five more Sonnet writers open under the Story lead: the address call and charge; the address stand and close, with the governor's and mayor's addresses; the diary; the talk at home; and the news.
+  - Helpers may now write lines. Each batch counts only after the sameness gate and the pre-grader pass it, and the Story lead signs it. This replaces "helpers never write lines".
+
+## Nov 23, 2026, about 5:35 p.m.: after playing v0.114.0 (owner, verbatim; recorded by the CTO)
+
+The sitting, line by line: `docs/coordination/playtest/2026-11-23-1.md`.
+
+- **This week is the playthrough:** "Let's hold on a lot of the pool now. Let's start this week by addressing things directly with the playthrough. And if there are things that, if there are pool items or whatever that, intersect or whatever with the playthrough, then you can just do those."
+  - Work comes from that sitting's rows. Pool items go ahead only where they touch a row.
+- **No box inside a box, enforced by a guard:** "a box around boxes for announce and sim. What is up with these box in the boxes? ... Whatever visual design principle this is, you need to find out what it is, find out why it keeps happening, and explicitly forbid it. Make it turn main red."
+  - The principle is nested containers: a border marks a common region, and nested regions compete. Group by spacing and alignment.
+  - The cause is `buttonTray()` (`src/bench/ui/button.mjs`) and `.tray, .record-actions` (`src/bench/play.css`), built from the Oct 29 "framed plates" answer that the Nov 5 "no boxes" replaced.
+  - Buttons sit on the panel. A guard fails main when a framed or filled box sits inside a framed panel.
+- **No scrollers in menus with room:** "I don't know how many times I have to fucking say none of these scrollers, especially when there's ample dead space in these menus." (a repeat)
+- **Notes line by line:** "you need to take this line by line, make sure nothing falls through the cracks ... I'll say a bunch of stuff and you'll answer 7 out of 10."
+- **Automatic releases paused** (about 6:20 p.m.): "Yes, pause automatic releases. I don't even know why they're there." `release-package.yml` is disabled. The CTO turns it on and publishes once a non-builder replay passes every row of the sitting on the final head.
+- **Words stay out of the Coordinator's work** (about 6:20 p.m.): "Yes, keep words out of the coordinator's work."
+- **Answered on the Desk** (about 7:18 p.m.):
+  - **Jan 20:** "A. Keep the inaugural on Jan 20, with the montage back." The speech is an inaugural, staged as one, with the Oct 28 cutaways (the Oval Office window, the Resolute desk, America along a route, key people named as the camera passes). The greeting's wording belongs to Words.
+  - **Where people stand in a talk:** "it was something like the speaker on the voice box and people at the top." This matches his Nov 16 words: "Maybe the person speaking should be on the actual card, and then maybe they go back to the top when they're not speaking." The speaker's bust sits on the talk box, everyone else stands in a row at the top of the screen, and a person comes down to the box to speak and goes back up after.
+  - **"No assignments" on Elections:** "i meant assignments as in random issues and stances with no reason why those are chosen. i dont want subtext or those subheading i HATE." A candidate shows only the stands they actually run on, chosen by their own record and what the office can do, with no subtext and no subheadings.
+
 ## Nov 17, 2026, afternoon: menus, the Desk, announcing (owner, verbatim; recorded by the CTO)
 
 - **Menu test round 1 rejected** (about 2:25 p.m.): "Okay, I don't really like any of these, to be honest. They still have a ton of empty space in the menus. Or, yeah, in the screens. Like, it's just a transparent screen with stuff pasted on it. It's been the problem the entire time. I mean, I guess it's better with not looking like Excel, but still." The CTO's brief had required one see-through panel over the room. That rule produced this look, and it is dropped for menu mock-ups.
