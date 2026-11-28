@@ -32,7 +32,6 @@ import {
   countryAbroadArrivals,
   countryFlowsIn,
   countryStateMonth,
-  countryStates,
 } from "./macro";
 import { latestMacroMonthId } from "../macro-reads";
 import { regionalLevel, regionalRegistered } from "./regional";
@@ -71,6 +70,7 @@ import type {
   PlaceId,
   Source,
 } from "../types";
+import { allCountryStates } from "../macro-reads";
 
 export const COUNTED_MOVES_MODULE_ID = "core2-counted-moves-v1";
 
@@ -262,7 +262,7 @@ export function stateUnemployment(api: CoreAPI): Map<string, number> {
   if (!api.state.modules.has("macro")) return out;
   const latest = latestMacroMonthId(api);
   if (!latest) return out;
-  for (const state of countryStates(api)) {
+  for (const state of allCountryStates(api)) {
     const row = countryStateMonth(api, state.fips, latest);
     if (row) out.set(state.usps, row.unemploymentPct);
   }

@@ -15,7 +15,6 @@ import {
   LAWS_MODULE_ID,
   stateOpeningLawRows,
 } from "../../../src/core2/modules/laws";
-import { countryStates } from "../../../src/core2/modules/macro";
 import { coreAPI } from "../../../src/core2/state";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { buildBenchWorld } from "../../../src/bench/world";
@@ -23,6 +22,7 @@ import { BenchPlayer } from "../../../src/bench/player";
 import { DevMode } from "../../../src/bench/dev-mode";
 import { findRecord, traceNode } from "../../../src/bench/dev-trace";
 import type { WhyPanel } from "../../../src/bench/dev-why";
+import { allCountryStates } from "../../../src/core2/macro-reads";
 
 const seed = process.env.DEV_STATE_TRACE_SEED ?? randomBytes(8).toString("hex");
 const DAYS = Number(process.env.DEV_STATE_TRACE_DAYS ?? 365);
@@ -66,7 +66,7 @@ function traced(endTheTax: boolean) {
       .toISOString()
       .slice(0, 10),
   );
-  const state = countryStates(coreAPI(core)).find(
+  const state = allCountryStates(coreAPI(core)).find(
     (row) => row.key === place.state,
   );
   if (!state)

@@ -26,11 +26,11 @@ import {
   lawChain,
   stateLawInForce,
 } from "../../../src/core2/modules/laws";
-import { countryStates } from "../../../src/core2/modules/macro";
 import regions from "../../../src/core2/data/regional/regions.json" with { type: "json" };
 import { restoreWorld, snapshotWorld } from "../../../src/core2/snapshot";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
+import { allCountryStates } from "../../../src/core2/macro-reads";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const WAGES = 60_000;
@@ -108,13 +108,13 @@ describe("the moves between states fit once", () => {
     const api = coreAPI(first);
     const tierPeople = () =>
       new Map(
-        countryStates(api).map((st) => [
+        allCountryStates(api).map((st) => [
           st.usps,
           st.children + st.cells.reduce((n, c) => n + c.people, 0),
         ]),
       );
     monthsOn(first, 3);
-    const draw = new Map(countryStates(api).map((st) => [st.usps, st.draw]));
+    const draw = new Map(allCountryStates(api).map((st) => [st.usps, st.draw]));
     expect(draw.size, `${where}: states held`).toBeGreaterThan(50);
     for (const months of [0, 11]) {
       monthsOn(first, months);
@@ -128,7 +128,7 @@ describe("the moves between states fit once", () => {
         ).toBeLessThan(0.01);
       }
     }
-    for (const st of countryStates(api))
+    for (const st of allCountryStates(api))
       expect(st.draw, `${where}: ${st.usps} draw`).toBe(draw.get(st.usps));
   }, 900_000);
 
