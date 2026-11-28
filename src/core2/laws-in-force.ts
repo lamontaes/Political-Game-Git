@@ -75,7 +75,7 @@ export {
   revolvingDoorFor,
   sameDayRegistrationInForce,
 } from "./law-reach/group-a-voting";
-export { groupBPolicy } from "./law-reach/group-b";
+export { groupBPolicy } from "./law-reach/reach-parameters";
 export { jobsAt } from "./law-reach/group-b-money";
 export { reachParameter } from "./law-reach/group-b-people";
 export { scandalsOf, settleBribes } from "./modules/corruption";
