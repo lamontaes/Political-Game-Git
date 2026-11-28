@@ -20,6 +20,6 @@ claimed-at: 2026-10-27T05:21:35.010Z
 
 **Done when.** The type, arc and at least 70 bank pieces are on main; the scene composes with all five endings reachable; a test fails if the type fires from anything but the offer record; two other lives are named as covered by the same producer; the scene reaches the player in ordinary play once corruption-bribe-offer-reaches-player-seat is done (named by record id then).
 
-**Files.** src/director/data/situation-types.json, src/director/data/purpose-arcs.json, data/english/parts/scene-talk.json, scripts/english-corpus/scene-talk-pieces.py, src/director/purpose-scene.ts, src/director/bribe-offer-scene.test.ts
+**Files.** src/director/data/situation-types.json, src/director/data/purpose-arcs.json, data/english/parts/scene-talk.json, scripts/english-corpus/scene-talk-pieces.py, src/director/purpose-scene.ts, tests/src/director/bribe-offer-scene.test.ts
 
 **Notes.** Filed by Helper E. lead: words. Time box 4 h.

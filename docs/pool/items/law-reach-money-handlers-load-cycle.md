@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T16:29:10.375Z
 
 **Rules.** Fix at the root on main; never narrow a writer or a test to get past it. Replace, never layer: the handler table names the call-time handlers, nothing else.
 
-**Done when.** On main with the fix, node --import tsx scripts/outcome-web/write-unwired.ts and node --import tsx scripts/outcome-web/effect-matrix.ts both run to the end (the unwired count and the matrix summary in the PR body), src/core2/law-reach-group-a.test.ts and src/core2/outcome-web-unwired.test.ts pass, and without the fix the unwired writer fails at load with the error quoted.
+**Done when.** On main with the fix, node --import tsx scripts/outcome-web/write-unwired.ts and node --import tsx scripts/outcome-web/effect-matrix.ts both run to the end (the unwired count and the matrix summary in the PR body), tests/src/core2/law-reach-group-a.test.ts and tests/src/core2/outcome-web-unwired.test.ts pass, and without the fix the unwired writer fails at load with the error quoted.
 
 **Files.** src/core2/law-reach/group-a.ts
 

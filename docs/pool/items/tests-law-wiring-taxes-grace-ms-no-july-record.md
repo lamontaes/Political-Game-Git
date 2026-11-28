@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** src/core2/law-wiring-taxes.test.ts, "keeps a corporation's unpaid profit tax owed to each treasury, through a zero-profit quarter and a repealed state rate", fails in Grace, Mississippi (2828500) with GOLDEN_PATH_SEED=f090a9034b487078ca7c3d2a2c1a40207804ca4e: organization_5a54c273f2fc0be3 July record (1 locations set up) is undefined. The test sets up a corporation, plays to July 1, and reads that quarter day's record. Guards: a corporation's quarterly profit tax record, owed to each treasury, in a played world.
+**What.** tests/src/core2/law-wiring-taxes.test.ts, "keeps a corporation's unpaid profit tax owed to each treasury, through a zero-profit quarter and a repealed state rate", fails in Grace, Mississippi (2828500) with GOLDEN_PATH_SEED=f090a9034b487078ca7c3d2a2c1a40207804ca4e: organization_5a54c273f2fc0be3 July record (1 locations set up) is undefined. The test sets up a corporation, plays to July 1, and reads that quarter day's record. Guards: a corporation's quarterly profit tax record, owed to each treasury, in a played world.
 
 **Cause.** Found in code: the place's one corporation location (organization_5a54c273f2fc0be3, losing money: quarter minor -8,164,536 against sales 8,540,084) closed on 2025-07-01, the quarter day itself. A closed business's books are skipped by the profit tax (`payProfitTaxes` in src/core2/modules/employer-taxes.ts continues on `books.closedAt`), so no record is written, and the test read one. The test took its location the day before, when it was still open; it redraws a place with no open location in October but not in July.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/law-wiring-taxes.test.ts
+**Files.** tests/src/core2/law-wiring-taxes.test.ts

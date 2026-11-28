@@ -65,7 +65,7 @@ One file for each register on your list, `docs/stopgaps/triage-2026-11-10/<regis
 - One pull request for each register file, so each merges as it finishes. Its branch is `<your branch>-<register>` when your list has more than one register. It holds that register's page, the register edits for replaced and partly replaced rows, the new pool items, and a release note (`docs/release/changes/<an id nobody has used>.md`, `impact: none`, one plain sentence).
 - Open it as a draft after your first push, and push after every ten rows. The lead marks it ready after reading it.
 - The first line of its body is `Touches pool item: none (stand-in triage of <register>; nothing built).` Then the counts, and the three stand-ins you think matter most to a player, in plain words.
-- Before each push: `npx vitest run src/core2/stopgaps-register.test.ts src/core2/stopgap-hits-module-calls.test.ts`, `npm run pool -- --check`, and prettier on the files you changed.
+- Before each push: `npx vitest run tests/src/core2/stopgaps-register.test.ts tests/src/core2/stopgap-hits-module-calls.test.ts`, `npm run pool -- --check`, and prettier on the files you changed.
 - When your list is done, send one message to the session that started you: each pull request's number and the counts.
 
 ## What you never do

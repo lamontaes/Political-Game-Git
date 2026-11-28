@@ -19,7 +19,7 @@ claimed-at: 2026-10-30T02:00:00.000Z
 
 **Rules.** Screen to mock (`screen-to-mock`); replace, never layer (the old tile lines, the scrolling list and the skip icon are deleted); the menu never scrolls as a page; no hand-written player text (labels in `controls.calendar`).
 
-**Done when.** The calendar check (`src/bench/calendar.browser.mjs`) shows the three parts inside the panel, the chosen day's plate listing what its tile marks, and Go to this day moving the clock; screenshots in `docs/play-first/shots/play-menus-calendar-shared-look/`.
+**Done when.** The calendar check (`tests/src/bench/calendar.browser.mjs`) shows the three parts inside the panel, the chosen day's plate listing what its tile marks, and Go to this day moving the clock; screenshots in `docs/play-first/shots/play-menus-calendar-shared-look/`.
 
 **Time box.** 3 hours, Sonnet.
 

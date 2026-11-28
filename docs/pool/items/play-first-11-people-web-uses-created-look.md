@@ -28,7 +28,7 @@ claimed-at: 2026-10-27T10:59:42.288Z
 
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
-**Files.** src/bench/play.mjs, src/bench/appearance.ts, src/bench/people.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/appearance.ts, tests/src/bench/people.browser.mjs
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
 

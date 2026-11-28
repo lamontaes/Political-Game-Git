@@ -35,6 +35,6 @@ merged-at: 2026-11-16T01:00:17.578Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/budgets.ts, src/core2/modules/place-prices.ts, src/core2/income-tax-learned.test.ts (new)
+**Files.** src/core2/modules/budgets.ts, src/core2/modules/place-prices.ts, tests/src/core2/income-tax-learned.test.ts (new)
 
 **Notes.** Bounded missing link found under laws-end-to-end-proof, whose broader negotiation and failed-bill proof remains open. Natural baseline: docs/lanes/proof/meadow-law-chain-investigation.md on lane-2/law-chain-proof. Exact example: Ryan Carr paid 2284 cents of HB 2 state tax in journal:2025-05-20:39812; the same treasury paid Donna Summers in journal:2025-05-22:39986. Actual heard-story observation is queued before a learning-pass claim. Read lane-2 path 2, existing price/benefit learning producers, and laws-nine-links-taxes-ten; searched pool for income tax, withholding, learned, news and stance. No duplicate bounded item found.

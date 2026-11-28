@@ -17,9 +17,9 @@ claimed-at:
 
 **Rules.** One model, two tiers: a household returned to the counts and filled in again keeps every member's record. No dice. Every dollar balances.
 
-**Done when.** In a one-year played world (buildBenchWorld) in a drawn place a household that was filled in, returned to the counts and filled in again completes the year, every member is a full person by record id, and a test in src/core2/fill-in-people.test.ts names the household.
+**Done when.** In a one-year played world (buildBenchWorld) in a drawn place a household that was filled in, returned to the counts and filled in again completes the year, every member is a full person by record id, and a test in tests/src/core2/fill-in-people.test.ts names the household.
 
-**Files.** src/core2/state.ts, src/core2/fill-in-people.test.ts
+**Files.** src/core2/state.ts, tests/src/core2/fill-in-people.test.ts
 
 **Notes.** Found while taking gov-cases-never-open-in-played-world (PR 4728), which skips people already on file as a stopgap for this.
 
@@ -27,9 +27,9 @@ claimed-at:
 
 **Rules.** One model, two tiers: a counted member of a household is read with the same rule as a full person, times their count, so a filled-in person must match what the records already say. Replace, never layer: delete the failing path in place rather than catching the error beside it.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a person returned to the counts and filled in again opens with every household member present, named by person record id, and a test beside src/core2/residents.test.ts reproduces the stop first and then passes.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a person returned to the counts and filled in again opens with every household member present, named by person record id, and a test beside tests/src/core2/residents.test.ts reproduces the stop first and then passes.
 
-**Files.** src/core2/modules/residents.ts, src/core2/state.ts, src/core2/residents.test.ts
+**Files.** src/core2/modules/residents.ts, src/core2/state.ts, tests/src/core2/residents.test.ts
 
 **Notes.** Written from the title and the evidence on the item when the quality gate was repaired (Oct 16).
 

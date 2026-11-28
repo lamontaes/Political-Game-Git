@@ -35,7 +35,7 @@ branch: claude/pool-world-counted-households-transfer-income
 
 **Waits on.** Nothing. The claude/pr-renter-income branch is not needed on main to start.
 
-**Files.** src/core2/modules/residents.ts, src/core2/residents.ts, src/core2/housing-calibration.test.ts
+**Files.** src/core2/modules/residents.ts, src/core2/residents.ts, tests/src/core2/housing-calibration.test.ts
 
 **Notes.** Found working world-counted-renter-income-puerto-rico-third (see its Oct 21 notes for the ACS figures fetched: B19055, B19065, B19067 for Puerto Rico).
 

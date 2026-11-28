@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Look before you ask: read the register first. No hand-written player text: any reason is worded by the English engine. This is a game, not a spreadsheet.
 
-**Done when.** In a drawn place (name it and the seed) a browser run shows a candidate with no stance either holds an event or sees a worded reason and a way to set a stance, with the cause rows or the stance record shown by id; src/bench/campaign-day-controls.test.ts covers it.
+**Done when.** In a drawn place (name it and the seed) a browser run shows a candidate with no stance either holds an event or sees a worded reason and a way to set a stance, with the cause rows or the stance record shown by id; tests/src/bench/campaign-day-controls.test.ts covers it.
 
 **Files.** src/core2/campaign-day.ts,src/bench/campaign.ts,src/bench/play.mjs
 

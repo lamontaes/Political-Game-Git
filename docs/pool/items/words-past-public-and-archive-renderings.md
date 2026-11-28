@@ -17,9 +17,9 @@ claimed-at:
 
 **Rules.** No hand-written player text: every sentence comes from the English engine's banks over record facts, written through the civic-prose process and never typed into a screen.
 
-**Done when.** In a buildBenchWorld played world in a drawn place (seed named in the PR body), a person card shows a public figure's record worded by the English engine and the news shows a year-before archive item worded the same way, by record id, with src/bench/card-public.test.ts passing.
+**Done when.** In a buildBenchWorld played world in a drawn place (seed named in the PR body), a person card shows a public figure's record worded by the English engine and the news shows a year-before archive item worded the same way, by record id, with tests/src/bench/card-public.test.ts passing.
 
-**Files.** data/english/parts/public-figure.json, src/english/mined/public-bank.ts, src/bench/card.ts, src/bench/card-public.test.ts
+**Files.** data/english/parts/public-figure.json, src/english/mined/public-bank.ts, src/bench/card.ts, tests/src/bench/card-public.test.ts
 
 **Notes.** TODO
 

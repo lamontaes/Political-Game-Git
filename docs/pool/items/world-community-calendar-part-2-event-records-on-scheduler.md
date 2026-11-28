@@ -33,6 +33,6 @@ checked: fable 2026-11-10
 
 **Waits on.** world-community-calendar-part-1-research-event-table (the table).
 
-**Files.** src/core2/modules/community-events.ts (new), src/core2/module-calendar.ts, src/core2/community-events-table.ts (new), src/core2/community-events.test.ts (new)
+**Files.** src/core2/modules/community-events.ts (new), src/core2/module-calendar.ts, src/core2/community-events-table.ts (new), tests/src/core2/community-events.test.ts (new)
 
 **Notes (Fable B, Nov 10, the owner's answer).** Owner, Nov 10, 2026, about 7:16 p.m.: "I've ruled on these community events. I've talked about ham days once, you know, just doing some basic research. But there can also be some general events as well." The size he picked is the small one: each town's own real festivals from one research pass, a few general events a year, the paper reports them and a candidate can campaign at one. A system that decides who attends, person by person, is not part of it. This part no longer waits on core-every-life-simulated: with no attendance, it needs only the table and the calendar of dated entries.

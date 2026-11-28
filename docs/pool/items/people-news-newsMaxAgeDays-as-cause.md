@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** Sliding scales and causes: nothing flips at a threshold, so a story must fade from news by how much it still touches each reader and town, never stop for everyone on day 31. No dice: the fade must come from the reader's own interests and the story's follow-ups, not a draw.
 
-**Done when.** A second session runs a one-year buildBenchWorld in a drawn place from all 56 (seed named in the PR) and sees a story's last delivery and last telling come from a recorded cause (its topic's weight to that reader, or a follow-up story by record id), and no reader skipped because of a fixed day count; src/core2/news.test.ts covers a reader who still hears an old story that keeps mattering to them.
+**Done when.** A second session runs a one-year buildBenchWorld in a drawn place from all 56 (seed named in the PR) and sees a story's last delivery and last telling come from a recorded cause (its topic's weight to that reader, or a follow-up story by record id), and no reader skipped because of a fixed day count; tests/src/core2/news.test.ts covers a reader who still hears an old story that keeps mattering to them.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/news.ts, src/core2/past-news.ts, src/core2/data/news/parameters.json, src/core2/news.test.ts
+**Files.** src/core2/modules/news.ts, src/core2/past-news.ts, src/core2/data/news/parameters.json, tests/src/core2/news.test.ts
 
 **Notes.** TODO
 

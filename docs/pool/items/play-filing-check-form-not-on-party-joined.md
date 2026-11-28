@@ -12,13 +12,13 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** src/bench/filing.browser.mjs fails with 'the form does not start on the party joined' on some drawn places and passes on others. On clean origin/main it failed in Belle Rose, Louisiana and passed in East Hampton, Neligh and Sandpoint (1 of 4). On the screens/one-left-menu branch it failed in Newcastle, Wyoming and passed in Round Lake (1 of 2). Found by Merger 4 on Oct 27 while merging PR 6389, which did not cause it.
+**What.** tests/src/bench/filing.browser.mjs fails with 'the form does not start on the party joined' on some drawn places and passes on others. On clean origin/main it failed in Belle Rose, Louisiana and passed in East Hampton, Neligh and Sandpoint (1 of 4). On the screens/one-left-menu branch it failed in Newcastle, Wyoming and passed in Round Lake (1 of 2). Found by Merger 4 on Oct 27 while merging PR 6389, which did not cause it.
 
 **Rules.** No dice; the place stays drawn from all 56 and the check must not be pinned to a place to pass.
 
 **Done when.** The filing browser check passes on eight consecutive fresh drawn places, with Belle Rose, Louisiana and Newcastle, Wyoming among those replayed through the check's seed override, and the cause of the form starting somewhere other than the party joined is named by file and line.
 
-**Files.** src/bench/filing.browser.mjs
+**Files.** tests/src/bench/filing.browser.mjs
 
 **Notes.** Found Oct 27 by Merger 4; flaky on clean main (about one draw in four).
 

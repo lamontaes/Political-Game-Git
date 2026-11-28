@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** data/research/offices/state-offices.json, src/core2/modules/offices.ts, src/core2/modules/elections.ts, src/core2/modules/voting.ts, src/core2/modules/officials.ts, src/core2/modules/candidacy.ts, src/director/polling-place.ts, src/bench/campaign.ts, src/bench/handler.ts, src/bench/play.mjs, src/bench/ui/ballot-paper.mjs, src/bench/data/controls.json, src/core2/data/stopgaps/gov.json, src/core2/governor-running-mates.test.ts (new)
+**Files.** data/research/offices/state-offices.json, src/core2/modules/offices.ts, src/core2/modules/elections.ts, src/core2/modules/voting.ts, src/core2/modules/officials.ts, src/core2/modules/candidacy.ts, src/director/polling-place.ts, src/bench/campaign.ts, src/bench/handler.ts, src/bench/play.mjs, src/bench/ui/ballot-paper.mjs, src/bench/data/controls.json, src/core2/data/stopgaps/gov.json, tests/src/core2/governor-running-mates.test.ts (new)

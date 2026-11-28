@@ -18,7 +18,7 @@ milestone: play-first
 
 **Rules.** No hand-written player text and player-screen-text: no record keys or bare numbers on a player screen. Replace, never layer: the line goes, and the bill item the meeting and the desk read stops carrying the raw provisions.
 
-**Done when.** The test src/bench/office-bill-title.test.ts, in a buildBenchWorld drawn place with the seed it names, asserts the meeting's bill item carries no raw provisions; it fails with main's office.ts and passes on the branch.
+**Done when.** The test tests/src/bench/office-bill-title.test.ts, in a buildBenchWorld drawn place with the seed it names, asserts the meeting's bill item carries no raw provisions; it fails with main's office.ts and passes on the branch.
 
 **Time box.** 1 hour.
 
@@ -26,6 +26,6 @@ milestone: play-first
 
 **Screenshot.** The before screenshot from Williamstown in the PR; the after is the same panel without the line.
 
-**Files.** src/bench/play.mjs, src/bench/office.ts, src/bench/office-bill-title.test.ts
+**Files.** src/bench/play.mjs, src/bench/office.ts, tests/src/bench/office-bill-title.test.ts
 
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `golden/meeting-item-line` is kept; claiming this item takes it over.

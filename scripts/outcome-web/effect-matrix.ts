@@ -8,7 +8,7 @@
  * The static points are read from the links, the web's settings and the
  * source tree (which files read which outcome through the web's accessors).
  * The played points (did the owning engine's records move, by how much and
- * how unevenly) come from src/core2/outcome-web-twins.test.ts, which writes
+ * how unevenly) come from tests/src/core2/outcome-web-twins.test.ts, which writes
  * its findings to the same matrix under `twins`.
  */
 import { readStopgapFolder } from "../../src/core2/stopgaps-folder";

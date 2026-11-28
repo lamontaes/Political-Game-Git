@@ -56,7 +56,7 @@
 **First card: First minutes**
 
 - **Finish line:** in any new life, no player shares a first name with a living sibling, no parent was under 15 at the birth, and every household has a home record so the room matches.
-- **Proof:** 20 drawn lives named with replay numbers. Failing first: Mazomanie, Wisconsin (b37762f4-7895-40f5-8d83-0634db5b60cb); Hebron, Wisconsin (place 5533675); Norcross, Minnesota (GOLDEN_PATH_SEED=b2). Tests: `src/core2/m0-life-at-18.test.ts`, `src/bench/room-condition.test.ts`.
+- **Proof:** 20 drawn lives named with replay numbers. Failing first: Mazomanie, Wisconsin (b37762f4-7895-40f5-8d83-0634db5b60cb); Hebron, Wisconsin (place 5533675); Norcross, Minnesota (GOLDEN_PATH_SEED=b2). Tests: `tests/src/core2/m0-life-at-18.test.ts`, `tests/src/bench/room-condition.test.ts`.
 - **Hands off:** the 15-year test, and the opening's screens.
 - **Known cheats:** renaming only on screen, skipping a place, a default home for those with no record.
 - **Size:** 3-4 hours, three small pull requests.

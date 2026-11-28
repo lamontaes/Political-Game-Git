@@ -31,10 +31,10 @@ Seen: the talk at home in which a household member tells the player news from th
 
 **Rules.** scene-standard: roles are cast from the world, and the cast must be able to know what they say. One rule, all 56 places: the floor is a parameter, read for every row.
 
-**Done when.** A second session, on main, plays new lives in a drawn place each (creator lives with young children, and 17-year-olds with young siblings) for two months, takes a screenshot of every talk at home, and finds none cast to a household member under the floor. src/director/circumstance.test.ts checks the cast's age on every scene it opens.
+**Done when.** A second session, on main, plays new lives in a drawn place each (creator lives with young children, and 17-year-olds with young siblings) for two months, takes a screenshot of every talk at home, and finds none cast to a household member under the floor. tests/src/director/circumstance.test.ts checks the cast's age on every scene it opens.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/circumstance.ts, src/director/data/circumstances.json, src/director/circumstance.test.ts
+**Files.** src/director/circumstance.ts, src/director/data/circumstances.json, tests/src/director/circumstance.test.ts
 
-**Notes.** Built by the Life records builder (opus-lr), Nov 13, to Fable A's rule 28 (07:51Z): under 13, never cast to tell news of politics, money, law or work. The floor is `directorCircumstanceNewsTellerMinAge` (13), read in `circumstancePicks` where every source's cast is checked; rows whose news a child can know say `childMayTell`. The check is `src/director/child-teller-floor.test.ts`, not circumstance.test.ts, so it runs in minutes.
+**Notes.** Built by the Life records builder (opus-lr), Nov 13, to Fable A's rule 28 (07:51Z): under 13, never cast to tell news of politics, money, law or work. The floor is `directorCircumstanceNewsTellerMinAge` (13), read in `circumstancePicks` where every source's cast is checked; rows whose news a child can know say `childMayTell`. The check is `tests/src/director/child-teller-floor.test.ts`, not circumstance.test.ts, so it runs in minutes.

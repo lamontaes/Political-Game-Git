@@ -30,11 +30,11 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: an episode starts from recorded causes (age, season, a sick household member, immunity from earlier episodes), never a monthly chance on one person; real incidence checks totals. One model, two tiers: counted children carry the same episodes times their count. Research before building: the NHIS figure (Berendes et al., MMWR 2020;68(53):1201-1205) is quoted from the page.
 
-**Done when.** A second session runs a one-year played world (buildBenchWorld, a place drawn from all 56, seed named) in at least three drawn places and sees school-age children stay home for passing illness episodes, by episode and school attendance record ids, with the year's illness absence reported beside the NHIS figure (mean 3.24 days) in a test beside src/core2/school.test.ts.
+**Done when.** A second session runs a one-year played world (buildBenchWorld, a place drawn from all 56, seed named) in at least three drawn places and sees school-age children stay home for passing illness episodes, by episode and school attendance record ids, with the year's illness absence reported beside the NHIS figure (mean 3.24 days) in a test beside tests/src/core2/school.test.ts.
 
 **Waits on.** Nothing. Whether to build it is not a question for the owner: a mechanic real life has that the simulation needs is built from research as a background simulation (owner, Oct 24, "Simulate it, don't ask", AGENTS.md). It adds no step to the player's life; an absence shows only as a record.
 
-**Files.** src/core2/modules/health.ts, src/core2/modules/school.ts, src/core2/data/parameters.json, src/core2/school.test.ts
+**Files.** src/core2/modules/health.ts, src/core2/modules/school.ts, src/core2/data/parameters.json, tests/src/core2/school.test.ts
 
 **Notes.** TODO
 

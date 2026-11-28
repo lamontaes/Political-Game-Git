@@ -13,11 +13,11 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-20T14:32:07.129Z
 ---
 
-**What.** src/director/director.test.ts 'registers every stopgap it marks and keeps numbers in data' fails on clean main with ['office-scene.ts:0']: line 187 compares officialsIn(api, key).length > 0 and the test refuses any numeric literal under src/director. Express the check without a literal (for example Boolean of the length) so the director test is green.
+**What.** tests/src/director/director.test.ts 'registers every stopgap it marks and keeps numbers in data' fails on clean main with ['office-scene.ts:0']: line 187 compares officialsIn(api, key).length > 0 and the test refuses any numeric literal under src/director. Express the check without a literal (for example Boolean of the length) so the director test is green.
 
 **Rules.** Replace, never layer. No behavior change.
 
-**Done when.** src/director/director.test.ts passes on a branch from current main, including the numbers-in-data check; eslint and prettier are clean on src/director/office-scene.ts.
+**Done when.** tests/src/director/director.test.ts passes on a branch from current main, including the numbers-in-data check; eslint and prettier are clean on src/director/office-scene.ts.
 
 **Files.** src/director/office-scene.ts
 

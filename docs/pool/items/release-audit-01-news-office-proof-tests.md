@@ -19,6 +19,6 @@ claimed-at: 2026-10-20T04:19:41.038Z
 
 **Done when.** The fix is merged, the audit report line for it is marked fixed with the PR number, and the changed test fails when the subject it needs is absent, shown by a test run with a drawn place and seed.
 
-**Files.** src/core2/news.test.ts, src/core2/office-proof.test.ts
+**Files.** tests/src/core2/news.test.ts, tests/src/core2/office-proof.test.ts
 
 **Notes.** Item 1 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes.

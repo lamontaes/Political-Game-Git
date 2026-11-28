@@ -34,6 +34,6 @@ Seen: Launiupoko, Hawaii (seed 2e8912c3-1c36-4574-b370-a0ea47f815e2), council me
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.mjs, src/bench/filed-race-row.browser.mjs (new)
+**Files.** src/bench/play.mjs, tests/src/bench/filed-race-row.browser.mjs (new)
 
 **Notes.** Filed and built by the Blockers lane, Nov 17.

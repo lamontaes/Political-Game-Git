@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** Bookkeeping stays a debug switch: reasons are saved only where keepsWhy says so. Replace, never layer: one formation path. Ask why: the record answers why by id.
 
-**Done when.** A second session plays a buildBenchWorld world in a drawn place (seed named) and sees two neighbors of different faith or schooling hold different stored opening stances with their parts, by record id, and agreementWith for a platform on that question return the stored values; a test in src/core2/views.test.ts covers it.
+**Done when.** A second session plays a buildBenchWorld world in a drawn place (seed named) and sees two neighbors of different faith or schooling hold different stored opening stances with their parts, by record id, and agreementWith for a platform on that question return the stored values; a test in tests/src/core2/views.test.ts covers it.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/views.ts, src/core2/views.test.ts
+**Files.** src/core2/modules/views.ts, tests/src/core2/views.test.ts
 
 **Notes.** Found Oct 20: the work was built beside PR 5495 and set aside because that PR already forms the stance from the CES faith means. The stored record is the part it does not have.
 

@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** No dice and sliding scales: how soon a couple has a child follows their own circumstances and age, never a yearly chance; the real birth rate checks the town's total only. Estimate, never UNKNOWN: the mean time to conception starts from a sourced average with its spread. One model, two tiers: counted women follow the same timing. Replace, never layer: one planning path.
 
-**Done when.** A second session runs a one-year played world (buildBenchWorld) in Roche Harbor, Washington (seed 2cff037427070ab820471240abf093b2a383133b4fe484274019a40fd2076e26), Concord, Illinois (seed 99f462cf428e4898d2861e98e43f4079d0ca4a485b604ed49d569c4bcc5d90a9) and one more drawn place, and sees the couples ready at the opening conceive over the first months rather than on one date, each plan record (id coupleId:plan:date) naming the record whose change prompted its review. src/core2/births-plan.test.ts shows a job loss prompting a review on its day. The town's births are reported beside the CDC expectation.
+**Done when.** A second session runs a one-year played world (buildBenchWorld) in Roche Harbor, Washington (seed 2cff037427070ab820471240abf093b2a383133b4fe484274019a40fd2076e26), Concord, Illinois (seed 99f462cf428e4898d2861e98e43f4079d0ca4a485b604ed49d569c4bcc5d90a9) and one more drawn place, and sees the couples ready at the opening conceive over the first months rather than on one date, each plan record (id coupleId:plan:date) naming the record whose change prompted its review. tests/src/core2/births-plan.test.ts shows a job loss prompting a review on its day. The town's births are reported beside the CDC expectation.
 
 **Waits on.** people-births-ready-couples-conceive-at-once-part-1-re-measure.
 
-**Files.** src/core2/births-plan.ts, src/core2/modules/renewal.ts, src/core2/data/renewal/parameters.json, src/core2/births-plan.test.ts
+**Files.** src/core2/births-plan.ts, src/core2/modules/renewal.ts, src/core2/data/renewal/parameters.json, tests/src/core2/births-plan.test.ts
 
 **Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have spread when ready couples conceive; no player sees a wave of conceptions at the opening, only the year's births, which part 1 and part 3 keep right.

@@ -29,11 +29,11 @@ source: Account lead T54 building world-counted-renters-buy (Nov 14, 2026)
 
 **Rules.** One model, two tiers: a weighted record's loan is the weight's loans on every reader. Money moves only through the existing accounts; no new tracking.
 
-**Done when.** A second session runs a year in a drawn place with weighted counted owners and sees the bank's equity change by the interest it earned less losses, by record id of the bank and the mortgages rows, with the pinned test in src/core2/housing-counted-buy.test.ts still passing.
+**Done when.** A second session runs a year in a drawn place with weighted counted owners and sees the bank's equity change by the interest it earned less losses, by record id of the bank and the mortgages rows, with the pinned test in tests/src/core2/housing-counted-buy.test.ts still passing.
 
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/credit.ts, src/core2/housing-mortgages.ts
 
 **Notes.**
-Nov 14, 2026 (Account lead T54, #9117): the bank's books (`heldMortgages`) now multiply each row by its record's weight, at the opening and in play, with a pinned assertion in src/core2/housing-counted-buy.test.ts that the bank's books and cash move by the same loans. Left for this item: the opening's choice of holder (`openingMortgages`) still compares one household's balance with the bank's room.
+Nov 14, 2026 (Account lead T54, #9117): the bank's books (`heldMortgages`) now multiply each row by its record's weight, at the opening and in play, with a pinned assertion in tests/src/core2/housing-counted-buy.test.ts that the bank's books and cash move by the same loans. Left for this item: the opening's choice of holder (`openingMortgages`) still compares one household's balance with the bank's room.

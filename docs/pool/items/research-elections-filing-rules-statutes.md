@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** Research before building: each rule is read from statute text or an official office page, quoted with its section and URL, and a row the text does not settle stays an estimate with its reason written. One rule, all 56 places: rules live in the data tables keyed by place, never a state named in code.
 
-**Done when.** A second session opens src/core2/data/elections/filing-deadlines.json, data/research/elections/filing-requirements.json and data/research/elections/ballot-order-2026.json and finds every unread or ESTIMATED deadline row and every 'not specified' registration row read from its law with section and URL, or kept with a written reason. src/core2/elections-law.test.ts passes in a drawn place (seed named), and a buildBenchWorld year in that place names the town's contest and the filing deadline read from its row. The real rule is reported, not a pass mark.
+**Done when.** A second session opens src/core2/data/elections/filing-deadlines.json, data/research/elections/filing-requirements.json and data/research/elections/ballot-order-2026.json and finds every unread or ESTIMATED deadline row and every 'not specified' registration row read from its law with section and URL, or kept with a written reason. tests/src/core2/elections-law.test.ts passes in a drawn place (seed named), and a buildBenchWorld year in that place names the town's contest and the filing deadline read from its row. The real rule is reported, not a pass mark.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/data/elections/filing-deadlines.json, data/research/elections/filing-requirements.json, data/research/elections/ballot-order-2026.json, src/core2/modules/elections.ts, src/core2/modules/voting.ts, src/core2/elections-law.test.ts
+**Files.** src/core2/data/elections/filing-deadlines.json, data/research/elections/filing-requirements.json, data/research/elections/ballot-order-2026.json, src/core2/modules/elections.ts, src/core2/modules/voting.ts, tests/src/core2/elections-law.test.ts
 
 **Notes.** TODO

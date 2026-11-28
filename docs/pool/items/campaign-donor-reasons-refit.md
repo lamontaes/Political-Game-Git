@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: whether someone gives follows their own reasons, traits and money, never a roll. One model, two tiers: counted residents are asked and answer by the same rule times their count. Research before building: the gift rate per contact is sourced, then the bands are refit, never widened.
 
-**Done when.** A second session, in two drawn places (a poor town and a rich one, seeds printed), runs a filed candidate's call time in the played world and sees more of the people asked have a reason to give than the 22% measured on Nov 2, with each gift naming its donor and reason terms by record id. The sourced gift rate per contact and the measured share are printed in the PR as figures to report, not targets. src/core2/campaign-money-calibration.test.ts passes on the held-out half of the recorded asks, with the fit and held-out halves named in the PR body.
+**Done when.** A second session, in two drawn places (a poor town and a rich one, seeds printed), runs a filed candidate's call time in the played world and sees more of the people asked have a reason to give than the 22% measured on Nov 2, with each gift naming its donor and reason terms by record id. The sourced gift rate per contact and the measured share are printed in the PR as figures to report, not targets. tests/src/core2/campaign-money-calibration.test.ts passes on the held-out half of the recorded asks, with the fit and held-out halves named in the PR body.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/data/campaigns/parameters.json, src/core2/campaign-money-calibration.test.ts
+**Files.** src/core2/modules/campaigns.ts, src/core2/data/campaigns/parameters.json, tests/src/core2/campaign-money-calibration.test.ts
 
 **Notes.** Nov 2 (governing lead): the recording kit (a scratch recorder test that writes each ask's budget and reason, and a replay that resamples place pools) is described in governing-measurement under Fitting a parameter against bands over drawn places.

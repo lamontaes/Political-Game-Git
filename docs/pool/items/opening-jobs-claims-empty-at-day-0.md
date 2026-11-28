@@ -31,7 +31,7 @@ root: day-one-in-motion
 
 **Rules.** Day one in motion (`.agents/skills/day-one-in-motion/SKILL.md`): one engine per mechanic; no dice; one rule, all 56 places; replace, never layer; a year stays under two minutes.
 
-**Done when.** A second session, not the builder, builds a world at a drawn place and seed it names (`buildBenchWorld`, two-level) and sees `jobs.claims` with rows at creation, by record id; its row in `src/core2/data/opening/day-zero.json` has its `knownRed` mark removed, and `src/core2/day-zero.test.ts` passes at its two pinned places.
+**Done when.** A second session, not the builder, builds a world at a drawn place and seed it names (`buildBenchWorld`, two-level) and sees `jobs.claims` with rows at creation, by record id; its row in `src/core2/data/opening/day-zero.json` has its `knownRed` mark removed, and `tests/src/core2/day-zero.test.ts` passes at its two pinned places.
 
 **Waits on.** `opening-first-step-empty-at-day-0` (the spells it reads).
 

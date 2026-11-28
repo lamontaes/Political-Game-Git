@@ -32,4 +32,4 @@ source: added with npm run pool -- add
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/legislature.ts,src/core2/modules/record.ts,src/core2/past-laws.ts,src/bench/government-bodies.ts,src/core2/vote-outcome-recorded.test.ts (new)
+**Files.** src/core2/modules/legislature.ts,src/core2/modules/record.ts,src/core2/past-laws.ts,src/bench/government-bodies.ts,tests/src/core2/vote-outcome-recorded.test.ts (new)

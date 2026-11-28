@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: a disaster follows a hazard record, never a monthly chance (sliding scales and causes). One rule, all 56 places: hazard histories by county in data. Wire to the world: damage moves money to builders and insurers.
 
-**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, drawn place and seed named) past FEMA's last record and sees a hazard record cause a disaster, a damaged home and business named by record id, and repair payments post over months, with the chain stated in src/core2/disaster-weather.test.ts. This item is done when its four parts are.
+**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, drawn place and seed named) past FEMA's last record and sees a hazard record cause a disaster, a damaged home and business named by record id, and repair payments post over months, with the chain stated in tests/src/core2/disaster-weather.test.ts. This item is done when its four parts are.
 
 **Waits on.** The four parts: world-disasters-from-conditions-part-1-damage-to-named-buildings, world-disasters-from-conditions-part-2-repairs-and-insurance-over-months, world-disasters-from-conditions-part-3-aid-on-real-obligation-dates, world-disasters-from-conditions-part-4-close-the-stopgap.
 
-**Files.** src/core2/modules/disasters.ts, src/core2/disaster-weather.test.ts, src/core2/data/stopgaps/core.json
+**Files.** src/core2/modules/disasters.ts, tests/src/core2/disaster-weather.test.ts, src/core2/data/stopgaps/core.json
 
 **Notes.** Oct 20 (pool feeder): the row SG-CORE-disasters-from-records stays open while its pool item is done; the owner's Oct 16 ruling answers its question. Split before building.
 

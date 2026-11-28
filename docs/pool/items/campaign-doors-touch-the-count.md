@@ -18,8 +18,8 @@ claimed-at: 2026-10-29T22:44:10.993Z
 
 **Rules.** One model, two tiers: a counted resident who opens is reached and answers the ask for the vote by the same rule as a full person, from their record, times their count. Speed: a season of doors must not grow the population by the thousand, so the year stays under two minutes.
 
-**Done when.** src/core2/door-fill-in.test.ts passes in a buildBenchWorld drawn place with the seed it prints: an evening of doors with the player's limit fills in at most playerDoorFillIns households, and counted openers keep counted pledge rows; undoing the limit fills in dozens of households (37 in Mellwood AR) and fails the test.
+**Done when.** tests/src/core2/door-fill-in.test.ts passes in a buildBenchWorld drawn place with the seed it prints: an evening of doors with the player's limit fills in at most playerDoorFillIns households, and counted openers keep counted pledge rows; undoing the limit fills in dozens of households (37 in Mellwood AR) and fails the test.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-day.ts, src/core2/data/campaigns/parameters.json, src/core2/door-fill-in.test.ts
+**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-day.ts, src/core2/data/campaigns/parameters.json, tests/src/core2/door-fill-in.test.ts
 
 **Notes.** TODO

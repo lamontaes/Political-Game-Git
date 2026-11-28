@@ -19,7 +19,7 @@ source: Red desk, Nov 13 (Fable A on #8928, comment 6842448463)
 merged-at: 2026-11-13T04:19:39.387Z
 ---
 
-**What.** `src/director/officeholder-scenes.test.ts`, "a filing, an introduced bill or an appointment learned of through a tie is not cast as one's own", fails on every run on clean main 8ce733c3: "filing: expected false to be true" at line 107. It has failed since Nov 1, and it sits in the changed-tests list of anything that touches the director's scene files. Seen: a person's own filing stages the filing scene, and one learned of through a tie does not.
+**What.** `tests/src/director/officeholder-scenes.test.ts`, "a filing, an introduced bill or an appointment learned of through a tie is not cast as one's own", fails on every run on clean main 8ce733c3: "filing: expected false to be true" at line 107. It has failed since Nov 1, and it sits in the changed-tests list of anything that touches the director's scene files. Seen: a person's own filing stages the filing scene, and one learned of through a tie does not.
 
 **Cause.** Found in code: since 6468e0f73b (Nov 1), the filing cause in src/director/scheduling.ts matches only a moment whose record names the person, which the journal marks `selfNamed` (src/director/journal.ts). The check's "own" moment was hand-made without that mark, so the own filing no longer matched, while the tie case passed for the right reason.
 
@@ -33,4 +33,4 @@ merged-at: 2026-11-13T04:19:39.387Z
 
 **Waits on.** Nothing.
 
-**Files.** src/director/officeholder-scenes.test.ts
+**Files.** tests/src/director/officeholder-scenes.test.ts

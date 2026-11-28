@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T13:14:15.020Z
 
 **Rules.** No dice: whether a reporter prints, holds or slants follows their traits, closeness, ethics and the outlet's rules, never a roll; An effect is a read, not a record: the press reads the leak record and favor history when it decides what to print; Ask why: a printed or held story keeps its reasons, including who leaked, by record id; The chain is the acceptance: follow one leak to the reporter's wire, the story, the readers' changed views and the leaker's relationship; This is a game, not a spreadsheet: a leak is one conversation move, not a form; No hand-written player text: the move and the story are worded by the English engine; Placeholders: the SG-PEOPLE-press-favors-and-leaks row closes only when leaks run; Look before you ask: read DECISION-REGISTER.md on press endorsements before touching coverage.
 
-**Done when.** A test in src/core2/press.test.ts, in a drawn place (buildBenchWorld, seed named in the PR body), follows a leak record id, a story record id and a reader's view record id, and the stopgap row closes. The owner plays it: A leak as a conversation move that puts a record on a reporter's wire.
+**Done when.** A test in tests/src/core2/press.test.ts, in a drawn place (buildBenchWorld, seed named in the PR body), follows a leak record id, a story record id and a reader's view record id, and the stopgap row closes. The owner plays it: A leak as a conversation move that puts a record on a reporter's wire.
 
 **Files.** src/core2/modules/press.ts, src/core2/press-desk.ts, src/director/conversation.ts, data/english/parts/conversation.json, src/core2/data/stopgaps.json
 

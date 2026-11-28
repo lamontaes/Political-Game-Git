@@ -17,8 +17,8 @@ claimed-at: 2026-10-20T00:37:53.880Z
 
 **Rules.** Local gate: the fix is the explicit timeout the other world-building tests already use, nothing more. No dice and the assertions are untouched.
 
-**Done when.** The three test files pass together in one run on a busy machine (src/core2/scandal-term.test.ts, law-enacted-over-scheduled.test.ts, consumer-credit-law.test.ts), each in its drawn place and seed, as they failed together before.
+**Done when.** The three test files pass together in one run on a busy machine (tests/src/core2/scandal-term.test.ts, law-enacted-over-scheduled.test.ts, consumer-credit-law.test.ts), each in its drawn place and seed, as they failed together before.
 
-**Files.** src/core2/scandal-term.test.ts, src/core2/law-enacted-over-scheduled.test.ts, src/core2/consumer-credit-law.test.ts
+**Files.** tests/src/core2/scandal-term.test.ts, tests/src/core2/law-enacted-over-scheduled.test.ts, tests/src/core2/consumer-credit-law.test.ts
 
 **Notes.** Found by running the full unit suite on main on Oct 19 (12 failures in 3,932 tests). A better fix may be to put world-building tests in one slow project; this keeps to the existing pattern.

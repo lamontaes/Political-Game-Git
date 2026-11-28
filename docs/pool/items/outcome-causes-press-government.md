@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Wire to the world: an effect is a read, not a record, so the outcome is read by the engine that owns it through `outcomeWebFactor` or a kept measure that views and news read. No dice: the cause record moves the outcome by the link's researched size, never a roll. One rule, all 56 places: place facts live in data.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place of all 56 and a seed the builder did not choose, a newspaper closing in the place shows a lagged move in voting.local-turnout, and an exposed corruption record shows a move in election.incumbent-reelection, each named by the press or scandal record id, the link key and the web month record id. The test src/core2/outcome-web.test.ts lists each link as built, and `src/core2/data/outcome-web/coverage.json` moves it from waiting to wired.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place of all 56 and a seed the builder did not choose, a newspaper closing in the place shows a lagged move in voting.local-turnout, and an exposed corruption record shows a move in election.incumbent-reelection, each named by the press or scandal record id, the link key and the web month record id. The test tests/src/core2/outcome-web.test.ts lists each link as built, and `src/core2/data/outcome-web/coverage.json` moves it from waiting to wired.
 
 **Files.** src/core2/modules/outcome-web.ts, src/core2/gov-measures.ts, src/core2/modules/press.ts, src/core2/data/outcome-web/outcome-web.json
 

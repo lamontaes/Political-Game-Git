@@ -27,7 +27,7 @@ claimed-at: 2026-10-28T03:25:03.763Z
 
 **Screenshot.** Before and after at 1440 by 900 from a drawn place, in the PR body.
 
-**Files.** src/bench/handler.ts, src/bench/player.ts, src/bench/play.mjs, src/bench/election-day.browser.mjs
+**Files.** src/bench/handler.ts, src/bench/player.ts, src/bench/play.mjs, tests/src/bench/election-day.browser.mjs
 
 **Notes.** TODO
 

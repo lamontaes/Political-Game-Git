@@ -18,12 +18,12 @@ claimed-at:
 
 **Rules.** No hand-written player text: the screen shows only the engine's worded parts and control names, so no string for a speech part appears in src/bench/play.mjs or campaign.ts. Replace, never layer: the previous source of the part text is removed once the worded parts feed the screen. Ask why: each shown part keeps the record ids it cites, so a developer view can say why a part was offered. An effect is a read: speechGive and the director scene read the worded text, not a copy of it. One rule, all 56 places: the parts are built from the candidate's own records and never name a town.
 
-**Done when.** A test beside src/bench/speech-screen.test.ts builds a speech from four picks in a played world (buildBenchWorld, a place drawn from all 56, a seed the builder did not choose), shows each offered and picked part is the engine's worded part with its cited record ids, gives the speech, and finds the listener scene quotes the same text; the test fails if a part has no cited record id.
+**Done when.** A test beside tests/src/bench/speech-screen.test.ts builds a speech from four picks in a played world (buildBenchWorld, a place drawn from all 56, a seed the builder did not choose), shows each offered and picked part is the engine's worded part with its cited record ids, gives the speech, and finds the listener scene quotes the same text; the test fails if a part has no cited record id.
 
-**Files.** src/bench/campaign.ts, src/bench/play.mjs, src/bench/speech-screen.test.ts, src/director/speech-builder.ts
+**Files.** src/bench/campaign.ts, src/bench/play.mjs, tests/src/bench/speech-screen.test.ts, src/director/speech-builder.ts
 
 **Notes.** Oct 20 (pool feeder): spec written; the screen and give path already exist (speechView, speechGive), so this is only the read of the worded parts. It must wait for director-retire-stage-speech-builder so it edits the surviving builder, not the one being deleted.
 
-**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. Its parent words-speech-part-words is dropped ("already built", Oct 27 look-first audit). A speech is now built by stage: src/english/speech-stage-words.ts reads data/english/parts/speech-stages.json (words-speech-built-in-stages, done), and src/bench/speech-screen.test.ts exists.
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. Its parent words-speech-part-words is dropped ("already built", Oct 27 look-first audit). A speech is now built by stage: src/english/speech-stage-words.ts reads data/english/parts/speech-stages.json (words-speech-built-in-stages, done), and tests/src/bench/speech-screen.test.ts exists.
 
 **Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

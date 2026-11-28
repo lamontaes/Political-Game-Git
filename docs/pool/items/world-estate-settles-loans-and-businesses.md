@@ -30,11 +30,11 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: heirs and what they do follow the intestate order, their money and traits. Every dollar balances. One model, two tiers: counted heirs act by the same rule. Wire to the world: the lender reads the payoff on its books.
 
-**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, a drawn place from all 56, seed named) and follows a decedent with a credit-facility loan to probate: the loan is paid from the estate by journal record id before the heirs take, the facility ends, shown in src/core2/estates.test.ts, and SG-CORE-estate-cash-only is resolved in src/core2/data/stopgaps/core.json.
+**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, a drawn place from all 56, seed named) and follows a decedent with a credit-facility loan to probate: the loan is paid from the estate by journal record id before the heirs take, the facility ends, shown in tests/src/core2/estates.test.ts, and SG-CORE-estate-cash-only is resolved in src/core2/data/stopgaps/core.json.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/estates.ts, src/core2/modules/credit.ts, src/core2/estates.test.ts, src/core2/data/stopgaps/core.json
+**Files.** src/core2/estates.ts, src/core2/modules/credit.ts, tests/src/core2/estates.test.ts, src/core2/data/stopgaps/core.json
 
 **Notes.** Claim released Oct 23: branch gone.
 

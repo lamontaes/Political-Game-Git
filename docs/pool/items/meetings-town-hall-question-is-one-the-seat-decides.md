@@ -33,6 +33,6 @@ checked: meetings and floor builder 2026-11-15
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/meetings.ts, src/core2/town-hall-question-seat.test.ts
+**Files.** src/core2/modules/meetings.ts, tests/src/core2/town-hall-question-seat.test.ts
 
 **Notes.** Roy, Montana (meet-a1:1): the question became "more spending on land and water". The first version narrowed the room as well as the question and moved Mondak's calibration (pooled take-part odds 3.78 to -0.27 on a fixed seed, rooms filled down a third); the final one leaves the room alone and matches the base exactly on seeds a1b2c3d4e5f60718293a4b5c6d7e8f9012345678 and 0f1e2d3c4b5a69788796a5b4c3d2e1f001122334 (the second reads 2.556 on both, red by draw on the base too). The lines the resident then says are the Words lead's (rules 115, 116: "a date" with nothing named) and ride on the town hall stop PR.

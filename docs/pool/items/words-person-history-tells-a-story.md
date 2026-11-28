@@ -26,7 +26,7 @@ milestone: play-first
 
 **Screenshot.** Angela Moseley's card (or a drawn place's official) before and after.
 
-**Files.** data/english/parts/person-history.json, src/bench/play.mjs, src/bench/person-card.browser.mjs
+**Files.** data/english/parts/person-history.json, src/bench/play.mjs, tests/src/bench/person-card.browser.mjs
 
 **Notes.** Filed by the CTO from the owner's v0.73.0 playtest, second batch (Nov 1, 22:40 UTC, five screenshots, a game in the U.S. Virgin Islands). Read: OWNER-DECISIONS (Oct 29 menus redesigned the way Government was; Oct 29 Political Process baseline; one history), the pool for twins.
 

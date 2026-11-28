@@ -28,10 +28,10 @@ source: Owner, Nov 16, 2026 ("it's just a bunch of kitchens and markets"), his D
 
 **Rules.** The `wire-to-the-world` rule applies: the list reads the town's organization and job records, so every place has its own. No dice: ordering is by headcount and name.
 
-**Done when.** In a drawn place and a seed the builder did not choose, Travel lists the player's own places first and then the biggest workplace of each kind of work the town has, shown in `src/bench/travel-biggest-workplaces.test.ts`; a second session sees the same on the Travel screen.
+**Done when.** In a drawn place and a seed the builder did not choose, Travel lists the player's own places first and then the biggest workplace of each kind of work the town has, shown in `tests/src/bench/travel-biggest-workplaces.test.ts`; a second session sees the same on the Travel screen.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/places.ts, src/bench/data/controls.json, src/bench/travel-biggest-workplaces.test.ts
+**Files.** src/bench/places.ts, src/bench/data/controls.json, tests/src/bench/travel-biggest-workplaces.test.ts
 
 **Notes.** The label "One of the town's biggest workplaces" is a control name in `controls.json`, for Story to sign.

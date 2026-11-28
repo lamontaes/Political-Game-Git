@@ -30,11 +30,11 @@ checked: fable 2026-11-10
 
 **Rules.** One model, two tiers: the set decides only who gets a full individual past; counted households are still read by every engine with the same rules. No dice: the entrant and the sample are drawn by the same seeded code as today, so the same people are kept.
 
-**Done when.** A second session, in buildBenchWorld in a drawn place and a seed the builder did not choose (both named), runs a test beside src/core2/population-start-law.test.ts that shows the opening input with kin added for every household has the same hash as the opening built in one step today, and a second case with kin left out has no husk people, parent-child links or family facts, by record id.
+**Done when.** A second session, in buildBenchWorld in a drawn place and a seed the builder did not choose (both named), runs a test beside tests/src/core2/population-start-law.test.ts that shows the opening input with kin added for every household has the same hash as the opening built in one step today, and a second case with kin left out has no husk people, parent-child links or family facts, by record id.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/population.ts, src/core2/residents.ts, src/bench/world.ts, src/core2/representative-sample.ts, src/core2/population-start-law.test.ts
+**Files.** src/core2/population.ts, src/core2/residents.ts, src/bench/world.ts, src/core2/representative-sample.ts, tests/src/core2/population-start-law.test.ts
 
 **Notes.** Measured: Vonore, Tennessee (seed hours-a) gives every one of 4,373 households relatives, so the wider population grows from 9,940 to 39,685 people (docs/coordination/core.md, OPUS-PEOPLE note). Profile of one opening: openingFamilies 8.8 s, opening-kin 3.6 s, opening-personality 3.1 s, falling-outs 2.0 s.
 

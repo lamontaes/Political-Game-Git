@@ -34,4 +34,4 @@ source: found while pinning the rival-campaign-day test, Nov 14, 2026; owner, No
 
 **Files.** src/bench/world.ts, src/core2/modules/elections.ts
 
-**Notes.** Filed by hand on the branch of the rival-day pin PR, as the thread rule says. The pinned Kirby case in `src/core2/rival-campaign-day-played.test.ts` starts at game start for this reason and waits up to 120 days; when this item lands it can start at 2025-05-12.
+**Notes.** Filed by hand on the branch of the rival-day pin PR, as the thread rule says. The pinned Kirby case in `tests/src/core2/rival-campaign-day-played.test.ts` starts at game start for this reason and waits up to 120 days; when this item lands it can start at 2025-05-12.

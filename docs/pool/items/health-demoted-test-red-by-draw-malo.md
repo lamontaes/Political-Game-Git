@@ -19,7 +19,7 @@ source: found by the Account lead's gate on the opening-stock branch, Nov 15
 claimed-at:
 ---
 
-**What.** `src/core2/health-demoted.test.ts` fails on one drawn seed and passes on others, on the Train with no opening-stock change in it. `GOLDEN_PATH_SEED=28321f843b9da1ec768bedff7bb45c40 npx vitest run src/core2/health-demoted.test.ts` fails at Malo, Washington (5342310): "person_fe5e0c41d892620d onset: expected 'health.serious-illness:person_fe5e0c4…' to be undefined", the person whose household was returned to the counts the day after being filled in. A random seed passes (Adams, Massachusetts, 36ee1018…) and another fails earlier (Manning, North Dakota, cea29add…: "a filled-in person with an illness booked: expected undefined to be defined"). Seen: a person the game took out of the player's circle, whose illness the counts should carry, shows the health engine beginning that illness.
+**What.** `tests/src/core2/health-demoted.test.ts` fails on one drawn seed and passes on others, on the Train with no opening-stock change in it. `GOLDEN_PATH_SEED=28321f843b9da1ec768bedff7bb45c40 npx vitest run tests/src/core2/health-demoted.test.ts` fails at Malo, Washington (5342310): "person_fe5e0c41d892620d onset: expected 'health.serious-illness:person_fe5e0c4…' to be undefined", the person whose household was returned to the counts the day after being filled in. A random seed passes (Adams, Massachusetts, 36ee1018…) and another fails earlier (Manning, North Dakota, cea29add…: "a filled-in person with an illness booked: expected undefined to be defined"). Seen: a person the game took out of the player's circle, whose illness the counts should carry, shows the health engine beginning that illness.
 
 **Cause.** Needs cause. Measured: the same seed and the same assertion fail with `src/core2/modules/health.ts` from the Train at c43bf7e0, so the change under test is not the cause. The test is drawn (`randomBytes` seed unless GOLDEN_PATH_SEED is set), against the pinned-tests rule, and its premise (a booked illness with an onset more than a day away, heard only after the household returns to the counts) fails at Malo.
 
@@ -33,6 +33,6 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/health-demoted.test.ts, src/core2/modules/health.ts
+**Files.** tests/src/core2/health-demoted.test.ts, src/core2/modules/health.ts
 
 **Notes.** TODO

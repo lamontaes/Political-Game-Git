@@ -19,6 +19,6 @@ claimed-at: 2026-11-06T02:44:46.234Z
 
 **Done when.** A town's or county's policy row is set aside while the state's preempts flag for that question is true, and the law-reach tests enact where the place may; a drawn-place test shows both outcomes.
 
-**Files.** src/core2/laws-in-force.ts,src/core2/modules/laws.ts,src/core2/law-reach-group-a.test.ts
+**Files.** src/core2/laws-in-force.ts,src/core2/modules/laws.ts,tests/src/core2/law-reach-group-a.test.ts
 
 **Notes.** State Sessions Nov 6 tried it: a statePreempts input read from POLICY_QUESTIONS[series].answers[state].preempts, set into the single branch, passes its own two-case test on a drawn place, but fails 5 audit-13 tests in law-reach-group-a.test.ts (seed 074abe96..., US-ND 3804580: term limits, abortion, photo ID, voting restoration, age verification) because those tests hand-enact the law at the city level in a state that bars towns. Those fixtures must enact at the state first. Not shipped; the work is reverted. Do the fixture change in the same PR.

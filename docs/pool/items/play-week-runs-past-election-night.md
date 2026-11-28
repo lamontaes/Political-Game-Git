@@ -24,14 +24,14 @@ merged-at: 2026-11-15T22:27:12.034Z
 
 **Cause.** Found in code: src/bench/election-night.ts `electionNight` offers the returns only on the night of the count and the day after (`addDays(race.date, 1) < core.date` returns null), and the page asks for them (`/api/election-night`) only when an advance stops (src/bench/play.mjs `refresh`). src/bench/player.ts `advance` stops for the polls and for a candidate's morning, but not for the night of the count. So a Week pressed on election day runs on to its next stop, often two or more days later, and the returns are never offered.
 
-**Fix.** In `advance`, at each midnight, stop once when the day just lived (or the one before it, if the count came in by that midnight) was election day for the character: they were at the polls or had a candidate's morning, and that night's returns (`electionNight`) are for that day. The page's refresh then shows the returns as it does now. src/bench/election-day.test.ts presses Week on election day and requires the clock to stop by the night after the count.
+**Fix.** In `advance`, at each midnight, stop once when the day just lived (or the one before it, if the count came in by that midnight) was election day for the character: they were at the polls or had a candidate's morning, and that night's returns (`electionNight`) are for that day. The page's refresh then shows the returns as it does now. tests/src/bench/election-day.test.ts presses Week on election day and requires the clock to stop by the night after the count.
 
 **Time box.** 2 hours for one Sonnet session.
 
 **Rules.** One rule, all 56 places: the stop reads the character's own polling visit and the count, with no place named. The returns are a view of the count record; nothing new is kept.
 
-**Done when.** A second session, on main, plays a new life in a drawn place with a race the player can enter, files, and on election day presses Week after voting. The clock stops that night and the returns show the count and the call. The session takes a screenshot of the returns, whether the player won or lost, and src/bench/election-day.test.ts passes.
+**Done when.** A second session, on main, plays a new life in a drawn place with a race the player can enter, files, and on election day presses Week after voting. The clock stops that night and the returns show the count and the call. The session takes a screenshot of the returns, whether the player won or lost, and tests/src/bench/election-day.test.ts passes.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/player.ts, src/bench/election-night.ts, src/bench/election-day.test.ts
+**Files.** src/bench/player.ts, src/bench/election-night.ts, tests/src/bench/election-day.test.ts

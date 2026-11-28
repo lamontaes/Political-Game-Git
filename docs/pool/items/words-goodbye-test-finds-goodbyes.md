@@ -19,6 +19,6 @@ claimed-at: 2026-11-04T16:40:48.167Z
 
 **Done when.** The test checks the goodbye of talks with the people the player knows, then every other full person in the same world, and passes with goodbyes found.
 
-**Files.** src/director/conversation.test.ts
+**Files.** tests/src/director/conversation.test.ts
 
 **Notes.** TODO

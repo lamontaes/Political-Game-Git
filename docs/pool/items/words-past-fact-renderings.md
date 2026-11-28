@@ -35,7 +35,7 @@ branch: claude/pool-words-past-fact-renderings
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts, src/english, src/director/journal.ts, src/bench/card.ts, src/bench/card-public.test.ts
+**Files.** data/english/parts, src/english, src/director/journal.ts, src/bench/card.ts, tests/src/bench/card-public.test.ts
 
 **Notes.** The card's public-knowledge rows (src/bench/play.mjs showPerson) use record field names as labels until this lands.
 

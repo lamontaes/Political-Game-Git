@@ -35,10 +35,10 @@ Seen: dev mode's law view for the federal level, and the jobs engine's wage floo
 
 **Rules.** One engine per mechanic: the wage engine in `question-wages.ts` writes every federal wage change. No dice. Everything comes from the simulation: the amount is the bill's, not a real current figure pinned to the world. One rule, all 56 places.
 
-**Done when.** A second session, in a century world at a drawn place and seed nobody chose where Congress passed the raise before day one, sees the federal minimum wage on day one above 725, with the federal wage row naming the century's session by record id, and a worker under that floor raised. `src/core2/congress-wage-question.test.ts` passes at replay 5ff729f3b78f823e without starting by repealing the rule.
+**Done when.** A second session, in a century world at a drawn place and seed nobody chose where Congress passed the raise before day one, sees the federal minimum wage on day one above 725, with the federal wage row naming the century's session by record id, and a worker under that floor raised. `tests/src/core2/congress-wage-question.test.ts` passes at replay 5ff729f3b78f823e without starting by repealing the rule.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/question-wages.ts, src/core2/congress-wage-question.test.ts
+**Files.** src/core2/question-wages.ts, tests/src/core2/congress-wage-question.test.ts
 
 **Notes.** Laws and effects, Nov 18: the test currently fails at replay 5ff729f3b78f823e on `train/nov17b` ("expected 725 to be greater than 725", line 109); #10195 would have made it start by repealing the rule. The CTO asked (6994427406) whether a yes in force should carry its amount; it should, so #10195 is closed and the test stays red on this item.

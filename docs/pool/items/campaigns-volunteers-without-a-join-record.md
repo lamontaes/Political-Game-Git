@@ -30,4 +30,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/campaigns.ts, src/director/petition-short.test.ts
+**Files.** src/core2/modules/campaigns.ts, tests/src/director/petition-short.test.ts

@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/dev-trace.ts, src/core2/modules/press.ts, src/core2/press-desk.ts, src/core2/modules/crime.ts, src/bench/dev-trace-police-log.test.ts (new), src/bench/printed-police-log.test.ts
+**Files.** src/bench/dev-trace.ts, src/core2/modules/press.ts, src/core2/press-desk.ts, src/core2/modules/crime.ts, tests/src/bench/dev-trace-police-log.test.ts (new), tests/src/bench/printed-police-log.test.ts

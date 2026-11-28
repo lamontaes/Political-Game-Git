@@ -17,9 +17,9 @@ claimed-at: 2026-10-26T00:24:13.324Z
 
 **Rules.** One rule, all 56 places: the fix must hold in any drawn place and never name a state or place in logic; an effect is a read, not a record: the crime-report measure moves only where an engine reads the shifted cause, named by record id.
 
-**Done when.** src/core2/outcome-web-twins.test.ts passes with EFFECT_TWINS_SEED=27ed11060d06e388 and two fresh random seeds, each named in the PR body; the PR names the cause that reaches crime reports in West Lawn by record id, or shows no running cause there reaches it and the test reads that from the town's own records. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
+**Done when.** tests/src/core2/outcome-web-twins.test.ts passes with EFFECT_TWINS_SEED=27ed11060d06e388 and two fresh random seeds, each named in the PR body; the PR names the cause that reaches crime reports in West Lawn by record id, or shows no running cause there reaches it and the test reads that from the town's own records. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
-**Files.** src/core2/outcome-web-twins.test.ts
+**Files.** tests/src/core2/outcome-web-twins.test.ts
 
 **Notes.** TODO
 

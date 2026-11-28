@@ -19,8 +19,8 @@ claimed-at:
 
 **Done when.** In a played world of a place drawn from all 56 (place and seed named), and in Anson, Texas with the playtest's seed and Bo Snider born February 3, 2007: the appointer's qualification for a town post reads each candidate's recorded related work and schooling, named by record id in the appointment's reasons, and experienceFromAge is gone; no resident without related work or schooling heads a department while a candidate with them is in the pool; and the town's heads' years of related work are set beside a sourced band for the occupation in the PR body.
 
-**Files.** src/core2/modules/executive.ts, src/core2/data/campaigns/parameters.json, src/core2/executive.test.ts
+**Files.** src/core2/modules/executive.ts, src/core2/data/campaigns/parameters.json, tests/src/core2/executive.test.ts
 
 **Notes.** Filed by the speed lead on Merger 0's send-back of #6080 (Oct 26), which asked that the intended qualification rule be proven, not fixed with an arbitrary new age threshold. play-stop-20 stays open on this item and words-family-talk-kin-address.
 
-Sent back 2026-10-26 from PR #6149 (branch claude/department-head-by-record): normal current-main integration conflicts in src/core2/executive.test.ts; merge aborted with no source push, reconcile the new record-based qualification checks with current main coverage before the local gate; finish on that branch, merge main into it first.
+Sent back 2026-10-26 from PR #6149 (branch claude/department-head-by-record): normal current-main integration conflicts in tests/src/core2/executive.test.ts; merge aborted with no source push, reconcile the new record-based qualification checks with current main coverage before the local gate; finish on that branch, merge main into it first.

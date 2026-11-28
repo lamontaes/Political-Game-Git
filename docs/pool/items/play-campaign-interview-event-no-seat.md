@@ -17,8 +17,8 @@ claimed-at: 2026-10-20T12:20:14.449Z
 
 **Rules.** This is a game, not a spreadsheet: a scene, not a form. No hand-written player text. No dice.
 
-**Done when.** In a drawn place (named in the PR body), a candidate with no seat asks an outlet for an interview and holds an event from the Campaigns screen; each writes the engine's own record (interview row, event cause rows) shown by id; src/bench/campaign-day-controls.test.ts covers both, and a browser check shows no list of acts on the screen.
+**Done when.** In a drawn place (named in the PR body), a candidate with no seat asks an outlet for an interview and holds an event from the Campaigns screen; each writes the engine's own record (interview row, event cause rows) shown by id; tests/src/bench/campaign-day-controls.test.ts covers both, and a browser check shows no list of acts on the screen.
 
-**Files.** src/bench/campaign.ts, src/bench/play.mjs, src/bench/data/controls.json, src/bench/campaign-day-controls.test.ts
+**Files.** src/bench/campaign.ts, src/bench/play.mjs, src/bench/data/controls.json, tests/src/bench/campaign-day-controls.test.ts
 
 **Notes.** Split from release-merge-audit-oct20-morning-fixes fix 4. The browser check was not run in that fix. Found Oct 20 by claude/political-game-pool-yucp92-au.

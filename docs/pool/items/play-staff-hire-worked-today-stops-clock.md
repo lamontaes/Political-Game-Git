@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T00:54:48.818Z
 
 **Rules.** No dice: the skip follows the person's recorded attendance that day, never a roll; Replace, never layer: the executive's private copy of workedToday is deleted and both engines read the one in job-lifecycle; One rule, all 56 places: nothing names a place.
 
-**Done when.** In a played world (buildBenchWorld) in a place drawn from all 56 with a seed the builder did not choose, named in the PR body, a council member controlled by the player lives 120 days without the clock stopping, and a test in src/core2/staff.test.ts shows a person who worked today is not a staff candidate that day and is one the next.
+**Done when.** In a played world (buildBenchWorld) in a place drawn from all 56 with a seed the builder did not choose, named in the PR body, a council member controlled by the player lives 120 days without the clock stopping, and a test in tests/src/core2/staff.test.ts shows a person who worked today is not a staff candidate that day and is one the next.
 
 **Files.** src/core2/job-lifecycle.ts, src/core2/modules/staff.ts, src/core2/modules/executive.ts
 

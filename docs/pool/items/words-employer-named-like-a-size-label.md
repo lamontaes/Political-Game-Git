@@ -32,6 +32,6 @@ after:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/business-names.ts, src/core2/data/business/names.json, src/core2/business-names.test.ts
+**Files.** src/core2/business-names.ts, src/core2/data/business/names.json, tests/src/core2/business-names.test.ts
 
 **Notes.** Filed by Words builder B, Nov 14.

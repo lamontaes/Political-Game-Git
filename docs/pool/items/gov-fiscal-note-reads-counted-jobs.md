@@ -35,7 +35,7 @@ branch: claude/pool-gov-fiscal-note-reads-counted-jobs
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/legislature.ts, src/core2/modules/jobs.ts, src/bench/bill-paper.test.ts, data/english/parts/bill-paper.json
+**Files.** src/core2/modules/legislature.ts, src/core2/modules/jobs.ts, tests/src/bench/bill-paper.test.ts, data/english/parts/bill-paper.json
 
 **Notes.** TODO
 

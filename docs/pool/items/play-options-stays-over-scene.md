@@ -34,6 +34,6 @@ Seen: the train at 2df62063, the smoke test's steps in a browser (Screens), and 
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.mjs, src/bench/options-stays-over-scene.browser.mjs (new)
+**Files.** src/bench/play.mjs, tests/src/bench/options-stays-over-scene.browser.mjs (new)
 
 **Notes.** Filed and built by the Blockers lane, Nov 17. Follows #9756.

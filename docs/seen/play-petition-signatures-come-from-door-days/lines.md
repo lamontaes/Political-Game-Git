@@ -146,7 +146,7 @@ The residency line ("your address has you in lives elsewhere") is an existing pi
 
 ## The doors strip says the doors answered (Words lead's go, Nov 14 03:04Z)
 
-"Reached" counted only the full people met; a counted resident who opens is asked to sign too and stays a count, so the strip could show more signed than reached. A petition outing now shows the doors that opened (the people met plus the counted openers), and "reached" stays on vote-asking outings. Pinned in `src/bench/campaign-doors-answered.test.ts` at Otisville, New York (seed 580915c55b122496eedbb4aef26193e639a89d50e6df380c1a1073abc59559a5): six outings, signed never more than answered, answered never fewer than reached.
+"Reached" counted only the full people met; a counted resident who opens is asked to sign too and stays a count, so the strip could show more signed than reached. A petition outing now shows the doors that opened (the people met plus the counted openers), and "reached" stays on vote-asking outings. Pinned in `tests/src/bench/campaign-doors-answered.test.ts` at Otisville, New York (seed 580915c55b122496eedbb4aef26193e639a89d50e6df380c1a1073abc59559a5): six outings, signed never more than answered, answered never fewer than reached.
 
 As played, train merged at 5f9e3ba8 (pictures `answered-1/2/3-doors-strip.png`):
 

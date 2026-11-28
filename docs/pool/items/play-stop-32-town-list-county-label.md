@@ -19,7 +19,7 @@ claimed-at: 2026-10-27T06:21:26.161Z
 
 **Rules.** Serves LAW.md §1, Screens and menus and LAW.md, Conflicts, Populations on the town list (the list shows the count the world opens with, from the one source the world builds from; the owner ruled census figures are calibration only: "the census stuff doesn't have to be literal"). This is a game, not a spreadsheet. Estimate, never UNKNOWN: the count stays a value the world opens with.
 
-**Done when.** In the town list of a drawn state that has two towns with one name, each such row shows its county as its own labeled part and the count as the town's own, checked by a test in src/bench/creator-towns-population.test.ts over the rendered row parts (the county and the count are separate elements and the count sits with the town name), and the count still equals the opening population of that town, shown by a screenshot of the two same-named rows with the place and seed named.
+**Done when.** In the town list of a drawn state that has two towns with one name, each such row shows its county as its own labeled part and the count as the town's own, checked by a test in tests/src/bench/creator-towns-population.test.ts over the rendered row parts (the county and the count are separate elements and the count sits with the town name), and the count still equals the opening population of that town, shown by a screenshot of the two same-named rows with the place and seed named.
 
 **Time box.** 1 hours; if not done, push what exists, open the draft PR, write the handoff.
 
@@ -27,7 +27,7 @@ claimed-at: 2026-10-27T06:21:26.161Z
 
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
-**Files.** src/bench/creator.ts, src/bench/play.mjs, src/bench/play.css, src/bench/creator-towns-population.test.ts, src/bench/towns.browser.mjs
+**Files.** src/bench/creator.ts, src/bench/play.mjs, src/bench/play.css, tests/src/bench/creator-towns-population.test.ts, tests/src/bench/towns.browser.mjs
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "Yes, I guess we have to delineate between county and city or whatever." Not filed on purpose: a population-accuracy item. The owner ruled the census is calibration only ("remember, oh my God, the census stuff doesn't have to be literal. It's just calibration."). For the record, boroughs read Census Vintage 2025 estimates (data/tables/place-population.json) and CDPs read ACS 2020-24 (data/research/money/place-population-acs-2024.json), and the list and the opened world share one source. The county was added by play-stop-14 (done). New owner instruction in playtest; CTO to record in OWNER-DECISIONS.md. Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).
 Merged Oct 27 in PR #6248; awaiting the owner's installed-build check

@@ -33,4 +33,4 @@ lead: money
 
 **Files.** src/core2/journal-state.ts
 
-**Notes.** Reproduce: the seed above is the world seed and the place key is `territory:MP:i-liyang`; `src/core2/state.test.ts` line 398 holds a test for the same message. Checked by Fable B, Nov 15, 2026, on the train at 32a994212b: the same place and seed ran three years to January 24, 2028 with no error, built both without and with the warm-up days. Fixed by #9318; nothing further to build. The pinned test the Done when asks for was not written.
+**Notes.** Reproduce: the seed above is the world seed and the place key is `territory:MP:i-liyang`; `tests/src/core2/state.test.ts` line 398 holds a test for the same message. Checked by Fable B, Nov 15, 2026, on the train at 32a994212b: the same place and seed ran three years to January 24, 2028 with no error, built both without and with the warm-up days. Fixed by #9318; nothing further to build. The pinned test the Done when asks for was not written.

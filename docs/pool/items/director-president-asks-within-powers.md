@@ -18,7 +18,7 @@ claimed-at: 2026-10-27T11:03:58.038Z
 
 **Rules.** Wire to the world: the ask reads policyAuthority (src/core2/policy-authority.ts) and the starting answers in force (src/core2/policy-answers.ts) at the moment it is chosen, and cites both record ids. One rule, all 56 places: a question goes to Congress only when its levels include federal and federal law does not already answer it; to the states only when the player's state's answer differs from the President's stance. No dice.
 
-**Done when.** In a played world (buildBenchWorld) in two drawn places with seeds the builder did not choose, every ask in the address cites the question's powers record and the law-in-force record id it read, no ask of Congress names a state-only question, and no ask names a change the player's state already has; a test beside src/director/opening-story.test.ts fails on the Iowa City seed before the fix.
+**Done when.** In a played world (buildBenchWorld) in two drawn places with seeds the builder did not choose, every ask in the address cites the question's powers record and the law-in-force record id it read, no ask of Congress names a state-only question, and no ask names a change the player's state already has; a test beside tests/src/director/opening-story.test.ts fails on the Iowa City seed before the fix.
 
 **Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
 

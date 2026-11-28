@@ -17,8 +17,8 @@ claimed-at: 2026-10-28T18:41:03.768Z
 
 **Rules.** Realistic, not real (owner, Oct 27): every place with people still opens off its published count, and the check exempts only a published count of zero, which the engine keeps by rule because nothing can be spread around it. One rule, all 56 places: the fix names no place in logic.
 
-**Done when.** src/core2/realistic-not-real.test.ts passes with REALISTIC_SEED=1735aa89f0ce5894 (Four Mile Road, Alaska, published at zero), and with a second randomly drawn seed whose place has people, where the published-value check still runs and passes; all 16 guards pass.
+**Done when.** tests/src/core2/realistic-not-real.test.ts passes with REALISTIC_SEED=1735aa89f0ce5894 (Four Mile Road, Alaska, published at zero), and with a second randomly drawn seed whose place has people, where the published-value check still runs and passes; all 16 guards pass.
 
-**Files.** src/core2/realistic-not-real.test.ts
+**Files.** tests/src/core2/realistic-not-real.test.ts
 
 **Notes.** Found Oct 28 by the old engine session on #6658's guards run (job 123007449053); reproduced identically on clean main at 1c603ce88f.

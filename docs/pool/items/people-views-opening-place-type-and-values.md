@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** Estimate, never UNKNOWN: a place-type or value cell the survey lacks starts from the national average marked ESTIMATED with its source and spread. One model, two tiers: the counted groups carry the same place-type term and values as full people, times their count. No dice: values follow the person's records and the researched weights, never a roll. One rule, all 56 places: no state, town or party is named in the logic.
 
-**Done when.** A second session, in a one-year run of the played world (buildBenchWorld, two drawn places from all 56 of different place types, place and seed named), sees every adult's opening view record name its place-type term and carry the 14 values with their reasons by record id, the three parts merged, and src/core2/views.test.ts passing. The town's right and left shares are reported beside the Pew shares for its type as figures to report, not a pass or fail. **On screen.** Nothing yet: it would show on Politics, Campaigns and the election night results, and nothing there reads it.
+**Done when.** A second session, in a one-year run of the played world (buildBenchWorld, two drawn places from all 56 of different place types, place and seed named), sees every adult's opening view record name its place-type term and carry the 14 values with their reasons by record id, the three parts merged, and tests/src/core2/views.test.ts passing. The town's right and left shares are reported beside the Pew shares for its type as figures to report, not a pass or fail. **On screen.** Nothing yet: it would show on Politics, Campaigns and the election night results, and nothing there reads it.
 
 **Waits on.** people-views-opening-place-type-and-values-part-1-place-type-term.
 
-**Files.** src/core2/modules/views.ts, src/core2/data/views/views.json, data/research/people/pew-partisanship-community-type-2023.json, src/core2/views.test.ts
+**Files.** src/core2/modules/views.ts, src/core2/data/views/views.json, data/research/people/pew-partisanship-community-type-2023.json, tests/src/core2/views.test.ts
 
 **Notes.** TODO
 

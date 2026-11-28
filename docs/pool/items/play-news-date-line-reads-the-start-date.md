@@ -24,7 +24,7 @@ checked:
 
 **Cause.** Found in code: the screen keeps its own copy of the game's date (`packet?.at` in `src/bench/play.mjs`), set only when a time button returns a packet. A dev panel's run of days (`src/bench/dev-mode.ts` `advance`) lets the character go (`BenchPlayer.release()` clears the server's packet) and returns no packet, so the card had no clock to show and `today()` and the card clock kept the old day. Measured: Rock Cave, West Virginia (place key 5469244, seed rockcave-a), the dev panel's Run said 2025-01-20 to 2025-02-19 and the card clock still read "Monday, January 20, 2025". Every `today()` reader (News, the elections pages, the Calendar's day titles) had the same fault.
 
-**Fix.** `/api/card` carries `at` (the player's clock while it runs, else the world's day at 12:00 AM); the screen keeps one `clockAt`, set from a packet or the card, which `today()` and the card clock read. `src/bench/dev-run-date.browser.mjs` (Rock Cave, seed rockcave-a) fails before and passes after.
+**Fix.** `/api/card` carries `at` (the player's clock while it runs, else the world's day at 12:00 AM); the screen keeps one `clockAt`, set from a packet or the card, which `today()` and the card clock read. `tests/src/bench/dev-run-date.browser.mjs` (Rock Cave, seed rockcave-a) fails before and passes after.
 
 **Time box.** 2 hours for one Sonnet session. When it runs out, push what passes and set the state honestly with a one-line note.
 

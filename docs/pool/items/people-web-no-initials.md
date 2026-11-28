@@ -18,6 +18,6 @@ source: added with npm run pool -- add
 
 **Done when.** In a drawn place from all 56 (name the place and seed), people.browser.mjs opens People and fails if any face on the map is not a picture or an empty ring; it passes, and a screenshot of the map with a child shown as an empty ring is in the PR body.
 
-**Files.** src/bench/ui/people-web.mjs, src/bench/play.css, src/bench/people.browser.mjs
+**Files.** src/bench/ui/people-web.mjs, src/bench/play.css, tests/src/bench/people.browser.mjs
 
 **Notes.** TODO

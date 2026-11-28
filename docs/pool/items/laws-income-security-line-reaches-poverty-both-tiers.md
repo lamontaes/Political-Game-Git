@@ -29,8 +29,8 @@ merged-at: 2026-11-25T13:11:28.661Z
 
 **Rules.** One model, two tiers: a counted household's SSI follows the line by the same rule as a named one's. An effect is a read: the poverty engine reads the benefit the treasury paid.
 
-**Done when.** A second session, in a drawn place, Town, State (seed printed), passes a Congress bill raising the income security line by a fifth in dev mode, runs past the next monthly close, and reads on the bill card the named and counted SSI households reached; `src/core2/income-security-line-poverty.test.ts` passes in that drawn place.
+**Done when.** A second session, in a drawn place, Town, State (seed printed), passes a Congress bill raising the income security line by a fifth in dev mode, runs past the next monthly close, and reads on the bill card the named and counted SSI households reached; `tests/src/core2/income-security-line-poverty.test.ts` passes in that drawn place.
 
 **Waits on.** laws-veterans-line-reaches-poverty-both-tiers (#9874), which this branch is stacked on.
 
-**Files.** src/core2/law-reach/group-b-money.ts, src/core2/world-poverty.ts, src/core2/modules/laws.ts, data/research/outcome-web/links.json, src/core2/data/outcome-web/coverage.json, src/core2/income-security-line-poverty.test.ts (new)
+**Files.** src/core2/law-reach/group-b-money.ts, src/core2/world-poverty.ts, src/core2/modules/laws.ts, data/research/outcome-web/links.json, src/core2/data/outcome-web/coverage.json, tests/src/core2/income-security-line-poverty.test.ts (new)

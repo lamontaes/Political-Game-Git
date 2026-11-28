@@ -34,6 +34,6 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/office-day.ts, src/core2/modules/world-legislating.ts, src/core2/office-day-budget-vote.test.ts
+**Files.** src/core2/modules/office-day.ts, src/core2/modules/world-legislating.ts, tests/src/core2/office-day-budget-vote.test.ts
 
 **Notes.**

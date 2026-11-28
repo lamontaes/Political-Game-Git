@@ -31,7 +31,7 @@ Each stages from its record and plays as a journal line. Seen: a term in office,
 
 **Cause.** Measured: on the cut (#10063, head 2d057529e6), these fail while the same seeds pass on train/nov17b, each with "no narration ... can be worded from the records given" or a skipped arc:
 
-- `src/director/arc-variant.test.ts` (2 cases);
+- `tests/src/director/arc-variant.test.ts` (2 cases);
 - `press-comment-variants.test.ts`;
 - `scandal-call-printed.test.ts` (5 cases);
 - `accusation-variants.test.ts`;
@@ -50,7 +50,7 @@ Each is shown by `npx vitest run <file>` on the cut.
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/scene-talk.json, src/director/arc-variant.test.ts, src/director/press-comment-variants.test.ts, src/director/scandal-call-printed.test.ts, src/director/accusation-variants.test.ts, src/director/ask-before-the-roll.test.ts, src/director/vote-asked-again.test.ts
+**Files.** data/english/parts/scene-talk.json, tests/src/director/arc-variant.test.ts, tests/src/director/press-comment-variants.test.ts, tests/src/director/scandal-call-printed.test.ts, tests/src/director/accusation-variants.test.ts, tests/src/director/ask-before-the-roll.test.ts, tests/src/director/vote-asked-again.test.ts
 
 **Notes.** Nov 19 (Story): filed from a Sonnet triage of each red file on the cut and on the train at one seed.
 

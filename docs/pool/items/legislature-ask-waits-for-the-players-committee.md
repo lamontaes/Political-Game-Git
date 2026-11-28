@@ -28,8 +28,8 @@ root: rc8-law-judged-by-paperwork
 
 **Rules.** An effect is a read, not a record: an ask no roll call reads is an unregistered placeholder. No dice. askBeforeTheRoll is the bargaining thread's; tell it before changing the function. No new stopgaps.
 
-**Done when.** A second session plays a state legislator who sits on the committee for a bill on the next floor day, in a drawn place with its seed printed, and sees no evening-before ask on a bill the chair then holds, and an ask on a bill the chair hears; a pinned test in src/core2/legislature-ask-reaches-roll.test.ts covers the player-on-the-committee case and fails with the old rule.
+**Done when.** A second session plays a state legislator who sits on the committee for a bill on the next floor day, in a drawn place with its seed printed, and sees no evening-before ask on a bill the chair then holds, and an ask on a bill the chair hears; a pinned test in tests/src/core2/legislature-ask-reaches-roll.test.ts covers the player-on-the-committee case and fails with the old rule.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/legislature.ts, src/core2/modules/office-day.ts, src/core2/legislature-ask-reaches-roll.test.ts
+**Files.** src/core2/modules/legislature.ts, src/core2/modules/office-day.ts, tests/src/core2/legislature-ask-reaches-roll.test.ts

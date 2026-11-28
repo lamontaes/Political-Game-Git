@@ -18,6 +18,6 @@ source: added with npm run pool -- add
 
 **Done when.** housing-no-opening-value.test.ts passes with seed 600668ed026fc5bd (Tamuning, Guam) and on a fresh drawn world, with the town opening dwellings, a landlord and leases named by record id, and housing-opening, housing-readers and housing-county-estimate still pass.
 
-**Files.** src/core2/modules/housing.ts, src/core2/housing-no-opening-value.test.ts
+**Files.** src/core2/modules/housing.ts, tests/src/core2/housing-no-opening-value.test.ts
 
 **Notes.** TODO

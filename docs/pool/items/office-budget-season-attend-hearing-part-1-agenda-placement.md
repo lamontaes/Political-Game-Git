@@ -29,8 +29,8 @@ checked: fable 2026-11-10
 
 **Rules.** One rule, all 56 places: the meeting day comes from the body's own rule. No dice. No hand-written player text: hearing wording waits on words-budget-hearing-speakers. Replace, never layer: the direct hearing call is replaced.
 
-**Done when.** A second session, not the builder, plays a drawn place and seed (named) up to the fiscal year and sees the budget bill on the body's meeting agenda before the year starts, by bill id and agenda date; src/core2/office-day-budget-season.test.ts still passes.
+**Done when.** A second session, not the builder, plays a drawn place and seed (named) up to the fiscal year and sees the budget bill on the body's meeting agenda before the year starts, by bill id and agenda date; tests/src/core2/office-day-budget-season.test.ts still passes.
 
 **Waits on.** Nothing. (office-the-budget-season, which it once waited on, was closed: its children are done.)
 
-**Files.** src/core2/modules/legislature.ts, src/core2/modules/office-day.ts, src/core2/office-day-budget-season.test.ts
+**Files.** src/core2/modules/legislature.ts, src/core2/modules/office-day.ts, tests/src/core2/office-day-budget-season.test.ts

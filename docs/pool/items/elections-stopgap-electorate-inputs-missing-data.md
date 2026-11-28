@@ -19,7 +19,7 @@ claimed-at:
 
 **Rules.** An effect is a read, not a record: the approval row counts only because the race engine reads it on election day. Replace, never layer: the economy-only mood is replaced, not kept beside the approval. No dice: approval follows people's views and the record, never a roll. One model, two tiers: counted groups feel and approve by the same rule as full people, times their count.
 
-**Done when.** Both parts are done: in a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a race's national condition cites a president approval record id and the stopgap SG-GOV-electorate-approval is resolved in src/core2/data/stopgaps.json, proven in src/core2/electorate-inputs.test.ts.
+**Done when.** Both parts are done: in a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a race's national condition cites a president approval record id and the stopgap SG-GOV-electorate-approval is resolved in src/core2/data/stopgaps.json, proven in tests/src/core2/electorate-inputs.test.ts.
 
 **Files.** docs/pool/items/gov-president-approval-record.md, docs/pool/items/elections-electorate-reads-approval.md
 

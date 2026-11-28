@@ -17,8 +17,8 @@ claimed-at:
 
 **Rules.** Wire to the world: a public hire is paid through its employer's pay authority from the first payday. Every dollar balances. No dice.
 
-**Done when.** In the played world (`buildBenchWorld`, a drawn place with a staffing law) a hire at a public employer is paid after 45 days, shown by job and authority ids; `src/core2/public-hire-authority.test.ts` fails without the fix.
+**Done when.** In the played world (`buildBenchWorld`, a drawn place with a staffing law) a hire at a public employer is paid after 45 days, shown by job and authority ids; `tests/src/core2/public-hire-authority.test.ts` fails without the fix.
 
-**Files.** src/core2/job-lifecycle.ts, src/core2/public-hire-authority.test.ts
+**Files.** src/core2/job-lifecycle.ts, tests/src/core2/public-hire-authority.test.ts
 
 **Notes.** Body repaired Oct 17 (claude) from the pull request's description; the fix is in that pull request.

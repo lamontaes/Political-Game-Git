@@ -36,10 +36,10 @@ A record that stands for 2,380 households also had its one seeker counted as 2,3
 
 **Rules.** One rule, all 56 places: every state with a played part is read by the same four rules. No dice: nothing is drawn, the rate follows layoffs, postings and moves. One model, two tiers: a record that stands for many is counted times what it stands for.
 
-**Done when.** A second session starts the bench in a drawn place, for example Shannon Colony, South Dakota (seed 5cfc73cac36a for `scripts/dev-tests/state-rate-years.ts`), plays ten years, and sees on Metrics that the state's unemployment rate does not fall toward zero and moves up and down with the state's jobs. `npx vitest run src/core2/country-model.test.ts src/core2/country-part-counts.test.ts` passes there and five of its tests fail on main c5808caa.
+**Done when.** A second session starts the bench in a drawn place, for example Shannon Colony, South Dakota (seed 5cfc73cac36a for `scripts/dev-tests/state-rate-years.ts`), plays ten years, and sees on Metrics that the state's unemployment rate does not fall toward zero and moves up and down with the state's jobs. `npx vitest run tests/src/core2/country-model.test.ts tests/src/core2/country-part-counts.test.ts` passes there and five of its tests fail on main c5808caa.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/country-model.ts, src/core2/country-model.test.ts, src/core2/country-part-counts.test.ts, src/core2/modules/residents.ts, src/core2/modules/macro.ts, src/core2/data/stopgaps/nation.json, scripts/dev-tests/state-rate-years.ts
+**Files.** src/core2/country-model.ts, tests/src/core2/country-model.test.ts, tests/src/core2/country-part-counts.test.ts, src/core2/modules/residents.ts, src/core2/modules/macro.ts, src/core2/data/stopgaps/nation.json, scripts/dev-tests/state-rate-years.ts
 
 **Notes.** Still open, for its own pull request: the opening's count of a sampled county's seekers. `openCountedSeekers` (src/core2/modules/jobs.ts, lines 944 to 1012) counts workers one per record and takes no county-named worker as at work, so the played county opens with about 300 people looking (Waimanalo: 296 of 582,521 adults) and climbs to about 5,000 over the first year as away work is lost. Posted on the crew's thread #9747, comments 6935090630 and 6935972874.

@@ -349,7 +349,7 @@ Files read:
 - /home/user/gov-proof/src/core2/rival-campaign-day-played.test.ts
 - /home/user/gov-proof/src/core2/data/campaigns/parameters.json
 - /home/user/gov-proof/src/core2/data/stopgaps.json
-- origin/governing/real-race-played-proof: src/core2/campaign-real-race-played.test.ts
+- origin/governing/real-race-played-proof: tests/src/core2/campaign-real-race-played.test.ts
 - origin/main: docs/coordination/OWNER-DECISIONS.md, docs/coordination/DECISION-REGISTER.md
 - origin/main: docs/pool/items/campaign-incumbent-hears-the-race.md, campaign-incumbent-comes-home.md, campaign-incumbent-reads-own-doors.md, campaign-real-race-played-proof.md
 - /tmp/claude-0/-home-user-Political-Game-Git/e700904c-357a-5300-94c3-1f79cca80131/scratchpad/ihr-fix.md

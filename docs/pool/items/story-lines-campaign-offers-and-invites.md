@@ -21,7 +21,7 @@ checked:
 
 **What.** Four campaign scenes the cut of Nov 17 left silent: someone offers to help on the campaign, someone close offers to run it, an outlet invites the player to an interview, and an outlet or group invites the player to debate. Seen: a candidate's months between filing and election day.
 
-**Cause.** Design: the lines were written before Nov 15 and deleted by the cut (`docs/current.json`, replaced list, Nov 17); `src/director/scene-talk.test.ts` skipped `volunteer-offer`, `manager-offer`, `interview-invite` and `debate-invite` by name in `CUT_PURPOSES`.
+**Cause.** Design: the lines were written before Nov 15 and deleted by the cut (`docs/current.json`, replaced list, Nov 17); `tests/src/director/scene-talk.test.ts` skipped `volunteer-offer`, `manager-offer`, `interview-invite` and `debate-invite` by name in `CUT_PURPOSES`.
 
 **Fix.** Write the four scenes again as rows in `data/english/parts/scene-talk.json` from their patterns, each yes worded as what the engine records (the helper on the volunteers or the staff, the interview sitting, the debate accepted). All four leave `CUT_PURPOSES`.
 
@@ -33,6 +33,6 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/scene-talk.json, src/director/scene-talk.test.ts
+**Files.** data/english/parts/scene-talk.json, tests/src/director/scene-talk.test.ts
 
 **Notes.** Nov 18 (Story): written by a Sonnet helper from a played race at Thunderbird Colony, SD; the lead replaced 21 lines that padded the town; 40 pairs judged by a fresh reader, every plant caught; 12 narrations read by the lead. The interview invitation was not reached in a county board race.

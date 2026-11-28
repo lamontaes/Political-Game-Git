@@ -32,4 +32,4 @@ source: found while building meetings-resident-player-speaks-at-public-comment
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/world-legislating.ts, src/core2/modules/office-day.ts, src/core2/office-day-attend.test.ts (new)
+**Files.** src/core2/modules/world-legislating.ts, src/core2/modules/office-day.ts, tests/src/core2/office-day-attend.test.ts (new)

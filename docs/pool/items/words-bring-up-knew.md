@@ -17,12 +17,12 @@ seen-by: second-session-2
 seen-at: 2026-11-11T02:07:10.468Z
 ---
 
-**What.** src/director/bring-it-up-knew.test.ts plays a year in a drawn place and, for every person who brings a change up to someone they know, checks: the line cites a record that is a fact of the speaker's own knowledge, learned on or before the talk day; the change itself is held by the speaker (a story they read under its own key, a telling they were given under `heard:`, or a record they saw); any cause they name came from a record they hold (a blame they were told, the record they saw, a public role they know of); the telling is on record and the listener holds the change. A record a line cites is dated no later than the talk.
+**What.** tests/src/director/bring-it-up-knew.test.ts plays a year in a drawn place and, for every person who brings a change up to someone they know, checks: the line cites a record that is a fact of the speaker's own knowledge, learned on or before the talk day; the change itself is held by the speaker (a story they read under its own key, a telling they were given under `heard:`, or a record they saw); any cause they name came from a record they hold (a blame they were told, the record they saw, a public role they know of); the telling is on record and the listener holds the change. A record a line cites is dated no later than the talk.
 
 **Result.** No line in the drawn worlds broke the rule; nothing in src/director needed fixing. Two things the test had to learn about the engines: a listener back in the counts keeps no knowledge to be told (the two-level rule), so the listener is a person the world keeps whole; and a change can be held under any of three keys, so the check accepts the story's `news:` key, a `heard:` key or the record's own source.
 
 **Done when.** The test passes at three seeds with the speakers and lines counted in the printed line.
 
-**Files.** src/director/bring-it-up-knew.test.ts
+**Files.** tests/src/director/bring-it-up-knew.test.ts
 
 **Notes.** Seen in the game (2026-11-11, second-session-2): drawn test worlds, seed cf3f252d, abb99d77, 3265d1fd, main 3d787caa: bring-it-up-knew.test.ts passed at three fresh seeds, each run one passing test

@@ -33,4 +33,4 @@ claimed-at:
 
 **Waits on.** The thread "Write the mayor's and governor's desk" (its office-duty rule).
 
-**Files.** src/director/data/situation-types.json, src/director/scheduling.ts, src/director/director.test.ts
+**Files.** src/director/data/situation-types.json, src/director/scheduling.ts, tests/src/director/director.test.ts

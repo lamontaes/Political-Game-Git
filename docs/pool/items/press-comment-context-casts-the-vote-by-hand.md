@@ -19,7 +19,7 @@ source: Account lead, Nov 15 23:28Z (second reader's hold on #9584)
 merged-at: 2026-11-16T19:58:37.693Z
 ---
 
-**What.** src/director/press-comment-context.test.ts casts the member's vote with the legislature's own `castMemberVote`, not with the press a player uses. Every after-vote line it prints rests on a vote the player never cast. Seen at Salem, Ohio (3969834, rank-m4:1), Downs, Kansas (2018500, yes-vote-3:0) and Bagdad, Arizona (0405140, yes-vote-6:0) on Train ef708196.
+**What.** tests/src/director/press-comment-context.test.ts casts the member's vote with the legislature's own `castMemberVote`, not with the press a player uses. Every after-vote line it prints rests on a vote the player never cast. Seen at Salem, Ohio (3969834, rank-m4:1), Downs, Kansas (2018500, yes-vote-3:0) and Bagdad, Arizona (0405140, yes-vote-6:0) on Train ef708196.
 Seen: on the reporter's call after a council vote, in the lines a words reader stamps from this test.
 
 **Cause.** Found in code: the test's draft loop calls `castMemberVote(api, bill.id, me, …)` directly; the player's press is `chooseOwnVote` in src/bench/bill-stage.ts, which checks the player may vote and then casts through the same call.
@@ -34,8 +34,8 @@ Seen: on the reporter's call after a council vote, in the lines a words reader s
 
 **Waits on.** Nothing.
 
-**Files.** src/director/press-comment-context.test.ts
+**Files.** tests/src/director/press-comment-context.test.ts
 
 **Notes.**
 
-- Nov 15, builder: the test still words each call with `composeSceneTalk`, the purpose swapped to each variant and the reporter's traits set by hand, so the lines it prints are composed, not played. This item fixes only the vote, as the Account lead ordered; the played after-vote lines are src/director/press-comment-after-vote.test.ts on #9584.
+- Nov 15, builder: the test still words each call with `composeSceneTalk`, the purpose swapped to each variant and the reporter's traits set by hand, so the lines it prints are composed, not played. This item fixes only the vote, as the Account lead ordered; the played after-vote lines are tests/src/director/press-comment-after-vote.test.ts on #9584.

@@ -17,9 +17,9 @@ claimed-at:
 
 **Rules.** Ask why: every roll call in the record must trace to a law the research says passed, and an answer meaning no such law has no passage to cite. An effect is a read: the record engine and the director read these histories, so a passage that never happened reaches voters.
 
-**Done when.** In a one-year buildBenchWorld run of a drawn place (seed named in the PR), no law history record for a starting policy answer that means no such law carries an enactment date or roll call, shown by record ids, and src/core2/past.test.ts passes with a case for such an answer.
+**Done when.** In a one-year buildBenchWorld run of a drawn place (seed named in the PR), no law history record for a starting policy answer that means no such law carries an enactment date or roll call, shown by record ids, and tests/src/core2/past.test.ts passes with a case for such an answer.
 
-**Files.** src/core2/past-laws.ts, src/core2/past.test.ts
+**Files.** src/core2/past-laws.ts, tests/src/core2/past.test.ts
 
 **Notes.** TODO
 

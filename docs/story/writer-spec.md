@@ -31,7 +31,7 @@ These are his rulings. Each one has failed a line in today's pre-grades.
 
   Write around them.
 
-- **A line that leans on the one before needs `after`.** That includes any line opening on That, That's, It, It's, This, These, Those, So, And or "Not me". `src/english/outline-planner.test.ts` checks it.
+- **A line that leans on the one before needs `after`.** That includes any line opening on That, That's, It, It's, This, These, Those, So, And or "Not me". `tests/src/english/outline-planner.test.ts` checks it.
 - **Sources set shape only.** Real speeches and real people show what kinds of moves exist. Quote no more than 15 words, and never use a real person's words or name.
 - **Shapes he has rejected, word for word:**
   - "Hold me to it";
@@ -102,7 +102,7 @@ The shared element bank is `docs/story/elements/<kind>/<id>.json` (kinds: moment
 
 ```
 OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" npm run -s words:rules
-npx vitest run tests/guards/english tests/english-parts-banks.test.ts src/english/outline-planner.test.ts src/english/least-recent-wording.test.ts
+npx vitest run tests/guards/english tests/english-parts-banks.test.ts tests/src/english/outline-planner.test.ts tests/src/english/least-recent-wording.test.ts
 KIND=inaugural node --import tsx scripts/sameness/gate.ts scripts/sameness/inputs/inaugural-six.jsonl
 SIXES=10 KIND=inaugural node --import tsx scripts/sameness/gate.ts scripts/sameness/inputs/inaugural-drawn.jsonl
 BANK=data/english/parts/<your bank>.json KIND=<kind> node --import tsx scripts/sameness/draw-count.ts scripts/sameness/inputs/<kind>-drawn.jsonl
@@ -229,7 +229,7 @@ The count of types that compose is dropped, and a type with no lines waits. Deep
 - **A part file per new writer.** The owner's grades and the judged files hold the existing lines by key, so `scene-talk.json` itself is not split. A writer starting a new area (the two Codex writers: `scene-talk-office.json` for holding office and the executives, `scene-talk-seats.json` for seats, the off year and industries) gets a part file of the same shape, read by the engine as one bank with it; the Story lead makes it with your first batch, so post that batch as a list of lines on your branch and ask. In `scene-talk.json`, keep to your own region. Insert each new line directly after the last existing line of the same purpose, never at the end of the file, and never reorder. Your types sit in their own regions, so branches merge cleanly. A line you delete: name its key in your batch post.
 - **Narration lines** for a type go in `scene-words.json` the same way, after the existing lines of the same `subject`.
 - **A type composes** when it has narration, an opening ask that its facts can word, and two or more replies that fit (`scene-talk.ts`). That is the hourly count.
-- **Checks:** `npm run words:rules`, `npx vitest run tests/guards/english tests/english-parts-banks.test.ts src/english/reply-pairs.test.ts src/director/scene-talk.test.ts`, and the type forced in dev mode (`src/bench/dev-views/scene-force-map.json`) where it can be.
+- **Checks:** `npm run words:rules`, `npx vitest run tests/guards/english tests/english-parts-banks.test.ts tests/src/english/reply-pairs.test.ts tests/src/director/scene-talk.test.ts`, and the type forced in dev mode (`src/bench/dev-views/scene-force-map.json`) where it can be.
 
 | Writer                                              | Scene types                                                                                                                                                                                                                                                                                                                                                                                                           |
 | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

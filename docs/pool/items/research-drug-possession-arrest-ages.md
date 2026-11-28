@@ -30,10 +30,10 @@ checked: fable 2026-11-10
 
 **Rules.** Research before building: real data checks the simulation and never decides one person's outcome. Every number lives in a parameter table with its SOURCED, ESTIMATED or TUNABLE tag.
 
-**Done when.** A second session runs src/core2/justice-low-level.test.ts on two drawn places named in the PR body and sees drug possession cases take the category's own age row (and its own disposition share where a source gives one) from src/core2/data/public-safety/parameters.json, each cited with its page and quote. On screen: none by design.
+**Done when.** A second session runs tests/src/core2/justice-low-level.test.ts on two drawn places named in the PR body and sees drug possession cases take the category's own age row (and its own disposition share where a source gives one) from src/core2/data/public-safety/parameters.json, each cited with its page and quote. On screen: none by design.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/data/public-safety/parameters.json, src/core2/public-safety.ts, data/research/justice/low-level-arrests-2024.json, src/core2/justice-low-level.test.ts
+**Files.** src/core2/data/public-safety/parameters.json, src/core2/public-safety.ts, data/research/justice/low-level-arrests-2024.json, tests/src/core2/justice-low-level.test.ts
 
 **Notes.** Laws lead, Oct 26, from the #6056 helper's report.

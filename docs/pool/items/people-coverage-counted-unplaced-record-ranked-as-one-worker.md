@@ -33,6 +33,6 @@ merged-at: 2026-11-16T01:47:49.134Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/coverage.ts, src/core2/counted-money.ts, src/core2/health-coverage-counted.test.ts
+**Files.** src/core2/modules/coverage.ts, src/core2/counted-money.ts, tests/src/core2/health-coverage-counted.test.ts
 
 **Notes.** Nov 15 (Fable B): the ranking figures came from a temporary print at the end of `holdersToday` (not committed) in both worlds at the February 1 and March 1 reviews; the premium posts from `setJournalTrace`. Related and not the same: `people-coverage-counted-premium-due-mismatch-mccoy` (one household's due against its row). Not measured: how the medical bills of those households changed with the wider coverage (the counted side paid $7.5 million less for medical care in the same run). Nov 15 (Fable B): built in #9511. On March 2, 2025 the held records stood for 5.6 percent of counted households with a worker at Marion, Mississippi, 9.2 percent at Oak Grove, Tennessee and 80.6 percent at Waverly, New York; with the change 51.9, 54.0 and 52.6 percent. The new test `src/core2/coverage-counted-share.test.ts` is pinned to those three places.

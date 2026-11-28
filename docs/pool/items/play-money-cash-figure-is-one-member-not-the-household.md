@@ -24,14 +24,14 @@ merged-at: 2026-11-13T06:51:12.224Z
 
 **Cause.** Found in code: src/bench/play.mjs, the `money` sheet. The figure is `roundedMoney(me.card.liquidMinor)`, the player's own cash. The rows are `bank.cash.months` from src/bench/bank.ts `bankView`, the household's members' cash at each monthly review. The same view also serves the household's cash now as `cash.nowMinor`, and the sheet never read it.
 
-**Fix.** Show `bank.cash.nowMinor` as the figure, falling back to the player's own cash only when no bank view is served. Extend src/bench/money.browser.mjs to check that the figure is the household's cash now.
+**Fix.** Show `bank.cash.nowMinor` as the figure, falling back to the player's own cash only when no bank view is served. Extend tests/src/bench/money.browser.mjs to check that the figure is the household's cash now.
 
 **Time box.** 1 hour for one Sonnet session.
 
 **Rules.** One rule, all 56 places: the sheet reads the same household record in every place, with no place named. player-screen-text: two figures on one screen never contradict each other.
 
-**Done when.** A second session, on main, plays a new life in a drawn place for a few weeks, opens Money and property, and takes a screenshot: the large cash figure is the household's cash now, on the same footing as the month rows under it, and src/bench/money.browser.mjs passes on the bench.
+**Done when.** A second session, on main, plays a new life in a drawn place for a few weeks, opens Money and property, and takes a screenshot: the large cash figure is the household's cash now, on the same footing as the month rows under it, and tests/src/bench/money.browser.mjs passes on the bench.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.mjs, src/bench/money.browser.mjs, src/bench/bank.ts
+**Files.** src/bench/play.mjs, tests/src/bench/money.browser.mjs, src/bench/bank.ts

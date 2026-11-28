@@ -29,7 +29,7 @@ checked: opus-lr 2026-11-12
 
 **Rules.** No dice: nothing is drawn; the level is the profile's and the days are the calendar's. Story writes every line. One engine: the school pass, no second writer.
 
-**Done when.** A second session, on main in a drawn place it names with its seed, opens five adults' cards: each says when high school ended, and one who went to college says it, each with a year once Story's lines are in; Trace on the sentence opens its record. `src/core2/past-school-end.test.ts` passes in three drawn places and prints the town's counts.
+**Done when.** A second session, on main in a drawn place it names with its seed, opens five adults' cards: each says when high school ended, and one who went to college says it, each with a year once Story's lines are in; Trace on the sentence opens its record. `tests/src/core2/past-school-end.test.ts` passes in three drawn places and prints the town's counts.
 
 **Waits on.** Lines from Story for the spots the pull request names.
 
