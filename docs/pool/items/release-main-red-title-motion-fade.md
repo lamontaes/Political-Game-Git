@@ -19,7 +19,7 @@ source: Red desk, Nov 12 (merger codex-4629 and the CTO on #8928)
 merged-at: 2026-11-12T22:42:54.936Z
 ---
 
-**What.** `node src/bench/title-motion.browser.mjs` fails at line 64, "fading in (0)", on clean main fd590ccd and ba2fbed0, against a fresh bench, every run. The title screen itself rotates and fades as it should. Guards: the check that the title painting drifts and the next national scene fades in keeps running.
+**What.** `node tests/src/bench/title-motion.browser.mjs` fails at line 64, "fading in (0)", on clean main fd590ccd and ba2fbed0, against a fresh bench, every run. The title screen itself rotates and fades as it should. Guards: the check that the title painting drifts and the next national scene fades in keeps running.
 
 **Cause.** Found in code: since 2d44c0d912 (Nov 8, "the title changes its painting with one fade") `rotateTitle` in src/bench/play.mjs clears the top layer 3.1 seconds after its fade begins. The rotation's interval starts when `/api/title` answers, while the check (unchanged since Oct 27) samples the top layer at a fixed delay from its own start, about four seconds later, so it lands after the clear and reads opacity 0.
 
@@ -33,4 +33,4 @@ merged-at: 2026-11-12T22:42:54.936Z
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/title-motion.browser.mjs
+**Files.** tests/src/bench/title-motion.browser.mjs

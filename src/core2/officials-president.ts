@@ -10,7 +10,7 @@
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreStateName } from "./place-lookup";
 import { OFFICIALS_DATA, uniform } from "./officials-roster";
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import type { CoreState, PersonInput, Source } from "./types";
 import { centuryRace, worldSwing } from "./modules/elections";
 import { gameStartDate } from "./game-start";

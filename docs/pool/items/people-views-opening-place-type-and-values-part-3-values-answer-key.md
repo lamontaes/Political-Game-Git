@@ -23,17 +23,17 @@ checked: fable 2026-11-10
 
 **Cause.** Design: docs/packages/M1-views.md (item 2 and item 8: the town's spread against the answer key for its state and metro) and the open stopgap SG-P15-views-first-version in src/core2/data/stopgaps/p15.json, which records that the 14 values have no answer key yet.
 
-**Fix.** Find and fetch a survey source with the quoted pages (Pew's values and political typology surveys are the first place to look, then the American National Election Studies), write the key as a research file under data/research/people/ with each cell tagged SOURCED or ESTIMATED with its spread, add the check to src/core2/views.test.ts (a town's spread of each value against the key, reported with its distance, and the counted groups equal to full people times their count), and if the spread misses the key, change the weights' sources in part 2's table, never the people.
+**Fix.** Find and fetch a survey source with the quoted pages (Pew's values and political typology surveys are the first place to look, then the American National Election Studies), write the key as a research file under data/research/people/ with each cell tagged SOURCED or ESTIMATED with its spread, add the check to tests/src/core2/views.test.ts (a town's spread of each value against the key, reported with its distance, and the counted groups equal to full people times their count), and if the spread misses the key, change the weights' sources in part 2's table, never the people.
 
 **Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Research before building: the key is from pages actually fetched and quoted, with the source kept, and it checks the simulation and never decides an outcome. Estimate, never UNKNOWN: a cell the survey lacks is marked ESTIMATED with its source and spread. One model, two tiers: the check reads counted groups by the same rule as full people. One rule, all 56 places: no state is named in logic; keys are data by state and metro.
 
-**Done when.** A second session, in a drawn place from all 56 (place and seed named), runs the values check and sees each of the 14 values' spread in the town reported beside the sourced key with its distance, the counted groups equal to full people times their count (by record id), and the research file's sources quoted; src/core2/views.test.ts passes.
+**Done when.** A second session, in a drawn place from all 56 (place and seed named), runs the values check and sees each of the 14 values' spread in the town reported beside the sourced key with its distance, the counted groups equal to full people times their count (by record id), and the research file's sources quoted; tests/src/core2/views.test.ts passes.
 
 **Waits on.** people-views-opening-place-type-and-values-part-2-the-14-values.
 
-**Files.** src/core2/views.test.ts, src/core2/modules/views.ts, data/research/people/, docs/packages/M1-views.md
+**Files.** tests/src/core2/views.test.ts, src/core2/modules/views.ts, data/research/people/, docs/packages/M1-views.md
 
 **Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have found and quoted a survey to check the 14 values; research precision that no player sees, and the values themselves are borderline on part 2.
 

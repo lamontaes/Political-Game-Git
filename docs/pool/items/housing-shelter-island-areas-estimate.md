@@ -19,6 +19,6 @@ claimed-at: 2026-10-21T23:06:03.721Z
 
 **Done when.** In a place drawn from American Samoa and the Northern Marianas (buildBenchWorld, seed named), the beds the eviction path reads (shelterBeds) are the place's people times the island-area median per 10,000, below what the nation's rate would give, and the test names place and seed.
 
-**Files.** src/core2/data/housing/shelter-beds.json, src/core2/housing-homeless.ts, src/core2/housing-homeless.test.ts
+**Files.** src/core2/data/housing/shelter-beds.json, src/core2/housing-homeless.ts, tests/src/core2/housing-homeless.test.ts
 
 **Notes.** TODO

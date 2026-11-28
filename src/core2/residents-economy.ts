@@ -4,19 +4,33 @@
  * begin through their employer's wage flow, and an engine can add a standing
  * flow (rent, a loan payment, spending that leaves town) at runtime.
  */
-import { addDays, makeIsoDate } from "./kernel/dates";
-import {
-  countedHouseholdJobChanged,
-  ownMap,
-  residentsRuntime,
-} from "./modules/residents";
-import type { ResidentFlowInput } from "./residents";
+import { makeIsoDate } from "./kernel/dates";
+import { countedHouseholdJobChanged } from "./modules/residents";
+import { residentsRuntime } from "./residents-reads";
 import type { CoreState, JobInput, WorkCommitmentInput } from "./types";
 import { registerWorldMapPart } from "./snapshot";
 import { stopgap } from "./stopgaps";
-
-type Runtime = NonNullable<ReturnType<typeof residentsRuntime>>;
-type Flow = Runtime["flows"] extends Map<string, infer F> ? F : never;
+import {
+  countedJobHeads,
+  countedJobsOf,
+  jobIndexes,
+} from "./counted-job-heads";
+import { type Flow, type Runtime, addResidentFlow } from "./resident-flows";
+export {
+  addFlowPart,
+  addResidentFlow,
+  endFlowPart,
+  endResidentFlow,
+  reopenResidentFlow,
+  setResidentFlowAmount,
+} from "./resident-flows";
+export {
+  businessScaleOf,
+  countedHeadcountOf,
+  countedHeadsOf,
+  countedJobHeads,
+  countedJobsOf,
+} from "./counted-job-heads";
 
 /** A flow and, for a payroll paid twice a month, the other payday's flow, which pays the same jobs. */
 function wageHalves(rt: Runtime, flow: Flow): Flow[] {
@@ -162,87 +176,6 @@ export function addCountedJob(
   return true;
 }
 
-/** A standing flow begins mid-run, first due on its own date (never today). */
-export function addResidentFlow(
-  core: CoreState,
-  input: ResidentFlowInput,
-): void {
-  const rt = residentsRuntime(core);
-  if (!rt) throw new Error("No wider population to add a flow to.");
-  if (rt.flows.has(input.id)) throw new Error(`Duplicate flow: ${input.id}`);
-  if (!Number.isSafeInteger(input.amountMinor) || input.amountMinor < 0)
-    throw new Error(`Invalid flow amount: ${input.id}`);
-  for (const id of [input.payerId, input.payeeId])
-    if (!core.organizations.has(id) && !core.people.has(id))
-      throw new Error(`Flow owner is not recorded: ${id}`);
-  let nextAt = makeIsoDate(input.firstAt);
-  if (nextAt <= core.date)
-    nextAt = makeIsoDate(addDays(makeIsoDate(core.date), 1));
-  const flow = { ...input, nextAt, arrearsMinor: 0 } as Flow;
-  rt.flows.set(input.id, flow);
-  const ids = rt.due.get(nextAt) ?? new Set<string>();
-  ids.add(input.id);
-  rt.due.set(nextAt, ids);
-}
-
-/** The counted workers of an employer, by job, from its live wage flows. */
-export function countedJobsOf(
-  core: CoreState,
-  organizationId: string,
-): JobInput[] {
-  const rt = residentsRuntime(core);
-  if (!rt) return [];
-  const out: JobInput[] = [];
-  for (const jobId of jobIndex(core).get(organizationId) ?? []) {
-    const flow = rt.wageFlowByJob.get(jobId),
-      job = rt.jobs.get(jobId);
-    // The index can run ahead of fill-in and endings within a day: check each job is still counted and open.
-    if (
-      flow &&
-      !flow.endedAt &&
-      flow.organizationId === organizationId &&
-      job &&
-      job.endsAt === undefined
-    )
-      out.push(job);
-  }
-  return out;
-}
-
-/**
- * How many real jobs an employer's counted workers stand for: each counted
- * job is worth the heads its employer's staffing set (`countedJobHeads`). Readers that count heads read this; readers that
- * pick one worker keep the record from `countedJobsOf`.
- */
-export function countedHeadcountOf(
-  core: CoreState,
-  organizationId: string,
-): number {
-  if (!residentsRuntime(core)?.store) return 0;
-  let heads = 0;
-  for (const job of countedJobsOf(core, organizationId))
-    heads += countedJobHeads(core, job);
-  return heads;
-}
-
-/**
- * How many businesses one business record stands for: its staff in heads
- * over its job records, a counted worker's record standing for its
- * household's weight (one with no staff, and one in a town whose households
- * each stand for one). A full owner is one household and owns one of them.
- */
-export function businessScaleOf(
-  core: CoreState,
-  organizationId: string,
-): number {
-  let rows = 0;
-  for (const jobId of core.finance.jobsByOrganization.get(organizationId) ?? [])
-    if (core.jobs.get(jobId)?.endsAt === undefined) rows += 1;
-  const full = rows;
-  rows += countedJobsOf(core, organizationId).length;
-  return rows ? (full + countedHeadcountOf(core, organizationId)) / rows : 1;
-}
-
 /**
  * An employer's annual payroll for the weight of its counted workers: the
  * book's payroll plus what each counted job's household stands for beyond one
@@ -282,54 +215,6 @@ export function staffedScale(
         daysPerYear,
       ) / annualPayrollMinor
     : 1;
-}
-
-/**
- * How many real jobs one counted job stands for: its worker's household
- * weight, unless its employer's staffing set it otherwise (`CountedStore.
- * headsOfJob`); one where the counts no longer hold the worker.
- */
-export function countedJobHeads(
-  core: CoreState,
-  job: Pick<JobInput, "id" | "personId">,
-): number {
-  const store = residentsRuntime(core)?.store;
-  const m = store?.countedMember(job.personId);
-  const home =
-    store && m !== undefined
-      ? store.households[store.household[m]!]
-      : undefined;
-  return store && home ? store.headsOfJob(home, job.id) : 1;
-}
-
-/** How many people one counted person's record stands for: their household's weight (one where the counts no longer hold them). */
-export function countedHeadsOf(core: CoreState, personId: string): number {
-  const store = residentsRuntime(core)?.store;
-  const m = store?.countedMember(personId);
-  const home =
-    store && m !== undefined
-      ? store.households[store.household[m]!]
-      : undefined;
-  return store && home ? store.weightOf(home) : 1;
-}
-
-/** Counted jobs by employer, rebuilt once a day and kept current by this file's hires. */
-const jobIndexes = new WeakMap<
-  CoreState,
-  { date: string; byOrg: Map<string, Set<string>> }
->();
-function jobIndex(core: CoreState): Map<string, Set<string>> {
-  const cached = jobIndexes.get(core);
-  if (cached && cached.date === core.date) return cached.byOrg;
-  const byOrg = new Map<string, Set<string>>();
-  for (const [jobId, flow] of residentsRuntime(core)?.wageFlowByJob ?? []) {
-    if (!flow.organizationId) continue;
-    const set = byOrg.get(flow.organizationId) ?? new Set<string>();
-    set.add(jobId);
-    byOrg.set(flow.organizationId, set);
-  }
-  jobIndexes.set(core, { date: core.date, byOrg });
-  return byOrg;
 }
 
 const CUSTOMER_KINDS = new Set(["purchase", "outside-sales"]);
@@ -746,106 +631,4 @@ export function rehourCountedJobs(
   }
   for (const flow of touched) recompute(flow);
   return changed;
-}
-
-/** One household's part of a merged flow ends (a counted household's mortgage paid off). */
-export function endFlowPart(
-  core: CoreState,
-  id: string,
-  part: string,
-): boolean {
-  const flow = residentsRuntime(core)?.flows.get(id);
-  const amount = flow?.amountByContract?.[part];
-  if (!flow || flow.endedAt || amount === undefined) return false;
-  const parts = ownMap(flow.amountByContract!);
-  delete parts[part];
-  flow.amountByContract = parts;
-  flow.amountMinor = Math.max(0, flow.amountMinor - amount);
-  return true;
-}
-
-/**
- * One household's part joins a merged flow (a counted household's new
- * mortgage): the flow pays its parts' sum from its next due date. False when
- * there is no such live merged flow; a part already there is an error.
- */
-export function addFlowPart(
-  core: CoreState,
-  id: string,
-  part: string,
-  amountMinor: number,
-): boolean {
-  const flow = residentsRuntime(core)?.flows.get(id);
-  if (!flow || flow.endedAt || !flow.amountByContract) return false;
-  if (flow.amountByContract[part] !== undefined)
-    throw new Error(`The flow already has the part: ${id} ${part}`);
-  if (!Number.isSafeInteger(amountMinor) || amountMinor < 0)
-    throw new Error(`Invalid part amount: ${id} ${part}`);
-  const parts = ownMap(flow.amountByContract);
-  parts[part] = amountMinor;
-  flow.amountByContract = parts;
-  flow.amountMinor += amountMinor;
-  return true;
-}
-
-/**
- * A counted household's standing flow (its rent) pays a new amount from its
- * next due date: zero while the household is behind, its rent again once it
- * catches up. False when there is no such live flow.
- */
-export function setResidentFlowAmount(
-  core: CoreState,
-  id: string,
-  amountMinor: number,
-): boolean {
-  const flow = residentsRuntime(core)?.flows.get(id);
-  if (!flow || flow.endedAt) return false;
-  flow.amountMinor = Math.max(0, Math.round(amountMinor));
-  return true;
-}
-
-/**
- * A counted household's standing flow, ended before (its rent, after a
- * removal), begins again under the same id: a new payee, amount and source,
- * first due on its own date (never today), with nothing owed. One that never
- * existed is added. Readers that look the flow up by id (`rent:<household>`)
- * find it again.
- */
-export function reopenResidentFlow(
-  core: CoreState,
-  input: ResidentFlowInput,
-): void {
-  const rt = residentsRuntime(core);
-  const flow = rt?.flows.get(input.id);
-  if (!rt || !flow) return addResidentFlow(core, input);
-  if (!flow.endedAt) throw new Error(`The flow is still running: ${input.id}`);
-  if (!Number.isSafeInteger(input.amountMinor) || input.amountMinor < 0)
-    throw new Error(`Invalid flow amount: ${input.id}`);
-  for (const id of [input.payerId, input.payeeId])
-    if (!core.organizations.has(id) && !core.people.has(id))
-      throw new Error(`Flow owner is not recorded: ${id}`);
-  // Its last due date, if still ahead, would pay the new rent early.
-  rt.due.get(flow.nextAt)?.delete(input.id);
-  let nextAt = makeIsoDate(input.firstAt);
-  if (nextAt <= core.date)
-    nextAt = makeIsoDate(addDays(makeIsoDate(core.date), 1));
-  delete flow.endedAt;
-  delete flow.endedReason;
-  Object.assign(flow, input, { nextAt, arrearsMinor: 0 });
-  const ids = rt.due.get(nextAt) ?? new Set<string>();
-  ids.add(input.id);
-  rt.due.set(nextAt, ids);
-}
-
-/** A counted household's standing flow ends today (a lease ended by removal). */
-export function endResidentFlow(
-  core: CoreState,
-  id: string,
-  reason: string,
-): boolean {
-  const flow = residentsRuntime(core)?.flows.get(id);
-  if (!flow || flow.endedAt) return false;
-  flow.endedAt = makeIsoDate(core.date);
-  flow.endedReason = reason;
-  return true;
 }

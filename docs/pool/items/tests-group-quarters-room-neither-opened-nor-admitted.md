@@ -18,8 +18,8 @@ effort: medium
 source: views thread, Nov 16 (gate of the main-into-Train merge)
 ---
 
-**What.** src/core2/group-quarters.test.ts checks that every household with group quarters at the year's end either opened that way or was admitted from an institution's waiting list. At some draws it finds a group-quarters home that is neither, so a room appears during the year with no admission record behind it. The test draws its seed with randomBytes at run time, so whether it fails depends on the draw.
-Seen: Storrs, Connecticut (0973980), seed 085af212ffbc1c6c40eb8b1d4c7b8799395ba939, fails on household_74dea9d3bd682774 the same way on a clean checkout of the Train head a62a2fdad884ccd1313d1e1436088fe05986d49b and on the main-into-Train merge. With that seed, main 4387b61a32b47a664efe6212b50b5dd53491b9fb fails the same check in its drawn place 4419180 on household_60677f3bcb5bea7a. Replay with `GOLDEN_PATH_SEED=<seed> npx vitest run src/core2/group-quarters.test.ts`.
+**What.** tests/src/core2/group-quarters.test.ts checks that every household with group quarters at the year's end either opened that way or was admitted from an institution's waiting list. At some draws it finds a group-quarters home that is neither, so a room appears during the year with no admission record behind it. The test draws its seed with randomBytes at run time, so whether it fails depends on the draw.
+Seen: Storrs, Connecticut (0973980), seed 085af212ffbc1c6c40eb8b1d4c7b8799395ba939, fails on household_74dea9d3bd682774 the same way on a clean checkout of the Train head a62a2fdad884ccd1313d1e1436088fe05986d49b and on the main-into-Train merge. With that seed, main 4387b61a32b47a664efe6212b50b5dd53491b9fb fails the same check in its drawn place 4419180 on household_60677f3bcb5bea7a. Replay with `GOLDEN_PATH_SEED=<seed> npx vitest run tests/src/core2/group-quarters.test.ts`.
 
 **Cause.** Needs cause. Looked at: the replays named under Seen. The same seed and household fail on the clean Train, so the merge did not cause it.
 
@@ -33,7 +33,7 @@ Seen: Storrs, Connecticut (0973980), seed 085af212ffbc1c6c40eb8b1d4c7b8799395ba9
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/group-quarters.test.ts
+**Files.** tests/src/core2/group-quarters.test.ts
 
 **Notes.**
 

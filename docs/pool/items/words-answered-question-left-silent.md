@@ -38,4 +38,4 @@ source: The class check behind the school-question fix (Account lead, Nov 15)
 
 **Waits on.** Nothing.
 
-**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, data/english/parts/conversation.json, src/director/played-talks.test.ts
+**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, data/english/parts/conversation.json, tests/src/director/played-talks.test.ts

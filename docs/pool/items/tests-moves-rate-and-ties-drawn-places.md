@@ -19,7 +19,7 @@ claimed-at: 2026-10-28T02:31:21.160Z
 
 **Done when.** The M1-09 command passes its departure-total and ties-comparison assertions on all three recorded seeds and places, and on an additional independent drawn place; report actual counts and compared means, preserve positive birth-rate checks, and show the cause of each correction without broad test ceilings. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
-**Files.** src/core2/moves.test.ts, src/core2/modules/moves.ts, src/core2/data/moves/parameters.json
+**Files.** tests/src/core2/moves.test.ts, src/core2/modules/moves.ts, src/core2/data/moves/parameters.json
 
 **Notes.** Found by Merger 3 during PR #5919 validation; identical migration assertions reproduce on clean main 05b6dfcb73b8f5aeb9becbfba754d83089f7ba87. Princeton, West Virginia (5465692), GOLDEN_PATH_SEED=b0dbed9e2c5c1351216d3643de9ceb7dfcbfbb7a9c52364bf4a4cb9163775353; Dickey, North Dakota (3819580), GOLDEN_PATH_SEED=c56e1f0f8e3f7b04de4e27688dc922c33eabfe9e266697996054b4f7ddb925ce; New Munich, Minnesota (2745772), GOLDEN_PATH_SEED=50700b6126b15d018802c0a53259b7aa5b158cdc2796a285f9d088562c399e73
 

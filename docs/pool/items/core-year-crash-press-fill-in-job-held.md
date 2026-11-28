@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** A played year stops with "Invalid relocation: one living household, no job held". `refreshPressStaff` in `src/core2/modules/press.ts` (about line 2278), run by `pressWeek`, calls `fillInPerson` for a counted press staffer who holds a counted job. The fill-in relocates the household (`relocatePeopleV1` in `src/core2/state.ts`), which refuses anyone who holds a job. In Old Brownsboro Place, Kentucky, with seed 300decacbc29c0d7fdb7f40852bfacecca6cd3bb (the election night test in src/director/electoral-scenes.test.ts), the year stopped at the first advance. Find which staffer held the job and why the fill-in relocated a household whose member kept it, and fix the fill-in so a filled-in worker keeps their job without a relocation.
+**What.** A played year stops with "Invalid relocation: one living household, no job held". `refreshPressStaff` in `src/core2/modules/press.ts` (about line 2278), run by `pressWeek`, calls `fillInPerson` for a counted press staffer who holds a counted job. The fill-in relocates the household (`relocatePeopleV1` in `src/core2/state.ts`), which refuses anyone who holds a job. In Old Brownsboro Place, Kentucky, with seed 300decacbc29c0d7fdb7f40852bfacecca6cd3bb (the election night test in tests/src/director/electoral-scenes.test.ts), the year stopped at the first advance. Find which staffer held the job and why the fill-in relocated a household whose member kept it, and fix the fill-in so a filled-in worker keeps their job without a relocation.
 
 **Rules.** An effect is a read: the fix keeps the worker's job record and their pay. One model, two tiers: a counted worker filled in is the same person with the same job. Every dollar balances on the journal.
 
@@ -27,7 +27,7 @@ claimed-at:
 
 **Rules.** Replace, never layer. One model, two tiers: a counted person who holds a job comes back with it. One rule, all 56 places.
 
-**Done when.** In a played two-year world in a drawn place with the seed named in the PR body, a counted press staffer who holds a job is filled in without the crash and keeps the job by record id, and a test beside `src/core2/state.test.ts` shows both the allowed return and the refused move.
+**Done when.** In a played two-year world in a drawn place with the seed named in the PR body, a counted press staffer who holds a job is filled in without the crash and keeps the job by record id, and a test beside `tests/src/core2/state.test.ts` shows both the allowed return and the refused move.
 
 **Files.** src/core2/state.ts
 

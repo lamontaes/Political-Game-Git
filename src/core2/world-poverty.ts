@@ -17,9 +17,9 @@ import {
   ssiIncomeByHousehold,
   veteransIncomeByHousehold,
 } from "./modules/laws";
-import type { ClaimRow } from "./modules/business";
+import { openClaims } from "./jobs-reads";
 import { reachParameter } from "./laws-in-force";
-import { householdIncome, residentsRuntime } from "./modules/residents";
+import { householdIncome, residentsRuntime } from "./residents-reads";
 import { retirementClaims } from "./modules/retirement-claims";
 import { awardYearMinor, jobYearMinor } from "./household-income";
 import { coreAPI } from "./state";
@@ -90,10 +90,7 @@ function claimIncome(core: CoreState): Map<string, number> {
   retirementClaimIncome(core, out);
   if (!core.modules.has("jobs")) return out;
   const rt = residentsRuntime(core);
-  for (const claim of coreAPI(core)
-    .moduleState("jobs")
-    .table("claims")
-    .query("open", [true]) as unknown as ClaimRow[]) {
+  for (const claim of openClaims(coreAPI(core))) {
     const named = core.people.get(claim.personId)?.householdId;
     const m =
       named === undefined ? rt?.store.countedMember(claim.personId) : undefined;

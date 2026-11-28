@@ -27,7 +27,7 @@ import type {
   PlaceId,
   Source,
 } from "../types";
-import { OFFICES_MODULE_ID, townSeats } from "./offices";
+import { OFFICES_MODULE_ID, townSeats } from "../offices-reads";
 import { placePopulation } from "../gov-rules/place-population";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {

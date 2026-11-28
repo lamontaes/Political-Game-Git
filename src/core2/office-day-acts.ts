@@ -63,13 +63,13 @@ import { adviseOnBudget, servingStaffOf } from "./modules/staff";
 import {
   executiveBudgetChanges,
   learnStake,
-  LEGISLATURE_MODULE_ID,
   memberKey,
   members,
   offerDeal,
   type BillRow,
 } from "./modules/legislature";
 import { headsLocalExecutive, executiveRow } from "./offices-executives";
+import { allBills, townHallById } from "./modules/bodies-reads";
 
 export const OFFICE_DUTY = "office-duty";
 /**
@@ -661,10 +661,7 @@ export function budgetProposalDue(
 function heldTownHallToday(api: CoreAPI, personId: string): boolean {
   return (
     api.state.modules.has(MEETINGS_MODULE_ID) &&
-    !!api
-      .moduleState(MEETINGS_MODULE_ID)
-      .table("townHalls")
-      .get(townHallId(personId, api.state.date))
+    !!townHallById(api, townHallId(personId, api.state.date))
   );
 }
 
@@ -689,12 +686,7 @@ export function townHallDue(
 
 /** The actor's own bills drafted and waiting for a vote. */
 function pendingBillsOf(api: CoreAPI, personId: string): BillRow[] {
-  return (
-    api
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("bills")
-      .rows() as unknown as BillRow[]
-  )
+  return (allBills(api) as unknown as BillRow[])
     .filter((b) => b.sponsorId === personId && b.status === "drafted")
     .sort((a, b) => a.id.localeCompare(b.id));
 }

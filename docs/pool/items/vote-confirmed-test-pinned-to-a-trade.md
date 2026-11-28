@@ -19,10 +19,10 @@ source: Account lead, Nov 16, 2026, on #9568 (the test is red on the clean Train
 checked: opus 2026-11-16
 ---
 
-**What.** `src/director/vote-confirmed-scene.test.ts` needs a rare event: a full-person legislator's vote traded in committee that reaches the floor. It hunts for one at run time. It takes a random seed (or `GOLDEN_PATH_SEED`), draws four places in turn, plays up to 90 days in each and fails when none has a trade.
+**What.** `tests/src/director/vote-confirmed-scene.test.ts` needs a rare event: a full-person legislator's vote traded in committee that reaches the floor. It hunts for one at run time. It takes a random seed (or `GOLDEN_PATH_SEED`), draws four places in turn, plays up to 90 days in each and fails when none has a trade.
 Seen: seed f9df21488a42d8ea9377bb4c5c6b21eff88494a5 on the clean Train ef70819622c9bc399e73c39e928c226e1f35afee, red in 350 s: "no committee trade by a watched member reached the floor in 90 days in St. Paul, Nebraska; Ruby, Michigan; Offerman, Georgia; Conway, New Hampshire". The same seed is red on #9568's base and head.
 
-**Cause.** Found in code: src/director/vote-confirmed-scene.test.ts draws `drawPlace(\`${seed}:${attempt}\`, "vote-confirmed-scene")` for four attempts with a random default seed (lines 22 to 32), so whether it passes depends on the draw. This breaks the lead's Nov 14 ruling for train tests: pin one place, world seed and case chosen from data, with no run-time draw loop.
+**Cause.** Found in code: tests/src/director/vote-confirmed-scene.test.ts draws `drawPlace(\`${seed}:${attempt}\`, "vote-confirmed-scene")` for four attempts with a random default seed (lines 22 to 32), so whether it passes depends on the draw. This breaks the lead's Nov 14 ruling for train tests: pin one place, world seed and case chosen from data, with no run-time draw loop.
 
 **Fix.** Write a script outside the test, capped at one hour, that builds drawn worlds and plays them until a full-person legislator's committee trade reaches the floor. Record the place, the world seed and the bill. Pin the test to that place and seed, with no random default, no attempts loop and a limit near twice its time. If the hour finds no trade, name what the legislature engine would need for one and file that instead.
 
@@ -34,4 +34,4 @@ Seen: seed f9df21488a42d8ea9377bb4c5c6b21eff88494a5 on the clean Train ef7081962
 
 **Waits on.** Nothing.
 
-**Files.** src/director/vote-confirmed-scene.test.ts
+**Files.** tests/src/director/vote-confirmed-scene.test.ts

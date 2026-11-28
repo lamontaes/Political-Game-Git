@@ -25,7 +25,7 @@ import {
   activityAgeId,
   plannedWorkMinutesOnDate,
   workWeekStart,
-} from "./modules/work";
+} from "./work-reads";
 import { validateDatedWorkResult } from "./work-state";
 import {
   preparePublicWorkPay,

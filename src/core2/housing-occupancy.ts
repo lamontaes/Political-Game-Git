@@ -10,15 +10,16 @@ import {
 import lawParameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 import construction from "./data/housing/construction.json" with { type: "json" };
 import type { ProjectRow, StockRow } from "./housing-construction";
+import { householdIncome, residentsRuntime } from "./residents-reads";
+import { regroupHousehold } from "./resident-households";
 import {
-  householdIncome,
-  regroupHousehold,
-  residentsRuntime,
-} from "./modules/residents";
-import { claimsInGroup, fundBalance, savingWeight } from "./counted-money";
+  claimsInGroup,
+  fundBalance,
+  savingWeight,
+} from "./counted-money-reads";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { nextDue } from "./housing-homeless";
-import { reopenResidentFlow, setResidentFlowAmount } from "./residents-economy";
+import { reopenResidentFlow, setResidentFlowAmount } from "./resident-flows";
 import { lawApplied, emitLawEffectLearned } from "./law-reach/applied";
 import { CONSTRUCTION_LAW_KEYS } from "./housing-construction-constants";
 import { webFactorFor } from "./outcome-web-reach";

@@ -21,6 +21,6 @@ claimed-at: 2026-10-20T01:23:27.967Z
 
 **Done when.** A played year in a drawn place (buildBenchWorld, seed named in the PR body) shows the marker while the checks are skipped. The bench line turns the checks on for the same seed, and the year then runs them.
 
-**Files.** src/core2/journal.ts, src/core2/journal.test.ts
+**Files.** src/core2/journal.ts, tests/src/core2/journal.test.ts
 
 **Notes.** Found in the post-merge audit of Oct 19 evening. Speed item: core-year-speed-activate-and-gc.

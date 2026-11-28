@@ -20,7 +20,7 @@ checked:
 claimed-at: 2026-11-13
 ---
 
-**What.** On the train, `src/core2/recalls.test.ts` case "an ordinance can start a recall where the law allows one" fails with "Module has no registered state." thrown from `filingsOwed` (src/core2/modules/world-legislating.ts), reached through office-day's `closeMeeting` and `earlierMeetingsVote`. The case stops before it reaches the recall it was written to check, so the train carries a red that hides whether recalls still start from an ordinance. Seen: the test run only; no player screen shows it, because no played world can reach it.
+**What.** On the train, `tests/src/core2/recalls.test.ts` case "an ordinance can start a recall where the law allows one" fails with "Module has no registered state." thrown from `filingsOwed` (src/core2/modules/world-legislating.ts), reached through office-day's `closeMeeting` and `earlierMeetingsVote`. The case stops before it reaches the recall it was written to check, so the train carries a red that hides whether recalls still start from an ordinance. Seen: the test run only; no player screen shows it, because no played world can reach it.
 
 **Cause.** Found in code: #9051 (commit 61a9f19a, folded as 1b0c7ec714) added `filingsOwed`, which reads world-legislating's `nextMeetings` table, and office-day calls it when a meeting closes or adjourns. This is office-day's first read of world-legislating's state. The recall test builds its world by hand and installs office-day without world-legislating. The played world (`src/bench/world.ts`) opens world-legislating before office-day, and a body with no meeting row reads as no filing owed, so play is not affected. Measured: seed t40seed1 green on main fa34439d and on the train just before the #9051 fold, red at the fold and at the train head.
 
@@ -34,6 +34,6 @@ claimed-at: 2026-11-13
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/recalls.test.ts
+**Files.** tests/src/core2/recalls.test.ts
 
 **Notes.** Branch claude/project-thread-6xw3oo (Account lead T40).

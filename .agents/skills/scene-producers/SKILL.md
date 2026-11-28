@@ -33,7 +33,7 @@ A producer is a read of an event an engine already records, never a new mechanic
 - Use `counterpart: "some"` or `"none"` for whether someone else is named.
 - Use `causeFacts` (a fact equals a value, names the subject, includes the subject) and `occasion` or `act` for a heard speech.
 - Bind each role to `subject`, `counterpart`, `household`, `kin` or `present`; set `opener`, and `setting` when the place matters.
-- **One record, one scene.** When a circumstance row (`src/director/data/circumstances.json`) already stages the record, do not add a second type for it; delete the twin instead. For example, `eviction-notice` waited on `housing.notice-served` while `notice-home` already staged that record. The twin's purpose arc in `purpose-arcs.json` and its pieces in `data/english/parts/scene-talk.json` go too (name them on the pull request for Story to delete), and the type count in `src/director/director.test.ts` reads the file itself.
+- **One record, one scene.** When a circumstance row (`src/director/data/circumstances.json`) already stages the record, do not add a second type for it; delete the twin instead. For example, `eviction-notice` waited on `housing.notice-served` while `notice-home` already staged that record. The twin's purpose arc in `purpose-arcs.json` and its pieces in `data/english/parts/scene-talk.json` go too (name them on the pull request for Story to delete), and the type count in `tests/src/director/director.test.ts` reads the file itself.
 
 ## 4. Word it
 

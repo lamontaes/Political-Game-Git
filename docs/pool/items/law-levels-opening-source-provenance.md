@@ -19,7 +19,7 @@ claimed-at: 2026-11-08T01:28:53.697Z
 
 **Done when.** A generated-world test checks every loaded opening policy row against its jurisdiction answer source, cite and lawTerms, prints place and replay, and fails on the old loader. Ten fresh draws and a new game pass.
 
-**Files.** src/core2/modules/laws.ts,src/core2/policy-answers.ts,src/core2/opening-law-source-provenance.test.ts
+**Files.** src/core2/modules/laws.ts,src/core2/policy-answers.ts,tests/src/core2/opening-law-source-provenance.test.ts
 
 **Notes.** Astra Nov 8 inspected openLaws in modules/laws.ts: both source assignments choose entry.source, and the parallel mandate terms include cite only. The underlying starting-law answer objects contain their own source strings. This is provenance preservation, not a certification that every stored source is a current primary statute.
 

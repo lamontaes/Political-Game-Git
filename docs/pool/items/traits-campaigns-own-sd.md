@@ -17,7 +17,7 @@ claimed-at: 2026-10-24T02:57:25.374Z
 
 **Rules.** Research before building: each weight cites its Table 2 cell and Table 1 spread, or a gap row. No dice: weights size a reason, never a roll. Wire to the world: the refit uses kept calls from played years of buildBenchWorld.
 
-**Done when.** Every campaigns and press.accept-interview row in data/research/trait-effect-sizes.json carries traitSd, scripts/traits/trait-calibrate.ts gives each a target with no refusal, each weight's citation states its new target and fit, and src/core2/modules/campaigns.traits.test.ts passes on two fresh drawn places, seeds named.
+**Done when.** Every campaigns and press.accept-interview row in data/research/trait-effect-sizes.json carries traitSd, scripts/traits/trait-calibrate.ts gives each a target with no refusal, each weight's citation states its new target and fit, and tests/src/core2/modules/campaigns.traits.test.ts passes on two fresh drawn places, seeds named.
 
 **Files.** data/research/trait-effect-sizes.json, src/core2/data/parameters.json, src/core2/data/campaigns/parameters.json
 

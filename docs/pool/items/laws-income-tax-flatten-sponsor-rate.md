@@ -31,11 +31,11 @@ branch: claude/pool-laws-income-tax-flatten-sponsor-rate
 
 **Rules.** Sliding scales and causes: the flat rate comes from the sponsor's views and the place's own old schedule, never one national number, and the sourced conversion band only checks the totals. Wire to the world: withholding for full and counted workers reads the enacted rate. No hand-written player text: the director line comes from the English engine.
 
-**Done when.** A second session, not the builder, plays a drawn place from all 56 in the played world (`buildBenchWorld`, place and seed named). A repeal of a graduated income tax enacts the sponsor's rate from the provision, the law row id shows that rate, a named worker's withholding record reads it, and SG-GOV-REACH-B-flat-tax-replacement is resolved in src/core2/data/stopgaps/gov.json, shown by src/core2/law-reach-group-b.test.ts. The conversion band is reported next to the rate as a figure, not a pass mark. Nothing on screen reads it yet beyond Politics → Budgets.
+**Done when.** A second session, not the builder, plays a drawn place from all 56 in the played world (`buildBenchWorld`, place and seed named). A repeal of a graduated income tax enacts the sponsor's rate from the provision, the law row id shows that rate, a named worker's withholding record reads it, and SG-GOV-REACH-B-flat-tax-replacement is resolved in src/core2/data/stopgaps/gov.json, shown by tests/src/core2/law-reach-group-b.test.ts. The conversion band is reported next to the rate as a figure, not a pass mark. Nothing on screen reads it yet beyond Politics → Budgets.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/law-reach/group-b-money.ts, src/core2/modules/legislature.ts, src/core2/data/laws/reach-group-b-parameters.json, data/research/laws/taxfoundation-2022-2026-flat-tax-conversions.json, src/core2/data/stopgaps/gov.json, src/core2/law-reach-group-b.test.ts
+**Files.** src/core2/law-reach/group-b-money.ts, src/core2/modules/legislature.ts, src/core2/data/laws/reach-group-b-parameters.json, data/research/laws/taxfoundation-2022-2026-flat-tax-conversions.json, src/core2/data/stopgaps/gov.json, tests/src/core2/law-reach-group-b.test.ts
 
 **Notes.** TODO
 

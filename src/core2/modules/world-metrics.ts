@@ -10,9 +10,18 @@
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
-import { residentsRuntime } from "./residents";
+import { residentsRuntime } from "../residents-reads";
 import { povertyByPlace } from "../world-poverty";
 import { HOUSING_MODULE_ID, townFiguresByPlace } from "./housing";
+import { allMortgageRows } from "../housing-reads";
+import { allCreditLoans, type CreditLoanRow } from "../credit-reads";
+import {
+  evictionCases,
+  homelessCountOf,
+  housingStockOf,
+} from "../housing-reads";
+import { openClaims } from "../jobs-reads";
+import { businessFoundingsAt } from "../business-reads";
 import { foldMonthIntoYear } from "../output-numbers";
 import { laborYearBefore } from "../labor-past";
 import { townLaborByPlace } from "./world-panels";
@@ -24,12 +33,6 @@ const median = (values: number[]): number => {
   const sorted = [...values].sort((a, b) => a - b);
   return sorted[Math.floor(sorted.length / 2)]!;
 };
-
-function rows(api: CoreAPI, moduleId: string, table: string) {
-  return (api.state as CoreState).modules.has(moduleId)
-    ? api.moduleState(moduleId).table(table).rows()
-    : [];
-}
 
 /**
  * The people and homes each place holds today, from the residents engine's
@@ -150,10 +153,7 @@ export function townMetrics(api: CoreAPI) {
     0,
     "YYYY-MM".length,
   );
-  for (const row of rows(api, HOUSING_MODULE_ID, "cases") as unknown as {
-    householdId: string;
-    judgmentAt?: string;
-  }[]) {
+  for (const row of evictionCases(api)) {
     if (!row.judgmentAt?.startsWith(lastMonth)) continue;
     const placeId =
       c.households.get(row.householdId)?.placeId ??
@@ -169,12 +169,13 @@ export function townMetrics(api: CoreAPI) {
     } else if (book.closedAt.startsWith(month))
       at(placeId).closedThisMonth += 1;
   }
-  for (const row of rows(api, "business", "foundings") as unknown as {
-    placeId?: string;
-    date: string;
-  }[])
-    if (row.placeId && row.date.startsWith(month))
-      at(row.placeId).foundedThisMonth += 1;
+  // Firms founded in play, by the place each opened in: the business engine's door answers one place at a time.
+  const firmPlaces = new Set<string>();
+  for (const organization of c.organizations.values())
+    if (organization.placeId) firmPlaces.add(organization.placeId);
+  for (const placeId of firmPlaces)
+    for (const founding of businessFoundingsAt(api, placeId))
+      if (founding.date.startsWith(month)) at(placeId).foundedThisMonth += 1;
   for (const [id, row] of c.finance.contracts) {
     const placeId = row.householdId
       ? c.households.get(row.householdId)?.placeId
@@ -185,51 +186,33 @@ export function townMetrics(api: CoreAPI) {
   for (const flow of rt?.flows.values() ?? [])
     if (flow.id.startsWith("rent:") && !flow.endedAt)
       at(flow.placeId).rents.push(flow.amountMinor);
-  const mortgages = rows(api, "housing", "mortgages") as unknown as {
-    balanceMinor: number;
-    monthsLeft: number;
-  }[];
-  const loans = rows(api, "credit", "loans") as unknown as {
+  const mortgages = allMortgageRows(api);
+  const loans = allCreditLoans(api) as readonly (CreditLoanRow & {
     open: boolean;
-  }[];
+  })[];
   // Unemployment claims open today, by the place each was filed in: the jobs
   // engine's own index of open claims, a counted claimant standing for the
   // people their household stands for (one model, two tiers).
   const claimsOpen = new Map<string, number>();
   const hasJobs = c.modules.has("jobs");
-  if (hasJobs)
-    for (const row of api
-      .moduleState("jobs")
-      .table("claims")
-      .query("open", [true]) as unknown as {
-      personId: string;
-      placeId: string;
-    }[]) {
-      const m = c.people.has(row.personId as never)
-        ? undefined
-        : rt?.store.countedMember(row.personId);
-      claimsOpen.set(
-        row.placeId,
-        (claimsOpen.get(row.placeId) ?? 0) +
-          (m === undefined
-            ? 1
-            : rt!.store.weightOf(
-                rt!.store.households[rt!.store.household[m]!]!,
-              )),
-      );
-    }
+  for (const row of openClaims(api)) {
+    const m = c.people.has(row.personId as never)
+      ? undefined
+      : rt?.store.countedMember(row.personId);
+    claimsOpen.set(
+      row.placeId,
+      (claimsOpen.get(row.placeId) ?? 0) +
+        (m === undefined
+          ? 1
+          : rt!.store.weightOf(rt!.store.households[rt!.store.household[m]!]!)),
+    );
+  }
   // The town's labor market, one counting rule (townLaborByPlace): the month
   // row, the rate, the Metrics tab and the paper all read it.
   const labor = townLaborByPlace(api);
   for (const placeId of labor.keys()) at(placeId);
   const poverty = povertyByPlace(c);
   const people = peopleAndHomes(c, rt);
-  const stock = c.modules.has(HOUSING_MODULE_ID)
-    ? api.moduleState(HOUSING_MODULE_ID).table("stock")
-    : undefined;
-  const homeless = c.modules.has("core2-homeless-count-v1")
-    ? api.moduleState("core2-homeless-count-v1").table("counts")
-    : undefined;
   const housing = c.modules.has(HOUSING_MODULE_ID)
     ? townFiguresByPlace(api, new Set(places.keys()))
     : undefined;
@@ -245,9 +228,8 @@ export function townMetrics(api: CoreAPI) {
         seekers: 0,
         openPositions: 0,
       };
-      const homesHeld = stock?.get(`stock:${placeId}`) as
-        { rentalUnits: number; vacantRental: number } | undefined;
-      const noHome = homeless?.get(placeId) as { homeless: number } | undefined;
+      const homesHeld = housingStockOf(api, placeId);
+      const noHomeCount = homelessCountOf(api, placeId);
       return {
         placeId,
         date: c.date,
@@ -298,7 +280,9 @@ export function townMetrics(api: CoreAPI) {
               vacantRentals: homesHeld.vacantRental,
             }
           : {}),
-        ...(noHome ? { peopleWithoutHome: noHome.homeless } : {}),
+        ...(noHomeCount !== undefined
+          ? { peopleWithoutHome: noHomeCount }
+          : {}),
         // The town's labor market by one counting rule (townLaborByPlace): a
         // counted resident stands for the household's weight.
         ...(hasJobs

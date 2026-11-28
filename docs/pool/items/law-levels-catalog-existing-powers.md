@@ -19,6 +19,6 @@ claimed-at: 2026-11-07T19:41:16.956Z
 
 **Done when.** In a buildBenchWorld at a drawn place, a test finds federal and state income tax, state sales tax, and both federal work requirements in the appropriate bill catalog, with allowed authority and repeal or lower provisions. Print place and replay number.
 
-**Files.** scripts/research/build-bill-catalog.py,src/core2/data/legislature/bill-catalog.json,src/core2/bill-catalog-existing-powers.test.ts
+**Files.** scripts/research/build-bill-catalog.py,src/core2/data/legislature/bill-catalog.json,tests/src/core2/bill-catalog-existing-powers.test.ts
 
 **Notes.** TODO

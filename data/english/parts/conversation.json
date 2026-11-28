@@ -99,7 +99,9 @@
     "meeting-held": "The day that meeting was held, told as past (\"yesterday\", \"the other day\", \"on March 4th\"), from the meeting's record.",
     "their_when": "When the asker last saw someone both know, said as people say it (\"last week\"), from the asker's own tie's last contact.",
     "group": "The interest group that pressed the members who voted no on a bill hardest, as people say its name, from the interest-groups engine's meetings (veto said at the next talk).",
-    "payment": "The payment a promise to pay on time was about, as people name it (\"the loan\"), from the credit engine's missed-payment record and its loan (data/english/payment-words.json)."
+    "payment": "The payment a promise to pay on time was about, as people name it (\"the loan\"), from the credit engine's missed-payment record and its loan (data/english/payment-words.json).",
+    "reason-for": "the side for the question's own reason, in plain words (question-names.json reasons.for, via questionPlainWords)",
+    "reason-against": "the side against the question's own reason, in plain words (question-names.json reasons.against, via questionPlainWords)"
   },
   "maxWords": 10,
   "lineWords": {
@@ -2906,374 +2908,6 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-opener-lead.president-wants-about-that-part-was-plain",
-      "move": "address-point-opener-lead",
-      "kind": "spoken",
-      "text": "{president} wants {about}. That part was plain.",
-      "uses": [
-        {
-          "move": "address-point-opener-lead",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["president-for", "about"],
-          "setsFacts": ["lead-plain"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-opener-lead.so-president-is-for-about-you-heard-that-too",
-      "move": "address-point-opener-lead",
-      "kind": "spoken",
-      "text": "So {president} is for {about}. You heard that too.",
-      "uses": [
-        {
-          "move": "address-point-opener-lead",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["president-for", "about"],
-          "setsFacts": ["lead-plain"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-opener-lead.president-made-a-point-of-about",
-      "move": "address-point-opener-lead",
-      "kind": "spoken",
-      "text": "{president} made a point of {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener-lead",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["president-for", "about"],
-          "setsFacts": ["lead-plain"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-opener-lead.president-put-about-right-up-front",
-      "move": "address-point-opener-lead",
-      "kind": "spoken",
-      "text": "{president} put {about} right up front.",
-      "uses": [
-        {
-          "move": "address-point-opener-lead",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["president-for", "about"],
-          "setsFacts": ["lead-plain"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-opener-lead.the-one-thing-i-took-from-that-president-is-for-about",
-      "move": "address-point-opener-lead",
-      "kind": "spoken",
-      "text": "The one thing I took from that: {president} is for {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener-lead",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["president-for", "about"],
-          "setsFacts": ["lead-plain"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-opener-lead.president-wants-no-part-of-about-that-part-was-plain",
-      "move": "address-point-opener-lead",
-      "kind": "spoken",
-      "text": "{president} wants no part of {about}. That part was plain.",
-      "uses": [
-        {
-          "move": "address-point-opener-lead",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["president-against", "about"],
-          "setsFacts": ["lead-plain"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-opener-lead.so-president-is-against-about-you-heard-that-too",
-      "move": "address-point-opener-lead",
-      "kind": "spoken",
-      "text": "So {president} is against {about}. You heard that too.",
-      "uses": [
-        {
-          "move": "address-point-opener-lead",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["president-against", "about"],
-          "setsFacts": ["lead-plain"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-opener-lead.president-drew-a-line-at-about",
-      "move": "address-point-opener-lead",
-      "kind": "spoken",
-      "text": "{president} drew a line at {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener-lead",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["president-against", "about"],
-          "setsFacts": ["lead-plain"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-opener-lead.president-said-no-to-about-and-said-it-plainly",
-      "move": "address-point-opener-lead",
-      "kind": "spoken",
-      "text": "{president} said no to {about}, and said it plainly.",
-      "uses": [
-        {
-          "move": "address-point-opener-lead",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["president-against", "about"],
-          "setsFacts": ["lead-plain"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-opener-lead.the-one-thing-i-took-from-that-president-is-against-about",
-      "move": "address-point-opener-lead",
-      "kind": "spoken",
-      "text": "The one thing I took from that: {president} is against {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener-lead",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["president-against", "about"],
-          "setsFacts": ["lead-plain"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-opener-lead.president-came-out-for-about",
-      "move": "address-point-opener-lead",
-      "kind": "spoken",
-      "text": "{president} came out for {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener-lead",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["president-for", "about"],
-          "setsFacts": ["lead-plain"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-opener-lead.so-president-wants-about",
-      "move": "address-point-opener-lead",
-      "kind": "spoken",
-      "text": "So {president} wants {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener-lead",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["president-for", "about"],
-          "setsFacts": ["lead-plain"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-opener-lead.president-is-pushing-about-now",
-      "move": "address-point-opener-lead",
-      "kind": "spoken",
-      "text": "{president} is pushing {about} now.",
-      "uses": [
-        {
-          "move": "address-point-opener-lead",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["president-for", "about"],
-          "setsFacts": ["lead-plain"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-opener-lead.president-came-out-against-about",
-      "move": "address-point-opener-lead",
-      "kind": "spoken",
-      "text": "{president} came out against {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener-lead",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["president-against", "about"],
-          "setsFacts": ["lead-plain"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-opener-lead.so-president-is-against-about-plain-and-simple",
-      "move": "address-point-opener-lead",
-      "kind": "spoken",
-      "text": "So {president} is against {about}, plain and simple.",
-      "uses": [
-        {
-          "move": "address-point-opener-lead",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["president-against", "about"],
-          "setsFacts": ["lead-plain"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-opener-lead.president-won-t-back-about",
-      "move": "address-point-opener-lead",
-      "kind": "spoken",
-      "text": "{president} won't back {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener-lead",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["president-against", "about"],
-          "setsFacts": ["lead-plain"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
       "key": "conversation.address-point-core-with.i-m-with-president-object-on-that-one",
       "move": "address-point-core-with",
       "kind": "spoken",
@@ -3604,30 +3238,6 @@
         "required": true
       },
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-core-against.i-don-t-think-we-should-to-whatever-president-says",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "I don't think we should {to}, whatever {president} says.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "requiresFacts": ["president-for", "about"],
-          "stages": ["against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-18"
@@ -5358,120 +4968,6 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-answer-instead.then-what-would-you-do-about-about",
-      "move": "address-point-answer-instead",
-      "kind": "spoken",
-      "text": "Then what would you do about {about}?",
-      "uses": [
-        {
-          "move": "address-point-answer-instead",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "instead",
-          "requiresFacts": ["year-point"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-answer-instead.so-what-s-the-answer-on-about",
-      "move": "address-point-answer-instead",
-      "kind": "spoken",
-      "text": "So what's the answer on {about}?",
-      "uses": [
-        {
-          "move": "address-point-answer-instead",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "instead",
-          "requiresFacts": ["year-point"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-answer-instead.if-not-that-then-what-on-about",
-      "move": "address-point-answer-instead",
-      "kind": "spoken",
-      "text": "If not that, then what on {about}?",
-      "uses": [
-        {
-          "move": "address-point-answer-instead",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "instead",
-          "requiresFacts": ["policy-point", "stand-against"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-answer-instead.you-don-t-like-it-what-s-your-answer-on-about",
-      "move": "address-point-answer-instead",
-      "kind": "spoken",
-      "text": "You don't like it. What's your answer on {about}?",
-      "uses": [
-        {
-          "move": "address-point-answer-instead",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "instead",
-          "requiresFacts": ["policy-point", "stand-against"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-answer-instead.what-would-you-do-about-about",
-      "move": "address-point-answer-instead",
-      "kind": "spoken",
-      "text": "What would you do about {about}?",
-      "uses": [
-        {
-          "move": "address-point-answer-instead",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "instead",
-          "requiresFacts": ["policy-point"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-answer-instead.what-s-your-fix-for-about",
-      "move": "address-point-answer-instead",
-      "kind": "spoken",
-      "text": "What's your fix for {about}?",
-      "uses": [
-        {
-          "move": "address-point-answer-instead",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "instead",
-          "requiresFacts": ["policy-point"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
       "key": "conversation.address-point-back-agree.good-then-it-s-not-just-me-you",
       "move": "address-point-back-agree",
       "kind": "spoken",
@@ -5635,30 +5131,6 @@
         "required": true
       },
       "bearing": "warm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-back-disagree.you-ll-come-around-you-or-i-will",
-      "move": "address-point-back-disagree",
-      "kind": "spoken",
-      "text": "You'll come around, {you}. Or I will.",
-      "uses": [
-        {
-          "move": "address-point-back-disagree",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["disagree"],
-          "requiresFacts": ["policy-point"]
-        }
-      ],
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-18"
@@ -13177,6 +12649,398 @@
       "date": "2026-11-18"
     },
     {
+      "key": "conversation.rent-due-say-core.rent-is-due-due-and-the-money-is-set-aside",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "Rent is due {due}, and the money is set aside.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-covered"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-say-core.we-have-rent-put-away-for-due-so-i-m-not-worried",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "We have {rent} put away for {due}, so I'm not worried.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-covered"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-say-core.rent-is-due-due-and-we-can-just-cover-it",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "Rent is due {due}, and we can just cover it.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-tight"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-say-core.rent-is-due-due-and-there-s-almost-nothing-left-after-it",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "{rent} is due {due}, and there's almost nothing left after it.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-tight"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-say-core.rent-is-due-due-and-we-re-short",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "Rent is due {due}, and we're short.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-short"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-say-core.we-don-t-have-rent-yet-and-it-s-due-due",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "We don't have {rent} yet, and it's due {due}.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-short"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-ease.we-re-fine-because-there-s-enough-set-aside-for-rent-again",
+      "move": "rent-due-answer-ease",
+      "kind": "spoken",
+      "text": "We're fine, because there's enough set aside for {rent_again}.",
+      "uses": [
+        {
+          "move": "rent-due-answer-ease",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "ease",
+          "requiresFacts": ["rent", "cash-covered"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-ease.we-have-rent-again-put-away-so-don-t-worry",
+      "move": "rent-due-answer-ease",
+      "kind": "spoken",
+      "text": "We have {rent_again} put away, so don't worry.",
+      "uses": [
+        {
+          "move": "rent-due-answer-ease",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "ease",
+          "requiresFacts": ["rent", "cash-covered"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-help.i-ll-skip-extras-since-rent-again-takes-most-of-it",
+      "move": "rent-due-answer-help",
+      "kind": "spoken",
+      "text": "I'll skip extras, since {rent_again} takes most of it.",
+      "uses": [
+        {
+          "move": "rent-due-answer-help",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "help",
+          "requiresFacts": ["rent", "cash-tight"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-help.i-ll-skip-extras-since-little-is-left-after-rent-again",
+      "move": "rent-due-answer-help",
+      "kind": "spoken",
+      "text": "I'll skip extras, since little is left after {rent_again}.",
+      "uses": [
+        {
+          "move": "rent-due-answer-help",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "help",
+          "requiresFacts": ["rent", "cash-tight"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-ask.how-do-we-cover-rent-again-since-we-re-short",
+      "move": "rent-due-answer-ask",
+      "kind": "spoken",
+      "text": "How do we cover {rent_again}, since we're short?",
+      "uses": [
+        {
+          "move": "rent-due-answer-ask",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["rent", "cash-short"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-ask.where-does-the-rest-of-rent-again-come-from",
+      "move": "rent-due-answer-ask",
+      "kind": "spoken",
+      "text": "Where does the rest of {rent_again} come from?",
+      "uses": [
+        {
+          "move": "rent-due-answer-ask",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["rent", "cash-short"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-grim.we-can-t-cover-rent-again-yet-and-i-m-unsure-how",
+      "move": "rent-due-answer-grim",
+      "kind": "spoken",
+      "text": "We can't cover {rent_again} yet, and I'm unsure how.",
+      "uses": [
+        {
+          "move": "rent-due-answer-grim",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "grim",
+          "requiresFacts": ["rent", "cash-short"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-grim.we-re-short-for-rent-again-and-i-won-t-pretend-otherwise",
+      "move": "rent-due-answer-grim",
+      "kind": "spoken",
+      "text": "We're short for {rent_again}, and I won't pretend otherwise.",
+      "uses": [
+        {
+          "move": "rent-due-answer-grim",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "grim",
+          "requiresFacts": ["rent", "cash-short"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.government-news-say-core.who-spoke-on-about-when-i-keep-turning-it-over",
+      "move": "government-news-say-core",
+      "kind": "spoken",
+      "text": "{who} spoke on {about} {when}. I keep turning it over.",
+      "uses": [
+        {
+          "move": "government-news-say-core",
+          "subject": "government-news-say",
+          "role": "core",
+          "stages": ["address"],
+          "requiresFacts": ["who", "about", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.government-news-say-core.i-heard-who-speak-on-about-when",
+      "move": "government-news-say-core",
+      "kind": "spoken",
+      "text": "I heard {who} speak on {about} {when}.",
+      "uses": [
+        {
+          "move": "government-news-say-core",
+          "subject": "government-news-say",
+          "role": "core",
+          "stages": ["address"],
+          "requiresFacts": ["who", "about", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.government-news-say-core.who-had-a-lot-to-say-on-about-when",
+      "move": "government-news-say-core",
+      "kind": "spoken",
+      "text": "{who} had a lot to say on {about} {when}.",
+      "uses": [
+        {
+          "move": "government-news-say-core",
+          "subject": "government-news-say",
+          "role": "core",
+          "stages": ["address"],
+          "requiresFacts": ["who", "about", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.government-news-say-core.who-brought-up-about-when-and-it-stuck-with-me",
+      "move": "government-news-say-core",
+      "kind": "spoken",
+      "text": "{who} brought up {about} {when}, and it stuck with me.",
+      "uses": [
+        {
+          "move": "government-news-say-core",
+          "subject": "government-news-say",
+          "role": "core",
+          "stages": ["address"],
+          "requiresFacts": ["who", "about", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
       "key": "conversation.government-news-say-core.the-town-hall-when-had-me-thinking-about-said",
       "move": "government-news-say-core",
       "kind": "spoken",
@@ -13226,6 +13090,44 @@
           "role": "core",
           "stages": ["meeting"],
           "requiresFacts": ["said", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.government-news-say-core.the-town-hall-when-kept-coming-back-to-about",
+      "move": "government-news-say-core",
+      "kind": "spoken",
+      "text": "The town hall {when} kept coming back to {about}.",
+      "uses": [
+        {
+          "move": "government-news-say-core",
+          "subject": "government-news-say",
+          "role": "core",
+          "stages": ["meeting"],
+          "requiresFacts": ["about", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.government-news-say-core.there-was-a-town-hall-when-and-folks-argued-over-about",
+      "move": "government-news-say-core",
+      "kind": "spoken",
+      "text": "There was a town hall {when}, and folks argued over {about}.",
+      "uses": [
+        {
+          "move": "government-news-say-core",
+          "subject": "government-news-say",
+          "role": "core",
+          "stages": ["meeting"],
+          "requiresFacts": ["about", "when"]
         }
       ],
       "bearing": "calm",
@@ -36596,6 +36498,731 @@
       "tag": {
         "move": "answer"
       }
+    },
+    {
+      "key": "conversation.own-view-answer-agree.you-and-i-both-think",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "You and I both think {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same", "side-for", "reason-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-don-t-want-it-either-because",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I don't want it either, because {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same", "side-against", "reason-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-m-for-it-honestly-and-i-think",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I'm for it, honestly, and I think {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-against", "reason-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-d-tell-the-same-thing-myself",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I'd tell {decider} the same thing myself.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same", "side-for", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-agree.shouldn-t-touch-it-and-i-agree",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "{decider} shouldn't touch it, and I agree.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same", "side-against", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-d-say-the-same-thing-to-if-it-came-up",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I'd say the same thing to {decider}, if it came up.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same", "side-against", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-see-it-differently-because",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I see it differently, because {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-for", "reason-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-d-ask-not-to-honestly",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I'd ask {decider} not to, honestly.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-for", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.should-think-twice-about-it-i-think",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "{decider} should think twice about it, I think.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-for", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-hope-gets-it-done-anyway",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I hope {decider} gets it done anyway.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-against", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-d-tell-to-go-ahead-honestly",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I'd tell {decider} to go ahead, honestly.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-against", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-why.is-that-about-or-something-closer-to-home",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Is that about {place}, or something closer to home?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-why.did-something-in-make-you-feel-that-way",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Did something in {place} make you feel that way?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-good-i-keep-thinking-reason-for",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Good. I keep thinking {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["stand", "wants-it", "reason-for"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-i-m-relieved-i-m-not-the-only-one-who-thinks-reason-for",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "I'm relieved I'm not the only one who thinks {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["stand", "wants-it", "reason-for"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-good-i-keep-thinking-reason-against",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Good. I keep thinking {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["stand", "wants-not", "reason-against"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-i-m-relieved-i-m-not-the-only-one-who-thinks-reason-against",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "I'm relieved I'm not the only one who thinks {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["stand", "wants-not", "reason-against"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-you-may-not-see-it-but-reason-for",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "You may not see it, but {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["stand", "wants-it", "reason-for"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-i-d-still-say-reason-for-and-i-m-not-changing-my-mind",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "I'd still say {reason-for}, and I'm not changing my mind.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["stand", "wants-it", "reason-for"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-you-may-not-see-it-but-reason-against",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "You may not see it, but {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["stand", "wants-not", "reason-against"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-i-d-still-say-reason-against-and-i-m-not-changing-my-mind",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "I'd still say {reason-against}, and I'm not changing my mind.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["stand", "wants-not", "reason-against"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-it-s-done-and-i-m-glad-because-wants-it",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "It's done, and I'm glad, because {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["stand", "wants-it", "reason-for", "story-decided"],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-it-went-the-way-i-hoped-and-wants-it",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "It went the way I hoped, and {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["stand", "wants-it", "reason-for", "story-decided"],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-it-s-done-and-i-m-sorry-because-wants-not",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "It's done, and I'm sorry, because {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": [
+            "stand",
+            "wants-not",
+            "reason-against",
+            "story-decided"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-it-went-the-way-i-feared-and-wants-not",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "It went the way I feared, and {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": [
+            "stand",
+            "wants-not",
+            "reason-against",
+            "story-decided"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-it-s-done-whatever-you-think-and-wants-it",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "It's done, whatever you think, and {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["stand", "wants-it", "reason-for", "story-decided"],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-you-can-say-what-you-like-but-wants-it",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "You can say what you like, but {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["stand", "wants-it", "reason-for", "story-decided"],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-it-s-done-now-and-i-still-say-wants-not",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "It's done now, and I still say {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": [
+            "stand",
+            "wants-not",
+            "reason-against",
+            "story-decided"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-you-can-say-what-you-like-but-wants-not",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "You can say what you like, but {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": [
+            "stand",
+            "wants-not",
+            "reason-against",
+            "story-decided"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-say-core.side-for-since-you-ask-i-think-reason-for",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Since you ask, I think {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["reason-for", "side-for"],
+          "excludesFacts": ["they-opened"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "bearing": "warm",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-say-core.side-for-i-ve-always-thought-reason-for",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I've always thought {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["reason-for", "side-for"],
+          "excludesFacts": []
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "bearing": "calm",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-say-core.side-against-since-you-ask-i-think-reason-against",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Since you ask, I think {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["reason-against", "side-against"],
+          "excludesFacts": ["they-opened"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "bearing": "guarded",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-say-core.side-against-i-ve-always-thought-reason-against",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I've always thought {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["reason-against", "side-against"],
+          "excludesFacts": []
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "bearing": "calm",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     }
   ]
 }

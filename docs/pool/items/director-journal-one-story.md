@@ -20,6 +20,6 @@ claimed-at: 2026-11-04T04:22:01.042Z
 
 **Done when.** In a played world (buildBenchWorld) with a drawn 35-year-old's Journal in two seeds named in the PR body, no chapter title names another person, every line after the first carries a cause, feeling or time link to the line before it with the record ids that link them, and another person's turn is told through the player's tie, shown by a test and the Journal text in the PR body.
 
-**Files.** src/director/journal.ts, src/director/data/journal-rows.json, src/director/journal.test.ts
+**Files.** src/director/journal.ts, src/director/data/journal-rows.json, tests/src/director/journal.test.ts
 
 **Notes.** TODO

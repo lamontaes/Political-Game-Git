@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 
 **Done when.** On the recorded root e9539f3aa58c00a1 and two fresh drawn places named with their seeds, journal.test.ts passes in a played world with the raise moment and household-move line traced to subject and source record IDs. A missing applicable producer or wrong subject must fail the relevant test, and the PR must explain why the original generated fixtures failed.
 
-**Files.** src/director/journal.test.ts, src/director/journal.ts
+**Files.** tests/src/director/journal.test.ts, src/director/journal.ts
 
 **Notes.** TODO
 

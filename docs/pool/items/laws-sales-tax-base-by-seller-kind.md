@@ -32,6 +32,6 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/data/laws/sales-tax-base.json (new), src/core2/modules/budgets.ts, src/core2/sales-tax-base.test.ts (new)
+**Files.** src/core2/data/laws/sales-tax-base.json (new), src/core2/modules/budgets.ts, tests/src/core2/sales-tax-base.test.ts (new)
 
 **Notes.** Effects thread, Nov 16, 2026. Values are ESTIMATED from memory of the Federation of Tax Administrators' services survey; the container could not fetch it. A researcher item can turn them SOURCED.

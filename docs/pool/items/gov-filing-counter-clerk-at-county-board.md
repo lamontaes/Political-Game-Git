@@ -19,7 +19,7 @@ claimed-at: 2026-11-03T23:39:42.217Z
 
 **Done when.** In three drawn places whose local races file with a county board of elections (named with seeds, North Amityville, New York among them), filingClerkFor names a living person for every local contest, the counter visit shows them, and the director stages the filing scene with them cast; filing-counter-petition.test.ts passes at seed 96f34b32a90f7079 on that place rather than skipping it.
 
-**Files.** src/core2/modules/filing-clerk.ts, src/core2/modules/executive.ts, src/bench/filing-counter-petition.test.ts
+**Files.** src/core2/modules/filing-clerk.ts, src/core2/modules/executive.ts, tests/src/bench/filing-counter-petition.test.ts
 
 **Notes.** Needs from others: none. Words will add the counter lines for an election commissioner if the title differs from a clerk's.
 

@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** One budget store: the rows go through the same bases file and the same `publishedBudgetFor` as every place, never a second path. Estimate, never unknown. One rule for all 56 places: no territory named in logic, only in the data.
 
-**Done when.** A second session, not the builder, plays a year (buildBenchWorld or a life core with openLaws and openBudgets) at a place drawn from each of Guam, the Virgin Islands, American Samoa and the Northern Marianas on seeds nobody chose, and sees the town's own government with revenue and spending lines; Toa Alta's lines are its own (OGP) and not the island's mix. src/core2/pr-municipio-budget.test.ts and a territory test (src/core2/territory-local-budgets.test.ts, new) prove it by record id.
+**Done when.** A second session, not the builder, plays a year (buildBenchWorld or a life core with openLaws and openBudgets) at a place drawn from each of Guam, the Virgin Islands, American Samoa and the Northern Marianas on seeds nobody chose, and sees the town's own government with revenue and spending lines; Toa Alta's lines are its own (OGP) and not the island's mix. tests/src/core2/pr-municipio-budget.test.ts and a territory test (src/core2/territory-local-budgets.test.ts, new) prove it by record id.
 
 **Waits on.** Nothing.
 
-**Files.** scripts/research/export-public-budget-bases.py, data/research/money/public-budget-bases.json, data/research/money/puerto-rico-municipal-budget-fy2025.json, src/core2/modules/budgets.ts, src/core2/pr-municipio-budget.test.ts, src/core2/territory-local-budgets.test.ts (new)
+**Files.** scripts/research/export-public-budget-bases.py, data/research/money/public-budget-bases.json, data/research/money/puerto-rico-municipal-budget-fy2025.json, src/core2/modules/budgets.ts, tests/src/core2/pr-municipio-budget.test.ts, src/core2/territory-local-budgets.test.ts (new)
 
 **Notes.** Found by the Screens ten-place sweep (H. Rivera Colón PR, Toa Alta Municipio, $0 in and out), fixed for Puerto Rico in #7955; the Coordinator asked for this follow-up for the other territories on Nov 9.
 

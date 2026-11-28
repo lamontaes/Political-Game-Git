@@ -19,7 +19,7 @@ claimed-at: 2026-11-07T22:31:46.044Z
 
 **Done when.** An unchosen generated-world test finds an authorized Congress draft for the shared question, follows its existing producer into a federal wage floor, reverses it and verifies higher state/local floors remain effective. Primary sources cited; break-it, ten fresh draws, new-game check.
 
-**Files.** data/research/powers-catalog/question-powers.json,src/core2/data/legislature/bill-catalog.json,src/core2/congress-wage-question.test.ts
+**Files.** data/research/powers-catalog/question-powers.json,src/core2/data/legislature/bill-catalog.json,tests/src/core2/congress-wage-question.test.ts
 
 **Notes.** Astra bounded federal reach item. Two-hour unit, no helpers. Does not claim remaining policy questions are sourced or enabled.
 

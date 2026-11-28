@@ -18,8 +18,8 @@ claimed-at: 2026-10-29T22:16:51.687Z
 
 **Rules.** One model, two tiers: a counted record is read by the same rule as a full person times its count, so a door that reaches one household changes one household's vote, never the whole weight. No dice: the split is arithmetic on the record's weight.
 
-**Done when.** src/core2/door-pledge.test.ts passes in a drawn place with the seed it prints and checks that a counted record of weight above one keeps the pledged household's choice in pledgedChoice while its own kept choice is the rest's, and that a record of weight one carries the pledge on its own ballot.
+**Done when.** tests/src/core2/door-pledge.test.ts passes in a drawn place with the seed it prints and checks that a counted record of weight above one keeps the pledged household's choice in pledgedChoice while its own kept choice is the rest's, and that a record of weight one carries the pledge on its own ballot.
 
-**Files.** src/core2/modules/voting.ts, src/core2/door-pledge.test.ts
+**Files.** src/core2/modules/voting.ts, tests/src/core2/door-pledge.test.ts
 
 **Notes.** TODO

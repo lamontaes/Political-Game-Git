@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: a counted relative's tie is recorded by the same closeness rule as a full one. Ask why: the grief cites the death record and the relationship record by id. No dice: closeness comes from the family model's recorded inputs.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, redrawn until a counted relative of a full person dies, both named in the PR body), the death record, the notice to the full relative and their grief or view change are named by record id, and src/core2/births-counted.test.ts fails if the opening leaves a full-to-counted family tie without closeness.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, redrawn until a counted relative of a full person dies, both named in the PR body), the death record, the notice to the full relative and their grief or view change are named by record id, and tests/src/core2/births-counted.test.ts fails if the opening leaves a full-to-counted family tie without closeness.
 
 **Files.** src/core2/births-counted.ts, src/bench/world.ts, src/core2/data/stopgaps.json
 

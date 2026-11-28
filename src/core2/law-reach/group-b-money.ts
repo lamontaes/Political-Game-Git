@@ -43,7 +43,7 @@ import {
   type ResidentFacts,
   type TownFacts,
 } from "./group-b-people";
-import { flowWeights, fundOf, peopleInGroup } from "../counted-money";
+import { flowWeights, fundOf, peopleInGroup } from "../counted-money-reads";
 import {
   getRow,
   putRow,

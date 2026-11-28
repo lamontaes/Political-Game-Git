@@ -32,8 +32,8 @@ import {
   mortgageFrom,
   type MortgageTerms,
 } from "./housing-mortgages";
-import { residentsRuntime } from "./modules/residents";
-import { setResidentFlowAmount } from "./residents-economy";
+import { residentsRuntime } from "./residents-reads";
+import { setResidentFlowAmount } from "./resident-flows";
 import { putPastYear } from "./output-numbers";
 import {
   coarseSteps,

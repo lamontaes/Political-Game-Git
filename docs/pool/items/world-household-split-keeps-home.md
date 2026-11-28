@@ -31,11 +31,11 @@ branch: claude/pool-world-household-split-keeps-home
 
 **Rules.** No dice: who keeps the home reads title, income and the payment. One model, two tiers: counted households split by the same rule. Wire to the world: the mortgage's payer changes on the credit engine.
 
-**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, drawn place and seed named) and sees a mortgaged household split with the stayers keeping the loan, the mortgage payer change and the leavers' move named by record id, checked in src/core2/moves.test.ts; the player's household never splits.
+**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, drawn place and seed named) and sees a mortgaged household split with the stayers keeping the loan, the mortgage payer change and the leavers' move named by record id, checked in tests/src/core2/moves.test.ts; the player's household never splits.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/moves.ts, src/core2/modules/credit.ts, src/core2/moves.test.ts, src/core2/data/stopgaps/p15.json
+**Files.** src/core2/modules/moves.ts, src/core2/modules/credit.ts, tests/src/core2/moves.test.ts, src/core2/data/stopgaps/p15.json
 
 **Notes.** Oct 20 (pool feeder): the row SG-P15-moves-owners-stay stays open while its pool item is done.
 

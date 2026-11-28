@@ -542,7 +542,7 @@
       "writes": "nothing an engine reads; it is the view of the player’s own filing and the petition record it opened (src/core2/modules/elections.ts petitionOf)",
       "models": "src/core2/modules/filing-clerk.ts; src/bench/filing.ts",
       "verdict": "KEEP",
-      "why": "Re-judged while building the deletion: it is the clerk’s talk right after the player files, telling the petition’s signatures and due day from its record and walking a first-time candidate through doors, money and the town’s paper (src/bench/filing-walkthrough.test.ts). Like the door scenes, it is the player’s own act shown from its record, and the owner named it twice (owner examples “Filing is a conversation at the clerk” and “Filing deliberately marked”). Its venue setting is outside ownRecordSettings, so where the filing screen has no counter it waits.",
+      "why": "Re-judged while building the deletion: it is the clerk’s talk right after the player files, telling the petition’s signatures and due day from its record and walking a first-time candidate through doors, money and the town’s paper (tests/src/bench/filing-walkthrough.test.ts). Like the door scenes, it is the player’s own act shown from its record, and the owner named it twice (owner examples “Filing is a conversation at the clerk” and “Filing deliberately marked”). Its venue setting is outside ownRecordSettings, so where the filing screen has no counter it waits.",
       "computed": {
         "purpose": "filing-petition",
         "setting": ["venue"],

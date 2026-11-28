@@ -1,5 +1,5 @@
 /** Date steps for the group B reach review. */
-import { reachParameter } from "./group-b-people";
+import { reachParameter } from "./reach-parameters";
 import { lastDayOfMonth } from "../kernel/dates";
 
 /** The date the review's cadence (months) after `date`, clamped to the month's end. */

@@ -33,4 +33,4 @@ root: rc5-full-detail-every-day
 
 **Waits on.** The Words lead's ruling on the printed line "The {body} organized and chose {name} to lead it." for a one-post refill (drawn for a speaker or presiding fill, 11 of 60 outlet ids). The player sees the change in the paper's chamber story and in a speaker, leader or committee list that no longer reshuffles when a back-bencher leaves. No played flip of a majority was reached at Vilas, so that case is a check of the vacancy writer only.
 
-**Files.** src/core2/modules/leadership.ts; src/core2/leadership-vacancy-fill.test.ts (new)
+**Files.** src/core2/modules/leadership.ts; tests/src/core2/leadership-vacancy-fill.test.ts (new)

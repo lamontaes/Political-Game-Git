@@ -13,12 +13,12 @@ pr:
 after:
 blocked-on:
 lead: words
-source: "Train thread and lying thread, Nov 15, src/director/household-quiet.test.ts red on ef708196 and on ef708196 plus #9489"
+source: "Train thread and lying thread, Nov 15, tests/src/director/household-quiet.test.ts red on ef708196 and on ef708196 plus #9489"
 model: sonnet
 effort: medium
 ---
 
-**What.** `src/director/household-quiet.test.ts` picks its place at run time and fails `dayDone: expected false to be true` on the opening days of the played world. It fails at Superior, Arizona (0471300), seed defedab28ded902132c10235d34aeb27d0268f9c, on 2025-01-21 on ef708196 and on the Train before and after #9489 was folded, and at Coeur d'Alene, Idaho (1616750) on 2025-01-23 on ef708196 plus #9489. The town moves with the tree, so it is one red that changes place. Seen: a household member's quiet-day facts say the day is not done on days the quiet scene did happen.
+**What.** `tests/src/director/household-quiet.test.ts` picks its place at run time and fails `dayDone: expected false to be true` on the opening days of the played world. It fails at Superior, Arizona (0471300), seed defedab28ded902132c10235d34aeb27d0268f9c, on 2025-01-21 on ef708196 and on the Train before and after #9489 was folded, and at Coeur d'Alene, Idaho (1616750) on 2025-01-23 on ef708196 plus #9489. The town moves with the tree, so it is one red that changes place. Seen: a household member's quiet-day facts say the day is not done on days the quiet scene did happen.
 
 **Cause.** Needs cause. Measured: the same assertion fails at three commits (2a67ea2d, 7de307ca, ef708196), so it does not come from #9489; the first place to look is the test's own place draw and the member's quiet-day record.
 
@@ -32,6 +32,6 @@ effort: medium
 
 **Waits on.** Nothing.
 
-**Files.** src/director/household-quiet.test.ts
+**Files.** tests/src/director/household-quiet.test.ts
 
 **Notes.** Filed by hand by the Train thread, Nov 15, at the lead's request.

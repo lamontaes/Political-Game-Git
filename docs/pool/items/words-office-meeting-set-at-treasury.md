@@ -30,10 +30,10 @@ checked: words builder A 2026-11-15
 
 **Rules.** One engine per mechanic: one resolver for an official's room. No names in logic. Pinned test at a named place and seed.
 
-**Done when.** At Sheridan WY, seed 7, no scene type's setting resolves to a payroll body for a legislator, the governor, a mayor or a county official (src/director/office-room-played.test.ts, red on the unfixed code, green after), and the played arrival lines for a legislator's meeting and the governor's briefing are in the played file at the head (scripts/words/office-arrival-replay.ts). A second session (not the builder) plays a legislator's scene in the running game at a drawn place from all 56 (place and seed named) and sees it set at the seat, not at the treasury.
+**Done when.** At Sheridan WY, seed 7, no scene type's setting resolves to a payroll body for a legislator, the governor, a mayor or a county official (tests/src/director/office-room-played.test.ts, red on the unfixed code, green after), and the played arrival lines for a legislator's meeting and the governor's briefing are in the played file at the head (scripts/words/office-arrival-replay.ts). A second session (not the builder) plays a legislator's scene in the running game at a drawn place from all 56 (place and seed named) and sees it set at the seat, not at the treasury.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/scheduling.ts, src/english/journal-words.ts, src/director/office-room-played.test.ts, scripts/words/office-arrival-replay.ts, scripts/words/office-rooms-table.ts
+**Files.** src/director/scheduling.ts, src/english/journal-words.ts, tests/src/director/office-room-played.test.ts, scripts/words/office-arrival-replay.ts, scripts/words/office-rooms-table.ts
 
 **Seen:** not yet.

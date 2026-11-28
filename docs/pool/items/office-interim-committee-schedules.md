@@ -31,11 +31,11 @@ branch: claude/pool-office-interim-committee-schedules
 
 **Rules.** Research before building: every row cites its source (NCSL's interim committee tables or the legislature's own rules) and is SOURCED, or ESTIMATED with the spread where a legislature leaves it to each committee; the schedule checks the calendar and never decides a member's choice to go. One rule, all 56 places: the table is data keyed by state, no state is named in code, and the territories' legislatures are in it or marked as having no interim committees. Estimate, never UNKNOWN: a state with no found schedule starts from the national pattern marked ESTIMATED. Replace, never layer: interimCommitteeDayOfMonth and its marker are deleted in the same change. An effect is a read, not a record: office-day-state.ts reads the table when it builds a member's interim entries.
 
-**Done when.** A second session plays a state legislator in a drawn place with a state legislature (buildBenchWorld, place and seed named in the PR body) and sees interim committee entries on the dates that state's row sets, and none in a state whose row says it has none, shown by the office-day entry's date and the state key. src/core2/data/office-day/interim-committees.json holds a row for every state and territory legislature with meetings a year, months or weekday, source and tag. A test in src/core2/office-day-state.test.ts covers it, and interimCommitteeDayOfMonth is gone from state-week.json.
+**Done when.** A second session plays a state legislator in a drawn place with a state legislature (buildBenchWorld, place and seed named in the PR body) and sees interim committee entries on the dates that state's row sets, and none in a state whose row says it has none, shown by the office-day entry's date and the state key. src/core2/data/office-day/interim-committees.json holds a row for every state and territory legislature with meetings a year, months or weekday, source and tag. A test in tests/src/core2/office-day-state.test.ts covers it, and interimCommitteeDayOfMonth is gone from state-week.json.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/office-day-state.ts, src/core2/data/office-day/state-week.json, src/core2/data/office-day/interim-committees.json (new), src/core2/office-day-state.test.ts
+**Files.** src/core2/office-day-state.ts, src/core2/data/office-day/state-week.json, src/core2/data/office-day/interim-committees.json (new), tests/src/core2/office-day-state.test.ts
 
 **Notes.** Written Oct 20 (claude/interim-spec) from the code. The shared day is read at `office-day-state.ts` lines 375 to 385; the parameter is in `state-parameters.json` with its NCSL source note. Many states do not publish a single schedule, so expect a share of ESTIMATED rows.
 

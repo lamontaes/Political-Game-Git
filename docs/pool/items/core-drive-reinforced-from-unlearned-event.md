@@ -39,7 +39,7 @@ branch: claude/pool-core-drive-reinforced-from-unlearned-event
 
 **Notes.** TODO
 
-Dev Mode, Nov 8: the same throw (via jobs.ts reviewTurnover -> layOff -> emit work.job-lost -> drives respond) in Deenwood, Georgia (seed abc123), a world run roughly a year past its start by src/bench/dev-scene.test.ts with bookkeeping on; reproduces from the natural layoff review, not from a dev control.
+Dev Mode, Nov 8: the same throw (via jobs.ts reviewTurnover -> layOff -> emit work.job-lost -> drives respond) in Deenwood, Georgia (seed abc123), a world run roughly a year past its start by tests/src/bench/dev-scene.test.ts with bookkeeping on; reproduces from the natural layoff review, not from a dev control.
 
 Released (2026-11-11): Cause does not reproduce on main 25369c9bac: Londonderry VT (5040150, run seed 8debd635...) advanced 60 weeks from 2025-01-20 with bookkeeping on, and the dev-scene world with DEV_MODE_SEED=abc123 (Deenwood case), both ran with no throw; fresh 110-week draws were killed by memory, so not proven beyond that. Needs a repro that still fails before it is built. Continue on branch claude/pool-core-drive-reinforced-from-unlearned-event.
 
@@ -53,4 +53,4 @@ Released (2026-11-11): Not reproducible on main 52934ae1c9: Londonderry, Vermont
 
 Released (2026-11-11): Does not reproduce on main (Nov 11, bookkeeping on): Londonderry VT (5040150, run seed 8debd6359985db99f65c53d2477a3c135f906e316e584b9f3f88ad8dcbe579e0, drawPlace 'filing-intro') advanced weekly from 2025-01-20 for 60 weeks to 2026-03-16 with no throw, past the 2025-10-01 crash date; Deenwood GA (1322080, world seed abc123) advanced weekly for 54 weeks to 2026-02-02 with no throw. I did not find which change fixed it. Close as fixed or keep a guard test; nothing built. Continue on branch claude/pool-core-drive-reinforced-from-unlearned-event.
 
-- Nov 16, world-opening thread: seen again on the Train at c0f54ca0 (pool branch base), `src/core2/outcome-web-civic-played.test.ts` at CIVIC_PLAYED_SEED=bd1a61118efd3dce: "Drive requires a learned source event and a finite strength." from `updateDrive` (src/core2/state.ts:2190) by way of `writeDrive` (src/core2/modules/drives.ts:383) in `onDay`.
+- Nov 16, world-opening thread: seen again on the Train at c0f54ca0 (pool branch base), `tests/src/core2/outcome-web-civic-played.test.ts` at CIVIC_PLAYED_SEED=bd1a61118efd3dce: "Drive requires a learned source event and a finite strength." from `updateDrive` (src/core2/state.ts:2190) by way of `writeDrive` (src/core2/modules/drives.ts:383) in `onDay`.

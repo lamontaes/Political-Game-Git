@@ -31,11 +31,11 @@ branch: claude/pool-laws-reach-rows-stale-as-people-age
 
 **Rules.** Sliding scales and causes: a row opens or ends from a cause, the record of a birth, a birthday or a move, never on a schedule. An effect is a read: the engines that read the rows must see the household as it is now. One model, two tiers: counted households follow the same rule as full people, times their count.
 
-**Done when.** A second session, not the builder, plays a year in a drawn place (place and seed named) and sees: a person who turns 18 gains the age-gated rows on their birthday, and the adults of a household whose last child turns 18 have their storage duty row ended on that date, each named by row id. A test in src/core2/law-reach-aging.test.ts (new) checks the open set against the household records on a date after the law's effective date. Nothing shows on screen yet; Politics > Issues and Government is where it would show.
+**Done when.** A second session, not the builder, plays a year in a drawn place (place and seed named) and sees: a person who turns 18 gains the age-gated rows on their birthday, and the adults of a household whose last child turns 18 have their storage duty row ended on that date, each named by row id. A test in tests/src/core2/law-reach-aging.test.ts (new) checks the open set against the household records on a date after the law's effective date. Nothing shows on screen yet; Politics > Issues and Government is where it would show.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/law-reach/group-a-records.ts, src/core2/law-reach/group-a.ts, src/core2/firearm-ownership.ts, src/core2/law-reach-aging.test.ts (new)
+**Files.** src/core2/law-reach/group-a-records.ts, src/core2/law-reach/group-a.ts, src/core2/firearm-ownership.ts, tests/src/core2/law-reach-aging.test.ts (new)
 
 **Notes.** TODO
 

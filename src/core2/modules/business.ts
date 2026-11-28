@@ -52,13 +52,13 @@ import {
   shiftPurchaseShare,
 } from "./health";
 import { countedHeadcountOf } from "./people";
-import { countedJobsOf } from "./residents";
+import { countedJobsOf } from "../counted-job-heads";
 import {
   residentFacts,
   countedFundOf,
   residentsRuntime,
   supplierBillsOwed,
-} from "./residents";
+} from "../residents-reads";
 import { foundingLoanLimit, lendForFounding } from "./credit";
 import { registerEmployer, strongestPulls } from "./jobs";
 import { transferCash } from "../budgets-treasury";
@@ -2656,7 +2656,7 @@ const ownerIdsByDay = new WeakMap<
 >();
 
 /** The people who own a business that is still open (full or counted), for a reader that must not draw them away from it. One scan a day. */
-export function openBusinessOwnerIds(api: CoreAPI): ReadonlySet<string> {
+export function ownersOfOpenBusinesses(api: CoreAPI): ReadonlySet<string> {
   const c = api.state as CoreState;
   if (!c.modules.has(BUSINESS_MODULE_ID)) return new Set();
   const held = ownerIdsByDay.get(c);

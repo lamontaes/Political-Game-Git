@@ -1,0 +1,35 @@
+{
+  "id": "lede-says-the-seat-is-not-open-yet",
+  "kind": "move",
+  "summary": "The lede says the person announced for a seat that has no opening yet.",
+  "realLife": "A school-board story led with the first declared candidate for a seat whose holder was running for another office, and explained that the seat opens only if the holder wins and resigns first.",
+  "sources": [
+    "FFXnow (Fairfax County, Virginia), 'Former PTA president announces Braddock District school board campaign', Oct. 16, 2025: https://www.ffxnow.com/2025/10/16/former-pta-president-announces-braddock-district-school-board-campaign/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["from", "name", "office", "when", "opens"],
+  "gates": [],
+  "weights": {
+    "candidate-announced": 0.5
+  },
+  "inGame": "needs: a seat-vacancy-pending record tied to the holder's other race",
+  "issues": ["none"],
+  "turns": [
+    {
+      "name": "holder already leaving",
+      "pulledBy": "the holder has said the seat will open",
+      "writes": "the lede says the seat opens and the person is first in",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "holder loses the other race",
+      "pulledBy": "the holder fails to win the other office",
+      "writes": "the story after says the announcement came to nothing",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

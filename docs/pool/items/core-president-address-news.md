@@ -19,7 +19,7 @@ claimed-at: 2026-10-16T15:48:35.896Z
 
 **Done when.** In a drawn place and seed (named in the PR body) the opening's address is a news story with its record id in the press module's wire, the opening-story test passes, and a reader's news list shows it.
 
-**Files.** src/core2/modules/press.ts, src/core2/modules/news.ts, src/director/opening-story.test.ts
+**Files.** src/core2/modules/press.ts, src/core2/modules/news.ts, tests/src/director/opening-story.test.ts
 
 **Notes.** From the Words session's notes (Oct 14).
 

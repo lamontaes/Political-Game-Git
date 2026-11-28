@@ -36,7 +36,7 @@ import {
   officeSeats,
 } from "./modules/offices";
 import { officialOf } from "./modules/officials";
-import { POLICY_QUESTIONS } from "./policy-answers";
+import { POLICY_QUESTIONS } from "./modules/laws-reads";
 import type { ModuleRow } from "./module-data";
 import {
   pastIdentityName,
@@ -56,7 +56,7 @@ import {
 } from "./past-module";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { cpsAgeBand, cpsTurnout } from "./modules/elections";
-import { viewOf } from "./modules/views";
+import { viewOf } from "./modules/views-reads";
 import { worldLevel } from "./world-draw";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import type { CoreAPI, CoreState, PersonId } from "./types";

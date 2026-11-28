@@ -18,7 +18,7 @@ source: "Interview check thread, Nov 15, 2026, gating the outlet-of-record chang
 root: none
 ---
 
-**What.** `src/bench/printed-police-log-one-outlet.test.ts` at Lucky, Louisiana (seed s23) was pinned because it had two months the town's record puts well over usual. On the clean train 53e4b29f it has none in its 300 days: the Sept and Oct 2025 logs stand at 7 and 4 times usual and are not called well over. Seen: the paper never says the town had an unusually busy month there.
+**What.** `tests/src/bench/printed-police-log-one-outlet.test.ts` at Lucky, Louisiana (seed s23) was pinned because it had two months the town's record puts well over usual. On the clean train 53e4b29f it has none in its 300 days: the Sept and Oct 2025 logs stand at 7 and 4 times usual and are not called well over. Seen: the paper never says the town had an unusually busy month there.
 
 **Cause.** Measured: Lucky, Louisiana (2246370), seed s23, 300 days on train 53e4b29f, from the test's proof file: police-log:2025-09 vsUsual 7 and police-log:2025-10 vsUsual 4, neither with `busier: "yes"` (`monthIsWellOver` in src/core2/modules/press.ts). Which fold changed it is not yet bisected.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/printed-police-log-one-outlet.test.ts, src/core2/modules/press.ts
+**Files.** tests/src/bench/printed-police-log-one-outlet.test.ts, src/core2/modules/press.ts

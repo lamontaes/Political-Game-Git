@@ -19,7 +19,7 @@ source: CTO line 7000691450 on #9747, Nov 19, 2026 (Fixer's trace of macro-mortg
 checked:
 ---
 
-**What.** In Hiddenite, North Carolina (3731260), world seed 92c4e60e2723a8e3e5cfbac0938441d7209ba0dc65d6017abb5cd45fb7bbd088, `mortgage:household_64f54fe1f0558a19` (bought 2024 at 6.50%, payment 175,340 cents) grows from 27,425,891 to 28,529,228 cents between Feb 6 and Sep 6, 2025, with `missedMonths` 0 every month. From October it is paid in full though nobody in the household pays. Red on main and on train/nov17b alike; `src/core2/macro-mortgage-history.test.ts` fails whenever it draws a loan like this one.
+**What.** In Hiddenite, North Carolina (3731260), world seed 92c4e60e2723a8e3e5cfbac0938441d7209ba0dc65d6017abb5cd45fb7bbd088, `mortgage:household_64f54fe1f0558a19` (bought 2024 at 6.50%, payment 175,340 cents) grows from 27,425,891 to 28,529,228 cents between Feb 6 and Sep 6, 2025, with `missedMonths` 0 every month. From October it is paid in full though nobody in the household pays. Red on main and on train/nov17b alike; `tests/src/core2/macro-mortgage-history.test.ts` fails whenever it draws a loan like this one.
 Seen: day by day on train/nov18 (0d4377b3), the household's own flow `household.mortgage` (payer `person_905fc3179e71b458`, no finance contract) asks 74,652 a month, gets 44,364 in February and 0 from March to September, and ends on Oct 1.
 
 **Cause.** Found in code: `src/core2/modules/housing.ts` `amortize`.
@@ -42,4 +42,4 @@ Seen: day by day on train/nov18 (0d4377b3), the household's own flow `household.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/housing.ts, src/core2/modules/residents.ts (the flow's asked amount), src/core2/housing-foreclosure.ts (reads `missedMonths`), src/core2/macro-mortgage-history.test.ts (unchanged).
+**Files.** src/core2/modules/housing.ts, src/core2/modules/residents.ts (the flow's asked amount), src/core2/housing-foreclosure.ts (reads `missedMonths`), tests/src/core2/macro-mortgage-history.test.ts (unchanged).

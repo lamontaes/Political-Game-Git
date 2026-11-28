@@ -29,7 +29,7 @@ checked: fable 2026-11-10
 
 **Rules.** No dice. Wire to the world: a lobbyist meeting over a bill that costs the group's employers carries that cost into the lobbyist's case and the bribe decision. One rule, all 56 places. Never weaken a test.
 
-**Done when.** A second session, in Kingfield, Maine (seed smoke-bribe-1) and one drawn place (seed named), finds every lobbyist meeting the interest-groups engine records over a bill that costs the group's members naming a lobbyist and a nonzero stake, by meeting id, and the bribe-chain script reports how many of those meetings led the lobbyist to weigh an offer; src/core2/interest-groups.test.ts passes with a case for a standing group meeting over a second bill.
+**Done when.** A second session, in Kingfield, Maine (seed smoke-bribe-1) and one drawn place (seed named), finds every lobbyist meeting the interest-groups engine records over a bill that costs the group's members naming a lobbyist and a nonzero stake, by meeting id, and the bribe-chain script reports how many of those meetings led the lobbyist to weigh an offer; tests/src/core2/interest-groups.test.ts passes with a case for a standing group meeting over a second bill.
 
 **Waits on.** Nothing.
 

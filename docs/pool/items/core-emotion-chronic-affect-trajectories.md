@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: whose stress stays raised comes from their own traits, losses, money and health read at the moment, never a seeded draw against the 19.5% share. Research before building: the trajectory shares are figures the year run reports the town against, never a chance one person follows and never a target.
 
-**Done when.** A second session, in a drawn place in a one-year buildBenchWorld run (place and seed named in the PR), runs scripts/research/core-year.ts and sees a bereaved person whose ongoing cause remains still raised at 182 days while one without it has recovered, named by two person ids and the death event ids. The share of bereaved people still raised by half their rise at 182 days is printed beside the file's 13.9% to 26% as a figure to report, not a target. A test in src/core2/emotion.test.ts shows a person whose ongoing cause keeps stress up while one without it recovers, and SG-P8-emotion-model is closed.
+**Done when.** A second session, in a drawn place in a one-year buildBenchWorld run (place and seed named in the PR), runs scripts/research/core-year.ts and sees a bereaved person whose ongoing cause remains still raised at 182 days while one without it has recovered, named by two person ids and the death event ids. The share of bereaved people still raised by half their rise at 182 days is printed beside the file's 13.9% to 26% as a figure to report, not a target. A test in tests/src/core2/emotion.test.ts shows a person whose ongoing cause keeps stress up while one without it recovers, and SG-P8-emotion-model is closed.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/emotion.ts, src/core2/emotion.test.ts, data/research/core/affect-trajectories-2018.json, scripts/research/core-year.ts, src/core2/data/stopgaps/p8.json
+**Files.** src/core2/emotion.ts, tests/src/core2/emotion.test.ts, data/research/core/affect-trajectories-2018.json, scripts/research/core-year.ts, src/core2/data/stopgaps/p8.json
 
 **Notes.** TODO

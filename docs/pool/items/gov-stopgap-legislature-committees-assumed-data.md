@@ -19,7 +19,7 @@ claimed-at:
 
 **Rules.** One rule, all 56 places: the committee lists are data keyed by chamber and no state is named in code. Research before building: each list cites the chamber's rules or committee page. Replace, never layer: the national nine and the api.stopgap marker are removed when the last part lands. An effect is a read, not a record: committee lists must change who seats, hears and votes a bill.
 
-**Done when.** All three parts are done: in a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 with a seed the builder did not choose, a bill in the state's chamber goes to that chamber's own named committee and Congress's to a real House or Senate committee, shown by bill and committee record ids in src/core2/legislature-committees.test.ts, and SG-GOV-committee-names-national is resolved in src/core2/data/stopgaps.json.
+**Done when.** All three parts are done: in a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 with a seed the builder did not choose, a bill in the state's chamber goes to that chamber's own named committee and Congress's to a real House or Senate committee, shown by bill and committee record ids in tests/src/core2/legislature-committees.test.ts, and SG-GOV-committee-names-national is resolved in src/core2/data/stopgaps.json.
 
 **Files.** docs/pool/items/gov-chamber-committees-reader.md, docs/pool/items/gov-chamber-committees-data-a-m.md, docs/pool/items/gov-chamber-committees-data-n-z.md
 

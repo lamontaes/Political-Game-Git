@@ -34,6 +34,6 @@ Seen: Papillion, Nebraska (seed 7fcc2c2b-3f38-4e0a-9cf7-52ee1ba13bcc), June 14, 
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-rival-asks.test.ts (new)
+**Files.** src/core2/modules/campaigns.ts, tests/src/core2/campaign-rival-asks.test.ts (new)
 
 **Notes.** Filed and built by the Blockers lane, Nov 17.

@@ -28,10 +28,10 @@ effort: medium
 
 **Rules.** One rule, all 56 places: the work comes from each town's counts. No dice: seeded generation of who exists. Replace, never layer: the two hand mappings are removed.
 
-**Done when.** A second session plays a governor at a small town that is not the state's seat (a drawn place, named with its seed), opens a cabinet post, asks a drawn person from another town, and sees their work on the record and a refusal when that work pays more than the post. Pinned: src/core2/far-fill-in-holds-work.test.ts at Edgar, Wisconsin.
+**Done when.** A second session plays a governor at a small town that is not the state's seat (a drawn place, named with its seed), opens a cabinet post, asks a drawn person from another town, and sees their work on the record and a refusal when that work pays more than the post. Pinned: tests/src/core2/far-fill-in-holds-work.test.ts at Edgar, Wisconsin.
 
 **Waits on.** nothing.
 
-**Files.** src/core2/coarse-place.ts, src/core2/person-work.ts, src/core2/modules/executive.ts, src/core2/modules/voting.ts, src/core2/office-day-federal-president.ts, src/core2/modules/serve-asks.ts, src/bench/campaign.ts, src/core2/far-fill-in-holds-work.test.ts (new)
+**Files.** src/core2/coarse-place.ts, src/core2/person-work.ts, src/core2/modules/executive.ts, src/core2/modules/voting.ts, src/core2/office-day-federal-president.ts, src/core2/modules/serve-asks.ts, src/bench/campaign.ts, tests/src/core2/far-fill-in-holds-work.test.ts (new)
 
 **Notes.** Relatives who live elsewhere work by jobs-elsewhere with no wage kept: item people-husk-work-has-no-wage.

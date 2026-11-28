@@ -26,7 +26,7 @@ import { buyMarket, monthlyPayment, weighHome } from "./housing-buy";
 import { countUnmetBuyer, takeHomes } from "./housing-listings";
 import { countedMortgageFlowId, MORTGAGE_PREFIX } from "./housing-mortgages";
 import { countBuyer, placePriceLevel } from "./housing-price-level";
-import { withdrawSavings } from "./modules/budgets";
+import { withdrawSavings } from "./accounts";
 import {
   countedHousingInArrears,
   countedDeposits,
@@ -35,17 +35,13 @@ import {
 } from "./counted-money";
 import type { CountedHousehold } from "./counted-groups";
 import { ageInYears, daysBetweenText, makeIsoDate } from "./kernel/dates";
-import {
-  departingCash,
-  householdIncome,
-  regroupHousehold,
-  residentsRuntime,
-} from "./modules/residents";
+import { departingCash, regroupHousehold } from "./resident-households";
+import { householdIncome, residentsRuntime } from "./residents-reads";
 import {
   addFlowPart,
   addResidentFlow,
   endResidentFlow,
-} from "./residents-economy";
+} from "./resident-flows";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 const HOUSING = "housing";

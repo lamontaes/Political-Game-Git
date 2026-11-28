@@ -1312,6 +1312,182 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19"
+    },
+    {
+      "key": "campaign-standing.volunteer-yes.name-signed-on-to-volunteer",
+      "move": "volunteer-yes",
+      "kind": "written",
+      "text": "{name} signed on to volunteer.",
+      "uses": [
+        {
+          "move": "volunteer-yes",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "volunteer-yes"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "volunteer-yes"
+      },
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "campaign-standing.volunteer-yes.name-said-yes-and-will-give-you-time",
+      "move": "volunteer-yes",
+      "kind": "written",
+      "text": "{name} said yes and will give you time.",
+      "uses": [
+        {
+          "move": "volunteer-yes",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "volunteer-yes"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "volunteer-yes"
+      },
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "campaign-standing.endorse-yes.name-agreed-to-endorse-you",
+      "move": "endorse-yes",
+      "kind": "written",
+      "text": "{name} agreed to endorse you.",
+      "uses": [
+        {
+          "move": "endorse-yes",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "endorse-yes"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "endorse-yes"
+      },
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "campaign-standing.endorse-yes.name-said-yes-your-name-will-carry-theirs",
+      "move": "endorse-yes",
+      "kind": "written",
+      "text": "{name} said yes: your name will carry theirs.",
+      "uses": [
+        {
+          "move": "endorse-yes",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "endorse-yes"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "endorse-yes"
+      },
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "campaign-standing.volunteer-asked.you-asked-name-to-volunteer-no-answer-yet",
+      "move": "volunteer-asked",
+      "kind": "written",
+      "text": "You asked {name} to volunteer. No answer yet.",
+      "uses": [
+        {
+          "move": "volunteer-asked",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "volunteer-asked"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "volunteer-asked"
+      },
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "campaign-standing.volunteer-asked.name-is-still-thinking-over-your-ask-for-help",
+      "move": "volunteer-asked",
+      "kind": "written",
+      "text": "{name} is still thinking over your ask for help.",
+      "uses": [
+        {
+          "move": "volunteer-asked",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "volunteer-asked"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "volunteer-asked"
+      },
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "campaign-standing.endorse-asked.you-asked-name-for-an-endorsement-no-answer-yet",
+      "move": "endorse-asked",
+      "kind": "written",
+      "text": "You asked {name} for an endorsement. No answer yet.",
+      "uses": [
+        {
+          "move": "endorse-asked",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "endorse-asked"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "endorse-asked"
+      },
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "campaign-standing.endorse-asked.name-is-still-thinking-over-your-ask-for-an-endorsement",
+      "move": "endorse-asked",
+      "kind": "written",
+      "text": "{name} is still thinking over your ask for an endorsement.",
+      "uses": [
+        {
+          "move": "endorse-asked",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "endorse-asked"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "endorse-asked"
+      },
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "elements": ["official-declines-to-endorse"]
     }
   ]
 }

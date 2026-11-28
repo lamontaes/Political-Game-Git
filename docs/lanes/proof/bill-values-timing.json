@@ -11,7 +11,7 @@
     "src/bench/legislature.ts",
     "src/bench/play.mjs",
     "src/core2/bill-catalog.ts",
-    "src/core2/laws-bill-values.test.ts",
+    "tests/src/core2/laws-bill-values.test.ts",
     "src/core2/laws-bill-values.ts",
     "src/core2/modules/laws.ts",
     "src/core2/modules/legislature.ts"

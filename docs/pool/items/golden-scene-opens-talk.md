@@ -27,6 +27,6 @@ claimed-at: 2026-10-28T02:30:50.996Z
 
 **Screenshot.** Before and after at 1440 by 900 from a drawn town, place named, in the PR body.
 
-**Files.** src/bench/play.mjs, src/bench/circumstance-scene.browser.mjs
+**Files.** src/bench/play.mjs, tests/src/bench/circumstance-scene.browser.mjs
 
 Oct 29 (CTO): set done; PR #6491 merged (the done flip failed while branch protection refused the flip job's push).

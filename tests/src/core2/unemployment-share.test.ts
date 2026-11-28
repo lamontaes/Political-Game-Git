@@ -1,0 +1,71 @@
+import { createHash, randomBytes } from "node:crypto";
+import { expect, it } from "vitest";
+import { gameStartDate } from "../../../src/core2/game-start";
+import { unemploymentTerms } from "../../../src/core2/jobs-benefits";
+import { createLifeCore } from "../../../src/core2/life";
+import { openLaws } from "../../../src/core2/modules/laws";
+import { worldCoreData } from "../../../src/core2/modules/world";
+import { corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import { placeLocalities } from "../../../src/core2/places";
+import { coreAPI } from "../../../src/core2/state";
+
+const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+
+it(`reads plausible weekly benefit shares from every jurisdiction's law, replay ${replay}`, () => {
+  const states = corePlaceStateIdentities();
+  expect(states).toHaveLength(56);
+  const observed: unknown[] = [];
+  // One world, read in every jurisdiction: the world's past (the century its
+  // legislatures ran from 1925) is the world's own, run once for its seed and
+  // read by each state's laws, as in play. A world for each state ran the
+  // century 56 times (about four seconds each) and passed the 300 s limit.
+  const world = createHash("sha256").update(`${replay}:world`).digest("hex");
+  for (const state of states) {
+    const seed = createHash("sha256")
+      .update(`${replay}:${state.jurisdictionKey}`)
+      .digest("hex");
+    const places = [...placeLocalities(state.jurisdictionKey)].sort((a, b) =>
+      a.key.localeCompare(b.key),
+    );
+    const place = places[parseInt(seed.slice(0, 8), 16) % places.length]!;
+    // A laws-reader fixture only; the played-year proof uses buildBenchWorld.
+    const core = createLifeCore(
+      {
+        seed: world,
+        startedAt: gameStartDate(),
+        people: [],
+        households: [],
+        jobs: [],
+        organizations: [],
+        focusPersonIds: [],
+        focusPlaceIds: [],
+        calendarDates: [],
+        gaps: [],
+        placeMetadata: { placeKey: place.key },
+      },
+      { data: worldCoreData() },
+    );
+    openLaws(core);
+    const terms = unemploymentTerms(coreAPI(core));
+    const where = `${place.displayName} (${place.key}), ${state.jurisdictionKey}, place seed ${seed}, world seed ${world}, ${terms.lawId}`;
+    observed.push({
+      town: place.displayName,
+      key: place.key,
+      seed,
+      world,
+      state: state.jurisdictionKey,
+      hasProgram: terms.hasProgram,
+      weeklyShare: terms.weeklyShare,
+      lawId: terms.lawId,
+      source: terms.source.citation,
+    });
+    if (!terms.hasProgram) {
+      expect(terms.weeklyShare, where).toBe(0);
+      continue;
+    }
+    expect.soft(terms.weeklyShare, where).toBeGreaterThanOrEqual(0.4);
+    expect.soft(terms.weeklyShare, where).toBeLessThanOrEqual(0.7);
+    expect(terms.lawId, where).toBeTruthy();
+  }
+  console.log(JSON.stringify({ replay, jurisdictions: observed }));
+}, 300_000);

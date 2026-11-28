@@ -19,6 +19,7 @@ import {
   contestsOnDate,
   partyTie,
   type ContestRow,
+  allContests,
 } from "../../core2/modules/elections";
 import {
   doorAppealOf,
@@ -33,10 +34,7 @@ function nextElectionDay(core: CoreState): readonly ContestRow[] {
   if (!core.modules.has(ELECTIONS_MODULE_ID)) return [];
   const api = coreAPI(core);
   let next: string | undefined;
-  for (const row of api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("contests")
-    .rows() as unknown as ContestRow[])
+  for (const row of allContests(api) as unknown as ContestRow[])
     if (row.electionDate >= core.date && (!next || row.electionDate < next))
       next = row.electionDate;
   return next ? contestsOnDate(api, next) : [];

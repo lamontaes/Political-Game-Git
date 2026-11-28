@@ -18,9 +18,9 @@ claimed-at:
 
 **Rules.** Replace, never layer: the scanning loop in dev-mode.ts is deleted when the core function replaces it. One model, two tiers: the count sums full people and counted groups by the same reach records, never full people only. An effect is a read, not a record: a law with a handler of none shows reach zero, which is the defect laws-enacted-law-reaches-nobody files, not something dev mode hides. Ask why: each counted number names the reach record that produced it. Dev mode's Trace is the ultimate trace: the returned record ids are what Trace clicks through.
 
-**Done when.** In a one-year run of buildBenchWorld in a drawn place from all 56 (place and seed named in the PR body, a seed the builder did not choose), enact a wage-floor law through `DevMode.setLaw` and read `DevMode.reach`: the result lists the reach-record and raise-record ids, a full-person count and a counted count with its group total that match the laws module's raises and the counted job's wage flow, and src/bench/dev-mode.test.ts and a new src/core2/law-reach/law-reach-count.test.ts prove it and the row is resolved in stopgaps.json.
+**Done when.** In a one-year run of buildBenchWorld in a drawn place from all 56 (place and seed named in the PR body, a seed the builder did not choose), enact a wage-floor law through `DevMode.setLaw` and read `DevMode.reach`: the result lists the reach-record and raise-record ids, a full-person count and a counted count with its group total that match the laws module's raises and the counted job's wage flow, and tests/src/bench/dev-mode.test.ts and a new src/core2/law-reach/law-reach-count.test.ts prove it and the row is resolved in stopgaps.json.
 
-**Files.** src/core2/law-reach/host.ts, src/bench/dev-mode.ts, src/bench/dev-mode.test.ts, src/core2/law-reach/law-reach-count.test.ts, src/core2/data/stopgaps.json
+**Files.** src/core2/law-reach/host.ts, src/bench/dev-mode.ts, tests/src/bench/dev-mode.test.ts, src/core2/law-reach/law-reach-count.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** First row: Dev mode's count of who a law reached reads only the law-effects, law-reach and law raise records that name the law: full people by id, counted people where a record names one or carries a count. A law's effect that leav
 

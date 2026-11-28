@@ -17,8 +17,8 @@ claimed-at: 2026-10-16T18:53:41.158Z
 
 **Rules.** An effect is a read: the answer reads the outlets table at the moment it is asked, without scanning the world each call. Speed: no daily scan added. No dice.
 
-**Done when.** In a played world (buildBenchWorld, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body), `pressConflict` names the town's outlet staff on the opening day itself, with their outlet ids, and a test in src/core2/vacancy-press-staff.test.ts removes its two-day advance and still passes.
+**Done when.** In a played world (buildBenchWorld, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body), `pressConflict` names the town's outlet staff on the opening day itself, with their outlet ids, and a test in tests/src/core2/vacancy-press-staff.test.ts removes its two-day advance and still passes.
 
-**Files.** src/core2/press-conflict.ts, src/core2/vacancy-press-staff.test.ts
+**Files.** src/core2/press-conflict.ts, tests/src/core2/vacancy-press-staff.test.ts
 
 **Notes.** The test for gov-empty-seat-filled-by-press-staff advances two days to avoid this.

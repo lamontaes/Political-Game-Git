@@ -36,7 +36,7 @@ merged-at: 2026-11-15T22:06:41.633Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/data/world/community-events.json (new), src/core2/community-events-table.ts (new), src/core2/community-events-table.test.ts (new)
+**Files.** src/core2/data/world/community-events.json (new), src/core2/community-events-table.ts (new), tests/src/core2/community-events-table.test.ts (new)
 
 **Notes (Fable B, Nov 10, the owner's answer).** Owner, Nov 10, 2026, about 7:16 p.m.: "I've ruled on these community events. I've talked about ham days once, you know, just doing some basic research. But there can also be some general events as well." The size he picked is the small one: each town's own real festivals from one research pass, a few general events a year, the paper reports them and a candidate can campaign at one. A system that decides who attends, person by person, is not part of it.
 

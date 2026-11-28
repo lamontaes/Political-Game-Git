@@ -28,8 +28,8 @@ root: rc8-law-judged-by-paperwork
 
 **Rules.** An effect is a read, not a record: each link names the engine that reads the age law at the moment it decides, so the web does not move the measure twice.
 
-**Done when.** A second session, in a drawn place, Town, State (seed printed), raises the earliest claim age to 64 in dev mode and sees in Trace that the jobs engine's retire choices for workers 62 and 63 read the onset as 64; `src/core2/claim-age-links.test.ts` passes; the regenerated law table reads both rows wired.
+**Done when.** A second session, in a drawn place, Town, State (seed printed), raises the earliest claim age to 64 in dev mode and sees in Trace that the jobs engine's retire choices for workers 62 and 63 read the onset as 64; `tests/src/core2/claim-age-links.test.ts` passes; the regenerated law table reads both rows wired.
 
 **Waits on.** Nothing.
 
-**Files.** data/research/outcome-web/links.json, src/core2/data/outcome-web/coverage.json, src/core2/claim-age-links.test.ts (new)
+**Files.** data/research/outcome-web/links.json, src/core2/data/outcome-web/coverage.json, tests/src/core2/claim-age-links.test.ts (new)

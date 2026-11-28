@@ -41,7 +41,7 @@ import { transferCash } from "../budgets-treasury";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
 import { realPlaceOf, type CountedHousehold } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
-import { awardYearMinor } from "../household-income";
+import { awardYearMinor, DAYS_PER_YEAR } from "../household-income";
 import { unplacedPoolOf, type ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
 import { latestMacroMonth, macroMonthAt } from "../macro-reads";
@@ -63,7 +63,7 @@ import {
   openingMortgages,
   type MortgageTerms,
 } from "../housing-mortgages";
-import { endFlowPart } from "../residents-economy";
+import { endFlowPart } from "../resident-flows";
 import { withoutOutsideShelter } from "../housing-shelter";
 import { billPropertyTax, stateEffectiveRate } from "../housing-property-tax";
 import {
@@ -98,12 +98,8 @@ import {
   type CompletedRentalOffer,
   renewRentalLeases,
 } from "../housing-occupancy";
-import {
-  DAYS_PER_YEAR,
-  openingUnplaced,
-  regroupHousehold,
-  residentsRuntime,
-} from "./residents";
+import { openingUnplaced, regroupHousehold } from "../resident-households";
+import { residentsRuntime } from "../residents-reads";
 import { LAWS_MODULE_ID, lawChain, lawInForce, webReach } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
@@ -132,6 +128,8 @@ import type {
   JobInput,
   Source,
 } from "../types";
+import { DWELLINGS_KEY } from "../housing-reads";
+export { openingTenureOf } from "../housing-reads";
 
 export const HOUSING_MODULE_ID = "housing";
 /** The record a household is served notice by: pay what is owed or leave. */
@@ -364,7 +362,7 @@ export function publishedRentValueOf(
     NATIONAL.rentValue;
   return [row?.[0] || state[0], row?.[1] || state[1]];
 }
-const DWELLINGS_KEY = "housingDwellings";
+
 /** The year each owner bought its home (the opening's draw from ACS B25038), read by the housing history. */
 const HOME_BOUGHT_KEY = "housingHomeBought";
 /** Housing's numbers with the economy's and credit's beside them (the price path and the mortgages read both). */
@@ -657,20 +655,6 @@ export function expectedRenterHouseholds(
   return homes.length - Math.round((homes.length * tenure[1]) / tenure[0]);
 }
 
-/** Each town home's tenure as the opening wrote it (`withHousing`), by household id; empty before it. */
-export function openingTenureOf(world: {
-  readonly placeMetadata?: Readonly<Record<string, string>>;
-}): ReadonlyMap<string, "own" | "rent"> {
-  const rows = JSON.parse(world.placeMetadata?.[DWELLINGS_KEY] ?? "[]") as [
-    string,
-    string,
-  ][];
-  const tenure = new Map<string, "own" | "rent">();
-  for (const [id, kind] of rows)
-    if (kind === "own" || kind === "rent") tenure.set(id, kind);
-  return tenure;
-}
-
 export function withHousing(input: CoreInput): CoreInput {
   const town = housingTownOf(input);
   if (!town) return input;
@@ -960,22 +944,6 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
     },
     paid,
   );
-}
-
-/** One household's mortgage as the housing engine keeps it. */
-export interface MortgageRow {
-  readonly id: string;
-  readonly holderId: string;
-  readonly householdId: string;
-  readonly balanceMinor: number;
-  readonly monthsLeft: number;
-  readonly foreclosedAt?: string;
-}
-
-/** Every mortgage the housing engine keeps, named and counted households alike; none before the engine has opened its table. */
-export function allMortgageRows(api: CoreAPI): readonly MortgageRow[] {
-  if (!api.state.modules.has(HOUSING_MODULE_ID)) return [];
-  return store(api).table("mortgages").rows() as unknown as MortgageRow[];
 }
 
 function store(api: CoreAPI) {
@@ -3266,29 +3234,6 @@ export function ownedHomes(
     });
   }
   return out;
-}
-
-/**
- * Whether a household owns or rents its home, from its dwelling record, and
- * for a renter the rent it pays (the dwelling's, else its lease's); undefined
- * with no dwelling.
- */
-export function dwellingTenure(
-  api: CoreAPI,
-  householdId: string,
-):
-  { tenure: "own" | "rent"; recordId: string; rentMinor?: number } | undefined {
-  const c = api.state as CoreState;
-  if (!c.modules.has(HOUSING_MODULE_ID)) return undefined;
-  const recordId = `dwelling:${householdId}`;
-  const row = store(api).table("dwellings").get(recordId) as
-    { tenure?: string; rentMinor?: number } | undefined;
-  if (row?.tenure === "own") return { tenure: "own", recordId };
-  if (row?.tenure !== "rent") return undefined;
-  const rentMinor =
-    row.rentMinor ??
-    c.finance.contracts.get(`lease:${householdId}`)?.amountMinor;
-  return { tenure: "rent", recordId, ...(rentMinor ? { rentMinor } : {}) };
 }
 
 /**

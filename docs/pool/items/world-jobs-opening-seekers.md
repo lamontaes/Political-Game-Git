@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T22:29:47.477Z
 
 **Rules.** Estimate, never UNKNOWN: the age ratios are a sourced table in `src/core2/data/jobs/`, tagged SOURCED with the BLS table cited. No dice: the within-band pick stays need-ordered. One model, two tiers: full and counted people use the same band quotas. One rule, all 56 places: the national ratios apply to every place's own rate.
 
-**Done when.** In a drawn place of `buildBenchWorld` two-level at day 0, the seekers' age-band shares match the table's implied shares within one person per band, by seeker record ids, and a test in `src/core2/jobs.test.ts` checks it; SG-WORLD-jobs-opening-seekers is narrowed or resolved in `stopgaps.json`.
+**Done when.** In a drawn place of `buildBenchWorld` two-level at day 0, the seekers' age-band shares match the table's implied shares within one person per band, by seeker record ids, and a test in `tests/src/core2/jobs.test.ts` checks it; SG-WORLD-jobs-opening-seekers is narrowed or resolved in `stopgaps.json`.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/data/jobs/age-unemployment.json, src/core2/data/stopgaps.json
 

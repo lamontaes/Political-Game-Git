@@ -32,11 +32,11 @@ merged-at: 2026-11-15T23:57:19.081Z
 
 **Rules.** Wire to the world: the inbox lists only requests a record holds and each opens its scene; the team reads the campaign record, one source per fact (owner, Oct 27, 4 PM), never a screen-side copy. No hand-written player text: words come from the English banks. Replace, never layer: the old Campaigns rows are deleted in the same change.
 
-**Done when.** A second session, in a drawn place (name the place and seed), files for office and opens Politics, then Campaigns, on a restarted bench and sees one board with the race standing, an inbox listing at least the records that exist (or none, with no empty heading), and a team area listing people the player knows. src/bench/campaign.browser.mjs asserts it, and a 1440x900 screenshot is in the PR body for the owner.
+**Done when.** A second session, in a drawn place (name the place and seed), files for office and opens Politics, then Campaigns, on a restarted bench and sees one board with the race standing, an inbox listing at least the records that exist (or none, with no empty heading), and a team area listing people the player knows. tests/src/bench/campaign.browser.mjs asserts it, and a 1440x900 screenshot is in the PR body for the owner.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/campaign.ts, src/bench/campaign.browser.mjs, src/core2/modules/campaigns.ts
+**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/campaign.ts, tests/src/bench/campaign.browser.mjs, src/core2/modules/campaigns.ts
 
 **Notes.** OWNER-DECISIONS Oct 27, 5 PM (the campaign screen: one board). Needs the campaign-team record from the systems integrator (Integration channel section). lead: play-first. Filed by the screens designer.
 

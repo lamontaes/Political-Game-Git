@@ -30,7 +30,7 @@ merged-at: 2026-11-15T22:43:44.445Z
 
 **Rules.** screen-to-mock: Travel's cards all show a picture of the place, the trail's included, through the one shared tile. One rule, all 56 places: the picture is the trail's own record.
 
-**Done when.** A second session, on main, plays a new life in a drawn place to a filing, opens Travel, and takes a screenshot: the campaign trail's card shows a street, and src/bench/campaign-actions.browser.mjs passes on the bench.
+**Done when.** A second session, on main, plays a new life in a drawn place to a filing, opens Travel, and takes a screenshot: the campaign trail's card shows a street, and tests/src/bench/campaign-actions.browser.mjs passes on the bench.
 
 **Waits on.** Nothing.
 

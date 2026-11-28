@@ -1,5 +1,11 @@
 import { governmentProperName } from "../core2/government-proper-name";
-import { servingTermsOf, TERM_HELD } from "../core2/modules/offices";
+import {
+  allTerms,
+  servingTermsOf,
+  TERM_HELD,
+  officeById,
+  termById,
+} from "../core2/modules/offices";
 import {
   jobTitleSaid,
   officeInSentence,
@@ -11,7 +17,7 @@ import {
   daysBetween,
   makeIsoDate,
 } from "../core2/kernel/dates";
-import { reachOn } from "../core2/law-reach/host";
+import { reachOn } from "../core2/modules/laws";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { currentCloseness, lastMetOnRow } from "../core2/closeness";
 import {
@@ -314,7 +320,6 @@ export function personCard(core: CoreState, personId: string) {
  * how they're related, the tie between you, and, for family and coworkers,
  * where they work. Nothing private (money, mood, drives) shows.
  */
-const OFFICES = "core2-offices-v1";
 
 /** An office's record in the offices engine's table: its title and how many seats it has. */
 function officeRecord(
@@ -324,7 +329,7 @@ function officeRecord(
   // A took-office event that names no office record (its office is told by its words) has no title
   // to look up, and the offices table takes no empty key.
   if (!officeId.trim()) return undefined;
-  return coreAPI(core).moduleState(OFFICES).table("offices").get(officeId) as
+  return officeById(coreAPI(core), officeId) as
     { title?: string; seats?: number } | undefined;
 }
 
@@ -465,9 +470,10 @@ function historyLines(
       });
   // An official's earlier terms of the same seat, each on its own term record.
   if (other.id.startsWith("official:")) {
-    const terms = coreAPI(core).moduleState(OFFICES).table("terms");
-    const own = terms.get(other.id.slice("official:".length)) as unknown as
-      TermLike | undefined;
+    const own = termById(
+      coreAPI(core),
+      other.id.slice("official:".length),
+    ) as unknown as TermLike | undefined;
     if (own) {
       // Their terms as the history tells them: the seat's, and the person's
       // own in any other seat (a President's years as vice president), each
@@ -489,7 +495,8 @@ function historyLines(
         ].map((event) => event.id),
       );
       const rows = [...ids].flatMap((id) => {
-        const term = terms.get(id) as unknown as TermLike | undefined;
+        const term = termById(coreAPI(core), id) as unknown as
+          TermLike | undefined;
         return term ? [term] : [];
       });
       lines.push(
@@ -1768,20 +1775,16 @@ function officialLines(
  */
 function officialCard(core: CoreState, viewerId: string, id: string) {
   const api = coreAPI(core);
-  const terms = api.moduleState(OFFICES).table("terms");
   const termId = id.startsWith("official:") ? id.slice("official:".length) : id;
-  const term = (terms.get(termId) ??
-    (terms.rows() as unknown as TermLike[]).find(
+  const term = (termById(api, termId) ??
+    (allTerms(api) as unknown as TermLike[]).find(
       (row) => row.personId === id,
     )) as TermLike | undefined;
   if (!term?.identity) return null;
   // Opened for the first time: their earlier terms of the seat are written now.
   // The seat's earlier terms, written once, as the history opens an official.
   openHistory(core, `official:${term.id}` as PersonId);
-  const office = api
-    .moduleState(OFFICES)
-    .table("offices")
-    .get(term.officeId) as
+  const office = officeById(api, term.officeId) as
     | {
         title?: string;
         governmentName?: string;
@@ -1802,10 +1805,10 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
     publicKnowledge = null;
   }
   const name = `${term.identity.givenName} ${term.identity.familyName}`;
-  const allTerms = terms.rows() as unknown as TermLike[];
+  const everyTerm = allTerms(api) as unknown as TermLike[];
   // Their life from the terms they served (each with its record) and their birth.
   const lines = [
-    ...officialLines(core, allTerms, term),
+    ...officialLines(core, everyTerm, term),
     // Their service began before the term the records hold: the public record's start.
     ...(publicKnowledge?.serviceStart &&
     publicKnowledge.serviceStart < term.startDate &&

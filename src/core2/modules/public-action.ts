@@ -31,7 +31,7 @@ import { countedVoters, voterLean, weeklyWorkOf } from "./voting";
 import { countedViewOn, viewOn } from "./views";
 
 type CountedVoter = ReturnType<typeof countedVoters>[number];
-import { residentsRuntime } from "./residents";
+import { residentsRuntime } from "../residents-reads";
 import { registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
@@ -42,12 +42,13 @@ import {
 import { groupDraw, joinsGroup } from "./elections";
 import { leanedYes } from "../trait-decisions";
 import { makeCase } from "./speech";
-import { townSeats } from "./offices";
+import { townSeats } from "../offices-reads";
 import { currentCloseness } from "../closeness";
 import { placeTermRead, termReadPlaces, type AreaRead } from "./laws";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { ageOnDate } from "../kernel/dates";
+import { allCountedSeekers, allSeekers } from "../jobs-reads";
 import data from "../data/public-action/actions.json" with { type: "json" };
 
 export const PUBLIC_ACTION_MODULE_ID = "core2-public-action-v1";
@@ -213,16 +214,8 @@ function countedTouchedIn(
     ageOnDate(birthDate, core.date) >= ADULT_AGE;
   if (touches === "jobless") {
     if (!core.modules.has("jobs")) return [];
-    const seekers = api
-      .moduleState("jobs")
-      .table("countedSeekers")
-      .rows() as unknown as {
-      personId: string;
-      placeId: string;
-      employed: boolean;
-    }[];
-    for (const row of seekers) {
-      if (row.employed || row.placeId !== placeId) continue;
+    for (const row of allCountedSeekers(api)) {
+      if (row.placeId !== placeId) continue;
       const member = store.countedMember(row.personId);
       if (member === undefined || !store.isCounted(member)) continue;
       const householdId = rt.householdOfPerson.get(row.personId);
@@ -258,12 +251,7 @@ function jobSeekers(api: CoreAPI): Set<string> {
   const core = api.state as CoreState;
   if (!core.modules.has("jobs")) return new Set();
   return new Set(
-    (
-      api.moduleState("jobs").table("seekers").rows() as unknown as {
-        personId: string;
-        employed: boolean;
-      }[]
-    )
+    allSeekers(api)
       .filter((row) => !row.employed)
       .map((row) => row.personId),
   );

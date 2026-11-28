@@ -19,7 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 ---
 
-**What.** The effects end-to-end proof on main (src/core2/effects-end-to-end.test.ts, test seed 6f539fcfdf6d96f9, drawn again to Santa Rita, Guam, seed 6f539fcfdf6d96f9-5) reads the town's economy record metrics:jurisdiction_12906d1946ba6871:2025-12-02 at 25.76 percent unemployment. A quarter of the town's labor force out of work after eleven months of play is far from Guam's recent published rates, which are in single digits, and the proof's unemployment links then raise the town's assault factor by 22 percent, so the number reaches named people. Find which engine record makes the rate (the jobs engine's counted and full workers against the labor force the world-metrics module divides by) and why it climbs in a territory town. The six-year Gracey, Kentucky game shows the same shape (town 15.1% while its state stood at 4.6%), so the item is now the measuring item for why a town's unemployment runs far above its state's, with the fix in the owning engine. Seen: Metrics' town unemployment beside the state's, in a Guam town and a second drawn place.
+**What.** The effects end-to-end proof on main (tests/src/core2/effects-end-to-end.test.ts, test seed 6f539fcfdf6d96f9, drawn again to Santa Rita, Guam, seed 6f539fcfdf6d96f9-5) reads the town's economy record metrics:jurisdiction_12906d1946ba6871:2025-12-02 at 25.76 percent unemployment. A quarter of the town's labor force out of work after eleven months of play is far from Guam's recent published rates, which are in single digits, and the proof's unemployment links then raise the town's assault factor by 22 percent, so the number reaches named people. Find which engine record makes the rate (the jobs engine's counted and full workers against the labor force the world-metrics module divides by) and why it climbs in a territory town. The six-year Gracey, Kentucky game shows the same shape (town 15.1% while its state stood at 4.6%), so the item is now the measuring item for why a town's unemployment runs far above its state's, with the fix in the owning engine. Seen: Metrics' town unemployment beside the state's, in a Guam town and a second drawn place.
 
 **Cause.** Found in code: the town's rate is built from about 86 people in a shrinking town (src/core2/modules/world-metrics.ts:186), while the state's comes from the regional model (src/core2/regional-model.ts:293). Inferred, not yet measured; three things stack: a town of 189 people has a labor force of about 86 so one seeker moves the rate by more than a point; the town's businesses fell from 31 to 22 and its residents at work from 108 to 69 (the shrink `world-local-sales-below-opening-forecast` names); and the counted tier is read by a different rule here than in the jobs engine (world-metrics.ts:102 and 115 against world-panels.ts:59 and 75, which `metrics-town-jobs-one-rule` unifies). From docs/design/output-numbers.md (#8926).
 
@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** metrics-town-jobs-one-rule.
 
-**Files.** src/core2/modules/world-metrics.ts, src/core2/modules/jobs.ts, src/core2/regional-model.ts, src/core2/effects-end-to-end.test.ts
+**Files.** src/core2/modules/world-metrics.ts, src/core2/modules/jobs.ts, src/core2/regional-model.ts, tests/src/core2/effects-end-to-end.test.ts
 
 **Notes.** Found Oct 26 by the effects lead while making the end-to-end talk screenshot; the proof itself passes and is unchanged.
 

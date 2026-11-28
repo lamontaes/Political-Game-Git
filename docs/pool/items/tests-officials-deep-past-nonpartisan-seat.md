@@ -22,6 +22,6 @@ source: added with npm run pool -- add
 
 **Notes.** TODO
 
-**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The test file was renamed to src/core2/officials-past.test.ts, which already skips the party fact for nonpartisan seats (about lines 45 and 46: `!(nonpartisan && kind === "identity:party")`, with the seat's nonpartisan status read from researchedHolderParty).
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The test file was renamed to tests/src/core2/officials-past.test.ts, which already skips the party fact for nonpartisan seats (about lines 45 and 46: `!(nonpartisan && kind === "identity:party")`, with the seat's nonpartisan status read from researchedHolderParty).
 
 **Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

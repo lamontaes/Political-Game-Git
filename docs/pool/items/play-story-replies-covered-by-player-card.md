@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** In a fresh drawn-place game, a campaign outing that stops for a filing story shows all response controls clear of the player card at 1440x900 and 1024x768. Native screenshots are inspected, the place and full seed are recorded, and pointer plus Tab and Enter or Space can activate every visible response without forced or DOM clicks or console errors.
 
-**Files.** src/bench/play.css, src/bench/play.html, src/bench/play.mjs, src/bench/clock.browser.mjs
+**Files.** src/bench/play.css, src/bench/play.html, src/bench/play.mjs, tests/src/bench/clock.browser.mjs
 
 **Notes.** Merger 3, October 26: native failure image committed on PR 6059 at f36614b92ee9d833e846e935952fd14c9dbe6ab5, docs/reports/day-morning-2026-10-26/merger3-held-1440x900.png; exact filing story record is in the PR review evidence.
 

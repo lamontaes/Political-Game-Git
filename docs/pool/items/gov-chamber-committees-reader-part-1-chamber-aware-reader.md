@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** Replace, never layer: the global `COMMITTEES` constant is deleted with no parallel router. One rule, all 56 places: the reader names no chamber. An effect is a read, not a record: the leadership engine seats the routed committee. Speed: one lookup per chamber per session.
 
-**Done when.** A second session runs `src/core2/legislature-committees.test.ts` and a one-year world (`buildBenchWorld`) in a place drawn from all 56 (seed named) with two seeded chamber rows, one of 12 committees and one absent, and sees bills in the first go to its own committees and bills in the second to the national nine, shown by bill, committee and member vote record ids.
+**Done when.** A second session runs `tests/src/core2/legislature-committees.test.ts` and a one-year world (`buildBenchWorld`) in a place drawn from all 56 (seed named) with two seeded chamber rows, one of 12 committees and one absent, and sees bills in the first go to its own committees and bills in the second to the national nine, shown by bill, committee and member vote record ids.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/legislature-committees.ts, src/core2/modules/legislature.ts, src/core2/modules/leadership.ts, src/core2/data/legislature/chamber-committees.json (new), src/core2/legislature-committees.test.ts
+**Files.** src/core2/legislature-committees.ts, src/core2/modules/legislature.ts, src/core2/modules/leadership.ts, src/core2/data/legislature/chamber-committees.json (new), tests/src/core2/legislature-committees.test.ts
 
 **Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A chamber-aware reader exists only to read per-chamber lists nobody sees; the nine work.

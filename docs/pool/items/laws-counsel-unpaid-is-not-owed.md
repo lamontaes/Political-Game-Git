@@ -17,10 +17,10 @@ claimed-at: 2026-10-27T03:56:01.006Z
 
 **Rules.** An effect is a read: a law's cost is paid or owed by the government it names, never silently dropped; one rule, all 56 places.
 
-**Done when.** A hearing's counsel cost that the paying treasury cannot cover is owed and paid as cash arrives, with the household's applied row naming the amount, and a played world (`buildBenchWorld`) in Derry, New Hampshire on seed ef7362489c9d17517723c5c83d6faab4ce63e972 shows the 2025-02-06 hearings' lawyers paid later by journal id; `src/core2/law-wiring-housing.test.ts` then checks every hearing with a lawyer, not only the paid ones. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
+**Done when.** A hearing's counsel cost that the paying treasury cannot cover is owed and paid as cash arrives, with the household's applied row naming the amount, and a played world (`buildBenchWorld`) in Derry, New Hampshire on seed ef7362489c9d17517723c5c83d6faab4ce63e972 shows the 2025-02-06 hearings' lawyers paid later by journal id; `tests/src/core2/law-wiring-housing.test.ts` then checks every hearing with a lawyer, not only the paid ones. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Time box.** 3 hours. Model: Sonnet, no helpers.
 
-**Files.** src/core2/modules/housing.ts, src/core2/law-wiring-housing.test.ts
+**Files.** src/core2/modules/housing.ts, tests/src/core2/law-wiring-housing.test.ts
 
 **Notes.** From the laws lead, Oct 25. Why New Hampshire's state treasury held no cash on 2025-02-06 is not traced.

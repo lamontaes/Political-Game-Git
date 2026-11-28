@@ -17,8 +17,8 @@ claimed-at: 2026-10-27T19:46:51.349Z
 
 **Rules.** Wire to the world: the scene reads the campaign engine's own door records and casts the resident who opened the door, never a drawn person. No dice: the household with a stake is the one whose recorded agreement with the platform is the day's strongest, a ranking of the engine's numbers, not a roll or a cut-off. Sliding scales and causes: the scene comes from the knock, spaced by the row's own days.
 
-**Done when.** In a buildBenchWorld drawn place with the seed named, a played year in src/director/circumstance.test.ts where the filed player canvasses once a week through the bench's campaign day stages first-meeting or visit at the resident's home, citing the door's campaign cause record id and the resident cast; the scene web report shows two fewer rows waiting on a producer.
+**Done when.** In a buildBenchWorld drawn place with the seed named, a played year in tests/src/director/circumstance.test.ts where the filed player canvasses once a week through the bench's campaign day stages first-meeting or visit at the resident's home, citing the door's campaign cause record id and the resident cast; the scene web report shows two fewer rows waiting on a producer.
 
-**Files.** src/director/doors.ts, src/director/data/circumstances.json, src/director/data/situation-types.json, src/director/circumstance.test.ts
+**Files.** src/director/doors.ts, src/director/data/circumstances.json, src/director/data/situation-types.json, tests/src/director/circumstance.test.ts
 
 **Notes.** TODO

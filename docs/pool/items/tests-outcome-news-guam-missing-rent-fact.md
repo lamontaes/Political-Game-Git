@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** The complete outcome-news.test.ts file passes on seed 3483bea3d0727b46 and a fresh drawn place, with positive rent-change and month-fact witnesses; a missing monthly rent fact still makes the regression fail.
 
-**Files.** src/core2/outcome-news.test.ts, src/core2/outcome-news.ts, src/core2/modules/outcome-web.ts
+**Files.** tests/src/core2/outcome-news.test.ts, src/core2/outcome-news.ts, src/core2/modules/outcome-web.ts
 
 **Notes.** Merger 3 reproduced on clean main plus only pool Notes (source main 4686078233). The isolated existing records-a-month test fails in 50.1 seconds at line 89, expected f[webFactKey(RENT)] truthy but got undefined. Same failure at line 187 of PR #5879; the new rent-year test also fails there separately.
 

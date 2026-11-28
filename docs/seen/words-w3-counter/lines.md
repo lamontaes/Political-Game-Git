@@ -1,6 +1,6 @@
 # The filing counter as one scene, as played
 
-Words builder W3, Nov 13, 2026. Pool item `words-director-one-path-part-1-filing-scene-situation-type`. Pictures at 1440x900 from `src/bench/filing.browser.mjs` with `SEED=<seed>` (a new life drawn from all 56; Travel to the first office that takes filings; the race picked). "Before" is main 6c6c23f; "after" is this branch.
+Words builder W3, Nov 13, 2026. Pool item `words-director-one-path-part-1-filing-scene-situation-type`. Pictures at 1440x900 from `tests/src/bench/filing.browser.mjs` with `SEED=<seed>` (a new life drawn from all 56; Travel to the first office that takes filings; the race picked). "Before" is main 6c6c23f; "after" is this branch.
 
 | Seed         | Place                            | Race                            | Before                                                                                                                                         | After                                                                                                                                                                                                                         |
 | ------------ | -------------------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -37,4 +37,4 @@ player: Did Anthony Parsons say anything about me?
 clerk: Nothing to me. Anthony Parsons came in a few days ago to file, same as you.
 ```
 
-The next day's `filing` scene reads the record of the reply that filed (`filed-at-counter`): it opens on "{name} has your filing for {office} on the desk when you come back to the counter." and never stamps the papers again (`src/bench/filing-counter-petition.test.ts`, Amherst, New Hampshire, GOLDEN_PATH_SEED=d2b6c96e34ca9f8d, red on main, passes here).
+The next day's `filing` scene reads the record of the reply that filed (`filed-at-counter`): it opens on "{name} has your filing for {office} on the desk when you come back to the counter." and never stamps the papers again (`tests/src/bench/filing-counter-petition.test.ts`, Amherst, New Hampshire, GOLDEN_PATH_SEED=d2b6c96e34ca9f8d, red on main, passes here).

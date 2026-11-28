@@ -20,7 +20,7 @@ checked:
 claimed-at:
 ---
 
-**What.** At Poultney, Vermont (5056800), place seed 861316dd23ed216e:agree:0, the race for mayor (contest:seat:gus2025:176559:mayor:0:2025-03-04, one name on the ballot) is printed by the newspaper (outlet:newspaper:0) and by a television outlet (outlet:television:3) with the same words, "Ronald Wood faced no opposition and was elected mayor on Tuesday." `src/bench/race-result-stories.test.ts` (the drawn place, run with GOLDEN_PATH_SEED=861316dd23ed216e) fails on "No two outlets print the same story of one race". Seen: the printed result stories of an unopposed race in two outlets.
+**What.** At Poultney, Vermont (5056800), place seed 861316dd23ed216e:agree:0, the race for mayor (contest:seat:gus2025:176559:mayor:0:2025-03-04, one name on the ballot) is printed by the newspaper (outlet:newspaper:0) and by a television outlet (outlet:television:3) with the same words, "Ronald Wood faced no opposition and was elected mayor on Tuesday." `tests/src/bench/race-result-stories.test.ts` (the drawn place, run with GOLDEN_PATH_SEED=861316dd23ed216e) fails on "No two outlets print the same story of one race". Seen: the printed result stories of an unopposed race in two outlets.
 
 **Cause.** Needs cause. The test reads `byRace` told text per outlet; two outlets compose the same text for a race with no count. Find whether the result builder in src/bench/printed-words.ts varies an unopposed story by outlet at all, and how many pieces the bank holds for it.
 
@@ -34,4 +34,4 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/printed-words.ts, src/bench/race-result-stories.test.ts
+**Files.** src/bench/printed-words.ts, tests/src/bench/race-result-stories.test.ts

@@ -19,7 +19,7 @@ claimed-at: 2026-10-20T13:54:36.138Z
 
 **Done when.** Both tests pass on any drawn seed across 20 repeated runs.
 
-**Files.** src/core2/counted-weight-unplaced.test.ts, src/core2/counted-weight-macro.test.ts
+**Files.** tests/src/core2/counted-weight-unplaced.test.ts, tests/src/core2/counted-weight-macro.test.ts
 
 **Notes.** TODO
 

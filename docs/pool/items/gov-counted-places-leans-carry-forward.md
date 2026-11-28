@@ -29,7 +29,7 @@ Seen: on election night the returns from other states and the electoral map read
 
 **Rules.** One rule, all 56 places: every counted place reads and writes its lean the same way. One model, two tiers: a counted place's conditions use the town's own rule and strength. No dice: a lean moves only by a recorded result's own part.
 
-**Done when.** A second session starts the bench in a drawn place, for example the place `LEANS_PLAYED_SEED` draws for src/core2/place-leans-played.test.ts, plays past the first general election, and sees in dev mode that counties outside the town hold leans their own results moved and that the next count reads them. `npx vitest run src/core2/place-leans.test.ts src/core2/place-leans-played.test.ts` passes there and the played test fails with the carry undone (one line in `carryCount`).
+**Done when.** A second session starts the bench in a drawn place, for example the place `LEANS_PLAYED_SEED` draws for tests/src/core2/place-leans-played.test.ts, plays past the first general election, and sees in dev mode that counties outside the town hold leans their own results moved and that the next count reads them. `npx vitest run tests/src/core2/place-leans.test.ts tests/src/core2/place-leans-played.test.ts` passes there and the played test fails with the carry undone (one line in `carryCount`).
 
 **Waits on.** core-state-unemployment-fit-uses-the-stepped-people (pull request #9810): a counted place's conditions read the country tier's state months, and until that fix the player's own state falls to zero.
 

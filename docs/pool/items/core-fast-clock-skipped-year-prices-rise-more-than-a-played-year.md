@@ -40,11 +40,11 @@ Probes, in a working copy and undone: with no foundings in either year, Houston'
 
 **Rules.** Speed: a skipped year runs as results, so the fix may not make it run every engine's every day. No dice. Sliding scales and causes. One rule, all 56 places. Replace, never layer: the order fix replaces the current one, and no second review path is added. Follow .agents/skills/speed-work/SKILL.md for timing and .agents/skills/money-economy/SKILL.md for reading prices.
 
-**Done when.** A second session runs src/core2/results-mode-pay-prices-jobs.test.ts on main in Houston (seed 7b20d94f3ce81a6655c0) and in two drawn places it chooses by a seed nobody picked, naming the seeds. In each, the skipped year's first review of a business reads the previous month's paid income as booked at the end of that day. The skipped year has an economy month dated the first of February. The skipped year shows press outlets' books and, once step 4 is in, at least one founding where the played year has one. The printed price changes are within a fifth of each other. If step 4 is left out, the second session reads the remaining gap in the pull request, firm by firm.
+**Done when.** A second session runs tests/src/core2/results-mode-pay-prices-jobs.test.ts on main in Houston (seed 7b20d94f3ce81a6655c0) and in two drawn places it chooses by a seed nobody picked, naming the seeds. In each, the skipped year's first review of a business reads the previous month's paid income as booked at the end of that day. The skipped year has an economy month dated the first of February. The skipped year shows press outlets' books and, once step 4 is in, at least one founding where the played year has one. The printed price changes are within a fifth of each other. If step 4 is left out, the second session reads the remaining gap in the pull request, firm by firm.
 
 **Waits on.** Nothing. Pull request #8238 (part 3) is on main.
 
-**Files.** src/core2/life.ts, src/core2/types.ts, src/core2/modules/finance.ts, src/core2/modules/residents.ts, src/core2/modules/business.ts, src/core2/modules/press.ts, src/core2/modules/macro.ts, src/core2/modules/work.ts, src/core2/finance-state.ts, src/core2/results-mode-pay-prices-jobs.test.ts
+**Files.** src/core2/life.ts, src/core2/types.ts, src/core2/modules/finance.ts, src/core2/modules/residents.ts, src/core2/modules/business.ts, src/core2/modules/press.ts, src/core2/modules/macro.ts, src/core2/modules/work.ts, src/core2/finance-state.ts, tests/src/core2/results-mode-pay-prices-jobs.test.ts
 
 **Notes (Fable, Nov 10, reopened).** Pull request 8239 only wrote this item's cause; it built nothing. Its first line named this item, so the merge marked it merged by mistake. It is open again and nothing here is on main yet.
 

@@ -1,6 +1,6 @@
 # The meeting panel (play-vote-and-bill-screens-redesign, meeting half)
 
-Bench 1440×900. Place: Brookside, Delaware (County of New Castle commission). Seed `4d50e1f88df997f9`; the player steps in as a commissioner through the Advanced start and drafts a bill. Replay: `BENCH_SEED=4d50e1f88df997f9 SHOTS_DIR=<dir> node src/bench/meeting.browser.mjs`.
+Bench 1440×900. Place: Brookside, Delaware (County of New Castle commission). Seed `4d50e1f88df997f9`; the player steps in as a commissioner through the Advanced start and drafts a bill. Replay: `BENCH_SEED=4d50e1f88df997f9 SHOTS_DIR=<dir> node tests/src/bench/meeting.browser.mjs`.
 
 - `meeting-before.png` (main): a narrow panel of huge headings and seven stacked full-width buttons per item, no members, no tally, no result.
 - `meeting-after-before-vote.png`: a titled panel (the body), each item with its name, number and sponsor, the seven members as round faces, the paper and speech buttons in one row and the four votes in another.

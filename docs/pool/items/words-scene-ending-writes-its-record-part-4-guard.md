@@ -23,7 +23,7 @@ checked: fable 2026-11-10
 
 **Cause.** Found in code: nothing tests it; src/director/data/purpose-arcs.json endings are read only into labels (src/director/scene-talk.ts line 56).
 
-**Fix.** Add the test beside src/director/scene-talk.test.ts reading purpose-arcs.json and the list of part 3.
+**Fix.** Add the test beside tests/src/director/scene-talk.test.ts reading purpose-arcs.json and the list of part 3.
 
 **Time box.** 2 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -33,4 +33,4 @@ checked: fable 2026-11-10
 
 **Waits on.** Parts 1 to 3 (words-scene-ending-writes-its-record-part-1-favor-and-promise, words-scene-ending-writes-its-record-part-2-trust-and-crime, words-scene-ending-writes-its-record-part-3-keep-nothing-kinds).
 
-**Files.** src/director/scene-talk.test.ts, src/director/data/purpose-arcs.json
+**Files.** tests/src/director/scene-talk.test.ts, src/director/data/purpose-arcs.json

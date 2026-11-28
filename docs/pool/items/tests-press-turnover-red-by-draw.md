@@ -18,7 +18,7 @@ source: "Interview check thread, Nov 15, 2026, gating the outlet-of-record chang
 root: none
 ---
 
-**What.** `src/core2/press-turnover.test.ts`, "replaces a reporter who died through a jobs hire that reaches the masthead", fails with "an opening for <person>: expected undefined to be defined". It failed on the clean train 53e4b29f and on the outlet-of-record branch at different drawn places, so it turns a gate red by draw. Seen: a builder's or the train's gate goes red on a test nobody's change touched.
+**What.** `tests/src/core2/press-turnover.test.ts`, "replaces a reporter who died through a jobs hire that reaches the masthead", fails with "an opening for <person>: expected undefined to be defined". It failed on the clean train 53e4b29f and on the outlet-of-record branch at different drawn places, so it turns a gate red by draw. Seen: a builder's or the train's gate goes red on a test nobody's change touched.
 
 **Cause.** Measured: Fence Lake, New Mexico (3526010), seed 9bf53543985773c8be1d77b6fe6178ca19c656dc2f2c1e39163a53541539d37a, on the outlet-of-record branch; Tanapag, Northern Mariana Islands (territory:MP:tanapag), seed 2e968dc37ad2ffae487fb862ec95857e79a0bffd24e052aca4138612ec2e66c7, on the clean train.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/press-turnover.test.ts
+**Files.** tests/src/core2/press-turnover.test.ts

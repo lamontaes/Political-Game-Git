@@ -55,14 +55,7 @@ export interface OfficeActKit {
   readonly reasonProviders?: Readonly<Record<string, ReasonProvider>>;
 }
 
-/** A kind of moment that may stop the player, and whether it does by default. */
-export interface OfficeStopKind {
-  readonly kind: string;
-  readonly byDefault: boolean;
-}
-
 const kits = new Map<string, OfficeActKit>();
-const stopKinds = new Map<string, OfficeStopKind>();
 
 /** Register a level's acts (once per kit id; a second call replaces the first). */
 export function registerOfficeActs(kit: OfficeActKit): void {
@@ -71,13 +64,4 @@ export function registerOfficeActs(kit: OfficeActKit): void {
 
 export function officeActKits(): readonly OfficeActKit[] {
   return [...kits.values()];
-}
-
-/** Register the moments a level adds to what may stop the player. */
-export function registerStopKinds(rows: readonly OfficeStopKind[]): void {
-  for (const row of rows) stopKinds.set(row.kind, row);
-}
-
-export function officeStopKinds(): readonly OfficeStopKind[] {
-  return [...stopKinds.values()];
 }

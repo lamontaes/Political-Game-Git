@@ -27,8 +27,8 @@ import { addDays, ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
 import { decisionLean, traitLeanBetween } from "./trait-decisions";
 import jobsJson from "./data/jobs/jobs.json" with { type: "json" };
 import veterans from "./data/past/veterans-acs-2024.json" with { type: "json" };
-import { profileFor } from "./opening-profile";
-import { countedHeadcountOf } from "./residents-economy";
+import { profileFor } from "./trait-decisions";
+import { countedHeadcountOf } from "./counted-job-heads";
 import { placeStateKey } from "./place-map";
 import { SeededRng } from "./kernel/rng";
 import {
@@ -36,6 +36,7 @@ import {
   onCalendar,
   SCHOOL_STAGE_CALENDAR,
 } from "./past-school-calendar";
+import type { HistoryRecord, HistoryWriter, PreStartWindow } from "./pre-start";
 import {
   coarseSteps,
   grainDate,
@@ -44,10 +45,7 @@ import {
   preStartWindowOf,
   recordPreStartLater,
   wholePastOnce,
-  type HistoryRecord,
-  type HistoryWriter,
-  type PreStartWindow,
-} from "./pre-start";
+} from "./pre-start-history";
 import { ownPastKind } from "./own-past-kinds";
 import { pastArrestOf, type PrisonTerm } from "./past-justice";
 import { residenceOn } from "./past-moves";
