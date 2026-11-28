@@ -736,6 +736,7 @@
 /src/core2/modules/speech.ts @lamontaes
 /src/core2/hearer-groups.ts @lamontaes
 /src/core2/modules/record.ts @lamontaes
+/src/core2/modules/record-writes.ts @lamontaes
 /src/core2/modules/renewal.ts @lamontaes
 /src/core2/births-*.ts @lamontaes
 /src/core2/death-*.ts @lamontaes

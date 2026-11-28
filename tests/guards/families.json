@@ -950,6 +950,7 @@
         "src/core2/counted-income-fifth.ts",
         "src/core2/household-income.ts",
         "src/core2/residents-reads.ts",
+        "src/core2/modules/record-writes.ts",
         "src/core2/counted-money-reads.ts"
       ],
       "paths": [
@@ -976,6 +977,7 @@
         "src/core2/modules/speech.ts",
         "src/core2/hearer-groups.ts",
         "src/core2/modules/record.ts",
+        "src/core2/modules/record-writes.ts",
         "src/core2/modules/renewal.ts",
         "src/core2/births-*.ts",
         "src/core2/death-*.ts",
