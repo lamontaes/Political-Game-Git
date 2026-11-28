@@ -1325,6 +1325,8 @@
         "src/core2/modules/world-metrics.ts",
         "src/core2/modules/disasters.ts",
         "src/core2/coarse-place.ts",
+        "src/core2/world-settings.ts",
+        "src/core2/calendar.ts",
         "src/districts/**"
       ],
       "paths": [
@@ -1433,7 +1435,8 @@
       "entry": [
         "src/core2/modules/news.ts",
         "src/core2/modules/press.ts",
-        "src/core2/modules/news-listeners.ts"
+        "src/core2/modules/news-listeners.ts",
+        "src/core2/press-conflict.ts"
       ],
       "paths": [
         "src/core2/modules/news.ts",
