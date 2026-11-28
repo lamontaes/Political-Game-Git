@@ -8,7 +8,10 @@ import {
   makeIsoDate,
 } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { localOfficeKit } from "../../../src/core2/office-day-acts";
+import {
+  localOfficeFields,
+  OFFICE_ACTS,
+} from "../../../src/core2/office-day-acts";
 import { governments } from "../../../src/core2/modules/budgets";
 import { contractsOf } from "../../../src/core2/modules/contracts";
 import {
@@ -111,7 +114,7 @@ it(`a finished public work is offered as a ribbon, cut once, and recorded, seed 
       ),
     ).toBe(true);
     // The office day offers it, citing the record.
-    const kit = localOfficeKit({
+    const fields = localOfficeFields({
       officesOf: () => ["office:test"],
       keep: () => undefined,
       prepared: () => null,
@@ -120,8 +123,8 @@ it(`a finished public work is offered as a ribbon, cut once, and recorded, seed 
       lastGiven: () => undefined,
     });
     const player = core.playerId!;
-    const action = kit.acts.find((a) => a.id === "cut-ribbon")!;
-    const offers = kit.providers["public-project"]!(
+    const action = OFFICE_ACTS.find((a) => a.id === "cut-ribbon")!;
+    const offers = fields.offerProviders!["public-project"]!(
       api,
       core.people.get(player)!,
       action,

@@ -1359,10 +1359,7 @@ export interface CoreModule {
    * Offices' five, proposed by Core from the signatures of the register
    * functions they replace, because Offices has not posted its own (Nov 27):
    * rename any of them until a registry moves onto it. Terms, seats and
-   * vacancies are the offices engine's own rows, so they are `unknown`. The
-   * level acts kit (`registerOfficeActs`) is a bundle of fields `CoreModule`
-   * already has (`onDay`, `offerProviders`, `effectHandlers`), so it is not a
-   * field here: Offices lists what is left of it.
+   * vacancies are the offices engine's own rows, so they are `unknown`.
    */
   /** Who succeeds an office kind's holder, by office kind: the person, their party and how they were reached, or null. */
   successorProviders?: Readonly<Record<string, SuccessorProviderOf>>;
@@ -1380,6 +1377,26 @@ export interface CoreModule {
   specialElections?(api: CoreAPI, race: unknown): boolean;
   /** The moments a level adds to what may stop the player. */
   stopKinds?: readonly { readonly kind: string; readonly byDefault: boolean }[];
+  /**
+   * What a level of the office day does on the first of each month, after the
+   * stipends. The office day runs it for every module that carries it, in
+   * install order.
+   */
+  onMonth?: (api: CoreAPI) => void;
+  /**
+   * A level's own step in the office day's day: the office day runs it for
+   * every module that carries it, after its payday work, inside its own day.
+   */
+  onOfficeDay?: (api: CoreAPI) => void;
+  /** A level's own step after the office day's day: run by the office day for every module that carries it. */
+  onOfficeAfterDay?: (api: CoreAPI) => void;
+  /**
+   * How much of the seat's scheduled work has come due for a holder, from
+   * nothing to one; null where the person holds no seat of this level. The
+   * "duty" need reads the largest across the modules that carry it, so the
+   * seat's work ranks beside the person's other needs from their own record.
+   */
+  duty?: (api: CoreAPI, personId: string) => number | null;
   /** Picks one of the candidates for a central bank board vacancy and gives its reasons; nothing when no one is confirmed. */
   boardAppointer?(
     api: CoreAPI,
