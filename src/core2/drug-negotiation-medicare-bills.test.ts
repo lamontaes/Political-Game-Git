@@ -47,6 +47,21 @@ it(
         const lawWorld = build();
         const twin = build();
         const api = coreAPI(lawWorld);
+        // Worlds diverge from the real record (owner, Nov 16), so the federal
+        // program may not have been enacted by day one here; this world has it
+        // enacted on the opening day, through the law engine's own call.
+        if (lawInForce(api, QUESTION).value !== 1)
+          enactLaw(api, {
+            jurisdiction: lawInForce(api, QUESTION).levels.find(
+              (l) => l.level === "federal",
+            )!.jurisdiction,
+            level: "federal",
+            series: QUESTION,
+            value: 1,
+            effectiveDate: lawWorld.date,
+            measureId: `drug-negotiation-law-${attempt}`,
+            citation: "Test: the program enacted before the opening",
+          });
         expect(lawInForce(api, QUESTION).value, where).toBe(1);
         // Congress can repeal it from the bill paper.
         expect(

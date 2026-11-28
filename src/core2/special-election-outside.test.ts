@@ -22,7 +22,7 @@ import {
 } from "./modules/offices";
 import { racesOf, VOTING_MODULE_ID, worldRacesOpen } from "./modules/voting";
 import { stateParties } from "./modules/parties";
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

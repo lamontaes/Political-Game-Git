@@ -36,6 +36,8 @@ import type {
 } from "../types";
 import { fieldsOf } from "../module-fields";
 
+export { DEFAULT_WORK_DATA } from "../work-data";
+
 const remainder = (value: number, period: number) =>
   ((value % period) + period) % period;
 
