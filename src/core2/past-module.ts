@@ -25,6 +25,8 @@ import type { HistoryRecord, PreStartModule } from "./pre-start";
 import type { PastClosureRow } from "./past-business";
 import type { HistoryRow, HistoryScope, HistorySource } from "./past-history";
 import { PAST_MODULE_ID } from "./past-reads";
+import { PAST_LAW_ENACTED, SESSION_FACT } from "./past-reads";
+export { PAST_LAW_ENACTED, SESSION_FACT } from "./past-reads";
 export {
   PAST_MODULE_ID,
   pastParameter,
@@ -52,8 +54,7 @@ export function keepPastRacesLost(
 const LAW_HISTORY = "law-history:";
 /** The record kind of a bill a body voted on before day one, as the one history reader tells it. */
 export const PAST_BILL_VOTED = "past.bill-voted";
-/** The record kind of a law's history before day one (who brought it, who signed it), as the reader tells it. */
-export const PAST_LAW_ENACTED = "past.law-enacted";
+
 /** The record kind of a business that closed in the year before day one, as the reader tells it. */
 export const PAST_BUSINESS_CLOSED = "past.business-closed";
 /** How the past names a business it closed before day one (src/core2/past-business.ts). */
@@ -146,9 +147,6 @@ function lawHistoryRow(row: LawHistoryRow): HistoryRow {
     publicRecord: true,
   };
 }
-
-/** How a law's session is told on its history row: `session.<key>`. */
-export const SESSION_FACT = "session.";
 
 /** The narrowest of a law's roll calls (yes less no over all who voted); 0 with none. */
 function narrowestMargin(rollCalls: readonly RollCall[]): number {

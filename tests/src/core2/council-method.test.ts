@@ -11,6 +11,7 @@ import { describe, expect, it } from "vitest";
 import { buildPopulation } from "../../../src/core2/population";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
+import { openLaws } from "../../../src/core2/modules/laws";
 import { openOffices } from "../../../src/core2/modules/offices";
 import {
   ELECTIONS_MODULE_ID,
@@ -30,6 +31,7 @@ import {
   searchCorePlaces,
   corePlaceStateIdentities,
 } from "../../../src/core2/place-lookup";
+import { placeRow } from "../../../src/core2/place-map";
 
 const START = "2026-01-05";
 const seed =
@@ -115,7 +117,11 @@ describe("council election method", () => {
         return method?.basis === "charter" && method.wardSeats > 0;
       })
       .map((unit) => unit.placeGeoid)
-      .filter((key): key is string => !!key)
+      // A government the place map has no row for is not a town a life can
+      // start in (Lexington-Fayette's urban county government, 2146027, is
+      // listed by the Census of Governments but is no place in the game's
+      // map, so no world opens there); it is passed over, not drawn.
+      .filter((key): key is string => !!key && placeRow(key) !== null)
       .sort();
     expect(wardPlaces.length, "charters with ward seats").toBeGreaterThan(0);
     for (let n = 0; n < 40 && !found; n += 1) {
@@ -133,6 +139,7 @@ describe("council election method", () => {
           minimumPeople: 80,
         }),
       );
+      openLaws(core);
       openOffices(core, seed, core.date);
       openElections(core);
       const contest = openContests(coreAPI(core)).find(
@@ -169,6 +176,8 @@ describe("council election method", () => {
         continue;
       }
       if (unmet.length) continue;
+      // Two file; the scan goes on only to find a resident of another ward.
+      if (on === 2) continue;
       const filed = fileCandidacy(api, {
         personId: person.id,
         contestId: contest.id,
