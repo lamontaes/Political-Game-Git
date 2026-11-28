@@ -169,3 +169,9 @@ export function workLeans(
     applyLean: lean(core, person, "jobs.apply", "jobs-apply", "jobs-wait"),
   };
 }
+
+/** The record kind of a law's history before day one (who brought it, who signed it), as the reader tells it. */
+export const PAST_LAW_ENACTED = "past.law-enacted";
+
+/** How a law's session is told on its history row: `session.<key>`. */
+export const SESSION_FACT = "session.";

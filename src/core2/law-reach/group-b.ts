@@ -17,7 +17,6 @@
  * assistance benefit from the treasury (welfare), and a service level on the
  * people it serves.
  */
-import reach from "../data/laws/reach-group-b.json" with { type: "json" };
 import { payVeterans } from "./group-b-veterans";
 import type { CoreAPI } from "../types";
 import { registerPolicyHandler } from "./host";
@@ -86,69 +85,8 @@ import {
 import { equalizeSchoolFunding } from "./group-b-school-aid";
 import { runFoodAid } from "./group-b-food-aid";
 import { lawNoLongerApplies } from "./applied";
-
-type Mechanic =
-  | "records"
-  | "medicaid-coverage"
-  | "ssi-payment"
-  | "preschool-payment"
-  | "child-care-payment"
-  | "energy-assistance-payment"
-  | "compliance-cost"
-  | "assistance-time-limit"
-  | "school-voucher"
-  | "school-aid"
-  | "farm-output"
-  | "property-assessment"
-  | "price-payment"
-  | "housing-construction"
-  | "transit-fares"
-  | "highway-shift"
-  | "teacher-floor"
-  | "income-tax-adopt"
-  | "income-tax-graduated"
-  | "income-tax-rate"
-  | "balanced-budget"
-  | "pension-funding"
-  | "reserve";
-
-interface PolicyDef {
-  readonly mechanic: Mechanic;
-  readonly effect: string;
-  readonly kind: string;
-  readonly people?: PeopleSelector;
-  readonly organizations?: readonly string[];
-  /** The employers it binds gain by it (it pays them or exempts their sales), so they don't organize against it. */
-  readonly employersGain?: boolean;
-  readonly terms?: Readonly<Record<string, string>>;
-  readonly enforcer: string;
-  readonly source: string;
-  readonly stopgapId?: string;
-  /** The engine that applies the law records whom it reached (lawApplied); no reach output is written here. */
-  readonly appliedByEngine?: boolean;
-  /** The treasury re-reads this rule each month as it closes its books (budgets-treasury.ts), not the law-reach review. */
-  readonly reviewedByTreasury?: boolean;
-}
-
-interface LineDef {
-  readonly effect: string;
-  readonly people?: PeopleSelector;
-  readonly organizations?: readonly string[];
-  readonly publicWorkers?: boolean;
-  readonly payroll?: {
-    readonly classifications: readonly string[];
-    readonly compensationShare: string;
-  };
-  readonly benefit?: boolean;
-  /** The line's level sets the share of the town's roads in poor condition. */
-  readonly roadCondition?: boolean;
-  readonly stopgapId?: string;
-}
-
-const data = reach as unknown as {
-  policies: Record<string, PolicyDef>;
-  budgetLines: Record<string, LineDef>;
-};
+import { type PolicyDef, data } from "./reach-parameters";
+export { groupBPolicy } from "./reach-parameters";
 
 const TREASURY_RULE_KEYS = Object.keys(data.policies).filter(
   (key) => data.policies[key]!.reviewedByTreasury,
@@ -159,10 +97,6 @@ export const GROUP_B_KEYS: readonly string[] = [
   ...Object.keys(data.policies),
   ...Object.keys(data.budgetLines).map((line) => `budget-line:${line}`),
 ];
-
-export function groupBPolicy(key: string): PolicyDef | undefined {
-  return data.policies[key];
-}
 
 /** The balanced-budget law's rule for how a gap is closed at this level (data, cited). */
 function balanceRule(def: unknown, level: string): BalanceRule {

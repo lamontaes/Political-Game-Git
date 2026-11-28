@@ -13,12 +13,8 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 export { billLevelJurisdiction, billValueInForce } from "../laws-bill-values";
 import type { PreStartModule } from "../pre-start";
 import { historyOf } from "../past";
-import {
-  PAST_LAW_ENACTED,
-  SESSION_FACT,
-  type HistoryRow,
-  type HistorySource,
-} from "../past-module";
+import type { HistoryRow, HistorySource } from "../past-module";
+import { PAST_LAW_ENACTED, SESSION_FACT } from "../past-reads";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
