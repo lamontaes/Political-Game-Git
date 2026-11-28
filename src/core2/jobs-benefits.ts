@@ -32,9 +32,12 @@ function claimant(
 }
 import type { LawInForceAnswer } from "./laws-in-force";
 import type { LawRowInput } from "./laws-in-force";
-import { residentFacts, residentsRuntime } from "./modules/residents";
+import {
+  residentFacts,
+  residentsRuntime,
+  countedGroupIdOf,
+} from "./residents-reads";
 import { countedPersonOf } from "./modules/health";
-import { countedGroupIdOf } from "./modules/residents";
 import { appraiseEvent } from "./modules/health";
 import { parameter, parameterValues } from "./parameters";
 import { initialPersonState } from "./modules/health";
