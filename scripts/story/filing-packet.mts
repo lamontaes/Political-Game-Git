@@ -106,6 +106,8 @@ for (let draw = 0, done = 0; done < places && draw < places * 8; draw += 1) {
         ),
         taken,
       });
+    // The narrator opens the visit (the bench's `intro`), before the clerk speaks.
+    const intro = counter.intro.map((row) => row.text);
     record("the counter opens", "");
     const pick = counter.visit.choices.find((row) => row.control === "pick");
     if (!pick) continue;
@@ -152,7 +154,8 @@ for (let draw = 0, done = 0; done < places && draw < places * 8; draw += 1) {
           text: line.text,
         });
         petition = {
-          narration: scene.scene.talk.state.text,
+          narration: talk.narration.map((row) => row.text),
+          clerkSays: talk.state.text,
           replies: talk.tree.replies.map((reply) => ({
             offered: reply.line.text,
             move: reply.line.move,
@@ -166,6 +169,7 @@ for (let draw = 0, done = 0; done < places && draw < places * 8; draw += 1) {
       runSeed: run,
       draw,
       race: race.id,
+      narration: intro,
       counter: steps,
       petition,
     });

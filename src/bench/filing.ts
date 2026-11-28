@@ -180,6 +180,8 @@ export function openBenchFilingVisit(
       );
     const first = others[0];
     const person = first ? core.people.get(first.personId) : undefined;
+    const last = others[others.length - 1];
+    const lastPerson = last ? core.people.get(last.personId) : undefined;
     return {
       count: others.length,
       ...(first && person
@@ -188,6 +190,14 @@ export function openBenchFilingVisit(
               name: `${person.givenName} ${person.familyName}`,
               recordId: first.id,
               filedOn: first.filedOn,
+            },
+          }
+        : {}),
+      ...(last && last !== first && lastPerson
+        ? {
+            latest: {
+              name: `${lastPerson.givenName} ${lastPerson.familyName}`,
+              recordId: last.id,
             },
           }
         : {}),
@@ -320,7 +330,6 @@ export function openBenchFilingVisit(
           // your petition" (Miracle Valley, Arizona, seed w3-return-1); with
           // a filing already here, it is a return.
           back ? mineHere : null,
-          minuteOfDay,
         )
       : [],
     backdrop,

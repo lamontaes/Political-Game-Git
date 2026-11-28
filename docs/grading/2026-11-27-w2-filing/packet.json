@@ -6,6 +6,9 @@
       "runSeed": "pg27",
       "draw": 0,
       "race": "contest:seat:US-NM:us-senate:0:2026-11-03",
+      "narration": [
+        "Late in the morning on December 8th, you walk into the Secretary of State's office. Michelle Warren looks up from a stack of forms."
+      ],
       "counter": [
         {
           "step": "the counter opens",
@@ -13,7 +16,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Michelle Warren, with the Secretary of State. If you're running in New Mexico, you're in the right spot.",
+              "text": "I'm Michelle Warren, with the Secretary of State, and I take the candidate papers for New Mexico. Which race are you here for?",
               "elements": []
             }
           ],
@@ -29,7 +32,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Michelle Warren, with the Secretary of State. If you're running in New Mexico, you're in the right spot.",
+              "text": "I'm Michelle Warren, with the Secretary of State, and I take the candidate papers for New Mexico. Which race are you here for?",
               "elements": []
             },
             {
@@ -41,15 +44,15 @@
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have six candidates for the U.S. Senate so far, and Jessica Scott filed first a few days ago. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. I can print what the U.S. Senate does for you, so you know the job before you sign. Everything has to be back to me by February 3.",
+              "text": "Jessica Scott got in a few days ago. Counting that name, the list for the U.S. Senate stands at six candidates. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. I can print the duties of the U.S. Senate for you, so you know the job before you sign. Everything has to be back to me by February 3.",
               "elements": []
             }
           ],
           "offered": [
-            "[file] Alright, Michelle. Let's get the papers for the U.S. Senate done.",
-            "[ask] Who else is running for the U.S. Senate?",
-            "[ask] Is the field in Kingston stacked before I even file?",
-            "[leave] Let me hold off, Michelle. I'll be back before February 3."
+            "[file] That's all I needed, Michelle. Let's start the papers for the U.S. Senate.",
+            "[ask] Who filed after Jessica Scott?",
+            "[ask] Is the race for the U.S. Senate stacked before I even file?",
+            "[leave] I'd like to think it over, Michelle. I'll be back before February 3."
           ],
           "taken": "pick:contest:seat:US-NM:us-senate:0:2026-11-03"
         },
@@ -59,7 +62,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Michelle Warren, with the Secretary of State. If you're running in New Mexico, you're in the right spot.",
+              "text": "I'm Michelle Warren, with the Secretary of State, and I take the candidate papers for New Mexico. Which race are you here for?",
               "elements": []
             },
             {
@@ -71,25 +74,25 @@
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have six candidates for the U.S. Senate so far, and Jessica Scott filed first a few days ago. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. I can print what the U.S. Senate does for you, so you know the job before you sign. Everything has to be back to me by February 3.",
+              "text": "Jessica Scott got in a few days ago. Counting that name, the list for the U.S. Senate stands at six candidates. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. I can print the duties of the U.S. Senate for you, so you know the job before you sign. Everything has to be back to me by February 3.",
               "elements": []
             },
             {
               "n": 4,
               "speaker": "player",
-              "text": "Who else is running for the U.S. Senate?",
+              "text": "Who filed after Jessica Scott?",
               "elements": []
             },
             {
               "n": 5,
               "speaker": "clerk",
-              "text": "Jessica Scott was the first in for the U.S. Senate, a few days ago, and that makes six candidates so far.",
+              "text": "Jessica Scott got in first, a few days ago. The most recent to file for the U.S. Senate is Emma Ochoa. In all, six candidates.",
               "elements": []
             }
           ],
           "offered": [
-            "[file] Then I'll file. The U.S. Senate ought to have a real choice.",
-            "[leave] I'll sleep on that, Michelle, and come back before February 3."
+            "[file] Thanks, Michelle. I'll file for the U.S. Senate today.",
+            "[leave] That's a lot to weigh, Michelle. I'll come back before February 3."
           ],
           "taken": "say:1"
         },
@@ -99,7 +102,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Michelle Warren, with the Secretary of State. If you're running in New Mexico, you're in the right spot.",
+              "text": "I'm Michelle Warren, with the Secretary of State, and I take the candidate papers for New Mexico. Which race are you here for?",
               "elements": []
             },
             {
@@ -111,31 +114,31 @@
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have six candidates for the U.S. Senate so far, and Jessica Scott filed first a few days ago. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. I can print what the U.S. Senate does for you, so you know the job before you sign. Everything has to be back to me by February 3.",
+              "text": "Jessica Scott got in a few days ago. Counting that name, the list for the U.S. Senate stands at six candidates. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. I can print the duties of the U.S. Senate for you, so you know the job before you sign. Everything has to be back to me by February 3.",
               "elements": []
             },
             {
               "n": 4,
               "speaker": "player",
-              "text": "Who else is running for the U.S. Senate?",
+              "text": "Who filed after Jessica Scott?",
               "elements": []
             },
             {
               "n": 5,
               "speaker": "clerk",
-              "text": "Jessica Scott was the first in for the U.S. Senate, a few days ago, and that makes six candidates so far.",
+              "text": "Jessica Scott got in first, a few days ago. The most recent to file for the U.S. Senate is Emma Ochoa. In all, six candidates.",
               "elements": []
             },
             {
               "n": 6,
               "speaker": "player",
-              "text": "Then I'll file. The U.S. Senate ought to have a real choice.",
+              "text": "Thanks, Michelle. I'll file for the U.S. Senate today.",
               "elements": []
             },
             {
               "n": 7,
               "speaker": "clerk",
-              "text": "Done. Your name goes on the list for the U.S. Senate, behind Jessica Scott, who filed first.",
+              "text": "That's filed. Jessica Scott was first in for the U.S. Senate, and you're on the list after them.",
               "elements": []
             }
           ],
@@ -144,10 +147,13 @@
         }
       ],
       "petition": {
-        "narration": "Now the signatures: 13,319 of them, from voters here, by February 3. Have you run a campaign before, or should I walk you through it?",
+        "narration": [
+          "Back at the counter, Michelle finds your papers for the U.S. Senate and pulls one sheet out."
+        ],
+        "clerkSays": "Now the signatures: 13,319 of them, from voters here, by February 3. Have you run a campaign before, or should I walk you through it?",
         "replies": [
           {
-            "offered": "Yes, I know how it works. I'll handle the U.S. Senate myself.",
+            "offered": "Yes, I know how it works. I'll run my own campaign for the U.S. Senate.",
             "move": "agree",
             "then": [
               {
@@ -157,17 +163,17 @@
             ]
           },
           {
-            "offered": "Not yet. Where do I even start with the U.S. Senate?",
+            "offered": "Not yet. Where does a run for the U.S. Senate even start?",
             "move": "ask",
             "then": [
               {
                 "speaker": "the clerk",
-                "text": "Doors first: signatures come one neighbor at a time. Then you'll want money, and a way to reach the voters who don't answer for the U.S. Senate."
+                "text": "Start with the 13,319 signatures. Knock on doors, set up a table where people shop, and ask your friends to sign. After that comes money."
               }
             ]
           },
           {
-            "offered": "Who decided the U.S. Senate takes that many?",
+            "offered": "Who decided it takes 13,319?",
             "move": "confront",
             "then": [
               {
@@ -177,7 +183,7 @@
             ]
           },
           {
-            "offered": "No, I haven't, and I want to think about the U.S. Senate first. I'll be back.",
+            "offered": "I haven't, and I'd like to read up on it first. I'll be back before February 3.",
             "move": "leave",
             "then": []
           }
@@ -189,6 +195,9 @@
       "runSeed": "pg27",
       "draw": 1,
       "race": "contest:seat:gus2025:174941:council:0:2025-11-04",
+      "narration": [
+        "Late in the morning on June 23rd, you walk into the municipal election commission's office. Solomon Castillo looks up from a stack of forms."
+      ],
       "counter": [
         {
           "step": "the counter opens",
@@ -196,7 +205,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Solomon Castillo, with the municipal election commission. If you're running in Bennettsville, you're in the right spot.",
+              "text": "The filings for Bennettsville come through the municipal election commission, and I handle them. I'm Solomon Castillo. What can I start for you?",
               "elements": []
             }
           ],
@@ -212,7 +221,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Solomon Castillo, with the municipal election commission. If you're running in Bennettsville, you're in the right spot.",
+              "text": "The filings for Bennettsville come through the municipal election commission, and I handle them. I'm Solomon Castillo. What can I start for you?",
               "elements": []
             },
             {
@@ -224,15 +233,15 @@
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have two candidates for the council so far, and Melissa Chan filed first yesterday. There's no primary for this one. Everyone who files goes straight onto the ballot on November 4. The Bennettsville City Council meets, argues it out and votes. You'd be one of the votes. The papers are due August 21, so you've got time if you start today.",
+              "text": "Here's where the council stands: two candidates so far, and Melissa Chan was the first, yesterday. There's no primary for this one. Everyone who files goes straight onto the ballot on November 4. The Bennettsville City Council meets, argues it out and votes. You'd be one of the votes. The papers are due August 21, so you've got time if you start today.",
               "elements": []
             }
           ],
           "offered": [
-            "[file] Alright, Solomon. Let's get the papers for the council done.",
-            "[ask] Has anyone else filed for the council yet?",
-            "[ask] Is the field in Bennettsville stacked before I even file?",
-            "[leave] Let me hold off, Solomon. I'll be back before August 21."
+            "[file] That's all I needed, Solomon. Let's start the papers for the council.",
+            "[ask] Has anyone filed since Melissa Chan?",
+            "[ask] Is the race for the council stacked before I even file?",
+            "[leave] I'd like to think it over, Solomon. I'll be back before August 21."
           ],
           "taken": "pick:contest:seat:gus2025:174941:council:0:2025-11-04"
         },
@@ -242,7 +251,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Solomon Castillo, with the municipal election commission. If you're running in Bennettsville, you're in the right spot.",
+              "text": "The filings for Bennettsville come through the municipal election commission, and I handle them. I'm Solomon Castillo. What can I start for you?",
               "elements": []
             },
             {
@@ -254,24 +263,24 @@
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have two candidates for the council so far, and Melissa Chan filed first yesterday. There's no primary for this one. Everyone who files goes straight onto the ballot on November 4. The Bennettsville City Council meets, argues it out and votes. You'd be one of the votes. The papers are due August 21, so you've got time if you start today.",
+              "text": "Here's where the council stands: two candidates so far, and Melissa Chan was the first, yesterday. There's no primary for this one. Everyone who files goes straight onto the ballot on November 4. The Bennettsville City Council meets, argues it out and votes. You'd be one of the votes. The papers are due August 21, so you've got time if you start today.",
               "elements": []
             },
             {
               "n": 4,
               "speaker": "player",
-              "text": "Has anyone else filed for the council yet?",
+              "text": "Has anyone filed since Melissa Chan?",
               "elements": []
             },
             {
               "n": 5,
               "speaker": "clerk",
-              "text": "Melissa Chan was the first in for the council, yesterday, and that makes two candidates so far.",
+              "text": "The list for the council runs from Melissa Chan, who filed yesterday, to Victoria Love, who filed last. That's two candidates so far.",
               "elements": []
             }
           ],
           "offered": [
-            "[file] Good to know. File me for the council anyway.",
+            "[file] Okay, Solomon. File me for the council, and tell me what else you need.",
             "[leave] I'll sleep on that, Solomon, and come back before August 21."
           ],
           "taken": "say:1"
@@ -282,7 +291,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Solomon Castillo, with the municipal election commission. If you're running in Bennettsville, you're in the right spot.",
+              "text": "The filings for Bennettsville come through the municipal election commission, and I handle them. I'm Solomon Castillo. What can I start for you?",
               "elements": []
             },
             {
@@ -294,31 +303,31 @@
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have two candidates for the council so far, and Melissa Chan filed first yesterday. There's no primary for this one. Everyone who files goes straight onto the ballot on November 4. The Bennettsville City Council meets, argues it out and votes. You'd be one of the votes. The papers are due August 21, so you've got time if you start today.",
+              "text": "Here's where the council stands: two candidates so far, and Melissa Chan was the first, yesterday. There's no primary for this one. Everyone who files goes straight onto the ballot on November 4. The Bennettsville City Council meets, argues it out and votes. You'd be one of the votes. The papers are due August 21, so you've got time if you start today.",
               "elements": []
             },
             {
               "n": 4,
               "speaker": "player",
-              "text": "Has anyone else filed for the council yet?",
+              "text": "Has anyone filed since Melissa Chan?",
               "elements": []
             },
             {
               "n": 5,
               "speaker": "clerk",
-              "text": "Melissa Chan was the first in for the council, yesterday, and that makes two candidates so far.",
+              "text": "The list for the council runs from Melissa Chan, who filed yesterday, to Victoria Love, who filed last. That's two candidates so far.",
               "elements": []
             },
             {
               "n": 6,
               "speaker": "player",
-              "text": "Good to know. File me for the council anyway.",
+              "text": "Okay, Solomon. File me for the council, and tell me what else you need.",
               "elements": []
             },
             {
               "n": 7,
               "speaker": "clerk",
-              "text": "Done. Your name goes on the list for the council, behind Melissa Chan, who filed first.",
+              "text": "You're on the list for the council now, after Melissa Chan, who filed first.",
               "elements": []
             }
           ],
@@ -327,30 +336,33 @@
         }
       ],
       "petition": {
-        "narration": "You don't need signatures for the Bennettsville City Council. Your name goes on the ballot for November 4. Have you run a campaign before?",
+        "narration": [
+          "Solomon has your filing for the Bennettsville City Council on the desk when you come back to the counter."
+        ],
+        "clerkSays": "You don't need signatures for the Bennettsville City Council. Your name goes on the ballot for November 4. Have you run a campaign before?",
         "replies": [
           {
-            "offered": "I have. I'll bring what you need for the Bennettsville City Council.",
+            "offered": "Yes, I know how it works. I'll run my own campaign for the Bennettsville City Council.",
             "move": "agree",
             "then": [
               {
                 "speaker": "the clerk",
-                "text": "Then you're as good as on the ballot. See you on November 4."
+                "text": "Then you're all set. The vote is November 4."
               }
             ]
           },
           {
-            "offered": "No, I haven't. Walk me through the Bennettsville City Council.",
+            "offered": "No, I haven't. Walk me through running for the Bennettsville City Council.",
             "move": "ask",
             "then": [
               {
                 "speaker": "the clerk",
-                "text": "There's nothing to collect for the Bennettsville City Council, so start by knocking on doors and talking to voters. Next comes money."
+                "text": "There's nothing to collect before November 4, so start by knocking on doors and talking to voters. Next comes money."
               }
             ]
           },
           {
-            "offered": "No, I haven't, and I want to think about the Bennettsville City Council first. I'll be back.",
+            "offered": "Not yet. Let me read up on how this works before November 4.",
             "move": "leave",
             "then": []
           }
@@ -362,6 +374,9 @@
       "runSeed": "pg27",
       "draw": 2,
       "race": "contest:seat:US-TN:lower:008:0:2025-09-26:special",
+      "narration": [
+        "Late in the morning on June 30th, you walk into the State Election Commission. Michael Pickett looks up from a stack of forms."
+      ],
       "counter": [
         {
           "step": "the counter opens",
@@ -369,7 +384,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Michael Pickett, with the State Election Commission. If you're running in Tennessee, you're in the right spot.",
+              "text": "Michael Pickett, with the State Election Commission. Anyone running in Tennessee starts at this counter. Which race?",
               "elements": []
             }
           ],
@@ -384,7 +399,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Michael Pickett, with the State Election Commission. If you're running in Tennessee, you're in the right spot.",
+              "text": "Michael Pickett, with the State Election Commission. Anyone running in Tennessee starts at this counter. Which race?",
               "elements": []
             },
             {
@@ -396,15 +411,15 @@
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have four candidates for the state House in the 8th District so far, and Robert Cross filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on September 26. You'd carry Walland and the rest of your district to the capitol and vote on every bill that reaches the floor. Get it all in by August 12. If you're unsure of anything, ask me before then.",
+              "text": "The list for the state House in the 8th District already has four candidates. Robert Cross was first in, a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on September 26. You'd carry Walland and the rest of your district to the capitol and vote on every bill that reaches the floor. Get it all in by August 12. If you're unsure of anything, ask me before then.",
               "elements": []
             }
           ],
           "offered": [
-            "[file] Alright, Michael. Let's get the papers for the state House in the 8th District done.",
-            "[ask] Is the state House in the 8th District contested, or am I walking into it alone?",
-            "[ask] Is the field in Walland stacked before I even file?",
-            "[leave] Let me hold off, Michael. I'll be back before August 12."
+            "[file] That's all I needed, Michael. Let's start the papers for the state House in the 8th District.",
+            "[ask] Who else is on the list besides Robert Cross?",
+            "[ask] Is the race for the state House in the 8th District stacked before I even file?",
+            "[leave] Let me talk to some people first, Michael. I'll be back before August 12."
           ],
           "taken": "pick:contest:seat:US-TN:lower:008:0:2025-09-26:special"
         },
@@ -414,7 +429,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Michael Pickett, with the State Election Commission. If you're running in Tennessee, you're in the right spot.",
+              "text": "Michael Pickett, with the State Election Commission. Anyone running in Tennessee starts at this counter. Which race?",
               "elements": []
             },
             {
@@ -426,25 +441,25 @@
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have four candidates for the state House in the 8th District so far, and Robert Cross filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on September 26. You'd carry Walland and the rest of your district to the capitol and vote on every bill that reaches the floor. Get it all in by August 12. If you're unsure of anything, ask me before then.",
+              "text": "The list for the state House in the 8th District already has four candidates. Robert Cross was first in, a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on September 26. You'd carry Walland and the rest of your district to the capitol and vote on every bill that reaches the floor. Get it all in by August 12. If you're unsure of anything, ask me before then.",
               "elements": []
             },
             {
               "n": 4,
               "speaker": "player",
-              "text": "Is the state House in the 8th District contested, or am I walking into it alone?",
+              "text": "Who else is on the list besides Robert Cross?",
               "elements": []
             },
             {
               "n": 5,
               "speaker": "clerk",
-              "text": "Robert Cross was the first in for the state House in the 8th District, a few days ago, and that makes four candidates so far.",
+              "text": "Robert Cross got in first, a few days ago. The most recent to file for the state House in the 8th District is DeAndre Drake. In all, four candidates.",
               "elements": []
             }
           ],
           "offered": [
-            "[file] Good to know. File me for the state House in the 8th District anyway.",
-            "[leave] I'll sleep on that, Michael, and come back before August 12."
+            "[file] Thanks, Michael. I'll file for the state House in the 8th District today.",
+            "[leave] I'll talk it over at home, Michael, and see you again before August 12."
           ],
           "taken": "say:1"
         },
@@ -454,7 +469,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Michael Pickett, with the State Election Commission. If you're running in Tennessee, you're in the right spot.",
+              "text": "Michael Pickett, with the State Election Commission. Anyone running in Tennessee starts at this counter. Which race?",
               "elements": []
             },
             {
@@ -466,31 +481,31 @@
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "We have four candidates for the state House in the 8th District so far, and Robert Cross filed first a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on September 26. You'd carry Walland and the rest of your district to the capitol and vote on every bill that reaches the floor. Get it all in by August 12. If you're unsure of anything, ask me before then.",
+              "text": "The list for the state House in the 8th District already has four candidates. Robert Cross was first in, a few days ago. There's no primary for this one. Everyone who files goes straight onto the ballot on September 26. You'd carry Walland and the rest of your district to the capitol and vote on every bill that reaches the floor. Get it all in by August 12. If you're unsure of anything, ask me before then.",
               "elements": []
             },
             {
               "n": 4,
               "speaker": "player",
-              "text": "Is the state House in the 8th District contested, or am I walking into it alone?",
+              "text": "Who else is on the list besides Robert Cross?",
               "elements": []
             },
             {
               "n": 5,
               "speaker": "clerk",
-              "text": "Robert Cross was the first in for the state House in the 8th District, a few days ago, and that makes four candidates so far.",
+              "text": "Robert Cross got in first, a few days ago. The most recent to file for the state House in the 8th District is DeAndre Drake. In all, four candidates.",
               "elements": []
             },
             {
               "n": 6,
               "speaker": "player",
-              "text": "Good to know. File me for the state House in the 8th District anyway.",
+              "text": "Thanks, Michael. I'll file for the state House in the 8th District today.",
               "elements": []
             },
             {
               "n": 7,
               "speaker": "clerk",
-              "text": "Done. Your name goes on the list for the state House in the 8th District, behind Robert Cross, who filed first.",
+              "text": "You're on the list for the state House in the 8th District now, after Robert Cross, who filed first.",
               "elements": []
             }
           ],
@@ -499,10 +514,13 @@
         }
       ],
       "petition": {
-        "narration": "Now the signatures: 25 of them, from voters here, by August 12. Have you run a campaign before, or should I walk you through it?",
+        "narration": [
+          "Back at the counter, Michael finds your papers for the state House in the 8th District and pulls one sheet out."
+        ],
+        "clerkSays": "Now the signatures: 25 of them, from voters here, by August 12. Have you run a campaign before, or should I walk you through it?",
         "replies": [
           {
-            "offered": "Yes, I know how it works. I'll handle the state House in the 8th District myself.",
+            "offered": "Yes, I know how it works. I'll run my own campaign for the state House in the 8th District.",
             "move": "agree",
             "then": [
               {
@@ -512,7 +530,7 @@
             ]
           },
           {
-            "offered": "Not yet. Where do I even start with the state House in the 8th District?",
+            "offered": "Not yet. Where does a run for the state House in the 8th District even start?",
             "move": "ask",
             "then": [
               {
@@ -522,7 +540,7 @@
             ]
           },
           {
-            "offered": "That many signatures just to run for the state House in the 8th District?",
+            "offered": "25 signatures just to get on the ballot?",
             "move": "confront",
             "then": [
               {
@@ -532,7 +550,7 @@
             ]
           },
           {
-            "offered": "No, I haven't, and I want to think about the state House in the 8th District first. I'll be back.",
+            "offered": "No, I haven't. I'll learn how this works and come back before August 12.",
             "move": "leave",
             "then": []
           }

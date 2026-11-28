@@ -187,7 +187,8 @@
     "asked-has-family": "A relative of the person asked to move in, by given name, from the family records (move-in-facts.ts).",
     "school-short": "The school as people at home say it ('Long Hill', or 'school' when the name holds only its kind), from the same school record as the school.",
     "nearby": "The county or state that holds both the reader's town and the writer's, said as its name, set only when the writer's place is not truly elsewhere, from the writer's person record.",
-    "payment": "What a household quarrel was over, by its missed payment's loan kind (\"the mortgage\", \"the payday loan\"), from the family quarrel record and the missed payment it cites."
+    "payment": "What a household quarrel was over, by its missed payment's loan kind (\"the mortgage\", \"the payday loan\"), from the family quarrel record and the missed payment it cites.",
+    "latest": "The most recent other candidate to file for the race, from the contest record."
   },
   "maxWords": 70,
   "parts": [
@@ -74048,7 +74049,8 @@
           "step": "state",
           "move": "tell-running",
           "role": "asker",
-          "requiresFacts": ["seat", "none-filed"]
+          "requiresFacts": ["seat", "none-filed"],
+          "setsFacts": ["count-told"]
         }
       ],
       "bearing": "calm",
@@ -74077,7 +74079,8 @@
           "step": "state",
           "move": "tell-running",
           "role": "asker",
-          "requiresFacts": ["seat", "filed-so-far", "opponent", "when"]
+          "requiresFacts": ["seat", "filed-so-far", "opponent", "when"],
+          "setsFacts": ["count-told"]
         }
       ],
       "bearing": "calm",
@@ -74103,7 +74106,8 @@
           "step": "state",
           "move": "tell-running",
           "role": "asker",
-          "requiresFacts": ["seat", "filed-so-far"]
+          "requiresFacts": ["seat", "filed-so-far"],
+          "setsFacts": ["count-told"]
         }
       ],
       "bearing": "firm",
@@ -74727,10 +74731,10 @@
       ]
     },
     {
-      "key": "scene-talk.state-tell-duty.office-is-on-this-ballot-what-it-does-is-published-and-i-can-print-it-for-you",
+      "key": "scene-talk.state-tell-duty.office-is-on-this-ballot-its-duties-are-published-and-i-can-print-them-for-you",
       "move": "state-tell-duty",
       "kind": "spoken",
-      "text": "{office} is on this ballot. What it does is published, and I can print it for you.",
+      "text": "{office} is on this ballot. Its duties are published, and I can print them for you.",
       "uses": [
         {
           "subject": "scene",
@@ -74756,10 +74760,10 @@
       ]
     },
     {
-      "key": "scene-talk.state-tell-duty.i-can-print-what-office-does-for-you-so-you-know-the-job-before-you-sign",
+      "key": "scene-talk.state-tell-duty.i-can-print-the-duties-of-office-for-you-so-you-know-the-job-before-you-sign",
       "move": "state-tell-duty",
       "kind": "spoken",
-      "text": "I can print what {office} does for you, so you know the job before you sign.",
+      "text": "I can print the duties of {office} for you, so you know the job before you sign.",
       "uses": [
         {
           "subject": "scene",
@@ -75750,7 +75754,8 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["count-told"]
         }
       ],
       "bearing": "curious",
@@ -75776,7 +75781,8 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["count-told"]
         }
       ],
       "bearing": "curious",
@@ -75802,7 +75808,8 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["count-told"]
         }
       ],
       "bearing": "curious",
@@ -75828,7 +75835,8 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["office"],
+          "excludesFacts": ["count-told"]
         }
       ],
       "bearing": "curious",
@@ -75842,10 +75850,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-confront.is-the-field-in-place-stacked-before-i-even-file",
+      "key": "scene-talk.reply-confront.is-the-race-for-seat-stacked-before-i-even-file",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Is the field in {place} stacked before I even file?",
+      "text": "Is the race for {seat} stacked before I even file?",
       "uses": [
         {
           "subject": "scene",
@@ -75854,7 +75862,7 @@
           "step": "reply",
           "move": "confront",
           "role": "asked",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["seat"]
         }
       ],
       "bearing": "braced",
@@ -75868,10 +75876,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-confront.don-t-tell-me-the-race-in-place-is-already-taken",
+      "key": "scene-talk.reply-confront.is-seat-a-race-i-can-still-win-or-is-it-already-spoken-for",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Don't tell me the race in {place} is already taken.",
+      "text": "Is {seat} a race I can still win, or is it already spoken for?",
       "uses": [
         {
           "subject": "scene",
@@ -75880,7 +75888,7 @@
           "step": "reply",
           "move": "confront",
           "role": "asked",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["seat"]
         }
       ],
       "bearing": "braced",
@@ -76170,10 +76178,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.it-s-not-decided-opponent-filed-for-seat-when-and-the-ballot-stays-open-to-anyon",
+      "key": "scene-talk.follow-answer.it-s-not-decided-opponent-filed-for-seat-when-and-my-list-stays-open-until-deadline",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It's not decided. {opponent} filed for {seat} {when}, and the ballot stays open to anyone who files by {deadline}.",
+      "text": "It's not decided. {opponent} filed for {seat} {when}, and my list stays open until {deadline}.",
       "uses": [
         {
           "subject": "scene",
@@ -76281,10 +76289,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.follow-accept.done-you-re-filed-for-seat-in-seat-place",
+      "key": "scene-talk.follow-accept.your-papers-are-in-you-re-filed-for-seat-in-seat-place",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Done. You're filed for {seat} in {seat-place}.",
+      "text": "Your papers are in. You're filed for {seat} in {seat-place}.",
       "uses": [
         {
           "subject": "scene",
@@ -76308,10 +76316,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.follow-accept.done-your-name-goes-on-the-list-for-seat-behind-opponent-who-filed-first",
+      "key": "scene-talk.follow-accept.your-papers-are-in-your-name-goes-on-the-list-for-seat-behind-opponent-who-filed-first",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Done. Your name goes on the list for {seat}, behind {opponent}, who filed first.",
+      "text": "Your papers are in. Your name goes on the list for {seat}, behind {opponent}, who filed first.",
       "uses": [
         {
           "subject": "scene",
@@ -76357,174 +76365,6 @@
       "date": "2026-11-27",
       "tag": {
         "move": "accept",
-        "key": "routine"
-      },
-      "elements": ["filing-at-the-clerks-counter"]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.begins-you-walk-into-counter-name-looks-up-from-a-stack-of-forms",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{begins}, you walk into {counter}. {name} looks up from a stack of forms.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["begins", "counter", "name", "first-visit"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "filing-the-first-time-is-new-to-the-clerk"
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.the-post-here-is-name-and-this-is-where-the-filing-papers-come-from",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The {post} here is {name}, and this is where the filing papers come from.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["post", "name", "first-visit"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "filing-the-first-time-is-new-to-the-clerk"
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-is-sorting-forms-at-counter-when-you-come-in",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} is sorting forms at {counter} when you come in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "counter", "first-visit"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "filing-the-first-time-is-new-to-the-clerk"
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-is-at-the-desk-when-you-step-inside-counter",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} is at the desk when you step inside {counter}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "counter", "first-visit"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "filing-the-first-time-is-new-to-the-clerk"
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-re-back-at-counter-and-name-looks-up-as-you-come-in",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You're back at {counter}, and {name} looks up as you come in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["counter", "name", "back-again"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      },
-      "elements": ["filing-at-the-clerks-counter"]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.begins-you-re-back-at-counter-with-name-behind-it",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{begins}, you're back at {counter} with {name} behind it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["begins", "counter", "name", "back-again"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "narrate",
         "key": "routine"
       },
       "elements": ["filing-at-the-clerks-counter"]
@@ -77032,10 +76872,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-confront.that-many-signatures-just-to-run-for-office",
+      "key": "scene-talk.reply-confront.signatures-signatures-just-to-get-on-the-ballot",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "That many signatures just to run for {office}?",
+      "text": "{signatures} signatures just to get on the ballot?",
       "uses": [
         {
           "subject": "scene",
@@ -77059,10 +76899,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-confront.who-decided-office-takes-that-many",
+      "key": "scene-talk.reply-confront.who-decided-it-takes-signatures",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Who decided {office} takes that many?",
+      "text": "Who decided it takes {signatures}?",
       "uses": [
         {
           "subject": "scene",
@@ -77292,7 +77132,8 @@
           "move": "thank",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due"],
+          "setsFacts": ["round-two"]
         }
       ],
       "bearing": "calm",
@@ -77319,7 +77160,8 @@
           "move": "thank",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["due", "signatures"]
+          "requiresFacts": ["due", "signatures"],
+          "setsFacts": ["round-two"]
         }
       ],
       "bearing": "calm",
@@ -77336,10 +77178,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-thank.then-you-re-as-good-as-on-the-ballot-see-you-on-vote-day",
+      "key": "scene-talk.follow-thank.then-you-re-all-set-the-vote-is-vote-day",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Then you're as good as on the ballot. See you on {vote-day}.",
+      "text": "Then you're all set. The vote is {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -77349,7 +77191,8 @@
           "move": "thank",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["no-petition", "vote-day"]
+          "requiresFacts": ["no-petition", "vote-day"],
+          "setsFacts": ["round-two"]
         }
       ],
       "bearing": "warm",
@@ -77377,7 +77220,8 @@
           "role": "asker",
           "after": "ask",
           "requiresFacts": ["signatures"],
-          "excludesFacts": ["first-filing"]
+          "excludesFacts": ["first-filing"],
+          "setsFacts": ["round-two"]
         }
       ],
       "bearing": "calm",
@@ -77408,7 +77252,8 @@
           "role": "asker",
           "after": "scene-talk.reply-ask.what-if-i-m-short-by-due",
           "requiresFacts": ["office"],
-          "excludesFacts": ["first-filing"]
+          "excludesFacts": ["first-filing"],
+          "setsFacts": ["round-two"]
         }
       ],
       "bearing": "calm",
@@ -77440,7 +77285,8 @@
           "role": "asker",
           "after": "scene-talk.reply-ask.can-anybody-sign-or-only-voters-in-place",
           "requiresFacts": ["place"],
-          "excludesFacts": ["first-filing"]
+          "excludesFacts": ["first-filing"],
+          "setsFacts": ["round-two"]
         }
       ],
       "bearing": "calm",
@@ -77471,7 +77317,8 @@
           "role": "asker",
           "after": "scene-talk.reply-ask.will-i-know-before-vote-day-that-i-m-on",
           "requiresFacts": ["office"],
-          "excludesFacts": ["first-filing"]
+          "excludesFacts": ["first-filing"],
+          "setsFacts": ["round-two"]
         }
       ],
       "bearing": "calm",
@@ -77497,9 +77344,10 @@
           "step": "follow",
           "move": "refuse",
           "role": "asker",
-          "after": "scene-talk.reply-confront.that-many-signatures-just-to-run-for-office",
+          "after": "scene-talk.reply-confront.signatures-signatures-just-to-get-on-the-ballot",
           "requiresFacts": ["signatures", "due"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition"],
+          "setsFacts": ["round-two"]
         }
       ],
       "bearing": "calm",
@@ -77525,9 +77373,10 @@
           "step": "follow",
           "move": "refuse",
           "role": "asker",
-          "after": "scene-talk.reply-confront.who-decided-office-takes-that-many",
+          "after": "scene-talk.reply-confront.who-decided-it-takes-signatures",
           "requiresFacts": ["signatures", "due"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition"],
+          "setsFacts": ["round-two"]
         }
       ],
       "bearing": "calm",
@@ -77725,10 +77574,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-ask.no-i-haven-t-walk-me-through-office",
+      "key": "scene-talk.reply-ask.no-i-haven-t-walk-me-through-running-for-office",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "No, I haven't. Walk me through {office}.",
+      "text": "No, I haven't. Walk me through running for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -77737,7 +77586,8 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["first-filing", "office"]
+          "requiresFacts": ["first-filing", "office"],
+          "excludesFacts": ["round-two"]
         }
       ],
       "bearing": "curious",
@@ -77754,10 +77604,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-ask.not-yet-where-do-i-even-start-with-office",
+      "key": "scene-talk.reply-ask.not-yet-where-does-a-run-for-office-even-start",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Not yet. Where do I even start with {office}?",
+      "text": "Not yet. Where does a run for {office} even start?",
       "uses": [
         {
           "subject": "scene",
@@ -77766,7 +77616,8 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["first-filing", "office"]
+          "requiresFacts": ["first-filing", "office"],
+          "excludesFacts": ["round-two"]
         }
       ],
       "bearing": "curious",
@@ -77783,10 +77634,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-ask.i-haven-t-done-this-before-what-comes-first-for-office",
+      "key": "scene-talk.reply-ask.i-haven-t-done-this-before-what-comes-first-when-you-run-for-office",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "I haven't done this before. What comes first for {office}?",
+      "text": "I haven't done this before. What comes first when you run for {office}?",
       "uses": [
         {
           "subject": "scene",
@@ -77795,7 +77646,8 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["first-filing", "office"]
+          "requiresFacts": ["first-filing", "office"],
+          "excludesFacts": ["round-two"]
         }
       ],
       "bearing": "anxious",
@@ -77812,10 +77664,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.i-have-i-ll-bring-what-you-need-for-office",
+      "key": "scene-talk.reply-agree.i-have-i-ll-get-you-the-signatures-before-due",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I have. I'll bring what you need for {office}.",
+      "text": "I have. I'll get you the signatures before {due}.",
       "uses": [
         {
           "subject": "scene",
@@ -77824,7 +77676,8 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["first-filing", "office"]
+          "requiresFacts": ["first-filing", "due"],
+          "excludesFacts": ["one-signature", "no-petition", "round-two"]
         }
       ],
       "bearing": "firm",
@@ -77841,10 +77694,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.yes-i-know-how-it-works-i-ll-handle-office-myself",
+      "key": "scene-talk.reply-agree.yes-i-know-how-it-works-i-ll-run-my-own-campaign-for-office",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes, I know how it works. I'll handle {office} myself.",
+      "text": "Yes, I know how it works. I'll run my own campaign for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -77853,7 +77706,8 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["first-filing", "office"]
+          "requiresFacts": ["first-filing", "office"],
+          "excludesFacts": ["round-two"]
         }
       ],
       "bearing": "firm",
@@ -77884,7 +77738,8 @@
           "role": "asker",
           "after": "ask",
           "requiresFacts": ["first-filing", "signatures", "outlet"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition"],
+          "setsFacts": ["round-two"]
         }
       ],
       "bearing": "calm",
@@ -77916,7 +77771,8 @@
           "role": "asker",
           "after": "ask",
           "requiresFacts": ["first-filing", "signatures", "outlet"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition"],
+          "setsFacts": ["round-two"]
         }
       ],
       "bearing": "calm",
@@ -77934,10 +77790,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.start-with-the-signatures-knock-on-doors-set-up-a-table-where-people-shop-and-as",
+      "key": "scene-talk.follow-answer.start-with-the-signatures-signatures-knock-on-doors-set-up-a-table-where-people-shop-and-ask-your-friends-to-sign-after-that-comes-money",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Start with the signatures. Knock on doors, set up a table where people shop, and ask your friends to sign. After that comes money, for {office}.",
+      "text": "Start with the {signatures} signatures. Knock on doors, set up a table where people shop, and ask your friends to sign. After that comes money.",
       "uses": [
         {
           "subject": "scene",
@@ -77947,8 +77803,9 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["first-filing", "signatures", "office"],
-          "excludesFacts": ["no-petition", "outlet"]
+          "requiresFacts": ["first-filing", "signatures"],
+          "excludesFacts": ["no-petition", "outlet"],
+          "setsFacts": ["round-two"]
         }
       ],
       "bearing": "calm",
@@ -77966,10 +77823,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.doors-first-signatures-come-one-neighbor-at-a-time-then-you-ll-want-money-and-a",
+      "key": "scene-talk.follow-answer.those-signatures-signatures-come-one-neighbor-at-a-time-so-start-with-doors-then-you-ll-want-money-and-a-way-to-reach-the-voters-who-never-answer-their-doors",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Doors first: signatures come one neighbor at a time. Then you'll want money, and a way to reach the voters who don't answer for {office}.",
+      "text": "Those {signatures} signatures come one neighbor at a time, so start with doors. Then you'll want money, and a way to reach the voters who never answer their doors.",
       "uses": [
         {
           "subject": "scene",
@@ -77979,8 +77836,9 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["first-filing", "signatures", "office"],
-          "excludesFacts": ["no-petition", "outlet"]
+          "requiresFacts": ["first-filing", "signatures"],
+          "excludesFacts": ["no-petition", "outlet"],
+          "setsFacts": ["round-two"]
         }
       ],
       "bearing": "calm",
@@ -78011,7 +77869,8 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["first-filing", "no-petition", "outlet"]
+          "requiresFacts": ["first-filing", "no-petition", "outlet"],
+          "setsFacts": ["round-two"]
         }
       ],
       "bearing": "calm",
@@ -78029,10 +77888,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.there-s-nothing-to-collect-for-office-so-start-by-knocking-on-doors-and-talking",
+      "key": "scene-talk.follow-answer.there-s-nothing-to-collect-before-vote-day-so-start-by-knocking-on-doors-and-talking-to-voters-next-comes-money",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "There's nothing to collect for {office}, so start by knocking on doors and talking to voters. Next comes money.",
+      "text": "There's nothing to collect before {vote-day}, so start by knocking on doors and talking to voters. Next comes money.",
       "uses": [
         {
           "subject": "scene",
@@ -78042,8 +77901,9 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["first-filing", "no-petition", "office"],
-          "excludesFacts": ["outlet"]
+          "requiresFacts": ["first-filing", "no-petition", "vote-day"],
+          "excludesFacts": ["outlet"],
+          "setsFacts": ["round-two"]
         }
       ],
       "bearing": "calm",
@@ -78061,10 +77921,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-leave.no-i-haven-t-and-i-want-to-think-about-office-first-i-ll-be-back",
+      "key": "scene-talk.reply-leave.no-i-haven-t-i-ll-learn-how-this-works-and-come-back-before-due",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "No, I haven't, and I want to think about {office} first. I'll be back.",
+      "text": "No, I haven't. I'll learn how this works and come back before {due}.",
       "uses": [
         {
           "subject": "scene",
@@ -78073,7 +77933,8 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "requiresFacts": ["first-filing", "office"]
+          "requiresFacts": ["first-filing", "due"],
+          "excludesFacts": ["no-petition", "round-two"]
         }
       ],
       "bearing": "guarded",
@@ -78120,10 +77981,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-leave.thanks-i-ll-start-on-office-tomorrow",
+      "key": "scene-talk.reply-leave.thanks-i-ll-start-tomorrow-and-have-it-back-before-due",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Thanks. I'll start on {office} tomorrow.",
+      "text": "Thanks. I'll start tomorrow and have it back before {due}.",
       "uses": [
         {
           "subject": "scene",
@@ -78133,7 +77994,8 @@
           "move": "leave",
           "role": "asked",
           "after": "answer",
-          "requiresFacts": ["first-filing", "office"]
+          "requiresFacts": ["first-filing", "due"],
+          "excludesFacts": ["no-petition"]
         }
       ],
       "bearing": "firm",
@@ -78148,6 +78010,1330 @@
         "filing-at-the-clerks-counter",
         "filing-the-first-time-is-new-to-the-clerk"
       ]
+    },
+    {
+      "key": "scene-talk.state-greet-counter.i-m-name-with-the-where-and-i-take-the-candidate-papers-for-place-which-race-are-you-here-for",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "I'm {name}, with the {where}, and I take the candidate papers for {place}. Which race are you here for?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker",
+          "requiresFacts": ["where", "name", "place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet-counter",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "local-offices-file-with-the-county"
+      ]
+    },
+    {
+      "key": "scene-talk.state-greet-counter.the-filings-for-place-come-through-the-where-and-i-handle-them-i-m-name-what-can-i-start-for-you",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "The filings for {place} come through the {where}, and I handle them. I'm {name}. What can I start for you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker",
+          "requiresFacts": ["where", "name", "place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet-counter",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "local-offices-file-with-the-county"
+      ]
+    },
+    {
+      "key": "scene-talk.state-greet-counter.welcome-i-m-name-at-the-where-are-you-here-about-a-race-in-place",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "Welcome. I'm {name} at the {where}. Are you here about a race in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker",
+          "requiresFacts": ["where", "name", "place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet-counter",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "local-offices-file-with-the-county"
+      ]
+    },
+    {
+      "key": "scene-talk.state-greet-counter.you-ve-found-the-where-i-m-name-is-it-a-spot-on-the-ballot-in-place-you-re-after",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "You've found the {where}. I'm {name}. Is it a spot on the ballot in {place} you're after?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker",
+          "requiresFacts": ["where", "name", "place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet-counter",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "local-offices-file-with-the-county"
+      ]
+    },
+    {
+      "key": "scene-talk.state-greet-counter.name-with-the-where-anyone-running-in-place-starts-at-this-counter-which-race",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "{name}, with the {where}. Anyone running in {place} starts at this counter. Which race?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker",
+          "requiresFacts": ["where", "name", "place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet-counter",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "local-offices-file-with-the-county"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell-running.the-list-for-seat-already-has-filed-so-far-opponent-was-first-in-when",
+      "move": "state-tell-running",
+      "kind": "spoken",
+      "text": "The list for {seat} already has {filed-so-far}. {opponent} was first in, {when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-running",
+          "role": "asker",
+          "requiresFacts": ["seat", "filed-so-far", "opponent", "when"],
+          "setsFacts": ["count-told"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell-running",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.state-tell-running.opponent-got-in-when-counting-that-name-the-list-for-seat-stands-at-filed-so-far",
+      "move": "state-tell-running",
+      "kind": "spoken",
+      "text": "{opponent} got in {when}. Counting that name, the list for {seat} stands at {filed-so-far}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-running",
+          "role": "asker",
+          "requiresFacts": ["seat", "filed-so-far", "opponent", "when"],
+          "setsFacts": ["count-told"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell-running",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.state-tell-running.before-you-opponent-filed-for-seat-when-that-s-filed-so-far-on-my-list-so-far",
+      "move": "state-tell-running",
+      "kind": "spoken",
+      "text": "Before you, {opponent} filed for {seat} {when}. That's {filed-so-far} on my list so far.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-running",
+          "role": "asker",
+          "requiresFacts": ["seat", "filed-so-far", "opponent", "when"],
+          "setsFacts": ["count-told"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell-running",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.state-tell-running.here-s-where-seat-stands-filed-so-far-so-far-and-opponent-was-the-first-when",
+      "move": "state-tell-running",
+      "kind": "spoken",
+      "text": "Here's where {seat} stands: {filed-so-far} so far, and {opponent} was the first, {when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-running",
+          "role": "asker",
+          "requiresFacts": ["seat", "filed-so-far", "opponent", "when"],
+          "setsFacts": ["count-told"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell-running",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-agree.thanks-clerk-i-ll-file-for-seat-today",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Thanks, {clerk}. I'll file for {seat} today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["clerk", "seat"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-agree.clerk-i-ve-heard-enough-put-me-down-for-seat",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "{clerk}, I've heard enough. Put me down for {seat}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["clerk", "seat"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-agree.okay-clerk-file-me-for-seat-and-tell-me-what-else-you-need",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Okay, {clerk}. File me for {seat}, and tell me what else you need.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["clerk", "seat"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-agree.that-s-all-i-needed-clerk-let-s-start-the-papers-for-seat",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That's all I needed, {clerk}. Let's start the papers for {seat}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["clerk", "seat"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-d-like-to-think-it-over-clerk-i-ll-be-back-before-deadline",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'd like to think it over, {clerk}. I'll be back before {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["clerk", "deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-leave.not-yet-clerk-i-still-have-until-deadline-and-i-ll-use-it",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not yet, {clerk}. I still have until {deadline}, and I'll use it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["clerk", "deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-talk-to-some-people-first-clerk-i-ll-be-back-before-deadline",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me talk to some people first, {clerk}. I'll be back before {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["clerk", "deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-leave.that-s-a-lot-to-weigh-clerk-i-ll-come-back-before-deadline",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "That's a lot to weigh, {clerk}. I'll come back before {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["clerk", "deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-leave.thanks-clerk-i-need-to-think-it-over-and-i-ll-be-back-before-deadline",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Thanks, {clerk}. I need to think it over, and I'll be back before {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["clerk", "deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-talk-it-over-at-home-clerk-and-see-you-again-before-deadline",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll talk it over at home, {clerk}, and see you again before {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["clerk", "deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-ask.who-else-is-on-the-list-for-seat",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who else is on the list for {seat}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["count-told"],
+          "onlyWhen": ["latest"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-ask.who-else-has-filed-for-seat",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who else has filed for {seat}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["count-told"],
+          "onlyWhen": ["latest"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-ask.is-anyone-else-running-for-seat",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is anyone else running for {seat}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["count-told"],
+          "onlyWhen": ["latest"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-ask.who-filed-after-opponent",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who filed after {opponent}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["opponent"],
+          "onlyWhen": ["latest", "count-told"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-ask.who-else-is-on-the-list-besides-opponent",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who else is on the list besides {opponent}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["opponent"],
+          "onlyWhen": ["latest", "count-told"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-ask.has-anyone-filed-since-opponent",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Has anyone filed since {opponent}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["opponent"],
+          "onlyWhen": ["latest", "count-told"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-ask.who-else-got-in-after-opponent",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who else got in after {opponent}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["opponent"],
+          "onlyWhen": ["latest", "count-told"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-was-first-in-for-seat-when-and-latest-filed-most-recently-that-makes-filed-so-far-so-far",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} was first in for {seat}, {when}, and {latest} filed most recently. That makes {filed-so-far} so far.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": [
+            "opponent",
+            "latest",
+            "when",
+            "seat",
+            "filed-so-far"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.the-list-for-seat-runs-from-opponent-who-filed-when-to-latest-who-filed-last-that-s-filed-so-far-so-far",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The list for {seat} runs from {opponent}, who filed {when}, to {latest}, who filed last. That's {filed-so-far} so far.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": [
+            "opponent",
+            "latest",
+            "when",
+            "seat",
+            "filed-so-far"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-got-in-first-when-the-most-recent-to-file-for-seat-is-latest-in-all-filed-so-far",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} got in first, {when}. The most recent to file for {seat} is {latest}. In all, {filed-so-far}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": [
+            "opponent",
+            "latest",
+            "when",
+            "seat",
+            "filed-so-far"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.besides-opponent-who-filed-when-the-latest-in-for-seat-is-latest-that-s-filed-so-far-on-the-list",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Besides {opponent}, who filed {when}, the latest in for {seat} is {latest}. That's {filed-so-far} on the list.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": [
+            "opponent",
+            "latest",
+            "when",
+            "seat",
+            "filed-so-far"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.that-s-up-to-the-voters-opponent-was-first-to-file-for-seat-when-and-i-take-names-until-deadline",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "That's up to the voters. {opponent} was first to file for {seat}, {when}, and I take names until {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "confront",
+          "requiresFacts": ["opponent", "when", "seat", "deadline"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "the-clerk-gave-the-wrong-date-and-no-one-can-extend-it"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.nobody-owns-a-seat-on-my-list-opponent-filed-for-seat-when-and-you-have-until-deadline",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Nobody owns a seat on my list. {opponent} filed for {seat} {when}, and you have until {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "confront",
+          "requiresFacts": ["opponent", "when", "seat", "deadline"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "the-clerk-gave-the-wrong-date-and-no-one-can-extend-it"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.not-yet-opponent-filed-for-seat-when-but-i-m-still-taking-names-for-it-until-deadline",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Not yet. {opponent} filed for {seat} {when}, but I'm still taking names for it until {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "confront",
+          "requiresFacts": ["opponent", "when", "seat", "deadline"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "the-clerk-gave-the-wrong-date-and-no-one-can-extend-it"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-filed-opponent-was-first-in-for-seat-and-you-re-on-the-list-after-them",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's filed. {opponent} was first in for {seat}, and you're on the list after them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["seat", "opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-accept.you-re-on-the-list-for-seat-now-after-opponent-who-filed-first",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "You're on the list for {seat} now, after {opponent}, who filed first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["seat", "opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.reply-leave.not-yet-let-me-find-out-how-this-works-first-and-i-ll-be-back-before-due",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not yet. Let me find out how this works first, and I'll be back before {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "due"],
+          "excludesFacts": ["no-petition", "round-two"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-haven-t-and-i-d-like-to-read-up-on-it-first-i-ll-be-back-before-due",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I haven't, and I'd like to read up on it first. I'll be back before {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "due"],
+          "excludesFacts": ["no-petition", "round-two"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.no-i-haven-t-i-ll-learn-how-this-works-before-vote-day",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "No, I haven't. I'll learn how this works before {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "no-petition", "vote-day"],
+          "excludesFacts": ["round-two"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.not-yet-let-me-read-up-on-how-this-works-before-vote-day",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not yet. Let me read up on how this works before {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "no-petition", "vote-day"],
+          "excludesFacts": ["round-two"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-post-here-is-name-and-this-is-where-the-filing-papers-come-from",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The {post} here is {name}, and this is where the filing papers come from.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["post", "name", "first-visit"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-the-post-looks-up-from-a-stack-of-forms-as-you-come-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name}, the {post}, looks up from a stack of forms as you come in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["post", "name", "first-visit"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-step-up-to-the-counter-where-name-the-post-is-sorting-forms",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You step up to the counter, where {name}, the {post}, is sorting forms.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["post", "name", "first-visit"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-the-post-here-and-is-stamping-a-pile-of-forms-when-you-come-up",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is the {post} here, and is stamping a pile of forms when you come up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["post", "name", "first-visit"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-come-back-to-the-counter-and-name-the-post-looks-up-as-you-come-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You come back to the counter, and {name}, the {post}, looks up as you come in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["post", "name", "back-again"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-the-post-nods-as-you-come-back-to-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name}, the {post}, nods as you come back to the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["post", "name", "back-again"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-post-name-looks-up-from-some-forms-as-you-come-back-to-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The {post}, {name}, looks up from some forms as you come back to the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["post", "name", "back-again"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-the-post-glances-up-from-the-desk-as-you-come-back-to-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name}, the {post}, glances up from the desk as you come back to the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["post", "name", "back-again"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
     }
   ]
 }

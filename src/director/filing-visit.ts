@@ -28,14 +28,9 @@ import {
   type Fact,
   type SceneTalkStep,
 } from "../english/scene-talk-words";
-import { dayOpening } from "../english/day-words";
 import { filedSaid, filedSoFarSaid } from "../english/count-words";
 import { seatSaid, type SeatRecord } from "../english/journal-words";
-import {
-  agencyHeadSaid,
-  agencyNameSaid,
-  counterSaid,
-} from "../english/said-as";
+import { agencyHeadSaid, agencyNameSaid } from "../english/said-as";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { placeCounty } from "../core2/place-map";
 import { describesByRule } from "../core2/filing-rule-office";
@@ -72,6 +67,8 @@ export interface FilingContest {
   filed?: {
     count: number;
     first?: { name: string; recordId: string; filedOn?: string };
+    /** The most recent to file, when more than one has. */
+    latest?: { name: string; recordId: string };
     recordIds: readonly string[];
   };
   sourceIds: readonly string[];
@@ -759,6 +756,11 @@ function raceFacts(
         text: filed.first.name,
         sourceRecordIds: [contest.id, filed.first.recordId],
       };
+    if (filed.latest)
+      facts.latest = {
+        text: filed.latest.name,
+        sourceRecordIds: [contest.id, filed.latest.recordId],
+      };
     // When the first of them filed, from their filing's record ("last week").
     if (filed.first?.filedOn)
       facts.when = {
@@ -787,20 +789,10 @@ export function counterNarration(
    * papers (owner, Nov 1: "You filled out the forms there").
    */
   filing?: { id: string; status: string } | null,
-  /** The minute of the day the player walks in, so the narrator can name the day. */
-  minuteOfDay?: number,
 ): { text: string; sourceRecordIds: readonly string[] }[] {
   const person = visit.clerkId ? core.people.get(visit.clerkId) : undefined;
   if (!person) return [];
   const facts: Record<string, Fact> = {
-    ...(minuteOfDay !== undefined
-      ? {
-          begins: {
-            text: dayOpening(core.date, minuteOfDay),
-            sourceRecordIds: [clerk.recordId],
-          },
-        }
-      : {}),
     ...(filing
       ? {
           // Back for another race while the first is filed: a return.
@@ -825,11 +817,6 @@ export function counterNarration(
       text: clerk.heads
         ? agencyHeadSaid(clerk.heads)
         : titleInSentence(clerk.title),
-      sourceRecordIds: [clerk.recordId],
-    },
-    // Where the player goes: the clerk's office, or the agency itself.
-    counter: {
-      text: counterSaid(titleInSentence(clerk.title), clerk.heads),
       sourceRecordIds: [clerk.recordId],
     },
   };
