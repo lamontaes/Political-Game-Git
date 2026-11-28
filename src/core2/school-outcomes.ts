@@ -39,11 +39,8 @@ import {
 } from "./residents-reads";
 import { incomeBandOn } from "./counted-income-reads";
 import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./modules/budgets";
-import {
-  COUNTED_MOVES_MODULE_ID,
-  countedMoves,
-  type MoveRecord,
-} from "./modules/counted-moves";
+import type { MoveRecord } from "./modules/counted-moves";
+import { COUNTED_MOVES_MODULE_ID, countedMoves } from "./counted-moves-reads";
 import { carriedLink, placeOutcome } from "./modules/outcome-web";
 import { baseOf } from "./outcome-web-model";
 import { webReach } from "./outcome-web-reach";
