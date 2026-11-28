@@ -14,7 +14,7 @@ import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
 import { findRecord } from "./dev-trace";
 import { whyPanels } from "./dev-why";
-import { buildBenchWorld } from "./world";
+import { buildBenchWorld, NoPlayerHereError } from "./world";
 
 const seed =
   process.env.DEV_WHY_REPRICING_SEED ?? randomBytes(8).toString("hex");
@@ -37,10 +37,19 @@ describe("the why panel of a credit line's repricing", () => {
     for (let i = 0; i < maxPlaces; i += 1) {
       const place = drawPlace(i ? `${seed}:${i}` : seed, "dev-why-repricing");
       const where = `${place.name} (${place.key}), seed ${place.seed}`;
-      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-        twoLevel: true,
-        placeKey: place.key,
-      });
+      let built: ReturnType<typeof buildBenchWorld>;
+      try {
+        built = buildBenchWorld(place.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: place.key,
+        });
+      } catch (error) {
+        // A place where no player can live is passed over by name.
+        if (!(error instanceof NoPlayerHereError)) throw error;
+        tried.push(`${where}: ${error.message}`);
+        continue;
+      }
+      const { core } = built;
       advanceCore(core, addDays(makeIsoDate(core.date), 365));
       const api = coreAPI(core);
       const rows = api
