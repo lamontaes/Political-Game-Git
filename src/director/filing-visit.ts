@@ -754,7 +754,11 @@ function raceFacts(
     // for the clerk who is asked who else has filed (three or more filed).
     if (filed.names && filed.names.length >= P.two)
       facts.others = {
-        text: joinList(filed.names.slice(P.zero, P.two + P.one), "and"),
+        // The ones between the first and the latest: the latest is said on its own.
+        text: joinList(
+          filed.names.slice(P.zero, -P.one).slice(P.zero, P.two + P.one),
+          "and",
+        ),
         sourceRecordIds: [contest.id, ...filed.recordIds],
       };
     if (filed.latest)

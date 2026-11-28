@@ -74476,36 +74476,6 @@
       ]
     },
     {
-      "key": "scene-talk.state-tell-deadline.get-it-all-in-by-deadline-if-you-re-unsure-of-anything-ask-me-before-then",
-      "move": "state-tell-deadline",
-      "kind": "spoken",
-      "text": "Get it all in by {deadline}. If you're unsure of anything, ask me before then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "tell-deadline",
-          "role": "asker",
-          "requiresFacts": ["deadline"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "tell-deadline",
-        "key": "routine"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "the-clerk-gave-the-wrong-date-and-no-one-can-extend-it",
-        "filing-the-first-time-is-new-to-the-clerk"
-      ]
-    },
-    {
       "key": "scene-talk.state-tell-deadline.the-papers-are-due-deadline-so-you-ve-got-time-if-you-start-today",
       "move": "state-tell-deadline",
       "kind": "spoken",
@@ -78195,7 +78165,8 @@
             "when",
             "seat",
             "filed-so-far"
-          ]
+          ],
+          "excludesFacts": ["count-told"]
         }
       ],
       "bearing": "calm",
@@ -78228,7 +78199,8 @@
             "when",
             "seat",
             "filed-so-far"
-          ]
+          ],
+          "excludesFacts": ["count-told"]
         }
       ],
       "bearing": "calm",
@@ -78261,7 +78233,8 @@
             "when",
             "seat",
             "filed-so-far"
-          ]
+          ],
+          "excludesFacts": ["count-told"]
         }
       ],
       "bearing": "calm",
@@ -78294,7 +78267,8 @@
             "when",
             "seat",
             "filed-so-far"
-          ]
+          ],
+          "excludesFacts": ["count-told"]
         }
       ],
       "bearing": "calm",
@@ -79449,10 +79423,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.follow-answer.opponent-filed-first-when-among-the-others-on-the-list-for-seat-are-others-and-latest-is-the-latest",
+      "key": "scene-talk.follow-answer.opponent-filed-first-others-filed-after-and-latest-is-the-latest",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{opponent} filed first, {when}. Among the others on the list for {seat} are {others}, and {latest} is the latest.",
+      "text": "{opponent} filed first. {others} filed after, and {latest} is the latest.",
       "uses": [
         {
           "subject": "scene",
@@ -79462,14 +79436,7 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": [
-            "opponent",
-            "latest",
-            "others",
-            "when",
-            "seat",
-            "filed-so-far"
-          ]
+          "requiresFacts": ["opponent", "others", "latest"]
         }
       ],
       "bearing": "calm",
@@ -79483,10 +79450,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.follow-answer.after-opponent-who-filed-when-others-have-filed-for-seat-and-latest-was-the-last-in-that-s-filed-so-far",
+      "key": "scene-talk.follow-answer.after-opponent-came-others-and-latest-was-the-last-in-that-s-filed-so-far",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "After {opponent}, who filed {when}, {others} have filed for {seat}, and {latest} was the last in. That's {filed-so-far}.",
+      "text": "After {opponent} came {others}, and {latest} was the last in. That's {filed-so-far}.",
       "uses": [
         {
           "subject": "scene",
@@ -79496,14 +79463,7 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": [
-            "opponent",
-            "latest",
-            "others",
-            "when",
-            "seat",
-            "filed-so-far"
-          ]
+          "requiresFacts": ["opponent", "others", "latest", "filed-so-far"]
         }
       ],
       "bearing": "calm",
@@ -79530,48 +79490,7 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": [
-            "opponent",
-            "latest",
-            "others",
-            "when",
-            "seat",
-            "filed-so-far"
-          ]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      },
-      "elements": ["filing-at-the-clerks-counter"]
-    },
-    {
-      "key": "scene-talk.follow-answer.filed-so-far-so-far-for-seat-opponent-first-when-then-names-like-others-and-latest-last",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "{filed-so-far} so far for {seat}: {opponent} first, {when}, then names like {others}, and {latest} last.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "ask",
-          "requiresFacts": [
-            "opponent",
-            "latest",
-            "others",
-            "when",
-            "seat",
-            "filed-so-far"
-          ]
+          "requiresFacts": ["seat", "opponent", "others", "latest"]
         }
       ],
       "bearing": "calm",
@@ -79682,6 +79601,383 @@
         "petition-struck-names-decide-it",
         "filing-the-first-time-is-new-to-the-clerk"
       ]
+    },
+    {
+      "key": "scene-talk.follow-thank.then-you-re-all-set-for-office",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then you're all set for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["no-petition", "office"],
+          "setsFacts": ["round-two"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-thank.good-you-re-on-the-ballot-for-office-and-i-need-nothing-more-from-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. You're on the ballot for {office}, and I need nothing more from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["no-petition", "office"],
+          "setsFacts": ["round-two"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-thank.all-right-office-needs-nothing-more-from-you-and-your-name-is-on-the-ballot",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "All right. {office} needs nothing more from you, and your name is on the ballot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["no-petition", "office"],
+          "setsFacts": ["round-two"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-thank.then-you-re-done-here-and-your-name-goes-on-the-ballot-for-office",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then you're done here, and your name goes on the ballot for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["no-petition", "office"],
+          "setsFacts": ["round-two"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.with-nothing-to-collect-for-office-the-work-is-the-voters-knock-on-doors-talk-to-people-and-ask-for-their-help-money-comes-after-that",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "With nothing to collect for {office}, the work is the voters: knock on doors, talk to people, and ask for their help. Money comes after that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["first-filing", "no-petition", "office"],
+          "excludesFacts": ["outlet"],
+          "setsFacts": ["round-two"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "no-fee-then-a-petition",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.no-petition-for-office-means-you-can-start-on-the-voters-now-spend-your-time-with-people-at-their-doors-and-think-about-money-after",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "No petition for {office} means you can start on the voters now. Spend your time with people at their doors, and think about money after.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["first-filing", "no-petition", "office"],
+          "excludesFacts": ["outlet"],
+          "setsFacts": ["round-two"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "no-fee-then-a-petition",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.you-don-t-have-to-collect-names-for-office-so-spend-the-time-with-voters-knock-on-doors-then-think-about-raising-money",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You don't have to collect names for {office}, so spend the time with voters. Knock on doors, then think about raising money.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["first-filing", "no-petition", "office"],
+          "excludesFacts": ["outlet"],
+          "setsFacts": ["round-two"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "no-fee-then-a-petition",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.others-filed-after-opponent-and-latest-was-the-last-to-file-for-seat",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{others} filed after {opponent}, and {latest} was the last to file for {seat}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["opponent", "others", "latest", "seat"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.besides-opponent-the-list-has-others-and-latest-is-the-latest-in",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Besides {opponent}, the list has {others}, and {latest} is the latest in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["opponent", "others", "latest"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.latest-is-the-latest-to-file-for-seat-after-opponent-that-makes-filed-so-far-so-far",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{latest} is the latest to file for {seat}, after {opponent}. That makes {filed-so-far} so far.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["opponent", "latest", "seat", "filed-so-far"],
+          "onlyWhen": ["count-told"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.the-last-in-for-seat-is-latest-and-opponent-was-before-them-in-all-filed-so-far",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The last in for {seat} is {latest}, and {opponent} was before them. In all, {filed-so-far}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["opponent", "latest", "seat", "filed-so-far"],
+          "onlyWhen": ["count-told"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.latest-filed-most-recently-after-opponent-filed-so-far-on-the-list-for-seat",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{latest} filed most recently, after {opponent}. {filed-so-far} on the list for {seat}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["opponent", "latest", "seat", "filed-so-far"],
+          "onlyWhen": ["count-told"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.the-newest-name-on-the-list-for-seat-is-latest-opponent-was-the-first-and-that-s-filed-so-far",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The newest name on the list for {seat} is {latest}. {opponent} was the first, and that's {filed-so-far}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["opponent", "latest", "seat", "filed-so-far"],
+          "onlyWhen": ["count-told"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
     }
   ]
 }
