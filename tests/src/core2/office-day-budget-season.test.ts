@@ -202,16 +202,18 @@ it("the executive's budget act opens in its season and its changes are what the 
     ).toEqual([`priorities:${city.id}`]);
     // Sent: the act is not offered again this season.
     expect(budgetProposalDue(api, officeHost, mayorId), where).toBeNull();
-    // What each line fell short at the last close before the year starts:
-    // the first month under the new budget pays it on top of its twelfth.
     advanceCore(core, addDays(makeIsoDate(next), -1));
+    // The council votes the budget at the year's start with the executive's changes in its bill.
+    advanceCore(core, addDays(makeIsoDate(next), 1));
+    // What each line fell short at the last close under the old budget: the
+    // first month under the new budget pays it on top of its twelfth. The close
+    // on the year's first day still runs under the old budget (it closes the
+    // old year's last month, before the vote), so this is read after it.
     const arrearsBefore =
       (
         api.moduleState(BUDGETS_MODULE_ID).table("arrears").get(city.id) as
           { lines: Record<string, number> } | undefined
       )?.lines ?? {};
-    // The council votes the budget at the year's start with the executive's changes in its bill.
-    advanceCore(core, addDays(makeIsoDate(next), 1));
     // The budget bill the council voted carries the executive's line change, sponsored by the executive.
     const bill = (
       api
