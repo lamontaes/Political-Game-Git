@@ -4,6 +4,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import {
+  allMortgageRows,
   dwellingTenure,
   evictionCases,
   homelessCountOf,
@@ -37,6 +38,10 @@ it("the housing doors read the housing engine's own tables", () => {
     if (held) expect(held.recordId).toBe(row.id);
   }
   expect(dwellingTenure(api, "household:nobody")).toBeUndefined();
+
+  expect(allMortgageRows(api)).toHaveLength(housing.table("mortgages").size);
+  for (const row of housing.table("mortgages").rows().slice(0, 20))
+    expect(allMortgageRows(api).some((one) => one.id === row.id)).toBe(true);
 
   const stock = housing.table("stock").rows();
   expect(stock.length, "the world keeps a rental stock").toBeGreaterThan(0);

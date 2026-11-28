@@ -24,7 +24,7 @@ import {
   yearlyPersonalityShift,
 } from "../opening-personality";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
-import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
+import { declareSnapshotCovered } from "../snapshot";
 import type { ModuleRow } from "../module-data";
 import type {
   CoreAPI,
@@ -62,7 +62,6 @@ interface Runtime {
   scores: Map<PersonId, Map<string, number>>;
 }
 const runtimes = new WeakMap<object, Runtime>();
-registerWorldMapPart("trait-change-runtime", runtimes);
 
 function runtime(state: Readonly<CoreState>): Runtime {
   let row = runtimes.get(state);
@@ -218,6 +217,7 @@ export function createTraitChangeModule(
 ): CoreModule {
   return {
     id: TRAIT_CHANGE_MODULE_ID,
+    worldMapParts: { "trait-change-runtime": { map: runtimes } },
     state: { schemaVersion: 1, tables: { [TRAIT_CHANGES_TABLE]: {} } },
     eventKinds: [...new Set(data.events.map((row) => row.kind))],
     onEvent(api, event) {
