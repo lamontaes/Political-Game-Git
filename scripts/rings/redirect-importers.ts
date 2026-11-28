@@ -214,7 +214,8 @@ function source(name: string): { file: string; name: string } | null {
   if (r) return declaring(r);
   if (hubOwn.has(name)) return null;
   for (const s of stars)
-    if (declares(s).has(name)) return declaring({ file: s, name });
+    if (declares(s).has(name) || reexportsOf(s).named.has(name))
+      return declaring({ file: s, name });
   return null;
 }
 

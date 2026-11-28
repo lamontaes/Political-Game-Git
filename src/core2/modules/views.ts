@@ -69,8 +69,8 @@ import { keepsWhy } from "../why-kept";
 import { placeStateKey } from "../place-map";
 import { stanceMoved } from "../stance-listeners";
 import { VIEWS_KEYS, type CellKey } from "../views-keys";
-import { PAST_WORK_SPELL } from "../past-module";
-import { historyOf } from "../past";
+import { PAST_WORK_SPELL } from "../past-work";
+import { historyOf } from "../past-history";
 import {
   countedGroupStance,
   countedStancesOfHousehold,
