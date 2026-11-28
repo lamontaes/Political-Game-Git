@@ -25,7 +25,7 @@ import { splitMarketDemand } from "../business-books";
 import { openingWorkCommitments } from "../work-reads";
 import { coreAPI } from "../state";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
-import { notifyCountedWages, notifySalesReceipt } from "./finance";
+import { notifyCountedWages, notifySalesReceipt } from "../finance-notices";
 import type {
   BusinessBooksState,
   ResidentWageShortfall,

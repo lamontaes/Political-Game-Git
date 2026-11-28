@@ -563,7 +563,8 @@
         "src/core2/finance-plan.ts",
         "src/core2/finance-state.ts",
         "src/core2/finance-cash.ts",
-        "src/core2/finance-reads.ts"
+        "src/core2/finance-reads.ts",
+        "src/core2/finance-notices.ts"
       ],
       "paths": [
         "src/core2/modules/finance.ts",
