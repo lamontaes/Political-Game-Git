@@ -11,8 +11,8 @@ import data from "./data/news/outcome-news.json" with { type: "json" };
 import { WIRED_INTO } from "./outcome-web-model";
 import type { WebMonth } from "./modules/outcome-web";
 import type { CoreAPI } from "./types";
-
-export const OUTCOME_MONTH_KIND = "outcome-web.month";
+import { OUTCOME_MONTH_KIND } from "./outcome-news-constants";
+export { OUTCOME_MONTH_KIND };
 /** The key a heard measure is known by: `web:<measure>`. */
 export const webFactKey = (measure: string) => `web:${measure}`;
 

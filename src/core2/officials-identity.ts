@@ -11,6 +11,10 @@
  * name only.
  */
 import { SeededRng } from "./kernel/rng";
+
+/** How firmly a member backs a question at a given lean; re-exported so the past reads it through this offices entry. */
+export { memberSupportAt } from "./officials-roster";
+
 import { generatePersonIdentity } from "./gov-rules/person-identity";
 import { drawCohortGivenName } from "./gov-rules/given-name-cohorts";
 import {
@@ -22,7 +26,7 @@ import {
 import {
   inventedPersonBirthDate,
   type InventedPersonRole,
-} from "./gov-rules/invented-person-age";
+} from "./person-invented-age";
 import { isRealOfficeholderName } from "./officials-names";
 import { makeIsoDate } from "./kernel/dates";
 

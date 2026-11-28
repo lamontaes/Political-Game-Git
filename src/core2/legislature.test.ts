@@ -11,7 +11,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { govReport } from "./gov-test-report";
+import { govReport } from "../../scripts/core2/gov-test-report";
 import { gameStartDate } from "./game-start";
 import type { CoreAPI, CoreState } from "./types";
 import { buildPopulation } from "./population";
@@ -72,7 +72,7 @@ import {
   type Provision,
 } from "./modules/legislature";
 import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-data";
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import { officialLean, officialOf } from "./modules/officials";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { billCatalog, provisionFor } from "./bill-catalog";

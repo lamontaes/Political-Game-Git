@@ -7,14 +7,17 @@
  */
 import table from "../../data/content/trait-decisions.json" with { type: "json" };
 import { bookkeeping } from "./bookkeeping";
-import { kindLean, traitLean } from "./choice";
+import { kindLean, traitLean } from "./trait-lean";
 import { affectAt } from "./emotion";
 import { parameter, parameterValues } from "./parameters";
-import { retainLog } from "./state";
+import { retainLog } from "./decision-detail";
 import { stopgap } from "./stopgaps";
 import { decisionKinds } from "./trait-decision-table";
 import { probeCallerSite, traitProbe } from "./trait-probe";
 import type { Affect, CoreState, PersonState } from "./types";
+
+/** A person's education and faith from their record; re-exported so the past reads it through this people entry. */
+export { profileFor } from "./opening-profile";
 
 /** The audit's probe, for engines that report an outcome beside a lean. */
 export { traitProbe };

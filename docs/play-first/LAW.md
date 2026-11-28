@@ -99,6 +99,7 @@ Sources are cited as `file:line` on main at the time above: `OD` is `docs/coordi
 - "A throwaway developer test bench, not a game screen ... Player screens get no developer text." and "Developer screens (LQ-10). Removed from the player build and kept in the developer route." (owner, Oct 9 to 10; PR-screens:33, PR-screens:125)
 - Mark gap is a developer control (it posts a "gap" note from the talk box, `/api/talk/gap`); it is never a player control and never appears on the installed game's screens (from the Oct 24 playtest, log 15:55, and the rulings above; acting CTO reading, the owner may overrule).
 - "Dev mode ... one mode where the owner or a player can do anything". (owner, Oct 14; OD:145) The lane never uses it to get past a defect.
+- "dev mode is a part of the game... when you click advanced... so that everything can be tested in-game by playing the game... it should use everything the same. It just has different permissions." (owner, Nov 26). This replaces "Removed from the player build and kept in the developer route" above: dev mode's routes are in the installed game's play server and answer once the in-game dev setting is on; only the developer's build route (`/api/build`) stays developer-only.
 
 ## 9. Time
 

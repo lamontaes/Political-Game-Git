@@ -12,14 +12,16 @@ import { BUDGETS_MODULE_ID, governments } from "../core2/modules/budgets";
 import { keyPeopleOf } from "../core2/opening-key-people";
 import { faceOf, scenePlace, type PersonFace } from "./scene";
 import {
-  OFFICES_MODULE_ID,
+  officeById,
   officesOfState,
+  servingTermsOf,
   pastElections,
   seatsOfOffices,
+  termById,
   townSeats,
 } from "../core2/modules/offices";
-import { choosesPresident } from "../core2/electorate-places";
-import { federalOffices } from "../core2/offices-state";
+import { choosesPresident } from "../core2/modules/campaigns";
+import { federalOffices } from "../core2/modules/offices";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { lawChain } from "../core2/modules/laws";
 import { repealFor } from "./legislature";
@@ -29,17 +31,19 @@ import {
   atLargeGroup,
   campaigning,
   checkEligibility,
-  ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingOfficeFor,
+  filingOf,
   filingRulesFor,
+  filingsInContest,
+  filingsOfPerson,
   filingWindowOpen,
   playerContests,
   notYourOfficeWhy,
   playerFilingBar,
   seatIsAnotherDistrict,
   type ContestRow,
-  type FilingRow,
+  contestOf,
 } from "../core2/modules/elections";
 import {
   candidateIdentity,
@@ -49,14 +53,16 @@ import {
 import { platformForContest } from "../core2/modules/candidacy";
 import {
   PARTIES_MODULE_ID,
-  joinParty,
   partiesHere,
+  partyTie,
+} from "../core2/modules/elections";
+import {
+  joinParty,
   nextPartyMeeting,
   partyAgreement,
   partyMemberIds,
   partyStands,
-  partyTie,
-} from "../core2/modules/parties";
+} from "../core2/modules/campaigns";
 import { policyNames, standWords } from "./words";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { ownRace } from "./results";
@@ -269,10 +275,7 @@ function partyFacts(core: CoreState, place: string) {
 export function governmentView(core: CoreState, personId: string) {
   const api = coreAPI(core);
   const place = facePlace(core, personId);
-  const filings = api
-    .moduleState(ELECTIONS)
-    .table("filings")
-    .query("byPerson", [personId]) as unknown as FilingRow[];
+  const filings = filingsOfPerson(api, personId);
   const seats = townSeats(api);
   // Who sets each level's law: the government its seats name ("Texas").
   const governmentOf = new Map<string, string>();
@@ -340,12 +343,7 @@ export function governmentView(core: CoreState, personId: string) {
     })),
     // Whether the person serves in any office at all, the town's or not (a member of Congress
     // from another district): the Your office tab opens for them (legislation, item 7).
-    holdsOffice: (
-      api
-        .moduleState("core2-offices-v1")
-        .table("terms")
-        .query("byPerson", [personId]) as unknown as { status: string }[]
-    ).some((term) => term.status === "serving"),
+    holdsOffice: servingTermsOf(api, personId).length > 0,
     seats: seats.map(({ office, seat, holder }) => ({
       officeId: office.id,
       title: office.title,
@@ -362,11 +360,7 @@ export function governmentView(core: CoreState, personId: string) {
       // Only races the world ran: the history before the opening carries an
       // average share for the office, not a count, so it is not shown.
       elections: pastElections(api, seat.id).filter(
-        (e) =>
-          (
-            api.moduleState(OFFICES_MODULE_ID).table("terms").get(e.termId) as
-              { reached?: string } | undefined
-          )?.reached !== "in office at the opening",
+        (e) => termById(api, e.termId)?.reached !== "in office at the opening",
       ),
       // Who won the seat's last race and has not taken office yet.
       elect: electOf(api, seat.id),
@@ -399,14 +393,7 @@ export function governmentView(core: CoreState, personId: string) {
             {
               title: contest.title,
               seat: {
-                bodyName:
-                  (
-                    api
-                      .moduleState(OFFICES_MODULE_ID)
-                      .table("offices")
-                      .get(contest.officeId) as unknown as
-                      { bodyName?: string } | undefined
-                  )?.bodyName ?? null,
+                bodyName: officeById(api, contest.officeId)?.bodyName ?? null,
               },
             },
           ]) ?? spokenOffice(filingOfficeFor(api, contest.id).filedWith),
@@ -528,12 +515,7 @@ export function localRaces(core: CoreState) {
     .filter(({ contest, group }) => group[0]!.id === contest.id)
     .map(({ contest, group }) => {
       const filers = group
-        .flatMap(
-          (seat) =>
-            elections
-              .table("filings")
-              .query("byContest", [seat.id]) as unknown as FilingRow[],
-        )
+        .flatMap((seat) => filingsInContest(api, seat.id))
         // Everyone running: filed, and announced while the window is ahead
         // (owner, Nov 17: "other people should be able to announce").
         .filter(campaigning)
@@ -577,12 +559,8 @@ export function localRaces(core: CoreState) {
       const announced = core.playerId
         ? group.some(
             (seat) =>
-              (
-                elections
-                  .table("filings")
-                  .get(`filing:${seat.id}:${core.playerId}`) as unknown as
-                  FilingRow | undefined
-              )?.status === "announced",
+              filingOf(api, `filing:${seat.id}:${core.playerId}`)?.status ===
+              "announced",
           )
         : false;
       const cannotFile = cannotFileFor(api, core.playerId, contest.id);
@@ -651,7 +629,6 @@ export function localRaces(core: CoreState) {
  */
 function politicsKeyPeople(core: CoreState, personId: string, place: string) {
   const api = coreAPI(core);
-  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   const stateName = new Map(
     corePlaceStateIdentities().map((s) => [s.jurisdictionKey, s.name]),
   );
@@ -675,7 +652,7 @@ function politicsKeyPeople(core: CoreState, personId: string, place: string) {
       // world may not have loaded (a territory's world has no Senate seat at
       // all): the office is read from that state's federal offices, without
       // seating them, so a read-only screen makes no record.
-      const office = (offices.get(row.officeId) ??
+      const office = (officeById(api, row.officeId) ??
         (row.stateKey
           ? federalOffices(row.stateKey, "", core.date)
               .map((entry) => entry.office)
@@ -785,10 +762,8 @@ function whyNotYours(
 ): { why: string; instead: string[] } | null {
   const why = notYourOfficeWhy(api, contestId);
   if (!why) return null;
-  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   const titles = why.insteadIds.flatMap((id) => {
-    const title = (offices.get(id) as unknown as { title?: string } | undefined)
-      ?.title;
+    const title = officeById(api, id)?.title;
     return title ? [title] : [];
   });
   return { why: why.why, instead: [...new Set(titles)] };
@@ -796,11 +771,7 @@ function whyNotYours(
 
 /** The level of the office a contest is for (city, county, township, state, federal). */
 function officeLevelOf(api: CoreAPI, officeId: string): string {
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(officeId) as unknown as { level?: string } | undefined;
-  return office?.level ?? "";
+  return officeById(api, officeId)?.level ?? "";
 }
 
 /**
@@ -820,10 +791,8 @@ export function announceForOffice(
       (controls.localRaces.refusal as Record<string, string>)[bar] ??
         controls.localRaces.refusal["not-your-office"],
     );
-  const contest = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("contests")
-    .get(contestId) as unknown as ContestRow | undefined;
+  const contest = contestOf(api, contestId) as unknown as
+    ContestRow | undefined;
   if (!contest) throw new Error(controls.localRaces.refusal["not-your-office"]);
   // The party the player is tied to, as the counter's filing reads it.
   const parties = core.modules.has(PARTIES_MODULE_ID) ? partiesHere(api) : [];
@@ -856,10 +825,8 @@ export function fileForOffice(
   // their views on the questions this seat takes up (the same read a
   // simulated candidate's filing makes), and none for a question they have no
   // view on.
-  const contest = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("contests")
-    .get(contestId) as unknown as ContestRow | undefined;
+  const contest = contestOf(api, contestId) as unknown as
+    ContestRow | undefined;
   return fileCandidacy(api, {
     personId,
     contestId,

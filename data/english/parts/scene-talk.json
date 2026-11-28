@@ -70270,6 +70270,5351 @@
         "move": "warn",
         "key": "routine"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-catches-your-arm-at-the-edge-of-the-crowd-and-steers-you-toward-a-quiet-cor",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} catches your arm at the edge of the crowd and steers you toward a quiet corner of the hall.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-count-is-in-and-the-hall-is-full-name-waits-at-the-stage-door-with-a-pen-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The count is in and the hall is full. {name} waits at the stage door with a pen in hand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-puts-the-phone-down-when-you-walk-up-and-the-noise-of-the-room-closes-in-be",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} puts the phone down when you walk up, and the noise of the room closes in behind you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.open-greet.you-won-office-you-re-on-in-two-minutes-and-i-need-an-answer-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You won {office}. You're on in two minutes, and I need an answer first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.open-greet.it-s-official-for-office-before-you-go-out-i-need-one-thing-from-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "It's official for {office}. Before you go out, I need one thing from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.state-ask.what-do-you-want-the-room-to-hear-about-opponent-they-ll-be-listening-too",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What do you want the room to hear about {opponent}? They'll be listening too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.state-ask.do-you-thank-opponent-in-the-speech-by-name-or-by-the-office-they-ran-for-or-lea",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Do you thank {opponent} in the speech, by name or by the office they ran for, or leave them out?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.state-ask.the-cameras-will-ask-about-opponent-first-what-s-your-line",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "The cameras will ask about {opponent} first. What's your line?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.state-ask.what-s-the-first-thing-you-want-people-to-hear-you-say-about-office",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What's the first thing you want people to hear you say about {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.state-ask.before-you-go-out-who-do-you-want-to-thank-by-name-for-office",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Before you go out, who do you want to thank by name for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["opponent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-answer.i-ll-thank-opponent-and-say-it-was-a-fair-race",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'll thank {opponent} and say it was a fair race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-answer.i-ll-thank-the-volunteers-first-then-opponent",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'll thank the volunteers first, then {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-answer.i-ll-leave-opponent-out-of-it-and-talk-about-the-work-ahead-for-office",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'll leave {opponent} out of it and talk about the work ahead for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "requiresFacts": ["opponent", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": [
+        "victory-opponent-thanked-by-office-not-name",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-answer.i-want-to-talk-about-what-comes-first-in-office",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I want to talk about what comes first in {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-going-to-thank-every-volunteer-by-name-then-say-what-i-ll-do-first-in-office",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm going to thank every volunteer by name, then say what I'll do first in {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.reply-tell.the-first-thing-i-ll-say-is-what-office-will-do-about-the-cost-of-living",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "The first thing I'll say is what {office} will do about the cost of living.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-opponent-say-when-the-count-came-in",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did {opponent} say when the count came in?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-ask.has-anybody-heard-from-opponent-yet",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Has anybody heard from {opponent} yet?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-boast.i-ll-tell-them-the-voters-heard-what-i-said-and-opponent-didn-t",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "I'll tell them the voters heard what I said, and {opponent} didn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "boast",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-boast.i-want-to-say-in-the-speech-that-the-voters-sent-a-message-to-opponent",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "I want to say in the speech that the voters sent a message to {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "boast",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-leave.fine-i-ll-keep-opponent-out-of-it-let-s-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Fine, I'll keep {opponent} out of it. Let's go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "warn",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-leave.understood-let-s-go-out-and-say-it-for-office",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Understood. Let's go out and say it for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.reply-apologize.you-re-right-i-ll-cut-the-line-about-opponent",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "You're right. I'll cut the line about {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "after": "warn",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "apologize",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.reply-apologize.fair-enough-i-won-t-say-anything-about-opponent-that-i-can-t-take-back",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "Fair enough. I won't say anything about {opponent} that I can't take back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "after": "warn",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "apologize",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.follow-accept.good-say-that-about-opponent-and-mean-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. Say that about {opponent} and mean it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.follow-accept.that-works-for-office-say-it-plainly-and-keep-it-short",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That works for {office}. Say it plainly and keep it short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.follow-accept.that-will-play-well-and-opponent-will-hear-it-too",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That will play well, and {opponent} will hear it too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.follow-accept.good-that-s-the-line-for-office-i-ll-have-it-ready-for-the-screens",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good, that's the line for {office}. I'll have it ready for the screens.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.follow-press.this-is-the-wrong-time-to-leave-opponent-out-the-room-will-notice",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "This is the wrong time to leave {opponent} out. The room will notice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.follow-press.one-more-thing-they-ll-want-to-hear-what-you-do-first-in-office",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "One more thing: they'll want to hear what you do first in {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "elements": ["victory-first-act-is-about-what-people-pay"]
+    },
+    {
+      "key": "scene-talk.follow-warn.say-that-about-opponent-and-it-s-the-only-line-anybody-plays-tomorrow",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Say that about {opponent} and it's the only line anybody plays tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "after": "boast",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      },
+      "elements": [
+        "victory-never-speaks-of-the-margin",
+        "victory-opponent-thanked-by-office-not-name"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-warn.careful-if-you-gloat-about-opponent-the-gloat-is-the-story",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Careful. If you gloat about {opponent}, the gloat is the story.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "after": "boast",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      },
+      "elements": [
+        "victory-never-speaks-of-the-margin",
+        "victory-opponent-thanked-by-office-not-name"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-hasn-t-said-anything-to-us-yet-so-i-d-leave-them-out-until-they-do",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} hasn't said anything to us yet, so I'd leave them out until they do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.follow-answer.i-haven-t-heard-from-opponent-the-call-may-come-while-you-re-on-stage",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I haven't heard from {opponent}. The call may come while you're on stage.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.close-accept.go-the-room-is-waiting-for-the-winner-of-office",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go. The room is waiting for the winner of {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-proud-of-how-you-ran-for-office-go-give-them-a-good-speech",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm proud of how you ran for {office}. Go give them a good speech.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "key": "honor",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-last-precincts-are-in-name-stands-beside-you-with-the-phone-and-says-nothing",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The last precincts are in. {name} stands beside you with the phone and says nothing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-screen-stopped-changing-a-while-ago-name-sits-down-across-from-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The screen stopped changing a while ago. {name} sits down across from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-turns-the-television-down-and-the-room-goes-quiet-around-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} turns the television down, and the room goes quiet around you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.open-greet.we-need-to-talk-about-the-call-to-opponent",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "We need to talk about the call to {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.open-greet.the-count-for-office-isn-t-going-to-change-we-should-talk",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "The count for {office} isn't going to change. We should talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.state-request.the-longer-we-wait-to-call-opponent-the-more-it-looks-like-we-re-hiding",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The longer we wait to call {opponent}, the more it looks like we're hiding.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.state-request.opponent-will-want-to-hear-it-from-you-before-the-press-does",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{opponent} will want to hear it from you before the press does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.state-request.whenever-you-re-ready-the-call-to-opponent-is-the-next-thing",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Whenever you're ready, the call to {opponent} is the next thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": [
+        "concession-does-not-dispute-the-count",
+        "concession-thanks-the-ones-who-worked"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.your-people-are-waiting-in-the-hall-for-office-and-for-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Your people are waiting in the hall for {office}, and for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": ["concession-thanks-the-ones-who-worked"]
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-get-opponent-on-the-line-i-ll-keep-it-short",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright, get {opponent} on the line. I'll keep it short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.reply-agree.you-re-right-i-ll-call-opponent-and-thank-them",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You're right. I'll call {opponent} and thank them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "elements": [
+        "concession-does-not-dispute-the-count",
+        "concession-thanks-the-ones-who-worked"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.give-me-the-phone-i-ll-say-it-to-opponent-myself",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Give me the phone. I'll say it to {opponent} myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.reply-ask.has-opponent-said-anything-yet",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Has {opponent} said anything yet?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.reply-ask.is-the-count-for-office-final-or-can-it-still-move",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is the count for {office} final, or can it still move?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-yet-i-m-not-calling-opponent-until-the-count-is-certain",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not yet. I'm not calling {opponent} until the count is certain.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-won-t-call-opponent-while-there-s-a-chance-the-count-moves",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I won't call {opponent} while there's a chance the count moves.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-few-minutes-alone-first-then-i-ll-call-opponent",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a few minutes alone first, then I'll call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "stall",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-finish-talking-to-my-family-and-then-i-ll-call-opponent",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me finish talking to my family, and then I'll call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "stall",
+        "key": "loss"
+      },
+      "elements": [
+        "concession-does-not-dispute-the-count",
+        "concession-thanks-the-ones-who-worked"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-some-air-i-ll-deal-with-opponent-in-the-morning",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need some air. I'll deal with {opponent} in the morning.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-dial-opponent",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. Dial {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-for-the-people-in-that-hall-i-ll-call-opponent",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. For the people in that hall, I'll call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "plea",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "elements": [
+        "concession-does-not-dispute-the-count",
+        "concession-thanks-the-ones-who-worked"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-yet-the-people-in-that-hall-can-wait-and-i-m-not-calling-opponent-until-i-m",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not yet. The people in that hall can wait, and I'm not calling {opponent} until I'm sure.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.reply-leave.not-yet-i-ll-think-about-office-and-what-i-say-to-opponent",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not yet. I'll think about {office} and what I say to {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-ll-get-opponent-on-the-line-take-your-time",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I'll get {opponent} on the line. Take your time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-it-will-mean-something-to-opponent-and-to-everyone-watching",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. It will mean something to {opponent}, and to everyone watching.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "elements": [
+        "concession-does-not-dispute-the-count",
+        "concession-thanks-the-ones-who-worked"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.nothing-from-opponent-yet-i-d-call-first-so-it-s-you-who-reaches-out",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Nothing from {opponent} yet. I'd call first, so it's you who reaches out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.follow-answer.the-count-for-office-is-what-it-is-a-few-late-ballots-won-t-change-who-won",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The count for {office} is what it is. A few late ballots won't change who won.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.follow-press.people-are-watching-what-you-do-now-and-they-remember-who-called-opponent-and-wh",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "People are watching what you do now, and they remember who called {opponent} and who didn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "refuse",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.follow-press.the-longer-you-wait-the-more-the-story-is-about-the-call-and-not-the-race-for-of",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The longer you wait, the more the story is about the call and not the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "stall",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.follow-plea.please-your-volunteers-are-in-that-hall-for-office-and-they-d-rather-hear-it-fro",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please. Your volunteers are in that hall for {office}, and they'd rather hear it from you than from the screen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "after": "refuse",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      },
+      "elements": ["concession-thanks-the-ones-who-worked"]
+    },
+    {
+      "key": "scene-talk.follow-plea.do-it-for-the-people-who-worked-for-you-thank-opponent-then-go-be-with-them",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Do it for the people who worked for you. Thank {opponent}, then go be with them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "after": "refuse",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      },
+      "elements": [
+        "concession-thanks-the-ones-who-worked",
+        "concession-does-not-dispute-the-count"
+      ]
+    },
+    {
+      "key": "scene-talk.close-accept.okay-i-ll-be-at-the-door-when-you-ve-called-opponent",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll be at the door when you've called {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      },
+      "elements": ["concession-does-not-dispute-the-count"]
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-proud-of-how-you-ran-for-office-for-what-it-s-worth",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm proud of how you ran for {office}. For what it's worth.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "elements": ["concession-thanks-the-ones-who-worked"]
+    },
+    {
+      "key": "scene-talk.close-warn.your-call-but-the-morning-papers-won-t-wait-for-opponent-s-statement",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Your call. But the morning papers won't wait for {opponent}'s statement.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "concession-call",
+          "key": "loss",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "loss"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.narrate-morning.it-s-election-day",
+      "move": "narrate-morning",
+      "kind": "spoken",
+      "text": "It's Election Day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "morning",
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["an-election-day-session-in-the-dark"]
+    },
+    {
+      "key": "scene-talk.narrate-morning.election-morning",
+      "move": "narrate-morning",
+      "kind": "spoken",
+      "text": "Election morning.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "morning",
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["an-election-day-session-in-the-dark"]
+    },
+    {
+      "key": "scene-talk.narrate-morning.polls-are-open",
+      "move": "narrate-morning",
+      "kind": "spoken",
+      "text": "Polls are open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "morning",
+          "role": "narrator",
+          "requiresFacts": ["same-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["an-election-day-session-in-the-dark"]
+    },
+    {
+      "key": "scene-talk.narrate-ballot.you-re-on-the-ballot-for-office-against-opponent",
+      "move": "narrate-ballot",
+      "kind": "spoken",
+      "text": "You're on the ballot for {office}, against {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "ballot",
+          "role": "narrator",
+          "requiresFacts": ["candidate", "office", "opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": [
+        "an-election-day-session-in-the-dark",
+        "close-count-ends-in-a-concession"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-ballot.opponent-is-on-the-same-ballot-for-office",
+      "move": "narrate-ballot",
+      "kind": "spoken",
+      "text": "{opponent} is on the same ballot, for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "ballot",
+          "role": "narrator",
+          "requiresFacts": ["candidate", "office", "opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": [
+        "an-election-day-session-in-the-dark",
+        "close-count-ends-in-a-concession"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-ballot.your-name-is-on-the-ballot-for-office",
+      "move": "narrate-ballot",
+      "kind": "spoken",
+      "text": "Your name is on the ballot for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "ballot",
+          "role": "narrator",
+          "requiresFacts": ["candidate", "office"],
+          "excludesFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["an-election-day-session-in-the-dark"]
+    },
+    {
+      "key": "scene-talk.narrate-ballot.your-ballot-has-number-races-on-it",
+      "move": "narrate-ballot",
+      "kind": "spoken",
+      "text": "Your ballot has {number} races on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "ballot",
+          "role": "narrator",
+          "requiresFacts": ["several", "number"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["an-election-day-session-in-the-dark"]
+    },
+    {
+      "key": "scene-talk.narrate-ballot.there-is-one-race-on-your-ballot-office",
+      "move": "narrate-ballot",
+      "kind": "spoken",
+      "text": "There is one race on your ballot: {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "ballot",
+          "role": "narrator",
+          "requiresFacts": ["one", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["an-election-day-session-in-the-dark"]
+    },
+    {
+      "key": "scene-talk.narrate-polls.you-vote-at-building",
+      "move": "narrate-polls",
+      "kind": "spoken",
+      "text": "You vote at {building}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "polls",
+          "role": "narrator",
+          "requiresFacts": ["building"],
+          "excludesFacts": ["precinct"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["ballot-box-seal-numbers-are-written-down"]
+    },
+    {
+      "key": "scene-talk.narrate-polls.you-vote-in-precinct-precinct",
+      "move": "narrate-polls",
+      "kind": "spoken",
+      "text": "You vote in precinct {precinct}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "polls",
+          "role": "narrator",
+          "requiresFacts": ["precinct"],
+          "excludesFacts": ["building"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["ballot-box-seal-numbers-are-written-down"]
+    },
+    {
+      "key": "scene-talk.narrate-polls.you-vote-at-building-in-precinct-precinct",
+      "move": "narrate-polls",
+      "kind": "spoken",
+      "text": "You vote at {building}, in precinct {precinct}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "polls",
+          "role": "narrator",
+          "requiresFacts": ["building", "precinct"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["ballot-box-seal-numbers-are-written-down"]
+    },
+    {
+      "key": "scene-talk.narrate-poll-worker.worker-is-working-the-polls-where-you-vote",
+      "move": "narrate-poll-worker",
+      "kind": "spoken",
+      "text": "{worker} is working the polls where you vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "poll-worker",
+          "role": "narrator",
+          "requiresFacts": ["worker"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["ballot-box-seal-numbers-are-written-down"]
+    },
+    {
+      "key": "scene-talk.narrate-poll-worker.worker-checks-voters-in-at-the-table",
+      "move": "narrate-poll-worker",
+      "kind": "spoken",
+      "text": "{worker} checks voters in at the table.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "poll-worker",
+          "role": "narrator",
+          "requiresFacts": ["worker"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["ballot-box-seal-numbers-are-written-down"]
+    },
+    {
+      "key": "scene-talk.narrate-canvass.name-offers-to-knock-on-doors-with-you-before-you-vote",
+      "move": "narrate-canvass",
+      "kind": "spoken",
+      "text": "{name} offers to knock on doors with you before you vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvass",
+          "role": "narrator",
+          "requiresFacts": ["helper", "name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": [
+        "an-election-day-session-in-the-dark",
+        "door-count-is-how-people-measure-effort"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-canvass.name-is-ready-to-canvass-with-you-while-the-polls-are-open",
+      "move": "narrate-canvass",
+      "kind": "spoken",
+      "text": "{name} is ready to canvass with you while the polls are open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvass",
+          "role": "narrator",
+          "requiresFacts": ["helper", "name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": [
+        "an-election-day-session-in-the-dark",
+        "door-count-is-how-people-measure-effort"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-canvass.canvass-first",
+      "move": "narrate-canvass",
+      "kind": "spoken",
+      "text": "Canvass first?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvass",
+          "role": "narrator",
+          "excludesFacts": ["helper"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["an-election-day-session-in-the-dark"]
+    },
+    {
+      "key": "scene-talk.narrate-vote-ask.companion-asks-if-you-d-like-to-go-and-vote-together",
+      "move": "narrate-vote-ask",
+      "kind": "spoken",
+      "text": "{companion} asks if you'd like to go and vote together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "vote-ask",
+          "role": "narrator",
+          "requiresFacts": ["with", "companion"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["an-election-day-session-in-the-dark"]
+    },
+    {
+      "key": "scene-talk.narrate-vote-ask.time-to-vote",
+      "move": "narrate-vote-ask",
+      "kind": "spoken",
+      "text": "Time to vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "vote-ask",
+          "role": "narrator",
+          "excludesFacts": ["with"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["an-election-day-session-in-the-dark"]
+    },
+    {
+      "key": "scene-talk.narrate-vote-ask.ready-to-vote",
+      "move": "narrate-vote-ask",
+      "kind": "spoken",
+      "text": "Ready to vote?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "vote-ask",
+          "role": "narrator",
+          "excludesFacts": ["with"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["an-election-day-session-in-the-dark"]
+    },
+    {
+      "key": "scene-talk.narrate-canvassed.you-knock-on-number-doors-and-reached-of-them-open-and-talk-with-you",
+      "move": "narrate-canvassed",
+      "kind": "spoken",
+      "text": "You knock on {number} doors, and {reached} of them open and talk with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvassed",
+          "role": "narrator",
+          "requiresFacts": ["number", "several", "talked", "reached"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": [
+        "most-doors-on-a-list-stay-closed",
+        "door-count-is-how-people-measure-effort"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-canvassed.you-get-through-number-doors-before-it-s-time-to-vote-and-reached-people-stop-to",
+      "move": "narrate-canvassed",
+      "kind": "spoken",
+      "text": "You get through {number} doors before it's time to vote, and {reached} people stop to talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvassed",
+          "role": "narrator",
+          "requiresFacts": ["number", "several", "talked", "reached"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": [
+        "most-doors-on-a-list-stay-closed",
+        "door-count-is-how-people-measure-effort"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-canvassed.you-knock-on-number-doors-and-nobody-answers",
+      "move": "narrate-canvassed",
+      "kind": "spoken",
+      "text": "You knock on {number} doors, and nobody answers.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvassed",
+          "role": "narrator",
+          "requiresFacts": ["number", "several", "nobody"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": [
+        "most-doors-on-a-list-stay-closed",
+        "door-count-is-how-people-measure-effort"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-canvassed.you-knock-on-number-door-and-someone-opens-it-and-talks-with-you",
+      "move": "narrate-canvassed",
+      "kind": "spoken",
+      "text": "You knock on {number} door, and someone opens it and talks with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvassed",
+          "role": "narrator",
+          "requiresFacts": ["number", "one", "talked"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": [
+        "most-doors-on-a-list-stay-closed",
+        "door-count-is-how-people-measure-effort"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-canvassed.you-knock-on-number-door-and-nobody-answers",
+      "move": "narrate-canvassed",
+      "kind": "spoken",
+      "text": "You knock on {number} door, and nobody answers.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvassed",
+          "role": "narrator",
+          "requiresFacts": ["number", "one", "nobody"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": [
+        "most-doors-on-a-list-stay-closed",
+        "door-count-is-how-people-measure-effort"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-canvassed.no-doors-then",
+      "move": "narrate-canvassed",
+      "kind": "spoken",
+      "text": "No doors, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "canvassed",
+          "role": "narrator",
+          "requiresFacts": ["none"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-stayed-home.you-stay-home",
+      "move": "narrate-stayed-home",
+      "kind": "spoken",
+      "text": "You stay home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "stayed-home",
+          "role": "narrator"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["an-election-day-session-in-the-dark"]
+    },
+    {
+      "key": "scene-talk.narrate-stayed-home.you-stay-put",
+      "move": "narrate-stayed-home",
+      "kind": "spoken",
+      "text": "You stay put.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "stayed-home",
+          "role": "narrator"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["an-election-day-session-in-the-dark"]
+    },
+    {
+      "key": "scene-talk.narrate-returns-open.the-first-returns-for-office-come-in",
+      "move": "narrate-returns-open",
+      "kind": "spoken",
+      "text": "The first returns for {office} come in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-open",
+          "role": "narrator",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["daytime"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["mayor-wins-by-dozens-and-the-recount-grows-it"]
+    },
+    {
+      "key": "scene-talk.narrate-returns-open.the-count-for-office-begins-place-by-place",
+      "move": "narrate-returns-open",
+      "kind": "spoken",
+      "text": "The count for {office} begins, place by place.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-open",
+          "role": "narrator",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["mayor-wins-by-dozens-and-the-recount-grows-it"]
+    },
+    {
+      "key": "scene-talk.narrate-returns-step.where-reports-leader-leads-lead-to-trail",
+      "move": "narrate-returns-step",
+      "kind": "spoken",
+      "text": "{where} reports: {leader} leads, {lead} to {trail}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-step",
+          "role": "narrator",
+          "requiresFacts": ["where", "contested", "leader", "lead", "trail"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["mayor-wins-by-dozens-and-the-recount-grows-it"]
+    },
+    {
+      "key": "scene-talk.narrate-returns-step.in-where-leader-finishes-ahead-lead-votes-to-trail",
+      "move": "narrate-returns-step",
+      "kind": "spoken",
+      "text": "In {where}, {leader} finishes ahead, {lead} votes to {trail}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-step",
+          "role": "narrator",
+          "requiresFacts": ["where", "contested", "leader", "lead", "trail"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["mayor-wins-by-dozens-and-the-recount-grows-it"]
+    },
+    {
+      "key": "scene-talk.narrate-returns-step.where-is-tied-lead-to-lead",
+      "move": "narrate-returns-step",
+      "kind": "spoken",
+      "text": "{where} is tied, {lead} to {lead}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-step",
+          "role": "narrator",
+          "requiresFacts": ["where", "tied", "lead"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["mayor-wins-by-dozens-and-the-recount-grows-it"]
+    },
+    {
+      "key": "scene-talk.narrate-returns-step.where-reports-cast-votes-for-the-only-name-on-the-ballot",
+      "move": "narrate-returns-step",
+      "kind": "spoken",
+      "text": "{where} reports {cast} votes for the only name on the ballot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-step",
+          "role": "narrator",
+          "requiresFacts": ["where", "uncontested", "cast"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["mayor-wins-by-dozens-and-the-recount-grows-it"]
+    },
+    {
+      "key": "scene-talk.narrate-returns-lead.in-of-all-places-have-reported-and-leader-is-ahead-by-margin",
+      "move": "narrate-returns-lead",
+      "kind": "spoken",
+      "text": "{in} of {all} places have reported, and {leader} is ahead by {margin}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-lead",
+          "role": "narrator",
+          "requiresFacts": ["in", "all", "ahead", "leader", "margin"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["mayor-wins-by-dozens-and-the-recount-grows-it"]
+    },
+    {
+      "key": "scene-talk.narrate-returns-lead.with-in-of-all-places-in-leader-holds-the-lead-by-margin",
+      "move": "narrate-returns-lead",
+      "kind": "spoken",
+      "text": "With {in} of {all} places in, {leader} holds the lead by {margin}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-lead",
+          "role": "narrator",
+          "requiresFacts": ["in", "all", "ahead", "leader", "margin"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["mayor-wins-by-dozens-and-the-recount-grows-it"]
+    },
+    {
+      "key": "scene-talk.narrate-returns-lead.in-of-all-places-are-in-and-the-race-is-even",
+      "move": "narrate-returns-lead",
+      "kind": "spoken",
+      "text": "{in} of {all} places are in, and the race is even.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-lead",
+          "role": "narrator",
+          "requiresFacts": ["in", "all", "even"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": [
+        "mayor-wins-by-dozens-and-the-recount-grows-it",
+        "close-count-ends-in-a-concession"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-returns-call.winner-wins-the-race-for-office-with-cast-ballots-counted",
+      "move": "narrate-returns-call",
+      "kind": "spoken",
+      "text": "{winner} wins the race for {office}, with {cast} ballots counted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-call",
+          "role": "narrator",
+          "requiresFacts": ["winner", "office", "cast"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.narrate-returns-call.the-count-is-done-and-winner-takes-the-race-for-office",
+      "move": "narrate-returns-call",
+      "kind": "spoken",
+      "text": "The count is done, and {winner} takes the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-call",
+          "role": "narrator",
+          "requiresFacts": ["winner", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.narrate-returns-unopposed.winner-ran-unopposed-for-office-and-wins-it-with-cast-ballots-cast",
+      "move": "narrate-returns-unopposed",
+      "kind": "spoken",
+      "text": "{winner} ran unopposed for {office} and wins it, with {cast} ballots cast.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-unopposed",
+          "role": "narrator",
+          "requiresFacts": ["winner", "office", "cast"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.narrate-returns-mine.you-won",
+      "move": "narrate-returns-mine",
+      "kind": "spoken",
+      "text": "You won.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-mine",
+          "role": "narrator",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.narrate-returns-mine.you-take-it",
+      "move": "narrate-returns-mine",
+      "kind": "spoken",
+      "text": "You take it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-mine",
+          "role": "narrator",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.narrate-returns-mine.you-lost",
+      "move": "narrate-returns-mine",
+      "kind": "spoken",
+      "text": "You lost.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-mine",
+          "role": "narrator",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["close-count-ends-in-a-concession"]
+    },
+    {
+      "key": "scene-talk.narrate-returns-nation.count-other-state-is-choosing-a-governor-tonight-too",
+      "move": "narrate-returns-nation",
+      "kind": "spoken",
+      "text": "{count} other state is choosing a governor tonight too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-nation",
+          "role": "narrator",
+          "requiresFacts": ["one", "count", "same-day"],
+          "excludesFacts": ["daytime"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["mayor-wins-by-dozens-and-the-recount-grows-it"]
+    },
+    {
+      "key": "scene-talk.narrate-returns-nation.count-other-states-are-choosing-governors-tonight-too",
+      "move": "narrate-returns-nation",
+      "kind": "spoken",
+      "text": "{count} other states are choosing governors tonight too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "returns-nation",
+          "role": "narrator",
+          "requiresFacts": ["several", "count", "same-day"],
+          "excludesFacts": ["daytime"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      },
+      "elements": ["mayor-wins-by-dozens-and-the-recount-grows-it"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-the-chair-of-the-party-party-is-at-the-door-when-you-open-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name}, the chair of the {party} Party, is at the door when you open it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-waiting-on-the-porch-when-you-open-the-door",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is waiting on the porch when you open the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-knocks-and-you-let-the-chair-of-the-party-party-into-the-front-room",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} knocks, and you let the chair of the {party} Party into the front room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-seeing-me-i-m-here-for-the-party-party",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for seeing me. I'm here for the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-be-quick-it-s-about-office",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll be quick. It's about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.open-greet.have-you-got-a-few-minutes-it-s-about-the-party-party-and-office",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Have you got a few minutes? It's about the {party} Party and {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["party", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.state-request.nobody-on-our-side-has-filed-for-office-will-you-run",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Nobody on our side has filed for {office}. Will you run?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.state-request.the-party-party-has-no-one-on-the-ballot-for-office-we-d-like-it-to-be-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The {party} Party has no one on the ballot for {office}. We'd like it to be you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["party", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      },
+      "elements": [
+        "a-party-starts-recruiting-for-a-seat",
+        "the-recruit-is-eager-and-able"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.people-in-place-know-you-and-you-re-one-of-ours-would-you-run-for-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "People in {place} know you, and you're one of ours. Would you run for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["place", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.state-request.we-looked-at-who-could-carry-office-for-the-party-party-and-your-name-kept-comin",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We looked at who could carry {office} for the {party} Party, and your name kept coming up. Will you put it on the ballot?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-running-for-office-take",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would running for {office} take?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "run-asked"
+      },
+      "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-i-be-signing-up-for-with-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would I be signing up for with {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "run-asked"
+      },
+      "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-the-party-party-do-for-someone-who-runs",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does the {party} Party do for someone who runs?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "run-asked"
+      },
+      "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-ll-run-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. I'll run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.reply-agree.put-my-name-down-for-office-i-ll-run",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Put my name down for {office}. I'll run.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.reply-agree.if-the-party-party-needs-a-name-on-the-ballot-you-can-have-mine",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "If the {party} Party needs a name on the ballot, you can have mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-run-for-office-not-this-time",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't run for {office}. Not this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-not-the-right-one-for-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm not the right one for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-glad-the-party-party-thought-of-me-but-the-answer-is-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm glad the {party} Party thought of me, but the answer is no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-talk-it-over-at-home-before-i-say-anything-about-office",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me talk it over at home before I say anything about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "stall",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-few-days-to-think-about-office",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a few days to think about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "stall",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-stall.i-d-have-to-see-what-running-for-office-would-do-to-my-own-work-first",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'd have to see what running for {office} would do to my own work first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "stall",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.follow-answer.you-file-your-papers-for-office-and-the-party-party-helps-with-the-rest",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You file your papers for {office}, and the {party} Party helps with the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["office", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "run-asked"
+      },
+      "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+    },
+    {
+      "key": "scene-talk.follow-answer.mostly-it-s-filing-for-office-then-talking-to-the-people-of-place-we-ll-walk-you",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Mostly it's filing for {office}, then talking to the people of {place}. We'll walk you through it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["office", "place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "run-asked"
+      },
+      "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+    },
+    {
+      "key": "scene-talk.follow-answer.get-your-papers-in-for-office-before-filing-closes-the-party-party-will-do-the-r",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Get your papers in for {office} before filing closes. The {party} Party will do the rest alongside you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["office", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "run-asked"
+      },
+      "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+    },
+    {
+      "key": "scene-talk.follow-thank.good-you-ll-have-the-party-party-behind-you-for-office",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. You'll have the {party} Party behind you for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["party", "office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-what-i-hoped-you-d-say-about-office",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's what I hoped you'd say about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.follow-press.if-nobody-runs-for-office-that-seat-goes-without-a-fight",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "If nobody runs for {office}, that seat goes without a fight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.follow-press.filing-for-office-won-t-stay-open-and-the-seat-needs-someone",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Filing for {office} won't stay open, and the seat needs someone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.follow-press.don-t-take-too-long-the-party-party-needs-a-name-for-office",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Don't take too long. The {party} Party needs a name for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "stall",
+          "requiresFacts": ["party", "office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-the-party-party-will-look-for-someone-else-for-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. The {party} Party will look for someone else for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["party", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-talk-it-over-and-let-me-know-about-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. Talk it over, and let me know about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "stall",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-agree.that-s-clear-enough-i-ll-run-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That's clear enough. I'll run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      },
+      "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+    },
+    {
+      "key": "scene-talk.reply-decline.thank-you-for-explaining-but-i-can-t-run-for-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Thank you for explaining, but I can't run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-get-back-to-my-day-thanks-for-asking-about-office",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should get back to my day. Thanks for asking about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-made-your-point-about-office-i-ll-run",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've made your point about {office}. I'll run.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-heard-all-of-it-and-the-answer-for-office-is-still-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I heard all of it, and the answer for {office} is still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go-i-ll-let-you-know-about-office",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. I'll let you know about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-tell-the-others-at-the-party-party-we-ll-be-in-touch",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll tell the others at the {party} Party. We'll be in touch.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-office-needed-someone-and-now-it-has-someone",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. {office} needed someone, and now it has someone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-back-you-the-whole-way-for-office",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll back you the whole way for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "promise",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.close-promise.the-party-party-will-be-there-for-you-from-here-to-election-day",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "The {party} Party will be there for you from here to election day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "promise",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.close-accept.no-hard-feelings-maybe-next-time-for-office",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "No hard feelings. Maybe next time, for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "outcome": "refused",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-the-party-party-will-remember-you-were-asked",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I understand. The {party} Party will remember you were asked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "outcome": "refused",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.close-warn.we-ll-find-someone-else-for-office-i-hoped-it-would-be-you",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "We'll find someone else for {office}. I hoped it would be you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "refused",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.close-warn.every-day-you-wait-is-a-day-the-party-party-doesn-t-have",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Every day you wait is a day the {party} Party doesn't have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "open",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.close-press.don-t-take-too-long-filing-for-office-is-open-now",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Don't take too long. Filing for {office} is open now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.close-press.think-it-over-and-call-me-the-party-party-needs-an-answer-soon",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think it over, and call me. The {party} Party needs an answer soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "outcome": "open",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-the-offer-for-office-stands-while-filing-is-open",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on. The offer for {office} stands while filing is open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.close-accept.of-course-call-me-when-you-ve-decided-about-office",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Of course. Call me when you've decided about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-the-party-party-office-open-and-has-set-out-a-chair-for-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has the {party} Party office open and has set out a chair for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-step-into-the-party-party-office-and-name-looks-up-from-the-desk",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You step into the {party} Party office, and {name} looks up from the desk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-pushes-the-party-party-sign-in-sheet-across-the-desk-as-you-come-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} pushes the {party} Party sign-in sheet across the desk as you come in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.open-greet.come-in-welcome-to-the-party-party",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Come in. Welcome to the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.open-greet.there-you-are-sit-down-and-welcome-to-the-party-party",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "There you are. Sit down, and welcome to the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.state-request.welcome-most-people-sign-up-and-we-never-see-them-again-can-we-count-on-you-to-p",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Welcome. Most people sign up and we never see them again. Can we count on you to pitch in for the {party} Party now and then?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.state-request.i-m-glad-you-came-by-would-you-lend-the-party-party-a-hand-when-we-need-one",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm glad you came by. Would you lend the {party} Party a hand when we need one?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.state-request.our-volunteers-keep-the-party-party-running-in-place-can-we-count-on-you-for-an",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Our volunteers keep the {party} Party running in {place}. Can we count on you for an evening or two?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["party", "place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-put-me-down-for-the-party-party",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, put me down for the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-agree.count-me-in-i-ll-pitch-in-for-the-party-party-when-you-call",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Count me in. I'll pitch in for the {party} Party when you call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-the-party-party-actually-do-around-place",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does the {party} Party actually do around {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["party", "place"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-the-party-party-need-from-me",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would the {party} Party need from me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-see-how-it-goes-with-the-party-party-first",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me see how it goes with the {party} Party first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "deflect",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-d-like-to-learn-what-the-party-party-does-before-i-promise-anything",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'd like to learn what the {party} Party does before I promise anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "deflect",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-thank.good-it-means-a-lot-to-have-you-with-the-party-party",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. It means a lot to have you with the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-what-i-like-to-hear-welcome-aboard-the-party-party",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's what I like to hear. Welcome aboard the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-press.even-one-evening-before-the-election-would-help-the-party-party",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Even one evening before the election would help the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "deflect",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-press.we-run-on-people-who-show-up-one-evening-would-mean-a-lot-to-the-party-party",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We run on people who show up. One evening would mean a lot to the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "deflect",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-the-door-to-the-party-party-office-is-open-when-you-re-ready",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. The door to the {party} Party office is open when you're ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "deflect",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-accept.no-pressure-come-by-the-party-party-office-when-you-can",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "No pressure. Come by the {party} Party office when you can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "deflect",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-answer.we-hold-office-held-and-we-mean-to-keep-it-mostly-that-s-knocking-on-doors-an-ev",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We hold {office-held}, and we mean to keep it. Mostly that's knocking on doors. An evening of yours helps more than you'd think.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["office-held"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-answer.we-ve-got-office-held-and-we-work-to-keep-it-come-knock-on-doors-with-us-when-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We've got {office-held}, and we work to keep it. Come knock on doors with us when it's time, or chip in what you can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["office-held"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-answer.we-ve-got-somebody-running-for-race-run-this-time-knock-on-doors-with-them-chip",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We've got somebody running for {race-run} this time. Knock on doors with them, chip in, or just show up at an event.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["race-run"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-answer.right-now-it-s-the-race-run-race-come-out-and-knock-on-doors-for-our-candidate-o",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Right now it's the {race-run} race. Come out and knock on doors for our candidate, or give what you can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["race-run"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-answer.the-party-party-doesn-t-hold-anything-around-here-yet-that-s-why-we-need-people",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The {party} Party doesn't hold anything around here yet. That's why we need people who'll knock on doors and show up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["party-holds-nothing", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.follow-answer.not-much-yet-we-don-t-hold-a-seat-here-if-you-ll-knock-on-doors-with-me-for-the",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Not much, yet. We don't hold a seat here. If you'll knock on doors with me for the {party} Party, that's where it starts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["party-holds-nothing", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-agree.that-s-more-than-i-expected-put-me-down-for-the-party-party",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That's more than I expected. Put me down for the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ll-think-about-what-i-can-give-the-party-party",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll think about what I can give the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "deflect",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-agree.you-re-right-i-ll-come-out-for-the-party-party",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You're right. I'll come out for the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-get-going-thanks-for-the-welcome-to-the-party-party",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should get going. Thanks for the welcome to the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-call-you-when-something-comes-up-good-to-have-you-in-the-party-party",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll call you when something comes up. Good to have you in the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-put-your-name-on-the-party-party-list-we-re-glad-you-re-here",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll put your name on the {party} Party list. We're glad you're here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-keep-you-posted-on-what-the-party-party-is-doing",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll keep you posted on what the {party} Party is doing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "promise",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-the-party-party-will-need-people-soon",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it. The {party} Party will need people soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "outcome": "open",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.close-warn.we-could-use-you-i-hoped-you-d-say-yes-to-the-party-party",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "We could use you. I hoped you'd say yes to the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "open",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-wait-too-long-there-s-plenty-to-do-for-the-party-party",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't wait too long. There's plenty to do for the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "open",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
     }
   ]
 }

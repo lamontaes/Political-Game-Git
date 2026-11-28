@@ -19,6 +19,7 @@
  * state's counts.
  */
 import { taxIndexOf } from "../tax-index";
+import { householdStatusRow } from "../housing-reads";
 import { placeStateKey } from "../place-map";
 import { createStableId, stableHash } from "../kernel/ids";
 import moveRows from "../data/moves/parameters.json" with { type: "json" };
@@ -33,6 +34,7 @@ import {
   countryStateMonth,
   countryStates,
 } from "./macro";
+import { latestMacroMonthId } from "../macro-reads";
 import { regionalLevel, regionalRegistered } from "./regional";
 import type { LawInForceAnswer } from "../laws-in-force";
 import { ageOn, type CountedHousehold } from "../counted-groups";
@@ -57,7 +59,7 @@ import type { ResidentHouseholdRecord } from "../residents";
 import type { ModuleRow } from "../module-data";
 import { registerWorldMapPart } from "../snapshot";
 import { coreAPI } from "../state";
-import type { HistoryModule, HistoryRow, HistorySource } from "../past";
+import type { HistoryRow, HistorySource } from "../past";
 import type {
   CoreAPI,
   CoreModule,
@@ -258,10 +260,7 @@ function stateIncomeTax(
 export function stateUnemployment(api: CoreAPI): Map<string, number> {
   const out = new Map<string, number>();
   if (!api.state.modules.has("macro")) return out;
-  const latest = (
-    api.moduleState("macro").table("state").get("macro:state") as
-      { latestMonth?: string } | undefined
-  )?.latestMonth;
+  const latest = latestMacroMonthId(api);
   if (!latest) return out;
   for (const state of countryStates(api)) {
     const row = countryStateMonth(api, state.fips, latest);
@@ -437,7 +436,6 @@ function holdsOf(
 }
 
 /** The housing engine's module id (kept here so the moves engine does not import housing). */
-const HOUSING_MODULE = "housing";
 /** How the housing engine's eviction case ids begin (`eviction:<lease>:<date>`). */
 const EVICTION_CASE_PREFIX = "eviction:";
 
@@ -451,9 +449,8 @@ const EVICTION_CASE_PREFIX = "eviction:";
  * rate of leaving for as long as it is without a home.
  */
 function pushesOf(api: CoreAPI, h: CountedHousehold): Record<string, number> {
-  if (h.tenure !== "none" || !api.state.modules.has(HOUSING_MODULE)) return {};
-  const status = api.moduleState(HOUSING_MODULE).table("statuses").get(h.id) as
-    { caseId?: string } | undefined;
+  if (h.tenure !== "none") return {};
+  const status = householdStatusRow(api, h.id);
   if (!status?.caseId?.startsWith(EVICTION_CASE_PREFIX)) return {};
   // stopgapId: SG-WORLD-counted-evicted-push-rate
   return { evicted: MOVES.movesEvictedPull!.value };
@@ -2164,7 +2161,7 @@ const MOVES_HISTORY: HistorySource = {
   },
 };
 
-export const COUNTED_MOVES_MODULE: CoreModule & HistoryModule = {
+export const COUNTED_MOVES_MODULE: CoreModule = {
   id: COUNTED_MOVES_MODULE_ID,
   history: MOVES_HISTORY,
   state: {

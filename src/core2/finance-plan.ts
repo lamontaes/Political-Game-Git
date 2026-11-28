@@ -8,7 +8,7 @@ import {
   cashJournalMapSet,
   cashJournalSetWrite,
   isCashJournalLifetimeMinor,
-} from "./journal-state";
+} from "./journal-writes";
 import type {
   CashJournalMetadataWrite,
   CashJournalRuntime,

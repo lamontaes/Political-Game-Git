@@ -17,7 +17,11 @@ import { buildBenchWorld } from "../bench/world";
 import rules from "../../data/research/elections/recount-rules-2026.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  atLargeGroup,
+  type ContestRow,
+} from "./modules/elections";
 import { lawChain } from "./modules/laws";
 import {
   electedWithGovernorOnTicket,
@@ -151,7 +155,11 @@ it("a count inside the place's automatic margin opens a recount, certified befor
           `${where}: passed over ${ticket.title}, decided by ${governor.title}'s count (${held?.id ?? "no recount"})`,
         );
       }
-      const counted = onCount.filter((c) => !governorOf(c));
+      // A body's at-large seats up on one day are one race, counted once as its
+      // first seat's contest, so the race has one recount (`holdElection`).
+      const counted = onCount.filter(
+        (c) => !governorOf(c) && atLargeGroup(api, c)[0]!.id === c.id,
+      );
       if (!counted.length) {
         passed.push(`${where}: no race with two candidates on the count`);
         continue;
