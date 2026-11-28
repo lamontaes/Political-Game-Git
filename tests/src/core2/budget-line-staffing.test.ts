@@ -12,7 +12,7 @@
 import { randomBytes } from "node:crypto";
 import { afterAll, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
-import { buildBenchWorld } from "../../../src/bench/world";
+import { buildBenchWorld, NoPlayerHereError } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
@@ -44,10 +44,19 @@ for (const key of Object.keys(STAFFING))
     for (let draw = 0; draw < 12; draw += 1) {
       const place = drawPlace(`${seed}:${key}:${draw}`, "staffing-line");
       const where = `${place.name} (${place.key}), seed ${place.seed}`;
-      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-        twoLevel: true,
-        placeKey: place.key,
-      });
+      let built: ReturnType<typeof buildBenchWorld>;
+      try {
+        built = buildBenchWorld(place.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: place.key,
+        });
+      } catch (error) {
+        // A place where no player can live is passed over by name.
+        if (!(error instanceof NoPlayerHereError)) throw error;
+        tried.push(`${where}: ${error.message}`);
+        continue;
+      }
+      const { core } = built;
       const api = coreAPI(core);
       const gov = STAFFING[key]!.levels.map((level) =>
         governments(api).find(
