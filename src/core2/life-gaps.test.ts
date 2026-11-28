@@ -124,8 +124,11 @@ describe(`the life record's gaps in ${where}`, () => {
         expect(lost!.facts?.office, where).toBeTruthy();
         const card = knownCard(core, core.playerId!, person);
         // The same sentence twice in one year is said once (a person on the ballot for two seats of one office).
+        // A stretch of life is one telling that keeps every record it joins in
+        // `records`, so the race counts when any line's records hold it.
         const line = card.history.find(
-          (row) => row.recordId === race.id || /lost the race/.test(row.text),
+          (row) =>
+            row.records.includes(race.id) || /lost the race/.test(row.text),
         );
         expect(
           line?.text,
