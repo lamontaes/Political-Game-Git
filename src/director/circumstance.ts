@@ -20,6 +20,8 @@ import { receives, type ReceiveRule } from "./scheduling";
 import {
   INTEREST_GROUPS_MODULE_ID,
   meetingsOn,
+  contestOf,
+  filingsOfPerson,
 } from "../core2/modules/elections";
 import {
   LEGISLATURE_MODULE_ID,
@@ -27,7 +29,11 @@ import {
 } from "../core2/modules/legislature";
 import { NEWS_MODULE_ID, storyOfReadEvent } from "../core2/modules/news";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
-import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+  termsOfPerson,
+} from "../core2/modules/offices";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
@@ -44,6 +50,7 @@ import rowsJson from "./data/circumstances.json" with { type: "json" };
 import { civicFill } from "./civic-roles";
 import { classmatesOf } from "./school";
 import type { Moment, PersonLedger } from "./types";
+import { billById, studyById } from "../core2/modules/bodies-reads";
 
 const zero = P.zero;
 const one = P.one;
@@ -211,10 +218,7 @@ function standingOf(
   const api = coreAPI(core as CoreState);
   const officeIds = new Set<string>();
   if (api.state.modules.has(OFFICES_MODULE_ID))
-    for (const term of api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("byPerson", [playerId]) as unknown as TermRow[])
+    for (const term of termsOfPerson(api, playerId) as unknown as TermRow[])
       if (term.status === "serving") officeIds.add(term.officeId);
   return { officeIds, filed: openContests(core, playerId).length > zero };
 }
@@ -223,14 +227,13 @@ function standingOf(
 function openContests(core: Readonly<CoreState>, personId: PersonId): string[] {
   const api = coreAPI(core as CoreState);
   if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
-  const elections = api.moduleState(ELECTIONS_MODULE_ID);
   return (
-    elections.table("filings").query("byPerson", [personId]) as unknown as {
+    filingsOfPerson(api, personId) as unknown as {
       contestId: string;
     }[]
   )
     .filter((filing) => {
-      const contest = elections.table("contests").get(filing.contestId) as
+      const contest = contestOf(api, filing.contestId) as
         { electionDate?: string } | undefined;
       return !contest?.electionDate || contest.electionDate >= core.date;
     })
@@ -279,10 +282,8 @@ function bodyOfRecord(
   if (record.facts.chamber) return record.facts.chamber;
   const billId = record.facts.billId;
   if (!billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return undefined;
-  const bill = coreAPI(core as CoreState)
-    .moduleState(LEGISLATURE_MODULE_ID)
-    .table("bills")
-    .get(billId) as unknown as { bodyOfficeId?: string } | undefined;
+  const bill = billById(coreAPI(core as CoreState), billId) as unknown as
+    { bodyOfficeId?: string } | undefined;
   return bill?.bodyOfficeId;
 }
 
@@ -293,10 +294,8 @@ function studyOf(
 ): StudyRow | undefined {
   const studyId = record.facts.studyId;
   if (!studyId || !core.modules.has(LEGISLATURE_MODULE_ID)) return undefined;
-  return coreAPI(core as CoreState)
-    .moduleState(LEGISLATURE_MODULE_ID)
-    .table("studies")
-    .get(studyId) as unknown as StudyRow | undefined;
+  return studyById(coreAPI(core as CoreState), studyId) as unknown as
+    StudyRow | undefined;
 }
 
 /** Whether the player filed in the contest and someone else won it. */
@@ -309,10 +308,9 @@ function ranAndLost(
   if (!contestId || !winnerId || winnerId === playerId) return false;
   if (!core.modules.has(ELECTIONS_MODULE_ID)) return false;
   return (
-    coreAPI(core as CoreState)
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("filings")
-      .query("byPerson", [playerId]) as unknown as { contestId: string }[]
+    filingsOfPerson(coreAPI(core as CoreState), playerId) as unknown as {
+      contestId: string;
+    }[]
   ).some((filing) => filing.contestId === contestId);
 }
 
@@ -394,10 +392,9 @@ function playerHolds(
       const contestId = record.facts.contestId;
       if (!contestId || !core.modules.has(ELECTIONS_MODULE_ID)) return false;
       return (
-        coreAPI(core as CoreState)
-          .moduleState(ELECTIONS_MODULE_ID)
-          .table("filings")
-          .query("byPerson", [playerId]) as unknown as { contestId: string }[]
+        filingsOfPerson(coreAPI(core as CoreState), playerId) as unknown as {
+          contestId: string;
+        }[]
       ).some((filing) => filing.contestId === contestId);
     }
     case "lost-again":

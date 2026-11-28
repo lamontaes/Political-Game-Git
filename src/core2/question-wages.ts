@@ -9,11 +9,11 @@
 import {
   mechanicRow,
   putMechanic,
-  reachParameter,
   reachTable,
   tomorrow,
   type MechanicRow,
-} from "./law-reach/group-a-records";
+} from "./laws-in-force";
+import { reachParameter } from "./modules/justice";
 import { appliedOn, lawNoLongerApplies } from "./law-reach/applied";
 import {
   enactLaw,
@@ -22,7 +22,7 @@ import {
   LAWS_MODULE_ID,
   yesLevels,
 } from "./modules/laws";
-import type { LawRowInput } from "./laws-starting";
+import type { LawRowInput } from "./laws-in-force";
 import type { CoreAPI } from "./types";
 
 export const FEDERAL_KEY =

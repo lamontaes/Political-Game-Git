@@ -8,7 +8,7 @@
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { govReport } from "./gov-test-report";
+import { govReport } from "../../scripts/core2/gov-test-report";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
@@ -82,9 +82,12 @@ describe("starting policy answers are law at the opening", () => {
       expect(answerIn(api, state, question)).toBe(
         answer.answer === "yes" ? 1 : -1,
       );
-      expect(yesLevels(api, question).length > 0, `${where}: ${question}`).toBe(
-        answer.answer === "yes",
-      );
+      // The state's answer is read at the state level: another level (the
+      // federal income tax, a town's own law) may hold the same question in force.
+      expect(
+        yesLevels(api, question).some((l) => l.level === "state"),
+        `${where}: ${question}`,
+      ).toBe(answer.answer === "yes");
       if (answer.answer === "yes") yes.push(question);
     }
     // The policies in force reach people, businesses or groups from day one.

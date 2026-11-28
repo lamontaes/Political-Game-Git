@@ -18,14 +18,11 @@ import {
 import { placeStateKey } from "./place-map";
 import type { CoreAPI } from "./types";
 import type { ModuleRow } from "./module-data";
-import { makeIsoDate } from "./kernel/dates";
+import { makeIsoDate, weekdayOf } from "./kernel/dates";
 import { closenessBetween } from "./closeness";
-import { candidateStance } from "./campaign-stances";
-import {
-  appointerWeighing,
-  nominateAndConfirm,
-  partySide,
-} from "./appointments";
+import { candidateStance } from "./modules/campaigns";
+import { appointerWeighing, nominateAndConfirm } from "./appointments";
+import { partySide } from "./party-sides";
 import { campaignParameter } from "./campaign-data";
 import { lawChain } from "./modules/laws";
 import { federalOrderable } from "./modules/executive";
@@ -37,8 +34,9 @@ import { corePlaceByKey } from "./place-lookup";
 import { drawOfficialIdentity } from "./officials-identity";
 import { coarsePlace, metResident, metWork } from "./coarse-place";
 import {
-  OFFICIALS_MODULE_ID,
+  allOfficials,
   officialLean,
+  officialOf,
   type OfficialRow,
 } from "./modules/officials";
 import {
@@ -47,7 +45,7 @@ import {
   setBudgetPriorities,
 } from "./modules/budgets";
 import { CAMPAIGNS_MODULE_ID, touchImpression } from "./modules/campaigns";
-import { personLean } from "./campaign-views";
+import { personLean } from "./modules/campaigns";
 import { agreementWith } from "./modules/views";
 import {
   candidateAnswers,
@@ -82,7 +80,7 @@ import {
   nthSitting,
   senateSits,
 } from "./office-day-federal-calendar";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { termOnSeat } from "./modules/offices";
 
 interface CabinetPost {
   readonly id: string;
@@ -180,22 +178,9 @@ export function nominationCandidates(
   known: boolean;
 }[] {
   const held = nominated(api);
-  const vice = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [
-        "seat:US:vice-president",
-        "serving",
-      ]) as unknown as TermRow[]
-  )[0]?.personId;
+  const vice = termOnSeat(api, "seat:US:vice-president")?.personId;
   const years = federalParameter("cabinetQualificationYears");
-  return (
-    api
-      .moduleState(OFFICIALS_MODULE_ID)
-      .table("officials")
-      .rows() as unknown as OfficialRow[]
-  )
+  return allOfficials(api)
     .filter(
       (row) =>
         row.id !== presidentId &&
@@ -316,12 +301,7 @@ export function leavePostOpen(
 
 /** The sitting senators, each by their own lean: the body a cabinet nominee faces. */
 function senateLeans(api: CoreAPI): number[] {
-  return (
-    api
-      .moduleState(OFFICIALS_MODULE_ID)
-      .table("officials")
-      .rows() as unknown as OfficialRow[]
-  )
+  return allOfficials(api)
     .filter(
       (member) => member.officeKind === "us-senate" && member.ended == null,
     )
@@ -459,14 +439,12 @@ function emitCabinet(
 export function confirmGivenVotes(api: CoreAPI, presidentId: string): void {
   const date = api.state.date;
   if (!senateSits(date).sits) return;
-  const officials = api.moduleState(OFFICIALS_MODULE_ID).table("officials");
   const senators = senateLeans(api);
   const years = federalParameter("cabinetQualificationYears");
   for (const row of cabinetOf(api)) {
     if (row.status !== "nominated" || !row.voteOn || row.voteOn > date)
       continue;
-    const record = officials.get(row.nomineeId!) as unknown as
-      OfficialRow | undefined;
+    const record = officialOf(api, row.nomineeId!);
     const nominee = record
       ? candidateFrom(api, presidentId, record, years)
       : undefined;
@@ -733,7 +711,7 @@ export function dailyBrief(
 }
 
 const isWeekday = (date: string) => {
-  const day = new Date(`${date}T00:00:00Z`).getUTCDay();
+  const day = weekdayOf(date);
   return day !== 0 && day !== 6;
 };
 /** The player gives a duty while they live its day, which the record dates the day before. */
@@ -753,15 +731,7 @@ const gave = (api: CoreAPI, personId: string, kind: string, date: string) =>
 /** The Senate's votes on nominations come on their day whoever the player controls. */
 addFederalWorldPart((api) => {
   if (!cabinetOf(api).some((c) => c.status === "nominated")) return;
-  const president = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [
-        "seat:US:president",
-        "serving",
-      ]) as unknown as TermRow[]
-  )[0]?.personId;
+  const president = termOnSeat(api, "seat:US:president")?.personId;
   if (president) confirmGivenVotes(api, president);
 });
 
@@ -773,15 +743,7 @@ addFederalWorldPart((api) => {
 addFederalWorldPart((api) => {
   const date = api.state.date;
   if (jointAddress(Number(date.slice(0, 4))).date !== date) return;
-  const president = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [
-        "seat:US:president",
-        "serving",
-      ]) as unknown as TermRow[]
-  )[0]?.personId;
+  const president = termOnSeat(api, "seat:US:president")?.personId;
   if (
     !president ||
     president === controlledPerson(api) ||
@@ -857,17 +819,7 @@ addFederalDayPart((api, personId) => {
 
 /** The vice president serving today, if the offices engine seats one. */
 export function vicePresidentOf(api: CoreAPI): string | null {
-  return (
-    (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("bySeatStatus", [
-          "seat:US:vice-president",
-          "serving",
-        ]) as unknown as TermRow[]
-    )[0]?.personId ?? null
-  );
+  return termOnSeat(api, "seat:US:vice-president")?.personId ?? null;
 }
 
 /**

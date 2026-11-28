@@ -7,7 +7,7 @@
 // screenshot file in docs/reports/race-line-2026-10-25/.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { fileWhenFilingOpens } from "./start-life.mjs";
+import { fileWhenFilingOpens } from "../../tests/support/start-life.mjs";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",

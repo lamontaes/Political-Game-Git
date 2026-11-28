@@ -248,7 +248,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-c41-run-again-or-step-aside"]
     },
     {
       "key": "headlines.approval.fewer-americans-approve-of-name",
@@ -270,7 +271,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-c41-run-again-or-step-aside"]
     },
     {
       "key": "headlines.approval.name-s-approval-holds-steady",
@@ -337,7 +339,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-c18-thanking-the-other-side-s-leader"]
     },
     {
       "key": "headlines.law-amount-passed.place-lifts-measure-to-to",
@@ -360,7 +363,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["board-restores-some-laid-off-teachers-and-raises-levy"]
+      "elements": [
+        "rate-rise-cut-to-a-quarter-after-residents-rally",
+        "board-restores-some-laid-off-teachers-and-raises-levy"
+      ]
     },
     {
       "key": "headlines.law-amount-passed.measure-to-climb-from-from-to-to",
@@ -383,7 +389,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["board-restores-some-laid-off-teachers-and-raises-levy"]
+      "elements": [
+        "rate-rise-cut-to-a-quarter-after-residents-rally",
+        "board-restores-some-laid-off-teachers-and-raises-levy"
+      ]
     },
     {
       "key": "headlines.law-amount-passed.congress-lifts-measure-to-to",
@@ -428,7 +437,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["pattern-b50-the-promise-on-day-one"]
+      "elements": ["pattern-b50-the-promise-on-day-one", "fee-order-after-oath"]
     },
     {
       "key": "headlines.law-amount-passed.measure-to-drop-from-from-to-to",
@@ -450,7 +459,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-b50-the-promise-on-day-one", "fee-order-after-oath"]
     },
     {
       "key": "headlines.law-amount-passed.congress-lowers-measure-to-to",
@@ -475,28 +485,6 @@
       }
     },
     {
-      "key": "headlines.law-amount-passed.measure-unchanged-at-to",
-      "move": "law-amount-passed",
-      "kind": "written",
-      "text": "{measure} unchanged at {to}",
-      "uses": [
-        {
-          "move": "law-amount-passed",
-          "subject": "headline",
-          "role": "law-amount-passed",
-          "choice": "headline",
-          "requiresFacts": ["same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "headlines.law-amount-passed.place-fixes-measure-at-to",
       "move": "law-amount-passed",
       "kind": "written",
@@ -506,7 +494,8 @@
           "move": "law-amount-passed",
           "subject": "headline",
           "role": "law-amount-passed",
-          "choice": "headline"
+          "choice": "headline",
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -527,7 +516,8 @@
           "move": "law-amount-passed",
           "subject": "headline",
           "role": "law-amount-passed",
-          "choice": "headline"
+          "choice": "headline",
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -549,7 +539,8 @@
           "subject": "headline",
           "role": "law-amount-passed",
           "choice": "headline",
-          "requiresFacts": ["federal"]
+          "requiresFacts": ["federal"],
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -579,7 +570,12 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "mayor-proposes-insurance-rule-council-passes-it-and-a-group-sues",
+        "exempt-store-cannot-sell-city-marked-stock",
+        "governor-presses-for-standalone-bill-then-signs-it"
+      ]
     },
     {
       "key": "headlines.law-passed.law-now-law-in-place",
@@ -603,6 +599,7 @@
       },
       "elements": [
         "mayor-proposes-insurance-rule-council-passes-it-and-a-group-sues",
+        "exempt-store-cannot-sell-city-marked-stock",
         "governor-presses-for-standalone-bill-then-signs-it"
       ]
     },
@@ -627,7 +624,9 @@
         "key": "news-received"
       },
       "elements": [
-        "mayor-proposes-insurance-rule-council-passes-it-and-a-group-sues"
+        "mayor-proposes-insurance-rule-council-passes-it-and-a-group-sues",
+        "exempt-store-cannot-sell-city-marked-stock",
+        "governor-presses-for-standalone-bill-then-signs-it"
       ]
     },
     {
@@ -676,7 +675,8 @@
       "tag": {
         "move": "headline",
         "key": "loss"
-      }
+      },
+      "elements": ["business-closes-story"]
     },
     {
       "key": "headlines.organization-closed.subject-out-of-business",
@@ -697,7 +697,8 @@
       "tag": {
         "move": "headline",
         "key": "loss"
-      }
+      },
+      "elements": ["business-closes-story"]
     },
     {
       "key": "headlines.organization-closed.end-of-the-line-for-subject",
@@ -718,7 +719,8 @@
       "tag": {
         "move": "headline",
         "key": "loss"
-      }
+      },
+      "elements": ["business-closes-story"]
     },
     {
       "key": "headlines.grant.money-coming-to-place-for-purpose",
@@ -926,7 +928,10 @@
       "tag": {
         "move": "headline"
       },
-      "elements": ["pattern-c23-the-case-against-you"]
+      "elements": [
+        "pattern-c23-the-case-against-you",
+        "pattern-b10-the-rival-under-indictment"
+      ]
     },
     {
       "key": "headlines.court.name-found-guilty-of-crime",
@@ -999,6 +1004,7 @@
         "move": "headline"
       },
       "elements": [
+        "tie-vote-approves-plate-cameras-with-two-year-term",
         "low-resurfacing-bid-comes-to-the-council-table",
         "council-funds-plate-readers-but-holds-their-use"
       ]
@@ -1024,6 +1030,7 @@
       },
       "elements": [
         "tie-vote-approves-plate-cameras-with-two-year-term",
+        "low-resurfacing-bid-comes-to-the-council-table",
         "council-funds-plate-readers-but-holds-their-use"
       ]
     },
@@ -1046,7 +1053,11 @@
       "tag": {
         "move": "headline"
       },
-      "elements": ["low-resurfacing-bid-comes-to-the-council-table"]
+      "elements": [
+        "tie-vote-approves-plate-cameras-with-two-year-term",
+        "low-resurfacing-bid-comes-to-the-council-table",
+        "council-funds-plate-readers-but-holds-their-use"
+      ]
     },
     {
       "key": "headlines.labor-citation.body-fines-employer-in-citation",
@@ -1089,7 +1100,8 @@
       },
       "elements": [
         "hotel-tip-credit-applied-to-valets",
-        "guard-shifts-never-reach-payroll"
+        "guard-shifts-never-reach-payroll",
+        "notice-prompts-return-of-tips"
       ]
     },
     {
@@ -1113,7 +1125,8 @@
       },
       "elements": [
         "hotel-tip-credit-applied-to-valets",
-        "guard-shifts-never-reach-payroll"
+        "guard-shifts-never-reach-payroll",
+        "notice-prompts-return-of-tips"
       ]
     },
     {
@@ -1160,7 +1173,8 @@
       "tag": {
         "move": "headline",
         "key": "honor"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.honor.body-marks-occasion",
@@ -1181,7 +1195,8 @@
       "tag": {
         "move": "headline",
         "key": "honor"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.honor.occasion-observed-in-place",
@@ -1202,7 +1217,8 @@
       "tag": {
         "move": "headline",
         "key": "honor"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.proposal.body-puts-forward-measure",
@@ -1302,7 +1318,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "headline"
-      }
+      },
+      "elements": [
+        "newspaper-story-brings-library-trustees-back-to-the-table",
+        "move-the-director-up-the-agenda",
+        "permit-meeting-before-the-overlay"
+      ]
     },
     {
       "key": "headlines.meeting.body-to-hold-meeting",
@@ -1323,7 +1344,11 @@
       "tag": {
         "move": "headline"
       },
-      "elements": ["newspaper-story-brings-library-trustees-back-to-the-table"]
+      "elements": [
+        "newspaper-story-brings-library-trustees-back-to-the-table",
+        "move-the-director-up-the-agenda",
+        "permit-meeting-before-the-overlay"
+      ]
     },
     {
       "key": "headlines.meeting.body-sets-meeting-in-place",
@@ -1344,7 +1369,11 @@
       "tag": {
         "move": "headline"
       },
-      "elements": ["newspaper-story-brings-library-trustees-back-to-the-table"]
+      "elements": [
+        "newspaper-story-brings-library-trustees-back-to-the-table",
+        "move-the-director-up-the-agenda",
+        "permit-meeting-before-the-overlay"
+      ]
     },
     {
       "key": "headlines.organization-opened.subject-now-open",
@@ -1366,7 +1395,10 @@
         "move": "headline",
         "key": "arrival"
       },
-      "elements": ["opening-lede-on-the-place-and-month"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "headlines.organization-opened.subject-back-in-business",
@@ -1388,7 +1420,11 @@
       "tag": {
         "move": "headline",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "headlines.organization-opened.subject-welcomes-customers-again",
@@ -1410,7 +1446,11 @@
       "tag": {
         "move": "headline",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "headlines.law.law-now-applies-in-place",
@@ -1431,7 +1471,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "headlines.law.law-starts",
@@ -1453,10 +1494,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": [
-        "shopper-calls-the-bag-rule-a-nuisance-then-complies",
-        "grocers-sell-off-bag-stock-before-the-stricter-rule"
-      ]
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "headlines.law.law-begins-in-place",
@@ -1478,7 +1516,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["shopper-calls-the-bag-rule-a-nuisance-then-complies"]
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "headlines.law.new-place-rules-on-purpose-begin",
@@ -1501,7 +1539,161 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["shopper-calls-the-bag-rule-a-nuisance-then-complies"]
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "headlines.law.law-takes-effect-in-place",
+      "move": "law",
+      "kind": "written",
+      "text": "{law} takes effect in {place}",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "headlines.law.place-gets-law",
+      "move": "law",
+      "kind": "written",
+      "text": "{place} gets {law}",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "headlines.law.place-now-under-law",
+      "move": "law",
+      "kind": "written",
+      "text": "{place} now under {law}",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "headlines.law.first-day-for-law-in-place",
+      "move": "law",
+      "kind": "written",
+      "text": "First day for {law} in {place}",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "headlines.law.law-now-in-effect-in-place",
+      "move": "law",
+      "kind": "written",
+      "text": "{law} now in effect in {place}",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "headlines.law.place-puts-law-into-effect",
+      "move": "law",
+      "kind": "written",
+      "text": "{place} puts {law} into effect",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "headlines.law.law-takes-effect",
+      "move": "law",
+      "kind": "written",
+      "text": "{law} takes effect",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "headlines.law-amount.measure-in-place-comes-down-to-to",
@@ -1523,7 +1715,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-b50-the-promise-on-day-one", "fee-order-after-oath"]
     },
     {
       "key": "headlines.law-amount.place-measure-lower-from-from-to-to",
@@ -1545,7 +1738,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-b50-the-promise-on-day-one", "fee-order-after-oath"]
     },
     {
       "key": "headlines.law-amount.measure-lowered-to-to-in-place",
@@ -1568,7 +1762,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["pattern-b50-the-promise-on-day-one"]
+      "elements": ["pattern-b50-the-promise-on-day-one", "fee-order-after-oath"]
     },
     {
       "key": "headlines.law-amount.measure-in-place-goes-up-to-to",
@@ -1590,7 +1784,11 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "rate-rise-cut-to-a-quarter-after-residents-rally",
+        "board-restores-some-laid-off-teachers-and-raises-levy"
+      ]
     },
     {
       "key": "headlines.law-amount.place-measure-higher-from-from-to-to",
@@ -1613,7 +1811,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["board-restores-some-laid-off-teachers-and-raises-levy"]
+      "elements": [
+        "rate-rise-cut-to-a-quarter-after-residents-rally",
+        "board-restores-some-laid-off-teachers-and-raises-levy"
+      ]
     },
     {
       "key": "headlines.law-amount.measure-raised-to-to-in-place",
@@ -1636,7 +1837,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["board-restores-some-laid-off-teachers-and-raises-levy"]
+      "elements": [
+        "rate-rise-cut-to-a-quarter-after-residents-rally",
+        "board-restores-some-laid-off-teachers-and-raises-levy"
+      ]
     },
     {
       "key": "headlines.law-amount.measure-now-to-in-place",
@@ -1649,7 +1853,8 @@
           "subject": "headline",
           "role": "law-amount",
           "choice": "headline",
-          "requiresFacts": ["changed"]
+          "requiresFacts": ["changed"],
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -1671,51 +1876,8 @@
           "subject": "headline",
           "role": "law-amount",
           "choice": "headline",
-          "requiresFacts": ["changed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.law-amount.measure-in-place-still-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "{measure} in {place} still {to}",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "headline",
-          "role": "law-amount",
-          "choice": "headline",
-          "requiresFacts": ["same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.law-amount.measure-holds-at-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "{measure} holds at {to}",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "headline",
-          "role": "law-amount",
-          "choice": "headline",
-          "requiresFacts": ["same"]
+          "requiresFacts": ["changed"],
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -1747,7 +1909,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["tie-vote-approves-plate-cameras-with-two-year-term"]
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.roll-call.body-votes-yes-on-the-law",
@@ -1770,7 +1932,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["tie-vote-approves-plate-cameras-with-two-year-term"]
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.roll-call.designation-defeated-count",
@@ -1793,7 +1955,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["developer-sues-after-no-votes-and-revote-fails"]
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.roll-call.body-votes-no-on-the-law",
@@ -1816,10 +1978,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": [
-        "developer-sues-after-no-votes-and-revote-fails",
-        "housing-denial-ends-in-state-suit-and-a-move"
-      ]
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.roll-call.law-loses-in-body",
@@ -1842,7 +2001,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["developer-sues-after-no-votes-and-revote-fails"]
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.committee.designation-moves-out-of-committee-committee",
@@ -2099,7 +2258,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["governor-presses-for-standalone-bill-then-signs-it"]
+      "elements": [
+        "governor-presses-for-standalone-bill-then-signs-it",
+        "welfare-bill-signed-with-a-list-of-what-the-signer-still-wants-changed"
+      ]
     },
     {
       "key": "headlines.signed.name-puts-name-to-designation",
@@ -2124,7 +2286,8 @@
       },
       "elements": [
         "governor-presses-for-standalone-bill-then-signs-it",
-        "welfare-bill-signed-with-a-list-of-what-the-signer-still-wants-changed"
+        "welfare-bill-signed-with-a-list-of-what-the-signer-still-wants-changed",
+        "a-letter-writers-pen-at-the-signing"
       ]
     },
     {
@@ -2147,7 +2310,11 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "pattern-b7-01-are-you-still-with-us",
+        "pattern-c01-your-own-party-overrides-you"
+      ]
     },
     {
       "key": "headlines.signed.name-turns-down-law",
@@ -2170,7 +2337,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["pattern-c01-your-own-party-overrides-you"]
+      "elements": [
+        "pattern-b7-01-are-you-still-with-us",
+        "pattern-c01-your-own-party-overrides-you"
+      ]
     },
     {
       "key": "headlines.signed.designation-is-law-with-no-signature-from-name",
@@ -2236,7 +2406,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["packed-hearing-moved-to-bigger-room"]
     },
     {
       "key": "headlines.hearing.public-speaks-on-the-law",
@@ -2282,7 +2453,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-b7-03-your-name-beside-mine"]
     },
     {
       "key": "headlines.introduced.designation-filed-by-name",
@@ -2303,7 +2475,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-b7-03-your-name-beside-mine"]
     },
     {
       "key": "headlines.introduced.designation-filed",
@@ -2324,7 +2497,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-b7-03-your-name-beside-mine"]
     },
     {
       "key": "headlines.budget-line.place-trims-purpose-by-money",
@@ -2347,7 +2521,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["state-aid-cut-midyear-freezes-town-hiring"]
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.budget-line.purpose-loses-money",
@@ -2370,7 +2544,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["failed-override-puts-the-library-on-the-list"]
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.budget-line.place-puts-money-more-into-purpose",
@@ -2393,11 +2567,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": [
-        "council-funds-plate-readers-but-holds-their-use",
-        "find-the-parks-money-on-the-capital-page",
-        "board-restores-some-laid-off-teachers-and-raises-levy"
-      ]
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.budget-line.purpose-gains-money",
@@ -2420,7 +2590,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["council-funds-plate-readers-but-holds-their-use"]
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.budget-adopted.place-passes-its-budget",
@@ -2441,7 +2611,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.budget-adopted.place-budget-sets-money-for-purpose",
@@ -2462,7 +2633,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.jobs-report.area-jobless-rate-at-percent",
@@ -2679,10 +2851,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": [
-        "chief-says-first-in-a-while-then-trend",
-        "plainclothes-patrols-added-after-a-burglary-meeting"
-      ]
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "headlines.conditions.break-ins-fall-in-place",
@@ -2704,7 +2873,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "headlines.conditions.more-robberies-in-place",
@@ -2839,6 +3009,494 @@
       }
     },
     {
+      "key": "headlines.conditions.jobless-rate-climbs-in-place-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Jobless rate climbs in {place}: {percent}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["unemployment", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-unemployment-up-to-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} unemployment up to {percent}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["unemployment", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-unemployment-up-from-from-to-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} unemployment up from {from} to {percent}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["unemployment", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.jobless-rate-drops-in-place-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Jobless rate drops in {place}: {percent}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["unemployment", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-unemployment-down-to-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} unemployment down to {percent}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["unemployment", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-unemployment-down-from-from-to-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} unemployment down from {from} to {percent}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["unemployment", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.break-ins-rise-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Break-ins rise in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["burglary", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
+    },
+    {
+      "key": "headlines.conditions.place-sees-more-burglaries",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} sees more burglaries",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["burglary", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
+    },
+    {
+      "key": "headlines.conditions.break-ins-drop-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Break-ins drop in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["burglary", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
+    },
+    {
+      "key": "headlines.conditions.place-sees-fewer-burglaries",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} sees fewer burglaries",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["burglary", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
+    },
+    {
+      "key": "headlines.conditions.robberies-rise-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Robberies rise in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["robbery", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-sees-more-robberies",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} sees more robberies",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["robbery", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.robberies-drop-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Robberies drop in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["robbery", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-sees-fewer-robberies",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} sees fewer robberies",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["robbery", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.assaults-rise-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Assaults rise in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["assault", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-sees-more-assaults",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} sees more assaults",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["assault", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.assaults-drop-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Assaults drop in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["assault", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-sees-fewer-assaults",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} sees fewer assaults",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["assault", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.vandalism-rises-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Vandalism rises in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["vandalism", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-sees-more-vandalism",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} sees more vandalism",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["vandalism", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.vandalism-drops-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Vandalism drops in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["vandalism", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-sees-less-vandalism",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} sees less vandalism",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["vandalism", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.rate.fed-raises-its-rate-to-percent",
       "move": "rate",
       "kind": "written",
@@ -2903,7 +3561,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["governors-record-a-separate-vote-on-the-lending-rate"]
+      "elements": [
+        "governors-record-a-separate-vote-on-the-lending-rate",
+        "dissent-over-the-size-of-a-rate-cut"
+      ]
     },
     {
       "key": "headlines.rate.interest-rates-go-down-to-percent",
@@ -2995,10 +3656,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": [
-        "town-hall-story-from-the-event",
-        "a-member-calls-a-town-hall-after-a-zoning-vote"
-      ]
+      "elements": ["town-hall-story-from-the-event"]
     },
     {
       "key": "headlines.town-hall.number-come-to-town-hall-with-name",
@@ -3021,10 +3679,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": [
-        "town-hall-counts-the-room",
-        "town-hall-story-from-the-event"
-      ]
+      "elements": ["town-hall-story-from-the-event"]
     },
     {
       "key": "headlines.body-meeting.body-meets-with-number-items",
@@ -3046,7 +3701,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["headline-names-what-the-body-holds"]
     },
     {
       "key": "headlines.body-meeting.body-meets-on-designation",
@@ -3319,7 +3975,11 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["pattern-b20-the-comparison"]
+      "elements": [
+        "pattern-b21-under-the-lights",
+        "pattern-b20-the-comparison",
+        "give-part-of-your-turn-to-another-member"
+      ]
     },
     {
       "key": "headlines.debate.office-hopefuls-debate-in-public",
@@ -3341,7 +4001,11 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["pattern-b21-under-the-lights"]
+      "elements": [
+        "pattern-b21-under-the-lights",
+        "pattern-b20-the-comparison",
+        "give-part-of-your-turn-to-another-member"
+      ]
     },
     {
       "key": "headlines.candidate-filed.name-joins-race-for-office",
@@ -3362,7 +4026,12 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "pattern-a12-the-last-day-to-file",
+        "pattern-a02-the-seat-comes-to-you",
+        "board-seat-lost-over-primary"
+      ]
     },
     {
       "key": "headlines.candidate-filed.name-files-for-office",
@@ -3384,7 +4053,11 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["pattern-a12-the-last-day-to-file"]
+      "elements": [
+        "pattern-a12-the-last-day-to-file",
+        "pattern-a02-the-seat-comes-to-you",
+        "board-seat-lost-over-primary"
+      ]
     },
     {
       "key": "headlines.election.name-takes-office",
@@ -3407,7 +4080,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-a25-the-seat-your-patron-leaves"]
     },
     {
       "key": "headlines.election.name-defeats-opponent-for-office",
@@ -3430,7 +4104,11 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "snow-clearance-follows-mayor-to-polls",
+        "pattern-b06-the-party-leaves-its-own-nominee"
+      ]
     },
     {
       "key": "headlines.primary.office-primary-day",
@@ -3451,7 +4129,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-a23-the-count-looks-wrong"]
     },
     {
       "key": "headlines.took-office.name-takes-oath-as-office",
@@ -3473,7 +4152,11 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["pattern-b41-the-oath"]
+      "elements": [
+        "pattern-b50-the-promise-on-day-one",
+        "pattern-b49-the-hole-in-the-budget",
+        "pattern-b41-the-oath"
+      ]
     },
     {
       "key": "headlines.took-office.name-sworn-in",
@@ -3495,7 +4178,11 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["pattern-b41-the-oath"]
+      "elements": [
+        "pattern-b50-the-promise-on-day-one",
+        "pattern-b49-the-hole-in-the-budget",
+        "pattern-b41-the-oath"
+      ]
     },
     {
       "key": "headlines.vacancy.name-dies-office-seat-empty",
@@ -3518,7 +4205,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["pattern-a25-the-seat-your-patron-leaves"]
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "headlines.vacancy.name-out-of-office-seat",
@@ -3541,7 +4228,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["resignation-after-budget-vote"]
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "headlines.vacancy.office-seat-empty",
@@ -3563,7 +4250,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["vacancy-rules-stated-flat"]
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "headlines.appointed.name-gets-post",
@@ -3619,6 +4306,7 @@
       },
       "elements": [
         "vacant-seat-second-ballot",
+        "pattern-a18-the-appointment-with-a-string-on-it",
         "chair-names-a-library-trustee-before-confirmation"
       ]
     },
@@ -3642,7 +4330,11 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "sots-opens-with-historic-firsts",
+        "pattern-b45-the-vote-that-will-not-end"
+      ]
     },
     {
       "key": "headlines.chamber.name-named-to-preside",
@@ -3665,7 +4357,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["pattern-b45-the-vote-that-will-not-end"]
+      "elements": [
+        "sots-opens-with-historic-firsts",
+        "pattern-b45-the-vote-that-will-not-end"
+      ]
     },
     {
       "key": "headlines.recall-petition.petition-to-recall-name",
@@ -3687,7 +4382,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["pattern-c31-the-recall-against-you"]
+      "elements": [
+        "pattern-c31-the-recall-against-you",
+        "town-reverses-police-dissolution-vote-a-week-later"
+      ]
     },
     {
       "key": "headlines.recall-petition.recall-effort-against-name",
@@ -3709,7 +4407,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["pattern-c31-the-recall-against-you"]
+      "elements": [
+        "pattern-c31-the-recall-against-you",
+        "town-reverses-police-dissolution-vote-a-week-later"
+      ]
     },
     {
       "key": "headlines.recall.name-stays-after-recall-vote",
@@ -3819,7 +4520,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["pattern-c23-the-case-against-you"]
+      "elements": [
+        "pattern-c23-the-case-against-you",
+        "pattern-b10-the-rival-under-indictment"
+      ]
     },
     {
       "key": "headlines.bail.name-freed-without-bail",
@@ -4014,7 +4718,11 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "resident-attends-governors-address",
+        "sots-opens-with-historic-firsts"
+      ]
     },
     {
       "key": "headlines.office-act.name-signs-executive-order",
@@ -4063,7 +4771,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["termination-public-notice"]
     },
     {
       "key": "headlines.office-act.name-gives-lawmakers-budget-plan",
@@ -4306,7 +5015,11 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "library-budget-fails-by-11-then-passes-and-the-floor-reopens",
+        "tax-growth-cap-squeezes-schools-first"
+      ]
     },
     {
       "key": "headlines.staff-cut.subject-cuts-staff",
@@ -4329,7 +5042,8 @@
         "key": "news-received"
       },
       "elements": [
-        "library-budget-fails-by-11-then-passes-and-the-floor-reopens"
+        "library-budget-fails-by-11-then-passes-and-the-floor-reopens",
+        "tax-growth-cap-squeezes-schools-first"
       ]
     },
     {
@@ -4352,7 +5066,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["tax-growth-cap-squeezes-schools-first"]
+      "elements": [
+        "library-budget-fails-by-11-then-passes-and-the-floor-reopens",
+        "tax-growth-cap-squeezes-schools-first"
+      ]
     },
     {
       "key": "headlines.staff-cut.subject-trims-its-workforce",
@@ -4375,7 +5092,8 @@
         "key": "news-received"
       },
       "elements": [
-        "library-budget-fails-by-11-then-passes-and-the-floor-reopens"
+        "library-budget-fails-by-11-then-passes-and-the-floor-reopens",
+        "tax-growth-cap-squeezes-schools-first"
       ]
     },
     {
@@ -4399,7 +5117,8 @@
         "key": "news-received"
       },
       "elements": [
-        "library-budget-fails-by-11-then-passes-and-the-floor-reopens"
+        "library-budget-fails-by-11-then-passes-and-the-floor-reopens",
+        "tax-growth-cap-squeezes-schools-first"
       ]
     },
     {
@@ -4464,7 +5183,137 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["opening-lede-on-the-place-and-month"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
+    },
+    {
+      "key": "headlines.organization.opened.subject-opens-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} opens in {place}",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
+    },
+    {
+      "key": "headlines.organization.opened.new-in-place-subject",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "New in {place}: {subject}",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
+    },
+    {
+      "key": "headlines.organization.opened.subject-opens-its-doors",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} opens its doors",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
+    },
+    {
+      "key": "headlines.organization.opened.open-for-business-subject",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "Open for business: {subject}",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
+    },
+    {
+      "key": "headlines.organization.opened.subject-opens-for-business",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} opens for business",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "headlines.founded.name-opens-new-business",
@@ -4507,7 +5356,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["opening-lede-on-the-place-and-month"]
     },
     {
       "key": "headlines.ad.subject-buys-ads-on-purpose",
@@ -4528,7 +5378,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-a44-the-apology-ad"]
     },
     {
       "key": "headlines.ad.ads-on-purpose-appear",
@@ -4549,7 +5400,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-a44-the-apology-ad"]
     },
     {
       "key": "headlines.ad.subject-pays-for-purpose-ads",
@@ -4570,7 +5422,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-a44-the-apology-ad"]
     },
     {
       "key": "headlines.ad.purpose-ads-on-the-air",
@@ -4591,7 +5444,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-a44-the-apology-ad"]
     },
     {
       "key": "headlines.eviction.place-family-evicted",
@@ -4655,10 +5509,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": [
-        "first-home-bought-with-a-veterans-benefit",
-        "home-bought-years-after-the-wedding"
-      ]
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "headlines.home-sale.home-goes-to-family-family",
@@ -4680,10 +5531,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": [
-        "first-home-bought-with-a-veterans-benefit",
-        "home-bought-years-after-the-wedding"
-      ]
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "headlines.homes-built.number-homes-built-in-place",
@@ -4728,7 +5576,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "headlines.homes-built.place-gets-new-home",
@@ -4750,7 +5599,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "headlines.homes-built.one-new-home-in-place",
@@ -4772,7 +5622,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "headlines.homes-built.house-finished-in-place",
@@ -4794,7 +5645,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "headlines.homeless-count.number-without-homes-in-place",
@@ -4881,7 +5733,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
+      "elements": [
+        "a-birth-recorded-by-its-size",
+        "births-and-deaths-in-the-family-set-down-plainly"
+      ]
     },
     {
       "key": "headlines.birth.new-arrival-name",
@@ -4928,7 +5783,11 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
+      "elements": [
+        "pattern-a25-the-seat-your-patron-leaves",
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "father-dies-and-a-sibling-becomes-the-earner"
+      ]
     },
     {
       "key": "headlines.life-death.name-obituary",
@@ -4971,7 +5830,12 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "pattern-a25-the-seat-your-patron-leaves",
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "father-dies-and-a-sibling-becomes-the-earner"
+      ]
     },
     {
       "key": "headlines.life-death.death-of-name-of-place-age",
@@ -4994,7 +5858,11 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["father-dies-and-a-sibling-becomes-the-earner"]
+      "elements": [
+        "pattern-a25-the-seat-your-patron-leaves",
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "father-dies-and-a-sibling-becomes-the-earner"
+      ]
     },
     {
       "key": "headlines.address.name-takes-oath-speaks-to-nation",
@@ -5019,6 +5887,7 @@
       },
       "elements": [
         "balanced-pairs-with-a-direct-ask",
+        "household-comparison-for-public-debt-and-small-steps",
         "name-who-failed-and-say-what-if-the-body-will-not-act"
       ]
     },
@@ -5042,7 +5911,12 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "balanced-pairs-with-a-direct-ask",
+        "household-comparison-for-public-debt-and-small-steps",
+        "name-who-failed-and-say-what-if-the-body-will-not-act"
+      ]
     },
     {
       "key": "headlines.address.president-name-sworn-in",
@@ -5064,7 +5938,12 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "balanced-pairs-with-a-direct-ask",
+        "household-comparison-for-public-debt-and-small-steps",
+        "name-who-failed-and-say-what-if-the-body-will-not-act"
+      ]
     },
     {
       "key": "headlines.address.name-speaks-to-the-nation",
@@ -5087,7 +5966,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["vote-it-up-or-down-and-put-country-before-party"]
+      "elements": [
+        "jokes-then-offers-the-opposition-a-meeting",
+        "vote-it-up-or-down-and-put-country-before-party"
+      ]
     },
     {
       "key": "headlines.address.name-gives-address-to-congress",
@@ -5110,7 +5992,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["jokes-then-offers-the-opposition-a-meeting"]
+      "elements": [
+        "jokes-then-offers-the-opposition-a-meeting",
+        "vote-it-up-or-down-and-put-country-before-party"
+      ]
     },
     {
       "key": "headlines.amendment.name-offers-amendment-to-designation",
@@ -5290,10 +6175,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": [
-        "shopper-calls-the-bag-rule-a-nuisance-then-complies",
-        "grocers-sell-off-bag-stock-before-the-stricter-rule"
-      ]
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "headlines.law-rule.new-measure-rule-begins",
@@ -5314,7 +6196,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "headlines.bail.name-jailed-until-trial",
@@ -5358,7 +6241,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.member-vote.name-votes-against-designation",
@@ -5381,11 +6265,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": [
-        "dissenter-from-the-winning-bloc",
-        "board-member-voted-against-and-is-criticized",
-        "pattern-b44-your-first-vote-is-the-big-one"
-      ]
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.claim-check.name-on-issue-the-record",
@@ -5406,7 +6286,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-b11-where-were-you"]
     },
     {
       "key": "headlines.claim-check.the-record-on-name-and-issue",
@@ -5427,7 +6308,11 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "pattern-b11-where-were-you",
+        "pattern-c25-the-joke-that-lands-wrong"
+      ]
     },
     {
       "key": "headlines.campaign-gift.name-donates-money-to-candidate",
@@ -5449,7 +6334,11 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["one-donor-writes-a-very-large-check"]
+      "elements": [
+        "one-donor-writes-a-very-large-check",
+        "large-donors-shape-the-council-races",
+        "lobbyist-gift-may-break-the-law"
+      ]
     },
     {
       "key": "headlines.campaign-gift.money-from-name-reaches-candidate",
@@ -5471,7 +6360,11 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["one-donor-writes-a-very-large-check"]
+      "elements": [
+        "one-donor-writes-a-very-large-check",
+        "large-donors-shape-the-council-races",
+        "lobbyist-gift-may-break-the-law"
+      ]
     },
     {
       "key": "headlines.vacancy.place-post-dead-in-office",
@@ -5493,7 +6386,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "headlines.vacancy.place-post-resigns",
@@ -5516,10 +6410,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": [
-        "pattern-b7-12-is-the-job-worth-it",
-        "resignation-after-budget-vote"
-      ]
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "headlines.vacancy.place-post-seat-empty",
@@ -5541,7 +6432,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "headlines.exposed.records-show-bribe-taken-by-name",
@@ -5563,7 +6455,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "headlines.exposed.name-and-a-bribe-the-records",
@@ -5585,7 +6478,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "headlines.exposed.name-voted-on-contract-for-firm-with-ties",
@@ -5608,7 +6502,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["interested-party-answers-last"]
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "headlines.exposed.name-voted-for-firm-contract",
@@ -5630,7 +6524,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "headlines.exposed.name-votes-for-firm-contract-once-more",
@@ -5652,7 +6547,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "headlines.exposed.ordinal-time-name-votes-on-firm-contract",
@@ -5675,7 +6571,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["interested-party-answers-last"]
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "headlines.took-office.place-swears-in-new-post",
@@ -5698,7 +6594,11 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["pattern-b41-the-oath"]
+      "elements": [
+        "pattern-b50-the-promise-on-day-one",
+        "pattern-b49-the-hole-in-the-budget",
+        "pattern-b41-the-oath"
+      ]
     },
     {
       "key": "headlines.took-office.new-post-for-place",
@@ -5720,7 +6620,12 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "pattern-b50-the-promise-on-day-one",
+        "pattern-b49-the-hole-in-the-budget",
+        "pattern-b41-the-oath"
+      ]
     },
     {
       "key": "headlines.took-office.place-post-takes-the-oath",
@@ -5743,7 +6648,11 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["pattern-b41-the-oath"]
+      "elements": [
+        "pattern-b50-the-promise-on-day-one",
+        "pattern-b49-the-hole-in-the-budget",
+        "pattern-b41-the-oath"
+      ]
     },
     {
       "key": "headlines.hiring.subject-plans-number-hires",
@@ -5879,7 +6788,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.budget-request.name-proposes-less-for-purpose",
@@ -5901,7 +6811,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.joint-address.name-speaks-to-congress",
@@ -5922,7 +6833,11 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "jokes-then-offers-the-opposition-a-meeting",
+        "vote-it-up-or-down-and-put-country-before-party"
+      ]
     },
     {
       "key": "headlines.trip.name-in-place",
@@ -5944,7 +6859,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["visit-control-room-before-remarks"]
+      "elements": [
+        "visit-control-room-before-remarks",
+        "pattern-a26-a-powerful-officeholder-comes-to-campaign"
+      ]
     },
     {
       "key": "headlines.ribbon-cut.purpose-project-finished",
@@ -5965,7 +6883,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["weeding-after-ribbon-cutting", "calendar-digest-by-month"]
     },
     {
       "key": "headlines.emergency.name-issues-emergency-declaration",
@@ -5988,6 +6907,7 @@
         "key": "news-received"
       },
       "elements": [
+        "authority-before-floodwater",
         "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
       ]
     },
@@ -6011,7 +6931,11 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "authority-before-floodwater",
+        "mayor-after-a-storm-says-i-see-you-then-gives-the-practical-orders"
+      ]
     },
     {
       "key": "headlines.emergency-lapsed.name-issues-no-emergency-on-disaster",
@@ -6076,7 +7000,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-c33-your-seat-or-the-bigger-race"]
     },
     {
       "key": "headlines.succession.name-serves-as-acting-office",
@@ -6237,7 +7162,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-c01-your-own-party-overrides-you"]
     },
     {
       "key": "headlines.roll-call.designation-approved-count",
@@ -6260,7 +7186,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["tie-vote-approves-plate-cameras-with-two-year-term"]
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.roll-call.law-approved-count",
@@ -6282,7 +7208,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.carry.name-will-sponsor-designation",
@@ -6330,7 +7257,11 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "pattern-b7-03-your-name-beside-mine",
+        "find-a-sponsor-across-the-building"
+      ]
     },
     {
       "key": "headlines.carry.designation-gets-sponsor-in-name",
@@ -6378,7 +7309,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.house-burglarized-in-place",
@@ -6401,7 +7333,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["crime-lede-police-still-on-scene"]
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.place-property-crime-on-record",
@@ -6423,7 +7355,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.place-property-vandalized",
@@ -6445,7 +7378,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.vandalism-strikes-place",
@@ -6467,7 +7401,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.place-robbery-on-record",
@@ -6489,7 +7424,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.place-assault-on-record",
@@ -6511,7 +7447,215 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "headlines.crime.break-in-reported-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Break-in reported in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "headlines.crime.place-home-broken-into",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} home broken into",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "headlines.crime.place-vandalism-reported",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} vandalism reported",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "headlines.crime.vandals-hit-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Vandals hit {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "headlines.crime.property-damaged-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Property damaged in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "headlines.crime.robbery-reported-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Robbery reported in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["robbery"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "headlines.crime.place-robbery-reported",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} robbery reported",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["robbery"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "headlines.crime.assault-reported-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Assault reported in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["assault"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "headlines.crime.place-assault-reported",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} assault reported",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["assault"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.graduation.place-seniors-finish-school",
@@ -6556,7 +7700,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["small-town-senior-thanks-everyone-as-the-favorite-part"]
     },
     {
       "key": "headlines.school-tests.place-students-test-results",
@@ -6622,7 +7767,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "headlines.birth.place-birth-on-record",
@@ -6730,7 +7876,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "headlines.retirement.name-done-after-years-years",
@@ -6753,7 +7900,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["second-retiree-side-item-gives-a-second-close"]
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "headlines.retirement.name-retires-for-good",
@@ -6774,7 +7921,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "headlines.letter.name-writes-on-the-law",
@@ -6976,7 +8124,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["pattern-c41-run-again-or-step-aside"]
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "headlines.anniversary.subject-reaches-years-years",
@@ -7061,7 +8209,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "headlines.unfilled.no-candidates-for-office",
@@ -7148,7 +8297,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.police-log.place-police-log-for-month",
@@ -7192,7 +8342,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.honor.place-spelling-bee-has-a-winner",
@@ -7214,7 +8365,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.honor.name-takes-regional-spelling-bee",
@@ -7236,7 +8388,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.honor.place-student-takes-regional-bee",
@@ -7258,7 +8411,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.honor.number-place-seniors-sign-with-division-i-teams",
@@ -7280,7 +8434,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.honor.name-signs-with-division-i-team",
@@ -7302,7 +8457,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.honor.place-senior-signs-with-division-i-team",
@@ -7324,7 +8480,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.endorsement.subject-endorses-name",
@@ -7349,7 +8506,8 @@
       },
       "elements": [
         "mayor-endorses-all-but-one",
-        "longtime-worker-asks-for-personal-endorsement"
+        "longtime-worker-asks-for-personal-endorsement",
+        "pattern-c36-endorse-the-one-who-beat-you"
       ]
     },
     {
@@ -7375,7 +8533,8 @@
       },
       "elements": [
         "mayor-endorses-all-but-one",
-        "longtime-worker-asks-for-personal-endorsement"
+        "longtime-worker-asks-for-personal-endorsement",
+        "pattern-c36-endorse-the-one-who-beat-you"
       ]
     },
     {
@@ -7500,11 +8659,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": [
-        "residents-hold-a-meeting-for-hours",
-        "a-petition-and-a-protest-lead-a-developer-to-withdraw-before-the-meeting",
-        "a-rally-over-housing-fills-the-chamber"
-      ]
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.public-action.protest-over-issue-reaches-place-officials",
@@ -7527,10 +8682,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": [
-        "residents-hold-a-meeting-for-hours",
-        "a-rally-over-housing-fills-the-chamber"
-      ]
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.public-action.place-workers-stop-work-over-issue",
@@ -7553,11 +8705,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": [
-        "city-strike-ends-with-modest-raises-and-lost-pay",
-        "strike-over-break-times-and-safety",
-        "transit-strike-on-first-day"
-      ]
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.public-action.work-stoppage-in-place-over-issue",
@@ -7580,11 +8728,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": [
-        "city-strike-ends-with-modest-raises-and-lost-pay",
-        "strike-over-break-times-and-safety",
-        "transit-strike-on-first-day"
-      ]
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.local-address.name-delivers-state-s-yearly-address",
@@ -7606,7 +8750,12 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "governor-presses-for-standalone-bill-then-signs-it",
+        "school-funding-formula-asked-then-signed-in-the-budget",
+        "praise-then-jabs-at-the-other-party-in-the-room"
+      ]
     },
     {
       "key": "headlines.local-address.name-speaks-to-lawmakers",
@@ -7629,7 +8778,11 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["governor-presses-for-standalone-bill-then-signs-it"]
+      "elements": [
+        "governor-presses-for-standalone-bill-then-signs-it",
+        "school-funding-formula-asked-then-signed-in-the-budget",
+        "praise-then-jabs-at-the-other-party-in-the-room"
+      ]
     },
     {
       "key": "headlines.local-address.name-delivers-town-s-yearly-address",
@@ -7651,7 +8804,12 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "mayor-proposes-insurance-rule-council-passes-it-and-a-group-sues",
+        "takes-blame-for-the-biggest-failure-first",
+        "city-joins-lawsuit-reported-in-address"
+      ]
     },
     {
       "key": "headlines.local-address.name-speaks-to-the-council",
@@ -7673,7 +8831,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["takes-blame-for-the-biggest-failure-first"]
     },
     {
       "key": "headlines.public-action.place-celebrates-good-year-for-area",
@@ -7695,7 +8854,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.public-action.place-residents-glad-about-area",
@@ -7717,7 +8877,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.public-action.crowd-in-place-is-pleased-about-area",
@@ -7739,7 +8900,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.exposed.records-show-name-offered-an-official-a-bribe",
@@ -7761,7 +8923,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "headlines.exposed.name-bribe-offer-shown-in-records",
@@ -7783,7 +8946,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "headlines.address-response.name-replies-to-opponent-s-address",
@@ -7851,7 +9015,11 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "floor-minimum-wage-argued-through-the-people-behind-the-wage",
+        "address-the-chamber-on-a-colleagues-bill"
+      ]
     },
     {
       "key": "headlines.floor-debate.name-backs-opponent-opposes-designation",
@@ -7874,7 +9042,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["address-the-chamber-on-a-colleagues-bill"]
+      "elements": [
+        "floor-minimum-wage-argued-through-the-people-behind-the-wage",
+        "address-the-chamber-on-a-colleagues-bill"
+      ]
     },
     {
       "key": "headlines.public-action.place-neighbors-form-group-over-issue",
@@ -7897,10 +9068,7 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": [
-        "local-conditions-prompt-first-protest",
-        "neighbor-with-a-clipboard"
-      ]
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.public-action.issue-crowd-in-place-becomes-a-group",
@@ -7922,7 +9090,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.cabinet-nominated.name-nominated-for-office",
@@ -8133,7 +9302,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.budget-adopted.congress-adopts-spending-budget",
@@ -8155,7 +9325,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.hearing.place-holds-budget-hearing",
@@ -8341,7 +9512,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-b06-the-party-leaves-its-own-nominee"]
     },
     {
       "key": "headlines.election.short-takes-office-race",
@@ -8363,7 +9535,11 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "snow-clearance-follows-mayor-to-polls",
+        "pattern-a25-the-seat-your-patron-leaves"
+      ]
     },
     {
       "key": "headlines.election.short-beats-rival-for-office",
@@ -8385,7 +9561,11 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "snow-clearance-follows-mayor-to-polls",
+        "pattern-b06-the-party-leaves-its-own-nominee"
+      ]
     },
     {
       "key": "headlines.election.short-wins-office-of-place",
@@ -8407,7 +9587,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-a25-the-seat-your-patron-leaves"]
     },
     {
       "key": "headlines.election.short-wins-office-with-no-opponent",
@@ -8430,7 +9611,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["door-ask-is-what-should-the-office-do"]
     },
     {
       "key": "headlines.election.no-opponent-for-short-in-office-race",
@@ -8453,7 +9635,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["door-ask-is-what-should-the-office-do"]
     },
     {
       "key": "headlines.election.short-runs-alone-for-office",
@@ -8476,7 +9659,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["door-ask-is-what-should-the-office-do"]
     },
     {
       "key": "headlines.election.lasts-win-body-seats",
@@ -8568,7 +9752,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-a02-the-seat-comes-to-you"]
     },
     {
       "key": "headlines.election.short-takes-office",
@@ -8590,7 +9775,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-a25-the-seat-your-patron-leaves"]
     },
     {
       "key": "headlines.election.office-goes-to-short",
@@ -8612,7 +9798,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-a25-the-seat-your-patron-leaves"]
     },
     {
       "key": "headlines.election.short-wins-seat-as-office",
@@ -8634,7 +9821,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-a25-the-seat-your-patron-leaves"]
     },
     {
       "key": "headlines.election.lasts-win-body-seats-unopposed",
@@ -8746,7 +9934,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-c41-run-again-or-step-aside"]
     },
     {
       "key": "headlines.approval.approval-of-name-slips",
@@ -8768,7 +9957,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-c41-run-again-or-step-aside"]
     },
     {
       "key": "headlines.approval.name-approval-steady",
@@ -8835,7 +10025,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["pattern-c18-thanking-the-other-side-s-leader"]
     }
   ]
 }

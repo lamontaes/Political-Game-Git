@@ -36,6 +36,8 @@ import {
   lawInForce,
   LAWS_MODULE_ID,
 } from "../core2/modules/laws";
+import { allBills } from "../core2/modules/bodies-reads";
+import { allLawRows } from "../core2/modules/laws-reads";
 import { coreAPI } from "../core2/state";
 import type { CoreAPI, CoreState } from "../core2/types";
 import {
@@ -141,10 +143,7 @@ interface LawRowRead {
 
 function lawRows(api: CoreAPI): LawRowRead[] {
   return api.state.modules.has(LAWS_MODULE_ID)
-    ? (api
-        .moduleState(LAWS_MODULE_ID)
-        .table("laws")
-        .rows() as unknown as LawRowRead[])
+    ? (allLawRows(api) as unknown as LawRowRead[])
     : [];
 }
 
@@ -376,10 +375,7 @@ function doNothing(api: CoreAPI, bodyLevel: string, p: Provision): Provision {
 
 function billsOf(api: CoreAPI): BillRow[] {
   return api.state.modules.has(LEGISLATURE_MODULE_ID)
-    ? (api
-        .moduleState(LEGISLATURE_MODULE_ID)
-        .table("bills")
-        .rows() as unknown as BillRow[])
+    ? (allBills(api) as unknown as BillRow[])
     : [];
 }
 

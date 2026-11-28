@@ -38,13 +38,13 @@ import {
   executiveBudgetChanges,
   LEGISLATURE_MODULE_ID,
   memberKey,
-  registerLegislatureHooks,
   type BillRow,
 } from "./modules/legislature";
 import { hireStaff, servingStaffOf, staffCandidates } from "./modules/staff";
 import { budgetProposalDue, officeActHandlers } from "./office-day-acts";
 import { budgetHearingOf } from "./modules/legislature";
-import { coreAPI } from "./state";
+import { coreAPI, registerModule } from "./state";
+import type { CoreModule } from "./types";
 
 const PROVIDERS = (
   spendingData as unknown as {
@@ -63,13 +63,17 @@ const seed =
 // How many times the pre-vote pass reached each bill: a floor-stage hook of
 // the test's own, which the hearing must run once and nothing run again.
 const hookRuns = new Map<string, number>();
-registerLegislatureHooks({
-  beforeVote: {
-    name: "budget-season-test",
-    run: (_api, billId) =>
-      hookRuns.set(billId, (hookRuns.get(billId) ?? 0) + 1),
+const HOOK_MODULE: CoreModule = {
+  id: "budget-season-test-hook",
+  state: { schemaVersion: 1, tables: {} },
+  legislatureHooks: {
+    beforeVote: {
+      name: "budget-season-test",
+      run: (_api, billId) =>
+        hookRuns.set(billId, (hookRuns.get(billId) ?? 0) + 1),
+    },
   },
-});
+};
 
 it("the executive's budget act opens in its season and its changes are what the council votes", () => {
   const tried: string[] = [];
@@ -81,6 +85,7 @@ it("the executive's budget act opens in its season and its changes are what the 
       placeKey: place.key,
     });
     const { core } = world;
+    registerModule(core, HOOK_MODULE);
     const api = coreAPI(core);
     const mayor = townSeats(api).find(
       (s) => s.office.kind === "mayor" && s.holder?.personId,

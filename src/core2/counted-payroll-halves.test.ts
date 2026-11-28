@@ -8,7 +8,7 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import { advanceCore, createLifeCore } from "./life";
 import { addDays } from "./kernel/dates";
 import { buildBenchWorld } from "../bench/world";

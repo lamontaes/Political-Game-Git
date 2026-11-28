@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
+import { advanceToFilingOpen } from "../../tests/support/gov-test-clock";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
@@ -32,6 +33,10 @@ describe("a player who files early for a later race files once (owner, Oct 14: t
       const world = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: place.key,
+        // The world is built for the chosen birthday (owner, Nov 16: the player
+        // starts at the age they pick); a world built for the default age keeps
+        // that age in `applyChosenPerson`, and every race refuses a 19-year-old.
+        playerBirthDate: "1985-06-01",
       });
       const { core } = world;
       const me = world.playerId as PersonId;
@@ -44,6 +49,8 @@ describe("a player who files early for a later race files once (owner, Oct 14: t
         birthDay: 1,
       });
       const api = coreAPI(core);
+      // Filing opens on a real day by place, so play to the day the first one opens.
+      advanceToFilingOpen(core);
       // The earliest race two months out the player may enter, filed for at once.
       const race = [...openContests(api)]
         .filter(

@@ -20,7 +20,7 @@ claimed-at:
 
 **Done when.** In a one-year run of the played world (buildBenchWorld, a place drawn from all 56 with a seed the builder did not choose, both named in the PR body) every dwelling record has a location inside the town's extent, rentals and apartments sit nearer the center than owned houses on average, and a household rehoused in the year takes a vacancy closer to its old home than the town average, shown by the housing engine's rehousing record id. A test in src/core2/housing-locations.test.ts proves it for the drawn place.
 
-**Files.** src/core2/modules/housing.ts, src/core2/place-lookup.ts, src/core2/tooling/build-places.ts, src/core2/data/places/localities.json, src/core2/housing-locations.test.ts
+**Files.** src/core2/modules/housing.ts, src/core2/place-lookup.ts, scripts/core2/tooling/build-places.ts, src/core2/data/places/localities.json, src/core2/housing-locations.test.ts
 
 **Notes.**
 

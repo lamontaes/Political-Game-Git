@@ -21,7 +21,6 @@ import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import rows from "../data/contracts/parameters.json" with { type: "json" };
 import {
   budgetInForce,
-  registerContractAwarder,
   type ContractAward,
   type ProviderFirm,
 } from "../budgets-treasury";
@@ -348,6 +347,22 @@ function award(
 
 export const CONTRACTS_MODULE: CoreModule = {
   id: CONTRACTS_MODULE_ID,
+  // How a government's body chooses among bids, and a record of each payment; the treasury asks it.
+  contractAwarder: {
+    award,
+    paid(api, awardId, payment) {
+      if (!api.state.modules.has(CONTRACTS_MODULE_ID)) return;
+      const row = table(api).get(awardId) as unknown as
+        ContractAwardRow | undefined;
+      if (!row || row.paymentIds.includes(payment.id)) return;
+      table(api).put({
+        ...row,
+        paidMinor: row.paidMinor + payment.amountMinor,
+        paymentIds: [...row.paymentIds, payment.id],
+        lastPaidOn: api.state.date,
+      } as unknown as ModuleRow);
+    },
+  },
   state: {
     schemaVersion: 1,
     tables: {
@@ -362,23 +377,8 @@ export const CONTRACTS_MODULE: CoreModule = {
   },
 };
 
-/** Register the module and tell the treasury how the body chooses its firms. */
+/** Register the module; it carries how the body chooses its firms (`contractAwarder`). */
 export function openContracts(core: CoreState): void {
   if (!core.modules.has(CONTRACTS_MODULE_ID))
     registerModule(core, CONTRACTS_MODULE);
-  registerContractAwarder({
-    award,
-    paid(api, awardId, payment) {
-      if (!api.state.modules.has(CONTRACTS_MODULE_ID)) return;
-      const row = table(api).get(awardId) as unknown as
-        ContractAwardRow | undefined;
-      if (!row || row.paymentIds.includes(payment.id)) return;
-      table(api).put({
-        ...row,
-        paidMinor: row.paidMinor + payment.amountMinor,
-        paymentIds: [...row.paymentIds, payment.id],
-        lastPaidOn: api.state.date,
-      } as unknown as ModuleRow);
-    },
-  });
 }

@@ -16,7 +16,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import type { NewsFact } from "./life-news";
 
 /** The situation type that reads these facts. */
-export const RESCUE_TYPE = "rescue";
+const RESCUE_TYPE = "rescue";
 
 /** The relation the family records give two partners. */
 const PARTNER = "partner";

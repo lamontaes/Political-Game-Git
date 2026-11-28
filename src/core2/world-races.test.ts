@@ -6,7 +6,7 @@
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { govReport } from "./gov-test-report";
+import { govReport } from "../../scripts/core2/gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
@@ -42,7 +42,7 @@ import {
   VOTING_MODULE_ID,
 } from "./modules/voting";
 import { contingentElection } from "./contingent-election";
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-10-20";

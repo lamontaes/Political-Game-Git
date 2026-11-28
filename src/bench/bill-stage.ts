@@ -36,16 +36,19 @@ import {
   type Provision,
 } from "../core2/modules/legislature";
 import { snapshotExplicitControlV1 } from "../core2/life";
-import reachA from "../core2/data/laws/reach-group-a.json" with { type: "json" };
-import reachB from "../core2/data/laws/reach-group-b.json" with { type: "json" };
+import { reachScopeOf } from "../core2/law-reach/applied";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { screenLine } from "../english/screen-words";
 import { billPaper, personName } from "./legislature";
-import { townSeats } from "../core2/modules/offices";
+import { townSeats, officeById } from "../core2/modules/offices";
 import { deskWaiting } from "../core2/modules/office-day";
+import {
+  allBills,
+  billById,
+  memberChoiceOn,
+} from "../core2/modules/bodies-reads";
 
 const LEGISLATURE = "core2-legislature-v1";
-const OFFICES = "core2-offices-v1";
 
 /** Where a bill stands, as a code the screens word. */
 export type BillStageCode =
@@ -123,16 +126,12 @@ export type ToldSide = "for" | "against" | "open";
 export function billStage(core: CoreState, billId: string, asId?: string) {
   if (!core.modules.has(LEGISLATURE)) throw new Error("No bills on record.");
   const api = coreAPI(core);
-  const bill = api
-    .moduleState(LEGISLATURE)
-    .table("bills")
-    .get(billId) as unknown as BillRow | undefined;
+  const bill = billById(api, billId) as unknown as BillRow | undefined;
   if (!bill) throw new Error("That bill is not before any body.");
-  const offices = api.moduleState(OFFICES).table("offices");
   // A body's own name (the House of Representatives, a council), else its office's title.
   const title = (id: string) =>
     bodyOf(api, id)?.bodyName ??
-    (offices.get(id) as { title?: string } | undefined)?.title ??
+    (officeById(api, id) as { title?: string } | undefined)?.title ??
     "";
   const you =
     asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId ?? "";
@@ -305,10 +304,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     members(api, chamber).some((term) => memberKey(term) === player),
   );
   const chosen = (
-    api
-      .moduleState(LEGISLATURE)
-      .table("choices")
-      .get(`${bill.id}|${player}`) as
+    memberChoiceOn(api, bill.id, player) as
       { vote: "yes" | "no" | "abstain" } | undefined
   )?.vote;
   // The chamber whose turn it is (the other chamber once one passed it) and whether its roll is
@@ -403,10 +399,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
       overridePending: sits && overridePending(api, bill.id),
       overrideChosen:
         (
-          api
-            .moduleState(LEGISLATURE)
-            .table("choices")
-            .get(`${bill.id}|${player}|override`) as
+          memberChoiceOn(api, bill.id, `${player}|override`) as
             { vote: "yes" | "no" | "abstain" } | undefined
         )?.vote ?? null,
       chosen: chosen ?? null,
@@ -552,10 +545,7 @@ export function followedBills(core: CoreState, asId?: string) {
         : [],
     ),
   );
-  const rows = api
-    .moduleState(LEGISLATURE)
-    .table("bills")
-    .rows() as unknown as BillRow[];
+  const rows = allBills(api) as unknown as BillRow[];
   return (
     rows
       // The state's and Congress's bills, and the bills of the place's own council and county board:
@@ -746,10 +736,8 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
           title:
             bodyOf(api, chamberNow(api, bill))?.bodyName ??
             (
-              api
-                .moduleState(OFFICES)
-                .table("offices")
-                .get(chamberNow(api, bill)) as { title?: string } | undefined
+              officeById(api, chamberNow(api, bill)) as
+                { title?: string } | undefined
             )?.title ??
             null,
           since: bill.chambersPassed.at(-1)!.on,
@@ -1005,40 +993,5 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
       level: reach.level,
       reachesYou: reachesTown(api, billJurisdiction(api, bill)),
     },
-  };
-}
-
-interface ReachRow {
-  readonly people?: unknown;
-  readonly reaches?: unknown;
-  readonly organizations?: readonly string[];
-  readonly enforcer?: string;
-  readonly mechanic?: string;
-}
-
-/**
- * Whom a section's law applies to, as the law-reach data states it for that policy or budget
- * line: the people it selects (by the selector's own terms, for the banks to word), the
- * organizations it reaches and who enforces it. Null where the data names none. No counts: a
- * screen creates no facts, and the counts come from the law-reach records once it is law.
- */
-function reachScopeOf(key: string | null) {
-  if (!key) return null;
-  const a = (reachA.policies as Record<string, ReachRow>)[key];
-  const b =
-    (reachB.policies as Record<string, ReachRow>)[key] ??
-    (reachB.budgetLines as Record<string, ReachRow>)[
-      key.replace(/^budget:/, "")
-    ];
-  const row = b ?? a;
-  if (!row) return null;
-  const people = row.people ?? row.reaches ?? null;
-  const empty = Array.isArray(people) ? people.length === 0 : people === null;
-  if (empty && !row.organizations?.length && !row.enforcer) return null;
-  return {
-    people: empty ? null : people,
-    organizations: row.organizations ?? [],
-    enforcer: row.enforcer ?? null,
-    mechanic: row.mechanic ?? null,
   };
 }

@@ -5,7 +5,7 @@
  * race no term recorded (the federal executive's), so both carry one number.
  */
 import corpus from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import { pastParameter, seededBetween } from "./past-module";
 
 type Corpus = {

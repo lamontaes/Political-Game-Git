@@ -37,17 +37,12 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { CRIME_EVENT, CRIME_MODULE_ID, type CrimeMonth } from "./modules/crime";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
-import {
-  registerStanceListener,
-  viewOf,
-  viewOn,
-  VIEWS_MODULE_ID,
-  type Stance,
-} from "./modules/views";
+import { viewOf, viewOn, VIEWS_MODULE_ID, type Stance } from "./modules/views";
 import { WORLD_METRICS_MODULE_ID } from "./modules/world-metrics";
 import { livedQuestion } from "./outcome-news";
 import { WEB_LINKS } from "./outcome-web-model";
-import { coreAPI, fillInPerson } from "./state";
+import { coreAPI, fillInPerson, registerModule } from "./state";
+import type { StanceListener } from "./stance-listeners";
 import { countedHouseholdsByPlace } from "./modules/residents";
 import { lawChain } from "./modules/laws";
 import type { CoreState, PersonId } from "./types";
@@ -86,7 +81,7 @@ const MOVES = new WeakMap<object, Move[]>();
 const SIGNED = new WeakMap<object, Map<string, number>>();
 const signed = (stance: Stance) =>
   (stance.desiredChange === "enact" ? 1 : -1) * stance.strength;
-registerStanceListener((api, personId, topic) => {
+const stanceListener: StanceListener = (api, personId, topic) => {
   if (topic !== POLICE) return;
   const stance = api
     .moduleState(VIEWS_MODULE_ID)
@@ -118,7 +113,7 @@ registerStanceListener((api, personId, topic) => {
         signedNow: signed(stance),
         causesToday,
       });
-});
+};
 
 /**
  * The world for a draw, with the player having met some of the town's
@@ -136,6 +131,7 @@ function build(drawSeed: string, placeKey: string) {
     placeKey,
   });
   const core = world.core as CoreState;
+  registerModule(core, { id: "test-stance-listener", stanceListener });
   const town = lawChain(coreAPI(core)).townPlaceId;
   const records = [...(countedHouseholdsByPlace(core).get(town) ?? [])]
     .sort((a, b) => a.household.id.localeCompare(b.household.id))
