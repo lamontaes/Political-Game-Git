@@ -20,7 +20,7 @@ import { lawApplied } from "../law-reach/applied";
 import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
 import { addResidentFlow, endFlowPart } from "../residents-economy";
 import { leanedTerm } from "../trait-decisions";
-import { residentsRuntime } from "./residents";
+import { residentsRuntime } from "../residents-reads";
 import { isDemoted } from "../counted-groups";
 import type {
   CoreAPI,
@@ -30,7 +30,6 @@ import type {
   PersonId,
   Source,
 } from "../types";
-import { registerWorldMapPart } from "../snapshot";
 
 export const RETIREMENT_CLAIMS_MODULE_ID = "core2-retirement-claims-v1";
 const STOPGAP = "SG-CORE-retirement-claims-in-play";
@@ -54,7 +53,6 @@ interface Claim {
   obligationId: string;
 }
 const runtimes = new WeakMap<CoreState, Runtime>();
-registerWorldMapPart("core2-retirement-claims", runtimes);
 
 /** Who has claimed in play, with the date and monthly award. */
 export function retirementClaims(
@@ -478,6 +476,7 @@ export function claimRetirementNow(api: CoreAPI, personId: PersonId): boolean {
 
 export const RETIREMENT_CLAIMS_MODULE: CoreModule = {
   id: RETIREMENT_CLAIMS_MODULE_ID,
+  worldMapParts: { "core2-retirement-claims": { map: runtimes } },
   onDay(api) {
     const core = api.state;
     let rt = runtimes.get(core);

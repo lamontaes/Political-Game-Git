@@ -8,7 +8,7 @@
  * it through the news engine's delivery.
  */
 import data from "./data/news/outcome-news.json" with { type: "json" };
-import { WIRED_INTO } from "./laws-in-force";
+import { WIRED_INTO } from "./outcome-web-model";
 import type { WebMonth } from "./modules/outcome-web";
 import type { CoreAPI } from "./types";
 import { OUTCOME_MONTH_KIND } from "./outcome-news-constants";
