@@ -29,10 +29,10 @@ claimed-at:
 
 **Rules.** No dice. Wire to the world: the speakers are the people the records seat. One rule, all 56 places: no place is named in logic.
 
-**Done when.** A second session, on main in a drawn place and a seed the builder did not choose, plays a scene with three or more speakers and sees each speak in order by record id, and a test in `src/director/scene-talk.test.ts` fails when a seated speaker has no turn.
+**Done when.** A second session, on main in a drawn place and a seed the builder did not choose, plays a scene with three or more speakers and sees each speak in order by record id, and a test in `tests/src/director/scene-talk.test.ts` fails when a seated speaker has no turn.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/scene-talk.ts, src/director/purpose-scene.ts, src/director/data/purpose-arcs.json, src/director/scene-talk.test.ts
+**Files.** src/director/scene-talk.ts, src/director/purpose-scene.ts, src/director/data/purpose-arcs.json, tests/src/director/scene-talk.test.ts
 
 **Notes.** Nov 15, filed by the governor's briefing room builder at the Account lead's direction; the briefing room is not built on it. Words lead writes any lines for added speakers. Feeds: director-emergency-briefing-other-heads.

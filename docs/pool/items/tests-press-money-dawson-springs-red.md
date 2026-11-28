@@ -22,9 +22,9 @@ branch: claude/pool-tests-press-money-dawson-springs-red
 merged-at: 2026-11-12T02:11:54.417Z
 ---
 
-**What.** src/core2/press-money.test.ts fails on main with GOLDEN_PATH_SEED=87f9d8a36f733083. Its first draw, Dawson Springs, Kentucky (2120224), place seed cb670b23a8bfc0787ac8adf6af104ac8b022be4acf201ee326c4c7118b509e66, never has a month when the paper's readers and its revenue both rise, so the check that revenue follows the audience fails over March 2025 to January 2026. The analysis in the Notes found the cause: the paper's readers sit within 1 percent of 700 all year, while its subscriptions moved by a fifth, because households short of cash pay in part and the rest in a later month. A threshold fix passed Dawson but failed Little America, Wyoming (5646935, seed pmf1:0). Guards: the paper a player reads keeps its readers and revenue moving together, so a small town's paper does not stall.
+**What.** tests/src/core2/press-money.test.ts fails on main with GOLDEN_PATH_SEED=87f9d8a36f733083. Its first draw, Dawson Springs, Kentucky (2120224), place seed cb670b23a8bfc0787ac8adf6af104ac8b022be4acf201ee326c4c7118b509e66, never has a month when the paper's readers and its revenue both rise, so the check that revenue follows the audience fails over March 2025 to January 2026. The analysis in the Notes found the cause: the paper's readers sit within 1 percent of 700 all year, while its subscriptions moved by a fifth, because households short of cash pay in part and the rest in a later month. A threshold fix passed Dawson but failed Little America, Wyoming (5646935, seed pmf1:0). Guards: the paper a player reads keeps its readers and revenue moving together, so a small town's paper does not stall.
 
-**Cause.** Found in code: src/core2/press-money.test.ts near line 112 (the first paper whose readers both rose and fell) compares monthly signs, while src/core2/modules/press.ts lets a household short of cash pay a subscription in part, so a month's revenue is cash-limited and not audience-limited. The per-reader-month ceiling already in the test holds in both places. Place seed cb670b23a8bfc0787ac8adf6af104ac8b022be4acf201ee326c4c7118b509e66, Dawson Springs, Kentucky.
+**Cause.** Found in code: tests/src/core2/press-money.test.ts near line 112 (the first paper whose readers both rose and fell) compares monthly signs, while src/core2/modules/press.ts lets a household short of cash pay a subscription in part, so a month's revenue is cash-limited and not audience-limited. The per-reader-month ceiling already in the test holds in both places. Place seed cb670b23a8bfc0787ac8adf6af104ac8b022be4acf201ee326c4c7118b509e66, Dawson Springs, Kentucky.
 
 **Fix.** Change the check's shape to the year's subscription cash against reader-months (the per-reader-month ceiling already holds), not a monthly sign or a threshold, and show it passes in Dawson Springs, Kentucky and Little America, Wyoming (seed pmf1:0).
 
@@ -32,11 +32,11 @@ merged-at: 2026-11-12T02:11:54.417Z
 
 **Rules.** Ask why: the fix names, by record, why the readers and the revenue move as they do in Dawson Springs. One rule, all 56 places: no place-specific branch, and the test draws its place at random. Every number lives in a parameter table.
 
-**Done when.** A second session runs src/core2/press-money.test.ts on seed 87f9d8a36f733083 in the drawn place Dawson Springs, Kentucky, in Little America, Wyoming (seed pmf1:0) and on three fresh seeds the builder did not choose, in the played world, and sees every run pass. The PR body names by record why the readers and the revenue move as they do in Dawson Springs.
+**Done when.** A second session runs tests/src/core2/press-money.test.ts on seed 87f9d8a36f733083 in the drawn place Dawson Springs, Kentucky, in Little America, Wyoming (seed pmf1:0) and on three fresh seeds the builder did not choose, in the played world, and sees every run pass. The PR body names by record why the readers and the revenue move as they do in Dawson Springs.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/press-money.test.ts, src/core2/modules/press.ts
+**Files.** tests/src/core2/press-money.test.ts, src/core2/modules/press.ts
 
 **Notes.** TODO
 

@@ -31,11 +31,11 @@ checked: fable 2026-11-10
 
 **Rules.** One model, two tiers: each person's purchases and counted groups' purchases are priced by the same rule. No dice: returns come from the person's own choice. Replace, never layer: the fake is deleted in the same change, and a row is never closed by deleting it without the mechanic. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE.
 
-**Done when.** A second session, on main in a drawn place (place and seed named in the PR body), plays a year in dev mode with a container deposit law in force and sees a named person charged at purchase and refunded at return, with the purchase, deposit and refund record ids. The test in src/core2/place-prices.test.ts and the stopgap tripwire test show both rows resolved.
+**Done when.** A second session, on main in a drawn place (place and seed named in the PR body), plays a year in dev mode with a container deposit law in force and sees a named person charged at purchase and refunded at return, with the purchase, deposit and refund record ids. The test in tests/src/core2/place-prices.test.ts and the stopgap tripwire test show both rows resolved.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/place-prices.ts, src/core2/data/stopgaps/gov.json, src/core2/data/stopgaps/world.json, src/core2/place-prices.test.ts
+**Files.** src/core2/modules/place-prices.ts, src/core2/data/stopgaps/gov.json, src/core2/data/stopgaps/world.json, tests/src/core2/place-prices.test.ts
 
 **Notes.** First row: The price engine charges container deposits to full and counted households under the live law. Container use and redemption still use household estimates rather than each person's purchases and return decision.
 

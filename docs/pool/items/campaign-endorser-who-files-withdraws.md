@@ -31,10 +31,10 @@ merged-at: 2026-11-12T20:21:10.519Z
 
 **Rules.** Ask why: the withdrawal is a record that names the filing that caused it, read wherever an endorsement is read (the standing, the Campaigns screen, Words' lines). Replace, never layer: the held yes is ended, not hidden beside a second flag.
 
-**Done when.** A second session, in a drawn place with its seed printed, has a person who endorsed candidate A file in A's race and sees them no longer count as endorsing A from the filing day, by the endorsement row and the filing id. A group whose speaker files in the race withdraws its endorsement of a rival the same way. src/core2/campaign-rival-help.test.ts shows both, each failing without the change.
+**Done when.** A second session, in a drawn place with its seed printed, has a person who endorsed candidate A file in A's race and sees them no longer count as endorsing A from the filing day, by the endorsement row and the filing id. A group whose speaker files in the race withdraws its endorsement of a rival the same way. tests/src/core2/campaign-rival-help.test.ts shows both, each failing without the change.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-rival-help.test.ts
+**Files.** src/core2/modules/campaigns.ts, tests/src/core2/campaign-rival-help.test.ts
 
 **Notes.** Found by the review of campaign-candidates-never-help-a-rival, Nov 1. Build after that PR merges.

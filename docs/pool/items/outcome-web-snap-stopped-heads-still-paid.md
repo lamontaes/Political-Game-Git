@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-26T20:00:51.026Z
 ---
 
-**What.** src/core2/outcome-web-public-finance.test.ts 'stops the heads the law reaches after their own months' fails on clean main with PUBLIC_FINANCE_SEED=5bc87701eb9c1641: Washington, District of Columbia (1150000), person:press:outlet:newspaper:3:jurisdiction_7691c6e3ae48f824:owner:0 is stopped and still paid. Found by Merger 4 on PR 6008 merge, Oct 26. The same test passes on other seeds, so the stop and the payment disagree only for some people in some places. Find which engine pays the person after the work requirement stops them.
+**What.** tests/src/core2/outcome-web-public-finance.test.ts 'stops the heads the law reaches after their own months' fails on clean main with PUBLIC_FINANCE_SEED=5bc87701eb9c1641: Washington, District of Columbia (1150000), person:press:outlet:newspaper:3:jurisdiction_7691c6e3ae48f824:owner:0 is stopped and still paid. Found by Merger 4 on PR 6008 merge, Oct 26. The same test passes on other seeds, so the stop and the payment disagree only for some people in some places. Find which engine pays the person after the work requirement stops them.
 
 **Rules.** No dice; the law in force and the person's records decide who is stopped and paid; fix at the root, never skip the test.
 
@@ -21,6 +21,6 @@ claimed-at: 2026-10-26T20:00:51.026Z
 
 **Time box.** 3 hours. Model: Sonnet, no helpers.
 
-**Files.** src/core2/outcome-web-public-finance.test.ts
+**Files.** tests/src/core2/outcome-web-public-finance.test.ts
 
 **Notes.** Found Oct 26 by Merger 4; red on clean main.

@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T20:21:55.982Z
 
 **Rules.** Research before building: the real flows calibrate the shares and never decide one worker's job. Estimate, never UNKNOWN: a place with no LODES file (Puerto Rico and the four island areas) carries the national average marked ESTIMATED with its spread. One rule, all 56 places: the table is keyed by place id and no logic names a state or town.
 
-**Done when.** The table is in `data/source/lodes-commuting/` with a README naming the LODES vintage per state, the crosswalk, the columns, the places not covered and the table's SHA-256 (`64eb9eeee797f7e7df9d083c9ee53be54373960d579fbb31e7f9476435396a5f`, the checksum contract this source keeps in its README rather than a separate lock file), and `src/core2/commuting-shares.test.ts` reads it for a place drawn from all 56. Done in #5143.
+**Done when.** The table is in `data/source/lodes-commuting/` with a README naming the LODES vintage per state, the crosswalk, the columns, the places not covered and the table's SHA-256 (`64eb9eeee797f7e7df9d083c9ee53be54373960d579fbb31e7f9476435396a5f`, the checksum contract this source keeps in its README rather than a separate lock file), and `tests/src/core2/commuting-shares.test.ts` reads it for a place drawn from all 56. Done in #5143.
 
 **Files.** data/source/lodes-commuting/, scripts/source/lodes-commuting.py, src/core2/commuting-shares.ts
 

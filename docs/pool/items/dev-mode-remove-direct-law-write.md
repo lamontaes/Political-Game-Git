@@ -32,11 +32,11 @@ merged-at: 2026-11-15T22:38:14.575Z
 
 **Rules.** Replace, never layer: the direct write and the experiments are deleted in the change that removes their tests, and the PR counts what was removed.
 
-**Done when.** A second session searches src and finds no `setLaw`, no experiment route and no dev-experiments file. In a drawn place (name and seed) it opens dev mode, passes a law through the Bills panel and sees it take effect through a bill, a vote and a signature. `src/bench/dev-mode.test.ts` and `dev-bills.test.ts` pass, and the PR body counts what was removed.
+**Done when.** A second session searches src and finds no `setLaw`, no experiment route and no dev-experiments file. In a drawn place (name and seed) it opens dev mode, passes a law through the Bills panel and sees it take effect through a bill, a vote and a signature. `tests/src/bench/dev-mode.test.ts` and `dev-bills.test.ts` pass, and the PR body counts what was removed.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/dev-mode.ts, src/bench/dev-api.ts, src/bench/dev-mode.test.ts
+**Files.** src/bench/dev-mode.ts, src/bench/dev-api.ts, tests/src/bench/dev-mode.test.ts
 
 **Notes.** TODO
 

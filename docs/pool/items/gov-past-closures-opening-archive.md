@@ -19,6 +19,6 @@ claimed-at: 2026-10-22T01:24:19.938Z
 
 **Done when.** past.test.ts, in places drawn from all 56 with bounded redraws that fail on exhaustion, finds at least one past closure dated before day one and checks its printed story and its former owner's heard record by id.
 
-**Files.** src/core2/past-business.ts, src/core2/past-news.ts, src/core2/past.test.ts
+**Files.** src/core2/past-business.ts, src/core2/past-news.ts, tests/src/core2/past.test.ts
 
 **Notes.** TODO

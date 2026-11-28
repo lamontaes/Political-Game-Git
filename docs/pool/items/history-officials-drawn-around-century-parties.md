@@ -33,10 +33,10 @@ Seen: `src/core2/officials-roster.ts` `drawOfficial` reads `partySpread`, the 11
 
 **Rules.** No dice; one stance rule (`partyMeanAt` is shared by `expectedIdeal` and `drawOfficial`).
 
-**Done when.** A second session starts a new game at a drawn place it writes down with its seed, turns dev mode on, opens Politics, Metrics, reads the parties' day-one positions in "The parties", and sees each party's members of Congress stand around that position on average. At drawn worlds each party's House and Senate members' mean is within four standard errors of the century party's position, and src/core2/officials-century-parties.test.ts passes.
+**Done when.** A second session starts a new game at a drawn place it writes down with its seed, turns dev mode on, opens Politics, Metrics, reads the parties' day-one positions in "The parties", and sees each party's members of Congress stand around that position on average. At drawn worlds each party's House and Senate members' mean is within four standard errors of the century party's position, and tests/src/core2/officials-century-parties.test.ts passes.
 
 **Waits on.** history-officials-leans-from-the-century (#9966), which this branch is stacked on.
 
-**Files.** src/core2/officials-roster.ts, src/core2/modules/officials.ts, src/core2/officials-century-parties.test.ts (new)
+**Files.** src/core2/officials-roster.ts, src/core2/modules/officials.ts, tests/src/core2/officials-century-parties.test.ts (new)
 
 **Notes.** Filed by the History lane, Nov 17, 2026.

@@ -25,7 +25,7 @@ branch: claude/pool-core-officials-appearance-and-home-past
 
 **Cause.** Found in code: src/core2/modules/offices.ts writes the `inauguration:<date>` record with `placeId: townPlaceId` (line 851), so the oath's place is the player's town. In src/core2/modules/officials.ts the national officials' deep past is placed at the player's state; re-read the function that builds it (the item's Oct 27 note cited around line 711) before changing it, because the officials file has moved since.
 
-**Fix.** Give the inauguration record the Capitol's place. Place a national official's school and past records in the state their home-state record names, and a state official's in the seat's state. Add a test beside the officials tests (src/core2/official-living.test.ts is the nearest) that checks both in a drawn place.
+**Fix.** Give the inauguration record the Capitol's place. Place a national official's school and past records in the state their home-state record names, and a state official's in the seat's state. Add a test beside the officials tests (tests/src/core2/official-living.test.ts is the nearest) that checks both in a drawn place.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -35,7 +35,7 @@ branch: claude/pool-core-officials-appearance-and-home-past
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/offices.ts, src/core2/modules/officials.ts, src/core2/state.ts, src/core2/official-living.test.ts
+**Files.** src/core2/modules/offices.ts, src/core2/modules/officials.ts, src/core2/state.ts, tests/src/core2/official-living.test.ts
 
 **Notes.** Filed by the CTO root-cause report of Oct 27 (docs/reports/opening-root-cause-2026-10-27.md). Lead: m0-m2.
 

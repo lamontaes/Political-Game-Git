@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** On the bench in Kelly, Wyoming (new life seed 4e1bb0a5-4d3f-42e9-bc9b-fc5d88a29251), a player who filed for U.S. Senator ran unopposed and won on November 3, 2026 (108,692 votes). Election night showed the win, but two days later the journal read only 'I ran for U.S. Senator.' with no line about winning. A journal test with an unopposed own win (src/director/journal.test.ts, 'tells the player's own race when nobody ran against them', on the play-stop-22 branch) passes, so the likely cause is that the story director stored no moment for the player from that election-result event (its measured impact for an unopposed win under the floor). Confirm in a played world by record id and fix the cause.
+**What.** On the bench in Kelly, Wyoming (new life seed 4e1bb0a5-4d3f-42e9-bc9b-fc5d88a29251), a player who filed for U.S. Senator ran unopposed and won on November 3, 2026 (108,692 votes). Election night showed the win, but two days later the journal read only 'I ran for U.S. Senator.' with no line about winning. A journal test with an unopposed own win (tests/src/director/journal.test.ts, 'tells the player's own race when nobody ran against them', on the play-stop-22 branch) passes, so the likely cause is that the story director stored no moment for the player from that election-result event (its measured impact for an unopposed win under the floor). Confirm in a played world by record id and fix the cause.
 
 **Rules.** This is a game, not a spreadsheet: winning office is a turn in the player's life and the journal tells it. An effect is a read: the journal reads the director's stored moment, so the fix belongs where the moment is or is not stored, by the same rule for everyone.
 

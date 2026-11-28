@@ -28,8 +28,8 @@ root: rc8-law-judged-by-paperwork
 
 **Rules.** One rule, all 56 places: the unit comes from the law row the bill amends in whichever place it is filed.
 
-**Done when.** A second session, in a drawn place, Town, State (seed printed), passes a Congress bill raising SSI's federal benefit rate in dev mode and reads "USD/month" for the new law on the bill card; `src/bench/amount-bill-keeps-its-unit.test.ts` passes in that drawn place.
+**Done when.** A second session, in a drawn place, Town, State (seed printed), passes a Congress bill raising SSI's federal benefit rate in dev mode and reads "USD/month" for the new law on the bill card; `tests/src/bench/amount-bill-keeps-its-unit.test.ts` passes in that drawn place.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/legislature.ts, src/bench/amount-bill-keeps-its-unit.test.ts (new)
+**Files.** src/core2/modules/legislature.ts, tests/src/bench/amount-bill-keeps-its-unit.test.ts (new)

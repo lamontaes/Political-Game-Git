@@ -22,7 +22,7 @@ seen-by: second-session-2
 seen-at: 2026-11-11T00:58:36.806Z
 ---
 
-**What.** src/director/conversation.test.ts "never parts with a word the talk already said" fails on main (fixed world, seed conversation-test): expected 0 to be greater than 0. Of the first 25 people the player knows, none reaches a farewell in 8 turns, and the first one's talk opens with no lines and no choices at all. The engine may be right to say nothing for a person with nothing on record, so the first question is whether the test picks people who have anything to say. The Notes record that run alone, or paired with any one earlier test, it passes, and that in the full file every known person opens an empty talk, so earlier tests leave something behind.
+**What.** tests/src/director/conversation.test.ts "never parts with a word the talk already said" fails on main (fixed world, seed conversation-test): expected 0 to be greater than 0. Of the first 25 people the player knows, none reaches a farewell in 8 turns, and the first one's talk opens with no lines and no choices at all. The engine may be right to say nothing for a person with nothing on record, so the first question is whether the test picks people who have anything to say. The Notes record that run alone, or paired with any one earlier test, it passes, and that in the full file every known person opens an empty talk, so earlier tests leave something behind.
 
 **Cause.** Found in code: src/director/conversation.ts, `say` (line 3172: "The listener remembers what this talk was about") writes `talk:<player>:topic:<topic>` into the listener's knowledge in the shared core, and `openConversation` (lines 2278-2282) puts every remembered topic into `conversation.used`; with nothing left, a talk that is only a greeting is emptied (lines 2297-2305, owner, Oct 24). The fixed world (Jackson Center, Ohio, seed conversation-test) has five people the player knows. The file's earlier tests talk to all five on the same core, so by the farewell test each one remembers two or three topics: person_5e2074355a8d874f and person_5e2076355a8d8ab5 (housemates) remember `own-view` and `quiet:...:2021-01-05`; person_1d03c37835fa8d4e and person_267d238b581d3818 remember `home:person_5e2073355a8d859c`, their own `own-work` and `family:person_5e2074355a8d874f`; person_9c8603d75f4992d1 remembers `home` and `own-work`. All five then open with 0 lines and 0 choices. The engine is right (owner, Nov 1: a talk with nothing new is no talk); the test's pick was wrong. Run alone, the same five talk, but the three non-housemates end on the player's answer to their school question with no goodbye, by the rule in `endConversation` (lines 2970-2981), so no farewell is found either way. Commit 94b8877056 (Nov 4, 16:40 UTC, ten hours after this item was filed) changed the test to go on past the known people to every other full person, up to 60, and those strangers have no remembered topics; #8176 (Nov 10) kept that. The test passes on main 6af036c7 as a whole file, on seed conversation-test and on a fresh draw (Pamelia Center, New York, seed 799e81757157).
 
@@ -32,11 +32,11 @@ seen-at: 2026-11-11T00:58:36.806Z
 
 **Rules.** A talk with nothing on record says nothing (owner, Oct 24); a talk with nothing new is no talk (owner, Nov 1); fix the test's pick only when the engine is right (words-engine skill). Ask why: the cause above names, by record, why the first known people opened empty talks.
 
-**Done when.** A second session runs src/director/conversation.test.ts as a whole file on main's fixed world (seed conversation-test) and on one drawn place and seed nobody chose (GOLDEN_PATH_SEED set), and sees "never parts with a word the talk already said" pass, with at least one talk reaching a farewell within eight turns.
+**Done when.** A second session runs tests/src/director/conversation.test.ts as a whole file on main's fixed world (seed conversation-test) and on one drawn place and seed nobody chose (GOLDEN_PATH_SEED set), and sees "never parts with a word the talk already said" pass, with at least one talk reaching a farewell within eight turns.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/conversation.ts, src/director/conversation.test.ts
+**Files.** src/director/conversation.ts, tests/src/director/conversation.test.ts
 
 **Notes.** Filed by Lane 3 (Nov 4), found while checking lane3/everyday-answers; red on clean main (9e2f7a46). Unit tests don't run in main's Release workflow, so no red-main report named it.
 

@@ -33,7 +33,7 @@ Seen: a donor's gift to the player's campaign names a pending bill, and the talk
 
 **Waits on.** The recount of the line-inserts count (#9757) before the count can fall.
 
-**Files.** data/english/parts/scene-talk.json, src/director/donor-ask-facts.ts, src/director/purpose-scene.ts, src/core2/modules/campaigns.ts, src/director/donor-ask-reads.test.ts, scripts/words/donor-walk.ts, data/english/pulled.json
+**Files.** data/english/parts/scene-talk.json, src/director/donor-ask-facts.ts, src/director/purpose-scene.ts, src/core2/modules/campaigns.ts, tests/src/director/donor-ask-reads.test.ts, scripts/words/donor-walk.ts, data/english/pulled.json
 
 **Notes.**
 

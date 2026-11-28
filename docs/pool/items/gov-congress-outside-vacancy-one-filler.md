@@ -22,7 +22,7 @@ claimed-at: 2026-10-28T21:23:22.534Z
 
 **Time box.** 3 hours; if not done, push what exists, open the draft PR and write the handoff in Notes.
 
-**Files.** src/core2/modules/officials.ts, src/core2/modules/offices.ts, src/core2/modules/legislature.ts, src/core2/officials-sample-vacancy.test.ts
+**Files.** src/core2/modules/officials.ts, src/core2/modules/offices.ts, src/core2/modules/legislature.ts, tests/src/core2/officials-sample-vacancy.test.ts
 
 **Notes.** Stacked on #6701 (gov-sampled-legislator-seats-never-refilled), which adds the vacancy path for seats the offices engine keeps no term for.
 

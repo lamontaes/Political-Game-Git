@@ -33,6 +33,6 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/residents.ts, src/core2/law-reach/group-b-money.ts, src/core2/world-poverty.ts, src/core2/housing-occupancy.ts, src/core2/counted-income-cash-assistance.test.ts (new)
+**Files.** src/core2/modules/residents.ts, src/core2/law-reach/group-b-money.ts, src/core2/world-poverty.ts, src/core2/housing-occupancy.ts, tests/src/core2/counted-income-cash-assistance.test.ts (new)
 
 **Notes.** Nov 16 (account lead): built. Pinned test at Danville PA (4218136, seed ilt-danville), red without the change and green with. Year-1 timing with and without, twice a side, at West Union OH, Danville PA and Puerto Rico place 7237336: within 4 percent each way, run to run noise.

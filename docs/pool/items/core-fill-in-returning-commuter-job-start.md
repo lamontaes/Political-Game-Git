@@ -19,7 +19,7 @@ claimed-at: 2026-10-24T17:25:32.700Z
 
 **Done when.** Both named seeds pass fill-in-returning-newborn.test.ts and fill-in-returning-dead-member.test.ts, and a drawn place passes each too; the PR body names the person, the commuter job id and which startJob condition failed, and the fix fails its test when undone.
 
-**Files.** src/core2/modules/residents.ts, src/core2/state.ts, src/core2/job-lifecycle.ts, src/core2/fill-in-returning-newborn.test.ts, src/core2/fill-in-returning-dead-member.test.ts
+**Files.** src/core2/modules/residents.ts, src/core2/state.ts, src/core2/job-lifecycle.ts, tests/src/core2/fill-in-returning-newborn.test.ts, tests/src/core2/fill-in-returning-dead-member.test.ts
 
 **Notes.** Found Oct 24 while gating tests-counted-demotion-retained-cash; the same seeds fail identically with and without that branch's change.
 

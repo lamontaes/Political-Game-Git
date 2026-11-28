@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Sliding scales and causes: the day starts at a parameter (TUNABLE, with its spread), not a hard-coded hour. Speed: no year more than 20 percent slower.
 
-**Done when.** src/bench/clock.browser.mjs passes in a drawn place (Day twice lands on two mornings a day apart; a canvass moves the card's clock by its hours) with the place and seed named, fails on main, and src/bench/player-day-morning.test.ts passes.
+**Done when.** tests/src/bench/clock.browser.mjs passes in a drawn place (Day twice lands on two mornings a day apart; a canvass moves the card's clock by its hours) with the place and seed named, fails on main, and tests/src/bench/player-day-morning.test.ts passes.
 
 **Files.** src/bench/player.ts, src/bench/handler.ts, src/bench/play.mjs, src/core2/data/parameters.json
 

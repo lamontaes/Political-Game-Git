@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** In the played world (buildBenchWorld, Long Hill, Connecticut, seed m7b) npm run speed:year runs its whole year on main with the fix, and a place drawn from all 56 runs its year too, named with its seed; a test in src/core2 hires a counted worker at a founded firm whose template job is at another employer, fills them in, and their payroll calendar names their own employer; the jobs, residents and counted-household-jobs tests pass.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/counted-household-jobs.test.ts
+**Files.** src/core2/modules/jobs.ts, tests/src/core2/counted-household-jobs.test.ts
 
 **Notes.** Filed Oct 24 by the speed lead: found when the module-table pair on main crashed; the instrumented check names the job, person, employer and calendar above.
 

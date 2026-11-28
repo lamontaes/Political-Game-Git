@@ -34,6 +34,6 @@ merged-at: 2026-11-25T12:47:23.821Z
 
 **Waits on.** Nothing. The Story lead's lines for it wait on this item (W3); eveningTelling's one-line wiring waits on story/first-evening reaching main.
 
-**Files.** src/director/journal.ts, src/director/journal.test.ts, src/director/journal-later.ts (new), src/director/journal-later.test.ts (new), src/core2/modules/offices.ts, src/core2/modules/legislature.ts, src/english/policy-names.ts
+**Files.** src/director/journal.ts, tests/src/director/journal.test.ts, src/director/journal-later.ts (new), tests/src/director/journal-later.test.ts (new), src/core2/modules/offices.ts, src/core2/modules/legislature.ts, src/english/policy-names.ts
 
 **Notes.** Filed from the Coordinator's order (the CTO's 20:39Z line, 7143874990 on #9750, order 4). Story side: the Story lead files the matching writer work for W3 and writes the lines.

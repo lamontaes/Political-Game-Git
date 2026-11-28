@@ -17,9 +17,9 @@ claimed-at: 2026-10-20T13:15:51.841Z
 
 **Rules.** One model, two tiers: a counted follower is reached by the same contacts as a named one, times the count the group stands for. An effect is a read: `countedReached` is read by `townShareKnowing` in the voting engine when it builds the candidate's recognition. No dice: the contacts a buy pays for are fixed by its amount and `adContactsPerThousandMinor`, and the named followers are reached before the counted ones.
 
-**Done when.** In a played world (`worldWith`, a place drawn by seed, with a local outlet that has counted followers) `adReach` for a buy far larger than the audience equals the outlet's named and counted followers, a buy too small for the named followers reaches no counted one, and a candidate's ad raises the campaign's `countedReached`; `src/core2/campaign-ads.test.ts` passes.
+**Done when.** In a played world (`worldWith`, a place drawn by seed, with a local outlet that has counted followers) `adReach` for a buy far larger than the audience equals the outlet's named and counted followers, a buy too small for the named followers reaches no counted one, and a candidate's ad raises the campaign's `countedReached`; `tests/src/core2/campaign-ads.test.ts` passes.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/modules/press.ts, src/core2/campaign-ads.test.ts
+**Files.** src/core2/modules/campaigns.ts, src/core2/modules/press.ts, tests/src/core2/campaign-ads.test.ts
 
 **Notes.** Oct 20 (claude/ads-counted). The press engine already counted an outlet's counted followers (`countedFollowersOf`); `adOutlet` now returns that count. A counted follower's reach is a number added to the campaign, not a per-group warmth, because the counted electorate reads recognition as a town share; group-level warmth for counted voters belongs to the views items.
 

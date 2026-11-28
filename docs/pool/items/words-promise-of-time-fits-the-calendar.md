@@ -38,4 +38,4 @@ merged-at: 2026-11-15T21:57:48.451Z
 
 **Waits on.** Nothing.
 
-**Files.** src/director/purpose-scene.ts, src/english/day-words.ts, data/english/parts/scene-talk.json, src/director/carry-bill-scene.test.ts
+**Files.** src/director/purpose-scene.ts, src/english/day-words.ts, data/english/parts/scene-talk.json, tests/src/director/carry-bill-scene.test.ts

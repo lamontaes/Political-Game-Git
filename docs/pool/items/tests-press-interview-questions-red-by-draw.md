@@ -18,7 +18,7 @@ source: "Interview check thread, Nov 15, 2026, gating the outlet-of-record chang
 root: none
 ---
 
-**What.** `src/core2/press.test.ts`, "outlets from real counts, an interview on the record, and outlets seeking out candidates", fails with "expected [ …(3) ] to include 'us-policy-positions:environment-energ…'". It failed on the clean train 53e4b29f and on the outlet-of-record branch at different drawn places, so it turns a gate red by draw. Seen: a builder's or the train's gate goes red on a test nobody's change touched.
+**What.** `tests/src/core2/press.test.ts`, "outlets from real counts, an interview on the record, and outlets seeking out candidates", fails with "expected [ …(3) ] to include 'us-policy-positions:environment-energ…'". It failed on the clean train 53e4b29f and on the outlet-of-record branch at different drawn places, so it turns a gate red by draw. Seen: a builder's or the train's gate goes red on a test nobody's change touched.
 
 **Cause.** Measured: US-OH place 3957064, seed (GOLDEN_PATH_SEED) 92e00f7ba2bdc5258f80dfcd2776e8506f8f23a1b422c527931da4b78e8c34bf, red on both the clean train 53e4b29f and the outlet-of-record branch.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/press.test.ts
+**Files.** tests/src/core2/press.test.ts

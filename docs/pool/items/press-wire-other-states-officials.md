@@ -16,9 +16,9 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all 56 places: coverage is the town, its county, its state and the nation, read from the record's place, never a named state. Wire to the world: the fix is in the press's coverage, not in the words.
 
-**Done when.** In a played year of three drawn places, no paper prints a state-level oath, vacancy or seat change from a state other than the town's own (named with place and seed), and src/bench/printed-words.test.ts passes.
+**Done when.** In a played year of three drawn places, no paper prints a state-level oath, vacancy or seat change from a state other than the town's own (named with place and seed), and tests/src/bench/printed-words.test.ts passes.
 
-**Files.** src/core2/press-topics.ts,src/core2/press-public-facts.test.ts
+**Files.** src/core2/press-topics.ts,tests/src/core2/press-public-facts.test.ts
 
 **Notes.** lead: words. Filed by the Words session from the paper-year measurement; the CTO routes it.
 

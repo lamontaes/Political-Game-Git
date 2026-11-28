@@ -33,4 +33,4 @@ claimed-at:
 
 **Waits on.** world-police-patrol-and-grievance-causes-part-3-readers sets the readers' window (use one year past the cause if it has not landed).
 
-**Files.** src/core2/modules/grievance.ts, src/core2/modules/grievance.test.ts, src/core2/data/stopgaps/world.json
+**Files.** src/core2/modules/grievance.ts, tests/src/core2/modules/grievance.test.ts, src/core2/data/stopgaps/world.json

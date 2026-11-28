@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: the pick reads the candidate's records and the president's traits. Research before building: the qualification weights cite past Federal Reserve governors' careers. Every number lives in a parameter table tagged SOURCED, ESTIMATED or TUNABLE.
 
-**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, drawn place and seed named) with a board vacancy and sees the nominee's record cite stance and career reasons by id; src/core2/board-appointer.test.ts checks that a nominee with a longer central-bank career outranks one without at equal stance; both stopgap rows are closed.
+**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, drawn place and seed named) with a board vacancy and sees the nominee's record cite stance and career reasons by id; tests/src/core2/board-appointer.test.ts checks that a nominee with a longer central-bank career outranks one without at equal stance; both stopgap rows are closed.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/board-appointer.ts, src/core2/board-appointer.test.ts, src/core2/data/stopgaps/world.json
+**Files.** src/core2/board-appointer.ts, tests/src/core2/board-appointer.test.ts, src/core2/data/stopgaps/world.json
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap rows SG-WORLD-board-hawk-side and SG-WORLD-board-career-qualification.
 

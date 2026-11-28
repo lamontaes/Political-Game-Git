@@ -32,4 +32,4 @@ source: "Account lead, Nov 15 21:52Z, from the read-only farms/mines/energy trac
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/data/outside-market.json, src/core2/utility-outside-buyers.test.ts (new).
+**Files.** src/core2/data/outside-market.json, tests/src/core2/utility-outside-buyers.test.ts (new).

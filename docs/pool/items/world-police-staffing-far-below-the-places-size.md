@@ -21,7 +21,7 @@ checked: fable 2026-11-10
 
 **What.** The new patrol-hours record adds up the paid hours of everyone on a place's police line. In Washington, D.C. that is one officer and 173.8 hours a month; in Myrtle Creek, Oregon it is two officers. Counted groups hold no police jobs at all. So patrol hours, arrests and anything else read from police staffing say a city of hundreds of thousands has one officer. The department should stand for the place's real force, the way a counted household stands for many.
 
-**Cause.** Needs cause. Looked at: the patrol-hours builder's report on pull request #8230 (src/core2/police-patrol.test.ts: Washington, D.C., seed a1, 1 police-line job; Myrtle Creek, Oregon, 2). Not read: where the opening builds a place's public jobs and how many it gives each department (src/bench/world.ts and the opening's public employers), whether police jobs carry a weight as counted households do, and whether src/core2/public-safety.ts already scales its police service by the budget line and not by staff.
+**Cause.** Needs cause. Looked at: the patrol-hours builder's report on pull request #8230 (tests/src/core2/police-patrol.test.ts: Washington, D.C., seed a1, 1 police-line job; Myrtle Creek, Oregon, 2). Not read: where the opening builds a place's public jobs and how many it gives each department (src/bench/world.ts and the opening's public employers), whether police jobs carry a weight as counted households do, and whether src/core2/public-safety.ts already scales its police service by the budget line and not by staff.
 
 **Fix.** None until the cause is found.
 
@@ -33,4 +33,4 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing to find the cause. The fix should land after world-police-patrol-and-grievance-causes-part-1-patrol-hours (pull request #8230), which adds the row that shows it.
 
-**Files.** src/bench/world.ts, src/core2/public-safety.ts, src/core2/police-patrol.test.ts (new)
+**Files.** src/bench/world.ts, src/core2/public-safety.ts, tests/src/core2/police-patrol.test.ts (new)

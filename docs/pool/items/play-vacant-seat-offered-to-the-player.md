@@ -38,6 +38,6 @@ Seen: North Plymouth, Massachusetts (place seed a1c29ecd20ea8aa97990ce0d6daf18e8
 
 **Waits on.** Story's `seat-appointment-offer` scene.
 
-**Files.** src/core2/modules/offices.ts, src/core2/modules/elections.ts, src/core2/scene-replies.ts (new, shared with #9814), src/core2/modules/press.ts, src/core2/vacancy-offered-to-player.test.ts (new)
+**Files.** src/core2/modules/offices.ts, src/core2/modules/elections.ts, src/core2/scene-replies.ts (new, shared with #9814), src/core2/modules/press.ts, tests/src/core2/vacancy-offered-to-player.test.ts (new)
 
 **Notes.** Filed and built by the Blockers lane, Nov 17. The five territories have no row in data/municipal-elections/92O-national-state-baseline.json and fall to an appointment rule with no citation; no research was added, by the CTO's line.

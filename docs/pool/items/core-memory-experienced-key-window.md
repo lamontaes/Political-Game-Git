@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 
 **Done when.** speed-years/run.ts --years 4 at --max-old-space-size=4096 plays all four years of Arcadia, California (0602462, seed app-heap-1) in the played world without running out of memory, heap per year in the PR body against main, or names the next table by size; the knowledge-retention test passes.
 
-**Files.** src/core2/data/parameters.json,src/core2/knowledge-retention.test.ts
+**Files.** src/core2/data/parameters.json,tests/src/core2/knowledge-retention.test.ts
 
 **Notes.** TODO
 

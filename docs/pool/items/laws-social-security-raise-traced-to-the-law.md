@@ -34,6 +34,6 @@ branch: claude/project-thread-8fxsy5
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/budgets-treasury.ts, src/core2/modules/residents.ts, src/core2/law-reach/social-security-reach.test.ts (new)
+**Files.** src/core2/budgets-treasury.ts, src/core2/modules/residents.ts, tests/src/core2/law-reach/social-security-reach.test.ts (new)
 
 **Notes.** Released by next (2026-11-18): no push to claude/project-thread-8fxsy5 since 2026-11-15 23:43 UTC, more than twice its 3-hour time box. Continue on branch claude/project-thread-8fxsy5.

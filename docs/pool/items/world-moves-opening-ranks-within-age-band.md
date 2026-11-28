@@ -22,7 +22,7 @@ Seen: Metrics' movers by age in a town's first months.
 
 **Cause.** Found in code: `openingPulls` in `src/core2/modules/moves.ts` orders the whole town by net push and sets each person's months to go from that one rank, so the departure month is the same for everyone of the same rank whatever their age band's rate; the age rate only enters after the opening has played out.
 
-**Fix.** Rank within each age band and spread each band over the way to leaving at its own mean pace, so a band's share that leaves a month follows its rate and the records still decide who goes first within it. The check `src/core2/moves.test.ts` ("sends adults away by age at the strength the research gives") is red on the old code and green on the new. The within-town ordering assertion in "builds each pull from the person's records" becomes within each band (CTO line).
+**Fix.** Rank within each age band and spread each band over the way to leaving at its own mean pace, so a band's share that leaves a month follows its rate and the records still decide who goes first within it. The check `tests/src/core2/moves.test.ts` ("sends adults away by age at the strength the research gives") is red on the old code and green on the new. The within-town ordering assertion in "builds each pull from the person's records" becomes within each band (CTO line).
 
 **Time box.** 2 hours.
 
@@ -32,4 +32,4 @@ Seen: Metrics' movers by age in a town's first months.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/moves.ts, src/core2/moves.test.ts
+**Files.** src/core2/modules/moves.ts, tests/src/core2/moves.test.ts

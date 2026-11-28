@@ -18,7 +18,7 @@ source: "Interview check thread, Nov 15, 2026, gating the outlet-of-record chang
 root: none
 ---
 
-**What.** `src/core2/press-amount-law.test.ts`, "prints the end of Ohio's state minimum wage", fails with "wage stories printed: expected 0 to be greater than 0". It failed on the clean train 53e4b29f and on the outlet-of-record branch at different drawn places, so it turns a gate red by draw. Seen: a builder's or the train's gate goes red on a test nobody's change touched.
+**What.** `tests/src/core2/press-amount-law.test.ts`, "prints the end of Ohio's state minimum wage", fails with "wage stories printed: expected 0 to be greater than 0". It failed on the clean train 53e4b29f and on the outlet-of-record branch at different drawn places, so it turns a gate red by draw. Seen: a builder's or the train's gate goes red on a test nobody's change touched.
 
 **Cause.** Measured: Aberdeen, Ohio (3900142), seed a3cff298015953a6, on the outlet-of-record branch; Aberdeen, Ohio, seed 8c77473674f610c3, on the clean train.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/press-amount-law.test.ts
+**Files.** tests/src/core2/press-amount-law.test.ts

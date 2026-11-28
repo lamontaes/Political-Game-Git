@@ -17,9 +17,9 @@ claimed-at:
 
 **Rules.** One model, two tiers: a counted household carries the same lease terms as a full one, times its count. Speed: the collapse stays within the year limit. No dice. One rule, all 56 places.
 
-**Done when.** In the played world (buildBenchWorld, every module installed) with seed playtest-0712 and the place that seed draws (name both in the PR body), the two-level opening completes and a test beside src/core2/residents.test.ts proves the lease's rent is paid by the counted household, naming the contract record id. If it no longer fails, the PR body says so and closes the line.
+**Done when.** In the played world (buildBenchWorld, every module installed) with seed playtest-0712 and the place that seed draws (name both in the PR body), the two-level opening completes and a test beside tests/src/core2/residents.test.ts proves the lease's rent is paid by the counted household, naming the contract record id. If it no longer fails, the PR body says so and closes the line.
 
-**Files.** src/core2/residents.ts, src/core2/residents.test.ts
+**Files.** src/core2/residents.ts, tests/src/core2/residents.test.ts
 
 **Notes.** Found while triaging play-needs-play-147.
 

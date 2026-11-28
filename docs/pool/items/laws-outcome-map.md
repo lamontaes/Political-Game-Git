@@ -17,9 +17,9 @@ claimed-at:
 
 **Rules.** The chain is the acceptance: one dollar or rule is followed from the record to a named person and back out to a choice and a journal line. No dice: reach comes from traits, money and the law in force. One rule, all 56 places: checked in a drawn place with place facts in data. Ask why: each person's change cites the source by which they learned of the law.
 
-**Done when.** One chain per law family, in a one-year played world (buildBenchWorld, a drawn place from all 56, seed named): the law record id, the payment or price record id changed, the person record id reached, their choice or view record id, and the director's line, plus the knowing source. The test in src/core2/law-reach-balance.test.ts or a new law-reach chain test covers each family. The owner plays it: pass a law and meet a neighbor it changed. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
+**Done when.** One chain per law family, in a one-year played world (buildBenchWorld, a drawn place from all 56, seed named): the law record id, the payment or price record id changed, the person record id reached, their choice or view record id, and the director's line, plus the knowing source. The test in tests/src/core2/law-reach-balance.test.ts or a new law-reach chain test covers each family. The owner plays it: pass a law and meet a neighbor it changed. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
-**Files.** src/core2/law-reach/index.ts, src/core2/law-reach/group-a.ts, src/core2/law-reach/group-b.ts, src/core2/law-reach-balance.test.ts
+**Files.** src/core2/law-reach/index.ts, src/core2/law-reach/group-a.ts, src/core2/law-reach/group-b.ts, tests/src/core2/law-reach-balance.test.ts
 
 **Notes.** Picks up where the remaining-families item stops. Split on Oct 19 into laws-outcome-justice, laws-outcome-civil-tech, laws-outcome-health-fiscal and laws-outcome-labor-cannabis; it is done when all four are.
 

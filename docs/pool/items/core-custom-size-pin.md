@@ -19,6 +19,6 @@ claimed-at: 2026-10-16T07:51:01.709Z
 
 **Done when.** A test opens Wyoming and Rhode Island and two drawn places with settings population 1500 and asserts the full-person plus counted total stays under about 1,700, naming each place and seed.
 
-**Files.** src/core2/population.ts, src/core2/world-settings.test.ts
+**Files.** src/core2/population.ts, tests/src/core2/world-settings.test.ts
 
 **Notes.** core.md line 209, checked Oct 15.

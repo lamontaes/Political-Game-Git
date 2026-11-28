@@ -19,7 +19,7 @@ claimed-at: 2026-11-04T13:13:15.618Z
 
 **Done when.** In a generated buildBenchWorld year drawn from all 56, name the town, replay, actual sales-tax law record and its existing budget/purchase consumer; a positive tax witness reaches a named household member. A pure adversarial-input regression puts another state's average first and still returns the own-state row, excludes outside pending laws, and fails with the original lookup. Fresh New Game passes and four serial years remain within 20 percent of the same-host base. The every-state-and-town parent remains unfinished.
 
-**Files.** src/core2/laws-in-force.ts; src/core2/in-town-chain.test.ts; lane proof
+**Files.** src/core2/laws-in-force.ts; tests/src/core2/in-town-chain.test.ts; lane proof
 
 **Notes.** U2 step1 in docs/work-orders/world-governing-u2-spec-2026-11-01.md. Searched pool for local-sales-tax-average, local average, inTownChain and own jurisdiction; older seller/negative-average items are done and address different issues. No equivalent live child. 2-hour time box for this bounded reader; wider U2/U3/U4 remain in gov-every-state-and-town-governs.
 

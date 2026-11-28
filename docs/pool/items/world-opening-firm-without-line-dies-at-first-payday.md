@@ -33,6 +33,6 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/credit.ts, src/core2/modules/credit-opening-lines.test.ts
+**Files.** src/core2/modules/credit.ts, tests/src/core2/modules/credit-opening-lines.test.ts
 
 **Notes.** The clinic still closes later (about Feb 27 at Danville) because its sales are about 30 percent of planned demand (bills go to one other seller); that is the next item in the trace, not this one.

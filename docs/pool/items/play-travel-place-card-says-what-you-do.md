@@ -26,6 +26,6 @@ milestone: play-first
 
 **Screenshot.** The clerk's Travel card before and after.
 
-**Files.** src/bench/play.mjs, src/bench/travel.browser.mjs
+**Files.** src/bench/play.mjs, tests/src/bench/travel.browser.mjs
 
 **Notes.** Filed by the CTO from the owner's v0.73.0 playtest, third batch (Nov 1, 23:05 UTC, five screenshots, a Massachusetts life). Read: OWNER-DECISIONS (town council seats elected as each place's records say, at-large, by district or mixed; six offices and playerMayFile, Oct 29; every campaign act is a scene), the pool for twins.

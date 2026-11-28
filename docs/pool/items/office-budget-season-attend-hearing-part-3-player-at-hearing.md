@@ -29,8 +29,8 @@ checked: fable 2026-11-10
 
 **Rules.** No hand-written player text: hearing wording waits on words-budget-hearing-speakers. An effect is a read, not a record: the player's remark is read by the vote that follows. No dice.
 
-**Done when.** A second session, not the builder, plays a seated council member with the every-meeting stop in a drawn place and seed (named), is stopped at the meeting that votes the budget, speaks on it, and sees the adopted budget id and the kept act id named; src/core2/office-day-budget-season.test.ts still passes.
+**Done when.** A second session, not the builder, plays a seated council member with the every-meeting stop in a drawn place and seed (named), is stopped at the meeting that votes the budget, speaks on it, and sees the adopted budget id and the kept act id named; tests/src/core2/office-day-budget-season.test.ts still passes.
 
 **Waits on.** office-budget-season-attend-hearing-part-2-vote-at-meeting, and words-hearing-chair-question for the wording (words-budget-hearing-speakers was folded into it).
 
-**Files.** src/core2/modules/office-day.ts, src/core2/modules/legislature.ts, src/core2/office-day-budget-season.test.ts
+**Files.** src/core2/modules/office-day.ts, src/core2/modules/legislature.ts, tests/src/core2/office-day-budget-season.test.ts

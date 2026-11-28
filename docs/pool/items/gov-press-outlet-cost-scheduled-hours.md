@@ -17,8 +17,8 @@ claimed-at: 2026-10-25T07:38:22.931Z
 
 **Rules.** Wire to the world: the cost an outlet is paid against must be what its payroll and wage flows actually pay. One model, two tiers: counted staff count at the jobs they stand for. No dice: the shortfall payment follows the outlet's own staff and schedule.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place, src/core2/press-money.test.ts checks that every local outlet's monthly cost covers its staff's scheduled pay, and in Washington, D.C. at its Census size (seed dc-closures-a) organization:press:radio:1:jurisdiction_7691c6e3ae48f824 stays open through the year, named by record id in the PR body.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place, tests/src/core2/press-money.test.ts checks that every local outlet's monthly cost covers its staff's scheduled pay, and in Washington, D.C. at its Census size (seed dc-closures-a) organization:press:radio:1:jurisdiction_7691c6e3ae48f824 stays open through the year, named by record id in the PR body.
 
-**Files.** src/core2/modules/press.ts,src/core2/data/press/parameters.json,src/core2/press-money.test.ts
+**Files.** src/core2/modules/press.ts,src/core2/data/press/parameters.json,tests/src/core2/press-money.test.ts
 
 **Notes.** Found working world-census-scale-closures-large-cities (#5803): after main merged, the pinned D.C. comparison closed this station at the Census size only.

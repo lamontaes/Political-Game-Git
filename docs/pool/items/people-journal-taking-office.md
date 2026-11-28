@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** No dice: cadence and lines follow records and traits. An effect is a read, not a record. No hand-written player text: lines are worded by the English engine. One rule, all 56 places.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place, seed named) the journal for a continued member lists taking office and a town hall with act record ids, and a test in src/director/journal.test.ts covers it. The owner plays it: reads his journal after his first week in Congress and sees what he did.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place, seed named) the journal for a continued member lists taking office and a town hall with act record ids, and a test in tests/src/director/journal.test.ts covers it. The owner plays it: reads his journal after his first week in Congress and sees what he did.
 
 **Files.** src/director/journal.ts, src/core2/modules/office-day.ts
 

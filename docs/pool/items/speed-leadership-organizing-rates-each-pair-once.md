@@ -33,4 +33,4 @@ root: rc5-full-detail-every-day
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/leadership.ts; src/core2/leadership-rating-reuse.test.ts (new)
+**Files.** src/core2/modules/leadership.ts; tests/src/core2/leadership-rating-reuse.test.ts (new)

@@ -17,8 +17,8 @@ claimed-at: 2026-10-20T00:54:06.270Z
 
 **Rules.** Replace, never layer: the old out-of-work filter is deleted in the same change; No dice: the hire follows the post's pay against what the candidate earns now, never a roll.
 
-**Done when.** PR #5248 merges: `src/core2/staff-hire-employed.test.ts` draws a place from all 56 in a played year and shows an aide hired from a private job, with the books balanced, and `SG-GOV-staff-hire-out-of-work` is resolved in stopgaps.json.
+**Done when.** PR #5248 merges: `tests/src/core2/staff-hire-employed.test.ts` draws a place from all 56 in a played year and shows an aide hired from a private job, with the books balanced, and `SG-GOV-staff-hire-out-of-work` is resolved in stopgaps.json.
 
-**Files.** src/core2/modules/staff.ts, src/core2/modules/executive.ts, src/core2/staff-hire-employed.test.ts, src/core2/data/stopgaps.json
+**Files.** src/core2/modules/staff.ts, src/core2/modules/executive.ts, tests/src/core2/staff-hire-employed.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Filled Oct 20 from the pool shell; the work is gov-stopgap-staff-missing-engine's PR #5248.

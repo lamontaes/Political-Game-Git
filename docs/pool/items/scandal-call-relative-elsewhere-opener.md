@@ -32,6 +32,6 @@ source: Reporter's-call builder, Nov 15, from the Account lead's ruling (10:53Z)
 
 **Waits on.** A world where an official's relative in another household in town owns a firm.
 
-**Files.** data/english/parts/scene-talk.json, src/director/scandal-call-printed.test.ts
+**Files.** data/english/parts/scene-talk.json, tests/src/director/scandal-call-printed.test.ts
 
 **Notes.**

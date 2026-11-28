@@ -33,6 +33,6 @@ Seen: the player opens any body's agenda in the first months and finds no budget
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/budgets-treasury.ts, src/core2/modules/budgets.ts, src/core2/data/opening/day-zero.json, src/core2/day-zero.test.ts
+**Files.** src/core2/budgets-treasury.ts, src/core2/modules/budgets.ts, src/core2/data/opening/day-zero.json, tests/src/core2/day-zero.test.ts
 
 **Notes.**

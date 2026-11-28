@@ -35,6 +35,6 @@ Seen: Politics, Elections, a race page with candidates, and the ballot list on a
 
 **Waits on.** Nothing
 
-**Files.** src/bench/play.mjs,src/bench/words.ts,src/bench/government.ts,src/bench/ui/roster-screen.mjs,src/bench/ui/pager.mjs,src/bench/play.css,src/bench/data/controls.json,tests/guards/english/line-register-baseline.json,src/bench/elections-offers.browser.mjs
+**Files.** src/bench/play.mjs,src/bench/words.ts,src/bench/government.ts,src/bench/ui/roster-screen.mjs,src/bench/ui/pager.mjs,src/bench/play.css,src/bench/data/controls.json,tests/guards/english/line-register-baseline.json,tests/src/bench/elections-offers.browser.mjs
 
 **Notes.** Not seen in the game (2026-11-25, Replay): Greenwald, Minnesota, seed ba363284-169e-42d3-8b32-bba1c1aa23cd, main abff6c6c08: County assessor race still shows Government administration For and Against in stands

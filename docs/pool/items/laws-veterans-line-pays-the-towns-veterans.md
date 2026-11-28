@@ -34,6 +34,6 @@ branch: claude/project-thread-8fxsy5
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/law-reach/group-b-veterans.ts (new), src/core2/law-reach/group-b.ts, src/core2/data/laws/reach-group-b-parameters.json, src/core2/law-reach/veterans-reach.test.ts (new)
+**Files.** src/core2/law-reach/group-b-veterans.ts (new), src/core2/law-reach/group-b.ts, src/core2/data/laws/reach-group-b-parameters.json, tests/src/core2/law-reach/veterans-reach.test.ts (new)
 
 **Notes.** Released by next (2026-11-18): no push to claude/project-thread-8fxsy5 since 2026-11-15 23:43 UTC, more than twice its 3-hour time box. Continue on branch claude/project-thread-8fxsy5.

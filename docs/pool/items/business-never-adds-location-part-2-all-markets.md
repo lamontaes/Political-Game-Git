@@ -30,10 +30,10 @@ claimed-at: 2026-11-11T05:37:01.387Z
 
 **Rules.** No dice: a business adds a location or a founder opens one because its own books, market room and owner decide it, never a yearly chance; real BDS rates check the totals only. Ranges are not targets (owner, Nov 8): nothing is pulled to the BDS range. One rule, all 56 places: the parameters live in data and the fix names no place.
 
-**Done when.** A second session, in Cochituate, Massachusetts (a drawn place, seed 93a558a5898ee167fd5c49b69a4183c546da870c3754f7688faeb29392d6d4dc), plays months in the played world and sees a month in which two different markets each have a founding row, by founding record id. A test in src/core2/business.test.ts shows two markets founding in one month and fails with the early return back.
+**Done when.** A second session, in Cochituate, Massachusetts (a drawn place, seed 93a558a5898ee167fd5c49b69a4183c546da870c3754f7688faeb29392d6d4dc), plays months in the played world and sees a month in which two different markets each have a founding row, by founding record id. A test in tests/src/core2/business.test.ts shows two markets founding in one month and fails with the early return back.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/business.ts, src/core2/business.test.ts
+**Files.** src/core2/modules/business.ts, tests/src/core2/business.test.ts
 
 **Notes (Fable, Nov 10).** A second place shows the same pattern. In St. Johnsbury, Vermont (5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4, one played year on main cb25bfa5c8) exactly one business was founded on the first of each month from 2025-03-01 to 2026-01-01, and all eleven are manufacturing (organization:founded:manufacturing:person_3af1a494d4504b3b:2025-03-01 is the first).

@@ -35,7 +35,7 @@ branch: claude/pool-gov-m3-04-person-card-law-effects
 
 **Waits on.** Nothing (coordinate with core-life-record, which rewrites the card's history assembly).
 
-**Files.** src/bench/card.ts, src/bench/card.test.ts, src/core2/law-reach/host.ts
+**Files.** src/bench/card.ts, tests/src/bench/card.test.ts, src/core2/law-reach/host.ts
 
 **Notes.** Filed by the governing lead, Oct 29, from the M3-04 command (branch governing/m3-spec-commands). Related, not a twin: play-law-on-your-record-unreachable is the lane's item for the player's own record on Issues, which also reads only `lawEffects`; this is any reached person's clicked card. Review on the first pass found the item had pointed at `personCard`, which no click opens. src/bench is the lane's; ask before editing.
 

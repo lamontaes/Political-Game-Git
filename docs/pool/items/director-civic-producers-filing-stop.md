@@ -18,9 +18,9 @@ claimed-at:
 
 **Rules.** No dice: a scene fires from a recorded cause, never a roll, and a quiet day fires nothing. The chain is the acceptance: each fired scene is traced from its cause record to the scene to the journal line. One rule, all 56 places: a random place and seed from all 56, named. Speed: the ledger acts on the day a record is written, never by scanning the world each day. Replace, never layer: the `awaitingProducer` marks and any second filing path are deleted in the same change.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a player who files gets a filing scene with a named clerk and a campaigning candidate gets a campaign stop scene, each traced to its record id, and `src/director/electoral-scenes.test.ts` asserts it. The owner plays it: he files and sees the clerk scene, then campaigns and sees the stop.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a player who files gets a filing scene with a named clerk and a campaigning candidate gets a campaign stop scene, each traced to its record id, and `tests/src/director/electoral-scenes.test.ts` asserts it. The owner plays it: he files and sees the clerk scene, then campaigns and sees the stop.
 
-**Files.** src/director/data/situation-types.json, src/director/scheduling.ts, src/director/civic-roles.ts, src/director/filing-visit.ts, src/director/electoral-scenes.test.ts
+**Files.** src/director/data/situation-types.json, src/director/scheduling.ts, src/director/civic-roles.ts, src/director/filing-visit.ts, tests/src/director/electoral-scenes.test.ts
 
 **Notes.** Split out of director-civic-producers-electoral when the race-won and race-lost scenes were built. Needs the pool item gov-clerk-person (on the director-civic-roles branch, PR #4516) for the clerk.
 

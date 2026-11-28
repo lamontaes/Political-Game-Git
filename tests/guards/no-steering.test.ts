@@ -27,7 +27,7 @@ import {
  *
  * The behavior test that backs this (push a value off in one of two identical
  * worlds, run a year, fail if the gap closes with no recorded cause) is
- * src/core2/no-steering-behavior.test.ts. Identities (money balances,
+ * tests/src/core2/no-steering-behavior.test.ts. Identities (money balances,
  * counts add up) are not steering and are not matched.
  */
 

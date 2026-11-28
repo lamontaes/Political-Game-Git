@@ -17,10 +17,10 @@ claimed-at:
 
 **Rules.** Estimate, never UNKNOWN; one rule for all 56 places; no place named in logic.
 
-**Done when.** A drawn place whose row reads all owned opens with renters (src/core2/housing-opening.test.ts, names place and seed).
+**Done when.** A drawn place whose row reads all owned opens with renters (tests/src/core2/housing-opening.test.ts, names place and seed).
 
-**Files.** src/core2/modules/housing.ts, src/core2/data/housing/parameters.json, src/core2/housing-opening.test.ts
+**Files.** src/core2/modules/housing.ts, src/core2/data/housing/parameters.json, tests/src/core2/housing-opening.test.ts
 
 **Notes.** Owner question for the PR body: should shrinkage be heavier for very small places?
 
-Sent back 2026-10-21 from PR #5351 (branch claude/rent-flows): The conflict repair is present, but the new test can pass without checking a town: src/core2/housing-opening.test.ts:149-160 tries 400 draws and falls out successfully when none matches; there is no exhaustion failure or unconditional nonempty checked count. Make exhaustion fail with the attempted places/seed, keeping the positive renter assertion. Also its successful case at line 153 calls withHousing on hand-built fixture households; it does not prove the original counted-rent-flow defect is repaired in the ordinary played world. Add a buildBenchWorld case with the actual counted renter/flow record and its read or rent settlement, naming the place and full seed, while retaining the drawn all-owned-row regression. No local gate pass is claimed for this source review.; finish on that branch, merge main into it first.
+Sent back 2026-10-21 from PR #5351 (branch claude/rent-flows): The conflict repair is present, but the new test can pass without checking a town: tests/src/core2/housing-opening.test.ts:149-160 tries 400 draws and falls out successfully when none matches; there is no exhaustion failure or unconditional nonempty checked count. Make exhaustion fail with the attempted places/seed, keeping the positive renter assertion. Also its successful case at line 153 calls withHousing on hand-built fixture households; it does not prove the original counted-rent-flow defect is repaired in the ordinary played world. Add a buildBenchWorld case with the actual counted renter/flow record and its read or rent settlement, naming the place and full seed, while retaining the drawn all-owned-row regression. No local gate pass is claimed for this source review.; finish on that branch, merge main into it first.

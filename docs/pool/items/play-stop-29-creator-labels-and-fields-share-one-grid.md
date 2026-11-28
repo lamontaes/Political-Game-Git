@@ -19,7 +19,7 @@ claimed-at: 2026-10-27T06:15:24.821Z
 
 **Rules.** Serves LAW.md §10, The owner's read of the Oct 24 screenshots (the creator's fields line up; buttons are the same size) and LAW.md §1, Screens and menus. This is a game, not a spreadsheet: the creator should look like any game's. Replace, never layer: the widening-with-tab selected state is replaced by one that keeps the button's box.
 
-**Done when.** In the creator in a drawn place at 1440x900 and 1024x768, a check in src/bench/creator-fields.browser.mjs reads bounding boxes and passes: every section heading and field label shares one left edge, the name fields and the birthday fields share one left edge, and clicking each gender button changes no button's width or height, shown by a screenshot with Male picked. The check fails on main's creator.
+**Done when.** In the creator in a drawn place at 1440x900 and 1024x768, a check in tests/src/bench/creator-fields.browser.mjs reads bounding boxes and passes: every section heading and field label shares one left edge, the name fields and the birthday fields share one left edge, and clicking each gender button changes no button's width or height, shown by a screenshot with Male picked. The check fails on main's creator.
 
 **Time box.** 2 hours; if not done, push what exists, open the draft PR, write the handoff.
 
@@ -27,7 +27,7 @@ claimed-at: 2026-10-27T06:15:24.821Z
 
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
-**Files.** src/bench/play.css, src/bench/play.html, src/bench/creator-fields.browser.mjs
+**Files.** src/bench/play.css, src/bench/play.html, tests/src/bench/creator-fields.browser.mjs
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "Why is everything not lined up like a normal game? I still don't understand." Related and not duplicated: play-first-03-creator-date-fields-aligned (the three date fields and field boxes; implementation merged, item open for the installed-build check) and play-first-17-buttons-same-size (one size per row; PR open). This item adds the label column and the picked state those two do not cover. Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).
 

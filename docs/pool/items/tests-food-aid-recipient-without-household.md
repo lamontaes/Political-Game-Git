@@ -14,7 +14,7 @@ source: laws-and-effects lead, Oct 27 (PR #6011's gate, replayed on main)
 claimed-at: 2026-10-27T08:35:36.221Z
 ---
 
-**What.** src/core2/law-reach/group-b-food-aid.test.ts 'pays qualifying households from the federal treasury' fails on clean main at 823110f41b with the test's seed 8ed706d9b6250495d08e35f371f1ddf6c576e2b18202c832a78b800f30edd8e6. It draws place 2575050 (world seed 49d5401d79dfbc77ab240cc59b92337b8d0601e0cf3e24790c4774e097df0ae1), where a SNAP payment names person_d0a4a3492a694441 as recipient and that person has no household. The seed is random per run (randomBytes at line 67), so CI fails on some draws only. Whether SNAP should stop when a household dissolves, or the person should keep a household, is the root cause to find.
+**What.** tests/src/core2/law-reach/group-b-food-aid.test.ts 'pays qualifying households from the federal treasury' fails on clean main at 823110f41b with the test's seed 8ed706d9b6250495d08e35f371f1ddf6c576e2b18202c832a78b800f30edd8e6. It draws place 2575050 (world seed 49d5401d79dfbc77ab240cc59b92337b8d0601e0cf3e24790c4774e097df0ae1), where a SNAP payment names person_d0a4a3492a694441 as recipient and that person has no household. The seed is random per run (randomBytes at line 67), so CI fails on some draws only. Whether SNAP should stop when a household dissolves, or the person should keep a household, is the root cause to find.
 
 **Rules.** A fix lands where the failure reproduces; flake is not a root cause. One model, two tiers (owner, Oct 14): a benefit's recipient is a household or the person standing for one, by the same rule for full and counted people. Never skip or quarantine the test.
 
@@ -22,7 +22,7 @@ claimed-at: 2026-10-27T08:35:36.221Z
 
 **Time box.** 2 hours, one Sonnet fixer; waits on nothing.
 
-**Files.** src/core2/law-reach/group-b-food-aid.test.ts, src/core2/law-reach/group-b-food-aid.ts, src/core2/law-reach/group-b-money.ts
+**Files.** tests/src/core2/law-reach/group-b-food-aid.test.ts, src/core2/law-reach/group-b-food-aid.ts, src/core2/law-reach/group-b-money.ts
 
 **Notes.** Filed by the laws-and-effects lead, Oct 27: found in PR #6011's gate and replayed on clean main with the same seed (same place, same person).
 

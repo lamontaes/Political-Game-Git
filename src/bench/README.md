@@ -23,6 +23,6 @@ never writes a result: a forced pass is a real bill the members vote on, a force
 Code: `dev-mode.ts` (the controls), `dev-api.ts` (routes, mounted from `server.ts`), and
 `ui/dev-*.mjs` (the panels, mounted from `play.mjs`).
 
-Checks: `npx vitest run src/bench/dev-mode.test.ts` (a random place and seed;
-`DEV_MODE_SEED` repeats one), `npx vitest run src/bench/player.test.ts`, and
+Checks: `npx vitest run tests/src/bench/dev-mode.test.ts` (a random place and seed;
+`DEV_MODE_SEED` repeats one), `npx vitest run tests/src/bench/player.test.ts`, and
 `npx tsc -p src/bench/tsconfig.json`.

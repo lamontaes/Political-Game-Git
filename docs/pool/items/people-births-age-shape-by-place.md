@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic, so the center and spread come from the place's own natality row. No dice: the rates shape the age weight, never a chance that picks a pregnancy.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, two drawn places from all 56 with different schedules, seeds named), each full couple's renewal plan record carries the age center and spread of its own place, src/core2/births-plan.test.ts shows the same couple's age term differs between the two places, and the town's mean age of mothers at birth is reported against its place's NCHS schedule.
+**Done when.** In a one-year run of the played world (buildBenchWorld, two drawn places from all 56 with different schedules, seeds named), each full couple's renewal plan record carries the age center and spread of its own place, tests/src/core2/births-plan.test.ts shows the same couple's age term differs between the two places, and the town's mean age of mothers at birth is reported against its place's NCHS schedule.
 
 **Files.** src/core2/births-plan.ts, src/core2/births-counted.ts, data/research/renewal/natality-2024.json, scripts/research/people-parameters-check.ts
 

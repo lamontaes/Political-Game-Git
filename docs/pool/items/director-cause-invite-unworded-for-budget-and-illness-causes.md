@@ -33,6 +33,6 @@ checked: account lead 2026-11-15
 
 **Waits on.** Nothing.
 
-**Files.** src/english/policy-names.ts, data/english/cause-forms.json (new), src/director/purpose-scene.ts, src/director/cause-invite-topics.test.ts (new)
+**Files.** src/english/policy-names.ts, data/english/cause-forms.json (new), src/director/purpose-scene.ts, tests/src/director/cause-invite-topics.test.ts (new)
 
 **Notes.** Filed by hand from the Words lead's Salado read (/mnt/project-files/words-lead/regression/page-read-salado.md, "Cause invites and the friend's ask").

@@ -19,8 +19,8 @@ claimed-at: 2026-10-24T17:31:10.522Z
 
 **Done when.** In a drawn place (buildBenchWorld with placeKey from drawPlace, seed named in the PR body), one played year shows a counted group's bail posted from its fund into the court escrow and returned at the batch case's due month, named by the public-safety case record id and both journal entry ids; the public-safety and justice tests (npm test -- src/core2/public-safety src/core2/justice src/core2/law-wiring-justice) pass.
 
-**Files.** src/core2/public-safety.ts, src/core2/modules/justice.ts, src/core2/counted-money.ts, src/core2/law-wiring-justice.test.ts
+**Files.** src/core2/public-safety.ts, src/core2/modules/justice.ts, src/core2/counted-money.ts, tests/src/core2/law-wiring-justice.test.ts
 
 **Notes.** Found Oct 23 while finishing justice-bail-moves-the-cash: batchCase records the detained share and the bail law's effect for counted adult defendants each month, but no posting for the share that posts bail, while a full person's posted bail is a journal entry. The full-person bail lives in src/core2/modules/justice.ts (escrowOf, holdBail, returnBail); reuse that escrow account rather than adding a second one.
 
-October 24, 2026 (claude, claude/counted-bail-cash): built. Each adult batch case, where cash bail is in force, levies the bail of every counted group's share that can post (unableToPost) from the group's fund into the prosecuting county's court escrow (justice's escrowOf, now exported), records it on the case (bailHeld, bailTreasuryId), and returns it to the funds when resolveDue closes the case. Test: src/core2/public-safety-bail.test.ts names both journal entries per case.
+October 24, 2026 (claude, claude/counted-bail-cash): built. Each adult batch case, where cash bail is in force, levies the bail of every counted group's share that can post (unableToPost) from the group's fund into the prosecuting county's court escrow (justice's escrowOf, now exported), records it on the case (bailHeld, bailTreasuryId), and returns it to the funds when resolveDue closes the case. Test: tests/src/core2/public-safety-bail.test.ts names both journal entries per case.

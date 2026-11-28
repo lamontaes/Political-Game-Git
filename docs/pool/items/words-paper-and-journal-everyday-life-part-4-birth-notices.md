@@ -29,8 +29,8 @@ checked: fable 2026-11-10
 
 **Rules.** No hand-written player text: words come from the banks. Wire to the world: the story prints from a record an engine writes, cited by record id. One rule, all 56 places: no place is named in logic.
 
-**Done when.** A second session, not the builder, plays a year in a drawn place it names and reads a birth notice in the paper with the person-birth record id shown; a test in src/bench/printed-words.test.ts fails when a printable birth is on the wire and nothing prints.
+**Done when.** A second session, not the builder, plays a year in a drawn place it names and reads a birth notice in the paper with the person-birth record id shown; a test in tests/src/bench/printed-words.test.ts fails when a printable birth is on the wire and nothing prints.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/press.ts, src/core2/press-topics.ts, data/english/parts/news.json, data/english/parts/headlines.json, src/bench/printed-words.test.ts
+**Files.** src/core2/modules/press.ts, src/core2/press-topics.ts, data/english/parts/news.json, data/english/parts/headlines.json, tests/src/bench/printed-words.test.ts

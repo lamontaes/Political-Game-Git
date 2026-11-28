@@ -18,11 +18,11 @@ claimed-at: 2026-10-27T02:20:37.479Z
 
 **Rules.** The chain is the acceptance (owner, Oct 14): each law is followed to a named payer, payee and journal id with its control-world amount, and a law that moved no dollar for anyone is not counted. A registered stopgap never counts. Owner, Oct 24: small-dollar lenders are simulated in the background, so the loan cap waits on world-small-dollar-lenders and no owner question remains.
 
-**Done when.** In a played year (buildBenchWorld, every module installed) in the two audit places (Prescott, Michigan seed a91c03e7d2b84f10 and Uehling, Nebraska seed 5e27b0c4196fd3a8) and the PR's third drawn place (North Pownal, Vermont), scripts/law-wiring/check.ts and scripts/law-wiring/matrix.ts grade each of the two laws wired on all nine links in docs/reports/law-wiring-matrix.json, and src/core2/law-wiring-housing.test.ts names, for each, its lawApplied record id, the journal entry of its own payment and the person, household or organization reached, on its named seed and one drawn place.
+**Done when.** In a played year (buildBenchWorld, every module installed) in the two audit places (Prescott, Michigan seed a91c03e7d2b84f10 and Uehling, Nebraska seed 5e27b0c4196fd3a8) and the PR's third drawn place (North Pownal, Vermont), scripts/law-wiring/check.ts and scripts/law-wiring/matrix.ts grade each of the two laws wired on all nine links in docs/reports/law-wiring-matrix.json, and tests/src/core2/law-wiring-housing.test.ts names, for each, its lawApplied record id, the journal entry of its own payment and the person, household or organization reached, on its named seed and one drawn place.
 
 **Time box.** 2 hours, Opus lead, no helpers; builds against SG-WORLD-housing-lease-anniversary and waits on nothing.
 
-**Files.** src/core2/law-wiring-housing.test.ts, src/core2/housing-occupancy.ts, src/core2/housing-assistance.ts, docs/reports/law-wiring/families/housing-credit-year-*.json
+**Files.** tests/src/core2/law-wiring-housing.test.ts, src/core2/housing-occupancy.ts, src/core2/housing-assistance.ts, docs/reports/law-wiring/families/housing-credit-year-*.json
 
 **Notes.** Laws-effects lead, Oct 26. PR #6011 moves to this item; laws-nine-links-housing-credit stays open for rent stabilization, the right to counsel, the loan cap and the housing line. Renamed from laws-nine-links-housing-three the same hour: on main's checker the housing line's money grades partial.
 

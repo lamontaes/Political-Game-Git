@@ -35,6 +35,6 @@ branch:
 
 **Waits on.** Nothing; the notice itself is words-election-notice-printed.
 
-**Files.** data/research/government/county-row-offices-by-state.json, src/bench/printed-words.ts, src/core2/election-notice.test.ts
+**Files.** data/research/government/county-row-offices-by-state.json, src/bench/printed-words.ts, tests/src/core2/election-notice.test.ts
 
 **Notes.** Filed Nov 14 by the Account lead on the coordinator's ask. Not for #9226 to fix.

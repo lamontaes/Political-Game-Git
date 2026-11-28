@@ -34,4 +34,4 @@ claimed-at: 2026-11-10T23:16:35.244Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/voting.ts, src/core2/world-races-no-district.test.ts
+**Files.** src/core2/modules/voting.ts, tests/src/core2/world-races-no-district.test.ts

@@ -38,6 +38,6 @@ Seen: Beesleys Point, New Jersey (seed 1c0c38ab-cccf-45f2-943d-b108847e2981), fi
 
 **Waits on.** Story's two lines under `localRaces.refusalWhy`.
 
-**Files.** src/core2/modules/elections.ts, src/bench/government.ts, src/bench/play.mjs, src/bench/closed-office-why.test.ts (new)
+**Files.** src/core2/modules/elections.ts, src/bench/government.ts, src/bench/play.mjs, tests/src/bench/closed-office-why.test.ts (new)
 
 **Notes.** Filed and built by the Blockers lane, Nov 17. Replaces the plan in #9744 for this road.

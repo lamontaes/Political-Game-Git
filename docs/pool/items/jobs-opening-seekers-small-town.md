@@ -19,6 +19,6 @@ claimed-at:
 
 **Done when.** The changed opening-seekers tests pass in drawn generated worlds with place and seed named; the timeout bound is backed by measured timings; the PR body maps this acceptance to its evidence in the Done when table.
 
-**Files.** src/core2/jobs-opening-seekers.test.ts
+**Files.** tests/src/core2/jobs-opening-seekers.test.ts
 
 **Notes.** Sent back 2026-10-23 from PR #5814 (branch claude/opening-seekers-small-town): timeout rises from 600000 to 1800000 ms without measured evidence, and the body lacks a bounded pool item and evidence table; finish on that branch, merge main into it first.

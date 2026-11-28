@@ -21,6 +21,6 @@ claimed-at: 2026-10-26T18:10:36.001Z
 
 **Time box.** 3 hours. Model: Sonnet, no helpers.
 
-**Files.** src/core2/staff.test.ts, src/core2/why-kept.ts, src/core2/modules/staff.ts
+**Files.** tests/src/core2/staff.test.ts, src/core2/why-kept.ts, src/core2/modules/staff.ts
 
 **Notes.** TODO

@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T21:24:55.481Z
 
 **Rules.** "An effect is a read, not a record": a term's end date is read by the office engine when it seats a governor and by every later election date. "One rule, all 56 places": no state is named in logic, the rows live in data and the test draws its place.
 
-**Done when.** In a played world from buildBenchWorld in a drawn place, the governor's term in AK and FL ends on the state's own clause, by term record id, and a state with no row keeps the data default. The test is src/core2/elections-law.test.ts.
+**Done when.** In a played world from buildBenchWorld in a drawn place, the governor's term in AK and FL ends on the state's own clause, by term record id, and a state with no row keeps the data default. The test is tests/src/core2/elections-law.test.ts.
 
 **Files.** src/core2/elections-calendar.ts, src/core2/data/elections/term-starts.json, src/core2/data/stopgaps.json
 

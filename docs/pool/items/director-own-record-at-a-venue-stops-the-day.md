@@ -33,6 +33,6 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/director/data/situation-types.json, src/director/scheduling.ts, src/bench/dev-why.ts, src/bench/dev-trace.ts, src/bench/own-record-at-venue.test.ts (new)
+**Files.** src/director/data/situation-types.json, src/director/scheduling.ts, src/bench/dev-why.ts, src/bench/dev-trace.ts, tests/src/bench/own-record-at-venue.test.ts (new)
 
 **Notes.** Found while proving director-concession-call-says-close-when-the-race-was-not, whose lines it unblocks.

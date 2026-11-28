@@ -17,9 +17,9 @@ claimed-at: 2026-10-20T12:56:44.128Z
 
 **Rules.** Wire to the world: hires and layoffs of a counted worker must move the weighted headcount by the household's weight both ways. One model, two tiers: a counted worker's job counts as many heads as the household weight says whether it is the opening job or a replacement hire. No dice: the loss comes from causes (retirement, quits, closures), each refilled by the hiring rule.
 
-**Done when.** In a one-year played world (buildBenchWorld with countScale set to Census over 10,000, a drawn place above 10,000, seed named) the weighted headcount at employers falls by no more than the town's adults do, shown by a test in src/core2/census-weight-economy.test.ts that adds a day-365 check beside the day-2 check, and the leavers and hires are named by job record id.
+**Done when.** In a one-year played world (buildBenchWorld with countScale set to Census over 10,000, a drawn place above 10,000, seed named) the weighted headcount at employers falls by no more than the town's adults do, shown by a test in tests/src/core2/census-weight-economy.test.ts that adds a day-365 check beside the day-2 check, and the leavers and hires are named by job record id.
 
-**Files.** src/core2/residents-economy.ts, src/core2/modules/jobs.ts, src/core2/census-weight-economy.test.ts
+**Files.** src/core2/residents-economy.ts, src/core2/modules/jobs.ts, tests/src/core2/census-weight-economy.test.ts
 
 **Notes.** TODO
 

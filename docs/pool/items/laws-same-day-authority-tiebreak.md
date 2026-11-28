@@ -19,7 +19,7 @@ claimed-at: 2026-10-25T22:39:29.578Z
 
 **Done when.** In a played world (`buildBenchWorld`, a drawn place where the authority question starts yes), repealing the question and then enacting the statute grant with the same effective date leaves the grant governing a council's wage bill drafted the next day, by the bill's authority record id. A test in `src/core2/` fails before the fix and passes after.
 
-**Files.** src/core2/laws-in-force.ts, src/rules/laws/law-in-force.ts, src/core2/law-wiring-labor.test.ts
+**Files.** src/core2/laws-in-force.ts, src/rules/laws/law-in-force.ts, tests/src/core2/law-wiring-labor.test.ts
 
 **Notes.** Found Oct 25 by the laws lead while fixing the labor family test (#5589).
 

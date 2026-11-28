@@ -22,7 +22,7 @@ merged-at: 2026-11-24T12:44:47.471Z
 **What.** The CTO, Nov 24 06:46Z, caught on Politics, Elections (Merizo) the caption Filing for this race has not opened yet under the Sim to Mar 8 button. A caption under a control breaks the Nov 8 no-subtext rule; the race dates and the Sim button already say it.
 Seen: Politics, Elections, a race not yet open to file for, at 1440 by 900. Seen: Elections, a race before filing opens, with no caption under Sim, after. Guards: elections-no-caption.browser.mjs
 
-**Cause.** Measured: `node src/bench/elections-no-caption.browser.mjs` against `npm run bench` on main fails "a caption says filing has not opened (row 0)" when the clerk answer for each race is window-not-open (an edge case made by hand); on drawn Ravenden, Arkansas the caption line shows with that answer. The Elections page in src/bench/play.mjs prints closedOfficeWords for a race with a bar and no announce, and window-not-open is one such bar.
+**Cause.** Measured: `node tests/src/bench/elections-no-caption.browser.mjs` against `npm run bench` on main fails "a caption says filing has not opened (row 0)" when the clerk answer for each race is window-not-open (an edge case made by hand); on drawn Ravenden, Arkansas the caption line shows with that answer. The Elections page in src/bench/play.mjs prints closedOfficeWords for a race with a bar and no announce, and window-not-open is one such bar.
 
 **Fix.** Stop drawing the caption when the bar is window-not-open (the label stays: the server refusal message reads it); for a bar of not-your-office or window-closed draw the refusal words on a disabled button in place of the caption and offer no Sim to someone else filing date (CTO send-back, Nov 24, comment 7125269509); extend elections-no-caption.browser.mjs to both.
 
@@ -34,4 +34,4 @@ Seen: Politics, Elections, a race not yet open to file for, at 1440 by 900. Seen
 
 **Waits on.** Nothing
 
-**Files.** src/bench/play.mjs,src/bench/elections-no-caption.browser.mjs (new)
+**Files.** src/bench/play.mjs,tests/src/bench/elections-no-caption.browser.mjs (new)

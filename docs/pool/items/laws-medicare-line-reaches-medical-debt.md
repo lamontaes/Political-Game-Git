@@ -28,8 +28,8 @@ root: rc8-law-judged-by-paperwork
 
 **Rules.** One model, two tiers: the bills price named and counted Medicare members by the same rule. An effect is a read: the bills read the line in force when they price each member.
 
-**Done when.** A second session, in a drawn place, Town, State (seed printed), passes a Congress bill raising the Medicare line by a fifth in dev mode, runs past the next monthly bill, and reads on the bill card the Medicare members reached; a second bill putting the line back ends their rows at the next bill; `src/core2/medicare-line-medical-debt.test.ts` passes in that drawn place.
+**Done when.** A second session, in a drawn place, Town, State (seed printed), passes a Congress bill raising the Medicare line by a fifth in dev mode, runs past the next monthly bill, and reads on the bill card the Medicare members reached; a second bill putting the line back ends their rows at the next bill; `tests/src/core2/medicare-line-medical-debt.test.ts` passes in that drawn place.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/medical-bills.ts, data/research/outcome-web/links.json, src/core2/data/outcome-web/coverage.json, scripts/law-wiring/bill-records.ts, src/core2/medicare-line-medical-debt.test.ts (new)
+**Files.** src/core2/medical-bills.ts, data/research/outcome-web/links.json, src/core2/data/outcome-web/coverage.json, scripts/law-wiring/bill-records.ts, tests/src/core2/medicare-line-medical-debt.test.ts (new)

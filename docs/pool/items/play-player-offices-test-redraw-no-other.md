@@ -27,6 +27,6 @@ claimed-at: 2026-10-30T08:10:00.000Z
 
 **Screenshot.** None.
 
-**Files.** src/bench/player-offices.test.ts
+**Files.** tests/src/bench/player-offices.test.ts
 
 **Notes.** From Merger 0 after #6908 merged.

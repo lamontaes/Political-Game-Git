@@ -19,7 +19,7 @@ claimed-at: 2026-10-30T03:10:00.000Z
 
 **Rules.** Screen to mock (`screen-to-mock`); replace, never layer (the old four-across card grid for Travel is gone); the menu never scrolls as a page; the "you are at home" line stays out (owner, Oct 27, no line restating where you are).
 
-**Done when.** `src/bench/travel.browser.mjs` shows at most six tiles to a page, the arrow turning to other places, the people mark, no scroll; screenshots in `docs/play-first/shots/play-menus-travel-shared-look/`.
+**Done when.** `tests/src/bench/travel.browser.mjs` shows at most six tiles to a page, the arrow turning to other places, the people mark, no scroll; screenshots in `docs/play-first/shots/play-menus-travel-shared-look/`.
 
 **Time box.** 1 hour, Sonnet.
 
@@ -27,7 +27,7 @@ claimed-at: 2026-10-30T03:10:00.000Z
 
 **Screenshot.** Travel, before and after.
 
-**Files.** src/bench/ui/list-screen.mjs, src/bench/play.mjs, src/bench/play.css, src/bench/travel.browser.mjs
+**Files.** src/bench/ui/list-screen.mjs, src/bench/play.mjs, src/bench/play.css, tests/src/bench/travel.browser.mjs
 
 **Notes.** Stacked on #6844 (`cto/menus-person-card`). `travel-place.browser.mjs` times out clicking Leave after Go on the unchanged branch too; not from this change.
 

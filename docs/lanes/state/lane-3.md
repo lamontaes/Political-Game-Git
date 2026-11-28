@@ -57,7 +57,7 @@
 
 **Card.** Finish line (path 4): New Game in Murray, Nebraska (1d3f0e18ca4ba7e5), filing to election, shows a scene or Journal line in every month, May to September included. Proof: a test in `src/director` that files the player and advances week by week. It names any 28-day stretch with no scene and no line about the player's race, and the record ids of what fills each month. The fixed town is replayed on main by another session. Hands off: `src/bench` (Lane 4) and Lane 1's campaign records, unless an agreement says otherwise. Known cheats: a filler line naming no record, a scene with no consequence, counting lines as proof. Size: 20 to 24 hours in steps of about 400 lines; the first step is measuring which months are silent and why. Checked by: a fresh session for the replay, and the owner for how it reads.
 
-- **Step 1 (`words-campaign-season-scenes-fill-the-months`, claimed; branch `lane3/campaign-months`, head fb5d9aa9):** `src/director/campaign-months.test.ts` measures path 4. The player files for the soonest race, gathers signatures and lives week by week to election day without campaigning; every 28 days must hold a scene, a Journal line or a printed story about the race. Added:
+- **Step 1 (`words-campaign-season-scenes-fill-the-months`, claimed; branch `lane3/campaign-months`, head fb5d9aa9):** `tests/src/director/campaign-months.test.ts` measures path 4. The player files for the soonest race, gathers signatures and lives week by week to election day without campaigning; every 28 days must hold a scene, a Journal line or a printed story about the race. Added:
   - Journal lines for the clerk's petition count.
   - Journal lines for the volunteers' evenings of doors, told at most every 14 days and once a day, through a general `minDaysApart` rule on the director's event impacts. The row is told without a volunteer the player doesn't know by name. This answers part of `SG-CAMPAIGN-volunteer-shift-no-scene`.
 
@@ -107,7 +107,7 @@
   - **Step 1d, the tie (built, #7240, Nov 4):** another person's filing, oath or race win is told through the player's tie, with one reading of a tie (`tieSide`) for scenes and the Journal. Carroll, Nebraska (e48196631294e2db): "My father was sworn in as Council member. That made me glad."
   - **Still open on the item:** the Haleyville replay by another session.
   - **Merged, #7195** (`director-journal-chapters-own-turns`, split from this item): fresh seed 22845774abbaa348, Lyman, Utah, 4 others' oaths told inside chapters. The rest of `director-journal-one-story`, the line links, stays claimed.
-- **Step 2, `words-opening-paper-only-fresh-news` (merged, #7188, Nov 4; agreement `agreements/3-4.md`, proposed):** the night's paper prints only stories within the news engine's own `newsMaxAgeDays` (`freshSince` in `news.ts`, which its retention reads too), and the News archive keeps the rest. `src/bench/paper-fresh.test.ts`, paper seed briefs-nov2:
+- **Step 2, `words-opening-paper-only-fresh-news` (merged, #7188, Nov 4; agreement `agreements/3-4.md`, proposed):** the night's paper prints only stories within the news engine's own `newsMaxAgeDays` (`freshSince` in `news.ts`, which its retention reads too), and the News archive keeps the rest. `tests/src/bench/paper-fresh.test.ts`, paper seed briefs-nov2:
   - Port Richey, Florida: 12 of 27 stories fresh, of 3 kinds.
   - Knik River, Alaska: 9 of 26 fresh, of 2 kinds.
   - Lewisville, Idaho: 9 of 27 fresh, of 3 kinds.

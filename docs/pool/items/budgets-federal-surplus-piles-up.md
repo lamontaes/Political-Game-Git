@@ -29,11 +29,11 @@ Seen: a monthly replay of that world (the long game's probe): spending stays nea
 
 **Rules.** No dice; one rule for all 56 places; no count, rate or level set from a real figure (CTO, Nov 17); exact sums past 2^53 in a long save.
 
-**Done when.** `src/core2/federal-surplus.test.ts` passes at a drawn place and fails on main's code (Congress halves every federal spending line through the budget engine's own amendment, and the debt falls over three closes); a second session runs a 20-year drawn-place game and reads the U.S. Treasury's account staying near its standing reserve in every year with a surplus.
+**Done when.** `tests/src/core2/federal-surplus.test.ts` passes at a drawn place and fails on main's code (Congress halves every federal spending line through the budget engine's own amendment, and the debt falls over three closes); a second session runs a 20-year drawn-place game and reads the U.S. Treasury's account staying near its standing reserve in every year with a surplus.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/budgets-treasury.ts, src/core2/federal-surplus.test.ts (new), src/core2/federal-debt.test.ts
+**Files.** src/core2/budgets-treasury.ts, tests/src/core2/federal-surplus.test.ts (new), tests/src/core2/federal-debt.test.ts
 
 **Notes.**
 

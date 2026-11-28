@@ -30,8 +30,8 @@ checked: words builder A 2026-11-15
 
 **Rules.** One engine per mechanic: silence and speech keep what was heard the same way. Pinned test, no draws.
 
-**Done when.** At Sheridan WY, seed 7, every line said after silence in six talks is kept as heard today (src/director/talk-silence-heard.test.ts), red on the unfixed code (7 lines missing), green after. A second session (not the builder) opens a talk in the running game at a drawn place from all 56 (place and seed named), says nothing, lets the person carry on, and sees that a second talk the same day does not say it again.
+**Done when.** At Sheridan WY, seed 7, every line said after silence in six talks is kept as heard today (tests/src/director/talk-silence-heard.test.ts), red on the unfixed code (7 lines missing), green after. A second session (not the builder) opens a talk in the running game at a drawn place from all 56 (place and seed named), says nothing, lets the person carry on, and sees that a second talk the same day does not say it again.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/conversation.ts, src/director/talk-silence-heard.test.ts
+**Files.** src/director/conversation.ts, tests/src/director/talk-silence-heard.test.ts

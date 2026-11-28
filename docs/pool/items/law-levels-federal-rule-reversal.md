@@ -19,6 +19,6 @@ claimed-at: 2026-11-07T19:46:41.627Z
 
 **Done when.** A test using a generated world at a drawn place verifies federal enactment governs over the existing state answer and repeal restores that answer. A separate negative case proves a federal row without sourced preemption does not override lower levels. Cite statute and print replay and law record ids.
 
-**Files.** data/research/powers-catalog/question-powers.json,src/core2/laws-in-force.ts,src/core2/modules/laws.ts,src/core2/federal-rule-reversal.test.ts
+**Files.** data/research/powers-catalog/question-powers.json,src/core2/laws-in-force.ts,src/core2/modules/laws.ts,tests/src/core2/federal-rule-reversal.test.ts
 
 **Notes.** TODO

@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** One rule, all 56 places: deadlines and protected categories live in data per place. The chain is the acceptance: a struck line is followed to the adopted budget and a named owner.
 
-**Done when.** A second session plays a year in a drawn state with a special item-veto deadline (state and seed named) and sees the veto, its override vote and the adopted line named by record id, and `src/core2/legislature.test.ts` covers a protected category.
+**Done when.** A second session plays a year in a drawn state with a special item-veto deadline (state and seed named) and sees the veto, its override vote and the adopted line named by record id, and `tests/src/core2/legislature.test.ts` covers a protected category.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/legislature.ts, src/core2/modules/budgets.ts, src/core2/data/office-day/state-line-item-veto.json, src/core2/data/stopgaps/state.json, src/core2/legislature.test.ts
+**Files.** src/core2/modules/legislature.ts, src/core2/modules/budgets.ts, src/core2/data/office-day/state-line-item-veto.json, src/core2/data/stopgaps/state.json, tests/src/core2/legislature.test.ts
 
 **Notes.** Oct 20 (pool feeder): the row SG-STATE-line-item-veto-engine stays open while its pool item is done. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Special deadlines, external assent and territorial cases of the item veto; the veto chain already plays.

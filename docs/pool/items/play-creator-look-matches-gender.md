@@ -17,8 +17,8 @@ claimed-at: 2026-10-27T22:28:18.514Z
 
 **Rules.** Every person drawn is the filled-in person: the player's figure comes from their own record, and the record's look matches the gender the player chose. One rule for every route that reads a look from the page, not a fix in one button.
 
-**Done when.** A test in src/bench/creator.test.ts sends a woman's look with a male gender to the creator check and to New game and finds a man's body with the same build and skin; the bench check in a drawn place shows the creator preview stays a man's body after Undo.
+**Done when.** A test in tests/src/bench/creator.test.ts sends a woman's look with a male gender to the creator check and to New game and finds a man's body with the same build and skin; the bench check in a drawn place shows the creator preview stays a man's body after Undo.
 
-**Files.** src/bench/appearance.ts, src/bench/creator.ts, src/bench/handler.ts, src/bench/creator.test.ts
+**Files.** src/bench/appearance.ts, src/bench/creator.ts, src/bench/handler.ts, tests/src/bench/creator.test.ts
 
 **Notes.** TODO

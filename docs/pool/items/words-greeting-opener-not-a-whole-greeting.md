@@ -30,10 +30,10 @@ checked: words builder A 2026-11-16
 
 **Rules.** No new line. Pinned place and seed. The Words lead reads the played openings at the exact head. Dev mode shows which step and parts chose each opening line through the "Why these lines" panel when it folds, or words-dev-mode-shows-why-a-talk-opened.
 
-**Done when.** At Sheridan WY, seed 7, no talk after a day or after forty days opens with "Good to see you.", "Hello there." or "Hi there." followed by a second greeting (src/director/greet-one-greeting.test.ts, red on the unfixed bank, green after), and three face-to-face openings are in the played file at the head. A second session (not the builder) opens talks with people it has met before at a drawn place from all 56 (place and seed named) and reads one greeting in each.
+**Done when.** At Sheridan WY, seed 7, no talk after a day or after forty days opens with "Good to see you.", "Hello there." or "Hi there." followed by a second greeting (tests/src/director/greet-one-greeting.test.ts, red on the unfixed bank, green after), and three face-to-face openings are in the played file at the head. A second session (not the builder) opens talks with people it has met before at a drawn place from all 56 (place and seed named) and reads one greeting in each.
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/conversation.json, src/director/greet-one-greeting.test.ts, scripts/words/greet-openings-replay.ts
+**Files.** data/english/parts/conversation.json, tests/src/director/greet-one-greeting.test.ts, scripts/words/greet-openings-replay.ts
 
 **Seen:** a person you have met before opens a talk with one greeting, not two.

@@ -37,11 +37,11 @@ branch: claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-da
 
 **Rules.** One engine per mechanic: Congress uses the same legislature engine as every chamber. No dice: who introduces follows members' positions and the question list, never a rate. One rule, all 56 places.
 
-**Done when.** A second session plays a year in a drawn place (named with its seed) and sees Congress introduce bills on at least three questions from `federal-questions-2026.json` beyond the four platform questions, by session and bill record ids, introduced through the same engine as every chamber, and sees no bill that asks for a rule already recorded as the answer in `federal-answers.json`. `src/core2/world-legislating-federal.test.ts` proves it, and it names the sponsor's chamber for each bill.
+**Done when.** A second session plays a year in a drawn place (named with its seed) and sees Congress introduce bills on at least three questions from `federal-questions-2026.json` beyond the four platform questions, by session and bill record ids, introduced through the same engine as every chamber, and sees no bill that asks for a rule already recorded as the answer in `federal-answers.json`. `tests/src/core2/world-legislating-federal.test.ts` proves it, and it names the sponsor's chamber for each bill.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/world-legislating.ts, src/core2/campaign-views.ts, src/core2/data/legislature/federal-axes.json (new), src/core2/data/legislature/federal-answers.json, data/research/campaigns/federal-questions-2026.json, src/core2/world-legislating-federal.test.ts (new)
+**Files.** src/core2/modules/world-legislating.ts, src/core2/campaign-views.ts, src/core2/data/legislature/federal-axes.json (new), src/core2/data/legislature/federal-answers.json, data/research/campaigns/federal-questions-2026.json, tests/src/core2/world-legislating-federal.test.ts (new)
 
 **Notes.** Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 00:25 UTC) on branch claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-data.
 

@@ -31,11 +31,11 @@ branch: claude/pool-words-director-one-path-part-4-opening-address-by-events
 
 **Rules.** Replace, never layer: the duplicate is deleted in the same change and the PR body counts it. A scene is staged from the record that causes it (scene-producers). No hand-written player text: words come from the English banks. One rule, all 56 places.
 
-**Done when.** A second session starts two drawn worlds (named with seeds) with different parties and world events and sees the opening address differ between the two worlds by party, traits, stances and events, each part citing the record that chose it, and a test in src/director/opening-address.test.ts holds the difference in a played world.
+**Done when.** A second session starts two drawn worlds (named with seeds) with different parties and world events and sees the opening address differ between the two worlds by party, traits, stances and events, each part citing the record that chose it, and a test in tests/src/director/opening-address.test.ts holds the difference in a played world.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/opening-story.ts, src/director/data/opening-address.json, src/director/opening-address.test.ts
+**Files.** src/director/opening-story.ts, src/director/data/opening-address.json, tests/src/director/opening-address.test.ts
 
 **Notes.** Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 03:10 UTC) on branch claude/pool-words-director-one-path-part-4-opening-address-by-events.
 

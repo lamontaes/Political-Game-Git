@@ -33,4 +33,4 @@ checked: fable 2026-11-10
 
 **Waits on.** world-disasters-from-conditions-part-1-damage-to-named-buildings.
 
-**Files.** src/core2/modules/disasters.ts, src/core2/modules/business.ts, src/core2/modules/coverage.ts, src/core2/disaster-weather.test.ts
+**Files.** src/core2/modules/disasters.ts, src/core2/modules/business.ts, src/core2/modules/coverage.ts, tests/src/core2/disaster-weather.test.ts

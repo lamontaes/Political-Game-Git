@@ -19,6 +19,6 @@ claimed-at: 2026-10-24T04:14:44.257Z
 
 **Done when.** School standing uses the same recorded attendance rule for full and counted students, or the exact bounded shortcut is registered and marked. A drawn-place regression checks a positive attendance difference and the intended fill-in behavior. The PR Done-when table describes the current tests and observed results.
 
-**Files.** src/core2/school-outcomes.ts, src/core2/school-outcomes.test.ts, src/core2/data/stopgaps.json
+**Files.** src/core2/school-outcomes.ts, tests/src/core2/school-outcomes.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Sent back 2026-10-24 from PR #5639 (branch effect-web-integration): school-outcomes.ts:140-173 uses a global full-student attendance mean for counted students without a registered stopgap; finish on that branch, merge main into it first.

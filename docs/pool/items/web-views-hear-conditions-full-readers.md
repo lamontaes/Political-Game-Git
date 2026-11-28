@@ -17,7 +17,7 @@ claimed-at: 2026-10-24T14:48:25.259Z
 
 **Rules.** Ask why: a reader's stance moves only when the story reached them, citing the story's news record. No dice: the side comes from the reader's own current view, never a roll. One model, two tiers: the counted half is a registered stopgap with its own item, not a silent full-only rule.
 
-**Done when.** In a one-year buildBenchWorld run in a place drawn from all 56 (place and seed named), a month's outcome story about a moved condition reaches a named full follower, and that follower's stance on the matching question moves by the views engine's heard-event amount toward the side their views tie to the condition, citing the story's news record id; a follower the story did not reach does not move; the counted followers' gap is registered as SG-PEOPLE-counted-readers-stories. A test in src/core2/outcome-news.test.ts proves it and fails when the read event is removed.
+**Done when.** In a one-year buildBenchWorld run in a place drawn from all 56 (place and seed named), a month's outcome story about a moved condition reaches a named full follower, and that follower's stance on the matching question moves by the views engine's heard-event amount toward the side their views tie to the condition, citing the story's news record id; a follower the story did not reach does not move; the counted followers' gap is registered as SG-PEOPLE-counted-readers-stories. A test in tests/src/core2/outcome-news.test.ts proves it and fails when the read event is removed.
 
 **Files.** src/core2/modules/news.ts,src/core2/outcome-news.ts,src/core2/data/news/outcome-news.json,src/core2/data/stopgaps.json
 

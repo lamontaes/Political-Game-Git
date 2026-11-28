@@ -5,7 +5,7 @@
  * point). Development tooling; nothing here words anything, and no scene or
  * cast is written by hand.
  *
- * Its test and `src/director/played-talks.test.ts` stage a drawn place's year
+ * Its test and `tests/src/director/played-talks.test.ts` stage a drawn place's year
  * through `stageWorld`.
  *
  * The place is drawn from all 56 by the seed and the world is the bench's

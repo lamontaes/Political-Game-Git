@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** Research before building: real law calibrates the terms and never decides one owner's bill. One rule, all 56 places: each place's terms are data with its citation, never logic naming a state. Estimate, never UNKNOWN: a place with no cap statute has none recorded, not a default.
 
-**Done when.** A second session, not the builder, plays a one-year world (buildBenchWorld) in a drawn place whose state is one of the new rows (place and seed named) and sees a named owner's assessment held by the statute's size, with the bill, the notice the owner received and the director's line, by record id. src/core2/law-reach-group-b.test.ts passes and every new row cites its statute.
+**Done when.** A second session, not the builder, plays a one-year world (buildBenchWorld) in a drawn place whose state is one of the new rows (place and seed named) and sees a named owner's assessment held by the statute's size, with the bill, the notice the owner received and the director's line, by record id. tests/src/core2/law-reach-group-b.test.ts passes and every new row cites its statute.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/data/laws/property-tax-caps.json, src/core2/housing-property-tax.ts, src/core2/law-reach-group-b.test.ts
+**Files.** src/core2/data/laws/property-tax-caps.json, src/core2/housing-property-tax.ts, tests/src/core2/law-reach-group-b.test.ts
 
 **Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it reads nine more states' assessment-limit statutes; one estimated cap already stands in and a bill card shows a rate, not a statute.
