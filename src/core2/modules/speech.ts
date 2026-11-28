@@ -36,7 +36,11 @@ import { engagementOf, NATIONAL_ENGAGEMENT } from "../electorate";
 import { believesClaim, claimFit } from "../heard-claims";
 import { currentCloseness } from "../closeness";
 import { decisionKinds } from "../trait-decision-table";
-import { stanceRow, VIEWS_SPEAKER_KEY, VIEWS_SPEAKER_LEAN_KEY } from "./views";
+import {
+  stanceRow,
+  VIEWS_SPEAKER_KEY,
+  VIEWS_SPEAKER_LEAN_KEY,
+} from "./views-reads";
 import { hearAsGroups, hearsAsPerson } from "../hearer-groups";
 
 export const SPEECH_MODULE_ID = "speech";

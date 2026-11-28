@@ -38,7 +38,7 @@ import { raiseOne } from "../wage-floor";
 import type { TermRow } from "./offices";
 import { townSeats } from "../offices-reads";
 import { impressionOf, touchImpression } from "./campaigns";
-import { countedLean } from "./views";
+import { countedLean } from "./views-reads";
 import { keepsWhy } from "../why-kept";
 import { STAFF_MODULE_ID, staffDecision } from "./staff";
 import { JOBS_MODULE_ID, recordReferral } from "./jobs";

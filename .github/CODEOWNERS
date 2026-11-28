@@ -731,6 +731,7 @@
 /src/core2/modules/retirement-claims.ts @lamontaes
 /src/core2/modules/coverage.ts @lamontaes
 /src/core2/modules/views.ts @lamontaes
+/src/core2/modules/views-reads.ts @lamontaes
 /src/core2/stance-listeners.ts @lamontaes
 /src/core2/views-keys.ts @lamontaes
 /src/core2/modules/speech.ts @lamontaes
