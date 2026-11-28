@@ -28,6 +28,8 @@ import { purposeScene } from "../../src/director/purpose-scene";
 import type { TreeNode } from "../../src/director/scene-talk";
 import { drawPlace } from "../core2-year/place";
 import { walkPlaces } from "./walk-places";
+import circumstanceFile from "../../src/director/data/circumstances.json" with { type: "json" };
+import situationFile from "../../src/director/data/situation-types.json" with { type: "json" };
 
 const option = (name: string, fallback: string) => {
   const at = process.argv.indexOf(`--${name}`);
@@ -205,6 +207,65 @@ for (const entry of book.schedule)
 console.log(
   `# the director bound these situation types to the member: ${[...typesSeen.entries()].map(([k, v]) => `${k} x${v}`).join(", ") || "none"}`,
 );
+/**
+ * For each live purpose the director did not bind to the member, what binds it (its causes and the circumstance's
+ * conditions, read from the director's own data) and what this staging gave of it (how many records of each kind the
+ * world holds), so the owner of the binding can see which condition this staging did not meet.
+ */
+const LIVE = [
+  "bill-carry",
+  "vote-confirmed",
+  "bill-held-chair",
+  "hold-chair-sought",
+];
+type Json = Record<string, unknown>;
+const findType = (node: unknown, key: string): Json | undefined => {
+  if (Array.isArray(node))
+    for (const v of node) {
+      const r = findType(v, key);
+      if (r) return r;
+    }
+  else if (node && typeof node === "object") {
+    if ((node as Json).key === key) return node as Json;
+    for (const v of Object.values(node as Json)) {
+      const r = findType(v, key);
+      if (r) return r;
+    }
+  }
+  return undefined;
+};
+const circumstances = new Map(
+  (circumstanceFile as unknown as { rows: Json[] }).rows.map((row) => [
+    String(row.id),
+    row,
+  ]),
+);
+const recordsOf = (kind: string) => core.logByKind.get(kind)?.size ?? 0;
+for (const typeKey of LIVE) {
+  if (typesSeen.has(typeKey)) continue;
+  const type = findType(situationFile, typeKey);
+  if (!type) continue;
+  console.log(`# NOT BOUND ${typeKey} (purpose ${String(type.purpose)}):`);
+  for (const cause of (type.causes ?? []) as Json[]) {
+    const match = cause.match as Json;
+    const label = String(match.label);
+    const facts = JSON.stringify(match.causeFacts ?? []);
+    if (label.startsWith("circumstance:")) {
+      const row = circumstances.get(label.slice("circumstance:".length));
+      const kinds = ((row?.recordKinds ?? []) as string[]).map(
+        (kind) => `${kind} x${recordsOf(kind)}`,
+      );
+      console.log(
+        `#   needs ${label}: fires on ${kinds.join(", ") || "?"}; player ${String(row?.player)}, pool ${JSON.stringify(row?.pool)}, seat ${JSON.stringify((row?.receive as Json | undefined)?.seat)}, at most every ${String(row?.everyParameter)} days; cast: ${String(row?.cast)}`,
+      );
+    } else {
+      const kind = label.replace(/^cause:event:/, "");
+      console.log(
+        `#   needs ${label} ${facts}: ${recordsOf(kind)} records of kind ${kind} in this world`,
+      );
+    }
+  }
+}
 const missed = [...new Set(Object.values(TARGETS))].filter((p) => !got.has(p));
 console.log(
   `\n# DONE ${where}: ${[...got.entries()].map(([k, v]) => `${k} x${v}`).join("; ") || "no scene"}; not staged here: ${missed.join(", ") || "none"}; last day ${core.date}`,
