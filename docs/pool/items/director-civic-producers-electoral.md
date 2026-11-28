@@ -18,7 +18,7 @@ claimed-at: 2026-10-16T03:24:06.615Z
 
 **Rules.** No dice: a scene fires from a recorded cause, never a roll, and a quiet day fires nothing. The chain is the acceptance: each fired scene is traced from its cause record to the scene to the journal line. One rule, all 56 places: a random place and seed from all 56, named. Speed: the ledger acts on the day a record is written, never by scanning the world each day.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a player who files and then wins or loses a race gets a filing scene and a result scene, each traced to its record id, and the reach report (src/director/reach.ts) lists the four types as fired. Tests in src/director/director.test.ts and scene.test.ts prove it. The owner plays it: he files and sees the clerk scene, then the night of the result.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a player who files and then wins or loses a race gets a filing scene and a result scene, each traced to its record id, and the reach report (src/director/reach.ts) lists the four types as fired. Tests in tests/src/director/director.test.ts and scene.test.ts prove it. The owner plays it: he files and sees the clerk scene, then the night of the result.
 
 **Files.** src/director/ledger.ts, src/director/scheduling.ts, src/director/data/situation-types.json, src/director/filing-visit.ts
 

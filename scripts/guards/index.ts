@@ -95,7 +95,7 @@ export const GUARDS: readonly Guard[] = [
     id: "two-seeds-differ",
     rule: "Realistic, not real: no statistic but law opens on its published value, and two worlds never open on the same one; the known copies only shrink.",
     readMore:
-      "src/core2/realistic-not-real.test.ts, its header; docs/coordination/OWNER-DECISIONS.md, Realistic not real",
+      "tests/src/core2/realistic-not-real.test.ts, its header; docs/coordination/OWNER-DECISIONS.md, Realistic not real",
     // Two played worlds: its npm script gives it the heap it needs.
     command: ["npm", "run", "-s", "zero-real-data"],
   },
@@ -238,7 +238,7 @@ export const GUARDS: readonly Guard[] = [
     rule: "Every number lives in a parameter table, and every stopgap the director marks is registered.",
     readMore: "AGENTS.md, Placeholders",
     command: vitest(
-      "src/director/director.test.ts",
+      "tests/src/director/director.test.ts",
       "-t",
       "registers every stopgap it marks and keeps numbers in data",
     ),
@@ -262,6 +262,12 @@ export const GUARDS: readonly Guard[] = [
     readMore:
       ".agents/rules/smart-and-look-first.md; .claude/skills/look-first/SKILL.md",
     command: ["node", "scripts/guards/reading-line.mjs"],
+  },
+  {
+    id: "game-only",
+    rule: "The game folder holds only the game: no test file, and no file that imports a test runner, under src, public or art.",
+    readMore: "docs/design/guards.md, game-only; scripts/guards/game-only.ts",
+    command: vitest("tests/guards/game-only.test.ts"),
   },
   {
     id: "check-changes",

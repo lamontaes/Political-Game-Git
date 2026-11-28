@@ -33,7 +33,7 @@ import {
   type MortgageTerms,
 } from "./housing-mortgages";
 import { residentsRuntime } from "./residents-reads";
-import { setResidentFlowAmount } from "./residents-economy";
+import { setResidentFlowAmount } from "./resident-flows";
 import { putPastYear } from "./output-numbers";
 import {
   coarseSteps,

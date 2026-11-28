@@ -31,11 +31,11 @@ branch: claude/project-thread-o3ckul
 
 **Rules.** Wire to the world: the share an entrant wins is read by the same monthly scaling as everyone's. No dice. One rule, all 56 places: the check draws its place and names it with the seed.
 
-**Done when.** A second session (not the builder) plays a 600-day played world at Skagway AK seed 8f3ccb88... and two drawn places, every business founded in the run that won outside buyers has a positive outside-sales amount a year later, named by flow id; a test beside src/core2/market-entry.test.ts covers it; a year of `speed:year` is within 20% of its base. On screen: nothing yet; it would show on the town's business list and its jobs, and the founders' books.
+**Done when.** A second session (not the builder) plays a 600-day played world at Skagway AK seed 8f3ccb88... and two drawn places, every business founded in the run that won outside buyers has a positive outside-sales amount a year later, named by flow id; a test beside tests/src/core2/market-entry.test.ts covers it; a year of `speed:year` is within 20% of its base. On screen: nothing yet; it would show on the town's business list and its jobs, and the founders' books.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/market-entry-opening-staff.test.ts (residents-economy.ts and business.ts unchanged)
+**Files.** src/core2/modules/jobs.ts, tests/src/core2/market-entry-opening-staff.test.ts (residents-economy.ts and business.ts unchanged)
 
 **Notes.** Filed by hand on the Account lead T30 branch. The seed is the hash of "a:1" and "founding-sweep" through drawPlace in scripts/core2-year/place.ts.
 

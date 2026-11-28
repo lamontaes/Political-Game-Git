@@ -29,14 +29,15 @@ import { interestOf, turnoutRule } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
 import { bookkeeping } from "./bookkeeping";
 import { placeStateKey } from "./place-map";
-import { residentsRuntime } from "./modules/residents";
+import { residentsRuntime } from "./residents-reads";
 import {
   ageOn,
   type CountedHousehold,
   type CountedStore,
   isDemoted,
 } from "./counted-groups";
-import { countedLean, VIEWS_MODULE_ID, viewOf } from "./modules/views";
+import { countedLean, viewOf } from "./modules/views-reads";
+import { VIEWS_MODULE_ID } from "./modules/views-constants";
 import { VIEWS_KEYS } from "./views-keys";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import { coreAPI } from "./state";

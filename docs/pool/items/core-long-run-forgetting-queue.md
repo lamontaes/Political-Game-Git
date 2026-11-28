@@ -19,6 +19,6 @@ claimed-at: 2026-11-01T18:51:40.045Z
 
 **Done when.** The monthly pass looks only at notes old enough to forget and forgets the same notes on the same dates. The four-year proof matches main on every table except the new saved list; npm run speed:year -- --seed long-1 --years 4 on main and on the branch, one process each, keeps dev mode's records proof identical in every table of the played world at year 4 in the played world (buildBenchWorld), the tests the PR names pass, with the times in the PR body.
 
-**Files.** src/core2/knowledge-retention.test.ts, src/core2/knowledge-retention.ts, src/core2/snapshot.ts, src/core2/state.ts
+**Files.** tests/src/core2/knowledge-retention.test.ts, src/core2/knowledge-retention.ts, src/core2/snapshot.ts, src/core2/state.ts
 
 **Notes.** TODO

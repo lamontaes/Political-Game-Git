@@ -23,6 +23,6 @@ claimed-at: 2026-11-03T21:58:58.327Z
 
 **Done when.** `src/core2/data/stopgaps.json` (removed) is gone and `src/core2/data/stopgaps/*.json` holds the same 627 entries (a test counts them and compares ids with the file on the base commit); `npm run typecheck`, the tripwires test, the outcome-web tests and `npm run guards` pass; a new test proves that adding an entry to one family file needs no change to any other file. The PR body names the files and the entry count per family.
 
-**Files.** src/core2/data/stopgaps.json, src/core2/stopgaps.ts, scripts/core2/tooling/tripwires.ts, src/core2/outcome-web-unwired.test.ts, scripts/research/census-stopgap-tables-check.ts
+**Files.** src/core2/data/stopgaps.json, src/core2/stopgaps.ts, scripts/core2/tooling/tripwires.ts, tests/src/core2/outcome-web-unwired.test.ts, scripts/research/census-stopgap-tables-check.ts
 
 **Notes.** Filed by the CTO, Oct 29, from the old-engine session's final block and the Oct 28 ruling. The director keeps its own register (`src/director/stopgaps.ts`); leave it. Read: OWNER-DECISIONS (Oct 28 20:20, Oct 29), DECISION-REGISTER; searched: stopgap register, per-family, stopgaps.json.

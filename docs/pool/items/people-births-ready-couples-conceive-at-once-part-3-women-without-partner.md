@@ -29,8 +29,8 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: the plan follows the woman's own records, never a percentage; CDC rates check totals only. One model, two tiers: a full woman is a consistent member of the counted group she stands for. Replace, never layer: one planning path for a woman with or without a partner.
 
-**Done when.** A second session runs a one-year played world (buildBenchWorld) in three drawn places (named, with seeds) and sees full women with no partner plan and have births, with person-birth record ids, and full women's births per thousand by 5-year band reported beside the CDC band rate. A test in src/core2/births-plan.test.ts states the share of full women aged 20 to 39 who can plan a birth.
+**Done when.** A second session runs a one-year played world (buildBenchWorld) in three drawn places (named, with seeds) and sees full women with no partner plan and have births, with person-birth record ids, and full women's births per thousand by 5-year band reported beside the CDC band rate. A test in tests/src/core2/births-plan.test.ts states the share of full women aged 20 to 39 who can plan a birth.
 
 **Waits on.** people-births-ready-couples-conceive-at-once-part-1-re-measure.
 
-**Files.** src/core2/modules/renewal.ts, src/core2/births-plan.ts, src/core2/births-plan.test.ts
+**Files.** src/core2/modules/renewal.ts, src/core2/births-plan.ts, tests/src/core2/births-plan.test.ts

@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** An effect is a read: the household child-care flow must read the child's pre-k enrollment record when it pays. One model, two tiers: counted households pay and enroll by the same rule as full ones, times their count. No dice: enrollment follows age, the law in force and a place being available, and the cost follows income, never a roll. Estimate, never UNKNOWN: the child-care average carries its source and spread. The chain is the acceptance: law row, eligible child, enrollment, lower flow, household cash. Replace, never layer: the "records" mechanic for this policy is replaced and the stopgap row closed.
 
-**Done when.** A second session, not the builder, checks this in the running game. In a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), with the preschool law in force, a named 4-year-old holds a pre-k enrollment record and their household's monthly child-care payment is lower than an unenrolled neighbor's by journal record id, a counted group shows the same, the journal balances, and SG-GOV-REACH-B-preschool-enrollment is closed; src/core2/law-reach-group-b.test.ts proves it.
+**Done when.** A second session, not the builder, checks this in the running game. In a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), with the preschool law in force, a named 4-year-old holds a pre-k enrollment record and their household's monthly child-care payment is lower than an unenrolled neighbor's by journal record id, a counted group shows the same, the journal balances, and SG-GOV-REACH-B-preschool-enrollment is closed; tests/src/core2/law-reach-group-b.test.ts proves it.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/data/laws/reach-group-b.json, src/core2/law-reach/group-b-people.ts, src/core2/reference/living-costs-data.ts, src/core2/modules/school.ts, src/core2/data/stopgaps/gov.json, src/core2/law-reach-group-b.test.ts
+**Files.** src/core2/data/laws/reach-group-b.json, src/core2/law-reach/group-b-people.ts, src/core2/reference/living-costs-data.ts, src/core2/modules/school.ts, src/core2/data/stopgaps/gov.json, tests/src/core2/law-reach-group-b.test.ts
 
 **Notes.** Part 1 of 2 of laws-reach-b-schools-preschool-tuition. There is no child-care spending in the core today (living-costs-data.ts has no child-care line); the Consumer Expenditure child-care row may need the BLS workbook, which the cloud proxy blocked for the sibling medical-spending item, so use a published average registered ESTIMATED with its citation if it cannot be fetched.
 

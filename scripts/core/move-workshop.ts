@@ -293,7 +293,7 @@ const PIECEWISE: [file: string, from: string, to: string][] = [
   // section 7).
   // `voting-age-row.test.ts` reads three of the moved checks by name, beside itself.
   [
-    "src/bench/voting-age-row.test.ts",
+    "tests/src/bench/voting-age-row.test.ts",
     `  "m0-check.ts",
   "m1-10-check.ts",
   "verify.mjs",`,
@@ -303,7 +303,7 @@ const PIECEWISE: [file: string, from: string, to: string][] = [
   ],
   // `voting-age-row.test.ts` reads three of the moved checks by name, beside itself.
   [
-    "src/bench/voting-age-row.test.ts",
+    "tests/src/bench/voting-age-row.test.ts",
     `  "m0-check.ts",
   "m1-10-check.ts",
   "verify.mjs",`,

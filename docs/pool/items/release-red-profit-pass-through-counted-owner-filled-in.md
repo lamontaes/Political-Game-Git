@@ -17,8 +17,8 @@ claimed-at: 2026-10-20T02:00:20.304Z
 
 **Rules.** Fix at the root: a red test is fixed in place or the code it guards is, never skipped or loosened. No dice. One rule, all 56 places: place facts come from data, and the test names the place and seed it drew.
 
-**Done when.** In Mantoloking with that seed and in two other drawn places, every counted pass-through row is for an owner who was counted when it was written, and src/core2/profit-pass-through.test.ts passes.
+**Done when.** In Mantoloking with that seed and in two other drawn places, every counted pass-through row is for an owner who was counted when it was written, and tests/src/core2/profit-pass-through.test.ts passes.
 
-**Files.** src/core2/profit-pass-through.test.ts, src/core2/modules/employer-taxes.ts
+**Files.** tests/src/core2/profit-pass-through.test.ts, src/core2/modules/employer-taxes.ts
 
 **Notes.** Found running src/core2 on main, Oct 19 to 20 (release-suite-red-list-on-main). Reproduced with GOLDEN_PATH_SEED=40a6340376bb8deb9116120b34d4e90e238483e1 and also with main's code (checked by restoring main's versions of the files the column-read change touches), so it is not caused by that change.

@@ -28,10 +28,10 @@ source: Screens finding, Nov 17, 2026 (comment 6933758202), seen at Waimanalo, H
 
 **Rules.** The `estimate-not-unknown` rule applies: a figure with no record is shown as unknown, not zero, and no real series fills it. No dice: nothing is drawn.
 
-**Done when.** In a drawn place and a seed the builder did not choose, no year row of the world's past carries a zero rent or home value, shown in `src/core2/past-year-rows-never-zero.test.ts`; a second session sees an unknown, not 0, for an early year on Metrics.
+**Done when.** In a drawn place and a seed the builder did not choose, no year row of the world's past carries a zero rent or home value, shown in `tests/src/core2/past-year-rows-never-zero.test.ts`; a second session sees an unknown, not 0, for an early year on Metrics.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/housing-past.ts, src/core2/past-year-rows-never-zero.test.ts
+**Files.** src/core2/housing-past.ts, tests/src/core2/past-year-rows-never-zero.test.ts
 
 **Notes.** The other finding (state unemployment falling to 0.18) is a model-dynamics cause in `src/core2/country-model.ts`, reported on #9747 for the CTO.

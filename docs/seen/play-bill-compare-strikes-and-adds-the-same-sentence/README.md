@@ -1,6 +1,6 @@
 # Compare strikes and adds the same sentence: two more drawn places
 
-Before is main's `billPageView` (`git checkout origin/main -- src/bench/bill-stage.ts`); after is this pull request's head with main merged in. Same seed and the same bill in each pair, 1440x900, Politics, Bills, Compare. Played as a member of a local body, two weeks run (`/api/dev/run-until`), by the browser check `src/bench/bill-compare-differs.browser.mjs`'s own steps.
+Before is main's `billPageView` (`git checkout origin/main -- src/bench/bill-stage.ts`); after is this pull request's head with main merged in. Same seed and the same bill in each pair, 1440x900, Politics, Bills, Compare. Played as a member of a local body, two weeks run (`/api/dev/run-until`), by the browser check `tests/src/bench/bill-compare-differs.browser.mjs`'s own steps.
 
 ## Rutledge, Tennessee, seed 3094853a-6711-4df7-bbb1-9b981d2ac9cb, Ordinance 2025-2
 

@@ -27,6 +27,6 @@ claimed-at: 2026-10-30T02:31:35.112Z
 
 **Screenshot.** Parties at 1440 by 900 from a drawn place.
 
-**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/data/controls.json, src/bench/parties-map.browser.mjs, src/bench/party.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/data/controls.json, src/bench/parties-map.browser.mjs, tests/src/bench/party.browser.mjs
 
 **Notes.** Filed by the CTO, Oct 30 02:50, the seventh screen of the menu redesign. Read: OWNER-DECISIONS Oct 29 22:45 and 23:00; searched the pool: parties screen, join party (no twin).

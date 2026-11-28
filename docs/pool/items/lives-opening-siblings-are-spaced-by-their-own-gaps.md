@@ -31,12 +31,12 @@ Seen: dev mode, an adult's People list, shows siblings born less than two years 
 
 **Done when.**
 
-- `src/core2/opening-kin-spacing.test.ts` passes at drawn places (it draws its place from all 56 and names it and its seed) and fails on the old code (closest siblings 2.41 years apart at seed a1).
+- `tests/src/core2/opening-kin-spacing.test.ts` passes at drawn places (it draws its place from all 56 and names it and its seed) and fails on the old code (closest siblings 2.41 years apart at seed a1).
 - `opening-kin`, `opening-kin-cash`, `population`, `opening-personality` and `opening-partnership` tests pass.
 - A second session opens dev mode at a drawn place and sees an adult with siblings born less than two years apart, and none closer than a pregnancy.
 
 **Waits on.** Nothing.
 
-**Files.** `src/core2/opening-kin.ts`, `src/core2/opening-kin-spacing.test.ts`.
+**Files.** `src/core2/opening-kin.ts`, `tests/src/core2/opening-kin-spacing.test.ts`.
 
 **Notes.** Nov 17 (Lives): `kinInterbirthYears` stays TUNABLE (the mean gap); an NSFG interpregnancy source would turn it into a distribution with a sourced shape.

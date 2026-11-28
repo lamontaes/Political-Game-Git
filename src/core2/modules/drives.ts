@@ -6,7 +6,7 @@ import { availableActs } from "../life";
 import { extendData } from "../data";
 import { appraiseEvent } from "../emotion";
 import { parameter, parameterValues } from "../parameters";
-import { discretionaryHours } from "./work";
+import { discretionaryHours } from "../work-reads";
 import {
   closenessBetween,
   currentCloseness,
@@ -18,7 +18,7 @@ import { setTraitProbe, traitProbe } from "../trait-probe";
 import { bookkeeping } from "../bookkeeping";
 import { keepsWhy } from "../why-kept";
 import { adTimeForSale, buyAdTime } from "./campaigns";
-import { residentCounts, residentsAccountFor } from "./residents";
+import { residentCounts, residentsAccountFor } from "../residents-reads";
 import { countedPersonOf } from "../counted-actor";
 import { isDemoted } from "../counted-groups";
 import { initialPersonState } from "../person-state";

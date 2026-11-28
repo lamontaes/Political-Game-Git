@@ -17,8 +17,8 @@ claimed-at: 2026-10-17T13:07:34.724Z
 
 **Rules.** Fix at the root, the way `keep-from-work` in the justice engine defers a job end: the job ends the day after the last shift. Wire to the world: the job's pay and the official's record follow the real end date.
 
-**Done when.** `src/core2/office-job-worked-today.test.ts` draws a place with a full-time office job, ends the term, marks a shift worked today, and checks the job stays open, then ends the next day; it fails on main with the crash's own error. The path check on seed sw7b544abf (Mead Ranch, Arizona) runs to its end (251 s, steps 3 to 9).
+**Done when.** `tests/src/core2/office-job-worked-today.test.ts` draws a place with a full-time office job, ends the term, marks a shift worked today, and checks the job stays open, then ends the next day; it fails on main with the crash's own error. The path check on seed sw7b544abf (Mead Ranch, Arizona) runs to its end (251 s, steps 3 to 9).
 
-**Files.** src/core2/modules/office-day.ts, src/core2/office-job-worked-today.test.ts
+**Files.** src/core2/modules/office-day.ts, tests/src/core2/office-job-worked-today.test.ts
 
 **Notes.** Found by the ten-place path-check sweep, Oct 17 (claude).

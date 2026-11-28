@@ -10,7 +10,7 @@ standard: 2
 claimed-by:
 pr:
 blocked-on:
-source: found by fixer F6 running src/bench/polling.browser.mjs (Nov 14)
+source: found by fixer F6 running tests/src/bench/polling.browser.mjs (Nov 14)
 after:
 lead: play-first
 model: opus
@@ -28,8 +28,8 @@ root: none
 
 **Rules.** Replace, never layer: dev mode's skipped time answers a stop through the same acknowledgment the player's own clock uses, with no second stop engine. A stop is a screen the player can answer, and nothing may hold the clock with no way to resolve it.
 
-**Done when.** A second session runs `node --import tsx src/bench/polling.browser.mjs` on a fresh bench (it runs that seed and place) and sees it run 304 days with dev mode, then reach Tuesday, Nov 3, 2026 and mark the ballot, with Hour, Day and Week moving the clock in the running game after the run; and `src/bench/dev-advance-stops.test.ts` passes.
+**Done when.** A second session runs `node --import tsx tests/src/bench/polling.browser.mjs` on a fresh bench (it runs that seed and place) and sees it run 304 days with dev mode, then reach Tuesday, Nov 3, 2026 and mark the ballot, with Hour, Day and Week moving the clock in the running game after the run; and `tests/src/bench/dev-advance-stops.test.ts` passes.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/dev-mode.ts, src/core2/player-stops-v1.ts, src/core2/life.ts, src/bench/dev-advance-stops.test.ts (new)
+**Files.** src/bench/dev-mode.ts, src/core2/player-stops-v1.ts, src/core2/life.ts, tests/src/bench/dev-advance-stops.test.ts (new)

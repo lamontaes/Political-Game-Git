@@ -19,7 +19,7 @@ import {
   officesInJurisdiction,
   seatsOfOffices,
   townSeats,
-} from "./modules/offices";
+} from "./offices-reads";
 import { officialOf } from "./modules/officials";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState, PersonId } from "./types";

@@ -24,7 +24,7 @@ seen-at: 2026-11-25T01:09:28.427Z
 **What.** The CTO, Nov 24 (comment 7131781243), caught that the Town of Alderson's Executive page has an empty right half with only the mayor on it. A town with no other officers to list has no right column, so the one column ran the whole width and its content sat in the left part.
 Seen: Politics, Local, Executive in a town with only a mayor, at 1440 by 900. Seen: the same page in a panel that fits the mayor, after. Guards: executive-fits.browser.mjs
 
-**Cause.** Measured: `node src/bench/executive-fits.browser.mjs` against `npm run bench` on main fails on a drawn lone-mayor place (the first version failed at Tatgua, Northern Mariana Islands). executiveView in src/bench/play.mjs puts the coming-up section under the chief and the other officers on the right; with no other officers the screen draws single in a sheet as wide as the window, and an empty calendar still prints a filler line.
+**Cause.** Measured: `node tests/src/bench/executive-fits.browser.mjs` against `npm run bench` on main fails on a drawn lone-mayor place (the first version failed at Tatgua, Northern Mariana Islands). executiveView in src/bench/play.mjs puts the coming-up section under the chief and the other officers on the right; with no other officers the screen draws single in a sheet as wide as the window, and an empty calendar still prints a filler line.
 
 **Fix.** In executiveView, leave the coming-up section out when nothing is scheduled; for a government page with only its main column, give the sheet the fits class so the panel is as wide as its content (the CTO's send-back of the first version, Nov 24); add executive-fits.browser.mjs.
 
@@ -36,6 +36,6 @@ Seen: Politics, Local, Executive in a town with only a mayor, at 1440 by 900. Se
 
 **Waits on.** Nothing
 
-**Files.** src/bench/play.mjs,src/bench/executive-fits.browser.mjs (new)
+**Files.** src/bench/play.mjs,tests/src/bench/executive-fits.browser.mjs (new)
 
 **Notes.** Seen in the game (2026-11-25, Replay): Fananganan, Northern Mariana Islands, seed 4b926fd9-7716-47ce-8080-abbb2f2bd076, main abff6c6c08: Mayor-only town executive panel 683 pixels wide with only the mayor, no Coming up

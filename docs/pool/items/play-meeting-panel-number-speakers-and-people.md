@@ -36,10 +36,10 @@ merged-at: 2026-11-11T17:34:55.800Z
 
 **Rules.** No hand-written player text in code: the two new labels are control names in the controls file. Replace, never layer: the old line of names is removed, not kept beside the new ones. One rule, all 56 places: the walk draws its place and names it with its seed.
 
-**Done when.** A second session, in the running game on main at 1440x900, steps in as a member of a local body in a drawn place it writes down with its seed and plays to a meeting. Under each item's name the number carries its word ("Ordinance 2025-6", "Resolution 2025-2"). After a vote, the people who spoke are under "Spoke for" or "Spoke against" with a count, and no name is followed by a vote word. With the panel open, every person shown at the foot of the room is whole and none is under the panel; with a bill open from the panel, the strip is gone. The test src/bench/office-bill-title.test.ts passes.
+**Done when.** A second session, in the running game on main at 1440x900, steps in as a member of a local body in a drawn place it writes down with its seed and plays to a meeting. Under each item's name the number carries its word ("Ordinance 2025-6", "Resolution 2025-2"). After a vote, the people who spoke are under "Spoke for" or "Spoke against" with a count, and no name is followed by a vote word. With the panel open, every person shown at the foot of the room is whole and none is under the panel; with a bill open from the panel, the strip is gone. The test tests/src/bench/office-bill-title.test.ts passes.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/office.ts, src/bench/ui/meeting-item.mjs, src/bench/data/controls.json, src/bench/play.css, src/bench/office-bill-title.test.ts
+**Files.** src/bench/office.ts, src/bench/ui/meeting-item.mjs, src/bench/data/controls.json, src/bench/play.css, tests/src/bench/office-bill-title.test.ts
 
 **Notes.** Built by the lead (Fable B), Nov 11, 2026, the hour the owner said it. Not in this item, and each needs its own: other screens still print a bill's bare number (the deals title, the desk's title and the seat's result line in src/bench/play.mjs, and the Bills list's aside); the people strip beside the other side panels (election day, the returns, the ballot) and during scenes was not walked; a quick second press of Yes at a meeting raises "That item is not waiting on this agenda." as a page error; and `billItem` fills in every speaker from the counts each time the panel is drawn (`personOrFillIn`), which makes facts from a screen read.

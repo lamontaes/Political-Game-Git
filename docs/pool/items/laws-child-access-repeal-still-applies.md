@@ -18,8 +18,8 @@ claimed-at: 2026-10-29T19:05:20.327Z
 
 **Rules.** Wire to the world: a repealed law must stop moving money and decisions on the day its repeal takes effect, and the justice engine must read the law in force, not a cached copy. Ask why by record: name the record that still applies after repeal.
 
-**Done when.** With LAW_WIRING_SEED-style seed 2d779733f866f2e2bae37ad62eca5bf460d5c076 (Richmond, Maine), src/core2/law-wiring-justice.test.ts passes in a played world built with buildBenchWorld, and the PR names the law-applied record id that outlived the repeal and why.
+**Done when.** With LAW_WIRING_SEED-style seed 2d779733f866f2e2bae37ad62eca5bf460d5c076 (Richmond, Maine), tests/src/core2/law-wiring-justice.test.ts passes in a played world built with buildBenchWorld, and the PR names the law-applied record id that outlived the repeal and why.
 
-**Files.** src/core2/law-wiring-justice.test.ts,src/core2/modules/justice.ts,src/core2/law-reach/
+**Files.** tests/src/core2/law-wiring-justice.test.ts,src/core2/modules/justice.ts,src/core2/law-reach/
 
 **Notes.** TODO

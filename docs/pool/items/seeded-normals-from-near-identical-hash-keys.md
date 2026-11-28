@@ -37,7 +37,7 @@ The uniforms to check (first or last digits of `stableHash`), by what their keys
 
 **Rules.** No dice: seeded generation of who exists, fixed by its key. Each change is checked at a pinned place with the run's before and after, since the world drawn changes.
 
-**Done when.** Each normal above passes the tail check of `src/core2/saving-weight-draw.test.ts` (the normal's own four-standard-deviation range for 20,000 keys), each uniform is read or left with its reason, and a second session sees in dev mode at a drawn place it names with its seed that voters' standings and officials' draws spread without a pile at the ends.
+**Done when.** Each normal above passes the tail check of `tests/src/core2/saving-weight-draw.test.ts` (the normal's own four-standard-deviation range for 20,000 keys), each uniform is read or left with its reason, and a second session sees in dev mode at a drawn place it names with its seed that voters' standings and officials' draws spread without a pile at the ends.
 
 **Waits on.** Nothing.
 

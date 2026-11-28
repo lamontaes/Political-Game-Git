@@ -19,6 +19,6 @@ claimed-at: 2026-11-07T21:49:17.853Z
 
 **Done when.** A generated-world test drawn from all 56 proves the Congress catalog and billValueInForce both return the actual opening federal Medicaid-match amount and source row for that state. It fails on old code, passes ten fresh draws, and a new game opens and plays four weeks.
 
-**Files.** src/core2/laws-bill-values.ts,src/core2/federal-bill-baseline.test.ts
+**Files.** src/core2/laws-bill-values.ts,tests/src/core2/federal-bill-baseline.test.ts
 
 **Notes.** Astra follow-up found while tracing federal amount replacement. Two-hour time box, one session, no helpers. This is a drafting read; it does not invent a uniform current FMAP or claim played votes.

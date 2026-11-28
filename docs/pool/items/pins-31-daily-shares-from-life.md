@@ -32,4 +32,4 @@ source: "CTO, LIFT THE PINS, #9747 comments 6936897718 and 6936902790 (family 31
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/free-block.ts, src/core2/closeness.ts, src/core2/modules/people.ts, src/core2/modules/drives.ts, src/core2/estates.ts, src/core2/data/parameters.json, src/core2/daily-shares-own-causes.test.ts, scripts/core2-year/pins-31-proof.ts.
+**Files.** src/core2/free-block.ts, src/core2/closeness.ts, src/core2/modules/people.ts, src/core2/modules/drives.ts, src/core2/estates.ts, src/core2/data/parameters.json, tests/src/core2/daily-shares-own-causes.test.ts, scripts/core2-year/pins-31-proof.ts.

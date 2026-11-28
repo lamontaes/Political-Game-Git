@@ -90,7 +90,7 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 - **Found:** three more malformed declarations on main: `director-save-restore.md` (impact none, no reason), `official-pay-return.md` (a patch with no id, section or title), `screens-loading-worth-watching.md` (a 144-character title). #7224 fixed all three in one PR; the check over the whole range since v0.79.0 (c7ae16cfd9 to main 2a5885d) prints OK with 16 pending declarations, after #7222 and #7223 too.
 - **The CTO's ruling on my proposal:** build neither; the desk runs the release check on each PR while merging and mends the note itself. Nothing for Lane 5 to build.
-- After #7224 the next blocker was the build's typecheck: `src/bench/loading.test.ts` imported `PersonId` from a module that doesn't export it (Release run 12146). #7227 fixed it (merged 10:06); the full typecheck passes locally on main with it. Confirming a build publishes: Release run 12148, in progress.
+- After #7224 the next blocker was the build's typecheck: `tests/src/bench/loading.test.ts` imported `PersonId` from a module that doesn't export it (Release run 12146). #7227 fixed it (merged 10:06); the full typecheck passes locally on main with it. Confirming a build publishes: Release run 12148, in progress.
 
 ### Red main, Nov 4 07:45: builds stopped (CTO's note)
 

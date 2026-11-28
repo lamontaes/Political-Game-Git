@@ -17,8 +17,8 @@ claimed-at: 2026-10-17T12:08:16.501Z
 
 **Rules.** No dice: a story's rank comes from who the law reaches and each reporter's own drives, never a roll. One model, two tiers: a counted follower is read by the same rule as a named one.
 
-**Done when.** In the eight places that reached step 9 and not step 10 (seeds swcecb101c, sw86265759, sw888f7786, sw3ce50c81, sw4aa89205, swdddd3ccf, sw7f79358c, swa8b236bd) `path-check` reports step 10; `src/core2/press-law-reach.test.ts` draws a place and checks a law naming no one is ranked by the followers it reaches; it fails on main's desk.
+**Done when.** In the eight places that reached step 9 and not step 10 (seeds swcecb101c, sw86265759, sw888f7786, sw3ce50c81, sw4aa89205, swdddd3ccf, sw7f79358c, swa8b236bd) `path-check` reports step 10; `tests/src/core2/press-law-reach.test.ts` draws a place and checks a law naming no one is ranked by the followers it reaches; it fails on main's desk.
 
-**Files.** src/core2/press-desk.ts, tests/golden-path/path-check.ts, src/core2/press-law-reach.test.ts
+**Files.** src/core2/press-desk.ts, tests/golden-path/path-check.ts, tests/src/core2/press-law-reach.test.ts
 
 **Notes.** A law with no law-reach record counts as reaching every named follower (a law in force binds the town); where a law reaches only some people, the law-reach records decide. The opening's laws that take effect in the first weeks now also rank higher; not measured against the first-weeks story mix.

@@ -19,7 +19,7 @@ claimed-at: 2026-11-08T01:48:46.519Z
 
 **Done when.** In a randomly drawn buildBenchWorld with printed place and replay, Congress drafts, signs and gives effect to repeal and restoration of the shared federal adoption question. Its real original income-tax terms and operative withholding return; state and local income tax remain unchanged, and excluded federal income taxes remain excluded. Prove the old route fails, ten fresh draws and a new game pass.
 
-**Files.** data/research/powers-catalog/question-powers.json,data/research/laws/starting-law-2026/fiscal.json,src/core2/data/legislature/bill-catalog.json,scripts/research/build-bill-catalog.py,src/core2/law-reach/group-b-money.ts,src/core2/federal-income-tax-adoption.test.ts
+**Files.** data/research/powers-catalog/question-powers.json,data/research/laws/starting-law-2026/fiscal.json,src/core2/data/legislature/bill-catalog.json,scripts/research/build-bill-catalog.py,src/core2/law-reach/group-b-money.ts,tests/src/core2/federal-income-tax-adoption.test.ts
 
 **Notes.** Astra Nov 8 read 26 USC1 current subsections a and j (cached income-tax-26-1.txt). Existing numeric law:income-tax already admits Congress; this is the missing shared policy question. incomeTaxAct currently picks local defaults for every non-state level, so do not merely add federal to the catalog. Reuse retained actual tax terms/history for restoration.
 

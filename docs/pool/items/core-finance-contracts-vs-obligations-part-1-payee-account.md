@@ -35,7 +35,7 @@ branch: claude/pool-core-finance-contracts-vs-obligations-part-1-payee-account
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/finance-types.ts, src/core2/finance-state.ts, src/core2/finance-cash.test.ts
+**Files.** src/core2/finance-types.ts, src/core2/finance-state.ts, tests/src/core2/finance-cash.test.ts
 
 **Notes.** Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:56 UTC) on branch claude/pool-core-finance-contracts-vs-obligations-part-1-payee-account.
 

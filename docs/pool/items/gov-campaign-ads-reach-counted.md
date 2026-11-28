@@ -18,9 +18,9 @@ claimed-at: 2026-10-19T20:10:05.448Z
 
 **Rules.** One model, two tiers: an ad reaches a counted group by the same rule as a full person, times its count and the outlet's reach in that group, in one function for both tiers. An effect is a read: the vote tally moves because voting reads the ad's reach record, not because the ad writes a number into the tally.
 
-**Done when.** A played campaign in a drawn place (`buildBenchWorld`) shows an ad's reach including counted groups by record id, the vote tally moved by it with its why (which groups, which outlet, what count), and `src/core2/campaign-ads.test.ts` and the campaigns tests pass with a counted-group case in a drawn place. The owner plays it: buying an ad in a town of ten thousand moves more than a dozen people.
+**Done when.** A played campaign in a drawn place (`buildBenchWorld`) shows an ad's reach including counted groups by record id, the vote tally moved by it with its why (which groups, which outlet, what count), and `tests/src/core2/campaign-ads.test.ts` and the campaigns tests pass with a counted-group case in a drawn place. The owner plays it: buying an ad in a town of ten thousand moves more than a dozen people.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-ads.test.ts, src/core2/counted-groups.ts
+**Files.** src/core2/modules/campaigns.ts, tests/src/core2/campaign-ads.test.ts, src/core2/counted-groups.ts
 
 **Notes.** Supersedes the audit's working id elections-ads-reach-counted-followers. The payroll-tax change that ran one function over both tiers is the pattern to copy.
 

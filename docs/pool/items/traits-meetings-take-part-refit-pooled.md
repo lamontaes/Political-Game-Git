@@ -22,6 +22,6 @@ claimed-at: 2026-10-27T06:53:24.180Z
 
 **Time box.** 1 hour, the laws-and-effects lead (the work is done on the follow-up branch).
 
-**Files.** src/core2/data/parameters.json, src/core2/modules/meetings.traits.test.ts
+**Files.** src/core2/data/parameters.json, tests/src/core2/modules/meetings.traits.test.ts
 
 **Notes.** Filed by the laws-and-effects lead, Oct 27. The measurements were made by the lead's helper on PR #6143's branch before it merged; the commits are carried to a fresh branch from main.

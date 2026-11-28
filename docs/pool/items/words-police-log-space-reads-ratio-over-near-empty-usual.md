@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** The Words lead's call in Fix.
 
-**Files.** src/core2/press-desk.ts, src/core2/modules/press.ts, src/bench/printed-police-log.test.ts
+**Files.** src/core2/press-desk.ts, src/core2/modules/press.ts, tests/src/bench/printed-police-log.test.ts

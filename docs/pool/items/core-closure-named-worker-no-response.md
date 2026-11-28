@@ -32,7 +32,7 @@ Probe (working copy only, undone): letting a returned person through the filter 
 
 **Fix.** In `countedSubjects` (src/core2/modules/drives.ts), keep a person who is still in the counts by the jobs engine's rule: no full record, or a full record that `isDemoted` marks as returned to the counts. Read the closed business's workers from the closure record's own `affectedCountedPersonIds`, not by looking each ended job up again. Then `respond` reads such a person through their kept full record, as it reads any full person (line 773). Apply the same rule to the two other counted-person filters in `onEvent`: the perceivers of a counted death at line 1991, and the members of a counted household at line 2001. Today a returned person there is dropped the same way.
 
-Add a case to src/core2/drives-counted-job-loss.test.ts. In a drawn place, demote a household whose member works at a business, close the business, and assert the member draws a response to `organization.closed`, by person id and response id.
+Add a case to tests/src/core2/drives-counted-job-loss.test.ts. In a drawn place, demote a household whose member works at a business, close the business, and assert the member draws a response to `organization.closed`, by person id and response id.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -42,7 +42,7 @@ Add a case to src/core2/drives-counted-job-loss.test.ts. In a drawn place, demot
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/drives.ts (`countedSubjects`, line 739; `onEvent`, lines 1981 to 2005), src/core2/counted-groups.ts (`isDemoted`, line 40), src/core2/modules/counted-demotion.ts (line 242), src/core2/finance-state.ts (`windDownEmployer`, line 1770), src/core2/modules/jobs.ts (`isCounted`, line 313), src/core2/drives-counted-job-loss.test.ts, scripts/bench/m1-11-check.ts
+**Files.** src/core2/modules/drives.ts (`countedSubjects`, line 739; `onEvent`, lines 1981 to 2005), src/core2/counted-groups.ts (`isDemoted`, line 40), src/core2/modules/counted-demotion.ts (line 242), src/core2/finance-state.ts (`windDownEmployer`, line 1770), src/core2/modules/jobs.ts (`isCounted`, line 313), tests/src/core2/drives-counted-job-loss.test.ts, scripts/bench/m1-11-check.ts
 
 **Notes.** Not caused by PR 7909 (it only adds facts to the eviction notice and a read-only departure lookup). Because the year-long path draws a random place, it fails only sometimes.
 

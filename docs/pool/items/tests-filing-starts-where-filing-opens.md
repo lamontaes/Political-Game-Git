@@ -19,6 +19,6 @@ claimed-at: 2026-11-05T18:42:32.127Z
 
 **Done when.** elections-filing, campaigns pass in James Town WY, Ewa Villages HI and nine more drawn places; families guard green
 
-**Files.** tests/support/gov-test-clock.ts, src/core2/campaigns.test.ts, src/core2/elections-filing.test.ts, tests/guards/families-baseline.json
+**Files.** tests/support/gov-test-clock.ts, tests/src/core2/campaigns.test.ts, tests/src/core2/elections-filing.test.ts, tests/guards/families-baseline.json
 
 **Notes.** TODO

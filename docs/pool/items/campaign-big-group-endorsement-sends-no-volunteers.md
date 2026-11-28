@@ -33,6 +33,6 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/data/campaigns/parameters.json, src/core2/campaign-real-race-played.test.ts
+**Files.** src/core2/modules/campaigns.ts, src/core2/data/campaigns/parameters.json, tests/src/core2/campaign-real-race-played.test.ts
 
 **Notes.** Nov 14 (account lead): found while re-pinning the real race at Bennington after fold #9244; the carry for the test itself stages the player taking a cause group's stand, so this item is not blocking it. Related: campaign-door-warmth-follows-the-canvasser-not-the-platform changes door warmth, which `volunteerReason` reads as warmth.

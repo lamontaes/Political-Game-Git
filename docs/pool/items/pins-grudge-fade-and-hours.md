@@ -32,4 +32,4 @@ source: "CTO, #9747 comment 6939171395 (05:10Z): the grudge audit's three rule b
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/drives.ts, src/core2/data/drives.json, src/core2/data/parameters.json, src/core2/modules/campaigns.ts, src/core2/modules/interest-groups.ts, src/core2/modules/legislature.ts, src/core2/modules/press.ts, src/core2/modules/staff.ts, src/bench/dev-mode.ts, src/core2/grudge-from-life.test.ts, scripts/core2-year/pins-grudge-proof.ts.
+**Files.** src/core2/modules/drives.ts, src/core2/data/drives.json, src/core2/data/parameters.json, src/core2/modules/campaigns.ts, src/core2/modules/interest-groups.ts, src/core2/modules/legislature.ts, src/core2/modules/press.ts, src/core2/modules/staff.ts, src/bench/dev-mode.ts, tests/src/core2/grudge-from-life.test.ts, scripts/core2-year/pins-grudge-proof.ts.

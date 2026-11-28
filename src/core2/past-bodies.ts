@@ -11,11 +11,12 @@ import {
   leanOf,
   members,
 } from "./modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow, allOffices } from "./modules/offices";
+import type { TermRow } from "./modules/offices";
+import { OFFICES_MODULE_ID, allOffices } from "./offices-reads";
 import { officialOf, officialStance } from "./modules/officials";
 import type { OfficeInput } from "./modules/offices";
 import type { CoreAPI } from "./types";
-import { pastParameter } from "./past-module";
+import { pastParameter } from "./past-reads";
 
 export interface PastTown {
   readonly seed: string;

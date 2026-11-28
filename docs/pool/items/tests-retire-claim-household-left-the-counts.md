@@ -18,12 +18,12 @@ effort: medium
 root: none
 ---
 
-**What.** The test `src/core2/jobs-counted-retire-claim.test.ts` goes red on pull requests that do not touch it. It expects every counted worker who retired in the year to hold one live flow paying their claim at the year's end. Nothing a player sees is wrong.
+**What.** The test `tests/src/core2/jobs-counted-retire-claim.test.ts` goes red on pull requests that do not touch it. It expects every counted worker who retired in the year to hold one live flow paying their claim at the year's end. Nothing a player sees is wrong.
 Seen: the unit job of #9825 at Pleasant Hill, Missouri.
 
 **Cause.** Measured: at Pleasant Hill, Missouri (2958394), seed 5bebb80a6e6a35892cacf54115952c3c8d70390bd8620536dcf06b9c3e20328b, by a probe that builds that world with `buildBenchWorld` and plays 140 days on main 74e6551b: person_4ffda2e97d6dcd65 retired on Feb 1, 2025 and claimed $1,505.30 a month; the flow `retirement-claim:person_4ffda2e97d6dcd65` ended on June 1 with the reason `household-left`, and the person is in no live counted household from that day. `endHouseholdFlows` in src/core2/modules/residents.ts ends an award with the household that leaves the counts. The other 202 retirees each keep one live flow. The engine is right and the test is wrong.
 
-**Fix.** In the test's loop over retirees (src/core2/jobs-counted-retire-claim.test.ts), a retiree whose claim flow ended with `household-left` and who is in no live counted household is named and passed over; every other retiree is checked as before, and at least one must be. The player sees nothing new; a pull request stops going red on it.
+**Fix.** In the test's loop over retirees (tests/src/core2/jobs-counted-retire-claim.test.ts), a retiree whose claim flow ended with `household-left` and who is in no live counted household is named and passed over; every other retiree is checked as before, and at least one must be. The player sees nothing new; a pull request stops going red on it.
 
 **Time box.** 1 hour for one session at medium effort. When it runs out, push what is found, set the state honestly with a one-line note, and stop.
 
@@ -33,4 +33,4 @@ Seen: the unit job of #9825 at Pleasant Hill, Missouri.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/jobs-counted-retire-claim.test.ts
+**Files.** tests/src/core2/jobs-counted-retire-claim.test.ts

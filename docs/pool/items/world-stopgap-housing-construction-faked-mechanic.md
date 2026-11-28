@@ -31,11 +31,11 @@ checked: fable 2026-11-10
 
 **Rules.** One model, two tiers: counted renters and arriving households buy under the same affordability rule as full ones. Sliding scales and causes: buying follows income, savings and price. Replace, never layer: the fake is deleted in the same change, and a row is never closed by deleting it without the mechanic. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE.
 
-**Done when.** A second session, on main in a drawn place (place and seed named in the PR body) and in Manchester Center, Vermont with seed a1, plays a year in dev mode and sees a new house bought by a counted renter or an arriving household, with the sale on the closing record and the house and household record ids, watching new houses sell to families who moved in. The test in src/core2/housing-construction.test.ts and the stopgap tripwire test show the row resolved.
+**Done when.** A second session, on main in a drawn place (place and seed named in the PR body) and in Manchester Center, Vermont with seed a1, plays a year in dev mode and sees a new house bought by a counted renter or an arriving household, with the sale on the closing record and the house and household record ids, watching new houses sell to families who moved in. The test in tests/src/core2/housing-construction.test.ts and the stopgap tripwire test show the row resolved.
 
 **Waits on.** world-counted-renters-buy.
 
-**Files.** src/core2/housing-construction.ts, src/core2/modules/housing.ts, src/core2/data/stopgaps/world.json, src/core2/housing-construction.test.ts
+**Files.** src/core2/housing-construction.ts, src/core2/modules/housing.ts, src/core2/data/stopgaps/world.json, tests/src/core2/housing-construction.test.ts
 
 **Notes.** First row: New houses sell only to full renter households; counted renters and households moving in never buy one, so unsold houses pile up.
 
@@ -44,4 +44,4 @@ Measured Oct 19 (claude, claude/political-game-pool-l9cym2-f), not built. In Man
 Oct 20: Switched from blocked to the automatic after: gate on world-counted-renters-buy, so it opens by itself the moment those items are done.
 
 Deferred Oct 25: nothing on screen reads it yet.
-Nov 14, 2026 (Account lead T54): built in #9117 on the Account lead's ruling to pair it. A household moving into the played town weighs buying by the renters' rule (its share of its group's account, and for one drawn like an owner what that home sells for less its loan) and otherwise rents a home like the one it was drawn like; SG-WORLD-housing-new-home-buyers resolved. Test: src/core2/housing-counted-newcomers.test.ts (Bastrop, Louisiana, 2204685).
+Nov 14, 2026 (Account lead T54): built in #9117 on the Account lead's ruling to pair it. A household moving into the played town weighs buying by the renters' rule (its share of its group's account, and for one drawn like an owner what that home sells for less its loan) and otherwise rents a home like the one it was drawn like; SG-WORLD-housing-new-home-buyers resolved. Test: tests/src/core2/housing-counted-newcomers.test.ts (Bastrop, Louisiana, 2204685).

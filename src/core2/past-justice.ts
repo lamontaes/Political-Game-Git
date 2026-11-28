@@ -22,7 +22,7 @@ import {
   preStartWindowOf,
   recordPreStartLater,
   wholePastOnce,
-} from "./pre-start";
+} from "./pre-start-history";
 import { coreAPI } from "./state";
 import { stopgap } from "./stopgaps";
 import type { HistoryRecord } from "./pre-start";

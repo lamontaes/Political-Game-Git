@@ -31,11 +31,11 @@ branch: claude/pool-outcome-causes-housing-disaster-justice
 
 **Rules.** Wire to the world: an effect is a read, not a record, so the outcome is read by the engine that owns it through outcomeWebFactor or a kept measure that views and news read. No dice: the cause record moves the outcome by the link's researched size, never a roll. One rule, all 56 places: place facts live in data.
 
-**Done when.** A second session runs a one-year played world (buildBenchWorld) in a drawn place and a seed the builder did not choose (both named in the PR body) and sees a recorded severe disaster move non-disaster transfers, a lower-level release law move larceny, and school-day heat move learning, each named by the engine record id, the link key and the web month record id. src/core2/outcome-web.test.ts lists each link as built and coverage.json moves them from waiting to wired.
+**Done when.** A second session runs a one-year played world (buildBenchWorld) in a drawn place and a seed the builder did not choose (both named in the PR body) and sees a recorded severe disaster move non-disaster transfers, a lower-level release law move larceny, and school-day heat move learning, each named by the engine record id, the link key and the web month record id. tests/src/core2/outcome-web.test.ts lists each link as built and coverage.json moves them from waiting to wired.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/outcome-web.ts, src/core2/data/outcome-web/outcome-web.json, src/core2/data/outcome-web/coverage.json, src/core2/gov-measures.ts, src/core2/modules/housing.ts, src/core2/outcome-web.test.ts
+**Files.** src/core2/modules/outcome-web.ts, src/core2/data/outcome-web/outcome-web.json, src/core2/data/outcome-web/coverage.json, src/core2/gov-measures.ts, src/core2/modules/housing.ts, tests/src/core2/outcome-web.test.ts
 
 **Notes.** Split from core-outcome-causes-recorded, which was really three bounded pieces (found building it: engine measures are read from world-metrics month fields, government measures from `gov-measures.ts`, and a wired link also needs a kept outcome, so no link is a one-line change). The links' sizes and anchors are in data/research/outcome-web/links.json.
 

@@ -33,6 +33,6 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/director/speech-outline.ts, data/english/parts/opening-speech.json, src/director/speech-outline.test.ts
+**Files.** src/director/speech-outline.ts, data/english/parts/opening-speech.json, tests/src/director/speech-outline.test.ts
 
 **Notes.** Filed by the Speeches builder (D) from the Words lead's round 6 read of #9074.

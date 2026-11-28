@@ -30,11 +30,11 @@ checked: fable 2026-11-10
 
 **Rules.** Research before building: each amount cites the local ordinance or the state's local-tax guide and is SOURCED, or ESTIMATED with a spread where the row names none. One rule, all 56 places: the amounts are terms on the law rows and no jurisdiction is named in code. Estimate, never UNKNOWN: a row with no exemption found keeps zero marked ESTIMATED with its source. An effect is a read, not a record: the exemption changes the withheld dollars the treasury receives and the worker's net pay. This is a game, not a spreadsheet: pre-tax contributions are real paycheck steps the game does not model.
 
-**Done when.** A second session, not the builder, runs a one-year played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a local income tax row and a seed the builder did not choose, both named. A worker's local withholding equals the row's rate times pay less the personal exemption, shown by paycheck record id and law row id, and the treasury receipt equals the line. src/core2/tax-withholding.test.ts proves it and SG-WORLD-withholding-local-base is resolved (or narrowed to pre-tax contributions) in src/core2/data/stopgaps/world.json.
+**Done when.** A second session, not the builder, runs a one-year played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a local income tax row and a seed the builder did not choose, both named. A worker's local withholding equals the row's rate times pay less the personal exemption, shown by paycheck record id and law row id, and the treasury receipt equals the line. tests/src/core2/tax-withholding.test.ts proves it and SG-WORLD-withholding-local-base is resolved (or narrowed to pre-tax contributions) in src/core2/data/stopgaps/world.json.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/budgets.ts, src/core2/tax-withholding.ts, src/core2/data/laws/starting-law.json, src/core2/tax-withholding.test.ts, src/core2/data/stopgaps/world.json
+**Files.** src/core2/modules/budgets.ts, src/core2/tax-withholding.ts, src/core2/data/laws/starting-law.json, tests/src/core2/tax-withholding.test.ts, src/core2/data/stopgaps/world.json
 
 **Notes.** Oct 20 (pool feeder): split from gov-stopgap-budgets-assumed-data. CTO call recommended: pre-tax deductions are not built (game, not spreadsheet); the row is narrowed to name them.
 

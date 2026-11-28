@@ -37,7 +37,7 @@ import {
   voteRecordId,
   recordPastVote,
   type VoteRecordRow,
-} from "./modules/record";
+} from "./modules/record-writes";
 import type { TermRow } from "./modules/offices";
 import {
   CHAMBER_KINDS,

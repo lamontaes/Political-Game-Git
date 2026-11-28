@@ -20,7 +20,7 @@ root: none
 
 **What.** The housing-laws test draws a new place every run, so it is green or red by luck. On one draw its controlled edge case is red. It expects one adult in the tenant's home to learn of the rent saving from the renewal notice, and two hold a rent stance. Seen: at Christiansted in the Virgin Islands, red the same with and without #9604.
 
-**Cause.** Measured: at Christiansted, U.S. Virgin Islands (territory:VI:christiansted), seed c767d15a1b250d1fa138c862d3aa233c916b5080e9471c6e3289e7405aa7249d, by `LAW_LINK_DRAW=<that draw as JSON> npx vitest run src/core2/housing-laws.test.ts`, "nobody learned of the saving: expected 2 to be 1". Found in code: src/core2/housing-laws.test.ts line 20 draws with `randomBytes` when `LAW_LINK_DRAW` is unset.
+**Cause.** Measured: at Christiansted, U.S. Virgin Islands (territory:VI:christiansted), seed c767d15a1b250d1fa138c862d3aa233c916b5080e9471c6e3289e7405aa7249d, by `LAW_LINK_DRAW=<that draw as JSON> npx vitest run tests/src/core2/housing-laws.test.ts`, "nobody learned of the saving: expected 2 to be 1". Found in code: tests/src/core2/housing-laws.test.ts line 20 draws with `randomBytes` when `LAW_LINK_DRAW` is unset.
 
 **Fix.** Pin the test to named places with fixed seeds (skill `pinned-tests`), Christiansted at the seed above among them. Then find which second member of the household holds the rent stance and where they learned it, by the stance's `learnedFrom`. Either the second record is right and the test's count of one is wrong, or the stance came from the wrong record, which is a separate fix.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/housing-laws.test.ts
+**Files.** tests/src/core2/housing-laws.test.ts

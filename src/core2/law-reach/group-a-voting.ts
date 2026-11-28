@@ -40,7 +40,7 @@ export {
 } from "./voting-keys";
 import type { CoreAPI, CoreState, PersonState, Source } from "../types";
 import felonyData from "../data/elections/felony-disenfranchisement.json" with { type: "json" };
-import { electionsParameter } from "../modules/campaigns";
+import { electionsParameter } from "../elections-calendar";
 import { campaignParameter } from "../campaign-data";
 import { incarceratedMayVote } from "../justice-law";
 import { corePlaceByKey, coreStateName } from "../place-lookup";
@@ -51,7 +51,7 @@ import {
   termLimitReachedBy,
   type TermRow,
 } from "../modules/offices";
-import { ELECTIONS_MODULE_ID } from "../modules/elections";
+import { ELECTIONS_MODULE_ID } from "../elections-reads";
 import {
   convictionsOf,
   inCustody,

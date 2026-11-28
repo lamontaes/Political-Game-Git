@@ -32,4 +32,4 @@ source: "T54's opening-savings trace at Staples CT, Nov 15 23:40Z; Account lead'
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/credit-deposits.ts, src/core2/counted-money.ts, src/core2/modules/residents.ts, src/core2/housing-counted-buy.ts, src/core2/modules/business.ts, src/core2/counted-group-savings.test.ts (new), src/core2/housing-counted-buy.test.ts.
+**Files.** src/core2/credit-deposits.ts, src/core2/counted-money.ts, src/core2/modules/residents.ts, src/core2/housing-counted-buy.ts, src/core2/modules/business.ts, tests/src/core2/counted-group-savings.test.ts (new), tests/src/core2/housing-counted-buy.test.ts.

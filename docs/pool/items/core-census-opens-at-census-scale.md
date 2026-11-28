@@ -19,7 +19,7 @@ claimed-at: 2026-10-25T07:06:46.893Z
 
 **Done when.** Washington, District of Columbia opened with buildBenchWorld models within 2 percent of its Census reference population (named with the reader and its value), and npm run speed:year -- --place 1150000 --exclusive and --place 3651000 (the largest town) each run no more than 20 percent slower than clean main on the same machine; the changed and affected tests (census-firms, counted-weight, electorate-weight, census-weight-economy, census-scale-closures) pass or fail only as on main.
 
-**Files.** src/bench/world.ts, src/core2/census-firms.ts, src/core2/world-settings.ts, src/core2/census-firms.test.ts
+**Files.** src/bench/world.ts, src/core2/census-firms.ts, src/core2/world-settings.ts, tests/src/core2/census-firms.test.ts
 
 **Notes.** Split from core-census-uncap-opening on Oct 23 by claude/sleepy-carson-f8omzd: the parent's two-minute line for the largest town cannot be met by that PR, because clean main's own New York year takes 335.2 s on the 4-core container; that line now waits on core-speed-year-over-limit-dense-town.
 

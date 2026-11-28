@@ -17,7 +17,7 @@ claimed-at: 2026-10-28T01:52:18.350Z
 
 **Rules.** Replace, never layer: the tab, its sheet, its endpoint and its styles are deleted, not hidden; one way to each screen (screen-to-mock): family is reached through the map's filter only.
 
-**Done when.** In a drawn place (name the place and seed), src/bench/people.browser.mjs and src/bench/sheets.browser.mjs pass on a restarted bench with no Family tab on People; before and after screenshots are in the PR body.
+**Done when.** In a drawn place (name the place and seed), tests/src/bench/people.browser.mjs and tests/src/bench/sheets.browser.mjs pass on a restarted bench with no Family tab on People; before and after screenshots are in the PR body.
 
 **Files.** src/bench/play.mjs, src/bench/play.css, src/bench/handler.ts, src/bench/family.ts
 

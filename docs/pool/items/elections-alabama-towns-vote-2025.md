@@ -19,6 +19,6 @@ claimed-at: 2026-11-04T11:55:30.216Z
 
 **Done when.** The calendar test puts an Alabama town's 2025 election on 2025-08-26; in Haleyville, Alabama (0132704, replay ab5f58e9be125c95) the New Game path check files for a council seat in 2025 and reaches election night, named by contest id.
 
-**Files.** src/core2/data/elections/municipal-cycles.json, src/core2/elections-law.test.ts
+**Files.** src/core2/data/elections/municipal-cycles.json, tests/src/core2/elections-law.test.ts
 
 **Notes.** Lane 1, Nov 4: built on governing/alabama-towns-2025.

@@ -34,7 +34,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing. (play-stop-12-status-card-covers-menu-after-canvass, which it once waited on, is done.)
 
-**Files.** src/bench/play.css, src/bench/play.mjs, src/bench/play.html, src/bench/clock.browser.mjs
+**Files.** src/bench/play.css, src/bench/play.mjs, src/bench/play.html, tests/src/bench/clock.browser.mjs
 
 **You will see.** With a stop pending, each icon in the menu rail opens with one click, without pressing Continue first.
 

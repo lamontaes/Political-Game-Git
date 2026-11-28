@@ -19,9 +19,9 @@ claimed-at:
 
 **Rules.** One rule, all 56 places: the file has a row for every state, D.C. and each territory, and logic names none; a place with no found rule starts from the common rule marked ESTIMATED. Research before building: every row cites its statute or constitutional clause. Estimate, never UNKNOWN: a missing row is the common rule with its source, never a blank. An effect is a read, not a record: the vacancy date is read by the offices engine that opens the special election, and the forfeited share by the treasury journal. Replace, never layer: both api.stopgap calls and the all-places answer are deleted.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, every module installed) in a place drawn from all 56 with a seed the builder did not choose, a convicted official's seat falls on the date the place's row names and the forfeiture journal entry equals the row's share of the bribe, both by record id, and two places with different rows differ; src/core2/justice-forfeiture.test.ts proves it, the research-data reader guard passes, and the stopgap row is resolved in src/core2/data/stopgaps.json.
+**Done when.** In a one-year run of the played world (buildBenchWorld, every module installed) in a place drawn from all 56 with a seed the builder did not choose, a convicted official's seat falls on the date the place's row names and the forfeiture journal entry equals the row's share of the bribe, both by record id, and two places with different rows differ; tests/src/core2/justice-forfeiture.test.ts proves it, the research-data reader guard passes, and the stopgap row is resolved in src/core2/data/stopgaps.json.
 
-**Files.** src/core2/justice-law.ts, src/core2/modules/justice.ts, data/research/justice/forfeiture-2026.json, src/core2/justice-forfeiture.test.ts, src/core2/data/stopgaps.json
+**Files.** src/core2/justice-law.ts, src/core2/modules/justice.ts, data/research/justice/forfeiture-2026.json, tests/src/core2/justice-forfeiture.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** First row: Every place vacates an office on a felony conviction, on the day of the conviction.
 

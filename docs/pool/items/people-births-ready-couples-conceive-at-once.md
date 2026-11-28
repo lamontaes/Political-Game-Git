@@ -39,9 +39,9 @@ checked: fable 2026-11-10
 
 Folded in Oct 25 from people-births-age-shape-narrow. Its done when: In three drawn one-year buildBenchWorld runs, full women's births per thousand in each 5-year band from 20 to 44 fall within the Poisson spread of the CDC band count, shown by birth record ids, in src/core2/births-full-coverage.test.ts.
 
-Folded in Oct 25 from people-renewal-renewalReviewDays-as-cause. Its done when: In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named), every renewal plan record (core2-renewal-v1 plans, id coupleId:plan:date) names the record whose change prompted its review, no plan is dated by a 91-day step alone, and src/core2/births-plan.test.ts gains a test that a job loss prompts a review on its day; renewalReviewDays is removed or kept only as a registered fallback.
+Folded in Oct 25 from people-renewal-renewalReviewDays-as-cause. Its done when: In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named), every renewal plan record (core2-renewal-v1 plans, id coupleId:plan:date) names the record whose change prompted its review, no plan is dated by a 91-day step alone, and tests/src/core2/births-plan.test.ts gains a test that a job loss prompts a review on its day; renewalReviewDays is removed or kept only as a registered fallback.
 
-Folded in Oct 25 from people-births-age-shape-by-place. Its done when: In a one-year run of the played world (buildBenchWorld, two drawn places from all 56 with different schedules, seeds named), each full couple's renewal plan record carries the age center and spread of its own place, src/core2/births-plan.test.ts shows the same couple's age term differs between the two places, and the town's mean age of mothers at birth is reported against its place's NCHS schedule.
+Folded in Oct 25 from people-births-age-shape-by-place. Its done when: In a one-year run of the played world (buildBenchWorld, two drawn places from all 56 with different schedules, seeds named), each full couple's renewal plan record carries the age center and spread of its own place, tests/src/core2/births-plan.test.ts shows the same couple's age term differs between the two places, and the town's mean age of mothers at birth is reported against its place's NCHS schedule.
 
 Deferred Oct 25: nothing on screen reads it yet.
 

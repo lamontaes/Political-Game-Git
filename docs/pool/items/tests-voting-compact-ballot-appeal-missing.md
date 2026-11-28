@@ -19,7 +19,7 @@ claimed-at: 2026-10-26T16:28:45.355Z
 
 **Done when.** The changed voting test passes on the named seed and a fresh place drawn from all56, naming place and seed. A played race verifies each cast ballot against actual available reasons or its compact decision record without assuming appeal exists, and assertions cannot pass over an empty set.
 
-**Files.** src/core2/voting.test.ts, src/core2/modules/voting.ts
+**Files.** tests/src/core2/voting.test.ts, src/core2/modules/voting.ts
 
 **Notes.** TODO
 

@@ -36,7 +36,7 @@ merged-at: 2026-11-11T18:59:55.068Z
 6. **What it writes back.** Nothing new: the time together is already written by `say` through `api.relationship(..., "contact", ...)`, and the next greeting reads it back through `lastContact`. Name that record id in the pull request.
 7. **Delete what this replaces, with every reference.** The 31 lines with no insert under `greet` and `farewell`, except the two the owner graded good (`conversation.greet-open-hello.good-to-see-you` and `conversation.farewell-leave-bye.take-care-of-yourself`), which become openers of the new sentences and keep their grade rows. A piece that also serves another subject loses only its `greet` or `farewell` use. Then `npm run words:grade`, and `npm run words:rules` twice.
 8. **Lower the guard's count** for `conversation` in tests/guards/english/line-inserts-baseline.json to what the test asks for.
-9. **Tests.** In src/director/conversation.test.ts, on drawn places: a second talk between the same two people opens with a line naming the last meeting; a talk about work closes with the employer named; at home, an evening goodbye never names the morning. Over 100 talks in one world, at least 30 different greetings and 30 different goodbyes are said. Run tests/guards/english and the bank tests yourself.
+9. **Tests.** In tests/src/director/conversation.test.ts, on drawn places: a second talk between the same two people opens with a line naming the last meeting; a talk about work closes with the employer named; at home, an evening goodbye never names the morning. Over 100 talks in one world, at least 30 different greetings and 30 different goodbyes are said. Run tests/guards/english and the bank tests yourself.
 
 **Time box.** 4 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -46,6 +46,6 @@ merged-at: 2026-11-11T18:59:55.068Z
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715). Until then, the builder builds the code steps and lists the lines it needs in its pull request.
 
-**Files.** src/director/conversation.ts, src/english/conversation-words.ts, src/english/english-composition.ts, src/english/day-words.ts, src/director/words.ts, src/director/conversation.test.ts, data/english/parts/conversation.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/conversation.ts, src/english/conversation-words.ts, src/english/english-composition.ts, src/english/day-words.ts, src/director/words.ts, tests/src/director/conversation.test.ts, data/english/parts/conversation.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. Counts are distinct bank parts with a `greet` or `farewell` use: 96 lines, 31 with no insert and not excused (greet 47 and 7; farewell 53 and 26; six parts serve both or another subject). Three today: "I've got to run.", "Have a nice day.", "Let me know if you need anything."

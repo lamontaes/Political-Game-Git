@@ -35,10 +35,10 @@ Seen: every drawn world on main seats the President from data/research/offices/f
 
 **Rules.** No dice: the century's winners come from the count of each state's lean, the candidates and the party's time in office, never a roll. Replace, never layer: the real record is read only under the "today" setting.
 
-**Done when.** A second session starts a new game at 1440x900 in a drawn place it writes down with its seed, opens dev mode's "How this world opened", and sees the President on day one named with the century's 2024 election and the century's list; starting a second drawn place shows the century there too, and src/core2/electorate-century.test.ts passes.
+**Done when.** A second session starts a new game at 1440x900 in a drawn place it writes down with its seed, opens dev mode's "How this world opened", and sees the President on day one named with the century's 2024 election and the century's list; starting a second drawn place shows the century there too, and tests/src/core2/electorate-century.test.ts passes.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/electorate-century.ts (new), src/core2/data/history/century.json (new), src/core2/electorate-inputs.ts, src/core2/modules/offices.ts, src/core2/modules/elections.ts, src/core2/past-elections.ts, src/core2/officials-president.ts, src/core2/world-settings.ts, src/bench/world.ts, src/bench/dev-views/opening.ts, src/core2/electorate-century.test.ts (new)
+**Files.** src/core2/electorate-century.ts (new), src/core2/data/history/century.json (new), src/core2/electorate-inputs.ts, src/core2/modules/offices.ts, src/core2/modules/elections.ts, src/core2/past-elections.ts, src/core2/officials-president.ts, src/core2/world-settings.ts, src/bench/world.ts, src/bench/dev-views/opening.ts, tests/src/core2/electorate-century.test.ts (new)
 
 **Notes.** Filed by the History lane, Nov 17, 2026. Congress, the states, the economy and the laws follow on the same century (#9747, "History: plan").

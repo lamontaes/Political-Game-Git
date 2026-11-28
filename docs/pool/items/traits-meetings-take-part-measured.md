@@ -19,7 +19,7 @@ claimed-at: 2026-10-27T04:07:53.589Z
 
 **Done when.** Over at least ten places drawn from all 56 with seeds the builder did not choose, each played over its election window, every place's net odds of taking part between the thirds of lean are listed in the PR body, and the places with 100 or more different residents weighed have a geometric mean within a factor of 1.5 of 2.97; the meetings trait test reads the same outcomes from its window, pooled over two drawn towns, within half to double the study's log odds; and the meetings.take-part gap row is removed.
 
-**Files.** src/core2/modules/meetings.ts, src/core2/modules/meetings.traits.test.ts, tests/support/trait-test-kit.ts, src/core2/data/parameters.json
+**Files.** src/core2/modules/meetings.ts, tests/src/core2/modules/meetings.traits.test.ts, tests/support/trait-test-kit.ts, src/core2/data/parameters.json
 
 **Notes.** Done-when revised Oct 27 by the laws-and-effects lead from 20 places drawn fresh on PR #6143's branch: no weight puts every single town within a factor of 1.5 of 2.97 (11 or more of the 20 miss it at any weight), because one town's own spread nearly fills the band, and the study's odds come from a national sample. The geometric mean over the 16 places with 100 or more residents weighed is 1.077 log odds at a weight of 0.26, against the study's 1.088. The town-to-town spread is `traits-meetings-take-part-spread-across-towns`.
 

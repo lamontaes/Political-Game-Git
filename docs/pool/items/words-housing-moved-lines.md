@@ -34,7 +34,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/housing.ts, src/director/data/journal-rows.json, data/english/parts/journal.json, data/english/parts/scene-words.json, src/director/journal.ts, src/director/scene.ts, src/director/journal.test.ts
+**Files.** src/core2/modules/housing.ts, src/director/data/journal-rows.json, data/english/parts/journal.json, data/english/parts/scene-words.json, src/director/journal.ts, src/director/scene.ts, tests/src/director/journal.test.ts
 
 **Notes.** Words and director line. Grade with the owner's bench once the pieces exist.
 

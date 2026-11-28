@@ -35,7 +35,7 @@
 import { DAYS_PER_YEAR } from "../household-income";
 import { dwellingTenure } from "../housing-reads";
 import { MOVED_AWAY_EVENT } from "../moved-away-event";
-import { officeholderIds } from "./offices";
+import { officeholderIds } from "../offices-reads";
 import { worldRateFactor } from "../world-base-rates";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import {
@@ -64,7 +64,7 @@ import { webReach } from "../outcome-web-reach";
 import { type Subject } from "../laws-in-force";
 import { registerModule } from "../state";
 import { isDemoted } from "../counted-groups";
-import { townPlaceOf } from "./residents";
+import { townPlaceOf } from "../residents-reads";
 import type { Parameter } from "../parameters";
 import type { EntityId } from "../kernel/brands";
 import type {

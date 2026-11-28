@@ -18,7 +18,7 @@ effort: medium
 source: "T54's test times for #9657, Nov 16 05:00Z; Account lead's ruling 05:06Z (a retry loop hiding something: the item asks for the cause and one attempt)"
 ---
 
-**What.** `src/core2/residents.test.ts` > "draws the shortfall on the payday, pays the workers in full and records no shortfall" (base seed c6f352a9555a2310ab0c23eaf3c7b037) took 370 s and 180 s alone and 59 s beside five other test files, on the same code (#9657, be1b38c0), against a limit of 3,600 s. Its seed is fixed, so the work should be the same each run. Guards: the residents engine's payday credit draw, which a player meets when a counted employer short of cash pays its workers.
+**What.** `tests/src/core2/residents.test.ts` > "draws the shortfall on the payday, pays the workers in full and records no shortfall" (base seed c6f352a9555a2310ab0c23eaf3c7b037) took 370 s and 180 s alone and 59 s beside five other test files, on the same code (#9657, be1b38c0), against a limit of 3,600 s. Its seed is fixed, so the work should be the same each run. Guards: the residents engine's payday credit draw, which a player meets when a counted employer short of cash pays its workers.
 
 **Cause.** Needs cause. Found so far: the test loops over up to six places drawn from `${seed}:${attempt}`, builds each, zeroes the cash of every firm that pays counted wages, runs a year day by day, and takes the first payday a credit line covered in full. How many attempts each run takes, and why the time differs threefold for one seed, is not known: a run that prints its attempts will say whether the place found changes between runs (something not fixed by the seed) or the same attempts run at different speeds.
 
@@ -32,4 +32,4 @@ source: "T54's test times for #9657, Nov 16 05:00Z; Account lead's ruling 05:06Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/residents.test.ts.
+**Files.** tests/src/core2/residents.test.ts.

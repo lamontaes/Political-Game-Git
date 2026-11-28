@@ -26,13 +26,13 @@ source: Voters' views thread, Nov 15 (the press endorsements build)
 
 **Time box.** 2 hours for one Sonnet session at medium effort. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** Wire to the world: the printed story reaches the paper's followers as every printed story does. No new stopgaps. Never loosen `src/core2/outlet-endorsement.test.ts`.
+**Rules.** Wire to the world: the printed story reaches the paper's followers as every printed story does. No new stopgaps. Never loosen `tests/src/core2/outlet-endorsement.test.ts`.
 
-**Done when.** A second session, on main, in a drawn place with a paper and a local race (place and seed named), plays to the week after its papers endorse and reads, in the News, each endorsing paper's own endorsement under its name. `src/core2/outlet-endorsement.test.ts` gains an assertion that each endorsement is in its own paper's stories, and that assertion fails before the fix.
+**Done when.** A second session, on main, in a drawn place with a paper and a local race (place and seed named), plays to the week after its papers endorse and reads, in the News, each endorsing paper's own endorsement under its name. `tests/src/core2/outlet-endorsement.test.ts` gains an assertion that each endorsement is in its own paper's stories, and that assertion fails before the fix.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/press-desk.ts, src/core2/outlet-endorsement.test.ts
+**Files.** src/core2/press-desk.ts, tests/src/core2/outlet-endorsement.test.ts
 
 **Notes.**
 

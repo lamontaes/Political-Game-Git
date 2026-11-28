@@ -19,7 +19,7 @@ claimed-at: 2026-10-20T02:04:40.027Z
 
 **Done when.** vote-level.test.ts passes on the failing seed and on random seeds, with the national outlets' printed federal story named by wire id.
 
-**Files.** src/core2/vote-level.test.ts
+**Files.** tests/src/core2/vote-level.test.ts
 
 **Notes.** A test fix, not a press change: a national desk prints its top few items a week, so an individual federal event losing out is normal. Fixed on claude/political-game-pool-yucp92-u.
 

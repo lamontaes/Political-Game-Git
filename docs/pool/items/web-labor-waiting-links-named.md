@@ -18,6 +18,6 @@ source: added with npm run pool -- add
 
 **Done when.** The regenerated unwired list assigns all twelve waiting labor links to their specific open labor stopgaps, each naming its link and real blocker. outcome-web-labor-waiting.test.ts passes all twelve cases plus two positive reader trip checks, outcome-web-unwired.test.ts passes, and every canonical stopgap ID is retained; the broader labor family stays open.
 
-**Files.** src/core2/outcome-web-labor-waiting.test.ts,src/core2/data/stopgaps.json,src/core2/data/outcome-web/unwired.json
+**Files.** tests/src/core2/outcome-web-labor-waiting.test.ts,src/core2/data/stopgaps.json,src/core2/data/outcome-web/unwired.json
 
 **Notes.** Bounded explanation and guard portion of PR #6004; web-reach-labor retains its uncompleted played-world reach acceptance.

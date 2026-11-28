@@ -1,6 +1,6 @@
 # News opens on the outlet with something unread, as played
 
-Words builder W3, Nov 13, 2026. Pool item `play-news-opens-on-the-outlet-with-unread-stories`. The check is `src/bench/printed-news.browser.mjs`: a new life in a drawn place, the calendar jumped to June 1, 2025, then News is opened. Pictures are at 1440x900. "Before" is main 96fb406aa7; "after" is this branch.
+Words builder W3, Nov 13, 2026. Pool item `play-news-opens-on-the-outlet-with-unread-stories`. The check is `tests/src/bench/printed-news.browser.mjs`: a new life in a drawn place, the calendar jumped to June 1, 2025, then News is opened. Pictures are at 1440x900. "Before" is main 96fb406aa7; "after" is this branch.
 
 | Place                             | Seed                              | Before: News opens on                                             | After: News opens on                                           | Check before / after               |
 | --------------------------------- | --------------------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------- |

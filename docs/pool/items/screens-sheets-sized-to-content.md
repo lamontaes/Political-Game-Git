@@ -27,7 +27,7 @@ claimed-at: 2026-10-27T20:22:09.526Z
 
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
-**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/sheets.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/play.css, tests/src/bench/sheets.browser.mjs
 
 **Notes.** Reading: OWNER-DECISIONS.md (Oct 27 afternoon screens rulings), DECISION-REGISTER.md, prior-rulings/, docs/play-first/LAW.md section 1; docs/ searched for the screen name. Principles: docs/design/screens/principles-2026-10-27.md.
 

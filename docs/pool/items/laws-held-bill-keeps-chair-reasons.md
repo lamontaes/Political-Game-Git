@@ -22,6 +22,6 @@ claimed-at: 2026-10-27T18:49:21.000Z
 
 **Time box.** 1 hour.
 
-**Files.** src/core2/modules/legislature.ts, src/core2/committee-chair-reasons.test.ts
+**Files.** src/core2/modules/legislature.ts, tests/src/core2/committee-chair-reasons.test.ts
 
 **Notes.** Unit B of #5968, ported to today's main by a helper of the laws-and-effects lead. Its reader is laws-hold-record-names-the-sponsor (the sponsor-asks-chair scene and the held-bill press line).

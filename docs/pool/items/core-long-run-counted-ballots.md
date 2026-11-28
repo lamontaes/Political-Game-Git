@@ -19,6 +19,6 @@ claimed-at: 2026-11-09T19:02:18.538Z
 
 **Done when.** In play a race's counted-ballot row past the window is gone when the next race's are kept and a recent race's stays; a test shows both; speed:year --seed mont1 --place 5046000 --years 2 records proof against the same main differs only in core2-voting-v1.countedBallots.
 
-**Files.** src/core2/modules/voting.ts, src/core2/data/parameters.json, src/core2/counted-ballot-retention.test.ts
+**Files.** src/core2/modules/voting.ts, src/core2/data/parameters.json, tests/src/core2/counted-ballot-retention.test.ts
 
 **Notes.** TODO

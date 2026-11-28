@@ -34,6 +34,6 @@ merged-at: 2026-11-13T08:34:42.436Z
 
 **Waits on.** Nothing.
 
-**Files.** src/english/day-words.ts, data/english/day-words.json, src/english/day-words.test.ts, src/director/scene-date-in-another-year.test.ts
+**Files.** src/english/day-words.ts, data/english/day-words.json, tests/src/english/day-words.test.ts, tests/src/director/scene-date-in-another-year.test.ts
 
 **Notes.** Built by the Life records builder (opus-lr), Nov 13.

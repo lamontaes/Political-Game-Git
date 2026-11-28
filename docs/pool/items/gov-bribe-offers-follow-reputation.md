@@ -17,8 +17,8 @@ claimed-at: 2026-10-20T11:54:48.207Z
 
 **Rules.** No dice: the offer follows what the lobbyist learned (a knowledge record with its source), never a percentage. Knowing is a read: cite how the lobbyist learned of the act. One rule, all 56 places. An effect is a read: the offer decision reads the knowledge record. Speed: act on the meeting day, no daily scan.
 
-**Done when.** In a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, an official whose taken bribe a lobbyist learned of (record id and how) draws an offer from that lobbyist whose decision values (kept on the meeting row, see gov-a-background-year-with-a-full-chain) include the reputation term, and an official the lobbyist heard nothing about shows the term as zero; a test in src/core2/interest-groups.test.ts reads both.
+**Done when.** In a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, an official whose taken bribe a lobbyist learned of (record id and how) draws an offer from that lobbyist whose decision values (kept on the meeting row, see gov-a-background-year-with-a-full-chain) include the reputation term, and an official the lobbyist heard nothing about shows the term as zero; a test in tests/src/core2/interest-groups.test.ts reads both.
 
-**Files.** src/core2/modules/corruption.ts,src/core2/modules/interest-groups.ts,src/core2/interest-groups.test.ts
+**Files.** src/core2/modules/corruption.ts,src/core2/modules/interest-groups.ts,tests/src/core2/interest-groups.test.ts
 
 **Notes.** TODO

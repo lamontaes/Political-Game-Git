@@ -2444,7 +2444,12 @@ function reviewRegionalFinds(api: CoreAPI): void {
         : undefined;
       const pull =
         (seeker.regionalPull ?? p("zero")) +
-        findPerQuarter(api, at.meanOverNow, lean, age) * month;
+        findPerQuarter(api, at.meanOverNow, lean, age) *
+          month *
+          // A household a few days from the rent searches up to twice as hard as one with a year of money behind it (its need as a share of the most need can be): the same need the apply and look choices read, so spells differ by person (a long tail and a quick find) instead of every search ending the same month.
+          (p("one") +
+            Math.max(p("zero"), unemployedNeed(api, seeker.personId)) /
+              p("jobsUnemployedNeedWeight"));
       if (pull >= p("one")) {
         // Progress at one: an opening near them is theirs to win in the weekly matching; with none, the job is a regional one.
         // A month of weekly matching is theirs; if it did not hire them, the job is a regional one.
@@ -2452,7 +2457,13 @@ function reviewRegionalFinds(api: CoreAPI): void {
           store(api)
             .table(table)
             .put({ ...seeker, regionalPull: pull, localTried: true } as never);
-        else found.push(seeker);
+        else {
+          // The pull built so far is theirs even if no regional job takes them this month.
+          store(api)
+            .table(table)
+            .put({ ...seeker, regionalPull: pull } as never);
+          found.push(seeker);
+        }
       } else
         store(api)
           .table(table)

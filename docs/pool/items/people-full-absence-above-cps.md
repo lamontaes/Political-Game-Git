@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: absence follows the worker's own health, household and job; real rates check totals only. One rule, all 56 places.
 
-**Done when.** A second session builds a measure comparable to CPS (full-time wage-and-salary workers, main jobs, fewer than 35 hours for included reasons, vacation and holidays excluded), reports full-people absence on it in a drawn place of buildBenchWorld (place and seed named) beside the CPS figures in src/core2/residents-turnover-bands.test.ts, and names each reason driving the misses by record id.
+**Done when.** A second session builds a measure comparable to CPS (full-time wage-and-salary workers, main jobs, fewer than 35 hours for included reasons, vacation and holidays excluded), reports full-people absence on it in a drawn place of buildBenchWorld (place and seed named) beside the CPS figures in tests/src/core2/residents-turnover-bands.test.ts, and names each reason driving the misses by record id.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/work-attendance.ts, src/core2/residents-turnover-bands.test.ts
+**Files.** src/core2/work-attendance.ts, tests/src/core2/residents-turnover-bands.test.ts
 
 **Notes.** TODO
 

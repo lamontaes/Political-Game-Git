@@ -24,7 +24,7 @@ import { isRealOfficeholderName } from "./officials-names";
 import { giveLivingCost } from "./official-living";
 import { payPostFromOutside } from "./modules/official-pay";
 import { fillInIdentity, fillInPerson } from "./state";
-import { countedResidents } from "./modules/campaigns";
+import { countedResidents } from "./electorate";
 import { startPublicJob } from "./public-payroll";
 import { outsideAccountOf } from "./budgets-treasury";
 import staffJson from "./data/press/staff.json" with { type: "json" };

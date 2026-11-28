@@ -20,7 +20,7 @@ claimed-at: 2026-10-27T19:23:18.946Z
 
 **Done when.** In a drawn place built with buildBenchWorld where a relative of the player holds office and introduces or votes on a bill, the player's journal never says I introduced or I voted for that bill. Their act is told as theirs or not told. A test in src/director names the place, the seed and the record id.
 
-**Files.** src/director/journal.ts, src/director/journal.test.ts
+**Files.** src/director/journal.ts, tests/src/director/journal.test.ts
 
 **Notes.** Found while building play-stop-22-election-win-never-shown-b (PR #6147); the after journal screenshot in that PR shows it.
 

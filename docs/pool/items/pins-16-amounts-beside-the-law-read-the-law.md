@@ -28,7 +28,7 @@ root: none
 
 **Rules.** Everything comes from the simulation: no amount is set from a real figure after day one. An effect is a read: the engine that pays reads the law row the body enacted.
 
-**Done when.** A second session, in a drawn place, Town, State (seed printed), enacts a state legislators' pay act in dev mode and reads the next payday's paycheck at the enacted salary; and `src/core2/official-salary-law.test.ts`, `src/core2/teacher-floor-amount-law.test.ts` and `src/core2/amounts-read-the-law.test.ts` pass in that drawn place.
+**Done when.** A second session, in a drawn place, Town, State (seed printed), enacts a state legislators' pay act in dev mode and reads the next payday's paycheck at the enacted salary; and `tests/src/core2/official-salary-law.test.ts`, `tests/src/core2/teacher-floor-amount-law.test.ts` and `tests/src/core2/amounts-read-the-law.test.ts` pass in that drawn place.
 
 **Waits on.** Nothing.
 

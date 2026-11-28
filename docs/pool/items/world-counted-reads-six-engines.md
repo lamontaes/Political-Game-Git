@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** `grep -n "residentPerson(\|peopleOf(" ` over jobs.ts, jobs-benefits.ts, employer-taxes.ts, credit.ts, business.ts and candidacy.ts finds nothing, and a one-year buildBenchWorld run in a drawn place gives the same jobs, employer taxes, loans and cash journal totals as main on the same seed, with the place and seed named in the PR body.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/jobs-benefits.ts, src/core2/modules/employer-taxes.ts, src/core2/modules/credit.ts, src/core2/modules/business.ts, src/core2/modules/candidacy.ts, src/core2/counted-groups.ts, src/core2/modules/residents.ts, src/core2/counted-facts-year.test.ts
+**Files.** src/core2/modules/jobs.ts, src/core2/jobs-benefits.ts, src/core2/modules/employer-taxes.ts, src/core2/modules/credit.ts, src/core2/modules/business.ts, src/core2/modules/candidacy.ts, src/core2/counted-groups.ts, src/core2/modules/residents.ts, tests/src/core2/counted-facts-year.test.ts
 
 **Notes.** Built on PR #5080, branch claude/political-game-pool-8defjq.
 

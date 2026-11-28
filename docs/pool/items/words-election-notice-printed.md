@@ -25,17 +25,17 @@ branch: claude/pool-words-election-notice-printed
 
 **Cause.** Found in code: data/english/parts/notice.json holds notice.election.notice-of-election and src/director/data/stopgaps.json (line 652) holds SG-WORDS-notice-no-reader; nothing prints it, since src/bench/printed-words.ts has no election notice.
 
-**Fix.** Three pieces, in this order. (1) A public notice record: write one from each contest some days before election day (its place, date, office titles and the filing place the records give) in src/core2/modules/elections.ts, where `candidate-filed` is written today (about line 1268), so the press wire has something to print; the number of days is a tagged parameter. (2) A builder `election-notice` in `BUILDERS` in src/bench/printed-words.ts (about line 3300; compare `filing` at line 1501), filling `place`, `date` and `office` from that record. (3) Reach the bank piece `notice.election.notice-of-election` from the builder: read how `story()` and the printed bank loader find a piece first, and route through them, never a second loader. Then add the test beside src/bench/printed-words.test.ts (a one-year run in a drawn place; the notice appears before an election day, by contest record id) and delete SG-WORDS-notice-no-reader and its row. One notice names every office on that day's ballot.
+**Fix.** Three pieces, in this order. (1) A public notice record: write one from each contest some days before election day (its place, date, office titles and the filing place the records give) in src/core2/modules/elections.ts, where `candidate-filed` is written today (about line 1268), so the press wire has something to print; the number of days is a tagged parameter. (2) A builder `election-notice` in `BUILDERS` in src/bench/printed-words.ts (about line 3300; compare `filing` at line 1501), filling `place`, `date` and `office` from that record. (3) Reach the bank piece `notice.election.notice-of-election` from the builder: read how `story()` and the printed bank loader find a piece first, and route through them, never a second loader. Then add the test beside tests/src/bench/printed-words.test.ts (a one-year run in a drawn place; the notice appears before an election day, by contest record id) and delete SG-WORDS-notice-no-reader and its row. One notice names every office on that day's ballot.
 
 **Time box.** 5 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Wire to the world: the place, the date and the offices are read from the election's contest records, never typed. One rule, all 56 places: the notice names the filing place the records give. No hand-written player text: the notice is the bank piece notice.election.notice-of-election.
 
-**Done when.** A second session plays a one-year run of buildBenchWorld in a drawn place from all 56 (place and seed named) and sees the paper before an election day carry the notice of election naming that election's date and offices by contest record id; a test beside src/bench/printed-words.test.ts proves it, and SG-WORDS-notice-no-reader is deleted.
+**Done when.** A second session plays a one-year run of buildBenchWorld in a drawn place from all 56 (place and seed named) and sees the paper before an election day carry the notice of election naming that election's date and offices by contest record id; a test beside tests/src/bench/printed-words.test.ts proves it, and SG-WORDS-notice-no-reader is deleted.
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/notice.json, src/bench/printed-words.ts, src/bench/printed-words.test.ts, src/director/filing-visit.ts, src/director/data/stopgaps.json
+**Files.** data/english/parts/notice.json, src/bench/printed-words.ts, tests/src/bench/printed-words.test.ts, src/director/filing-visit.ts, src/director/data/stopgaps.json
 
 **Notes.** Added Nov 8 by the Story session with the restore of the owner's liked lines (`scripts/dialogue-batch/liked-lines-kept.test.ts`). The graded keys stay in a bank until a scene reads them.
 

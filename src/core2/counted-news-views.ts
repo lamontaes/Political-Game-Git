@@ -1,7 +1,7 @@
 /** Actual policy-story delivery uses the views engine on weighted adults. */
 import { ageOnDate, dateAtAge, makeIsoDate } from "./kernel/dates";
 import { registerDerivedCache } from "./snapshot";
-import { residentsRuntime } from "./modules/residents";
+import { residentsRuntime } from "./residents-reads";
 import {
   countedEngagement,
   countedGroupViewOn,

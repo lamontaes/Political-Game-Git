@@ -18,6 +18,6 @@ source: added with npm run pool -- add
 
 **Done when.** Two ordinary drawn bench games have different address lengths and section order, each cites at least three macro facts besides unemployment, and the new generated-world test rejects duplicate sequences. Inspect native screenshots at1440x900 and1024x768; name place, seed and macro record IDs.
 
-**Files.** src/director/opening-story.ts, src/director/opening-address.test.ts, src/english/english-opening-speech.ts, data/english/parts/opening-speech.json
+**Files.** src/director/opening-story.ts, tests/src/director/opening-address.test.ts, src/english/english-opening-speech.ts, data/english/parts/opening-speech.json
 
 **Notes.** PR6103 bounded implementation. Merger3 own Sa ilele American Samoa seedbe36e975-96e3-44f3-b712-df15c5927a29:12lines numbersfirst; Los Heroes Puerto Rico seede2e7428f-99d6-49f0-b875-590326606fb6:11lines occasionfirst. Both cite macro-month:2024-12 and macro-month:2023-12. Original installed-build item remains open.

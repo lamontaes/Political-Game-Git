@@ -36,10 +36,10 @@ Seen: every drawn world on main seats state legislators from legislature-party-c
 
 **Rules.** No dice: each seat goes to the side the one count gives it from the district's lean, the candidates and the year's tide, never a roll. Replace, never layer: the real roster is read only under the "today" setting.
 
-**Done when.** A second session starts a new game at 1440x900 in a drawn place it writes down with its seed, opens dev mode's "How this world opened" and sees the state legislature on day one by party from the century; the town's legislators hold the century's seats, and src/core2/electorate-century-legislatures.test.ts passes at three drawn worlds.
+**Done when.** A second session starts a new game at 1440x900 in a drawn place it writes down with its seed, opens dev mode's "How this world opened" and sees the state legislature on day one by party from the century; the town's legislators hold the century's seats, and tests/src/core2/electorate-century-legislatures.test.ts passes at three drawn worlds.
 
 **Waits on.** history-states-executives-from-the-century (#9838), which this branch is stacked on.
 
-**Files.** src/core2/electorate-century.ts, src/core2/electorate.ts, src/core2/electorate-places.ts, src/core2/electorate-inputs.ts, src/core2/modules/elections.ts, src/core2/data/history/century.json, src/core2/data/stopgaps/hist.json, src/bench/world.ts, src/bench/dev-views/opening.ts, src/bench/dev-views/opening-sources.json, src/core2/electorate-century-legislatures.test.ts (new)
+**Files.** src/core2/electorate-century.ts, src/core2/electorate.ts, src/core2/electorate-places.ts, src/core2/electorate-inputs.ts, src/core2/modules/elections.ts, src/core2/data/history/century.json, src/core2/data/stopgaps/hist.json, src/bench/world.ts, src/bench/dev-views/opening.ts, src/bench/dev-views/opening-sources.json, tests/src/core2/electorate-century-legislatures.test.ts (new)
 
 **Notes.** Filed by the History lane, Nov 17, 2026. Territories whose legislatures have no party record keep play's handling (SG-GOV-territory-legislature-race, SG-HIST-century-parties) until the parties unit (family 9).

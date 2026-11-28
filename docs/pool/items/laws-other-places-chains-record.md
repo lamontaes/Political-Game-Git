@@ -16,9 +16,9 @@ source: split from laws-other-places-chains by pool feeder Oct 20
 
 **Rules.** Replace, never layer: the static `residenceLaw` map and its `try` and `catch` fallback are deleted when the recorded read lands. An effect is a read: withholding reads the recorded rows for the worker's residence at the moment a paycheck is cut. One rule, all 56 places: chains come from place data, with no place or state named in logic. Estimate, never UNKNOWN: a residence the place lookup cannot resolve gets federal law and a marked estimate, as today. Speed: chains open on first use, never by scanning every place each day.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), a worker who lives in another state has a recorded chain row and recorded starting law rows, their withholding on a named payday equals the recorded rows' income-tax answer, and the journal balances; a test in src/core2/tax-withholding.test.ts names the chain row, the law row and the payroll record by id.
+**Done when.** In a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), a worker who lives in another state has a recorded chain row and recorded starting law rows, their withholding on a named payday equals the recorded rows' income-tax answer, and the journal balances; a test in tests/src/core2/tax-withholding.test.ts names the chain row, the law row and the payroll record by id.
 
-**Files.** src/core2/modules/laws.ts, src/core2/modules/budgets.ts, src/core2/tax-withholding.test.ts
+**Files.** src/core2/modules/laws.ts, src/core2/modules/budgets.ts, tests/src/core2/tax-withholding.test.ts
 
 **Notes.** Part 1 of 2 of laws-other-places-chains.
 

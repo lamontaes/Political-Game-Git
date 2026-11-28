@@ -60,7 +60,7 @@ import {
 import { monthEvent } from "./press";
 import { closedNewspapers } from "./press";
 import severityData from "../data/disasters/severity.json" with { type: "json" };
-import { ELECTIONS_MODULE_ID } from "./elections";
+import { ELECTIONS_MODULE_ID } from "../elections-reads";
 import { VOTING_MODULE_ID } from "../voting-module-id";
 
 /** The disasters engine's news event for a disaster, which carries its severity (src/core2/modules/disasters.ts). */

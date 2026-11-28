@@ -32,6 +32,6 @@ root: none
 
 **Waits on.** Build voters' views from their lives (how a voter's view is computed).
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-stances.ts, src/core2/campaign-platform-rotation.test.ts
+**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-stances.ts, tests/src/core2/campaign-platform-rotation.test.ts
 
 **Notes.** Follows PR #9155 (nextTopic over platformShares), which spreads a campaign's acts over its platform by score share alone.

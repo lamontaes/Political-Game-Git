@@ -44,7 +44,7 @@ import {
 import { pairKey } from "./kernel/ids";
 import { housingWorldOffset } from "./housing-prices";
 import { parameter } from "./parameters";
-import { endResidentFlow } from "./residents-economy";
+import { endResidentFlow } from "./resident-flows";
 import { HOUSING_STATUS_EVENT } from "./housing-status-event";
 import type { ModuleRow } from "./module-data";
 import { webFactorFor } from "./outcome-web-reach";

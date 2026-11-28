@@ -6,8 +6,6 @@
  * governments, so each sees the results of the ones before it. Nothing here
  * runs during play.
  */
-import { bookkeeping } from "./bookkeeping";
-import { isOwnPastKind } from "./own-past-kinds";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { coreAPI } from "./state";
 import type {
@@ -15,12 +13,36 @@ import type {
   CoreModule,
   CoreState,
   IsoDate,
-  PersonId,
   PersonState,
   PlaceId,
-  Source,
 } from "./types";
 import { registerWorldMapPart } from "./snapshot";
+import {
+  checkedRow,
+  histories,
+  historyOrder,
+  indexes,
+  preStartHistory,
+  readIndexes,
+  wholePasts,
+  windows,
+} from "./pre-start-history";
+import { type HistoryRecord } from "./pre-start-history";
+export { type HistoryRecord } from "./pre-start-history";
+export {
+  coarseSteps,
+  grainDate,
+  ownWindowOf,
+  pastForLater,
+  pastIdsOf,
+  pastRowsNaming,
+  pastRowsOf,
+  preStartHistory,
+  preStartWindowOf,
+  recordPreStartLater,
+  wholePastOnce,
+  wholePastOpened,
+} from "./pre-start-history";
 
 export const PRE_START_PHASES = ["economy", "people", "government"] as const;
 export type PreStartPhase = (typeof PRE_START_PHASES)[number];
@@ -32,22 +54,6 @@ export interface PreStartWindow {
   through: IsoDate;
   /** "year" is a person's own past before the world's window (src/core2/pre-start.ts `ownWindowOf`). */
   step: "month" | "quarter" | "year";
-}
-
-/** One dated record of something that happened before the start. */
-export interface HistoryRecord {
-  id: string;
-  date: IsoDate;
-  /** e.g. economy.conditions, person.job-start, budget.adopted */
-  kind: string;
-  placeId?: PlaceId;
-  personIds?: readonly PersonId[];
-  facts: Readonly<Record<string, string | number>>;
-  /** Public records can be read by anyone (news, "in force since"). */
-  publicRecord: boolean;
-  source: Source;
-  /** The module that wrote it. */
-  moduleId: string;
 }
 
 export interface HistoryWriter {
@@ -68,24 +74,6 @@ export interface PreStartModule extends CoreModule {
   preStart?: PreStartPass;
 }
 
-/** The first day of each month (or quarter, or year) in the window. */
-export function coarseSteps(window: PreStartWindow): IsoDate[] {
-  const months =
-    window.step === "year" ? 12 : window.step === "quarter" ? 3 : 1;
-  const first = new Date(`${window.from}T00:00:00.000Z`);
-  first.setUTCDate(1);
-  const steps: IsoDate[] = [];
-  for (
-    const at = first;
-    at.toISOString().slice(0, 10) <= window.through;
-    at.setUTCMonth(at.getUTCMonth() + months)
-  ) {
-    const date = makeIsoDate(at.toISOString().slice(0, 10));
-    steps.push(date < window.from ? makeIsoDate(window.from) : date);
-  }
-  return steps;
-}
-
 /** The coarse run from `from` through the day before the core's start date. */
 export function preStartWindow(
   core: CoreState,
@@ -101,373 +89,12 @@ export function preStartWindow(
 }
 
 const ran = new WeakSet<CoreState>();
-const histories = new WeakMap<CoreState, HistoryRecord[]>();
+
 registerWorldMapPart("core2-pre-start-histories", histories);
-const windows = new WeakMap<CoreState, PreStartWindow>();
+
 registerWorldMapPart("core2-pre-start-windows", windows);
 
-/** The window the world's pre-start run covered, if it had one. */
-export function preStartWindowOf(core: CoreState): PreStartWindow | undefined {
-  return windows.get(core);
-}
-
-/** The history's order: by date, then by id (ids are unique). */
-function historyOrder(a: HistoryRecord, b: HistoryRecord): number {
-  return a.date.localeCompare(b.date) || a.id.localeCompare(b.id);
-}
-
-/**
- * Kept beside a sorted history and never saved: its ids, and each person's
- * rows in history order, so someone filled in after the run costs time that
- * grows with their own rows, not with everyone filled in before them. A
- * history without one (fresh from the run, restored from a save, or left
- * unsorted by a refused row) is written the old way once, which sorts it.
- */
-interface HistoryIndex {
-  ids: Set<string>;
-  byPerson: Map<PersonId, HistoryRecord[]>;
-}
-const indexes = new WeakMap<readonly HistoryRecord[], HistoryIndex>();
-
-/** The people a row names, each once. */
-function namedIn(row: HistoryRecord): readonly PersonId[] {
-  const ids = row.personIds ?? [];
-  return ids.length < 2 ? ids : [...new Set(ids)];
-}
-
-function indexOf(
-  history: readonly HistoryRecord[],
-  ids: Set<string>,
-): HistoryIndex {
-  const byPerson = new Map<PersonId, HistoryRecord[]>();
-  for (const row of history)
-    for (const id of namedIn(row)) {
-      const rows = byPerson.get(id);
-      if (rows) rows.push(row);
-      else byPerson.set(id, [row]);
-    }
-  return { ids, byPerson };
-}
-
-/** Where a stable sort would put `row` after the rows of a sorted list. */
-function placeAfter(
-  list: readonly HistoryRecord[],
-  row: HistoryRecord,
-): number {
-  let low = 0;
-  let high = list.length;
-  while (low < high) {
-    const mid = (low + high) >>> 1;
-    if (historyOrder(list[mid]!, row) <= 0) low = mid + 1;
-    else high = mid;
-  }
-  return low;
-}
-
-/** One row checked as every writer of the history checks it, and the copy kept. */
-function checkedRow(
-  core: CoreState,
-  window: PreStartWindow,
-  ids: Set<string>,
-  row: Omit<HistoryRecord, "moduleId">,
-  moduleId: string,
-): HistoryRecord {
-  const date = makeIsoDate(row.date);
-  if (date < window.from || date > window.through)
-    throw new Error(
-      `History must be dated inside the pre-start run: ${row.id} on ${date}`,
-    );
-  if (!row.id.trim() || ids.has(row.id))
-    throw new Error(`History record id missing or reused: ${row.id}`);
-  for (const id of row.personIds ?? [])
-    if (!core.people.has(id))
-      throw new Error(`History names an absent person: ${id}`);
-  ids.add(row.id);
-  return { ...row, date, moduleId };
-}
-
-/** The old write: each row checked and appended, then the whole history sorted. */
-function appendAndSort(
-  core: CoreState,
-  window: PreStartWindow,
-  history: HistoryRecord[],
-  moduleId: string,
-  rows: readonly Omit<HistoryRecord, "moduleId">[],
-): Set<string> {
-  const ids = new Set(history.map((row) => row.id));
-  for (const row of rows)
-    history.push(checkedRow(core, window, ids, row, moduleId));
-  history.sort(historyOrder);
-  return ids;
-}
-
-/**
- * The same write into an indexed history: every row is checked first, then
- * each goes where the old sort would put it, the history's rows moving once.
- * A refused row leaves the history as the old write did, the rows before it
- * appended unsorted, and drops the index.
- */
-function insertInOrder(
-  core: CoreState,
-  window: PreStartWindow,
-  history: HistoryRecord[],
-  index: HistoryIndex,
-  moduleId: string,
-  rows: readonly Omit<HistoryRecord, "moduleId">[],
-): void {
-  const added: HistoryRecord[] = [];
-  try {
-    for (const row of rows)
-      added.push(checkedRow(core, window, index.ids, row, moduleId));
-  } catch (error) {
-    for (const row of added) history.push(row);
-    indexes.delete(history);
-    throw error;
-  }
-  // Equal rows keep their write order, after the history's own, as in a
-  // stable sort of the history with the new rows appended.
-  added.sort(historyOrder);
-  const at = added.map((row) => placeAfter(history, row));
-  let from = history.length - 1;
-  for (const row of added) history.push(row);
-  let to = history.length - 1;
-  // From the end: each row of the history moves down by the new rows that
-  // go before it, and each new row lands at its place plus those before it.
-  for (let i = added.length - 1; i >= 0; i--) {
-    while (to > at[i]! + i) history[to--] = history[from--]!;
-    history[to--] = added[i]!;
-  }
-  for (const row of added)
-    for (const id of namedIn(row)) {
-      const own = index.byPerson.get(id);
-      if (own) own.splice(placeAfter(own, row), 0, row);
-      else index.byPerson.set(id, [row]);
-    }
-}
-
-/** Bookkeeping's check: the old write, run on a copy, ends the same way. */
-function sameAsOldWrite(
-  core: CoreState,
-  window: PreStartWindow,
-  before: HistoryRecord[],
-  history: readonly HistoryRecord[],
-  moduleId: string,
-  rows: readonly Omit<HistoryRecord, "moduleId">[],
-  refused: { error: unknown } | undefined,
-): void {
-  let old: { error: unknown } | undefined;
-  try {
-    appendAndSort(core, window, before, moduleId, rows);
-  } catch (error) {
-    old = { error };
-  }
-  const message = (thrown: { error: unknown } | undefined) =>
-    thrown &&
-    (thrown.error instanceof Error ? thrown.error.message : thrown.error);
-  if (!!old !== !!refused || message(old) !== message(refused))
-    throw new Error(
-      `The pre-start history's write ended unlike the old write: ${String(message(refused))} against ${String(message(old))}`,
-    );
-  const same = (a: HistoryRecord, b: HistoryRecord | undefined) =>
-    a === b ||
-    (!!b &&
-      Object.keys(a).length === Object.keys(b).length &&
-      Object.entries(a).every(
-        ([key, value]) => b[key as keyof HistoryRecord] === value,
-      ));
-  if (
-    before.length !== history.length ||
-    before.some((row, i) => !same(row, history[i]))
-  )
-    throw new Error(
-      "The pre-start history's rows differ from the old write's sort.",
-    );
-  // The run's own writer does not see ids written for people filled in
-  // during it, so the history may name an id twice: compare the sets.
-  const index = indexes.get(history);
-  if (
-    index &&
-    (index.ids.size !== new Set(history.map((row) => row.id)).size ||
-      history.some((row) => !index.ids.has(row.id)))
-  )
-    throw new Error("The pre-start history's ids differ from its rows.");
-}
-
-/** A person's birthday in the year of `date`: the day a year-grain record before the world's window is told on. */
-export function grainDate(
-  person: Readonly<PersonState>,
-  date: string,
-  worldFrom: IsoDate,
-): IsoDate {
-  const day = person.birthDate.slice(5);
-  const told = makeIsoDate(
-    `${date.slice(0, 4)}-${day === "02-29" ? "03-01" : day}`,
-  );
-  return told < worldFrom ? told : addDays(makeIsoDate(worldFrom), -1);
-}
-
-/**
- * A person's own window (the owner's ruling, Nov 9, 2026: each person's past
- * covers their whole life, coarse, written only when they are opened or
- * met): from the day they were born through the day before the world's
- * opening. The part before the world's window is told a year at a step; the
- * part inside it keeps the world's step.
- */
-export function ownWindowOf(
-  core: CoreState,
-  person: Readonly<PersonState>,
-): PreStartWindow | undefined {
-  const world = windows.get(core);
-  if (!world) return undefined;
-  const born = makeIsoDate(person.birthDate);
-  return born < world.from
-    ? { from: born, through: world.through, step: "year" }
-    : world;
-}
-
-/** Whose whole past is written, by pass: a person's name is marked the first time a pass runs for them, and never again. */
-const wholePasts = new WeakMap<CoreState, Record<string, string[]>>();
 registerWorldMapPart("core2-whole-pasts", wholePasts);
-
-/** True the first time `pass` runs for a person in this world, false after (the pass is then already written). */
-export function wholePastOnce(
-  core: CoreState,
-  personId: PersonId,
-  pass: string,
-): boolean {
-  let marks = wholePasts.get(core);
-  if (!marks) wholePasts.set(core, (marks = {}));
-  const done = (marks[personId] ??= []);
-  if (done.includes(pass)) return false;
-  done.push(pass);
-  return true;
-}
-
-/** Whether a person's whole past has been written (every pass has run for them). */
-export function wholePastOpened(
-  core: Readonly<CoreState>,
-  personId: PersonId,
-  passes: readonly string[],
-): boolean {
-  const done = wholePasts.get(core as CoreState)?.[personId] ?? [];
-  return passes.every((pass) => done.includes(pass));
-}
-
-/** Rows taken out of the history (a person's own, restated by their whole past). */
-function removeRows(history: HistoryRecord[], gone: ReadonlySet<string>): void {
-  const index = indexes.get(history);
-  const taken = history.filter((row) => gone.has(row.id));
-  if (!taken.length) return;
-  const kept = history.filter((row) => !gone.has(row.id));
-  history.length = 0;
-  for (const row of kept) history.push(row);
-  if (!index) return;
-  for (const row of taken) {
-    index.ids.delete(row.id);
-    for (const id of namedIn(row)) {
-      const own = index.byPerson.get(id);
-      if (own)
-        index.byPerson.set(
-          id,
-          own.filter((held) => held !== row),
-        );
-    }
-  }
-}
-
-/**
- * The past of someone filled in from the counts after the run: their own
- * records, dated inside the same window, written by the module that would
- * have written them had they been full on day one. With `person`, the rows
- * are that person's own past and may reach back to their birth (only the
- * kinds `ownPastKind` names), and `drop` takes out records of theirs these
- * restate.
- */
-export function recordPreStartLater(
-  core: CoreState,
-  moduleId: string,
-  rows: readonly Omit<HistoryRecord, "moduleId">[],
-  own?: { person: PersonId; drop?: readonly string[] },
-): void {
-  const world = windows.get(core);
-  const history = histories.get(core);
-  if (!world || !history) return;
-  readIndexes.delete(history);
-  let window = world;
-  if (own) {
-    const born = core.people.get(own.person)?.birthDate;
-    if (!born)
-      throw new Error(`An own past for an absent person: ${own.person}`);
-    for (const row of rows)
-      if (row.date < world.from && !isOwnPastKind(row.kind))
-        throw new Error(
-          `${row.id} is not a person's own past and cannot be dated before the window: ${row.date}`,
-        );
-    window = {
-      ...world,
-      from: makeIsoDate(born) < world.from ? makeIsoDate(born) : world.from,
-    };
-    if (own.drop?.length) removeRows(history, new Set(own.drop));
-  }
-  if (!rows.length) return;
-  const index = indexes.get(history);
-  if (!index) {
-    const ids = appendAndSort(core, window, history, moduleId, rows);
-    indexes.set(history, indexOf(history, ids));
-    return;
-  }
-  if (!bookkeeping()) {
-    insertInOrder(core, window, history, index, moduleId, rows);
-    return;
-  }
-  // Bookkeeping runs the old write beside it, on a copy.
-  const before = [...history];
-  let refused: { error: unknown } | undefined;
-  try {
-    insertInOrder(core, window, history, index, moduleId, rows);
-  } catch (error) {
-    refused = { error };
-  }
-  sameAsOldWrite(core, window, before, history, moduleId, rows, refused);
-  if (refused) throw refused.error;
-}
-
-/** Every installed engine's pre-start history for people filled in after the run (a named person met in play). */
-export function pastForLater(
-  core: CoreState,
-  people: readonly PersonState[],
-): void {
-  if (!windows.has(core) || !people.length) return;
-  for (const module of core.modules.values())
-    (module as PreStartModule).preStart?.later?.(core, people);
-}
-
-/** What happened before the start, oldest first. */
-export function preStartHistory(
-  core: CoreState,
-  filter: { kind?: string; placeId?: PlaceId; personId?: PersonId } = {},
-): readonly HistoryRecord[] {
-  const history = histories.get(core) ?? [];
-  const kept = (row: HistoryRecord) =>
-    (!filter.kind || row.kind === filter.kind) &&
-    (!filter.placeId || row.placeId === filter.placeId) &&
-    (!filter.personId || row.personIds?.includes(filter.personId));
-  const index = filter.personId ? indexes.get(history) : undefined;
-  if (!index) return history.filter(kept);
-  const rows = (index.byPerson.get(filter.personId!) ?? []).filter(kept);
-  // Bookkeeping reads the whole history beside the person's rows.
-  if (bookkeeping()) {
-    const scanned = history.filter(kept);
-    if (
-      scanned.length !== rows.length ||
-      scanned.some((row, i) => row !== rows[i])
-    )
-      throw new Error(
-        `The pre-start history's rows for ${filter.personId} differ from a scan.`,
-      );
-  }
-  return rows;
-}
 
 /**
  * Run every installed module's pre-start pass, in phase order (modules in
@@ -505,62 +132,4 @@ export function runPreStart(core: CoreState, window: PreStartWindow): string[] {
   indexes.delete(rows);
   readIndexes.delete(rows);
   return order;
-}
-
-/**
- * The history's rows by id and by what their facts name, for the one
- * history reader (src/core2/past-history.ts): built the first time a reader
- * asks after a write, and dropped by every write. Never saved.
- */
-interface ReadIndex {
-  byId: Map<string, HistoryRecord>;
-  byFact: Map<string, Map<string, HistoryRecord[]>>;
-}
-const readIndexes = new WeakMap<readonly HistoryRecord[], ReadIndex>();
-
-function readIndexOf(core: CoreState): ReadIndex {
-  const history = histories.get(core) ?? [];
-  let index = readIndexes.get(history);
-  if (!index) {
-    const byId = new Map<string, HistoryRecord>();
-    // The first row of an id is the one an id names (a person filled in
-    // during the run can be written twice).
-    for (const row of history) if (!byId.has(row.id)) byId.set(row.id, row);
-    index = { byId, byFact: new Map() };
-    readIndexes.set(history, index);
-  }
-  return index;
-}
-
-/** Every row of the history, oldest first, as it is held (not a copy): for the one history reader. */
-export function pastRowsOf(core: CoreState): readonly HistoryRecord[] {
-  return histories.get(core) ?? [];
-}
-
-/** The history's rows by id. */
-export function pastIdsOf(core: CoreState): ReadonlyMap<string, HistoryRecord> {
-  return readIndexOf(core).byId;
-}
-
-/** The history's rows whose fact `key` holds `value`, oldest first. */
-export function pastRowsNaming(
-  core: CoreState,
-  key: string,
-  value: string,
-): readonly HistoryRecord[] {
-  const index = readIndexOf(core);
-  let byValue = index.byFact.get(key);
-  if (!byValue) {
-    byValue = new Map();
-    for (const row of histories.get(core) ?? []) {
-      const held = row.facts[key];
-      if (held === undefined || held === "") continue;
-      const named = String(held);
-      const list = byValue.get(named);
-      if (list) list.push(row);
-      else byValue.set(named, [row]);
-    }
-    index.byFact.set(key, byValue);
-  }
-  return byValue.get(value) ?? [];
 }

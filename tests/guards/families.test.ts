@@ -50,7 +50,10 @@ describe("one engine per mechanic: families and their boundaries", () => {
   });
 
   it("puts every test file in a family, so a red test has an owner", () => {
-    const orphans = testFiles().filter((file) => familyOf(file) === null);
+    const tests = testFiles();
+    // The list is read from where the tests sit; an empty list would pass this check by seeing nothing.
+    expect(tests.length).toBeGreaterThan(0);
+    const orphans = tests.filter((file) => familyOf(file) === null);
     expect(
       orphans,
       "add each test file to the family of the code it tests, in its paths in tests/guards/families.json (CTO, Nov 26: every file gets a family)",

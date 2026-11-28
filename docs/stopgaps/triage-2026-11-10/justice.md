@@ -10,7 +10,7 @@ Rows: 1. Still faked 1, already replaced 0, partly replaced 0, could not tell 0.
 
 ## Evidence
 
-- `SG-JUSTICE-counted-custody-pay`: src/core2/modules/justice.ts:1706-1735 (decideCountedCase writes CountedCustodyRow with personId "" and count; marker at 1729-1731); test src/core2/outcome-web-public-finance.test.ts:101 still expects the marker. Close by counts, at the group row, on the release calendar.
+- `SG-JUSTICE-counted-custody-pay`: src/core2/modules/justice.ts:1706-1735 (decideCountedCase writes CountedCustodyRow with personId "" and count; marker at 1729-1731); test tests/src/core2/outcome-web-public-finance.test.ts:101 still expects the marker. Close by counts, at the group row, on the release calendar.
 
 ## Questions for the owner
 

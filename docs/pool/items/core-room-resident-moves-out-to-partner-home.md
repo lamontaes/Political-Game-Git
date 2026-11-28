@@ -33,6 +33,6 @@ root: none
 
 **Waits on.** #9252.
 
-**Files.** src/core2/modules/partnerships.ts, src/core2/modules/moves.ts, src/core2/group-quarters-partner.test.ts
+**Files.** src/core2/modules/partnerships.ts, src/core2/modules/moves.ts, tests/src/core2/group-quarters-partner.test.ts
 
 **Notes.** Filed by hand by the group-quarters thread, on the coordinator's ruling.

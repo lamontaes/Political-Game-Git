@@ -32,4 +32,4 @@ source: Account lead, stopgap cluster 9 (owner, Nov 14)
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/voting.ts, src/core2/modules/offices.ts, src/core2/modules/officials.ts, src/core2/special-election-seats.test.ts
+**Files.** src/core2/modules/voting.ts, src/core2/modules/offices.ts, src/core2/modules/officials.ts, tests/src/core2/special-election-seats.test.ts

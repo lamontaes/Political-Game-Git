@@ -35,10 +35,10 @@ Seen: `src/core2/modules/parties.ts` `openParties` and `buildTieRule` cut the ad
 
 **Rules.** No dice, no quota; real figures set only the strength.
 
-**Done when.** A second session starts a new game at a drawn place it writes down with its seed, turns dev mode on, opens Politics, Metrics, and reads "The town's party ties on day one" (a share that follows the world's parties, not 56%). At drawn worlds every adult's tie follows the rule and the share differs between worlds, and src/core2/electorate-century-parties.test.ts passes.
+**Done when.** A second session starts a new game at a drawn place it writes down with its seed, turns dev mode on, opens Politics, Metrics, and reads "The town's party ties on day one" (a share that follows the world's parties, not 56%). At drawn worlds every adult's tie follows the rule and the share differs between worlds, and tests/src/core2/electorate-century-parties.test.ts passes.
 
 **Waits on.** history-territory-legislatures-from-the-century (#9976), which this branch is stacked on.
 
-**Files.** src/core2/modules/parties.ts, src/core2/data/campaigns/parameters.json, src/core2/electorate-century-parties.test.ts, src/bench/dev-views/opening.ts, src/bench/dev-views/opening-sources.json
+**Files.** src/core2/modules/parties.ts, src/core2/data/campaigns/parameters.json, tests/src/core2/electorate-century-parties.test.ts, src/bench/dev-views/opening.ts, src/bench/dev-views/opening-sources.json
 
 **Notes.** Filed by the History lane, Nov 17, 2026. World B was asked at 14:09Z whether anything reads `ties` in a way this breaks.
