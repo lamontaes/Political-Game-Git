@@ -125,9 +125,6 @@
       "bodies": 1,
       "news": 1
     },
-    "src/core2/modules/constituent-cases.ts": {
-      "jobs-businesses": 1
-    },
     "src/core2/modules/counted-demotion.ts": {
       "elections": 1
     },
@@ -217,8 +214,7 @@
       "bodies": 2
     },
     "src/core2/office-day-federal.ts": {
-      "bodies": 2,
-      "elections": 1
+      "bodies": 2
     },
     "src/core2/office-day-state.ts": {
       "bodies": 1
