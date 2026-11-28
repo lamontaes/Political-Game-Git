@@ -73352,12 +73352,13 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
       "tag": {
         "move": "agree",
         "key": "door"
-      }
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
     },
     {
       "key": "scene-talk.reply-agree.i-m-not-feeling-right-these-days-i-ll-sign-for-office-though",
@@ -73377,12 +73378,13 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
       "tag": {
         "move": "agree",
         "key": "door"
-      }
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
     },
     {
       "key": "scene-talk.reply-agree.sick-as-i-ve-been-i-ll-still-sign-for-office",
@@ -73402,12 +73404,13 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
       "tag": {
         "move": "agree",
         "key": "door"
-      }
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
     },
     {
       "key": "scene-talk.reply-agree.i-ve-been-laid-up-lately-give-me-the-pen-for-office",
@@ -73427,12 +73430,13 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
       "tag": {
         "move": "agree",
         "key": "door"
-      }
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
     },
     {
       "key": "scene-talk.reply-agree.i-ve-been-under-the-weather-but-i-ll-vote-for-you-on-vote-day",
@@ -73452,12 +73456,13 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
       "tag": {
         "move": "agree",
         "key": "door"
-      }
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
     },
     {
       "key": "scene-talk.reply-agree.i-m-not-well-and-i-ll-still-be-there-for-you-on-vote-day",
@@ -73477,12 +73482,13 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
       "tag": {
         "move": "agree",
         "key": "door"
-      }
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
     },
     {
       "key": "scene-talk.reply-agree.sick-or-not-i-ll-vote-for-you-on-vote-day",
@@ -73502,12 +73508,13 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
       "tag": {
         "move": "agree",
         "key": "door"
-      }
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
     },
     {
       "key": "scene-talk.reply-agree.i-ve-been-laid-up-but-you-have-my-vote-on-vote-day",
@@ -73527,12 +73534,13 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
       "tag": {
         "move": "agree",
         "key": "door"
-      }
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
     },
     {
       "key": "scene-talk.reply-decline.i-ve-been-under-the-weather-i-can-t-think-about-the-race-for-office-right-now",
@@ -73553,12 +73561,13 @@
       ],
       "bearing": "guarded",
       "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
       "tag": {
         "move": "decline",
         "key": "door"
-      }
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
     },
     {
       "key": "scene-talk.reply-decline.i-m-not-feeling-right-the-race-for-office-will-have-to-wait",
@@ -73579,12 +73588,13 @@
       ],
       "bearing": "guarded",
       "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
       "tag": {
         "move": "decline",
         "key": "door"
-      }
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
     },
     {
       "key": "scene-talk.reply-decline.i-ve-been-laid-up-lately-so-office-is-not-on-my-mind",
@@ -73605,12 +73615,13 @@
       ],
       "bearing": "guarded",
       "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
       "tag": {
         "move": "decline",
         "key": "door"
-      }
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
     },
     {
       "key": "scene-talk.reply-decline.sick-as-i-am-i-can-t-give-the-race-for-office-any-thought",
@@ -73631,12 +73642,13 @@
       ],
       "bearing": "guarded",
       "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
       "tag": {
         "move": "decline",
         "key": "door"
-      }
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
     },
     {
       "key": "scene-talk.reply-tell.i-ve-been-under-the-weather-it-s-hard-to-think-about-the-race-for-office",
@@ -73665,12 +73677,13 @@
       ],
       "bearing": "tender",
       "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
       "tag": {
         "move": "tell",
         "key": "door"
-      }
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
     },
     {
       "key": "scene-talk.reply-tell.i-m-not-feeling-right-so-the-race-for-office-isn-t-on-my-mind",
@@ -73699,12 +73712,13 @@
       ],
       "bearing": "tender",
       "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
       "tag": {
         "move": "tell",
         "key": "door"
-      }
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
     },
     {
       "key": "scene-talk.reply-tell.being-sick-has-taken-it-out-of-me-the-race-for-office-is-hard-to-think-about",
@@ -73733,12 +73747,13 @@
       ],
       "bearing": "tender",
       "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
       "tag": {
         "move": "tell",
         "key": "door"
-      }
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
     },
     {
       "key": "scene-talk.reply-tell.i-ve-been-laid-up-and-the-race-for-office-is-the-last-thing-on-my-mind",
@@ -73767,12 +73782,13 @@
       ],
       "bearing": "tender",
       "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
       "tag": {
         "move": "tell",
         "key": "door"
-      }
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
     }
   ]
 }
