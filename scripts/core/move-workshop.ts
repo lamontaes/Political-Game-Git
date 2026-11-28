@@ -52,6 +52,8 @@ const trackedSet = new Set(tracked);
 /** Written in pieces: a path in a comment or string here would be a pointer the pointer guard counts. */
 const CORE = ["src", "core2"].join("/") + "/";
 const TOOLING = `${CORE}tooling/`;
+/** The director's two report tools: no game file imports them, so they go to scripts (the CTO's line of Nov 28, 3:58 a.m.). */
+const DIRECTOR_TOOLING = ["src", "director", "tooling"].join("/") + "/";
 const BENCH = ["src", "bench"].join("/") + "/";
 const SUPPORT = "tests/support/";
 const REPORTS = "scripts/core2/";
@@ -61,6 +63,8 @@ const CHECKS =
 /** A file's new home, or null when it stays. `"delete"` removes it. */
 function destination(file: string): string | "delete" | null {
   const base = path.posix.basename(file);
+  if (file.startsWith(DIRECTOR_TOOLING))
+    return `scripts/director/tooling/${file.slice(DIRECTOR_TOOLING.length)}`;
   if (file.startsWith(TOOLING)) {
     const rest = file.slice(TOOLING.length);
     if (rest === "tsconfig.json") return "delete";
@@ -356,8 +360,10 @@ function editJson<Data>(file: string, edit: (data: Data) => void): void {
   edit(data);
   writeFileSync(full, JSON.stringify(data, null, 2) + "\n");
 }
+// The test mover's mirror (tests/src) stays: its entries are the tests' families, and this script may run after it.
 const outsideSrc = (entry: string) =>
-  /^(?:scripts|tests)\//.test(entry) || everMoved.has(entry);
+  (/^(?:scripts|tests)\//.test(entry) && !entry.startsWith("tests/src/")) ||
+  everMoved.has(entry);
 editJson<FamiliesMap>("tests/guards/families.json", (map) => {
   map.shared = map.shared.filter((entry) => !outsideSrc(entry));
   // Both were exempt as tooling; they stay exempt (no baseline rises) until
