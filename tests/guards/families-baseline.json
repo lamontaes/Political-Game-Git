@@ -1,5 +1,4 @@
 {
-  "unassigned": [],
   "deepImports": {
     "src/bench/campaign.ts": 2,
     "src/bench/card.ts": 3,
@@ -94,5 +93,6 @@
     "src/english/mined/conversation-bank.ts": 1,
     "src/english/mined/journal-bank.ts": 1,
     "src/english/mined/scene-bank.ts": 2
-  }
+  },
+  "unassigned": []
 }

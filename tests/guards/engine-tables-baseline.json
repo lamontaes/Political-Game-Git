@@ -1,4 +1,23 @@
 {
+  "mapWrites": {
+    "src/core2/decision-detail.ts": {
+      "relationships": 1
+    },
+    "src/core2/modules/official-pay.ts": {
+      "jobs": 1
+    },
+    "src/core2/state.ts": {
+      "familyLinks": 4,
+      "households": 11,
+      "husks": 5,
+      "jobs": 3,
+      "memberships": 2,
+      "organizations": 2,
+      "people": 2,
+      "publicOrganizations": 1,
+      "relationships": 1
+    }
+  },
   "opens": {
     "src/bench/bank.ts": {
       "homes": 1,
@@ -357,39 +376,6 @@
       "offices": 2
     }
   },
-  "writes": {
-    "src/core2/justice-pretrial.ts": {
-      "dynamic": 2
-    },
-    "src/core2/medical-bills.ts": {
-      "dynamic": 2
-    },
-    "src/core2/press-money.ts": {
-      "dynamic": 2
-    },
-    "src/core2/state.ts": {
-      "dynamic": 1
-    }
-  },
-  "mapWrites": {
-    "src/core2/decision-detail.ts": {
-      "relationships": 1
-    },
-    "src/core2/modules/official-pay.ts": {
-      "jobs": 1
-    },
-    "src/core2/state.ts": {
-      "familyLinks": 4,
-      "households": 11,
-      "husks": 5,
-      "jobs": 3,
-      "memberships": 2,
-      "organizations": 2,
-      "people": 2,
-      "publicOrganizations": 1,
-      "relationships": 1
-    }
-  },
   "rowEdits": {
     "src/core2/finance-state.ts": {
       "JobInput": 1,
@@ -414,6 +400,20 @@
     },
     "src/core2/work-attendance.ts": {
       "PersonState": 4
+    }
+  },
+  "writes": {
+    "src/core2/justice-pretrial.ts": {
+      "dynamic": 2
+    },
+    "src/core2/medical-bills.ts": {
+      "dynamic": 2
+    },
+    "src/core2/press-money.ts": {
+      "dynamic": 2
+    },
+    "src/core2/state.ts": {
+      "dynamic": 1
     }
   }
 }
