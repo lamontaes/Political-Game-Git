@@ -41,13 +41,13 @@ import { stableHash } from "../kernel/ids";
 import { livedQuestion } from "./press";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
+import type { StanceProfile } from "./campaigns";
 import {
   groupStance,
   personLean,
   popularity,
   STANCE_LOADINGS,
-  type StanceProfile,
-} from "./campaigns";
+} from "../campaign-views";
 import { personStance } from "./elections";
 import { feelingBetween } from "../closeness";
 import viewsJson from "../data/views/views.json" with { type: "json" };
