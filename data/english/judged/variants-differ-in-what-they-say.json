@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 25,
+  "judged": 26,
   "no": {
     "007eyoz0umj": {
       "keys": [
@@ -54,6 +54,13 @@
         "scene-talk.follow-answer.you-d-work-hours-hours-a-week-alongside-crew-of-us"
       ],
       "why": "Two of the three say the hours and that the newcomer will be taught, so most are rewordings of the same answer with no condition between them."
+    },
+    "0tdy6qz02e5": {
+      "keys": [
+        "scene-talk.state-request.i-m-calling-with-good-news-the-job-s-yours-if-you-want-it-position-pay-an-hour",
+        "scene-talk.state-request.we-d-like-to-offer-you-the-job-you-d-start-as-position-at-pay-an-hour"
+      ],
+      "why": "Both lines make the same job offer with the same {position} and {pay}, reworded."
     },
     "13qaoo1jve4": {
       "keys": [

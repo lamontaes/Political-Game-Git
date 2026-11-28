@@ -12121,6 +12121,31 @@
       }
     },
     {
+      "key": "scene-talk.reply-agree.all-right-i-ll-go-with-the-committee",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "All right. I'll go with the committee.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "after": "press"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (carry #9328, Words lead ruling-2 fault 5)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "colleague-word"
+      }
+    },
+    {
       "key": "scene-talk.reply-ask.how-did-the-members-come-down",
       "move": "reply-ask",
       "kind": "spoken",
@@ -21323,6 +21348,110 @@
       }
     },
     {
+      "key": "scene-talk.reply-agree.fine-i-ll-put-my-name-down-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. I'll put my name down for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["would-not-sign"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.sure-everybody-should-get-a-shot-at-office-give-me-the-pen",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Sure. Everybody should get a shot at {office}. Give me the pen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["would-not-sign"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-ll-sign-for-office-right-here",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. I'll sign for {office} right here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["would-not-sign"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-came-back-okay-i-ll-sign-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You came back. Okay, I'll sign for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["knocked-before", "office"],
+          "excludesFacts": ["would-not-sign"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
       "key": "scene-talk.reply-agree.sure-everybody-in-place-should-get-a-shot-give-me-the-pen",
       "move": "reply-agree",
       "kind": "spoken",
@@ -21440,6 +21569,131 @@
           "move": "agree",
           "role": "asked",
           "requiresFacts": ["signed", "read-close"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-got-my-vote-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've got my vote for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-vote-for-you-on-vote-day",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll vote for you on {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["vote-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.okay-put-me-down-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Okay. Put me down for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-came-back-you-ve-got-my-vote-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You came back. You've got my vote for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["knocked-before", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-vote-for-you-over-rival",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll vote for you over {rival}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["rival"]
         }
       ],
       "bearing": "calm",
@@ -21577,6 +21831,162 @@
       }
     },
     {
+      "key": "scene-talk.reply-decline.i-d-rather-keep-my-name-off-a-petition-for-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd rather keep my name off a petition for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["signed", "door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-today-thanks-i-don-t-know-enough-about-the-race-for-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not today, thanks. I don't know enough about the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["signed", "door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.you-ve-been-by-before-i-m-still-not-signing-for-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "You've been by before. I'm still not signing for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["knocked-before", "office"],
+          "excludesFacts": ["signed", "door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-don-t-follow-the-race-for-office-i-won-t-sign",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I don't follow the race for {office}. I won't sign.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["would-not-sign", "no-view", "office"],
+          "excludesFacts": ["door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-not-promising-my-vote-for-office-yet",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm not promising my vote for {office} yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-haven-t-decided-who-gets-my-vote-for-office-ask-me-closer-to-vote-day",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I haven't decided who gets my vote for {office}. Ask me closer to {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["office", "vote-day"],
+          "excludesFacts": ["door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
       "key": "scene-talk.reply-decline.not-today-thanks-i-don-t-know-enough-about-the-race-before-vote-day",
       "move": "reply-decline",
       "kind": "spoken",
@@ -21656,6 +22066,32 @@
       }
     },
     {
+      "key": "scene-talk.reply-decline.i-don-t-follow-the-race-for-office-i-can-t-promise-anything",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I don't follow the race for {office}. I can't promise anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["no-view", "office"],
+          "excludesFacts": ["door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
       "key": "scene-talk.reply-decline.i-don-t-follow-the-race-in-place-i-can-t-promise-anything",
       "move": "reply-decline",
       "kind": "spoken",
@@ -21704,6 +22140,256 @@
       "date": "2026-11-17",
       "tag": {
         "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.my-answer-s-the-same-good-luck-in-the-race-for-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "My answer's the same. Good luck in the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ve-thought-about-about-i-m-still-not-signing",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I've thought about {about}. I'm still not signing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["would-not-sign", "stand-said", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ve-thought-about-about-i-m-still-not-sure",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I've thought about {about}. I'm still not sure.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["stand-said", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-said-no-good-luck-in-the-race-for-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I said no. Good luck in the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["signed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ve-heard-you-out-i-m-still-deciding-my-vote-for-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I've heard you out. I'm still deciding my vote for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go-good-luck-in-the-race-for-office",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. Good luck in the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll think about my vote for {office}. Come back later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "deflect",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-one-more-name-for-my-run-for-office-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's one more name for my run for {office}. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-that-helps-me-get-on-the-ballot-for-office",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That helps me get on the ballot for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
         "key": "door"
       }
     },
@@ -21773,6 +22459,31 @@
           "requiresFacts": ["due"],
           "setsFacts": ["due-said"],
           "excludesFacts": ["due-said"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-for-hearing-me-out-again-i-m-running-for-office",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you for hearing me out again. I'm running for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["knocked-before", "office"]
         }
       ],
       "bearing": "glad",
@@ -21935,6 +22646,31 @@
       }
     },
     {
+      "key": "scene-talk.follow-accept.fair-enough-thanks-for-hearing-me-out-on-the-race-for-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. Thanks for hearing me out on the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "door"
+      }
+    },
+    {
       "key": "scene-talk.follow-accept.fair-enough-thanks-for-hearing-me-out-before-vote-day",
       "move": "follow-accept",
       "kind": "spoken",
@@ -22000,6 +22736,31 @@
           "move": "accept",
           "role": "asker",
           "requiresFacts": ["vote-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. Thanks for hearing me out on the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["office"]
         }
       ],
       "bearing": "calm",
@@ -22170,6 +22931,32 @@
       }
     },
     {
+      "key": "scene-talk.follow-press.it-only-puts-me-on-the-ballot-for-office-you-d-still-vote-your-own-way",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "It only puts me on the ballot for {office}. You'd still vote your own way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "setsFacts": ["door-pressed"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "door"
+      }
+    },
+    {
       "key": "scene-talk.follow-press.it-only-puts-me-on-the-ballot-in-place-you-d-still-vote-your-own-way",
       "move": "follow-press",
       "kind": "spoken",
@@ -22211,6 +22998,32 @@
           "requiresFacts": ["due"],
           "setsFacts": ["door-pressed", "due-said"],
           "excludesFacts": ["due-said"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "What would it take to earn your vote for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "setsFacts": ["door-pressed"]
         }
       ],
       "bearing": "hopeful",
@@ -22325,6 +23138,40 @@
           "requiresFacts": ["due"],
           "setsFacts": ["due-said"],
           "excludesFacts": ["due-said"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-come-back-and-ask-about-the-race-for-office",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll come back and ask about the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "requiresFacts": ["office"]
         }
       ],
       "bearing": "calm",
@@ -27162,10 +28009,60 @@
       }
     },
     {
+      "key": "scene-talk.close-press.the-invitation-from-outlet-stays-open",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "The invitation from {outlet} stays open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.close-press.outlet-would-still-welcome-you",
       "move": "close-press",
       "kind": "spoken",
       "text": "{outlet} would still welcome you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.the-door-at-outlet-stays-open",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "The door at {outlet} stays open.",
       "uses": [
         {
           "subject": "scene",
@@ -27451,6 +28348,30 @@
       }
     },
     {
+      "key": "scene-talk.reply-ask.how-would-the-debate-for-office-work",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How would the debate for {office} work?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "invite-debate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-ask.who-else-debates",
       "move": "reply-ask",
       "kind": "spoken",
@@ -27567,6 +28488,57 @@
       "date": "2026-11-18",
       "tag": {
         "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-be-there",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll be there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "invite-debate",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "requiresFacts": ["school", "school-short"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
         "key": "favor-asked"
       }
     },
@@ -28379,6 +29351,68 @@
       }
     },
     {
+      "key": "scene-talk.reply-promise.count-on-me",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Count on me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "outcome": "resolved",
+          "requiresFacts": ["school", "school-short"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "answer",
+          "onlyWhen": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
       "key": "scene-talk.reply-promise.i-ll-speak",
       "move": "reply-promise",
       "kind": "spoken",
@@ -28418,6 +29452,49 @@
         }
       ],
       "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-promise",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I promise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "press",
+          "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "onlyWhen": ["payment"]
+        }
+      ],
+      "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-18",
@@ -28802,6 +29879,78 @@
       }
     },
     {
+      "key": "scene-talk.follow-thank.good-you-re-on-the-stage-for-the-office-debate",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. You're on the stage for the {office} debate.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "invite-debate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-that-puts-you-in-the-office-debate",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That puts you in the {office} debate.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "invite-debate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.glad-to-hear-it-the-office-debate-is-set",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Glad to hear it. The {office} debate is set.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "invite-debate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-press.the-debate-on-outlet-goes-on-either-way",
       "move": "follow-press",
       "kind": "spoken",
@@ -29167,6 +30316,81 @@
       "date": "2026-11-18",
       "tag": {
         "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.the-debate-for-office-will-go-on-regardless",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The debate for {office} will go on regardless.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.we-ll-hold-the-office-debate-either-way",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "We'll hold the {office} debate either way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.the-office-debate-happens-with-or-without-you",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The {office} debate happens with or without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
         "key": "favor-asked"
       }
     },
@@ -29726,6 +30950,70 @@
         }
       ],
       "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-kind",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's kind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "breakup-tell",
+          "key": "loss",
+          "after": "apologize"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "requiresFacts": ["school", "school-short"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "promise",
+          "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "promise",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "promise",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-18",
@@ -31125,6 +32413,41 @@
       }
     },
     {
+      "key": "scene-talk.follow-promise.i-ll-help",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "requiresFacts": ["school", "school-short"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "answer",
+          "onlyWhen": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
       "key": "scene-talk.follow-thank.thank-you",
       "move": "follow-thank",
       "kind": "spoken",
@@ -31797,6 +33120,78 @@
       "date": "2026-11-18",
       "tag": {
         "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.no-problem-the-offer-stands-for-the-race-for-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "No problem. The offer stands for the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "offer-help",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-i-m-still-ready-to-help-with-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. I'm still ready to help with {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "offer-help",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-ll-be-here-for-the-office-campaign",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll be here for the {office} campaign.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "offer-help",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
         "key": "favor-asked"
       }
     },
@@ -36078,6 +37473,32 @@
       }
     },
     {
+      "key": "scene-talk.reply-promise.i-ll-sit-down-with-you-and-go-over-how-employer-runs",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll sit down with you and go over how {employer} runs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "press",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
       "key": "scene-talk.reply-agree.you-re-right-come-find-me-and-i-ll-go-over-the-basics-of-employer",
       "move": "reply-agree",
       "kind": "spoken",
@@ -36100,6 +37521,32 @@
       "date": "2026-11-18",
       "tag": {
         "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-show-you-who-s-who-at-employer-starting-with-the-people-you-ll-need-most",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll show you who's who at {employer}, starting with the people you'll need most.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "answer",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
         "key": "arrival"
       }
     },
@@ -36293,6 +37740,81 @@
       }
     },
     {
+      "key": "scene-talk.reply-promise.i-ll-make-sure-you-meet-everyone-at-employer-and-learn-how-things-run",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll make sure you meet everyone at {employer} and learn how things run.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-walk-you-through-employer-myself-and-introduce-you-to-the-people-who-matter",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll walk you through {employer} myself and introduce you to the people who matter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-come-find-me-and-we-ll-work-out-employer-together",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, come find me, and we'll work out {employer} together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
       "key": "scene-talk.reply-agree.sure-i-ll-show-you-how-things-run-at-employer",
       "move": "reply-agree",
       "kind": "spoken",
@@ -36447,6 +37969,102 @@
       "tag": {
         "move": "accept",
         "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-book-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. Book it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "invite-interview",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-ll-sit",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, I'll sit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "invite-interview",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.no-interview-thanks",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No interview, thanks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "invite-interview",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ll-decline",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'll decline.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "invite-interview",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
       }
     },
     {
@@ -45435,6 +47053,58 @@
       }
     },
     {
+      "key": "scene-talk.reply-ask.how-far-behind-is-the-petition-for-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How far behind is the petition for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-it-take-to-get-office-on-the-ballot",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would it take to get {office} on the ballot?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "scene-talk.reply-ask.how-far-behind-is-the-petition-on-due",
       "move": "reply-ask",
       "kind": "spoken",
@@ -45511,6 +47181,170 @@
       "date": "2026-11-18",
       "tag": {
         "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-happens-to-my-run-for-office-if-it-stays-short",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What happens to my run for {office} if it stays short?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-i-ll-start-knocking-on-doors-for-office",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then I'll start knocking on doors for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-get-the-names-for-office-count-me-in",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll get the names for {office}. Count me in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-i-m-going-out-to-ask-people-to-sign-for-office",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then I'm going out to ask people to sign for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
         "key": "news-received"
       }
     },
@@ -45726,6 +47560,460 @@
       }
     },
     {
+      "key": "scene-talk.reply-promise.yes-i-want-office-on-the-ballot-so-i-ll-go-get-the-names",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Yes. I want {office} on the ballot, so I'll go get the names.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-can-t-get-out-and-canvass-for-office-just-now",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I can't get out and canvass for {office} just now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-think-about-office-and-the-sheets-first",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me think about {office} and the sheets first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-m-not-ready-to-go-door-to-door-for-office-yet",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm not ready to go door to door for {office} yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-need-to-think-about-whether-office-is-worth-the-knocking",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I need to think about whether {office} is worth the knocking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-be-going-thanks-for-telling-me-about-office",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll be going. Thanks for telling me about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "thank",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-run-i-ll-keep-the-petition-for-office-in-mind",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to run. I'll keep the petition for {office} in mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "thank",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.thank-you-for-the-word-on-office-i-need-to-go-now",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Thank you for the word on {office}. I need to go now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "thank",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ve-got-to-go-thanks-for-the-warning-about-the-sheets-for-office",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I've got to go. Thanks for the warning about the sheets for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "thank",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "scene-talk.reply-promise.yes-i-want-to-be-on-the-ballot-in-place-so-i-ll-go-get-the-names",
       "move": "reply-promise",
       "kind": "spoken",
@@ -45822,6 +48110,238 @@
       "date": "2026-11-18",
       "tag": {
         "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.names-door-by-door-if-that-s-what-it-takes-to-get-office-on-the-ballot",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Names, door by door if that's what it takes to get {office} on the ballot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.if-it-stays-short-office-won-t-be-on-the-ballot",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "If it stays short, {office} won't be on the ballot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-sheets-for-office-don-t-fill-themselves-and-due-is-coming",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The sheets for {office} don't fill themselves, and {due} is coming.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "deflect",
+          "requiresFacts": ["due", "office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.waiting-makes-office-harder-to-reach",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Waiting makes {office} harder to reach.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "deflect",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-the-sheets-for-office-are-yours-to-fill",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. The sheets for {office} are yours to fill.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "deflect",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-whether-to-run-for-office-is-your-call",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. Whether to run for {office} is your call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "deflect",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-you-know-the-town-and-the-petition-for-office-is-yours",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. You know the town, and the petition for {office} is yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "deflect",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-bring-the-sheets-for-office-in-before-due",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. Bring the sheets for {office} in before {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise",
+          "requiresFacts": ["teller-clerk", "due", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-we-ll-get-office-on-the-ballot-yet",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. We'll get {office} on the ballot yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise",
+          "requiresFacts": ["teller-helper", "office", "due"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
         "key": "news-received"
       }
     },
@@ -45954,6 +48474,104 @@
       "date": "2026-11-18",
       "tag": {
         "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-that-s-what-the-petition-for-office-needs",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. That's what the petition for {office} needs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-petition-for-office-lies-between-you-with-white-space-left-on-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The petition for {office} lies between you, with white space left on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.a-few-names-are-on-the-petition-for-office-most-of-the-page-is-empty",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A few names are on the petition for {office}. Most of the page is empty.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["started", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-petition-for-office-lies-blank-in-front-of-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The petition for {office} lies blank in front of you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["not-started", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
         "key": "news-received"
       }
     },
@@ -47890,6 +50508,67 @@
       }
     },
     {
+      "key": "scene-talk.reply-promise.count-on-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Count on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "press",
+          "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-make-time",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll make time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "press",
+          "onlyWhen": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
       "key": "scene-talk.reply-agree.yes-let-s",
       "move": "reply-agree",
       "kind": "spoken",
@@ -48166,6 +50845,119 @@
       "date": "2026-11-18",
       "tag": {
         "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.which-day",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Which day?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "promise",
+          "onlyWhen": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.when-though",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "When, though?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "promise",
+          "onlyWhen": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.how-soon",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "How soon?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "promise",
+          "onlyWhen": ["employer"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-appreciate-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I appreciate it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "promise",
+          "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
         "key": "arrival"
       }
     },
@@ -48943,6 +51735,30 @@
       "date": "2026-11-18",
       "tag": {
         "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-on-the-phone",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is on the phone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "invite-interview",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
         "key": "favor-asked"
       }
     },
@@ -49780,6 +52596,81 @@
         "move": "warn",
         "key": "threat"
       }
+    },
+    {
+      "move": "follow-answer",
+      "kind": "spoken",
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-answer.whatever-gets-you-to-office",
+      "text": "Whatever gets you to {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "requiresFacts": ["office"]
+        }
+      ]
+    },
+    {
+      "move": "follow-answer",
+      "kind": "spoken",
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-answer.the-whole-race-for-office-start-to-finish",
+      "text": "The whole race for {office}, start to finish.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "requiresFacts": ["office"]
+        }
+      ]
+    },
+    {
+      "move": "follow-answer",
+      "kind": "spoken",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Opus)",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-answer.what-each-of-you-would-do-as-office",
+      "text": "What each of you would do as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "requiresFacts": ["office"]
+        }
+      ]
     },
     {
       "move": "follow-answer",
@@ -51208,6 +54099,78 @@
       }
     },
     {
+      "key": "scene-talk.follow-press.think-about-it-a-race-for-office-is-a-lot-to-carry-alone",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Think about it. A race for {office} is a lot to carry alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "offer-to-run",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.please-think-again-the-race-for-office-is-a-lot-of-work",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Please think again. The race for {office} is a lot of work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "offer-to-run",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.it-s-a-lot-running-for-office-by-yourself",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "It's a lot, running for {office} by yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "offer-to-run",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-accept.still-with-you",
       "move": "follow-accept",
       "kind": "spoken",
@@ -51275,6 +54238,68 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-truly",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you, truly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "promise",
+          "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "onlyWhen": ["school-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "onlyWhen": ["work-day"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
         "move": "thank",
@@ -59751,6 +62776,106 @@
       }
     },
     {
+      "key": "scene-talk.reply-confront.this-isn-t-what-i-was-told-about-the-job-as-position",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "This isn't what I was told about the job as {position}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.nobody-at-workplace-told-me-any-of-this",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Nobody at {workplace} told me any of this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.i-m-here-to-work-not-be-tested-at-workplace",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I'm here to work, not be tested at {workplace}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.that-s-not-what-i-was-promised-for-the-job-as-position",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "That's not what I was promised for the job as {position}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
       "key": "scene-talk.reply-thank.thank-you-for-showing-me-around-workplace",
       "move": "reply-thank",
       "kind": "spoken",
@@ -60122,6 +63247,81 @@
       "date": "2026-11-18",
       "tag": {
         "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.that-s-not-how-we-do-things-at-workplace",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "That's not how we do things at {workplace}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.listen-first-then-argue-that-s-the-rule-at-workplace",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Listen first, then argue; that's the rule at {workplace}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.say-it-but-not-in-front-of-the-crew-at-workplace",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Say it, but not in front of the crew at {workplace}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "position", "workplace"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
         "key": "arrival"
       }
     },
@@ -63007,6 +66207,93 @@
       }
     },
     {
+      "key": "scene-talk.reply-ask.who-else",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who else?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "onlyWhen": ["schoolmate", "school"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "onlyWhen": ["meeting", "body"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-show-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll show you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "answer",
+          "onlyWhen": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
       "key": "scene-talk.close-press.think-it-over-i-m-glad-you-heard-me-out-after-away",
       "move": "close-press",
       "kind": "spoken",
@@ -65415,6 +68702,55 @@
       "tag": {
         "move": "accept",
         "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-need-time",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I need time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "invite-interview",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
       }
     },
     {
@@ -74927,6 +78263,30 @@
         }
       ],
       "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.we-d-still-like-your-side-for-outlet",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We'd still like your side, for {outlet}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "invite-interview",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-18",
