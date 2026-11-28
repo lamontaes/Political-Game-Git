@@ -16,7 +16,8 @@ import { transferCash } from "./budgets-treasury";
 import type { ModuleRow } from "./module-data";
 import { formerHome } from "./housing-former-home";
 import type { MortgageRow } from "./housing-foreclosure";
-import { type HomePart, listHome, markSold } from "./housing-listings";
+import type { HomePart } from "./housing-listings";
+import { listHome, markSold } from "./housing-writes";
 import type { CoreAPI, CoreState } from "./types";
 
 const HOUSING = "housing";

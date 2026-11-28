@@ -27,6 +27,8 @@ import { townOutsideOf } from "./opening-outside-market";
 import type { CoreAPI, CoreState, Source } from "./types";
 import { housingWorldOffset } from "./housing-prices";
 import { CONSTRUCTION_LAW_KEYS } from "./housing-construction-constants";
+import { type ProjectRow, type StockRow } from "./housing-writes";
+export { takeNewHome } from "./housing-writes";
 export { CONSTRUCTION_LAW_KEYS };
 
 export type ConstructionLawIds = {
@@ -40,46 +42,6 @@ export interface Zoning {
   farmlandProtected: boolean;
   /** The law rows in force that set the fields above this month; absent where no law does. */
   lawIds?: ConstructionLawIds;
-}
-
-interface StockRow {
-  id: string;
-  placeId: string;
-  rentalUnits: number;
-  vacantRental: number;
-  newHomesForSale: number;
-  /** Fractional starts carried between months. */
-  carrySingle: number;
-  carryMulti: number;
-  /** Whether the buildings under way at the opening have been started. */
-  backfilled?: boolean;
-  openingHomeValueMinor: number;
-  openingRentMinor: number;
-  /** The price index at the opening; 0 until the economy has kept its first month, which is then the base. */
-  openingPriceLevel: number;
-  zoning: Zoning;
-  /** Homes offered this month for the home price level (housing-price-level.ts). */
-  priceOffered?: number;
-}
-
-interface ProjectRow {
-  id: string;
-  placeId: string;
-  kind: "single" | "multi";
-  units: number;
-  affordableUnits: number;
-  askingRentMinor?: number;
-  medianPayMinor?: number;
-  startedAt: string;
-  completesAt: string;
-  payerId: string;
-  builderId: string;
-  /** The laws that governed the project when it started. */
-  lawIds?: ConstructionLawIds;
-  monthlyCostMinor: number;
-  paidMinor: number;
-  open: boolean;
-  isProject: true;
 }
 
 const MONTHS = 12;
@@ -183,24 +145,6 @@ export function rentalVacancy(
   return row && row.rentalUnits > 0
     ? row.vacantRental / row.rentalUnits
     : undefined;
-}
-
-/** A household buys one of the town's finished new houses, if any: its builder is the seller. */
-export function takeNewHome(
-  stock: ModuleTable,
-  projects: ModuleTable,
-  placeId: string,
-): string | undefined {
-  const row = stock.get(`stock:${placeId}`) as unknown as StockRow | undefined;
-  if (!row || row.newHomesForSale < 1) return undefined;
-  // Renters in town buy (full ones, and counted ones on their lease anniversary), and so do counted households moving in.
-  const builder = (
-    projects.query("all", [true]) as unknown as ProjectRow[]
-  ).find(
-    (p) => p.placeId === placeId && p.kind === "single" && !p.open,
-  )?.builderId;
-  stock.put({ ...row, newHomesForSale: row.newHomesForSale - 1 });
-  return builder;
 }
 
 function residentsOf(c: CoreState, placeId: string): number {

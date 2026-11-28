@@ -16,32 +16,12 @@
  * `closeSale` pays the lender from that money. The purchase names the sale and
  * the sale names the purchase.
  */
-import { takeNewHome } from "./housing-construction";
-import {
-  countBuyer,
-  countOffered,
-  homeValueToday,
-} from "./housing-price-level";
+import { takeNewHome } from "./housing-writes";
+import { countBuyer, homeValueToday } from "./housing-price-level";
 import { daysBetweenText } from "./kernel/dates";
 import type { CoreAPI } from "./types";
-
-const HOUSING = "housing";
-const table = (api: CoreAPI, name: string) =>
-  api.moduleState(HOUSING).table(name);
-
-/** A home a household sold that no buyer has taken yet. */
-interface Listing {
-  /** The `home-sale:` (or foreclosure sale) row that put it on the market. */
-  readonly saleId: string;
-  /** Homes left: a counted household's record stands for several. */
-  homes: number;
-  readonly listedAt: string;
-  /** Who a buyer pays for it. */
-  readonly payeeId: string;
-  /** The home's value when last valued and the place's price level then, for its value today. */
-  readonly valueMinor?: number;
-  readonly priceLevel?: number;
-}
+import { type Listing, stockOf, table } from "./housing-writes";
+export { listHome, markSold } from "./housing-writes";
 
 /** One part of a purchase: who is paid for how many homes, and the sale they come from (none for a builder's new house). */
 export interface HomePart {
@@ -50,54 +30,6 @@ export interface HomePart {
   readonly saleId?: string;
   /** What one home of a household's sale is worth today, which the buyer pays; a builder's new house sells at the buyer's own price. */
   readonly priceMinor?: number;
-}
-
-type StockWithListings = {
-  id: string;
-  placeId: string;
-  newHomesForSale: number;
-  listings?: Listing[];
-  /** Households that wanted to buy here and found nothing for sale, by the day their search began. */
-  searching?: Record<string, string>;
-};
-
-const stockOf = (api: CoreAPI, placeId: string) =>
-  table(api, "stock").get(`stock:${placeId}`) as unknown as
-    StockWithListings | undefined;
-
-/**
- * A household sold its home (or homes, for a counted record): it is offered
- * this month, and stays for sale until a buyer takes it. A place the housing
- * engine keeps no stock for has no market of its own; the sale stands alone.
- */
-export function listHome(
-  api: CoreAPI,
-  placeId: string,
-  homes: number,
-  saleId: string,
-  payeeId: string,
-  value?: { valueMinor: number; priceLevel?: number },
-): void {
-  if (!api.state.modules.has(HOUSING) || homes <= 0) return;
-  countOffered(api, placeId, homes);
-  const row = stockOf(api, placeId);
-  if (!row) return;
-  table(api, "stock").put({
-    ...row,
-    listings: [
-      ...(row.listings ?? []),
-      {
-        saleId,
-        homes,
-        listedAt: api.state.date,
-        payeeId,
-        ...(value ? { valueMinor: value.valueMinor } : {}),
-        ...(value?.priceLevel !== undefined
-          ? { priceLevel: value.priceLevel }
-          : {}),
-      },
-    ],
-  } as never);
 }
 
 /** Homes for sale in a place now: new houses finished for sale and homes households sold. */
@@ -220,21 +152,4 @@ export function countUnmetBuyer(
     searching: { ...searching, [householdId]: today },
   } as never);
   countBuyer(api, placeId, homes);
-}
-
-/** A foreclosure case whose home a purchase took names it (a household's sale is closed by housing-sale.ts `closeSale`). */
-export function markSold(
-  api: CoreAPI,
-  saleIds: readonly string[],
-  purchaseId: string,
-): void {
-  for (const id of saleIds) {
-    const sales = table(api, "foreclosures");
-    const row = sales.get(id) as { boughtBy?: string[] } | undefined;
-    if (!row) continue;
-    sales.put({
-      ...row,
-      boughtBy: [...(row.boughtBy ?? []), purchaseId],
-    } as never);
-  }
 }
