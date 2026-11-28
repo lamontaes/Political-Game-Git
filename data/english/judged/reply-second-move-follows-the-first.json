@@ -11,19 +11,33 @@
       ],
       "why": "A withdrawal of support does not answer a question about why the source is wrong."
     },
-    "0noq5ibufts": {
+    "0dwyali7cq3": {
       "keys": [
-        "scene-talk.follow-ask.why-is-source-wrong",
-        "scene-talk.reply-bargain.this-is-a-two-way-street-you-get-my-vote-on-bill-when-i-get-yours-on-mine"
+        "scene-talk.follow-plea.i-could-lose-my-primary-over-bill",
+        "scene-talk.reply-bargain.this-is-a-two-way-street-on-bill-i-ll-need-your-vote-on-mine"
       ],
-      "why": "A vote-trade bargain does not respond to a question about why the source is wrong."
+      "why": "ignores the fear of losing a primary and asks the worried person for even more"
     },
-    "0pqlcyfdtqw": {
+    "0ivgwp380rw": {
+      "keys": [
+        "scene-talk.state-ask.your-amendment-is-in-bill-are-you-still-with-me",
+        "scene-talk.reply-bargain.this-is-a-two-way-street-on-bill-i-ll-need-your-vote-on-mine"
+      ],
+      "why": "the amendment is already in and 'still with me' assumes a deal, so bargaining afresh ignores it"
+    },
+    "0o4lkmtxwkq": {
+      "keys": [
+        "scene-talk.state-ask.can-you-tell-me-how-you-ll-vote-on-bill",
+        "scene-talk.reply-answer.even-then-it-s-the-right-call-on-bill"
+      ],
+      "why": "'Even then' has no antecedent and the reply never gives the vote that was asked for"
+    },
+    "11u13yb3bbv": {
       "keys": [
         "scene-talk.follow-ask.why-is-source-wrong",
-        "scene-talk.reply-answer.even-if-it-costs-me-votes-bill-is-the-right-call"
+        "scene-talk.reply-answer.even-then-it-s-the-right-call-on-bill"
       ],
-      "why": "The reporter asks why a source is wrong, and the reply answers about the bill being the right call instead, so the pair does not read as a natural exchange."
+      "why": "'Even then' has nothing to point back to and never says why the source is wrong"
     },
     "1524b77vnvj": {
       "keys": [
@@ -38,6 +52,13 @@
         "scene-talk.reply-withdraw.i-m-really-worried-about-the-vote-on-bill-i-can-t-do-it"
       ],
       "why": "A withdrawal of support does not answer a question about why the source is wrong."
+    },
+    "1efrhs5umc1": {
+      "keys": [
+        "scene-talk.state-ask.i-put-your-amendment-in-bill-i-m-counting-on-your-vote-today",
+        "scene-talk.reply-bargain.this-is-a-two-way-street-on-bill-i-ll-need-your-vote-on-mine"
+      ],
+      "why": "the speaker already gave the amendment, so asking for reciprocity ignores the trade already made"
     },
     "1hdfp7j3q7r": {
       "keys": [
@@ -66,7 +87,14 @@
         "scene-talk.reply-answer.i-voted-against-it-place-deserves-better-than-that"
       ],
       "why": "Asked how they will vote, the reply speaks of a vote already cast."
+    },
+    "2bgy69abe7k": {
+      "keys": [
+        "scene-talk.follow-ask.why-is-source-wrong",
+        "scene-talk.reply-bargain.this-is-a-two-way-street-on-bill-i-ll-need-your-vote-on-mine"
+      ],
+      "why": "asked why a source is wrong, the reply bargains for a vote instead of answering"
     }
   },
-  "yesHash": "1upwxuexw7g"
+  "yesHash": "1npz1tmvwxc"
 }
