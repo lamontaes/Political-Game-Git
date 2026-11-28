@@ -119,8 +119,10 @@ describe("spoken lines that name a policy by the catalog's words", () => {
  *      back to `about` when it has none, question-names.ts);
  *  (c) every `said` passes holdsCatalogName, except the everyday names the
  *      law is called by (everyday-names.json: shrink-only, each with a reason);
- *  (d) every budget line that can fill {issue} (floor-debate-facts.ts) is
- *      said in plain words (passes holdsCatalogName).
+ *  (d) every budget line that can fill {issue} (floor-debate-facts.ts) has
+ *      its own `said` in line-names.json, which passes holdsCatalogName, and
+ *      floor-debate-facts.ts fills {issue} from `said`, never from `name`
+ *      (the Census category label; owner, Nov 8).
  */
 const FILL_SITES: Record<string, number> = {
   "src/director/purpose-scene.ts": 6,
@@ -211,15 +213,44 @@ describe("scene-talk {issue} is filled with the question as people say it", () =
     ).toEqual([]);
   });
 
-  it("every budget line that can fill {issue} is said in plain words", () => {
+  it("every budget line that can fill {issue} has its own said name", () => {
     expect(
-      Object.entries(lineNames.lines as Record<string, { name: string }>)
-        .filter(([, row]) => holdsCatalogName(row.name.toLowerCase()))
+      Object.entries(
+        lineNames.lines as Record<string, { name: string; said?: string }>,
+      )
+        .filter(([, row]) => !row.said?.trim())
+        .map(([line, row]) => `${line}: "${row.name}"`),
+      'give each line a `said` in src/core2/data/budgets/line-names.json, the plain words a person uses ("the sales tax"), never the table\'s category name (owner, Nov 8) (Story)',
+    ).toEqual([]);
+  });
+
+  it("every budget line's said, where it has one, is said in plain words", () => {
+    expect(
+      Object.entries(
+        lineNames.lines as Record<string, { name: string; said?: string }>,
+      )
+        .filter(([, row]) => row.said && holdsCatalogName(row.said))
         .map(
           ([line, row]) =>
-            `${line}: "${row.name.toLowerCase()}" holds "${holdsCatalogName(row.name.toLowerCase())}"`,
+            `${line}: "${row.said}" holds "${holdsCatalogName(row.said!)}"`,
         ),
-      "name these budget lines as people do (src/core2/data/budgets/line-names.json; floor-debate-facts.ts reads it into {issue}) (Story)",
+      "say these as people do (Story)",
     ).toEqual([]);
+  });
+
+  it("floor-debate-facts.ts fills {issue} from a budget line's said, never from its name", () => {
+    const text = readFileSync(
+      path.join(ROOT, "src/director/floor-debate-facts.ts"),
+      "utf8",
+    );
+    const def = text.match(/const about =[^;]*;/)?.[0] ?? "";
+    expect(def, "the `about` definition is not where it was").toContain(
+      "questionSaid(",
+    );
+    expect(def, "a budget line is said by its `said`").toContain(".said");
+    expect(
+      def,
+      "a budget line is never said by its table `name` (the category label)",
+    ).not.toContain(".name");
   });
 });
