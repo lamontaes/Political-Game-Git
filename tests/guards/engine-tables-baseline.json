@@ -4,34 +4,20 @@
       "homes": 1,
       "jobs-businesses": 1
     },
-    "src/bench/bill-stage.ts": {
-      "executive": 2
-    },
-    "src/bench/budget.ts": {
-      "budgets": 1,
-      "executive": 2
-    },
     "src/bench/calendar.ts": {
       "elections": 1
     },
     "src/bench/campaign.ts": {
-      "elections": 11,
-      "executive": 2
+      "elections": 3
     },
     "src/bench/card.ts": {
-      "executive": 4,
       "homes": 1
-    },
-    "src/bench/dev-force-legislature.ts": {
-      "executive": 2
     },
     "src/bench/dev-industries.ts": {
       "dynamic": 1
     },
     "src/bench/dev-mode.ts": {
       "dynamic": 1,
-      "elections": 1,
-      "executive": 4,
       "jobs-businesses": 2,
       "people": 2
     },
@@ -39,9 +25,6 @@
       "dynamic": 2,
       "elections": 2,
       "news": 1
-    },
-    "src/bench/dev-views/dev-closing.ts": {
-      "jobs-businesses": 4
     },
     "src/bench/dev-views/opening.ts": {
       "elections": 2,
@@ -55,18 +38,13 @@
       "jobs-businesses": 1
     },
     "src/bench/election-night.ts": {
-      "elections": 2
-    },
-    "src/bench/filing.ts": {
-      "executive": 1
+      "elections": 1
     },
     "src/bench/government-bodies.ts": {
-      "elections": 1,
-      "executive": 3
+      "elections": 1
     },
     "src/bench/government.ts": {
-      "elections": 6,
-      "executive": 1
+      "elections": 3
     },
     "src/bench/law-did.ts": {
       "laws": 1
@@ -77,22 +55,18 @@
     "src/bench/map.ts": {
       "elections": 1
     },
-    "src/bench/openings.ts": {
-      "jobs-businesses": 2
-    },
     "src/bench/printed-words.ts": {
       "dynamic": 1,
       "jobs-businesses": 1
     },
     "src/bench/reached.ts": {
-      "elections": 3,
+      "elections": 2,
       "news": 1
     },
     "src/bench/results.ts": {
-      "elections": 2
+      "elections": 1
     },
     "src/bench/scene.ts": {
-      "executive": 2,
       "homes": 1
     },
     "src/core2/board-appointer.ts": {
@@ -115,12 +89,6 @@
     "src/core2/gov-measures.ts": {
       "elections": 2,
       "executive": 1
-    },
-    "src/core2/health-displacement.ts": {
-      "jobs-businesses": 1
-    },
-    "src/core2/heard-claims.ts": {
-      "elections": 1
     },
     "src/core2/hearer-groups.ts": {
       "executive": 1
@@ -163,9 +131,7 @@
       "jobs-businesses": 1
     },
     "src/core2/modules/counted-demotion.ts": {
-      "elections": 2,
-      "executive": 1,
-      "jobs-businesses": 1
+      "elections": 1
     },
     "src/core2/modules/credit.ts": {
       "homes": 1
@@ -175,9 +141,6 @@
     },
     "src/core2/modules/filing-clerk.ts": {
       "executive": 1
-    },
-    "src/core2/modules/grievance.ts": {
-      "jobs-businesses": 2
     },
     "src/core2/modules/interest-groups.ts": {
       "bodies": 1
@@ -220,8 +183,7 @@
       "people": 2
     },
     "src/core2/modules/public-action.ts": {
-      "elections": 1,
-      "jobs-businesses": 2
+      "elections": 1
     },
     "src/core2/modules/recalls.ts": {
       "bodies": 2,
@@ -277,12 +239,6 @@
     "src/core2/past-elections.ts": {
       "elections": 1
     },
-    "src/core2/past-laws.ts": {
-      "laws": 1
-    },
-    "src/core2/past-news.ts": {
-      "budgets": 1
-    },
     "src/core2/past-public.ts": {
       "elections": 1,
       "executive": 2
@@ -320,9 +276,6 @@
     },
     "src/core2/term-read.ts": {
       "jobs-businesses": 3
-    },
-    "src/core2/world-poverty.ts": {
-      "jobs-businesses": 1
     },
     "src/director/arc-variant.ts": {
       "dynamic": 3
