@@ -4,7 +4,7 @@
  * the victory-night purpose), every reply pressed, with the facts it leans on and the piece keys said. Development
  * tooling for the Story thread, shipped play never imports it; the shape of door-walk.ts.
  *
- *   node --import tsx scripts/words/election-walk.ts --seed <word> [--label a] [--attempts 12] [--seat mayor] [--want won]
+ *   node --import tsx scripts/words/election-walk.ts --seed <word> [--label a] [--attempts 12] [--seat mayor] [--want won|family]
  *
  * The place is drawn from all 56 by seed and label. A local resident files for an open local seat that needs no
  * petition (a place with none is passed over by name and the next place is drawn, up to `--attempts`; the seed and
@@ -133,6 +133,17 @@ if (!filingId || !personId) {
     "no open local seat that puts a filer on the ballot with no petition",
   );
 }
+if (
+  option("want", "") === "family" &&
+  !(
+    core.households.get(core.people.get(personId!)!.householdId)?.memberIds ??
+    []
+  ).some((id) => id !== personId && core.people.get(id)?.alive)
+)
+  walk.passOver(
+    where,
+    "the filer lives with no one the director could book a loss for",
+  );
 console.log(
   `# PLAYER ${personId} filed ${filingId} on ${start}; the election is ${electionDate}`,
 );
