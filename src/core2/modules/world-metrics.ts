@@ -12,11 +12,8 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { residentsRuntime } from "./residents";
 import { povertyByPlace } from "../world-poverty";
-import {
-  HOUSING_MODULE_ID,
-  allMortgageRows,
-  townFiguresByPlace,
-} from "./housing";
+import { HOUSING_MODULE_ID, townFiguresByPlace } from "./housing";
+import { allMortgageRows } from "../housing-reads";
 import { allCreditLoans, type CreditLoanRow } from "../credit-reads";
 import {
   evictionCases,
