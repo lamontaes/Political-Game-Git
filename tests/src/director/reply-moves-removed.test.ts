@@ -8,9 +8,12 @@
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
-import { composeSceneTalk, type TreeNode } from "./scene-talk";
-import { expectUpToFourDifferent } from "./reply-set-check";
+import { drawPlace } from "../../../scripts/core2-year/place";
+import {
+  composeSceneTalk,
+  type TreeNode,
+} from "../../../src/director/scene-talk";
+import { expectUpToFourDifferent } from "../../support/reply-set-check";
 
 const REMOVED = new Set(["leave", "deflect", "stall"]);
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -21,7 +24,7 @@ it(`no composed set holds a removed reply, and a smaller set plays (${place.name
   process.env.GOLDEN_PATH_SEED = place.seed;
   process.env.GOLDEN_PATH_PLACE_KEY = place.key;
   const { core, director, askerId, askedId, facts, types, HELD } =
-    await import("../../tests/support/scene-talk-fixture");
+    await import("../../support/scene-talk-fixture");
   const where = `${place.name} (${place.key}), seed ${place.seed}`;
   let composed = 0;
   let smaller = 0;
