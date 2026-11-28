@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 5897,
+  "judged": 5900,
   "no": {
     "0og4sk6q40k": {
       "keys": [
@@ -54,5 +54,5 @@
       "why": "clerk says walk the streets on a weekend; 'start tomorrow' ignores that timing, and 'it' has no referent in the line"
     }
   },
-  "yesHash": "1k4mr0c1df1"
+  "yesHash": "0hsc5uawdj4"
 }
