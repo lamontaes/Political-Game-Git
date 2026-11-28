@@ -7,7 +7,7 @@ import {
   openingWorkPayrollCalendars,
 } from "../opening-payroll-calendar";
 import { stopgap } from "../stopgaps";
-import { FinanceReadGuard } from "../budgets-treasury";
+import { FinanceReadGuard } from "../finance-plan";
 
 import { careNeedOf } from "./health";
 import type {
