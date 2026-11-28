@@ -73,6 +73,7 @@ import { filingWindowOpens } from "./modules/candidacy";
 import { partySide } from "./party-sides";
 import {
   ELECTIONS_MODULE_ID,
+  allContests,
   ballot,
   fileCandidacy,
   type ContestRow,
@@ -592,12 +593,7 @@ export function openFiling(
   const seat = federalSeatOf(api, personId);
   if (!seat || !api.state.modules.has(ELECTIONS_MODULE_ID)) return null;
   return (
-    (
-      api
-        .moduleState(ELECTIONS_MODULE_ID)
-        .table("contests")
-        .rows() as unknown as ContestRow[]
-    ).find(
+    allContests(api).find(
       (c) =>
         c.seatId === seat.term.seatId &&
         filingWindowOpens(api, c) <= date &&
