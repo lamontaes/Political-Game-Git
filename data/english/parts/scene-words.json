@@ -159,7 +159,11 @@
       "date": "2026-11-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-short-by-a-few-names"
+      ]
     },
     {
       "key": "scene-words.arrival-venue-other.begins-you-meet-name-downtown-to-talk-over-happened",
@@ -199,7 +203,8 @@
       "date": "2026-11-15",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names", "petition-can-be-contested"]
     },
     {
       "key": "scene-words.arrival-home-alone.it-s-landing-you-sit-down-at-the-kitchen-table",
@@ -462,7 +467,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "organizer-talks-away-from-the-job",
+        "knock-on-the-door-before-the-storm"
+      ]
     },
     {
       "key": "scene-words.arrival-home-other.begins-you-answer-the-door-and-find-name-on-the-step",
@@ -482,7 +491,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "knock-on-the-door-before-the-storm",
+        "organizer-talks-away-from-the-job"
+      ]
     },
     {
       "key": "scene-words.arrival-home-other.begins-name-sits-down-across-from-you-at-the-kitchen-table",
@@ -502,7 +515,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "after-a-bad-loss-the-spouse-is-asked-before-running-again",
+        "coffee-with-a-friend-considering-a-run"
+      ]
     },
     {
       "key": "scene-words.arrival-home-other.begins-the-doorbell-rings-and-name-is-at-the-door",
@@ -522,7 +539,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "knock-on-the-door-before-the-storm",
+        "organizer-talks-away-from-the-job"
+      ]
     },
     {
       "key": "scene-words.arrival-home-other.begins-you-open-the-door-to-name-and-happened-comes-up",
@@ -542,7 +563,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "knock-on-the-door-before-the-storm",
+        "organizer-talks-away-from-the-job"
+      ]
     },
     {
       "key": "scene-words.arrival-home-other.begins-name-sits-down-with-you-and-the-talk-turns-to-happened",
@@ -562,7 +587,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "after-a-bad-loss-the-spouse-is-asked-before-running-again",
+        "coffee-with-a-friend-considering-a-run",
+        "a-parent-asks-your-view-to-know-you-not-to-win"
+      ]
     },
     {
       "key": "scene-words.arrival-other-home-other.begins-you-knock-and-name-opens-the-door",
@@ -582,7 +612,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "resident-keeps-the-canvasser-at-one-door",
+        "daughters-answer-the-door-for-a-parent"
+      ]
     },
     {
       "key": "scene-words.arrival-other-home-other.begins-you-ring-the-bell-and-name-answers",
@@ -602,7 +636,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "resident-keeps-the-canvasser-at-one-door",
+        "canvasser-says-just-talking-to-neighbors"
+      ]
     },
     {
       "key": "scene-words.arrival-other-home-other.begins-you-walk-up-the-drive-and-name-waves-you-in",
@@ -622,7 +660,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "resident-keeps-the-canvasser-at-one-door",
+        "resident-who-is-not-on-the-list-talks-for-forty-minutes"
+      ]
     },
     {
       "key": "scene-words.arrival-other-home-alone.begins-you-walk-up-to-a-house-and-ring-the-bell",
@@ -642,7 +684,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "canvasser-knocks-the-frame-and-steps-back",
+        "canvass-shift-with-no-conversation"
+      ]
     },
     {
       "key": "scene-words.arrival-other-home-alone.begins-you-climb-a-porch-and-knock",
@@ -662,7 +708,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "canvasser-knocks-the-frame-and-steps-back",
+        "most-doors-on-a-list-stay-closed"
+      ]
     },
     {
       "key": "scene-words.arrival-other-home-alone.begins-you-cross-a-yard-to-a-front-door",
@@ -682,7 +732,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "door-on-a-small-town-street",
+        "canvass-shift-with-no-conversation"
+      ]
     },
     {
       "key": "scene-words.arrival-phone-other.begins-the-phone-rings-and-name-is-on-the-line",
@@ -702,7 +756,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "recognize-caller-from-former-workplace",
+        "old-friend-calls-after-a-public-address",
+        "after-a-bad-loss-the-spouse-is-asked-before-running-again"
+      ]
     },
     {
       "key": "scene-words.arrival-phone-other.begins-you-pick-up-and-it-s-name",
@@ -722,7 +781,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "recognize-caller-from-former-workplace",
+        "old-friend-calls-after-a-public-address",
+        "after-a-bad-loss-the-spouse-is-asked-before-running-again"
+      ]
     },
     {
       "key": "scene-words.arrival-phone-other.begins-the-phone-rings-name-is-calling",
@@ -742,7 +806,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "recognize-caller-from-former-workplace",
+        "old-friend-calls-after-a-public-address",
+        "after-a-bad-loss-the-spouse-is-asked-before-running-again"
+      ]
     },
     {
       "key": "scene-words.arrival-phone-other.begins-name-calls-and-happened-is-the-subject",
@@ -762,7 +831,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "governor-calls-to-confirm-advice",
+        "reporter-calls-on-a-recorded-no"
+      ]
     },
     {
       "key": "scene-words.arrival-phone-other.begins-you-pick-up-and-name-starts-in-on-happened",
@@ -782,7 +855,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "reporter-calls-on-a-recorded-no",
+        "governor-calls-to-confirm-advice"
+      ]
     },
     {
       "key": "scene-words.arrival-phone-other.begins-the-phone-rings-with-name-calling-about-happened",
@@ -802,7 +879,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "governor-calls-to-confirm-advice",
+        "recognize-caller-from-former-workplace"
+      ]
     },
     {
       "key": "scene-words.arrival-phone-alone.begins-the-phone-rings",
@@ -822,7 +903,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "after-a-bad-loss-the-spouse-is-asked-before-running-again",
+        "manager-agrees-to-wait-for-candidate"
+      ]
     },
     {
       "key": "scene-words.arrival-phone-alone.begins-your-phone-buzzes-on-the-table",
@@ -842,7 +927,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "after-a-bad-loss-the-spouse-is-asked-before-running-again",
+        "manager-agrees-to-wait-for-candidate"
+      ]
     },
     {
       "key": "scene-words.arrival-phone-alone.begins-the-phone-starts-to-ring-in-your-hand",
@@ -862,7 +951,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "after-a-bad-loss-the-spouse-is-asked-before-running-again",
+        "manager-agrees-to-wait-for-candidate"
+      ]
     },
     {
       "key": "scene-words.arrival-letter-other.begins-a-letter-from-name-arrives",
@@ -882,7 +975,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "old-friend-calls-after-a-public-address"
+      ]
     },
     {
       "key": "scene-words.arrival-letter-other.begins-you-slit-open-an-envelope-from-name",
@@ -902,7 +999,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "old-friend-calls-after-a-public-address"
+      ]
     },
     {
       "key": "scene-words.arrival-letter-other.begins-the-mail-brings-an-envelope-from-name",
@@ -922,7 +1023,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "old-friend-calls-after-a-public-address"
+      ]
     },
     {
       "key": "scene-words.arrival-letter-other.begins-you-unfold-a-letter-from-name",
@@ -942,7 +1047,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "old-friend-calls-after-a-public-address"
+      ]
     },
     {
       "key": "scene-words.arrival-letter-other.begins-you-unfold-a-letter-from-name-about-happened",
@@ -962,7 +1071,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "old-friend-calls-after-a-public-address",
+        "letter-from-former-officials-stands-for-public-anger"
+      ]
     },
     {
       "key": "scene-words.arrival-letter-other.begins-a-letter-from-name-arrives-and-it-takes-up-happened",
@@ -982,7 +1096,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "old-friend-calls-after-a-public-address",
+        "letter-from-former-officials-stands-for-public-anger"
+      ]
     },
     {
       "key": "scene-words.arrival-letter-other.begins-you-open-the-envelope-from-name-and-happened-leads",
@@ -1002,7 +1121,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "old-friend-calls-after-a-public-address",
+        "letter-from-former-officials-stands-for-public-anger"
+      ]
     },
     {
       "key": "scene-words.arrival-letter-alone.begins-an-envelope-arrives-in-the-mail",
@@ -1022,7 +1145,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "job-offer-traces-to-an-application",
+        "the-grower-gets-a-classification-letter-before-harvest"
+      ]
     },
     {
       "key": "scene-words.arrival-letter-alone.begins-you-open-a-letter-that-came-in-the-mail",
@@ -1042,7 +1169,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "job-offer-traces-to-an-application",
+        "the-grower-gets-a-classification-letter-before-harvest"
+      ]
     },
     {
       "key": "scene-words.arrival-letter-alone.begins-you-turn-over-an-envelope-from-the-day-s-mail",
@@ -1062,7 +1193,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "opposing-mail-in-a-separate-stack",
+        "job-offer-traces-to-an-application"
+      ]
     },
     {
       "key": "scene-words.arrival-workplace-other.begins-you-reach-where-and-name-comes-over",
@@ -1082,7 +1217,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "coworker-asks-you-to-sign-a-card-first-week",
+        "new-hire-first-week-talk"
+      ]
     },
     {
       "key": "scene-words.arrival-workplace-other.begins-you-clock-in-at-where-and-name-finds-you",
@@ -1102,7 +1241,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "coworker-asks-you-to-sign-a-card-first-week",
+        "new-hire-first-week-talk"
+      ]
     },
     {
       "key": "scene-words.arrival-workplace-other.begins-at-where-name-falls-into-step-beside-you",
@@ -1122,7 +1265,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b6-02-the-new-face-in-the-room",
+        "friendship-began-on-the-job"
+      ]
     },
     {
       "key": "scene-words.arrival-workplace-other.begins-name-comes-over-while-you-work",
@@ -1142,7 +1289,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "coworker-asks-you-to-sign-a-card-first-week",
+        "new-hire-first-week-talk"
+      ]
     },
     {
       "key": "scene-words.arrival-workplace-other.begins-you-look-up-from-your-work-and-name-stands-there",
@@ -1162,7 +1313,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "layoff-the-supervisor-walks-the-line",
+        "a-foreman-persuades-one-worker-to-stay"
+      ]
     },
     {
       "key": "scene-words.arrival-workplace-other.begins-name-finds-you-on-the-job",
@@ -1182,7 +1337,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "coworker-asks-you-to-sign-a-card-first-week",
+        "a-foreman-persuades-one-worker-to-stay"
+      ]
     },
     {
       "key": "scene-words.arrival-workplace-alone.begins-you-walk-in-to-where",
@@ -1322,7 +1481,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
     },
     {
       "key": "scene-words.arrival-office-other.begins-you-step-up-to-the-counter-at-where-and-name-looks-up",
@@ -1342,7 +1505,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "hand-repeal-petitions-to-the-city-clerk"
+      ]
     },
     {
       "key": "scene-words.arrival-office-other.begins-name-meets-you-inside-where",
@@ -1362,7 +1529,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
     },
     {
       "key": "scene-words.arrival-office-other.begins-you-walk-into-the-office-and-name-looks-up",
@@ -1382,7 +1553,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
     },
     {
       "key": "scene-words.arrival-office-other.begins-name-meets-you-at-the-office-door",
@@ -1402,7 +1577,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
     },
     {
       "key": "scene-words.arrival-office-other.begins-you-sit-down-across-from-name-at-the-office",
@@ -1442,7 +1621,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-short-by-a-few-names"
+      ]
     },
     {
       "key": "scene-words.arrival-office-other.begins-name-opens-a-file-on-happened-at-where",
@@ -1462,7 +1645,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-short-by-a-few-names"
+      ]
     },
     {
       "key": "scene-words.arrival-office-other.begins-at-where-you-and-name-go-over-happened",
@@ -1482,7 +1669,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-short-by-a-few-names"
+      ]
     },
     {
       "key": "scene-words.arrival-office-alone.begins-you-push-open-the-door-of-where",
@@ -1502,7 +1693,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
     },
     {
       "key": "scene-words.arrival-office-alone.begins-you-step-into-where",
@@ -1522,7 +1717,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
     },
     {
       "key": "scene-words.arrival-office-alone.begins-you-walk-up-the-steps-of-where",
@@ -1542,7 +1741,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
     },
     {
       "key": "scene-words.arrival-office-alone.begins-you-walk-into-the-office",
@@ -1562,7 +1765,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
     },
     {
       "key": "scene-words.arrival-office-alone.begins-you-push-open-the-office-door",
@@ -1582,7 +1789,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
     },
     {
       "key": "scene-words.arrival-office-alone.begins-you-step-inside-the-office",
@@ -1602,7 +1813,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
     },
     {
       "key": "scene-words.arrival-chamber-other.begins-you-take-your-seat-in-the-chamber-and-name-leans-over",
@@ -1622,7 +1837,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["the-whips-position-is-given-on-request"]
     },
     {
       "key": "scene-words.arrival-chamber-other.begins-name-crosses-the-chamber-floor-to-reach-you",
@@ -1642,7 +1858,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-a42-the-senior-member-sizes-you-up",
+        "pattern-b7-02-will-you-carry-it"
+      ]
     },
     {
       "key": "scene-words.arrival-chamber-other.begins-the-chamber-fills-and-name-sits-down-beside-you",
@@ -1662,7 +1882,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-a42-the-senior-member-sizes-you-up"]
     },
     {
       "key": "scene-words.arrival-chamber-other.begins-you-walk-onto-the-floor-and-name-meets-you",
@@ -1682,7 +1903,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-a42-the-senior-member-sizes-you-up",
+        "lobbyist-meets-member-outside-the-chamber"
+      ]
     },
     {
       "key": "scene-words.arrival-chamber-other.begins-you-sit-and-name-leans-over-about-happened",
@@ -1702,7 +1927,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "the-whips-position-is-given-on-request",
+        "member-asked-for-a-vote-stays-undecided-until-the-floor"
+      ]
     },
     {
       "key": "scene-words.arrival-chamber-other.begins-name-crosses-the-floor-and-happened-is-the-subject",
@@ -1722,7 +1951,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b7-02-will-you-carry-it",
+        "find-a-sponsor-across-the-building"
+      ]
     },
     {
       "key": "scene-words.arrival-chamber-other.begins-the-chamber-fills-and-name-brings-papers-on-happened",
@@ -1742,7 +1975,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "find-a-sponsor-across-the-building",
+        "bring-former-opponents-onto-revised-bill"
+      ]
     },
     {
       "key": "scene-words.arrival-chamber-alone.begins-the-chamber-doors-open-and-members-file-in",
@@ -1822,7 +2059,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["the-page-puts-yesterdays-debate-beside-todays-calendar"]
     },
     {
       "key": "scene-words.arrival-chamber-alone.begins-the-chamber-fills-and-happened-is-up-for-the-day",
@@ -1842,7 +2080,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["the-page-puts-yesterdays-debate-beside-todays-calendar"]
     },
     {
       "key": "scene-words.arrival-chamber-alone.begins-members-file-in-with-copies-of-happened",
@@ -1862,7 +2101,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["the-page-puts-yesterdays-debate-beside-todays-calendar"]
     },
     {
       "key": "scene-words.arrival-school-other.begins-you-walk-into-where-and-name-steps-over",
@@ -2122,7 +2362,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "the-mother-stopped-in-the-grocery-aisle",
+        "pattern-a22-you-never-asked"
+      ]
     },
     {
       "key": "scene-words.arrival-public-other.begins-name-comes-up-to-you-on-the-sidewalk",
@@ -2142,7 +2386,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["rally-on-the-way-to-another-engagement"]
     },
     {
       "key": "scene-words.arrival-public-other.begins-you-cross-paths-with-name-downtown",
@@ -2162,7 +2407,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-a22-you-never-asked"]
     },
     {
       "key": "scene-words.arrival-public-other.begins-you-stop-on-the-sidewalk-as-name-walks-up",
@@ -2182,7 +2428,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["rally-on-the-way-to-another-engagement"]
     },
     {
       "key": "scene-words.arrival-public-other.begins-you-run-into-name-on-the-street-and-happened-comes-up",
@@ -2202,7 +2449,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "the-mother-stopped-in-the-grocery-aisle",
+        "pattern-a22-you-never-asked"
+      ]
     },
     {
       "key": "scene-words.arrival-public-other.begins-name-stops-you-on-the-sidewalk-to-talk-about-happened",
@@ -2222,7 +2473,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "the-mother-stopped-in-the-grocery-aisle",
+        "rally-on-the-way-to-another-engagement"
+      ]
     },
     {
       "key": "scene-words.arrival-public-other.begins-you-meet-name-downtown-and-the-talk-is-happened",
@@ -2242,7 +2497,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "the-mother-stopped-in-the-grocery-aisle",
+        "rally-on-the-way-to-another-engagement"
+      ]
     },
     {
       "key": "scene-words.arrival-public-alone.begins-you-walk-down-the-street",
@@ -2342,7 +2601,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["floor-chair-recognizes-a-raised-hand"]
     },
     {
       "key": "scene-words.arrival-venue-other.begins-you-step-inside-and-name-comes-over",
@@ -2362,7 +2622,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "lobbyist-meets-member-outside-the-chamber"
+      ]
     },
     {
       "key": "scene-words.arrival-venue-other.begins-you-step-inside-and-name-meets-you-with-happened-on-the-agenda",
@@ -2382,7 +2646,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "lobbyist-meets-member-outside-the-chamber"
+      ]
     },
     {
       "key": "scene-words.arrival-venue-other.begins-you-reach-the-hall-and-name-raises-happened",
@@ -2402,7 +2670,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["floor-chair-recognizes-a-raised-hand"]
     },
     {
       "key": "scene-words.arrival-venue-other.begins-you-walk-in-and-name-brings-up-happened",
@@ -2442,7 +2711,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-crowd-gathers-before-the-meeting",
+        "school-board-crowd-forces-a-venue-move",
+        "a-rally-over-housing-fills-the-chamber"
+      ]
     },
     {
       "key": "scene-words.arrival-venue-alone.begins-you-push-through-the-entrance-and-step-inside",
@@ -2462,7 +2736,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-crowd-gathers-before-the-meeting",
+        "school-board-crowd-forces-a-venue-move",
+        "a-rally-over-housing-fills-the-chamber"
+      ]
     },
     {
       "key": "scene-words.arrival-venue-alone.begins-you-reach-the-hall-as-people-gather",
@@ -2482,7 +2761,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-crowd-gathers-before-the-meeting",
+        "school-board-crowd-forces-a-venue-move",
+        "a-rally-over-housing-fills-the-chamber"
+      ]
     },
     {
       "key": "scene-words.lead-news-arrives-other.other-meets-you-in-the-front-room-and-doesn-t-sit",
@@ -2503,7 +2787,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-04-someone-dying-someone-buried",
+        "pattern-b5-02-the-notice-and-the-days-after",
+        "pattern-b5-03-the-job-ends"
+      ]
     },
     {
       "key": "scene-words.lead-news-arrives-other.other-stands-by-the-kitchen-table-coat-still-on",
@@ -2524,7 +2813,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-04-someone-dying-someone-buried",
+        "pattern-b5-02-the-notice-and-the-days-after",
+        "pattern-b5-03-the-job-ends"
+      ]
     },
     {
       "key": "scene-words.lead-news-arrives-other.other-looks-up-as-you-come-in-the-door",
@@ -2566,7 +2860,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-04-someone-dying-someone-buried",
+        "pattern-b5-03-the-job-ends"
+      ]
     },
     {
       "key": "scene-words.lead-news-arrives-other.it-s-other-on-the-phone-speaking-low",
@@ -2587,7 +2885,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-04-someone-dying-someone-buried",
+        "pattern-b5-03-the-job-ends"
+      ]
     },
     {
       "key": "scene-words.lead-news-arrives-other.other-calls-and-a-breath-comes-before-the-first-word",
@@ -2608,7 +2910,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-04-someone-dying-someone-buried",
+        "pattern-b5-03-the-job-ends"
+      ]
     },
     {
       "key": "scene-words.lead-news-arrives-alone.the-eviction-case-against-your-household-was-filed-by-landlord",
@@ -2648,7 +2954,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-words.lead-news-arrives-alone.the-papers-from-landlord-are-spread-out-in-front-of-you",
@@ -2668,7 +2975,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-words.lead-news-arrives-alone.the-paperwork-from-org-sits-on-the-table",
@@ -2688,7 +2996,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-02-the-notice-and-the-days-after",
+        "pattern-b5-03-the-job-ends"
+      ]
     },
     {
       "key": "scene-words.lead-news-arrives-alone.a-letter-from-org-lies-open-in-front-of-you",
@@ -2708,7 +3020,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-02-the-notice-and-the-days-after",
+        "pattern-b5-03-the-job-ends"
+      ]
     },
     {
       "key": "scene-words.lead-news-arrives-alone.the-envelope-from-org-is-on-the-counter",
@@ -2728,7 +3044,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-02-the-notice-and-the-days-after",
+        "pattern-b5-03-the-job-ends"
+      ]
     },
     {
       "key": "scene-words.lead-news-arrives-alone.the-sentencing-papers-say-term",
@@ -2808,7 +3128,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-words.lead-becoming-friends-other.you-and-other-fall-into-step",
@@ -2828,7 +3149,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["friendship-began-on-the-job", "pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-words.lead-becoming-friends-other.other-pulls-out-a-chair-for-you",
@@ -2848,7 +3170,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-words.lead-argument-other.other-stands-with-arms-crossed",
@@ -2868,7 +3191,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "father-and-daughter-who-would-rather-not-talk-politics",
+        "agreed-to-disagree-until-the-visit-blew-up"
+      ]
     },
     {
       "key": "scene-words.lead-argument-other.other-doesn-t-answer-your-hello",
@@ -2888,7 +3215,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-brother-sends-a-gift-each-christmas-and-gets-no-reply",
+        "a-text-asking-if-you-want-to-talk"
+      ]
     },
     {
       "key": "scene-words.lead-argument-other.other-turns-away-then-turns-back-to-you",
@@ -2908,7 +3239,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-text-asking-if-you-want-to-talk",
+        "agreed-to-disagree-until-the-visit-blew-up"
+      ]
     },
     {
       "key": "scene-words.lead-celebration-other.other-raises-a-glass-to-you",
@@ -2928,7 +3263,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["victory-night-situation"]
     },
     {
       "key": "scene-words.lead-celebration-other.other-hands-you-a-plate",
@@ -2948,7 +3284,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["victory-night-situation"]
     },
     {
       "key": "scene-words.lead-celebration-other.other-taps-a-glass-for-quiet",
@@ -2968,7 +3305,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "victory-night-situation",
+        "victory-speaks-first-to-the-room-not-to-policy"
+      ]
     },
     {
       "key": "scene-words.lead-celebration-alone.a-toast-goes-up-for-the-new-job-at-org",
@@ -3048,7 +3389,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
     },
     {
       "key": "scene-words.lead-funeral-other.other-stands-beside-you-at-the-back",
@@ -3068,7 +3410,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
     },
     {
       "key": "scene-words.lead-funeral-other.other-passes-you-a-program",
@@ -3088,7 +3431,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
     },
     {
       "key": "scene-words.lead-funeral-alone.everyone-has-gathered-to-remember-about",
@@ -3108,7 +3452,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
     },
     {
       "key": "scene-words.lead-funeral-alone.a-photo-of-about-stands-at-the-front",
@@ -3128,7 +3473,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
     },
     {
       "key": "scene-words.lead-funeral-alone.people-file-in-to-pay-respects-to-about",
@@ -3148,7 +3494,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-04-someone-dying-someone-buried"]
     },
     {
       "key": "scene-words.lead-first-meeting-other.other-puts-out-a-hand",
@@ -3168,7 +3515,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-words.lead-first-meeting-other.other-walks-up-and-nods",
@@ -3188,7 +3536,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-words.lead-first-meeting-other.other-steps-over-and-stops-in-front-of-you",
@@ -3208,7 +3557,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-words.lead-first-meeting-alone.a-new-hire-at-org-crosses-the-room-to-you",
@@ -3228,7 +3578,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-words.lead-first-meeting-alone.a-newcomer-from-org-walks-toward-you",
@@ -3248,7 +3599,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-words.lead-first-meeting-alone.a-face-you-haven-t-seen-at-org-comes-up-to-you",
@@ -3268,7 +3620,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-words.lead-first-day-alone.the-front-entrance-of-org-opens-for-your-first-day",
@@ -3288,7 +3641,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival"
+      ]
     },
     {
       "key": "scene-words.lead-first-day-alone.your-name-is-on-the-first-day-list-at-org",
@@ -3308,7 +3665,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["workspace-ready-on-arrival"]
     },
     {
       "key": "scene-words.lead-first-day-alone.your-first-shift-at-org-starts-at-the-door",
@@ -3328,7 +3686,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["manager-meets-new-hire-day-one"]
     },
     {
       "key": "scene-words.lead-last-day-alone.you-have-one-more-shift-at-org",
@@ -3348,7 +3707,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-05-the-last-day"]
     },
     {
       "key": "scene-words.lead-last-day-alone.the-locker-at-org-is-nearly-empty",
@@ -3368,7 +3728,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-05-the-last-day"]
     },
     {
       "key": "scene-words.lead-last-day-alone.your-desk-at-org-is-half-cleared-out",
@@ -3388,7 +3749,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-05-the-last-day"]
     },
     {
       "key": "scene-words.lead-last-day-alone.you-walk-the-halls-of-where-one-last-time",
@@ -3408,7 +3770,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-05-the-last-day"]
     },
     {
       "key": "scene-words.lead-last-day-alone.your-last-day-at-where-begins",
@@ -3428,7 +3791,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-05-the-last-day"]
     },
     {
       "key": "scene-words.lead-last-day-alone.the-lockers-of-where-are-mostly-bare",
@@ -3448,7 +3812,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-05-the-last-day"]
     },
     {
       "key": "scene-words.lead-breakup-other.other-stands-in-the-doorway-and-doesn-t-come-in",
@@ -3468,7 +3833,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["earlier-home-talk-gives-separation-context"]
     },
     {
       "key": "scene-words.lead-breakup-other.other-and-you-sit-at-opposite-ends-of-the-couch",
@@ -3488,7 +3854,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "earlier-home-talk-gives-separation-context",
+        "parents-divorce-and-the-child-is-told-late"
+      ]
     },
     {
       "key": "scene-words.lead-breakup-other.other-looks-at-the-floor-then-at-you",
@@ -3508,7 +3878,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "earlier-home-talk-gives-separation-context",
+        "parents-divorce-and-the-child-is-told-late"
+      ]
     },
     {
       "key": "scene-words.lead-breakup-alone.boxes-stand-by-the-door-packed-for-about",
@@ -3528,7 +3902,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["parents-divorce-and-the-child-is-told-late"]
     },
     {
       "key": "scene-words.lead-breakup-alone.the-closet-is-half-empty-where-about-kept-things",
@@ -3548,7 +3923,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["parents-divorce-and-the-child-is-told-late"]
     },
     {
       "key": "scene-words.lead-breakup-alone.about-and-you-are-no-longer-together",
@@ -3568,7 +3944,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "earlier-home-talk-gives-separation-context",
+        "parents-divorce-and-the-child-is-told-late"
+      ]
     },
     {
       "key": "scene-words.lead-arrival-alone.about-carries-a-box-in-through-the-door",
@@ -3588,7 +3968,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-05-under-one-roof-or-not"]
     },
     {
       "key": "scene-words.lead-arrival-alone.a-spare-room-is-made-up-for-about",
@@ -3608,7 +3989,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "evacuees-on-a-friends-couch",
+        "pattern-b5-05-under-one-roof-or-not"
+      ]
     },
     {
       "key": "scene-words.lead-arrival-alone.about-stands-in-the-hall-with-luggage",
@@ -3628,7 +4013,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["evacuees-on-a-friends-couch"]
     },
     {
       "key": "scene-words.lead-arrival-other.other-sets-a-box-down-in-the-hall",
@@ -3648,7 +4034,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-05-under-one-roof-or-not",
+        "evacuees-on-a-friends-couch"
+      ]
     },
     {
       "key": "scene-words.lead-arrival-other.other-wipes-shoes-on-the-mat",
@@ -3688,7 +4078,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-05-under-one-roof-or-not"]
     },
     {
       "key": "scene-words.lead-layoff-other.other-asks-you-to-step-into-the-office",
@@ -3708,7 +4099,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "layoff-the-supervisor-walks-the-line",
+        "severance-agreement-handed-over-at-meeting",
+        "pattern-b5-03-the-job-ends"
+      ]
     },
     {
       "key": "scene-words.lead-layoff-other.other-closes-the-door-behind-you",
@@ -3728,7 +4124,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "severance-agreement-handed-over-at-meeting",
+        "pattern-b5-03-the-job-ends"
+      ]
     },
     {
       "key": "scene-words.lead-layoff-other.other-sets-a-folder-on-the-desk",
@@ -3748,7 +4148,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "severance-agreement-handed-over-at-meeting",
+        "pattern-b5-03-the-job-ends"
+      ]
     },
     {
       "key": "scene-words.lead-layoff-alone.an-envelope-from-org-waits-on-your-desk",
@@ -3768,7 +4172,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "severance-agreement-handed-over-at-meeting",
+        "pattern-b5-03-the-job-ends"
+      ]
     },
     {
       "key": "scene-words.lead-layoff-alone.your-badge-from-org-still-hangs-around-your-neck",
@@ -3788,7 +4196,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "scene-words.lead-layoff-alone.a-folder-marked-org-lies-in-front-of-you",
@@ -3808,7 +4217,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "severance-agreement-handed-over-at-meeting",
+        "pattern-b5-03-the-job-ends"
+      ]
     },
     {
       "key": "scene-words.lead-polling-place-any.voters-line-up",
@@ -3828,7 +4241,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "queue-then-vote-then-the-returns",
+        "machine-breakdowns-and-long-lines"
+      ]
     },
     {
       "key": "scene-words.lead-polling-place-any.the-line-moves",
@@ -3848,7 +4265,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "queue-then-vote-then-the-returns",
+        "machine-breakdowns-and-long-lines"
+      ]
     },
     {
       "key": "scene-words.lead-polling-place-any.booths-stand-open",
@@ -3888,7 +4309,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["victory-night-situation"]
     },
     {
       "key": "scene-words.lead-race-won-any.the-final-tally-for-office-puts-you-first",
@@ -3908,7 +4330,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["victory-night-situation"]
     },
     {
       "key": "scene-words.lead-race-won-any.you-carried-the-race-for-office",
@@ -3928,7 +4351,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "victory-night-situation",
+        "mayor-wins-by-dozens-and-the-recount-grows-it"
+      ]
     },
     {
       "key": "scene-words.lead-race-lost-any.the-results-for-office-are-posted-and-you-are-not-first",
@@ -3948,7 +4375,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "close-count-ends-in-a-concession",
+        "concession-thanks-the-ones-who-worked"
+      ]
     },
     {
       "key": "scene-words.lead-race-lost-any.the-final-tally-for-office-puts-you-behind",
@@ -3968,7 +4399,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-late-count-flips-the-lead-and-the-trailer-concedes",
+        "close-count-ends-in-a-concession"
+      ]
     },
     {
       "key": "scene-words.lead-race-lost-any.you-came-up-short-in-the-race-for-office",
@@ -3988,7 +4423,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "concession-thanks-the-ones-who-worked",
+        "morning-after-the-loss-the-children-comfort-her"
+      ]
     },
     {
       "key": "scene-words.lead-appointment-other.other-holds-out-a-pen",
@@ -4008,7 +4447,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-letter-writers-pen-at-the-signing",
+        "pattern-a18-the-appointment-with-a-string-on-it"
+      ]
     },
     {
       "key": "scene-words.lead-appointment-other.other-reaches-across-to-shake-your-hand",
@@ -4028,7 +4471,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-a18-the-appointment-with-a-string-on-it",
+        "appointed-to-a-seat-when-its-holder-moves-away"
+      ]
     },
     {
       "key": "scene-words.lead-appointment-other.other-slides-the-appointment-papers-over",
@@ -4048,7 +4495,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-a18-the-appointment-with-a-string-on-it",
+        "appointed-to-a-seat-when-its-holder-moves-away"
+      ]
     },
     {
       "key": "scene-words.lead-recall-any.a-recall-petition-against-about-is-going-around",
@@ -4068,7 +4519,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["town-reverses-police-dissolution-vote-a-week-later"]
     },
     {
       "key": "scene-words.lead-recall-any.clipboards-circulate-with-a-recall-petition-against-about",
@@ -4088,7 +4540,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["neighbor-with-a-clipboard"]
     },
     {
       "key": "scene-words.lead-recall-any.signatures-are-being-gathered-to-recall-about",
@@ -4108,7 +4561,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "town-reverses-police-dissolution-vote-a-week-later",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-words.lead-press-interview-any.a-reporter-has-questions-about-bill",
@@ -4128,7 +4585,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["reporter-calls-on-a-recorded-no"]
     },
     {
       "key": "scene-words.lead-press-interview-any.the-reporter-s-notebook-has-bill-written-across-the-top",
@@ -4148,7 +4606,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["reporter-calls-on-a-recorded-no"]
     },
     {
       "key": "scene-words.lead-press-interview-any.a-recorder-is-switched-on-and-bill-is-the-subject",
@@ -4168,7 +4627,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["reporter-calls-on-a-recorded-no"]
     },
     {
       "key": "scene-words.lead-press-interview-any.a-reporter-from-outlet-holds-up-a-recorder",
@@ -4188,7 +4648,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["reporter-seeks-an-unscheduled-interview"]
     },
     {
       "key": "scene-words.lead-press-interview-any.outlet-has-sent-a-reporter-with-a-notebook",
@@ -4208,7 +4669,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["reporter-seeks-an-unscheduled-interview"]
     },
     {
       "key": "scene-words.lead-press-interview-any.the-reporter-s-badge-reads-outlet",
@@ -4228,7 +4690,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["reporter-seeks-an-unscheduled-interview"]
     },
     {
       "key": "scene-words.lead-press-interview-other.other-turns-on-a-recorder",
@@ -4248,7 +4711,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["quote-refusal-ends-interview"]
     },
     {
       "key": "scene-words.lead-press-interview-other.other-flips-open-a-notebook",
@@ -4268,7 +4732,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["quote-refusal-ends-interview"]
     },
     {
       "key": "scene-words.lead-press-interview-other.other-stands-ready-with-a-pen",
@@ -4288,7 +4753,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["quote-refusal-ends-interview"]
     },
     {
       "key": "scene-words.lead-scandal-any.outlet-ran-a-story-that-ties-your-name-to-offense",
@@ -4308,7 +4774,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-c22-the-secret-comes-out",
+        "pattern-b28-follow-me-around",
+        "pattern-c23-the-case-against-you"
+      ]
     },
     {
       "key": "scene-words.lead-scandal-any.the-story-in-outlet-names-you-and-offense",
@@ -4328,7 +4799,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-c22-the-secret-comes-out",
+        "pattern-b28-follow-me-around",
+        "pattern-c23-the-case-against-you"
+      ]
     },
     {
       "key": "scene-words.lead-scandal-any.outlet-has-your-name-beside-the-word-offense",
@@ -4348,7 +4824,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-c22-the-secret-comes-out",
+        "pattern-b28-follow-me-around",
+        "pattern-c23-the-case-against-you"
+      ]
     },
     {
       "key": "scene-words.lead-scandal-any.outlet-has-a-story-with-your-name-in-it",
@@ -4368,7 +4849,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b28-follow-me-around",
+        "pattern-c22-the-secret-comes-out"
+      ]
     },
     {
       "key": "scene-words.lead-scandal-any.a-reporter-from-outlet-has-your-name-in-the-story",
@@ -4388,7 +4873,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b28-follow-me-around",
+        "pattern-c22-the-secret-comes-out"
+      ]
     },
     {
       "key": "scene-words.lead-scandal-any.the-story-in-outlet-names-you",
@@ -4408,7 +4897,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b28-follow-me-around",
+        "pattern-c22-the-secret-comes-out"
+      ]
     },
     {
       "key": "scene-words.lead-scandal-other.other-has-a-copy-of-the-story",
@@ -4428,7 +4921,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b28-follow-me-around",
+        "pattern-c22-the-secret-comes-out"
+      ]
     },
     {
       "key": "scene-words.lead-scandal-other.other-sets-the-paper-down-in-front-of-you",
@@ -4448,7 +4945,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b28-follow-me-around",
+        "pattern-c22-the-secret-comes-out"
+      ]
     },
     {
       "key": "scene-words.lead-scandal-other.other-holds-up-the-page",
@@ -4468,7 +4969,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b28-follow-me-around",
+        "pattern-c22-the-secret-comes-out"
+      ]
     },
     {
       "key": "scene-words.lead-address-other.other-straightens-the-pages-on-the-lectern",
@@ -4488,7 +4993,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["parent-pauses-to-compose-himself-at-the-microphone"]
     },
     {
       "key": "scene-words.lead-address-other.other-nods-you-toward-the-microphone",
@@ -4508,7 +5014,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "give-part-of-your-turn-to-another-member",
+        "colleague-breaks-into-a-floor-speech"
+      ]
     },
     {
       "key": "scene-words.lead-address-other.other-steps-aside-from-the-podium",
@@ -4528,7 +5038,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "give-part-of-your-turn-to-another-member",
+        "colleague-breaks-into-a-floor-speech"
+      ]
     },
     {
       "key": "scene-words.lead-party-recruit-other.other-sits-down-with-a-stack-of-party-flyers",
@@ -4548,7 +5062,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "chair-reaches-out-before-the-seat-opens",
+        "the-recruit-is-eager-and-able"
+      ]
     },
     {
       "key": "scene-words.lead-party-recruit-other.other-sets-a-clipboard-on-the-table",
@@ -4568,7 +5086,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "the-party-taps-candidates-for-open-districts",
+        "a-party-starts-recruiting-for-a-seat"
+      ]
     },
     {
       "key": "scene-words.lead-party-recruit-other.other-slides-a-party-folder-across-to-you",
@@ -4588,7 +5110,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "chair-reaches-out-before-the-seat-opens",
+        "the-recruit-is-eager-and-able"
+      ]
     },
     {
       "key": "scene-words.lead-party-recruit-other.other-from-the-party-sits-down-across-from-you",
@@ -4608,7 +5134,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "chair-reaches-out-before-the-seat-opens",
+        "the-recruit-is-eager-and-able"
+      ]
     },
     {
       "key": "scene-words.lead-party-recruit-other.other-lays-a-party-folder-on-the-table",
@@ -4628,7 +5158,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "the-party-taps-candidates-for-open-districts",
+        "a-party-starts-recruiting-for-a-seat"
+      ]
     },
     {
       "key": "scene-words.lead-party-recruit-other.other-wears-a-party-pin-and-sets-a-clipboard-down",
@@ -4648,7 +5182,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "the-party-taps-candidates-for-open-districts",
+        "a-party-starts-recruiting-for-a-seat"
+      ]
     },
     {
       "key": "scene-words.lead-party-recruit-alone.a-party-flyer-lies-on-the-table",
@@ -4668,7 +5206,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
     },
     {
       "key": "scene-words.lead-party-recruit-alone.the-party-has-left-a-folder-for-you",
@@ -4688,7 +5227,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "chair-reaches-out-before-the-seat-opens",
+        "a-party-starts-recruiting-for-a-seat"
+      ]
     },
     {
       "key": "scene-words.lead-party-recruit-alone.a-party-pin-sits-beside-the-folder",
@@ -4708,7 +5251,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
     },
     {
       "key": "scene-words.lead-party-welcome-other.other-greets-you-at-the-party-table",
@@ -4728,7 +5272,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["first-meeting-roundtable-reveals-different-kinds-of-help"]
     },
     {
       "key": "scene-words.lead-party-welcome-other.other-slides-a-party-sign-in-sheet-to-you",
@@ -4748,7 +5293,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["first-meeting-roundtable-reveals-different-kinds-of-help"]
     },
     {
       "key": "scene-words.lead-party-welcome-other.other-hands-you-a-party-button",
@@ -4768,7 +5314,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["first-meeting-roundtable-reveals-different-kinds-of-help"]
     },
     {
       "key": "scene-words.lead-party-welcome-other.other-hands-you-a-name-tag",
@@ -4788,7 +5335,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["first-meeting-roundtable-reveals-different-kinds-of-help"]
     },
     {
       "key": "scene-words.lead-party-welcome-other.other-points-you-to-a-folding-chair",
@@ -4808,7 +5356,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "precinct-recruiter-asks-the-guests-to-run-themselves",
+        "first-meeting-roundtable-reveals-different-kinds-of-help"
+      ]
     },
     {
       "key": "scene-words.lead-party-welcome-other.other-pours-you-a-cup-of-coffee",
@@ -4828,7 +5380,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["first-meeting-roundtable-reveals-different-kinds-of-help"]
     },
     {
       "key": "scene-words.lead-party-welcome-alone.a-party-banner-hangs-over-the-table",
@@ -4848,7 +5401,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["first-meeting-roundtable-reveals-different-kinds-of-help"]
     },
     {
       "key": "scene-words.lead-party-welcome-alone.the-party-table-is-set-with-name-tags",
@@ -4868,7 +5422,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["first-meeting-roundtable-reveals-different-kinds-of-help"]
     },
     {
       "key": "scene-words.lead-party-welcome-alone.folding-chairs-face-the-party-sign",
@@ -4888,7 +5443,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "precinct-recruiter-asks-the-guests-to-run-themselves",
+        "first-meeting-roundtable-reveals-different-kinds-of-help"
+      ]
     },
     {
       "key": "scene-words.lead-speech-afterward-other.other-steps-down-from-the-stage-and-comes-over",
@@ -4908,7 +5467,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
     },
     {
       "key": "scene-words.lead-speech-afterward-other.chairs-scrape-as-other-walks-toward-you",
@@ -4928,7 +5488,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
     },
     {
       "key": "scene-words.lead-speech-afterward-other.other-works-through-the-thinning-crowd-to-you",
@@ -4948,7 +5509,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
     },
     {
       "key": "scene-words.lead-speech-afterward-alone.speaker-finishes-and-walks-into-the-crowd",
@@ -5088,7 +5650,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-missed-weekend-and-the-interview-turned-down"]
     },
     {
       "key": "scene-words.lead-interview-invite-alone.a-call-from-outlet-is-about-the-race-for-office",
@@ -5108,7 +5671,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-missed-weekend-and-the-interview-turned-down"]
     },
     {
       "key": "scene-words.lead-interview-invite-alone.outlet-rings-and-the-race-for-office-is-the-topic",
@@ -5128,7 +5692,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-missed-weekend-and-the-interview-turned-down"]
     },
     {
       "key": "scene-words.lead-interview-invite-alone.the-call-comes-from-outlet",
@@ -5228,7 +5793,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["quote-refusal-ends-interview"]
     },
     {
       "key": "scene-words.lead-interview-sitting-other.other-pulls-a-chair-up-to-you",
@@ -5288,7 +5854,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["quote-refusal-ends-interview"]
     },
     {
       "key": "scene-words.lead-interview-sitting-alone.outlet-has-sent-a-reporter-with-a-list-of-questions",
@@ -5388,7 +5955,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "candidates-skip-forums-out-of-discomfort",
+        "forum-with-one-candidate-is-canceled",
+        "incumbent-will-do-one-debate-and-it-is-the-chamber's"
+      ]
     },
     {
       "key": "scene-words.lead-debate-invite-other.a-call-about-the-debate-comes-from-other",
@@ -5408,7 +5980,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "forum-with-one-candidate-is-canceled",
+        "incumbent-will-do-one-debate-and-it-is-the-chamber's"
+      ]
     },
     {
       "key": "scene-words.lead-debate-invite-other.other-phones-about-a-debate",
@@ -5428,7 +6004,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "forum-with-one-candidate-is-canceled",
+        "incumbent-will-do-one-debate-and-it-is-the-chamber's"
+      ]
     },
     {
       "key": "scene-words.lead-debate-invite-alone.a-debate-for-office-is-the-topic-of-the-call",
@@ -5448,7 +6028,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-challenger-skips-the-debate-and-the-incumbent-faces-an-empty-chair",
+        "incumbent-will-do-one-debate-and-it-is-the-chamber's",
+        "pattern-b19-who-gets-on-the-stage"
+      ]
     },
     {
       "key": "scene-words.lead-debate-invite-alone.the-call-concerns-a-debate-for-office",
@@ -5468,7 +6053,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-challenger-skips-the-debate-and-the-incumbent-faces-an-empty-chair",
+        "incumbent-will-do-one-debate-and-it-is-the-chamber's",
+        "pattern-b19-who-gets-on-the-stage"
+      ]
     },
     {
       "key": "scene-words.lead-debate-invite-alone.the-debate-for-office-is-the-subject-on-the-line",
@@ -5488,7 +6078,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-challenger-skips-the-debate-and-the-incumbent-faces-an-empty-chair",
+        "incumbent-will-do-one-debate-and-it-is-the-chamber's",
+        "pattern-b19-who-gets-on-the-stage"
+      ]
     },
     {
       "key": "scene-words.lead-debate-sitting-other.other-taps-the-microphone",
@@ -5528,7 +6123,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "empty-chair-gets-the-stage",
+        "a-challenger-skips-the-debate-and-the-incumbent-faces-an-empty-chair"
+      ]
     },
     {
       "key": "scene-words.lead-debate-sitting-other.other-checks-the-clock-on-the-stage",
@@ -5548,7 +6147,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "empty-chair-gets-the-stage",
+        "a-challenger-skips-the-debate-and-the-incumbent-faces-an-empty-chair"
+      ]
     },
     {
       "key": "scene-words.lead-debate-sitting-alone.two-podiums-stand-ready-for-the-debate-for-office",
@@ -5568,7 +6171,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-challenger-skips-the-debate-and-the-incumbent-faces-an-empty-chair",
+        "pattern-b20-the-comparison"
+      ]
     },
     {
       "key": "scene-words.lead-debate-sitting-alone.a-moderator-s-table-faces-the-stage-for-the-office-debate",
@@ -5588,7 +6195,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b21-under-the-lights",
+        "pattern-b19-who-gets-on-the-stage"
+      ]
     },
     {
       "key": "scene-words.lead-debate-sitting-alone.chairs-fill-for-the-debate-over-office",
@@ -5608,7 +6219,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b21-under-the-lights",
+        "a-challenger-skips-the-debate-and-the-incumbent-faces-an-empty-chair"
+      ]
     },
     {
       "key": "scene-words.lead-endorsement-ask-other.other-stands-on-the-porch-with-a-yard-sign",
@@ -5628,7 +6243,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["door-on-a-small-town-street"]
     },
     {
       "key": "scene-words.lead-endorsement-ask-other.other-holds-out-a-campaign-flyer",
@@ -5648,7 +6264,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["door-on-a-small-town-street"]
     },
     {
       "key": "scene-words.lead-endorsement-ask-other.other-sits-down-with-a-stack-of-flyers",
@@ -5748,7 +6365,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b24-nobody-sent-you",
+        "volunteer-comes-in-out-of-character"
+      ]
     },
     {
       "key": "scene-words.lead-volunteer-offer-other.other-rolls-up-sleeves-at-your-kitchen-table",
@@ -5768,7 +6389,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["volunteer-comes-in-out-of-character"]
     },
     {
       "key": "scene-words.lead-volunteer-offer-other.other-sets-a-clipboard-down-by-your-campaign-papers",
@@ -5788,7 +6410,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "volunteers-need-a-specific-ask",
+        "volunteer-comes-in-out-of-character"
+      ]
     },
     {
       "key": "scene-words.lead-volunteer-offer-alone.campaign-flyers-for-office-are-stacked-by-the-door",
@@ -5828,7 +6454,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
     },
     {
       "key": "scene-words.lead-volunteer-offer-alone.a-box-of-buttons-for-office-sits-by-the-stairs",
@@ -5868,7 +6495,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["campaign-manager-is-someone-close"]
     },
     {
       "key": "scene-words.lead-manager-offer-other.other-puts-a-binder-down-in-front-of-you",
@@ -5888,7 +6516,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["campaign-manager-is-someone-close"]
     },
     {
       "key": "scene-words.lead-manager-offer-other.other-brings-a-laptop-and-a-legal-pad",
@@ -5908,7 +6537,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["campaign-manager-is-someone-close"]
     },
     {
       "key": "scene-words.lead-manager-offer-alone.a-binder-for-the-office-race-lies-open-on-the-table",
@@ -5988,7 +6618,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "job-offer-traces-to-an-application",
+        "pattern-b5-08-the-call-with-an-offer"
+      ]
     },
     {
       "key": "scene-words.lead-job-offer-other.other-phones-back-about-your-application",
@@ -6008,7 +6642,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "job-offer-traces-to-an-application",
+        "pattern-b5-08-the-call-with-an-offer"
+      ]
     },
     {
       "key": "scene-words.lead-job-offer-other.other-calls-with-word-on-your-application",
@@ -6028,7 +6666,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "job-offer-traces-to-an-application",
+        "pattern-b5-08-the-call-with-an-offer"
+      ]
     },
     {
       "key": "scene-words.lead-job-offer-alone.the-call-from-org-concerns-the-title-job",
@@ -6048,7 +6690,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-08-the-call-with-an-offer",
+        "offer-call-lets-the-candidate-set-the-agenda"
+      ]
     },
     {
       "key": "scene-words.lead-job-offer-alone.org-calls-about-the-title-position",
@@ -6068,7 +6714,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-08-the-call-with-an-offer",
+        "offer-call-lets-the-candidate-set-the-agenda"
+      ]
     },
     {
       "key": "scene-words.lead-job-offer-alone.the-title-job-at-org-is-the-subject-of-the-call",
@@ -6088,7 +6738,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-08-the-call-with-an-offer",
+        "offer-call-lets-the-candidate-set-the-agenda"
+      ]
     },
     {
       "key": "scene-words.lead-job-offer-alone.the-call-comes-from-org",
@@ -6108,7 +6762,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-08-the-call-with-an-offer",
+        "offer-call-lets-the-candidate-set-the-agenda"
+      ]
     },
     {
       "key": "scene-words.lead-job-offer-alone.org-is-calling-you-back",
@@ -6128,7 +6786,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-08-the-call-with-an-offer",
+        "offer-call-lets-the-candidate-set-the-agenda"
+      ]
     },
     {
       "key": "scene-words.lead-job-offer-alone.your-application-at-org-is-the-subject-of-the-call",
@@ -6148,7 +6810,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "job-offer-traces-to-an-application",
+        "pattern-b5-08-the-call-with-an-offer"
+      ]
     },
     {
       "key": "scene-words.lead-rival-word-other.other-sets-a-campaign-mailer-on-the-table",
@@ -6168,7 +6834,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-rivals-mailer-reaches-you-secondhand"]
     },
     {
       "key": "scene-words.lead-rival-word-other.other-drops-by-with-a-rival-s-flyer",
@@ -6188,7 +6855,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-rivals-mailer-reaches-you-secondhand"]
     },
     {
       "key": "scene-words.lead-rival-word-other.other-unfolds-a-newspaper-to-the-race",
@@ -6228,7 +6896,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-rivals-mailer-reaches-you-secondhand"]
     },
     {
       "key": "scene-words.lead-rival-word-other.other-points-to-the-name-rival-on-a-flyer",
@@ -6248,7 +6917,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-rivals-mailer-reaches-you-secondhand"]
     },
     {
       "key": "scene-words.lead-rival-word-other.other-lays-a-mailer-from-rival-on-the-table",
@@ -6268,7 +6938,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-rivals-mailer-reaches-you-secondhand"]
     },
     {
       "key": "scene-words.lead-rival-word-alone.a-mailer-with-rival-on-it-sits-on-the-table",
@@ -6288,7 +6959,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-rivals-mailer-reaches-you-secondhand",
+        "candidate-calls-the-mailer-deceit"
+      ]
     },
     {
       "key": "scene-words.lead-rival-word-alone.a-flyer-from-rival-lies-by-the-door",
@@ -6308,7 +6983,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-rivals-mailer-reaches-you-secondhand",
+        "candidate-calls-the-mailer-deceit"
+      ]
     },
     {
       "key": "scene-words.lead-rival-word-alone.a-mailer-for-rival-is-folded-beside-the-phone",
@@ -6328,7 +7007,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-rivals-mailer-reaches-you-secondhand",
+        "candidate-calls-the-mailer-deceit"
+      ]
     },
     {
       "key": "scene-words.lead-rival-word-alone.a-mailer-for-the-race-for-office-sits-on-the-table",
@@ -6348,7 +7031,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-rivals-mailer-reaches-you-secondhand"]
     },
     {
       "key": "scene-words.lead-rival-word-alone.a-newspaper-is-folded-to-the-race-for-office",
@@ -6388,7 +7072,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-rivals-mailer-reaches-you-secondhand"]
     },
     {
       "key": "scene-words.lead-petition-short-other.other-sets-the-petition-for-office-on-the-table",
@@ -6408,7 +7093,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "petition-struck-names-decide-it",
+        "petition-short-by-a-few-names"
+      ]
     },
     {
       "key": "scene-words.lead-petition-short-other.other-counts-signatures-on-the-petition-for-office",
@@ -6428,7 +7117,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "petition-struck-names-decide-it",
+        "petition-short-by-a-few-names"
+      ]
     },
     {
       "key": "scene-words.lead-petition-short-other.other-lays-out-the-petition-pages-for-office",
@@ -6448,7 +7141,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "petition-struck-names-decide-it",
+        "petition-short-by-a-few-names"
+      ]
     },
     {
       "key": "scene-words.lead-petition-short-other.other-sets-a-stack-of-petition-pages-down",
@@ -6468,7 +7165,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "petition-struck-names-decide-it",
+        "petition-short-by-a-few-names"
+      ]
     },
     {
       "key": "scene-words.lead-petition-short-other.other-runs-a-finger-down-the-signature-lines",
@@ -6488,7 +7189,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "petition-struck-names-decide-it",
+        "petition-short-by-a-few-names"
+      ]
     },
     {
       "key": "scene-words.lead-petition-short-other.other-counts-petition-pages-on-the-table",
@@ -6508,7 +7213,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "petition-struck-names-decide-it",
+        "petition-short-by-a-few-names"
+      ]
     },
     {
       "key": "scene-words.lead-petition-short-alone.the-petition-for-office-lies-in-front-of-you",
@@ -6528,7 +7237,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "petition-short-by-a-few-names",
+        "petition-can-be-contested",
+        "a-signature-challenge-leaves-a-candidate-short"
+      ]
     },
     {
       "key": "scene-words.lead-petition-short-alone.a-stack-of-petition-pages-for-office-sits-on-the-table",
@@ -6548,7 +7262,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "petition-the-hustle-before-the-deadline",
+        "petition-short-by-a-few-names"
+      ]
     },
     {
       "key": "scene-words.lead-petition-short-alone.the-petition-for-office-is-short-of-signatures",
@@ -6568,7 +7286,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "petition-short-by-a-few-names",
+        "petition-can-be-contested",
+        "a-signature-challenge-leaves-a-candidate-short"
+      ]
     },
     {
       "key": "scene-words.lead-swearing-in-other.other-holds-the-oath-card",
@@ -6588,7 +7311,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["repeat-the-oath-at-the-clerks-prompt"]
     },
     {
       "key": "scene-words.lead-swearing-in-other.other-waits-with-a-hand-raised",
@@ -6608,7 +7332,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "repeat-the-oath-at-the-clerks-prompt",
+        "pattern-b41-the-oath"
+      ]
     },
     {
       "key": "scene-words.lead-swearing-in-other.other-steps-up-beside-the-flag",
@@ -6628,7 +7356,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "repeat-the-oath-at-the-clerks-prompt",
+        "pattern-b41-the-oath"
+      ]
     },
     {
       "key": "scene-words.lead-swearing-in-alone.a-flag-stands-ready-for-the-oath-of-office",
@@ -6648,7 +7380,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "introduce-the-official-who-administers-the-oath",
+        "repeat-the-oath-at-the-clerks-prompt"
+      ]
     },
     {
       "key": "scene-words.lead-swearing-in-alone.the-oath-for-office-is-printed-on-a-card",
@@ -6668,7 +7404,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["repeat-the-oath-at-the-clerks-prompt"]
     },
     {
       "key": "scene-words.lead-swearing-in-alone.family-and-staff-stand-for-the-swearing-in-for-office",
@@ -6688,7 +7425,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "ceremony-starts-at-its-scheduled-hour",
+        "repeat-the-oath-at-the-clerks-prompt"
+      ]
     },
     {
       "key": "scene-words.lead-emergency-briefing-other.other-lays-a-map-on-the-table",
@@ -6708,7 +7449,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "surge-revision-before-the-order",
+        "county-jail-in-floodplain"
+      ]
     },
     {
       "key": "scene-words.lead-emergency-briefing-other.other-comes-in-with-a-folder-marked-urgent",
@@ -6728,7 +7473,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "authority-before-floodwater",
+        "elections-office-in-floodplain"
+      ]
     },
     {
       "key": "scene-words.lead-emergency-briefing-other.other-stays-standing-and-opens-the-briefing",
@@ -6748,7 +7497,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "mayor-separates-urgent-calls-at-briefing",
+        "flight-planning-room-briefing"
+      ]
     },
     {
       "key": "scene-words.lead-diploma-home-other.other-comes-in-holding-a-framed-diploma",
@@ -6768,7 +7521,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-07-the-day-after-the-threshold"]
     },
     {
       "key": "scene-words.lead-diploma-home-other.other-sets-a-small-cake-on-the-table",
@@ -6788,7 +7542,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-07-the-day-after-the-threshold"]
     },
     {
       "key": "scene-words.lead-diploma-home-other.other-hangs-a-cap-and-gown-by-the-door",
@@ -6808,7 +7563,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-07-the-day-after-the-threshold"]
     },
     {
       "key": "scene-words.lead-no-diploma-home-other.other-sits-down-with-a-stack-of-school-papers",
@@ -6828,7 +7584,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-07-the-day-after-the-threshold"]
     },
     {
       "key": "scene-words.lead-no-diploma-home-other.other-lays-a-report-card-on-the-table",
@@ -6888,7 +7645,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "layoff-reason-position-abolished",
+        "layoff-line-this-isnt-about-your-performance",
+        "laid-off-as-the-hard-times-begin"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-ended-self.your-position-at-org-is-over",
@@ -6908,7 +7670,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "layoff-reason-position-abolished",
+        "layoff-line-this-isnt-about-your-performance"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-ended-self.org-ended-your-job",
@@ -6928,7 +7694,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "layoff-reason-position-abolished",
+        "layoff-line-this-isnt-about-your-performance",
+        "laid-off-as-the-hard-times-begin"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-ended-other.other-lost-the-job-at-org",
@@ -6948,7 +7719,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "layoff-reason-position-abolished",
+        "laid-off-as-the-hard-times-begin",
+        "layoff-the-supervisor-walks-the-line"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-ended-other.other-was-let-go-by-org",
@@ -6968,7 +7744,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "layoff-reason-position-abolished",
+        "laid-off-as-the-hard-times-begin",
+        "layoff-the-supervisor-walks-the-line"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-ended-other.org-let-other-go",
@@ -6988,7 +7769,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "layoff-reason-position-abolished",
+        "laid-off-as-the-hard-times-begin",
+        "layoff-the-supervisor-walks-the-line"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-left-self.you-left-your-job-at-org",
@@ -7008,7 +7794,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "consultant-quits-and-two-years-without-a-salary",
+        "family-care-becomes-a-paid-occupation"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-left-self.you-gave-notice-at-org",
@@ -7028,7 +7818,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "consultant-quits-and-two-years-without-a-salary",
+        "family-care-becomes-a-paid-occupation"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-left-self.your-time-at-org-is-behind-you",
@@ -7048,7 +7842,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "retire-from-teaching-to-serve-and-the-wife-keeps-teaching",
+        "pattern-c42-leaving-before-the-term-ends"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-left-other.other-left-the-job-at-org",
@@ -7068,7 +7866,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b7-12-is-the-job-worth-it",
+        "pattern-c42-leaving-before-the-term-ends"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-left-other.other-quit-org",
@@ -7088,7 +7890,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b7-12-is-the-job-worth-it",
+        "pattern-c42-leaving-before-the-term-ends"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-left-other.other-no-longer-works-at-org",
@@ -7108,7 +7914,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b7-12-is-the-job-worth-it",
+        "pattern-c42-leaving-before-the-term-ends"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-started-self.you-started-at-org",
@@ -7128,7 +7938,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-08-the-call-with-an-offer",
+        "job-offer-traces-to-an-application",
+        "pattern-a17-the-boss-who-hands-you-the-work"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-started-self.you-have-a-new-job-at-org",
@@ -7148,7 +7963,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-08-the-call-with-an-offer",
+        "job-offer-traces-to-an-application",
+        "pattern-a17-the-boss-who-hands-you-the-work"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-started-self.org-has-taken-you-on",
@@ -7168,7 +7988,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-08-the-call-with-an-offer",
+        "job-offer-traces-to-an-application",
+        "pattern-a17-the-boss-who-hands-you-the-work"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-started-other.other-started-at-org",
@@ -7188,7 +8013,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-08-the-call-with-an-offer",
+        "new-job-at-the-same-pay-after-a-layoff",
+        "first-job-taken-to-help-the-family"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-started-other.other-has-a-new-job-at-org",
@@ -7208,7 +8038,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-08-the-call-with-an-offer",
+        "new-job-at-the-same-pay-after-a-layoff",
+        "first-job-taken-to-help-the-family"
+      ]
     },
     {
       "key": "scene-words.cause-money:job-started-other.org-has-taken-other-on",
@@ -7228,7 +8063,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-08-the-call-with-an-offer",
+        "new-job-at-the-same-pay-after-a-layoff",
+        "first-job-taken-to-help-the-family"
+      ]
     },
     {
       "key": "scene-words.cause-home:moved-self.you-moved",
@@ -7248,7 +8088,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "marriage-is-the-reason-for-the-move",
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-page-wage-pays-for-a-basement-room"
+      ]
     },
     {
       "key": "scene-words.cause-home:moved-self.you-ve-moved",
@@ -7268,7 +8113,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "marriage-is-the-reason-for-the-move",
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-page-wage-pays-for-a-basement-room"
+      ]
     },
     {
       "key": "scene-words.cause-home:moved-self.boxes-are-stacked",
@@ -7288,7 +8138,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-plant-closes-and-the-household-splits-for-the-pension"
+      ]
     },
     {
       "key": "scene-words.cause-feeling:event:life.death-other.other-has-died",
@@ -7308,7 +8162,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "father-dies-and-a-sibling-becomes-the-earner",
+        "pattern-b5-04-someone-dying-someone-buried",
+        "births-and-deaths-in-the-family-set-down-plainly"
+      ]
     },
     {
       "key": "scene-words.cause-feeling:event:life.death-other.other-passed-away",
@@ -7328,7 +8187,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "father-dies-and-a-sibling-becomes-the-earner",
+        "pattern-b5-04-someone-dying-someone-buried",
+        "births-and-deaths-in-the-family-set-down-plainly"
+      ]
     },
     {
       "key": "scene-words.cause-feeling:event:life.death-other.other-died-and-the-word-has-reached-you",
@@ -7348,7 +8212,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "father-dies-and-a-sibling-becomes-the-earner",
+        "pattern-b5-04-someone-dying-someone-buried",
+        "births-and-deaths-in-the-family-set-down-plainly"
+      ]
     },
     {
       "key": "scene-words.cause-feeling:event:housing.eviction-self.you-ve-been-evicted",
@@ -7468,7 +8337,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-a31-taken-ill-before-election-day",
+        "pattern-c24-sick-in-office",
+        "local-conditions-prompt-first-protest"
+      ]
     },
     {
       "key": "scene-words.cause-feeling:event:health.serious-illness-other.other-became-seriously-ill",
@@ -7488,7 +8362,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-a31-taken-ill-before-election-day",
+        "pattern-c24-sick-in-office",
+        "local-conditions-prompt-first-protest"
+      ]
     },
     {
       "key": "scene-words.cause-feeling:event:health.serious-illness-other.other-was-taken-ill",
@@ -7508,7 +8387,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-a31-taken-ill-before-election-day",
+        "pattern-c24-sick-in-office",
+        "local-conditions-prompt-first-protest"
+      ]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.imprisoned-self.you-ve-been-sentenced-to-term",
@@ -7528,7 +8412,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.imprisoned-self.a-judge-gave-you-term-in-prison",
@@ -7548,7 +8433,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.imprisoned-self.the-sentence-is-term-in-prison",
@@ -7568,7 +8454,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.imprisoned-other.other-has-been-sent-to-prison",
@@ -7588,7 +8475,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.imprisoned-other.other-is-going-to-prison",
@@ -7608,7 +8496,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.imprisoned-other.other-was-sentenced-to-prison",
@@ -7628,7 +8517,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b5-01-home-with-a-record"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.charged-self.you-have-been-charged-with-offense",
@@ -7648,7 +8538,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.charged-self.a-charge-of-offense-has-been-filed-against-you",
@@ -7668,7 +8559,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.charged-self.offense-is-the-charge-against-you",
@@ -7688,7 +8580,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.charged-other.other-has-been-charged-with-a-crime",
@@ -7708,7 +8601,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b10-the-rival-under-indictment",
+        "arrests-come-months-after-a-vandalism-spree",
+        "pattern-c23-the-case-against-you"
+      ]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.charged-other.charges-have-been-filed-against-other",
@@ -7728,7 +8626,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b10-the-rival-under-indictment",
+        "arrests-come-months-after-a-vandalism-spree",
+        "pattern-c23-the-case-against-you"
+      ]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.charged-other.other-faces-a-criminal-charge",
@@ -7748,7 +8651,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b10-the-rival-under-indictment",
+        "arrests-come-months-after-a-vandalism-spree",
+        "pattern-c23-the-case-against-you"
+      ]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.convicted-self.you-were-found-guilty-of-offense",
@@ -7768,7 +8676,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.convicted-self.a-jury-convicted-you-of-offense",
@@ -7788,7 +8697,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.convicted-self.the-verdict-on-offense-went-against-you",
@@ -7808,7 +8718,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.convicted-other.other-was-found-guilty",
@@ -7828,7 +8739,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.convicted-other.a-jury-convicted-other",
@@ -7848,7 +8760,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.convicted-other.the-verdict-went-against-other",
@@ -7868,7 +8781,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.acquitted-self.you-were-found-not-guilty-of-offense",
@@ -7888,7 +8802,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.acquitted-self.a-jury-cleared-you-of-offense",
@@ -7908,7 +8823,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.acquitted-self.the-verdict-on-offense-went-your-way",
@@ -7928,7 +8844,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.acquitted-other.other-was-found-not-guilty",
@@ -7948,7 +8865,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.acquitted-other.a-jury-cleared-other",
@@ -7968,7 +8886,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "scene-words.cause-feeling:event:justice.acquitted-other.the-jury-sided-with-other",
@@ -7988,7 +8907,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-c23-the-case-against-you"]
     },
     {
       "key": "scene-words.cause-feeling:event:cause.shared-other.you-and-other-are-on-the-same-side-of-an-issue",
@@ -8068,7 +8988,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b6-04-news-of-a-baby",
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "a-birth-recorded-by-its-size"
+      ]
     },
     {
       "key": "scene-words.cause-feeling:event:person-birth-other.other-was-born",
@@ -8088,7 +9013,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b6-04-news-of-a-baby",
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "a-birth-recorded-by-its-size"
+      ]
     },
     {
       "key": "scene-words.cause-feeling:event:person-birth-other.a-baby-other-has-arrived",
@@ -8108,7 +9038,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b6-04-news-of-a-baby",
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "a-birth-recorded-by-its-size"
+      ]
     },
     {
       "key": "scene-words.cause-cause:event:law.effect-learned-self.under-law-your-household-paid-cost-more",
@@ -8128,7 +9063,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-year-of-short-withholding-comes-due-at-once",
+        "resident-says-tax-bill-rose-sharply-in-four-years",
+        "store-manager-switches-to-her-own-grocery-bill"
+      ]
     },
     {
       "key": "scene-words.cause-cause:event:law.effect-learned-self.your-household-is-out-cost-because-of-law",
@@ -8148,7 +9088,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-year-of-short-withholding-comes-due-at-once",
+        "resident-says-tax-bill-rose-sharply-in-four-years",
+        "store-manager-switches-to-her-own-grocery-bill"
+      ]
     },
     {
       "key": "scene-words.cause-cause:event:law.effect-learned-self.law-took-cost-from-your-household",
@@ -8168,7 +9113,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-year-of-short-withholding-comes-due-at-once",
+        "resident-says-tax-bill-rose-sharply-in-four-years",
+        "store-manager-switches-to-her-own-grocery-bill"
+      ]
     },
     {
       "key": "scene-words.cause-cause:event:law.effect-learned-self.under-law-your-household-got-refund-back",
@@ -8188,7 +9138,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "the-usual-tax-bill-turns-into-a-refund",
+        "a-state-refund-sits-beside-a-federal-bill",
+        "the-college-fund-waits-on-the-refund"
+      ]
     },
     {
       "key": "scene-words.cause-cause:event:law.effect-learned-self.law-returned-refund-to-your-household",
@@ -8208,7 +9163,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "the-usual-tax-bill-turns-into-a-refund",
+        "a-state-refund-sits-beside-a-federal-bill",
+        "the-college-fund-waits-on-the-refund"
+      ]
     },
     {
       "key": "scene-words.cause-cause:event:law.effect-learned-self.your-household-received-refund-through-law",
@@ -8228,7 +9188,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "the-usual-tax-bill-turns-into-a-refund",
+        "a-state-refund-sits-beside-a-federal-bill",
+        "the-college-fund-waits-on-the-refund"
+      ]
     },
     {
       "key": "scene-words.cause-cause:event:law.effect-learned-self.under-the-law-on-topic-your-household-paid-cost-more",
@@ -8248,7 +9213,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-year-of-short-withholding-comes-due-at-once",
+        "resident-says-tax-bill-rose-sharply-in-four-years",
+        "store-manager-switches-to-her-own-grocery-bill"
+      ]
     },
     {
       "key": "scene-words.cause-cause:event:law.effect-learned-self.your-household-is-out-cost-because-of-the-law-on-topic",
@@ -8268,7 +9238,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-year-of-short-withholding-comes-due-at-once",
+        "resident-says-tax-bill-rose-sharply-in-four-years",
+        "store-manager-switches-to-her-own-grocery-bill"
+      ]
     },
     {
       "key": "scene-words.cause-cause:event:law.effect-learned-self.the-law-on-topic-took-cost-from-your-household",
@@ -8288,7 +9263,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-year-of-short-withholding-comes-due-at-once",
+        "resident-says-tax-bill-rose-sharply-in-four-years",
+        "store-manager-switches-to-her-own-grocery-bill"
+      ]
     },
     {
       "key": "scene-words.cause-cause:event:law.effect-learned-self.under-the-law-on-topic-your-household-got-refund-back",
@@ -8308,7 +9288,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "the-usual-tax-bill-turns-into-a-refund",
+        "a-state-refund-sits-beside-a-federal-bill",
+        "the-college-fund-waits-on-the-refund"
+      ]
     },
     {
       "key": "scene-words.cause-cause:event:law.effect-learned-self.the-law-on-topic-returned-refund-to-your-household",
@@ -8328,7 +9313,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "the-usual-tax-bill-turns-into-a-refund",
+        "a-state-refund-sits-beside-a-federal-bill",
+        "the-college-fund-waits-on-the-refund"
+      ]
     },
     {
       "key": "scene-words.cause-cause:event:law.effect-learned-self.your-household-received-refund-through-the-law-on-topic",
@@ -8348,7 +9338,12 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "the-usual-tax-bill-turns-into-a-refund",
+        "a-state-refund-sits-beside-a-federal-bill",
+        "the-college-fund-waits-on-the-refund"
+      ]
     },
     {
       "key": "scene-words.opening-tell-tell.who-takes-a-breath-and-starts-to-speak",
@@ -8428,7 +9423,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-02-the-notice-and-the-days-after",
+        "pattern-b5-03-the-job-ends"
+      ]
     },
     {
       "key": "scene-words.opening-deliver-news-deliver-news.who-holds-a-folded-paper",
@@ -8448,7 +9447,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-02-the-notice-and-the-days-after",
+        "pattern-b5-03-the-job-ends"
+      ]
     },
     {
       "key": "scene-words.opening-deliver-news-deliver-news.who-says-your-name-and-stops",
@@ -8468,7 +9471,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "pattern-b5-04-someone-dying-someone-buried",
+        "pattern-b5-03-the-job-ends"
+      ]
     },
     {
       "key": "scene-words.opening-farewell-farewell.who-stands-with-a-bag-at-the-door",
@@ -8488,7 +9495,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-05-the-last-day"]
     },
     {
       "key": "scene-words.opening-farewell-farewell.who-has-a-coat-on-and-keys-in-hand",
@@ -8508,7 +9516,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-05-the-last-day"]
     },
     {
       "key": "scene-words.opening-farewell-farewell.who-holds-out-both-hands",
@@ -8528,7 +9537,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["pattern-b6-05-the-last-day"]
     },
     {
       "key": "scene-words.opening-comfort-comfort.who-sits-down-beside-you",
@@ -8548,7 +9558,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["morning-after-the-loss-the-children-comfort-her"]
     },
     {
       "key": "scene-words.opening-comfort-comfort.who-puts-a-hand-on-your-shoulder",
@@ -8568,7 +9579,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "morning-after-the-loss-the-children-comfort-her",
+        "a-four-year-olds-advice-after-the-loss"
+      ]
     },
     {
       "key": "scene-words.opening-comfort-comfort.who-pulls-a-chair-up-close",
@@ -8588,7 +9603,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["morning-after-the-loss-the-children-comfort-her"]
     },
     {
       "key": "scene-words.opening-thank-thank.who-comes-over-with-a-hand-out",
@@ -8788,7 +9804,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-one-vote-race-is-hand-counted-and-the-result-holds"]
     },
     {
       "key": "scene-words.opening-announce-result-announce-result.who-steps-to-the-microphone-with-the-results",
@@ -8828,7 +9845,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-one-vote-race-is-hand-counted-and-the-result-holds",
+        "mayor-wins-by-dozens-and-the-recount-grows-it"
+      ]
     },
     {
       "key": "scene-words.opening-heard-television-heard-television.you-watched-speaker-s-occasion-on-outlet",
@@ -8848,7 +9869,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-former-president-watches-the-convention-from-his-bed",
+        "address-gives-the-president-little-change-in-approval"
+      ]
     },
     {
       "key": "scene-words.opening-heard-television-heard-television.outlet-carried-speaker-s-occasion-and-you-watched",
@@ -8868,7 +9893,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-former-president-watches-the-convention-from-his-bed",
+        "address-gives-the-president-little-change-in-approval"
+      ]
     },
     {
       "key": "scene-words.opening-heard-television-heard-television.speaker-s-occasion-played-on-outlet-in-front-of-you",
@@ -8888,7 +9917,11 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": [
+        "a-former-president-watches-the-convention-from-his-bed",
+        "address-gives-the-president-little-change-in-approval"
+      ]
     },
     {
       "key": "scene-words.opening-heard-radio-heard-radio.you-heard-speaker-s-occasion-on-outlet",
@@ -8908,7 +9941,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     },
     {
       "key": "scene-words.opening-heard-radio-heard-radio.outlet-carried-speaker-s-occasion-and-you-listened",
@@ -8928,7 +9962,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     },
     {
       "key": "scene-words.opening-heard-radio-heard-radio.speaker-s-occasion-came-out-of-the-radio-on-outlet",
@@ -8948,7 +9983,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     },
     {
       "key": "scene-words.opening-heard-newspaper-heard-newspaper.outlet-prints-speaker-s-occasion-in-full",
