@@ -182,6 +182,14 @@ export function addDays(date: IsoDate, days: number): IsoDate {
  * A day past the target month's end lands on its last day, so six months from
  * August 31 is the last day of February.
  */
+/**
+ * `addDays` for a date held as plain text (a record's date, a parameter's):
+ * the day, validated, `days` on (or back, when negative).
+ */
+export function addDaysText(date: string, days: number): string {
+  return addDays(makeIsoDate(date), days);
+}
+
 export function addMonths(date: string, months: number): string {
   if (!Number.isSafeInteger(months)) {
     throw new Error("Months must be a safe integer.");
@@ -190,7 +198,7 @@ export function addMonths(date: string, months: number): string {
   const index = yearOf(from) * 12 + (Number(from.slice(5, 7)) - 1) + months;
   const year = Math.floor(index / 12);
   const month = (index % 12) + 1;
-  const lastDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  const lastDay = lastDayOfMonth(year, month);
   return isoDateFromParts(
     year,
     month,
@@ -542,6 +550,46 @@ export function sameSimulationMoment(
     left.timeZone === right.timeZone &&
     left.utcOffsetMinutes === right.utcOffsetMinutes
   );
+}
+
+/** The day of the week of a date, 0 Sunday to 6 Saturday (every date here is a UTC calendar day). */
+export function weekdayOf(date: string): number {
+  // 1970-01-01, day 0, was a Thursday.
+  return (((epochDayOf(date) + 4) % 7) + 7) % 7;
+}
+
+/**
+ * The last day of a month, as its day number: 28 to 31. The month is 1 to 12;
+ * one outside that counts on into the next or the previous year, the way a
+ * calendar adds months.
+ */
+export function lastDayOfMonth(year: number, month: number): number {
+  const y = year + Math.floor((month - 1) / 12);
+  const m = (((month - 1) % 12) + 12) % 12;
+  if (m === 1) return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0 ? 29 : 28;
+  return m === 3 || m === 5 || m === 8 || m === 10 ? 30 : 31;
+}
+
+/**
+ * The date of the nth given weekday of a month (month 1 to 12, weekday 0
+ * Sunday to 6 Saturday): `nth` 1 is the first, 2 the second; -1 is the last,
+ * -2 the one before it. A fifth that the month lacks falls in the next month,
+ * as counting on by whole weeks does.
+ */
+export function nthWeekdayOfMonth(
+  year: number,
+  month: number,
+  weekday: number,
+  nth: number,
+): IsoDate {
+  const first = isoDateFromParts(year, month, 1);
+  if (nth > 0) {
+    const day = ((weekday - weekdayOf(first) + 7) % 7) + 7 * (nth - 1);
+    return addDays(first, day);
+  }
+  const last = addDays(first, lastDayOfMonth(year, month) - 1);
+  const back = (weekdayOf(last) - weekday + 7) % 7;
+  return addDays(last, -back + 7 * (nth + 1));
 }
 
 export function yearOf(date: IsoDate): number {

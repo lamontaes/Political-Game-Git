@@ -62,7 +62,6 @@ import { lawApplied, lawNoLongerApplies } from "./applied";
 import {
   BUDGETS_MODULE_ID,
   governments,
-  registerMonthlyProgram,
   type GovernmentRow,
 } from "../modules/budgets";
 import { chargeLine } from "../budgets-treasury";
@@ -922,7 +921,7 @@ export function revolvingDoorFor(
  * IV, sec. 6(5): appropriated each year the commission operates). The state
  * government is the law's reach. Paid by the budgets engine's monthly close.
  */
-function payRedistrictingCommission(api: CoreAPI, source: Source): void {
+export function payRedistrictingCommission(api: CoreAPI, source: Source): void {
   if (!api.state.modules.has("core2-laws-v1")) return;
   const law = yesLevels(api, REDISTRICTING).find((l) => l.level === "state");
   if (!law) return;
@@ -949,15 +948,6 @@ function payRedistrictingCommission(api: CoreAPI, source: Source): void {
     what: "redistricting-commission-funded",
     amountMinor: -paid,
   });
-}
-
-/**
- * Registers the commission's monthly payment with the budgets engine. Called
- * from `registerGroupA` (the law reach's init), never at module load: the
- * budgets module's registry may not be built yet when this file is imported.
- */
-export function registerVotingMonthlyProgram(): void {
-  registerMonthlyProgram(payRedistrictingCommission);
 }
 
 /**

@@ -79,7 +79,7 @@
     },
     {
       "file": "data/research/money/public-programs-2026.json",
-      "reason": "Raw source the game does not read directly: source cited by src/core2/tooling/calibration-targets.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
+      "reason": "Raw source the game does not read directly: source cited by scripts/core2/tooling/calibration-targets.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
       "file": "data/research/money/state-paid-leave-premiums-2026.json",

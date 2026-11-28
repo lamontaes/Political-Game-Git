@@ -6,6 +6,7 @@ import { checkEligibility, openContests } from "../core2/modules/elections";
 import { partyTie } from "../core2/modules/parties";
 import { coreAPI } from "../core2/state";
 import { governmentView, joinPartyAs } from "./government";
+import { advanceToFilingOpen } from "../../tests/support/gov-test-clock";
 import { buildBenchWorld } from "./world";
 
 // The player joins a party from the politics sheet: the tie is made, it
@@ -26,6 +27,8 @@ it(`the player joins a party and then files under its label, seed ${seed}`, () =
     const api = coreAPI(core);
     const where = `${place.name} (${place.key}), seed ${seed}`;
     tried.push(where);
+    // Every race opens its filing on its own real day, so play to the first.
+    advanceToFilingOpen(core);
     const before = governmentView(core, playerId);
     const contest = openContests(api)[0];
     if (!before.party?.parties.length || !contest) continue;

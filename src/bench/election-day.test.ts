@@ -17,7 +17,7 @@ import { gameStartDate } from "../core2/game-start";
 import type { EntityId } from "../core2/kernel/brands";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { gatherSignatures } from "../core2/campaign-petition-kit";
+import { gatherSignatures } from "../../tests/support/campaign-petition-kit";
 import {
   ELECTIONS_MODULE_ID,
   playerContests,

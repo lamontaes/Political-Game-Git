@@ -15,13 +15,9 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { staffingOf } from "./law-reach/group-a-staffing";
 import { advanceCore } from "./life";
+import { budgetsOf, governments, type BudgetRow } from "./modules/budgets";
 import {
-  budgetsOf,
-  governments,
-  registerBudgetVote,
-  type BudgetRow,
-} from "./modules/budgets";
-import {
+  LEGISLATURE_MODULE,
   LEGISLATURE_MODULE_ID,
   governingMembers,
   memberKey,
@@ -387,13 +383,18 @@ it("a raise to the city's schools line hires named adults who had no work at the
 
 it("negative control: with the council's budget vote broken, an eligible place fails instead of drawing on", () => {
   let failure = "";
+  // The council's vote is a field the legislature's module carries; break it, and put it back after.
+  const vote = LEGISLATURE_MODULE.budgetVote;
   try {
-    amendSchoolsLine(1, () => registerBudgetVote(() => null));
+    amendSchoolsLine(1, () => {
+      LEGISLATURE_MODULE.budgetVote = () => null;
+    });
   } catch (error) {
     failure = (error as Error).message;
+  } finally {
+    LEGISLATURE_MODULE.budgetVote = vote;
   }
   console.log(`negative control failure: ${failure}`);
-  // The producer is restored by the next world build (openLegislature).
   expect(failure).toMatch(
     /was not adopted and no council amendment or rejection explains it: budget .* names no recorded budget bill/,
   );

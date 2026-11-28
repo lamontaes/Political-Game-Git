@@ -35,10 +35,10 @@ import {
 } from "../core2/modules/elections";
 import { resultOf } from "../core2/modules/voting";
 import { campaignDayChoices } from "../core2/campaign-day";
-import { gatherSignatures } from "../core2/campaign-petition-kit";
+import { gatherSignatures } from "../../tests/support/campaign-petition-kit";
 import { campaignDay, campaignView } from "./campaign";
 import { filedHere } from "./filing";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??

@@ -16,7 +16,7 @@
 import assert from "node:assert/strict";
 import { randomInt } from "node:crypto";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
