@@ -12,6 +12,7 @@
  * Named officials, the player's household and circle are never demoted.
  */
 import { daysBetweenText as daysBetween, makeIsoDate } from "../kernel/dates";
+import { householdStatusRow } from "../housing-reads";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { countedPlaceOf, isDemoted, type Tenure } from "../counted-groups";
 import { workedToday } from "./jobs";
@@ -336,11 +337,7 @@ export function demoteHousehold(
   };
   // A household without a home returns to the counts without one: the
   // housing engine's status row goes on reading it from its counted record.
-  if (
-    core.modules.has("housing") &&
-    api.moduleState("housing").table("statuses").get(householdId)
-  )
-    tenure = "none";
+  if (householdStatusRow(api, householdId)) tenure = "none";
   const h = returnToCounts(core, record, {
     tenure,
     parts,
