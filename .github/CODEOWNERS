@@ -984,6 +984,7 @@
 /src/core2/own-past-kinds.ts @lamontaes
 /src/core2/places-elsewhere.ts @lamontaes
 /src/core2/pre-start.ts @lamontaes
+/src/core2/pre-start-history.ts @lamontaes
 /src/core2/shared-history.ts @lamontaes
 /src/core2/find-age.test.ts @lamontaes
 /src/core2/history-acts-graduations.test.ts @lamontaes

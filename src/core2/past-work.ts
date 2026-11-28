@@ -36,6 +36,7 @@ import {
   onCalendar,
   SCHOOL_STAGE_CALENDAR,
 } from "./past-school-calendar";
+import type { HistoryRecord, HistoryWriter, PreStartWindow } from "./pre-start";
 import {
   coarseSteps,
   grainDate,
@@ -44,10 +45,7 @@ import {
   preStartWindowOf,
   recordPreStartLater,
   wholePastOnce,
-  type HistoryRecord,
-  type HistoryWriter,
-  type PreStartWindow,
-} from "./pre-start";
+} from "./pre-start-history";
 import { ownPastKind } from "./own-past-kinds";
 import { pastArrestOf, type PrisonTerm } from "./past-justice";
 import { residenceOn } from "./past-moves";
