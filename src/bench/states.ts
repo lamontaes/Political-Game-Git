@@ -19,6 +19,7 @@ import { historyOf } from "../core2/past";
 import { rollCallOf } from "../core2/modules/world-panels";
 import { bodyOf } from "../core2/modules/legislature";
 import { personName } from "./legislature";
+import { lawRowById } from "../core2/modules/laws-reads";
 
 /** A chamber's name, from its body record, else its office title. */
 function chamberName(core: CoreState, officeId: string): string {
@@ -42,14 +43,16 @@ export function chamberChanges(core: CoreState, officeId: string) {
   const api = coreAPI(core);
   const stateKey = officeId.split(":")[1] ?? "";
   if (!core.modules.has(LAWS_MODULE_ID)) return [];
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
   // The laws the state's sessions passed, as the nation's history tells them.
   return historyOf(
     core,
     { nation: true },
     { kinds: [LAW_ENACTED], about: stateKey },
   )
-    .map((event) => laws.get(event.id) as unknown as LawRowInput | undefined)
+    .map(
+      (event) =>
+        lawRowById(api, event.id) as unknown as LawRowInput | undefined,
+    )
     .filter((row): row is LawRowInput => !!row)
     .filter(
       (row) =>
@@ -81,8 +84,7 @@ export function chamberChanges(core: CoreState, officeId: string) {
 /** A change's roll call in each chamber, with the sponsor; built on open, the same every time. */
 export function stateRollCall(core: CoreState, lawId: string) {
   const api = coreAPI(core);
-  const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
-    LawRowInput | undefined;
+  const row = lawRowById(api, lawId) as LawRowInput | undefined;
   if (!row || typeof row.terms?.session !== "string") return null;
   const count = String(row.terms.chambers ?? "").split("/").length;
   const name = (key: string) => personName(core, key);

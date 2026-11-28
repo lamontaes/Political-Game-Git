@@ -9,7 +9,7 @@ import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
 import { BRIBE_OFFERED, considerBribe } from "../core2/modules/corruption";
 import { coreAPI } from "../core2/state";
 import { purposeScene } from "./purpose-scene";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // The one offering money says what they want (Words lead, Nov 14: "the
 // person offering does not spell out the money or the deal, but the path

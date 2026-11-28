@@ -10,8 +10,8 @@
 // SEED and PLACE_KEY replay one world.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { devModeOn } from "./dev-setup.mjs";
-import { playOpening } from "./start-life.mjs";
+import { devModeOn } from "../../tests/support/dev-setup.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
 
 const [shots] = process.argv.slice(2);
 /** Days per run and the most days run before the check gives up (run lengths, not model values). */

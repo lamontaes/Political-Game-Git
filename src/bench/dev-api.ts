@@ -1,10 +1,11 @@
 /**
  * Dev mode's routes: the page, its script, Kit 12's styles, and the controls
- * in `dev-mode.ts` (follow and unfollow a resident among them). Mounted from `server.ts` with one hook; it holds no world
+ * in `dev-mode.ts` (follow and unfollow a resident among them). Mounted from `handler.ts`, the one play
+ * server the bench and the installed game both run, behind the in-game dev setting; it holds no world
  * of its own and reads the bench's current core, director and player.
  */
-import type { IncomingMessage } from "node:http";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { pathToFileURL } from "node:url";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { DevMode, type RunEvent, type LawLevel } from "./dev-mode";
 import { traceReport } from "./dev-trace";
@@ -30,12 +31,15 @@ export interface DevWorld {
   director?: Director;
   player?: BenchPlayer;
   placeId: string;
+  /** Where dev mode keeps what it writes: a folder inside the game's saves folder (handler.ts's benchWorld). */
+  folder?: string;
 }
 
-// Local files kept beside the checkout, out of git.
-const LOCAL = new URL("../../.bench-local/", import.meta.url);
-// Records proofs saved to compare two builds' runs (`dev-proof.ts`).
-const PROOFS = new URL("proofs/", LOCAL);
+/** What dev mode writes (its proofs and trace reports) lives in the saves folder, so the installed game has a place for it. */
+function folderOf(world: DevWorld): URL {
+  if (!world.folder) throw new Error("Dev mode has no folder to write to.");
+  return pathToFileURL(`${world.folder}/`);
+}
 
 let dev: DevMode | undefined;
 function devFor(world: DevWorld): DevMode {
@@ -45,9 +49,12 @@ function devFor(world: DevWorld): DevMode {
   return dev;
 }
 
-async function body(
-  request: IncomingMessage,
-): Promise<Record<string, unknown>> {
+/** What dev mode needs of a request: its method and its body, in pieces. A node request is one. */
+export interface DevRequest extends AsyncIterable<string | Uint8Array> {
+  readonly method?: string;
+}
+
+async function body(request: DevRequest): Promise<Record<string, unknown>> {
   let text = "";
   for await (const chunk of request) text += chunk;
   return text ? (JSON.parse(text) as Record<string, unknown>) : {};
@@ -71,7 +78,7 @@ function reach(date: string, step: string, to?: string) {
  * GET routes read only; POST routes write dev-mode records.
  */
 export async function handleDev(
-  request: IncomingMessage,
+  request: DevRequest,
   url: URL,
   send: (status: number, value: unknown) => void,
   world: () => DevWorld,
@@ -86,7 +93,8 @@ export async function handleDev(
     send(200, devViewList());
     return true;
   }
-  const mode = devFor(world());
+  const here = world();
+  const mode = devFor(here);
   const core = mode.core;
   switch (route) {
     case "GET state":
@@ -444,7 +452,7 @@ export async function handleDev(
       );
       const file = new URL(
         `trace-reports/${core.seed}-${core.date}-${Date.now()}.txt`,
-        LOCAL,
+        folderOf(here),
       );
       await mkdir(new URL(".", file), { recursive: true });
       await writeFile(file, text);
@@ -455,15 +463,17 @@ export async function handleDev(
       // This build's records at today's date, to compare with another build's run.
       const proof = recordProof(core, { rows: true });
       const name = `${core.seed}-${core.date}-${Date.now()}.json`;
-      await mkdir(PROOFS, { recursive: true });
-      await writeFile(new URL(name, PROOFS), JSON.stringify(proof));
+      const proofs = new URL("proofs/", folderOf(here));
+      await mkdir(proofs, { recursive: true });
+      await writeFile(new URL(name, proofs), JSON.stringify(proof));
       send(200, { name, digest: proof.digest, uncovered: proof.uncovered });
       return true;
     }
     case "GET proof/compare": {
       // A saved proof by name, only from dev mode's own proofs folder.
-      const file = new URL(q("name"), PROOFS);
-      if (!file.pathname.startsWith(PROOFS.pathname) || !q("name"))
+      const proofs = new URL("proofs/", folderOf(here));
+      const file = new URL(q("name"), proofs);
+      if (!file.pathname.startsWith(proofs.pathname) || !q("name"))
         throw new Error("Name a proof saved in dev mode's proofs folder.");
       const base = JSON.parse(await readFile(file, "utf8")) as RecordProof;
       const head = recordProof(core, { rows: true });

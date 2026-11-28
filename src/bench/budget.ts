@@ -1,8 +1,8 @@
 import { governmentProperName } from "../core2/government-proper-name";
+import { reserveSwept } from "../core2/budgets-reads";
 import { townGovernment } from "../core2/output-number-readers";
 import { coreAPI } from "../core2/state";
 import {
-  BUDGETS_MODULE_ID,
   budgetPriorities,
   budgetsOf,
   governments,
@@ -10,7 +10,11 @@ import {
   setBudgetPriorities,
   withholdingOf,
 } from "../core2/modules/budgets";
-import type { TermRow } from "../core2/modules/offices";
+import {
+  officeById,
+  servingTerms,
+  servingTermsOf,
+} from "../core2/modules/offices";
 import { gameStartDate } from "../core2/game-start";
 import { appointmentsIn } from "../core2/modules/executive";
 import { lineForPost } from "../core2/budgets-treasury";
@@ -21,18 +25,12 @@ import { headsExecutive } from "../core2/offices-executives";
 
 const NAMES = lineNames.lines as Record<string, { name: string }>;
 
-const OFFICES = "core2-offices-v1";
-
 /** The governments whose executive the person is, by jurisdiction. */
 function executiveOf(core: CoreState, personId: string): Set<string> {
-  const offices = coreAPI(core).moduleState(OFFICES);
+  const api = coreAPI(core);
   const out = new Set<string>();
-  for (const term of offices
-    .table("terms")
-    .query("byPerson", [personId]) as unknown as TermRow[]) {
-    if (term.status !== "serving") continue;
-    const office = offices.table("offices").get(term.officeId) as
-      { kind: string; jurisdiction: string } | undefined;
+  for (const term of servingTermsOf(api, personId)) {
+    const office = officeById(api, term.officeId);
     if (office && headsExecutive(office.kind)) out.add(office.jurisdiction);
   }
   return out;
@@ -159,13 +157,7 @@ function savingsEstimated(
   },
 ): boolean {
   if (!gov.openingCash?.minor) return false;
-  const swept = (
-    coreAPI(core)
-      .moduleState(BUDGETS_MODULE_ID)
-      .table("reserveSweeps")
-      .rows() as unknown as { governmentId: string }[]
-  ).some((row) => row.governmentId === gov.id);
-  if (swept) return false;
+  if (reserveSwept(coreAPI(core), gov.id)) return false;
   const paidOut = Number(
     core.cashJournal.totalsByOwner.get(gov.organizationId)?.grossDebitMinor ??
       0,
@@ -234,11 +226,9 @@ function headsOf(core: CoreState, governmentId: string, level: string) {
  * vacant or the government has none.
  */
 function chiefOf(core: CoreState, governmentId: string, viewerId: string) {
-  const offices = coreAPI(core).moduleState(OFFICES);
-  for (const row of offices.table("terms").rows() as unknown as TermRow[]) {
-    if (row.status !== "serving") continue;
-    const office = offices.table("offices").get(row.officeId) as
-      { kind: string; jurisdiction: string; title?: string } | undefined;
+  const api = coreAPI(core);
+  for (const row of servingTerms(api)) {
+    const office = officeById(api, row.officeId);
     if (
       !office ||
       !headsExecutive(office.kind) ||

@@ -13,7 +13,9 @@ import { daysBetweenText } from "./kernel/dates";
 import { parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
 import { decisionLean, decisionTraitWeight } from "./trait-decisions";
+import { fieldsOf } from "./module-fields";
 import type {
+  CoreModule,
   CoreState,
   IsoDate,
   PersonId,
@@ -153,8 +155,13 @@ export function feelingBetween(
  * one body have shared, `sitting-closeness.ts`), already faded to today.
  * Every engine that keeps such a record registers its reader; the hours add.
  */
-type SharedHours = (core: object, a: PersonId, b: PersonId) => number;
-const sharedReaders = new Set<SharedHours>();
+type SharedHours = NonNullable<CoreModule["sharedHours"]>;
+
+/** What every engine that carries a `sharedHours` field says; none for a bare core fixture with no modules. */
+function sharedFields(core: object): readonly SharedHours[] {
+  const state = core as CoreState;
+  return state.modules ? fieldsOf(state, "sharedHours") : [];
+}
 
 /**
  * Who a reader's record says a person knows, and when two of them shared
@@ -174,14 +181,11 @@ export interface KnownThrough {
     b: PersonId,
   ) => { first: IsoDate; last: IsoDate; sourceId: string } | null;
 }
-const knownReaders = new Map<SharedHours, KnownThrough>();
-
-export function registerSharedHours(
-  reader: SharedHours,
-  known?: KnownThrough,
-): void {
-  sharedReaders.add(reader);
-  if (known) knownReaders.set(reader, known);
+/** The readers of who a record says a person knows, from every engine that carries one. */
+function knownReaders(core: object): readonly KnownThrough[] {
+  return sharedFields(core).flatMap((shared) =>
+    shared.known ? [shared.known] : [],
+  );
 }
 
 /**
@@ -206,7 +210,7 @@ export function knownThroughRecords(
   id: PersonId,
 ): ReadonlySet<PersonId> {
   const out = new Set<PersonId>();
-  for (const known of knownReaders.values())
+  for (const known of knownReaders(core))
     for (const other of known.knownTo(core, id)) out.add(other);
   out.delete(id);
   return out;
@@ -241,7 +245,7 @@ export function firstTogetherInRecords(
   b: PersonId,
 ): { date: IsoDate; sourceId: string } | null {
   let first: { date: IsoDate; sourceId: string } | null = null;
-  for (const known of knownReaders.values()) {
+  for (const known of knownReaders(core)) {
     const met = known.together(core, a, b);
     if (met && (!first || met.first < first.date))
       first = { date: met.first, sourceId: met.sourceId };
@@ -278,10 +282,11 @@ function timeTogether(
   const row = core.relationships.get(a < b ? `${a}:${b}` : `${b}:${a}`);
   const shared: { now: number; kind: string }[] = [];
   let last: IsoDate | null = row ? lastMetOnRow(row) : null;
-  for (const [reader, known] of knownReaders) {
+  for (const { hours, known } of sharedFields(core)) {
+    if (!known) continue;
     const met = known.together(core, a, b);
     if (!met) continue;
-    if (withHours) shared.push({ now: reader(core, a, b), kind: known.kind });
+    if (withHours) shared.push({ now: hours(core, a, b), kind: known.kind });
     if (!last || met.last > last) last = met.last as IsoDate;
   }
   return { row, last, shared };
@@ -330,7 +335,7 @@ export function sharedHoursBetween(
 ): number {
   if (a === b) return 0;
   let hours = 0;
-  for (const reader of sharedReaders) hours += reader(core, a, b);
+  for (const shared of sharedFields(core)) hours += shared.hours(core, a, b);
   return hours;
 }
 
@@ -353,7 +358,7 @@ function owedToday(
  * How close two people would be after `hours` more together today (negative
  * takes time away): their tie's hours faded to today, less any strain the
  * row owes, plus the hours another engine's record says they shared
- * (`registerSharedHours`). Never below zero. With no tie and nothing shared
+ * (the `sharedHours` module field). Never below zero. With no tie and nothing shared
  * it is zero; with `hours` zero it is today's closeness.
  */
 export function closenessBetweenAfter(
@@ -392,7 +397,7 @@ function rowHours(
 /**
  * The hours a tie stands on today: its row's hours faded to today, less any
  * strain the row owes, plus the hours another engine's record says the two
- * shared (`registerSharedHours`). What a share of the tie is taken from (a
+ * shared (the `sharedHours` module field). What a share of the tie is taken from (a
  * lie found out, scene-talk-rules endingStrain trust-lost).
  */
 export function tieHoursBetween(
@@ -832,14 +837,3 @@ export function temperedHours(
   );
   return hours * Math.exp(decisionTraitWeight(core, id) * (lean - center));
 }
-
-// Members of a body know each other from the sittings they share: the engine
-// that keeps the bodies' calendars registers them through this entry.
-export {
-  noSittingTie,
-  registerSittingCalendar,
-  sittingHours,
-  sittingHoursByBody,
-  type SittingCalendar,
-  type SittingDay,
-} from "./sitting-closeness";

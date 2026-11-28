@@ -20,9 +20,19 @@ import {
 } from "../modules/laws";
 import type { LawRowInput } from "../laws-starting";
 import { inForceOn } from "../laws-in-force";
-import { registerLawReach } from "./index";
-import { REACH_A_MODULE_ID } from "./group-a-records";
-import { REACH_B_MODULE_ID, STANDING_BENEFIT_PROGRAMS } from "./group-b-store";
+import {
+  reachMonthlyPrograms,
+  reassertStandingLineLaws,
+  registerLawReach,
+  reviewFiscalRules,
+} from "./index";
+import { benefitLinePayments } from "./group-b-money";
+import { reachALineAdditions } from "./group-a-money";
+import { REACH_A_MODULE_ID } from "./group-a-records-constants";
+import {
+  REACH_B_MODULE_ID,
+  STANDING_BENEFIT_PROGRAMS,
+} from "./group-b-store-constants";
 import {
   appliedTo,
   endApplied,
@@ -41,6 +51,17 @@ export const LAW_REACH_HOST: CoreModule = {
   state: { schemaVersion: 1, tables: LAW_APPLIED_STATE },
   eventKinds: ["law-took-effect", "budget-line-changed"],
   onEvent: (api, event) => runHandlers(api, event),
+  // The laws that set a budget line's level, which the treasury reads at each close.
+  standingLineLaws: reassertStandingLineLaws,
+  // What the law reach has a treasury pay each month, the fiscal rules it reads before it pays, and the lines its benefits pay in town.
+  monthlyProgram: reachMonthlyPrograms,
+  treasuryRule: reviewFiscalRules,
+  linePayments: benefitLinePayments,
+  // The laws that raised a line by their own amount, so the treasury can record whom their share of the line pays.
+  // Read when the treasury asks, not at load: group-a-money.ts may still be loading when this file runs.
+  get lineAdditions() {
+    return reachALineAdditions;
+  },
 };
 
 export function openLawReach(core: CoreState): void {

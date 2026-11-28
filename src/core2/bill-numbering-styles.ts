@@ -5,14 +5,16 @@ import {
   DEFAULT_UPPER_TEMPLATE,
   type ChamberNumberingStyle,
   type StateBillNumberingStyle,
-} from "./bill-numbering-derivation";
-import { STATE_BILL_NUMBERING_STYLES } from "./bill-numbering-styles.generated";
+} from "./bill-numbering-style";
+import stylesData from "./data/legislature/bill-numbering-styles.json" with { type: "json" };
 
 /**
  * Each state's own bill prefixes, chamber names and numbering period, read
- * from the recorded research (decision OCD-LEG-NUM-001). The table is
- * generated; this is how the rest of the game asks it.
+ * from the recorded research (decision OCD-LEG-NUM-001). The table is the data
+ * file; this is how the rest of the game asks it.
  */
+const STATE_BILL_NUMBERING_STYLES =
+  stylesData as readonly StateBillNumberingStyle[];
 
 const BY_KEY = new Map(
   STATE_BILL_NUMBERING_STYLES.map((style) => [style.jurisdictionKey, style]),

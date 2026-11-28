@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "narration-assumes-no-reason",
   "rubric": "Narration never gives the player a reason or a history they were not given (why they came, what forms they carry).",
-  "judged": 208,
+  "judged": 258,
   "no": {},
-  "yesHash": "1bxbus2idl7"
+  "yesHash": "05cxujjiq16"
 }

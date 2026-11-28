@@ -6,7 +6,7 @@
  * shared trait table, when the caller supplies the lean).
  * No roll decides it: the same person always claims at the same age.
  */
-import type { SocialSecurityAges } from "./social-security-law";
+import type { SocialSecurityAges } from "./laws-in-force";
 
 export interface ClaimContext {
   /** The law's ages for this person: from the law in force, or as enacted on day one. */
