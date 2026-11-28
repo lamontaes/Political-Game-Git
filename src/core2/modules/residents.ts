@@ -2815,6 +2815,8 @@ export function residentsPart(
   }
   // Looking: a seeker's row in either of the jobs engine's tables, each person once.
   for (const row of lookingForWork(api)) {
+    // The jobs engine skips a hired row in either table; the door keeps a counted one.
+    if ((row as { employed?: boolean }).employed) continue;
     const who = heads.get(row.personId);
     if (!who || who.band < 0) continue;
     const looking = who.looking
