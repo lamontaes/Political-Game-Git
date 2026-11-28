@@ -62,10 +62,7 @@ import {
   releaseHold,
   stopsOf,
 } from "./modules/office-day";
-import {
-  registerOfficeActs,
-  type OfficeEffectHandler,
-} from "./office-day-registry";
+import { extendData } from "./data";
 import { COMMITTEES, committeeRoster, leaderOf } from "./modules/leadership";
 import { candidateStance } from "./modules/campaigns";
 import { filingWindowOpens } from "./modules/candidacy";
@@ -114,6 +111,19 @@ export type Where = "washington" | "district";
  * the holds. What the player prepares for a federal act is the engine's
  * `prepareAct`.
  */
+type Provider = (
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  action: ActionDefinition,
+) => ActOffer[];
+
+/** Each federal part's acts, offered only to the officeholder the player controls. */
+const parts: {
+  acts: ActionDefinition[];
+  providers: Record<string, Provider>;
+  handlers: Record<string, NonNullable<CoreModule["effectHandlers"]>[string]>;
+} = { acts: [], providers: {}, handlers: {} };
+
 export const OFFICE_DAY_FEDERAL_MODULE: CoreModule = {
   id: OFFICE_DAY_FEDERAL_MODULE_ID,
   // What the federal day adds to what may stop the player (the engine's own `own-bill-vote` and `desk` are used as they are).
@@ -128,6 +138,17 @@ export const OFFICE_DAY_FEDERAL_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: { weeks: {}, cabinet: {}, holds: {} },
   },
+  // The federal acts: offered only to the officeholder the player controls; each part adds its own (`addFederalActs`).
+  offerProviders: parts.providers,
+  effectHandlers: parts.handlers,
+  dataFor: (data) =>
+    extendData(data, {
+      actions: parts.acts.map((act) => ({
+        ...act,
+        targetKind: `${FEDERAL_DUTY}:${act.id}`,
+      })),
+      parameters: ACT_HOURS,
+    }),
   onDay: (api) => {
     federalDay(api);
     return undefined;
@@ -678,19 +699,6 @@ const ACT_HOURS = Object.fromEntries(
     ]),
 ) as unknown as CoreData["parameters"];
 
-type Provider = (
-  api: CoreAPI,
-  actor: Readonly<PersonState>,
-  action: ActionDefinition,
-) => ActOffer[];
-
-/** Each federal part's acts, offered only to the officeholder the player controls. */
-const parts: {
-  acts: ActionDefinition[];
-  providers: Record<string, Provider>;
-  handlers: Record<string, OfficeEffectHandler>;
-} = { acts: [], providers: {}, handlers: {} };
-
 /** A federal part (the member's, the president's) adds its acts to the federal kit. */
 export function addFederalActs(input: {
   readonly acts: readonly ActionDefinition[];
@@ -699,7 +707,9 @@ export function addFederalActs(input: {
     personId: string,
     action: ActionDefinition,
   ) => readonly string[];
-  readonly handlers: Readonly<Record<string, OfficeEffectHandler>>;
+  readonly handlers: Readonly<
+    Record<string, NonNullable<CoreModule["effectHandlers"]>[string]>
+  >;
 }): void {
   parts.acts.push(...input.acts);
   for (const act of input.acts)
@@ -712,16 +722,6 @@ export function addFederalActs(input: {
           }))
         : [];
   Object.assign(parts.handlers, input.handlers);
-  registerOfficeActs({
-    id: "federal",
-    acts: parts.acts.map((a) => ({
-      ...a,
-      targetKind: `${FEDERAL_DUTY}:${a.id}`,
-    })),
-    parameters: ACT_HOURS,
-    providers: parts.providers,
-    handlers: parts.handlers,
-  });
 }
 
 addFederalActs({
