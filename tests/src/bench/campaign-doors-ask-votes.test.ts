@@ -11,10 +11,12 @@ import {
 } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import {
+  ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingRequirements,
   openContests,
   petitionOf,
+  type ContestRow,
 } from "../../../src/core2/modules/elections";
 import { corePlaceByKey } from "../../../src/core2/place-lookup";
 import { coreAPI } from "../../../src/core2/state";
@@ -65,6 +67,26 @@ function playPlace(
     openContests(api).filter(
       (row) => row.level !== "federal" && row.level !== "state",
     );
+  // Read from the contests' own calendars whether a local race opens its
+  // filing within the year, before playing the year to find out.
+  const within = addDays(makeIsoDate(core.date), 364);
+  if (
+    !local().length &&
+    !(
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as ContestRow[]
+    ).some(
+      (c) =>
+        c.level !== "federal" &&
+        c.level !== "state" &&
+        c.filingDeadline >= core.date &&
+        c.filingOpens !== null &&
+        c.filingOpens <= within,
+    )
+  )
+    return `${where}: no local race opens its filing within the year`;
   for (let week = 0; week < 52 && !local().length; week += 1)
     advanceCore(core, addDays(makeIsoDate(core.date), 7));
   const town = corePlaceByKey(PLACE)?.context.jurisdiction.id;
@@ -124,9 +146,7 @@ function playPlace(
         // The target landed in this outing: the doors after it ask for the
         // vote; if it landed on the last door, no door remains, so the place
         // is named and the next outing (the branch below) is the one checked.
-        if (out.votesAsked! > 0)
-          expect(out.votesAsked!, days.at(-1)).toBeGreaterThan(0);
-        else lastDoor.push(`${where}: ${days.at(-1)}`);
+        if (out.votesAsked === 0) lastDoor.push(`${where}: ${days.at(-1)}`);
       }
       expect(out.signed, days.at(-1)).not.toBeNull();
       expect(before, days.at(-1)).toBeLessThan(target);
@@ -134,6 +154,7 @@ function playPlace(
       switched = true;
       // A vote-asking outing: no signers, the strip reads "reached", nobody signs.
       expect(out.signed, days.at(-1)).toBeNull();
+      expect(out.votesAsked!, days.at(-1)).toBeGreaterThan(0);
       expect(out.answered, days.at(-1)).toBe(out.votesAsked);
       expect(out.reached, days.at(-1)).toBeGreaterThan(0);
       expect(doorSigned(), days.at(-1)).toBe(before);
@@ -143,11 +164,17 @@ function playPlace(
   process.stdout.write(
     `DOORS SWITCH ${where} ${filingId} target ${target}\n  ${days.join("\n  ")}\n`,
   );
-  // Twelve outings reach a small target, not a large one (1,004 signatures at
-  // Chevy Chase, Maryland): where the petition is still open and short, the
-  // place cannot show the switch in this many outings and is passed over.
-  if (!switched && core.date <= petitionOf(api, filingId)!.due)
-    return `${where}: target ${target} not reached in 12 outings (${doorSigned()} door signers)`;
+  // A petition still open and short of its target after twelve outings cannot
+  // show the switch here (the target is not too large for twelve outings'
+  // doors, but this campaign did not gather it): the place is passed over. A
+  // petition that holds the target with doors still asking for signatures
+  // fails below.
+  if (
+    !switched &&
+    core.date <= petitionOf(api, filingId)!.due &&
+    petitionOf(api, filingId)!.signed < target
+  )
+    return `${where}: ${petitionOf(api, filingId)!.signed} of ${target} signatures after twelve outings`;
   expect(switched, days.join("\n")).toBe(true);
   expect(petitionAsksAtDoors(api, filingId)).toBe(false);
   return null;
@@ -164,10 +191,16 @@ it(`the player's doors ask for votes once the petition holds the target (${WANTE
     // A place's law asks a petition of a local race, or its doors have nothing
     // to switch: read from its filing data before the place is played, as a
     // walk draws a place where its scene can play.
+    // The player files with no party's label, so it is the independent side's
+    // petition the law asks of a local race (a party side may ask none where an
+    // independent's asks 1,004 signatures: Chevy Chase, Maryland).
     const petitions = ["municipalOffice", "countyOffice"].some(
       (family) =>
-        filingRequirements(place.state, family as "municipalOffice").petition
-          .basis !== "none-in-law",
+        filingRequirements(
+          place.state,
+          family as "municipalOffice",
+          "independent",
+        ).petition.basis !== "none-in-law",
     );
     const why = petitions
       ? playPlace(place.seed, place.key, where, lastDoor)
