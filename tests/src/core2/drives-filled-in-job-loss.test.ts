@@ -20,7 +20,7 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
-import { buildBenchWorld } from "../../../src/bench/world";
+import { buildBenchWorld, NoPlayerHereError } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
@@ -61,10 +61,18 @@ function play(
   stop: (losses: readonly Loss[]) => boolean,
 ) {
   setBookkeeping(false);
-  const { core, place } = buildBenchWorld(seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey,
-  });
+  let built: ReturnType<typeof buildBenchWorld>;
+  try {
+    built = buildBenchWorld(seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey,
+    });
+  } catch (error) {
+    // A place where no player can live is passed over by name.
+    if (!(error instanceof NoPlayerHereError)) throw error;
+    return { skipped: `${placeKey} seed ${seed}: ${error.message}` };
+  }
+  const { core, place } = built;
   const where = `${place.displayName} (${place.key}) seed ${seed}`;
   const rt = residentsRuntime(core)!;
   // Every job id the counted books have held, read at the opening and at
@@ -150,6 +158,10 @@ it("every job loss draws its worker's response once, a filled-in worker's counte
       WAIT_UNTIL,
       (losses) => losses.some((row) => row.filledIn),
     );
+    if ("skipped" in run) {
+      passedOver.push(run.skipped);
+      continue;
+    }
     const found = run.losses.filter((row) => row.filledIn);
     if (!found.length) {
       passedOver.push(
@@ -182,7 +194,10 @@ it("in drawn places, a filled-in worker who loses a counted job answers it", () 
   const base = runner ?? randomBytes(16).toString("hex");
   const tried: string[] = [];
   let witness: string | undefined;
-  for (let n = 0; n < 3; n++) {
+  const skipped: string[] = [];
+  // A place where no player can live is passed over by name and another is
+  // drawn, until three places are played (at most nine draws).
+  for (let n = 0; tried.length < 3 && n < 9; n++) {
     const drawn = drawPlace(n ? `${base}:${n}` : base, "filled-in-job-loss");
     const placeKey =
       n === 0 && runner && process.env.GOLDEN_PATH_PLACE_KEY
@@ -190,11 +205,19 @@ it("in drawn places, a filled-in worker who loses a counted job answers it", () 
         : drawn.key;
     const seed = n === 0 && runner ? runner : drawn.seed;
     const run = play(seed, placeKey, "2026-01-02", () => false);
+    if ("skipped" in run) {
+      skipped.push(run.skipped);
+      continue;
+    }
     tried.push(run.where);
     answeredOnce(run.where, run.losses, run.answers);
     const row = run.losses.find((loss) => loss.filledIn);
     if (row && !witness) witness = `${run.where}: ${row.id} (${row.personId})`;
   }
+  expect(
+    tried.length,
+    `three places played; passed over: ${skipped.join("; ")}`,
+  ).toBe(3);
   process.stdout.write(
     `filled-in-job-loss drawn: ${JSON.stringify({ tried, witness })}\n`,
   );
