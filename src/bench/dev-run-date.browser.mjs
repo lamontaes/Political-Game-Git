@@ -5,8 +5,8 @@
 //   BENCH_BROWSER=/opt/pw-browsers/chromium node src/bench/dev-run-date.browser.mjs
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
-import { devModeOn } from "./dev-setup.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
+import { devModeOn } from "../../tests/support/dev-setup.mjs";
 
 const PLACE = "5469244";
 const SEED = "rockcave-a";

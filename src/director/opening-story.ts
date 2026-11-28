@@ -55,7 +55,7 @@ import {
 import { ADDRESS_FACT } from "./opening-facts";
 import { keyChambersOf } from "../core2/opening-key-people";
 import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
-import { markWordsStopgap } from "./stopgaps";
+import { markWordsStopgap } from "../core2/stopgaps";
 import {
   questionAbout,
   questionAgain,

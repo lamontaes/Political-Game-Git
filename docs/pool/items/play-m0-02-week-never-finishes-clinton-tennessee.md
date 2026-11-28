@@ -23,7 +23,7 @@ branch: claude/pool-play-m0-02-week-never-finishes-clinton-tennessee
 
 **What.** The golden path's step M0-02 (a chosen adult is played for a week; every act is the character's own pick or answers a stop) fails on clean main at 550ed6ad69 in Clinton, Tennessee with 'Error: The week did not finish.' The step advances a week and answers each stop; its guard gives up after 5,000 answers without the week completing. It fails the same way on the words machine's branch, which changes nothing in the player's week. The runner draws each step's place from the commit, so any pull request can draw this place and go red on an accepted step. Which stop repeats, and for whom, is not found.
 
-**Cause.** Measured: GOLDEN_PATH_SEED=b5d81e3e204b0f35f6c6903c19ba622965cffb498c39f30de1c2961a4df340b0 GOLDEN_PATH_PLACE_KEY=4715580 node --import tsx src/bench/m0-check.ts M0-02 fails in Clinton, Tennessee at 550ed6ad69 with 'The week did not finish.' (the guard of 5,000 answers at src/bench/m0-check.ts, line 109).
+**Cause.** Measured: GOLDEN_PATH_SEED=b5d81e3e204b0f35f6c6903c19ba622965cffb498c39f30de1c2961a4df340b0 GOLDEN_PATH_PLACE_KEY=4715580 node --import tsx scripts/bench/m0-check.ts M0-02 fails in Clinton, Tennessee at 550ed6ad69 with 'The week did not finish.' (the guard of 5,000 answers at scripts/bench/m0-check.ts, line 109).
 
 **Fix.** Find which stop repeats and for whom, and fix that in the advance or the talk; do not raise the guard. It is likely the same family as play-calendar-jump-hangs-brookside-2025.
 
@@ -35,7 +35,7 @@ branch: claude/pool-play-m0-02-week-never-finishes-clinton-tennessee
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/m0-check.ts, src/bench/player.ts, src/bench/handler.ts
+**Files.** scripts/bench/m0-check.ts, src/bench/player.ts, src/bench/handler.ts
 
 **Notes.** Not looked into: which stop repeats. The check's own adult is chosen by adultOf(w, 'm0-02').
 
