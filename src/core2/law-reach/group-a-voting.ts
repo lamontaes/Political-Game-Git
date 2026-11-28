@@ -42,7 +42,7 @@ import type { CoreAPI, CoreState, PersonState, Source } from "../types";
 import felonyData from "../data/elections/felony-disenfranchisement.json" with { type: "json" };
 import { electionsParameter } from "../elections-calendar";
 import { campaignParameter } from "../campaign-data";
-import { incarceratedMayVote } from "../justice-law";
+import { incarceratedMayVote } from "../justice-parameters";
 import { corePlaceByKey, coreStateName } from "../place-lookup";
 import { lazyValue, readJsonData } from "../reference/lazy-data";
 import {

@@ -6,7 +6,7 @@
  * money. One reader for every place: the law comes from the laws engine.
  */
 import type { ModuleRow } from "./module-data";
-import { justiceParameter } from "./justice-law";
+import { justiceParameter } from "./justice-parameters";
 import { holdInCustody, releaseFromCustody } from "./justice-custody";
 import { lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import type { CoreAPI, PersonId } from "./types";

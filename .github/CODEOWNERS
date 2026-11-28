@@ -1294,6 +1294,10 @@
 /tests/src/core2/resident-households.ts @lamontaes
 /src/core2/resident-outside-sales.ts @lamontaes
 /tests/src/core2/resident-outside-sales.ts @lamontaes
+/src/core2/counted-moves-reads.ts @lamontaes
+/tests/src/core2/counted-moves-reads.ts @lamontaes
+/src/core2/retirement-claims-runtime.ts @lamontaes
+/tests/src/core2/retirement-claims-runtime.ts @lamontaes
 /src/core2/resident-schooling.ts @lamontaes
 /tests/src/core2/resident-schooling.ts @lamontaes
 

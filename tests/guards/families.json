@@ -564,7 +564,8 @@
         "src/core2/finance-plan.ts",
         "src/core2/finance-state.ts",
         "src/core2/finance-cash.ts",
-        "src/core2/finance-reads.ts"
+        "src/core2/finance-reads.ts",
+        "src/core2/finance-notices.ts"
       ],
       "paths": [
         "src/core2/modules/finance.ts",
@@ -591,6 +592,7 @@
         "src/core2/modules/justice-reads.ts",
         "src/core2/modules/outcome-web-reads.ts",
         "src/core2/law-reach/reach-parameters.ts",
+        "src/core2/justice-parameters.ts",
         "src/rules/laws/**"
       ],
       "paths": [
@@ -968,6 +970,8 @@
         "src/core2/counted-job-heads.ts",
         "src/core2/resident-households.ts",
         "src/core2/resident-outside-sales.ts",
+        "src/core2/counted-moves-reads.ts",
+        "src/core2/retirement-claims-runtime.ts",
         "src/core2/resident-schooling.ts",
         "src/core2/heard-claims.ts",
         "src/core2/world-poverty.ts"
@@ -1236,6 +1240,8 @@
         "src/core2/counted-job-heads.ts",
         "src/core2/resident-households.ts",
         "src/core2/resident-outside-sales.ts",
+        "src/core2/counted-moves-reads.ts",
+        "src/core2/retirement-claims-runtime.ts",
         "src/core2/resident-schooling.ts"
       ]
     },
@@ -1325,6 +1331,8 @@
         "src/core2/modules/world-metrics.ts",
         "src/core2/modules/disasters.ts",
         "src/core2/coarse-place.ts",
+        "src/core2/world-settings.ts",
+        "src/core2/calendar.ts",
         "src/districts/**"
       ],
       "paths": [
@@ -1433,7 +1441,8 @@
       "entry": [
         "src/core2/modules/news.ts",
         "src/core2/modules/press.ts",
-        "src/core2/modules/news-listeners.ts"
+        "src/core2/modules/news-listeners.ts",
+        "src/core2/press-conflict.ts"
       ],
       "paths": [
         "src/core2/modules/news.ts",
