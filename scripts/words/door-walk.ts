@@ -2,12 +2,12 @@
  * Plays the door in a drawn place and prints every talk whole (Story lead, Nov 17; development
  * tooling like scene-samples.ts, shipped play never imports it).
  *
- *   node --import tsx scripts/words/door-walk.ts --seed <word> [--label a] [--min-need 25]
+ *   node --import tsx scripts/words/door-walk.ts --seed <word> [--label a] [--min-need 25] [--attempts 12]
  *     [--lead-months 0] [--after-window 60] [--speech]
  *
  * The place is drawn from all 56 by seed and label. A local resident files through the elections
- * engine, preferring a seat whose petition needs at least `--min-need` names (a place that has none
- * says SKIP), after `--lead-months` of life so the views engine holds stands. Every campaign day the
+ * engine, preferring a seat whose petition needs at least `--min-need` names (a place that has none is
+ * passed over by name and the next place is drawn, up to `--attempts`), after `--lead-months` of life so the views engine holds stands. Every campaign day the
  * engine offers is canvassed through the petition window and then `--after-window` more days; each
  * staged door scene (signature, first knock, second knock) is composed with purposeScene and its whole
  * tree is printed with every reply pressed, with the facts it leans on and the piece keys said.
@@ -36,8 +36,8 @@ import type { PersonId } from "../../src/core2/types";
 import { purposeScene } from "../../src/director/purpose-scene";
 import { speechAct, speechOccasion } from "../../src/director/scheduling";
 import type { TreeNode } from "../../src/director/scene-talk";
-import { spawnSync } from "node:child_process";
 import { drawPlace } from "../core2-year/place";
+import { walkPlaces } from "./walk-places";
 
 const option = (name: string, fallback: string) => {
   const at = process.argv.indexOf(`--${name}`);
@@ -47,34 +47,7 @@ const seed = option("seed", "");
 if (!seed) throw new Error("--seed <word> is required");
 const label = option("label", "a");
 
-// A place without what this walk needs is passed over by name and the next place is drawn (the way the
-// golden-path draws pass over a place that cannot play the case); the seed and every place passed over
-// are printed, so a run replays. Attempt 0 draws exactly the place the walk always drew.
-const attempt = Number(option("attempt", "0"));
-const ATTEMPTS = Number(option("attempts", "12"));
-const drawLabel = attempt ? `${label}:${attempt}` : label;
-const PASS_OVER = 3;
-// The walk runs one place per process so a passed-over place's world is freed before the next is built.
-if (!process.argv.includes("--child")) {
-  const args = process.argv.slice(2);
-  for (let n = 0; n < ATTEMPTS; n += 1) {
-    const run = spawnSync(
-      process.execPath,
-      [
-        ...process.execArgv,
-        process.argv[1]!,
-        ...args,
-        "--child",
-        "--attempt",
-        String(n),
-      ],
-      { stdio: "inherit" },
-    );
-    if (run.status !== PASS_OVER) process.exit(run.status ?? 1);
-  }
-  console.log(`SKIP: none of ${ATTEMPTS} drawn places had it`);
-  process.exit(0);
-}
+const walk = walkPlaces(option, label);
 const minNeed = Number(option("min-need", "25"));
 const leadMonths = Number(option("lead-months", "0"));
 const afterWindow = Number(option("after-window", "60"));
@@ -86,13 +59,9 @@ const LABELS = [
 ];
 
 setBookkeeping(false);
-const place = drawPlace(seed, `door-walk:${drawLabel}`);
+const place = drawPlace(seed, `door-walk:${walk.drawLabel}`);
 const where = `${place.name} (${place.key}), seed ${place.seed}`;
 
-function passOver(reason: string): never {
-  console.log(`# PASSED OVER ${where}: ${reason}`);
-  process.exit(PASS_OVER);
-}
 console.log(`# PLACE ${where}`);
 const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
   twoLevel: true,
@@ -256,7 +225,7 @@ for (const row of adults.slice(0, 60)) {
   if (filing) break;
 }
 if (!filing || !personId) {
-  passOver(`no seat whose petition needs ${minNeed} names`);
+  walk.passOver(where, `no seat whose petition needs ${minNeed} names`);
 }
 const due = petitionOf(api, filing.id)!.due;
 const days =
