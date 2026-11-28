@@ -16,7 +16,7 @@
  * - `termLimitReached` and `lobbyingBarredUntil`: an officeholder's limits.
  */
 import { placeStateKey } from "../place-map";
-import { lawInForce, yesLevels } from "../modules/laws";
+import { lawInForce, yesLevels } from "../modules/laws-reads";
 const EXECUTIVE_TERM_LIMIT = "executive-term-limit";
 import {
   PHOTO_ID,

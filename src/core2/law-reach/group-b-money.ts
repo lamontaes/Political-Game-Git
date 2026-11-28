@@ -28,7 +28,7 @@ import {
   type GovernmentRow,
 } from "../modules/budgets";
 import { enactLaw, lawChain, lawInForce, lawRows } from "../modules/laws";
-import { lawRowIsLater } from "../laws-in-force";
+import { lawRowIsLater } from "../laws-resolve";
 import {
   countedJob,
   residentsRuntime,

@@ -23,12 +23,7 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
-import { tableTraceOn } from "../module-state";
-import {
-  POLICY_QUESTIONS,
-  POLICY_SERIES_BY_LEVEL,
-  policySeriesAtLevel,
-} from "../policy-answers";
+import { POLICY_QUESTIONS, policySeriesAtLevel } from "../policy-answers";
 import { raiseToFloor } from "../wage-floor";
 import { centuryLaw } from "./elections";
 export { minimumHourlyAt } from "../wage-floor";
@@ -46,7 +41,6 @@ import {
   socialSecurityAgesFrom,
   type SocialSecurityAges,
 } from "../social-security-law";
-import wageHistory from "../../../data/research/laws/minimum-wage-history-2000-2026.json" with { type: "json" };
 import {
   lawChainForPlace,
   startingLawRows,
@@ -54,16 +48,13 @@ import {
   type LawChain,
   type LawRowInput,
 } from "../laws-starting";
+import type { LawInForceAnswer } from "../laws-in-force";
 import {
   inForceOn,
   rowsCarriedToStart,
   inTownChain,
-  LAW_SERIES,
-  resolveLawInForce,
   lawRowIsLater,
-  type EnactedAuthority,
-  type LawInForceAnswer,
-} from "../laws-in-force";
+} from "../laws-resolve";
 
 /**
  * How a law's effect reaches a person through the outcome web: the web's factor
@@ -74,7 +65,7 @@ export { webReach, webFactorFor } from "../outcome-web-reach";
 // The town's modeled people (named and counted), for the screens.
 export { townFacts, townStatePlaces } from "../law-reach/group-b-people";
 /** Who a law reached, by key, for the speeches that say what a law did. */
-export { reachedBy, reachOn } from "../law-reach/host";
+export { openLawReach, reachedBy, reachOn } from "../law-reach/host";
 export {
   assistanceIncomeByHousehold,
   ssiIncomeByHousehold,
@@ -106,7 +97,29 @@ export {
 // import ring.
 export { LAWS_MODULE_ID } from "./laws-reads";
 import { LAWS_MODULE_ID } from "./laws-reads";
-const CHAIN_ID = "chain";
+import {
+  CHAIN_ID,
+  LOCAL_POWER_PREFIX,
+  lawChain,
+  lawInForce,
+  lawRows,
+  minimumWageHistoryRows,
+  seriesRows,
+} from "./laws-reads";
+export {
+  LOCAL_POWER_PREFIX,
+  LOCAL_WAGE_AUTHORITY_QUESTION,
+  calibrationRows,
+  lawChain,
+  lawInForce,
+  lawInForceToday,
+  lawRows,
+  localPowerBarred,
+  stateLawInForce,
+  stateOpeningLawRows,
+  yesLevels,
+} from "./laws-reads";
+
 /** The count of laws enacted in play, across every series: their order. */
 const ORDER_ID = "enactment-order";
 /** The calibration date the starting policy answers are read as of. */
@@ -459,78 +472,9 @@ export function openLaws(core: CoreState): LawChain {
  * the members' stock trading ban. stopgapId: SG-LAWS-federal-position-no-reader
  */
 const FEDERAL_QUESTION_PREFIX = "us-federal-positions:";
-/** The policy question whose state answer grants places their own minimum wage (`localAuthority`). */
-export const LOCAL_WAGE_AUTHORITY_QUESTION =
-  "us-policy-positions:labor-workforce.local-minimum-wage-authority";
+
 /** The day a question no century session enacted has stood unenacted since: the first session's year. */
 const CENTURY_LAW_START = "1926-01-01";
-
-type WageStep = {
-  effectiveDate: string;
-  rateMinor: number;
-  sourceId: string;
-  estimated?: string;
-};
-const WAGE_HISTORY = wageHistory as unknown as {
-  sources: { id: string; citation?: string; url?: string; title?: string }[];
-  federal: WageStep[];
-  places: Record<string, WageStep[] | { noStateMinimum?: boolean }>;
-};
-
-/**
- * Earlier minimum wage rows for the federal level and the town's state: each
- * step ends where the next begins, and the last ends where that level's first
- * general starting row begins (a side tier recorded from an earlier date, such
- * as a small employer's rate, does not cut the general wage's history short). Levels without a starting row get none (no state law).
- */
-function minimumWageHistoryRows(
-  stateKey: string,
-  existing: readonly LawRowInput[],
-): LawRowInput[] {
-  const out: LawRowInput[] = [];
-  const levels: [string, "federal" | "state", WageStep[]][] = [
-    ["US", "federal", WAGE_HISTORY.federal],
-  ];
-  const own = WAGE_HISTORY.places[stateKey];
-  if (Array.isArray(own)) levels.push([stateKey, "state", own]);
-  for (const [jurisdiction, level, steps] of levels) {
-    const first = existing
-      .filter(
-        (r) =>
-          r.series === "minimum-wage" &&
-          r.tier === "general" &&
-          r.level === level &&
-          r.jurisdiction === jurisdiction,
-      )
-      .map((r) => r.effectiveDate)
-      .sort()[0];
-    if (!first) continue;
-    const before = steps
-      .filter((s) => s.effectiveDate < first)
-      .sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate));
-    for (const [i, step] of before.entries()) {
-      const source = WAGE_HISTORY.sources.find((s) => s.id === step.sourceId);
-      out.push({
-        id: `law:${jurisdiction}:${level}:minimum-wage:general:${step.effectiveDate}`,
-        jurisdiction,
-        level,
-        series: "minimum-wage",
-        tier: "general",
-        value: step.rateMinor,
-        unit: "minor/hour",
-        effectiveDate: step.effectiveDate,
-        endDate: before[i + 1]?.effectiveDate ?? first,
-        source: [
-          "data/research/laws/minimum-wage-history-2000-2026.json",
-          source?.url ?? step.sourceId,
-        ].join(" ; "),
-        retrieved: "2026-10-13",
-        estimate: step.estimated !== undefined || step.sourceId === "RECALL",
-      });
-    }
-  }
-  return out;
-}
 
 const SOCIAL_SECURITY = socialSecurity as unknown as {
   source: string;
@@ -589,46 +533,6 @@ export function socialSecurityAges(
       months: number;
     }[],
   });
-}
-
-export function lawChain(api: CoreAPI): LawChain {
-  const chain = api.moduleState(LAWS_MODULE_ID).table("chain").get(CHAIN_ID);
-  if (!chain) throw new Error("Laws are not open in this world.");
-  return chain as unknown as LawChain;
-}
-
-function seriesRows(
-  api: CoreAPI,
-  series: string,
-  jurisdiction?: string,
-): readonly LawRowInput[] {
-  const table = api.moduleState(LAWS_MODULE_ID).table("laws");
-  return (jurisdiction === undefined
-    ? table.query("bySeriesOnly", [series])
-    : table.query("bySeries", [
-        jurisdiction,
-        series,
-      ])) as unknown as readonly LawRowInput[];
-}
-
-/** The same canonical policy rows for current law, pending acts and legislative history. */
-export function lawRows(
-  api: CoreAPI,
-  series: string,
-  jurisdiction?: string,
-): readonly LawRowInput[] {
-  const aliases = POLICY_SERIES_BY_LEVEL[series];
-  const ownRows = seriesRows(api, series, jurisdiction);
-  return aliases
-    ? [
-        ...ownRows.filter((row) => !aliases[row.level]),
-        ...Object.entries(aliases).flatMap(([level, canonical]) =>
-          seriesRows(api, canonical, jurisdiction).filter(
-            (row) => row.level === level,
-          ),
-        ),
-      ]
-    : ownRows;
 }
 
 /**
@@ -712,188 +616,6 @@ export function lastEnactment(
   return latest;
 }
 
-/** Calibration facts consumed by a law reader; these are not enacted laws. */
-export function calibrationRows(
-  api: CoreAPI,
-  series: string,
-): readonly LawRowInput[] {
-  return api
-    .moduleState(LAWS_MODULE_ID)
-    .table("calibrations")
-    .query("bySeriesOnly", [series]) as unknown as LawRowInput[];
-}
-
-/** The law on a series for the town, on a date (today by default), at every level. */
-export function lawInForce(
-  api: CoreAPI,
-  series: string,
-  date: string = api.state.date,
-): LawInForceAnswer {
-  if (tableTraceOn() || date !== api.state.date)
-    return readLawInForce(api, series, date);
-  const writes = api.moduleState(LAWS_MODULE_ID).writes;
-  let kept = todaysLaw.get(api.state);
-  if (!kept || kept.writes !== writes || kept.date !== date)
-    todaysLaw.set(api.state, (kept = { writes, date, answers: new Map() }));
-  let answer = kept.answers.get(series);
-  if (!answer)
-    kept.answers.set(series, (answer = readLawInForce(api, series, date)));
-  return answer;
-}
-
-/** The starting law of each state outside the town's chain, read once from the research. */
-const outsideStartingRows = new Map<string, readonly LawRowInput[]>();
-/** The chain a state is read by from outside it: the nation and the state, no county or town. */
-const outsideChain = (stateKey: string): LawChain => ({
-  placeKey: "",
-  placeName: stateKey,
-  townPlaceId: "",
-  stateKey,
-  countyGeoids: [],
-  incorporated: false,
-  levels: [
-    { level: "federal", jurisdiction: "US" },
-    { level: "state", jurisdiction: stateKey },
-  ],
-});
-
-/**
- * A state's law as a world opens with it, for a state read from outside: the
- * research's starting rows, the minimum wage's dated history before them, and
- * every series recorded only from a later date carried to the world's first
- * day. The same three steps the played town's own state is opened with (one
- * rule, all 56 places), so no state waits a year for its own law.
- */
-export function stateOpeningLawRows(
-  stateKey: string,
-  startedAt: string,
-): readonly LawRowInput[] {
-  const kept = `${stateKey}|${startedAt}`;
-  let rows = outsideStartingRows.get(kept);
-  if (!rows) {
-    const starting = startingLawRows(outsideChain(stateKey));
-    const held = new Set(starting.map((row) => row.id));
-    const dated = [
-      ...starting,
-      ...minimumWageHistoryRows(stateKey, starting).filter(
-        (row) => !held.has(row.id),
-      ),
-    ];
-    outsideStartingRows.set(
-      kept,
-      (rows = [...dated, ...rowsCarriedToStart(dated, startedAt)]),
-    );
-  }
-  return rows;
-}
-
-/**
- * The law on a series in any state, on a date, by the same rule as the
- * town's (`resolveLawInForce`): the research's starting law for the state and
- * the nation, with every act the laws table holds for them. A state outside
- * the town's chain has no copy of its starting law in the table, so it is read
- * from the research here. The town's own state reads the table as always.
- */
-export function stateLawInForce(
-  api: CoreAPI,
-  stateKey: string,
-  series: string,
-  date: string = api.state.date,
-): LawInForceAnswer {
-  if (stateKey === lawChain(api).stateKey) return lawInForce(api, series, date);
-  const chain = outsideChain(stateKey);
-  const starting = stateOpeningLawRows(stateKey, api.state.startedAt);
-  const enacted = seriesRows(api, series).filter(
-    (row) =>
-      row.jurisdiction === stateKey ||
-      (row.level === "federal" && row.jurisdiction === "US"),
-  );
-  return resolveLawInForce({
-    series,
-    chain,
-    date,
-    rows: [...starting.filter((row) => row.series === series), ...enacted],
-  });
-}
-
-/** The sole uncached path, also used for history and traced reads. */
-function readLawInForce(
-  api: CoreAPI,
-  series: string,
-  date: string,
-): LawInForceAnswer {
-  const chain = lawChain(api);
-  // Only a wage floor reads the state's grant of local authority, and only
-  // the sales tax its state's average local rate: no other law reads them.
-  const floor = LAW_SERIES[series] === "floor";
-  const rows = lawRows(api, series);
-  return resolveLawInForce({
-    series,
-    chain,
-    date,
-    rows,
-    ...(floor
-      ? {
-          authorityRows: seriesRows(api, "local-minimum-wage-authority"),
-          authorityQuestionRows: seriesRows(api, LOCAL_WAGE_AUTHORITY_QUESTION),
-          enactedAuthority: api
-            .moduleState(LAWS_MODULE_ID)
-            .table("enactments")
-            .query("bySeries", [
-              "local-minimum-wage-authority",
-            ]) as unknown as readonly EnactedAuthority[],
-        }
-      : {}),
-    ...(POLICY_QUESTIONS[series] && localPowerBarred(api, series, date)
-      ? { statePreempts: true }
-      : {}),
-    ...(series === "income-tax"
-      ? {
-          localTaxGrant:
-            lawInForce(api, "local-income-tax-authority", date).levels.find(
-              (l) => l.level === "state",
-            )?.row ?? null,
-        }
-      : {}),
-    ...(series === "sales-tax"
-      ? { localAverage: calibrationRows(api, "local-sales-tax-average") }
-      : {}),
-    ...(series === "property-tax"
-      ? { calibrationRows: calibrationRows(api, series) }
-      : {}),
-  });
-}
-
-/** The series a state's bar on its places' own rule for one policy question is kept under. */
-export const LOCAL_POWER_PREFIX = "local-power:";
-
-/**
- * Whether the town's state bars its places from making their own rule on a
- * policy question on a date. The state's own law decides: a state bill that
- * bars (0) or grants (1) the power is a row on `local-power:<question>`, in
- * force from its effective date; with none, the researched starting answer
- * (`preempts`, data/research/laws/starting-law-2026) is the law in force.
- */
-export function localPowerBarred(
-  api: CoreAPI,
-  question: string,
-  date: string = api.state.date,
-): boolean {
-  const series = `${LOCAL_POWER_PREFIX}${question}`;
-  // Most questions have no grant/bar act yet. An empty series cannot change
-  // the researched starting rule; do not build an empty answer for each read.
-  const row = seriesRows(api, series).length
-    ? lawInForce(api, series, date).levels.find(
-        (level) => level.level === "state",
-      )?.row
-    : undefined;
-  if (row && row.value !== null) return row.value === 0;
-  return (
-    POLICY_QUESTIONS[question]?.answers[lawChain(api).stateKey]?.preempts ===
-    true
-  );
-}
-
 /**
  * Whether the town's state gives its places this power by name. The state's
  * own law decides: a `local-power:<question>` row in force (1 grants, 0 bars);
@@ -918,56 +640,6 @@ export function localPowerGranted(
     start?.localGrant === true &&
     (start.localGrantLevels === undefined ||
       start.localGrantLevels.includes(level))
-  );
-}
-
-/** Today's answers by series, kept while the laws engine's tables are unwritten. */
-const todaysLaw = new WeakMap<
-  CoreState,
-  { writes: number; date: string; answers: Map<string, LawInForceAnswer> }
->();
-
-/**
- * The law on a series for the town today: `lawInForce`, answered once per
- * series a day until the laws engine writes a row. The answer is built only
- * from this engine's rows and the date, so a kept one is the one a fresh read
- * would build; callers read it and keep none of it. With the table trace on
- * every call reads again, so the law-wiring check still sees each reader.
- */
-export function lawInForceToday(
-  api: CoreAPI,
-  series: string,
-): LawInForceAnswer {
-  return lawInForce(api, series);
-}
-
-/**
- * The levels of the town's chain whose law in force on a policy question says
- * yes, each with its row, in chain order (federal first): the one reading the
- * law-reach handlers, the budgets and the housing engine use. A higher level
- * saying no doesn't undo a lower level's yes.
- */
-export function yesLevels(
-  api: CoreAPI,
-  key: string,
-): readonly {
-  level: string;
-  jurisdiction: string;
-  lawId: string;
-  row: LawRowInput;
-}[] {
-  if (!api.state.modules.has(LAWS_MODULE_ID)) return [];
-  return lawInForce(api, key).levels.flatMap((l) =>
-    l.row?.value === 1 && !l.setAside
-      ? [
-          {
-            level: l.level,
-            jurisdiction: l.jurisdiction,
-            lawId: l.row.id,
-            row: l.row,
-          },
-        ]
-      : [],
   );
 }
 

@@ -1,5 +1,5 @@
 import { campaignParameter } from "./campaign-data";
-import { lawChain } from "./modules/laws";
+import { lawChain } from "./modules/laws-reads";
 import type { CoreAPI, CoreState } from "./types";
 
 /**
