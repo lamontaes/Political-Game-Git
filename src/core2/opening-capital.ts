@@ -13,7 +13,7 @@ import {
 } from "./business-books";
 import dataJson from "./data/opening-capital.json" with { type: "json" };
 import { OPENING_CUSTOMER_QUALIFICATION_PREFIX } from "./opening-customer-qualification";
-import { plannedWorkMinutesBetween } from "./modules/work";
+import { plannedWorkMinutesBetween } from "./work-reads";
 import { parameter, PARAMETERS, type Parameter } from "./parameters";
 import { seededUnit } from "./seeded";
 import { stopgap } from "./stopgaps";
