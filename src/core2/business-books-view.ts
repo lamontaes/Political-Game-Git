@@ -6,7 +6,7 @@
  * holds no text. Read-only: it spends no game time and creates no facts.
  */
 import type { CoreAPI, CoreState } from "./types";
-import { residentsRuntime } from "./modules/residents";
+import { residentsRuntime } from "./residents-reads";
 import { EMPLOYER_TAXES_MODULE_ID } from "./modules/budgets";
 import { employerArrears, profitTaxArrears } from "./budgets-treasury";
 import { employerTaxRecordsOf, profitTaxRecordsOf } from "./budgets-reads";

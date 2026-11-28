@@ -25,7 +25,7 @@ import data from "./data/school/honors.json" with { type: "json" };
 import schoolDays from "./data/school-days.json" with { type: "json" };
 import outcomes from "./data/school/outcomes.json" with { type: "json" };
 import { ageOn } from "./counted-groups";
-import { countedHouseholdsByPlace } from "./modules/residents";
+import { countedHouseholdsByPlace } from "./residents-reads";
 import { schoolName, schoolOfPlace } from "./past-module";
 import { SCHOOL_MODULE_ID } from "./school-measures";
 import {

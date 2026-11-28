@@ -16,7 +16,7 @@
  * constituent case in the official's office.
  */
 import { townLean } from "./campaigns";
-import { openBusinessOwnerIds } from "./business";
+import { ownersOfOpenBusinesses } from "./business";
 import { workedToday } from "./jobs";
 import {
   coreAPI,
@@ -70,7 +70,6 @@ import {
 // The cases engine imports this one; these are read only when a review runs.
 import { caseLoad, recentCasesOf } from "./constituent-cases";
 import {
-  LEGISLATURE_MODULE_ID,
   budgetLineStakes,
   learnStake,
   members,
@@ -78,6 +77,7 @@ import {
   type BillRow,
   type MemberPosition,
 } from "./legislature";
+import { billById } from "./bodies-reads";
 
 export const STAFF_MODULE_ID = "core2-staff-v1";
 /** Relatives living out of town, kept as a name and family ties only. */
@@ -421,7 +421,7 @@ export function staffCandidates(
   // Someone who runs an open business cannot take a post and keep it open:
   // taking it closes the firm (Dickens, Iowa: four owners hired as aides on
   // 2025-02-19, their firms closed with no successor on 2025-03-01).
-  const owners = openBusinessOwnerIds(api);
+  const owners = ownersOfOpenBusinesses(api);
   for (const person of reachablePeople(state, official, town, review)) {
     if (person.id === officialId || hired.has(person.id)) continue;
     // The person the player controls is never hired by the engine's choice
@@ -961,10 +961,7 @@ export function briefOnBill(
   billId: string,
 ): { work: WorkRecord; stakes: readonly MemberPosition[] } {
   const staffer = table(api, "staff").get(stafferId) as unknown as StafferRow;
-  const bill = api
-    .moduleState(LEGISLATURE_MODULE_ID)
-    .table("bills")
-    .get(billId) as unknown as BillRow;
+  const bill = billById(api, billId) as unknown as BillRow;
   const question =
     bill.provisions
       .map((p) => provisionStance(api, p)?.question)
@@ -1318,10 +1315,7 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 /** Before a vote, each member with a staffer is briefed on where the others stand. */
 function briefBeforeVote(api: CoreAPI, billId: string): void {
   if (!api.state.modules.has(STAFF_MODULE_ID)) return;
-  const bill = api
-    .moduleState(LEGISLATURE_MODULE_ID)
-    .table("bills")
-    .get(billId) as unknown as BillRow | undefined;
+  const bill = billById(api, billId) as unknown as BillRow | undefined;
   if (!bill) return;
   for (const term of members(api, bill.bodyOfficeId)) {
     if (!term.personId) continue;

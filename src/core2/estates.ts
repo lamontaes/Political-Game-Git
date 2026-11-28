@@ -37,9 +37,9 @@
  */
 import data from "./data/estates.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
-import { outsideGovernment } from "./modules/executive";
+import { outsideGovernment } from "./outside-governments";
 import { dwellingTenure } from "./housing-reads";
-import { LAWS_MODULE_ID } from "./modules/laws";
+import { LAWS_MODULE_ID } from "./modules/laws-reads";
 import { coreStateKeyOfPlaceholderId } from "./place-lookup";
 import {
   assessEstateTaxes,
@@ -56,13 +56,13 @@ import { closenessBetween } from "./closeness";
 import { leanedYes } from "./trait-decisions";
 import type { ModuleRow } from "./module-data";
 import { personOrFillIn, registerModule } from "./state";
-import { residentPerson, residentsRuntime } from "./modules/residents";
+import { residentPerson, residentsRuntime } from "./residents-reads";
 import { countedPayment } from "./counted-money";
 import { isDemoted } from "./counted-groups";
 import {
   endRecipientIncomeAtDeath,
   handOverContractsAtDeath,
-} from "./budgets-treasury";
+} from "./finance-state";
 import { addDays, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { homeSaleOf, recordEstatePaid, sellHome } from "./housing-sale";
 import type {
