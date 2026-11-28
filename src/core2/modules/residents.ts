@@ -33,7 +33,7 @@ import type {
 import {
   businessAvailableCredit,
   endRecipientIncomeAtDeath,
-} from "../budgets-treasury";
+} from "../finance-state";
 import type { WorkPayrollCalendarInput } from "./business";
 import { admitPublicPayAuthority } from "./business";
 import type {
