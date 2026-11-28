@@ -127,9 +127,6 @@
       "news": 1,
       "offices": 2
     },
-    "src/core2/modules/constituent-cases.ts": {
-      "jobs-businesses": 1
-    },
     "src/core2/modules/counted-demotion.ts": {
       "elections": 1
     },
