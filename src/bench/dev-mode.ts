@@ -154,6 +154,8 @@ import {
   billById,
   memberChoiceOn,
 } from "../core2/modules/bodies-reads";
+import { allCreditLoans } from "../core2/credit-reads";
+import { placePriceRules } from "../core2/prices-reads";
 
 /** The mark every dev-mode write carries. */
 /** The events a run can stop on, each as the record kinds the game logs when it happens. */
@@ -1840,7 +1842,7 @@ export class DevMode {
   smallDollarLoans() {
     if (!has(this.core, "credit")) return [];
     return (
-      this.api.moduleState("credit").table("loans").rows() as unknown as {
+      allCreditLoans(this.api) as unknown as {
         id: string;
         kind: string;
         askedMinor?: number;
@@ -2774,9 +2776,7 @@ export class DevMode {
           )
         : [],
       budgets: budgetView(this.core, this.player?.personId ?? "").governments,
-      prices: has(this.core, "place-prices")
-        ? api.moduleState("place-prices").table("rules").rows()
-        : [],
+      prices: placePriceRules(api),
       news: newsItems(this.core)
         .filter((row) => row.date >= from)
         .slice(0, 200),
