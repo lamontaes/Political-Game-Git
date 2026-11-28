@@ -59,6 +59,7 @@ const FIELDS: (keyof CoreModule)[] = [
   "adOutlet",
   "derivedCaches",
   "snapshotParts",
+  "worldMapParts",
 ];
 
 function world(): CoreState {
@@ -153,5 +154,24 @@ describe("the fields engines read off the installed modules", () => {
     expect(JSON.stringify(snapshotWorld(other))).not.toContain(
       "with-part-runtime",
     );
+  });
+
+  it("saves and restores a world map a module carries", () => {
+    const core = world();
+    const runtimes = new WeakMap<CoreState, { count: number }>();
+    const module = {
+      id: "with-map",
+      worldMapParts: {
+        "with-map-runtime": {
+          map: runtimes,
+        },
+      },
+    } as CoreModule;
+    registerModule(core, module);
+    runtimes.set(core, { count: 3 });
+    const saved = snapshotWorld(core);
+    runtimes.delete(core);
+    restoreWorld(core, saved);
+    expect(runtimes.get(core)).toEqual({ count: 3 });
   });
 });

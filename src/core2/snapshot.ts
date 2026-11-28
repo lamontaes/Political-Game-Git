@@ -352,6 +352,9 @@ function partsOf(core: CoreState): [string, SnapshotPart][] {
   const out = [...parts];
   for (const carried of fieldsOf(core, "snapshotParts"))
     for (const entry of Object.entries(carried)) out.push(entry);
+  for (const carried of fieldsOf(core, "worldMapParts"))
+    for (const [id, { map, rebuild }] of Object.entries(carried))
+      out.push([id, worldMapPart(map, rebuild)]);
   return out;
 }
 
@@ -453,12 +456,11 @@ export function registerDerivedCache(map: WeakMap<CoreState, unknown>): void {
  * A runtime kept in a WeakMap keyed by the world, saved as one part. With
  * `rebuild`, a save that holds no such part gets one built from its records.
  */
-export function registerWorldMapPart<T>(
-  id: string,
+export function worldMapPart<T>(
   map: WeakMap<CoreState, T>,
   rebuild?: (core: CoreState) => T | undefined,
-): void {
-  registerSnapshotPart(id, {
+): SnapshotPart {
+  return {
     save: (core) => map.get(core),
     restore: (core, data) => {
       if (data === undefined || data === null) map.delete(core);
@@ -472,5 +474,13 @@ export function registerWorldMapPart<T>(
         else map.set(core, rebuilt);
       },
     }),
-  });
+  };
+}
+
+export function registerWorldMapPart<T>(
+  id: string,
+  map: WeakMap<CoreState, T>,
+  rebuild?: (core: CoreState) => T | undefined,
+): void {
+  registerSnapshotPart(id, worldMapPart(map, rebuild));
 }
