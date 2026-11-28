@@ -114,6 +114,7 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 - `docs/current.json`
 - `docs/CURRENT.md`
 - `docs/words-lead-handoff-2026-11-16/`
+- `docs/coordination/refactor/story-split-2026-11-26.md`
 
 ## Replaced or removed, kept forever
 
@@ -360,7 +361,6 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 | `src/core2/deep-past.ts` | removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed) | 2026-11-24 | A profile report named this file; it is not in the repository. |
 | `src/core2/modules/law-reach` | removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed) | 2026-11-24 | The Oct 19 audit named this folder; it is not in the repository. |
 | `scripts/words/w3-news-year.ts` | removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed) | 2026-11-24 | A news study named this script; it is not in the repository. |
-| `tests/guards/english/bank-elements.test.ts` | removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed) | 2026-11-24 | The line-register guard's comment named this test; it is not in the repository. |
 | `calendar-day.png` | Generated calendar proof in the ignored test-results directory | 2026-11-27 | Review captures belong to their pull requests, not the repository. |
 | `calendar-holidays-hidden.png` | Generated calendar proof in the ignored test-results directory | 2026-11-27 | Review captures belong to their pull requests, not the repository. |
 | `calendar-today.png` | Generated calendar proof in the ignored test-results directory | 2026-11-27 | Review captures belong to their pull requests, not the repository. |
@@ -425,4 +425,5 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 | `src/core2/trait-test-kit.ts` | `tests/support/trait-test-kit.ts` | 2026-11-27 | Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move. |
 | `src/core2/turnover-check.ts` | `scripts/core2/turnover-check.ts` | 2026-11-27 | Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move. |
 | `src/core2/tooling/tsconfig.json` | nothing: no file read it, and its include no longer meant anything | 2026-11-27 | Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move. |
+| `src/bench/opening-landing.browser.mjs` | deleted with the opening's landing line: the address scene says the evening's one arrival (owner, Nov 23, P7 and P19); restore it from commit 987b24113a | 2026-11-24 | It pinned a second arrival line after the address ('You hang your coat by the door' after 'You sit down at the kitchen table'), the double the owner heard in v0.114.0. |
 | `src/core2/gov-rules/invented-person-age.ts` | `src/core2/person-invented-age.ts` | 2026-11-27 | How an invented person gets an age is the people engine's; the Lawmaking scope correction sends it there. |
