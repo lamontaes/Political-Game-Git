@@ -20,11 +20,9 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { advanceCore } from "../../../src/core2/life";
 import { shiftMonth } from "../../../src/core2/macro-model";
 import { stateUnemployment } from "../../../src/core2/modules/counted-moves";
-import {
-  countryStateMonth,
-  countryStates,
-} from "../../../src/core2/modules/macro";
+import { countryStateMonth } from "../../../src/core2/modules/macro";
 import { coreAPI } from "../../../src/core2/state";
+import { allCountryStates } from "../../../src/core2/macro-reads";
 
 const SEED = "7a5e19c2b3d84f60";
 
@@ -42,7 +40,7 @@ describe("the state's figures have one owner", () => {
       (r) => [r.key, r.now] as const,
     );
     advanceCore(world.core, "2026-01-20" as never);
-    const georgiaFips = countryStates(api).find(
+    const georgiaFips = allCountryStates(api).find(
       (row) => row.usps === "GA",
     )!.fips;
     const openingMonth = (

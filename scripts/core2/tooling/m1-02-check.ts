@@ -16,7 +16,6 @@
  */
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { checkBands, type MacroMonth } from "../../../src/core2/macro-model";
-import { countryStates } from "../../../src/core2/modules/macro";
 import {
   WORLD_MODULES,
   withWorldEconomy,
@@ -25,6 +24,7 @@ import {
 import { parameter } from "../../../src/core2/parameters";
 import { coreAPI } from "../../../src/core2/state";
 import { generatedOpening } from "../../../src/core2/generated-world";
+import { allCountryStates } from "../../../src/core2/macro-reads";
 
 /**
  * This check names its own place by design, and the runner's drawn place is
@@ -75,7 +75,7 @@ function check(seed: string, placeKey: string) {
         `${row.measure} ${row.at} ${row.value.toFixed(2)} beside the real [${row.low}, ${row.high}]`,
     );
   // The national row is the sum of the country tier's states.
-  const states = countryStates(api);
+  const states = allCountryStates(api);
   if (states.length !== 56)
     failures.push(`the country tier holds ${states.length} states, not 56`);
   let workers = 0,

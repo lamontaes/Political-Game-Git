@@ -98,7 +98,7 @@ import executiveSittings from "../data/legislature/executive-sittings.json" with
 import localExecutiveRules from "../../../data/research/gov/local-executive-introduction-2026.json" with { type: "json" };
 import { placeStateKey } from "../place-map";
 import { seededUnit } from "../seeded";
-import { countryStateMonth, countryStates } from "./macro";
+import { countryStateMonth } from "./macro";
 import type { OfficeLevel } from "./offices";
 import { partySide } from "./offices";
 import { decisionLean, termOfLean } from "../trait-decisions";
@@ -130,6 +130,7 @@ import {
   type Provision,
   type Sitting,
 } from "./legislature";
+import { allCountryStates } from "../macro-reads";
 
 /**
  * A local body's member filings can be held for the player's meeting: the
@@ -1914,7 +1915,7 @@ function stateFigures(
   jurisdiction: string,
 ): Record<string, number> | null {
   if (!api.state.modules.has("macro")) return null;
-  const state = countryStates(api).find((row) => row.key === jurisdiction);
+  const state = allCountryStates(api).find((row) => row.key === jurisdiction);
   const month = api.moduleState("macro").table("state").get("macro:state") as
     { latestMonth?: string } | undefined;
   const now =
