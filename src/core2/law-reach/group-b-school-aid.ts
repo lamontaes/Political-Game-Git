@@ -21,7 +21,7 @@ import { lawChain } from "../modules/laws";
 import { regionOfPlace } from "../modules/regional";
 import type { CoreAPI, CoreState } from "../types";
 import { moveBudget } from "./group-b-money";
-import { reachParameter } from "./group-b-people";
+import { reachParameter } from "./reach-parameters";
 
 const bases = budgetBases as unknown as {
   calibration: { factor: number };
