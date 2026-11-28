@@ -3,7 +3,6 @@
  * retirement income from outside, and household purchases at local firms.
  * Each occurrence is one balanced journal entry; nothing scans the world.
  */
-import { registerCountedPersonSource } from "../counted-actor";
 import { addDays, dateAtAge, makeIsoDate } from "../kernel/dates";
 import {
   advanceCadence,
@@ -30,13 +29,13 @@ import { notifyCountedWages, notifySalesReceipt } from "./finance";
 import type {
   BusinessBooksState,
   ResidentWageShortfall,
-} from "../finance-types";
+} from "../budgets-treasury";
 import {
   businessAvailableCredit,
   endRecipientIncomeAtDeath,
 } from "../finance-state";
-import type { WorkPayrollCalendarInput } from "../work-pay-period";
-import { admitPublicPayAuthority } from "../public-work-pay";
+import type { WorkPayrollCalendarInput } from "./business";
+import { admitPublicPayAuthority } from "./business";
 import type {
   CoreAPI,
   CoreModule,
@@ -49,7 +48,7 @@ import type {
   Source,
   WorkCommitmentInput,
 } from "../types";
-import { registerSnapshotPart } from "../snapshot";
+import type { SnapshotPart } from "../snapshot";
 import {
   ageBandOf,
   ageOn,
@@ -67,7 +66,7 @@ import {
   type HouseholdKind,
   type Tenure,
 } from "../counted-groups";
-import type { FinanceContractInput } from "../finance-types";
+import type { FinanceContractInput } from "./finance";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
 import {
   incomeBandOf,
@@ -85,6 +84,8 @@ import { commuterRole } from "./jobs";
 import { corePlaceByKey } from "../place-lookup";
 import { outsideLaborForce } from "../gov-rules/place-population";
 import { sellHome } from "../housing-sale";
+import { fieldsOf } from "../module-fields";
+import { lookingForWork } from "../jobs-reads";
 import {
   addCountedJob,
   countedJobHeads,
@@ -113,7 +114,26 @@ import {
   workersByGroup,
 } from "../counted-money";
 
-export const DAYS_PER_YEAR = 365;
+import { DAYS_PER_YEAR } from "../household-income";
+import { residentPerson, runtimes } from "../residents-reads";
+export {
+  countedChildrenOf,
+  countedGroupIdOf,
+  countedHouseholdOf,
+  countedHouseholdsByPlace,
+  countedJob,
+  countedRetirementAwards,
+  countedStaffOf,
+  countedTuitionPlans,
+  residentFacts,
+  residentPerson,
+  residentWageShortfall,
+  residentsAccountFor,
+  residentsRuntime,
+  supplierBillsOwed,
+  supplierBillsOwedTo,
+} from "../residents-reads";
+export { DAYS_PER_YEAR };
 
 /** Whether a person was returned to the counts (counted-groups.ts); screens and tools read it here. */
 export { isDemoted } from "../counted-groups";
@@ -285,11 +305,10 @@ interface ResidentMonth {
 
 const FIXED_SPENDING = "household.outside-living-costs";
 
-const runtimes = new WeakMap<CoreState, ResidentsRuntime>();
 /** The core a runtime belongs to, for the counted households' income reads before the first day opens its api. */
 const coreOfRuntime = new WeakMap<ResidentsRuntime, CoreState>();
 // The store is plain columns; the record views over it are rebuilt.
-registerSnapshotPart("core2-residents", {
+const RESIDENTS_SNAPSHOT_PART: SnapshotPart = {
   save: (core) => {
     const rt = runtimes.get(core);
     if (!rt) return undefined;
@@ -329,10 +348,12 @@ registerSnapshotPart("core2-residents", {
       households: new CountedHouseholdMap(store),
       householdOfPerson: new CountedPersonHouseholdMap(store),
     };
+    // The hook is the engine's, not the save's: it moves the restored runtime's own pool.
+    store.weightHook = (h, delta) => moveUnplacedPay(restored, h, delta);
     runtimes.set(core, restored);
     coreOfRuntime.set(restored, core);
   },
-});
+};
 
 const COUNTED = COUNTED_ROWS as unknown as Readonly<
   Record<string, { value: number }>
@@ -354,12 +375,6 @@ export function countedSpread(key: string): { low: number; high: number } {
   )[key];
   if (!row?.spread) throw new Error(`Counted parameter has no spread: ${key}`);
   return { low: row.spread.low, high: row.spread.high };
-}
-
-export function residentsRuntime(
-  core: CoreState,
-): ResidentsRuntime | undefined {
-  return runtimes.get(core);
 }
 
 function schedule(rt: ResidentsRuntime, flow: FlowState): void {
@@ -390,16 +405,14 @@ function householdKeys(
   return out;
 }
 
-/** Reads what the welfare line pays one household a year; law reach sets it when it registers (the Census counts public assistance in income). */
-type AssistanceReader = (core: CoreState, householdId: string) => number;
-let assistanceReader: AssistanceReader | undefined;
-export function setAssistanceReader(reader: AssistanceReader): void {
-  assistanceReader = reader;
-}
-
+/** What the welfare line and the veterans line pay one household a year: the sum of what each installed engine says (the `assistanceReader` field; the Census counts public assistance in income). */
 function assistanceYear(rt: ResidentsRuntime, householdId: string): number {
   const core = coreOfRuntime.get(rt);
-  return core && assistanceReader ? assistanceReader(core, householdId) : 0;
+  if (!core) return 0;
+  let total = 0;
+  for (const read of fieldsOf(core, "assistanceReader"))
+    total += read(core, householdId);
+  return total;
 }
 
 /** A counted household's yearly income: recorded pay, retirement awards, its unplaced workers' pay and the welfare line's cash assistance. */
@@ -1157,49 +1170,6 @@ export function shiftToOpenSellers(
   closed.amountMinor = 0;
 }
 
-/** Cash above the firm's buffer goes to its owners: part local, the rest outside. */
-/** A firm's supplier bills accrued and not yet paid (net-30), and who they're owed to. */
-export function supplierBillsOwedTo(
-  core: CoreState,
-  organizationId: string,
-): { owedMinor: number; supplierId: string; flowId: string } | undefined {
-  const costs = runtimes
-    .get(core)
-    ?.flows.get(`outside-costs:${organizationId}`);
-  if (!costs || costs.endedAt || !core.finance.businesses.has(organizationId))
-    return undefined;
-  return {
-    owedMinor: Math.floor(supplierBillsOwed(core, organizationId)),
-    supplierId: costs.payeeId,
-    flowId: costs.id,
-  };
-}
-
-/** What a business owes its outside suppliers for costs accrued on its sales but not yet billed or paid (net-30 terms). */
-export function supplierBillsOwed(
-  core: CoreState,
-  organizationId: string,
-): number {
-  const rt = runtimes.get(core),
-    book = core.finance.businesses.get(organizationId);
-  const costs = rt?.flows.get(`outside-costs:${organizationId}`);
-  if (!book || !costs || costs.endedAt) return 0;
-  const share =
-    book.annualDemandMinor > 0
-      ? book.annualOtherCostsMinor / book.annualDemandMinor
-      : 0;
-  const accrued =
-    (costs.accruedCostMinor ?? 0) +
-    (book.receivedMinor - (costs.receivedMinor ?? book.receivedMinor)) * share;
-  return Math.max(
-    0,
-    accrued -
-      (book.operatingPaidMinor -
-        (costs.localPaidMinor ?? book.operatingPaidMinor)) -
-      (costs.outsidePaidMinor ?? 0),
-  );
-}
-
 /** The household's oldest living member who pays living costs, ties broken by id. */
 function livingPayerOf(
   core: CoreState,
@@ -1810,62 +1780,8 @@ function runResidentsDay(api: CoreAPI): void {
   settleDue(api, rt, today);
 }
 
-/** A job held by someone in the wider population, while its employer still pays it. */
-export function countedJob(
-  core: CoreState,
-  jobId: string,
-): JobInput | undefined {
-  const rt = runtimes.get(core);
-  const job = rt?.jobs.get(jobId);
-  if (!rt || !job) return undefined;
-  const flow = rt.wageFlowByJob.get(jobId);
-  return flow && !flow.endedAt ? job : undefined;
-}
-
-/** How many jobs at an employer are held by people in the wider population, while their wages are still paid (by the employer or the treasury that funds it). */
-export function countedStaffOf(
-  core: CoreState,
-  organizationId: string,
-): number {
-  const rt = runtimes.get(core);
-  if (!rt) return 0;
-  let jobs = 0;
-  for (const [jobId, job] of rt.jobs)
-    if (job.organizationId === organizationId && countedJob(core, jobId))
-      jobs += 1;
-  return jobs;
-}
-
-/** The record of someone still in the wider population, built from their group's columns. */
-export function residentPerson(
-  core: CoreState,
-  personId: PersonId,
-): PersonInput | undefined {
-  const rt = runtimes.get(core);
-  const m = rt?.store.countedMember(personId);
-  if (m === undefined) return undefined;
-  const store = rt!.store;
-  const id = store.ids[m]!;
-  return store
-    .peopleOf(store.households[store.household[m]!]!)
-    .find((row) => row.id === id);
-}
-
 /** What the engines read about someone still counted: their columns, with no person record built. */
 export type ResidentFacts = CountedFacts;
-
-/** A counted person's place, birth date, job and traits read from the columns; undefined once they are filled in, dead or moved. */
-export function residentFacts(
-  core: CoreState,
-  personId: PersonId,
-): ResidentFacts | undefined {
-  const store = runtimes.get(core)?.store;
-  const m = store?.countedMember(personId);
-  if (!store || m === undefined) return undefined;
-  return store.factsOf(m);
-}
-
-registerCountedPersonSource(residentPerson);
 
 /** Whether a counted (or filled-in) person was in the opening's counts, so has a past before it. */
 export function countedSinceOpening(
@@ -1875,46 +1791,6 @@ export function countedSinceOpening(
   const rt = runtimes.get(core);
   const m = rt?.store.memberOf.get(personId);
   return m !== undefined && m < rt!.store.openingMembers;
-}
-
-/** The id of the counted group a counted person's household stands in today, if any. */
-export function countedGroupIdOf(
-  core: CoreState,
-  personId: PersonId,
-): string | undefined {
-  const rt = runtimes.get(core);
-  const household = countedHouseholdOf(core, personId);
-  return household && household.group >= 0
-    ? rt?.store.groups[household.group]?.id
-    : undefined;
-}
-
-/** The counted household a person belongs to, if they are still counted. */
-export function countedHouseholdOf(
-  core: CoreState,
-  personId: PersonId,
-): CountedHousehold | undefined {
-  const rt = runtimes.get(core);
-  const m = rt?.store.countedMember(personId);
-  return m === undefined
-    ? undefined
-    : rt!.store.households[rt!.store.household[m]!];
-}
-
-/** How many people under the voting age live in a counted person's household, for a reader that weighs what a run costs the family. */
-export function countedChildrenOf(
-  core: CoreState,
-  personId: PersonId,
-  adultAge: number,
-): number {
-  const rt = runtimes.get(core);
-  const home = countedHouseholdOf(core, personId);
-  if (!rt || !home) return 0;
-  const year = Number(core.date.slice(0, 4));
-  return rt.store
-    .factsOfHousehold(home)
-    .filter((row) => year - Number(row.birthDate.slice(0, 4)) < adultAge)
-    .length;
 }
 
 /**
@@ -2563,15 +2439,14 @@ function indexedFlowPay(
     : amount;
 }
 
-export function residentWageShortfall(
-  core: CoreState,
-  id: string,
-): ResidentWageShortfall | undefined {
-  return runtimes.get(core)?.shortfalls.get(id);
-}
-
 export const RESIDENTS_MODULE: CoreModule = {
+  countedPerson: residentPerson,
   id: RESIDENTS_MODULE_ID,
+  snapshotParts: { "core2-residents": RESIDENTS_SNAPSHOT_PART },
+  // The counted people the opening records are admitted once the core exists.
+  onOpen: (core, input) => {
+    if (input.residents) admitResidents(core, input.residents);
+  },
   onDay: runResidentsDay,
   onResultsMonth: runResidentsDay,
 };
@@ -2585,19 +2460,6 @@ export interface ResidentCounts {
   workers: number;
   byAgeBand: Record<string, number>;
   workersByOrganization: Record<string, number>;
-}
-
-/** The account that pays and receives for a place's counted residents (benefits, taxes). */
-export function residentsAccountFor(
-  core: CoreState,
-  placeId: PlaceId,
-): string | undefined {
-  const row = runtimes
-    .get(core)
-    ?.input.accounts.find((account) => account.placeId === placeId);
-  return row
-    ? core.cashJournal.residualAccountByOwner.get(row.accountId)
-    : undefined;
 }
 
 /**
@@ -2809,26 +2671,16 @@ export function residentsPart(
         part.cashMinor += rt.api.accounts().balance(fund);
   }
   // Looking: a seeker's row in either of the jobs engine's tables, each person once.
-  if (core.modules.has("jobs")) {
-    const looked = new Set<string>();
-    for (const table of ["seekers", "countedSeekers"])
-      for (const row of api
-        .moduleState("jobs")
-        .table(table)
-        .rows() as unknown as {
-        personId: string;
-        employed?: boolean;
-      }[]) {
-        const who = heads.get(row.personId);
-        if (row.employed || !who || who.band < 0 || looked.has(row.personId))
-          continue;
-        looked.add(row.personId);
-        const looking = who.looking
-          ? Math.min(who.heads, who.looking.left)
-          : who.heads;
-        if (who.looking) who.looking.left -= looking;
-        part.seekers[who.band]! += looking;
-      }
+  for (const row of lookingForWork(api)) {
+    // The jobs engine skips a hired row in either table; the door keeps a counted one.
+    if ((row as { employed?: boolean }).employed) continue;
+    const who = heads.get(row.personId);
+    if (!who || who.band < 0) continue;
+    const looking = who.looking
+      ? Math.min(who.heads, who.looking.left)
+      : who.heads;
+    if (who.looking) who.looking.left -= looking;
+    part.seekers[who.band]! += looking;
   }
   return part;
 }
@@ -3060,21 +2912,6 @@ export function countedWagesEarned(
  * from its circumstances; these only keep the records and flows consistent.
  */
 
-/** Counted households in each place, as recorded today. */
-export function countedHouseholdsByPlace(
-  core: CoreState,
-): Map<PlaceId, ResidentHouseholdRecord[]> {
-  const rt = runtimes.get(core);
-  const byPlace = new Map<PlaceId, ResidentHouseholdRecord[]>();
-  if (!rt) return byPlace;
-  for (const row of rt.input.accounts) byPlace.set(row.placeId, []);
-  // The live households in record order, as `rt.households` yields them.
-  const store = rt.store;
-  for (const h of store.households)
-    if (!h.gone) byPlace.get(h.placeId)?.push(store.householdView(h));
-  return byPlace;
-}
-
 /**
  * Merged maps the drift may edit in place: copied once (the opening input
  * stays as built), then edited without copying thousands of entries per move.
@@ -3234,6 +3071,20 @@ export function countedHouseholdJobChanged(
   const store = rt.store;
   const h = store.households[store.household[m]!]!;
   const others = h.jobs.filter((row) => row.id !== job.id);
+  // A member hired into a recorded job was one of the working-age members
+  // without one whom the household's out-of-town workers are shared among, so
+  // their share leaves with the hire: the same writer as a member who leaves
+  // working age. Left on, the household's income counted their pay twice (the
+  // new job and the share), and a fill-in, which hands over only the jobs,
+  // dropped it and moved the household's income fifth (school-outcomes,
+  // Hackleburg, Alabama, seed 5d329c70fa987cb9).
+  if (
+    job.endsAt === undefined &&
+    !others.some(
+      (row) => row.personId === job.personId && row.endsAt === undefined,
+    )
+  )
+    leaveUnplacedWork(rt, h, m, core.date, false);
   h.jobs = job.endsAt === undefined ? [...others, job] : others;
   if (commitment) {
     h.workCommitments = [
@@ -3788,35 +3639,6 @@ export function countedSchoolFamilies(
       weight: rt.store.weightOf(h),
       cashPerChild: cash(h) / children,
     });
-  }
-  return out;
-}
-
-/** What each counted household pays these schools now, by household: the school and the monthly amount of its record. */
-export function countedTuitionPlans(
-  core: CoreState,
-  schoolIds: ReadonlySet<string>,
-  financeKind: string,
-): Map<string, { schoolId: string; monthlyMinor: number }> {
-  const rt = runtimes.get(core);
-  const out = new Map<string, { schoolId: string; monthlyMinor: number }>();
-  if (!rt) return out;
-  const prefix = "hh:";
-  for (const flow of rt.flows.values()) {
-    if (
-      flow.endedAt ||
-      flow.kind !== "purchase" ||
-      flow.financeKind !== financeKind ||
-      !schoolIds.has(flow.payeeId) ||
-      !flow.amountByContract
-    )
-      continue;
-    for (const [key, amount] of Object.entries(flow.amountByContract))
-      if (key.startsWith(prefix) && amount > 0)
-        out.set(key.slice(prefix.length), {
-          schoolId: flow.payeeId,
-          monthlyMinor: amount,
-        });
   }
   return out;
 }
@@ -4490,36 +4312,6 @@ export function rerateCountedRetirement(
       );
     }
   return changed;
-}
-
-/**
- * The counted residents' Social Security awards running now, for the law
- * reach: each pooled flow's payee, its amount, the retirees it pays and the
- * line level it was last rated at (`rerateCountedRetirement`).
- */
-export function countedRetirementAwards(core: CoreState): {
-  readonly flowId: string;
-  readonly payeeId: string;
-  readonly placeId: string;
-  readonly amountMinor: number;
-  readonly retirees: number;
-  readonly level: number;
-}[] {
-  const rt = runtimes.get(core);
-  if (!rt) return [];
-  const out = [];
-  for (const flow of rt.flows.values()) {
-    if (flow.kind !== "retirement" || flow.endedAt) continue;
-    out.push({
-      flowId: flow.id,
-      payeeId: flow.payeeId,
-      placeId: flow.placeId,
-      amountMinor: flow.amountMinor,
-      retirees: Math.max(1, Object.keys(flow.amountByContract ?? {}).length),
-      level: rt.retirementLevel.get(flow.id) ?? 1,
-    });
-  }
-  return out;
 }
 
 /** The counted households' moves, for the engines outside the people family (the family's entry). */

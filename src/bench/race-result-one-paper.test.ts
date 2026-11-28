@@ -11,7 +11,7 @@
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
-import { playTownRace } from "../core2/campaign-race-test-kit";
+import { playTownRace } from "../../tests/support/campaign-race-test-kit";
 import { gameStartDate } from "../core2/game-start";
 import { wordPrintedStory } from "./archive-words";
 import { buildBenchWorld } from "./world";

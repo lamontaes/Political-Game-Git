@@ -93,7 +93,8 @@ import {
 } from "../english/policy-names";
 import { amountSubjectAt, dollars } from "../english/bill-sections";
 import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
-import { NOTICE_SERVED_EVENT, dwellingTenure } from "../core2/modules/housing";
+import { NOTICE_SERVED_EVENT } from "../core2/modules/housing";
+import { dwellingTenure } from "../core2/housing-reads";
 import {
   NEWS_MODULE_ID,
   NEWS_READ,
@@ -1877,10 +1878,17 @@ function composeBinding(
   }
   if (said.office)
     facts.office = {
-      // Where the body is named for its members the race is for that member
-      // ("alderman"); else the record's title in a sentence.
+      // The race's office as every scene says it, from the one reader the
+      // door knock uses (`officeSaid`; W6, Nov 24: the interview said "the
+      // race for council member" where the knock said "the Greeley City
+      // Council"); else, with no contest on record, the member's title where
+      // the body is named for its members ("alderman"), else the record's.
       text:
-        raceMemberTitle(core, said.contestId) ?? titleInSentence(said.office),
+        (said.contestId
+          ? officeSaid(core, { contestId: said.contestId })?.text
+          : undefined) ??
+        raceMemberTitle(core, said.contestId) ??
+        titleInSentence(said.office),
       sourceRecordIds: [
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),
@@ -2137,9 +2145,20 @@ function composeBinding(
   // the bill (`promised-against`) is said only from a record of one, which no
   // engine writes yet. stopgapId: SG-WORDS-recall-promise-record
 
+  // A chair asking a member to run: the party the record names, by its name.
+  // The lines say "the {party} Party", so a name that already ends in "Party" is given without it.
+  if (type.purpose === "ask-to-run" && typeof said.party === "string")
+    facts.party = {
+      text: said.party.replace(/\s+party$/i, ""),
+      sourceRecordIds: [moment.causeId],
+    };
+
   // Joining a party: the party the record names, by its name.
   if (type.purpose === "party-welcome" && typeof said.party === "string") {
-    facts.party = { text: said.party, sourceRecordIds: [moment.causeId] };
+    facts.party = {
+      text: said.party.replace(/\s+party$/i, ""),
+      sourceRecordIds: [moment.causeId],
+    };
     // What the party holds and runs in this place, from the offices' terms and
     // the open races' filings: the leader's answer to "what do you do here".
     const api = coreAPI(core as CoreState);

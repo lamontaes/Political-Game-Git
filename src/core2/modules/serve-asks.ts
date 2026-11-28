@@ -32,7 +32,6 @@ import { workHeld } from "../person-work";
 import { PLATFORM_QUESTIONS, type Stance } from "../campaign-data";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
-import { registerModule } from "../state";
 import type {
   CoreAPI,
   CoreEventInput,
@@ -53,7 +52,13 @@ import {
   type ContestRow,
   type FilingRow,
 } from "./elections";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  servingTermsOf,
+  type TermRow,
+  officeById,
+  termsOfPerson,
+} from "./offices";
 import { officialOf } from "./officials";
 import {
   fillInStateCandidate,
@@ -75,7 +80,7 @@ import {
   voterLean,
 } from "./voting";
 
-export const SERVE_ASKS_MODULE_ID = "core2-serve-asks-v1";
+const SERVE_ASKS_MODULE_ID = "core2-serve-asks-v1";
 /** The event an ask is played from: the director's `ask-to-serve` cause. */
 export const SERVE_ASKED_EVENT = "serve-asked";
 
@@ -243,11 +248,6 @@ export const SERVE_ASKS_MODULE: CoreModule = {
   },
 };
 
-export function openServeAsks(core: CoreState): void {
-  if (!core.modules.has(SERVE_ASKS_MODULE_ID))
-    registerModule(core, SERVE_ASKS_MODULE);
-}
-
 const table = (api: CoreAPI) =>
   api.moduleState(SERVE_ASKS_MODULE_ID).table("asks");
 
@@ -290,14 +290,9 @@ function platformOf(api: CoreAPI, filing: FilingRow): readonly Stance[] {
 /** A seat the person holds now, from the offices engine's terms. */
 function servingTerm(api: CoreAPI, personId: string): TermRow | undefined {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
-  return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("byPerson", [personId]) as unknown as TermRow[]
-  )
-    .filter((t) => t.status === "serving")
-    .sort((a, b) => a.id.localeCompare(b.id))[0];
+  return [...servingTermsOf(api, personId)].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  )[0];
 }
 
 /**
@@ -331,12 +326,8 @@ export function ticketStanding(
         Number(term.endDate.slice(0, 4)) >= year &&
         Number(term.endDate.slice(0, 4)) <= year + 1));
   const seatTitle = term
-    ? ((
-        api
-          .moduleState(OFFICES_MODULE_ID)
-          .table("offices")
-          .get(term.officeId) as { title?: string } | undefined
-      )?.title ?? null)
+    ? ((officeById(api, term.officeId) as { title?: string } | undefined)
+        ?.title ?? null)
     : null;
   // The player's own standing in the race, from what the race keeps.
   const heldOffice = everHeldOffice(api, player.id);
@@ -618,12 +609,9 @@ export function postStanding(
 /** Whether the player has ever held a seat, from the offices engine's terms. */
 function everHeldOffice(api: CoreAPI, personId: string): boolean {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
-  return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("byPerson", [personId]) as unknown as TermRow[]
-  ).some((t) => t.startDate <= api.state.date);
+  return (termsOfPerson(api, personId) as unknown as TermRow[]).some(
+    (t) => t.startDate <= api.state.date,
+  );
 }
 
 function knowsEachOther(
@@ -954,12 +942,8 @@ function postFor(api: CoreAPI, appointerId: string, post: string) {
 function appointerOffice(api: CoreAPI, personId: string): string {
   const term = servingTerm(api, personId);
   return term
-    ? ((
-        api
-          .moduleState(OFFICES_MODULE_ID)
-          .table("offices")
-          .get(term.officeId) as { title?: string } | undefined
-      )?.title ?? "")
+    ? ((officeById(api, term.officeId) as { title?: string } | undefined)
+        ?.title ?? "")
     : "";
 }
 

@@ -6,9 +6,15 @@ import {
   ageOnDate,
   makeIsoDate,
   daysBetweenText,
+  weekdayOf,
 } from "../kernel/dates";
 import { parameter, PARAMETERS } from "../parameters";
 import { runWorkPayrollDay } from "../work-payroll-dispatch";
+import {
+  OPENING_PAYROLL_CALENDAR_STOPGAP,
+  openingWorkPayrollCalendars,
+} from "../opening-payroll-calendar";
+import { stopgap } from "../stopgaps";
 import { FinanceReadGuard } from "../finance-plan";
 
 import { careNeedOf } from "./health";
@@ -28,6 +34,7 @@ import type {
   WorkData,
   WorkScheduleSlot,
 } from "../types";
+import { fieldsOf } from "../module-fields";
 
 export { DEFAULT_WORK_DATA } from "../work-data";
 
@@ -98,10 +105,7 @@ export function openingWorkCommitments(
       anchorDate:
         supplied?.anchorDate ??
         (pattern.anchorOperation === "civil-week"
-          ? addDays(
-              makeIsoDate(startedAt),
-              -new Date(makeIsoDate(startedAt)).getUTCDay(),
-            )
+          ? addDays(makeIsoDate(startedAt), -weekdayOf(startedAt))
           : pattern.anchorOperation === "opening-date"
             ? makeIsoDate(startedAt)
             : (() => {
@@ -792,20 +796,14 @@ export function notifyWorkChoice(
  * The hours each person's office takes from their day today, from that
  * office's own records (office-hours-never-fill-an-officials-day): a state
  * legislator's session, committee and caucus days, a town body's meetings, a
- * salaried post's weekday. Each engine that keeps an office's days registers
- * one; a person's office time is the sum of what each says.
+ * salaried post's weekday. Each engine's module that keeps an office's days
+ * carries one (`officeTime`); a person's office time is the sum of what each
+ * says.
  */
-export type OfficeTimeReader = (
-  api: CoreAPI,
-) => ReadonlyMap<string, OfficeTime>;
 /** An office's hours in a day and the record they come from (an entry, a meeting, a post). */
 export interface OfficeTime {
   readonly hours: number;
   readonly sourceId: string;
-}
-const officeTimeReaders: OfficeTimeReader[] = [];
-export function registerOfficeTime(reader: OfficeTimeReader): void {
-  if (!officeTimeReaders.includes(reader)) officeTimeReaders.push(reader);
 }
 
 /** Office hours already put on each person's day today, so no office is counted twice. */
@@ -860,8 +858,11 @@ export function chargeOfficeHours(
 /** Each office's hours today, on its holder's day, before anyone's shift or free time. */
 function chargeOfficeTime(api: CoreAPI, excludePersonId?: string): void {
   const total = new Map<string, OfficeTime>();
-  for (const reader of officeTimeReaders)
-    for (const [personId, time] of reader(api)) {
+  for (const reader of fieldsOf(api.state, "officeTime"))
+    for (const [personId, time] of reader(api) as ReadonlyMap<
+      string,
+      OfficeTime
+    >) {
       const held = total.get(personId);
       total.set(
         personId,
@@ -1050,7 +1051,7 @@ export function catchUpScheduledWork(
 }
 
 export function workWeekStart(date: string, api: CoreAPI): string {
-  const day = new Date(makeIsoDate(date)).getUTCDay();
+  const day = weekdayOf(date);
   const offset = remainder(
     day - api.parameter("mondayIndex"),
     api.parameter("daysPerWeek"),
@@ -1075,6 +1076,46 @@ export function activityAgeId(api: CoreAPI, personId: string): string {
 
 export const WORK_MODULE: CoreModule = {
   id: "core2-recorded-work-v1",
+  // The recorded commitments of each person's primary job and the pay calendars
+  // they sit on, worked out from the opening's own records; where a calendar
+  // had to be estimated, the stopgap is registered once the core exists.
+  prepareOpening: (input, { data }) => {
+    if (!data.work) return { input };
+    const primaryJobByPerson = new Map(
+      input.people.map((person) => [person.id, person.jobId]),
+    );
+    const payroll = openingWorkPayrollCalendars(
+      {
+        ...input,
+        workCommitments:
+          input.workCommitments ??
+          openingWorkCommitments(
+            input.jobs.filter(
+              (job) =>
+                primaryJobByPerson.get(job.personId) === job.id &&
+                (job.endsAt === undefined || job.endsAt > input.startedAt),
+            ),
+            input.organizations,
+            input.startedAt,
+            data.work,
+            data.parameters,
+          ),
+      },
+      { parameters: data.parameters },
+    );
+    return {
+      input: {
+        ...input,
+        workCommitments: payroll.workCommitments,
+        workPayrollCalendars: payroll.calendars,
+        gaps: [...input.gaps, ...payroll.gaps],
+      },
+      afterOpen: (core) => {
+        if (payroll.estimates.length)
+          stopgap(OPENING_PAYROLL_CALENDAR_STOPGAP, core);
+      },
+    };
+  },
   reasonProviders: {
     // A person stays home from a shift mostly because they are ill: their own
     // health record's care need (health.ts `careNeedOf`, 0 to 1, a sliding

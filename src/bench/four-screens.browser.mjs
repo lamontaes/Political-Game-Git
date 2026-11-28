@@ -5,7 +5,7 @@
 // debate panels on the campaign trail are checked by debate-card.browser.mjs. Screenshots go to FOUR_SHOTS (default docs/reports/four-screens-2026-10-27).
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { finishTalk, playOpening } from "./start-life.mjs";
+import { finishTalk, playOpening } from "../../tests/support/start-life.mjs";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const shots = process.env.FOUR_SHOTS ?? "docs/reports/four-screens-2026-10-27";
 const browser = await chromium.launch({

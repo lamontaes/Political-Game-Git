@@ -1,0 +1,29 @@
+{
+  "id": "campaign-manager-takes-it-personally",
+  "kind": "voice",
+  "summary": "A manager says the candidate's win or loss becomes their own.",
+  "realLife": "A student-race campaign manager said the candidate's win or loss becomes his win or loss.",
+  "sources": [
+    "The Alligator, a campaign manager on the stakes of a student race: https://www.alligator.org/r/72eaef6740"
+  ],
+  "fits": ["campaign"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {
+    "manager": 0.7
+  },
+  "inGame": "campaign staff record; election night result read by staff",
+  "usedBy": ["offer-to-run", "race-lost", "race-won"],
+  "turns": [
+    {
+      "turn": "The manager stays calm in defeat",
+      "pull": "steady traits",
+      "writes": "a steady election night"
+    },
+    {
+      "turn": "The manager quits after a bad week",
+      "pull": "pressure",
+      "writes": "a staff gap and a Journal line"
+    }
+  ]
+}

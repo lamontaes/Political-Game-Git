@@ -129,6 +129,8 @@ import { questionSubject } from "../english/policy-names";
 import {
   NAMED_QUESTIONS,
   questionAbout,
+  questionNumber,
+  questionPlainWords,
   questionSaid,
   questionSide,
   questionTo,
@@ -223,7 +225,7 @@ import {
 } from "./sitting";
 import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
-import { directorStopgap, WORDS_STOPGAP_HITS } from "./stopgaps";
+import { stopgap, WORDS_STOPGAP_HITS } from "../core2/stopgaps";
 import {
   clockSaid,
   daysSaid,
@@ -278,6 +280,7 @@ import {
 } from "./promise-talk";
 import { answerVeto, vetoOfRaised, vetoSubject } from "./veto-talk";
 import {
+  learnFromStory,
   learnView,
   learnViewQuestion,
   stanceRecordId,
@@ -367,6 +370,8 @@ type Facts = Record<string, Fact>;
 
 export { replyMoveOf };
 export { composedHomeLine as composedLine };
+export { withOnceSaid } from "./talk-words";
+export { raiseFacts } from "./scene-talk";
 
 /** Something real to talk about, from the speaker's records. */
 export interface Subject {
@@ -1725,7 +1730,9 @@ function rentDue(
 ): Subject | null {
   // The lease a household signed when the world was made, by its id; one
   // signed after a move is not read (a registered stopgap).
-  directorStopgap("SG-DIRECTOR-rent-talk-first-lease", WORDS_STOPGAP_HITS);
+  stopgap("SG-DIRECTOR-rent-talk-first-lease", {
+    stopgapHits: WORDS_STOPGAP_HITS,
+  });
   const lease = core.finance.contracts.get(`lease:${speaker.householdId}`) as
     (FinanceContractInput & { endedAt?: string }) | undefined;
   if (!lease || lease.endedAt || !lease.payerIds.includes(speaker.id))
@@ -2384,7 +2391,9 @@ function governmentNews(
     }`;
     if (heardRows.some((heard) => heard.key === `${HEARD_SUBJECT}${id}`))
       continue;
-    directorStopgap("SG-DIRECTOR-town-change-reach-unread", WORDS_STOPGAP_HITS);
+    stopgap("SG-DIRECTOR-town-change-reach-unread", {
+      stopgapHits: WORDS_STOPGAP_HITS,
+    });
     return {
       id,
       kind: "government-news",
@@ -3513,6 +3522,17 @@ export function subjectsBetween(
                 text: questionSaid(top.question) ?? top.about,
                 sourceRecordIds: [top.recordId],
               },
+              // Each side's own reason in plain words, so a housemate's
+              // stand need not say the record's name (the CTO, 18:49Z,
+              // 7141204837 on #10377; questionPlainWords).
+              ...Object.fromEntries(
+                Object.entries(questionPlainWords(top.question))
+                  .filter(([key]) => key.startsWith("reason-"))
+                  .map(([key, text]) => [
+                    key,
+                    { text, sourceRecordIds: [top.recordId] },
+                  ]),
+              ),
               [`side-${top.side}`]: {
                 text: "yes",
                 sourceRecordIds: [top.recordId],
@@ -3763,7 +3783,7 @@ function pointArea(point: AddressPoint): "work" | "money" | null {
 }
 
 /** The knowledge key a person keeps of what the player said to them on one of the address's questions. */
-const pointKey = (playerId: PersonId, question: string) =>
+export const pointKey = (playerId: PersonId, question: string) =>
   `talk:${playerId}:address-point:${question}`;
 
 /** An employer as a person says it, through the said-as reader: never the market outside the town, a treasury as its government. */
@@ -3991,6 +4011,16 @@ function pointSubject(
   const who = [eventId, ...president.sourceRecordIds];
   const facts: Facts = {
     about: { text: pick.point.about, sourceRecordIds: said },
+    // Whether the question's name is one thing or several, for a verb that
+    // agrees with {about}.
+    ...(pick.point.question
+      ? {
+          [`about-${questionNumber(pick.point.question)}`]: {
+            text: "yes",
+            sourceRecordIds: [`question:${pick.point.question}`],
+          },
+        }
+      : {}),
     said: {
       text:
         (pick.point.kind === "policy"
@@ -3998,6 +4028,16 @@ function pointSubject(
           : null) ?? pick.point.about,
       sourceRecordIds: said,
     },
+    // The question's plain words beside its name: what the side for it
+    // would do and each side's own reason, for a reaction said in feeling
+    // and plain words (the owner, Nov 24; questionPlainWords).
+    ...(pick.point.kind === "policy" && pick.point.question
+      ? Object.fromEntries(
+          Object.entries(questionPlainWords(pick.point.question))
+            .filter(([key]) => key !== "said" && key !== "to")
+            .map(([key, text]) => [key, { text, sourceRecordIds: said }]),
+        )
+      : {}),
     president: {
       text: personSlot(president.id, "subject"),
       sourceRecordIds: who,
@@ -4042,6 +4082,10 @@ function pointSubject(
   facts.decider = { text: saidAsData.deciders.federal, sourceRecordIds: said };
   mark(`${pick.point.kind}-point`, said);
   if (pick.point.stance) mark(`president-${pick.point.stance}`, said);
+  // A law already in force is kept or undone, never passed (pre-grade, Nov
+  // 24: the speech defended the higher minimum wage and the housemate said
+  // it was about time somebody tried to raise it).
+  if (pick.point.inForce) mark("law-in-force", said);
   mark(`stand-${pick.stand}`, [...said, ...pick.reasonIds, speakerId]);
   if (pick.reason === "work") {
     mark("why-work", pick.reasonIds);
@@ -8757,6 +8801,11 @@ export function beliefsOf(api: CoreAPI, personId: PersonId): Belief[] {
  */
 export const beliefsModule: CoreModule = {
   id: BELIEFS_MODULE_ID,
+  // A story the person heard in which someone took a public stand tells the
+  // player where that someone stands (view-learned.ts).
+  onStoryHeard(api, personId, story) {
+    learnFromStory(api, personId as PersonId, story as Story);
+  },
   state: {
     schemaVersion: one,
     tables: { beliefs: { indexes: { byHearer: { fields: ["hearerId"] } } } },

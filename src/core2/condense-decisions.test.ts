@@ -10,8 +10,8 @@ import { gameStartDate } from "./game-start";
 import { advanceCore, createLifeCore } from "./life";
 import { parameter } from "./parameters";
 import { leanedYes } from "./trait-decisions";
-import { generatedOpening } from "./tooling/generated-world";
-import { daysAfterStart } from "./tooling/test-days";
+import { generatedOpening } from "./generated-world";
+import { daysAfterStart } from "../../tests/support/test-days";
 import type { DecisionResult, LogRecord } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");

@@ -70,7 +70,10 @@ describe("environment, farm and water links and the engines that decide them", (
     expect(row.carriedBy, row.key).toContain("buildMonth");
     expect("carriedBy" in linkCoverage(row), row.key).toBe(true);
     expect(unwired.links.find((one) => one.link === row.key)).toBeUndefined();
-    const construction = read("src/core2/housing-construction.ts");
+    // The construction decision is its module plus the leaf holding its constants.
+    const construction =
+      read("src/core2/housing-construction.ts") +
+      read("src/core2/housing-construction-constants.ts");
     expect(construction).toMatch(/export function buildMonth\(/);
     expect(row.from).toBe(
       "law:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
