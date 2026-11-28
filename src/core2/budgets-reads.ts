@@ -6,7 +6,6 @@ import type {
 } from "./modules/employer-taxes";
 import type { CoreAPI, CoreState } from "./types";
 import type { ContractAwardRow } from "./modules/contracts";
-import type { CoreAPI } from "./types";
 
 /** The module ids, written here (the engines' own files name the same strings) so a door reads the tables without loading the engines. A door that named the wrong table fails `economy-reads.test.ts`, which reads each door in a played world. */
 const BUDGETS_MODULE_ID = "core2-budgets-v1";
