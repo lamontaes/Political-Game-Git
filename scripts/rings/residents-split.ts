@@ -351,7 +351,7 @@ for (const s of steps) {
       "--write",
     ])
       .split("\n")
-      .filter((l) => /^(moved|switched|PROBLEMS|  moved)/.test(l))
+      .filter((l) => /^(moved|switched|PROBLEMS| {2}moved)/.test(l))
       .join("\n"),
   );
   if (!append) {
