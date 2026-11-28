@@ -1,6 +1,6 @@
 /** A modeled public paying link authorizes only the current owned work obligation. */
 import { makeIsoDate } from "./kernel/dates";
-import type { FinancePlanningSession } from "./finance-plan";
+import type { FinancePlanningSession } from "./budgets-treasury";
 import type {
   CoreState,
   OrganizationInput,

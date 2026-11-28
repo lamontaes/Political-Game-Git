@@ -80,6 +80,7 @@ import {
   questionPoint,
 } from "../english/question-names";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
+import { hasOutline } from "../english/outline-planner";
 import { questionSubject } from "../english/policy-names";
 import addressData from "./data/opening-address.json" with { type: "json" };
 import outlineData from "./data/speech-outlines.json" with { type: "json" };
@@ -95,9 +96,9 @@ import { dayParts } from "./day-part";
 import { bodySaid } from "./body-said";
 import { earlierAddressPieces } from "./address-render";
 import { coreStateName } from "../core2/place-lookup";
-import { markWordsStopgap } from "./stopgaps";
+import { markWordsStopgap } from "../core2/stopgaps";
 import { isOutsideMarket, stateInSentence } from "./words";
-import { changeSaid, countSaid, moneySaid } from "../english/count-words";
+import { changeSaid, countSaid } from "../english/count-words";
 import { measureWords } from "../english/area-names";
 import { addDays, daysBetweenText } from "../core2/kernel/dates";
 import type { IsoDate } from "../core2/kernel/brands";
@@ -907,6 +908,8 @@ export interface OutlineSpeaker {
   readonly local?: {
     readonly level: PolicyLevel;
     readonly officeId: string;
+    /** The speaker's serving term, whose end says the years left; absent for a candidate. */
+    readonly termId?: string;
     readonly party: string | null;
     readonly questions: readonly string[];
     readonly realmName: string | null;
@@ -1626,16 +1629,6 @@ function conditionFacts(
             : "condition-budget-steady"
       ] = before ? fact("yes", before.id) : fact("yes", budget.id);
       out["budget-year"] = fact(String(budget.fiscalYear), budget.id);
-      // How far ahead or short this government's year is, as people say a
-      // sum ("about $40,000"): the year is the same in every world, the gap
-      // is this government's own.
-      if (balance > band || balance < -band)
-        out["budget-gap"] = fact(
-          moneySaid(
-            Math.abs(sum(budget.revenueMinor) - sum(budget.spendingMinor)),
-          ),
-          budget.id,
-        );
     }
   }
   const yearAgo = addDays(
@@ -2018,6 +2011,9 @@ export function planSpeech(
 ): SpeechPlan {
   const row = outlineOf(kindKey);
   const kind = row.bank;
+  // Told by the outline planner where its row is named by the kind's bank
+  // (`campaign` is told by the row `campaign-speech`).
+  const told = hasOutline(kind ?? kindKey);
   // A kind said at any level (a floor speech, a campaign speech) takes the
   // speaker's own level from their office row.
   const level = speaker.local?.level ?? row.level;
@@ -2897,8 +2893,11 @@ export function planSpeech(
     )
     // A section the bank has no piece for (one whose pieces carry nothing)
     // is left out before the paragraphs are counted, so the greeting joins
-    // what is actually said next.
-    .filter((draft) => draft.moves.some(Boolean));
+    // what is actually said next. A kind the one outline planner tells keeps
+    // every block: its words live in the outline bank, and the blocks carry
+    // the facts it says (the Story lead, Nov 24: with the old inaugural
+    // pieces deleted, every inaugural lost its stand).
+    .filter((draft) => told || draft.moves.some(Boolean));
   // The world's names and the theme's subjects, which every part may say.
   // A governor or a mayor says the place by name and the theme in words
   // (the words lead, Nov 12: "this state" eight times, the state's name never).
@@ -3026,7 +3025,7 @@ function spanAgrees(topic: string, facts: Facts): boolean {
 }
 
 /** The speaker's serving term by its id, with its end, from the offices engine. */
-function termOf(
+export function termOf(
   core: CoreState,
   termId: string | null,
 ): { term?: { id: string; endDate: string } } {

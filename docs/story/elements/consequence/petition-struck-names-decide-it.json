@@ -1,0 +1,29 @@
+{
+  "id": "petition-struck-names-decide-it",
+  "kind": "consequence",
+  "summary": "Names struck by the clerk, not the count submitted, decide whether a petition stands.",
+  "realLife": "An Austin council member submitted more names than needed and was still short, because some were not valid.",
+  "sources": [
+    "KUT, Austin council member's petition for a third term rejected: https://www.kut.org/austin/2026-08-25/austin-tx-city-council-paige-ellis-third-term-petition-rejected"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["office"],
+  "gates": ["petition-short"],
+  "weights": {
+    "petition": 0.9
+  },
+  "inGame": "the clerk's check against the voter roll (striking moved, unregistered and duplicate names), petition record",
+  "usedBy": ["filing-petition", "news"],
+  "turns": [
+    {
+      "turn": "Every name stands and the count holds",
+      "pull": "clean signers on the roll",
+      "writes": "a short filing note, no scene"
+    },
+    {
+      "turn": "A challenger strikes names too",
+      "pull": "a rival's filing",
+      "writes": "a challenge and a press story"
+    }
+  ]
+}

@@ -17,11 +17,8 @@
 import intervals from "../../data/research/local-government/council-meeting-intervals.json" with { type: "json" };
 import bases from "../../data/research/money/public-budget-bases.json" with { type: "json" };
 import rows from "./data/office-day/parameters.json" with { type: "json" };
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, weekdayOf } from "./kernel/dates";
 import type { CoreAPI, Source } from "./types";
-
-/** The offices engine's state (read only; imported by id so this helper loads before the engines). */
-const OFFICES_MODULE_ID = "core2-offices-v1";
 
 const PARAMETERS = (
   rows as unknown as { parameters: Record<string, { value: number }> }
@@ -73,16 +70,19 @@ export function bodyPopulation(
   return Number.isFinite(town) && town > 0 ? town : api.state.people.size;
 }
 
+/** The office row a meeting rule is read from: the offices engine's (this file loads before the engines, so it is given the row). */
+export interface MeetingOffice {
+  readonly id: string;
+  readonly kind: string;
+  readonly seats: number;
+}
+
 /** A local body's meeting rule, or null for an office that does not meet as a body. */
-export function meetingRule(
+export function meetingRuleOf(
   api: CoreAPI,
-  officeId: string,
+  office: MeetingOffice | undefined,
   countyGeoid?: string,
 ): MeetingRule | null {
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(officeId) as unknown as { kind: string; seats: number } | undefined;
   const type = office ? BODY_TYPES[office.kind] : undefined;
   if (!office || !type || office.seats < 2) return null;
   const people = bodyPopulation(api, office.kind, countyGeoid);
@@ -92,7 +92,7 @@ export function meetingRule(
   const intervalDays = INTERVALS.medianIntervalDays[type]![band.id]!;
   const county = office.kind === "county-board";
   return {
-    officeId,
+    officeId: office.id,
     intervalDays,
     weekday: officeDayParameter("meetingWeekday"),
     weeksOfMonth: intervalDays <= 7 ? [] : intervalDays <= 14 ? [1, 3] : [1],
@@ -111,7 +111,6 @@ export function meetingRule(
 
 const weekOfMonth = (date: string) =>
   Math.floor((Number(date.slice(8, 10)) - 1) / 7) + 1;
-const weekdayOf = (date: string) => new Date(`${date}T00:00:00Z`).getUTCDay();
 
 /** Whether the body's rule puts a regular meeting on this date. */
 export function meetsOn(rule: MeetingRule, date: string): boolean {
@@ -123,13 +122,13 @@ export function meetsOn(rule: MeetingRule, date: string): boolean {
 }
 
 /** The body's next regular meeting after `after` (exclusive), or null for a body without a rule. */
-export function nextMeeting(
+export function nextMeetingOf(
   api: CoreAPI,
-  officeId: string,
+  office: MeetingOffice | undefined,
   after: string,
   countyGeoid?: string,
 ): { date: string; rule: MeetingRule } | null {
-  const rule = meetingRule(api, officeId, countyGeoid);
+  const rule = meetingRuleOf(api, office, countyGeoid);
   if (!rule) return null;
   let date: string = makeIsoDate(after);
   // A monthly rule's next meeting is at most five weeks out.
@@ -137,5 +136,5 @@ export function nextMeeting(
     date = addDays(makeIsoDate(date), 1);
     if (meetsOn(rule, date)) return { date, rule };
   }
-  throw new Error(`No regular meeting of ${officeId} after ${after}.`);
+  throw new Error(`No regular meeting of ${office!.id} after ${after}.`);
 }

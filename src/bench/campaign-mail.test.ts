@@ -5,6 +5,7 @@
  * campaign holds, and the house party outing is offered by its control word
  * and runs the engine's donor meeting, in a random place drawn from all 56.
  */
+import { advanceToFilingOpen } from "../../tests/support/gov-test-clock";
 import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -38,7 +39,7 @@ import { takeCampaignDayChoice } from "../core2/campaign-day";
 import { campaignAct, campaignDay, campaignView } from "./campaign";
 import { FOLDED_AT_POST, findRecord, traceNode } from "./dev-trace";
 import controls from "./data/controls.json" with { type: "json" };
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const START = "2026-01-05";
 const runSeed =
@@ -86,6 +87,8 @@ function world() {
   openParties(core);
   openRecord(core);
   openPress(core);
+  // Every race opens its filing on its own real day, so play to the first.
+  advanceToFilingOpen(core);
   const api = coreAPI(core);
   const town = (
     api

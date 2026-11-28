@@ -1,3 +1,4 @@
+import { carriersOf } from "../module-fields";
 import {
   standingPool,
   partyOf,
@@ -29,7 +30,11 @@ import { votesCast } from "./record";
 import { leanOf } from "./legislature";
 import { viewOn } from "./views";
 import { bookkeeping } from "../bookkeeping";
-import { ageOnDate, daysBetweenText } from "../kernel/dates";
+import {
+  ageOnDate,
+  daysBetweenText,
+  addDaysText as addDays,
+} from "../kernel/dates";
 import { scoreOffers, decisionFromScores } from "../choice";
 import rows from "../data/candidacy/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -51,7 +56,7 @@ import { CAMPAIGNS_MODULE_ID } from "./campaigns";
 import { candidatePlatform } from "../campaign-stances";
 import { contestPositions, standReasons } from "../contest-positions";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
-import type { OfficeInput } from "../offices-local";
+import type { OfficeInput } from "./offices";
 import {
   announceCandidacy,
   withdrawFiling,
@@ -71,7 +76,16 @@ import {
   atLargeGroup,
 } from "./elections";
 import { filingOfficerIds } from "./filing-clerk";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  servingTermsOf,
+  type TermRow,
+  officeById,
+  servingTermsOnSeat,
+  termById,
+  servingTermsOfOffice,
+  servingTerms,
+} from "./offices";
 import {
   PARTIES_MODULE_ID,
   partiesHere,
@@ -86,15 +100,15 @@ import { DEFAULT_DRIVES_DATA } from "./drives";
 import { countedChildrenOf, residentFacts } from "./residents";
 import { countedResidents, type CountedVoter } from "../electorate";
 import { presidentSide, tideAgainstPresident } from "../electorate-inputs";
-import { partySide } from "../appointments";
+import { partySide } from "./offices";
 import { approvalGapPoints } from "./national-opinion";
-import { revolvingDoorFor } from "../law-reach/group-a-voting";
+import { revolvingDoorFor } from "../laws-in-force";
 import { countedVoters, seatLastMargin } from "./voting";
 import { normalCdf } from "../kernel/normal";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-data";
-
-export const CANDIDACY_MODULE_ID = "candidacy";
+import { CANDIDACY_MODULE_ID } from "./candidacy-constants";
+export { CANDIDACY_MODULE_ID };
 export const CANDIDACY_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
 const STOPGAP = "SG-P15-candidacy-weights";
 
@@ -332,15 +346,9 @@ export function candidacyReasons(
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contest.contestId) as unknown as ContestRow | undefined;
-  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
-  const held = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("byPerson", [person.id]) as unknown as TermRow[]
-  ).filter((term) => term.status === "serving");
+  const held = servingTermsOf(api, person.id);
   const currentRank = held.reduce((highest, term) => {
-    const office = offices.get(term.officeId) as unknown as
+    const office = officeById(api, term.officeId) as unknown as
       OfficeInput | undefined;
     return office
       ? Math.max(highest, FAMILY_RANK[officeFamily(office)])
@@ -756,14 +764,7 @@ export function decideToRun(
       person.id,
       person.householdId,
       ...(api.state.modules.has(OFFICES_MODULE_ID)
-        ? (
-            api
-              .moduleState(OFFICES_MODULE_ID)
-              .table("terms")
-              .query("byPerson", [person.id]) as unknown as TermRow[]
-          )
-            .filter((term) => term.status === "serving")
-            .map((term) => term.id)
+        ? servingTermsOf(api, person.id).map((term) => term.id)
         : []),
       ...(contest.poolFacts?.get(person.id)?.sourceIds ?? []),
     ],
@@ -822,12 +823,6 @@ const FAMILY_RANK: Readonly<Record<OfficeFamily, number>> = {
 };
 /** Local contests: every named adult in town weighs them. */
 const LOCAL_RANK = FAMILY_RANK.countyOffice;
-
-function addDays(date: string, days: number): string {
-  return new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000)
-    .toISOString()
-    .slice(0, 10);
-}
 
 /** The day a contest's filing window opens: the elections engine's one rule (`elections.ts`). */
 export function filingWindowOpens(_api: CoreAPI, contest: ContestRow): string {
@@ -1041,19 +1036,10 @@ export function weighContest(
   /** Those who stayed out weigh it again from today's record (filing opens). */
   reconsider = false,
 ): WeighedContest {
-  // Whoever serves the seat today, so a member seated by a special election
-  // after the contest was recorded is its incumbent; else the term the
-  // contest names.
-  const termTable = api.moduleState(OFFICES_MODULE_ID).table("terms");
   const incumbent =
-    (
-      termTable.query("bySeatStatus", [
-        contest.seatId,
-        "serving",
-      ]) as unknown as TermRow[]
-    )[0] ??
+    (servingTermsOnSeat(api, contest.seatId) as unknown as TermRow[])[0] ??
     (contest.incumbentTermId
-      ? (termTable.get(contest.incumbentTermId) as unknown as
+      ? (termById(api, contest.incumbentTermId) as unknown as
           TermRow | undefined)
       : undefined);
   const incumbentId =
@@ -1093,7 +1079,6 @@ export function weighContest(
   // Someone already running on this election day runs for one seat only,
   // and someone whose own seat is up that day defends it.
   const committed = committedOn(api, contest.electionDate, contest.id);
-  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
   for (const other of api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
@@ -1101,7 +1086,7 @@ export function weighContest(
     if (other.id === contest.id || other.electionDate !== contest.electionDate)
       continue;
     const term = other.incumbentTermId
-      ? (terms.get(other.incumbentTermId) as unknown as TermRow | undefined)
+      ? (termById(api, other.incumbentTermId) as unknown as TermRow | undefined)
       : undefined;
     if (term?.status === "serving" && term.personId)
       committed.add(term.personId);
@@ -1109,10 +1094,10 @@ export function weighContest(
   // A member serving another seat of the same body past this election (a
   // staggered board's seats take turns) keeps that seat: they don't run
   // for a second seat they could not hold with it.
-  for (const term of terms.query("byOfficeStatus", [
+  for (const term of servingTermsOfOffice(
+    api,
     contest.officeId,
-    "serving",
-  ]) as unknown as TermRow[])
+  ) as unknown as TermRow[])
     if (
       term.personId &&
       term.seatId !== contest.seatId &&
@@ -1535,12 +1520,8 @@ const pendingAnnounce = new WeakMap<object, ContestRow>();
 
 /** Whoever serves the contest's seat today, as the weighing reads its incumbent. */
 function seatHolderOf(api: CoreAPI, contest: ContestRow): string | null {
-  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
   const serving = (
-    terms.query("bySeatStatus", [
-      contest.seatId,
-      "serving",
-    ]) as unknown as TermRow[]
+    servingTermsOnSeat(api, contest.seatId) as unknown as TermRow[]
   )[0];
   return serving?.personId ?? null;
 }
@@ -1770,13 +1751,7 @@ function askForSuccessor(api: CoreAPI, contest: ContestRow): void {
     .query("byContest", [contest.id]) as unknown as FilingRow[];
   if (filings.length) return;
   const holder = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [
-        contest.seatId,
-        "serving",
-      ]) as unknown as TermRow[]
+    servingTermsOnSeat(api, contest.seatId) as unknown as TermRow[]
   )[0];
   const holderId = holder?.personId as PersonId | null | undefined;
   if (!holderId || !api.state.people.get(holderId)?.alive) return;
@@ -1979,13 +1954,7 @@ function decideAsked(
 ): boolean {
   const rules = filingRulesFor(api, contest, "party");
   const incumbent = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [
-        contest.seatId,
-        "serving",
-      ]) as unknown as TermRow[]
+    servingTermsOnSeat(api, contest.seatId) as unknown as TermRow[]
   )[0];
   // An incumbent who decided to stand down leaves the seat open: a party asks
   // its members to run for an open seat, citing that decision, as everyone
@@ -2292,18 +2261,16 @@ export function standAgainReason(
 }
 
 /** Each day: weigh the contests whose weighing day has come, then file for those whose window opened. */
-/** What the voting engine does with a race closed at the opening once candidacy has weighed it (voting.ts). */
-let closedContestWeighed: ((api: CoreAPI, contest: ContestRow) => void) | null =
-  null;
 /**
- * The voting engine registers how it finishes the field of a race whose
- * filing closed before the record began (its stand-in nominees, a primary
- * already past), run after the town's own runners have filed.
+ * What the voting engine does with a race closed at the opening once candidacy
+ * has weighed it: how it finishes the field of a race whose filing closed
+ * before the record began (its stand-in nominees, a primary already past), run
+ * after the town's own runners have filed. The voting module carries it as
+ * `closedContestWeighed`; every installed engine that does is asked in order.
  */
-export function registerClosedContestWeighed(
-  fn: (api: CoreAPI, contest: ContestRow) => void,
-): void {
-  closedContestWeighed = fn;
+function finishClosedContest(api: CoreAPI, contest: ContestRow): void {
+  for (const module of carriersOf(api.state, "closedContestWeighed"))
+    module.closedContestWeighed!(api, contest);
 }
 
 function candidacyDay(api: CoreAPI, played: boolean): void {
@@ -2314,7 +2281,7 @@ function candidacyDay(api: CoreAPI, played: boolean): void {
     const contest = held.opening.shift()!;
     weighClosedContest(api, contest, held.localRank);
     // The voting engine finishes the race's field once its own runners have filed.
-    closedContestWeighed?.(api, contest);
+    finishClosedContest(api, contest);
   }
   while (held.weigh[0] && weighingDate(api, held.weigh[0]) <= today) {
     const contest = held.weigh.shift()!;
@@ -2684,12 +2651,7 @@ export function seasonedOfficeholders(
     core.date,
     -Math.round(api.parameter("daysPerMeanYear")),
   );
-  return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("byStatus", ["serving"]) as unknown as TermRow[]
-  )
+  return (servingTerms(api) as unknown as TermRow[])
     .filter((term) => {
       const holder = term.personId
         ? core.people.get(term.personId as PersonId)
