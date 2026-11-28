@@ -70,7 +70,7 @@ import {
 import { COMMITTEES, committeeRoster, leaderOf } from "./modules/leadership";
 import { candidateStance } from "./modules/campaigns";
 import { filingWindowOpens } from "./modules/candidacy";
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import {
   ELECTIONS_MODULE_ID,
   ballot,

@@ -443,7 +443,10 @@ for (const screen of screens) {
   const out = [
     `// The ${screen} screen's routes of the play server, moved from handler.ts by scripts/screens/split-routes.mjs.`,
     ...lines(importsOfNodes(nodes), true),
-    `import { ${[...new Set([...types, "Route"])].sort().join(", ")} } from "../session-state";`,
+    `import { ${[...new Set([...types, "Route"])]
+      .filter((n) => n === "Route" || new RegExp(`\\b${n}\\b`).test(body))
+      .sort()
+      .join(", ")} } from "../session-state";`,
     "",
     `export const ${camel(screen)}: readonly Route[] = [${body}];`,
   ].join("\n");
@@ -537,6 +540,33 @@ for (const s of rewritten.statements) {
 for (const [start, end, replacement] of drops.sort((a, b) => b[0] - a[0]))
   cleaned = cleaned.slice(0, start) + replacement + cleaned.slice(end);
 writeFileSync(HANDLER, cleaned);
+execFileSync(
+  "npx",
+  [
+    "prettier",
+    "--write",
+    "src/bench/handler.ts",
+    "src/bench/session-state.ts",
+    "src/bench/routes",
+  ],
+  { cwd: ROOT, stdio: "ignore" },
+);
+// Split the type-only imports (`import type`) the way the repository's lint wants them.
+try {
+  execFileSync(
+    "npx",
+    [
+      "eslint",
+      "--fix",
+      "src/bench/handler.ts",
+      "src/bench/session-state.ts",
+      "src/bench/routes",
+    ],
+    { cwd: ROOT, stdio: "ignore" },
+  );
+} catch {
+  // What eslint cannot fix is reported by the lint run, not here.
+}
 execFileSync(
   "npx",
   [

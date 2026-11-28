@@ -225,7 +225,7 @@ import {
   stateParties,
 } from "./parties";
 import { ballotCuesOf, ballotForms, ballotOrderRule } from "../ballot-order";
-import { caucusSide, nationalParty, partySide } from "../appointments";
+import { caucusSide, nationalParty, partySide } from "../party-sides";
 import {
   promisesOf,
   recordAppeal,

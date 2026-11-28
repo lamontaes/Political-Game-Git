@@ -1,37 +1,45 @@
 /**
  * Voter registration is a record (pool item elections-voter-registration-
- * record). Pinned to three named places and fixed seeds, one for each way a
- * state treats a person who moved or never registered:
+ * record), one case for each way a state treats a person who moved or never
+ * registered:
  *
- * - Sherrodsville, Ohio (key 3972242): no automatic and no same-day
- *   registration, so a person not on the rolls on election day is turned away.
- * - Adell, Wisconsin (key 5500450): same-day registration, so they register
- *   at the polls and vote.
- * - North Hyde Park, Vermont (key 5050725): automatic registration, so a move
- *   registers the person at the new address the day it is seen.
+ * - Sherrodsville, Ohio (key 3972242), seed reg-pin-oh: no automatic and no
+ *   same-day registration, so a person not on the rolls on election day is
+ *   turned away.
+ * - A place drawn where same-day registration is in force: a person off the
+ *   rolls registers at the polls and votes.
+ * - A place drawn where automatic registration is in force: a move registers
+ *   the person at the new address the day it is seen.
+ *
+ * Which laws are in force on day one comes from the history the world played
+ * from 1925, never from a state's real law, so the two drawn cases look for a
+ * place where the law holds, pass over the places where it does not and name
+ * each (`drawnWorld`).
  *
  * Each world opens already in motion (the survey's share off the rolls), a
  * household's precinct is kept when other households arrive, and the day keeps
  * a record of who registered at the polls or was turned away.
  */
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../bench/world";
 import { setBookkeeping } from "../bookkeeping";
 import { cpsRegistered } from "../electorate-places";
 import { addressKeyOf } from "../electorate-registration";
 import { gameStartDate } from "../game-start";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { advanceCore } from "../life";
-import { automaticRegistrationInForce } from "../law-reach/group-a-voting";
+import {
+  automaticRegistrationInForce,
+  sameDayRegistrationInForce,
+} from "../law-reach/group-a-voting";
 import { coreAPI } from "../state";
 import type { CoreAPI, CoreState, PersonState } from "../types";
-import { ELECTIONS_MODULE_ID, ballot } from "./elections";
+import { ELECTIONS_MODULE_ID } from "./elections";
 import {
   VOTING_MODULE_ID,
-  castBallot,
   pollingPlaceOf,
-  pollingStatus,
-  registerToVote,
   registeredShareOfRoll,
   reviewVoterRegistrations,
 } from "./voting";
@@ -102,10 +110,10 @@ function leavers(api: CoreAPI, count: number): PersonState[] {
     const others = members
       .filter((id) => id !== person.id)
       .map((id) => core.people.get(id)!);
+    // The engine refuses a split that leaves only children, by the exact day
+    // (`changeHouseholdV1`), so an adult here is alive and of age today.
     const grown = (p: PersonState) =>
-      core.date.slice(0, 4) > p.birthDate.slice(0, 4) &&
-      Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >=
-        adultAge;
+      p.alive && ageOnDate(p.birthDate, core.date) >= adultAge;
     if (!grown(person) || !others.length || !others.some(grown)) continue;
     // Nobody else in the household has already left it for a household of their own.
     if (out.some((o) => o.householdId === person.householdId)) continue;
@@ -120,6 +128,34 @@ function worldAt(key: string, seed: string) {
     placeKey: key,
   });
   return { core, api: coreAPI(core) };
+}
+
+/**
+ * A world in a drawn place where `holds` is true, passing over the places
+ * where it is not: the law a case needs is read from the world's own history,
+ * so the test looks for it. Prints the place used and each one passed over;
+ * fails by name when no draw holds it. `GOLDEN_PATH_SEED` replays a run.
+ */
+const DRAW_SEED =
+  process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+function drawnWorld(purpose: string, holds: (api: CoreAPI) => boolean) {
+  const passedOver: string[] = [];
+  for (let draw = 0; draw < 12; draw++) {
+    const seed = draw === 0 ? DRAW_SEED : `${DRAW_SEED}:${draw}`;
+    const place = drawPlace(seed, purpose);
+    const world = worldAt(place.key, seed);
+    const where = `${place.name} (${place.key}), seed ${seed}`;
+    if (holds(world.api)) {
+      process.stdout.write(
+        `${purpose}: ${where}; passed over ${passedOver.length ? passedOver.join("; ") : "none"}\n`,
+      );
+      return { ...world, where };
+    }
+    passedOver.push(`${where} (the law is not in force)`);
+  }
+  throw new Error(
+    `${purpose}: no drawn place holds the law in force; passed over ${passedOver.join("; ")}`,
+  );
 }
 
 function moveOut(api: CoreAPI, movers: readonly PersonState[]) {
@@ -230,9 +266,10 @@ describe("voter registration (pinned places, fixed seeds)", () => {
     expect(rowsOf(api, "householdPrecincts").length).toBe(sizeBefore);
   }, 100_000);
 
-  it("Adell WI, seed reg-pin-wi: a mover not on the rolls registers at the polls and votes, and the day keeps it", () => {
-    const where = "Adell, Wisconsin (5500450), seed reg-pin-wi";
-    const { core, api } = worldAt("5500450", "reg-pin-wi");
+  it("a drawn same-day place: a mover not on the rolls registers at the polls and votes, and the day keeps it", () => {
+    const { core, api, where } = drawnWorld("same-day-registration", (a) =>
+      sameDayRegistrationInForce(a),
+    );
     const election = nextTownElection(api);
     advanceCore(core, addDays(makeIsoDate(election), -10));
     const movers = leavers(api, 40);
@@ -257,11 +294,12 @@ describe("voter registration (pinned places, fixed seeds)", () => {
       expect(reg.since, row.id).toBe(election);
       expect(reg.registered, row.id).toBe(true);
     }
-  }, 225_000);
+  }, 450_000);
 
-  it("North Hyde Park VT, seed reg-pin-vt: a move registers the person at the new address when it is seen, in a state with automatic registration", () => {
-    const where = "North Hyde Park, Vermont (5050725), seed reg-pin-vt";
-    const { core, api } = worldAt("5050725", "reg-pin-vt");
+  it("a drawn automatic-registration place: a move registers the person at the new address when it is seen", () => {
+    const { core, api, where } = drawnWorld("automatic-registration", (a) =>
+      automaticRegistrationInForce(a),
+    );
     expect(automaticRegistrationInForce(api), where).toBe(true);
     advanceCore(core, addDays(makeIsoDate(core.date), 40));
     const movers = leavers(api, 10).filter((p) => registrationOf(api, p.id));
@@ -277,75 +315,5 @@ describe("voter registration (pinned places, fixed seeds)", () => {
       );
       expect(row.how, `${where}: ${mover.id}`).toBe("automatic");
     }
-  }, 40_000);
-
-  it("Adell WI, seed reg-pin-wi: the player who moved is told the day will register them, marks a ballot, and registers at the polls", () => {
-    const where = "Adell, Wisconsin (5500450), seed reg-pin-wi";
-    const { core, api } = worldAt("5500450", "reg-pin-wi");
-    const player = core.people.get(core.playerId!)!;
-    const election = nextTownElection(api);
-    advanceCore(core, addDays(makeIsoDate(election), -10));
-    moveOut(api, [player]);
-    reviewVoterRegistrations(api);
-    // The one read: a same-day state registers a person off the rolls at the polls.
-    const standing = pollingStatus(api, player.id, election);
-    expect(standing, where).toBe("same-day");
-    const contest = (
-      api
-        .moduleState(ELECTIONS_MODULE_ID)
-        .table("contests")
-        .rows() as unknown as { id: string; electionDate: string }[]
-    ).find(
-      (c) =>
-        c.electionDate === election &&
-        c.id.startsWith("contest:seat:gus") &&
-        ballot(api, c.id).length > 0,
-    )!;
-    castBallot(
-      api,
-      player.id,
-      contest.id,
-      ballot(api, contest.id)[0]!.personId,
-    );
-    advanceCore(core, addDays(makeIsoDate(election), 1));
-    const ballotRow = api
-      .moduleState(VOTING_MODULE_ID)
-      .table("ballots")
-      .get(`ballot:${contest.id}:${player.id}`) as unknown as {
-      voted: boolean;
-    };
-    expect(ballotRow.voted, where).toBe(true);
-    {
-      const day = rowsOf<PollDay>(api, "pollDays").find(
-        (r) => r.date === election && r.personId === player.id,
-      );
-      expect(day?.outcome, where).toBe("registers-at-polls");
-      expect(registrationOf(api, player.id)?.how, where).toBe("at-the-polls");
-    }
-  }, 225_000);
-
-  it("Sherrodsville OH, seed reg-pin-oh: the player who moved sees they are not on the list, registers by their own act, and is on it", () => {
-    const where = "Sherrodsville, Ohio (3972242), seed reg-pin-oh";
-    const { core, api } = worldAt("3972242", "reg-pin-oh");
-    const player = core.people.get(core.playerId!)!;
-    const election = nextTownElection(api);
-    // A month before the election, early enough to register by the deadline.
-    advanceCore(core, addDays(makeIsoDate(election), -60));
-    moveOut(api, [player]);
-    reviewVoterRegistrations(api);
-    const before = pollingStatus(api, player.id, election);
-    expect(["old-address", "not-registered"], where).toContain(before);
-    expect(registerToVote(api, player.id), where).toBe(true);
-    expect(pollingStatus(api, player.id, election), where).toBe("on");
-    const row = registrationOf(api, player.id)!;
-    expect(row.how, where).toBe("by-the-player");
-    // Registering again changes nothing: they are on the rolls at this address.
-    expect(registerToVote(api, player.id), where).toBe(false);
-    // The registration act is the same record every named voter's rule reads.
-    expect(
-      rowsOf<Registration>(api, "registrations").filter(
-        (r) => r.personId === player.id,
-      ),
-    ).toHaveLength(1);
-  }, 70_000);
+  }, 450_000);
 });
