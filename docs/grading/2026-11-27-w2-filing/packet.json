@@ -240,7 +240,7 @@
           "offered": [
             "[file] That's all I needed, Solomon. Let's start the papers for the council.",
             "[ask] Has anyone filed since Melissa Chan?",
-            "[ask] Is the race for the council stacked before I even file?",
+            "[ask] Is the race for the Bennettsville City Council stacked before I even file?",
             "[leave] I'd like to think it over, Solomon. I'll be back before August 21."
           ],
           "taken": "pick:contest:seat:gus2025:174941:council:0:2025-11-04"
