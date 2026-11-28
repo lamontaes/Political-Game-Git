@@ -108,6 +108,8 @@
 # Elections and campaigns (elections)
 /src/core2/elections-reads.ts @lamontaes
 /tests/src/core2/elections-reads.ts @lamontaes
+/src/core2/modules/ballot-measures-reads.ts @lamontaes
+/tests/src/core2/modules/ballot-measures-reads.ts @lamontaes
 /src/core2/modules/elections.ts @lamontaes
 /tests/src/core2/modules/elections.ts @lamontaes
 /src/core2/modules/voting.ts @lamontaes
