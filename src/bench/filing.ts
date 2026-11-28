@@ -201,6 +201,11 @@ export function openBenchFilingVisit(
             },
           }
         : {}),
+      // Everyone but the first, in the order they filed, for "who else".
+      names: others.slice(1).flatMap((row) => {
+        const who = core.people.get(row.personId);
+        return who ? [`${who.givenName} ${who.familyName}`] : [];
+      }),
       recordIds: others.map((row) => row.id),
     };
   };
@@ -288,9 +293,7 @@ export function openBenchFilingVisit(
     playerId,
     contests,
     clerk ?? undefined,
-    filedWith,
     back,
-    clerkRow?.heads,
   );
   const place = officePlace(filedWith);
   const player = core.people.get(playerId)!;

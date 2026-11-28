@@ -188,7 +188,8 @@
     "school-short": "The school as people at home say it ('Long Hill', or 'school' when the name holds only its kind), from the same school record as the school.",
     "nearby": "The county or state that holds both the reader's town and the writer's, said as its name, set only when the writer's place is not truly elsewhere, from the writer's person record.",
     "payment": "What a household quarrel was over, by its missed payment's loan kind (\"the mortgage\", \"the payday loan\"), from the family quarrel record and the missed payment it cites.",
-    "latest": "The most recent other candidate to file for the race, from the contest record."
+    "latest": "The most recent other candidate to file for the race, from the contest record.",
+    "others": "The other candidates who have filed for the race after the first, from the contest record."
   },
   "maxWords": 70,
   "parts": [
@@ -73354,35 +73355,6 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.state-greet-counter.you-ve-come-to-the-right-counter-i-m-with-the-where",
-      "move": "state-greet-counter",
-      "kind": "spoken",
-      "text": "You've come to the right counter. I'm with the {where}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "greet-counter",
-          "role": "asker",
-          "requiresFacts": ["where"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "greet-counter",
-        "key": "routine"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "local-offices-file-with-the-county"
-      ]
-    },
-    {
       "key": "scene-talk.state-greet-counter.i-take-the-filings-for-place-so-tell-me-which-race-you-want",
       "move": "state-greet-counter",
       "kind": "spoken",
@@ -73435,93 +73407,6 @@
         "key": "routine"
       },
       "elements": ["filing-at-the-clerks-counter"]
-    },
-    {
-      "key": "scene-talk.state-greet-counter.come-on-up-i-m-with-the-where-and-i-handle-filings-for-place",
-      "move": "state-greet-counter",
-      "kind": "spoken",
-      "text": "Come on up. I'm with the {where}, and I handle filings for {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "greet-counter",
-          "role": "asker",
-          "requiresFacts": ["where", "place"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "greet-counter",
-        "key": "routine"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "local-offices-file-with-the-county"
-      ]
-    },
-    {
-      "key": "scene-talk.state-greet-counter.this-is-the-right-counter-for-place-i-m-with-the-where-so-tell-me-which-race",
-      "move": "state-greet-counter",
-      "kind": "spoken",
-      "text": "This is the right counter for {place}. I'm with the {where}, so tell me which race.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "greet-counter",
-          "role": "asker",
-          "requiresFacts": ["where", "place"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "greet-counter",
-        "key": "routine"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "local-offices-file-with-the-county"
-      ]
-    },
-    {
-      "key": "scene-talk.state-greet-counter.hi-i-m-with-the-where-and-i-take-the-candidate-papers-here",
-      "move": "state-greet-counter",
-      "kind": "spoken",
-      "text": "Hi. I'm with the {where}, and I take the candidate papers here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "greet-counter",
-          "role": "asker",
-          "requiresFacts": ["where"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "greet-counter",
-        "key": "routine"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "local-offices-file-with-the-county"
-      ]
     },
     {
       "key": "scene-talk.state-greet-back.back-so-soon-your-papers-for-filed-office-are-already-in",
@@ -79429,10 +79314,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.state-greet-counter.you-ve-reached-the-filing-counter-for-place-with-the-where-which-race-are-you-here-for",
+      "key": "scene-talk.state-greet-counter.filings-for-place-start-at-this-counter-which-race-are-you-after",
       "move": "state-greet-counter",
       "kind": "spoken",
-      "text": "You've reached the filing counter for {place}, with the {where}. Which race are you here for?",
+      "text": "Filings for {place} start at this counter. Which race are you after?",
       "uses": [
         {
           "subject": "scene",
@@ -79441,10 +79326,11 @@
           "step": "state",
           "move": "greet-counter",
           "role": "asker",
-          "requiresFacts": ["where", "place"]
+          "requiresFacts": ["place"],
+          "excludesFacts": ["where"]
         }
       ],
-      "bearing": "warm",
+      "bearing": "calm",
       "origin": "authored",
       "author": "Story (W2, the filing counter)",
       "date": "2026-11-27",
@@ -79452,125 +79338,349 @@
         "move": "greet-counter",
         "key": "routine"
       },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.state-greet-counter.is-it-a-race-in-place-you-want-to-file-for-tell-me-which",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "Is it a race in {place} you want to file for? Tell me which.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker",
+          "requiresFacts": ["place"],
+          "excludesFacts": ["where"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet-counter",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.state-greet-counter.anyone-running-in-place-files-right-here-what-can-i-start-for-you",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "Anyone running in {place} files right here. What can I start for you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker",
+          "requiresFacts": ["place"],
+          "excludesFacts": ["where"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet-counter",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.state-greet-counter.i-can-start-your-papers-for-place-now-which-race",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "I can start your papers for {place} now. Which race?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker",
+          "requiresFacts": ["place"],
+          "excludesFacts": ["where"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet-counter",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.state-greet-counter.you-re-at-the-right-counter-for-place-which-race-is-it",
+      "move": "state-greet-counter",
+      "kind": "spoken",
+      "text": "You're at the right counter for {place}. Which race is it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-counter",
+          "role": "asker",
+          "requiresFacts": ["place"],
+          "excludesFacts": ["where"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet-counter",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-filed-first-when-among-the-others-on-the-list-for-seat-are-others-and-latest-is-the-latest",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} filed first, {when}. Among the others on the list for {seat} are {others}, and {latest} is the latest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": [
+            "opponent",
+            "latest",
+            "others",
+            "when",
+            "seat",
+            "filed-so-far"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.after-opponent-who-filed-when-others-have-filed-for-seat-and-latest-was-the-last-in-that-s-filed-so-far",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "After {opponent}, who filed {when}, {others} have filed for {seat}, and {latest} was the last in. That's {filed-so-far}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": [
+            "opponent",
+            "latest",
+            "others",
+            "when",
+            "seat",
+            "filed-so-far"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.on-the-list-for-seat-with-opponent-you-ll-find-others-and-latest-filed-most-recently",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "On the list for {seat} with {opponent} you'll find {others}, and {latest} filed most recently.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": [
+            "opponent",
+            "latest",
+            "others",
+            "when",
+            "seat",
+            "filed-so-far"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.filed-so-far-so-far-for-seat-opponent-first-when-then-names-like-others-and-latest-last",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{filed-so-far} so far for {seat}: {opponent} first, {when}, then names like {others}, and {latest} last.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": [
+            "opponent",
+            "latest",
+            "others",
+            "when",
+            "seat",
+            "filed-so-far"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-answer.ask-the-people-you-already-know-first-family-coworkers-the-neighbors-you-wave-to-signatures-names-come-faster-from-people-who-know-you-money-can-wait-until-the-names-are-in",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Ask the people you already know first: family, coworkers, the neighbors you wave to. {signatures} names come faster from people who know you. Money can wait until the names are in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["first-filing", "signatures"],
+          "excludesFacts": ["no-petition", "outlet"],
+          "setsFacts": ["round-two"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      },
       "elements": [
         "filing-at-the-clerks-counter",
-        "local-offices-file-with-the-county"
+        "petition-struck-names-decide-it",
+        "filing-the-first-time-is-new-to-the-clerk"
       ]
     },
     {
-      "key": "scene-talk.state-greet-counter.filings-for-place-go-through-the-where-right-here-what-can-i-start-for-you",
-      "move": "state-greet-counter",
+      "key": "scene-talk.follow-answer.pick-a-few-streets-in-place-and-walk-them-on-a-weekend-most-people-will-sign-for-a-candidate-who-asks-them-face-to-face-after-the-names-are-in-think-about-money",
+      "move": "follow-answer",
       "kind": "spoken",
-      "text": "Filings for {place} go through the {where}, right here. What can I start for you?",
+      "text": "Pick a few streets in {place} and walk them on a weekend. Most people will sign for a candidate who asks them face to face. After the names are in, think about money.",
       "uses": [
         {
           "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "greet-counter",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
           "role": "asker",
-          "requiresFacts": ["where", "place"]
+          "after": "ask",
+          "requiresFacts": ["first-filing", "signatures", "place"],
+          "excludesFacts": ["no-petition", "outlet"],
+          "setsFacts": ["round-two"]
         }
       ],
-      "bearing": "warm",
+      "bearing": "calm",
       "origin": "authored",
       "author": "Story (W2, the filing counter)",
       "date": "2026-11-27",
       "tag": {
-        "move": "greet-counter",
-        "key": "routine"
+        "move": "answer",
+        "key": "filed"
       },
       "elements": [
         "filing-at-the-clerks-counter",
-        "local-offices-file-with-the-county"
+        "petition-struck-names-decide-it",
+        "filing-the-first-time-is-new-to-the-clerk"
       ]
     },
     {
-      "key": "scene-talk.state-greet-counter.i-m-with-the-where-and-anyone-running-in-place-starts-at-this-counter-which-race",
-      "move": "state-greet-counter",
+      "key": "scene-talk.follow-answer.carry-a-clipboard-everywhere-you-go-and-ask-every-voter-you-meet-signatures-sounds-like-a-lot-but-a-good-table-at-a-shop-gets-you-a-long-way-then-you-can-turn-to-money",
+      "move": "follow-answer",
       "kind": "spoken",
-      "text": "I'm with the {where}, and anyone running in {place} starts at this counter. Which race?",
+      "text": "Carry a clipboard everywhere you go, and ask every voter you meet. {signatures} sounds like a lot, but a good table at a shop gets you a long way. Then you can turn to money.",
       "uses": [
         {
           "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "greet-counter",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
           "role": "asker",
-          "requiresFacts": ["where", "place"]
+          "after": "ask",
+          "requiresFacts": ["first-filing", "signatures"],
+          "excludesFacts": ["no-petition", "outlet"],
+          "setsFacts": ["round-two"]
         }
       ],
-      "bearing": "warm",
+      "bearing": "calm",
       "origin": "authored",
       "author": "Story (W2, the filing counter)",
       "date": "2026-11-27",
       "tag": {
-        "move": "greet-counter",
-        "key": "routine"
+        "move": "answer",
+        "key": "filed"
       },
       "elements": [
         "filing-at-the-clerks-counter",
-        "local-offices-file-with-the-county"
-      ]
-    },
-    {
-      "key": "scene-talk.state-greet-counter.welcome-i-m-with-the-where-and-i-take-the-candidate-papers-for-place-which-race-are-you-after",
-      "move": "state-greet-counter",
-      "kind": "spoken",
-      "text": "Welcome. I'm with the {where}, and I take the candidate papers for {place}. Which race are you after?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "greet-counter",
-          "role": "asker",
-          "requiresFacts": ["where", "place"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "greet-counter",
-        "key": "routine"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "local-offices-file-with-the-county"
-      ]
-    },
-    {
-      "key": "scene-talk.state-greet-counter.if-it-s-a-race-in-place-you-want-to-file-for-the-where-takes-it-here-which-one",
-      "move": "state-greet-counter",
-      "kind": "spoken",
-      "text": "If it's a race in {place} you want to file for, the {where} takes it here. Which one?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "greet-counter",
-          "role": "asker",
-          "requiresFacts": ["where", "place"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "greet-counter",
-        "key": "routine"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "local-offices-file-with-the-county"
+        "petition-struck-names-decide-it",
+        "filing-the-first-time-is-new-to-the-clerk"
       ]
     }
   ]

@@ -28,9 +28,10 @@ import {
   type Fact,
   type SceneTalkStep,
 } from "../english/scene-talk-words";
+import { joinList } from "../english/bill-names";
 import { filedSaid, filedSoFarSaid } from "../english/count-words";
 import { seatSaid, type SeatRecord } from "../english/journal-words";
-import { agencyHeadSaid, agencyNameSaid } from "../english/said-as";
+import { agencyHeadSaid } from "../english/said-as";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { placeCounty } from "../core2/place-map";
 import { describesByRule } from "../core2/filing-rule-office";
@@ -69,6 +70,8 @@ export interface FilingContest {
     first?: { name: string; recordId: string; filedOn?: string };
     /** The most recent to file, when more than one has. */
     latest?: { name: string; recordId: string };
+    /** Everyone after the first, in the order they filed. */
+    names?: readonly string[];
     recordIds: readonly string[];
   };
   sourceIds: readonly string[];
@@ -133,19 +136,12 @@ export function openFilingVisit(
   playerId: PersonId,
   contests: readonly FilingContest[],
   clerkId?: PersonId,
-  /** The office that takes these filings, as its record names it. */
-  filedWith?: string,
   /**
    * The player's own filing at this counter, when they are back for another
    * race: the clerk who took it does not introduce themself again and opens
    * from it (Fable A, Nov 13: "Back again? Your papers for {office} are in.").
    */
   back?: { filingId: string; seat: SeatRecord },
-  /**
-   * The body the clerk works for, as the records name it, said where the
-   * filing note gives the office only as a rule (`describesByRule`).
-   */
-  clerkBody?: string,
 ): FilingVisit {
   const visit: FilingVisit = {
     playerId,
@@ -166,24 +162,9 @@ export function openFilingVisit(
       })
     : visitLine(core, visit, "clerk", "greet-counter", {
         ...counterAreaFact(core, playerId, contests),
-        // An office the record names only as a choice ("City or town clerk") is
-        // said as the place's own kind; where the records do not settle it, the
-        // town is said instead.
-        ...((): Record<string, Fact> => {
-          // The body a person works for, named in the records, is a proper
-          // name ("Franklin County board of elections"), said as it stands.
-          const named = filedWith && clerkBody ? clerkBody : null;
-          const said =
-            named ?? (filedWith ? saidOffice(filedWith, contests) : null);
-          return said
-            ? {
-                where: {
-                  text: named ? agencyNameSaid(said) : titleInSentence(said),
-                  sourceRecordIds: contests.map((row) => row.id),
-                },
-              }
-            : {};
-        })(),
+        // The counter's narration has named the post ("the Secretary of State
+        // here is ..."), so the greeting does not say it again (Past and Day
+        // One, Nov 28: the narration and the greeting both said the post).
         // The counter's narration has named the clerk; the clerk does not say
         // the name again (Past and Day One, Nov 27: "The Secretary of State
         // here is Robert Murphy" then "I'm Robert Murphy").
@@ -768,6 +749,13 @@ function raceFacts(
       facts.opponent = {
         text: filed.first.name,
         sourceRecordIds: [contest.id, filed.first.recordId],
+      };
+    // The ones between the first and the latest, said as a list ("A, B and C"),
+    // for the clerk who is asked who else has filed (three or more filed).
+    if (filed.names && filed.names.length >= P.two)
+      facts.others = {
+        text: joinList(filed.names.slice(P.zero, P.two + P.one), "and"),
+        sourceRecordIds: [contest.id, ...filed.recordIds],
       };
     if (filed.latest)
       facts.latest = {
