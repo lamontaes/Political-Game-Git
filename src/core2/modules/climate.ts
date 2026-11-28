@@ -30,7 +30,7 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
 import { seededUnit } from "../seeded";
 import type { CoreAPI, CoreModule } from "../types";
-import { stateLawInForce } from "./laws";
+import { stateLawInForce } from "./laws-reads";
 import { carriedLink, WEB_LINKS } from "../outcome-web-model";
 import { residentsOf, STATES } from "./budgets";
 

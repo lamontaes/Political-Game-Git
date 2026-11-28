@@ -30,7 +30,7 @@ import {
   paidLeavePremium,
 } from "./laws-in-force";
 import { lawApplied } from "./law-reach/applied";
-import { lawChain, lawInForce } from "./modules/laws";
+import { lawChain, lawInForce } from "./modules/laws-reads";
 import { LAWS_MODULE_ID } from "./modules/laws-reads";
 import type { ResidentsRuntime } from "./modules/residents";
 import { residentsRuntime } from "./residents-reads";

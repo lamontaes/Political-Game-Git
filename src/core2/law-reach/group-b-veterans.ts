@@ -10,7 +10,7 @@
  * changed the line has the change written on its own record.
  */
 import type { CoreAPI, CoreState } from "../types";
-import { lawChain } from "../modules/laws";
+import { lawChain } from "../modules/laws-reads";
 import { residentsRuntime } from "../residents-reads";
 import { serviceOf, veteranShare } from "../past-work";
 import { reachParameter, townFacts } from "./group-b-people";

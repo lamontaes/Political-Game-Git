@@ -6,7 +6,7 @@ import {
   isFeeLevelSeries,
 } from "./fee-levels";
 import type { LawRowInput } from "./laws-starting";
-import { lawChain, lawInForce } from "./modules/laws";
+import { lawChain, lawInForce } from "./modules/laws-reads";
 import { budgetInForce, governmentOfJurisdiction } from "./modules/budgets";
 
 export interface BillSubject {

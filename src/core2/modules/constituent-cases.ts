@@ -33,7 +33,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-data";
 import { leanedYes } from "../trait-decisions";
-import { lawChain, lawInForce } from "./laws";
+import { lawChain, lawInForce } from "./laws-reads";
 import { raiseOne } from "../wage-floor";
 import type { TermRow } from "./offices";
 import { townSeats } from "../offices-reads";

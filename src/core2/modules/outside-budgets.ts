@@ -20,7 +20,7 @@ import { stateJurisdictionId } from "../government-jurisdictions";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import type { CountryState } from "./macro";
 import { registerModule } from "../state";
-import { lawChain } from "./laws";
+import { lawChain } from "./laws-reads";
 import { nationalDisasterDetail, NATIONAL_DISASTER } from "./national-events";
 import {
   BUDGETS_MODULE_ID,

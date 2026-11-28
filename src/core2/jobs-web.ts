@@ -14,7 +14,7 @@ import {
 } from "./modules/people";
 import { ageOn, MemberState, type CountedStore } from "./counted-groups";
 import { citizenShareOf } from "./modules/voting";
-import { lawChain } from "./modules/laws";
+import { lawChain } from "./modules/laws-reads";
 import { firstHeldPretrial } from "./modules/justice";
 import { carriedLink } from "./outcome-web-model";
 import { completedMonthsBetween, makeIsoDate } from "./kernel/dates";
