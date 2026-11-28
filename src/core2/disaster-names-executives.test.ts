@@ -13,7 +13,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { townDisasters } from "./modules/disasters";
+import { causeDamagingDisaster, townDisasters } from "./modules/disasters";
 import { townSeats } from "./modules/offices";
 import { coreAPI } from "./state";
 
@@ -31,6 +31,7 @@ it(`a disaster's record names the town's sitting mayor, county executive and gov
     });
     const api = coreAPI(core);
     const opened = core.date;
+    causeDamagingDisaster(api);
     const due = townDisasters(api).filter(
       (row) =>
         row.begins > opened && row.begins <= addDays(makeIsoDate(opened), 365),
