@@ -11,7 +11,6 @@ import { balanceSpreadLog, balanceDrawZ } from "./household-balance-draw";
 import type { ResidentsRuntime } from "./modules/residents";
 import type { ResidentFlowInput } from "./residents";
 import type { CoreState, PlaceId, CoreAPI } from "./types";
-import type { PlaceId } from "./types";
 
 /** The parts of a flow the money splits by. */
 export type SplitFlow = Pick<
