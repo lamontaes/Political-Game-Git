@@ -73789,6 +73789,228 @@
         "key": "door"
       },
       "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-tell.about-we-ve-put-years-into-this-house-and-i-don-t-want-it-changed-around-us",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{about}? We've put years into this house, and I don't want it changed around us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-against", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-against", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (W3, the door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      },
+      "elements": ["neighbors-speak-at-a-hearing-and-the-project-shrinks"]
+    },
+    {
+      "key": "scene-talk.reply-tell.it-s-about-for-me-we-own-here-and-i-want-the-street-to-stay-as-it-is",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's {about} for me. We own here, and I want the street to stay as it is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-against", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-against", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (W3, the door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      },
+      "elements": ["neighbors-speak-at-a-hearing-and-the-project-shrinks"]
+    },
+    {
+      "key": "scene-talk.reply-tell.about-this-is-our-home-and-i-d-hate-to-see-the-street-change",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{about}. This is our home, and I'd hate to see the street change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-against", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-against", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (W3, the door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      },
+      "elements": ["neighbors-speak-at-a-hearing-and-the-project-shrinks"]
+    },
+    {
+      "key": "scene-talk.reply-tell.about-we-own-our-place-and-i-d-like-others-to-have-the-same-chance",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{about}? We own our place, and I'd like others to have the same chance.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-for", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-for", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (W3, the door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      },
+      "elements": ["apartments-have-their-own-front-doors"]
+    },
+    {
+      "key": "scene-talk.reply-tell.it-s-about-for-me-we-got-in-here-and-others-should-be-able-to-as-well",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's {about} for me. We got in here, and others should be able to as well.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-for", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-for", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (W3, the door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      },
+      "elements": ["apartments-have-their-own-front-doors"]
+    },
+    {
+      "key": "scene-talk.reply-tell.about-we-re-homeowners-and-i-think-more-people-should-get-to-be",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{about}. We're homeowners, and I think more people should get to be.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-for", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-for", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (W3, the door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      },
+      "elements": ["apartments-have-their-own-front-doors"]
     }
   ]
 }
