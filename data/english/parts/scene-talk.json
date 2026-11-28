@@ -74196,6 +74196,86 @@
         "key": "routine"
       },
       "elements": ["a-first-race-lost-then-governor"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.a-thank-you-doesn-t-weigh-that-much-take-it-back",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "A thank-you doesn't weigh that much. Take it back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "bribe-offer",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "key": "favor-asked",
+          "after": "deflect",
+          "onlyWhen": ["bribe-weight"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      },
+      "elements": ["turning-down-an-offer-politely-keeps-the-door-open"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.a-thank-you-is-a-card-this-is-not-a-card",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "A thank-you is a card. This is not a card.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "bribe-offer",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "key": "favor-asked",
+          "after": "deflect",
+          "onlyWhen": ["bribe-weight"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      },
+      "elements": ["turning-down-an-offer-politely-keeps-the-door-open"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-for-any-price",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not for any price.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "bribe-offer",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "key": "favor-asked",
+          "onlyWhen": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      },
+      "elements": ["turning-down-an-offer-politely-keeps-the-door-open"]
     }
   ]
 }

@@ -447,6 +447,37 @@
         "scene-talk.state-request.they-taped-it-to-the-door-on-a-thursday-and-it-says-owed-i-ve-read-it-nine-times"
       ],
       "restoredFrom": "scene-talk.state-request.they-taped-it-to-the-door-on-a-thursday-i-ve-read-it-nine-times-and-i-still-don"
+    },
+    {
+      "i": 22,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "A thank-you doesn't weigh that much. Take it back.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-refuse.a-thank-you-doesn-t-weigh-that-much-take-it-back"
+      ],
+      "restoredFrom": "scene-talk.reply-refuse.a-thank-you-doesn-t-weigh-that-much-take-it-back"
+    },
+    {
+      "i": 23,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "A thank-you is a card. This is not a card.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": [
+        "scene-talk.reply-refuse.a-thank-you-is-a-card-this-is-not-a-card"
+      ],
+      "restoredFrom": "scene-talk.reply-refuse.a-thank-you-is-a-card-this-is-not-a-card"
+    },
+    {
+      "i": 24,
+      "grade": "good",
+      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
+      "line": "Not for any price.",
+      "note": "The old line had no insert; this piece says it with one.",
+      "parts": ["scene-talk.reply-refuse.not-for-any-price"],
+      "restoredFrom": "scene-talk.reply-refuse.not-for-any-price"
     }
   ]
 }
