@@ -3,7 +3,7 @@
  * game time or writes a record. Words come from the English engine; these
  * return record data only.
  */
-import { nationalPanel } from "./macro";
+import { nationalPanel } from "../macro-reads";
 import { regionalLevel, regionName } from "./regional";
 import { countedResidents } from "../elections-reads";
 import { JOBS_DATA, type PositionRow } from "./jobs";

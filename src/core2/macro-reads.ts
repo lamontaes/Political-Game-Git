@@ -2,6 +2,14 @@
 import type { CountryState } from "./country-model";
 import type { MacroMonth } from "./macro-model";
 import type { CoreAPI, CoreState } from "./types";
+import { default as macroParameters } from "./data/macro/parameters.json";
+import { default as countryParameters } from "./data/country/parameters.json";
+import type { Parameter } from "./parameters";
+import {
+  type NationFigures,
+  type MacroParameter,
+  checkBands,
+} from "./macro-model";
 
 /** The module's id, written here (the engine's own file names the same string) so a door reads the table without loading the engine. A door that named the wrong table fails `economy-reads.test.ts`, which reads each door in a played world. */
 const MACRO_MODULE_ID = "macro";
@@ -94,4 +102,68 @@ export function rateMeetingOf(
   if (!macroKept(api)) return undefined;
   return store(api).table("meetings").get(meetingId) as unknown as
     { fromRatePct: number; toRatePct: number } | undefined;
+}
+
+/** The national economy's numbers: the central bank's and the published past's, and the country tier's (data/country). */
+export const MACRO_PARAMETERS = {
+  ...macroParameters,
+  ...countryParameters,
+} as unknown as Readonly<Record<string, Parameter>>;
+
+export const STATE_ID = "macro:state";
+
+export interface MacroStateRow {
+  id: string;
+  openedAt: string;
+  openingMonth: string;
+  latestMonth: string;
+  /** Target-range midpoint in force. */
+  policyRatePct: number;
+  placeIds: string[];
+  /** The states' sums at the opening: the national figures since are the opening month's times how far these have moved. */
+  countryBase: NationFigures;
+}
+
+export function params(api: CoreAPI): MacroParameter {
+  return (key) => api.parameter(key);
+}
+
+export function readState(api: CoreAPI): MacroStateRow | undefined {
+  return store(api).table("state").get(STATE_ID) as MacroStateRow | undefined;
+}
+
+/**
+ * The country some years on if nothing else changes: a copy of every state's counts, stepped by
+ * the same month the game steps (`stepCountry`, `countryMacroMonth`) under the law in force
+ * today, with today's board meeting on its own calendar and each member voting by the rule they
+ * vote by in play. Read-only: it writes no record and moves no date, so it is what the tier
+ * would do, not what the town will (the town and county held in full stay as they are today).
+ */
+/** Whether the national economy has opened: it opens on the game's first day, and there is no outlook before it. */
+export function countryOpened(api: CoreAPI): boolean {
+  // A world built without the economy (the law-reach tests' small worlds) has no tier: the same
+  // test the outside-money reader makes. The game's worlds always install it (modules/world.ts).
+  return (
+    (api.state as CoreState).modules.has(MACRO_MODULE_ID) &&
+    readState(api) !== undefined
+  );
+}
+
+/** What the bench's national panel shows: each month against its band, each meeting with every vote's reasons. Read-only. */
+export function nationalPanel(api: CoreAPI) {
+  const snap = store(api).snapshot();
+  const months = snap.tables.months as unknown as MacroMonth[];
+  const votes = snap.tables.votes as unknown as { meetingId: string }[];
+  return {
+    months,
+    bands: checkBands(months, params(api)),
+    meetings: (snap.tables.meetings as unknown as { id: string }[]).map(
+      (meeting) => ({
+        ...meeting,
+        votes: votes.filter((vote) => vote.meetingId === meeting.id),
+      }),
+    ),
+    members: snap.tables.members,
+    repricings: snap.tables.repricings,
+  };
 }

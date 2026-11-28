@@ -971,6 +971,7 @@
         "src/core2/resident-households.ts",
         "src/core2/resident-outside-sales.ts",
         "src/core2/counted-moves-reads.ts",
+        "src/core2/moves-reads.ts",
         "src/core2/retirement-claims-runtime.ts",
         "src/core2/resident-schooling.ts",
         "src/core2/heard-claims.ts",
@@ -1241,6 +1242,7 @@
         "src/core2/resident-households.ts",
         "src/core2/resident-outside-sales.ts",
         "src/core2/counted-moves-reads.ts",
+        "src/core2/moves-reads.ts",
         "src/core2/retirement-claims-runtime.ts",
         "src/core2/resident-schooling.ts"
       ]

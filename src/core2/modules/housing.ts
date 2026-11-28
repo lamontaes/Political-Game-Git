@@ -43,7 +43,7 @@ import { realPlaceOf, type CountedHousehold } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import { awardYearMinor, DAYS_PER_YEAR } from "../household-income";
 import { unplacedPoolOf, type ResidentFlowInput } from "../residents";
-import { MACRO_PARAMETERS } from "./macro";
+import { MACRO_PARAMETERS } from "../macro-reads";
 import { latestMacroMonth, macroMonthAt } from "../macro-reads";
 import { formerHome } from "../housing-former-home";
 import type { ModuleRow } from "../module-data";
