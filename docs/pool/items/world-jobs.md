@@ -18,6 +18,6 @@ source: "docs/coordination/world.md line 50 (unchecked checklist line)"
 
 **Done when.** A one-year run in a drawn place (buildBenchWorld, seed named in the PR body) shows the layoff rate near 1.4% a month, each layoff carrying a job-change record id, a books record id and an unemployment claim id. The owner plays it: A monthly seller re-split in the residents engine.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/jobs-benefits.ts, src/core2/jobs.test.ts, docs/coordination/world.md
+**Files.** src/core2/modules/jobs.ts, src/core2/jobs-benefits.ts, tests/src/core2/jobs.test.ts, docs/coordination/world.md
 
 **Notes.** Checklist line from world.md; verify against main before starting.

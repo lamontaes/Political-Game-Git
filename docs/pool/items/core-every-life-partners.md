@@ -17,8 +17,8 @@ claimed-at: 2026-11-01T21:57:46.055Z
 
 **Rules.** One engine per mechanic: setPartnersV1 is the one writer and the opening's partnership chain is shared, not copied. No dice: pulls add up from rates and traits; a generated partner is who exists. Two-level population: no fill-in, no money moved.
 
-**Done when.** In a generated world of a place drawn from all 56, the partnerships and separations of people living elsewhere in a year are within the real rates' spread (src/core2/partnerships.test.ts, three draws); in a buildBenchWorld run with a seed the builder did not choose, a relative's family.partnered or family.separated record is named by id and in the player's knowledge; speed:year within 20% of base.
+**Done when.** In a generated world of a place drawn from all 56, the partnerships and separations of people living elsewhere in a year are within the real rates' spread (tests/src/core2/partnerships.test.ts, three draws); in a buildBenchWorld run with a seed the builder did not choose, a relative's family.partnered or family.separated record is named by id and in the player's knowledge; speed:year within 20% of base.
 
-**Files.** src/core2/modules/partnerships.ts, src/core2/opening-partnership.ts, src/core2/state.ts, src/core2/partnerships.test.ts
+**Files.** src/core2/modules/partnerships.ts, src/core2/opening-partnership.ts, src/core2/state.ts, tests/src/core2/partnerships.test.ts
 
 **Notes.** Split from core-every-life-simulated by the lives lead, Nov 1; town partnering (households) and the counted population are later units.

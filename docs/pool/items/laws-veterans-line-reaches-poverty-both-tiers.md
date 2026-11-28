@@ -28,8 +28,8 @@ root: rc8-law-judged-by-paperwork
 
 **Rules.** One model, two tiers: a counted veteran's benefit follows the line by the same rule as a named veteran's. An effect is a read: the poverty engine reads the benefit the treasury paid.
 
-**Done when.** A second session, in a drawn place, Town, State (seed printed), passes a Congress bill raising the veterans line by a fifth in dev mode, runs past the next monthly close, and reads on the bill card the named and counted veterans reached; `src/core2/veterans-line-poverty.test.ts` passes in that drawn place.
+**Done when.** A second session, in a drawn place, Town, State (seed printed), passes a Congress bill raising the veterans line by a fifth in dev mode, runs past the next monthly close, and reads on the bill card the named and counted veterans reached; `tests/src/core2/veterans-line-poverty.test.ts` passes in that drawn place.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/law-reach/group-b-veterans.ts, src/core2/law-reach/group-b.ts, src/core2/world-poverty.ts, src/core2/modules/laws.ts, data/research/outcome-web/links.json, src/core2/data/outcome-web/coverage.json, src/core2/veterans-line-poverty.test.ts (new)
+**Files.** src/core2/law-reach/group-b-veterans.ts, src/core2/law-reach/group-b.ts, src/core2/world-poverty.ts, src/core2/modules/laws.ts, data/research/outcome-web/links.json, src/core2/data/outcome-web/coverage.json, tests/src/core2/veterans-line-poverty.test.ts (new)

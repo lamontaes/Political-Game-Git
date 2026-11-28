@@ -30,10 +30,10 @@ claimed-at: 2026-11-11T00:01:04.463Z
 
 **Rules.** Speed: years 97 to 100 hold at most 1.2 times the records of years 1 to 4, so a table must not grow with history once no reader needs the rows. One engine per mechanic: the jobs engine removes its own rows on the death event, as the partnerships module does (PR #7082).
 
-**Done when.** A second session, in a generated world of a drawn place (place and seed named) with the health engine installed, runs a year and sees jobs.elsewhere hold a row only for living people, by src/core2/jobs-elsewhere.test.ts, and sees the speed lead's long save show the table flat over years.
+**Done when.** A second session, in a generated world of a drawn place (place and seed named) with the health engine installed, runs a year and sees jobs.elsewhere hold a row only for living people, by tests/src/core2/jobs-elsewhere.test.ts, and sees the speed lead's long save show the table flat over years.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/jobs-elsewhere.ts, src/core2/modules/jobs.ts, src/core2/jobs-elsewhere.test.ts
+**Files.** src/core2/jobs-elsewhere.ts, src/core2/modules/jobs.ts, tests/src/core2/jobs-elsewhere.test.ts
 
 **Notes.** Filed by the lives lead, Nov 1, after the speed lead's question on #7082; after #7049 merges.

@@ -19,6 +19,6 @@ claimed-at: 2026-10-26T01:53:40.852Z
 
 **Done when.** In a drawn place (seed named), a scene whose lead names the person who opens it has one sentence saying who came and why, not two; a test over a played world's scenes fails on main when a narration names the opener in both its lead and its opening.
 
-**Files.** src/director/scene.ts, src/director/scene.test.ts
+**Files.** src/director/scene.ts, tests/src/director/scene.test.ts
 
 **Notes.** TODO

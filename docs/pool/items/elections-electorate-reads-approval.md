@@ -18,9 +18,9 @@ source: split from elections-stopgap-electorate-inputs-missing-data by pool feed
 
 **Rules.** Replace, never layer: nationalEconomyChange stops feeding the mood directly and the stopgap marker is deleted. No dice: the effect on a race follows the approval share and the measured slope, never a roll. Research before building: the approval-to-vote slope is SOURCED or ESTIMATED with its spread in the parameter table. Sliding scales and causes: a small approval change moves the result a few points (owner, Oct 20 on vote swings). An effect is a read, not a record: the race engines (town, world races, ballot counts) read the national mood on election day.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, every module installed) in a place drawn from all 56 with a seed the builder did not choose across an election, a president's party candidate runs worse in the same race with a lower approval row than with a higher one, shown by the approval row id and the race result record id; src/core2/electorate-inputs.test.ts proves it and SG-GOV-electorate-approval is resolved in src/core2/data/stopgaps.json.
+**Done when.** In a one-year run of the played world (buildBenchWorld, every module installed) in a place drawn from all 56 with a seed the builder did not choose across an election, a president's party candidate runs worse in the same race with a lower approval row than with a higher one, shown by the approval row id and the race result record id; tests/src/core2/electorate-inputs.test.ts proves it and SG-GOV-electorate-approval is resolved in src/core2/data/stopgaps.json.
 
-**Files.** src/core2/electorate-inputs.ts, src/core2/data/electorate/parameters.json, src/core2/electorate-inputs.test.ts, src/core2/data/stopgaps.json
+**Files.** src/core2/electorate-inputs.ts, src/core2/data/electorate/parameters.json, tests/src/core2/electorate-inputs.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Oct 20 (pool feeder): part 2 of 2 of elections-stopgap-electorate-inputs-missing-data.
 

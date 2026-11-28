@@ -21,7 +21,7 @@ checked:
 
 **What.** After the cut of Nov 17, a housemate with something new on record had nothing to say about it. Over two weeks at home, 68 days were silent: the player's own day (school, a shift, filing), the rent coming due, the government's news, a relative's lost job. These are the evenings of the golden path before office. Seen: the evening talk at home, every day of a new life.
 
-**Cause.** Measured: on the cut (#10063, head 9dca174b44), `src/director/home-talk-fortnight.test.ts` reported 68 entries "has new on record (player-day) and no talk" across five drawn places, shown by `npx vitest run src/director/home-talk-fortnight.test.ts`. The conversation bank had no rows for those subjects. The lost-job subject also carried no weight (`jobLost` in src/director/conversation.ts), so the talk opened elsewhere.
+**Cause.** Measured: on the cut (#10063, head 9dca174b44), `tests/src/director/home-talk-fortnight.test.ts` reported 68 entries "has new on record (player-day) and no talk" across five drawn places, shown by `npx vitest run tests/src/director/home-talk-fortnight.test.ts`. The conversation bank had no rows for those subjects. The lost-job subject also carried no weight (`jobLost` in src/director/conversation.ts), so the talk opened elsewhere.
 
 **Fix.** Write the subjects in `data/english/parts/conversation.json`: for each, the raise, four stances and the answer back, naming the fact each line is about. Give the lost-job subject its weight from the loss's impact, as the player-news subject does.
 

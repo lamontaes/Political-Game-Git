@@ -30,11 +30,11 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: enrollment follows money, beliefs and the schools nearby, never a percentage; real shares check the town total only. An effect is a read, not a record: the tuition flow and the school's roll read the enrollment record. One model, two tiers: counted families follow the same rule times their count. Replace, never layer: the opening-only ranking is deleted when the continuing rule replaces it.
 
-**Done when.** A second session, not the builder, plays a one-year buildBenchWorld in a drawn place (place and seed named in the PR body): a family whose income falls drops a child from a private school and a family that gains enrolls one, each shown by record id with the cash journal balanced, and the town's private share is reported beside the NCES share. src/core2/opening-private-tuition.test.ts and src/core2/private-tuition-reenroll.test.ts cover it, and SG-CORE-private-tuition-average is resolved in src/core2/data/stopgaps/core.json.
+**Done when.** A second session, not the builder, plays a one-year buildBenchWorld in a drawn place (place and seed named in the PR body): a family whose income falls drops a child from a private school and a family that gains enrolls one, each shown by record id with the cash journal balanced, and the town's private share is reported beside the NCES share. tests/src/core2/opening-private-tuition.test.ts and tests/src/core2/private-tuition-reenroll.test.ts cover it, and SG-CORE-private-tuition-average is resolved in src/core2/data/stopgaps/core.json.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/opening-private-tuition.ts, src/core2/private-tuition-reenroll.ts, src/core2/private-tuition-choice.ts (new), src/core2/data/stopgaps/core.json, src/core2/opening-private-tuition.test.ts, src/core2/private-tuition-reenroll.test.ts
+**Files.** src/core2/opening-private-tuition.ts, src/core2/private-tuition-reenroll.ts, src/core2/private-tuition-choice.ts (new), src/core2/data/stopgaps/core.json, tests/src/core2/opening-private-tuition.test.ts, tests/src/core2/private-tuition-reenroll.test.ts
 
 **Notes.** Reopened Oct 23: blocked with no blocked-on and the claimed branch claude/tuition-continuing is gone.
 

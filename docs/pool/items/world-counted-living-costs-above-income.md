@@ -32,4 +32,4 @@ source: "T54's trace of the two away-workers reds left on the opening-savings fi
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/residents.ts, src/core2/modules/jobs.ts, src/bench/dev-why.ts, src/core2/away-workers-turnover.test.ts, src/core2/metrics-labor-force.test.ts.
+**Files.** src/core2/residents.ts, src/core2/modules/jobs.ts, src/bench/dev-why.ts, tests/src/core2/away-workers-turnover.test.ts, tests/src/core2/metrics-labor-force.test.ts.

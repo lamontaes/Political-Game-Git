@@ -35,4 +35,4 @@ Seen: the reporter's call in a talk after the player turns down an interview.
 
 **Waits on.** nothing.
 
-**Files.** src/core2/modules/press.ts, src/director/data/situation-types.json, src/director/purpose-scene.ts, data/english/parts/scene-talk.json, a test beside src/director/press-comment-variants.test.ts (new).
+**Files.** src/core2/modules/press.ts, src/director/data/situation-types.json, src/director/purpose-scene.ts, data/english/parts/scene-talk.json, a test beside tests/src/director/press-comment-variants.test.ts (new).

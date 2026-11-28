@@ -32,4 +32,4 @@ root: rc7-player-cannot-drive
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/legislature.ts, src/director/bargain-facts.ts, src/director/arc-variant.ts, src/director/scene-talk.ts, src/director/data/arc-variants.json, data/english/parts/scene-talk.json, src/core2/bargaining-price.test.ts, src/core2/ask-waits-for-the-chair.test.ts
+**Files.** src/core2/modules/legislature.ts, src/director/bargain-facts.ts, src/director/arc-variant.ts, src/director/scene-talk.ts, src/director/data/arc-variants.json, data/english/parts/scene-talk.json, tests/src/core2/bargaining-price.test.ts, tests/src/core2/ask-waits-for-the-chair.test.ts

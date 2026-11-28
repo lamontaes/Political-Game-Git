@@ -27,10 +27,10 @@ source: Player's finding on #9995, Nov 17 (the call offered about 10% above the 
 
 **Rules.** Wire to the world: the list reads the jobs engine's own pricing rule, so the screen and the call cannot drift apart. No dice: pay is the position's pay moved by schooling, as before.
 
-**Done when.** In a drawn place and a seed the builder did not choose, the offer that follows an application has exactly the pay the list showed the player for that opening, shown in `src/core2/jobs-player-offers.test.ts`; a second session reads the list, applies, and hears the same pay in the call.
+**Done when.** In a drawn place and a seed the builder did not choose, the offer that follows an application has exactly the pay the list showed the player for that opening, shown in `tests/src/core2/jobs-player-offers.test.ts`; a second session reads the list, applies, and hears the same pay in the call.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/openings.ts, src/core2/jobs-player-offers.test.ts
+**Files.** src/bench/openings.ts, tests/src/core2/jobs-player-offers.test.ts
 
 **Notes.** The existing test now applies only to the openings in the player's town, as the Jobs list shows them, and holds the offer to the listed pay; it asserts more than before.

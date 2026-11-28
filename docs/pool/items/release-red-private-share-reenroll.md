@@ -17,9 +17,9 @@ claimed-at: 2026-10-20T20:03:13.619Z
 
 **Rules.** Replace, never layer: re-enrollment reads the same per-state share the opening reads, one function, with no second copy of the national parameter brought back. One rule, all 56 places: the share comes from the state's data row, the median where a state has no row.
 
-**Done when.** A one-year run of the played world in a drawn place (buildBenchWorld, seed named in the PR) passes the school engine's re-enrollment day, and src/core2/private-tuition-reenroll.test.ts and opening-private-tuition.test.ts pass reading the shared privateShareOf.
+**Done when.** A one-year run of the played world in a drawn place (buildBenchWorld, seed named in the PR) passes the school engine's re-enrollment day, and tests/src/core2/private-tuition-reenroll.test.ts and opening-private-tuition.test.ts pass reading the shared privateShareOf.
 
-**Files.** src/core2/private-tuition-reenroll.ts, src/core2/opening-private-tuition.ts, src/core2/private-tuition-reenroll.test.ts
+**Files.** src/core2/private-tuition-reenroll.ts, src/core2/opening-private-tuition.ts, tests/src/core2/private-tuition-reenroll.test.ts
 
 **Notes.** TODO
 

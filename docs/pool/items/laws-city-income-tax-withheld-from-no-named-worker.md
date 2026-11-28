@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** `src/core2/city-tax-reach.test.ts` fails at "a named worker had the city income tax withheld" with GOLDEN_PATH_SEED=cto1 in Prairie Village, Kansas. It fails the same on Train head ef70819622 without any change, so it is not the sales tax base. The sales tax half of the test passes. Seen: dev mode's reach of a city income tax law (who the law reached), which would name no worker.
+**What.** `tests/src/core2/city-tax-reach.test.ts` fails at "a named worker had the city income tax withheld" with GOLDEN_PATH_SEED=cto1 in Prairie Village, Kansas. It fails the same on Train head ef70819622 without any change, so it is not the sales tax base. The sales tax half of the test passes. Seen: dev mode's reach of a city income tax law (who the law reached), which would name no worker.
 
 **Cause.** Needs cause. Looked at: the test's own assertion at line 133; not followed into the withholding engine.
 
@@ -32,6 +32,6 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/city-tax-reach.test.ts
+**Files.** tests/src/core2/city-tax-reach.test.ts
 
-**Notes.** Effects thread, Nov 16, 2026: `GOLDEN_PATH_SEED=cto1 npx vitest run --dir . src/core2/city-tax-reach.test.ts` on ef70819622, red.
+**Notes.** Effects thread, Nov 16, 2026: `GOLDEN_PATH_SEED=cto1 npx vitest run --dir . tests/src/core2/city-tax-reach.test.ts` on ef70819622, red.

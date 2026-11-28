@@ -32,6 +32,6 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/business.ts, src/core2/modules/interest-groups.ts, src/core2/data/business/parameters.json, src/core2/data-privacy-law.test.ts, src/core2/federal-data-privacy-law.test.ts, src/core2/data-privacy-stake.test.ts
+**Files.** src/core2/modules/business.ts, src/core2/modules/interest-groups.ts, src/core2/data/business/parameters.json, tests/src/core2/data-privacy-law.test.ts, tests/src/core2/federal-data-privacy-law.test.ts, tests/src/core2/data-privacy-stake.test.ts
 
 **Notes.** Effects thread, Nov 16, 2026. data-privacy-law.test.ts and federal-data-privacy-law.test.ts drew their place at run time and expected some employer bound anywhere; with the size test most small towns bind none, so both are pinned to Pierre, South Dakota.

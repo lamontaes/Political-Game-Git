@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** In a played world on seed 28031889fda9c4e2a7d67d921b18e16b696b5d72, journal.test.ts and world-moments.test.ts pass in Juncal, Puerto Rico and Oak Grove, Tennessee, with the cause of each failure named by record id in the PR body and a test that failed before the fix. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
-**Files.** src/director/journal.test.ts, src/director/world-moments.test.ts, src/director/journal.ts
+**Files.** tests/src/director/journal.test.ts, tests/src/director/world-moments.test.ts, src/director/journal.ts
 
 **Notes.** Found by the Words session on Oct 25 while checking #6064's merge with main. Main's journal.ts fails the same three tests on this seed, so it is not that PR's.
 

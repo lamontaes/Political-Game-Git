@@ -30,15 +30,15 @@ merged-at: 2026-11-12T18:04:24.394Z
 
 **Rules.** A good exchange keeps going (OWNER-DECISIONS.md: "A yes or no never ends a talk; the asker follows up"). No hand-written player text in code: no line under data/english/parts changes, and the second exchange is composed from the banks that already play. One rule, all 56 places: the test draws its places and names them with their seeds, never in logic.
 
-**Done when.** A second session starts a new life on main in a drawn place, talks to a relative in the first evening's room, picks a reply, and after the relative's answer gets a second set of replies instead of a goodbye; src/bench/first-evening-talk-goes-on.test.ts passes on a fresh draw.
+**Done when.** A second session starts a new life on main in a drawn place, talks to a relative in the first evening's room, picks a reply, and after the relative's answer gets a second set of replies instead of a goodbye; tests/src/bench/first-evening-talk-goes-on.test.ts passes on a fresh draw.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/data/conversation-rules.json, src/bench/first-evening-talk-goes-on.test.ts (new)
+**Files.** src/director/data/conversation-rules.json, tests/src/bench/first-evening-talk-goes-on.test.ts (new)
 
 **Notes.** Unblocks #8427 (tests-talk-history-one-exchange), whose browser check needs two exchanges in that talk.
 
-Nov 19 (Story): reopened, red again. `first-evening-talk-goes-on` fails on train/nov17b (Brooksville, MS) and on the cut (#10063), at Oaklyn, NJ (seed `b97f7385b63cd214`): "opened on address-point, ended after one exchange on address-point-back". Shown by `GOLDEN_PATH_SEED=b97f7385b63cd214 npx vitest run src/bench/first-evening-talk-goes-on.test.ts`.
+Nov 19 (Story): reopened, red again. `first-evening-talk-goes-on` fails on train/nov17b (Brooksville, MS) and on the cut (#10063), at Oaklyn, NJ (seed `b97f7385b63cd214`): "opened on address-point, ended after one exchange on address-point-back". Shown by `GOLDEN_PATH_SEED=b97f7385b63cd214 npx vitest run tests/src/bench/first-evening-talk-goes-on.test.ts`.
 
 - The lines are written. On the cut, own-view, family, kin, home and quiet all have rows again (Nov 19).
 - The cause is in the talk's flow. After an address point, `related` offers news or own-view (conversation-rules.json). `ownViewComesUp` (src/director/conversation.ts) raises a relative's own view only on a question already in `conversation.questions` and not in `conversation.pointed`. Raising the address point puts its question in both, and only a news subject adds a question to `questions` alone.

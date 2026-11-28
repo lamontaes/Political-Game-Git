@@ -22,7 +22,7 @@ Seen: dev mode's climate line (warming and hazard levels) in two drawn places.
 
 **Cause.** Found in code: `worldFossilGt` in `src/core2/modules/climate.ts` read a straight line between three real points by date, with no world input.
 
-**Fix.** The month's rest-of-world CO2 carries on from the last month's at a steady yearly trend each world draws from its seed within the span the scenarios cover (`restOfWorldTrend`). Only the opening stock (38.1 Gt) and the span of the trend are read from data. The check `src/core2/climate-rest-of-world-own.test.ts` runs two drawn places with the same laws for two years and needs different cumulative CO2; it fails on the old code.
+**Fix.** The month's rest-of-world CO2 carries on from the last month's at a steady yearly trend each world draws from its seed within the span the scenarios cover (`restOfWorldTrend`). Only the opening stock (38.1 Gt) and the span of the trend are read from data. The check `tests/src/core2/climate-rest-of-world-own.test.ts` runs two drawn places with the same laws for two years and needs different cumulative CO2; it fails on the old code.
 
 **Time box.** 2 hours.
 
@@ -32,4 +32,4 @@ Seen: dev mode's climate line (warming and hazard levels) in two drawn places.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/climate.ts, src/core2/data/climate/emissions.json, src/core2/climate-rest-of-world-own.test.ts (new)
+**Files.** src/core2/modules/climate.ts, src/core2/data/climate/emissions.json, tests/src/core2/climate-rest-of-world-own.test.ts (new)

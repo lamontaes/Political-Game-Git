@@ -18,9 +18,9 @@ effort: medium
 root: none
 ---
 
-**What.** The mail and house-party cases in src/bench/campaign-mail.test.ts fail in some drawn places: "mail spends what the player set on mailers and reaches the households it buys" and "offers the house party by its control word and runs the engine's donor meeting", each stops with "nobody could file", so no mailer or house party is tested there. Guards: campaign mail and donor meetings. Reproduced on the unchanged train head 3076c608 (and on the same branch with PR #9155) at Fort Thomas, Arizona (0424950), GOLDEN_PATH_SEED=1ab6a38a29c7f0cc4dd7448eb7c0a906ee49fadfac09d591ef70fee40760fbf7; also seen at Canton City (Hensel), North Dakota (3812060), run seed 415078bb420946fc86d98de5781c20fb9d673da6e12c19c471758bb4d6a9218c. Guards: mailers and house parties in a played town.
+**What.** The mail and house-party cases in tests/src/bench/campaign-mail.test.ts fail in some drawn places: "mail spends what the player set on mailers and reaches the households it buys" and "offers the house party by its control word and runs the engine's donor meeting", each stops with "nobody could file", so no mailer or house party is tested there. Guards: campaign mail and donor meetings. Reproduced on the unchanged train head 3076c608 (and on the same branch with PR #9155) at Fort Thomas, Arizona (0424950), GOLDEN_PATH_SEED=1ab6a38a29c7f0cc4dd7448eb7c0a906ee49fadfac09d591ef70fee40760fbf7; also seen at Canton City (Hensel), North Dakota (3812060), run seed 415078bb420946fc86d98de5781c20fb9d673da6e12c19c471758bb4d6a9218c. Guards: mailers and house parties in a played town.
 
-**Cause.** Found in code: world() (src/bench/campaign-mail.test.ts line 70) builds the world at START and calls openContests without first moving the clock to the day a race opens for filing, which campaign-turn.test.ts does with advanceToFilingOpen (gov-test-clock); a place whose first race opens later has no open contest, so the filing loop ends with nothing. Read from the code, not yet run with the clock moved.
+**Cause.** Found in code: world() (tests/src/bench/campaign-mail.test.ts line 70) builds the world at START and calls openContests without first moving the clock to the day a race opens for filing, which campaign-turn.test.ts does with advanceToFilingOpen (gov-test-clock); a place whose first race opens later has no open contest, so the filing loop ends with nothing. Read from the code, not yet run with the clock moved.
 
 **Fix.** Move the clock to the first filing day (advanceToFilingOpen) before filing, and pin the place and seed the case runs at, chosen from a built world's calendar rather than drawn until one works.
 
@@ -32,6 +32,6 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/campaign-mail.test.ts
+**Files.** tests/src/bench/campaign-mail.test.ts
 
 **Notes.** Found Nov 14 running changed-file tests for PR #9155.

@@ -9,7 +9,7 @@ const captures = [
 ];
 const otherCopies = [
   "tests/src/bench/calendar.browser.mjs",
-  "src/bench/calendar.browser.mjs",
+  "tests/src/bench/calendar.browser.mjs",
 ].filter(existsSync);
 if (otherCopies.length !== 1)
   throw new Error("Expected one calendar browser check");

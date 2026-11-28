@@ -19,6 +19,6 @@ claimed-at: 2026-11-06T05:14:10.814Z
 
 **Done when.** wage-floor-levels.test.ts shows 5.00 state leaves 7.25 governing, 9.00 state governs, a lower town wage is ignored, a higher one governs.
 
-**Files.** src/core2/wage-floor-levels.test.ts
+**Files.** tests/src/core2/wage-floor-levels.test.ts
 
 **Notes.** TODO

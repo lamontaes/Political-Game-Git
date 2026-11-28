@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: which act fills an evening comes from the person's needs, ties, money and traits scored in their own reasons, never a draw against the ATUS share. The ATUS range is a figure to report and never a target (owner, Nov 8). Speed: the plan is made once per activation and read by date, never a daily scan of the world, within the 20% year budget.
 
-**Done when.** A second session, in a one-year run of the played world in a drawn place (buildBenchWorld, place and seed named in the PR), sees two person ids whose planned acts changed a later day's need, by record id, and sees scripts/research/core-year.ts print the town's share of adult-days with a visit, by tier, beside ATUS 2025's 28.2% to 32.5% (data/research/core/atus-2025-socializing.json) as a figure to report, not a target. A test in src/core2/free-block.test.ts shows a need that regrows between planned days. SG-P15-free-block-plan is closed.
+**Done when.** A second session, in a one-year run of the played world in a drawn place (buildBenchWorld, place and seed named in the PR), sees two person ids whose planned acts changed a later day's need, by record id, and sees scripts/research/core-year.ts print the town's share of adult-days with a visit, by tier, beside ATUS 2025's 28.2% to 32.5% (data/research/core/atus-2025-socializing.json) as a figure to report, not a target. A test in tests/src/core2/free-block.test.ts shows a need that regrows between planned days. SG-P15-free-block-plan is closed.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/free-block.ts, src/core2/free-block.test.ts, src/core2/data/free-block.json, data/research/core/atus-2025-socializing.json, src/core2/data/stopgaps/p15.json
+**Files.** src/core2/free-block.ts, tests/src/core2/free-block.test.ts, src/core2/data/free-block.json, data/research/core/atus-2025-socializing.json, src/core2/data/stopgaps/p15.json
 
 **Notes.** TODO

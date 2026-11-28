@@ -29,10 +29,10 @@ checked:
 
 **Rules.** researcher: pages actually fetched and quoted; no dice; one value per row, no new row.
 
-**Done when.** Each of the four rows carries a quoted source and spread, the pinned test src/bench/mayor-acts.test.ts still passes, and a second session plays a mayor at a drawn place (name and seed in the PR) for a season and sees office hours, meetings and an interview at a believable rhythm in the Journal.
+**Done when.** Each of the four rows carries a quoted source and spread, the pinned test tests/src/bench/mayor-acts.test.ts still passes, and a second session plays a mayor at a drawn place (name and seed in the PR) for a season and sees office hours, meetings and an interview at a believable rhythm in the Journal.
 
 **Waits on.** The mayor-acts PR merged.
 
-**Files.** src/core2/office-day-acts.ts, src/bench/mayor-acts.test.ts
+**Files.** src/core2/office-day-acts.ts, tests/src/bench/mayor-acts.test.ts
 
 **Notes.** Filed with the mayor-acts PR.

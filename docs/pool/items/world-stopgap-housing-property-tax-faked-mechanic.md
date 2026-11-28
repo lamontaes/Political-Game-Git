@@ -31,11 +31,11 @@ checked: fable 2026-11-10
 
 **Rules.** Wire to the world: owners pay on the dates their place's law sets. One rule, all 56 places: due dates and installment counts come from each place's data. Replace, never layer: the fake is deleted in the same change, and a row is never closed by deleting it without the mechanic. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE.
 
-**Done when.** A second session, on main in a drawn place (place and seed named in the PR body), plays a year in dev mode and watches an owner without escrow pay on the place's due dates and the treasury receive it, with the bill, payment and treasury receipt record ids. The test in src/core2/housing-property-tax.test.ts and the stopgap tripwire test show SG-WORLD-property-tax-monthly resolved.
+**Done when.** A second session, on main in a drawn place (place and seed named in the PR body), plays a year in dev mode and watches an owner without escrow pay on the place's due dates and the treasury receive it, with the bill, payment and treasury receipt record ids. The test in tests/src/core2/housing-property-tax.test.ts and the stopgap tripwire test show SG-WORLD-property-tax-monthly resolved.
 
 **Waits on.** Nothing. The due-date data it waited for has landed; the blocked-on line above is a leftover for the CTO to clear.
 
-**Files.** src/core2/housing-property-tax.ts, src/core2/data/stopgaps/world.json, src/core2/housing-property-tax.test.ts
+**Files.** src/core2/housing-property-tax.ts, src/core2/data/stopgaps/world.json, tests/src/core2/housing-property-tax.test.ts
 
 **Notes.** First row: Property tax is paid a twelfth each month, as through a mortgage escrow, for every owner.
 

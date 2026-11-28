@@ -20,7 +20,7 @@ root: none
 
 **What.** The outcome-news test draws a new seed every run, so it is green or red by luck. On one draw a reader of a condition story moves away from the side the story argued, and the test expects no move or a move toward it. Seen: Adamsville, Tennessee, red the same with and without #9604.
 
-**Cause.** Measured: at Adamsville, Tennessee (US-TN), seed db6727044495ce2c, by `OUTCOME_NEWS_SEED=db6727044495ce2c npx vitest run src/core2/outcome-news.test.ts`: person_8156b0336483cd5f, on 2026-01-06, by news.read:printed:outlet:television:3:jurisdiction_263b22db374adfbc:outcome-web.month:jurisdiction_263b22db374adfbc:2026-01:2026-01-06:enact:budget-line:incomeSecurity, moved -0.019 where the test expects 0 or more. Found in code: src/core2/outcome-news.test.ts line 45 draws with `randomBytes` when `OUTCOME_NEWS_SEED` is unset.
+**Cause.** Measured: at Adamsville, Tennessee (US-TN), seed db6727044495ce2c, by `OUTCOME_NEWS_SEED=db6727044495ce2c npx vitest run tests/src/core2/outcome-news.test.ts`: person_8156b0336483cd5f, on 2026-01-06, by news.read:printed:outlet:television:3:jurisdiction_263b22db374adfbc:outcome-web.month:jurisdiction_263b22db374adfbc:2026-01:2026-01-06:enact:budget-line:incomeSecurity, moved -0.019 where the test expects 0 or more. Found in code: tests/src/core2/outcome-news.test.ts line 45 draws with `randomBytes` when `OUTCOME_NEWS_SEED` is unset.
 
 **Fix.** Pin the test to named places with fixed seeds (skill `pinned-tests`), Adamsville at the seed above among them. Then trace that reader's stance on the day by its causes. If something else moved it the same day (another read, a talk, a price), the test should measure the read's own cause, not the day's total. If the read itself moved it against its side, that is a views defect and gets its own item.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/outcome-news.test.ts
+**Files.** tests/src/core2/outcome-news.test.ts

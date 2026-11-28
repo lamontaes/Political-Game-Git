@@ -31,11 +31,11 @@ branch: claude/pool-core-counted-views-delete
 
 **Rules.** Replace, never layer: the views are deleted, not left beside the group reads. A row is never closed by deleting it without the mechanic; the five engines above are the mechanic.
 
-**Done when.** A second session, in a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body), sees nothing call the household views: a search of src/core2 finds no `CountedHouseholdMap` and no `householdView`. The stopgap row SG-CORE-counted-person-views is resolved with its replacement named, and the stopgap tripwire test and src/core2/counted-groups-exact-traits.test.ts pass.
+**Done when.** A second session, in a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body), sees nothing call the household views: a search of src/core2 finds no `CountedHouseholdMap` and no `householdView`. The stopgap row SG-CORE-counted-person-views is resolved with its replacement named, and the stopgap tripwire test and tests/src/core2/counted-groups-exact-traits.test.ts pass.
 
 **Waits on.** Nothing (the five items in after: are done).
 
-**Files.** src/core2/counted-groups.ts, src/core2/modules/residents.ts, src/core2/births-counted.ts, src/core2/data/stopgaps/core.json, src/core2/counted-groups-exact-traits.test.ts
+**Files.** src/core2/counted-groups.ts, src/core2/modules/residents.ts, src/core2/births-counted.ts, src/core2/data/stopgaps/core.json, tests/src/core2/counted-groups-exact-traits.test.ts
 
 **Notes.** Last part of retiring SG-CORE-counted-person-views.
 
@@ -54,7 +54,7 @@ Looked at Oct 20 (claude/political-game-pool-3xfqef-5), released unbuilt: the fi
 
 Historical snapshot, Oct 20 (claude/pool-views-delete, partial): `campaign-day.ts` (town household count) and `housing-construction.ts` (`residentsOf`) then read `store.liveHouseholds()` and `store.countedMembers`, the same counts. Remaining readers in that snapshot of `ResidentsRuntime.households` or `householdView`: `births-counted.ts` (six sites, PR #4920's work), `residents.test.ts`, `counted-demotion.test.ts`, `housing-laws.test.ts`, `counted-deaths-spread.test.ts`. After those, delete `CountedHouseholdMap`, `householdView` and `ResidentsRuntime.households`, keep `personInput` for fill-in with the stopgap call dropped, and resolve `SG-CORE-counted-person-views`. This item is not done by the PR that carries this note.
 
-Sent back 2026-10-20 from PR #4915 (branch claude/counted-views-delete): Merge main fc2817d7d5b5 into claude/counted-views-delete conflicts in: src/core2/modules/jobs.ts, src/core2/unfilled-opening-pay.test.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first. Current replacement claim and PR are preserved.
+Sent back 2026-10-20 from PR #4915 (branch claude/counted-views-delete): Merge main fc2817d7d5b5 into claude/counted-views-delete conflicts in: src/core2/modules/jobs.ts, tests/src/core2/unfilled-opening-pay.test.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first. Current replacement claim and PR are preserved.
 
 Sent back 2026-10-20 from PR #4920 (branch claude/births-columns): Changed-file checks failed after merge main: eslint unused var rt in housing-laws.test.ts, and vitest failed with 12 errors (residentsRuntime households undefined in fill-in-returning-newborn.test.ts, jobs-demoted-seeker.test.ts, representative-sample.test.ts, residents-fillin-past.test.ts; countedHouseholdsByPlace not a function in purchase-tax.test.ts); finish on that branch, merge main into it first.
 

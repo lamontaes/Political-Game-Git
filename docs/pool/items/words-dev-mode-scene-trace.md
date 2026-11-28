@@ -30,8 +30,8 @@ checked: words builder A 2026-11-16
 
 **Rules.** Replace, never layer: the view reads the existing scene list, the director's ledger and the register and keeps none of its own. A forced scene is a dev act marked on the record and is never counted as played for a Words stamp or a test. The scenes dev mode cannot cause are named, not hidden (at this head: polling-place).
 
-**Done when.** The test src/bench/dev-scene-trace.test.ts passes at the pinned place (Ridgeville AL), and the browser check src/bench/dev-scene-trace.browser.mjs passes in a played life at Sheridan WY seed 7 with the 1440x900 screenshot. A second session (not the builder) opens a scene's lines in dev mode at a drawn place from all 56 (place and seed named) and sees each line's tie class.
+**Done when.** The test tests/src/bench/dev-scene-trace.test.ts passes at the pinned place (Ridgeville AL), and the browser check tests/src/bench/dev-scene-trace.browser.mjs passes in a played life at Sheridan WY seed 7 with the 1440x900 screenshot. A second session (not the builder) opens a scene's lines in dev mode at a drawn place from all 56 (place and seed named) and sees each line's tie class.
 
 **Waits on.** PR #9619 (the view registry) and PR #9658 (the line register).
 
-**Files.** src/bench/dev-views/scene-trace.ts, src/bench/ui/dev-scene-trace.mjs, src/bench/dev-scene-trace.test.ts, src/bench/dev-scene-trace.browser.mjs, scripts/words/line-register.ts
+**Files.** src/bench/dev-views/scene-trace.ts, src/bench/ui/dev-scene-trace.mjs, tests/src/bench/dev-scene-trace.test.ts, tests/src/bench/dev-scene-trace.browser.mjs, scripts/words/line-register.ts

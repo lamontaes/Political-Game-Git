@@ -19,7 +19,7 @@ source: "Account lead builder, Nov 14 (mayor-acts PR, coordinator's request)"
 checked:
 ---
 
-**What.** `npx vitest run src/bench/mayor-acts.test.ts tests/english-parts-banks.test.ts src/core2/office-day-town-hall-cadence.test.ts src/core2/projects.test.ts` failed once on head 91ff0946 with "src/core2/office-day-town-hall-cadence.test.ts > a town hall is held on a cadence (seed 8920533dbb202c4e) > is offered again only once the interval has passed since the official's last", and passed on three reruns of the same command and twice alone. Seen: the same command passes in every run.
+**What.** `npx vitest run tests/src/bench/mayor-acts.test.ts tests/english-parts-banks.test.ts tests/src/core2/office-day-town-hall-cadence.test.ts tests/src/core2/projects.test.ts` failed once on head 91ff0946 with "tests/src/core2/office-day-town-hall-cadence.test.ts > a town hall is held on a cadence (seed 8920533dbb202c4e) > is offered again only once the interval has passed since the official's last", and passed on three reruns of the same command and twice alone. Seen: the same command passes in every run.
 
 **Cause.** Needs cause. The first assertion that failed and the place were not captured (only the test name was). Candidate: one world reaching another in the same process (open question); the mayor-acts change adds no per-process state beyond the idempotent assignment of its reason provider into `OFFICE_DAY_MODULE.reasonProviders` in `openOfficeDay`, the same pattern as the existing offer providers and handlers.
 
@@ -33,6 +33,6 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/office-day-town-hall-cadence.test.ts
+**Files.** tests/src/core2/office-day-town-hall-cadence.test.ts
 
 **Notes.** One failure in five combined runs.

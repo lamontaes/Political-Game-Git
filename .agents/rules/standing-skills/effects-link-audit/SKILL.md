@@ -5,7 +5,7 @@ description: Audit Our Civic Duty effects-map links for researched ranges, per-w
 
 # Effects link audit
 
-For a whole family of links at once, use the `wiring-audit` skill and its checker (`src/core2/outcome-web-twins.test.ts`, `scripts/outcome-web/effect-matrix.ts`); this skill is the per-link row it fills.
+For a whole family of links at once, use the `wiring-audit` skill and its checker (`tests/src/core2/outcome-web-twins.test.ts`, `scripts/outcome-web/effect-matrix.ts`); this skill is the per-link row it fills.
 
 Explain how a named cause reaches a named result and whether the implemented amount has evidence. Pin the source head and link ID. Follow the actual consumer before classifying a null or missing catalog size: a separate person-level producer may exist.
 

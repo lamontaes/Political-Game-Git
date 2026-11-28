@@ -31,11 +31,11 @@ branch: claude/pool-meetings-town-hall-evening-cost
 
 **Rules.** No dice: the drive, the evening's cost and temperament decide who comes. One rule, all 56 places. Estimate the cost from research on time use and meeting attendance, never a fixed share. Replace the room-filling rule, do not layer a second one beside it. Ranges are not targets (owner, Nov 8): the researched attendance is reported beside the game's share, never a pass line.
 
-**Done when.** A second session, not the builder, plays two drawn places' election windows (places and seeds named) and sees: a town smaller than a room no longer sends every adult to every town hall; who comes follows each resident's drive less the evening's cost, by meeting record id; the share of adults who came to at least one town hall is reported next to the researched attendance figure with its source quoted, as a number to read and not a pass line; meetings.take-part's net odds between the thirds of lean are reported against the study's; and the meetings trait test src/core2/modules/meetings.traits.test.ts passes.
+**Done when.** A second session, not the builder, plays two drawn places' election windows (places and seeds named) and sees: a town smaller than a room no longer sends every adult to every town hall; who comes follows each resident's drive less the evening's cost, by meeting record id; the share of adults who came to at least one town hall is reported next to the researched attendance figure with its source quoted, as a number to read and not a pass line; meetings.take-part's net odds between the thirds of lean are reported against the study's; and the meetings trait test tests/src/core2/modules/meetings.traits.test.ts passes.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/meetings.ts, src/core2/modules/parties.ts, src/core2/modules/meetings.traits.test.ts, src/core2/data/meetings/parameters.json
+**Files.** src/core2/modules/meetings.ts, src/core2/modules/parties.ts, tests/src/core2/modules/meetings.traits.test.ts, src/core2/data/meetings/parameters.json
 
 **Notes.** TODO
 

@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/counted-money.ts, src/core2/modules/residents.ts, src/core2/housing-homeless.ts, src/core2/modules/housing.ts, src/core2/data/stopgaps/world.json, src/core2/law-wiring-housing.test.ts
+**Files.** src/core2/counted-money.ts, src/core2/modules/residents.ts, src/core2/housing-homeless.ts, src/core2/modules/housing.ts, src/core2/data/stopgaps/world.json, tests/src/core2/law-wiring-housing.test.ts
 
 **Notes.** lead: laws. Found by red main fixer 2 (Nov 2) and raised by the laws lead. Cause of the red, test side: PR 7136. Unverified whether counted renters can reach cases; first step is to read housing.ts around the late-lease loop (about line 1455) and the counted rent path.
 

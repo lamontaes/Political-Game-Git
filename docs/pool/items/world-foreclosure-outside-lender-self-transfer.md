@@ -19,6 +19,6 @@ claimed-at: 2026-10-22T03:28:02.910Z
 
 **Done when.** A focused regression in a generated buildBenchWorld town names the drawn place, seed, foreclosure record, mortgage and identical payer/payee account IDs, completes the foreclosure sale without a self-transfer error, and verifies loan settlement, surplus and price balance. Keep a distinct-lender case, and run the changed-file checks on main integrated with the repair.
 
-**Files.** src/core2/housing-foreclosure.ts, src/core2/housing-homeless.test.ts or a focused foreclosure self-lender regression test
+**Files.** src/core2/housing-foreclosure.ts, tests/src/core2/housing-homeless.test.ts or a focused foreclosure self-lender regression test
 
 **Notes.** Source path identified while reviewing #5815: its housing-foreclosure.ts change proposes the same-party settlement repair, but that PR was returned for its separate poll-proof gaps. This item tracks the foreclosure defect independently. Main source still unconditionally calls transferCash in foreclosureSale around line 232. No current-main played-world reproduction is claimed by this source report; the new regression must supply it.

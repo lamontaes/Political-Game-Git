@@ -17,9 +17,9 @@ claimed-at: 2026-10-28T03:25:23.195Z
 
 **Rules.** Replace, never layer: each ruling is added to the existing browser check for its screen, not a new suite, and none is checked twice. No hand-written player text in code: the title entries are their names and nothing else.
 
-**Done when.** src/bench/clock.browser.mjs asserts every title entry shows only its name once a life is saved, and src/bench/people.browser.mjs asserts no Family tab and no box around any person; both were run against a bench in a drawn place, named in the PR body, and fail on the defects still on main.
+**Done when.** tests/src/bench/clock.browser.mjs asserts every title entry shows only its name once a life is saved, and tests/src/bench/people.browser.mjs asserts no Family tab and no box around any person; both were run against a bench in a drawn place, named in the PR body, and fail on the defects still on main.
 
-**Files.** src/bench/clock.browser.mjs, src/bench/people.browser.mjs
+**Files.** tests/src/bench/clock.browser.mjs, tests/src/bench/people.browser.mjs
 
 **Notes.** TODO
 

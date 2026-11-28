@@ -17,9 +17,9 @@ claimed-at:
 
 **Rules.** One model, two tiers: a counted renter weighs buying with the same chooser and affordability read as a full one. No dice: who buys follows income against payment, means and traits. Speed: no scan of every counted renter each month. Every dollar balances: group cash, bank loans and the seller's account.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, place and seed named in the PR body) at least one counted renter household is shown by record id to leave its rent part, join the mortgage flow with a mortgage part, and appear as an owner, and the group's cash, the bank's loans and the seller's account balance to the dollar; a test in src/core2/housing.test.ts covers it and the town's ownership share is reported before and after.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, place and seed named in the PR body) at least one counted renter household is shown by record id to leave its rent part, join the mortgage flow with a mortgage part, and appear as an owner, and the group's cash, the bank's loans and the seller's account balance to the dollar; a test in tests/src/core2/housing.test.ts covers it and the town's ownership share is reported before and after.
 
-**Files.** src/core2/modules/housing.ts, src/core2/residents-economy.ts, src/core2/housing-mortgages.ts, src/core2/counted-money.ts, src/core2/housing.test.ts
+**Files.** src/core2/modules/housing.ts, src/core2/residents-economy.ts, src/core2/housing-mortgages.ts, src/core2/counted-money.ts, tests/src/core2/housing.test.ts
 
 **Notes.** Found Oct 20 (claude/political-game-pool-yucp92-al): the diff of origin/claude/counted-renters-buy against main is two files, docs/pool/items/world-counted-renters-buy.md and a release note. Whoever owns world-counted-renters-buy can fold this item into it; until then this makes the work claimable.
 

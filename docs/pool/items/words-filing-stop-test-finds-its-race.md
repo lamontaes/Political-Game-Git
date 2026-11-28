@@ -19,6 +19,6 @@ claimed-at: 2026-11-04T18:20:27.306Z
 
 **Done when.** On the seed that failed (a4e1ae7d7311f88891bc0580d016a18aa617c3c4) the test passes: a filing scene with the office's clerk and campaign stops whose crowds are the speeches' recorded audiences.
 
-**Files.** src/director/electoral-scenes.test.ts
+**Files.** tests/src/director/electoral-scenes.test.ts
 
 **Notes.** TODO

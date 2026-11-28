@@ -21,7 +21,7 @@ OD = "src/core2/modules/office-day.ts"
 IG = "src/core2/modules/interest-groups.ts"
 MT = "src/core2/modules/meetings.ts"
 ST = "src/core2/modules/staff.ts"
-BS = "src/core2/office-day-budget-season.test.ts"
+BS = "tests/src/core2/office-day-budget-season.test.ts"
 TY = "src/core2/types.ts"
 leg, od, ig, mt, ty, st, bs = (open(p).read() for p in (LEG, OD, IG, MT, TY, ST, BS))
 if "hearingWitnesses: hearingWitnesses" in ig:

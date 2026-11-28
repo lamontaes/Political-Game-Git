@@ -3015,11 +3015,11 @@
     },
     {
       "file": "docs/play-first/shots/play-clerk-choices-designed/counter-1440x900.png",
-      "reason": "Live or protected proof: src/bench/filing.browser.mjs"
+      "reason": "Live or protected proof: tests/src/bench/filing.browser.mjs"
     },
     {
       "file": "docs/play-first/shots/play-first-12-politics-screen-to-mock-a/state-switched.png",
-      "reason": "Live or protected proof: src/bench/politics.browser.mjs"
+      "reason": "Live or protected proof: tests/src/bench/politics.browser.mjs"
     },
     {
       "file": "docs/play-first/shots/play-governor-races-on-screen/governors-1440.png",
@@ -3127,7 +3127,7 @@
     },
     {
       "file": "docs/play-first/shots/sitting-oct28/29-counter-no-panels.png",
-      "reason": "Live or protected proof: src/bench/filing.browser.mjs"
+      "reason": "Live or protected proof: tests/src/bench/filing.browser.mjs"
     },
     {
       "file": "docs/play-first/shots/work-scenes-2026-11-24/first-day-ludlow-vt.png",
@@ -3187,7 +3187,7 @@
     },
     {
       "file": "docs/reports/advanced-start-2026-10-27/advanced.png",
-      "reason": "Live or protected proof: src/bench/advanced.browser.mjs"
+      "reason": "Live or protected proof: tests/src/bench/advanced.browser.mjs"
     },
     {
       "file": "docs/reports/advanced-start-2026-10-27/before-new-game.png",
@@ -3195,23 +3195,23 @@
     },
     {
       "file": "docs/reports/advanced-start-2026-10-27/new-game.png",
-      "reason": "Live or protected proof: src/bench/advanced.browser.mjs"
+      "reason": "Live or protected proof: tests/src/bench/advanced.browser.mjs"
     },
     {
       "file": "docs/reports/advanced-start-2026-10-27/pick.png",
-      "reason": "Live or protected proof: src/bench/advanced.browser.mjs"
+      "reason": "Live or protected proof: tests/src/bench/advanced.browser.mjs"
     },
     {
       "file": "docs/reports/advanced-start-2026-10-27/playing-as.png",
-      "reason": "Live or protected proof: src/bench/advanced.browser.mjs"
+      "reason": "Live or protected proof: tests/src/bench/advanced.browser.mjs"
     },
     {
       "file": "docs/reports/ballot-pages-2026-10-24/after-mark.png",
-      "reason": "Live or protected proof: src/bench/polling.browser.mjs"
+      "reason": "Live or protected proof: tests/src/bench/polling.browser.mjs"
     },
     {
       "file": "docs/reports/ballot-pages-2026-10-24/before-ballot.png",
-      "reason": "Live or protected proof: src/bench/polling.browser.mjs"
+      "reason": "Live or protected proof: tests/src/bench/polling.browser.mjs"
     },
     {
       "file": "docs/reports/ballot-pages-2026-10-24/before-filed.png",
@@ -3219,15 +3219,15 @@
     },
     {
       "file": "docs/reports/ballot-pages-2026-10-24/calendar-nov.png",
-      "reason": "Live or protected proof: src/bench/polling.browser.mjs"
+      "reason": "Live or protected proof: tests/src/bench/polling.browser.mjs"
     },
     {
       "file": "docs/reports/ballot-pages-2026-10-24/election-day.png",
-      "reason": "Live or protected proof: src/bench/polling.browser.mjs"
+      "reason": "Live or protected proof: tests/src/bench/polling.browser.mjs"
     },
     {
       "file": "docs/reports/ballot-pages-2026-10-24/own-race.png",
-      "reason": "Live or protected proof: src/bench/polling.browser.mjs"
+      "reason": "Live or protected proof: tests/src/bench/polling.browser.mjs"
     },
     {
       "file": "docs/reports/ballot-pages-2026-10-24/politics.png",
@@ -3239,11 +3239,11 @@
     },
     {
       "file": "docs/reports/campaign-controls-2026-10-20/campaigns.png",
-      "reason": "Live or protected proof: src/bench/campaign.browser.mjs"
+      "reason": "Live or protected proof: tests/src/bench/campaign.browser.mjs"
     },
     {
       "file": "docs/reports/campaign-controls-2026-10-20/trail.png",
-      "reason": "Live or protected proof: src/bench/campaign.browser.mjs"
+      "reason": "Live or protected proof: tests/src/bench/campaign.browser.mjs"
     },
     {
       "file": "docs/reports/carcass-2026-10-28.md",
@@ -3815,7 +3815,7 @@
     },
     {
       "file": "docs/reports/money-layout/money.png",
-      "reason": "Live or protected proof: src/bench/money.browser.mjs"
+      "reason": "Live or protected proof: tests/src/bench/money.browser.mjs"
     },
     {
       "file": "docs/reports/morning-2026-10-28.md",
@@ -4612,7 +4612,7 @@
     {
       "file": "src/bench/dev-views/director-day.ts",
       "name": "src/bench/dev-views/director-day.ts",
-      "reason": "Named outside itself by src/bench/dev-director-day.browser.mjs"
+      "reason": "Named outside itself by tests/src/bench/dev-director-day.browser.mjs"
     },
     {
       "file": "src/bench/dev-views/health-plans.ts",
@@ -4730,17 +4730,17 @@
       "reason": "Configuration, authoring, type companion, test, or dynamic loader surface."
     },
     {
-      "file": "src/bench/budgets-history.browser.mjs",
+      "file": "tests/src/bench/budgets-history.browser.mjs",
       "name": "/ui/trend-line.mjs",
       "reason": "Resolve the loader's runtime route before treating this as a missing subject."
     },
     {
-      "file": "src/bench/popup-stays.browser.mjs",
+      "file": "tests/src/bench/popup-stays.browser.mjs",
       "name": "/ui/toast.mjs",
       "reason": "Resolve the loader's runtime route before treating this as a missing subject."
     },
     {
-      "file": "src/bench/popups-held.browser.mjs",
+      "file": "tests/src/bench/popups-held.browser.mjs",
       "name": "/ui/toast.mjs",
       "reason": "Resolve the loader's runtime route before treating this as a missing subject."
     },
@@ -5002,12 +5002,12 @@
     {
       "file": "src/core2/modules/voting.ts",
       "name": "openNextCycle",
-      "reason": "Matching identifier outside its declaration: src/bench/world-modules.test.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/bench/world-modules.test.ts"
     },
     {
       "file": "src/core2/modules/voting.ts",
       "name": "campaignFor",
-      "reason": "Matching identifier outside its declaration: scripts/dev-tests/campaign-events-played.ts, src/bench/announce-before-filing.test.ts, src/bench/campaign-day-controls.test.ts, src/bench/campaign-mail.test.ts, src/bench/campaign-team.test.ts, src/bench/campaign.ts, src/bench/dev-mode.ts, src/bench/donor-calls.test.ts"
+      "reason": "Matching identifier outside its declaration: scripts/dev-tests/campaign-events-played.ts, tests/src/bench/announce-before-filing.test.ts, tests/src/bench/campaign-day-controls.test.ts, tests/src/bench/campaign-mail.test.ts, tests/src/bench/campaign-team.test.ts, src/bench/campaign.ts, src/bench/dev-mode.ts, tests/src/bench/donor-calls.test.ts"
     },
     {
       "file": "src/core2/modules/voting.ts",
@@ -5017,12 +5017,12 @@
     {
       "file": "src/core2/modules/voting.ts",
       "name": "setOpeningLean",
-      "reason": "Matching identifier outside its declaration: src/core2/place-leans.test.ts, src/core2/place-leans.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/place-leans.test.ts, src/core2/place-leans.ts"
     },
     {
       "file": "src/core2/modules/voting.ts",
       "name": "nameRunningMate",
-      "reason": "Matching identifier outside its declaration: src/core2/campaign-platform-played.test.ts, src/core2/campaign-running-mate-platform.test.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/campaign-platform-played.test.ts, tests/src/core2/campaign-running-mate-platform.test.ts"
     },
     {
       "file": "src/core2/modules/offices.ts",
@@ -5032,7 +5032,7 @@
     {
       "file": "src/core2/modules/offices.ts",
       "name": "recordedRaceShare",
-      "reason": "Matching identifier outside its declaration: src/bench/dev-views/opening-sources.json, src/core2/offices-past-results.test.ts, src/core2/offices-past-results.ts"
+      "reason": "Matching identifier outside its declaration: src/bench/dev-views/opening-sources.json, tests/src/core2/offices-past-results.test.ts, src/core2/offices-past-results.ts"
     },
     {
       "file": "src/core2/modules/offices.ts",
@@ -5057,17 +5057,17 @@
     {
       "file": "src/core2/modules/budgets.ts",
       "name": "syncSalesTax",
-      "reason": "Matching identifier outside its declaration: src/core2/data/laws/sales-tax-base.json, src/core2/data/outcome-web/coverage.json, src/core2/law-wiring-prices.test.ts, src/core2/sales-tax-base.test.ts"
+      "reason": "Matching identifier outside its declaration: src/core2/data/laws/sales-tax-base.json, src/core2/data/outcome-web/coverage.json, tests/src/core2/law-wiring-prices.test.ts, tests/src/core2/sales-tax-base.test.ts"
     },
     {
       "file": "src/core2/modules/budgets.ts",
       "name": "medianTransactionBalance",
-      "reason": "Matching identifier outside its declaration: .agents/skills/red-main/SKILL.md, .claude/skills/red-main/SKILL.md, src/bench/dev-views/opening-sources.json, src/core2/central-bank-board.ts, src/core2/data/campaigns/parameters.json, src/core2/data/stopgaps/gov.json, src/core2/household-balance-draw.ts, src/core2/macro.test.ts"
+      "reason": "Matching identifier outside its declaration: .agents/skills/red-main/SKILL.md, .claude/skills/red-main/SKILL.md, src/bench/dev-views/opening-sources.json, src/core2/central-bank-board.ts, src/core2/data/campaigns/parameters.json, src/core2/data/stopgaps/gov.json, src/core2/household-balance-draw.ts, tests/src/core2/macro.test.ts"
     },
     {
       "file": "src/core2/modules/budgets.ts",
       "name": "depositsHeld",
-      "reason": "Matching identifier outside its declaration: src/core2/accounts.ts, src/core2/bank-deposits.test.ts, src/core2/business.test.ts, src/core2/counted-group-savings.test.ts, src/core2/counted-money.ts, src/core2/deposit-reserve-weighted.test.ts, src/core2/modules/business.ts, src/core2/modules/housing.ts"
+      "reason": "Matching identifier outside its declaration: src/core2/accounts.ts, tests/src/core2/bank-deposits.test.ts, tests/src/core2/business.test.ts, tests/src/core2/counted-group-savings.test.ts, src/core2/counted-money.ts, tests/src/core2/deposit-reserve-weighted.test.ts, src/core2/modules/business.ts, src/core2/modules/housing.ts"
     },
     {
       "file": "src/core2/stopgaps.ts",
@@ -5087,7 +5087,7 @@
     {
       "file": "src/core2/modules/laws.ts",
       "name": "policySeriesAtLevel",
-      "reason": "Matching identifier outside its declaration: src/core2/canonical-policy-topics.test.ts, src/core2/modules/legislature.ts, src/core2/policy-answers.ts, src/core2/policy-authority.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/canonical-policy-topics.test.ts, src/core2/modules/legislature.ts, src/core2/policy-answers.ts, src/core2/policy-authority.ts"
     },
     {
       "file": "src/core2/laws-starting.ts",
@@ -5097,12 +5097,12 @@
     {
       "file": "src/core2/laws-starting.ts",
       "name": "lawRowId",
-      "reason": "Matching identifier outside its declaration: .agents/skills/dev-tester/SKILL.md, .claude/skills/dev-tester/SKILL.md, src/core2/housing-property-tax.test.ts, src/core2/housing-property-tax.ts, src/core2/law-reach/group-b-money.ts, src/core2/law-reach/group-b.ts, src/core2/modules/budgets.ts, src/core2/modules/employer-taxes.ts"
+      "reason": "Matching identifier outside its declaration: .agents/skills/dev-tester/SKILL.md, .claude/skills/dev-tester/SKILL.md, tests/src/core2/housing-property-tax.test.ts, src/core2/housing-property-tax.ts, src/core2/law-reach/group-b-money.ts, src/core2/law-reach/group-b.ts, src/core2/modules/budgets.ts, src/core2/modules/employer-taxes.ts"
     },
     {
       "file": "src/core2/modules/elections.ts",
       "name": "centuryLegislatures",
-      "reason": "Matching identifier outside its declaration: src/core2/electorate-century-laws.test.ts, src/core2/electorate-century-legislatures.test.ts, src/core2/electorate-century.ts, src/core2/legislative-district-results.test.ts, src/core2/offices-state.test.ts, tests/guards/one-history.test.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/electorate-century-laws.test.ts, tests/src/core2/electorate-century-legislatures.test.ts, src/core2/electorate-century.ts, tests/src/core2/legislative-district-results.test.ts, tests/src/core2/offices-state.test.ts, tests/guards/one-history.test.ts"
     },
     {
       "file": "src/core2/modules/elections.ts",
@@ -5117,12 +5117,12 @@
     {
       "file": "src/core2/modules/elections.ts",
       "name": "countyPlaceIdOf",
-      "reason": "Matching identifier outside its declaration: src/core2/county-race-county-votes.test.ts, src/core2/electorate-places.ts, src/core2/opening-county-sample.test.ts, src/core2/race-places.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/county-race-county-votes.test.ts, src/core2/electorate-places.ts, tests/src/core2/opening-county-sample.test.ts, src/core2/race-places.ts"
     },
     {
       "file": "src/core2/modules/elections.ts",
       "name": "countyPlaceOfWorld",
-      "reason": "Matching identifier outside its declaration: src/core2/county-seat-residency.test.ts, src/core2/electorate-places.ts, src/core2/opening-county-sample.test.ts, src/core2/opening-roles.test.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/county-seat-residency.test.ts, src/core2/electorate-places.ts, tests/src/core2/opening-county-sample.test.ts, tests/src/core2/opening-roles.test.ts"
     },
     {
       "file": "src/core2/modules/elections.ts",
@@ -5182,12 +5182,12 @@
     {
       "file": "src/core2/modules/campaigns.ts",
       "name": "ContestRow",
-      "reason": "Matching identifier outside its declaration: scripts/dev-tests/elections.ts, scripts/elections/two-level-places.ts, scripts/law-wiring/calibrate-revolving-door.ts, scripts/research/elections-year.ts, scripts/traits/trait-wiring-audit.ts, scripts/words/donor-walk.ts, src/bench/announce-before-filing.test.ts, src/bench/calendar.ts"
+      "reason": "Matching identifier outside its declaration: scripts/dev-tests/elections.ts, scripts/elections/two-level-places.ts, scripts/law-wiring/calibrate-revolving-door.ts, scripts/research/elections-year.ts, scripts/traits/trait-wiring-audit.ts, scripts/words/donor-walk.ts, tests/src/bench/announce-before-filing.test.ts, src/bench/calendar.ts"
     },
     {
       "file": "src/core2/modules/jobs.ts",
       "name": "schoolingWeekly",
-      "reason": "Matching identifier outside its declaration: src/core2/data/outcome-web/coverage.json, src/core2/data/stopgaps/web.json, src/core2/jobs-graduation-income.test.ts, src/core2/jobs-schooling-pay.test.ts"
+      "reason": "Matching identifier outside its declaration: src/core2/data/outcome-web/coverage.json, src/core2/data/stopgaps/web.json, tests/src/core2/jobs-graduation-income.test.ts, tests/src/core2/jobs-schooling-pay.test.ts"
     },
     {
       "file": "src/core2/modules/national-opinion.ts",
@@ -5197,7 +5197,7 @@
     {
       "file": "src/core2/modules/national-opinion.ts",
       "name": "opinionParameter",
-      "reason": "Matching identifier outside its declaration: src/core2/outcome-web-civic-carried.test.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/outcome-web-civic-carried.test.ts"
     },
     {
       "file": "src/core2/modules/press.ts",
@@ -5217,12 +5217,12 @@
     {
       "file": "src/core2/snapshot.ts",
       "name": "encode",
-      "reason": "Matching identifier outside its declaration: .agents/rules/political-game-operations.md, .agents/rules/repository-reference.md, PATCH_NOTES.md, scripts/backdrops/import-place-backdrops.mjs, src/core2/counted-groups-exact-traits.test.ts, src/core2/snapshot-seal.test.ts, scripts/core2/tooling/measured-json.ts"
+      "reason": "Matching identifier outside its declaration: .agents/rules/political-game-operations.md, .agents/rules/repository-reference.md, PATCH_NOTES.md, scripts/backdrops/import-place-backdrops.mjs, tests/src/core2/counted-groups-exact-traits.test.ts, tests/src/core2/snapshot-seal.test.ts, scripts/core2/tooling/measured-json.ts"
     },
     {
       "file": "src/core2/office-day-state.ts",
       "name": "lineItemVetoOf",
-      "reason": "Matching identifier outside its declaration: src/core2/modules/legislature.ts, src/core2/state-item-veto.test.ts, src/core2/state-item-veto.ts"
+      "reason": "Matching identifier outside its declaration: src/core2/modules/legislature.ts, tests/src/core2/state-item-veto.test.ts, src/core2/state-item-veto.ts"
     },
     {
       "file": "src/core2/modules/office-day.ts",
@@ -5237,7 +5237,7 @@
     {
       "file": "src/core2/office-day-federal.ts",
       "name": "floorOn",
-      "reason": "Matching identifier outside its declaration: src/core2/bill-floor-date-gaps.test.ts, src/core2/modules/legislature.ts, src/core2/modules/world-legislating.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/bill-floor-date-gaps.test.ts, src/core2/modules/legislature.ts, src/core2/modules/world-legislating.ts"
     },
     {
       "file": "src/core2/office-day-federal.ts",
@@ -5247,7 +5247,7 @@
     {
       "file": "src/core2/office-day-federal.ts",
       "name": "openFiling",
-      "reason": "Matching identifier outside its declaration: src/bench/filing.browser.mjs, src/bench/play.mjs"
+      "reason": "Matching identifier outside its declaration: tests/src/bench/filing.browser.mjs, src/bench/play.mjs"
     },
     {
       "file": "src/core2/office-day-federal.ts",
@@ -5262,7 +5262,7 @@
     {
       "file": "src/core2/modules/serve-asks.ts",
       "name": "asksFor",
-      "reason": "Matching identifier outside its declaration: src/core2/campaign-volunteer-ask.test.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/campaign-volunteer-ask.test.ts"
     },
     {
       "file": "src/core2/office-day-federal-president.ts",
@@ -5282,22 +5282,22 @@
     {
       "file": "src/core2/past-module.ts",
       "name": "PAST_ARRESTED",
-      "reason": "Matching identifier outside its declaration: src/core2/past-justice.test.ts, src/core2/past-justice.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/past-justice.test.ts, src/core2/past-justice.ts"
     },
     {
       "file": "src/core2/past-module.ts",
       "name": "PAST_CONVICTED",
-      "reason": "Matching identifier outside its declaration: src/core2/past-justice.test.ts, src/core2/past-justice.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/past-justice.test.ts, src/core2/past-justice.ts"
     },
     {
       "file": "src/core2/past-module.ts",
       "name": "PAST_IMPRISONED",
-      "reason": "Matching identifier outside its declaration: src/core2/past-justice.test.ts, src/core2/past-justice.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/past-justice.test.ts, src/core2/past-justice.ts"
     },
     {
       "file": "src/core2/past-module.ts",
       "name": "PAST_RELEASED",
-      "reason": "Matching identifier outside its declaration: src/core2/past-justice.test.ts, src/core2/past-justice.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/past-justice.test.ts, src/core2/past-justice.ts"
     },
     {
       "file": "src/core2/past-module.ts",
@@ -5322,22 +5322,22 @@
     {
       "file": "src/core2/past-module.ts",
       "name": "PAST_DISCHARGED",
-      "reason": "Matching identifier outside its declaration: src/core2/past-military.test.ts, src/core2/past-military.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/past-military.test.ts, src/core2/past-military.ts"
     },
     {
       "file": "src/core2/past-module.ts",
       "name": "PAST_ENLISTED",
-      "reason": "Matching identifier outside its declaration: src/core2/past-military.test.ts, src/core2/past-military.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/past-military.test.ts, src/core2/past-military.ts"
     },
     {
       "file": "src/core2/past-module.ts",
       "name": "COLLEGE_ENDED",
-      "reason": "Matching identifier outside its declaration: src/core2/past-school-end.test.ts, src/core2/past-school.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/past-school-end.test.ts, src/core2/past-school.ts"
     },
     {
       "file": "src/core2/past-module.ts",
       "name": "COLLEGE_STARTED",
-      "reason": "Matching identifier outside its declaration: src/core2/past-school-end.test.ts, src/core2/past-school.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/past-school-end.test.ts, src/core2/past-school.ts"
     },
     {
       "file": "src/core2/past-module.ts",
@@ -5357,7 +5357,7 @@
     {
       "file": "src/core2/closeness.ts",
       "name": "knownPeople",
-      "reason": "Matching identifier outside its declaration: scripts/core2-guard/provisional-step2.mjs, src/bench/dev-views/opening-sources.json, src/bench/dev-views/opening.ts, src/core2/colleagues-company.test.ts, src/core2/modules/people.ts"
+      "reason": "Matching identifier outside its declaration: scripts/core2-guard/provisional-step2.mjs, src/bench/dev-views/opening-sources.json, src/bench/dev-views/opening.ts, tests/src/core2/colleagues-company.test.ts, src/core2/modules/people.ts"
     },
     {
       "file": "src/core2/past.ts",
@@ -5372,7 +5372,7 @@
     {
       "file": "src/core2/modules/business.ts",
       "name": "medicalDebtOf",
-      "reason": "Matching identifier outside its declaration: src/core2/law-wiring-medical-debt.test.ts, src/core2/modules/credit.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/law-wiring-medical-debt.test.ts, src/core2/modules/credit.ts"
     },
     {
       "file": "src/core2/modules/business.ts",
@@ -5387,7 +5387,7 @@
     {
       "file": "src/core2/macro-model.ts",
       "name": "quarterOf",
-      "reason": "Matching identifier outside its declaration: src/core2/jobs-benefits.ts, src/core2/pay-by-quarter.test.ts, src/core2/pay-by-quarter.ts"
+      "reason": "Matching identifier outside its declaration: src/core2/jobs-benefits.ts, tests/src/core2/pay-by-quarter.test.ts, src/core2/pay-by-quarter.ts"
     },
     {
       "file": "src/core2/modules/credit.ts",
@@ -5412,7 +5412,7 @@
     {
       "file": "src/core2/modules/candidacy.ts",
       "name": "takeUnderWing",
-      "reason": "Matching identifier outside its declaration: src/core2/modules/parties.ts, src/core2/party-mentor.test.ts, src/director/circumstance.ts"
+      "reason": "Matching identifier outside its declaration: src/core2/modules/parties.ts, tests/src/core2/party-mentor.test.ts, src/director/circumstance.ts"
     },
     {
       "file": "src/core2/modules/speech.ts",
@@ -5422,7 +5422,7 @@
     {
       "file": "src/core2/outcome-web-model.ts",
       "name": "ownerOf",
-      "reason": "Matching identifier outside its declaration: scripts/guards/write-no-steering-baseline.ts, scripts/stopgaps-report.mjs, scripts/stopgaps-report.test.ts, scripts/words/bribe-walk.ts, src/bench/dev-views/dev-closing.ts, src/core2/accounts.ts, src/core2/business.test.ts, src/core2/country-town-part.test.ts"
+      "reason": "Matching identifier outside its declaration: scripts/guards/write-no-steering-baseline.ts, scripts/stopgaps-report.mjs, scripts/stopgaps-report.test.ts, scripts/words/bribe-walk.ts, src/bench/dev-views/dev-closing.ts, src/core2/accounts.ts, tests/src/core2/business.test.ts, tests/src/core2/country-town-part.test.ts"
     },
     {
       "file": "src/core2/outcome-web-model.ts",
@@ -5452,17 +5452,17 @@
     {
       "file": "src/core2/modules/justice.ts",
       "name": "casesOf",
-      "reason": "Matching identifier outside its declaration: src/core2/justice-witness.test.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/justice-witness.test.ts"
     },
     {
       "file": "src/core2/counted-groups.ts",
       "name": "AGE_BANDS",
-      "reason": "Matching identifier outside its declaration: scripts/credit/derive-student-loan-seed.ts, src/core2/student-loan-seed.test.ts"
+      "reason": "Matching identifier outside its declaration: scripts/credit/derive-student-loan-seed.ts, tests/src/core2/student-loan-seed.test.ts"
     },
     {
       "file": "src/core2/counted-groups.ts",
       "name": "groupId",
-      "reason": "Matching identifier outside its declaration: src/bench/dev-trace.ts, src/core2/counted-moves-town.test.ts, src/core2/counted-news-views.ts, src/core2/counted-policy-delivery.test.ts, src/core2/counted-reach.ts, src/core2/counted-stance-agreement.test.ts, src/core2/finance-public-customer-cash.test.ts, src/core2/finance-supplied-customer-cash.test.ts"
+      "reason": "Matching identifier outside its declaration: src/bench/dev-trace.ts, tests/src/core2/counted-moves-town.test.ts, src/core2/counted-news-views.ts, tests/src/core2/counted-policy-delivery.test.ts, src/core2/counted-reach.ts, tests/src/core2/counted-stance-agreement.test.ts, tests/src/core2/finance-public-customer-cash.test.ts, tests/src/core2/finance-supplied-customer-cash.test.ts"
     },
     {
       "file": "src/core2/modules/officials.ts",
@@ -5477,27 +5477,27 @@
     {
       "file": "src/core2/modules/promises.ts",
       "name": "promisesOf",
-      "reason": "Matching identifier outside its declaration: src/bench/campaign.ts, src/bench/dev-views/promises.ts, src/core2/modules/campaigns.ts, src/core2/modules/people.ts, src/core2/modules/press.ts, src/core2/modules/record.ts, src/core2/modules/voting.ts, src/core2/past.test.ts"
+      "reason": "Matching identifier outside its declaration: src/bench/campaign.ts, src/bench/dev-views/promises.ts, src/core2/modules/campaigns.ts, src/core2/modules/people.ts, src/core2/modules/press.ts, src/core2/modules/record.ts, src/core2/modules/voting.ts, tests/src/core2/past.test.ts"
     },
     {
       "file": "src/core2/candidate-pool.ts",
       "name": "CANDIDACY_MODULE_ID",
-      "reason": "Matching identifier outside its declaration: scripts/dev-tests/county-zero.ts, scripts/dev-tests/pull-spread.ts, src/bench/rivals-announce.test.ts, src/core2/at-large-race.test.ts, src/core2/candidacy-decision-retention.test.ts, src/core2/candidacy-in-play.test.ts, src/core2/candidacy-open-seat.test.ts, src/core2/modules/candidacy.ts"
+      "reason": "Matching identifier outside its declaration: scripts/dev-tests/county-zero.ts, scripts/dev-tests/pull-spread.ts, tests/src/bench/rivals-announce.test.ts, tests/src/core2/at-large-race.test.ts, tests/src/core2/candidacy-decision-retention.test.ts, tests/src/core2/candidacy-in-play.test.ts, tests/src/core2/candidacy-open-seat.test.ts, src/core2/modules/candidacy.ts"
     },
     {
       "file": "src/core2/candidate-pool.ts",
       "name": "CANDIDACY_PARAMETERS",
-      "reason": "Matching identifier outside its declaration: scripts/law-wiring/calibrate-revolving-door.ts, src/core2/candidacy-open-seat.test.ts, src/core2/candidacy.test.ts, src/core2/modules/candidacy.ts, src/core2/who-runs.test.ts"
+      "reason": "Matching identifier outside its declaration: scripts/law-wiring/calibrate-revolving-door.ts, tests/src/core2/candidacy-open-seat.test.ts, tests/src/core2/candidacy.test.ts, src/core2/modules/candidacy.ts, tests/src/core2/who-runs.test.ts"
     },
     {
       "file": "src/core2/candidate-pool.ts",
       "name": "sideOf",
-      "reason": "Matching identifier outside its declaration: scripts/traits/trait-end-to-end.test.ts, scripts/bench/m2-10-check.ts, scripts/bench/m2-10-seating.test.ts, scripts/bench/m2-10-seating.ts, src/core2/modules/voting.ts, src/core2/office-day-federal.ts, scripts/core2/tooling/officials-year.ts, src/core2/world-races.test.ts"
+      "reason": "Matching identifier outside its declaration: scripts/traits/trait-end-to-end.test.ts, scripts/bench/m2-10-check.ts, scripts/bench/m2-10-seating.test.ts, scripts/bench/m2-10-seating.ts, src/core2/modules/voting.ts, src/core2/office-day-federal.ts, scripts/core2/tooling/officials-year.ts, tests/src/core2/world-races.test.ts"
     },
     {
       "file": "src/core2/modules/drives.ts",
       "name": "perceive",
-      "reason": "Matching identifier outside its declaration: src/core2/data/stopgaps/world.json, src/core2/drives-counted-illness.test.ts, src/core2/modules/jobs.ts"
+      "reason": "Matching identifier outside its declaration: src/core2/data/stopgaps/world.json, tests/src/core2/drives-counted-illness.test.ts, src/core2/modules/jobs.ts"
     },
     {
       "file": "src/core2/modules/drives.ts",
@@ -5512,7 +5512,7 @@
     {
       "file": "src/core2/law-reach/group-a-records.ts",
       "name": "endRows",
-      "reason": "Matching identifier outside its declaration: src/core2/state-session-end-effective.test.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/state-session-end-effective.test.ts"
     },
     {
       "file": "tests/support/campaign-incumbent-response-test-kit.ts",
@@ -5532,7 +5532,7 @@
     {
       "file": "src/core2/modules/work.ts",
       "name": "DEFAULT_WORK_DATA",
-      "reason": "Matching identifier outside its declaration: src/core2/data.ts, src/core2/work-data-native-import.test.ts, src/core2/work-data.ts"
+      "reason": "Matching identifier outside its declaration: src/core2/data.ts, tests/src/core2/work-data-native-import.test.ts, src/core2/work-data.ts"
     },
     {
       "file": "src/core2/modules/place-prices.ts",
@@ -5547,7 +5547,7 @@
     {
       "file": "tests/support/trait-test-kit.ts",
       "name": "THIRDS_APART",
-      "reason": "Matching identifier outside its declaration: scripts/traits/trait-targets.ts, src/core2/modules/campaigns.traits.test.ts"
+      "reason": "Matching identifier outside its declaration: scripts/traits/trait-targets.ts, tests/src/core2/modules/campaigns.traits.test.ts"
     },
     {
       "file": "src/core2/kernel/rng.ts",
@@ -5567,7 +5567,7 @@
     {
       "file": "src/core2/death-cause.ts",
       "name": "ageBandOf",
-      "reason": "Matching identifier outside its declaration: src/bench/voting-age-row.test.ts, src/bench/whole-figures.ts, src/core2/counted-groups.ts, src/core2/modules/residents.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/bench/voting-age-row.test.ts, src/bench/whole-figures.ts, src/core2/counted-groups.ts, src/core2/modules/residents.ts"
     },
     {
       "file": "src/core2/estates.ts",
@@ -5577,7 +5577,7 @@
     {
       "file": "src/core2/estates.ts",
       "name": "willReasons",
-      "reason": "Matching identifier outside its declaration: src/core2/data/parameters.json, src/core2/estates-heirs-fixed-at-death.test.ts, src/core2/estates.test.ts"
+      "reason": "Matching identifier outside its declaration: src/core2/data/parameters.json, tests/src/core2/estates-heirs-fixed-at-death.test.ts, tests/src/core2/estates.test.ts"
     },
     {
       "file": "src/core2/law-reach/group-a-voting.ts",
@@ -5587,12 +5587,12 @@
     {
       "file": "src/core2/law-reach/group-a-voting.ts",
       "name": "TERM_LIMITS",
-      "reason": "Matching identifier outside its declaration: src/core2/law-reach/voting-keys.ts, src/core2/modules/offices.ts, src/core2/offices-every-legislature.test.ts"
+      "reason": "Matching identifier outside its declaration: src/core2/law-reach/voting-keys.ts, src/core2/modules/offices.ts, tests/src/core2/offices-every-legislature.test.ts"
     },
     {
       "file": "src/core2/law-reach/group-a-voting.ts",
       "name": "LOBBYING_BAN",
-      "reason": "Matching identifier outside its declaration: src/core2/law-reach/voting-keys.ts, src/core2/lobbying-departure.test.ts"
+      "reason": "Matching identifier outside its declaration: src/core2/law-reach/voting-keys.ts, tests/src/core2/lobbying-departure.test.ts"
     },
     {
       "file": "src/core2/electorate-century.ts",
@@ -5602,7 +5602,7 @@
     {
       "file": "src/core2/electorate-century.ts",
       "name": "termStartAfter",
-      "reason": "Matching identifier outside its declaration: src/core2/data/elections/term-starts.json, src/core2/elections-calendar.ts, src/core2/elections-law.test.ts, src/core2/modules/elections.ts, src/core2/modules/offices.ts, src/core2/modules/voting.ts, src/core2/terms-and-vacancies.test.ts, src/core2/town-term-start.test.ts"
+      "reason": "Matching identifier outside its declaration: src/core2/data/elections/term-starts.json, src/core2/elections-calendar.ts, tests/src/core2/elections-law.test.ts, src/core2/modules/elections.ts, src/core2/modules/offices.ts, src/core2/modules/voting.ts, tests/src/core2/terms-and-vacancies.test.ts, tests/src/core2/town-term-start.test.ts"
     },
     {
       "file": "src/core2/law-reach/group-b-money.ts",
@@ -5617,12 +5617,12 @@
     {
       "file": "scripts/core2/tooling/m1-played-year.ts",
       "name": "nextDay",
-      "reason": "Matching identifier outside its declaration: src/core2/campaigns.test.ts, src/core2/finance-writer-contract.test.ts, src/core2/leadership-membership-kept.test.ts, src/core2/life.test.ts, src/core2/person-life.test.ts, src/core2/player-v1.ts, src/core2/public-work-pay.test.ts, scripts/core2/tooling/finance-observables.test.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/campaigns.test.ts, tests/src/core2/finance-writer-contract.test.ts, tests/src/core2/leadership-membership-kept.test.ts, tests/src/core2/life.test.ts, tests/src/core2/person-life.test.ts, src/core2/player-v1.ts, tests/src/core2/public-work-pay.test.ts, scripts/core2/tooling/finance-observables.test.ts"
     },
     {
       "file": "scripts/core2/tooling/m1-played-year.ts",
       "name": "playYear",
-      "reason": "Matching identifier outside its declaration: scripts/traits/trait-end-to-end.test.ts, src/core2/campaign-platform-played.test.ts, src/core2/counted-rent-transfer-read.test.ts, src/core2/disasters-no-market.test.ts, src/core2/housing-counted-renter-rate.test.ts, src/core2/housing-rehouse-left-household.test.ts, src/core2/jobs-pay-growth.traits.test.ts, src/core2/player-money.test.ts"
+      "reason": "Matching identifier outside its declaration: scripts/traits/trait-end-to-end.test.ts, tests/src/core2/campaign-platform-played.test.ts, tests/src/core2/counted-rent-transfer-read.test.ts, tests/src/core2/disasters-no-market.test.ts, tests/src/core2/housing-counted-renter-rate.test.ts, tests/src/core2/housing-rehouse-left-household.test.ts, tests/src/core2/jobs-pay-growth.traits.test.ts, tests/src/core2/player-money.test.ts"
     },
     {
       "file": "scripts/core2/tooling/m1-played-year.ts",
@@ -5637,12 +5637,12 @@
     {
       "file": "src/core2/jobs-web.ts",
       "name": "factsOf",
-      "reason": "Matching identifier outside its declaration: desktop/scripts/check-release-feed.mjs, desktop/tests/release-feed.test.mjs, scripts/words/scene-paths.ts, src/bench/play.mjs, src/core2/counted-groups.ts, src/core2/counted-news-views.ts, src/core2/housing-counted-buy.test.ts, src/core2/housing-counted-buy.ts"
+      "reason": "Matching identifier outside its declaration: desktop/scripts/check-release-feed.mjs, desktop/tests/release-feed.test.mjs, scripts/words/scene-paths.ts, src/bench/play.mjs, src/core2/counted-groups.ts, src/core2/counted-news-views.ts, tests/src/core2/housing-counted-buy.test.ts, src/core2/housing-counted-buy.ts"
     },
     {
       "file": "src/core2/law-reach/group-b-food-aid.ts",
       "name": "FOOD_AID_KEY",
-      "reason": "Matching identifier outside its declaration: src/core2/outcome-web-public-finance.test.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/outcome-web-public-finance.test.ts"
     },
     {
       "file": "src/core2/gov-rules/local-governing-body-rules.ts",
@@ -5702,7 +5702,7 @@
     {
       "file": "src/core2/kernel/deterministic-math.ts",
       "name": "logit",
-      "reason": "Matching identifier outside its declaration: scripts/traits/trait-targets.ts, src/core2/campaign-platform-played.test.ts, src/core2/data/business/parameters.json, src/core2/data/housing/parameters.json, src/core2/data/jobs/parameters.json, src/core2/data/parameters.json, src/core2/electorate.ts, src/core2/modules/campaigns.traits.test.ts"
+      "reason": "Matching identifier outside its declaration: scripts/traits/trait-targets.ts, tests/src/core2/campaign-platform-played.test.ts, src/core2/data/business/parameters.json, src/core2/data/housing/parameters.json, src/core2/data/jobs/parameters.json, src/core2/data/parameters.json, src/core2/electorate.ts, tests/src/core2/modules/campaigns.traits.test.ts"
     },
     {
       "file": "src/core2/kernel/deterministic-math.ts",
@@ -5842,7 +5842,7 @@
     {
       "file": "src/core2/office-day-acts.ts",
       "name": "ModuleRow",
-      "reason": "Matching identifier outside its declaration: src/bench/phase-in.test.ts, src/core2/births-counted.ts, src/core2/budgets-service-charges.ts, src/core2/budgets-treasury.ts, src/core2/business-charges.ts, src/core2/campaign-day.test.ts, src/core2/campaign-day.ts, tests/support/campaign-incumbent-response-test-kit.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/bench/phase-in.test.ts, src/core2/births-counted.ts, src/core2/budgets-service-charges.ts, src/core2/budgets-treasury.ts, src/core2/business-charges.ts, tests/src/core2/campaign-day.test.ts, src/core2/campaign-day.ts, tests/support/campaign-incumbent-response-test-kit.ts"
     },
     {
       "file": "src/core2/modules/people.ts",
@@ -5902,12 +5902,12 @@
     {
       "file": "src/core2/grief.ts",
       "name": "Bereavement",
-      "reason": "Matching identifier outside its declaration: src/core2/drives-counted-job-loss.test.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/drives-counted-job-loss.test.ts"
     },
     {
       "file": "src/core2/counted-reach.ts",
       "name": "GroupReach",
-      "reason": "Matching identifier outside its declaration: src/core2/law-reach-group-b.test.ts, src/core2/law-reach/group-b-store.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/law-reach-group-b.test.ts, src/core2/law-reach/group-b-store.ts"
     },
     {
       "file": "src/core2/opening-income.ts",
@@ -6402,7 +6402,7 @@
     {
       "file": "src/english/composed-text.ts",
       "name": "sentencesOf",
-      "reason": "Matching identifier outside its declaration: scripts/dialogue-batch/voice-note-reader.ts, src/director/local-address-versions.test.ts"
+      "reason": "Matching identifier outside its declaration: scripts/dialogue-batch/voice-note-reader.ts, tests/src/director/local-address-versions.test.ts"
     },
     {
       "file": "src/english/scene-talk-words.ts",
@@ -6422,7 +6422,7 @@
     {
       "file": "src/english/answerable-asks.ts",
       "name": "factsOf",
-      "reason": "Matching identifier outside its declaration: desktop/scripts/check-release-feed.mjs, desktop/tests/release-feed.test.mjs, scripts/words/scene-paths.ts, src/bench/play.mjs, src/core2/counted-groups.ts, src/core2/counted-news-views.ts, src/core2/housing-counted-buy.test.ts, src/core2/housing-counted-buy.ts"
+      "reason": "Matching identifier outside its declaration: desktop/scripts/check-release-feed.mjs, desktop/tests/release-feed.test.mjs, scripts/words/scene-paths.ts, src/bench/play.mjs, src/core2/counted-groups.ts, src/core2/counted-news-views.ts, tests/src/core2/housing-counted-buy.test.ts, src/core2/housing-counted-buy.ts"
     },
     {
       "file": "src/english/line-register.ts",
@@ -6802,7 +6802,7 @@
     {
       "file": "scripts/dev-tests/ui-base-period.ts",
       "name": "scripts/dev-tests/ui-base-period.ts",
-      "reason": "Named outside itself by src/core2/unemployment-base-period.test.ts"
+      "reason": "Named outside itself by tests/src/core2/unemployment-base-period.test.ts"
     },
     {
       "file": "scripts/dev-tests/unfilled-term.ts",
@@ -7507,7 +7507,7 @@
     {
       "file": "scripts/pool/order.ts",
       "name": "classOf",
-      "reason": "Matching identifier outside its declaration: scripts/world-proofs/bds-job-flows.ts, scripts/zero-dice-guard.mjs, src/core2/legislature-bill-form.ts, src/core2/public-pay-floor-hire.test.ts"
+      "reason": "Matching identifier outside its declaration: scripts/world-proofs/bds-job-flows.ts, scripts/zero-dice-guard.mjs, src/core2/legislature-bill-form.ts, tests/src/core2/public-pay-floor-hire.test.ts"
     },
     {
       "file": "scripts/pool/order.ts",
@@ -7527,7 +7527,7 @@
     {
       "file": "scripts/pool/standard.ts",
       "name": "causeKind",
-      "reason": "Matching identifier outside its declaration: scripts/dev-tests/door-scenes-played.ts, scripts/dialogue-batch/paper-year.ts, scripts/outcome-web/effect-matrix.ts, scripts/words/force-all-probe.mts, src/bench/card-shared.test.ts, src/bench/dev-mode.ts, src/bench/dev-views/director-day.ts, src/bench/dev-views/scene-trace.ts"
+      "reason": "Matching identifier outside its declaration: scripts/dev-tests/door-scenes-played.ts, scripts/dialogue-batch/paper-year.ts, scripts/outcome-web/effect-matrix.ts, scripts/words/force-all-probe.mts, tests/src/bench/card-shared.test.ts, src/bench/dev-mode.ts, src/bench/dev-views/director-day.ts, src/bench/dev-views/scene-trace.ts"
     },
     {
       "file": "scripts/runtime-text/classify.ts",
@@ -7552,7 +7552,7 @@
     {
       "file": "scripts/dialogue-batch/play-lives.ts",
       "name": "hashOf",
-      "reason": "Matching identifier outside its declaration: src/core2/territory-budget.test.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/territory-budget.test.ts"
     },
     {
       "file": "scripts/dialogue-batch/play-lives.ts",
@@ -7597,7 +7597,7 @@
     {
       "file": "scripts/dialogue-batch/voice-note-reader.ts",
       "name": "partOf",
-      "reason": "Matching identifier outside its declaration: src/core2/country-model.test.ts, src/core2/modules/macro.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/core2/country-model.test.ts, src/core2/modules/macro.ts"
     },
     {
       "file": "scripts/law-wiring/catalog.ts",
@@ -7732,7 +7732,7 @@
     {
       "file": "tests/guards/no-steering-scan.ts",
       "name": "SHAPES",
-      "reason": "Matching identifier outside its declaration: src/director/conversation-said.test.ts, src/director/opening-address.test.ts, tests/guards/kit-only-ui.test.ts, tests/guards/no-steering.test.ts"
+      "reason": "Matching identifier outside its declaration: tests/src/director/conversation-said.test.ts, tests/src/director/opening-address.test.ts, tests/guards/kit-only-ui.test.ts, tests/guards/no-steering.test.ts"
     },
     {
       "file": "tests/traits/support.ts",

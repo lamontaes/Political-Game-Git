@@ -18,7 +18,7 @@ lead: researcher
 
 **Done when.** In a played world in a place drawn from all 56, a foreclosure in a place with no published average runs the days of its process median (174, 2007 or 2293), shown by `housing-foreclosure-days.test.ts` over all 56 places from the data, with the place and seed named and the foreclosure's record id; a place's own published average still wins; the statute's notice days remain the floor; and the stopgap row stays open with revised text for the unread statutes.
 
-**Files.** src/core2/housing-foreclosure.ts, src/core2/housing-foreclosure-days.test.ts, src/core2/data/stopgaps.json
+**Files.** src/core2/housing-foreclosure.ts, tests/src/core2/housing-foreclosure-days.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** A bounded slice of research-stopgaps-oct19-apply, which stays open for the other rows (merger send-back of Oct 20 and Oct 27).
 

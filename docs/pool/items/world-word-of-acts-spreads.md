@@ -29,10 +29,10 @@ Seen: after the player speaks against the town's paper, no one but its staff and
 
 **Rules.** No dice: telling, hearing and believing are each a person's choice from their own record. One rule, all 56 places: every listed act spreads the same way. One model, two tiers: a counted person is not told (as with a speech's retelling today); a counted group's hearing is the next part. Knowing is a read: what a person knows of someone is what they saw and were told, with no reputation table.
 
-**Done when.** A second session starts the bench in a drawn place, speaks against the town's paper through the game's own call, and sees in dev mode that someone who was not there knows it and from whom. `npx vitest run src/core2/word-spreads-played.test.ts` passes there (set WORD_SEED to replay); on main nobody outside the room holds any record of the act.
+**Done when.** A second session starts the bench in a drawn place, speaks against the town's paper through the game's own call, and sees in dev mode that someone who was not there knows it and from whom. `npx vitest run tests/src/core2/word-spreads-played.test.ts` passes there (set WORD_SEED to replay); on main nobody outside the room holds any record of the act.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/speech.ts, src/core2/data/speech/word-kinds.json (new), src/core2/modules/drives.ts, src/core2/data/drives.json, src/core2/word-spreads-played.test.ts (new)
+**Files.** src/core2/modules/speech.ts, src/core2/data/speech/word-kinds.json (new), src/core2/modules/drives.ts, src/core2/data/drives.json, tests/src/core2/word-spreads-played.test.ts (new)
 
 **Notes.** Next: grudge and favor kinds join word-kinds.json as World records them; a retelling's hearers retell it on (one remove only for now); counted hearers as groups (`hearAsGroups`); the act's Trace in dev mode (Laws and effects owns the Trace box).

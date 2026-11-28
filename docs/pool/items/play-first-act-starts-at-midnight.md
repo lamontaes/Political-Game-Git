@@ -19,7 +19,7 @@ claimed-at: 2026-11-01T14:52:50.330Z
 
 **Rules.** Owner, Oct 27: nothing at midnight; the day is lived to its start (playerDayStartMinute, a registered TUNABLE). One rule, all 56 places. Speed: no year more than 20 percent slower.
 
-**Done when.** In a drawn place, a new life files at the counter before pressing Day, and src/bench/filing.browser.mjs shows the card's clock moving from the shown moment by the filing's hours, landing in the day and never after midnight; a test on the player's clock fails on main, with the place and seed named.
+**Done when.** In a drawn place, a new life files at the counter before pressing Day, and tests/src/bench/filing.browser.mjs shows the card's clock moving from the shown moment by the filing's hours, landing in the day and never after midnight; a test on the player's clock fails on main, with the place and seed named.
 
 **Time box.** 2 hours; if not done, push what exists, open the draft PR, write the handoff.
 
@@ -27,8 +27,8 @@ claimed-at: 2026-11-01T14:52:50.330Z
 
 **Screenshot.** The card's clock before and after the filing, from a drawn place, in the PR body.
 
-**Files.** src/bench/player.ts, src/bench/handler.ts, src/bench/filing.browser.mjs
+**Files.** src/bench/player.ts, src/bench/handler.ts, tests/src/bench/filing.browser.mjs
 
 **Notes.** TODO
 
-- 2026-11-01 (lane): Fixed in `BenchPlayer.spend`: a fresh clock (no packet) starts at the next day's `playerDayStartMinute`, not midnight (the core's player clock is already at the next day's start, so it cannot be moved back to the evening; the day is lived to its start, owner Oct 27). `src/bench/player-first-act.test.ts` fails on main (3:00 AM, minute 180) and passes (10:00 AM) in Elmer City, Washington and Dandan, Northern Mariana Islands (run seed f109c907fd1e253618ef08abe89e4363903cd55e96c6c316e7837622da23ec4b). `filing.browser.mjs` now starts its unpressed clock at the morning and asserts the visit lands in the day.
+- 2026-11-01 (lane): Fixed in `BenchPlayer.spend`: a fresh clock (no packet) starts at the next day's `playerDayStartMinute`, not midnight (the core's player clock is already at the next day's start, so it cannot be moved back to the evening; the day is lived to its start, owner Oct 27). `tests/src/bench/player-first-act.test.ts` fails on main (3:00 AM, minute 180) and passes (10:00 AM) in Elmer City, Washington and Dandan, Northern Mariana Islands (run seed f109c907fd1e253618ef08abe89e4363903cd55e96c6c316e7837622da23ec4b). `filing.browser.mjs` now starts its unpressed clock at the morning and asserts the visit lands in the day.

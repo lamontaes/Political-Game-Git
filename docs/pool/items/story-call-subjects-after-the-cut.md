@@ -21,7 +21,7 @@ checked:
 
 **What.** A call opens only when the two people have something to talk about, and the cut of Nov 17 left no talk subject a call can carry. So the player can call no one: the phone list offers nobody, and a call to a housemate opens on nothing. Seen: the phone, any day of a new life.
 
-**Cause.** Measured: `src/director/conversation-phone.test.ts` at its three pinned places (Cranston RI, Sumiton AL, Deepstep GA; seeds `b550a10bcd3bf708`, `18661a5958abacd3`, `5c1b2e77d3a94f10`) offers no call on days 0 to 300 on the cut (#10063), shown by `npx vitest run src/director/conversation-phone.test.ts`. The call's greeting and goodbye lines are written; every talk subject's lines in `data/english/parts/conversation.json` were deleted by the cut, and the conversation engine opens no talk without a line to say (src/director/conversation.ts).
+**Cause.** Measured: `tests/src/director/conversation-phone.test.ts` at its three pinned places (Cranston RI, Sumiton AL, Deepstep GA; seeds `b550a10bcd3bf708`, `18661a5958abacd3`, `5c1b2e77d3a94f10`) offers no call on days 0 to 300 on the cut (#10063), shown by `npx vitest run tests/src/director/conversation-phone.test.ts`. The call's greeting and goodbye lines are written; every talk subject's lines in `data/english/parts/conversation.json` were deleted by the cut, and the conversation engine opens no talk without a line to say (src/director/conversation.ts).
 
 **Fix.** Write the talk subjects again in the conversation bank, each through the engine's existing subject and its facts: first the news answer (the player's and the other person's view on a story both heard), then work talk (the other person's job, workplace and day). Each line names the fact it is about; replies are four stances in the player's voice. When the first subject lands, take the seven `it.fails` marks off the phone test's cases.
 
@@ -33,7 +33,7 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/conversation.json, src/director/conversation-phone.test.ts
+**Files.** data/english/parts/conversation.json, tests/src/director/conversation-phone.test.ts
 
 **Notes.** Nov 18 (Story): filed on the CTO's ruling; the seven phone cases carry `it.fails` naming this item on #10063.
 

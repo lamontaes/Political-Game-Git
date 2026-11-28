@@ -17,8 +17,8 @@ claimed-at: 2026-10-24T10:31:17.500Z
 
 **Rules.** No dice: the conviction must come from the report, the prosecutor's case and the plea or trial the engines run, never a forced verdict. Wire to the world: the forfeiture is a journal entry from the official's cash to the treasury in a played world.
 
-**Done when.** src/core2/justice-forfeiture.test.ts passes ten runs in a row on fresh drawn places (buildBenchWorld, seeds named), each naming the convicted taker's sentence record id and the forfeiture journal record, with the honest-pull calibration in place.
+**Done when.** tests/src/core2/justice-forfeiture.test.ts passes ten runs in a row on fresh drawn places (buildBenchWorld, seeds named), each naming the convicted taker's sentence record id and the forfeiture journal record, with the honest-pull calibration in place.
 
-**Files.** src/core2/justice-forfeiture.test.ts, src/core2/modules/justice.ts, src/core2/modules/corruption.ts
+**Files.** tests/src/core2/justice-forfeiture.test.ts, src/core2/modules/justice.ts, src/core2/modules/corruption.ts
 
 **Notes.** Filed Oct 24 by the traits lead while landing traits-wire-integrity: one failure and three passes in four runs on the integrity branch; one pass on main.

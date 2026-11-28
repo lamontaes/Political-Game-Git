@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T21:51:08.118Z
 
 **Rules.** Replace, never layer: the generic name is used only where no charter was read, and the stopgap row is narrowed to that case. One rule, all 56 places: the name comes from the compiled data, and no place is named in logic. Estimate, never UNKNOWN: a town with an unread charter keeps a labeled generic name.
 
-**Done when.** For every compiled government whose reading names its body, the council office built for its place (localOfficesForPlace) carries that name, shown by government key in src/core2/offices-local-names.test.ts over at least 20 places; the government rule parity tests and the stopgap tripwire pass.
+**Done when.** For every compiled government whose reading names its body, the council office built for its place (localOfficesForPlace) carries that name, shown by government key in tests/src/core2/offices-local-names.test.ts over at least 20 places; the government rule parity tests and the stopgap tripwire pass.
 
 **Files.** src/core2/gov-rules/municipal-governments.json, src/core2/gov-rules/municipal-government.ts, src/core2/gov-rules/local-governing-body-rules.ts, src/core2/offices-local.ts, src/core2/data/stopgaps.json
 

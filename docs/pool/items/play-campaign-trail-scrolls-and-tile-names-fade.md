@@ -34,6 +34,6 @@ merged-at: 2026-11-24T06:48:08.238Z
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.css, src/bench/ui-look.browser.mjs
+**Files.** src/bench/play.css, tests/src/bench/ui-look.browser.mjs
 
 **Notes.** Filed by Box and scroll (lane 2) in the PR that builds it, Nov 23. Tiles sharing one picture: wanted pictures for Story and Art, not built here.

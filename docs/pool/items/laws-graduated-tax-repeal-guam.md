@@ -19,12 +19,12 @@ claimed-at: 2026-10-20T20:21:45.116Z
 
 **Done when.** The graduated income tax case in law-reach-group-b.test.ts passes for GOLDEN_PATH_SEED 741e1fe731e2aef3a39de315f1d07c4368754d2d0409b3bbeacc39f43896b2b6 and GOLDEN_PATH_PLACE_KEY territory:GU:inarajan, and for two other drawn places, with the open people rows empty after the repeal.
 
-**Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach-group-b.test.ts
+**Files.** src/core2/law-reach/group-b.ts, tests/src/core2/law-reach-group-b.test.ts
 
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5462 (branch claude/graduated-tax-guam): superseded by main's commit aebe5d9e3a for the same law-reach-group-b assertion; the branch conflicts in law-reach-group-b.test.ts; check whether anything is left beyond main's fix; finish on that branch, merge main into it first.
 
-Sent back 2026-10-20 from PR #5684 (branch claude/graduated-tax-repeal-guam): merging main conflicts in src/core2/law-reach-group-b.test.ts (main changed it in #5694); finish on that branch, merge main into it first.
+Sent back 2026-10-20 from PR #5684 (branch claude/graduated-tax-repeal-guam): merging main conflicts in tests/src/core2/law-reach-group-b.test.ts (main changed it in #5694); finish on that branch, merge main into it first.
 
-Sent back 2026-10-20 from PR #5684 (branch claude/graduated-tax-repeal-guam): src/core2/law-reach-group-b.test.ts:372,409,483 adds if (!havePayees) ctx.skip() to three eligibility/payment proofs when a place is pinned. The merger rule rejects skipped tests: keep the pinned regression for the tax issue and use separate bounded drawn-place fixtures for each payment shape, asserting those proofs without ctx.skip(). The body also reports one remaining failing payment case.; finish on that branch, merge main into it first.
+Sent back 2026-10-20 from PR #5684 (branch claude/graduated-tax-repeal-guam): tests/src/core2/law-reach-group-b.test.ts:372,409,483 adds if (!havePayees) ctx.skip() to three eligibility/payment proofs when a place is pinned. The merger rule rejects skipped tests: keep the pinned regression for the tax issue and use separate bounded drawn-place fixtures for each payment shape, asserting those proofs without ctx.skip(). The body also reports one remaining failing payment case.; finish on that branch, merge main into it first.

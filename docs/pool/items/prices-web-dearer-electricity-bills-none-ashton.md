@@ -20,7 +20,7 @@ root: rc8-law-judged-by-paperwork
 
 **What.** In Ashton, Idaho, the same world bills households for electricity at the web's normal factor. When the web's electricity price factor is raised by a tenth, it bills none in the same 75 days. A dearer price should mean bigger bills, not no bills. Seen: the town's electricity receipts in dev mode's household money.
 
-**Cause.** Needs cause. Measured: `WEB_PRICES_SEED=056520284c241460 npx vitest run src/core2/prices-web.test.ts -t "electricity bills"` on Train 32a994212b441a0e1a3d95d2029a50a70bcefb71 fails at Ashton, Idaho. The base run bills households of different pay. The run with `energy.electricity-price` at 1.1 writes no `price:…:electricity:` receipt (`expected 0 to be greater than 0`, `dearer.size`).
+**Cause.** Needs cause. Measured: `WEB_PRICES_SEED=056520284c241460 npx vitest run tests/src/core2/prices-web.test.ts -t "electricity bills"` on Train 32a994212b441a0e1a3d95d2029a50a70bcefb71 fails at Ashton, Idaho. The base run bills households of different pay. The run with `energy.electricity-price` at 1.1 writes no `price:…:electricity:` receipt (`expected 0 to be greater than 0`, `dearer.size`).
 
 **Fix.** None until the cause is found.
 
@@ -32,4 +32,4 @@ root: rc8-law-judged-by-paperwork
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/prices-web.test.ts
+**Files.** tests/src/core2/prices-web.test.ts

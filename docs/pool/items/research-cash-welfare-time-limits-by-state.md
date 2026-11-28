@@ -30,7 +30,7 @@ checked: sonnet 2026-11-14
 
 **Rules.** One rule, all 56 places: place facts live in data rows, never in logic; research before building: real tables calibrate the limit and never decide one family's outcome; estimate, never unknown.
 
-**Done when.** A second session, not the builder, opens the data rows for three drawn places named in the item and sees a quoted table cell for each limit, then runs the assistance work requirement case of `npx vitest run src/core2/law-reach-group-b.test.ts` at a drawn place and seed it names and sees heads stop at that place's own month.
+**Done when.** A second session, not the builder, opens the data rows for three drawn places named in the item and sees a quoted table cell for each limit, then runs the assistance work requirement case of `npx vitest run tests/src/core2/law-reach-group-b.test.ts` at a drawn place and seed it names and sees heads stop at that place's own month.
 
 **Waits on.** The welfare time limit folding.
 

@@ -33,4 +33,4 @@ checked: fable 2026-11-10
 
 **Waits on.** The CTO's call between this roundup and the outlet memory of words-paper-and-journal-everyday-life-part-2-outlet-memory; build only the one the CTO names.
 
-**Files.** src/core2/modules/press.ts, src/core2/press-desk.ts, data/english/parts/news.json, src/bench/printed-words.test.ts
+**Files.** src/core2/modules/press.ts, src/core2/press-desk.ts, data/english/parts/news.json, tests/src/bench/printed-words.test.ts

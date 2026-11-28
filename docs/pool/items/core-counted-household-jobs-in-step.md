@@ -17,9 +17,9 @@ claimed-at: 2026-10-24T08:18:33.607Z
 
 **Rules.** One model, two tiers: a counted household reads the same jobs and pay its full counterpart would. Generated-world proof: a played year in a drawn place shows the counted books and the households agree, by record id. A filled-in person matches what the records already say.
 
-**Done when.** In a one-year buildBenchWorld run in a place drawn from all 56 (place and seed named), every counted household's yearly wages equal its members' open jobs on the employers' books, and a counted worker hired during the year holds that job, at that pay, when filled in; src/core2/counted-household-jobs.test.ts proves it and fails without the fix.
+**Done when.** In a one-year buildBenchWorld run in a place drawn from all 56 (place and seed named), every counted household's yearly wages equal its members' open jobs on the employers' books, and a counted worker hired during the year holds that job, at that pay, when filled in; tests/src/core2/counted-household-jobs.test.ts proves it and fails without the fix.
 
-**Files.** src/core2/modules/residents.ts, src/core2/residents-economy.ts, src/core2/modules/jobs.ts, src/core2/counted-household-jobs.test.ts
+**Files.** src/core2/modules/residents.ts, src/core2/residents-economy.ts, src/core2/modules/jobs.ts, tests/src/core2/counted-household-jobs.test.ts
 
 **Notes.** Found Oct 24 by the effects lead: #5609's fill-in income-fifth regression failed on seed 99129b78328b41a6 for this cause.
 

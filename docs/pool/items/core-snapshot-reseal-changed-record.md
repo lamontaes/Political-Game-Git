@@ -17,8 +17,8 @@ claimed-at: 2026-10-20T06:34:29.380Z
 
 **Rules.** No dice. Wire to the world: the seal is read when a save is restored and fails on an unexplained change. Replace, never layer: the old behavior is replaced, not kept beside a flag. Estimate, never UNKNOWN does not apply; nothing here is a number.
 
-**Done when.** A test in `src/core2/saves.test.ts` saves a world, changes a frozen record through its producer, restores, and passes the seal check, and a second case changes a record with no producer and fails it, in a place drawn from all 56 with the seed in the failure message.
+**Done when.** A test in `tests/src/core2/saves.test.ts` saves a world, changes a frozen record through its producer, restores, and passes the seal check, and a second case changes a record with no producer and fails it, in a place drawn from all 56 with the seed in the failure message.
 
-**Files.** src/core2/snapshot.ts, src/core2/saves.test.ts
+**Files.** src/core2/snapshot.ts, tests/src/core2/saves.test.ts
 
 **Notes.** Split Oct 20 from core-outside-wage-obligation (L). Independent of the other two parts.

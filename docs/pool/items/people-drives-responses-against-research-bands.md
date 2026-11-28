@@ -17,7 +17,7 @@ claimed-at: 2026-10-24T20:08:23.284Z
 
 **Rules.** No dice: the band checks the town's share; it never becomes a chance that picks who carries on, which stays each person's own scored choice. Ask why: every drive formed names the event and the traits and ties that weighted it.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named), scripts/research/people-year.ts reports the share of bereavement responses that carry on inside 61.6 to 69.8 percent, each drive decision record names its event, and src/core2/drives.test.ts holds the band over a fixed fixture of perceived losses.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named), scripts/research/people-year.ts reports the share of bereavement responses that carry on inside 61.6 to 69.8 percent, each drive decision record names its event, and tests/src/core2/drives.test.ts holds the band over a fixed fixture of perceived losses.
 
 **Files.** src/core2/data/drives.json, src/core2/modules/drives.ts, src/core2/data/parameters.json, data/research/people/trauma-trajectories-2018.json
 

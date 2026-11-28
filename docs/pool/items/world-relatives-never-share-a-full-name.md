@@ -27,10 +27,10 @@ source: Owner, Nov 16, 2026 playtest (partner and sister both "Ashley Lucas", Gr
 
 **Rules.** No dice: names are drawn from the seeded corpus, and a repeat takes the next seeded draw. Seeded generation of who exists is allowed.
 
-**Done when.** In drawn places and seeds the builder did not choose, no person, household and relatives group repeats a full name (`src/core2/relatives-distinct-names.test.ts`), and a chosen player name leaves every full name in the family distinct (`src/core2/sibling-names.test.ts`); a second session starts a new life and reads the family on the player's card.
+**Done when.** In drawn places and seeds the builder did not choose, no person, household and relatives group repeats a full name (`tests/src/core2/relatives-distinct-names.test.ts`), and a chosen player name leaves every full name in the family distinct (`tests/src/core2/sibling-names.test.ts`); a second session starts a new life and reads the family on the player's card.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/opening-kin.ts, src/core2/population.ts, src/core2/state.ts, src/core2/relatives-distinct-names.test.ts, src/core2/sibling-names.test.ts
+**Files.** src/core2/opening-kin.ts, src/core2/population.ts, src/core2/state.ts, tests/src/core2/relatives-distinct-names.test.ts, tests/src/core2/sibling-names.test.ts
 
 **Notes.** A father and son who share a name ("Junior") are not built: the owner's ruling is that two relatives cannot share a full name.

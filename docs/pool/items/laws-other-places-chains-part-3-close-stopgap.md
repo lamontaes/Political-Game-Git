@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** Replace, never layer: the map and the markers go in this change. Registered stopgaps are resolved, never deleted. One rule, all 56 places: no place is named in logic.
 
-**Done when.** A second session, not the builder, checks on main that no `SG-WORLD-withholding-residence-law` marker remains in src/core2/modules/budgets.ts, that the row in src/core2/data/stopgaps/world.json reads resolved with the replacement reader named, and that src/core2/tax-withholding.test.ts and src/core2/withholding-outside-governments.test.ts pass on a fresh drawn place (place and seed named).
+**Done when.** A second session, not the builder, checks on main that no `SG-WORLD-withholding-residence-law` marker remains in src/core2/modules/budgets.ts, that the row in src/core2/data/stopgaps/world.json reads resolved with the replacement reader named, and that tests/src/core2/tax-withholding.test.ts and tests/src/core2/withholding-outside-governments.test.ts pass on a fresh drawn place (place and seed named).
 
 **Waits on.** laws-other-places-chains-part-1-record-chains (its test proves the reader; part 2 is a proposed drop).
 
-**Files.** src/core2/modules/budgets.ts, src/core2/data/stopgaps/world.json, src/core2/tax-withholding.test.ts, src/core2/withholding-outside-governments.test.ts
+**Files.** src/core2/modules/budgets.ts, src/core2/data/stopgaps/world.json, tests/src/core2/tax-withholding.test.ts, tests/src/core2/withholding-outside-governments.test.ts
 
 **Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have withheld a commuter's pay by the law of the place he lives in; the player would see one commuter's paycheck differ by a little.

@@ -27,9 +27,9 @@ Checked and clean: no article before a phrase slot (a bill, rivals, a source, a 
 
 **Not found / held.** The opening speeches say "this town" in 30-odd lines; they are held with the pledges and salutation (#8074). The honors headline waits on `play-honor-headline-reads-school` (#8133).
 
-**Done when.** src/director/reads-wrong-scenes.test.ts passes: one assertion for each class (this town; an article before a phrase slot; a lowercase slot opening a later sentence; a rescue's child introduced where the question names them; the name tag once on a branch).
+**Done when.** tests/src/director/reads-wrong-scenes.test.ts passes: one assertion for each class (this town; an article before a phrase slot; a lowercase slot opening a later sentence; a rescue's child introduced where the question names them; the name tag once on a branch).
 
-**Files.** src/english/scene-talk-words.ts, data/english/parts/scene-talk.json, src/director/reads-wrong-scenes.test.ts
+**Files.** src/english/scene-talk-words.ts, data/english/parts/scene-talk.json, tests/src/director/reads-wrong-scenes.test.ts
 
 **Time box.** 2 hours.
 

@@ -18,6 +18,6 @@ source: added with npm run pool -- add
 
 **Done when.** In an ordinary drawn bench game, own senators, representative and state legislators appear before leaders named by post, chamber and home state. State and federal filters reach another state actual members by pointer and keyboard, and the own-member and leader groups fit at1440x900 and1024x768. Own government tests and changed-file checks pass except explicitly reproduced main baselines; native screenshots name the place and seed.
 
-**Files.** src/bench/government.ts, src/bench/handler.ts, src/bench/play.mjs, src/bench/play.css, src/bench/government-own-members.test.ts
+**Files.** src/bench/government.ts, src/bench/handler.ts, src/bench/play.mjs, src/bench/play.css, tests/src/bench/government-own-members.test.ts
 
 **Notes.** Bounded implementation for PR6127. Original play-stop-05-politics-lists-wrong-officials-a remains open for installed-build acceptance. Merger3 own Blanchard Louisiana seedbcab8da5-a556-4a59-b171-23988a6edc1b: Alabama State140 and Federal9 members; native bothsizes and pointer/keyboard pass. Existing gov-territory-delegate-not-own-representative remains separate.

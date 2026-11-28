@@ -20,9 +20,9 @@ source: Account lead, Nov 15, after metrics-town-jobs-one-rule (#9391)
 
 **What.** The paper tells "In all, N people in the town are looking for work" from the town's month row. No test prints that line, so a wrong count there would go unseen (after #9391 the figure at Washington, Kansas, July 2, 2025 moved from 36 to 35 and nothing checked it). A pinned test reads the printed line against the one counting rule. Seen: the paper's conditions story, "In all, N people in the town are looking for work."
 
-**Cause.** Found in code: `src/bench/printed-words.ts`, the `conditions` builder (the `jobless` fact reads `month.unemployed` from the world-metrics month row); no test under `src/bench` words an `outcome-web.month` story and reads this line. Existing news tests (`src/core2/outcome-news.test.ts`) stop at the record.
+**Cause.** Found in code: `src/bench/printed-words.ts`, the `conditions` builder (the `jobless` fact reads `month.unemployed` from the world-metrics month row); no test under `src/bench` words an `outcome-web.month` story and reads this line. Existing news tests (`tests/src/core2/outcome-news.test.ts`) stop at the record.
 
-**Fix.** A test at Washington, Kansas (599e6f66e9c1d25a) plays to June 2025 (the game writes each month's conditions record itself, nothing set by hand), words it through `wordPrintedStory` the way `src/bench/printed-civic.test.ts` does, and asserts the printed number equals `townLaborByPlace(...).seekers` for that month. The player sees the paper's line; no wording changes.
+**Fix.** A test at Washington, Kansas (599e6f66e9c1d25a) plays to June 2025 (the game writes each month's conditions record itself, nothing set by hand), words it through `wordPrintedStory` the way `tests/src/bench/printed-civic.test.ts` does, and asserts the printed number equals `townLaborByPlace(...).seekers` for that month. The player sees the paper's line; no wording changes.
 
 **Time box.** 2 hours for one Sonnet session. When it runs out, push what passes and say what is left.
 
@@ -32,6 +32,6 @@ source: Account lead, Nov 15, after metrics-town-jobs-one-rule (#9391)
 
 **Waits on.** metrics-town-jobs-one-rule (#9391, folded).
 
-**Files.** src/bench/printed-jobless-line.test.ts (new)
+**Files.** tests/src/bench/printed-jobless-line.test.ts (new)
 
 **Notes.** Asked for by the lead, Nov 15. Read the paper's other month-row reads at the same time (`printed-words.ts` around 1410 to 1475).

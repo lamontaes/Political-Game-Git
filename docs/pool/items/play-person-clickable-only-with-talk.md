@@ -27,6 +27,6 @@ claimed-at: 2026-11-01T22:26:34.325Z
 
 **Screenshot.** The room after the first talk ends, hovering both people.
 
-**Files.** src/bench/play.mjs, src/director/scene-talk.ts, src/bench/people.browser.mjs
+**Files.** src/bench/play.mjs, src/director/scene-talk.ts, tests/src/bench/people.browser.mjs
 
 **Notes.** Filed by the CTO from the owner's v0.73.0 playtest (Nov 1, 22:25 UTC, five screenshots, New Game). Read: OWNER-DECISIONS (Oct 29 02:35 opening montage and address; Oct 29 address "no real statistic in play"; Oct 26 one scene system), the pool for twins.

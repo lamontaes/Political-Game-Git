@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice. An effect is a read: the job ending and the retry read each other's records. Speed: the fix adds no daily scan. A fix lands on the branch where it reproduces.
 
-**Done when.** In the played world (buildBenchWorld, every module installed) with seed story-b and a minimum of 1500 people (name the place in the PR body), a one-year skip reaches 2027-12-31 with no throw, and a test beside src/core2/work-payroll-dispatch.test.ts ends a job with a pending retry and checks the arrears record id. If it no longer reproduces, say so and close the line.
+**Done when.** In the played world (buildBenchWorld, every module installed) with seed story-b and a minimum of 1500 people (name the place in the PR body), a one-year skip reaches 2027-12-31 with no throw, and a test beside tests/src/core2/work-payroll-dispatch.test.ts ends a job with a pending retry and checks the arrears record id. If it no longer reproduces, say so and close the line.
 
 **Files.** src/core2/work-payroll-dispatch.ts, src/core2/modules/jobs.ts
 

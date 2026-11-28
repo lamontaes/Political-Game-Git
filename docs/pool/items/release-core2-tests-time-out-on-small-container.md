@@ -13,13 +13,13 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-21T01:49:05.356Z
 ---
 
-**What.** src/core2/groundwater-law.test.ts runs a drawn farm town's played year and was measured at 156 seconds at two workers on a 4-core container, past its 120-second limit. Raise that one test's limit to 300 seconds (about twice the measured run), with the measurement in a comment beside the limit. The other six tests first listed passed under their own limits when re-measured and keep them.
+**What.** tests/src/core2/groundwater-law.test.ts runs a drawn farm town's played year and was measured at 156 seconds at two workers on a 4-core container, past its 120-second limit. Raise that one test's limit to 300 seconds (about twice the measured run), with the measurement in a comment beside the limit. The other six tests first listed passed under their own limits when re-measured and keep them.
 
 **Rules.** Speed: the limit follows the measured run and the played year itself must not get slower. One test, one limit, one measured reason in the code. No other timeout changes, no skipped or loosened assertion, no change to what the test plays.
 
 **Done when.** groundwater-law.test.ts has a 300_000 limit with the measured run beside it and passes at two workers on a 4-core container on the merged head; no other test file's limit changes in the PR; the PR title and declaration name one test and 300 seconds.
 
-**Files.** src/core2/groundwater-law.test.ts, docs/release/changes/release-core2-tests-time-out-on-small-container.md
+**Files.** tests/src/core2/groundwater-law.test.ts, docs/release/changes/release-core2-tests-time-out-on-small-container.md
 
 **Notes.** Narrowed from seven tests after the merger asked for a measured reason per increase.
 

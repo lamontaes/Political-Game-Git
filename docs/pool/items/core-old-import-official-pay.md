@@ -17,7 +17,7 @@ claimed-at: 2026-10-17T16:03:57.373Z
 
 **Rules.** Replace, never layer: the module keeps one source of the citations. The old engine's own reader (`src/simulation/office-pay.ts`) keeps the generated file until the old engine is deleted (core-delete-old-engine).
 
-**Done when.** `src/core2/modules/official-pay.ts` has no import from `src/simulation`, the citations it uses equal the facts file (checked: 122 of 122), and src/core2/official-pay-withholding.test.ts passes.
+**Done when.** `src/core2/modules/official-pay.ts` has no import from `src/simulation`, the citations it uses equal the facts file (checked: 122 of 122), and tests/src/core2/official-pay-withholding.test.ts passes.
 
 **Files.** src/core2/modules/official-pay.ts
 

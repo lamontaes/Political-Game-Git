@@ -31,11 +31,11 @@ branch: claude/pool-people-views-opening-place-type-and-values-part-1-place-type
 
 **Rules.** Estimate, never UNKNOWN: a place with no type starts from the national average marked ESTIMATED with its source. One model, two tiers: the counted residents take the same term as full people, times their count. No dice: the term shifts the lean by a table value, never a roll. One rule, all 56 places: no state or town is named in the logic; the type comes from place data. Real data calibrates and never decides an outcome by itself (research before building).
 
-**Done when.** A second session, in a one-year run of the played world (buildBenchWorld) in two drawn places of different place types from all 56 (place and seed named), finds each adult's opening view record naming its place-type term, a counted resident opening where the same person does when filled in (by record id), and the town's right and left shares reported beside the Pew shares for its type; src/core2/views.test.ts covers the term. **On screen.** Nothing yet: it would show on Politics, Campaigns and the election night results, and nothing there reads it.
+**Done when.** A second session, in a one-year run of the played world (buildBenchWorld) in two drawn places of different place types from all 56 (place and seed named), finds each adult's opening view record naming its place-type term, a counted resident opening where the same person does when filled in (by record id), and the town's right and left shares reported beside the Pew shares for its type; tests/src/core2/views.test.ts covers the term. **On screen.** Nothing yet: it would show on Politics, Campaigns and the election night results, and nothing there reads it.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/views.ts, src/core2/data/views/views.json, src/core2/data/views/ces-2024-views.json, data/research/people/pew-partisanship-community-type-2023.json, src/core2/views.test.ts
+**Files.** src/core2/modules/views.ts, src/core2/data/views/views.json, src/core2/data/views/ces-2024-views.json, data/research/people/pew-partisanship-community-type-2023.json, tests/src/core2/views.test.ts
 
 **Notes.** Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:58 UTC) on branch claude/pool-people-views-opening-place-type-and-values-part-1-place-type-term.
 

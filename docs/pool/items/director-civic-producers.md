@@ -18,9 +18,9 @@ claimed-at:
 
 **Rules.** No dice: a scene fires from a recorded cause, never a roll, and a quiet day fires nothing. The chain is the acceptance: each fired scene is traced from its cause record to the scene to the journal line. Speed: the ledger acts on the day a record is written, never by scanning the world each day. One rule, all 56 places: a drawn place and a seed the builder did not choose.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`) in a drawn place and a seed the builder did not choose (both named in the PR body), the reach report (scripts/dialogue-batch/scene-year.ts, src/director/reach.ts) shows each of these types fired from its cause record by record id, or names a real reason it could not in that place and year, and src/director/director.test.ts and src/director/scene.test.ts pass. The year runs within the speed rule. The owner plays it: he signs a bill and the signing scene opens.
+**Done when.** In a one-year run of the played world (`buildBenchWorld`) in a drawn place and a seed the builder did not choose (both named in the PR body), the reach report (scripts/dialogue-batch/scene-year.ts, src/director/reach.ts) shows each of these types fired from its cause record by record id, or names a real reason it could not in that place and year, and tests/src/director/director.test.ts and tests/src/director/scene.test.ts pass. The year runs within the speed rule. The owner plays it: he signs a bill and the signing scene opens.
 
-**Files.** src/director/ledger.ts, src/director/scheduling.ts, src/director/data/situation-types.json, src/director/reach.ts, src/director/director.test.ts
+**Files.** src/director/ledger.ts, src/director/scheduling.ts, src/director/data/situation-types.json, src/director/reach.ts, tests/src/director/director.test.ts
 
 **Notes.** Size L in practice (found while claiming it): the civic types also need their roles filled from records, so it is split into director-civic-roles, director-civic-producers-electoral, director-civic-producers-government and director-civic-producers-household. This item is done when those four are.
 

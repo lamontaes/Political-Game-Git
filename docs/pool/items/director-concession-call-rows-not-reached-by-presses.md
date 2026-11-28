@@ -41,6 +41,6 @@ Each row adds its gate to the ask's uses. Two lines already in the bank are gate
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/scene-talk.json, src/bench/concession-close-call.test.ts
+**Files.** data/english/parts/scene-talk.json, tests/src/bench/concession-close-call.test.ts
 
 **Notes.** Built on director-concession-call-says-close-when-the-race-was-not.

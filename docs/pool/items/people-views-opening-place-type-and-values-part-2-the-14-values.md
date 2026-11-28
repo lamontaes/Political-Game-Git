@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** One model, two tiers: a counted group is read by the same rule as a full person, times its count. An effect is a read, not a record: another engine (voting or a stance decision) reads the values and the proof names it by record id. No dice: the values follow the person's records and the weights, never a roll. Estimate, never UNKNOWN: a cell the research lacks starts from the national average marked ESTIMATED with its spread. Speed: formed once per person on the first read, no daily scan.
 
-**Done when.** A second session, in a one-year run of the played world (buildBenchWorld, a drawn place from all 56 with a seed the builder did not choose, both named), finds every adult in the town with the 14 values and their reasons by record id, two neighbors of different upbringing holding different values, and one other engine (a vote tally or a stance) reading those values by record id; a test in src/core2/views.test.ts covers the formation and the counted groups.
+**Done when.** A second session, in a one-year run of the played world (buildBenchWorld, a drawn place from all 56 with a seed the builder did not choose, both named), finds every adult in the town with the 14 values and their reasons by record id, two neighbors of different upbringing holding different values, and one other engine (a vote tally or a stance) reading those values by record id; a test in tests/src/core2/views.test.ts covers the formation and the counted groups.
 
 **Waits on.** people-views-opening-place-type-and-values-part-1-place-type-term, because both change the opening lean in the same file.
 
-**Files.** src/core2/modules/views.ts, src/core2/data/views/views.json, src/core2/campaign-views.ts, docs/packages/M1-views.md, src/core2/views.test.ts
+**Files.** src/core2/modules/views.ts, src/core2/data/views/views.json, src/core2/campaign-views.ts, docs/packages/M1-views.md, tests/src/core2/views.test.ts
 
 **Notes (Fable B, Nov 10, the owner's answer).** Dropped Nov 10, 2026 (depth sweep): the owner was asked and said "Not now." People keep the stances they form from their records. If he asks for the values later, this item comes back.

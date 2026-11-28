@@ -33,4 +33,4 @@ checked: fable 2026-11-10
 
 **Waits on.** core-finance-contracts-vs-obligations-part-1-payee-account.
 
-**Files.** src/core2/law-reach/group-b-money.ts, src/core2/estates.ts, src/core2/budgets-treasury.ts, src/core2/law-reach/group-b-food-aid.test.ts
+**Files.** src/core2/law-reach/group-b-money.ts, src/core2/estates.ts, src/core2/budgets-treasury.ts, tests/src/core2/law-reach/group-b-food-aid.test.ts

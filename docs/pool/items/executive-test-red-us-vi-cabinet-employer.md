@@ -19,6 +19,6 @@ claimed-at: 2026-10-20T11:44:47.731Z
 
 **Done when.** executive.test.ts passes at GOLDEN_PATH_SEED=d5789127367692cf22c25b331324adada5742e0af00100e4cf04d84cd45fe9f7 and at two other seeds.
 
-**Files.** src/core2/executive.test.ts, src/core2/modules/executive.ts
+**Files.** tests/src/core2/executive.test.ts, src/core2/modules/executive.ts
 
 **Notes.** Found Oct 20 (claude) while merging main into #5413.

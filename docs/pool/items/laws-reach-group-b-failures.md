@@ -12,12 +12,12 @@ milestone:
 source: "known bugs on main"
 ---
 
-**What.** Two tests in src/core2/law-reach-group-b.test.ts fail on main: the assistance work requirement and the highway shift. Find the root and fix it.
+**What.** Two tests in tests/src/core2/law-reach-group-b.test.ts fail on main: the assistance work requirement and the highway shift. Find the root and fix it.
 
 **Rules.** Fix at the root; never skip.
 
 **Done when.** Both pass.
 
-**Files.** src/core2/law-reach-group-b.test.ts, law-reach/*
+**Files.** tests/src/core2/law-reach-group-b.test.ts, law-reach/*
 
 **Notes.** None.

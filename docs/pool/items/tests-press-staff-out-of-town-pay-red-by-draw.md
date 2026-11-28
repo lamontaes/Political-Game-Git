@@ -18,7 +18,7 @@ source: "Interview check thread, Nov 15, 2026, gating the outlet-of-record chang
 root: none
 ---
 
-**What.** `src/core2/press-staff.test.ts`, "out-of-town press people live on a household cost and are paid each month through a played year", fails with "<person>: no pay record: expected undefined to be truthy". It failed on the clean train 7a48e0b3 and on the outlet-of-record branch at the same seed, so it turns a gate red by draw. Seen: a builder's or the train's gate goes red on a test nobody's change touched.
+**What.** `tests/src/core2/press-staff.test.ts`, "out-of-town press people live on a household cost and are paid each month through a played year", fails with "<person>: no pay record: expected undefined to be truthy". It failed on the clean train 7a48e0b3 and on the outlet-of-record branch at the same seed, so it turns a gate red by draw. Seen: a builder's or the train's gate goes red on a test nobody's change touched.
 
 **Cause.** Measured: Inez, Kentucky (2139430), seed 4b15c3f3df0ce524 (GOLDEN_PATH_SEED), draw 0, world seed b64fc5ebbfe74d56d018efbc64b37ccdc89c16fc3e07c2d1ca6517aaad601808, person_5d46a3f2a508041e has no pay record, on both the clean train 7a48e0b3 and the outlet-of-record branch.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/press-staff.test.ts
+**Files.** tests/src/core2/press-staff.test.ts

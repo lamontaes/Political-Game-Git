@@ -24,7 +24,7 @@ seen-at: 2026-11-25T01:09:22.570Z
 **What.** The CTO, Nov 24 (N16-21, send-back), caught that the Guide Quorum entry has a note reading from that body own recorded rules; where no quorum rule has been recorded, the game says so instead of assuming a majority. That is developer text about how the game works, not something a player reads.
 Seen: Guide, the Quorum entry, at 1440 by 900. Seen: Guide, Quorum with its definition and no developer note, after. Guards: guide-quorum-note.browser.mjs
 
-**Cause.** Measured: `node src/bench/guide-quorum-note.browser.mjs` against `npm run bench` on main fails "the Quorum entry carries developer text". data/research/glossary/terms.json gives the quorum term a contextNote, which guide-screen.mjs prints under its Here strip.
+**Cause.** Measured: `node tests/src/bench/guide-quorum-note.browser.mjs` against `npm run bench` on main fails "the Quorum entry carries developer text". data/research/glossary/terms.json gives the quorum term a contextNote, which guide-screen.mjs prints under its Here strip.
 
 **Fix.** Remove the contextNote from the quorum entry (nothing new is written); add guide-quorum-note.browser.mjs. About thirty other terms carry a contextNote of the same family (comes from the body own recorded rules); they are listed for Story, not changed here.
 
@@ -36,6 +36,6 @@ Seen: Guide, the Quorum entry, at 1440 by 900. Seen: Guide, Quorum with its defi
 
 **Waits on.** Nothing
 
-**Files.** data/research/glossary/terms.json,src/bench/guide-quorum-note.browser.mjs (new)
+**Files.** data/research/glossary/terms.json,tests/src/bench/guide-quorum-note.browser.mjs (new)
 
 **Notes.** Seen in the game (2026-11-25, Replay): Show Low, Arizona, seed fee13d66-6ea0-40b0-b8f6-0566efe0a812, main abff6c6c08: Guide entry for Quorum shows definition and Related only, no recorded-rules note

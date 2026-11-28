@@ -6,7 +6,7 @@ Pool item `meetings-resident-player-speaks-at-public-comment`, pull request #902
 
 **Who wrote the words.** Fable A named the controls and asked for the lines on #8928; Words builder W3 wrote them into `data/english/parts/calendar.json` and `data/english/parts/meeting.json`. This pull request wrote none of them.
 
-**How they were played.** `src/bench/meeting-resident.browser.mjs` against a fresh bench at 1440 by 900: a new life, played until the Calendar offers a posted meeting, marked there, stopped at its hour, spoke for the first item, left, and opened People the next morning. The before pictures are the same seed on main (`origin/main` as merged into this branch), played the same thirteen days, on the same date's plate.
+**How they were played.** `tests/src/bench/meeting-resident.browser.mjs` against a fresh bench at 1440 by 900: a new life, played until the Calendar offers a posted meeting, marked there, stopped at its hour, spoke for the first item, left, and opened People the next morning. The before pictures are the same seed on main (`origin/main` as merged into this branch), played the same thirteen days, on the same date's plate.
 
 ## The three places
 
@@ -61,4 +61,4 @@ In all three places the Calendar plate for February 4 lists the meeting ("The Ca
 
 ## A board with a committee stage
 
-At a board with more members than a committee of the whole (ten or more today), the public is heard at the committee's day before the meeting, so a remark at the meeting itself would reach nobody yet. There the panel offers a resident no **Speak for** or **Speak against** and no line about speaking; **Read the bill** and **Leave** stay. Checked in Jaguas, Puerto Rico (key 7237336, seed `9d9e53d2305f75c3583e29af76860e2d96c0bd7bb16d04e5b1b33e87c455f942`) by `src/bench/meeting-attend.test.ts`. This is withheld until pool item `meetings-resident-remark-reaches-a-committee-board` lands. No new words.
+At a board with more members than a committee of the whole (ten or more today), the public is heard at the committee's day before the meeting, so a remark at the meeting itself would reach nobody yet. There the panel offers a resident no **Speak for** or **Speak against** and no line about speaking; **Read the bill** and **Leave** stay. Checked in Jaguas, Puerto Rico (key 7237336, seed `9d9e53d2305f75c3583e29af76860e2d96c0bd7bb16d04e5b1b33e87c455f942`) by `tests/src/bench/meeting-attend.test.ts`. This is withheld until pool item `meetings-resident-remark-reaches-a-committee-board` lands. No new words.

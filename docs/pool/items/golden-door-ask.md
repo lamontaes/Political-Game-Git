@@ -18,7 +18,7 @@ milestone: play-first
 
 **Rules.** Wire to the world: the resident's answer reads the campaign engine's warmth after the knock (its causes table), and the reply is kept as a scene reply and time together on the tie. No dice: the answer follows the resident's standing, never a roll. No hand-written player text: the door's narration and request are bank pieces on the support ask's bank. One engine per mechanic (owner, Oct 27): the one player-asks composer takes each purpose's moves as a data row; no second composer.
 
-**Done when.** The test src/director/circumstance.test.ts, in a buildBenchWorld drawn place with the seed it prints, plays a filed candidate's year in which every door row composes a door scene with narration, the player's request and the resident's answer, and keeps a reply; the vote-sought tests still pass; and a bench screenshot from a drawn place shows a door scene.
+**Done when.** The test tests/src/director/circumstance.test.ts, in a buildBenchWorld drawn place with the seed it prints, plays a filed candidate's year in which every door row composes a door scene with narration, the player's request and the resident's answer, and keeps a reply; the vote-sought tests still pass; and a bench screenshot from a drawn place shows a door scene.
 
 **Time box.** 4 hours.
 
@@ -30,6 +30,6 @@ milestone: play-first
 
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `golden/door-ask` is kept; claiming this item takes it over.
 
-**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. A door row plays as the player's ask: `src/director/purpose-scene.ts` (line 1222) handles a `campaign.door` moment through `doorStanding`, `src/director/data/situation-types.json` has the `door-ask` type, and `src/director/door-ask-scene.test.ts` asserts a door plays as the player's ask answered from the knock. The item's `src/director/ask-talk.ts` is now `purpose-scene.ts` and `src/director/doors.ts`.
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. A door row plays as the player's ask: `src/director/purpose-scene.ts` (line 1222) handles a `campaign.door` moment through `doorStanding`, `src/director/data/situation-types.json` has the `door-ask` type, and `tests/src/director/door-ask-scene.test.ts` asserts a door plays as the player's ask answered from the knock. The item's `src/director/ask-talk.ts` is now `purpose-scene.ts` and `src/director/doors.ts`.
 
 **Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

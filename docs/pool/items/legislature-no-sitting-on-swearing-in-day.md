@@ -28,8 +28,8 @@ source: Account lead, Nov 15, from the officials-ties test at told1 (Failolo, Am
 
 **Rules.** One calendar; no flat number; day one in motion.
 
-**Done when.** At the named place and seed, the four members sworn 2025-01-03 read a tie to colleagues on 2025-01-20, and src/core2/officials-ties.test.ts names no "no-sitting-yet" official there; a second session sees it in dev mode on main.
+**Done when.** At the named place and seed, the four members sworn 2025-01-03 read a tie to colleagues on 2025-01-20, and tests/src/core2/officials-ties.test.ts names no "no-sitting-yet" official there; a second session sees it in dev mode on main.
 
 **Waits on.** The sitting-ties PR.
 
-**Files.** src/core2/modules/world-legislating.ts, src/core2/officials-ties.test.ts
+**Files.** src/core2/modules/world-legislating.ts, tests/src/core2/officials-ties.test.ts

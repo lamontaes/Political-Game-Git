@@ -4,7 +4,7 @@ Pool item `docs-acceptance-rule-seen-in-the-game`.
 
 ## The builder's own run (Fable, Nov 10, 2026)
 
-These two are the builder's proof, not the second session's check. They were taken by `src/bench/dev-acceptance.browser.mjs` against the running game.
+These two are the builder's proof, not the second session's check. They were taken by `tests/src/bench/dev-acceptance.browser.mjs` against the running game.
 
 - **Place and seed:** Athol, Idaho; seed df2365fa-000c-47d9-a59d-ba3962a7f26e. The place was drawn, not chosen.
 - **What was done:** as an Idaho state legislator, dev mode introduced a one-section bill raising the state corporate income tax in the Senate. Every member's vote was cast at a margin of 6, each chair was cast to hear it and the governor to sign. The world then ran to the law's effective date (162 days) and 45 days more, all with dev mode's own run.
