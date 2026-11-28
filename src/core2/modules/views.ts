@@ -65,7 +65,7 @@ import {
 import { keepsWhy } from "../why-kept";
 import { stanceMoved } from "../stance-listeners";
 import { VIEWS_KEYS } from "../views-keys";
-import { PAST_WORK_SPELL } from "../past-work";
+import { PAST_WORK_SPELL } from "../past-reads";
 import { historyOf } from "../past-history";
 import {
   countedGroupStance,

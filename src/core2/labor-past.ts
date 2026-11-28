@@ -19,7 +19,7 @@
  */
 import { historyMonths } from "./macro-model";
 import { putPastYear } from "./output-numbers";
-import { findPerQuarter } from "./past-work";
+import { findPerQuarter } from "./past-reads";
 import { preStartHistory } from "./pre-start-history";
 import type { CoreAPI, CoreState } from "./types";
 
