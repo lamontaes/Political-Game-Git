@@ -27,7 +27,7 @@
 import { addDays, ageInYears, daysBetween, makeIsoDate } from "./kernel/dates";
 import { campaignParameter } from "./campaign-data";
 import { cpsAgeBand, cpsRegistered } from "./electorate-places";
-import { dwellingMovedIn } from "./modules/housing";
+import { dwellingMovedIn } from "./housing-reads";
 import {
   PERSON_MOVED_IN,
   PERSON_MOVED_WITHIN,

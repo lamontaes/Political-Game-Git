@@ -31,11 +31,11 @@ branch: claude/pool-business-never-adds-location-part-1-counted-founding-room
 
 **Rules.** No dice: a business adds a location or a founder opens one because its own books, market room and owner decide it, never a yearly chance; real BDS rates check the totals only. Ranges are not targets (owner, Nov 8): nothing is pulled to the BDS range. One rule, all 56 places: the parameters live in data and the fix names no place.
 
-**Done when.** A second session, in Cochituate, Massachusetts (a drawn place, seed 93a558a5898ee167fd5c49b69a4183c546da870c3754f7688faeb29392d6d4dc), runs three years in the played world with `scripts/core2/tooling/m1-08-check.ts` and sees the foundings spread over several markets, listed by founding record id with each market's room, not one market every month. A test in src/core2/business.test.ts fails when the counted founder ignores room.
+**Done when.** A second session, in Cochituate, Massachusetts (a drawn place, seed 93a558a5898ee167fd5c49b69a4183c546da870c3754f7688faeb29392d6d4dc), runs three years in the played world with `scripts/core2/tooling/m1-08-check.ts` and sees the foundings spread over several markets, listed by founding record id with each market's room, not one market every month. A test in tests/src/core2/business.test.ts fails when the counted founder ignores room.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/business.ts, src/core2/data/business/parameters.json, scripts/core2/tooling/m1-08-check.ts, src/core2/business.test.ts
+**Files.** src/core2/modules/business.ts, src/core2/data/business/parameters.json, scripts/core2/tooling/m1-08-check.ts, tests/src/core2/business.test.ts
 
 **Notes.** Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:28 UTC) on branch claude/pool-business-never-adds-location-part-1-counted-founding-room. Old Fix, set aside because the room term is already there (opus-d23b, Nov 11, PR #8706): "Add the market's room to the counted founder's score by the same term the full-person branch uses. Calibrate the baseline through the parameters file as TUNABLE with its spread; add no cap. Check the totals against BDS entry only as a report."
 

@@ -23,7 +23,7 @@ merged-at: 2026-11-13T00:06:18.516Z
 
 **What.** Measure how many full births a played year makes against the CDC age-band counts on current main, in three drawn places. Two earlier measurements disagree: births were 1.3 times the expectation in Roche Harbor, Washington, and about ten times too few in three other places (3 births against about 38). On Oct 20 only 3 of 191 active couples planned a child (1.6 percent, age term averaging -2.96), against 12.2 percent a day before. Settle which is true now, so the other parts build on a real figure. Seen: the town's births in the paper and its population on the Metrics tab.
 
-**Cause.** Measured: Roche Harbor, Washington (5359075, seed 2cff037427070ab820471240abf093b2a383133b4fe484274019a40fd2076e26): 28 births against 21.7 expected; Concord, Illinois (1716054, seed 99f462cf428e4898d2861e98e43f4079d0ca4a485b604ed49d569c4bcc5d90a9): 9 against 3.39 (item, Oct 25). Command: src/core2/births-full-web.test.ts, with the CDC rates in data/research/renewal/natality-2024.json.
+**Cause.** Measured: Roche Harbor, Washington (5359075, seed 2cff037427070ab820471240abf093b2a383133b4fe484274019a40fd2076e26): 28 births against 21.7 expected; Concord, Illinois (1716054, seed 99f462cf428e4898d2861e98e43f4079d0ca4a485b604ed49d569c4bcc5d90a9): 9 against 3.39 (item, Oct 25). Command: tests/src/core2/births-full-web.test.ts, with the CDC rates in data/research/renewal/natality-2024.json.
 
 **Fix.** Run a one-year buildBenchWorld in Roche Harbor, Concord and one more drawn place, print full births per thousand women by 5-year band from 15 to 49 against the CDC band counts and the share of active couples that plan, with person-birth record ids, and write the table into this part's Notes. No code changes.
 
@@ -35,7 +35,7 @@ merged-at: 2026-11-13T00:06:18.516Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/births-full-web.test.ts, src/core2/births-plan.ts, data/research/renewal/natality-2024.json
+**Files.** tests/src/core2/births-full-web.test.ts, src/core2/births-plan.ts, data/research/renewal/natality-2024.json
 
 Measured Nov 11, 2026 on main (sonnet-cc77, `node --import tsx scripts/dev-tests/births-measure.ts <placeKey> <seed>`, one year of buildBenchWorld from the game start, full people only, births = `person-birth` records by the mother's age at the birth against the CDC 2024 age rates, data/research/renewal/natality-2024.json, a report not a target):
 

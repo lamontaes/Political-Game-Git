@@ -28,7 +28,7 @@ source: Account lead, Nov 14 (note on the views thread's ruling that a platform 
 
 **Rules.** No dice: the candidate's traits and the district's voters decide. One rule, all 56 places: the district comes from data, never a named place.
 
-**Done when.** At three pinned places, in a race with two or more candidates, an ambitious candidate's platform moves toward their district on at least one question and a principled one's does not, and the pinned rivals test (`src/core2/candidate-platform-spread.test.ts`) still passes; a second session, on main in a drawn place it names with its seed, sees in dev mode a candidate's stance moved toward the district with the reason named.
+**Done when.** At three pinned places, in a race with two or more candidates, an ambitious candidate's platform moves toward their district on at least one question and a principled one's does not, and the pinned rivals test (`tests/src/core2/candidate-platform-spread.test.ts`) still passes; a second session, on main in a drawn place it names with its seed, sees in dev mode a candidate's stance moved toward the district with the reason named.
 
 **Waits on.** `campaign-money-refit-after-views-carry-popularity` on the train.
 

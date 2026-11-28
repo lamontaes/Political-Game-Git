@@ -17,7 +17,7 @@ claimed-at: 2026-10-24T18:17:14.755Z
 
 **Rules.** Wire to the world: an office exists in play only from the date its law creates it, read from the research row as data (a first-term start date) for all 56 places, never a state named in logic, and no holder or vacancy record exists before that date.
 
-**Done when.** In buildBenchWorld for a drawn place whose research lists an office starting after the opening, and in a test in src/core2/offices-state.test.ts over all 56 places, no term or official record exists for that office before its first-term start date, and the office is filled by its first election, named by record id.
+**Done when.** In buildBenchWorld for a drawn place whose research lists an office starting after the opening, and in a test in tests/src/core2/offices-state.test.ts over all 56 places, no term or official record exists for that office before its first-term start date, and the office is filled by its first election, named by record id.
 
 **Files.** src/core2/offices-state.ts, data/research/offices/state-offices.json, src/core2/modules/officials.ts
 

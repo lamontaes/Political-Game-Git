@@ -36,6 +36,7 @@ import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
 import { corePlaceByKey } from "../../src/core2/place-lookup";
 import { drawPlace } from "../core2-year/place";
+import { openFirstPlace } from "./pass-over";
 import {
   compareYears,
   recordsKept,
@@ -52,24 +53,31 @@ const seed = option("seed", randomBytes(8).toString("hex"));
 // Four years, so every check holds an election year (CTO, Oct 30 03:18).
 const years = Number(option("years", "4"));
 const maxSeconds = Number(option("max-seconds", "120"));
-const drawn = drawPlace(seed, "speed-year");
-const placeKey = option("place", drawn.key);
-// A named key is reported by its own name, not the seed's drawn place.
-const placeName =
-  placeKey === drawn.key
-    ? drawn.name
-    : (corePlaceByKey(placeKey)?.displayName ?? placeKey);
+const namedPlace = option("place", "");
 const seconds = (since: number) =>
   Number(((performance.now() - since) / 1000).toFixed(1));
 
 setBookkeeping(false);
 const built = performance.now();
-const world = buildBenchWorld(drawn.seed, gameStartDate(), {
-  twoLevel: true,
-  placeKey,
-});
+const buildAt = (placeKey: string, worldSeed: string) =>
+  buildBenchWorld(worldSeed, gameStartDate(), { twoLevel: true, placeKey });
+// A drawn place the world refuses (every adult in group quarters) is named and the next
+// draw is tried; a place asked for by key is built as asked, and its refusal stops the run.
+const opened = namedPlace
+  ? null
+  : openFirstPlace(seed, "speed-year", (place) =>
+      buildAt(place.key, place.seed),
+    );
+const drawn = opened?.place ?? drawPlace(seed, "speed-year");
+const placeKey = namedPlace || drawn.key;
+// A named key is reported by its own name, not the seed's drawn place.
+const placeName =
+  placeKey === drawn.key
+    ? drawn.name
+    : (corePlaceByKey(placeKey)?.displayName ?? placeKey);
+const world = opened?.world ?? buildAt(placeKey, drawn.seed);
 console.log(
-  `${placeName} (key ${placeKey}, seed ${seed}): built in ${seconds(built)} s`,
+  `${placeName} (key ${placeKey}, seed ${opened?.drawSeed ?? seed}): built in ${seconds(built)} s`,
 );
 const git = (...gitArgs: string[]) =>
   execFileSync("git", gitArgs, { encoding: "utf8" }).trim();

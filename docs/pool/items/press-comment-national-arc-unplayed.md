@@ -18,7 +18,7 @@ root: none
 source: Account lead, Nov 16 00:41Z (composed is not played)
 ---
 
-**What.** The national arc of the reporter's call (`press-comment.national`) was checked only by wording it with `composeSceneTalk` and the purpose swapped. That check is deleted from src/director/press-comment-context.test.ts, so no test plays the national arc by presses, and its lines (the opening that names the story, "I'll hold the paragraph", "That's a big claim", "Then it says you were asked and didn't say") are unproven in play.
+**What.** The national arc of the reporter's call (`press-comment.national`) was checked only by wording it with `composeSceneTalk` and the purpose swapped. That check is deleted from tests/src/director/press-comment-context.test.ts, so no test plays the national arc by presses, and its lines (the opening that names the story, "I'll hold the paragraph", "That's a big claim", "Then it says you were asked and didn't say") are unproven in play.
 Seen: on #9584 at bee3f973, where the Account lead ruled the composed section out.
 
 **Cause.** Found in code: `readOf` in src/director/arc-variant.ts (its `national-outlet` read, line 600) gives the national arc only when the asker writes for an outlet whose tier is national. A town member's call after a council vote at a drawn place comes from a local outlet's reporter, so play never reaches it there.
@@ -33,6 +33,6 @@ Seen: on #9584 at bee3f973, where the Account lead ruled the composed section ou
 
 **Waits on.** Nothing.
 
-**Files.** src/director/press-comment-context.test.ts, a new pinned test under src/director/ (new)
+**Files.** tests/src/director/press-comment-context.test.ts, a new pinned test under src/director/ (new)
 
 **Notes.**

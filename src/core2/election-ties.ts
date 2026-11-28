@@ -25,12 +25,8 @@ import {
   officeSeats,
   servingTermsOnSeat,
 } from "./modules/offices";
-import {
-  ELECTIONS_MODULE_ID,
-  ballot,
-  type ContestRow,
-  type FilingRow,
-} from "./modules/elections";
+import type { ContestRow, FilingRow } from "./modules/elections";
+import { ELECTIONS_MODULE_ID, ballot } from "./elections-reads";
 import { CAMPAIGNS_MODULE_ID, parsePlatform } from "./modules/campaigns";
 import { type TermRow } from "./modules/offices";
 import { voterLean } from "./modules/voting";

@@ -18,9 +18,9 @@ claimed-at:
 
 **Rules.** One model, two tiers: an out-of-town candidate is a counted name until met, then filled in from the same record. No dice: who runs and how a district votes follow traits, ambition, party lean and money, never a roll. One rule, all 56 places: districts and candidates come from data, with no state named in logic. Replace, never layer: the typical-candidate path and the typical-margin fallback are deleted. An effect is a read: the town's news and the legislature read the winner of each out-of-town race.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), each out-of-town race shows candidates who each filed with recorded reasons and each legislative district votes from its own 2024 result, by record id; SG-GOV-world-race-lean is marked resolved in stopgaps.json with its replacement readers named and its ID retained, and src/core2/world-races.test.ts covers it.
+**Done when.** In a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), each out-of-town race shows candidates who each filed with recorded reasons and each legislative district votes from its own 2024 result, by record id; SG-GOV-world-race-lean is marked resolved in stopgaps.json with its replacement readers named and its ID retained, and tests/src/core2/world-races.test.ts covers it.
 
-**Files.** src/core2/modules/world-races.ts, src/core2/modules/candidacy.ts, src/core2/data/stopgaps.json, src/core2/world-races.test.ts
+**Files.** src/core2/modules/world-races.ts, src/core2/modules/candidacy.ts, src/core2/data/stopgaps.json, tests/src/core2/world-races.test.ts
 
 **Notes.** TODO
 

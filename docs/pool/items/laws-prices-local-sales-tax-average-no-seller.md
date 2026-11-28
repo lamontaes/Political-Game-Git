@@ -17,11 +17,11 @@ claimed-at: 2026-10-27T13:25:35.538Z
 
 **Rules.** One rule, all 56 places: the fix must hold in every place a draw can pick and never name a state or place in logic; an effect is a read, not a record: the seller must be recorded where the sales engine applies the rate at settlement.
 
-**Done when.** src/core2/law-wiring-prices.test.ts passes with West Wildwood pinned and on two fresh random seeds, each named in the PR body; the PR says which it was (the engine's missed record, by file and line, or the town's rate coming from another row, with the test reading the row actually in force). **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
+**Done when.** tests/src/core2/law-wiring-prices.test.ts passes with West Wildwood pinned and on two fresh random seeds, each named in the PR body; the PR says which it was (the engine's missed record, by file and line, or the town's rate coming from another row, with the test reading the row actually in force). **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Time box.** 3 hours, Sonnet, no helpers; builds against nothing.
 
-**Files.** src/core2/law-wiring-prices.test.ts
+**Files.** tests/src/core2/law-wiring-prices.test.ts
 
 **Notes.** TODO
 

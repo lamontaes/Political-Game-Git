@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T23:50:41.528Z
 
 **Rules.** Wire to the world: each knock reaches named voters through the campaign engine's own reach, and the count is every door knocked. Ask why: a grayed action shows its reason from the records. One rule, all 56 places: world candidates walk their doors by the same rule.
 
-**Done when.** On the bench's play screen, a new life in a town drawn from all 56 (place and seed named) files for a local seat and knocks on doors every week for a year: the Campaigns door count grows every week past the town's households, and a grayed campaign action shows its reason, with screenshots in the PR; src/core2/campaign-day.test.ts's second-pass test passes in a random draw and fails on main.
+**Done when.** On the bench's play screen, a new life in a town drawn from all 56 (place and seed named) files for a local seat and knocks on doors every week for a year: the Campaigns door count grows every week past the town's households, and a grayed campaign action shows its reason, with screenshots in the PR; tests/src/core2/campaign-day.test.ts's second-pass test passes in a random draw and fails on main.
 
 **Files.** src/core2/modules/campaigns.ts, src/core2/campaign-day.ts, src/bench/campaign.ts, src/bench/play.mjs, src/bench/data/controls.json
 

@@ -25,7 +25,7 @@ import {
 import {
   publicEmployerBoundLevel,
   publicEmployerLevel,
-} from "../public-pay-floor";
+} from "../modules/laws-reads";
 import type { LawLevelName } from "../laws-starting";
 import type { CoreAPI, CoreState, Source } from "../types";
 import { jobsAt } from "./group-b-money";
@@ -38,7 +38,7 @@ import {
   REACH_A_MODULE_ID,
   tomorrow,
 } from "./group-a-records";
-import { yesLevels } from "../modules/laws";
+import { yesLevels } from "../modules/laws-reads";
 
 const KEY = data.series;
 const KIND = data.contractKind;

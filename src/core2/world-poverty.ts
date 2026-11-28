@@ -18,9 +18,9 @@ import {
   veteransIncomeByHousehold,
 } from "./modules/laws";
 import { openClaims } from "./jobs-reads";
-import { reachParameter } from "./laws-in-force";
-import { householdIncome, residentsRuntime } from "./modules/residents";
-import { retirementClaims } from "./modules/retirement-claims";
+import { reachParameter } from "./law-reach/reach-parameters";
+import { householdIncome, residentsRuntime } from "./residents-reads";
+import { retirementClaims } from "./retirement-claims-runtime";
 import { awardYearMinor, jobYearMinor } from "./household-income";
 import { coreAPI } from "./state";
 import { sinceOpeningIndex } from "./tax-index";
@@ -166,10 +166,14 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
     placeId: string,
     named: boolean,
     ages: readonly number[],
-    incomeMinor: number,
+    annualMinor: number,
     weight: number,
   ) => {
     if (!ages.length) return;
+    // A household's income is kept in whole minor units: a counted household's
+    // share of its place's workers' pay is a fraction of a worker, and a sum of
+    // fractions is not a whole number of cents.
+    const incomeMinor = Math.round(annualMinor);
     const children = ages.filter((a) => a < T.adultAgeFrom).length;
     const eldestAge = Math.max(...ages);
     const adults = ages.length - children;

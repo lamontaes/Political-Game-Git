@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 
 **Done when.** At a drawn at-large race with a tie straddling the last seat (names and seed printed), the tied candidates get a second election, one of them takes the seat on its date, and the seat has a holder; the M2-07 test accepts no seat without a winner except one with a kept tie record.
 
-**Files.** src/core2/modules/voting.ts, src/core2/voting.test.ts
+**Files.** src/core2/modules/voting.ts, tests/src/core2/voting.test.ts
 
 **Notes.** Elections, Nov 9: found while fixing M2-07 (PR #8000); item 2 of the elections goal (every seat has a holder).
 

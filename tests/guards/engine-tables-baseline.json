@@ -18,7 +18,6 @@
     },
     "src/bench/dev-mode.ts": {
       "dynamic": 1,
-      "jobs-businesses": 2,
       "people": 2
     },
     "src/bench/dev-trace.ts": {
@@ -30,9 +29,6 @@
       "elections": 2,
       "offices": 1
     },
-    "src/bench/dev-views/voter-lean.ts": {
-      "elections": 1
-    },
     "src/bench/dev-why.ts": {
       "dynamic": 1,
       "jobs-businesses": 1
@@ -40,11 +36,8 @@
     "src/bench/election-night.ts": {
       "elections": 1
     },
-    "src/bench/government-bodies.ts": {
-      "elections": 1
-    },
     "src/bench/government.ts": {
-      "elections": 3
+      "elections": 1
     },
     "src/bench/law-did.ts": {
       "laws": 1
@@ -62,9 +55,6 @@
     "src/bench/reached.ts": {
       "elections": 2,
       "news": 1
-    },
-    "src/bench/results.ts": {
-      "elections": 1
     },
     "src/bench/scene.ts": {
       "homes": 1
@@ -128,9 +118,6 @@
     "src/core2/modules/counted-demotion.ts": {
       "elections": 1
     },
-    "src/core2/modules/credit.ts": {
-      "homes": 1
-    },
     "src/core2/modules/crime.ts": {
       "homes": 1
     },
@@ -170,9 +157,9 @@
     "src/core2/modules/press.ts": {
       "elections": 6,
       "jobs-businesses": 5,
-      "laws": 6,
       "offices": 4,
-      "people": 2
+      "people": 2,
+      "justice": 6
     },
     "src/core2/modules/public-action.ts": {
       "elections": 1
@@ -194,9 +181,6 @@
     "src/core2/modules/world-legislating.ts": {
       "jobs-businesses": 1,
       "offices": 5
-    },
-    "src/core2/modules/world-metrics.ts": {
-      "dynamic": 1
     },
     "src/core2/modules/world-panels.ts": {
       "clock-places": 1,
@@ -272,12 +256,12 @@
       "bodies": 1,
       "homes": 1,
       "jobs-businesses": 1,
-      "laws": 1,
       "news": 1,
-      "offices": 2
+      "offices": 2,
+      "justice": 1
     },
     "src/director/custody-facts.ts": {
-      "laws": 2
+      "justice": 2
     },
     "src/director/door-facts.ts": {
       "elections": 1

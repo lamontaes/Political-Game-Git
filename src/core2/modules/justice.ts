@@ -72,9 +72,9 @@ import {
   endPretrial,
   type PretrialRow,
 } from "../justice-pretrial";
-export { reachParameter } from "../law-reach/group-a-records";
+export { groupAReachParameter as reachParameter } from "../laws-in-force";
 export { openCrime } from "./crime";
-export { openLawReach } from "../law-reach/host";
+export { openLawReach } from "./laws";
 
 export const JUSTICE_MODULE_ID = "core2-justice-v1";
 const FINE_KIND = "justice-fine";

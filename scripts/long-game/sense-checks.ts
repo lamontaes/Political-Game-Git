@@ -17,13 +17,14 @@
  * into one function in `src/core2` and add it here.
  */
 import { countryProblems } from "../../src/core2/country-model";
-import { MACRO_MODULE_ID, countryStates } from "../../src/core2/modules/macro";
+import { MACRO_MODULE_ID } from "../../src/core2/modules/macro";
 import {
   residentCounts,
   residentsRuntime,
 } from "../../src/core2/modules/residents";
 import { coreAPI } from "../../src/core2/state";
 import type { CoreState } from "../../src/core2/types";
+import { allCountryStates } from "../../src/core2/macro-reads";
 
 /** One counted place, as the records say it today. */
 export interface PlaceReading {
@@ -175,7 +176,7 @@ export function readWorld(core: CoreState): WorldReading {
   // A world without the macro module has no country tier to check.
   if (core.modules.has(MACRO_MODULE_ID)) {
     const api = coreAPI(core);
-    const states = countryStates(api);
+    const states = allCountryStates(api);
     const [nation] = [
       ...api.moduleState(MACRO_MODULE_ID).table("country").rows(),
     ];

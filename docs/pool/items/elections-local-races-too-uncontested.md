@@ -18,9 +18,9 @@ branch: governing/county-challengers
 
 **Rules.** No dice: who runs follows each resident's own reasons (drives, money, traits, standing, the seat), never a fixed share; the real share checks the town's total and never decides one person. One rule, all 56 places: the check draws its places from all 56 and names each place and seed. Sliding scales and causes: nothing flips at a cutoff. Research before building: the Ballotpedia counts are the check and carry their year and URL.
 
-**Done when.** In a played world (buildBenchWorld) in at least six places drawn from all 56, named with their seeds, the share of local contests with no more candidates than seats falls between 50 and 80 percent across the places taken together, shown by contest record ids and a count of filings per contest, with each filing tracing to a candidacy decision; a test in src/core2/who-runs.test.ts or a new calibration test reports the share and the places. **On screen.** Nothing yet: filed play-local-races-on-screen, which puts it on Politics → Campaigns.
+**Done when.** In a played world (buildBenchWorld) in at least six places drawn from all 56, named with their seeds, the share of local contests with no more candidates than seats falls between 50 and 80 percent across the places taken together, shown by contest record ids and a count of filings per contest, with each filing tracing to a candidacy decision; a test in tests/src/core2/who-runs.test.ts or a new calibration test reports the share and the places. **On screen.** Nothing yet: filed play-local-races-on-screen, which puts it on Politics → Campaigns.
 
-**Files.** src/core2/modules/candidacy.ts, src/core2/data/candidacy/parameters.json, src/core2/who-runs.test.ts
+**Files.** src/core2/modules/candidacy.ts, src/core2/data/candidacy/parameters.json, tests/src/core2/who-runs.test.ts
 
 **Notes.** TODO
 

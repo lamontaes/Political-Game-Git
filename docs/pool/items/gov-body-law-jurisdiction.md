@@ -20,7 +20,7 @@ branch: lane-2/body-law-jurisdiction
 
 **Done when.** A generated all-module year drawn from all 56 names its town, replay, actual body, bill, roll call and enacted law whose jurisdiction agrees with that body's real government. Existing outside-state office rows resolve to their own state, and a multi-county body's law key comes from its own unit. Pure edge checks preserve township, federal, municipio and city fallbacks; the original readers fail their regression. Fresh New Game passes and four serial years remain within 20 percent of the same-host base, with world-record differences explained. The every-state-and-town parent remains unfinished. The proof is shown in a played world with the body, bill and law named by record id.
 
-**Files.** src/core2/laws-in-force.ts; src/core2/modules/legislature.ts jurisdiction readers only; src/core2/body-jurisdiction.test.ts; lane agreement and proof
+**Files.** src/core2/laws-in-force.ts; src/core2/modules/legislature.ts jurisdiction readers only; tests/src/core2/body-jurisdiction.test.ts; lane agreement and proof
 
 **Notes.** Existing gov-every-state-and-town-governs Nov1 20:00 notes and world-governing-u2-spec-2026-11-01 section6 agree the billJurisdiction/countyOfBody seam; step2 specifies this unit. Searched pool for body jurisdiction, officeLawJurisdiction and countyOfBody; the merged draft-value reader addresses amounts, not body identity. Bound this child to step2; U2 remaining steps and U3/U4 stay with the parent. Two-hour implementation time box, serial verification follows.
 

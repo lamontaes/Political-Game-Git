@@ -33,6 +33,6 @@ Seen: People in a new life, where the bust's column was empty below its first th
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/ui/strips.mjs, src/bench/play.mjs, src/bench/play.css, src/bench/people-card-fills.browser.mjs
+**Files.** src/bench/ui/strips.mjs, src/bench/play.mjs, src/bench/play.css, tests/src/bench/people-card-fills.browser.mjs
 
 **Notes.** Crew line #9747, item 4g.

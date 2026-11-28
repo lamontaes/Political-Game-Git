@@ -18,9 +18,9 @@ claimed-at:
 
 **Rules.** One model, two tiers: the counted groups are read by every engine with the same rule as a full person times their count. One rule, all 56 places: the weight comes from the place's reference population in data, with no place named. No dice: the weight is the Census count over the sample, never a roll. Speed: a year in the largest town runs under two minutes and no town runs more than 20 percent slower than base, one process at a time on the same machine. Replace, never layer: the cap, the `targetPopulation` ceiling path and its stopgap row are deleted, and the PR body counts them. Estimate, never UNKNOWN: a place with no reference count falls back to its real sample size, marked as an estimate.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a town above 10,000 drawn from all 56 and a seed the builder did not choose (both named in the PR body) the town opens at its Census count with a balanced journal, `Math.min(target, real)` is gone from src/core2/population.ts, the year runs inside the speed rule, and a test in src/core2/counted-weight.test.ts states the opened count against the place's reference population by record id.
+**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a town above 10,000 drawn from all 56 and a seed the builder did not choose (both named in the PR body) the town opens at its Census count with a balanced journal, `Math.min(target, real)` is gone from src/core2/population.ts, the year runs inside the speed rule, and a test in tests/src/core2/counted-weight.test.ts states the opened count against the place's reference population by record id.
 
-**Files.** src/core2/population.ts, src/bench/world.ts, src/core2/data/parameters.json, src/core2/counted-weight.test.ts
+**Files.** src/core2/population.ts, src/bench/world.ts, src/core2/data/parameters.json, tests/src/core2/counted-weight.test.ts
 
 **Notes.** Ruling: "a town opens at its real Census size; nothing pads it to 10,000." (core-od-town-size). The register audit (Oct 15) could not find the cap in current code; verify in a played world of a town above 10,000 before changing anything; close as done if it already opens at Census size.
 

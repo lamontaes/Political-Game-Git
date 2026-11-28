@@ -15,7 +15,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 lead: jobs
-source: Fable, Nov 10, 2026, found by the new test for the unit of a counted household's out-of-town workers (src/core2/unplaced-workers-unit.test.ts)
+source: Fable, Nov 10, 2026, found by the new test for the unit of a counted household's out-of-town workers (tests/src/core2/unplaced-workers-unit.test.ts)
 checked: fable 2026-11-10
 ---
 
@@ -33,6 +33,6 @@ checked: fable 2026-11-10
 
 **Waits on.** world-regional-work-piles-unplaced-workers-on-a-household (claimed; this builds on its workers fix).
 
-**Files.** src/core2/modules/counted-moves.ts, src/core2/modules/residents.ts, src/core2/unplaced-workers-unit.test.ts (new)
+**Files.** src/core2/modules/counted-moves.ts, src/core2/modules/residents.ts, tests/src/core2/unplaced-workers-unit.test.ts (new)
 
 **Notes.** The test prints both sides after its played days and does not assert them yet; turn that print into the assertion. Also seen and not looked into: a household that returns to the counts holds its commuter's pay as so many of the pool's workers (returnCommuterPay), so a one-household record can read 3.17 workers with two working-age members; and a counted person in regional work who dies or passes working age keeps their worker on the household until the turnover pull ends it. The moves engine's place rate (unplacedRates) adds records without their weights on both sides.

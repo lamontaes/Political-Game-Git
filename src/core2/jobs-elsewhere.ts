@@ -36,7 +36,7 @@ import {
   quitPerQuarter,
   workAgeFactor,
   workLeans,
-} from "./past";
+} from "./past-reads";
 import { livesElsewhere, stateUnemployment } from "./modules/people";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
 import type {

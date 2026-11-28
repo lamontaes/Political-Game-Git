@@ -74,16 +74,6 @@ export interface SittingCalendar {
 /** Each engine that keeps bodies' calendars carries what it knows as its `sittingCalendar` field. */
 const calendarsOf = (core: CoreState) => fieldsOf(core, "sittingCalendar");
 
-/** The hours two members have shared, and who they know through their bodies: carried as the `sharedHours` field by the engine that keeps the chambers and town bodies. */
-export const SITTING_SHARED_HOURS = {
-  hours: sittingHours,
-  known: {
-    kind: COLLEAGUE_KIND,
-    knownTo: sittingKnownTo,
-    together: sittingTogether,
-  },
-};
-
 const DAY_MS = 86_400_000;
 const days = new Map<string, number>();
 /** A date's day number, each date parsed once (seats' start dates repeat in every sort). */
@@ -388,7 +378,10 @@ export function sittingHoursByBody(
 }
 
 /** The colleagues a person knows through the bodies they sit on today, nearest first. */
-function sittingKnownTo(core: object, id: PersonId): readonly PersonId[] {
+export function sittingKnownTo(
+  core: object,
+  id: PersonId,
+): readonly PersonId[] {
   const state = core as CoreState;
   if (!state.modules || !calendarsOf(state).length) return [];
   const k = keptFor(state);
@@ -406,7 +399,7 @@ function sittingKnownTo(core: object, id: PersonId): readonly PersonId[] {
  * shared in a body they both sit on today, through today; null before their
  * first. The body is the record.
  */
-function sittingTogether(
+export function sittingTogether(
   core: object,
   a: PersonId,
   b: PersonId,

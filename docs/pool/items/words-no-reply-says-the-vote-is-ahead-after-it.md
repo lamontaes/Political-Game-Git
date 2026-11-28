@@ -38,4 +38,4 @@ Nov 15 02:33Z to 02:53Z, Words lead's rulings: six more put-offs, "Let me check 
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/scene-talk.json, src/english/stall-after-vote.test.ts (new)
+**Files.** data/english/parts/scene-talk.json, tests/src/english/stall-after-vote.test.ts (new)

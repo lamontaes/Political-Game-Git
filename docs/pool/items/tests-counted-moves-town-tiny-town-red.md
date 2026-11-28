@@ -25,7 +25,7 @@ branch:
 
 **Cause.** Measured: Delphos, Iowa (1919810), world seed 06c297cea5cea2e1be55278442ed8892f1c2d74e4bf151b37a2d7007583c1002: the groups the place lookup does not know hold 7 groups and 20 people; after 150 days and after 365 days no household of them has left, on the train at eb349e5d and on #9057 alike. At about 5 percent a year, 20 people are due about 0.4 of a person in 150 days, under half a household, so nothing is due to leave. The test asserts at least one departure in the first drawn place that has such groups, whatever its size.
 
-**Fix.** In src/core2/counted-moves-town.test.ts, pass over a drawn place whose unknown groups are due less than one household in the window (people times the ACS rate times 150/365 under its largest household), name each place passed over, and keep drawing up to DRAWS.
+**Fix.** In tests/src/core2/counted-moves-town.test.ts, pass over a drawn place whose unknown groups are due less than one household in the window (people times the ACS rate times 150/365 under its largest household), name each place passed over, and keep drawing up to DRAWS.
 
 **Time box.** 1 hour for one Sonnet session.
 
@@ -35,6 +35,6 @@ branch:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/counted-moves-town.test.ts
+**Files.** tests/src/core2/counted-moves-town.test.ts
 
 **Notes.** Filed by Account lead T28 on branch claude/project-thread-ojvmv1.

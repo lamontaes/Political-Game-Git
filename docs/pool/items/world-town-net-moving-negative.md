@@ -35,7 +35,7 @@ branch: claude/project-thread-ojvmv1
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/counted-moves.ts, src/core2/counted-arrivals-by-place.test.ts (new)
+**Files.** src/core2/modules/counted-moves.ts, tests/src/core2/counted-arrivals-by-place.test.ts (new)
 
 **Notes.** Worked Oct 17 (claude, claude/town-net-moving): two causes fixed, the rest measured.
 

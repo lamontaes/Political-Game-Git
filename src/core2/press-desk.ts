@@ -16,7 +16,7 @@
 import { OUTCOME_MONTH_KIND } from "./outcome-news-constants";
 import briefs from "./data/press/briefs.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { questionAxis } from "./modules/campaigns";
+import { questionAxis } from "./campaign-views";
 import { closenessBetween, feelingBetween, grudgeBetween } from "./closeness";
 import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
@@ -28,19 +28,18 @@ import {
   servingTermsOf,
   termById,
   termsOfPerson,
-} from "./modules/offices";
+} from "./offices-reads";
 import { isPublicFigure } from "./past-public";
 import { reachedBy } from "./modules/laws";
 import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
-import {
-  stancesOf,
-  viewOf,
-  VIEWS_MODULE_ID,
-  VIEWS_SPEAKER_KEY,
-} from "./modules/views";
-import { residentsRuntime } from "./modules/residents";
+import { stancesOf, viewOf, VIEWS_SPEAKER_KEY } from "./modules/views-reads";
+import { VIEWS_MODULE_ID } from "./modules/views-constants";
+import { residentsRuntime } from "./residents-reads";
 import { onContestRoll, VOTING_MODULE_ID } from "./modules/voting";
-import { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./modules/elections";
+import {
+  BALLOT_MEASURES_MODULE_ID,
+  measureVoteOf,
+} from "./modules/ballot-measures-reads";
 import { lawRowById } from "./modules/laws-reads";
 
 /**

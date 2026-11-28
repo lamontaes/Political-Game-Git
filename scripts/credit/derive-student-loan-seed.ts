@@ -20,7 +20,7 @@
  *
  *   node --import tsx scripts/credit/derive-student-loan-seed.ts
  * rewrites the studentLoan* rows at the end of src/core2/data/parameters.json;
- * src/core2/student-loan-seed.test.ts checks they equal what this gives.
+ * tests/src/core2/student-loan-seed.test.ts checks they equal what this gives.
  */
 import { readFileSync, writeFileSync } from "node:fs";
 

@@ -27,6 +27,6 @@ claimed-at: 2026-10-29T23:33:20.089Z
 
 **Screenshot.** Issues before and after at 1440 by 900 from a drawn place, beside the mock.
 
-**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/ui/split-screen.mjs, src/bench/ui/list-screen.mjs, src/bench/ui/button.mjs, src/bench/issues-law.browser.mjs, src/bench/issues-levels.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/ui/split-screen.mjs, src/bench/ui/list-screen.mjs, src/bench/ui/button.mjs, tests/src/bench/issues-law.browser.mjs, tests/src/bench/issues-levels.browser.mjs
 
 **Notes.** Filed by the CTO, Oct 29 23:55, from the all-menus screenshot sweep (subjects past the third ran off the panel). Read: OWNER-DECISIONS Oct 29 22:45 and 22:15; searched the pool: issues, columns, subjects (no twin).

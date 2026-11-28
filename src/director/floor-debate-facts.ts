@@ -24,7 +24,7 @@ import rules from "./data/scene-talk-rules.json" with { type: "json" };
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { billNameOf, billTitleSaid } from "../english/bill-names";
-import { questionAbout } from "../english/question-names";
+import { questionSaid } from "../english/question-names";
 import { officeWords } from "../english/said-as";
 import { officeById } from "../core2/modules/offices";
 import type { Fact } from "../english/scene-talk-words";
@@ -91,7 +91,7 @@ export function floorDebateFacts(
   const section = bill.provisions[P.zero];
   const about =
     section?.kind === "policy-question" && section.question
-      ? questionAbout(section.question)
+      ? questionSaid(section.question)
       : section?.kind === "budget-line" && section.line
         ? (
             lineNames.lines as Record<

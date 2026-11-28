@@ -19,6 +19,6 @@ claimed-at: 2026-11-07T20:30:43.004Z
 
 **Done when.** A generated-world test draws a place and prints replay and record ids. An earlier effective date is a real change, a later repeal survives the old pending phase, and phases within one act still follow their dates. The actual vote probe is reported separately.
 
-**Files.** src/core2/laws-in-force.ts,src/core2/modules/laws.ts,src/core2/modules/legislature.ts,src/core2/pending-law-reversal.test.ts
+**Files.** src/core2/laws-in-force.ts,src/core2/modules/laws.ts,src/core2/modules/legislature.ts,tests/src/core2/pending-law-reversal.test.ts
 
 **Notes.** Observed in Hamburg, New Jersey, replay 8d5e52aae98296b1; town bill recorded as overridden but with zero new law rows and a restates-pending record.

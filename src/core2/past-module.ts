@@ -17,9 +17,6 @@
  * what happened is generated once from the world's seed, and every choice in
  * it (a vote, a split) follows a person's or group's recorded lean.
  */
-import { seededUnit } from "./seeded";
-import rows from "./data/past/parameters.json" with { type: "json" };
-import type { Parameter } from "./parameters";
 import { coreAPI, registerModule } from "./state";
 import type { CoreAPI, CoreState, IsoDate, PersonId } from "./types";
 import type { ModuleRow } from "./module-data";
@@ -27,18 +24,15 @@ import { residenceOn } from "./past-moves";
 import type { HistoryRecord, PreStartModule } from "./pre-start";
 import type { PastClosureRow } from "./past-business";
 import type { HistoryRow, HistoryScope, HistorySource } from "./past-history";
-
-export const PAST_MODULE_ID = "core2-past-v1";
-
-const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
-
-/** A past parameter's value, registering its stopgap when it carries one. */
-export function pastParameter(api: CoreAPI | null, key: string): number {
-  const row = PARAMETERS[key];
-  if (!row) throw new Error(`Unknown past parameter: ${key}`);
-  if (row.stopgapId) api?.stopgap(row.stopgapId);
-  return row.value;
-}
+import { PAST_MODULE_ID } from "./past-reads";
+import { PAST_LAW_ENACTED, SESSION_FACT } from "./past-reads";
+export { PAST_LAW_ENACTED, SESSION_FACT } from "./past-reads";
+export {
+  PAST_MODULE_ID,
+  pastParameter,
+  seededBetween,
+  shiftDays,
+} from "./past-reads";
 
 /**
  * The races the town's own people lost before the start, kept from the
@@ -60,8 +54,7 @@ export function keepPastRacesLost(
 const LAW_HISTORY = "law-history:";
 /** The record kind of a bill a body voted on before day one, as the one history reader tells it. */
 export const PAST_BILL_VOTED = "past.bill-voted";
-/** The record kind of a law's history before day one (who brought it, who signed it), as the reader tells it. */
-export const PAST_LAW_ENACTED = "past.law-enacted";
+
 /** The record kind of a business that closed in the year before day one, as the reader tells it. */
 export const PAST_BUSINESS_CLOSED = "past.business-closed";
 /** How the past names a business it closed before day one (src/core2/past-business.ts). */
@@ -154,9 +147,6 @@ function lawHistoryRow(row: LawHistoryRow): HistoryRow {
     publicRecord: true,
   };
 }
-
-/** How a law's session is told on its history row: `session.<key>`. */
-export const SESSION_FACT = "session.";
 
 /** The narrowest of a law's roll calls (yes less no over all who voted); 0 with none. */
 function narrowestMargin(rollCalls: readonly RollCall[]): number {
@@ -282,6 +272,12 @@ export { seededUnit } from "./seeded";
 
 // The one history, for the engines that run or read it (light imports only:
 // the engines load this entry while the core is still loading).
+export type {
+  HistoryRecord,
+  HistoryWriter,
+  PreStartModule,
+  PreStartWindow,
+} from "./pre-start";
 export {
   coarseSteps,
   ownWindowOf,
@@ -289,12 +285,8 @@ export {
   preStartHistory,
   preStartWindowOf,
   recordPreStartLater,
-  type HistoryRecord,
-  type HistoryWriter,
-  type PreStartModule,
-  type PreStartWindow,
   wholePastOpened,
-} from "./pre-start";
+} from "./pre-start-history";
 // The one history reader: what already happened, for a person, a household,
 // an employer, a place, a state or the nation (src/core2/past-history.ts).
 export {
@@ -352,22 +344,6 @@ export {
   schoolsAttended,
   type SchoolAttended,
 } from "./past-school";
-
-/** A value inside [low, high], fixed by the seed and key. */
-export function seededBetween(
-  seed: string,
-  key: string,
-  low: number,
-  high: number,
-): number {
-  return low + (high - low) * seededUnit(seed, key);
-}
-
-export function shiftDays(date: string, days: number): string {
-  return new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000)
-    .toISOString()
-    .slice(0, 10);
-}
 
 /** A candidate in a past election: a person in the world, or a named identity. */
 export interface PastCandidate {

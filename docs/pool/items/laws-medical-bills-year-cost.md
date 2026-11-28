@@ -31,11 +31,11 @@ branch: claude/pool-laws-medical-bills-year-cost
 
 **Rules.** Speed: a country's year runs in under two minutes and no change may make a year more than 20% slower than its base. A speed cut changes nothing the simulation decides: the records proof (speed:year --proof-out) is identical, or differs only in fields dropped from the bills' own rows, named. Keep why fields only for full households and the people the player deals with (AGENTS.md, Keep it simple). One rule, all 56 places: time it in places drawn from all 56.
 
-**Done when.** A second session, not the builder, runs four years of `npm run speed:year` alternating base and head twice in Ringgold, Louisiana and one other drawn place (names and seeds given) and every year is within 10% of base. The records proof matches (or names only the dropped bill-row fields), and src/core2/law-wiring-medical-debt.test.ts passes with MEDICAL_DEBT_SEED=wf-med-1 and one fresh seed.
+**Done when.** A second session, not the builder, runs four years of `npm run speed:year` alternating base and head twice in Ringgold, Louisiana and one other drawn place (names and seeds given) and every year is within 10% of base. The records proof matches (or names only the dropped bill-row fields), and tests/src/core2/law-wiring-medical-debt.test.ts passes with MEDICAL_DEBT_SEED=wf-med-1 and one fresh seed.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/medical-bills.ts, src/core2/modules/credit.ts, src/core2/law-wiring-medical-debt.test.ts
+**Files.** src/core2/medical-bills.ts, src/core2/modules/credit.ts, tests/src/core2/law-wiring-medical-debt.test.ts
 
 **Notes.** TODO
 

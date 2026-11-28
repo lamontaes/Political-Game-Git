@@ -489,7 +489,7 @@ describe("check-changes: what a pull request may not add to its own checks", () 
       "a read that was already there",
     ).toEqual([]);
     expect(
-      read("src/core2/jobs.test.ts", "", 'c(api, "jobsLevel")'),
+      read("tests/src/core2/jobs.test.ts", "", 'c(api, "jobsLevel")'),
       "a test may compare with a level",
     ).toEqual([]);
     expect(rules.observe).toContain("sourced-level-read");

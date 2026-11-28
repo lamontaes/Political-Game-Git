@@ -30,8 +30,14 @@ const owners = families.flatMap((family) =>
 );
 /** The family a file belongs to, "shared" for the kernel, or null. */
 export function familyOf(file: string): string | null {
-  if (shared.some((test) => test.test(file))) return "shared";
-  const matches = owners.filter((owner) => owner.test.test(file));
+  // A test under tests/src sits where its source sits under src: it is named
+  // there, or it takes the family of the source path it mirrors.
+  const names = file.startsWith("tests/src/") ? [file, file.slice(6)] : [file];
+  if (shared.some((test) => names.some((name) => test.test(name))))
+    return "shared";
+  const matches = owners.filter((owner) =>
+    names.some((name) => owner.test.test(name)),
+  );
   if (!matches.length) return null;
   return matches.sort((a, b) => b.rank - a.rank)[0]!.family;
 }

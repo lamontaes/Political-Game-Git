@@ -18,8 +18,8 @@ claimed-at: 2026-10-30T02:02:17.783Z
 
 **Rules.** One rule, all 56 places: the order (council, else township board, else county board; county executive only where no council, mayor or township board) is data rows in player-offices.json read by one rule, never a place name in code. Look before you ask: built from the Oct 29 22:45 ruling as written.
 
-**Done when.** src/core2/player-first-race.test.ts passes over a seeded sample of localities from every one of the 56 state keys with the seed it prints: every place with local offices admits a local race, no council town admits a county or township seat, and a place with no local office is excused only when no government unit is found for it.
+**Done when.** tests/src/core2/player-first-race.test.ts passes over a seeded sample of localities from every one of the 56 state keys with the seed it prints: every place with local offices admits a local race, no council town admits a county or township seat, and a place with no local office is excused only when no government unit is found for it.
 
-**Files.** src/core2/data/offices/player-offices.json, src/core2/modules/elections.ts, src/core2/player-first-race.test.ts, src/bench/government.ts
+**Files.** src/core2/data/offices/player-offices.json, src/core2/modules/elections.ts, tests/src/core2/player-first-race.test.ts, src/bench/government.ts
 
 **Notes.** TODO

@@ -17,7 +17,7 @@ Newest at the bottom. Session: Laws and effects.
 ## Found for others
 
 - Story's Algiers, Vermont, seed r7 find: school rows fixed (#7391); the town's unemployment rate now stands on residents (#7401). Not fixed: resident unemployment climbs from 1 to 22 of about 102 workers in 13 months while Clinton, Connecticut stays 4.4% to 8.1%, so separations outrun hiring in a tiny town, and the opening seeds 1 seeker where the region's 2.6% implies about 3 (`openCountedSeekers`). That is the jobs engine's calibration.
-- `src/core2/stopgaps-register.test.ts` is red on main for other sessions' stopgaps (SG-WORDS-nation-window-not-interest, SG-SPEED-fast-forward-campaigns) sitting in the wrong family file.
+- `tests/src/core2/stopgaps-register.test.ts` is red on main for other sessions' stopgaps (SG-WORDS-nation-window-not-interest, SG-SPEED-fast-forward-campaigns) sitting in the wrong family file.
 
 ## Lessons for the skills
 

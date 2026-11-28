@@ -28,8 +28,8 @@ root: rc8-law-judged-by-paperwork
 
 **Rules.** An effect is a read, not a record: the treasury reads the law in force at the moment it pays, so a change reaches people when they are paid.
 
-**Done when.** A second session, in a drawn place, Town, State (seed printed), passes a Congress bill raising SSI's federal benefit rate in dev mode, runs past the next monthly close, and reads on the bill card the SSI recipients reached; `src/core2/benefits-paid-at-the-close.test.ts` passes in that drawn place.
+**Done when.** A second session, in a drawn place, Town, State (seed printed), passes a Congress bill raising SSI's federal benefit rate in dev mode, runs past the next monthly close, and reads on the bill card the SSI recipients reached; `tests/src/core2/benefits-paid-at-the-close.test.ts` passes in that drawn place.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach/group-b-store.ts, src/core2/law-reach/host.ts, src/core2/benefits-paid-at-the-close.test.ts (new)
+**Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach/group-b-store.ts, src/core2/law-reach/host.ts, tests/src/core2/benefits-paid-at-the-close.test.ts (new)

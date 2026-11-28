@@ -17,10 +17,10 @@ claimed-at: 2026-10-20T01:13:24.917Z
 
 **Rules.** One model, two tiers: a counted worker's pay changes by the same rule as a full worker's, on every payday of the payroll. Every dollar balances.
 
-**Done when.** In the played world (`buildBenchWorld`) in a drawn place that pays twice a month, a counted raise, hire and layoff reach both paydays, shown by job and flow ids; `src/core2/counted-payroll-halves.test.ts` fails without the change, and a played year leaves none of the ended jobs paid.
+**Done when.** In the played world (`buildBenchWorld`) in a drawn place that pays twice a month, a counted raise, hire and layoff reach both paydays, shown by job and flow ids; `tests/src/core2/counted-payroll-halves.test.ts` fails without the change, and a played year leaves none of the ended jobs paid.
 
-**Files.** src/core2/residents-economy.ts, src/core2/counted-payroll-halves.test.ts, src/core2/residents.test.ts
+**Files.** src/core2/residents-economy.ts, tests/src/core2/counted-payroll-halves.test.ts, tests/src/core2/residents.test.ts
 
 **Notes.** Body repaired Oct 17 (claude) from the pull request's description; the fix is in that pull request.
 
-Sent back 2026-10-20 from PR #4928 (branch claude/tests-early-returns-residents-s5): Merge main fc2817d7d5b5 into claude/tests-early-returns-residents-s5 conflicts in: src/core2/residents.test.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first.
+Sent back 2026-10-20 from PR #4928 (branch claude/tests-early-returns-residents-s5): Merge main fc2817d7d5b5 into claude/tests-early-returns-residents-s5 conflicts in: tests/src/core2/residents.test.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first.

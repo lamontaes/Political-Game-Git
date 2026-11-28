@@ -34,6 +34,6 @@ branch: claude/project-thread-8fxsy5
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/medical-bills.ts, src/core2/law-reach/group-b-money.ts, src/core2/modules/laws.ts, src/core2/law-reach/medicare-line-reach.test.ts (new), src/bench/dev-mode.ts, src/bench/ui/dev-bill-card.mjs, src/bench/dev-bill-budget-reach.test.ts (new)
+**Files.** src/core2/medical-bills.ts, src/core2/law-reach/group-b-money.ts, src/core2/modules/laws.ts, tests/src/core2/law-reach/medicare-line-reach.test.ts (new), src/bench/dev-mode.ts, src/bench/ui/dev-bill-card.mjs, tests/src/bench/dev-bill-budget-reach.test.ts (new)
 
 **Notes.** Released by next (2026-11-18): no push to claude/project-thread-8fxsy5 since 2026-11-15 23:43 UTC, more than twice its 3-hour time box. Continue on branch claude/project-thread-8fxsy5.

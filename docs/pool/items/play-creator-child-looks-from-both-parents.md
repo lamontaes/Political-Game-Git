@@ -23,7 +23,7 @@ checked: not yet
 
 **Cause.** Found in code: `looks.origin` is one value per person (`src/core2/types.ts`), and `src/bench/data/whole-figures.json` maps each origin to a list of skin tones (`originTones`: white 0 and 1, hispanic 1, black 2, asian 0 and 1, other 0, 1 and 2). `chooseIdentityV1` in `src/core2/state.ts` sets every blood relative who shared the drawn origin to the chosen one, with no reading of the other parent. There is no way for a person to take their look from two parents.
 
-**Fix.** When a person is drawn or re-drawn from a chosen look, read both parents on the family record (`familyRelation`, `src/core2/closeness.ts`) and let the child's tone range be the union of the two parents' tones, drawn once per child from the world seed, so siblings may differ. Keep the one-origin string for the town's mix; add the two-parent range as a record the figure drawing reads. Extend `src/bench/creator-origin.test.ts` with a child whose other parent has a different origin.
+**Fix.** When a person is drawn or re-drawn from a chosen look, read both parents on the family record (`familyRelation`, `src/core2/closeness.ts`) and let the child's tone range be the union of the two parents' tones, drawn once per child from the world seed, so siblings may differ. Keep the one-origin string for the town's mix; add the two-parent range as a record the figure drawing reads. Extend `tests/src/bench/creator-origin.test.ts` with a child whose other parent has a different origin.
 
 **Time box.** 4 hours, one Opus session. When it runs out, push what passes and say so.
 
@@ -35,6 +35,6 @@ checked: not yet
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/state.ts, src/core2/closeness.ts, src/bench/whole-figures.ts, src/bench/creator-origin.test.ts.
+**Files.** src/core2/state.ts, src/core2/closeness.ts, src/bench/whole-figures.ts, tests/src/bench/creator-origin.test.ts.
 
 **Notes.** Filed by hand from #9301 (the blood-kin rule). That PR keeps one origin per person and says so.

@@ -44,9 +44,9 @@ import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { schoolMeasure } from "../school-measures";
-import { propertyTaxRateInForce } from "../housing-property-tax";
+import { propertyTaxRateInForce } from "../housing-reads";
 import { schoolsLineAboveBase } from "../budgets-treasury";
-import { inTownChain } from "../laws-in-force";
+import { inTownChain } from "../laws-resolve";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "./laws";
 import {
   budgetLineAddedPct,
@@ -60,8 +60,10 @@ import {
 import { monthEvent } from "./press";
 import { closedNewspapers } from "./press";
 import severityData from "../data/disasters/severity.json" with { type: "json" };
-import { ELECTIONS_MODULE_ID } from "./elections";
+import { ELECTIONS_MODULE_ID } from "../elections-reads";
 import { VOTING_MODULE_ID } from "../voting-module-id";
+import { store } from "./outcome-web-reads";
+export { outcomeWebFactor, placeOutcome } from "./outcome-web-reads";
 
 /** The disasters engine's news event for a disaster, which carries its severity (src/core2/modules/disasters.ts). */
 const DISASTER_KIND = "hazard.disaster";
@@ -162,7 +164,6 @@ function dateMonthsBefore(date: string, months: number): string {
   return `${monthKey(index)}-${day > LAST_SAFE_DAY ? LAST_SAFE_DAY : day}`;
 }
 
-const store = (api: CoreAPI) => api.moduleState(OUTCOME_WEB_MODULE_ID);
 const webState = (api: CoreAPI) =>
   store(api).table("state").get(STATE_ID) as WebState | undefined;
 const monthRow = (api: CoreAPI, placeId: string, month: string) =>
@@ -866,58 +867,3 @@ export const OUTCOME_WEB_MODULE: CoreModule = {
     schedule(api);
   },
 };
-
-/** A place's record of a measure in the latest month the web ran. */
-export function placeOutcome(
-  api: CoreAPI,
-  placeId: string,
-  measure: string,
-):
-  | {
-      value: number;
-      base?: number;
-      /** The links' push on it this month (a product of factors, or units added for a level). */
-      push?: number;
-      month: string;
-      recordId: string;
-      engineRecordId: string | null;
-    }
-  | undefined {
-  // A world without the web (a small test world) has no conditions to read.
-  if (!(api.state as CoreState).modules.has(OUTCOME_WEB_MODULE_ID))
-    return undefined;
-  const rows = store(api)
-    .table("months")
-    .query("byPlace", [placeId]) as unknown as readonly WebMonth[];
-  const latest = [...rows].sort((a, b) => b.month.localeCompare(a.month))[0];
-  const value = latest?.values[measure];
-  return latest && value !== undefined
-    ? {
-        value,
-        base: latest.bases[measure],
-        ...(latest.pushes?.[measure] !== undefined
-          ? { push: latest.pushes[measure] }
-          : {}),
-        month: latest.month,
-        recordId: latest.id,
-        engineRecordId: latest.engineSources?.[measure] ?? null,
-      }
-    : undefined;
-}
-
-/**
- * The web's factor on a measure in a place: the multiplier its running links
- * put on the measure's base this month (1 where nothing moves it). An engine
- * that sets the measure itself (births, crime, rents) multiplies by this.
- */
-export function outcomeWebFactor(
-  api: CoreAPI,
-  placeId: string,
-  measure: string,
-): number {
-  const record = placeOutcome(api, placeId, measure);
-  if (!record || !record.base) return 1;
-  if (scaleOf(measure) === "level") return 1;
-  // The links' own push: a level the town's records set is not the web's factor.
-  return record.push ?? record.value / record.base;
-}

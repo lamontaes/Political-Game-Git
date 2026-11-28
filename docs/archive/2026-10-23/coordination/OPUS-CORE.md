@@ -57,7 +57,7 @@ A town opens at its real Census size when it is smaller than 10,000 people: Cade
 
 ### Needs from other sessions
 
-- Done Oct 15: a state act enacted in play now stands against a rate the data scheduled for a later date; only a later enactment replaces it (`laws-in-force.ts`, `src/core2/law-enacted-over-scheduled.test.ts`). The Dennisville county treasurer race (seed `den-check`) draws no out-of-state filer; the sample id is gone.
+- Done Oct 15: a state act enacted in play now stands against a rate the data scheduled for a later date; only a later enactment replaces it (`laws-in-force.ts`, `tests/src/core2/law-enacted-over-scheduled.test.ts`). The Dennisville county treasurer race (seed `den-check`) draws no out-of-state filer; the sample id is gone.
 - **Hook confirmations:** the `budgets.ts`, `budgets-treasury.ts`, `housing.ts`, `regional.ts`, `world-transfer.ts` and `births-counted.ts` hooks are tracked as pool item `core-confirm-counted-hooks`; counted workers' quits and hires reading the groups (business audit defects 2, 4, 7, 8) stay with the world line.
 - **CTO:** carry the four owner questions in the PR body into `OWNER-DECISIONS.md`; rule on keeping packed counted rows against the MEMORY-FLAT regenerate-from-seed ruling.
 

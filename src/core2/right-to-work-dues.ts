@@ -14,11 +14,12 @@
 import { daysBetweenText as daysBetween } from "./kernel/dates";
 import { worldUnionRatePct } from "./union-rate";
 import type { CoreAPI, CoreState } from "./types";
-import { lawChain, lawInForce } from "./modules/laws";
+import { lawChain, lawInForce } from "./modules/laws-reads";
 import { residentsRuntime } from "./residents-reads";
-import { setResidentFlowAmount } from "./residents-economy";
+import { setResidentFlowAmount } from "./resident-flows";
 import { lawApplied } from "./law-reach/applied";
-import { reachParameter, REACH_A_MODULE_ID } from "./law-reach/group-a-records";
+import { reachParameter } from "./law-reach/group-a-reads";
+import { REACH_A_MODULE_ID } from "./law-reach/group-a-records-constants";
 
 export const RTW_KEY = "us-policy-positions:labor-workforce.right-to-work";
 

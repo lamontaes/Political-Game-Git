@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** One rule, all 56 places: gating laws are per place in data, never named in logic. Research before building: each row cites the statute. The chain is the acceptance: a refused or allowed ordinance cites the law record by id.
 
-**Done when.** A second session plays a one-year world (`buildBenchWorld`, a drawn place and seed named), introduces a local question and sees the gating law's id recorded as the reason it was allowed or refused; no question returns a disputed missing grant in the drawn place, and `src/core2/policy-authority.test.ts` covers a preempted and a permitted question.
+**Done when.** A second session plays a one-year world (`buildBenchWorld`, a drawn place and seed named), introduces a local question and sees the gating law's id recorded as the reason it was allowed or refused; no question returns a disputed missing grant in the drawn place, and `tests/src/core2/policy-authority.test.ts` covers a preempted and a permitted question.
 
 **Waits on.** The three parts: gov-gating-state-laws-recorded-part-1-wage-and-rent-preemption, gov-gating-state-laws-recorded-part-2-firearms-and-safety, gov-gating-state-laws-recorded-part-3-remaining-local-questions.
 
-**Files.** src/core2/policy-authority.ts, src/core2/policy-authority.test.ts, src/core2/data/stopgaps/gov.json
+**Files.** src/core2/policy-authority.ts, tests/src/core2/policy-authority.test.ts, src/core2/data/stopgaps/gov.json
 
 **Notes.** Oct 20 (pool feeder): the row SG-GOV-policy-power-unresolved stays open while its pool item is done.
 

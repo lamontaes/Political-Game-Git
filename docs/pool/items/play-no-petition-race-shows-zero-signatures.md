@@ -25,7 +25,7 @@ Seen: the filing counter's labels and the Campaign tab's rows for a race with no
 
 **Cause.** Found in code: src/core2/modules/voting.ts `openFilingPetition` opens a petition of none for a race whose law asks no signatures and checks it at once (by design, so the filing goes on the ballot through one path). src/bench/play.mjs shows a petition whenever one exists: the counter's label (`value.result?.petition`) and the campaign board's rows (`petition ? …`), so a petition of none is shown as 0.
 
-**Fix.** Show the counter's petition label and the campaign board's signature rows only for a petition that needs signatures (`petition.needed > 0`). src/bench/filing.browser.mjs checks that a filing put straight on the ballot shows no "will count: 0". The Journal's line for such a petition ("came back with 0 good signatures, against 0") is the Words session's to drop.
+**Fix.** Show the counter's petition label and the campaign board's signature rows only for a petition that needs signatures (`petition.needed > 0`). tests/src/bench/filing.browser.mjs checks that a filing put straight on the ballot shows no "will count: 0". The Journal's line for such a petition ("came back with 0 good signatures, against 0") is the Words session's to drop.
 
 **Time box.** 1 hour for one Sonnet session.
 
@@ -35,4 +35,4 @@ Seen: the filing counter's labels and the Campaign tab's rows for a race with no
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.mjs, src/bench/filing.browser.mjs, src/core2/modules/voting.ts
+**Files.** src/bench/play.mjs, tests/src/bench/filing.browser.mjs, src/core2/modules/voting.ts

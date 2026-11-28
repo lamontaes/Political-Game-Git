@@ -37,8 +37,8 @@ Read-only, from main 7ecc777d5 (Oct 30, 02:51 UTC). The three maps were traced a
 ### Unit 1. gov-m3-01-fiscal-note-at-drafting (S)
 
 - **Player:** drafting a minimum-wage or budget bill shows its cost note, the same one the bill paper shows.
-- **Files and wiring:** src/bench/bill-paper.test.ts. Reads draftBill's costEstimate (legislature.ts:1932, BillRow 181-254), seatAct (bench/legislature.ts:215) and billPaper (282).
-- **Seam, the lane:** "For gov-m3-01-fiscal-note-at-drafting I'm adding one played test to src/bench/bill-paper.test.ts that reads billPaper(...).estimate against the bill's costEstimate. No screen change. Is anything of yours open on that file or on bench/legislature.ts:282-350?"
+- **Files and wiring:** tests/src/bench/bill-paper.test.ts. Reads draftBill's costEstimate (legislature.ts:1932, BillRow 181-254), seatAct (bench/legislature.ts:215) and billPaper (282).
+- **Seam, the lane:** "For gov-m3-01-fiscal-note-at-drafting I'm adding one played test to tests/src/bench/bill-paper.test.ts that reads billPaper(...).estimate against the bill's costEstimate. No screen change. Is anything of yours open on that file or on bench/legislature.ts:282-350?"
 - **Proof:** buildBenchWorld in a place drawn from all 56, seed printed. Assert estimate.workers equals the open work commitments paid under the new floor, named by commitment id.
 - **Already answered:** REG:243, every bill carries a fiscal note.
 
@@ -146,7 +146,7 @@ Read-only, from main 7ecc777d5 (Oct 30, 02:51 UTC). The three maps were traced a
   - The day-choice act (office-day-acts.ts:629-665) stays as the let-happen path through the same functions. Its act row stops storing the exact position (learnStake at 640) and stops showing raw detail text.
 - **Seam, words:** "Can subjectsBetween raise the speaker's own pending bill with a fellow member, and can vote-sought take a second cause, a colleague-asked record the talk writes? I write the record in legislature.ts; the subject, cause and lines are yours."
 - **Seam, CTO (person card) and the lane:** "Does the colleague's card already offer Talk through /api/talk/open? If not, which of you adds it?"
-- **Proof:** extend src/director/player-asks-for-a-vote.test.ts, which is already in the M3-02 command. On a day that is not the eve, a colleague-asked record id causes a vote-sought scene id, and its reply writes a promise or deal row by id.
+- **Proof:** extend tests/src/director/player-asks-for-a-vote.test.ts, which is already in the M3-02 command. On a day that is not the eve, a colleague-asked record id causes a vote-sought scene id, and its reply writes a promise or deal row by id.
 - **Already answered:** OWNER-DECISIONS line 619 (calling or visiting a person happens from that person), line 52 (one way to each action), line 586 (any act of office done or simulated).
 
 ### Unit 10. gov-m3-02-amend-and-endorsement-deals (M)
@@ -197,7 +197,7 @@ Read-only, from main 7ecc777d5 (Oct 30, 02:51 UTC). The three maps were traced a
 - **Seam, the lane:** "The floor-whip lines (play.mjs:2118, 2248) and floorOf's whip are replaced by what colleagues told you plus the aide's estimate, from one core reader, and whipCount is deleted. Do you build the view, or do I with your review? Your after-the-vote tally (#6830) stays."
 - **Seam, words:** "Bank words for 'your aide's estimate', 'can be wrong', and firm versus vague ('said yes', 'said they'd look at it'), keyed to the reader's fields."
 - **Seam, CTO:** the panel's look. No meter (OWNER-DECISIONS line 22).
-- **Proof:** src/bench/office-deals.test.ts (in the M3-02 command), drawn place: one stake learned by a talk (promise row id), one by the estimate (work row id), both shown on the paper; whipCount gone (grep).
+- **Proof:** tests/src/bench/office-deals.test.ts (in the M3-02 command), drawn place: one stake learned by a talk (promise row id), one by the estimate (work row id), both shown on the paper; whipCount gone (grep).
 
 ### Unit 14. Close-vote stop (M)
 
@@ -218,7 +218,7 @@ Read-only, from main 7ecc777d5 (Oct 30, 02:51 UTC). The three maps were traced a
 - **Wiring:** stopsOf and setStops (office-day.ts:232-259; no caller outside tests), officeStopKinds (registry line 69), and the scene filter (ledger.ts:1842, served at handler.ts:742, no screen calls it).
 - **Seam, CTO:** "Oct 29 21:15 makes stops customizable (OWNER-DECISIONS line 90). #6497 removed the stop toggles under the Oct 27 5 PM ruling (line 291). Please record that the newer ruling wins, and say where the per-kind settings sit in your menu redesign (Calendar or Your office). The data is stopsOf/setStops and the scene filter."
 - **Seam, words:** label words for each kind.
-- **Proof:** src/bench/office-stops.test.ts in a drawn place:
+- **Proof:** tests/src/bench/office-stops.test.ts in a drawn place:
   - with own-bill-vote set off through the handler, the next meeting row with the player's bill has playerPresent false;
   - with a scene kind filtered out, that kind does not interrupt.
 

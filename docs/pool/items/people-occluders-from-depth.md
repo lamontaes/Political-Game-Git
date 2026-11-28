@@ -17,7 +17,7 @@ claimed-at: 2026-10-27T20:55:48.559Z
 
 **Rules.** Replace, never layer: the clipBelowY crop, clipBandEndY and the client's squeezed figure box are deleted in the same change and counted in the PR body. One rule, all 56 places: every staged place is baked by one script, no room named in logic. Wire to the world: the masks are read by the scene the player sees.
 
-**Done when.** In a drawn place with a seed, screenshots before and after of the Oval Office, the U.S. House floor, the council chamber and a home show seated and standing people covered by the desk or chair in front of them along its edge; src/bench/occluders.test.ts checks every staged place has a mask index naming its parent painting by sha256 and every mask belongs to a spot of that place; the crop fields are gone from src and art/backdrops/staging.json.
+**Done when.** In a drawn place with a seed, screenshots before and after of the Oval Office, the U.S. House floor, the council chamber and a home show seated and standing people covered by the desk or chair in front of them along its edge; tests/src/bench/occluders.test.ts checks every staged place has a mask index naming its parent painting by sha256 and every mask belongs to a spot of that place; the crop fields are gone from src and art/backdrops/staging.json.
 
 **Files.** scripts/people/occluders.py, art/backdrops/occluders, src/bench/occluders.ts, src/bench/whole-figures.ts, src/bench/play.mjs, src/bench/play.css, art/backdrops/staging.json
 

@@ -17,7 +17,7 @@ import data from "./data/laws/public-pay-floor.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
 import { jobsAt } from "./law-reach/group-b-money";
-import { reachParameter } from "./law-reach/group-b-people";
+import { reachParameter } from "./law-reach/reach-parameters";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import {
   LAWS_MODULE_ID,
@@ -27,40 +27,20 @@ import {
 } from "./modules/laws";
 import type { LawLevelName } from "./laws-starting";
 import type { CoreAPI, CoreState, Source } from "./types";
+import { BOUND_BY, EMPLOYER_LEVELS } from "./modules/laws-reads";
+export {
+  publicEmployerBoundLevel,
+  publicEmployerLevel,
+} from "./modules/laws-reads";
 
 export const PUBLIC_PAY_FLOOR = data.series;
 export const PUBLIC_PAY_FLOOR_UNIT = data.unit;
 export const PUBLIC_PAY_REVIEW = data.reviewKind;
-const EMPLOYER_LEVELS = data.employerLevels as Readonly<
-  Record<string, LawLevelName>
->;
-/** The highest level whose floors reach a class that is a government of its own (a school district). */
-const BOUND_BY = data.boundBy as unknown as Readonly<
-  Record<string, LawLevelName>
->;
+
 /** Every public employer class, for screens that split public from private pay. */
 export const PUBLIC_EMPLOYER_CLASSES: readonly string[] =
   Object.keys(EMPLOYER_LEVELS);
 const ORDER: readonly LawLevelName[] = ["federal", "state", "county", "city"];
-
-/**
- * The highest level of government whose public-employee laws (a pay floor,
- * bargaining) reach a public employer class: its own level, except a school
- * district, a government of its own that only state and federal laws reach.
- * `publicEmployerLevel` below is where it is funded from.
- */
-export function publicEmployerBoundLevel(
-  classification: string,
-): LawLevelName | undefined {
-  return BOUND_BY[classification] ?? EMPLOYER_LEVELS[classification];
-}
-
-/** The level of government a public employer class belongs to (who funds it), if it is one. */
-export function publicEmployerLevel(
-  classification: string,
-): LawLevelName | undefined {
-  return EMPLOYER_LEVELS[classification];
-}
 
 /** The teacher minimum salary question, and the jobs and employers it covers. */
 export const TEACHER_FLOOR =

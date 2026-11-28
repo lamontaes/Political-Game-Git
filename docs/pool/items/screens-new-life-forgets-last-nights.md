@@ -33,6 +33,6 @@ Seen: Hampstead, Maryland, the governor's race of Nov 3, 2026, on main, the seco
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/handler.ts, src/bench/new-life-forgets-last.test.ts (new)
+**Files.** src/bench/handler.ts, tests/src/bench/new-life-forgets-last.test.ts (new)
 
 **Notes.** Crew line #9747.

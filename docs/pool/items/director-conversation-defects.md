@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No hand-written player text: the fix changes which line is offered, not a line. Ask why: a line not offered because it was said cites the earlier turn. No dice.
 
-**Done when.** In a drawn place and seed (named in the PR body) the measure script scripts/english-corpus/measure-conversations.ts over three towns shows none of the four defects, and tests in src/director/conversation.test.ts cover each (a work line said as a reply is not raised again).
+**Done when.** In a drawn place and seed (named in the PR body) the measure script scripts/english-corpus/measure-conversations.ts over three towns shows none of the four defects, and tests in tests/src/director/conversation.test.ts cover each (a work line said as a reply is not raised again).
 
 **Files.** src/director/conversation.ts, scripts/english-corpus/measure-conversations.ts
 

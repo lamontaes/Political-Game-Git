@@ -29,9 +29,8 @@ import lookup from "../data/places/place-lookup.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
 import { seededUnit } from "../seeded";
-import { registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState } from "../types";
-import { stateLawInForce } from "./laws";
+import type { CoreAPI, CoreModule } from "../types";
+import { stateLawInForce } from "./laws-reads";
 import { carriedLink, WEB_LINKS } from "../outcome-web-model";
 import { residentsOf, STATES } from "./budgets";
 
@@ -318,10 +317,4 @@ export function stateHazardRate(
   return (
     (cell[seasonOf(month)]! / history.years / 3) * hazardFactor(api, hazard)
   );
-}
-
-/** Install the engine in a world (after the laws and the outside budgets). */
-export function openClimate(core: CoreState): void {
-  if (!core.modules.has(CLIMATE_MODULE_ID))
-    registerModule(core, CLIMATE_MODULE);
 }

@@ -33,7 +33,7 @@ Seen: an offer made to a seated member for a vote or a contract is staged from t
 
 **Waits on.** The recount of the line-inserts count (#9757) before the count can fall.
 
-**Files.** data/english/parts/scene-talk.json, src/director/bribe-facts.ts, src/director/data/bribe-weights.json, src/director/purpose-scene.ts, src/core2/modules/justice.ts, src/core2/modules/budgets.ts, src/director/bribe-reads.test.ts, scripts/words/bribe-walk.ts
+**Files.** data/english/parts/scene-talk.json, src/director/bribe-facts.ts, src/director/data/bribe-weights.json, src/director/purpose-scene.ts, src/core2/modules/justice.ts, src/core2/modules/budgets.ts, tests/src/director/bribe-reads.test.ts, scripts/words/bribe-walk.ts
 
 **Notes.**
 

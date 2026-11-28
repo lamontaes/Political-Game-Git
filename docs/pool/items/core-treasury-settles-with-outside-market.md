@@ -19,6 +19,6 @@ claimed-at: 2026-10-24T14:49:01.043Z
 
 **Done when.** In Dickens, Iowa and two places drawn from all 56, named with seeds, each public employer's yearly outside flows stay inside its government's adopted budget, named by budget record id; a test playing two drawn places asserts the treasury's outside account is the outside market and fails with the old lookup; core-city-treasury-trillions-dickens stays open for the closures balance line.
 
-**Files.** src/core2/opening-outside-market.ts, src/core2/budgets-treasury.ts, src/core2/treasury-outside-account.test.ts
+**Files.** src/core2/opening-outside-market.ts, src/core2/budgets-treasury.ts, tests/src/core2/treasury-outside-account.test.ts
 
 **Notes.** TODO

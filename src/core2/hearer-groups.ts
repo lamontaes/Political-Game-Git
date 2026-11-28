@@ -21,15 +21,10 @@ import { pairKey } from "./kernel/ids";
 import { currentCloseness } from "./closeness";
 import { decisionLean } from "./trait-decisions";
 import { keepsWhy } from "./why-kept";
-import {
-  ageBand,
-  stanceAfterCase,
-  standingWith,
-  viewOf,
-  VIEWS_MODULE_ID,
-  type PersonView,
-  type Stance,
-} from "./modules/views";
+import { standingWith } from "./modules/views";
+import type { PersonView, Stance } from "./modules/views";
+import { ageBand, stanceAfterCase, viewOf } from "./modules/views-reads";
+import { VIEWS_MODULE_ID } from "./modules/views-constants";
 import type { CoreAPI, CoreEventInput, CoreState, PersonId } from "./types";
 
 /** The officials engine's store (state and federal seats), read by id. */

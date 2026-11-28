@@ -28,7 +28,7 @@
  *
  *   node --import tsx scripts/justice/derive-federal-stay-share.ts
  * rewrites the federalStayShare* rows at the end of src/core2/data/parameters.json;
- * src/core2/federal-stay-share.test.ts checks they equal what this gives.
+ * tests/src/core2/federal-stay-share.test.ts checks they equal what this gives.
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import groups from "../../src/core2/data/justice/federal-groups.json" with { type: "json" };

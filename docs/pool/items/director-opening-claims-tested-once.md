@@ -19,6 +19,6 @@ claimed-at: 2026-10-28T00:43:20.628Z
 
 **Done when.** grep finds no opening-rates-named.test.ts or opening-picture.test.ts; opening-unemployment-scope.test.ts and opening-pictures.test.ts pass in a played world (buildBenchWorld) in a place drawn from all 56, named in the PR, and the kept scope test also refuses an area rate worded as the nation's.
 
-**Files.** src/director/opening-unemployment-scope.test.ts, src/director/opening-rates-named.test.ts, src/bench/opening-picture.test.ts, src/bench/opening-pictures.test.ts
+**Files.** tests/src/director/opening-unemployment-scope.test.ts, src/director/opening-rates-named.test.ts, src/bench/opening-picture.test.ts, src/bench/opening-pictures.test.ts
 
 **Notes.** TODO

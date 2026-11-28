@@ -33,7 +33,7 @@ root: day-one-in-motion
 
 **Rules.** Day one in motion (`.agents/skills/day-one-in-motion/SKILL.md`): one engine per mechanic; no dice (seeded generation of who exists is allowed, nothing after day 0 is a draw); one rule, all 56 places; estimate, never UNKNOWN; replace, never layer; a year stays under two minutes (`speed:year` before and after, table in the PR body).
 
-**Done when.** A second session, not the builder, builds a world at a drawn place and seed it names (`buildBenchWorld`, two-level) and sees the listed table(s) with rows at creation, by record id; the row for `core2-voting-v1.results`, `core2-voting-v1.places`, `core2-voting-v1.races`, `core2-voting-v1.returns` in `src/core2/data/opening/day-zero.json` has its `knownRed` mark removed, and `src/core2/day-zero.test.ts` passes at its two pinned places.
+**Done when.** A second session, not the builder, builds a world at a drawn place and seed it names (`buildBenchWorld`, two-level) and sees the listed table(s) with rows at creation, by record id; the row for `core2-voting-v1.results`, `core2-voting-v1.places`, `core2-voting-v1.races`, `core2-voting-v1.returns` in `src/core2/data/opening/day-zero.json` has its `knownRed` mark removed, and `tests/src/core2/day-zero.test.ts` passes at its two pinned places.
 
 **Waits on.** Nothing.
 

@@ -34,6 +34,6 @@ branch: claude/project-thread-8fxsy5
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/housing-assistance.ts, src/core2/modules/housing.ts, src/core2/data/laws/reach-group-a-parameters.json, src/core2/law-reach/housing-vouchers-reach.test.ts (new)
+**Files.** src/core2/housing-assistance.ts, src/core2/modules/housing.ts, src/core2/data/laws/reach-group-a-parameters.json, tests/src/core2/law-reach/housing-vouchers-reach.test.ts (new)
 
 **Notes.** Released by next (2026-11-18): no push to claude/project-thread-8fxsy5 since 2026-11-15 23:43 UTC, more than twice its 3-hour time box. Continue on branch claude/project-thread-8fxsy5.

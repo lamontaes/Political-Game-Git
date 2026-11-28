@@ -21,7 +21,7 @@ claimed-at: 2026-10-26T07:07:19.114Z
 
 **Done when.** In a fresh drawn place with seed named, open the first-night reader, reload the same life and choose Continue, then open that reader again at the unchanged date. A browser test positively checks that the news surface and both kept rate sentences are present, with native before and after screenshots and matching record-derived text; no forced clicks or synthetic news are used.
 
-**Files.** src/bench/play.mjs, src/bench/handler.ts, src/bench/rates-named.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/handler.ts, tests/src/bench/rates-named.browser.mjs
 
 **Notes.** Merger 1, Oct 26 04:05 UTC, found during #6105 review. The fresh Palmyra VA browser flow works; continuing the existing Juntura life keeps #news-surface hidden. Runtime source is main 050736344b62eeae4093e66bc7b673e049bf847c; #6105 changes tests and screenshots only. No installed-build check claimed.
 

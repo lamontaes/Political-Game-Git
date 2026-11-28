@@ -33,4 +33,4 @@ checked: m3 2026-11-15
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/printed-words.ts,src/bench/race-result-one-paper.test.ts (new)
+**Files.** src/bench/printed-words.ts,tests/src/bench/race-result-one-paper.test.ts (new)

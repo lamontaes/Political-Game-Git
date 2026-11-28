@@ -17,8 +17,8 @@ claimed-at: 2026-10-24T09:11:21.836Z
 
 **Rules.** Fix the archive fact-to-catalog-to-English reader at its root. Preserve the positive collection and wording/source-ID assertions; do not skip, narrow or loosen the test.
 
-**Done when.** The archived-law case in src/bench/archive-words.test.ts passes for the reported seed and a new drawn-place seed, with named law-history/story IDs resolving to a catalog name and rendered effective date.
+**Done when.** The archived-law case in tests/src/bench/archive-words.test.ts passes for the reported seed and a new drawn-place seed, with named law-history/story IDs resolving to a catalog name and rendered effective date.
 
-**Files.** src/core2/past-news.ts, src/bench/archive-words.ts, src/bench/archive-words.test.ts
+**Files.** src/core2/past-news.ts, src/bench/archive-words.ts, tests/src/bench/archive-words.test.ts
 
 **Notes.** TODO

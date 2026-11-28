@@ -50,7 +50,7 @@ Lines (as of 2026-10-15, from the status file):
 
 **Rules.** Wire to the world: each line is done only when another engine reads what it wrote. Speed: a town year stays under two minutes and no change is more than 20 percent slower, measured on the same machine. One model, two tiers: counted workers die, move and retire under the same rule as full people. No dice: deaths and moves come from causes, never a monthly chance. Nothing waits on another session: build a registered stand-in.
 
-**Done when.** For each line, either built and read by another engine in a one-year played world (buildBenchWorld, a drawn place from all 56, seed named), shown by record id, or verified done on main, or split into its own pool item. The tests in src/core2/jobs-player-offers.test.ts and src/core2/housing-construction.test.ts pass for the lines built. The owner plays it: accept or decline a job offer on the play screen and see a new home get a family.
+**Done when.** For each line, either built and read by another engine in a one-year played world (buildBenchWorld, a drawn place from all 56, seed named), shown by record id, or verified done on main, or split into its own pool item. The tests in tests/src/core2/jobs-player-offers.test.ts and tests/src/core2/housing-construction.test.ts pass for the lines built. The owner plays it: accept or decline a job offer on the play screen and see a new home get a family.
 
 **Files.** src/core2/modules/world-panels.ts, src/core2/modules/jobs.ts, src/core2/modules/housing.ts, src/core2/births-counted.ts, src/core2/residents-economy.ts, docs/coordination/world.md
 

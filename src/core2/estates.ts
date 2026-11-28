@@ -64,7 +64,7 @@ import {
   handOverContractsAtDeath,
 } from "./finance-state";
 import { addDays, makeIsoDate, daysBetweenText } from "./kernel/dates";
-import { homeSaleOf, recordEstatePaid, sellHome } from "./housing-sale";
+import { homeSaleOf, recordEstatePaid, sellHome } from "./housing-writes";
 import type {
   CoreAPI,
   CoreModule,

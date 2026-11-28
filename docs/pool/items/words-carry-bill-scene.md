@@ -17,9 +17,9 @@ claimed-at:
 
 **Rules.** Wire to the world: the scene fires from the legislature's own record of an ask it really made, read by the director, and the asker is the executive on that record. Ask why: the scene names its cause record, which names the policy and the member's answer. One rule, all 56 places: the test draws places from all 56 until one has an ask to a member who is a full person.
 
-**Done when.** src/director/carry-bill-scene.test.ts in the played world (buildBenchWorld), on places drawn from all 56 with a seed nobody chose, watches the town's legislators and shows each carry-asked record for a watched member firing the member's carry-bill scene with the asker on the record as the member who asks, composed in the lines that play with a bill fact citing the record id.
+**Done when.** tests/src/director/carry-bill-scene.test.ts in the played world (buildBenchWorld), on places drawn from all 56 with a seed nobody chose, watches the town's legislators and shows each carry-asked record for a watched member firing the member's carry-bill scene with the asker on the record as the member who asks, composed in the lines that play with a bill fact citing the record id.
 
-**Files.** src/core2/modules/legislature.ts, src/director/data/director.json, src/director/data/situation-types.json, src/director/purpose-scene.ts, src/director/carry-bill-scene.test.ts
+**Files.** src/core2/modules/legislature.ts, src/director/data/director.json, src/director/data/situation-types.json, src/director/purpose-scene.ts, tests/src/director/carry-bill-scene.test.ts
 
 **Notes.** Builds on the branch of words-vote-confirmed-scene (#5977), which carries the debate and staff-news scenes and the rest of the chain.
 

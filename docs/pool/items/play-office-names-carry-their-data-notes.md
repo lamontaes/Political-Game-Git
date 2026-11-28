@@ -34,4 +34,4 @@ checked:
 
 **Waits on.** Nothing. Statewide boards read as one seat (seats 5 on the record, 1 office seat built) is item gov-statewide-commission-seats-not-read.
 
-**Files.** data/research/offices/state-offices.json, src/core2/person-work.ts, src/english/journal-words.ts, src/core2/office-names-plain.test.ts
+**Files.** data/research/offices/state-offices.json, src/core2/person-work.ts, src/english/journal-words.ts, tests/src/core2/office-names-plain.test.ts

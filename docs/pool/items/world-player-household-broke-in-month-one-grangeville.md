@@ -20,9 +20,9 @@ claimed-at:
 checked: fable 2026-11-10
 ---
 
-**What.** The command GOLDEN_PATH_SEED=4dd8e78f80e4655594ad8dfe9f684320be1d6c47b100552fa8978a9512b3b07f GOLDEN_PATH_PLACE_KEY=1632950 npx vitest run src/core2/player-money-year.test.ts failed at the living-cost line (src/core2/player-money-year.test.ts line 107) on Oct 20: the household's cash went 52,068 to 0 in the first month and stayed near 0 for the year (about $10,800 of pay, $2,450 of contracts settled, $8,100 moved to the counted residents account, no accounts.transfer living entry). The Oct 25 audit set the item open because the pull request that named it merged as other work, so the failure has not been reproduced on main. Find why the household runs dry so fast: its pay against its living cost, a living cost larger than its income, or members' cash left in the wrong account. The sibling core-player-household-no-income is done; read it first.
+**What.** The command GOLDEN_PATH_SEED=4dd8e78f80e4655594ad8dfe9f684320be1d6c47b100552fa8978a9512b3b07f GOLDEN_PATH_PLACE_KEY=1632950 npx vitest run tests/src/core2/player-money-year.test.ts failed at the living-cost line (tests/src/core2/player-money-year.test.ts line 107) on Oct 20: the household's cash went 52,068 to 0 in the first month and stayed near 0 for the year (about $10,800 of pay, $2,450 of contracts settled, $8,100 moved to the counted residents account, no accounts.transfer living entry). The Oct 25 audit set the item open because the pull request that named it merged as other work, so the failure has not been reproduced on main. Find why the household runs dry so fast: its pay against its living cost, a living cost larger than its income, or members' cash left in the wrong account. The sibling core-player-household-no-income is done; read it first.
 
-**Cause.** Needs cause. Looked at src/core2/player-money-year.test.ts (line 107 is the living-cost assertion) and the item: the failing command has not been rerun on main since the Oct 25 audit, and the sibling core-player-household-no-income is done, so it may be the same cause fixed.
+**Cause.** Needs cause. Looked at tests/src/core2/player-money-year.test.ts (line 107 is the living-cost assertion) and the item: the failing command has not been rerun on main since the Oct 25 audit, and the sibling core-player-household-no-income is done, so it may be the same cause fixed.
 
 **Fix.** None until the cause is found.
 
@@ -34,11 +34,11 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/player-money-year.test.ts, src/core2/opening-finance.ts, src/core2/starting-cash.ts
+**Files.** tests/src/core2/player-money-year.test.ts, src/core2/opening-finance.ts, src/core2/starting-cash.ts
 
 **Notes.** TODO
 
-Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): merging main still conflicts in scripts/health/mortality-band.ts and src/core2/player-money-year.test.ts; finish on that branch, merge main into it first.
+Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): merging main still conflicts in scripts/health/mortality-band.ts and tests/src/core2/player-money-year.test.ts; finish on that branch, merge main into it first.
 
 Set open by the Oct 25 audit: PR #5080 merged as world-counted-reads-six-engines, not as this item; reproduce on main before building.
 

@@ -18,9 +18,9 @@ claimed-at:
 
 **Rules.** One model, two tiers: a counted seeker's fit is read by the same rule as a full person's. No dice: the ranking is the fit, never a draw; nothing flips at a threshold, a shortfall costs a share of the fit in proportion to how far short. An effect is a read: the table is read at the moment the engine ranks applicants. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE with their spread.
 
-**Done when.** In a one-year played world (`buildBenchWorld`, a drawn place from all 56, place and seed named in the PR body) an opening whose occupation asks no experience goes to an applicant with none over one with ten years in a different trade, and an opening that asks five years goes to the applicant who has them, each shown by the position record id, both applicants' fit values and the hire record id; a test in `src/core2/jobs.test.ts` covers both and a counted seeker alike. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
+**Done when.** In a one-year played world (`buildBenchWorld`, a drawn place from all 56, place and seed named in the PR body) an opening whose occupation asks no experience goes to an applicant with none over one with ten years in a different trade, and an opening that asks five years goes to the applicant who has them, each shown by the position record id, both applicants' fit values and the hire record id; a test in `tests/src/core2/jobs.test.ts` covers both and a counted seeker alike. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/data/jobs/parameters.json, src/core2/jobs.test.ts
+**Files.** src/core2/modules/jobs.ts, src/core2/data/jobs/parameters.json, tests/src/core2/jobs.test.ts
 
 **Notes.** Written Oct 20 (claude/entry-spec) from the code. `after: world-player-jobless-no-offers`, and the table comes from `jobs-entry-requirement-by-occupation`. Weights `jobsFitExperienceWeight`, `jobsFitReliabilityWeight`, `jobsFitReferralWeight` are the ones the fit uses today.
 

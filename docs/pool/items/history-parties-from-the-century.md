@@ -35,10 +35,10 @@ Seen: `src/core2/officials-roster.ts` `expectedIdeal` reads `partySpread(...).me
 
 **Rules.** No dice: a party's position is its members' seats, never a roll or a target. Build the system, not the examples (CTO line 6935528569).
 
-**Done when.** A second session starts a new game at a drawn place it writes down with its seed, opens dev mode's "How this world opened" and sees "The parties": each party's position now and in 1926, its key issues and its presidencies; at drawn worlds the positions move over the century and differ between worlds, and src/core2/electorate-century-parties.test.ts passes.
+**Done when.** A second session starts a new game at a drawn place it writes down with its seed, opens dev mode's "How this world opened" and sees "The parties": each party's position now and in 1926, its key issues and its presidencies; at drawn worlds the positions move over the century and differ between worlds, and tests/src/core2/electorate-century-parties.test.ts passes.
 
 **Waits on.** history-laws-from-the-century (#9919), which this branch is stacked on.
 
-**Files.** src/core2/electorate-century.ts, src/core2/electorate-century-laws.ts, src/core2/officials-roster.ts, src/core2/modules/elections.ts, src/core2/data/history/century.json, src/bench/dev-views/opening.ts, src/bench/dev-views/opening-sources.json, src/core2/electorate-century-parties.test.ts (new)
+**Files.** src/core2/electorate-century.ts, src/core2/electorate-century-laws.ts, src/core2/officials-roster.ts, src/core2/modules/elections.ts, src/core2/data/history/century.json, src/bench/dev-views/opening.ts, src/bench/dev-views/opening-sources.json, tests/src/core2/electorate-century-parties.test.ts (new)
 
 **Notes.** Filed by the History lane, Nov 17, 2026. Parties founded, split, merged and renamed are PR 9b; play reading the century's parties (stateParties, party ties, who runs) is PR 9c.

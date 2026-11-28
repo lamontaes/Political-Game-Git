@@ -53,6 +53,7 @@ import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import {
   countyGovernmentUnit,
   governmentUnitJurisdictionId,
+  islandMunicipalityResidents,
   type GovernmentUnitType,
 } from "../reference/government-units";
 import {
@@ -845,7 +846,33 @@ const FEDERAL_ROW: BaseRow = {
 };
 /** Every government's base row for a place, by row name: the nation's and the place's own. */
 function baseRowsOf(stateKey: string): Partial<Record<BaseRowName, BaseRow>> {
-  return { federal: FEDERAL_ROW, ...bases.places[stateKey]?.governments };
+  const own = bases.places[stateKey]?.governments;
+  return { federal: FEDERAL_ROW, ...islandMunicipalityRow(own), ...own };
+}
+
+/**
+ * An island area's municipality (Guam's villages, the Northern Marianas'
+ * municipalities) has no published budget: the Census finance files cover the
+ * states, so the area's file holds a government row for the area alone. Its
+ * municipalities are funded by what the area's legislature appropriates to
+ * them, so the row is that appropriation, the area's own local aid a resident:
+ * the municipality's intergovernmental revenue, spent on its administration
+ * (council, mayor and departments).
+ * stopgapId: SG-GOV-island-municipality-budget
+ */
+function islandMunicipalityRow(
+  own: Partial<Record<BaseRowName, BaseRow>> | undefined,
+): Partial<Record<"city", BaseRow>> {
+  const aid = own?.state?.spending.localAid;
+  if (own?.city || !aid) return {};
+  return {
+    city: {
+      revenue: { intergovernmental: aid },
+      spending: { administration: aid },
+      stopgapId: "SG-GOV-island-municipality-budget",
+      source: own.state?.source,
+    },
+  };
 }
 
 /** A government's year at the published bases (calibration; play reads `budgetFor`). */
@@ -959,7 +986,12 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
   // The town's own government: its city or village, or where the place has
   // none, the township that governs it.
   // (the same units the town's offices are seated for).
-  const local = placeLocalGovernmentUnits(corePlaceByKey(geoid));
+  // The town's own record names its units (a territory's key is not its Census
+  // code); a county-scope place stays looked up by the code its chain ends on.
+  const own = corePlaceByKey(chain.placeKey);
+  const local = placeLocalGovernmentUnits(
+    own?.scope === "locality" ? own : corePlaceByKey(geoid),
+  );
   const city = local.municipal[0] ?? local.townships[0];
   const county = chain.countyGeoids[0];
   const countyUnit = county ? countyGovernmentUnit(county) : null;
@@ -1024,7 +1056,9 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
             "municipal",
             townResidents,
           ),
-          residents: townResidents,
+          // An island municipality governs every village it covers; the town
+          // opened is one of them.
+          residents: islandMunicipalityResidents(city.id) ?? townResidents,
         },
         city.id,
         city.unitType,

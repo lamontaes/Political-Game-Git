@@ -13,7 +13,7 @@ if (existsSync(retired) || !existsSync(current))
   );
 const files = [
   "tests/src/core2/work-data-native-import.test.ts",
-  "src/core2/work-data-native-import.test.ts",
+  "tests/src/core2/work-data-native-import.test.ts",
 ].filter(existsSync);
 if (files.length !== 1)
   throw new Error("Expected exactly one native-import test");

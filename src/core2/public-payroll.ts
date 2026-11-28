@@ -19,7 +19,7 @@ import type {
   WorkCommitmentInput,
   WorkScheduleSlot,
 } from "./types";
-import { lawInForce } from "./modules/laws";
+import { lawInForce } from "./modules/laws-reads";
 import { publicPayFloorHourly } from "./laws-in-force";
 
 /** Hours a day in a public post's full-time week. */

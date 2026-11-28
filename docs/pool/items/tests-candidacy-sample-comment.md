@@ -19,6 +19,6 @@ claimed-at: 2026-10-26T06:54:43.036Z
 
 **Done when.** The candidacy test comment names the measured Suissevale and Santa Ana adult samples and no longer claims a minimum adult count. A source comparison verifies that the test implementation and both share bounds are unchanged, and changed-file formatting passes.
 
-**Files.** src/core2/candidacy.test.ts
+**Files.** tests/src/core2/candidacy.test.ts
 
 **Notes.** Merger 3, October 26: factual wording follow-up to merged #5999; diagnostic logs retained under /workspace/scratch/merger3-oct26-5999.

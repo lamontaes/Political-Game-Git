@@ -32,7 +32,6 @@ import {
   countryAbroadArrivals,
   countryFlowsIn,
   countryStateMonth,
-  countryStates,
 } from "./macro";
 import { latestMacroMonthId } from "../macro-reads";
 import { regionalLevel, regionalRegistered } from "./regional";
@@ -71,8 +70,13 @@ import type {
   PlaceId,
   Source,
 } from "../types";
-
-export const COUNTED_MOVES_MODULE_ID = "core2-counted-moves-v1";
+import {
+  COUNTED_MOVES_MODULE_ID,
+  TABLE,
+  countedMoves,
+} from "../counted-moves-reads";
+export { COUNTED_MOVES_MODULE_ID, countedMoves } from "../counted-moves-reads";
+import { allCountryStates } from "../macro-reads";
 
 /** The living members of a counted household who keep their own records: people returned to the counts earlier. */
 function returnedMembersOf(
@@ -89,7 +93,6 @@ function returnedMembersOf(
   return out;
 }
 
-const TABLE = "moves";
 const PULLS_TABLE = "pulls";
 
 /** Where newcomers from outside the country are from, in an arrival's key. */
@@ -262,7 +265,7 @@ export function stateUnemployment(api: CoreAPI): Map<string, number> {
   if (!api.state.modules.has("macro")) return out;
   const latest = latestMacroMonthId(api);
   if (!latest) return out;
-  for (const state of countryStates(api)) {
+  for (const state of allCountryStates(api)) {
     const row = countryStateMonth(api, state.fips, latest);
     if (row) out.set(state.usps, row.unemploymentPct);
   }
@@ -2079,20 +2082,6 @@ export function countedPull(
     .table(PULLS_TABLE)
     .get(groupId) as unknown as
     { moversPerMonth: number; byCause: Record<string, number> } | undefined;
-}
-
-/** The moves recorded so far, oldest first. */
-export function countedMoves(api: CoreAPI): readonly MoveRecord[] {
-  return (
-    api
-      .moduleState(COUNTED_MOVES_MODULE_ID)
-      .table(TABLE)
-      .rows() as unknown as MoveRecord[]
-  )
-    .slice()
-    .sort((a, b) =>
-      a.date < b.date ? -1 : a.date > b.date ? 1 : a.id < b.id ? -1 : 1,
-    );
 }
 
 /** The coarse people of a state or territory by age band (for proof and reach). */

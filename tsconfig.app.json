@@ -34,14 +34,22 @@
     "tests/support/housing-sale-buyer-fixture.ts",
     "tests/support/law-test-start.ts",
     "tests/support/money-traits-kit.ts",
+    "tests/support/open-modules.ts",
     "tests/support/record-test-kit.ts",
     "tests/support/resident-adults-test-kit.ts",
     "tests/support/test-days.ts",
     "tests/support/trait-test-kit.ts",
     "tests/support/world-with.ts",
-    "tests/golden-path/path-check.ts"
+    "tests/golden-path/path-check.ts",
+    "tests/support/census-scale-closures-support.ts",
+    "tests/support/reply-set-check.ts"
   ],
-  "include": ["src", "scripts/core2/**/*.ts", "scripts/bench/**/*.ts"],
+  "include": [
+    "src",
+    "scripts/core2/**/*.ts",
+    "scripts/bench/**/*.ts",
+    "scripts/director/**/*.ts"
+  ],
   "exclude": [
     "src/**/*.test.ts",
     "src/**/*.test.tsx",

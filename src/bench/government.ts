@@ -9,7 +9,7 @@ import { coreAPI } from "../core2/state";
 import { isFeeLevelSeries } from "../core2/fee-levels";
 import { AMOUNT_SERIES, lawHere } from "../core2/modules/laws";
 import { BUDGETS_MODULE_ID, governments } from "../core2/modules/budgets";
-import { keyPeopleOf } from "../core2/opening-key-people";
+import { keyPeopleOf } from "../core2/modules/people";
 import { faceOf, scenePlace, type PersonFace } from "./scene";
 import {
   officeById,
@@ -44,6 +44,7 @@ import {
   seatIsAnotherDistrict,
   type ContestRow,
   contestOf,
+  allContests,
 } from "../core2/modules/elections";
 import {
   candidateIdentity,
@@ -445,12 +446,7 @@ function nextFiling(core: CoreState) {
   const today = core.date;
   const opensOn = (c: ContestRow) =>
     c.filingOpens && c.filingOpens > today ? c.filingOpens : today;
-  const next = (
-    api
-      .moduleState(ELECTIONS)
-      .table("contests")
-      .rows() as unknown as ContestRow[]
-  )
+  const next = (allContests(api) as unknown as ContestRow[])
     .filter((c) => c.filingDeadline >= today)
     .sort(
       (a, b) =>
@@ -480,10 +476,7 @@ function nextFiling(core: CoreState) {
 export function localRaces(core: CoreState) {
   const api = coreAPI(core);
   if (!core.modules.has(ELECTIONS)) return { date: null, races: [] };
-  const elections = api.moduleState(ELECTIONS);
-  const contests = (
-    elections.table("contests").rows() as unknown as ContestRow[]
-  ).filter(
+  const contests = (allContests(api) as unknown as ContestRow[]).filter(
     (contest) =>
       LOCAL_LEVELS.has(contest.level) && contest.electionDate >= core.date,
   );

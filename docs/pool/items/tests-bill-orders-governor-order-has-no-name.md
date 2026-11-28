@@ -18,8 +18,8 @@ effort: medium
 source: views thread, Nov 16 (trial batch of bench pins)
 ---
 
-**What.** At Cassoday, Kansas (2010925), world seed dfac6a2adae9340d902f5eab265dc0bf045dbda7e35fc30c73c1af806803b63e, the player playing the governor opens the orders screen and the first order waiting on them has no name: `ordersView` returns an entry whose `name` is null (src/bench/bill-orders.test.ts about line 59). The player would see an order to decide with nothing saying what it is.
-Seen: on the Train at 6d12556a in the trial batch, by `npx vitest run src/bench/bill-orders.test.ts` with its fixed seed.
+**What.** At Cassoday, Kansas (2010925), world seed dfac6a2adae9340d902f5eab265dc0bf045dbda7e35fc30c73c1af806803b63e, the player playing the governor opens the orders screen and the first order waiting on them has no name: `ordersView` returns an entry whose `name` is null (tests/src/bench/bill-orders.test.ts about line 59). The player would see an order to decide with nothing saying what it is.
+Seen: on the Train at 6d12556a in the trial batch, by `npx vitest run tests/src/bench/bill-orders.test.ts` with its fixed seed.
 
 **Cause.** Needs cause. Looked at: only the failing assertion and the place it failed in.
 
@@ -33,6 +33,6 @@ Seen: on the Train at 6d12556a in the trial batch, by `npx vitest run src/bench/
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/bill-orders.test.ts, src/bench/office.ts
+**Files.** tests/src/bench/bill-orders.test.ts, src/bench/office.ts
 
 **Notes.**

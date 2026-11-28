@@ -28,8 +28,8 @@ root: none
 
 **Rules.** No dice: each use is offered by the facts and stages its own row names. No new lines: the second use comes from the words pull request.
 
-**Done when.** src/english/mined/conversation-bank-uses.test.ts (the shipped bank with a second use added to the steady reply) fails without the change and passes with it; a second session, in a drawn place with its seed named, sees the worried use said in a played talk once the words pull request is in.
+**Done when.** tests/src/english/mined/conversation-bank-uses.test.ts (the shipped bank with a second use added to the steady reply) fails without the change and passes with it; a second session, in a drawn place with its seed named, sees the worried use said in a played talk once the words pull request is in.
 
 **Waits on.** nothing.
 
-**Files.** src/english/mined/conversation-bank.ts, src/english/mined/conversation-bank-uses.test.ts (new)
+**Files.** src/english/mined/conversation-bank.ts, tests/src/english/mined/conversation-bank-uses.test.ts (new)

@@ -18,7 +18,7 @@ source: "Interview check thread, Nov 15, 2026, gating the outlet-of-record chang
 root: none
 ---
 
-**What.** `src/core2/press-town-stand.test.ts`, "counted residents move where the town stands by the people they stand for, and one filled in keeps their lean", fails with "expected 0.5897098325042632 to be 0.5897146654378804". The test draws its place from a fresh seed each run, so it turns a gate red only on some draws. Seen: a builder's or the train's gate goes red on a test nobody's change touched.
+**What.** `tests/src/core2/press-town-stand.test.ts`, "counted residents move where the town stands by the people they stand for, and one filled in keeps their lean", fails with "expected 0.5897098325042632 to be 0.5897146654378804". The test draws its place from a fresh seed each run, so it turns a gate red only on some draws. Seen: a builder's or the train's gate goes red on a test nobody's change touched.
 
 **Cause.** Measured: Centerville, Washington (5311090), PRESS_STAND_SEED a1c021ad293f4267, draw 0, seed a1c021ad293f4267:0: red at the same seed on both the clean train c43bf7e0 and the outlet-of-record branch.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/press-town-stand.test.ts
+**Files.** tests/src/core2/press-town-stand.test.ts

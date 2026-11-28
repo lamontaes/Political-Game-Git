@@ -16,11 +16,8 @@
  * 3 there, none in common), so one store would be a union of two shapes.
  */
 import { ageInYears, addDays, makeIsoDate } from "../kernel/dates";
-import reach from "../data/laws/reach-group-a.json" with { type: "json" };
-import parameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import publicPayFloor from "../data/laws/public-pay-floor.json" with { type: "json" };
 import { registerModule } from "../state";
-import { parameter } from "../parameters";
 import type {
   CoreAPI,
   CoreModule,
@@ -37,14 +34,11 @@ import {
   firearmOwnershipRate,
   householdOwnsFirearm,
 } from "../firearm-ownership";
-import { lawChain, yesLevels } from "../modules/laws";
-import { residentsRuntime } from "../modules/residents";
-import { countedJobHeads } from "../modules/residents";
-import {
-  isOutsideOffice,
-  OFFICES_MODULE_ID,
-  type TermRow,
-} from "../modules/offices";
+import { lawChain, yesLevels } from "../modules/laws-reads";
+import { residentsRuntime } from "../residents-reads";
+import { countedJobHeads } from "../counted-job-heads";
+import type { TermRow } from "../modules/offices";
+import { isOutsideOffice, OFFICES_MODULE_ID } from "../offices-reads";
 export const PREMIUM_KIND = "law-reach-a:leave-premium";
 
 export type ReachTarget =
@@ -123,30 +117,7 @@ export interface MechanicRow {
   readonly facts: Readonly<Record<string, string | number>>;
 }
 
-const data = reach as unknown as {
-  selectors: Record<string, readonly string[]>;
-  extraSelectors: Record<string, readonly string[]>;
-  staffing: Record<string, { employers: string; levels: readonly string[] }>;
-  policies: Record<string, PolicySpec>;
-};
-export const POLICIES = data.policies;
 export const STAFFING = data.staffing;
-const params = (
-  parameters as unknown as {
-    parameters: Record<string, { value: number }>;
-  }
-).parameters;
-
-/**
- * A number from the group A parameter table. The voting age is the elections
- * data's one row (`votingAge`, the Twenty-Sixth Amendment), never a copy here.
- */
-export function reachParameter(key: string): number {
-  if (key === "votingAge") return parameter(key);
-  const row = params[key];
-  if (!row) throw new Error(`No law-reach parameter: ${key}`);
-  return row.value;
-}
 
 const PUBLIC_EMPLOYERS: readonly string[] = Object.keys(
   publicPayFloor.employerLevels,
@@ -166,6 +137,13 @@ import {
   runReachPayroll,
 } from "./reach-workers";
 import { REACH_A_MODULE_ID } from "./group-a-records-constants";
+import { POLICIES, data, reachParameter, reachTable } from "./group-a-reads";
+export {
+  POLICIES,
+  mechanicRow,
+  reachParameter,
+  reachTable,
+} from "./group-a-reads";
 export { REACH_A_MODULE_ID };
 
 interface PremiumRecord {
@@ -241,17 +219,6 @@ export function ensureReachA(api: CoreAPI): void {
     registerModule(core, REACH_A_MODULE);
 }
 
-export function reachTable(api: CoreAPI, name: string) {
-  return api.moduleState(REACH_A_MODULE_ID).table(name);
-}
-
-export function mechanicRow(api: CoreAPI, id: string): MechanicRow | null {
-  if (!api.state.modules.has(REACH_A_MODULE_ID)) return null;
-  return (
-    (reachTable(api, "mechanics").get(id) as unknown as
-      MechanicRow | undefined) ?? null
-  );
-}
 export function putMechanic(api: CoreAPI, row: MechanicRow): void {
   reachTable(api, "mechanics").put(row as unknown as ModuleRow);
 }

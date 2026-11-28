@@ -15,6 +15,7 @@ import { wordArchiveStory, wordPrintedStory } from "./archive-words";
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import { coreAPI } from "../core2/state";
 import {
+  allContests,
   standing,
   type ContestRow,
   type FilingRow,
@@ -102,9 +103,7 @@ export function calendarItems(
         own: boolean;
       }
     >();
-    for (const contest of elections
-      .table("contests")
-      .rows() as unknown as ContestRow[])
+    for (const contest of allContests(api) as unknown as ContestRow[])
       for (const kind of ICON_KINDS) {
         const date = {
           "filing-opens": contest.filingOpens,

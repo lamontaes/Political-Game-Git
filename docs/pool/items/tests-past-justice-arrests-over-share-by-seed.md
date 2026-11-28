@@ -18,7 +18,7 @@ model: opus
 effort: medium
 ---
 
-**What.** In `src/core2/past-justice.test.ts`, the case "a past can hold an arrest, a conviction and a prison term" fails on the clean Train 892427ec at LIFE_SEED=d60bc7ee5c919774. It fails in Adams, Illinois (1700191) with "arrests against the share: expected 12.37 to be less than or equal to 12.10". It fails the same way with #9538. The check compares the past's arrests against the share it is drawn from, and the count is over the bound by about 2%. Seen: nowhere a player looks yet; the life record of a town holds a few more past arrests than the rate allows.
+**What.** In `tests/src/core2/past-justice.test.ts`, the case "a past can hold an arrest, a conviction and a prison term" fails on the clean Train 892427ec at LIFE_SEED=d60bc7ee5c919774. It fails in Adams, Illinois (1700191) with "arrests against the share: expected 12.37 to be less than or equal to 12.10". It fails the same way with #9538. The check compares the past's arrests against the share it is drawn from, and the count is over the bound by about 2%. Seen: nowhere a player looks yet; the life record of a town holds a few more past arrests than the rate allows.
 
 **Cause.** Needs cause. Measured: the case in What fails the same way on the clean Train 892427ec at the place and seed named there; the cause is not yet traced.
 
@@ -32,6 +32,6 @@ effort: medium
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/past-justice.test.ts
+**Files.** tests/src/core2/past-justice.test.ts
 
 **Notes.** Filed by hand by the civic roles builder, Nov 15. Red with and without #9538 at the same seed.

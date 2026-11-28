@@ -12,13 +12,11 @@ import { sinceOpeningIndex } from "../tax-index";
 import incomeData from "../data/opening-income.json" with { type: "json" };
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
 import { claimWaitCase, retirementClaimAgeMonths } from "../retirement-claim";
-import {
-  startingSocialSecurityAges,
-  type SocialSecurityAges,
-} from "../laws-in-force";
+import type { SocialSecurityAges } from "../laws-in-force";
+import { startingSocialSecurityAges } from "../social-security-law";
 import { lawApplied } from "../law-reach/applied";
 import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
-import { addResidentFlow, endFlowPart } from "../residents-economy";
+import { addResidentFlow, endFlowPart } from "../resident-flows";
 import { leanedTerm } from "../trait-decisions";
 import { residentsRuntime } from "../residents-reads";
 import { isDemoted } from "../counted-groups";
@@ -30,36 +28,14 @@ import type {
   PersonId,
   Source,
 } from "../types";
+import { type Runtime, runtimes } from "../retirement-claims-runtime";
+export {
+  retirementClaims,
+  returnClaimToCounts,
+} from "../retirement-claims-runtime";
 
 export const RETIREMENT_CLAIMS_MODULE_ID = "core2-retirement-claims-v1";
 const STOPGAP = "SG-CORE-retirement-claims-in-play";
-
-interface Runtime {
-  known: Set<PersonId>;
-  /** The year the counts were last checked for people nearing the earliest claim age. */
-  countedIndexedYear?: string;
-  byDate: Map<IsoDate, PersonId[]>;
-  claimed: Map<PersonId, Claim>;
-  indexedPeople?: number;
-  /** The residents' fill-in count at that check: a household returning from the counts adds no record. */
-  indexedFillIns?: number;
-}
-
-interface Claim {
-  date: IsoDate;
-  monthlyMinor: number;
-  /** Paid into the place's residents account while the claimant is counted. */
-  counted: boolean;
-  obligationId: string;
-}
-const runtimes = new WeakMap<CoreState, Runtime>();
-
-/** Who has claimed in play, with the date and monthly award. */
-export function retirementClaims(
-  core: CoreState,
-): ReadonlyMap<PersonId, Claim> {
-  return runtimes.get(core)?.claimed ?? new Map();
-}
 
 /** The date this many months after another: the same day of the month, or the month's last day. */
 export function monthsAfter(date: string, months: number): IsoDate {
@@ -262,60 +238,6 @@ function moveToPerson(api: CoreAPI, rt: Runtime, personId: PersonId): void {
     source: flow.source,
   });
   rt.claimed.set(personId, { ...row, counted: false, obligationId: id });
-}
-
-/**
- * A claimant returned to the counts (counted-demotion.ts): their award stops
- * paying them and joins the residents' income in their place again, from its
- * next due date, as a counted claimant's does.
- */
-export function returnClaimToCounts(
-  api: CoreAPI,
-  personId: PersonId,
-  placeId: string,
-): void {
-  const rt = runtimes.get(api.state);
-  const row = rt?.claimed.get(personId);
-  if (!rt || !row || row.counted) return;
-  const accounts = api.accounts();
-  const own = accounts.obligation(row.obligationId);
-  const residentsId = residentsRuntime(api.state)?.input.accounts.find(
-    (account) => account.placeId === placeId,
-  )?.accountId;
-  const payerId = own && api.state.cashJournal.accounts.get(own.from)?.ownerId;
-  if (
-    !own ||
-    own.endedAt !== undefined ||
-    !own.nextDueAt ||
-    !residentsId ||
-    !payerId
-  )
-    return;
-  // Read before it ends: ending clears the row's next due date.
-  const { amountMinor, nextDueAt, source } = own;
-  accounts.endObligation(row.obligationId);
-  const id = `${row.obligationId}:counted:${api.state.date}`;
-  addResidentFlow(api.state, {
-    id,
-    kind: "retirement",
-    financeKind: "income.retirement",
-    payerId,
-    payeeId: residentsId,
-    residentsId,
-    placeId,
-    amountMinor,
-    firstAt: nextDueAt,
-    cadence: {
-      kind: "months",
-      every: 1,
-      day: Number(nextDueAt.slice(8, 10)),
-    },
-    salesReceipt: false,
-    marketAdjusted: false,
-    amountByContract: { [id]: amountMinor },
-    source,
-  });
-  rt.claimed.set(personId, { ...row, counted: true, obligationId: id });
 }
 
 /**

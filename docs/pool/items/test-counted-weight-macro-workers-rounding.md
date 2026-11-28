@@ -19,7 +19,7 @@ claimed-at: 2026-10-20T09:21:18.443Z
 
 **Done when.** The test passes on that seed and on 20 repeated drawn seeds.
 
-**Files.** src/core2/counted-weight-macro.test.ts, src/core2/modules/residents.ts
+**Files.** tests/src/core2/counted-weight-macro.test.ts, src/core2/modules/residents.ts
 
 **Notes.** TODO
 

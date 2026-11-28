@@ -14,7 +14,7 @@
  */
 import { closenessBetween } from "../closeness";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
-import { livesElsewhere } from "./moves";
+import { livesElsewhere } from "../moves-reads";
 import type { CoreAPI, CoreState, PersonId, Source } from "../types";
 
 export const FAMILY_CONTACT = "family.contact";

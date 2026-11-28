@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** Research before building: each row cites the BLS Employment Projections table and year, SOURCED, with an ESTIMATED row and its spread where the occupation is not listed. One rule, all 56 places: occupations are national classifications, no place is named, and the table is data. No dice: the table only sets what a job asks, never who is hired. Estimate, never UNKNOWN: an occupation with no row starts from the table's all-occupations share and says so.
 
-**Done when.** A second session, not the builder, runs the test in src/core2/jobs.test.ts, which draws a place from all 56, names it and the seed, builds the played world (`buildBenchWorld`) and shows every position's occupation reads back a row from src/core2/data/jobs/entry-requirements.json with experience asked, typical entry education, source and tag. Nothing on screen reads the table yet.
+**Done when.** A second session, not the builder, runs the test in tests/src/core2/jobs.test.ts, which draws a place from all 56, names it and the seed, builds the played world (`buildBenchWorld`) and shows every position's occupation reads back a row from src/core2/data/jobs/entry-requirements.json with experience asked, typical entry education, source and tag. Nothing on screen reads the table yet.
 
 **Waits on.** Nothing (jobs-no-openings-in-small-towns is done).
 
-**Files.** src/core2/data/jobs/entry-requirements.json (new), src/core2/modules/jobs.ts, src/core2/jobs.test.ts
+**Files.** src/core2/data/jobs/entry-requirements.json (new), src/core2/modules/jobs.ts, tests/src/core2/jobs.test.ts
 
 **Notes.** Written Oct 20 (claude/entry-spec) from the code. `experienceYears` (jobs.ts about line 2271) sums a person's commitments in the occupation; the counted tier keeps its own `countedExperience`. The follow-up is `jobs-occupation-entry-experience`. Waits on `jobs-no-openings-in-small-towns` per its `after:`.
 

@@ -17,8 +17,8 @@ claimed-at: 2026-10-17T17:55:36.138Z
 
 **Rules.** No dice: the speaker answers from their party, their tie to the member and their own traits, as the leader does. One rule, all 56 places: the fallback reads the chamber's posts, no place named.
 
-**Done when.** `src/core2/office-day-unicameral-agenda.test.ts` finds a resident member of a unicameral chamber in a drawn place, drafts a bill, and the request names the speaker with reasons; it fails on main. In Coral Bay (seed sw7a9c115c) `path-check` reports the bill enacted 15 to 0 and reaches step 11.
+**Done when.** `tests/src/core2/office-day-unicameral-agenda.test.ts` finds a resident member of a unicameral chamber in a drawn place, drafts a bill, and the request names the speaker with reasons; it fails on main. In Coral Bay (seed sw7a9c115c) `path-check` reports the bill enacted 15 to 0 and reaches step 11.
 
-**Files.** src/core2/office-day-state.ts, tests/golden-path/path-check.ts, src/core2/office-day-unicameral-agenda.test.ts
+**Files.** src/core2/office-day-state.ts, tests/golden-path/path-check.ts, tests/src/core2/office-day-unicameral-agenda.test.ts
 
 **Notes.** Found by the fourth path-check sweep, Oct 17 (claude). Checked later Oct 17: D.C.'s council has 12 seats in the offices data (eight wards and four at large; the chair is its own office), and only 5 cover the town, which is what `townSeats` listed; not a defect. The D.C. run after this change reaches step 10 (see tests-path-check-legislature-session-days). The speaker's reasons use the speaker's party; in a nonpartisan chamber that term is zero.

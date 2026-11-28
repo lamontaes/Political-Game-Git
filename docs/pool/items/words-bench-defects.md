@@ -17,8 +17,8 @@ claimed-at: 2026-10-16T04:17:33.021Z
 
 **Rules.** No hand-written player text: the fix changes which record is read and never types a sentence; ask why: each line cites its record id; one rule, all 56 places: no place named in logic; no dice.
 
-**Done when.** In a one-year `buildBenchWorld` run in a place drawn from all 56 (name it and the seed in the PR body), a household with two children born in the run prints each birth once in the memoir, with a differing child or date, shown by a test in `src/director/journal.test.ts`; and a family scene fired for the player is staged only in the player's own household with a named cast of no more than the people the records put there, shown by a test in `src/director/scene.test.ts`.
+**Done when.** In a one-year `buildBenchWorld` run in a place drawn from all 56 (name it and the seed in the PR body), a household with two children born in the run prints each birth once in the memoir, with a differing child or date, shown by a test in `tests/src/director/journal.test.ts`; and a family scene fired for the player is staged only in the player's own household with a named cast of no more than the people the records put there, shown by a test in `tests/src/director/scene.test.ts`.
 
-**Files.** src/director/journal.ts, src/director/scene.ts, src/director/journal.test.ts, src/director/scene.test.ts
+**Files.** src/director/journal.ts, src/director/scene.ts, tests/src/director/journal.test.ts, tests/src/director/scene.test.ts
 
 **Notes.** Part of words-grading-bench (Order 2 of docs/work-orders/words-and-director-2026-10-15.md); absorbed from the closed words-batch-12 item.

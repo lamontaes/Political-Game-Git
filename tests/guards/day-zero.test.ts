@@ -1,7 +1,7 @@
 /**
  * Day one in motion (skill day-one-in-motion): the day-zero file is well formed, its known-red list
  * only shrinks, and every module in src/core2 has answered the day-0 question. The worlds themselves
- * are read by src/core2/day-zero.test.ts.
+ * are read by tests/src/core2/day-zero.test.ts.
  */
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";

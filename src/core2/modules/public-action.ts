@@ -38,11 +38,12 @@ import {
   INTEREST_GROUPS_MODULE_ID,
   foundMovement,
   movementGroupId,
-} from "./elections";
-import { groupDraw, joinsGroup } from "./elections";
+  groupDraw,
+  joinsGroup,
+} from "./interest-groups";
 import { leanedYes } from "../trait-decisions";
 import { makeCase } from "./speech";
-import { townSeats } from "./offices";
+import { townSeats } from "../offices-reads";
 import { currentCloseness } from "../closeness";
 import { placeTermRead, termReadPlaces, type AreaRead } from "./laws";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";

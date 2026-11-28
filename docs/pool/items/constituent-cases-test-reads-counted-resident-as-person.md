@@ -19,7 +19,7 @@ source: Account lead thread "Make elections read your record", Nov 14 (red on th
 claimed-at:
 ---
 
-**What.** `src/core2/constituent-cases.test.ts` ("residents bring problems from their records, and how they're handled changes their view") fails with `TypeError: Cannot read properties of undefined (reading 'birthDate')` at some drawn places. `GOLDEN_PATH_SEED=a1 npx vitest run src/core2/constituent-cases.test.ts` fails on the clean train head 8bc765b3 and on #9191's branch alike; seeds `b2` and `c3` pass on both. Seen: in the constituent cases a town's residents bring to officials, and how they are read at the ballot.
+**What.** `tests/src/core2/constituent-cases.test.ts` ("residents bring problems from their records, and how they're handled changes their view") fails with `TypeError: Cannot read properties of undefined (reading 'birthDate')` at some drawn places. `GOLDEN_PATH_SEED=a1 npx vitest run tests/src/core2/constituent-cases.test.ts` fails on the clean train head 8bc765b3 and on #9191's branch alike; seeds `b2` and `c3` pass on both. Seen: in the constituent cases a town's residents bring to officials, and how they are read at the ballot.
 
 **Cause.** Found in code: the test lists every open case (`allCases(api).filter((c) => c.status === "open")`) and reads `core.people.get(c.personId)!` for each (line 78), but `bringCases` in src/core2/modules/constituent-cases.ts (the counted-out-of-work loop after the named people) keeps cases for counted residents by their record id, who are not in `core.people`, so `problemOf` gets `undefined`.
 
@@ -33,4 +33,4 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/constituent-cases.test.ts
+**Files.** tests/src/core2/constituent-cases.test.ts

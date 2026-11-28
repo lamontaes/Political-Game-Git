@@ -19,9 +19,9 @@ claimed-at:
 
 **Rules.** One model, two tiers: the counted groups read the question with the same stance formation as full people (the counted-group stance rule of elections-counted-voters-read-group-stances), times their count, with no separate band formula. No dice: a group's yes share follows its stance, turnout and the law, never a roll, and the 2024 vote only sizes the groups. Sliding scales and causes: a small gap in stance moves the result a few points, not a flip (owner, Oct 20 on vote swings). Replace, never layer: shareFavoring, the lean-band spread and the api.stopgap call are deleted in the same change. One rule, all 56 places: the state comes from the town's law chain and no state is named.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, every module installed) in a place drawn from all 56 with a seed the builder did not choose, a statewide measure on the ballot is counted with each county block voting from its group stances, and two blocks of different lean and traits give different yes shares, shown by the measure result record id and the block ids; src/core2/ballot-measures.test.ts proves it and SG-GOV-measure-groups-stand-in is resolved in src/core2/data/stopgaps.json.
+**Done when.** In a one-year run of the played world (buildBenchWorld, every module installed) in a place drawn from all 56 with a seed the builder did not choose, a statewide measure on the ballot is counted with each county block voting from its group stances, and two blocks of different lean and traits give different yes shares, shown by the measure result record id and the block ids; tests/src/core2/ballot-measures.test.ts proves it and SG-GOV-measure-groups-stand-in is resolved in src/core2/data/stopgaps.json.
 
-**Files.** src/core2/modules/ballot-measures.ts, src/core2/electorate-places.ts, src/core2/campaign-views.ts, src/core2/ballot-measures.test.ts, src/core2/data/stopgaps.json
+**Files.** src/core2/modules/ballot-measures.ts, src/core2/electorate-places.ts, src/core2/campaign-views.ts, tests/src/core2/ballot-measures.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** First row: On a statewide ballot measure, the voters the world doesn't name vote as even lean bands around the state's 2024 presidential lean, sized by the state's 2024 vote, each band voting its own view of the question (no separa
 

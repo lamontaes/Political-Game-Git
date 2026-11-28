@@ -23,7 +23,7 @@ import { staffing } from "./group-a-staffing";
 import { votingLaw } from "./group-a-voting";
 import { rightToWork } from "./group-a-union";
 import { publicBargaining } from "./group-a-bargaining";
-import { lawInForce, yesLevels } from "../modules/laws";
+import { lawInForce, yesLevels } from "../modules/laws-reads";
 
 const records: PolicyHandler = (api, change) => {
   const levels = POLICIES[change.key]?.effectLevels;

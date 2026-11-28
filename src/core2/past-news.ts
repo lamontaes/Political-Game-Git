@@ -17,18 +17,17 @@
  * calendar for that day. Nobody too young to follow the news hears it.
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { lawRows } from "./modules/laws";
+import { lawRows } from "./modules/laws-reads";
 import { printStory, readingDelay, type Story } from "./modules/news";
 import { writeArchiveStory } from "./modules/press";
 import type { PastTown } from "./past-bodies";
 import type { PastClosureRow } from "./past-business";
-import {
-  pastParameter,
-  shiftDays,
-  type LawHistoryRow,
-  type PastBillRow,
-  type PastElectionRow,
+import type {
+  LawHistoryRow,
+  PastBillRow,
+  PastElectionRow,
 } from "./past-module";
+import { pastParameter, shiftDays } from "./past-reads";
 import type { CoreAPI, CoreEventInput, PersonState } from "./types";
 import { allBudgetRows } from "./budgets-reads";
 

@@ -5779,7 +5779,7 @@ select.release-pick {
 #sheet-body .roster-title {
   margin: 0 0 10px;
   font:
-    600 var(--t-h1)/1.1 "Playfair Display",
+    600 var(--t-h1)/1.3 "Playfair Display",
     Georgia,
     serif;
   text-transform: none;

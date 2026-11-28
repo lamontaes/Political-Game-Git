@@ -28,7 +28,7 @@ import {
   type GovernmentRow,
 } from "../modules/budgets";
 import { enactLaw, lawChain, lawInForce, lawRows } from "../modules/laws";
-import { lawRowIsLater } from "../laws-in-force";
+import { lawRowIsLater } from "../laws-resolve";
 import {
   countedJob,
   residentsRuntime,
@@ -43,7 +43,7 @@ import {
   type ResidentFacts,
   type TownFacts,
 } from "./group-b-people";
-import { flowWeights, fundOf, peopleInGroup } from "../counted-money";
+import { flowWeights, fundOf, peopleInGroup } from "../counted-money-reads";
 import {
   getRow,
   putRow,

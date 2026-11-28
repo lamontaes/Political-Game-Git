@@ -14,7 +14,8 @@ import {
 } from "./electorate-places";
 import { partySide, officeSeats, termById } from "./modules/offices";
 import { townDistrict, type SeatInput } from "./modules/offices";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
+import type { ContestRow } from "./modules/elections";
+import { ELECTIONS_MODULE_ID } from "./elections-reads";
 import { type TermRow } from "./modules/offices";
 import territoryPlaces from "./data/places/territory-places.json" with { type: "json" };
 import { shareValue } from "./shares";

@@ -56,11 +56,11 @@ import { chargeOfficeHours } from "./work";
 import { campaignParameter } from "../campaign-data";
 import { seatPay, localSeatPaySeries, seatPayRow } from "../office-day-pay";
 import {
-  localOfficeKit,
+  localOfficeFields,
   type OfficeActHost,
   type Prepared,
 } from "../office-day-acts";
-import { officeActKits, registerOfficeActs } from "../office-day-registry";
+import { carriersOf } from "../module-fields";
 import {
   billOf,
   bodyReach,
@@ -240,6 +240,31 @@ const OFFICE_DAY_HISTORY: HistorySource = {
   },
 };
 
+/**
+ * What a level's kit may use from the engine: the offices a person holds,
+ * keeping an act on the record, what the player prepared, and whether an
+ * act was already taken this year.
+ */
+export const officeHost: OfficeActHost = {
+  officesOf: (api, personId) =>
+    servingTermsOf(api, personId).map((term) => term.officeId),
+  keep: (api, row) => keepAct(api, row),
+  prepared: (api, personId, actId) => preparedFor(api, personId, actId),
+  clearPrepared: (api, personId, actId) =>
+    table(api, "prepared").remove(`${personId}|${actId}`),
+  given: (api, personId, kind, year) => gaveInYear(api, personId, kind, year),
+  lastGiven: (api, personId, kind, recordId) =>
+    officeActsOf(api, personId)
+      .filter(
+        (row) =>
+          row.kind === kind &&
+          (recordId === undefined || row.recordId === recordId),
+      )
+      .map((row) => row.date)
+      .sort()
+      .at(-1),
+};
+
 export const OFFICE_DAY_MODULE: CoreModule = {
   id: OFFICE_DAY_MODULE_ID,
   /**
@@ -290,21 +315,20 @@ export const OFFICE_DAY_MODULE: CoreModule = {
   },
   onCalendarWork: officeDayCalendar,
   onAfterDay(api) {
-    for (const kit of officeActKits()) kit.onAfterDay?.(api);
+    for (const module of carriersOf(api.state as CoreState, "onOfficeAfterDay"))
+      module.onOfficeAfterDay!(api);
   },
   needEvaluators: {
     // The duty of the seat a person holds: the most that any level's kit says
     // has come due, zero for someone who holds none.
     "office-duty": (api, actor) =>
-      officeActKits().reduce(
-        (most, kit) => Math.max(most, kit.duty?.(api, actor.id) ?? 0),
+      carriersOf(api.state as CoreState, "duty").reduce(
+        (most, module) => Math.max(most, module.duty!(api, actor.id) ?? 0),
         api.parameter("zero"),
       ),
   },
-  // Filled from every registered level's kit when the engine opens.
-  offerProviders: {},
-  effectHandlers: {},
-  reasonProviders: {},
+  // The local level's acts: offers, effects and reasons, the monthly address, the duty and the rows in the core's data.
+  ...localOfficeFields(officeHost),
   onDay(api) {
     // A job starts or ends before a day's work, so the roster is read here
     // and the office jobs change in the next day's calendar work: when the
@@ -318,9 +342,14 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     }
     if (payday) {
       payStipends(api);
-      for (const kit of officeActKits()) kit.onMonth?.(api);
+      // The other levels' months, then the local one: the order the acts registered in.
+      const months = carriersOf(api.state as CoreState, "onMonth");
+      for (const module of months)
+        if (module !== OFFICE_DAY_MODULE) module.onMonth!(api);
+      OFFICE_DAY_MODULE.onMonth!(api);
     }
-    for (const kit of officeActKits()) kit.onDay?.(api);
+    for (const module of carriersOf(api.state as CoreState, "onOfficeDay"))
+      module.onOfficeDay!(api);
     return undefined;
   },
   // What the office day adds to the legislature: the player's own vote, the desk's arrival, the budget meeting, the committee that waits for a meeting and the meetings' agenda.
@@ -363,52 +392,8 @@ const playerOf = (api: CoreAPI) =>
   snapshotExplicitControlV1(api.state).personId ??
   (api.state as CoreState).playerId;
 
-/**
- * What a level's kit may use from the engine: the offices a person holds,
- * keeping an act on the record, what the player prepared, and whether an
- * act was already taken this year.
- */
-export const officeHost: OfficeActHost = {
-  officesOf: (api, personId) =>
-    servingTermsOf(api, personId).map((term) => term.officeId),
-  keep: (api, row) => keepAct(api, row),
-  prepared: (api, personId, actId) => preparedFor(api, personId, actId),
-  clearPrepared: (api, personId, actId) =>
-    table(api, "prepared").remove(`${personId}|${actId}`),
-  given: (api, personId, kind, year) => gaveInYear(api, personId, kind, year),
-  lastGiven: (api, personId, kind, recordId) =>
-    officeActsOf(api, personId)
-      .filter(
-        (row) =>
-          row.kind === kind &&
-          (recordId === undefined || row.recordId === recordId),
-      )
-      .map((row) => row.date)
-      .sort()
-      .at(-1),
-};
-registerOfficeActs(localOfficeKit(officeHost));
-
 export function openOfficeDay(core: CoreState, worldSeed: string): void {
-  const providers = OFFICE_DAY_MODULE.offerProviders as Record<string, unknown>;
-  const handlers = OFFICE_DAY_MODULE.effectHandlers as Record<string, unknown>;
-  const reasons = OFFICE_DAY_MODULE.reasonProviders as Record<string, unknown>;
-  for (const kit of officeActKits()) {
-    Object.assign(reasons, kit.reasonProviders ?? {});
-    Object.assign(providers, kit.providers ?? {});
-    Object.assign(handlers, kit.handlers ?? {});
-  }
   if (core.modules.has(OFFICE_DAY_MODULE_ID)) return;
-  // The acts read their hours from the core's data, which is fixed when the
-  // core is made: a world that opens the office day is built on
-  // officeDayData, the one builder the played world uses.
-  const missing = officeActKits()
-    .flatMap((kit) => Object.keys(kit.parameters ?? {}))
-    .filter((key) => !(key in core.data.parameters));
-  if (missing.length)
-    throw new Error(
-      `The office day opened on a world built without officeDayData (missing ${missing.join(", ")}).`,
-    );
   registerModule(core, OFFICE_DAY_MODULE);
   const api = coreAPI(core);
   table(api, "world").put({

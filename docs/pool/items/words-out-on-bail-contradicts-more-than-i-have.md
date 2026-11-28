@@ -33,6 +33,6 @@ checked: s3 2026-11-14
 
 **Waits on.** Nothing; built on the train head.
 
-**Files.** src/director/conversation.ts, data/english/parts/conversation.json, src/director/court-bail-talk.test.ts (new)
+**Files.** src/director/conversation.ts, data/english/parts/conversation.json, tests/src/director/court-bail-talk.test.ts (new)
 
 **Notes.** Filed on the court-case carry branch. The same PR says every length in talk in words (`lengthSaid`): months under two years, years to the half year after (Words lead ruling, Nov 14).

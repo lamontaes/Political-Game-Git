@@ -19,7 +19,8 @@
  */
 import { historyMonths } from "./macro-model";
 import { putPastYear } from "./output-numbers";
-import { findPerQuarter, preStartHistory } from "./past-module";
+import { findPerQuarter } from "./past-reads";
+import { preStartHistory } from "./pre-start-history";
 import type { CoreAPI, CoreState } from "./types";
 
 /** One place's day-one labor figures, as the monthly row holds them. */

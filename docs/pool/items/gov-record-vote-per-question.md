@@ -20,6 +20,6 @@ claimed-at: 2026-11-01T14:39:10.340Z
 
 **Done when.** In a drawn place with its seed printed, a bill with two provisions that comes to a roll call leaves two record vote rows per voting member, one per question, each by its own id; each row's vote-recorded event exists by id; promisesOf judges a promise on the first question by that row's id; a second bill with the same number leaves the first bill's rows in place.
 
-**Files.** src/core2/modules/record.ts, src/core2/modules/legislature.ts, src/core2/past-laws.ts, src/bench/reached.ts, src/core2/record-vote-per-question.test.ts
+**Files.** src/core2/modules/record.ts, src/core2/modules/legislature.ts, src/core2/past-laws.ts, src/bench/reached.ts, tests/src/core2/record-vote-per-question.test.ts
 
 **Notes.** Found by the phase B map (Nov 1, 14:18 UTC, docs/work-orders/governing-2026-10-29/06-phase-b-units.md unit 4). bench/reached.ts is the lane's file: ask the lane before changing it.

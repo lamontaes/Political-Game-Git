@@ -15,17 +15,18 @@ import { daysBetweenText as daysBetween, makeIsoDate } from "../kernel/dates";
 import { householdStatusRow } from "../housing-reads";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { countedPlaceOf, isDemoted, type Tenure } from "../counted-groups";
-import { workedToday } from "./jobs";
+import { workedToday } from "../job-lifecycle";
 import { addCountedJob } from "../residents-economy";
 import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
 import { stableHash } from "../kernel/ids";
 import { lastTogether } from "../closeness";
 import { endLivingPlan } from "./business";
-import { servingTerms } from "./offices";
+import { servingTerms } from "../offices-reads";
 import { allBusinessOwners } from "../business-reads";
 import { VIEWS_MODULE_ID } from "./views-constants";
-import { ELECTIONS_MODULE_ID, contestOf } from "./elections";
-import { CANDIDACY_MODULE_ID, type CandidacyDecision } from "./candidacy";
+import { ELECTIONS_MODULE_ID, contestOf } from "../elections-reads";
+import type { CandidacyDecision } from "./candidacy";
+import { CANDIDACY_MODULE_ID } from "./candidacy-constants";
 import {
   countedFundOf,
   countedSpread,
@@ -36,7 +37,7 @@ import {
   returnCommuterPay,
   commuterPeriodPay,
 } from "./residents";
-import { returnClaimToCounts } from "./retirement-claims";
+import { returnClaimToCounts } from "../retirement-claims-runtime";
 import { isSchoolDistrict, type ResidentHouseholdRecord } from "../residents";
 import type { ModuleRow } from "../module-data";
 import type {

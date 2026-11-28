@@ -35,6 +35,6 @@ branch: claude/pool-people-residents-cadence-mechanic-part-1-private-jobs-measur
 
 **Waits on.** Nothing.
 
-**Files.** scripts/core2/turnover-check.ts, src/core2/residents-turnover-bands.test.ts
+**Files.** scripts/core2/turnover-check.ts, tests/src/core2/residents-turnover-bands.test.ts
 
 **Notes.** Released by next (2026-11-13): no push to claude/pool-people-residents-cadence-mechanic-part-1-private-jobs-measure since 2026-11-11 07:45 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-people-residents-cadence-mechanic-part-1-private-jobs-measure.

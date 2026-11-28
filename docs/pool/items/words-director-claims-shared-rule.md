@@ -30,10 +30,10 @@ claimed-at: 2026-11-11T03:04:39.114Z
 
 **Rules.** Replace, never layer: doubtsClaim keeps its name and callers but returns the shared rule's answer, and truthDefaultPull is deleted. No hand-written player text. No dice.
 
-**Done when.** A second session plays one year of buildBenchWorld in a place drawn from all 56 (place and seed named), tells a lie to a close contact and to a stranger with the same temperament, and sees the close contact believe it and the stranger doubt it; src/director/conversation.test.ts passes with both hearers named by person id, truthDefaultPull and SG-TRAITS-director-claims-reader are removed.
+**Done when.** A second session plays one year of buildBenchWorld in a place drawn from all 56 (place and seed named), tells a lie to a close contact and to a stranger with the same temperament, and sees the close contact believe it and the stranger doubt it; tests/src/director/conversation.test.ts passes with both hearers named by person id, truthDefaultPull and SG-TRAITS-director-claims-reader are removed.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/conversation.ts, src/director/conversation.test.ts, src/core2/heard-claims.ts, src/core2/data/parameters.json, src/core2/data/stopgaps/traits.json
+**Files.** src/director/conversation.ts, tests/src/director/conversation.test.ts, src/core2/heard-claims.ts, src/core2/data/parameters.json, src/core2/data/stopgaps/traits.json
 
 **Notes.** Filed Oct 25 by the traits lead. PR 5657 made this change on a traits branch and Merger 1 sent it back because src/director edits belong to the Words line; the change was taken out of that PR. The diff it carried was three lines: import believesClaim and HeardClaim from ../core2/heard-claims, make doubtsClaim return !believesClaim(core, hearer, claim) with core picking data, date and relationships, and pass { tellerId: playerId } where say() asks each hearer. Depends on traits-civic-shared-rule merging first, since that adds believesClaim.

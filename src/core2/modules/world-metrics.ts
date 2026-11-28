@@ -12,7 +12,7 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { residentsRuntime } from "../residents-reads";
 import { povertyByPlace } from "../world-poverty";
-import { HOUSING_MODULE_ID, townFiguresByPlace } from "./housing";
+import { HOUSING_MODULE_ID, townFiguresByPlace } from "../housing-reads";
 import { allMortgageRows } from "../housing-reads";
 import { allCreditLoans, type CreditLoanRow } from "../credit-reads";
 import {
@@ -21,6 +21,7 @@ import {
   housingStockOf,
 } from "../housing-reads";
 import { openClaims } from "../jobs-reads";
+import { businessFoundingsAt } from "../business-reads";
 import { foldMonthIntoYear } from "../output-numbers";
 import { laborYearBefore } from "../labor-past";
 import { townLaborByPlace } from "./world-panels";
@@ -32,12 +33,6 @@ const median = (values: number[]): number => {
   const sorted = [...values].sort((a, b) => a - b);
   return sorted[Math.floor(sorted.length / 2)]!;
 };
-
-function rows(api: CoreAPI, moduleId: string, table: string) {
-  return (api.state as CoreState).modules.has(moduleId)
-    ? api.moduleState(moduleId).table(table).rows()
-    : [];
-}
 
 /**
  * The people and homes each place holds today, from the residents engine's
@@ -174,12 +169,13 @@ export function townMetrics(api: CoreAPI) {
     } else if (book.closedAt.startsWith(month))
       at(placeId).closedThisMonth += 1;
   }
-  for (const row of rows(api, "business", "foundings") as unknown as {
-    placeId?: string;
-    date: string;
-  }[])
-    if (row.placeId && row.date.startsWith(month))
-      at(row.placeId).foundedThisMonth += 1;
+  // Firms founded in play, by the place each opened in: the business engine's door answers one place at a time.
+  const firmPlaces = new Set<string>();
+  for (const organization of c.organizations.values())
+    if (organization.placeId) firmPlaces.add(organization.placeId);
+  for (const placeId of firmPlaces)
+    for (const founding of businessFoundingsAt(api, placeId))
+      if (founding.date.startsWith(month)) at(placeId).foundedThisMonth += 1;
   for (const [id, row] of c.finance.contracts) {
     const placeId = row.householdId
       ? c.households.get(row.householdId)?.placeId

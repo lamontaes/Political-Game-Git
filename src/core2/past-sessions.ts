@@ -21,7 +21,7 @@ import {
   OFFICES_MODULE_ID,
   type TermRow,
 } from "./modules/offices";
-import { openRecord } from "./modules/record";
+import { RECORD_MODULE } from "./modules/record";
 import { OFFICIALS_MODULE, OFFICIALS_MODULE_ID } from "./modules/officials";
 import { openLegislature } from "./modules/legislature";
 import { openWorldLegislating } from "./modules/world-legislating";
@@ -72,7 +72,7 @@ export function pastSessionLaws(
   openLaws(core);
   // The century's day-one date, not the small world's clock, so the century is read once.
   openOffices(core, seed, startDate);
-  openRecord(core);
+  registerModule(core, RECORD_MODULE);
   // The legislature seats every official outside the town as a person when it opens (0.9 s). The
   // sitting needs only this state's legislators, whom the engine makes people of when it first
   // reads them (`members`), so the eager seating is marked done.

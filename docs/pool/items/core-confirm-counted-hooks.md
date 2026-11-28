@@ -21,4 +21,4 @@ claimed-at: 2026-10-15T22:57:41.626Z
 
 **Files.** src/core2/modules/budgets.ts, src/core2/budgets-treasury.ts, src/core2/modules/housing.ts, src/core2/modules/regional.ts, src/core2/world-transfer.ts, src/core2/births-counted.ts
 
-**Notes.** Four of six are shown in src/core2/counted-hooks-read.test.ts and the tests it cites; the rent and transfer hooks moved to `core-confirm-rent-transfer-hooks`. Counted workers' quits and hires reading the groups (business audit defects 2, 4, 7, 8) belong to the world line.
+**Notes.** Four of six are shown in tests/src/core2/counted-hooks-read.test.ts and the tests it cites; the rent and transfer hooks moved to `core-confirm-rent-transfer-hooks`. Counted workers' quits and hires reading the groups (business audit defects 2, 4, 7, 8) belong to the world line.

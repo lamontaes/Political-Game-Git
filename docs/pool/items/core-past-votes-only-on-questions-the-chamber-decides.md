@@ -29,8 +29,8 @@ merged-at: 2026-11-15T21:53:58.835Z
 
 **Rules.** One rule, all 56 places: the filter is the catalog's level for every chamber in every place, never a named question. Ask why: each past vote's question is one its body could have decided.
 
-**Done when.** `src/core2/past-votes-by-level.test.ts` passes in two drawn places with past votes, and a second session sees, on the bench on main, a drawn Advanced start as a county or town officeholder whose Politics → Elections → Votes you cast lists no federal question.
+**Done when.** `tests/src/core2/past-votes-by-level.test.ts` passes in two drawn places with past votes, and a second session sees, on the bench on main, a drawn Advanced start as a county or town officeholder whose Politics → Elections → Votes you cast lists no federal question.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/past-laws.ts, src/core2/past-votes-by-level.test.ts
+**Files.** src/core2/past-laws.ts, tests/src/core2/past-votes-by-level.test.ts
