@@ -60,12 +60,7 @@ import {
   type OfficeActHost,
   type Prepared,
 } from "../office-day-acts";
-import {
-  officeActKits,
-  officeStopKinds,
-  registerOfficeActs,
-  registerStopKinds,
-} from "../office-day-registry";
+import { officeActKits, registerOfficeActs } from "../office-day-registry";
 import {
   billOf,
   bodyReach,
@@ -77,14 +72,9 @@ import {
   executiveItemVeto,
   executiveLean,
   holdFloorDebate,
-  LEGISLATURE_MODULE_ID,
   memberKey,
   members,
-  registerBudgetMeeting,
-  registerLegislatureHooks,
-  registerMeetingAgendaReader,
   voteBudgetAtMeeting,
-  registerCommitteeWait,
   playerSitsOnCommittee,
   vetoReasons,
   type BillRow,
@@ -93,13 +83,19 @@ import {
 } from "./legislature";
 import { filesAhead, filingsOwed, voteAtMeeting } from "./world-legislating";
 import {
-  nextMeeting as nextOnRule,
+  nextMeetingOf,
+  meetingRuleOf,
   bodyPopulation,
   officeDayParameter,
   type MeetingRule,
 } from "../office-day-calendar";
-// The meeting rule, for readers outside the family.
-export { meetingRule, officeDayParameter } from "../office-day-calendar";
+export { officeDayParameter };
+/** A body's meeting rule (by its office's id), for readers outside the family. */
+export const meetingRule = (
+  api: CoreAPI,
+  officeId: string,
+  countyGeoid?: string,
+) => meetingRuleOf(api, officeById(api, officeId), countyGeoid);
 // The federal holidays, for the calendar screen.
 export {
   federalHolidayName,
@@ -110,40 +106,27 @@ import {
   type ModuleStopTokenV1,
 } from "../player-stops-v1";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
+import { fieldsOf } from "../module-fields";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { headsLocalExecutive } from "../offices-executives";
+import { allBills, memberChoiceOn } from "./bodies-reads";
 export { openSuccession } from "./succession";
 
 export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
 
-/**
- * What can stop the player: the local kinds here, and whatever kinds the
- * other levels register (`office-day-registry.ts`). Election day always
- * stops them at the polls (the polling-place scene): whether the character
- * may not cast the player's ballot (owner, Oct 13).
- * An emergency stop waits on the disasters engine's declarations.
- */
-registerStopKinds([
-  // The important few stop by default (owner, Oct 14, 2026: play how you want).
-  { kind: "own-bill-vote", byDefault: true },
-  // Any vote where the player's seat could decide it (owner, Oct 29: "your
-  // own bills, any vote where yours could decide it"): a meeting of a body
-  // small enough that one seat turns a vote, with a bill on its agenda.
-  { kind: "deciding-vote", byDefault: true },
-  // Every meeting and every vote of the player's seat stops them, and the
-  // desk does (owner's card, Nov 14, 2026, 02:03Z: "Stop me at every vote").
-  // A stop the player switches off leaves them away: absent from that vote,
-  // a bill on the desk waiting for them; nothing is cast or signed for them.
-  { kind: "every-meeting", byDefault: true },
-  { kind: "desk", byDefault: true },
-]);
 export type StopKind = string;
-/** Every kind that may stop the player, in the order registered. */
-export function stopKinds(): readonly string[] {
-  return officeStopKinds().map((row) => row.kind);
+/** Every kind that may stop the player in this world: each installed level's own (`stopKinds` of its module), in install order. */
+export function stopKinds(core: CoreState): readonly string[] {
+  return fieldsOf(core, "stopKinds").flatMap((rows) =>
+    rows.map((row) => row.kind),
+  );
 }
-const defaultStops = (): Record<string, boolean> =>
-  Object.fromEntries(officeStopKinds().map((row) => [row.kind, row.byDefault]));
+const defaultStops = (core: CoreState): Record<string, boolean> =>
+  Object.fromEntries(
+    fieldsOf(core, "stopKinds").flatMap((rows) =>
+      rows.map((row) => [row.kind, row.byDefault] as const),
+    ),
+  );
 
 export interface StopSettingsRow {
   readonly id: string;
@@ -259,6 +242,27 @@ const OFFICE_DAY_HISTORY: HistorySource = {
 
 export const OFFICE_DAY_MODULE: CoreModule = {
   id: OFFICE_DAY_MODULE_ID,
+  /**
+   * What can stop the player: the local kinds here, and the kinds each other
+   * level carries on its own module (`stopKinds`). Election day always
+   * stops them at the polls (the polling-place scene): whether the character
+   * may not cast the player's ballot (owner, Oct 13).
+   * An emergency stop waits on the disasters engine's declarations.
+   */
+  stopKinds: [
+    // The important few stop by default (owner, Oct 14, 2026: play how you want).
+    { kind: "own-bill-vote", byDefault: true },
+    // Any vote where the player's seat could decide it (owner, Oct 29: "your
+    // own bills, any vote where yours could decide it"): a meeting of a body
+    // small enough that one seat turns a vote, with a bill on its agenda.
+    { kind: "deciding-vote", byDefault: true },
+    // Every meeting and every vote of the player's seat stops them, and the
+    // desk does (owner's card, Nov 14, 2026, 02:03Z: "Stop me at every vote").
+    // A stop the player switches off leaves them away: absent from that vote,
+    // a bill on the desk waiting for them; nothing is cast or signed for them.
+    { kind: "every-meeting", byDefault: true },
+    { kind: "desk", byDefault: true },
+  ],
   // A plain field, not a getter: the finance engine's read check walks the
   // modules and refuses an accessor (src/core2/finance-plan.ts, directRead).
   history: OFFICE_DAY_HISTORY,
@@ -319,6 +323,14 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     for (const kit of officeActKits()) kit.onDay?.(api);
     return undefined;
   },
+  // What the office day adds to the legislature: the player's own vote, the desk's arrival, the budget meeting, the committee that waits for a meeting and the meetings' agenda.
+  legislatureHooks: {
+    beforeVote: { name: "own-vote", run: ownVote, castsVote: true },
+    onDesk: deskArrived,
+  },
+  budgetMeeting: { place: placeBudgetVote, votes: votesBudgetToday },
+  committeeWait: committeeWaitsOnPlayer,
+  meetingAgendaReader: townMeetingAgenda,
   // Whether a body's meeting is held, and what it does with the agenda filed for it.
   meetingHold: { hold: holdsMemberFilings, filed: placeFiled },
 };
@@ -378,11 +390,6 @@ export const officeHost: OfficeActHost = {
 registerOfficeActs(localOfficeKit(officeHost));
 
 export function openOfficeDay(core: CoreState, worldSeed: string): void {
-  registerLegislatureHooks({
-    beforeVote: { name: "own-vote", run: ownVote, castsVote: true },
-    onDesk: deskArrived,
-  });
-  registerBudgetMeeting({ place: placeBudgetVote, votes: votesBudgetToday });
   const providers = OFFICE_DAY_MODULE.offerProviders as Record<string, unknown>;
   const handlers = OFFICE_DAY_MODULE.effectHandlers as Record<string, unknown>;
   const reasons = OFFICE_DAY_MODULE.reasonProviders as Record<string, unknown>;
@@ -515,7 +522,7 @@ export function stopsOf(
 ): Readonly<Record<StopKind, boolean>> {
   const row = table(api, "stops").get(personId) as unknown as
     StopSettingsRow | undefined;
-  return { ...defaultStops(), ...(row?.stops ?? {}) };
+  return { ...defaultStops(api.state as CoreState), ...(row?.stops ?? {}) };
 }
 
 /** The player changes what stops them; any day, any kind. */
@@ -525,7 +532,8 @@ export function setStops(
   change: Readonly<Record<StopKind, boolean>>,
 ): Readonly<Record<StopKind, boolean>> {
   for (const key of Object.keys(change))
-    if (!stopKinds().includes(key)) throw new Error(`Unknown stop: ${key}`);
+    if (!stopKinds(api.state as CoreState).includes(key))
+      throw new Error(`Unknown stop: ${key}`);
   const stops: Record<string, boolean> = {
     ...stopsOf(api, personId),
     ...change,
@@ -542,7 +550,12 @@ export function setStops(
 
 /** The body's next meeting on its rule; a county board's size band reads the town's county. */
 const nextMeeting = (api: CoreAPI, officeId: string, after: string) =>
-  nextOnRule(api, officeId, after, lawChain(api).countyGeoids[0]);
+  nextMeetingOf(
+    api,
+    officeById(api, officeId),
+    after,
+    lawChain(api).countyGeoids[0],
+  );
 
 const dayOffset = (date: string, days: number) =>
   addDays(makeIsoDate(date), days);
@@ -1284,10 +1297,7 @@ function castStatedOrAbstain(api: CoreAPI, billId: string): void {
     !chambersOf(api, bill).some((chamber) =>
       members(api, chamber).some(sits(player)),
     ) ||
-    api
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("choices")
-      .get(`${billId}|${player}`)
+    memberChoiceOn(api, billId, player)
   )
     return;
   const position = statedPosition(api, billId, player);
@@ -1378,10 +1388,7 @@ function ownVote(api: CoreAPI, billId: string): void {
   // The stop for this vote, if one held the player, is spent once the vote is counted.
   const stopped = table(api, "voteStops").get(`${billId}|${player}`);
   if (stopped) table(api, "voteStops").remove(`${billId}|${player}`);
-  const chosen = api
-    .moduleState(LEGISLATURE_MODULE_ID)
-    .table("choices")
-    .get(`${billId}|${player}`);
+  const chosen = memberChoiceOn(api, billId, player);
   if (chosen) return;
   // The player pressed "Decide for me" at the meeting: their member's own position.
   if (leftToCharacter.get(api.state)?.has(billId)) {
@@ -1547,7 +1554,7 @@ function placeFiled(
   table(api, "meetings").put(placed as unknown as ModuleRow);
   holdPlayerIfDue(api, placed);
 }
-registerCommitteeWait((api, bill) => {
+function committeeWaitsOnPlayer(api: CoreAPI, bill: BillRow): boolean {
   // Only the player's own body can wait: one indexed read of the player's
   // seats answers false for every other body before any agenda is read.
   const player = playerOf(api);
@@ -1558,17 +1565,19 @@ registerCommitteeWait((api, bill) => {
   return (
     !!placed && placed.date > api.state.date && playerSitsOnCommittee(api, bill)
   );
-});
+}
 // The floor's agenda for a date includes what a town body's meeting that day
 // takes up (the evening-before ask reads it).
-registerMeetingAgendaReader((api, date) =>
-  // A world without the office day has no town meetings to read.
-  !api.state.modules.has(OFFICE_DAY_MODULE_ID)
-    ? []
-    : (table(api, "meetings").rows() as unknown as MeetingRow[])
-        .filter((row) => row.date === date && row.status !== "adjourned")
-        .flatMap((row) => agendaFor(api, row.officeId, date)),
-);
+function townMeetingAgenda(api: CoreAPI, date: string): readonly string[] {
+  return (
+    // A world without the office day has no town meetings to read.
+    !api.state.modules.has(OFFICE_DAY_MODULE_ID)
+      ? []
+      : (table(api, "meetings").rows() as unknown as MeetingRow[])
+          .filter((row) => row.date === date && row.status !== "adjourned")
+          .flatMap((row) => agendaFor(api, row.officeId, date))
+  );
+}
 
 const sits = (personId: string) => (term: TermRow) =>
   term.personId === personId || memberKey(term) === personId;
@@ -1736,18 +1745,15 @@ export function leaveDeskToCharacter(api: CoreAPI, billId: string): BillRow {
 export function deskWaiting(api: CoreAPI, heldOnly = false): BillRow[] {
   const player = playerOf(api);
   if (player === undefined) return [];
-  return (
-    api
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("bills")
-      .rows() as unknown as (BillRow & { signBy?: string })[]
-  ).filter((b) => {
-    if (b.status !== "awaiting-signature") return false;
-    if (tokens.get(api.state)?.has(deskStopId(b.id))) return true;
-    if (heldOnly) return false;
-    const term = executiveOf(api, b.bodyOfficeId).term;
-    return !!term && sits(player)(term);
-  });
+  return (allBills(api) as unknown as (BillRow & { signBy?: string })[]).filter(
+    (b) => {
+      if (b.status !== "awaiting-signature") return false;
+      if (tokens.get(api.state)?.has(deskStopId(b.id))) return true;
+      if (heldOnly) return false;
+      const term = executiveOf(api, b.bodyOfficeId).term;
+      return !!term && sits(player)(term);
+    },
+  );
 }
 
 const deskStopId = (billId: string) => `desk:${billId}`;

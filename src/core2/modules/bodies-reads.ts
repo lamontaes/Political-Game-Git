@@ -1,17 +1,13 @@
 import type { CoreAPI } from "../types";
 import type { ModuleRow } from "../module-data";
-import {
-  LEGISLATURE_MODULE_ID,
-  type BillRow,
-  type StudyRow,
-} from "./legislature";
-import { LEADERSHIP_MODULE_ID, type PostRow } from "./leadership";
-import {
-  MEETINGS_MODULE_ID,
-  type DebateRow,
-  type RemarkRow,
-  type TownHallRow,
-} from "./meetings";
+import type { BillRow, StudyRow } from "./legislature";
+import type { PostRow } from "./leadership";
+import type { DebateRow, RemarkRow, TownHallRow } from "./meetings";
+
+/** The bodies engines' module ids; legislature.ts, meetings.ts and leadership.ts re-export them. */
+export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
+export const MEETINGS_MODULE_ID = "core2-meetings-v1";
+export const LEADERSHIP_MODULE_ID = "core2-leadership-v1";
 
 /**
  * The bodies engine's read doors: a bill, the bills, a member's choice on a

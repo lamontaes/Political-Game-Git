@@ -32,7 +32,7 @@ import {
   mortgageFrom,
   type MortgageTerms,
 } from "./housing-mortgages";
-import { residentsRuntime } from "./modules/residents";
+import { residentsRuntime } from "./residents-reads";
 import { setResidentFlowAmount } from "./residents-economy";
 import { putPastYear } from "./output-numbers";
 import {

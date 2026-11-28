@@ -1,4 +1,4 @@
-import { PAST_WORK_SPELL } from "../past-work";
+import { PAST_WORK_SPELL } from "../past";
 import { historyOf } from "../past";
 import { workedToday } from "./jobs";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
@@ -67,15 +67,10 @@ import {
   townSeats,
   type TermRow,
 } from "./offices";
-import {
-  appointerWeighing,
-  nominateAndConfirm,
-  partySide,
-  type Appointment,
-  type NominationReasons,
-} from "../appointments";
+import { appointerWeighing, nominateAndConfirm, type Appointment, type NominationReasons } from "../appointments";
+import { partySide } from "../party-sides";
 import { drawOfficialIdentity } from "../officials-identity";
-import { personLean } from "../campaign-views";
+import { personLean } from "./campaigns";
 import { appointeeHourlyMinor } from "../town-labor-pay";
 import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
@@ -112,7 +107,8 @@ import { pairKey } from "../kernel/ids";
 import { headsLocalExecutive } from "../offices-executives";
 export { reviewBoardTerms } from "../central-bank-appointments";
 export type { GenderIdentityKey } from "../gov-rules/types";
-export { nominateAndConfirm, partyName } from "../appointments";
+export { nominateAndConfirm } from "../appointments";
+export { partyName } from "../party-sides";
 export { inflationLeans } from "../central-bank-board";
 export type {
   BoardCandidate,
