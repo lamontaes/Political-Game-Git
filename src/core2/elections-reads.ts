@@ -36,12 +36,25 @@ import type { CountedVoter } from "./electorate";
 import { residentsRuntime } from "./residents-reads";
 import { bookkeeping } from "./bookkeeping";
 import type { TieRow, PartyRow, PartyMeetingRow } from "./modules/parties";
+import type { CandidacyDecision } from "./modules/candidacy";
+import { CANDIDACY_MODULE_ID } from "./modules/candidacy-constants";
 
 export const ELECTIONS_MODULE_ID = "core2-elections-v1";
 
 /** Whether a race is the town's own or its county's: the local races that local-turnout readings and the web's local-turnout links cover. */
 export function isLocalFamily(family: OfficeFamily): boolean {
   return family === "municipalOffice" || family === "countyOffice";
+}
+
+/** Everyone who decided to run in a contest, as the candidacy module kept the decisions. */
+export function candidatesFor(
+  api: CoreAPI,
+  contestId: string,
+): CandidacyDecision[] {
+  return api
+    .moduleState(CANDIDACY_MODULE_ID)
+    .table("decisions")
+    .query("byContestRun", [contestId, true]) as unknown as CandidacyDecision[];
 }
 
 export function table(api: CoreAPI, name: string) {

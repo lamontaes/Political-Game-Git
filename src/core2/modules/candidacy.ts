@@ -108,7 +108,8 @@ import { normalCdf } from "../kernel/normal";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-data";
 import { CANDIDACY_MODULE_ID } from "./candidacy-constants";
-export { CANDIDACY_MODULE_ID };
+import { candidatesFor } from "../elections-reads";
+export { CANDIDACY_MODULE_ID, candidatesFor };
 export const CANDIDACY_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
 const STOPGAP = "SG-P15-candidacy-weights";
 
@@ -771,16 +772,6 @@ export function decideToRun(
   };
   table(api).put(row as unknown as { id: string });
   return row;
-}
-
-export function candidatesFor(
-  api: CoreAPI,
-  contestId: string,
-): CandidacyDecision[] {
-  return table(api).query("byContestRun", [
-    contestId,
-    true,
-  ]) as unknown as CandidacyDecision[];
 }
 
 /** One person's recorded decision in one contest, if they made one. */

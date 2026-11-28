@@ -24,8 +24,11 @@ import { endLivingPlan } from "./business";
 import { servingTerms } from "../offices-reads";
 import { allBusinessOwners } from "../business-reads";
 import { VIEWS_MODULE_ID } from "./views-constants";
-import { ELECTIONS_MODULE_ID, contestOf } from "../elections-reads";
-import type { CandidacyDecision } from "./candidacy";
+import {
+  ELECTIONS_MODULE_ID,
+  candidatesFor,
+  table as electionsTable,
+} from "../elections-reads";
 import { CANDIDACY_MODULE_ID } from "./candidacy-constants";
 import {
   countedFundOf,
@@ -108,14 +111,12 @@ export function protectedPeople(api: CoreAPI): Set<PersonId> {
     core.modules.has(CANDIDACY_MODULE_ID) &&
     core.modules.has(ELECTIONS_MODULE_ID)
   ) {
-    for (const row of api
-      .moduleState(CANDIDACY_MODULE_ID)
-      .table("decisions")
-      .rows() as unknown as CandidacyDecision[]) {
-      if (!row.run) continue;
-      const contest = contestOf(api, row.contestId);
-      if (contest && contest.electionDate >= core.date) out.add(row.personId);
-    }
+    for (const contest of electionsTable(api, "contests").rows() as unknown as {
+      id: string;
+      electionDate: string;
+    }[])
+      if (contest.electionDate >= core.date)
+        for (const row of candidatesFor(api, contest.id)) out.add(row.personId);
   }
   return out;
 }
