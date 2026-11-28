@@ -171,19 +171,16 @@
     "politics > Elections [sheet]": {
       "h2.heading wraps under 1.3 leading": 1,
       "h3.pick-head.sechead wraps under 1.3 leading": 1,
-      "h2.roster-title wraps under 1.3 leading": 1,
       "h3.sechead wraps under 1.3 leading": 1
     },
     "politics > Parties [sheet]": {
       "h2.heading wraps under 1.3 leading": 1,
       "h3.pick-head.sechead wraps under 1.3 leading": 1,
-      "h2.roster-title wraps under 1.3 leading": 1,
       "h3.sechead wraps under 1.3 leading": 1
     },
     "politics > Issues [sheet]": {
       "h2.heading wraps under 1.3 leading": 1,
       "h3.pick-head.sechead wraps under 1.3 leading": 1,
-      "h2.roster-title wraps under 1.3 leading": 1,
       "h3.sechead wraps under 1.3 leading": 1
     },
     "politics > Bills [sheet]": {
@@ -228,7 +225,6 @@
     "Race screen [sheet]": {
       "h2.heading wraps under 1.3 leading": 1,
       "h3.pick-head.sechead wraps under 1.3 leading": 1,
-      "h2.roster-title wraps under 1.3 leading": 1,
       "h3.sechead wraps under 1.3 leading": 1
     },
     "Person card from People [sheet]": {
