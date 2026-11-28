@@ -32,7 +32,7 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
-import { engagementOf, NATIONAL_ENGAGEMENT } from "./campaigns";
+import { engagementOf, NATIONAL_ENGAGEMENT } from "../electorate";
 import { believesClaim, claimFit } from "../heard-claims";
 import { currentCloseness } from "../closeness";
 import { decisionKinds } from "../trait-decision-table";

@@ -16,7 +16,7 @@
 import { OUTCOME_MONTH_KIND } from "./outcome-news-constants";
 import briefs from "./data/press/briefs.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { questionAxis } from "./modules/campaigns";
+import { questionAxis } from "./campaign-views";
 import { closenessBetween, feelingBetween, grudgeBetween } from "./closeness";
 import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
