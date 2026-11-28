@@ -81,9 +81,13 @@ import {
   type CampaignRow,
   type ImpressionRow,
 } from "./campaigns";
-import { promisesOf, votesCast } from "./record";
 import { partySide } from "./offices";
-import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
+import {
+  deliverSpeech,
+  promisesOf,
+  SPEECH_MODULE_ID,
+  votesCast,
+} from "./people";
 import { CORRUPTION_MODULE_ID } from "./laws";
 import { crimeRecord } from "./justice";
 import { wantedFacts, type CrimeRecord } from "../laws-in-force";

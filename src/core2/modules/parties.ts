@@ -20,7 +20,7 @@ import calibration from "../../../data/source/electoral-calibration-2024/corpus.
 import delegates from "../../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import nomination from "../../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import parameters from "../data/campaigns/parameters.json" with { type: "json" };
-import { partySide } from "./offices";
+import { partySide } from "../party-sides";
 import { worldRoster, worldSwing } from "../electorate-places";
 import { centuryParties, centuryStateVote } from "../electorate-century";
 import { stanceLean } from "./officials";
@@ -40,7 +40,7 @@ import { campaignParameter, PLATFORM_QUESTIONS } from "../campaign-data";
 import { homeDistanceMiles } from "../home-distance";
 import { viewOn } from "./views";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
-import { MOVED_AWAY_EVENT } from "./moves";
+import { MOVED_AWAY_EVENT } from "../moved-away-event";
 import { closenessBetween } from "../closeness";
 import { ACCEPTING_MOVES, REFUSING_MOVES } from "../scene-replies";
 import {

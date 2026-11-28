@@ -15,7 +15,7 @@ import { daysBetweenText as daysBetween, makeIsoDate } from "../kernel/dates";
 import { householdStatusRow } from "../housing-reads";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { countedPlaceOf, isDemoted, type Tenure } from "../counted-groups";
-import { workedToday } from "./jobs";
+import { workedToday } from "../job-lifecycle";
 import { addCountedJob } from "../residents-economy";
 import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
 import { stableHash } from "../kernel/ids";
@@ -25,7 +25,8 @@ import { servingTerms } from "../offices-reads";
 import { allBusinessOwners } from "../business-reads";
 import { VIEWS_MODULE_ID } from "./views-constants";
 import { ELECTIONS_MODULE_ID, contestOf } from "../elections-reads";
-import { CANDIDACY_MODULE_ID, type CandidacyDecision } from "./candidacy";
+import type { CandidacyDecision } from "./candidacy";
+import { CANDIDACY_MODULE_ID } from "./candidacy-constants";
 import {
   countedFundOf,
   countedSpread,

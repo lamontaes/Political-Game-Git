@@ -45,8 +45,8 @@ import {
   personLean,
   popularity,
   STANCE_LOADINGS,
+  personStance,
 } from "../campaign-views";
-import { personStance } from "./elections";
 import { feelingBetween } from "../closeness";
 import drivesJson from "../data/drives.json" with { type: "json" };
 import type {

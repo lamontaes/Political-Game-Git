@@ -1,9 +1,8 @@
 /** Savings decisions in the existing bank review; all cash uses accounts/postJournal. */
 import { bankDeposit, moveBankDeposit } from "./accounts";
-import { fundBalance } from "./modules/health";
-import { fundOf } from "./counted-money-reads";
+import { staffedScale } from "./residents-economy";
+import { fundOf, fundBalance } from "./counted-money-reads";
 import { residentsRuntime } from "./residents-reads";
-import { staffedScale } from "./modules/health";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 interface CashTarget {

@@ -36,7 +36,10 @@ import { stancesOf, viewOf, VIEWS_SPEAKER_KEY } from "./modules/views-reads";
 import { VIEWS_MODULE_ID } from "./modules/views-constants";
 import { residentsRuntime } from "./residents-reads";
 import { onContestRoll, VOTING_MODULE_ID } from "./modules/voting";
-import { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./modules/elections";
+import {
+  BALLOT_MEASURES_MODULE_ID,
+  measureVoteOf,
+} from "./modules/ballot-measures";
 import { lawRowById } from "./modules/laws-reads";
 
 /**

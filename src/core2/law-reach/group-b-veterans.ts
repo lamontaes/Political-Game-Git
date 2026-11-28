@@ -12,7 +12,7 @@
 import type { CoreAPI, CoreState } from "../types";
 import { lawChain } from "../modules/laws";
 import { residentsRuntime } from "../residents-reads";
-import { serviceOf, veteranShare } from "../past";
+import { serviceOf, veteranShare } from "../past-work";
 import { reachParameter, townFacts } from "./group-b-people";
 import { getRow, putRow, REACH_B_MODULE_ID } from "./group-b-store";
 import {

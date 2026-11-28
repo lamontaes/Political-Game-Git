@@ -19,7 +19,7 @@
  */
 import { ageInYears, addDaysText as addDays } from "../kernel/dates";
 import { coreAPI, fillInPerson, registerModule } from "../state";
-import { fundBalance } from "./health";
+import { fundBalance } from "../counted-money-reads";
 import { closenessBetween } from "../closeness";
 import { engagementOf } from "./campaigns";
 import type {

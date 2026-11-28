@@ -18,7 +18,7 @@
  * shaped like one of the place's households with someone of the age most due;
  * each of its people is charged to their own age's balance.
  *
- * In the played world of two places drawn from all 56, four months: every
+ * In the played world of three places drawn from all 56, four months: every
  * arrival names its reasons; the town's arrivals are its due to within one of
  * its households; no place carries, in all or at any one age, more than one
  * of its own households. The place and seed are in every message; replay with
@@ -48,7 +48,7 @@ const base = process.env.ARRIVALS_SEED ?? randomBytes(8).toString("hex");
 /** Four months: every month's due is shared and paid, so a balance left unpaid shows by then. */
 const DAYS = 120;
 
-describe.each(["a", "b"])("arrivals by place (draw %s)", (draw) => {
+describe.each(["a", "b", "c"])("arrivals by place (draw %s)", (draw) => {
   it("each place's newcomers are its share of the due, to within one of its households", () => {
     const seed = `${base}:${draw}`;
     const place = drawPlace(seed, "arrivals-by-place");
