@@ -70,7 +70,7 @@ import {
 import { appointerWeighing, nominateAndConfirm, type Appointment, type NominationReasons } from "../appointments";
 import { partySide } from "../party-sides";
 import { drawOfficialIdentity } from "../officials-identity";
-import { personLean } from "./campaigns";
+import { personLean } from "../campaign-views";
 import { appointeeHourlyMinor } from "../town-labor-pay";
 import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
