@@ -31,6 +31,12 @@ import { metricsPanel } from "../../core2/modules/world-panels";
 import type { CoreAPI, CoreState, PersonId } from "../../core2/types";
 import type { DevMode } from "../dev-mode";
 import type { DevView } from "../dev-views";
+import {
+  allJobChanges,
+  countedSeekerOf,
+  seekerOf,
+} from "../../core2/jobs-reads";
+import { allTradingMonths } from "../../core2/business-reads";
 
 /** The closing reason a dev-mode close keeps on the business's books: the record says who closed it. */
 export const DEV_CLOSE_REASON = "dev-mode";
@@ -80,18 +86,12 @@ function staffOf(core: CoreState, organizationId: string): number {
 
 function tradingRows(api: CoreAPI): TradingRow[] {
   if (!has(api.state as CoreState, BUSINESS_MODULE_ID)) return [];
-  return api
-    .moduleState(BUSINESS_MODULE_ID)
-    .table("trading")
-    .rows() as unknown as TradingRow[];
+  return allTradingMonths(api) as unknown as TradingRow[];
 }
 
 function changeRows(api: CoreAPI): ChangeRow[] {
   if (!has(api.state as CoreState, JOBS_MODULE_ID)) return [];
-  return api
-    .moduleState(JOBS_MODULE_ID)
-    .table("changes")
-    .rows() as unknown as ChangeRow[];
+  return allJobChanges(api) as unknown as ChangeRow[];
 }
 
 /** The town's businesses, largest staff first, with their last month's trading. */
@@ -219,10 +219,7 @@ function whereNow(
         recordId: rehired?.id ?? full.jobId,
         employerId: core.jobs.get(full.jobId)?.organizationId ?? null,
       };
-    const seeking = api
-      .moduleState(JOBS_MODULE_ID)
-      .table("seekers")
-      .get(row.personId);
+    const seeking = seekerOf(api, row.personId);
     return seeking
       ? { now: "looking", recordId: null }
       : { now: "not-looking", recordId: null };
@@ -240,10 +237,7 @@ function whereNow(
       recordId: rehired?.id ?? job.id,
       employerId: job.organizationId,
     };
-  const seeking = api
-    .moduleState(JOBS_MODULE_ID)
-    .table("countedSeekers")
-    .get(row.personId);
+  const seeking = countedSeekerOf(api, row.personId);
   return seeking
     ? { now: "looking", recordId: null }
     : { now: "not-looking", recordId: null };

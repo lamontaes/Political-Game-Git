@@ -19,7 +19,7 @@
  */
 import { ageInYears, addDaysText as addDays } from "../kernel/dates";
 import { coreAPI, fillInPerson, registerModule } from "../state";
-import { fundBalance } from "../counted-money";
+import { fundBalance } from "./health";
 import { closenessBetween } from "../closeness";
 import { engagementOf } from "./campaigns";
 import type {
@@ -41,6 +41,7 @@ import { countedLean } from "./views";
 import { keepsWhy } from "../why-kept";
 import { STAFF_MODULE_ID, staffDecision } from "./staff";
 import { JOBS_MODULE_ID, recordReferral } from "./jobs";
+import { allCountedSeekers } from "../jobs-reads";
 import { referCustody, servingCustodyOf } from "./justice";
 import { residentsRuntime } from "./residents";
 import { makeCase, SPEECH_MODULE_ID } from "./people";
@@ -397,13 +398,7 @@ function countedOutOfWork(
   if (!rt || !state.modules.has(JOBS_MODULE_ID)) return [];
   const date = state.date;
   const adultAge = api.parameter("votingAge");
-  const seekers = api
-    .moduleState(JOBS_MODULE_ID)
-    .table("countedSeekers")
-    .query("all", [true]) as unknown as {
-    personId: string;
-    placeId: string;
-  }[];
+  const seekers = allCountedSeekers(api);
   const store = rt.store;
   const share = new Map<number, number>();
   const out: ReturnType<typeof countedOutOfWork> = [];

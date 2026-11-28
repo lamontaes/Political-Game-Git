@@ -55,6 +55,7 @@
 /src/core2/past-history.ts @lamontaes
 /src/core2/journal.ts @lamontaes
 /src/core2/journal-state.ts @lamontaes
+/src/core2/journal-writes.ts @lamontaes
 /src/core2/cash-host.ts @lamontaes
 /src/core2/trait-lean.ts @lamontaes
 
@@ -275,15 +276,11 @@
 /src/core2/second-chamber-own-day.test.ts @lamontaes
 /src/core2/sitting-focus.test.ts @lamontaes
 
-# Executives and offices (executive)
-/src/core2/modules/executive.ts @lamontaes
+# Offices and seats (offices)
 /src/core2/modules/offices.ts @lamontaes
 /src/core2/modules/officials.ts @lamontaes
-/src/core2/modules/office-day.ts @lamontaes
 /src/core2/modules/official-pay.ts @lamontaes
-/src/core2/modules/staff.ts @lamontaes
 /src/core2/modules/succession.ts @lamontaes
-/src/core2/modules/constituent-cases.ts @lamontaes
 /src/core2/office-*.ts @lamontaes
 /src/core2/offices-*.ts @lamontaes
 /src/core2/officials-*.ts @lamontaes
@@ -295,28 +292,20 @@
 /src/core2/government-jurisdictions.ts @lamontaes
 /src/core2/government-proper-name.ts @lamontaes
 /src/core2/gov-rules/** @lamontaes
-/src/core2/modules/president-acts.ts @lamontaes
 /src/core2/acting-head.test.ts @lamontaes
 /src/core2/appointee-not-seat-holder.test.ts @lamontaes
 /src/core2/appointer-traits.test.ts @lamontaes
 /src/core2/appointments.test.ts @lamontaes
 /src/core2/cabinet-from-the-state.test.ts @lamontaes
-/src/core2/case-referral-read.test.ts @lamontaes
-/src/core2/constituent-case-family-custody.test.ts @lamontaes
 /src/core2/council-chosen-mayor.test.ts @lamontaes
 /src/core2/county-row-offices.test.ts @lamontaes
 /src/core2/elections-law.test.ts @lamontaes
-/src/core2/emergency-declaration.test.ts @lamontaes
-/src/core2/executive-appoints-known.test.ts @lamontaes
 /src/core2/executive-term-limits.test.ts @lamontaes
-/src/core2/federal-casework.test.ts @lamontaes
 /src/core2/federal-issue-axes.test.ts @lamontaes
 /src/core2/first-term-age-spread.test.ts @lamontaes
 /src/core2/forced-causes.test.ts @lamontaes
 /src/core2/government-proper-name.test.ts @lamontaes
 /src/core2/government-units-incorporated.test.ts @lamontaes
-/src/core2/governor-appointment-job-ends.test.ts @lamontaes
-/src/core2/governor-pick-from-the-state.test.ts @lamontaes
 /src/core2/governor-seated-day.test.ts @lamontaes
 /src/core2/leadership-membership-kept.test.ts @lamontaes
 /src/core2/leadership-rating-reuse.test.ts @lamontaes
@@ -334,20 +323,11 @@
 /src/core2/official-salary-statewide.test.ts @lamontaes
 /src/core2/official-salary-table.test.ts @lamontaes
 /src/core2/officials.test.ts @lamontaes
-/src/core2/president-acts.test.ts @lamontaes
-/src/core2/president-orders.test.ts @lamontaes
-/src/core2/public-post-schedule.test.ts @lamontaes
 /src/core2/recall-for-cause.test.ts @lamontaes
 /src/core2/seat-winner-day.test.ts @lamontaes
 /src/core2/shares.test.ts @lamontaes
 /src/core2/special-election-outside.test.ts @lamontaes
 /src/core2/special-election-seats.test.ts @lamontaes
-/src/core2/staff-absence.test.ts @lamontaes
-/src/core2/staff-counted-employed.test.ts @lamontaes
-/src/core2/staff-never-hires-the-player.test.ts @lamontaes
-/src/core2/staff-no-unpaid-aide.test.ts @lamontaes
-/src/core2/staff-paid-every-place.test.ts @lamontaes
-/src/core2/staff.test.ts @lamontaes
 /src/core2/term-start-history.test.ts @lamontaes
 /src/core2/term-start-true-day.test.ts @lamontaes
 /src/core2/town-seat-party.test.ts @lamontaes
@@ -357,6 +337,31 @@
 /src/core2/staff-dismissal-after-attendance.test.ts @lamontaes
 /src/core2/staff-player-clock.test.ts @lamontaes
 /src/core2/succession.test.ts @lamontaes
+
+# Governing: the officeholder's day (governing)
+/src/core2/modules/executive.ts @lamontaes
+/src/core2/modules/office-day.ts @lamontaes
+/src/core2/modules/staff.ts @lamontaes
+/src/core2/modules/constituent-cases.ts @lamontaes
+/src/core2/modules/president-acts.ts @lamontaes
+/src/core2/case-referral-read.test.ts @lamontaes
+/src/core2/constituent-case-family-custody.test.ts @lamontaes
+/src/core2/emergency-declaration.test.ts @lamontaes
+/src/core2/executive-appoints-known.test.ts @lamontaes
+/src/core2/federal-casework.test.ts @lamontaes
+/src/core2/governor-appointment-job-ends.test.ts @lamontaes
+/src/core2/governor-pick-from-the-state.test.ts @lamontaes
+/src/core2/president-acts.test.ts @lamontaes
+/src/core2/president-orders.test.ts @lamontaes
+/src/core2/public-post-schedule.test.ts @lamontaes
+/src/core2/staff-absence.test.ts @lamontaes
+/src/core2/staff-counted-employed.test.ts @lamontaes
+/src/core2/staff-never-hires-the-player.test.ts @lamontaes
+/src/core2/staff-no-unpaid-aide.test.ts @lamontaes
+/src/core2/staff-paid-every-place.test.ts @lamontaes
+/src/core2/staff.test.ts @lamontaes
+/src/core2/office-day-*.ts @lamontaes
+/src/core2/office-holdover.ts @lamontaes
 
 # Budgets, taxes and public money (budgets)
 /src/core2/modules/budgets.ts @lamontaes
@@ -709,6 +714,7 @@
 # Households and people (people)
 /src/core2/modules/people.ts @lamontaes
 /src/core2/modules/residents.ts @lamontaes
+/src/core2/residents-reads.ts @lamontaes
 /src/core2/modules/life.ts @lamontaes
 /src/core2/modules/moves.ts @lamontaes
 /src/core2/moved-away-event.ts @lamontaes
@@ -716,13 +722,11 @@
 /src/core2/returned-members-move.ts @lamontaes
 /src/core2/modules/counted-demotion.ts @lamontaes
 /src/core2/modules/health.ts @lamontaes
-/src/core2/modules/housing.ts @lamontaes
 /src/core2/modules/school.ts @lamontaes
 /src/core2/modules/drives.ts @lamontaes
 /src/core2/modules/trait-change.ts @lamontaes
 /src/core2/modules/resting-stress.ts @lamontaes
 /src/core2/modules/retirement-claims.ts @lamontaes
-/src/core2/modules/homeless-count.ts @lamontaes
 /src/core2/modules/coverage.ts @lamontaes
 /src/core2/modules/views.ts @lamontaes
 /src/core2/stance-listeners.ts @lamontaes
@@ -739,8 +743,6 @@
 /src/core2/trait-*.ts @lamontaes
 /src/core2/trait-effects/** @lamontaes
 /src/core2/household-*.ts @lamontaes
-/src/core2/housing-*.ts @lamontaes
-/src/core2/hud-rents.ts @lamontaes
 /src/core2/health-hazard.ts @lamontaes
 /src/core2/health-own.ts @lamontaes
 /src/core2/medical-bills.ts @lamontaes
@@ -799,7 +801,6 @@
 /src/core2/life-stakes.ts @lamontaes
 /src/core2/coverage-module-id.ts @lamontaes
 /src/core2/modules/promises.ts @lamontaes
-/src/core2/housing-construction-constants.ts @lamontaes
 /src/core2/modules/views-constants.ts @lamontaes
 /src/core2/residents-constants.ts @lamontaes
 /src/core2/attack-grudge.test.ts @lamontaes
@@ -866,7 +867,6 @@
 /src/core2/home-price-level.test.ts @lamontaes
 /src/core2/home-sale-outside-lender.test.ts @lamontaes
 /src/core2/home-sale.test.ts @lamontaes
-/src/core2/housing.test.ts @lamontaes
 /src/core2/income-award-follows-person.test.ts @lamontaes
 /src/core2/integrity-traits-played.traits.test.ts @lamontaes
 /src/core2/journal-facade.test.ts @lamontaes
@@ -928,7 +928,6 @@
 /src/core2/relatives-distinct-names.test.ts @lamontaes
 /src/core2/renewal-snapshot.test.ts @lamontaes
 /src/core2/renewal.test.ts @lamontaes
-/src/core2/renter-housing-pull.test.ts @lamontaes
 /src/core2/representative-sample.test.ts @lamontaes
 /src/core2/resting-stress.test.ts @lamontaes
 /src/core2/results-mode-life.test.ts @lamontaes
@@ -967,6 +966,14 @@
 /src/core2/medical-payer-parts.test.ts @lamontaes
 /src/core2/moves-minors.test.ts @lamontaes
 /src/core2/rerate-counted-job.test.ts @lamontaes
+
+# Homes and the housing market (homes)
+/src/core2/modules/housing.ts @lamontaes
+/src/core2/modules/homeless-count.ts @lamontaes
+/src/core2/housing-*.ts @lamontaes
+/src/core2/hud-rents.ts @lamontaes
+/src/core2/housing.test.ts @lamontaes
+/src/core2/renter-housing-pull.test.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes

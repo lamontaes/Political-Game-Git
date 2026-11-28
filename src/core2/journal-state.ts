@@ -18,6 +18,26 @@ import type {
   ResolvedCashJournalSource,
 } from "./journal";
 import type { IsoDate, Source } from "./types";
+import {
+  type CashJournalFieldPreimage,
+  cashJournalFieldWrite,
+  cashJournalMapSet,
+  cashJournalSetWrite,
+  deletableField,
+  directField,
+  fieldPreimage,
+  isCashJournalLifetimeMinor,
+  metadataScalar,
+  plain,
+} from "./journal-writes";
+export {
+  cashJournalFieldDelete,
+  cashJournalFieldWrite,
+  cashJournalMapDelete,
+  cashJournalMapSet,
+  cashJournalSetWrite,
+  isCashJournalLifetimeMinor,
+} from "./journal-writes";
 
 export interface CashJournalCashOwner {
   id: string;
@@ -49,17 +69,6 @@ export interface CashJournalPostedMarker {
 export interface CashJournalSourceCompletion {
   sourceRef: CashJournalSourceRef;
   completedAt: IsoDate;
-}
-
-/** Exact own-field preimage; absence and a present undefined value are distinct. */
-interface CashJournalFieldPreimage {
-  target: object;
-  key: PropertyKey;
-  expectedPresent: boolean;
-  expected: unknown;
-  expectedWritable: boolean | undefined;
-  expectedEnumerable: boolean | undefined;
-  expectedConfigurable: boolean | undefined;
 }
 
 /** Internal transaction protocol; factories below preserve domain field/map types. */
@@ -242,18 +251,6 @@ function exact(value: bigint, zero: number, field: string): number {
   return result;
 }
 
-const maxSafeMinor = BigInt(Number.MAX_SAFE_INTEGER);
-
-/** A lifetime sum is a nonnegative safe number, or a bigint only past the safe range. */
-export function isCashJournalLifetimeMinor(
-  value: unknown,
-  zero: number,
-): value is CashJournalLifetimeMinor {
-  return typeof value === "bigint"
-    ? value > maxSafeMinor
-    : Number.isSafeInteger(value) && (value as number) >= zero;
-}
-
 /** A lifetime sum plus one safe amount: plain numbers while the sum is safe, the exact bigint past it. */
 function addLifetime(
   total: CashJournalLifetimeMinor,
@@ -276,27 +273,6 @@ function addExact(
   return exact(BigInt(left) + BigInt(right), zero, field);
 }
 
-function plain(target: object): void {
-  const prototype = Object.getPrototypeOf(target);
-  if (prototype !== Object.prototype && prototype !== null)
-    throw new Error(
-      "Journal direct field writes require ordinary canonical rows.",
-    );
-}
-
-function directField(
-  target: object,
-  key: PropertyKey,
-): PropertyDescriptor | undefined {
-  plain(target);
-  const descriptor = Object.getOwnPropertyDescriptor(target, key);
-  if (descriptor && (!("value" in descriptor) || !descriptor.writable))
-    throw new Error("Journal field is not a direct writable data field.");
-  if (!descriptor && (key in target || !Object.isExtensible(target)))
-    throw new Error("Journal field cannot be added directly.");
-  return descriptor;
-}
-
 /** Reading an optional marker does not require adding it or making it writable. */
 function readableField(
   target: object,
@@ -312,39 +288,6 @@ function readableField(
       "Journal marker requires a direct own data field or actual absence.",
     );
   return descriptor;
-}
-
-function deletableField(
-  target: object,
-  key: PropertyKey,
-): PropertyDescriptor | undefined {
-  plain(target);
-  const descriptor = Object.getOwnPropertyDescriptor(target, key);
-  if (descriptor && (!("value" in descriptor) || !descriptor.configurable))
-    throw new Error(
-      "Journal field deletion requires a configurable direct data field.",
-    );
-  if (!descriptor && key in target)
-    throw new Error(
-      "Journal field deletion requires an own field or actual absence.",
-    );
-  return descriptor;
-}
-
-function fieldPreimage(
-  target: object,
-  key: PropertyKey,
-  before: PropertyDescriptor | undefined,
-): CashJournalFieldPreimage {
-  return {
-    target,
-    key,
-    expectedPresent: before !== undefined,
-    expected: before?.value,
-    expectedWritable: before?.writable,
-    expectedEnumerable: before?.enumerable,
-    expectedConfigurable: before?.configurable,
-  };
 }
 
 function sameFieldPreimage(
@@ -384,64 +327,6 @@ function uncompletedMarker(
   return fieldPreimage(marker, "completedAt", before);
 }
 
-function metadataScalar(value: unknown): void {
-  if (
-    typeof value === "number" &&
-    (!Number.isFinite(value) ||
-      (Number.isInteger(value) && !Number.isSafeInteger(value)))
-  )
-    throw new Error("Non-finite or overflowing staged journal metadata.");
-}
-
-export function cashJournalFieldWrite<T extends object, K extends keyof T>(
-  target: T,
-  key: K,
-  next: T[K],
-): Extract<CashJournalMetadataWrite, { kind: "field" }> {
-  const before = directField(target, key);
-  metadataScalar(next);
-  return {
-    kind: "field",
-    ...fieldPreimage(target, key, before),
-    next,
-  };
-}
-
-type OptionalFieldKey<T extends object> = {
-  [K in keyof T]-?: Record<never, never> extends Pick<T, K> ? K : never;
-}[keyof T];
-
-/** An absent optional field is a guarded no-op, never an assignment of undefined. */
-export function cashJournalFieldDelete<
-  T extends object,
-  K extends OptionalFieldKey<T>,
->(
-  target: T,
-  key: K,
-): Extract<CashJournalMetadataWrite, { kind: "field-delete" }> {
-  return {
-    kind: "field-delete",
-    ...fieldPreimage(target, key, deletableField(target, key)),
-  };
-}
-
-export function cashJournalMapSet<K, V>(
-  target: Map<K, V>,
-  key: K,
-  next: V,
-): Extract<CashJournalMetadataWrite, { kind: "map" }> {
-  metadataScalar(next);
-  return {
-    kind: "map",
-    target: target as Map<unknown, unknown>,
-    key,
-    expectedPresent: Map.prototype.has.call(target, key),
-    expected: Map.prototype.get.call(target, key),
-    nextPresent: true,
-    next,
-  };
-}
-
 /**
  * The journal's own writes are built and checked inside one post. The expected
  * entry exists only for that check (bookkeeping); the commit reads the target,
@@ -461,35 +346,6 @@ function stagedMapSet<K, V>(
     expected: undefined,
     nextPresent: true,
     next,
-  };
-}
-
-export function cashJournalMapDelete<K, V>(
-  target: Map<K, V>,
-  key: K,
-): Extract<CashJournalMetadataWrite, { kind: "map" }> {
-  return {
-    kind: "map",
-    target: target as Map<unknown, unknown>,
-    key,
-    expectedPresent: Map.prototype.has.call(target, key),
-    expected: Map.prototype.get.call(target, key),
-    nextPresent: false,
-    next: undefined,
-  };
-}
-
-export function cashJournalSetWrite<T>(
-  target: Set<T>,
-  value: T,
-  nextPresent: boolean,
-): Extract<CashJournalMetadataWrite, { kind: "set" }> {
-  return {
-    kind: "set",
-    target: target as Set<unknown>,
-    value,
-    expectedPresent: Set.prototype.has.call(target, value),
-    nextPresent,
   };
 }
 
