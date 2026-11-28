@@ -73,6 +73,7 @@
         "src/core2/past-history.ts",
         "src/core2/journal.ts",
         "src/core2/journal-state.ts",
+        "src/core2/journal-writes.ts",
         "src/core2/cash-host.ts",
         "src/core2/trait-lean.ts"
       ],
@@ -103,6 +104,7 @@
         "src/core2/past-history.ts",
         "src/core2/journal.ts",
         "src/core2/journal-state.ts",
+        "src/core2/journal-writes.ts",
         "src/core2/cash-host.ts",
         "src/core2/trait-lean.ts"
       ]
