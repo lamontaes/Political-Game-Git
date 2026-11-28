@@ -64,7 +64,6 @@ import {
 } from "./modules/office-day";
 import {
   registerOfficeActs,
-  registerStopKinds,
   type OfficeEffectHandler,
 } from "./office-day-registry";
 import { COMMITTEES, committeeRoster, leaderOf } from "./modules/leadership";
@@ -108,15 +107,6 @@ export type FederalSeatKind =
 
 export type Where = "washington" | "district";
 
-/** What the federal day adds to what may stop the player (the engine's own `own-bill-vote` and `desk` are used as they are). */
-registerStopKinds([
-  { kind: "floor-vote", byDefault: true },
-  { kind: "whip-ask", byDefault: false },
-  { kind: "joint-address", byDefault: true },
-  { kind: "budget-request", byDefault: true },
-  { kind: "nomination", byDefault: true },
-]);
-
 /**
  * The federal day's own records: the weeks a member chose, the cabinet and
  * the holds. What the player prepares for a federal act is the engine's
@@ -124,6 +114,14 @@ registerStopKinds([
  */
 export const OFFICE_DAY_FEDERAL_MODULE: CoreModule = {
   id: OFFICE_DAY_FEDERAL_MODULE_ID,
+  // What the federal day adds to what may stop the player (the engine's own `own-bill-vote` and `desk` are used as they are).
+  stopKinds: [
+    { kind: "floor-vote", byDefault: true },
+    { kind: "whip-ask", byDefault: false },
+    { kind: "joint-address", byDefault: true },
+    { kind: "budget-request", byDefault: true },
+    { kind: "nomination", byDefault: true },
+  ],
   state: {
     schemaVersion: 1,
     tables: { weeks: {}, cabinet: {}, holds: {} },

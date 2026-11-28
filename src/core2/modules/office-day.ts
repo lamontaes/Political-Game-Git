@@ -60,12 +60,7 @@ import {
   type OfficeActHost,
   type Prepared,
 } from "../office-day-acts";
-import {
-  officeActKits,
-  officeStopKinds,
-  registerOfficeActs,
-  registerStopKinds,
-} from "../office-day-registry";
+import { officeActKits, registerOfficeActs } from "../office-day-registry";
 import {
   billOf,
   bodyReach,
@@ -112,40 +107,26 @@ import {
   type ModuleStopTokenV1,
 } from "../player-stops-v1";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
+import { fieldsOf } from "../module-fields";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { headsLocalExecutive } from "../offices-executives";
 export { openSuccession } from "./succession";
 
 export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
 
-/**
- * What can stop the player: the local kinds here, and whatever kinds the
- * other levels register (`office-day-registry.ts`). Election day always
- * stops them at the polls (the polling-place scene): whether the character
- * may not cast the player's ballot (owner, Oct 13).
- * An emergency stop waits on the disasters engine's declarations.
- */
-registerStopKinds([
-  // The important few stop by default (owner, Oct 14, 2026: play how you want).
-  { kind: "own-bill-vote", byDefault: true },
-  // Any vote where the player's seat could decide it (owner, Oct 29: "your
-  // own bills, any vote where yours could decide it"): a meeting of a body
-  // small enough that one seat turns a vote, with a bill on its agenda.
-  { kind: "deciding-vote", byDefault: true },
-  // Every meeting and every vote of the player's seat stops them, and the
-  // desk does (owner's card, Nov 14, 2026, 02:03Z: "Stop me at every vote").
-  // A stop the player switches off leaves them away: absent from that vote,
-  // a bill on the desk waiting for them; nothing is cast or signed for them.
-  { kind: "every-meeting", byDefault: true },
-  { kind: "desk", byDefault: true },
-]);
 export type StopKind = string;
-/** Every kind that may stop the player, in the order registered. */
-export function stopKinds(): readonly string[] {
-  return officeStopKinds().map((row) => row.kind);
+/** Every kind that may stop the player in this world: each installed level's own (`stopKinds` of its module), in install order. */
+export function stopKinds(core: CoreState): readonly string[] {
+  return fieldsOf(core, "stopKinds").flatMap((rows) =>
+    rows.map((row) => row.kind),
+  );
 }
-const defaultStops = (): Record<string, boolean> =>
-  Object.fromEntries(officeStopKinds().map((row) => [row.kind, row.byDefault]));
+const defaultStops = (core: CoreState): Record<string, boolean> =>
+  Object.fromEntries(
+    fieldsOf(core, "stopKinds").flatMap((rows) =>
+      rows.map((row) => [row.kind, row.byDefault] as const),
+    ),
+  );
 
 export interface StopSettingsRow {
   readonly id: string;
@@ -261,6 +242,27 @@ const OFFICE_DAY_HISTORY: HistorySource = {
 
 export const OFFICE_DAY_MODULE: CoreModule = {
   id: OFFICE_DAY_MODULE_ID,
+  /**
+   * What can stop the player: the local kinds here, and the kinds each other
+   * level carries on its own module (`stopKinds`). Election day always
+   * stops them at the polls (the polling-place scene): whether the character
+   * may not cast the player's ballot (owner, Oct 13).
+   * An emergency stop waits on the disasters engine's declarations.
+   */
+  stopKinds: [
+    // The important few stop by default (owner, Oct 14, 2026: play how you want).
+    { kind: "own-bill-vote", byDefault: true },
+    // Any vote where the player's seat could decide it (owner, Oct 29: "your
+    // own bills, any vote where yours could decide it"): a meeting of a body
+    // small enough that one seat turns a vote, with a bill on its agenda.
+    { kind: "deciding-vote", byDefault: true },
+    // Every meeting and every vote of the player's seat stops them, and the
+    // desk does (owner's card, Nov 14, 2026, 02:03Z: "Stop me at every vote").
+    // A stop the player switches off leaves them away: absent from that vote,
+    // a bill on the desk waiting for them; nothing is cast or signed for them.
+    { kind: "every-meeting", byDefault: true },
+    { kind: "desk", byDefault: true },
+  ],
   // A plain field, not a getter: the finance engine's read check walks the
   // modules and refuses an accessor (src/core2/finance-plan.ts, directRead).
   history: OFFICE_DAY_HISTORY,
@@ -520,7 +522,7 @@ export function stopsOf(
 ): Readonly<Record<StopKind, boolean>> {
   const row = table(api, "stops").get(personId) as unknown as
     StopSettingsRow | undefined;
-  return { ...defaultStops(), ...(row?.stops ?? {}) };
+  return { ...defaultStops(api.state as CoreState), ...(row?.stops ?? {}) };
 }
 
 /** The player changes what stops them; any day, any kind. */
@@ -530,7 +532,8 @@ export function setStops(
   change: Readonly<Record<StopKind, boolean>>,
 ): Readonly<Record<StopKind, boolean>> {
   for (const key of Object.keys(change))
-    if (!stopKinds().includes(key)) throw new Error(`Unknown stop: ${key}`);
+    if (!stopKinds(api.state as CoreState).includes(key))
+      throw new Error(`Unknown stop: ${key}`);
   const stops: Record<string, boolean> = {
     ...stopsOf(api, personId),
     ...change,
