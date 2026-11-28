@@ -316,12 +316,20 @@ rest = rewriteImports(rest);
   const at = lastImport ? lastImport.getEnd() : 0;
   const leafSpec = spec(hub, leaf);
   const lines: string[] = [];
+  // A moved type comes back with `type`, so the import and re-export erase it.
+  const isTypeName = (n: string) => {
+    const st = hubLocals.get(n)!;
+    return ts.isInterfaceDeclaration(st) || ts.isTypeAliasDeclaration(st);
+  };
+  const named = (list: string[]) =>
+    list
+      .sort()
+      .map((n) => (isTypeName(n) ? `type ${n}` : n))
+      .join(", ");
   if (usedBack.length)
-    lines.push(`import { ${usedBack.sort().join(", ")} } from "${leafSpec}";`);
+    lines.push(`import { ${named(usedBack)} } from "${leafSpec}";`);
   if (exportedMoved.length)
-    lines.push(
-      `export { ${exportedMoved.sort().join(", ")} } from "${leafSpec}";`,
-    );
+    lines.push(`export { ${named(exportedMoved)} } from "${leafSpec}";`);
   rest = rest.slice(0, at) + "\n" + lines.join("\n") + rest.slice(at);
 }
 

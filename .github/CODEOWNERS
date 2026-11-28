@@ -55,6 +55,7 @@
 /src/core2/past-history.ts @lamontaes
 /src/core2/journal.ts @lamontaes
 /src/core2/journal-state.ts @lamontaes
+/src/core2/journal-writes.ts @lamontaes
 /src/core2/cash-host.ts @lamontaes
 /src/core2/trait-lean.ts @lamontaes
 
