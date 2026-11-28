@@ -57,6 +57,7 @@ import { candidatePlatform } from "../campaign-stances";
 import { contestPositions, standReasons } from "../contest-positions";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import type { OfficeInput } from "./offices";
+import { candidatesFor } from "../elections-reads";
 import {
   announceCandidacy,
   withdrawFiling,
@@ -773,15 +774,7 @@ export function decideToRun(
   return row;
 }
 
-export function candidatesFor(
-  api: CoreAPI,
-  contestId: string,
-): CandidacyDecision[] {
-  return table(api).query("byContestRun", [
-    contestId,
-    true,
-  ]) as unknown as CandidacyDecision[];
-}
+export { candidatesFor };
 
 /** One person's recorded decision in one contest, if they made one. */
 export function decisionOf(
