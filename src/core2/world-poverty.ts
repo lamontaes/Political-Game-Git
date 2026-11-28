@@ -19,7 +19,7 @@ import {
 } from "./modules/laws";
 import { openClaims } from "./jobs-reads";
 import { reachParameter } from "./laws-in-force";
-import { householdIncome, residentsRuntime } from "./modules/residents";
+import { householdIncome, residentsRuntime } from "./residents-reads";
 import { retirementClaims } from "./modules/retirement-claims";
 import { awardYearMinor, jobYearMinor } from "./household-income";
 import { coreAPI } from "./state";

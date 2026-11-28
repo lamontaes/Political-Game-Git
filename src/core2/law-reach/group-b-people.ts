@@ -15,7 +15,7 @@ import {
   countedParameter,
   residentsRuntime,
   unplacedPayPerWorker,
-} from "../modules/residents";
+} from "../residents-reads";
 import type {
   CoreAPI,
   CoreState,

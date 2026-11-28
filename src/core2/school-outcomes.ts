@@ -30,14 +30,14 @@
  */
 import data from "./data/school/outcomes.json" with { type: "json" };
 import { ageOn } from "./counted-groups";
-import { countedJobHeads, countedJobsOf } from "./residents-economy";
+import { countedJobHeads, countedJobsOf } from "./counted-job-heads";
 import { fullHouseholdIncomes } from "./counted-income-fifth";
 import {
   countedHouseholdsByPlace,
   groupKeyOf,
-  incomeBandOn,
   residentsRuntime,
-} from "./modules/residents";
+} from "./residents-reads";
+import { incomeBandOn } from "./counted-income-reads";
 import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./modules/budgets";
 import {
   COUNTED_MOVES_MODULE_ID,

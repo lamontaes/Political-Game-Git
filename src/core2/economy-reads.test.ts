@@ -12,6 +12,7 @@ import {
 } from "./budgets-reads";
 import {
   allBusinessOwners,
+  businessFoundingsAt,
   businessOpened,
   allTradingMonths,
   businessFoundings,
@@ -149,6 +150,14 @@ describe(`the economy's read doors match what the engines keep (seed ${seed})`, 
     expect(businessOpened(api), where).toBe(
       api.moduleState("business").table("state").get("business:state") !==
         undefined,
+    );
+    const foundedHere = businessFoundingsAt(api, world.placeId);
+    expect(foundedHere.length, where).toBe(
+      (
+        api.moduleState("business").table("foundings").rows() as unknown as {
+          placeId?: string;
+        }[]
+      ).filter((row) => row.placeId === world.placeId).length,
     );
     expect(allBusinessOwners(api).length, where).toBe(
       api.moduleState("business").table("owners").size,
