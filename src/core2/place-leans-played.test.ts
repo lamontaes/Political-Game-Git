@@ -10,7 +10,7 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import { setBookkeeping } from "./bookkeeping";
 import { statePlaces } from "./electorate-places";
 import { electorateParameter } from "./electorate-inputs";
