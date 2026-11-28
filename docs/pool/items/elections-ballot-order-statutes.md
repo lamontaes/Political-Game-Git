@@ -17,7 +17,7 @@ claimed-at: 2026-10-21T02:36:44.774Z
 
 **Rules.** Research before building: the statute decides the rule and nothing else does; an unsettled row stays marked ESTIMATED with its source, never UNKNOWN. One rule, all 56 places: the rules are rows in data keyed by state key, never a state named in logic. Replace, never layer: a corrected row replaces its old value in the same file.
 
-**Done when.** Every row that had estimate true is either checked against statute text with its section and URL recorded and estimate false, or still true with the reason; SG-GOV-ballot-order-estimates is narrowed to the rows still estimated or resolved if none; the voting tests (src/core2/voting.test.ts) pass in a drawn place, seed named in the PR body.
+**Done when.** Every row that had estimate true is either checked against statute text with its section and URL recorded and estimate false, or still true with the reason; SG-GOV-ballot-order-estimates is narrowed to the rows still estimated or resolved if none; the voting tests (tests/src/core2/voting.test.ts) pass in a drawn place, seed named in the PR body.
 
 **Files.** data/research/elections/ballot-order-2026.json, src/core2/modules/voting.ts, src/core2/data/stopgaps.json
 

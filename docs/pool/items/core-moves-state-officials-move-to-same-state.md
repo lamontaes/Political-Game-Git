@@ -19,6 +19,6 @@ claimed-at: 2026-11-01T21:04:27.901Z
 
 **Done when.** In a one-year buildBenchWorld run of a drawn place (place and seed named), no departure has destinationId equal to fromPlaceId for a person not of the inactive tier, and no national or state official or press person loses their job through a move; moves.test.ts asserts it.
 
-**Files.** src/core2/modules/moves.ts, src/core2/moves.test.ts
+**Files.** src/core2/modules/moves.ts, tests/src/core2/moves.test.ts
 
 **Notes.** Found by the lives lead on core-every-life-simulated, Nov 1. Moves reviews 'town adults' as every alive non-husk person, so state- and nation-level people are in it. Likely fix: review only people living in the played town's places (townPlaceOf, focusPlaceIds), the rest by their own engines (offices, press).

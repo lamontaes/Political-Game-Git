@@ -20,9 +20,9 @@ claimed-at:
 checked:
 ---
 
-**What.** `src/core2/state-sessions.test.ts` takes its place from `drawPlace(replay, "state-sessions")` with a random replay seed unless `GOLDEN_PATH_SEED` is set, so the place and the time change from run to run. Pin it to one small named place and seed and keep what it asserts. Guards: the proof that other states' sessions change the law in force.
+**What.** `tests/src/core2/state-sessions.test.ts` takes its place from `drawPlace(replay, "state-sessions")` with a random replay seed unless `GOLDEN_PATH_SEED` is set, so the place and the time change from run to run. Pin it to one small named place and seed and keep what it asserts. Guards: the proof that other states' sessions change the law in force.
 
-**Cause.** Measured: `npx vitest run src/core2/state-sessions.test.ts` on the train at 15b289d4 in this container ran 97 s wall (83 s of tests) at the place its draw gave, and 154 s (140 s of tests) at another draw on the same code; the test plays `advanceCore` 365 days at the drawn place. Found in code: `const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex")` and `drawPlace(replay, ...)` at the top of the file. A year at Edmore, North Dakota (place key 3822340, seed yrseed-3822340) ran in 28 s in the same container.
+**Cause.** Measured: `npx vitest run tests/src/core2/state-sessions.test.ts` on the train at 15b289d4 in this container ran 97 s wall (83 s of tests) at the place its draw gave, and 154 s (140 s of tests) at another draw on the same code; the test plays `advanceCore` 365 days at the drawn place. Found in code: `const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex")` and `drawPlace(replay, ...)` at the top of the file. A year at Edmore, North Dakota (place key 3822340, seed yrseed-3822340) ran in 28 s in the same container.
 
 **Fix.** Design: name one small place and seed in the test (a place whose state passes laws in the played year, picked by looking, not by a draw loop), say in the test title why that one, and set the timeout to about twice the measured time.
 
@@ -34,6 +34,6 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/state-sessions.test.ts
+**Files.** tests/src/core2/state-sessions.test.ts
 
 **Notes.** Filed by F5 on #9317; coordinator's call: file, do not pin inside that PR.

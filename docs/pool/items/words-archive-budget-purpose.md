@@ -17,10 +17,10 @@ claimed-at:
 
 **Rules.** One rule, all 56 places: the test draws places from all 56 with bounded redraws and names the place and seed. No hand-written player text: the lede comes from the English engine's archive wording and the line name from the budget line-name table.
 
-**Done when.** An archived `budget-adopted` story carries `largestLine` and `largestLineMinor` read from the adopted budget's record; `wordArchiveStory` words it as "The budget includes $X for <line name>."; `src/bench/archive-words.test.ts` draws places from all 56 (bounded) until one archives an adopted budget, checks every such story's wording, and fails naming the places tried when none does.
+**Done when.** An archived `budget-adopted` story carries `largestLine` and `largestLineMinor` read from the adopted budget's record; `wordArchiveStory` words it as "The budget includes $X for <line name>."; `tests/src/bench/archive-words.test.ts` draws places from all 56 (bounded) until one archives an adopted budget, checks every such story's wording, and fails naming the places tried when none does.
 
-**Files.** src/core2/past-news.ts, src/bench/archive-words.ts, src/bench/archive-words.test.ts
+**Files.** src/core2/past-news.ts, src/bench/archive-words.ts, tests/src/bench/archive-words.test.ts
 
 **Notes.** Sent back 2026-10-20 from PR #5240 (branch claude/words-archive-budget-purpose): budget wording test can pass with no budget-adopted stories; assert the collection is nonempty and keep its wording assertions; finish on that branch, merge main into it first.
 
-Sent back 2026-10-23 from PR #5240 (branch claude/words-archive-budget-purpose): src/bench/archive-words.test.ts:122-128 still permits an empty budget-adopted story set to skip every new assertion; require a positive collection before the loop and add the Done-when table; finish on that branch, merge main into it first.
+Sent back 2026-10-23 from PR #5240 (branch claude/words-archive-budget-purpose): tests/src/bench/archive-words.test.ts:122-128 still permits an empty budget-adopted story set to skip every new assertion; require a positive collection before the loop and add the Done-when table; finish on that branch, merge main into it first.

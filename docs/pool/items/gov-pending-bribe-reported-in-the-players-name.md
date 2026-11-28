@@ -29,10 +29,10 @@ merged-at: 2026-11-13T06:46:46.953Z
 
 **Rules.** No dice: the player's own choice settles an offer to the player, and no trait-driven pick stands in for it. One rule, all 56 places: the check is the offer's own pending mark, never a named place or person.
 
-**Done when.** `src/core2/pending-bribe-not-reported.test.ts` passes in two drawn places, and a second session sees, on the bench on main, a drawn Advanced start as a council member played by Week for two months with no accusation scene about a bribe offer the player never answered (dev mode's Trace, or `GET /api/dev/person`, shows no complaint whose reporter is the player).
+**Done when.** `tests/src/core2/pending-bribe-not-reported.test.ts` passes in two drawn places, and a second session sees, on the bench on main, a drawn Advanced start as a council member played by Week for two months with no accusation scene about a bribe offer the player never answered (dev mode's Trace, or `GET /api/dev/person`, shows no complaint whose reporter is the player).
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/justice.ts, src/core2/pending-bribe-not-reported.test.ts
+**Files.** src/core2/modules/justice.ts, tests/src/core2/pending-bribe-not-reported.test.ts
 
 **Notes.** The scene that followed also cast the reporter as the accused. That is the director's, ruled by Fable A as rule 14 on issue 8928 and given to the Life records builder; it is not part of this item.

@@ -22,7 +22,7 @@ source: follow-up to #9022 and #9076 (Account lead T46, Nov 14); filed by hand o
 
 **Cause.** Found in code: `residentIsHeard` in src/bench/office.ts gated the panel's `speaks` flag, the resident's line and `meetingSpeak` on the body having at most `committeeOfTheWholeMaximum` members; with #9076's `hearRemarks` the gate has no reason left.
 
-**Fix.** Delete `residentIsHeard`, the `speaks` flag it fed and the conditions in src/bench/play.mjs and `meetingSpeak`; the existing lines from #9022 appear at every board. Test: the kept place Jaguas, Puerto Rico (7237336) in src/bench/meeting-attend.test.ts.
+**Fix.** Delete `residentIsHeard`, the `speaks` flag it fed and the conditions in src/bench/play.mjs and `meetingSpeak`; the existing lines from #9022 appear at every board. Test: the kept place Jaguas, Puerto Rico (7237336) in tests/src/bench/meeting-attend.test.ts.
 
 **Time box.** 1 hour
 
@@ -32,4 +32,4 @@ source: follow-up to #9022 and #9076 (Account lead T46, Nov 14); filed by hand o
 
 **Waits on.** meetings-resident-remark-reaches-a-committee-board (#9076, on the train)
 
-**Files.** src/bench/office.ts, src/bench/play.mjs, src/bench/meeting-attend.test.ts
+**Files.** src/bench/office.ts, src/bench/play.mjs, tests/src/bench/meeting-attend.test.ts

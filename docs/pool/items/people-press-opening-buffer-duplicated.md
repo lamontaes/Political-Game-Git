@@ -18,7 +18,7 @@ source: Merger correction for PR 4988; the original funding already landed in PR
 
 **Done when.** In the played world from `buildBenchWorld` in a drawn place, the press-opening-cash test exercises employer enrollment and records any additional startup funding by journal record id. It fails with the duplicate transfer and passes after its removal while preserving the original exact opening-cash assertions.
 
-**Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json, src/core2/data/stopgaps.json, src/core2/press-opening-cash.test.ts
+**Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json, src/core2/data/stopgaps.json, tests/src/core2/press-opening-cash.test.ts
 
 **Notes.** The initial tracking item is included in the corrective PR because automatic approval review rejected publishing a new claim directly to main. The original closure item remains done through PRs 4999 and 5013; the underlying outlet-revenue work remains open. This session must not merge its own corrective PR.
 

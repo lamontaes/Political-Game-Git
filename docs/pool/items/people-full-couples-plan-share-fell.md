@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** In a one-year buildBenchWorld run in three drawn places (named, with seeds), full couples' births per thousand women by age band fall within the CDC natality rate for that band's spread, and the share of active couples with a mother aged 20 to 39 who plan a child is reported with the couples' record ids. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
 
-**Files.** src/core2/births-plan.ts,src/core2/modules/renewal.ts,src/core2/births-full-web.test.ts
+**Files.** src/core2/births-plan.ts,src/core2/modules/renewal.ts,tests/src/core2/births-full-web.test.ts
 
 **Notes.** TODO
 

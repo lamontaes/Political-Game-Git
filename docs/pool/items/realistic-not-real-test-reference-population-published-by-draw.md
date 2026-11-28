@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** src/core2/realistic-not-real.test.ts fails by draw on the clean train: a town's reference population opens on its published value and the schools people went to are not their world's own, so audit rows 28 and its neighbor are red at that draw. Guards: the realistic-not-real test's audit row 28 and the schools row, run at the named place and seed.
+**What.** tests/src/core2/realistic-not-real.test.ts fails by draw on the clean train: a town's reference population opens on its published value and the schools people went to are not their world's own, so audit rows 28 and its neighbor are red at that draw. Guards: the realistic-not-real test's audit row 28 and the schools row, run at the named place and seed.
 
 **Cause.** Measured: on the clean train 8bb1ff9d, with the seed REALISTIC_SEED=218f5d0d1d0c24e8, Highgate Springs, Vermont (5033325): "referencePopulation: published: expected 1 not to be 1" in "the town's population (audit row 28)", and a second red in "the schools people went to are their world's own". It reproduced on the clean train and on the PR head alike, and does not touch charges or fees. Not yet traced to the line that holds the value at 1.
 
@@ -32,6 +32,6 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/realistic-not-real.test.ts
+**Files.** tests/src/core2/realistic-not-real.test.ts
 
 **Notes.** Found while building PR #9308 (fee levels by bill). It passed on the clean train e24cb825 at the draw that run took.

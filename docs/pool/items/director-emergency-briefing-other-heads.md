@@ -29,10 +29,10 @@ claimed-at:
 
 **Rules.** No dice. Wire to the world: another engine reads what is written. One rule, all 56 places: no place is named in logic.
 
-**Done when.** A second session, on main at a drawn place and a seed the builder did not choose, plays a governor through a disaster and sees every head the map names for its type speak, by record id of the offered record, and the declaration still settles through `answerEmergencyBriefing`. A test in `src/director/emergency-briefing.test.ts` fails when a map head is missing from the room.
+**Done when.** A second session, on main at a drawn place and a seed the builder did not choose, plays a governor through a disaster and sees every head the map names for its type speak, by record id of the offered record, and the declaration still settles through `answerEmergencyBriefing`. A test in `tests/src/director/emergency-briefing.test.ts` fails when a map head is missing from the room.
 
 **Waits on.** director-scene-several-speakers-at-one-table.
 
-**Files.** src/director/civic-roles.ts, src/director/data/situation-types.json, src/director/purpose-scene.ts, src/director/emergency-briefing.test.ts, data/english/parts/scene-talk.json (Words lead writes any lines)
+**Files.** src/director/civic-roles.ts, src/director/data/situation-types.json, src/director/purpose-scene.ts, tests/src/director/emergency-briefing.test.ts, data/english/parts/scene-talk.json (Words lead writes any lines)
 
 **Notes.** Nov 15. Words lead writes the lines for the added speakers; the builder lists the pieces it needs.

@@ -18,8 +18,8 @@ claimed-at: 2026-11-01T21:33:42.974Z
 
 **Rules.** No dice: a gift follows the donor's own money, ties and views, never a roll. Estimate, never UNKNOWN: every new number is ESTIMATED or TUNABLE with its source and spread in src/core2/data/campaigns/parameters.json. One rule, all 56 places: the bands hold over pools of drawn places from all 56. One model, two tiers: a counted donor answers by the same rule.
 
-**Done when.** src/core2/campaign-money-calibration.test.ts holds all three bands on a pool of 16 places drawn from all 56, on at least four fresh run seeds named in the PR body; a resampled failure rate at 16 places under 0.5% on held-out seeds; and every shortcut left (donors with no recorded living cost) is a registered stopgap.
+**Done when.** tests/src/core2/campaign-money-calibration.test.ts holds all three bands on a pool of 16 places drawn from all 56, on at least four fresh run seeds named in the PR body; a resampled failure rate at 16 places under 0.5% on held-out seeds; and every shortcut left (donors with no recorded living cost) is a registered stopgap.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/data/campaigns/parameters.json, src/core2/campaign-money-calibration.test.ts, src/core2/data/stopgaps.json
+**Files.** src/core2/modules/campaigns.ts, src/core2/data/campaigns/parameters.json, tests/src/core2/campaign-money-calibration.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Built on governing/campaign-money-calibrated (Oct 30 to Nov 1, three review rounds). The bands lean on SG-GOV-gift-no-living-costs until people-press-staff-households gives paid press staff a living cost.

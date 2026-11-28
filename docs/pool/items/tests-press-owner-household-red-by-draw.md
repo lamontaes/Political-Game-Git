@@ -18,7 +18,7 @@ source: "Interview check thread, Nov 15, 2026, gating the outlet-of-record chang
 root: none
 ---
 
-**What.** `src/core2/press-owner-household.test.ts`, "gives each outlet owner cash and a living cost", fails with "outlet:<national outlet> owner ... spent living: expected 938945 to be greater than 1639155". It failed on the clean train 53e4b29f and on the outlet-of-record branch at different drawn places, so it turns a gate red by draw. Seen: a builder's or the train's gate goes red on a test nobody's change touched.
+**What.** `tests/src/core2/press-owner-household.test.ts`, "gives each outlet owner cash and a living cost", fails with "outlet:<national outlet> owner ... spent living: expected 938945 to be greater than 1639155". It failed on the clean train 53e4b29f and on the outlet-of-record branch at different drawn places, so it turns a gate red by draw. Seen: a builder's or the train's gate goes red on a test nobody's change touched.
 
 **Cause.** Measured: Superior, Montana (3072625), seed f21d375da494c34e (GOLDEN_PATH_SEED), red on both the clean train 53e4b29f and the outlet-of-record branch; Palmer, Tennessee (4756560), seed 611e041a90f38fe3, on the outlet-of-record branch.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/press-owner-household.test.ts
+**Files.** tests/src/core2/press-owner-household.test.ts

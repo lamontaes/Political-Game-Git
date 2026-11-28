@@ -25,6 +25,10 @@ type Map = {
   families: { id: string; name: string; paths: string[] }[];
 };
 
+/** A path under src, and the same path under tests/src where its test sits. */
+const withMirror = (glob: string): string[] =>
+  glob.startsWith("src/") ? [glob, `tests/${glob}`] : [glob];
+
 export function codeowners(
   map: Map = JSON.parse(readFileSync(MAP, "utf8")),
 ): string {
@@ -34,13 +38,15 @@ export function codeowners(
     "# One engine per mechanic: each block is one engine family (docs/design/guards.md).",
     "",
     "# The shared kernel",
-    ...map.shared.map((glob) => `/${glob} ${map.owner}`),
+    ...map.shared.flatMap(withMirror).map((glob) => `/${glob} ${map.owner}`),
   ];
   for (const family of map.families)
     lines.push(
       "",
       `# ${family.name} (${family.id})`,
-      ...family.paths.map((glob) => `/${glob} ${map.owner}`),
+      ...family.paths
+        .flatMap(withMirror)
+        .map((glob) => `/${glob} ${map.owner}`),
     );
   // Last, so it wins over a family's line for the same file: CODEOWNERS
   // takes the last matching pattern.

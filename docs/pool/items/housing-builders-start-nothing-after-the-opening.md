@@ -30,10 +30,10 @@ branch: claude/project-thread-8fxsy5
 
 **Rules.** One rule, all 56 places: every place's builders read the same base. Estimate, never UNKNOWN: no stand-in price of 1.
 
-**Done when.** A second session plays a drawn place with a construction business for a year and sees houses started in town (Housing's new homes for sale, or dev mode's reach of the gas hookup ban once it is enacted), and src/core2/housing-builders-start.test.ts passes on main.
+**Done when.** A second session plays a drawn place with a construction business for a year and sees houses started in town (Housing's new homes for sale, or dev mode's reach of the gas hookup ban once it is enacted), and tests/src/core2/housing-builders-start.test.ts passes on main.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/housing-construction.ts, src/core2/modules/housing.ts, src/core2/housing-builders-start.test.ts (new)
+**Files.** src/core2/housing-construction.ts, src/core2/modules/housing.ts, tests/src/core2/housing-builders-start.test.ts (new)
 
 **Notes.** Released by next (2026-11-18): no push to claude/project-thread-8fxsy5 since 2026-11-15 23:43 UTC, more than twice its 2-hour time box. Continue on branch claude/project-thread-8fxsy5.

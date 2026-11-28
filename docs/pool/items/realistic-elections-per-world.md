@@ -29,14 +29,14 @@ checked: fable 2026-11-10
 
 **Rules.** Estimate, never UNKNOWN: each value starts from the published one as the center of a per-world spread drawn from the world seed at Start, tagged in its parameter table; filing rules, terms and dates are law and stay. One rule, all 56 places: the draw and its spread come from data, never a named state, city or GEOID in logic.
 
-**Done when.** A second session (not the builder) starts two worlds in drawn places and seeds (named) and finds that each listed statistic differs between the worlds and from its published row, and that no two council members share a printed vote share, named by record id; the guard in src/core2/realistic-not-real.test.ts covers it.
+**Done when.** A second session (not the builder) starts two worlds in drawn places and seeds (named) and finds that each listed statistic differs between the worlds and from its published row, and that no two council members share a printed vote share, named by record id; the guard in tests/src/core2/realistic-not-real.test.ts covers it.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/electorate-places.ts, src/core2/officials-president.ts, src/core2/past-elections.ts, src/core2/modules/officials.ts, src/core2/modules/offices.ts, src/core2/campaign-views.ts, src/core2/realistic-not-real.test.ts
+**Files.** src/core2/electorate-places.ts, src/core2/officials-president.ts, src/core2/past-elections.ts, src/core2/modules/officials.ts, src/core2/modules/offices.ts, src/core2/campaign-views.ts, tests/src/core2/realistic-not-real.test.ts
 
 **Notes.** Filed by the realistic-not-real audit of Oct 27.
 
 Oct 28 (words and director session): evidence. The President is a Republican in 5 of 5 drawn worlds (seeds addr-a to addr-e), because officials are seated in the party that really holds the seat (officials-roster, partySource roster). The address now reads the party (its creed paragraph), so a party drawn per world would change the speech with no words code.
 
-Oct 28 23:45 UTC (laws session): evidence. The two-seeds-differ guard (src/core2/realistic-not-real.test.ts, audit row 45, who holds the legislatures, Congress and the governorships) is red on clean main by draw: REALISTIC_SEED=210d38cd8a389651 draws Washington, District of Columbia (1150000) and fails with "seat:US-DC:us-house:98: expected 'Democratic' to be null"; the delegate seat opens in the party that really holds it. It turns `npm run guards` red on any PR whose run draws that place.
+Oct 28 23:45 UTC (laws session): evidence. The two-seeds-differ guard (tests/src/core2/realistic-not-real.test.ts, audit row 45, who holds the legislatures, Congress and the governorships) is red on clean main by draw: REALISTIC_SEED=210d38cd8a389651 draws Washington, District of Columbia (1150000) and fails with "seat:US-DC:us-house:98: expected 'Democratic' to be null"; the delegate seat opens in the party that really holds it. It turns `npm run guards` red on any PR whose run draws that place.

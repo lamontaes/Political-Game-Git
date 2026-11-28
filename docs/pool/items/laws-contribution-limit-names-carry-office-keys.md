@@ -15,7 +15,7 @@ lead: laws
 model: sonnet
 effort: low
 root: none
-source: found by opus-5234 on Nov 11, 2026, by src/bench/plain-text.browser.mjs once it reached its text checks (item tests-plain-text-no-travel-filing-place, PR 8795)
+source: found by opus-5234 on Nov 11, 2026, by tests/src/bench/plain-text.browser.mjs once it reached its text checks (item tests-plain-text-no-travel-filing-place, PR 8795)
 ---
 
 **What.** News in Junction City, Georgia (place key 1342800, seed a3b686cb-ba71-4137-957b-a2e414912b99) reads "State campaign contribution limit: stateHouse took effect on January 1, 2025." and the same with "stateSenate". A player reads a code name in a news story, and the plain-text check flags it as a field name. Seen: the story names the law in plain words ("the state house contribution limit").
@@ -28,7 +28,7 @@ source: found by opus-5234 on Nov 11, 2026, by src/bench/plain-text.browser.mjs 
 
 **Rules.** Player screen text: no code name reaches a screen. One rule, all 56 places: the names are the catalog's, read in every place.
 
-**Done when.** `node src/bench/plain-text.browser.mjs` with PLAIN_TEXT_PLACE_KEY=1342800 and PLAIN_TEXT_SEED=a3b686cb-ba71-4137-957b-a2e414912b99 reports no field name in News, and a second session in the running game in a drawn place reads News at 1440x900 and sees any contribution-limit story name the office in plain words, in a screenshot.
+**Done when.** `node tests/src/bench/plain-text.browser.mjs` with PLAIN_TEXT_PLACE_KEY=1342800 and PLAIN_TEXT_SEED=a3b686cb-ba71-4137-957b-a2e414912b99 reports no field name in News, and a second session in the running game in a drawn place reads News at 1440x900 and sees any contribution-limit story name the office in plain words, in a screenshot.
 
 **Waits on.** Nothing.
 

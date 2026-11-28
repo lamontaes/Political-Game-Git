@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** One model, two tiers: counted households weigh commute and space by the same rule as full households, times their count. No dice: the match follows recorded jobs, sizes and money.
 
-**Done when.** A second session, on main in a drawn place (place and seed named), plays a year in dev mode and finds a household that moved into a new rental whose recorded move reasons cite the commute or space term by record id. A test in src/core2/housing-pipeline.test.ts shows a larger family preferring the larger unit at equal rent, and SG-WORLD-new-rental-move-coverage is resolved.
+**Done when.** A second session, on main in a drawn place (place and seed named), plays a year in dev mode and finds a household that moved into a new rental whose recorded move reasons cite the commute or space term by record id. A test in tests/src/core2/housing-pipeline.test.ts shows a larger family preferring the larger unit at equal rent, and SG-WORLD-new-rental-move-coverage is resolved.
 
 **Waits on.** world-dwelling-position.
 
-**Files.** src/core2/housing-occupancy.ts, src/core2/housing-pipeline.test.ts, src/core2/data/stopgaps/world.json
+**Files.** src/core2/housing-occupancy.ts, tests/src/core2/housing-pipeline.test.ts, src/core2/data/stopgaps/world.json
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-WORLD-new-rental-move-coverage; waits on dwelling locations for the commute half.
 

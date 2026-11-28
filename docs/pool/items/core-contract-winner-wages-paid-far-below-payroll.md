@@ -21,6 +21,6 @@ claimed-at: 2026-10-27T16:16:39.192Z
 
 **Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
 
-**Files.** src/core2/contracts.test.ts
+**Files.** tests/src/core2/contracts.test.ts
 
 **Notes.** TODO

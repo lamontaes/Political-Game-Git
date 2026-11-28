@@ -18,7 +18,7 @@ claimed-at: 2026-11-09T18:00:00.000Z
 
 **Rules.** No new engine. A reply is written on the scene.reply record by id; the endings keep a promise (agreed to the ask) or strain the tie (a put-off or a no that was pressed); every reply is also time together on the tie. No dice: the asker's answers follow the traits through the shared decision table. A fact with no record behind it is left out and the lines that need it never play.
 
-**Done when.** src/director/reunion-letter-scene.test.ts, in worlds drawn from all 56 places, plays a hand-staged faded tie into a reunion through the director's own producer, plays the kin-contact engine's own letters in a played year, finds each fact in the world's own records, writes a reply by record id and keeps the ending; the English guards and the bank tests pass.
+**Done when.** tests/src/director/reunion-letter-scene.test.ts, in worlds drawn from all 56 places, plays a hand-staged faded tie into a reunion through the director's own producer, plays the kin-contact engine's own letters in a played year, finds each fact in the world's own records, writes a reply by record id and keeps the ending; the English guards and the bank tests pass.
 
 **Files.** src/director/life-news.ts, src/director/reunion-facts.ts, src/director/letter-facts.ts, src/director/purpose-scene.ts, src/director/ledger.ts, src/director/types.ts, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/director/data/stopgaps.json, data/english/parts/scene-talk.json
 

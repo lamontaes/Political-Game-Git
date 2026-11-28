@@ -29,7 +29,7 @@ source: Account lead T54 building world-counted-renters-buy (#9117, Nov 14, 2026
 
 **Rules.** One model, two tiers: a counted household spends the money the books hold for it, as a full one spends its members' cash and savings. Money moves only through the existing accounts; no new tracking. No dice.
 
-**Done when.** The pinned test in src/core2/housing-counted-buy.test.ts asserts at Bastrop, Louisiana (place 2204685) that each counted buyer's share of its group's account before the purchase covered its down payment times its weight, that a renter short of it does not buy, and that the renter group it left changed by only the buyer's share, by record id; the price table at Bastrop, Bloomingdale and Gratz at years 1, 5 and 15 with and without, and the speed table, are in the PR body. A second session runs a year in a drawn place and sees counted renters buy, with the group accounts named.
+**Done when.** The pinned test in tests/src/core2/housing-counted-buy.test.ts asserts at Bastrop, Louisiana (place 2204685) that each counted buyer's share of its group's account before the purchase covered its down payment times its weight, that a renter short of it does not buy, and that the renter group it left changed by only the buyer's share, by record id; the price table at Bastrop, Bloomingdale and Gratz at years 1, 5 and 15 with and without, and the speed table, are in the PR body. A second session runs a year in a drawn place and sees counted renters buy, with the group accounts named.
 
 **Waits on.** world-counted-renters-buy (#9117) folded.
 

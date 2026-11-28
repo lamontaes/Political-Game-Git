@@ -19,7 +19,7 @@ claimed-at: 2026-10-19T19:17:08.053Z
 
 **Done when.** A test in a drawn place's played world names a stance and the downstream reader records, proves that every still-needed explanation remains available, and shows that obsolete causes no longer increase per-event copying. Compare the reader's result before and after retention, including an older event still required by a reader. The retained history follows actual record lifetimes and queries rather than an arbitrary fixed count.
 
-**Files.** src/core2/modules/views.ts, src/core2/data/views/views.json, src/core2/views.test.ts, and the production readers of stance causes.
+**Files.** src/core2/modules/views.ts, src/core2/data/views/views.json, tests/src/core2/views.test.ts, and the production readers of stance causes.
 
 **Notes.** TODO
 

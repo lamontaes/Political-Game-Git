@@ -27,6 +27,6 @@ claimed-at: 2026-10-30T02:25:56.025Z
 
 **Screenshot.** Campaigns and a race's page at 1440 by 900 from a drawn place.
 
-**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/ui/list-row.mjs, src/bench/data/controls.json, src/bench/campaigns-ballot.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/ui/list-row.mjs, src/bench/data/controls.json, tests/src/bench/campaigns-ballot.browser.mjs
 
 **Notes.** Filed by the CTO, Oct 30 04:00, the sixth screen of the menu redesign. Read: OWNER-DECISIONS Oct 29 22:45; searched the pool: campaigns screen, ballot (no twin).

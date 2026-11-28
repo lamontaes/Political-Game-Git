@@ -34,7 +34,7 @@ claimed-at: 2026-11-15
 
 **Waits on.** Nothing.
 
-**Files.** src/director/data/situation-types.json, src/director/scene.ts, data/english/parts/scene-words.json, data/english/happened-words.json, src/english/happened-words.ts, src/director/arrival-says-what-happened.test.ts, src/english/happened-words.test.ts, src/director/scene-says-past-its-opener.test.ts, src/director/conversation.ts, src/director/ledger.ts, src/director/types.ts, src/director/data/director.json, src/bench/world.ts
+**Files.** src/director/data/situation-types.json, src/director/scene.ts, data/english/parts/scene-words.json, data/english/happened-words.json, src/english/happened-words.ts, tests/src/director/arrival-says-what-happened.test.ts, tests/src/english/happened-words.test.ts, tests/src/director/scene-says-past-its-opener.test.ts, src/director/conversation.ts, src/director/ledger.ts, src/director/types.ts, src/director/data/director.json, src/bench/world.ts
 
 **Notes.** More cases (Account lead T25, Nov 13, 2026; Danville, Iowa, seed 4b0fc31d-ba59-4168-8b84-d7c0e3f826b6, train c39bbb71): 'First thing on May 2nd, at school, you talk with David Norman.' then a bare Continue; 'First thing on December 16th, you stay in. Your father has news for you.' / 'We have to move.' / 'Wait. We have to move?' / 'I'll be around this morning if you need me.' and nothing more. 'about what happened yesterday' opens most door and visit scenes where nothing happened the day before.
 

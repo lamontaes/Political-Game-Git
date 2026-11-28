@@ -18,7 +18,7 @@ claimed-at: 2026-10-16T03:41:07.448Z
 
 **Rules.** An effect is a read; one rule, all 56 places.
 
-**Done when.** In a drawn place, a year's federal `chamber-organized` and `committee-hearing` wire items are level `nation`, and a national outlet prints at least one by record id. Extend `src/core2/vote-level.test.ts`.
+**Done when.** In a drawn place, a year's federal `chamber-organized` and `committee-hearing` wire items are level `nation`, and a national outlet prints at least one by record id. Extend `tests/src/core2/vote-level.test.ts`.
 
 **Files.** src/core2/modules/legislature.ts, src/core2/modules/leadership.ts
 

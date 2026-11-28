@@ -33,6 +33,6 @@ source: Account lead T48 on #9089, measured at Trenton UT
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/past-work.ts, src/core2/past-work.test.ts
+**Files.** src/core2/past-work.ts, tests/src/core2/past-work.test.ts
 
 **Notes.** Filed by Account lead T48 from #9089. Pre-existing on the train; not caused by #9089.

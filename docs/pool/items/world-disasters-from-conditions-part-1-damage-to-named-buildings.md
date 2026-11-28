@@ -29,8 +29,8 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: damage follows the hazard record and what stands in the path, never a roll. One rule, all 56 places: hazard histories by county live in data. One model, two tiers: a counted household or business is damaged by the same rule as a full one, times its count. Wire to the world: damage moves money in the later parts, so each damage record is read by another engine.
 
-**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, drawn place and seed named) past FEMA's last record and sees a hazard-caused disaster name damaged homes, businesses and public buildings by record id; a test in src/core2/disaster-weather.test.ts states the chain.
+**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, drawn place and seed named) past FEMA's last record and sees a hazard-caused disaster name damaged homes, businesses and public buildings by record id; a test in tests/src/core2/disaster-weather.test.ts states the chain.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/disasters.ts, src/core2/disaster-weather.test.ts, src/core2/data/stopgaps/core.json
+**Files.** src/core2/modules/disasters.ts, tests/src/core2/disaster-weather.test.ts, src/core2/data/stopgaps/core.json

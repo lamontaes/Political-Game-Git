@@ -33,11 +33,11 @@ Seen: dev mode's Calendar, "Employer health plans today", read "Share who hold t
 
 - In a drawn place, Ackerman, Mississippi (seed e0e394393c353f1d), and at two more drawn places, the share of workers holding an employer plan differs between towns, and over a played year it moves with the town's own jobs and pay.
 - The year's rate in January of the second year equals the employer plans' own claims a covered person over the months before it, times the load, by the rate row.
-- `src/core2/coverage-from-own-records.test.ts` passes, and fails with the fixed share and the fixed premium put back.
+- `tests/src/core2/coverage-from-own-records.test.ts` passes, and fails with the fixed share and the fixed premium put back.
 - A second session opens dev mode's Calendar at a drawn place it chose and sees the offers, the plans, the rate year and the claims behind the rate, and sees them differ at a second drawn place.
 
 **Waits on.** Nothing.
 
-**Files.** `src/core2/modules/coverage.ts`, `src/core2/medical-bills.ts`, `src/core2/data/parameters.json`, `src/core2/data/health/medical-bills.json`, `src/core2/coverage-from-own-records.test.ts`, `src/core2/health-coverage-counted.test.ts`, `src/bench/dev-views/health-plans.ts`, `src/bench/ui/dev-health-plans.mjs`, `docs/design/daily-register.md`.
+**Files.** `src/core2/modules/coverage.ts`, `src/core2/medical-bills.ts`, `src/core2/data/parameters.json`, `src/core2/data/health/medical-bills.json`, `tests/src/core2/coverage-from-own-records.test.ts`, `tests/src/core2/health-coverage-counted.test.ts`, `src/bench/dev-views/health-plans.ts`, `src/bench/ui/dev-health-plans.mjs`, `docs/design/daily-register.md`.
 
 **Notes.** Nov 17 (Lives): the premium falls to what this world's care bills support. The bills engine prices the survey's medical services line only (stopgap SG-HEALTH-medical-bill-shape), so a covered person costs the plans about $120 to $200 a month at the drawn places measured, where the survey's premium was $746.

@@ -32,4 +32,4 @@ root: design-one-model-two-tiers
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/meetings.ts, src/core2/meetings.test.ts, src/core2/meetings-counted-speakers.test.ts, src/core2/data/stopgaps/gov.json
+**Files.** src/core2/modules/meetings.ts, tests/src/core2/meetings.test.ts, tests/src/core2/meetings-counted-speakers.test.ts, src/core2/data/stopgaps/gov.json

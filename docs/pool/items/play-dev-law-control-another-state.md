@@ -23,7 +23,7 @@ claimed-at: 2026-11-11T05:13:57.701Z
 
 **Cause.** Found in code: src/bench/dev-mode.ts setLaw (line 559) reads level.jurisdiction from lawChain(api).levels only; another state's law rows are kept under its state key (src/core2/modules/laws.ts stateLawInForce, line 639, reads rows whose jurisdiction is the state key).
 
-**Fix.** Give setLaw an optional stateKey: with one, enact the row at level state under that state key (as src/core2/outside-budgets.test.ts does) and refuse the town's own state, which keeps its chain path. Add the choice of state to the law control in the dev panel and to the dev-api route that calls setLaw, and a test in src/bench/dev-mode.test.ts that a law set for another state is what stateLawInForce reads there.
+**Fix.** Give setLaw an optional stateKey: with one, enact the row at level state under that state key (as tests/src/core2/outside-budgets.test.ts does) and refuse the town's own state, which keeps its chain path. Add the choice of state to the law control in the dev panel and to the dev-api route that calls setLaw, and a test in tests/src/bench/dev-mode.test.ts that a law set for another state is what stateLawInForce reads there.
 
 **Time box.** 3 hours
 
@@ -33,4 +33,4 @@ claimed-at: 2026-11-11T05:13:57.701Z
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/dev-mode.ts, src/bench/dev-api.ts, src/bench/dev-mode.test.ts
+**Files.** src/bench/dev-mode.ts, src/bench/dev-api.ts, tests/src/bench/dev-mode.test.ts

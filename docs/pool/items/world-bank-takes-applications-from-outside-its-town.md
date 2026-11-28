@@ -33,4 +33,4 @@ effort: medium
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/credit.ts; src/core2/credit-applicants-place.test.ts (new)
+**Files.** src/core2/modules/credit.ts; tests/src/core2/credit-applicants-place.test.ts (new)

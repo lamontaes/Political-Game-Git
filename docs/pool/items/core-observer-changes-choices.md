@@ -32,7 +32,7 @@ source: Found by the lying thread, Nov 15 2026, tracing people-free-company-goes
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/observer-cadence.test.ts, src/core2/calendar.test.ts, src/core2/calendar.ts, src/core2/decision-detail.ts, src/core2/state.ts
+**Files.** tests/src/core2/observer-cadence.test.ts, tests/src/core2/calendar.test.ts, src/core2/calendar.ts, src/core2/decision-detail.ts, src/core2/state.ts
 
 Nov 15 (lying thread): the first report above counted from `latestChange`, which a tie keeps only when it touches the player's circle (state.ts `retainRelationshipEvidence`), so "11 of 11 to 63001515" was the circle's share. Counted from every change notice, 8ccd5ae0 with the observer off visits every other day, turn about among 63001515, 63001615, 00541b92, 027fc7c7 and three others (29 visits to 7 people); with it on, 027fc7c7 on 27 of 27. Counted by the lying thread's scripts (project files, lying, company), head ee4c3740.
 

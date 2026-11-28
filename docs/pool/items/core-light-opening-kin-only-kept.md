@@ -30,7 +30,7 @@ checked: fable 2026-11-10
 
 **Rules.** One model, two tiers: a counted household has no individual kin until it is filled in, and the counts it contributes to are read by every engine as before. Speed: a town's game year runs in under two minutes; measure the opening before and after on the same machine. Estimate, never unknown: a counted person's kin count shown anywhere is an estimate from the same fertility tables.
 
-**Done when.** A second session, in buildBenchWorld in a drawn place and a seed the builder did not choose, sees kin and temperament records only for kept households, by record id, with the opening time before and after on one machine in the PR body. The tests that read opening kin (src/core2/opening-kin.test.ts, src/core2/fill-in-people.test.ts) are updated to draw a kept household.
+**Done when.** A second session, in buildBenchWorld in a drawn place and a seed the builder did not choose, sees kin and temperament records only for kept households, by record id, with the opening time before and after on one machine in the PR body. The tests that read opening kin (tests/src/core2/opening-kin.test.ts, tests/src/core2/fill-in-people.test.ts) are updated to draw a kept household.
 
 **Waits on.** core-light-opening-kin-households, and the owner's Oct 19 ruling in core-opening-counts-from-census.
 

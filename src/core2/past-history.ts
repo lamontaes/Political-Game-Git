@@ -23,12 +23,12 @@ import {
   governmentUnitJurisdictionId,
 } from "./reference/government-units";
 import {
+  type HistoryRecord,
   pastIdsOf,
   pastRowsNaming,
   pastRowsOf,
   preStartHistory,
-  type HistoryRecord,
-} from "./pre-start";
+} from "./pre-start-history";
 import type {
   CoreState,
   IsoDate,

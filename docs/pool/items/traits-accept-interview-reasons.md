@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** In the played election-window years of two drawn places (`scripts/traits/trait-wiring-audit.ts` with `TRAIT_AUDIT_ELECTION=1`), seeds named, the share of candidates who accept is within 0.4 to 0.62 and the crossed odds between the thirds of lean are within a factor of 1.5 of the research target (2.70 after the Oct 24 rescale); the base, reach and incumbency weights carry their sources and spreads; a test checks every answer against its kept reasons; and the press.accept-interview gap row is removed.
 
-**Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json, src/core2/modules/press.traits.test.ts
+**Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json, tests/src/core2/modules/press.traits.test.ts
 
 **Notes.** TODO
 Claim released Oct 25: branch never pushed (`claude/traits-accept-interview`).

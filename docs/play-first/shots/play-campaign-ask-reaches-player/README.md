@@ -1,6 +1,6 @@
 # play-campaign-ask-reaches-player: screenshots
 
-All at 1440 by 900, taken by `src/bench/campaign-ask.browser.mjs` on the bench at this branch's head, in a life made in the creator with a 1980 birthday (a working adult with savings).
+All at 1440 by 900, taken by `tests/src/bench/campaign-ask.browser.mjs` on the bench at this branch's head, in a life made in the creator with a 1980 birthday (a working adult with savings).
 
 Graymoor-Devondale, Kentucky (drawn), seed `d692bee4-d22e-44d1-9cce-dbc2b40ee7ef` (retaken after main was merged in):
 

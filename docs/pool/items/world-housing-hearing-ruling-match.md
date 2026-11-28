@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T22:29:31.396Z
 
 **Rules.** Look before you ask: before closing or registering a stopgap, read the register; the ruling is in docs/coordination/OWNER-DECISIONS.md and DECISION-REGISTER.md, and a stopgap that duplicates a ruling is a defect. Courts come after early access (AGENTS.md), so no judge, counsel scene or court screen is built here.
 
-**Done when.** The row is resolved in stopgaps.json citing the ruling, the marker is gone from housing.ts, and `src/core2/housing.test.ts` still shows a played eviction in a test place going from notice to filing to removal by case record id.
+**Done when.** The row is resolved in stopgaps.json citing the ruling, the marker is gone from housing.ts, and `tests/src/core2/housing.test.ts` still shows a played eviction in a test place going from notice to filing to removal by case record id.
 
 **Files.** src/core2/modules/housing.ts, src/core2/data/stopgaps.json
 

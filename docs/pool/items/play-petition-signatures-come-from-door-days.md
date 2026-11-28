@@ -34,4 +34,4 @@ Seen: the filing counter's talk (labels under the clerk's lines), the Campaign t
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.mjs, src/bench/campaign.ts, src/bench/data/controls.json, src/bench/filing.browser.mjs, data/english/parts/scene-talk.json
+**Files.** src/bench/play.mjs, src/bench/campaign.ts, src/bench/data/controls.json, tests/src/bench/filing.browser.mjs, data/english/parts/scene-talk.json

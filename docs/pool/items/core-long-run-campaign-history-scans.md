@@ -19,6 +19,6 @@ claimed-at: 2026-11-01T18:51:24.999Z
 
 **Done when.** A four-year Ringgold run matches main in every table. A drawn-world test shows the kept message dates match the records after removals, a restore and a new message; npm run speed:year -- --seed long-1 --years 4 on main and on the branch, one process each, keeps dev mode's records proof identical in every table of the played world at year 4 in the played world (buildBenchWorld), the tests the PR names pass, with the times in the PR body.
 
-**Files.** src/core2/campaign-rival-word-kept.test.ts, src/core2/modules/campaigns.ts
+**Files.** tests/src/core2/campaign-rival-word-kept.test.ts, src/core2/modules/campaigns.ts
 
 **Notes.** TODO

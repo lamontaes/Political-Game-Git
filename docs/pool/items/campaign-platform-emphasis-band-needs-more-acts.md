@@ -32,6 +32,6 @@ root: none
 
 **Waits on.** campaign-topic-tilts-to-the-audience and campaign-topic-tilts-to-the-news.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-platform-played.test.ts
+**Files.** src/core2/modules/campaigns.ts, tests/src/core2/campaign-platform-played.test.ts
 
 **Notes.** Filed on PR #9155's branch Nov 14. The test only prints the band and asserts nothing about it; it passes.

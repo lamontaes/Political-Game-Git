@@ -46,7 +46,7 @@ import {
   LEGISLATURE_MODULE_ID,
   sponsoredBills,
 } from "../core2/modules/legislature";
-import { retellingsOf } from "../core2/modules/speech";
+import { retellingsOf } from "../core2/modules/health";
 import {
   acceptDebate,
   answerDebate,

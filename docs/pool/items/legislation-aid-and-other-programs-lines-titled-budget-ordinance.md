@@ -34,7 +34,7 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** data/english/bill-names.json, src/english/bill-names.test.ts
+**Files.** data/english/bill-names.json, tests/src/english/bill-names.test.ts
 
 **Notes.** None.
 

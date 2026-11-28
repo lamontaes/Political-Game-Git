@@ -17,9 +17,9 @@ claimed-at: 2026-10-20T02:28:07.751Z
 
 **Rules.** Wire to the world: repairs move money only to a payee the world records, never to a made-up account. Replace, never layer: the unguarded lookup in `payHouseholds` is replaced by the guarded one. Placeholders: the skip is a registered case under SG-CORE-disasters-from-records, which stays open.
 
-**Done when.** `src/core2/disasters.test.ts` passes in drawn places (seed named in its title) with money balancing, and a declaration in a world with no builder and no outside market no longer throws.
+**Done when.** `tests/src/core2/disasters.test.ts` passes in drawn places (seed named in its title) with money balancing, and a declaration in a world with no builder and no outside market no longer throws.
 
-**Files.** src/core2/modules/disasters.ts, src/core2/disasters.test.ts
+**Files.** src/core2/modules/disasters.ts, tests/src/core2/disasters.test.ts
 
 **Notes.** Oct 19 (claude/disasters-outside-market). Not reproduced: the test passed on four seeds (a1, b2, c3, d4) and the reported place and seed were not recorded in the item. A test that strips the outside market from a generated world fails in other modules first (the residents economy needs it), so the guard has no direct test; it is a defensive fix for the one throw the item names. If the failure appears again, record the place and seed here.
 

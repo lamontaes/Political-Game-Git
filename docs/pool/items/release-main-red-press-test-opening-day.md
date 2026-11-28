@@ -18,7 +18,7 @@ root: none
 source: Red desk, Nov 12 (Fable A's handoff on #7365)
 ---
 
-**What.** src/core2/press.test.ts fails on clean main beffd5d9 at every seed drawn (ed7a33fc..., 046551a4..., 294e45a0...): "No town interviewed an outside candidate" in all 16 places of every draw, and at 046551a4... "no town with a local outlet and a race" in all 8 places. Guards: the press desk's interview of state and federal candidates keeps its check.
+**What.** tests/src/core2/press.test.ts fails on clean main beffd5d9 at every seed drawn (ed7a33fc..., 046551a4..., 294e45a0...): "No town interviewed an outside candidate" in all 16 places of every draw, and at 046551a4... "no town with a local outlet and a race" in all 8 places. Guards: the press desk's interview of state and federal candidates keeps its check.
 
 **Cause.** Found in code: (1) #8541 moved the parties' stand-in nominees for a race whose filing closed before the record began from openVoting to the first candidacy day (`closeAtOpening` in src/core2/modules/voting.ts, called from `candidacyDay` in src/core2/modules/candidacy.ts); the test opens the world and never plays a day, so no filing exists (0 filings in Iowa 1932790, Oklahoma 4059750 and New York 3622832). On #8541's parent it passes at both seeds. (2) The race case picks the richest adults from every person the core keeps, which now includes relatives living in other states; the clerk refuses them on residency ("lives elsewhere", New Mexico 3562760). It also looks only on January 5, when most places have no filing window open (0 open contests in 7 of 8 places at 046551a4...).
 
@@ -32,4 +32,4 @@ source: Red desk, Nov 12 (Fable A's handoff on #7365)
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/press.test.ts
+**Files.** tests/src/core2/press.test.ts

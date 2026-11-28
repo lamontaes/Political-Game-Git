@@ -88,7 +88,8 @@ import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import { firmStaffing } from "./jobs";
 import { LAWS_MODULE_ID, stateLawInForce } from "./laws";
 import { openingRegionMonths, stateFigures } from "../regional-model";
-import { coarseSteps, type PreStartModule } from "../pre-start";
+import type { PreStartModule } from "../pre-start";
+import { coarseSteps } from "../pre-start-history";
 import {
   LATEST_MONTH_LAG,
   REGIONAL_PARAMETERS,

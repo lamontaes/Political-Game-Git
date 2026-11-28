@@ -34,6 +34,6 @@ Seen: Politics > Government at every level, beside the gov-local, gov-state and 
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.css, src/bench/play.mjs, src/bench/ui/split-screen.mjs, src/bench/government-head.browser.mjs
+**Files.** src/bench/play.css, src/bench/play.mjs, src/bench/ui/split-screen.mjs, tests/src/bench/government-head.browser.mjs
 
 **Notes.** Crew line #9747, item 4. The leader's background line and "What she wants" in the mocks need records the game does not keep yet.

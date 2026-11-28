@@ -19,6 +19,6 @@ claimed-at: 2026-11-09T21:01:48.037Z
 
 **Done when.** In play a checked petition's signatures are gone after keepPetitionCheck, the check keeps the valid count, and with bookkeeping on they stay; a test shows both; petition-filing.test still reads the signatures against the check; speed:year --seed mont1 --place 5046000 --years 2 records proof against the same main differs only in core2-elections-v1.petitionSignatures.
 
-**Files.** src/core2/modules/elections.ts, src/core2/petition-signature-retention.test.ts, src/core2/petition-filing.test.ts
+**Files.** src/core2/modules/elections.ts, tests/src/core2/petition-signature-retention.test.ts, tests/src/core2/petition-filing.test.ts
 
 **Notes.** TODO

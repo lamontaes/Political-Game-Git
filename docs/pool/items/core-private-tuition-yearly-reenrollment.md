@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T14:04:54.492Z
 
 **Rules.** No dice: enrollment follows the family's cash per child, never a roll. Sliding scales and causes: a family that gains or loses means moves in or out on the next August, not at a threshold on any other day. Wire to the world: each change must move tuition money between a household and a private school by journal record id.
 
-**Done when.** In a two-year run of buildBenchWorld in a drawn place from all 56 with a private school (name place and seed), a family whose cash per child rose above the cutoff starts a tuition contract the next August and one whose cash fell below it ends theirs, by finance contract record id, the town's private share stays within the NCES figure, the cash journal balances, and src/core2/private-tuition-reenroll.test.ts proves it.
+**Done when.** In a two-year run of buildBenchWorld in a drawn place from all 56 with a private school (name place and seed), a family whose cash per child rose above the cutoff starts a tuition contract the next August and one whose cash fell below it ends theirs, by finance contract record id, the town's private share stays within the NCES figure, the cash journal balances, and tests/src/core2/private-tuition-reenroll.test.ts proves it.
 
 **Files.** src/core2/opening-private-tuition.ts, src/core2/modules/school.ts, src/core2/data/opening-private-tuition.json
 

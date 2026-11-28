@@ -18,6 +18,6 @@ source: added with npm run pool -- add
 
 **Done when.** At1440x900 and1024x768 on the bench the three birthday selectors share top and bottom edges, all name and date inputs show visible borders empty and filled, and real pointer and keyboard checks pass without page errors. Native screenshots are inspected and the subsequent drawn place and seed are named.
 
-**Files.** src/bench/play.css, src/bench/play.html, src/bench/creator-fields.browser.mjs
+**Files.** src/bench/play.css, src/bench/play.html, tests/src/bench/creator-fields.browser.mjs
 
 **Notes.** Bounded implementation for PR6087; play-first-03-creator-date-fields-aligned stays open for owner installed-build acceptance.

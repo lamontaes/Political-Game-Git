@@ -17,7 +17,7 @@ claimed-at: 2026-10-21T07:01:22.993Z
 
 **Rules.** No dice: the stance follows traits and loadings. An effect is a read: the voting, meetings and election-ties engines already read viewOn; name the tally that read the record. Replace, never layer: the read-time shift and the stored record must not both stand. Estimate, never UNKNOWN: a question with no survey item opens as before, marked ESTIMATED.
 
-**Done when.** In a drawn place (buildBenchWorld, seed named) two neighbors of different traits hold different stored opening-stance records on the same surveyed question before any campaign, a vote tally by agreementWith reads them by person and stance record ids, SG-GOV-views-stand-in lists which questions are formed from life, and a test in src/core2/views.test.ts covers it.
+**Done when.** In a drawn place (buildBenchWorld, seed named) two neighbors of different traits hold different stored opening-stance records on the same surveyed question before any campaign, a vote tally by agreementWith reads them by person and stance record ids, SG-GOV-views-stand-in lists which questions are formed from life, and a test in tests/src/core2/views.test.ts covers it.
 
 **Files.** src/core2/modules/views.ts, src/core2/campaign-views.ts, src/core2/data/stopgaps.json
 

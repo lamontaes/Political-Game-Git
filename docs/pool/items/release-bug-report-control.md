@@ -22,7 +22,7 @@ checked: fable 2026-11-10
 
 **What.** Add a Report a bug control to the menu and a prompt after a crash. Each builds a report with the core's bug-report builder (the save, the player's note, the error and the recent record kinds) and sends it only when the player presses send, after showing what would leave the machine. Nothing personal about the player leaves the game. The early-access checklist (owner, Oct 12) asks for exactly this button and prompt.
 
-**Cause.** Found in code: scripts/core2/bug-report.ts, function `bugReport` (line 34), builds a `core2-bug-report-v1` report (save, note, error, recent kinds), and `replayBugReport` (line 68) replays it, and src/core2/bug-report.test.ts covers it, but no file under src/bench, src/director or desktop references it, so no screen offers Report a bug or an after-crash prompt.
+**Cause.** Found in code: scripts/core2/bug-report.ts, function `bugReport` (line 34), builds a `core2-bug-report-v1` report (save, note, error, recent kinds), and `replayBugReport` (line 68) replays it, and tests/src/core2/bug-report.test.ts covers it, but no file under src/bench, src/director or desktop references it, so no screen offers Report a bug or an after-crash prompt.
 
 **Fix.** Add one menu control and one after-crash prompt that build the report with scripts/core2/bug-report.ts and send it only when the player presses send, showing first what leaves the machine. Use the existing shared screen controls; no second report writer. Until the send endpoint exists, register a stopgap that names the destination.
 
@@ -34,7 +34,7 @@ checked: fable 2026-11-10
 
 **Waits on.** release-m7-04-updates-and-bug-reports for the send endpoint; a registered stopgap names the destination until then.
 
-**Files.** scripts/core2/bug-report.ts, src/core2/bug-report.test.ts, src/bench, desktop/main.mjs, docs/packages/M7-early-access.md
+**Files.** scripts/core2/bug-report.ts, tests/src/core2/bug-report.test.ts, src/bench, desktop/main.mjs, docs/packages/M7-early-access.md
 
 **Notes.** TODO Released from idle draft #5180 by the CTO, Oct 26.
 

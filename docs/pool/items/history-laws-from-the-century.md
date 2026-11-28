@@ -35,10 +35,10 @@ Seen: `laws.ts:230` loads the research's answers; `past-laws.ts:185` generates t
 
 **Rules.** No dice: each chamber's vote is its members' stances, never a roll. Replace, never layer: the research's answers are read only under "today".
 
-**Done when.** A second session starts a new game at a drawn place it writes down with its seed, opens Politics, Issues and a policy law, and sees it in force since a year of the century with each chamber's vote; at three drawn worlds, day one's law on every policy question equals the century's last record, at least two worlds differ on a question, a law's history reads its century roll call, and src/core2/electorate-century-laws.test.ts passes.
+**Done when.** A second session starts a new game at a drawn place it writes down with its seed, opens Politics, Issues and a policy law, and sees it in force since a year of the century with each chamber's vote; at three drawn worlds, day one's law on every policy question equals the century's last record, at least two worlds differ on a question, a law's history reads its century roll call, and tests/src/core2/electorate-century-laws.test.ts passes.
 
 **Waits on.** history-states-legislatures-from-the-century (#9883), which this branch is stacked on.
 
-**Files.** src/core2/electorate-century-laws.ts (new), src/core2/electorate-century.ts, src/core2/modules/laws.ts, src/core2/past-laws.ts, src/core2/officials-roster.ts, src/core2/modules/officials.ts, src/core2/modules/elections.ts, src/core2/data/stopgaps/hist.json, src/core2/electorate-century-laws.test.ts (new)
+**Files.** src/core2/electorate-century-laws.ts (new), src/core2/electorate-century.ts, src/core2/modules/laws.ts, src/core2/past-laws.ts, src/core2/officials-roster.ts, src/core2/modules/officials.ts, src/core2/modules/elections.ts, src/core2/data/stopgaps/hist.json, tests/src/core2/electorate-century-laws.test.ts (new)
 
 **Notes.** Filed by the History lane, Nov 17, 2026. The amounts (taxes, wages, Social Security ages) and ballot measures are family 4's PRs 4b and 4c, which wait on family 5 and a petitions mechanic.

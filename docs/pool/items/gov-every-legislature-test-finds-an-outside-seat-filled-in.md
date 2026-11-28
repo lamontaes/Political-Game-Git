@@ -20,7 +20,7 @@ after:
 checked:
 ---
 
-**What.** `src/core2/offices-every-legislature.test.ts` expects every seat outside the played town to be named but not filled with a person at the opening; at three drawn places it finds `term:seat:US-AR:lower:001:0:2025-01-20` filled in (a `personId` that is not null), so the test is red on the Train by draw. Guards: the opening's outside seats.
+**What.** `tests/src/core2/offices-every-legislature.test.ts` expects every seat outside the played town to be named but not filled with a person at the opening; at three drawn places it finds `term:seat:US-AR:lower:001:0:2025-01-20` filled in (a `personId` that is not null), so the test is red on the Train by draw. Guards: the opening's outside seats.
 
 **Cause.** Needs cause. Read first: whether something at the opening (a draw of who exists, a person who works in or moves to an Arkansas House seat, or the player's own household) fills seat 001 of the Arkansas lower chamber with a full person, and whether the test's expectation or the opening is wrong; the same seat in all three places says the draw is not the cause.
 
@@ -34,4 +34,4 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/offices-every-legislature.test.ts, src/core2/modules/offices.ts
+**Files.** tests/src/core2/offices-every-legislature.test.ts, src/core2/modules/offices.ts

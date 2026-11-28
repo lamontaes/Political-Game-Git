@@ -34,7 +34,7 @@ checked: account lead 2026-11-14
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/executive.ts, src/core2/places.ts, src/core2/modules/voting.ts, src/core2/modules/officials.ts, src/core2/cabinet-from-the-state.test.ts
+**Files.** src/core2/modules/executive.ts, src/core2/places.ts, src/core2/modules/voting.ts, src/core2/modules/officials.ts, tests/src/core2/cabinet-from-the-state.test.ts
 
 **Notes.** Filed by hand from the code reading at the coordinator's request; the door builder's place, seed and person will be added here when they arrive.
 

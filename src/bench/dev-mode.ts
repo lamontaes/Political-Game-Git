@@ -41,11 +41,11 @@ import {
   reachOn,
 } from "../core2/modules/laws";
 import { inForceOn, inTownChain, LAW_SERIES } from "../core2/laws-in-force";
-import type { LawRowInput } from "../core2/laws-starting";
-import { POLICY_QUESTIONS } from "../core2/policy-answers";
+import type { LawRowInput } from "../core2/laws-in-force";
+import { POLICY_QUESTIONS } from "../core2/modules/laws";
 import { POLICIES as REACH_A_POLICIES } from "../core2/law-reach/group-a-records";
 import { GROUP_B_KEYS } from "../core2/law-reach/group-b";
-import { jobsAt } from "../core2/law-reach/group-b-money";
+import { jobsAt } from "../core2/laws-in-force";
 import { organizationName } from "../core2/past";
 import { lawReach } from "../core2/law-reach/applied";
 import {
@@ -154,6 +154,8 @@ import {
   billById,
   memberChoiceOn,
 } from "../core2/modules/bodies-reads";
+import { allCreditLoans } from "../core2/credit-reads";
+import { placePriceRules } from "../core2/prices-reads";
 
 /** The mark every dev-mode write carries. */
 /** The events a run can stop on, each as the record kinds the game logs when it happens. */
@@ -1840,7 +1842,7 @@ export class DevMode {
   smallDollarLoans() {
     if (!has(this.core, "credit")) return [];
     return (
-      this.api.moduleState("credit").table("loans").rows() as unknown as {
+      allCreditLoans(this.api) as unknown as {
         id: string;
         kind: string;
         askedMinor?: number;
@@ -2774,9 +2776,7 @@ export class DevMode {
           )
         : [],
       budgets: budgetView(this.core, this.player?.personId ?? "").governments,
-      prices: has(this.core, "place-prices")
-        ? api.moduleState("place-prices").table("rules").rows()
-        : [],
+      prices: placePriceRules(api),
       news: newsItems(this.core)
         .filter((row) => row.date >= from)
         .slice(0, 200),

@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T21:48:55.044Z
 
 **Rules.** Replace, never layer: the group B table and its fallback are deleted in the same change. One rule, all 56 places: the island areas are read by the same rule as a state, from data. Wire to the world: group B's town share reads the government's residents the same day it shares a line.
 
-**Done when.** In the played world (buildBenchWorld) in an island place drawn by a seed nobody chose, the state government's residents equal the Census figure in public-budget-bases.json and group B's town share is between 0 and 1, shown by the test src/core2/territory-residents.test.ts; the group B tests and the stopgap tripwire pass.
+**Done when.** In the played world (buildBenchWorld) in an island place drawn by a seed nobody chose, the state government's residents equal the Census figure in public-budget-bases.json and group B's town share is between 0 and 1, shown by the test tests/src/core2/territory-residents.test.ts; the group B tests and the stopgap tripwire pass.
 
 **Files.** src/core2/modules/budgets.ts, src/core2/law-reach/group-b-money.ts, src/core2/law-reach/group-b-people.ts, src/core2/data/laws/reach-group-b-parameters.json, src/core2/data/stopgaps.json
 

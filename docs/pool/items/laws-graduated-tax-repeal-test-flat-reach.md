@@ -19,6 +19,6 @@ claimed-at: 2026-10-20T00:30:13.154Z
 
 **Done when.** The test passes for the seed above and three others, by place and seed, and still fails if a record from the undone act stays open.
 
-**Files.** src/core2/law-reach-group-b.test.ts
+**Files.** tests/src/core2/law-reach-group-b.test.ts
 
 **Notes.** The engine is unchanged. Found by running the full unit suite on main on Oct 19 (12 failures in 3,932 tests); the other failures are tracked by #4905, #4957, #4974 and #5076.

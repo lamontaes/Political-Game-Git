@@ -18,7 +18,7 @@ effort: medium
 source: "world-opening thread, Nov 16, found gating the past-share pull request (past-votes-by-level.test.ts red by draw)"
 ---
 
-**What.** At Evergreen Colony, South Dakota (4620208) a new world throws "No adult resident here." while it is being built, so no game opens there. `src/core2/past-votes-by-level.test.ts` goes red whenever its draw lands on such a place (seed 5bc53fe8652953407299bbc2d8b66138fa2925af, draw 1). Seen: the build stops before day one.
+**What.** At Evergreen Colony, South Dakota (4620208) a new world throws "No adult resident here." while it is being built, so no game opens there. `tests/src/core2/past-votes-by-level.test.ts` goes red whenever its draw lands on such a place (seed 5bc53fe8652953407299bbc2d8b66138fa2925af, draw 1). Seen: the build stops before day one.
 
 **Cause.** Measured: at Evergreen Colony, South Dakota (4620208), seed 1b1afef5af5375db5c742506eddc1b31176c17b23c2ecbf13454c4557ce44c16, by `buildBenchWorld(seed, gameStartDate(), { twoLevel: true, placeKey: "4620208" })` on Train 6d12556a with #9689 merged: 54 people are generated in the place, aged 16 to 86, and every one of them lives in a group-quarters household, so `townResidents` (src/bench/world.ts) returns none and `entrantChoice` throws. Found in code: `townResidents` keeps only people that `inHousehold` (src/core2/population.ts) passes, and `inHousehold` drops anyone whose household is `quarters`. The rule was the same before start-at-18 (the old pick threw "No resident here."), so the fault predates #9684.
 

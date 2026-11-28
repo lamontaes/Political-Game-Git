@@ -34,6 +34,6 @@ checked: account lead 2026-11-14
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/civic-inputs.ts, src/core2/data/civic-inputs.json, src/core2/modules/life.ts, src/core2/data/stopgaps/p8.json, src/core2/civic-inputs.test.ts, src/core2/civic-joint-use.test.ts (new)
+**Files.** src/core2/civic-inputs.ts, src/core2/data/civic-inputs.json, src/core2/modules/life.ts, src/core2/data/stopgaps/p8.json, tests/src/core2/civic-inputs.test.ts, tests/src/core2/civic-joint-use.test.ts (new)
 
-**Notes.** Pinned test src/core2/civic-joint-use.test.ts (seed joint-use-1: 10,518 districts, 61.2% with an agreement, inside the survey's 57.5% to 65.5%; Alexander City AL a yes district, Adamsville AL a no district).
+**Notes.** Pinned test tests/src/core2/civic-joint-use.test.ts (seed joint-use-1: 10,518 districts, 61.2% with an agreement, inside the survey's 57.5% to 65.5%; Alexander City AL a yes district, Adamsville AL a no district).

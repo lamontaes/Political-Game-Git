@@ -32,4 +32,4 @@ Seen: dev mode's national disasters list in two drawn places.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/national-events.ts, src/core2/national-disasters-own-risk.test.ts, src/core2/national-events.test.ts, src/core2/national-events-climate.test.ts, src/core2/disaster-aid.test.ts
+**Files.** src/core2/modules/national-events.ts, tests/src/core2/national-disasters-own-risk.test.ts, tests/src/core2/national-events.test.ts, tests/src/core2/national-events-climate.test.ts, tests/src/core2/disaster-aid.test.ts

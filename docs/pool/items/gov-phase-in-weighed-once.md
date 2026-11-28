@@ -20,6 +20,6 @@ claimed-at: 2026-11-01T21:52:34.866Z
 
 **Done when.** A test in a drawn place with the seed printed drafts the same raise once as one section and once as two dated steps ending at the same amount, and finds every member's position on the two bills equal, by member id and bill id, with the reasons naming the question once.
 
-**Files.** src/core2/modules/legislature.ts, src/core2/legislature-phase-in-position.test.ts
+**Files.** src/core2/modules/legislature.ts, tests/src/core2/legislature-phase-in-position.test.ts
 
 **Notes.** TODO

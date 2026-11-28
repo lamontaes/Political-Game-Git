@@ -19,7 +19,7 @@ claimed-at: 2026-11-08T00:43:17.882Z
 
 **Done when.** A test in a buildBenchWorld drawn place prints its replay and named payment obligation ids, demonstrates that federal SNAP enactment and repeal affect SNAP eligibility while unrelated welfare cash obligations remain governed by their own law, and fails with the old cross-program reader.
 
-**Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach/group-b-money.ts, src/core2/federal-snap-cash-scope.test.ts
+**Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach/group-b-money.ts, tests/src/core2/federal-snap-cash-scope.test.ts
 
 **Notes.** Astra Nov 8 source inspection: group-b.ts runBudgetLine passes assistanceTimeLimit to payBenefits; group-b-money.ts payBenefits calls timeLimitedNow and recordDraws using that SNAP rule. Primary source https://www.law.cornell.edu/uscode/text/7/2015 subsection (o)(2). Existing SG-GOV-REACH-B-assistance-benefits describes SNAP eligibility approximations but not cross-program cash disqualification. Not established as the cause of the Montpelier memory regression; validation follows below.
 

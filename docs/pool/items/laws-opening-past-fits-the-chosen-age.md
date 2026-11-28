@@ -19,7 +19,7 @@ claimed-at: 2026-10-27T07:10:01.057Z
 
 **Rules.** Serves LAW.md §11, The world on screen makes sense (Why, every time, OD:190) and LAW.md §5, Journal and the past (the player's own context is kept facts from day one, OD:122; the world has a past, OD:120). Wire to the world: parents, schooling and work come from the deep-past builder's causes. No dice: ages and histories follow the builder's calibrated causes, never a fixed roll. Estimate, never UNKNOWN: money starts from the real average with a per-world spread.
 
-**Done when.** In a drawn place built with buildBenchWorld with the creator's birthday set to make the player 18, 35 and 70, every parent in the household is at least the child-bearing minimum that the M0-06 check uses older than the player (birth dates compared by record id); Who you are lists schooling through high school and any college the record holds, written in full school names, and a job or a recorded reason for none for the 35-year-old; Money is not $0.00 without a record that says why; a test in src/bench/creator.test.ts names the place and seed, shown by a screenshot of Who you are for the 35-year-old.
+**Done when.** In a drawn place built with buildBenchWorld with the creator's birthday set to make the player 18, 35 and 70, every parent in the household is at least the child-bearing minimum that the M0-06 check uses older than the player (birth dates compared by record id); Who you are lists schooling through high school and any college the record holds, written in full school names, and a job or a recorded reason for none for the 35-year-old; Money is not $0.00 without a record that says why; a test in tests/src/bench/creator.test.ts names the place and seed, shown by a screenshot of Who you are for the 35-year-old.
 
 **Time box.** 4 hours; if not done, push what exists, open the draft PR, write the handoff.
 
@@ -27,6 +27,6 @@ claimed-at: 2026-10-27T07:10:01.057Z
 
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
-**Files.** src/bench/creator.ts, src/core2/deep-past.ts, src/core2/population.ts, src/bench/creator.test.ts, src/core2/m0-life-at-18.test.ts
+**Files.** src/bench/creator.ts, src/core2/deep-past.ts, src/core2/population.ts, tests/src/bench/creator.test.ts, tests/src/core2/m0-life-at-18.test.ts
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "start at 35 so you can run for offices" (his reason for the age, not a ruling on the default). No owner words on the parent's age; the CTO saw "parent · Age 47" against a 35-year-old. The family surname mismatch (Knox against Roberts) is play-stop-15-family-unexplained, and the school abbreviations are play-school-names-abbreviated. The existing stopgap rollup is play-stopgap-creator-partial-model (its in-pr claim points at the unrelated draft PR #5180). Verify the cause first (does the family come from the original age's draw?) and say what you found in the PR body. Lead: laws-effects (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).

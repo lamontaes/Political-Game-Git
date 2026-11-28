@@ -14,7 +14,7 @@ source: "Merger 7 on #6322, Oct 27; split from tests-contest-positions-cases-fai
 claimed-at: 2026-10-27T16:55:47.000Z
 ---
 
-**What.** The no-question town case in `src/core2/contest-positions.test.ts` failed 1 of 10 runs, in Derby Line, Vermont (5017500), with "no campaign event choice for filing:contest:seat:gus2025:135935:council:0:2025-03-04". That is a town meeting race filed and held between two of the case's 50-day looks, so its campaign offered no event any more. The case then kept that filing, because it ranked a town filing above a filing whose campaign still offered an event shut on price. A filing whose race is over offers no event, which is a real world state the case must accept.
+**What.** The no-question town case in `tests/src/core2/contest-positions.test.ts` failed 1 of 10 runs, in Derby Line, Vermont (5017500), with "no campaign event choice for filing:contest:seat:gus2025:135935:council:0:2025-03-04". That is a town meeting race filed and held between two of the case's 50-day looks, so its campaign offered no event any more. The case then kept that filing, because it ranked a town filing above a filing whose campaign still offered an event shut on price. A filing whose race is over offers no event, which is a real world state the case must accept.
 
 **Rules.** Never skip, disable or quarantine a case, and never pin a seed. One rule, all 56 places: a place where every race seen was already held is passed over and named, as places with no council or no local filing already are.
 
@@ -22,6 +22,6 @@ claimed-at: 2026-10-27T16:55:47.000Z
 
 **Time box.** 1 hour.
 
-**Files.** src/core2/contest-positions.test.ts
+**Files.** tests/src/core2/contest-positions.test.ts
 
 **Notes.** Filed by the laws-and-effects lead, Oct 27. The other failure Merger 7 saw (Valdez, Alaska) stays on tests-contest-positions-cases-fail-on-drawn-places.

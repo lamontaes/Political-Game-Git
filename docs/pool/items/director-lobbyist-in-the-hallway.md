@@ -20,8 +20,8 @@ claimed-at: 2026-10-27T08:57:34.801Z
 
 **Rules.** Owner, Oct 27: any record can call a scene when the circumstances fit. No dice: the lobbyist is the one the record names. The chain is the acceptance: the conversation writes its record back.
 
-**Done when.** src/director/circumstance.test.ts asserts a lobbyist-in-the-hallway family; with GOLDEN_PATH_SEED=director-circ-1 it stages at least one, citing its case:lobby record id, in a drawn place as a sitting member of a body.
+**Done when.** tests/src/director/circumstance.test.ts asserts a lobbyist-in-the-hallway family; with GOLDEN_PATH_SEED=director-circ-1 it stages at least one, citing its case:lobby record id, in a drawn place as a sitting member of a body.
 
-**Files.** src/director/circumstance.ts, src/director/data/circumstances.json, src/director/data/situation-types.json, src/director/circumstance.test.ts
+**Files.** src/director/circumstance.ts, src/director/data/circumstances.json, src/director/data/situation-types.json, tests/src/director/circumstance.test.ts
 
 **Notes.** TODO

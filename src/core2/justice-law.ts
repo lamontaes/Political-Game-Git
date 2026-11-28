@@ -13,11 +13,8 @@ import type { Parameter } from "./parameters";
 import type { CoreAPI, PersonId, Source } from "./types";
 import { lawChain } from "./modules/laws";
 import { appointmentsIn, EXECUTIVE_MODULE_ID } from "./modules/executive";
-import {
-  OFFICES_MODULE_ID,
-  servingTermsOf,
-  type TermRow,
-} from "./modules/offices";
+import type { TermRow } from "./modules/offices";
+import { OFFICES_MODULE_ID, servingTermsOf } from "./offices-reads";
 import type { OfficeInput } from "./modules/offices";
 
 const PARAMETERS = rows as Readonly<Record<string, Parameter>>;

@@ -33,6 +33,6 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing (justice-low-level-offenses is done).
 
-**Files.** src/core2/public-safety.ts, src/core2/data/public-safety/parameters.json, src/core2/justice-low-level.test.ts
+**Files.** src/core2/public-safety.ts, src/core2/data/public-safety/parameters.json, tests/src/core2/justice-low-level.test.ts
 
 **Notes.** Filed by the laws lead, Oct 25, from the low-level offenses helper's report.

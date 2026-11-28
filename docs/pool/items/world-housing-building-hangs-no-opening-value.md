@@ -17,7 +17,7 @@ claimed-at: 2026-10-18T10:01:32.047Z
 
 **Rules.** Estimate, never UNKNOWN: a base starts from the first value the place has, kept on its row. Speed: no loop may run on a quantity that can be infinite. No dice: starts follow value, cost, zoning and cash as before. One rule, all 56 places: the guard is on the figure, never on a place.
 
-**Done when.** In the played world (`buildBenchWorld`, a drawn place and a seed the builder did not choose, with the stock row's opening base set to zero after the first month) the month's building ends, starts at least one project, and leaves a positive base on the row; `src/core2/housing-no-opening-value.test.ts` states it and times out on main.
+**Done when.** In the played world (`buildBenchWorld`, a drawn place and a seed the builder did not choose, with the stock row's opening base set to zero after the first month) the month's building ends, starts at least one project, and leaves a positive base on the row; `tests/src/core2/housing-no-opening-value.test.ts` states it and times out on main.
 
 **Files.** src/core2/housing-construction.ts
 

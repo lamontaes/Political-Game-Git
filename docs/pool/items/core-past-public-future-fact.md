@@ -17,9 +17,9 @@ claimed-at: 2026-10-16T15:51:41.722Z
 
 **Rules.** No dice. Ask why: the cause is named by file and line. Replace, never layer: one dating rule for what the public knew.
 
-**Done when.** The named seed opens in the bench world (two-level, October 12, 2026), and a test in src/core2/past-public-opening.test.ts shows that no resident's knowledge of an officeholder is dated after the opening, by person record id. The owner plays it: starts a new life on any seed and the town opens.
+**Done when.** The named seed opens in the bench world (two-level, October 12, 2026), and a test in tests/src/core2/past-public-opening.test.ts shows that no resident's knowledge of an officeholder is dated after the opening, by person record id. The owner plays it: starts a new life on any seed and the town opens.
 
-**Files.** src/core2/past-public.ts, src/core2/past-public-opening.test.ts
+**Files.** src/core2/past-public.ts, tests/src/core2/past-public-opening.test.ts
 
 **Notes.** Found by building 150 random seeds in the two-level bench world.
 

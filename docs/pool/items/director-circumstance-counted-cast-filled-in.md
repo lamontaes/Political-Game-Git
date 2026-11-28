@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** Keep it simple (owner, Oct 11): two-level population, filled in when met, seeded from the world. One model, two tiers (Oct 14): a counted group is read by the same rule times its count. No dice. The director stays read-only; the fill-in happens where play opens the scene.
 
-**Done when.** A second session runs `src/director/circumstance.test.ts` in a drawn place (place and seed printed) and finds a new-coworker scene whose cast was a counted worker before the scene opened and is a full person after, with the same employer and pay as the jobs engine's hire change (record id named). In the running game it opens that scene in a drawn place and clicks the coworker. A test fails if the filled-in person contradicts the counts.
+**Done when.** A second session runs `tests/src/director/circumstance.test.ts` in a drawn place (place and seed printed) and finds a new-coworker scene whose cast was a counted worker before the scene opened and is a full person after, with the same employer and pay as the jobs engine's hire change (record id named). In the running game it opens that scene in a drawn place and clicks the coworker. A test fails if the filled-in person contradicts the counts.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/circumstance.ts, src/bench/story.ts, src/core2/state.ts, src/director/circumstance.test.ts
+**Files.** src/director/circumstance.ts, src/bench/story.ts, src/core2/state.ts, tests/src/director/circumstance.test.ts
 
 **Notes.** TODO

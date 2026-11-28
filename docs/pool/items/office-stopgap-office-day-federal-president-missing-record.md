@@ -31,11 +31,11 @@ checked: fable 2026-11-10
 
 **Rules.** One model, two tiers: a person met in another place is filled in from that place's counted population by the same rule, matching what the records already say about their job and pay. No dice: who is met follows the records. One rule, all 56 places: no place is named and other places are kept coarser. Placeholders: the row closes only when the real record exists. Speed: filling in happens when the player meets the person.
 
-**Done when.** A second session plays a President on a trip in a one-year run of the played world (buildBenchWorld, a place drawn from all 56 and a seed the builder did not choose, both named in the PR body), meets a resident, and sees a household, job and pay consistent with that other town's counts, by person and place record ids. SG-OFFICE-FED-trip-residents is resolved in src/core2/data/stopgaps/office.json. Tests sit beside src/core2/office-day-federal.test.ts.
+**Done when.** A second session plays a President on a trip in a one-year run of the played world (buildBenchWorld, a place drawn from all 56 and a seed the builder did not choose, both named in the PR body), meets a resident, and sees a household, job and pay consistent with that other town's counts, by person and place record ids. SG-OFFICE-FED-trip-residents is resolved in src/core2/data/stopgaps/office.json. Tests sit beside tests/src/core2/office-day-federal.test.ts.
 
 **Waits on.** Nothing. (world-other-places-coarse-population, which it once waited on, was replaced by the country tier.) The state cells are on main (`stepCountry` in src/core2/country-model.ts, read through `countryStateNow` in src/core2/modules/macro.ts).
 
-**Files.** src/core2/office-day-federal-president.ts, src/core2/modules/residents.ts, src/core2/data/stopgaps/office.json, src/core2/office-day-federal.test.ts
+**Files.** src/core2/office-day-federal-president.ts, src/core2/modules/residents.ts, src/core2/data/stopgaps/office.json, tests/src/core2/office-day-federal.test.ts
 
 **Notes.** First row: The people a traveler meets in a town other than the player's are recorded identities of that place (drawn from the world's seed and the town), with no household, job or other records there beyond the meeting.
 

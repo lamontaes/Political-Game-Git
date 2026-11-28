@@ -32,4 +32,4 @@ root: rc8-law-judged-by-paperwork
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/law-reach/applied.ts, src/core2/modules/budgets.ts, src/bench/ui/dev-bill-card.mjs, src/bench/data/controls.json, src/core2/budget-line-staffing.test.ts
+**Files.** src/core2/law-reach/applied.ts, src/core2/modules/budgets.ts, src/bench/ui/dev-bill-card.mjs, src/bench/data/controls.json, tests/src/core2/budget-line-staffing.test.ts

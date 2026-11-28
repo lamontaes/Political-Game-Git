@@ -17,8 +17,8 @@ claimed-at: 2026-10-16T20:18:10.051Z
 
 **Rules.** Ask why: the PR body names what ended the job, by job record id and date. Replace, never layer: fix the cause where it ends the job, not the test's expectation. One rule, all 56 places: the fix names no place.
 
-**Done when.** src/director/civic-roles.test.ts passes with GOLDEN_PATH_SEED set to 8c6b6e7038c3dfca and afe0e31bd21b2003 and in drawn places and seeds the builder did not choose, and the PR body names the job record id and what ended it.
+**Done when.** tests/src/director/civic-roles.test.ts passes with GOLDEN_PATH_SEED set to 8c6b6e7038c3dfca and afe0e31bd21b2003 and in drawn places and seeds the builder did not choose, and the PR body names the job record id and what ended it.
 
-**Files.** src/director/civic-roles.test.ts, src/core2/modules/filing-clerk.ts, src/core2/modules/executive.ts
+**Files.** tests/src/director/civic-roles.test.ts, src/core2/modules/filing-clerk.ts, src/core2/modules/executive.ts
 
 **Notes.** Reproduces on clean main with the first seed (checked Oct 16 while merging the law-reached scene branch).

@@ -16,10 +16,10 @@ source: added with npm run pool -- add
 
 **Rules.** Research before building: sources fetched and quoted, a size with its spread, never deciding one fire. Estimate, never UNKNOWN.
 
-**Done when.** data/research/outcome-web/links.json holds a sized link from the fire line (or fire staffing) to a measure the web keeps, with source, anchor quote and range, or a researched about-zero row; budget-line:fire leaves outcome-research-gaps.json; src/core2/outcome-web.test.ts passes.
+**Done when.** data/research/outcome-web/links.json holds a sized link from the fire line (or fire staffing) to a measure the web keeps, with source, anchor quote and range, or a researched about-zero row; budget-line:fire leaves outcome-research-gaps.json; tests/src/core2/outcome-web.test.ts passes.
 
 **Files.** data/research/outcome-web/links.json, src/core2/data/laws/outcome-research-gaps.json
 
 **Notes.** From the laws lead's justice helper, Oct 24.
 
-**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. data/research/outcome-web/links.json holds fire-spending-to-fire-deaths (line 317), a researched about-zero link from budget.fire-added-pct to fire.civilian-casualties (Jennings 2002, Shoffner 2023, fetched Oct 24, 2026), and src/core2/data/laws/outcome-research-gaps.json no longer lists budget-line:fire. Medium confidence: no fire-loss dollar measure is kept, and src/core2/outcome-web.test.ts was not run; if the owner wants a sized dollar link, that is a new item. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it sizes a link to a fire-loss measure the web does not keep and no screen shows.
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. data/research/outcome-web/links.json holds fire-spending-to-fire-deaths (line 317), a researched about-zero link from budget.fire-added-pct to fire.civilian-casualties (Jennings 2002, Shoffner 2023, fetched Oct 24, 2026), and src/core2/data/laws/outcome-research-gaps.json no longer lists budget-line:fire. Medium confidence: no fire-loss dollar measure is kept, and tests/src/core2/outcome-web.test.ts was not run; if the owner wants a sized dollar link, that is a new item. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it sizes a link to a fire-loss measure the web does not keep and no screen shows.

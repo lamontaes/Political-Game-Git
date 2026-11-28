@@ -29,8 +29,8 @@ checked: fable 2026-11-10
 
 **Rules.** One engine per mechanic: a husk's job change, move, birth or death goes through the jobs, housing, people and health engines that already exist, read at a coarse cadence, never a new life simulator. No dice: events follow causes (their place's labor market, their age, health and household), and real rates check totals only. Speed: low intensity holds the bar, so a country's year with husks simulated runs within 20% of the same year without, and nothing scans every husk every day. One model, two tiers: a husk keeps the fields its life needs, and a full fill-in still happens only when the player meets or clicks them.
 
-**Done when.** A second session, in a drawn place with a seed it names, runs five years of buildBenchWorld and sees at least one husk couple among the player's relatives have a child, by birth record id, written by the births engine, with the child counted in the couple's place and the total population consistent. src/core2/partnerships.test.ts or a new test beside it fails when the husk couple is closed as inactive again.
+**Done when.** A second session, in a drawn place with a seed it names, runs five years of buildBenchWorld and sees at least one husk couple among the player's relatives have a child, by birth record id, written by the births engine, with the child counted in the couple's place and the total population consistent. tests/src/core2/partnerships.test.ts or a new test beside it fails when the husk couple is closed as inactive again.
 
 **Waits on.** core-every-life-partner-from-counts (core-every-life-partners is done).
 
-**Files.** src/core2/modules/renewal.ts, src/core2/modules/partnerships.ts, src/core2/modules/people.ts, src/core2/partnerships.test.ts
+**Files.** src/core2/modules/renewal.ts, src/core2/modules/partnerships.ts, src/core2/modules/people.ts, tests/src/core2/partnerships.test.ts

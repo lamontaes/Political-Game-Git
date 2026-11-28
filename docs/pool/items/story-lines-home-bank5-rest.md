@@ -21,7 +21,7 @@ checked:
 
 **What.** Two home scenes the cut of Nov 17 left silent are written again: a relative or housemate home from prison asks for a place to stay and for work, or the player comes home and is met (`return`), and an employer offers the player a job (`job-offer`). Both stage from records the justice and jobs engines already write, so only their lines were missing. Seen: a life before office, after a release or a layoff.
 
-**Cause.** Design: the scenes' lines were written before Nov 15 and deleted by the cut (`docs/current.json`, replaced list, Nov 17), so `src/director/scene-talk.test.ts` listed `return` and `job-offer` in `CUT_PURPOSES`.
+**Cause.** Design: the scenes' lines were written before Nov 15 and deleted by the cut (`docs/current.json`, replaced list, Nov 17), so `tests/src/director/scene-talk.test.ts` listed `return` and `job-offer` in `CUT_PURPOSES`.
 
 **Fix.** Write both scenes as rows in `data/english/parts/scene-talk.json` from patterns B5-01 and B5-08, placed by the facts their packets set: `away`, `child`, `job-lost` and `same-home` for the homecoming; `employer`, `position` and `deadline` for the offer. Both leave `CUT_PURPOSES`. The argument, the apology and the reconciliation get narration only and wait on story-quarrel-scenes-name-their-cause.
 
@@ -33,6 +33,6 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/scene-talk.json, src/director/scene-talk.test.ts
+**Files.** data/english/parts/scene-talk.json, tests/src/director/scene-talk.test.ts
 
 **Notes.** Nov 18 (Story): a Sonnet helper wrote the rows from probes at Rockville, IN (seed "p1", a release staged by hand) and Villas del Sol, PR (seed "j1", a layoff then an offer by the jobs engine). In a second round, the lead had the `{place}` padding, the full-name vocatives and the promised acts taken out of the homecoming. A fresh Haiku reader judged 833 pairs, every plant caught. The lead read 18 narrations and deleted two that gave a reason. Some kept job-offer state rows from before the cut still say the pay; that is for the Words lead.

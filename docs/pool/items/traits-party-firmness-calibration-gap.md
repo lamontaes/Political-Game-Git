@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** Research before building: distinguish the published outcome from the proxy and read its scale. No dice: weights affect reasons, never a roll. Estimate, never UNKNOWN: retain the current estimate until source-compatible evidence supports a replacement.
 
-**Done when.** A second session sees, for a one-year buildBenchWorld run in a freshly drawn place (place, seed and nonempty party-tie records named), the current and attainable effects reported under the same study-compatible measure and either a justified source-compatible fit in data/research/trait-effect-sizes.json or the measured unresolved gap written with a bounded builder item; the source and its limits are cited and the campaign trait checks (src/core2/modules/campaigns.traits.test.ts) still pass.
+**Done when.** A second session sees, for a one-year buildBenchWorld run in a freshly drawn place (place, seed and nonempty party-tie records named), the current and attainable effects reported under the same study-compatible measure and either a justified source-compatible fit in data/research/trait-effect-sizes.json or the measured unresolved gap written with a bounded builder item; the source and its limits are cited and the campaign trait checks (tests/src/core2/modules/campaigns.traits.test.ts) still pass.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/campaign-stances.ts, src/core2/data/parameters.json, data/research/trait-effect-sizes.json, scripts/traits/trait-calibrate.ts, src/core2/modules/campaigns.traits.test.ts
+**Files.** src/core2/campaign-stances.ts, src/core2/data/parameters.json, data/research/trait-effect-sizes.json, scripts/traits/trait-calibrate.ts, tests/src/core2/modules/campaigns.traits.test.ts
 
 **Notes.** TODO
 

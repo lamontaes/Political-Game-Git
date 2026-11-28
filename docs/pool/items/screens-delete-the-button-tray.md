@@ -33,6 +33,6 @@ Seen: Politics > Elections (race screen) and the Campaign tab's "Go out on the t
 
 **Waits on.** Nothing. Long game's guard for a framed box in a framed panel starts after this lands.
 
-**Files.** src/bench/ui/button.mjs, src/bench/ui/screen.mjs, src/bench/play.mjs, src/bench/play.css, src/bench/no-button-tray.browser.mjs
+**Files.** src/bench/ui/button.mjs, src/bench/ui/screen.mjs, src/bench/play.mjs, src/bench/play.css, tests/src/bench/no-button-tray.browser.mjs
 
 **Notes.** Lead's split, Nov 23: Screens takes the deletion; Elections checks Announce and Sim after it lands; Long game takes the guards.

@@ -26,6 +26,36 @@ const arg = (name: string) => {
 const hub = arg("hub")!;
 const importers = arg("importers")!.split(",");
 const write = process.argv.includes("--write");
+/** With --partial, names the hub declares itself stay imported from the hub; the rest move. */
+const partial = process.argv.includes("--partial");
+/**
+ * With --entries-only, a name moves only to a file in the importer's own
+ * family or to an entry of the target's family, so no reach-in rises; any
+ * other name stays imported from the hub (and, without --partial, the
+ * importer is left as it is).
+ */
+const entriesOnly = process.argv.includes("--entries-only");
+let familyMap: { families: { id: string; entry: string[] }[] } | undefined;
+let tools:
+  | {
+      familyOf: (f: string) => string | null;
+      globToRegExp: (g: string) => RegExp;
+    }
+  | undefined;
+if (entriesOnly) {
+  familyMap = JSON.parse(
+    readFileSync(path.join(ROOT, "tests/guards/families.json"), "utf8"),
+  );
+  tools = await import(path.join(ROOT, "tests/guards/family-map.ts"));
+}
+function reachable(from: string, to: string): boolean {
+  if (!tools || !familyMap) return true;
+  const fa = tools.familyOf(from);
+  const fb = tools.familyOf(to);
+  if (fb === "shared" || fa === fb) return true;
+  const fam = familyMap.families.find((f) => f.id === fb);
+  return !!fam?.entry.some((g) => tools.globToRegExp(g).test(to));
+}
 
 const read = (f: string) => readFileSync(path.join(ROOT, f), "utf8");
 const parse = (f: string, text: string) =>
@@ -124,11 +154,68 @@ for (const st of hubSf.statements) {
       }
 }
 const hubOwn = declares(hub);
+/** What a file re-exports by name (its own `export { a } from` and its `import { a }; export { a }`), and its `export *` files. */
+function reexportsOf(file: string): {
+  named: Map<string, { file: string; name: string }>;
+  stars: string[];
+} {
+  const sf = parse(file, read(file));
+  const named = new Map<string, { file: string; name: string }>();
+  const fileStars: string[] = [];
+  const imported = new Map<string, { file: string; name: string }>();
+  for (const st of sf.statements) {
+    if (ts.isImportDeclaration(st) && !st.importClause?.isTypeOnly) {
+      const t = resolve(file, (st.moduleSpecifier as ts.StringLiteral).text);
+      const nb = st.importClause?.namedBindings;
+      if (t && nb && ts.isNamedImports(nb))
+        for (const e of nb.elements)
+          if (!e.isTypeOnly)
+            imported.set(e.name.text, {
+              file: t,
+              name: (e.propertyName ?? e.name).text,
+            });
+    }
+    if (!ts.isExportDeclaration(st) || st.isTypeOnly) continue;
+    if (st.moduleSpecifier) {
+      const t = resolve(file, (st.moduleSpecifier as ts.StringLiteral).text);
+      if (!t) continue;
+      if (!st.exportClause) fileStars.push(t);
+      else if (ts.isNamedExports(st.exportClause))
+        for (const e of st.exportClause.elements)
+          if (!e.isTypeOnly)
+            named.set(e.name.text, {
+              file: t,
+              name: (e.propertyName ?? e.name).text,
+            });
+    } else if (st.exportClause && ts.isNamedExports(st.exportClause))
+      for (const e of st.exportClause.elements) {
+        const from = imported.get((e.propertyName ?? e.name).text);
+        if (from && !e.isTypeOnly) named.set(e.name.text, from);
+      }
+  }
+  return { named, stars: fileStars };
+}
+/** Follows re-exports to the file that declares the name. */
+function declaring(
+  at: { file: string; name: string },
+  depth = 0,
+): { file: string; name: string } {
+  if (depth > 8 || declares(at.file).has(at.name)) return at;
+  const { named, stars: st } = reexportsOf(at.file);
+  const next = named.get(at.name);
+  if (next) return declaring(next, depth + 1);
+  for (const s of st)
+    if (declares(s).has(at.name) || reexportsOf(s).named.has(at.name))
+      return declaring({ file: s, name: at.name }, depth + 1);
+  return at;
+}
 function source(name: string): { file: string; name: string } | null {
   const r = reexports.get(name);
-  if (r) return r;
+  if (r) return declaring(r);
   if (hubOwn.has(name)) return null;
-  for (const s of stars) if (declares(s).has(name)) return { file: s, name };
+  for (const s of stars)
+    if (declares(s).has(name) || reexportsOf(s).named.has(name))
+      return declaring({ file: s, name });
   return null;
 }
 
@@ -145,6 +232,7 @@ for (const file of importers) {
   const moves: { local: string; imported: string; to: string }[] = [];
   const problems: string[] = [];
   const keepTypes: string[] = [];
+  const keepValues: string[] = [];
   for (const d of decls) {
     const cl = d.importClause;
     if (!cl || cl.isTypeOnly) continue;
@@ -158,8 +246,12 @@ for (const file of importers) {
         }
         const imported = (e.propertyName ?? e.name).text;
         const s = source(imported);
-        if (!s) problems.push(`${imported} is the hub's own`);
-        else
+        const blocked = s && !reachable(file, s.file);
+        if ((!s || blocked) && partial) keepValues.push(e.getText(sf));
+        else if (!s) problems.push(`${imported} is the hub's own`);
+        else if (blocked)
+          problems.push(`${imported} would reach inside ${s.file}`);
+        if (s && !blocked)
           moves.push({
             local:
               s.name === e.name.text ? s.name : `${s.name} as ${e.name.text}`,
@@ -204,6 +296,11 @@ for (const file of importers) {
   decls.forEach((d, i) => {
     let end = d.getEnd();
     const replacement = [
+      ...(i === 0 && keepValues.length
+        ? [
+            `import { ${keepValues.join(", ")} } from ${d.moduleSpecifier.getText(sf)};`,
+          ]
+        : []),
       ...(i === 0 && keepTypes.length
         ? [
             `import type { ${keepTypes.join(", ")} } from ${d.moduleSpecifier.getText(sf)};`,

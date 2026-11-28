@@ -20,7 +20,7 @@ import {
   lineWithoutBills,
   type GovernmentRow,
 } from "../modules/budgets";
-import { countedStaffOf, residentsRuntime } from "../modules/residents";
+import { countedStaffOf, residentsRuntime } from "../residents-reads";
 import { countedJobsOf } from "../residents-economy";
 import {
   fundedOpenings,

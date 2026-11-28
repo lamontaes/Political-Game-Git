@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** One rule, all 56 places: the age schedule is place data. No dice: the age term is a sliding scale. Research before building: the schedule is quoted from the file, not typed. Replace, never layer: the single age center is removed.
 
-**Done when.** A second session runs a one-year played world (buildBenchWorld) in two drawn places with different schedules (named, with seeds) and sees each full couple's plan record carry its own place's age center and spread, with the same couple's age term different between the two places in src/core2/births-plan.test.ts. The town's mean age of mothers at birth is reported beside its place's NCHS schedule.
+**Done when.** A second session runs a one-year played world (buildBenchWorld) in two drawn places with different schedules (named, with seeds) and sees each full couple's plan record carry its own place's age center and spread, with the same couple's age term different between the two places in tests/src/core2/births-plan.test.ts. The town's mean age of mothers at birth is reported beside its place's NCHS schedule.
 
 **Waits on.** people-births-ready-couples-conceive-at-once-part-1-re-measure.
 
-**Files.** src/core2/births-plan.ts, src/core2/births-plan.test.ts, data/research/renewal/natality-2024.json
+**Files.** src/core2/births-plan.ts, tests/src/core2/births-plan.test.ts, data/research/renewal/natality-2024.json
 
 **Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have shaped births by mother's age band against each place's schedule; the total is right and no one sees the age bands.

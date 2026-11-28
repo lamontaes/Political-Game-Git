@@ -18,8 +18,8 @@ claimed-at: 2026-10-30T09:16:17.588Z
 
 **Rules.** One engine: the check is one reader of the contest's filings (a person with an active filing in the contest), used by volunteering, donor-meeting hosting and attending, and a person's own endorsement. No dice: it is a fact of the record, not a lean. Wire to the world: world candidates and the player are held to the same rule.
 
-**Done when.** A test in a drawn place with the seed printed files two residents for one contest and shows that neither is enlisted as the other's volunteer, chosen as the other's donor-meeting host or attendee, or gives the other an endorsement, by filing id, while a resident not running is enlisted by the same call; src/core2/campaigns.test.ts and src/core2/donor-meeting.test.ts pass.
+**Done when.** A test in a drawn place with the seed printed files two residents for one contest and shows that neither is enlisted as the other's volunteer, chosen as the other's donor-meeting host or attendee, or gives the other an endorsement, by filing id, while a resident not running is enlisted by the same call; tests/src/core2/campaigns.test.ts and tests/src/core2/donor-meeting.test.ts pass.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-rival-help.test.ts
+**Files.** src/core2/modules/campaigns.ts, tests/src/core2/campaign-rival-help.test.ts
 
 **Notes.** TODO

@@ -32,6 +32,24 @@ export function businessOpened(api: CoreAPI): boolean {
   );
 }
 
+/** A firm founded in play, with the place it was founded in. */
+export interface BusinessFoundingAt {
+  readonly organizationId: string;
+  readonly date: string;
+  readonly placeId: string;
+}
+
+/** The firms founded in play at one place, with the dates they were founded. */
+export function businessFoundingsAt(
+  api: CoreAPI,
+  placeId: string,
+): readonly BusinessFoundingAt[] {
+  if (!businessKept(api)) return [];
+  return (
+    store(api).table("foundings").rows() as unknown as BusinessFoundingAt[]
+  ).filter((row) => row.placeId === placeId);
+}
+
 /** Every firm's owner. */
 export function allBusinessOwners(api: CoreAPI): readonly BusinessOwnerRow[] {
   if (!businessKept(api)) return [];
