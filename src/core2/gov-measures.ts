@@ -46,7 +46,7 @@ import {
 import { townShare } from "./law-reach/group-b-money";
 import { parameter } from "./parameters";
 import { treasuryParameter } from "./budgets-treasury";
-import { countryOpened } from "./modules/macro";
+import { countryOpened } from "./macro-reads";
 import { allCountryStates } from "./macro-reads";
 
 export { GOV_MEASURES };

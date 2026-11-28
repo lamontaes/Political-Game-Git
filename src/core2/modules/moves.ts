@@ -64,7 +64,6 @@ import { webReach } from "../outcome-web-reach";
 import { type Subject } from "../laws-in-force";
 import { registerModule } from "../state";
 import { isDemoted } from "../counted-groups";
-import { townPlaceOf } from "../residents-reads";
 import type { Parameter } from "../parameters";
 import type { EntityId } from "../kernel/brands";
 import type {
@@ -80,6 +79,13 @@ import type {
 } from "../types";
 import { placeStateKey } from "../place-map";
 import { ageOfMajority } from "../age-of-majority";
+import {
+  INACTIVE_TIER,
+  inGroupQuarters,
+  livesElsewhere,
+  playedTown,
+} from "../moves-reads";
+export { inGroupQuarters, livesElsewhere } from "../moves-reads";
 
 export const MOVES_MODULE_ID = "moves";
 export const MOVES_PARAMETERS = rows as unknown as Readonly<
@@ -90,7 +96,6 @@ const STOPGAP = "SG-P15-moves-weights";
 const ELSEWHERE_STOPGAP = "SG-LIVES-elsewhere-not-into-town";
 const OWNER_STOPGAP = "SG-P15-moves-owners-stay";
 const TAX_STOPGAP = "SG-WEB-moves-full-tax-pull";
-const INACTIVE_TIER = "husk";
 
 type Rates = Readonly<Record<string, number>>;
 const RATES = moverRates as unknown as {
@@ -312,36 +317,6 @@ function inTown(core: CoreState, id: PersonId): boolean {
     person.tier !== INACTIVE_TIER &&
     livesInAPlace(person.placeId)
   );
-}
-
-/**
- * Someone living a life elsewhere at low intensity: alive, of the inactive
- * tier, in a real place outside the played town's full-detail places, and not
- * back in the counts (the counted engines carry those).
- */
-export function livesElsewhere(
-  core: CoreState,
-  person: Readonly<PersonState>,
-): boolean {
-  return (
-    person.alive &&
-    person.tier === INACTIVE_TIER &&
-    !isDemoted(person) &&
-    !playedTown(core, person.placeId) &&
-    placeStateKey(person.placeId) !== null
-  );
-}
-
-const townByCore = new WeakMap<CoreState, { town: string | undefined }>();
-
-/** The played town: its own place (looked up once per world) and any full-detail place. */
-function playedTown(core: CoreState, placeId: string): boolean {
-  let held = townByCore.get(core);
-  if (!held) {
-    held = { town: townPlaceOf(core) };
-    townByCore.set(core, held);
-  }
-  return core.focusPlaceIds.has(placeId) || held.town === placeId;
 }
 
 /**
@@ -624,18 +599,6 @@ function diminishing(api: CoreAPI, n: number): number {
 /** Whether a person decides for themselves where they live: they are of age where they live. */
 function decidesAlone(api: CoreAPI, person: Readonly<PersonState>): boolean {
   return ageOf(api, person) >= ageOfMajority(person.placeId);
-}
-
-/**
- * Whether a person lives in group quarters (a dormitory, a cell, a barracks
- * or a nursing-home room): an institution admits and discharges them, so no
- * household's pull to leave moves them, full or counted alike.
- */
-export function inGroupQuarters(
-  core: CoreState,
-  person: Readonly<PersonState>,
-): boolean {
-  return core.households.get(person.householdId)?.quarters !== undefined;
 }
 
 /**
