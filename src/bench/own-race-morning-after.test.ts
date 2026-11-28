@@ -40,23 +40,31 @@ it("the day after the player's race, Journal, News and Government cite its resul
     const md = born.slice(5) === "02-29" ? "03-01" : born.slice(5);
     const eighteen = makeIsoDate(`${Number(born.slice(0, 4)) + 18}-${md}`);
     if (eighteen > core.date) advanceCore(core, eighteen);
-    // The soonest race the records let the player enter.
-    const filed = [...playerContests(api)]
-      .sort(
-        (a, b) =>
-          a.electionDate.localeCompare(b.electionDate) ||
-          a.id.localeCompare(b.id),
-      )
-      .find((contest) => {
-        const result = fileForOffice(core, playerId!, contest.id) as {
-          filing?: { status?: string };
-        };
-        return ["petitioning", "on-ballot"].includes(
-          result.filing?.status ?? "",
-        );
-      });
+    // The soonest race the records let the player enter. Every race opens its
+    // filing on its own real day, so wait a week at a time, up to two years,
+    // for one to open that the player may enter (drawn-place-tests).
+    const soonest = () =>
+      [...playerContests(api)]
+        .sort(
+          (a, b) =>
+            a.electionDate.localeCompare(b.electionDate) ||
+            a.id.localeCompare(b.id),
+        )
+        .find((contest) => {
+          const result = fileForOffice(core, playerId!, contest.id) as {
+            filing?: { status?: string };
+          };
+          return ["petitioning", "on-ballot"].includes(
+            result.filing?.status ?? "",
+          );
+        });
+    let filed = soonest();
+    for (let week = 0; !filed && week < 104; week += 1) {
+      advanceCore(core, addDays(makeIsoDate(core.date), 7));
+      filed = soonest();
+    }
     if (!filed) {
-      tried.push(`${where}: no race the player could enter`);
+      tried.push(`${where}: no race the player could enter by ${core.date}`);
       continue;
     }
     // Filing is a petition: the player gathers signatures until the clerk's

@@ -119,13 +119,11 @@
       "dynamic": 1
     },
     "src/core2/modules/budgets.ts": {
-      "laws": 2,
-      "offices": 1
+      "laws": 2
     },
     "src/core2/modules/campaigns.ts": {
       "bodies": 1,
-      "news": 1,
-      "offices": 2
+      "news": 1
     },
     "src/core2/modules/counted-demotion.ts": {
       "elections": 1
@@ -189,9 +187,6 @@
     "src/core2/modules/record.ts": {
       "elections": 1
     },
-    "src/core2/modules/residents.ts": {
-      "jobs-businesses": 1
-    },
     "src/core2/modules/staff.ts": {
       "bodies": 2
     },
@@ -200,16 +195,14 @@
     },
     "src/core2/modules/voting.ts": {
       "jobs-businesses": 1,
-      "offices": 29
+      "offices": 5
     },
     "src/core2/modules/world-legislating.ts": {
       "jobs-businesses": 1,
       "offices": 5
     },
     "src/core2/modules/world-metrics.ts": {
-      "dynamic": 1,
-      "homes": 2,
-      "jobs-businesses": 1
+      "dynamic": 1
     },
     "src/core2/modules/world-panels.ts": {
       "clock-places": 1,
@@ -225,9 +218,6 @@
     },
     "src/core2/office-day-state.ts": {
       "bodies": 1
-    },
-    "src/core2/output-number-readers.ts": {
-      "jobs-businesses": 2
     },
     "src/core2/past-bodies.ts": {
       "offices": 1
@@ -246,9 +236,7 @@
       "jobs-businesses": 1
     },
     "src/core2/press-desk.ts": {
-      "bodies": 2,
-      "laws": 1,
-      "offices": 2
+      "bodies": 2
     },
     "src/core2/press-money.ts": {
       "dynamic": 4
