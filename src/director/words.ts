@@ -64,15 +64,16 @@ export function possessive(name: string): string {
   return name.endsWith("s") ? `${name}'` : `${name}'s`;
 }
 
-/** A date as people say it: the year only when it is not this year. */
-export function spokenDate(iso: string, today: string): string {
-  const sameYear =
-    iso.slice(P.zero, iso.indexOf("-")) ===
-    today.slice(P.zero, today.indexOf("-"));
+/**
+ * A date as people say it: never with its year (the owner's rule, enforced as
+ * `no-year-in-speech`); the scene's own day tells the player which year.
+ */
+export function spokenDate(iso: string, today?: string): string {
+  // `today` stays in the signature so callers keep saying which day they speak from.
+  void today;
   return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
-    ...(sameYear ? {} : { year: "numeric" as const }),
     timeZone: "UTC",
   });
 }

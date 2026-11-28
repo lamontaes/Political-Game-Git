@@ -28,10 +28,10 @@ import {
   type Fact,
   type SceneTalkStep,
 } from "../english/scene-talk-words";
-import { dayOpening } from "../english/day-words";
+import { joinList } from "../english/bill-names";
 import { filedSaid, filedSoFarSaid } from "../english/count-words";
 import { seatSaid, type SeatRecord } from "../english/journal-words";
-import { agencyHeadSaid, counterSaid } from "../english/said-as";
+import { agencyHeadSaid } from "../english/said-as";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { placeCounty } from "../core2/place-map";
 import { describesByRule } from "../core2/filing-rule-office";
@@ -68,6 +68,10 @@ export interface FilingContest {
   filed?: {
     count: number;
     first?: { name: string; recordId: string; filedOn?: string };
+    /** The most recent to file, when more than one has. */
+    latest?: { name: string; recordId: string };
+    /** Everyone after the first, in the order they filed. */
+    names?: readonly string[];
     recordIds: readonly string[];
   };
   sourceIds: readonly string[];
@@ -132,19 +136,12 @@ export function openFilingVisit(
   playerId: PersonId,
   contests: readonly FilingContest[],
   clerkId?: PersonId,
-  /** The office that takes these filings, as its record names it. */
-  filedWith?: string,
   /**
    * The player's own filing at this counter, when they are back for another
    * race: the clerk who took it does not introduce themself again and opens
    * from it (Fable A, Nov 13: "Back again? Your papers for {office} are in.").
    */
   back?: { filingId: string; seat: SeatRecord },
-  /**
-   * The body the clerk works for, as the records name it, said where the
-   * filing note gives the office only as a rule (`describesByRule`).
-   */
-  clerkBody?: string,
 ): FilingVisit {
   const visit: FilingVisit = {
     playerId,
@@ -165,28 +162,28 @@ export function openFilingVisit(
       })
     : visitLine(core, visit, "clerk", "greet-counter", {
         ...counterAreaFact(core, playerId, contests),
-        // An office the record names only as a choice ("City or town clerk") is
-        // said as the place's own kind; where the records do not settle it, the
-        // town is said instead.
-        ...((): Record<string, Fact> => {
-          // The body a person works for, named in the records, is a proper
-          // name ("Franklin County board of elections"), said as it stands.
-          const named = filedWith && clerkBody ? clerkBody : null;
-          const said =
-            named ?? (filedWith ? saidOffice(filedWith, contests) : null);
-          return said
-            ? {
-                where: {
-                  text: named ? said : titleInSentence(said),
-                  sourceRecordIds: contests.map((row) => row.id),
-                },
-              }
-            : {};
-        })(),
-        ...clerkFact(core, clerkId),
+        // The counter's narration has named the post ("the Secretary of State
+        // here is ..."), so the greeting does not say it again (Past and Day
+        // One, Nov 28: the narration and the greeting both said the post).
+        // The counter's narration has named the clerk; the clerk does not say
+        // the name again (Past and Day One, Nov 27: "The Secretary of State
+        // here is Robert Murphy" then "I'm Robert Murphy").
+        ...Object.fromEntries(
+          Object.entries(clerkFact(core, clerkId)).filter(
+            ([key]) => key !== "name",
+          ),
+        ),
       });
   if (greet) visit.lines.push({ speaker: "clerk", ...greet });
+  // The seats of one multi-seat district are said the same way, so the player
+  // is offered the office once (readers, Nov 27: the same reply listed twice).
+  const offered = new Set<string>();
   for (const contest of contests) {
+    const officeSaid = seatSaid(contest.seat ?? { title: contest.title }, {
+      asMember: true,
+    });
+    if (offered.has(officeSaid)) continue;
+    offered.add(officeSaid);
     const line = visitLine(
       core,
       visit,
@@ -194,9 +191,7 @@ export function openFilingVisit(
       "pick-office",
       {
         office: {
-          text: seatSaid(contest.seat ?? { title: contest.title }, {
-            asMember: true,
-          }),
+          text: officeSaid,
           sourceRecordIds: [contest.id],
         },
       },
@@ -755,6 +750,22 @@ function raceFacts(
         text: filed.first.name,
         sourceRecordIds: [contest.id, filed.first.recordId],
       };
+    // The ones between the first and the latest, said as a list ("A, B and C"),
+    // for the clerk who is asked who else has filed (three or more filed).
+    if (filed.names && filed.names.length >= P.two)
+      facts.others = {
+        // The ones between the first and the latest: the latest is said on its own.
+        text: joinList(
+          filed.names.slice(P.zero, -P.one).slice(P.zero, P.two + P.one),
+          "and",
+        ),
+        sourceRecordIds: [contest.id, ...filed.recordIds],
+      };
+    if (filed.latest)
+      facts.latest = {
+        text: filed.latest.name,
+        sourceRecordIds: [contest.id, filed.latest.recordId],
+      };
     // When the first of them filed, from their filing's record ("last week").
     if (filed.first?.filedOn)
       facts.when = {
@@ -765,6 +776,10 @@ function raceFacts(
     facts["none-filed"] = { text: "yes", sourceRecordIds: [contest.id] };
   return facts;
 }
+
+/** A title that names a body ("municipal election commission"), not a job a person holds. */
+const AGENCY_TITLE =
+  /\b(?:commission|board|offices?|department|bureau|division|agency|authority|system|council)\b/i;
 
 /**
  * The narrator's setup at the counter, from the filing-clerk scene's own
@@ -783,20 +798,10 @@ export function counterNarration(
    * papers (owner, Nov 1: "You filled out the forms there").
    */
   filing?: { id: string; status: string } | null,
-  /** The minute of the day the player walks in, so the narrator can name the day. */
-  minuteOfDay?: number,
 ): { text: string; sourceRecordIds: readonly string[] }[] {
   const person = visit.clerkId ? core.people.get(visit.clerkId) : undefined;
   if (!person) return [];
   const facts: Record<string, Fact> = {
-    ...(minuteOfDay !== undefined
-      ? {
-          begins: {
-            text: dayOpening(core.date, minuteOfDay),
-            sourceRecordIds: [clerk.recordId],
-          },
-        }
-      : {}),
     ...(filing
       ? {
           // Back for another race while the first is filed: a return.
@@ -820,12 +825,10 @@ export function counterNarration(
     post: {
       text: clerk.heads
         ? agencyHeadSaid(clerk.heads)
-        : titleInSentence(clerk.title),
-      sourceRecordIds: [clerk.recordId],
-    },
-    // Where the player goes: the clerk's office, or the agency itself.
-    counter: {
-      text: counterSaid(titleInSentence(clerk.title), clerk.heads),
+        : AGENCY_TITLE.test(clerk.title)
+          ? // The record names the body, not the person's job: the person is its filing clerk.
+            `filing clerk at the ${titleInSentence(clerk.title)}`
+          : titleInSentence(clerk.title),
       sourceRecordIds: [clerk.recordId],
     },
   };

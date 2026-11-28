@@ -273,7 +273,7 @@ export function agencyHeadSaid(agency: string): string {
  * Commission (original) and Coordinator of Elections (duplicate)") the one that
  * takes the original, since a person heads one body and the player walks into one.
  */
-function agencyNameSaid(agency: string): string {
+export function agencyNameSaid(agency: string): string {
   const { kept, dropped } = data.agencyHead.copies;
   const copies = new RegExp(
     `^(.*?)\\s*\\(${kept}\\)\\s+and\\s+.*\\(${dropped}\\)$`,

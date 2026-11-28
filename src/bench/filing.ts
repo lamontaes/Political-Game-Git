@@ -180,6 +180,8 @@ export function openBenchFilingVisit(
       );
     const first = others[0];
     const person = first ? core.people.get(first.personId) : undefined;
+    const last = others[others.length - 1];
+    const lastPerson = last ? core.people.get(last.personId) : undefined;
     return {
       count: others.length,
       ...(first && person
@@ -191,6 +193,19 @@ export function openBenchFilingVisit(
             },
           }
         : {}),
+      ...(last && last !== first && lastPerson
+        ? {
+            latest: {
+              name: `${lastPerson.givenName} ${lastPerson.familyName}`,
+              recordId: last.id,
+            },
+          }
+        : {}),
+      // Everyone but the first, in the order they filed, for "who else".
+      names: others.slice(1).flatMap((row) => {
+        const who = core.people.get(row.personId);
+        return who ? [`${who.givenName} ${who.familyName}`] : [];
+      }),
       recordIds: others.map((row) => row.id),
     };
   };
@@ -278,9 +293,7 @@ export function openBenchFilingVisit(
     playerId,
     contests,
     clerk ?? undefined,
-    filedWith,
     back,
-    clerkRow?.heads,
   );
   const place = officePlace(filedWith);
   const player = core.people.get(playerId)!;
@@ -320,7 +333,6 @@ export function openBenchFilingVisit(
           // your petition" (Miracle Valley, Arizona, seed w3-return-1); with
           // a filing already here, it is a return.
           back ? mineHere : null,
-          minuteOfDay,
         )
       : [],
     backdrop,
