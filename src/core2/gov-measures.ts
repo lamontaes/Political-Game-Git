@@ -37,7 +37,8 @@ import {
   type ContestRow,
 } from "./modules/elections";
 import { VOTING_MODULE_ID, resultOf, type ResultRow } from "./modules/voting";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import type { TermRow } from "./modules/offices";
+import { OFFICES_MODULE_ID } from "./offices-reads";
 import {
   BUDGETS_MODULE_ID,
   baseBudget,

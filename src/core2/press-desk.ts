@@ -28,7 +28,7 @@ import {
   servingTermsOf,
   termById,
   termsOfPerson,
-} from "./modules/offices";
+} from "./offices-reads";
 import { isPublicFigure } from "./past-public";
 import { reachedBy } from "./modules/laws";
 import { lawChain, LAWS_MODULE_ID } from "./modules/laws";

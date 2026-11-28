@@ -117,8 +117,29 @@ import reachA from "../data/laws/reach-group-a-parameters.json" with { type: "js
 import { isRealOfficeholderName } from "../officials-names";
 import { pressConflict } from "../press-conflict";
 import { researchedHolderParty } from "../offices-holder-parties";
+import {
+  OFFICES_MODULE_ID,
+  OFFICIALS_ID,
+  isOutsideOffice,
+  officeById,
+  servingTermsOf,
+  table,
+} from "../offices-reads";
+export {
+  OFFICES_MODULE_ID,
+  allOffices,
+  isOutsideOffice,
+  officeById,
+  officeholderIds,
+  officesInJurisdiction,
+  seatsOfOffices,
+  servingTerms,
+  servingTermsOf,
+  termById,
+  termsOfPerson,
+  townSeats,
+} from "../offices-reads";
 
-export const OFFICES_MODULE_ID = "core2-offices-v1";
 /** How a holder in office the day the world opened reached their seat, as their term records it. */
 const OPENING_REACHED = "in office at the opening";
 
@@ -438,10 +459,6 @@ const source = (citation: string, date: string, estimate: boolean): Source =>
     ? { tag: "ESTIMATED", citation, asOf: date, estimatedFrom: citation }
     : { tag: "SOURCED", citation, asOf: date };
 
-function table(api: CoreAPI, name: string) {
-  return api.moduleState(OFFICES_MODULE_ID).table(name);
-}
-
 /**
  * A term the offices engine seated with no record of its race (the federal
  * executive's) keeps the race the century held for it, so its share is read
@@ -463,31 +480,6 @@ export function setSeatElectionYear(
 ): void {
   const seat = table(api, "seats").get(seatId);
   if (seat) table(api, "seats").put({ ...seat, electionYear });
-}
-
-/**
- * Whether an office belongs to another place: its jurisdiction is a state or
- * territory other than the town's own. A federal office (the President, the
- * Vice President, Congress) is never another place's, and neither is a local
- * one. The one test every engine reads for "another place's office", by
- * jurisdiction, never by whether the office covers the town (a territory town
- * casts no electoral votes, and a district elsewhere in the town's own state
- * does not cover it, yet both are the town's).
- */
-export function isOutsideOffice(
-  api: CoreAPI,
-  office: object | null | undefined,
-): boolean {
-  const row = office as
-    | { readonly level?: unknown; readonly jurisdiction?: unknown }
-    | null
-    | undefined;
-  if (!row || row.level === "federal") return false;
-  const jurisdiction = String(row.jurisdiction ?? "");
-  if (!jurisdiction.startsWith("US-")) return false;
-  const town = (table(api, "loaded").get("town") as { stateKey?: string })
-    ?.stateKey;
-  return jurisdiction !== town;
 }
 
 /**
@@ -552,27 +544,6 @@ export function enforceIncompatibility(
   }
 }
 
-/** The terms a person is serving now: the one reader of "what office does this person hold". */
-export function servingTermsOf(
-  api: CoreAPI,
-  personId: string,
-): readonly TermRow[] {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-  return (
-    table(api, "terms").query("byPerson", [personId]) as unknown as TermRow[]
-  ).filter((term) => term.status === "serving");
-}
-
-/** An office by its id (its title, level, jurisdiction and rule), or undefined where there is none. */
-export function officeById(
-  api: CoreAPI,
-  officeId: string,
-): OfficeInput | undefined {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
-  return table(api, "offices").get(officeId) as unknown as
-    OfficeInput | undefined;
-}
-
 /** A seat by its id, or undefined where there is none. */
 export function seatById(api: CoreAPI, seatId: string): SeatInput | undefined {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
@@ -586,43 +557,6 @@ export function officeOfSeat(
 ): OfficeInput | undefined {
   const seat = seatById(api, seatId);
   return seat ? officeById(api, seat.officeId) : undefined;
-}
-
-/** A term by its id (serving or ended), or undefined where there is none. */
-export function termById(api: CoreAPI, termId: string): TermRow | undefined {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
-  return table(api, "terms").get(termId) as unknown as TermRow | undefined;
-}
-
-/** Every term a person has held or holds, serving and ended (`servingTermsOf` is the ones still serving). */
-export function termsOfPerson(
-  api: CoreAPI,
-  personId: string,
-): readonly TermRow[] {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-  return table(api, "terms").query("byPerson", [
-    personId,
-  ]) as unknown as TermRow[];
-}
-
-/** Every office the offices engine keeps, in its table's order. */
-export function allOffices(api: CoreAPI): readonly OfficeInput[] {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-  return table(api, "offices").rows() as unknown as OfficeInput[];
-}
-
-/**
- * The offices of one jurisdiction (a state's key, `US`, or a local government's id) as the table holds
- * them now. A read only: `officesOfState` also creates another state's offices on first read.
- */
-export function officesInJurisdiction(
-  api: CoreAPI,
-  jurisdiction: string,
-): readonly OfficeInput[] {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-  return table(api, "offices").query("byJurisdiction", [
-    jurisdiction,
-  ]) as unknown as OfficeInput[];
 }
 
 /** The seats of one office, in the table's order. */
@@ -652,14 +586,6 @@ export function allTerms(api: CoreAPI): readonly TermRow[] {
 export function termCount(api: CoreAPI): number {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return 0;
   return table(api, "terms").size;
-}
-
-/** Every term serving now. */
-export function servingTerms(api: CoreAPI): readonly TermRow[] {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-  return table(api, "terms").query("byStatus", [
-    "serving",
-  ]) as unknown as TermRow[];
 }
 
 /** The terms serving in one office (every seat of it). */
@@ -742,9 +668,6 @@ export function openVacancies(
   );
 }
 
-// The officials engine imports this entry, so its rows are read by module id here.
-const OFFICIALS_ID = "core2-officials-v1";
-
 /** Who holds a seat now, from both stores that answer it. */
 export interface SeatHolder {
   readonly seatId: string;
@@ -803,31 +726,6 @@ export function seatsHeldBy(api: CoreAPI, personId: string): readonly string[] {
     if (row && row.ended === null) seats.add(row.seatId);
   }
   return [...seats];
-}
-
-const officeholdersByCore = new WeakMap<
-  CoreState,
-  { date: string; ids: Set<string> }
->();
-
-/**
- * Every person who holds a seat today, through either store: the officials
- * engine's seated members and the offices engine's serving terms that name
- * a person. Kept for the day, so a reader asking per person stays cheap.
- */
-export function officeholderIds(api: CoreAPI): ReadonlySet<string> {
-  const core = api.state as CoreState;
-  const held = officeholdersByCore.get(core);
-  if (held?.date === core.date) return held.ids;
-  const ids = new Set<string>();
-  if (core.modules.has(OFFICIALS_ID))
-    for (const row of api.moduleState(OFFICIALS_ID).table("officials").rows())
-      if (row.ended === null) ids.add(row.id as string);
-  if (core.modules.has(OFFICES_MODULE_ID))
-    for (const row of table(api, "terms").query("byStatus", ["serving"]))
-      if (typeof row.personId === "string") ids.add(row.personId);
-  officeholdersByCore.set(core, { date: core.date, ids });
-  return ids;
 }
 
 /**
@@ -2118,52 +2016,6 @@ export function officesOfState(
   return table(api, "offices").query("byJurisdiction", [
     stateKey,
   ]) as unknown as OfficeInput[];
-}
-
-/** Each seat of the given offices with its current holder. */
-export function seatsOfOffices(
-  api: CoreAPI,
-  offices: readonly OfficeInput[],
-): readonly {
-  readonly office: OfficeInput;
-  readonly seat: SeatInput;
-  readonly holder: TermRow | null;
-}[] {
-  const out = [];
-  for (const office of offices)
-    for (const seat of table(api, "seats").query("byOffice", [
-      office.id,
-    ]) as unknown as SeatInput[]) {
-      const holder = (table(api, "terms").query("bySeatStatus", [
-        seat.id,
-        "serving",
-      ])[0] ?? null) as TermRow | null;
-      out.push({ office, seat, holder });
-    }
-  return out;
-}
-
-/** Every office whose seats cover the town, with each seat's current holder. */
-export function townSeats(api: CoreAPI): readonly {
-  readonly office: OfficeInput & { readonly vacancyRule: VacancyRule };
-  readonly seat: SeatInput;
-  readonly holder: TermRow | null;
-}[] {
-  const out = [];
-  for (const office of table(api, "offices").query("byTown", [
-    true,
-  ]) as unknown as (OfficeInput & { vacancyRule: VacancyRule })[])
-    for (const seat of table(api, "seats").query("byOffice", [
-      office.id,
-    ]) as unknown as SeatInput[]) {
-      if (!seat.coversTown) continue;
-      const holder = (table(api, "terms").query("bySeatStatus", [
-        seat.id,
-        "serving",
-      ])[0] ?? null) as TermRow | null;
-      out.push({ office, seat, holder });
-    }
-  return out;
 }
 
 /** End the seat's term and fill the vacancy the way the office's rule says. */

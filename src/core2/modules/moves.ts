@@ -35,7 +35,7 @@
 import { DAYS_PER_YEAR } from "../household-income";
 import { dwellingTenure } from "../housing-reads";
 import { MOVED_AWAY_EVENT } from "../moved-away-event";
-import { officeholderIds } from "./offices";
+import { officeholderIds } from "../offices-reads";
 import { worldRateFactor } from "../world-base-rates";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import {
