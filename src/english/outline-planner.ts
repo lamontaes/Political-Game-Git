@@ -34,6 +34,7 @@ import outlineJournalBank from "../../data/english/parts/outline-journal.json" w
 import type { EntityId } from "../core2/kernel/brands";
 import { stableHash } from "../core2/kernel/ids";
 import { admittedParts, directorSlots } from "./bank-parts";
+import { agreeSubject } from "./said-as";
 import {
   renderGroundedEnglish,
   type AuthoredEnglishVariant,
@@ -530,10 +531,12 @@ function wordMove(
     // A sentence inside the piece that opens on a slot ("Thank you all.
     // {body-name} and I ...") starts with a capital like the piece itself
     // (pre-grade, Nov 24: "Thank you all. the Washington County Board ...").
-    text: result.text.replace(
-      // Not after an initial's period ("D.C. statehood").
-      /(?<!\b[A-Z])([.!?]["”]?\s+)([a-z])/g,
-      (_, gap: string, letter: string) => gap + letter.toUpperCase(),
+    text: agreeSubject(
+      result.text.replace(
+        // Not after an initial's period ("D.C. statehood").
+        /(?<!\b[A-Z])([.!?]["”]?\s+)([a-z])/g,
+        (_, gap: string, letter: string) => gap + letter.toUpperCase(),
+      ),
     ),
     facts: result.usedFactKeys,
     ids: result.sourceRecordIds,
