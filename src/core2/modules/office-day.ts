@@ -80,11 +80,7 @@ import {
   LEGISLATURE_MODULE_ID,
   memberKey,
   members,
-  registerBudgetMeeting,
-  registerLegislatureHooks,
-  registerMeetingAgendaReader,
   voteBudgetAtMeeting,
-  registerCommitteeWait,
   playerSitsOnCommittee,
   vetoReasons,
   type BillRow,
@@ -93,13 +89,19 @@ import {
 } from "./legislature";
 import { filesAhead, filingsOwed, voteAtMeeting } from "./world-legislating";
 import {
-  nextMeeting as nextOnRule,
+  nextMeetingOf,
+  meetingRuleOf,
   bodyPopulation,
   officeDayParameter,
   type MeetingRule,
 } from "../office-day-calendar";
-// The meeting rule, for readers outside the family.
-export { meetingRule, officeDayParameter } from "../office-day-calendar";
+export { officeDayParameter };
+/** A body's meeting rule (by its office's id), for readers outside the family. */
+export const meetingRule = (
+  api: CoreAPI,
+  officeId: string,
+  countyGeoid?: string,
+) => meetingRuleOf(api, officeById(api, officeId), countyGeoid);
 // The federal holidays, for the calendar screen.
 export {
   federalHolidayName,
@@ -319,6 +321,14 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     for (const kit of officeActKits()) kit.onDay?.(api);
     return undefined;
   },
+  // What the office day adds to the legislature: the player's own vote, the desk's arrival, the budget meeting, the committee that waits for a meeting and the meetings' agenda.
+  legislatureHooks: {
+    beforeVote: { name: "own-vote", run: ownVote, castsVote: true },
+    onDesk: deskArrived,
+  },
+  budgetMeeting: { place: placeBudgetVote, votes: votesBudgetToday },
+  committeeWait: committeeWaitsOnPlayer,
+  meetingAgendaReader: townMeetingAgenda,
   // Whether a body's meeting is held, and what it does with the agenda filed for it.
   meetingHold: { hold: holdsMemberFilings, filed: placeFiled },
 };
@@ -378,11 +388,6 @@ export const officeHost: OfficeActHost = {
 registerOfficeActs(localOfficeKit(officeHost));
 
 export function openOfficeDay(core: CoreState, worldSeed: string): void {
-  registerLegislatureHooks({
-    beforeVote: { name: "own-vote", run: ownVote, castsVote: true },
-    onDesk: deskArrived,
-  });
-  registerBudgetMeeting({ place: placeBudgetVote, votes: votesBudgetToday });
   const providers = OFFICE_DAY_MODULE.offerProviders as Record<string, unknown>;
   const handlers = OFFICE_DAY_MODULE.effectHandlers as Record<string, unknown>;
   const reasons = OFFICE_DAY_MODULE.reasonProviders as Record<string, unknown>;
@@ -542,7 +547,12 @@ export function setStops(
 
 /** The body's next meeting on its rule; a county board's size band reads the town's county. */
 const nextMeeting = (api: CoreAPI, officeId: string, after: string) =>
-  nextOnRule(api, officeId, after, lawChain(api).countyGeoids[0]);
+  nextMeetingOf(
+    api,
+    officeById(api, officeId),
+    after,
+    lawChain(api).countyGeoids[0],
+  );
 
 const dayOffset = (date: string, days: number) =>
   addDays(makeIsoDate(date), days);
@@ -1547,7 +1557,7 @@ function placeFiled(
   table(api, "meetings").put(placed as unknown as ModuleRow);
   holdPlayerIfDue(api, placed);
 }
-registerCommitteeWait((api, bill) => {
+function committeeWaitsOnPlayer(api: CoreAPI, bill: BillRow): boolean {
   // Only the player's own body can wait: one indexed read of the player's
   // seats answers false for every other body before any agenda is read.
   const player = playerOf(api);
@@ -1558,17 +1568,19 @@ registerCommitteeWait((api, bill) => {
   return (
     !!placed && placed.date > api.state.date && playerSitsOnCommittee(api, bill)
   );
-});
+}
 // The floor's agenda for a date includes what a town body's meeting that day
 // takes up (the evening-before ask reads it).
-registerMeetingAgendaReader((api, date) =>
-  // A world without the office day has no town meetings to read.
-  !api.state.modules.has(OFFICE_DAY_MODULE_ID)
-    ? []
-    : (table(api, "meetings").rows() as unknown as MeetingRow[])
-        .filter((row) => row.date === date && row.status !== "adjourned")
-        .flatMap((row) => agendaFor(api, row.officeId, date)),
-);
+function townMeetingAgenda(api: CoreAPI, date: string): readonly string[] {
+  return (
+    // A world without the office day has no town meetings to read.
+    !api.state.modules.has(OFFICE_DAY_MODULE_ID)
+      ? []
+      : (table(api, "meetings").rows() as unknown as MeetingRow[])
+          .filter((row) => row.date === date && row.status !== "adjourned")
+          .flatMap((row) => agendaFor(api, row.officeId, date))
+  );
+}
 
 const sits = (personId: string) => (term: TermRow) =>
   term.personId === personId || memberKey(term) === personId;

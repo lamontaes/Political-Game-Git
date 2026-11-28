@@ -33,6 +33,7 @@ import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { ownerOf } from "./business";
 import { JOBS_MODULE_ID } from "./jobs";
+import { jobChange, jobChangesOf } from "../jobs-reads";
 import { residentFacts, residentsRuntime } from "./residents";
 
 export const GRIEVANCE_MODULE_ID = "grievance";
@@ -141,10 +142,7 @@ function fromLayoff(api: CoreAPI, event: CoreEventInput): void {
   if (!isPerson(c, aggrievedId) || !isPerson(c, againstId)) return;
   // An owner who ends their own job holds it against no one.
   if (againstId === aggrievedId) return;
-  const change = api
-    .moduleState(JOBS_MODULE_ID)
-    .table("changes")
-    .get(causeId) as unknown as { heads?: number } | undefined;
+  const change = jobChange(api, causeId);
   const heads = change?.heads ?? api.parameter("one");
   if (!isFull(c, aggrievedId) && !isFull(c, againstId))
     return tally(api, event.placeId, "layoff", heads);
@@ -242,19 +240,11 @@ function fromHoused(api: CoreAPI, event: CoreEventInput): void {
  */
 function endRehired(api: CoreAPI): void {
   if (!api.state.modules.has(JOBS_MODULE_ID)) return;
-  const changes = api.moduleState(JOBS_MODULE_ID).table("changes");
   // stopgapId: SG-WORLD-grievance-no-fold
   api.stopgap("SG-WORLD-grievance-no-fold");
   for (const row of grievancesOpen(api)) {
     if (row.kind !== "layoff") continue;
-    const hire = (
-      changes.query("byPerson", [row.aggrievedId]) as unknown as {
-        id: string;
-        kind: string;
-        organizationId: string;
-        date: string;
-      }[]
-    )
+    const hire = jobChangesOf(api, row.aggrievedId)
       .filter(
         (change) =>
           change.kind === "hire" &&
