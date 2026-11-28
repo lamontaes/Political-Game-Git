@@ -2,8 +2,19 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 5779,
+  "judged": 5774,
   "no": {
+    "060x6bs2960": {
+      "keys": ["scene-talk.reply-agree.i-slept-on-worse-fine-yes-to-office"],
+      "why": "'I slept on worse' is a bed idiom with no literal tie to saying yes to an office; the first move doesn't lead to the second"
+    },
+    "0ysybtesmfs": {
+      "keys": [
+        "scene-talk.follow-answer.i-haven-t-heard-from-opponent-the-call-may-come-while-you-re-on-stage",
+        "scene-talk.reply-answer.then-say-we-didn-t-buy-office-we-knocked-it-door-by-door"
+      ],
+      "why": "'Then' hangs on nothing: the line is about the opponent's call coming mid-speech, and the reply gives speech text that ignores the call"
+    },
     "1524b77vnvj": {
       "keys": [
         "scene-talk.follow-answer.worse-than-our-poll-had-it-it-wasnt-close",
@@ -12,5 +23,5 @@
       "why": "The aide only states that the loss was not close and asks for nothing, so \"Not yet. I'm not calling...\" answers a request that was never made."
     }
   },
-  "yesHash": "12pccthqwsk"
+  "yesHash": "07zwj6yzqw6"
 }
