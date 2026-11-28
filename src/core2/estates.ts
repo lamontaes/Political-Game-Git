@@ -37,7 +37,7 @@
  */
 import data from "./data/estates.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
-import { outsideGovernment } from "./modules/executive";
+import { outsideGovernment } from "./outside-governments";
 import { dwellingTenure } from "./housing-reads";
 import { LAWS_MODULE_ID } from "./modules/laws-reads";
 import { coreStateKeyOfPlaceholderId } from "./place-lookup";
