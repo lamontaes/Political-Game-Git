@@ -62,7 +62,7 @@ import { isDemoted } from "./counted-groups";
 import {
   endRecipientIncomeAtDeath,
   handOverContractsAtDeath,
-} from "./budgets-treasury";
+} from "./finance-state";
 import { addDays, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { homeSaleOf, recordEstatePaid, sellHome } from "./housing-sale";
 import type {
