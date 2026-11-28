@@ -36,6 +36,8 @@ import type { CountedVoter } from "./electorate";
 import { residentsRuntime } from "./residents-reads";
 import { bookkeeping } from "./bookkeeping";
 import type { TieRow, PartyRow, PartyMeetingRow } from "./modules/parties";
+import type { CandidacyDecision } from "./modules/candidacy";
+import { CANDIDACY_MODULE_ID } from "./modules/candidacy-constants";
 
 export const ELECTIONS_MODULE_ID = "core2-elections-v1";
 
@@ -633,4 +635,21 @@ export function partyMeetings(
     .moduleState(PARTIES_MODULE_ID)
     .table("meetings")
     .query("byParty", [partyId]) as unknown as PartyMeetingRow[];
+}
+
+/**
+ * Who decided to run in a contest, from the candidacy engine's recorded
+ * decisions (the ones whose choice was to run), oldest first as the index
+ * keeps them. A pure read of the decisions table, for readers outside the
+ * elections family; `modules/candidacy.ts` re-exports it and stays the one
+ * writer of decisions.
+ */
+export function candidatesFor(
+  api: CoreAPI,
+  contestId: string,
+): CandidacyDecision[] {
+  return api
+    .moduleState(CANDIDACY_MODULE_ID)
+    .table("decisions")
+    .query("byContestRun", [contestId, true]) as unknown as CandidacyDecision[];
 }
