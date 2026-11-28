@@ -458,7 +458,10 @@ it("the executive's budget act opens in its season and its changes are what the 
     expect(person!.gained, `${where}: ${person!.receiptId}`).toBeGreaterThan(0);
     // The rest of the year: the amended line stays in force and every month
     // under it pays the firm its purchases.
-    advanceCore(core, addDays(gameStartDate(), 365));
+    // (A year's close may already be past the game's first anniversary where
+    // the fiscal year starts in January: the clock is never moved back.)
+    const through = addDays(gameStartDate(), 365);
+    if (core.date < through) advanceCore(core, through);
     const under = treasuryMonthsOf(api, city.id).filter(
       (m) => m.budgetId === adopted!.id,
     );
