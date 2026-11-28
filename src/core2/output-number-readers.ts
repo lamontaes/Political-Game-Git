@@ -16,6 +16,7 @@ import {
 } from "./macro-model";
 import { budgetsOf, governments, type GovernmentRow } from "./modules/budgets";
 import { countryStateMonth, openingStateMonth } from "./modules/macro";
+import { macroMonthAt, macroMonthCount } from "./macro-reads";
 import { LATEST_MONTH_LAG, regionOfPlace } from "./modules/regional";
 import {
   keptOutputNumber,
@@ -75,16 +76,12 @@ function nationMonths(reads: OutputReads) {
     const p = (key: string) => api.parameter(key);
     const yearBack = (month: string) =>
       shiftMonth(month, -p("macroMonthsPerYear"), p);
-    const table = core.modules.has("macro")
-      ? api.moduleState("macro").table("months")
-      : undefined;
-    const recorded = (month: string) =>
-      table?.get(`macro-month:${month}`) as unknown as MacroMonth | undefined;
+    const recorded = (month: string) => macroMonthAt(api, month);
     for (let back = 0; back <= MONTHS_BACK; back += 1) {
       const now = recorded(shiftMonth(monthKey(core.date), -back, p));
       if (now) return { now, before: recorded(yearBack(now.month)) };
     }
-    if (table?.rows().length) return null;
+    if (macroMonthCount(api)) return null;
     const opening = historyMonths(core.startedAt, core.seed, p);
     const now = opening
       .filter((row) => row.month <= monthKey(core.date))
@@ -116,9 +113,7 @@ function stateMonths(reads: OutputReads) {
     // Before the tier's first day it has kept nothing, and the state reads from the tier's own opening.
     const now =
       countryStateMonth(api, fips, months.now.month) ??
-      (api.moduleState("macro").table("months").rows().length
-        ? null
-        : openingStateMonth(api, months.now, fips));
+      (macroMonthCount(api) ? null : openingStateMonth(api, months.now, fips));
     if (!now) return null;
     const before = months.before
       ? countryStateMonth(api, fips, months.before.month)

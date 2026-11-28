@@ -16,9 +16,9 @@ source: added with npm run pool -- add
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome. A territory is never held to the state range; it is reported unchecked until its own range is sourced.
 
-**Done when.** data/research/regional/series/stats.json carries stateOneYearPopulationChangePct with its citation and script, and src/bench/m1-13-check.ts checks every state and D.C. region against it in a place drawn from all 56, naming the territory regions as unchecked, with the result in the PR body.
+**Done when.** data/research/regional/series/stats.json carries stateOneYearPopulationChangePct with its citation and script, and scripts/bench/m1-13-check.ts checks every state and D.C. region against it in a place drawn from all 56, naming the territory regions as unchecked, with the result in the PR body.
 
-**Files.** data/research/regional/population_change.py,data/research/regional/series/stats.json,src/bench/m1-13-check.ts
+**Files.** data/research/regional/population_change.py,data/research/regional/series/stats.json,scripts/bench/m1-13-check.ts
 
 **Notes.** TODO
 

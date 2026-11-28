@@ -21,4 +21,4 @@ claimed-at: 2026-10-18T10:01:32.047Z
 
 **Files.** src/core2/housing-construction.ts
 
-**Notes.** Found Oct 18 (claude/housing-no-opening-value) running `src/bench/path-check.ts` for seed pc8, found with a debugger paused on the running process. The row's opening value comes from the median of owner households' homes at the opening (`townFigures` in modules/housing.ts), which is empty in a small town; the path check then finishes in about 50 seconds.
+**Notes.** Found Oct 18 (claude/housing-no-opening-value) running `tests/golden-path/path-check.ts` for seed pc8, found with a debugger paused on the running process. The row's opening value comes from the median of owner households' homes at the opening (`townFigures` in modules/housing.ts), which is empty in a small town; the path check then finishes in about 50 seconds.

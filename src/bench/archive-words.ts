@@ -17,7 +17,6 @@ import {
   archivedLawPassedFacts,
   printedFacts,
 } from "./printed-words";
-import type { ownRace } from "./results";
 import { measureSaid, policyNames } from "./words";
 import { coreStateName } from "../core2/place-lookup";
 import { stateInSentence } from "../director/words";
@@ -323,12 +322,23 @@ function worded(
 }
 
 /**
+ * What the paper reads of the person's newest race (the screens' `ownRace`
+ * returns it, with more): written here so this file imports no screens file.
+ */
+export interface OwnRaceRead {
+  readonly contestId: string;
+  readonly recordId: string;
+  readonly won: boolean;
+  readonly rival: { readonly id: string; readonly name: string } | null;
+}
+
+/**
  * The person's own newest race as the paper tells it, from the count's public
  * record: who won or lost the race for which office, and against whom.
  */
 export function wordOwnResult(
   core: CoreState,
-  race: NonNullable<ReturnType<typeof ownRace>>,
+  race: OwnRaceRead,
   personId: string,
 ) {
   const record = core.durableLog.get(race.recordId as EntityId);

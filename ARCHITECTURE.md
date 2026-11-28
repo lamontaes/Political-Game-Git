@@ -74,10 +74,11 @@ When the game needs a counted person to become a full one, `fillInPerson` in `sr
 
 Every rate, price, share and threshold is a parameter row: the root table `src/core2/data/parameters.json` plus each engine's own `parameters.json` in its data folder, merged at load. Each row is tagged **SOURCED** (with a citation into `data/research/`), **ESTIMATED** (with its source and spread) or **TUNABLE** (with the spread it's checked against).
 
-Every shortcut is a row in `src/core2/data/stopgaps.json` (removed) (the director has its own in `src/director/data/`), registered in code through `api.stopgap`: what it fakes and what replaces it. `npm run stopgaps:report` lists the open ones. `assertReleaseReady` in `src/core2/stopgaps.ts` and the tripwire tests (`src/core2/tooling/tripwires.test.ts`) catch unregistered shortcuts. The release check doesn't yet refuse a release over open rows.
+Every shortcut is a row in `src/core2/data/stopgaps.json` (removed) (the director has its own in `src/director/data/`), registered in code through `api.stopgap`: what it fakes and what replaces it. `npm run stopgaps:report` lists the open ones. `assertReleaseReady` in `src/core2/stopgaps.ts` and the tripwire tests (`scripts/core2/tooling/tripwires.test.ts`) catch unregistered shortcuts. The release check doesn't yet refuse a release over open rows.
 
 ## Around the engine
 
+- **Story is one engine** (one family, `story`, in `tests/guards/families.json`; owner, Nov 26: "It's all just going to be called story now"): the director, the English engine and their data.
 - **`src/director/`: the story director.** It reads the world and decides what the player should notice: scenes, conversations, the journal and the opening. It writes nothing to the world except a stop for the player.
 - **`src/english/` and `data/english/`: the English engine and its word banks.** Every sentence the player reads is composed from bank pieces and the facts of the moment (`grounded-english.ts` returns nothing rather than invent a fact).
   - The handler's `/api/journal`, `/api/scene` and `/api/talk/*` routes call the director, which calls the engine.
@@ -89,7 +90,7 @@ Every shortcut is a row in `src/core2/data/stopgaps.json` (removed) (the directo
 - **`desktop/`: the Electron shell and updater.** It bundles the bench handler; no game logic.
 - **Political geography:** `src/districts/` and `src/maps/`.
 - **Old or unused folders, to be removed:**
-  - `src/release/` (an old build-identity copy; the live one is `scripts/release/`, and the bug report is `src/core2/bug-report.ts`).
+  - `src/release/` (an old build-identity copy; the live one is `scripts/release/`, and the bug report is `scripts/core2/bug-report.ts`).
 
 ## Data
 
@@ -106,7 +107,7 @@ Every shortcut is a row in `src/core2/data/stopgaps.json` (removed) (the directo
 ## Guards
 
 - `tests/golden-path/`: a whole game played headless. `runner.mjs` runs it, reading `docs/roadmap/features.json`; `played-world.node-test.ts` checks it in a world from `buildBenchWorld`.
-- Vitest tests sit beside the code they test (`*.test.ts`). Guard tests include `tests/guards/`, `tests/player-wording.test.ts`, `tests/runtime-text-guard.test.ts`, `tests/american-english*.test.ts` and `src/core2/tooling/tripwires.test.ts`.
+- Vitest tests sit beside the code they test (`*.test.ts`). Guard tests include `tests/guards/`, `tests/player-wording.test.ts`, `tests/runtime-text-guard.test.ts`, `tests/american-english*.test.ts` and `scripts/core2/tooling/tripwires.test.ts`.
 - `npm run zero-dice` (`scripts/zero-dice-guard.mjs`): rolls, fixed shares and list-picks in decision code.
 - `npm run speed:year`: a game year must run inside two minutes, and no change may slow it by more than 20%.
 - `scripts/core2-guard/`: paired base-against-head runs that catch golden-path regressions and slowdowns.

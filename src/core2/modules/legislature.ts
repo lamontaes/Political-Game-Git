@@ -5,7 +5,7 @@ import type {
 import { parsePlatform, townLean } from "./campaigns";
 import { keepsWhy } from "../why-kept";
 import { lawApplied } from "../law-reach/applied";
-import type { OfficeInput } from "../offices-local";
+import type { OfficeInput } from "./offices";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import {
   lineItemVetoOf,
@@ -34,7 +34,13 @@ import {
  * Meeting scenes, committee hearings and the bill paper's screens are
  * OPUS-PEOPLE's and OPUS-PLAY's; these are the engine calls they drive.
  */
-import { policyAuthority, recordHomeRule } from "../policy-authority";
+import { policyAuthority } from "./laws";
+import {
+  enactmentRowsOfSeries,
+  lawRowById,
+  storedLawRowsOfSeries,
+} from "./laws-reads";
+import { recordHomeRule } from "../laws-in-force";
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
 import committeeDayData from "../data/legislature/committee-day.json" with { type: "json" };
 import dischargeData from "../data/legislature/discharge.json" with { type: "json" };
@@ -56,16 +62,13 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
-import {
-  historyOf,
-  type HistoryModule,
-  type HistoryRow,
-  type HistorySource,
-} from "../past";
+import { historyOf, type HistoryRow, type HistorySource } from "../past";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { personLean, personStance } from "../campaign-views";
+import { personLean } from "./campaigns";
+import { personStance } from "./elections";
 import { campaignParameter } from "../campaign-data";
+import { fieldsOf } from "../module-fields";
 import {
   enactLaw,
   repealLaw,
@@ -75,7 +78,6 @@ import {
   lawInForce,
   billLevelJurisdiction,
   billValueInForce,
-  LAWS_MODULE_ID,
   lawNeedsChange,
   questionSettled,
   type SettledQuestion,
@@ -87,15 +89,15 @@ import {
   officeLawJurisdiction,
   type EnactedAuthority,
 } from "../laws-in-force";
-import type { LawRowInput } from "../laws-starting";
+import type { LawRowInput } from "../laws-in-force";
 import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { lastVoteOn, recordVote, type VoteRecordRow } from "./record";
 import { viewOn } from "./views";
 import { carriesRevenue, revenueGivenUp } from "../budgets-treasury";
-import { ownStance } from "../officials-roster";
+import { ownStance } from "./officials";
 import { closenessBetween } from "../closeness";
-import { bribePull, registerBribeScope } from "./corruption";
-import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
+import { bribePull } from "./corruption";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
 import {
   BUDGETS_MODULE_ID,
   amendBudget,
@@ -105,14 +107,12 @@ import {
   departmentRequests,
   enactBudget,
   governments,
-  registerBudgetVote,
-  registerBudgetHearing,
-  registerBudgetVoteWaits,
   adoptBudgetAtMeeting,
   type BudgetRow,
   type GovernmentRow,
 } from "./budgets";
-import { partyName, partySide } from "../appointments";
+import { partyName } from "./executive";
+import { partySide } from "./offices";
 import {
   atLarge,
   currentOfficial,
@@ -132,7 +132,7 @@ import {
   leanedTerm,
   leanedYes,
 } from "../trait-decisions";
-import { stateActEffectiveDate } from "../state-effective-date";
+import { stateActEffectiveDate } from "./laws";
 import representation from "../data/offices/federal-representation.json" with { type: "json" };
 import proposalData from "../data/legislature/executive-proposal.json" with { type: "json" };
 import vetoWindowData from "../../../data/research/laws/veto-windows-2023.json" with { type: "json" };
@@ -155,6 +155,23 @@ import { headsExecutive } from "../offices-executives";
 import { ELECTIONS_MODULE_ID, worldRoster, type FilingRow } from "./elections";
 
 export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
+
+/**
+ * What the engines that feed the legislature carry as a field (the world's
+ * legislating: its floor days, sittings and weeks; the leadership: the
+ * committees' rosters): the first carrier's value, or undefined where no
+ * installed module carries it.
+ */
+function carried<
+  K extends
+    | "floorCalendarer"
+    | "sittingReader"
+    | "floorDateReader"
+    | "weeklyFloorReader"
+    | "committeeRoster",
+>(api: CoreAPI, field: K) {
+  return fieldsOf(api.state as CoreState, field)[0];
+}
 
 /** A trial bill, read for members' positions and never put on the record, has no form. */
 const TRIAL_FORM = {
@@ -461,9 +478,18 @@ export function sponsoredBills(core: CoreState, personId: string): BillRow[] {
     );
 }
 
-export const LEGISLATURE_MODULE: CoreModule & HistoryModule = {
+export const LEGISLATURE_MODULE: CoreModule = {
   id: LEGISLATURE_MODULE_ID,
   history: BILLS_HISTORY,
+  // What the budgets engine asks of a body: how a council votes its budget, holds its hearing on it, and whether its meeting votes the year's budget instead of the calendar.
+  // Why an official has no say over a bill (corruption asks every carrier).
+  bribeScope: billBribeScope,
+  budgetVote: (api, gov, fiscalYear) =>
+    councilBudget(api, gov as GovernmentRow, fiscalYear),
+  budgetHearing: (api, gov, fiscalYear) =>
+    holdCouncilBudgetHearing(api, gov as GovernmentRow, fiscalYear),
+  budgetVoteWaits: (api, gov, fiscalYear) =>
+    budgetVoteWaits(api, gov as GovernmentRow, fiscalYear),
   state: {
     schemaVersion: 1,
     tables: {
@@ -860,18 +886,6 @@ function replyPull(
   };
 }
 
-let committeeWaits: ((api: CoreAPI, bill: BillRow) => boolean) | null = null;
-/**
- * The office day says a town body's committee waits for the meeting's day:
- * the committee the player sits on meets inside the vote, so the player's seat
- * votes in it (and in the floor vote) on the day, present or not.
- */
-export function registerCommitteeWait(
-  wait: (api: CoreAPI, bill: BillRow) => boolean,
-): void {
-  committeeWaits = wait;
-}
-
 /** Whether the player holds a seat on the committee that takes the bill in its first chamber. */
 export function playerSitsOnCommittee(api: CoreAPI, bill: BillRow): boolean {
   // The person the player controls, else the one they began as.
@@ -917,7 +931,12 @@ function committeesBeforeTheFloor(api: CoreAPI): void {
     if (!first || table(api, "committees").get(`committee:${id}:${first}`))
       continue;
     // A committee the player sits on meets on the meeting's day, inside the vote.
-    if (committeeWaits?.(api, bill)) continue;
+    if (
+      fieldsOf(api.state as CoreState, "committeeWait").some((wait) =>
+        wait(api, bill),
+      )
+    )
+      continue;
     holdCommittee(api, id);
   }
 }
@@ -1046,17 +1065,16 @@ function askBeforeTheRoll(api: CoreAPI): void {
   }
 }
 
-type PositionTerm = (api: CoreAPI, bill: BillRow, memberId: string) => number;
-const positionTerms: PositionTerm[] = [];
-/** The pre-vote hooks, by name; the data says which run on a committee's day. */
-const beforeVoteHooks: {
-  readonly name: string;
-  readonly run: (api: CoreAPI, billId: string) => void;
-  /** The hook casts a member's vote: it runs only where the bill is voted, never at a hearing. */
-  readonly castsVote?: boolean;
-}[] = [];
 const committeeStageHooks = new Set(committeeDayData.committeeStage);
-const afterVoteHooks: ((api: CoreAPI, billId: string) => void)[] = [];
+/**
+ * What other engines add to the legislature (organized interests lobbying, groups
+ * forming from a fiscal note, what the executive's desk keeps): the hooks each
+ * installed module carries, in install order. The data says which pre-vote hooks
+ * run on a committee's day.
+ */
+function legislatureHooksOf(api: CoreAPI) {
+  return fieldsOf(api.state as CoreState, "legislatureHooks");
+}
 /** What the executive did with a passed bill on their desk, and why. */
 export interface DeskAction {
   readonly bill: BillRow;
@@ -1067,46 +1085,6 @@ export interface DeskAction {
   readonly temperament: number;
   /** For a bill waiting on the desk: the last day to act. */
   readonly signBy?: string;
-}
-const deskHooks: ((api: CoreAPI, action: DeskAction) => void)[] = [];
-/**
- * Other engines add to a member's reasons (organized interests lobbying), act
- * on a bill before its votes (groups forming from its fiscal note) and keep
- * the executive's desk (what they signed or vetoed).
- */
-export function registerLegislatureHooks(input: {
-  readonly positionTerm?: PositionTerm;
-  readonly beforeVote?: {
-    readonly name: string;
-    readonly run: (api: CoreAPI, billId: string) => void;
-    readonly castsVote?: boolean;
-  };
-  /** After a bill's votes are counted: whoever settled something on how members voted. */
-  readonly afterVote?: (api: CoreAPI, billId: string) => void;
-  readonly onDesk?: (api: CoreAPI, action: DeskAction) => void;
-}): void {
-  if (input.positionTerm && !positionTerms.includes(input.positionTerm))
-    positionTerms.push(input.positionTerm);
-  if (
-    input.beforeVote &&
-    !beforeVoteHooks.some((hook) => hook.name === input.beforeVote!.name)
-  )
-    beforeVoteHooks.push(input.beforeVote);
-  if (input.afterVote && !afterVoteHooks.includes(input.afterVote))
-    afterVoteHooks.push(input.afterVote);
-  if (input.onDesk && !deskHooks.includes(input.onDesk))
-    deskHooks.push(input.onDesk);
-}
-
-type RosterProvider = (
-  api: CoreAPI,
-  chamber: string,
-  committee: string,
-) => { memberIds: readonly string[]; chairId: string } | null;
-let rosterProvider: RosterProvider | null = null;
-/** The leadership engine seats committees and their chairs (`leadership.ts`). */
-export function registerCommitteeRosterProvider(fn: RosterProvider): void {
-  rosterProvider = fn;
 }
 
 /** Each employer's added yearly pay under a minimum-wage provision: the fiscal note, employer by employer. */
@@ -1204,12 +1182,6 @@ export function governingMembers(
 export function openLegislature(core: CoreState): void {
   if (!core.modules.has(LEGISLATURE_MODULE_ID))
     registerModule(core, LEGISLATURE_MODULE);
-  registerBudgetVote(councilBudget);
-  registerBudgetHearing(holdCouncilBudgetHearing);
-  registerBudgetVoteWaits(budgetVoteWaits);
-  // Registered when the legislature opens, never as the file loads: in an
-  // import cycle the corruption module's list may not exist yet.
-  registerBribeScope(billBribeScope);
   // Every body's members are people with reasons of their own (OPUS-OFFICIALS).
   if (core.modules.has(OFFICES_MODULE_ID)) openOfficials(core);
 }
@@ -1343,7 +1315,11 @@ function holdCouncilBudgetHearing(
   // A body that meets votes its budget at a meeting on the year's first day,
   // on that meeting's agenda like any item (office-day.ts); one that does not
   // votes it from the budgets calendar.
-  budgetMeeting?.place(api, bill.id, `${fy}-${gov.fiscalYearStart}`);
+  fieldsOf(api.state as CoreState, "budgetMeeting")[0]?.place(
+    api,
+    bill.id,
+    `${fy}-${gov.fiscalYearStart}`,
+  );
   runBeforeVote(api, bill.id, "hearing");
   const speakers = remarkSpeakers(api, bill.id);
   const row: BudgetHearingRow = {
@@ -1610,17 +1586,6 @@ function budgetTotal(position: MemberPosition): number {
   );
 }
 
-/** The meetings engine: puts a budget on its body's agenda for its vote day, and says whether a meeting today votes it. */
-let budgetMeeting: {
-  readonly place: (api: CoreAPI, billId: string, date: string) => void;
-  readonly votes: (api: CoreAPI, billId: string) => boolean;
-} | null = null;
-export function registerBudgetMeeting(
-  input: NonNullable<typeof budgetMeeting>,
-): void {
-  budgetMeeting = input;
-}
-
 /**
  * Whether the budgets calendar leaves a year's budget to its body's meeting:
  * the hearing's bill is on the agenda of a meeting that votes it today, or
@@ -1636,7 +1601,10 @@ function budgetVoteWaits(
     ? (table(api, "bills").get(heard.billId) as unknown as BillRow | undefined)
     : undefined;
   if (!bill?.budgetFor) return false;
-  return budgetMeeting?.votes(api, bill.id) ?? false;
+  return (
+    fieldsOf(api.state as CoreState, "budgetMeeting")[0]?.votes(api, bill.id) ??
+    false
+  );
 }
 
 /** A budget comes to its vote at its body's meeting: the year's adoption, by the one budget vote (`councilBudget`). */
@@ -1984,26 +1952,25 @@ export function billStances(
  */
 export function authorityFor(api: CoreAPI, provision: Provision): Authority {
   const chain = lawChain(api);
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
   if (provision.kind === "law-amount" && provision.series === "minimum-wage") {
-    const rows = laws.query("bySeriesOnly", [
+    const rows = storedLawRowsOfSeries(
+      api,
       "local-minimum-wage-authority",
-    ]) as unknown as LawRowInput[];
+    ) as LawRowInput[];
     // A state's grant of authority enacted in play counts too.
-    const enacted = api
-      .moduleState(LAWS_MODULE_ID)
-      .table("enactments")
-      .query("bySeries", [
-        "local-minimum-wage-authority",
-      ]) as unknown as EnactedAuthority[];
+    const enacted = enactmentRowsOfSeries<EnactedAuthority>(
+      api,
+      "local-minimum-wage-authority",
+    ) as EnactedAuthority[];
     const authority = localAuthority(
       rows,
       enacted,
       chain,
       api.state.date,
-      laws.query("bySeriesOnly", [
+      storedLawRowsOfSeries(
+        api,
         LOCAL_WAGE_AUTHORITY_QUESTION,
-      ]) as unknown as LawRowInput[],
+      ) as LawRowInput[],
     );
     return authority.allowed
       ? {
@@ -2631,11 +2598,7 @@ export function effectiveRule(
     ...base,
     kind: "days-after-adoption",
     days,
-    date: new Date(
-      Date.parse(`${api.state.date}T00:00:00Z`) + days * 86_400_000,
-    )
-      .toISOString()
-      .slice(0, 10),
+    date: addDays(makeIsoDate(api.state.date), days),
     cite: "campaigns parameter ordinanceEffectiveDays",
   };
 }
@@ -2868,7 +2831,7 @@ export function draftBill(
     });
   // The floor leader of a sitting legislature puts the bill on the calendar the
   // day it is introduced, so the date its paper names is the date it gets.
-  const on = floorCalendarer?.(api, titled.id) ?? null;
+  const on = carried(api, "floorCalendarer")?.(api, titled.id) ?? null;
   if (on) {
     titled = {
       ...(table(api, "bills").get(titled.id) as unknown as BillRow),
@@ -2877,15 +2840,6 @@ export function draftBill(
     table(api, "bills").put(titled as unknown as ModuleRow);
   }
   return titled;
-}
-
-let floorCalendarer: ((api: CoreAPI, billId: string) => string | null) | null =
-  null;
-/** The engine that keeps the floor leaders' calendars says which week a newly introduced bill goes on. */
-export function registerFloorCalendarer(
-  calendarer: (api: CoreAPI, billId: string) => string | null,
-): void {
-  floorCalendarer = calendarer;
 }
 
 /**
@@ -2963,7 +2917,7 @@ export function appropriationsWithProjects(
   input: { readonly bodyOfficeId: string; readonly sponsorId: string },
 ): BillRow | null {
   const terms = members(api, input.bodyOfficeId);
-  const seated = rosterProvider?.(
+  const seated = carried(api, "committeeRoster")?.(
     api,
     input.bodyOfficeId,
     committeeForSection({ kind: "budget-line" }),
@@ -3137,12 +3091,7 @@ function checkedText(
   // decided it: the state's authority answer or the question that enacted it.
   for (const [i, p] of provisions.entries()) {
     const a = authority[i]!;
-    const decidedBy = a.source
-      ? (api
-          .moduleState(LAWS_MODULE_ID)
-          .table("laws")
-          .get(a.source) as unknown as LawRowInput | undefined)
-      : undefined;
+    const decidedBy = a.source ? lawRowById(api, a.source) : undefined;
     // A question answered no is no law to apply; the state's preemption is
     // the grant series' own row.
     if (
@@ -3831,8 +3780,8 @@ function positionOfMember(
       0,
     );
   const c = campaignParameter("constituentWeight");
-  const lobby = positionTerms.reduce(
-    (sum, term) => sum + term(api, bill, memberId),
+  const lobby = legislatureHooksOf(api).reduce(
+    (sum, hooks) => sum + (hooks.positionTerm?.(api, bill, memberId) ?? 0),
     0,
   );
   const answersHome = parts ? parts.constituents : c * constituents;
@@ -5293,7 +5242,11 @@ function committeeSeats(
   let chair = roster.find((t) => partySide(t.party) === majority) ?? roster[0]!;
   // Where the chamber's leadership has seated the committee, its members and
   // chair stand in place of seniority.
-  const seated = rosterProvider?.(api, chamber, committeeFor(bill));
+  const seated = carried(api, "committeeRoster")?.(
+    api,
+    chamber,
+    committeeFor(bill),
+  );
   if (seated?.memberIds.length) {
     const byKey = new Map(all.map((t) => [memberKey(t), t]));
     const members = seated.memberIds
@@ -5345,13 +5298,6 @@ export interface HearingWitness {
   readonly lifeRecordId?: string;
 }
 
-/** Who else a hearing hears on a bill's question, from another engine's records (the interest groups). */
-type HearingWitnessProvider = (
-  api: CoreAPI,
-  bill: BillRow,
-  question: string,
-) => readonly HearingWitness[];
-const hearingWitnessProviders: HearingWitnessProvider[] = [];
 /**
  * A chamber's members taking a bill from a committee that did not report it: each member signs by their
  * own decision (a signature cast for them, else their own position on the bill being for it), and the
@@ -5427,14 +5373,6 @@ export function castChairHearing(
     id: `${billId}|${memberKey(seats.chair)}|hear`,
     hear,
   } as unknown as ModuleRow);
-}
-
-/** An engine says who testifies on a question: the people its records show are concerned with it. */
-export function registerHearingWitnessProvider(
-  provider: HearingWitnessProvider,
-): void {
-  if (!hearingWitnessProviders.includes(provider))
-    hearingWitnessProviders.push(provider);
 }
 
 /**
@@ -5546,8 +5484,12 @@ function committeeStage(
   // A bill that is not a wage bill is heard on its own question: the people the interest groups'
   // records show taking a side on it, up to the hearing's size.
   if (heard && question)
-    for (const provider of hearingWitnessProviders)
-      for (const w of provider(api, bill, question.question)) {
+    for (const provider of fieldsOf(api.state as CoreState, "hearingWitnesses"))
+      for (const w of provider(
+        api,
+        bill,
+        question.question,
+      ) as readonly HearingWitness[]) {
         if (witnesses.length >= campaignParameter("hearingWitnesses")) break;
         if (!witnesses.some((row) => row.personId === w.personId))
           witnesses.push(w);
@@ -6056,7 +5998,9 @@ function runBeforeVote(
   billId: string,
   stage: "committee" | "floor" | "hearing",
 ): void {
-  for (const hook of beforeVoteHooks) {
+  for (const hook of legislatureHooksOf(api).flatMap((hooks) =>
+    hooks.beforeVote ? [hooks.beforeVote] : [],
+  )) {
     if (stage === "committee" && !committeeStageHooks.has(hook.name)) continue;
     // A hearing is not a vote: no member's vote is cast at it, and the hook
     // stays to run when the bill is voted.
@@ -6385,7 +6329,7 @@ export function holdVote(
   const result = countVote(api, billId, options.anyDay === true);
   // Votes are on the record once a bill is anything but unvoted or blocked.
   if (result.status !== "drafted" && result.status !== "blocked")
-    for (const hook of afterVoteHooks) hook(api, billId);
+    for (const hooks of legislatureHooksOf(api)) hooks.afterVote?.(api, billId);
   if (result.status === "failed") referToStudy(api, billId);
   return result;
 }
@@ -6512,7 +6456,7 @@ function countVote(api: CoreAPI, billId: string, anyDay: boolean): BillRow {
     // own sitting, booked the way the first chamber's was.
     const sent: BillRow = { ...bill, chambersPassed: [...before, roll] };
     table(api, "bills").put(sent as unknown as ModuleRow);
-    const on = sittingReader?.(api, bill.bodyOfficeId)
+    const on = carried(api, "sittingReader")?.(api, bill.bodyOfficeId)
       ? scheduleVote(api, bill.id)
       : undefined;
     const booked: BillRow = on ? { ...sent, nextChamberOn: on } : sent;
@@ -6693,8 +6637,8 @@ function executiveAction(
           signBy: deadline.date,
         },
       });
-      for (const hook of deskHooks)
-        hook(api, {
+      for (const hooks of legislatureHooksOf(api))
+        hooks.onDesk?.(api, {
           bill: waiting,
           executiveId: key,
           status: "awaiting",
@@ -6809,8 +6753,8 @@ function decideAtDesk(
     vote: status === "signed" ? "sign" : "veto",
     position,
   } as unknown as ModuleRow);
-  for (const hook of deskHooks)
-    hook(api, {
+  for (const hooks of legislatureHooksOf(api))
+    hooks.onDesk?.(api, {
       bill,
       executiveId: key,
       status: status as DeskAction["status"],
@@ -7708,7 +7652,7 @@ export function holdCommittee(
       failedOn: api.state.date,
     } as unknown as ModuleRow);
     // The bill's fate is on the record as it is when a vote ends it.
-    for (const hook of afterVoteHooks) hook(api, billId);
+    for (const hooks of legislatureHooksOf(api)) hooks.afterVote?.(api, billId);
   }
   return record;
 }
@@ -7819,8 +7763,8 @@ function deadlinePassed(api: CoreAPI, billId: string): void {
     snapshotExplicitControlV1(api.state).personId ??
     (api.state as CoreState).playerId;
   if (executiveId)
-    for (const hook of deskHooks)
-      hook(api, {
+    for (const hooks of legislatureHooksOf(api))
+      hooks.onDesk?.(api, {
         bill: unsigned,
         executiveId,
         status: "unsigned",
@@ -7842,39 +7786,21 @@ export interface Sitting {
   readonly date: string;
   readonly source: Source;
 }
-let sittingReader:
-  | ((api: CoreAPI, bodyOfficeId: string, after?: string) => Sitting | null)
-  | null = null;
-/** The engine that keeps the bodies' calendars says when each sits next, or, given a day, the first a town or county body sits after it. */
-export function registerSittingReader(
-  reader: (
-    api: CoreAPI,
-    bodyOfficeId: string,
-    after?: string,
-  ) => Sitting | null,
-): void {
-  sittingReader = reader;
-}
 
 /** When a body sits next, from the engine that keeps the bodies' calendars; null for an office that is not a body. */
 export function nextSittingOf(
   api: CoreAPI,
   bodyOfficeId: string,
 ): Sitting | null {
-  return sittingReader?.(api, bodyOfficeId) ?? null;
+  return (
+    (carried(api, "sittingReader")?.(api, bodyOfficeId) as
+      Sitting | null | undefined) ?? null
+  );
 }
 
-let floorDateReader: ((api: CoreAPI, billId: string) => string | null) | null =
-  null;
-/** The engine that keeps the floor leaders' calendars says which week a drafted bill is on. */
-export function registerFloorDateReader(
-  reader: (api: CoreAPI, billId: string) => string | null,
-): void {
-  floorDateReader = reader;
-}
 /** The floor week a drafted bill is on the floor leader's calendar for, or null. */
 export function floorDateOf(api: CoreAPI, billId: string): string | null {
-  return floorDateReader?.(api, billId) ?? null;
+  return carried(api, "floorDateReader")?.(api, billId) ?? null;
 }
 
 /**
@@ -7884,7 +7810,7 @@ export function floorDateOf(api: CoreAPI, billId: string): string | null {
  */
 /** Whether the body has a sitting on its calendar to put a bill before. */
 export function hasSitting(api: CoreAPI, bodyOfficeId: string): boolean {
-  return (sittingReader?.(api, bodyOfficeId) ?? null) !== null;
+  return (carried(api, "sittingReader")?.(api, bodyOfficeId) ?? null) !== null;
 }
 
 /** The law series holding the hours of public notice a regular meeting needs. */
@@ -7912,7 +7838,9 @@ export function voteKeyOf(
 
 export function scheduleVote(api: CoreAPI, billId: string): string {
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
-  let sitting = sittingReader?.(api, bill.bodyOfficeId) ?? null;
+  let sitting =
+    (carried(api, "sittingReader")?.(api, bill.bodyOfficeId) as
+      Sitting | null | undefined) ?? null;
   if (!sitting)
     throw new Error(`No sitting of ${bill.bodyOfficeId} is on the calendar.`);
   // The place's public-notice law: a town or county body must post the
@@ -7924,7 +7852,9 @@ export function scheduleVote(api: CoreAPI, billId: string): string {
   const leadHours = 24 * daysBetweenText(posted, sitting.date);
   let waited = false;
   if (noticeHours > 0 && leadHours < noticeHours) {
-    const later = sittingReader?.(api, bill.bodyOfficeId, sitting.date) ?? null;
+    const later =
+      (carried(api, "sittingReader")?.(api, bill.bodyOfficeId, sitting.date) as
+        Sitting | null | undefined) ?? null;
     if (later) {
       sitting = later;
       waited = true;
@@ -7974,24 +7904,6 @@ export function scheduleVote(api: CoreAPI, billId: string): string {
   return sitting.date;
 }
 
-let weeklyFloorReader:
-  ((api: CoreAPI, date: string) => readonly string[]) | null = null;
-/** The engine that runs the legislatures' sessions says which bills a floor week ahead takes up. */
-export function registerWeeklyFloorReader(
-  reader: (api: CoreAPI, date: string) => readonly string[],
-): void {
-  weeklyFloorReader = reader;
-}
-
-let meetingAgendaReader:
-  ((api: CoreAPI, date: string) => readonly string[]) | null = null;
-/** The office day says which bills a town body's meeting on a date has on its agenda. */
-export function registerMeetingAgendaReader(
-  reader: (api: CoreAPI, date: string) => readonly string[],
-): void {
-  meetingAgendaReader = reader;
-}
-
 /**
  * The floor's agenda for a date: the drafted bills whose vote is scheduled
  * for it, those a legislature's weekly floor takes up that day, and those on
@@ -8002,8 +7914,11 @@ export function registerMeetingAgendaReader(
 export function floorAgendaOn(api: CoreAPI, date: string): readonly BillRow[] {
   const calendar = api.moduleCalendar(LEGISLATURE_MODULE_ID);
   const weekly = new Set([
-    ...(weeklyFloorReader?.(api, date) ?? []),
-    ...(meetingAgendaReader?.(api, date) ?? []),
+    ...(carried(api, "weeklyFloorReader")?.(api, date) ?? []),
+    ...(fieldsOf(api.state as CoreState, "meetingAgendaReader")[0]?.(
+      api,
+      date,
+    ) ?? []),
   ]);
   return (table(api, "bills").rows() as unknown as BillRow[])
     .filter(
