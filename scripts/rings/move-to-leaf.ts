@@ -206,6 +206,8 @@ for (const [n, kind] of need) {
           ),
         )
       : b.module;
+    // A name the hub imports from the leaf itself is already there.
+    if (module === spec(leaf, leaf)) continue;
     addLeafImport(module, b.imported, n, b.typeOnly || kind === "type");
     continue;
   }
@@ -374,7 +376,26 @@ function appendTo(existing: string): string {
   const sf = parse(leaf, existing);
   const lastImport = [...sf.statements].filter(ts.isImportDeclaration).pop();
   const at = lastImport ? lastImport.getEnd() : 0;
-  const added = importLines.filter((l) => !existing.includes(l));
+  // A name the leaf already imports is not imported twice.
+  const have = new Set<string>();
+  for (const st of sf.statements)
+    if (ts.isImportDeclaration(st) && st.importClause) {
+      const cl = st.importClause;
+      if (cl.name) have.add(cl.name.text);
+      if (cl.namedBindings && ts.isNamedImports(cl.namedBindings))
+        for (const e of cl.namedBindings.elements) have.add(e.name.text);
+    }
+  const added = [...leafImports]
+    .map(([module, m]) => {
+      const fresh = [...m.values()].filter(
+        (x) => !have.has(x.local.split(" as ").pop()!),
+      );
+      if (!fresh.length) return "";
+      return fresh.every((x) => x.typeOnly)
+        ? `import type { ${fresh.map((x) => x.local).join(", ")} } from "${module}";`
+        : `import { ${fresh.map((x) => (x.typeOnly ? `type ${x.local}` : x.local)).join(", ")} } from "${module}";`;
+    })
+    .filter(Boolean);
   return (
     existing.slice(0, at) +
     (added.length ? "\n" + added.join("\n") : "") +
