@@ -20,9 +20,9 @@ after:
 checked: fable 2026-11-10
 ---
 
-**What.** SG-CORE-residents-cadence in src/core2/residents.ts says the wider population's purchases are merged per seller, kind and week of the month and paid monthly instead of after each household's own paydays, and that counted workers always work their full schedule and are paid on the employer's cadence (semimonthly approximated as two monthly dates). The bounded slice that landed delivered the sourced JOLTS and CPS reference tables, explicit across-industry ranges, a weighted turnover report (src/core2/turnover-check.ts) and event-time and fill-in regressions. What is left is a comparable CPS absence report and the pay-date rows: the attendance diagnostic counts job-weeks with any missed work segment, while CPS Table 47 selects full-time wage-and-salary workers, their main jobs, hours below 35 and specified reasons, excluding vacation and holidays, so the diagnostic does not prove a calibration gap. BLS is not reachable from cloud sessions, so use a reachable publisher or mark the row ESTIMATED with its source.
+**What.** SG-CORE-residents-cadence in src/core2/residents.ts says the wider population's purchases are merged per seller, kind and week of the month and paid monthly instead of after each household's own paydays, and that counted workers always work their full schedule and are paid on the employer's cadence (semimonthly approximated as two monthly dates). The bounded slice that landed delivered the sourced JOLTS and CPS reference tables, explicit across-industry ranges, a weighted turnover report (scripts/core2/turnover-check.ts) and event-time and fill-in regressions. What is left is a comparable CPS absence report and the pay-date rows: the attendance diagnostic counts job-weeks with any missed work segment, while CPS Table 47 selects full-time wage-and-salary workers, their main jobs, hours below 35 and specified reasons, excluding vacation and holidays, so the diagnostic does not prove a calibration gap. BLS is not reachable from cloud sessions, so use a reachable publisher or mark the row ESTIMATED with its source.
 
-**Cause.** Found in code: `RESIDENTS_STOPGAP` (SG-CORE-residents-cadence, line 49) is still registered in src/core2/residents.ts, and src/core2/turnover-check.ts has `absenceRate` reading the CPS share of full-time workers absent in a survey week, but no played-year absence report is comparable with CPS Table 47. An earlier turnover check reweighted past events from current representation (Niceville, Florida, place 1248750, seed 118d0e8a347d62a772645a1341bcffcd88ba3e3e064306cc90a3bacbb8590f7a); the event-time fix landed.
+**Cause.** Found in code: `RESIDENTS_STOPGAP` (SG-CORE-residents-cadence, line 49) is still registered in src/core2/residents.ts, and scripts/core2/turnover-check.ts has `absenceRate` reading the CPS share of full-time workers absent in a survey week, but no played-year absence report is comparable with CPS Table 47. An earlier turnover check reweighted past events from current representation (Niceville, Florida, place 1248750, seed 118d0e8a347d62a772645a1341bcffcd88ba3e3e064306cc90a3bacbb8590f7a); the event-time fix landed.
 
 **Fix.** Source the pay-date rows, build the CPS-comparable absence report (full-time wage-and-salary workers, main jobs, hours below 35, specified reasons, vacation and holidays excluded) over a played year, keep event-time quantity (never current representation) in the turnover check with a weighted-world regression, and resolve or narrow SG-CORE-residents-cadence, naming a people-builder item for any mechanic left.
 
@@ -34,7 +34,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/residents.ts, src/core2/turnover-check.ts, data/research/people/jolts-cps-turnover-absence-2025.json, src/core2/data/parameters.json, src/core2/data/stopgaps/core.json
+**Files.** src/core2/residents.ts, scripts/core2/turnover-check.ts, data/research/people/jolts-cps-turnover-absence-2025.json, src/core2/data/parameters.json, src/core2/data/stopgaps/core.json
 
 **Notes.** TODO
 

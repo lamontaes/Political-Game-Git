@@ -56,6 +56,7 @@ import type {
   PersonId,
 } from "../core2/types";
 import type { ScheduleEntry } from "../director/scheduling";
+import { lawRowById } from "../core2/modules/laws-reads";
 
 export interface WhyRow {
   readonly label: string;
@@ -680,11 +681,10 @@ function countryStatePanels(core: CoreState, state: CountryState): WhyPanel[] {
         gap: "The country tier has not run a month here yet: let a month pass.",
       },
     ];
-  const laws = core.modules.get(LAWS_MODULE_ID)?.state
-    ? coreAPI(core).moduleState(LAWS_MODULE_ID).table("laws")
-    : undefined;
+  const hasLaws = !!core.modules.get(LAWS_MODULE_ID)?.state;
   const lawName = (lawId: string, level: string) => {
-    const row = laws?.get(lawId) as { series?: string } | undefined;
+    const row = (hasLaws ? lawRowById(coreAPI(core), lawId) : undefined) as
+      { series?: string } | undefined;
     const named = row?.series ? LAW_NAMES.get(row.series) : undefined;
     return `withheld under the ${level} law${named ? ` (${named})` : ""}`;
   };

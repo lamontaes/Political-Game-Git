@@ -10,13 +10,13 @@
  * purchases. The residents engine then moves that money through the one
  * balanced journal on recorded dates.
  */
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, lastDayOfMonth } from "./kernel/dates";
 import { stopgap } from "./stopgaps";
 import {
   OUTSIDE_MARKET_KIND,
   outsideMarketAccount,
 } from "./opening-outside-market";
-import type { FinanceContractInput } from "./finance-types";
+import type { FinanceContractInput } from "./modules/finance";
 import { FinanceReadGuard } from "./finance-plan";
 import {
   nextWorkPayrollPeriod,
@@ -44,10 +44,13 @@ import {
   outsideLaborForce,
   placeNoninstitutionalQuartersShare,
 } from "./gov-rules/place-population";
+import { huskOf } from "./person-husk";
+import { DAYS_PER_YEAR } from "./household-income";
 import { corePlaceByKey } from "./place-lookup";
+import { RESIDENTS_KIND } from "./residents-constants";
+export { RESIDENTS_KIND };
 
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
-export const RESIDENTS_KIND = "residents";
 
 export type ResidentFlowKind =
   "wages" | "retirement" | "purchase" | "outside-sales" | "outside-costs";
@@ -152,7 +155,7 @@ function dayOf(date: string): number {
 export function nextMonthDay(from: IsoDate, day: number, months = 1): IsoDate {
   const at = new Date(`${from}T00:00:00.000Z`);
   const candidate = (year: number, month: number) => {
-    const last = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+    const last = lastDayOfMonth(year, month + 1);
     return new Date(Date.UTC(year, month, Math.min(day, last)))
       .toISOString()
       .slice(0, 10);
@@ -180,8 +183,7 @@ function perDayWageMinor(row: WorkCommitmentInput): number {
   return (minutes * row.hourlyMinor) / 60 / row.periodDays;
 }
 
-const DAYS_PER_YEAR = 365,
-  MONTHS_PER_YEAR = 12;
+const MONTHS_PER_YEAR = 12;
 
 /** A household's monthly living costs paid outside the town, due on the 1st. */
 export function householdOutsideFlow(
@@ -291,11 +293,10 @@ export function placeEarningsOf(
         "jobsWorldPlaceEarningsSpreadShare",
       );
 }
-
-export function collapseToTwoLevels(
+function collapseToTwoLevelsSetup(
   input: CoreInput,
   options: CollapseOptions = {},
-): CoreInput {
+) {
   stopgap(RESIDENTS_STOPGAP);
   const keep = new Set(options.keep ?? fullPeople(input));
   const start = makeIsoDate(input.startedAt);
@@ -355,6 +356,27 @@ export function collapseToTwoLevels(
       );
     }
   }
+  return {
+    keep,
+    start,
+    peopleById,
+    collapsedHomes,
+    collapsedHomeIds,
+    collapsed,
+    source,
+    payerOf,
+    accountByPlace,
+    residentCash,
+    accountFor,
+    homeOf,
+  };
+}
+
+function collapseToTwoLevelsWages(
+  input: CoreInput,
+  fromSetup: ReturnType<typeof collapseToTwoLevelsSetup>,
+) {
+  const { collapsed, start, homeOf, accountFor, payerOf } = fromSetup;
 
   // Jobs and commitments of collapsed workers become count wage flows.
   const jobsByPerson = new Map<PersonId, JobInput[]>();
@@ -487,6 +509,16 @@ export function collapseToTwoLevels(
       );
     }
   }
+  return { jobsByPerson, commitmentsByPerson, calendars, flows };
+}
+
+function collapseToTwoLevelsPurchases(
+  input: CoreInput,
+  fromSetup: ReturnType<typeof collapseToTwoLevelsSetup>,
+  fromWages: ReturnType<typeof collapseToTwoLevelsWages>,
+) {
+  const { collapsed, homeOf, accountFor } = fromSetup;
+  const { flows } = fromWages;
 
   // Contracts: household purchases merge; retirement income goes to residents.
   const contracts: FinanceContractInput[] = [];
@@ -582,6 +614,17 @@ export function collapseToTwoLevels(
       source: first.source,
     });
   }
+  return { contracts, removedIncome, contractsByHome };
+}
+
+function collapseToTwoLevelsRetirees(
+  fromSetup: ReturnType<typeof collapseToTwoLevelsSetup>,
+  fromWages: ReturnType<typeof collapseToTwoLevelsWages>,
+  fromPurchases: ReturnType<typeof collapseToTwoLevelsPurchases>,
+) {
+  const { homeOf, accountFor } = fromSetup;
+  const { flows } = fromWages;
+  const { removedIncome, contracts } = fromPurchases;
   // Collapsed retirees: the outside payer pays the residents directly, and
   // their share leaves the per-person funding obligation.
   if (removedIncome.length) {
@@ -674,6 +717,16 @@ export function collapseToTwoLevels(
         source: group.row.source,
       });
   }
+}
+
+function collapseToTwoLevelsOutsideCosts(
+  input: CoreInput,
+  options: CollapseOptions = {},
+  fromSetup: ReturnType<typeof collapseToTwoLevelsSetup>,
+  fromWages: ReturnType<typeof collapseToTwoLevelsWages>,
+) {
+  const { start, accountFor, peopleById, collapsedHomeIds } = fromSetup;
+  const { flows } = fromWages;
 
   // Living costs not bought from a local seller (rent above all: HUD fair
   // market rent is part of each household's assigned cost) are paid outside
@@ -753,6 +806,20 @@ export function collapseToTwoLevels(
         ),
       );
   }
+  return { addedOutside, outsideFor, livingSource, countedOutside };
+}
+
+function collapseToTwoLevelsUnplaced(
+  input: CoreInput,
+  options: CollapseOptions = {},
+  fromSetup: ReturnType<typeof collapseToTwoLevelsSetup>,
+  fromWages: ReturnType<typeof collapseToTwoLevelsWages>,
+  fromOutsideCosts: ReturnType<typeof collapseToTwoLevelsOutsideCosts>,
+) {
+  const { start, accountFor, peopleById, collapsedHomes, accountByPlace } =
+    fromSetup;
+  const { flows } = fromWages;
+  const { outsideFor, countedOutside, livingSource } = fromOutsideCosts;
   // Workers the opening couldn't place in a town firm (other industries or
   // jobs outside the town) still earn: the employment target from the
   // opening's own ACS/CPS receipt, less recorded jobs, at the median recorded
@@ -913,6 +980,29 @@ export function collapseToTwoLevels(
       ),
       amountByContract: group.byHome,
     });
+}
+
+function collapseToTwoLevelsAssemble(
+  input: CoreInput,
+  options: CollapseOptions = {},
+  fromSetup: ReturnType<typeof collapseToTwoLevelsSetup>,
+  fromWages: ReturnType<typeof collapseToTwoLevelsWages>,
+  fromPurchases: ReturnType<typeof collapseToTwoLevelsPurchases>,
+  fromOutsideCosts: ReturnType<typeof collapseToTwoLevelsOutsideCosts>,
+): CoreInput {
+  const {
+    collapsed,
+    peopleById,
+    collapsedHomeIds,
+    collapsedHomes,
+    accountByPlace,
+    keep,
+    residentCash,
+    source,
+  } = fromSetup;
+  const { flows, jobsByPerson, commitmentsByPerson, calendars } = fromWages;
+  const { contracts, contractsByHome } = fromPurchases;
+  const { addedOutside } = fromOutsideCosts;
 
   // Full people's ties to collapsed people become husks (met later, filled in then).
   const husks = new Map<PersonId, HuskInput>(
@@ -923,18 +1013,7 @@ export function collapseToTwoLevels(
     for (const id of [...row.familyIds, ...row.knownIds]) {
       if (!collapsed.has(id) || husks.has(id)) continue;
       const other = peopleById.get(id)!;
-      husks.set(id, {
-        id,
-        givenName: other.givenName,
-        familyName: other.familyName,
-        placeId: other.placeId,
-        ...(other.countyId ? { countyId: other.countyId } : {}),
-        looks: other.looks ?? {},
-        said: other.said ?? [],
-        birthDate: other.birthDate,
-        familyIds: other.familyIds,
-        source: other.source,
-      });
+      husks.set(id, huskOf(other));
     }
   }
 
@@ -1015,4 +1094,39 @@ export function collapseToTwoLevels(
       source,
     },
   };
+}
+
+export function collapseToTwoLevels(
+  input: CoreInput,
+  options: CollapseOptions = {},
+): CoreInput {
+  const fromSetup = collapseToTwoLevelsSetup(input, options);
+  const fromWages = collapseToTwoLevelsWages(input, fromSetup);
+  const fromPurchases = collapseToTwoLevelsPurchases(
+    input,
+    fromSetup,
+    fromWages,
+  );
+  collapseToTwoLevelsRetirees(fromSetup, fromWages, fromPurchases);
+  const fromOutsideCosts = collapseToTwoLevelsOutsideCosts(
+    input,
+    options,
+    fromSetup,
+    fromWages,
+  );
+  collapseToTwoLevelsUnplaced(
+    input,
+    options,
+    fromSetup,
+    fromWages,
+    fromOutsideCosts,
+  );
+  return collapseToTwoLevelsAssemble(
+    input,
+    options,
+    fromSetup,
+    fromWages,
+    fromPurchases,
+    fromOutsideCosts,
+  );
 }

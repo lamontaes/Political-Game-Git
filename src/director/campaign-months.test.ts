@@ -11,7 +11,7 @@ import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { fileForOffice } from "../bench/government";
 import { setBookkeeping } from "../core2/bookkeeping";
-import { gatherSignatures } from "../core2/campaign-petition-kit";
+import { gatherSignatures } from "../../tests/support/campaign-petition-kit";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate, type IsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";

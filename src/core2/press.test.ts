@@ -8,7 +8,7 @@
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { govReport } from "./gov-test-report";
+import { govReport } from "../../scripts/core2/gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
@@ -46,8 +46,9 @@ import {
 import type { ModuleRow } from "./module-data";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
+import { contestPositions } from "./contest-positions";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const START = "2026-01-05";
 const seed =
@@ -173,8 +174,28 @@ describe("campaign interviews", () => {
       });
       expect(asked.status, where).toBe("invited");
       expect(asked.questions.length, where).toBeGreaterThan(0);
-      // Where you and your rival differ is asked.
-      expect(asked.questions, where).toContain(platformA[0]!.split("=")[0]);
+      // Where you and your rival differ is asked, on what the seat's own body
+      // decides: a reporter asks a US House race nothing a state decides
+      // (`seatQuestions`, press.ts), so the platform question checked is the
+      // first one this seat decides. A race whose seat decides none of the
+      // platform's questions cannot show it, so the draw goes on to the next
+      // place.
+      const office = (
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("contests")
+          .get(you.contestId) as unknown as ContestRow
+      ).officeId;
+      const decided = new Set(contestPositions(api, { officeId: office }));
+      const checked = decided.size
+        ? platformA.find((s) => decided.has(s.split("=")[0]!))
+        : platformA[0];
+      if (!checked) {
+        tried[tried.length - 1] +=
+          ` (the seat of ${you.contestId} decides none of the platform's questions)`;
+        continue;
+      }
+      expect(asked.questions, where).toContain(checked.split("=")[0]);
       const answers = asked.questions.map((question, i) => ({
         question,
         position: i === asked.questions.length - 1 && i > 0 ? null : 1,

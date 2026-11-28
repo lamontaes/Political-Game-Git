@@ -37,7 +37,8 @@
  */
 import data from "./data/estates.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
-import { outsideGovernment } from "./outside-governments";
+import { outsideGovernment } from "./modules/executive";
+import { dwellingTenure } from "./housing-reads";
 import { LAWS_MODULE_ID } from "./modules/laws";
 import { coreStateKeyOfPlaceholderId } from "./place-lookup";
 import {
@@ -45,8 +46,12 @@ import {
   assessInheritanceTax,
   GOVERNMENT_HEIR,
   type DeathTax,
-} from "./laws-death-taxes";
-import { appliedTo, lawApplied } from "./law-reach/applied";
+} from "./laws-in-force";
+import {
+  appliedTo,
+  lawApplied,
+  emitLawEffectLearned,
+} from "./law-reach/applied";
 import { closenessBetween } from "./closeness";
 import { leanedYes } from "./trait-decisions";
 import type { ModuleRow } from "./module-data";
@@ -57,7 +62,7 @@ import { isDemoted } from "./counted-groups";
 import {
   endRecipientIncomeAtDeath,
   handOverContractsAtDeath,
-} from "./finance-state";
+} from "./budgets-treasury";
 import { addDays, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { homeSaleOf, recordEstatePaid, sellHome } from "./housing-sale";
 import type {
@@ -418,12 +423,9 @@ function homeOfLastOwner(
   const household = c.households.get(person.householdId);
   if (!household || household.memberIds.some((id) => c.people.get(id)?.alive))
     return undefined;
-  const dwelling = api
-    .moduleState("housing")
-    .table("dwellings")
-    .get(`dwelling:${household.id}`) as unknown as
-    { tenure?: string } | undefined;
-  return dwelling?.tenure === "own" ? household.id : undefined;
+  return dwellingTenure(api, household.id)?.tenure === "own"
+    ? household.id
+    : undefined;
 }
 
 export function settleEstate(
@@ -1134,11 +1136,9 @@ function noticeTaxes(
     source,
   });
   for (const tax of mine)
-    api.emit({
+    emitLawEffectLearned(api, {
       id: `event:law.effect-learned:${personId}:${heirId}:${tax.lawId}${part}`,
-      date: api.state.date,
-      kind: "law.effect-learned",
-      personIds: [heirId],
+      personId: heirId,
       placeId: heir.placeId,
       topic: tax.series,
       desiredChange: "repeal",
@@ -1147,7 +1147,6 @@ function noticeTaxes(
         learnedFrom: `event:${noticeId}:experienced`,
         amountMinor: String(tax.amountMinor),
       },
-      publicRecord: false,
       source: {
         ...source,
         citation: `Learned from the accounting of the estate of ${personId} that ${tax.lawId} took from the estate`,

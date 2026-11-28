@@ -18,7 +18,7 @@ import { townOutsideOf } from "./opening-outside-market";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import foreclosureData from "./data/housing/foreclosure.json" with { type: "json" };
 import { stopgap } from "./stopgaps";
-import { transferCash } from "./world-transfer";
+import { transferCash } from "./budgets-treasury";
 import { endFlowPart } from "./residents-economy";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { leaveCountedHome } from "./housing-homeless";

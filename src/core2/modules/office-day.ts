@@ -30,14 +30,23 @@ import type {
   PersonId,
   Source,
 } from "../types";
-import type { HistoryModule, HistoryRow, HistorySource } from "../past";
+import type { HistoryRow, HistorySource } from "../past";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain, lawInForce } from "./laws";
 import { federalParameter } from "../office-day-federal";
 import { closenessBetween } from "../closeness";
 import { remarksOn, signUpToSpeak } from "./meetings";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  allTerms,
+  officeById,
+  servingTermsOf,
+  termById,
+  termCount,
+  townSeats,
+  type TermRow,
+} from "./offices";
 import { governments } from "./budgets";
 import { payOfficialPaycheck } from "./official-pay";
 export { SALARY_SERIES } from "./official-pay";
@@ -71,31 +80,28 @@ import {
   LEGISLATURE_MODULE_ID,
   memberKey,
   members,
-  registerBudgetMeeting,
-  registerLegislatureHooks,
-  registerMeetingAgendaReader,
   voteBudgetAtMeeting,
-  registerCommitteeWait,
   playerSitsOnCommittee,
   vetoReasons,
   type BillRow,
   type DeskAction,
   type VetoReason,
 } from "./legislature";
+import { filesAhead, filingsOwed, voteAtMeeting } from "./world-legislating";
 import {
-  filesAhead,
-  filingsOwed,
-  registerMeetingHold,
-  voteAtMeeting,
-} from "./world-legislating";
-import {
-  nextMeeting as nextOnRule,
+  nextMeetingOf,
+  meetingRuleOf,
   bodyPopulation,
   officeDayParameter,
   type MeetingRule,
 } from "../office-day-calendar";
-// The meeting rule, for readers outside the family.
-export { meetingRule, officeDayParameter } from "../office-day-calendar";
+export { officeDayParameter };
+/** A body's meeting rule (by its office's id), for readers outside the family. */
+export const meetingRule = (
+  api: CoreAPI,
+  officeId: string,
+  countyGeoid?: string,
+) => meetingRuleOf(api, officeById(api, officeId), countyGeoid);
 // The federal holidays, for the calendar screen.
 export {
   federalHolidayName,
@@ -108,6 +114,7 @@ import {
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { headsLocalExecutive } from "../offices-executives";
+export { openSuccession } from "./succession";
 
 export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
 
@@ -252,7 +259,7 @@ const OFFICE_DAY_HISTORY: HistorySource = {
   },
 };
 
-export const OFFICE_DAY_MODULE: CoreModule & HistoryModule = {
+export const OFFICE_DAY_MODULE: CoreModule = {
   id: OFFICE_DAY_MODULE_ID,
   // A plain field, not a getter: the finance engine's read check walks the
   // modules and refuses an accessor (src/core2/finance-plan.ts, directRead).
@@ -300,7 +307,7 @@ export const OFFICE_DAY_MODULE: CoreModule & HistoryModule = {
     // A job starts or ends before a day's work, so the roster is read here
     // and the office jobs change in the next day's calendar work: when the
     // roster grows, and on the 1st for terms that ended.
-    const terms = api.moduleState(OFFICES_MODULE_ID).table("terms").size;
+    const terms = termCount(api);
     const payday = api.state.date.endsWith("-01");
     if (payday || seenTerms.get(api.state as CoreState) !== terms) {
       seenTerms.set(api.state as CoreState, terms);
@@ -314,6 +321,16 @@ export const OFFICE_DAY_MODULE: CoreModule & HistoryModule = {
     for (const kit of officeActKits()) kit.onDay?.(api);
     return undefined;
   },
+  // What the office day adds to the legislature: the player's own vote, the desk's arrival, the budget meeting, the committee that waits for a meeting and the meetings' agenda.
+  legislatureHooks: {
+    beforeVote: { name: "own-vote", run: ownVote, castsVote: true },
+    onDesk: deskArrived,
+  },
+  budgetMeeting: { place: placeBudgetVote, votes: votesBudgetToday },
+  committeeWait: committeeWaitsOnPlayer,
+  meetingAgendaReader: townMeetingAgenda,
+  // Whether a body's meeting is held, and what it does with the agenda filed for it.
+  meetingHold: { hold: holdsMemberFilings, filed: placeFiled },
 };
 /**
  * A player seated after a meeting's agenda was posted (appointed to a vacant
@@ -351,14 +368,7 @@ const playerOf = (api: CoreAPI) =>
  */
 export const officeHost: OfficeActHost = {
   officesOf: (api, personId) =>
-    (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("byPerson", [personId]) as unknown as TermRow[]
-    )
-      .filter((term) => term.status === "serving")
-      .map((term) => term.officeId),
+    servingTermsOf(api, personId).map((term) => term.officeId),
   keep: (api, row) => keepAct(api, row),
   prepared: (api, personId, actId) => preparedFor(api, personId, actId),
   clearPrepared: (api, personId, actId) =>
@@ -378,11 +388,6 @@ export const officeHost: OfficeActHost = {
 registerOfficeActs(localOfficeKit(officeHost));
 
 export function openOfficeDay(core: CoreState, worldSeed: string): void {
-  registerLegislatureHooks({
-    beforeVote: { name: "own-vote", run: ownVote, castsVote: true },
-    onDesk: deskArrived,
-  });
-  registerBudgetMeeting({ place: placeBudgetVote, votes: votesBudgetToday });
   const providers = OFFICE_DAY_MODULE.offerProviders as Record<string, unknown>;
   const handlers = OFFICE_DAY_MODULE.effectHandlers as Record<string, unknown>;
   const reasons = OFFICE_DAY_MODULE.reasonProviders as Record<string, unknown>;
@@ -436,10 +441,7 @@ export function openingActs(api: CoreAPI): void {
   // Each serving holder's first day of service: nobody is given an act from
   // before they held the office, since they did not do it.
   const since = new Map<string, string>();
-  for (const term of api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .rows() as unknown as TermRow[]) {
+  for (const term of allTerms(api)) {
     if (
       term.status !== "serving" ||
       !term.personId ||
@@ -545,12 +547,15 @@ export function setStops(
 
 /** The body's next meeting on its rule; a county board's size band reads the town's county. */
 const nextMeeting = (api: CoreAPI, officeId: string, after: string) =>
-  nextOnRule(api, officeId, after, lawChain(api).countyGeoids[0]);
+  nextMeetingOf(
+    api,
+    officeById(api, officeId),
+    after,
+    lawChain(api).countyGeoids[0],
+  );
 
 const dayOffset = (date: string, days: number) =>
-  new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000)
-    .toISOString()
-    .slice(0, 10);
+  addDays(makeIsoDate(date), days);
 
 /**
  * Put the body's next meeting after `after` on the calendar: the agenda is
@@ -1552,8 +1557,7 @@ function placeFiled(
   table(api, "meetings").put(placed as unknown as ModuleRow);
   holdPlayerIfDue(api, placed);
 }
-registerMeetingHold(holdsMemberFilings, placeFiled);
-registerCommitteeWait((api, bill) => {
+function committeeWaitsOnPlayer(api: CoreAPI, bill: BillRow): boolean {
   // Only the player's own body can wait: one indexed read of the player's
   // seats answers false for every other body before any agenda is read.
   const player = playerOf(api);
@@ -1564,17 +1568,19 @@ registerCommitteeWait((api, bill) => {
   return (
     !!placed && placed.date > api.state.date && playerSitsOnCommittee(api, bill)
   );
-});
+}
 // The floor's agenda for a date includes what a town body's meeting that day
 // takes up (the evening-before ask reads it).
-registerMeetingAgendaReader((api, date) =>
-  // A world without the office day has no town meetings to read.
-  !api.state.modules.has(OFFICE_DAY_MODULE_ID)
-    ? []
-    : (table(api, "meetings").rows() as unknown as MeetingRow[])
-        .filter((row) => row.date === date && row.status !== "adjourned")
-        .flatMap((row) => agendaFor(api, row.officeId, date)),
-);
+function townMeetingAgenda(api: CoreAPI, date: string): readonly string[] {
+  return (
+    // A world without the office day has no town meetings to read.
+    !api.state.modules.has(OFFICE_DAY_MODULE_ID)
+      ? []
+      : (table(api, "meetings").rows() as unknown as MeetingRow[])
+          .filter((row) => row.date === date && row.status !== "adjourned")
+          .flatMap((row) => agendaFor(api, row.officeId, date))
+  );
+}
 
 const sits = (personId: string) => (term: TermRow) =>
   term.personId === personId || memberKey(term) === personId;
@@ -1881,11 +1887,10 @@ export function reviewOfficeJobs(api: CoreAPI): void {
   const seed =
     (table(api, "world").get("seed") as unknown as { seed: string } | undefined)
       ?.seed ?? "";
-  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
   for (const raw of table(api, "officeJobs").rows()) {
     const row = raw as unknown as OfficeJobRow;
     if (row.endedOn) continue;
-    const term = terms.get(row.id) as unknown as TermRow | undefined;
+    const term = termById(api, row.id);
     if (term?.status === "serving") continue;
     const ended = term?.endDate ?? api.state.date;
     if (row.jobId) {
@@ -1969,10 +1974,7 @@ function payStipends(api: CoreAPI): void {
     let row = raw as unknown as OfficeJobRow;
     if (row.jobId) continue;
     // The stipend is the pay ordinance in force on the first day it pays for.
-    const kind = (
-      api.moduleState(OFFICES_MODULE_ID).table("offices").get(row.officeId) as
-        { kind?: string } | undefined
-    )?.kind;
+    const kind = officeById(api, row.officeId)?.kind;
     const law = kind ? enactedSeatPay(api, kind, row.paidFrom) : null;
     if (law && law.annualMinor !== row.annualMinor)
       row = { ...row, annualMinor: law.annualMinor, citation: law.citation };

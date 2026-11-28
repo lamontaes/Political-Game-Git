@@ -18,6 +18,8 @@ import {
 import {
   ELECTIONS_MODULE_ID,
   ballot,
+  contestOf,
+  filingsOfPerson,
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
@@ -66,13 +68,9 @@ function ownFiling(
   date: string,
 ): { filing: FilingRow; contest: ContestRow } | null {
   if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return null;
-  const elections = api.moduleState(ELECTIONS_MODULE_ID);
-  for (const filing of elections
-    .table("filings")
-    .query("byPerson", [personId]) as unknown as FilingRow[]) {
+  for (const filing of filingsOfPerson(api, personId)) {
     if (filing.status !== "on-ballot") continue;
-    const contest = elections.table("contests").get(filing.contestId) as
-      ContestRow | undefined;
+    const contest = contestOf(api, filing.contestId);
     if (contest?.electionDate === date) return { filing, contest };
   }
   return null;

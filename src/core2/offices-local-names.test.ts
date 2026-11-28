@@ -20,6 +20,23 @@ const seed =
   process.env.GOLDEN_PATH_SEED ??
   `names:${Date.now()}:${Math.random().toString(16).slice(2)}`;
 
+/** Each doubled word the listing's own unit names hold, as the places write them ("Walla Walla"). */
+const properDoubles = new RegExp(
+  `\\b(?:${[
+    ...new Set(
+      governmentUnitStates().flatMap((state) =>
+        governmentUnitsForState(state).flatMap((unit) => {
+          const doubled = /\b(\w+) \1\b/i.exec(unit.name);
+          return doubled ? [`${doubled[1]} ${doubled[1]}`] : [];
+        }),
+      ),
+    ),
+  ]
+    .map((phrase) => phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    .join("|")})\\b`,
+  "gi",
+);
+
 describe("a local body is named the way people write it", () => {
   it("does not say the kind of government twice", () => {
     expect(boardBodyName("COUNTY OF EXAMPLE", "County Commission")).toBe(
@@ -106,7 +123,11 @@ describe("a local body is named the way people write it", () => {
         const where = `${place.name}: ${office.bodyName}`;
         // No listing in capitals, no kind of government said twice.
         expect(office.bodyName, where).not.toMatch(/[A-Z]{3,}/);
-        expect(office.bodyName, where).not.toMatch(/\b(\w+) \1\b/i);
+        // A repeat that is a unit's own proper name (Walla Walla County) is the
+        // place's name, not a kind of government said twice.
+        expect(office.bodyName.replace(properDoubles, ""), where).not.toMatch(
+          /\b(\w+) \1\b/i,
+        );
       }
     }
     expect(checked).toBeGreaterThan(0);
