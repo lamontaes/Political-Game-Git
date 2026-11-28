@@ -560,23 +560,11 @@
 # Laws, justice and their effects (laws)
 /src/core2/modules/laws.ts @lamontaes
 /tests/src/core2/modules/laws.ts @lamontaes
-/src/core2/modules/justice.ts @lamontaes
-/tests/src/core2/modules/justice.ts @lamontaes
-/src/core2/modules/public-safety.ts @lamontaes
-/tests/src/core2/modules/public-safety.ts @lamontaes
-/src/core2/modules/crime.ts @lamontaes
-/tests/src/core2/modules/crime.ts @lamontaes
-/src/core2/modules/police-patrol.ts @lamontaes
-/tests/src/core2/modules/police-patrol.ts @lamontaes
-/src/core2/modules/corruption.ts @lamontaes
-/tests/src/core2/modules/corruption.ts @lamontaes
 /src/core2/modules/outcome-web.ts @lamontaes
 /tests/src/core2/modules/outcome-web.ts @lamontaes
 /src/core2/modules/laws-reads.ts @lamontaes
 /tests/src/core2/modules/laws-reads.ts @lamontaes
 /tests/src/core2/modules/laws-reads.test.ts @lamontaes
-/src/core2/modules/justice-reads.ts @lamontaes
-/tests/src/core2/modules/justice-reads.ts @lamontaes
 /src/core2/modules/outcome-web-reads.ts @lamontaes
 /tests/src/core2/modules/outcome-web-reads.ts @lamontaes
 /src/core2/modules/prices-web-gaps.ts @lamontaes
@@ -585,8 +573,6 @@
 /tests/src/core2/law-reach/** @lamontaes
 /src/core2/laws-*.ts @lamontaes
 /tests/src/core2/laws-*.ts @lamontaes
-/src/core2/justice-*.ts @lamontaes
-/tests/src/core2/justice-*.ts @lamontaes
 /src/core2/policy-*.ts @lamontaes
 /tests/src/core2/policy-*.ts @lamontaes
 /src/core2/gov-measure*.ts @lamontaes
@@ -599,16 +585,10 @@
 /tests/src/core2/social-security-law.ts @lamontaes
 /src/core2/wage-floor.ts @lamontaes
 /tests/src/core2/wage-floor.ts @lamontaes
-/src/core2/low-level-offenses.ts @lamontaes
-/tests/src/core2/low-level-offenses.ts @lamontaes
-/src/core2/firearm-ownership.ts @lamontaes
-/tests/src/core2/firearm-ownership.ts @lamontaes
 /src/core2/paid-leave.ts @lamontaes
 /tests/src/core2/paid-leave.ts @lamontaes
 /src/core2/public-pay-floor.ts @lamontaes
 /tests/src/core2/public-pay-floor.ts @lamontaes
-/src/core2/public-safety.ts @lamontaes
-/tests/src/core2/public-safety.ts @lamontaes
 /src/core2/outcome-web-*.ts @lamontaes
 /tests/src/core2/outcome-web-*.ts @lamontaes
 /src/core2/health-web.ts @lamontaes
@@ -617,8 +597,6 @@
 /tests/src/core2/jobs-web.ts @lamontaes
 /src/core2/term-read.ts @lamontaes
 /tests/src/core2/term-read.ts @lamontaes
-/src/core2/modules/federal-courts.ts @lamontaes
-/tests/src/core2/modules/federal-courts.ts @lamontaes
 /src/core2/law-reach/group-a-records-constants.ts @lamontaes
 /tests/src/core2/law-reach/group-a-records-constants.ts @lamontaes
 /src/core2/law-reach/group-b-store-constants.ts @lamontaes
@@ -636,7 +614,6 @@
 /tests/src/core2/congress-federal-position-bills.test.ts @lamontaes
 /tests/src/core2/consumer-credit-law.test.ts @lamontaes
 /tests/src/core2/contribution-limit-reach.test.ts @lamontaes
-/tests/src/core2/corruption-refusal.test.ts @lamontaes
 /tests/src/core2/county-body-reads-county-law.test.ts @lamontaes
 /tests/src/core2/data-privacy-law.test.ts @lamontaes
 /tests/src/core2/debt-limit-binds.test.ts @lamontaes
@@ -649,7 +626,6 @@
 /tests/src/core2/executive-head-records.test.ts @lamontaes
 /tests/src/core2/executive.test.ts @lamontaes
 /tests/src/core2/family-link-change.test.ts @lamontaes
-/tests/src/core2/federal-courts.test.ts @lamontaes
 /tests/src/core2/federal-data-privacy-law.test.ts @lamontaes
 /tests/src/core2/federal-deficit-borrowing-cost.test.ts @lamontaes
 /tests/src/core2/federal-grant-pass-through.test.ts @lamontaes
@@ -693,13 +669,11 @@
 /tests/src/core2/law-took-effect-superseded.test.ts @lamontaes
 /tests/src/core2/law-wiring-borrowing-cost.test.ts @lamontaes
 /tests/src/core2/law-wiring-college-step.test.ts @lamontaes
-/tests/src/core2/law-wiring-crime-web.test.ts @lamontaes
 /tests/src/core2/law-wiring-government.test.ts @lamontaes
 /tests/src/core2/law-wiring-grocery.test.ts @lamontaes
 /tests/src/core2/law-wiring-health-schools.test.ts @lamontaes
 /tests/src/core2/law-wiring-housing.test.ts @lamontaes
 /tests/src/core2/law-wiring-immigration.test.ts @lamontaes
-/tests/src/core2/law-wiring-justice.test.ts @lamontaes
 /tests/src/core2/law-wiring-labor-web.test.ts @lamontaes
 /tests/src/core2/law-wiring-labor.test.ts @lamontaes
 /tests/src/core2/law-wiring-mortality-web.test.ts @lamontaes
@@ -721,7 +695,6 @@
 /tests/src/core2/medicare-line-medical-debt.test.ts @lamontaes
 /tests/src/core2/metrics-labor-force.test.ts @lamontaes
 /tests/src/core2/minimum-wage-history.test.ts @lamontaes
-/tests/src/core2/modules/crime.test.ts @lamontaes
 /tests/src/core2/modules/public-action-counted.test.ts @lamontaes
 /tests/src/core2/modules/public-action-movement.test.ts @lamontaes
 /tests/src/core2/modules/public-action-rally.test.ts @lamontaes
@@ -732,10 +705,8 @@
 /tests/src/core2/outside-act-not-town-law.test.ts @lamontaes
 /tests/src/core2/outside-agenda.test.ts @lamontaes
 /tests/src/core2/paid-leave.test.ts @lamontaes
-/tests/src/core2/pending-bribe-not-reported.test.ts @lamontaes
 /tests/src/core2/pending-law-reversal.test.ts @lamontaes
 /tests/src/core2/place-prices-learned.test.ts @lamontaes
-/tests/src/core2/police-arrests.test.ts @lamontaes
 /tests/src/core2/polling-place-building.test.ts @lamontaes
 /tests/src/core2/pr-municipio-budget.test.ts @lamontaes
 /tests/src/core2/prices-web-environment.test.ts @lamontaes
@@ -1515,6 +1486,37 @@
 /src/release/** @lamontaes
 /tests/src/release/** @lamontaes
 /desktop/** @lamontaes
+
+# Courts, police, crime and corruption (justice)
+/src/core2/modules/justice.ts @lamontaes
+/tests/src/core2/modules/justice.ts @lamontaes
+/src/core2/modules/public-safety.ts @lamontaes
+/tests/src/core2/modules/public-safety.ts @lamontaes
+/src/core2/modules/crime.ts @lamontaes
+/tests/src/core2/modules/crime.ts @lamontaes
+/src/core2/modules/police-patrol.ts @lamontaes
+/tests/src/core2/modules/police-patrol.ts @lamontaes
+/src/core2/modules/corruption.ts @lamontaes
+/tests/src/core2/modules/corruption.ts @lamontaes
+/src/core2/modules/justice-reads.ts @lamontaes
+/tests/src/core2/modules/justice-reads.ts @lamontaes
+/src/core2/modules/federal-courts.ts @lamontaes
+/tests/src/core2/modules/federal-courts.ts @lamontaes
+/src/core2/justice-*.ts @lamontaes
+/tests/src/core2/justice-*.ts @lamontaes
+/src/core2/low-level-offenses.ts @lamontaes
+/tests/src/core2/low-level-offenses.ts @lamontaes
+/src/core2/firearm-ownership.ts @lamontaes
+/tests/src/core2/firearm-ownership.ts @lamontaes
+/src/core2/public-safety.ts @lamontaes
+/tests/src/core2/public-safety.ts @lamontaes
+/tests/src/core2/modules/crime.test.ts @lamontaes
+/tests/src/core2/federal-courts.test.ts @lamontaes
+/tests/src/core2/police-arrests.test.ts @lamontaes
+/tests/src/core2/corruption-refusal.test.ts @lamontaes
+/tests/src/core2/pending-bribe-not-reported.test.ts @lamontaes
+/tests/src/core2/law-wiring-justice.test.ts @lamontaes
+/tests/src/core2/law-wiring-crime-web.test.ts @lamontaes
 
 # Owner-protected: the instructions, the workflows and the checks that judge every change (CTO, Nov 17, on issue 9747)
 /AGENTS.md @lamontaes
