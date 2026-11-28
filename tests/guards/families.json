@@ -1254,6 +1254,7 @@
         "src/core2/past.ts",
         "src/core2/past-module.ts",
         "src/core2/past-work.ts",
+        "src/core2/past-public.ts",
         "src/core2/past-reads.ts",
         "src/core2/pre-start-history.ts"
       ],
