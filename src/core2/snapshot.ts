@@ -344,6 +344,18 @@ export function decoder(): (
 }
 
 /**
+ * Every runtime part this world saves: the ones engines registered by id, then
+ * the ones the installed modules carry (`CoreModule.snapshotParts`), in install
+ * order.
+ */
+function partsOf(core: CoreState): [string, SnapshotPart][] {
+  const out = [...parts];
+  for (const carried of fieldsOf(core, "snapshotParts"))
+    for (const entry of Object.entries(carried)) out.push(entry);
+  return out;
+}
+
+/**
  * What a world keeps between days, in the three sections a snapshot saves:
  * the core's records (less what the recipe rebuilds), every engine's tables
  * and every engine's runtime part. Dev mode's records proof
@@ -358,7 +370,7 @@ export function worldRecords(core: CoreState): {
   for (const [key, value] of Object.entries(core))
     if (!REBUILT.has(key)) record[key] = value;
   const saved: Record<string, unknown> = {};
-  for (const [id, part] of parts) saved[id] = part.save(core);
+  for (const [id, part] of partsOf(core)) saved[id] = part.save(core);
   return { core: record, modules: moduleStateStores(core), parts: saved };
 }
 
@@ -405,7 +417,7 @@ export function restoreWorld(core: CoreState, snapshot: WorldSnapshot): void {
     string,
     unknown
   >;
-  for (const [id, part] of parts)
+  for (const [id, part] of partsOf(core))
     if (id in savedParts) part.restore(core, savedParts[id]);
     else part.missing?.(core);
   for (const map of derivedCaches) map.delete(core);
