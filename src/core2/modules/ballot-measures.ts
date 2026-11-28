@@ -33,8 +33,11 @@ import { viewOn } from "./views";
 import { enactLaw, lawChain } from "./laws";
 import { turnoutOn, VOTING_MODULE_ID } from "./voting";
 import { stateActEffectiveDate } from "./laws";
-
-export const BALLOT_MEASURES_MODULE_ID = "core2-ballot-measures-v1";
+import { BALLOT_MEASURES_MODULE_ID, table } from "./ballot-measures-reads";
+export {
+  BALLOT_MEASURES_MODULE_ID,
+  measureVoteOf,
+} from "./ballot-measures-reads";
 
 export interface MeasureRow {
   readonly id: string;
@@ -111,9 +114,6 @@ const realMeasures = (
     measures: (Omit<MeasureRow, "status"> & { matchNote: string | null })[];
   }
 ).measures;
-
-const table = (api: CoreAPI, name: string) =>
-  api.moduleState(BALLOT_MEASURES_MODULE_ID).table(name);
 
 /** Put a measure on the state's ballot for its election day. */
 export function putOnBallot(
@@ -334,17 +334,6 @@ export function measureResult(
   return (
     (table(api, "results").get(`measure-result:${measureId}`) as unknown as
       MeasureResult | undefined) ?? null
-  );
-}
-
-/** One voter's measure vote and its reasons. */
-export function measureVoteOf(
-  api: CoreAPI,
-  measureId: string,
-  personId: string,
-) {
-  return (
-    table(api, "votes").get(`measure-vote:${measureId}:${personId}`) ?? null
   );
 }
 
