@@ -359,7 +359,7 @@ src/director/scene.ts
   -> src/simulation/life-places.ts  [tangle]
 src/director/scheduling.ts
   -> src/simulation/dates.ts
-src/director/tooling/director-year.ts
+scripts/director/tooling/director-year.ts
   -> src/simulation/dates.ts
 src/director/tooling/grading-batch.ts
   -> src/presentation/runtime-text-origin.ts

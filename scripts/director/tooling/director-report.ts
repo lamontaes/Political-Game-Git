@@ -4,7 +4,7 @@
  * every line is read from the receipt, and names come from the core's
  * records. Nothing here is player text.
  *
- *   npx tsx src/director/tooling/director-report.ts --receipt <receipt.json>
+ *   npx tsx scripts/director/tooling/director-report.ts --receipt <receipt.json>
  *     --person <id> [--output <file.md>]
  */
 import { readFileSync, writeFileSync } from "node:fs";

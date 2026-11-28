@@ -418,7 +418,7 @@
 - `src/director/opening-story.ts` → `src/core2/opening-key-people.ts` [people]
 - `src/director/purpose-scene.ts` → `src/core2/campaign-views.ts` [elections]
 - `src/director/purpose-scene.ts` → `src/core2/modules/interest-groups.ts` [elections]
-- `src/director/tooling/director-year.ts` → `src/core2/opening-finance.ts` [jobs-businesses]
+- `scripts/director/tooling/director-year.ts` → `src/core2/opening-finance.ts` [jobs-businesses]
 
 **left as it was: moving it through the other engine's entry broke a load-order check (a file that loads alone on main fails), or the name is read while the module loads, or the entry already exports a different symbol under that name, or it is a default or namespace import** (1):
 

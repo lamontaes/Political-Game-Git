@@ -100,7 +100,9 @@
     "src/core2/tooling/world-with.ts": "tests/support/world-with.ts",
     "src/core2/trait-pairs.ts": "scripts/core2/trait-pairs.ts",
     "src/core2/trait-test-kit.ts": "tests/support/trait-test-kit.ts",
-    "src/core2/turnover-check.ts": "scripts/core2/turnover-check.ts"
+    "src/core2/turnover-check.ts": "scripts/core2/turnover-check.ts",
+    "src/director/tooling/director-report.ts": "scripts/director/tooling/director-report.ts",
+    "src/director/tooling/director-year.ts": "scripts/director/tooling/director-year.ts"
   },
   "deleted": ["src/core2/tooling/tsconfig.json"]
 }
