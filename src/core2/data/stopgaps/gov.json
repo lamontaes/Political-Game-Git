@@ -2163,5 +2163,17 @@
     "addedAt": "2026-11-24",
     "replacement": "A per-state read of each row office's duties (the county row-office rules' duties, CO-4), through the researcher.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-island-municipality-budget",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 860,
+    "whatItFakes": "An island municipality's budget (Guam's villages, the Northern Marianas' municipalities). The Census finance files cover the states only, so the area's file holds one government row for the area and none for its municipalities. A municipality's budget is the area's own local aid a resident, taken as its intergovernmental revenue and spent on its administration, with revenue equal to spending.",
+    "why": "Without a row the municipality's treasury is empty and its council, mayor and departments cannot be paid (a monthly public-pay shortfall with no revenue to meet it).",
+    "addedBy": "Offices",
+    "addedAt": "2026-11-28",
+    "replacement": "Each island municipality's own approved budget by function and its revenue by source, from the area's budget documents, as a city row in public-budget-bases.json.",
+    "status": "open"
   }
 ]
