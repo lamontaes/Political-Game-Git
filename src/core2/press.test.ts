@@ -129,13 +129,30 @@ describe("campaign interviews", () => {
           townIds.has(p.id) &&
           Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
       );
-      const platformA = [
-        `${pick(PLATFORM_QUESTIONS, "q1")}=1`,
-        `${pick(PLATFORM_QUESTIONS, "q2")}=-1`,
-      ];
-      const platformB = platformA.map((s) =>
-        s.replace("=1", "=x").replace("=-1", "=1").replace("=x", "=-1"),
-      );
+      // The platform is drawn for the race it is filed in, from the platform
+      // questions that race's seat decides (`contestPositions`): a US House
+      // seat decides no state question, so a platform of two state questions
+      // could never be asked about there. A seat that lists none decides
+      // anything, as `seatQuestions` (press.ts) reads it.
+      let platformA: string[] = [];
+      let platformB: string[] = [];
+      const platformsFor = (officeId: string) => {
+        const decided = new Set(contestPositions(api, { officeId }));
+        const pool = decided.size
+          ? PLATFORM_QUESTIONS.filter((q) => decided.has(q))
+          : PLATFORM_QUESTIONS;
+        if (pool.length < 2) return null;
+        const first = pick(pool, `q1:${officeId}`);
+        const second = pick(
+          pool.filter((q) => q !== first),
+          `q2:${officeId}`,
+        );
+        const a = [`${first}=1`, `${second}=-1`];
+        const b = a.map((s) =>
+          s.replace("=1", "=x").replace("=-1", "=1").replace("=x", "=-1"),
+        );
+        return { a, b };
+      };
       let you: FilingRow | null = null;
       let rival: FilingRow | null = null;
       // Every race opens its filing on its own real day, so wait in this
@@ -152,6 +169,10 @@ describe("campaign interviews", () => {
         .at(-1);
       for (;;) {
         for (const contest of openContests(api)) {
+          const platforms = platformsFor(contest.officeId);
+          if (!platforms) continue;
+          platformA = platforms.a;
+          platformB = platforms.b;
           you = fileAndQualify(api, adults[0]!.id, contest.id, platformA);
           if (!you) continue;
           rival = fileAndQualify(api, adults[1]!.id, contest.id, platformB);
