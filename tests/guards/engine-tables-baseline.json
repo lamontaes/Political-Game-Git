@@ -161,9 +161,6 @@
       "jobs-businesses": 2,
       "offices": 2
     },
-    "src/core2/modules/office-day.ts": {
-      "bodies": 3
-    },
     "src/core2/modules/outcome-web.ts": {
       "clock-places": 1,
       "dynamic": 2,
@@ -192,9 +189,6 @@
     "src/core2/modules/residents.ts": {
       "jobs-businesses": 1
     },
-    "src/core2/modules/staff.ts": {
-      "bodies": 2
-    },
     "src/core2/modules/views.ts": {
       "elections": 1
     },
@@ -216,15 +210,6 @@
       "dynamic": 1,
       "homes": 1,
       "jobs-businesses": 1
-    },
-    "src/core2/office-day-acts.ts": {
-      "bodies": 2
-    },
-    "src/core2/office-day-federal.ts": {
-      "bodies": 2
-    },
-    "src/core2/office-day-state.ts": {
-      "bodies": 1
     },
     "src/core2/output-number-readers.ts": {
       "jobs-businesses": 2

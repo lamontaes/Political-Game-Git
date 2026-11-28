@@ -36,6 +36,7 @@ import { type SittingCalendar, type SittingDay } from "./sitting-closeness";
 import { roomTime } from "./modules/people";
 import { chargeOfficeHours, type OfficeTime } from "./modules/work";
 import { personLean } from "./modules/campaigns";
+import { memberChoiceOn } from "./modules/bodies-reads";
 import { personStance } from "./modules/elections";
 import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { lineForPost } from "./budgets-treasury";
@@ -1826,7 +1827,6 @@ function holdForFloorVotes(api: CoreAPI): void {
     for (const chamber of chambersOf(api, bill))
       if (members(api, chamber).some((term) => memberKey(term) === playerId))
         holdFloorDebate(api, bill.id, chamber);
-  const choices = api.moduleState(LEGISLATURE_MODULE_ID).table("choices");
   for (const bill of floorAgendaOn(api, tomorrow)) {
     const sits = chambersOf(api, bill).some((chamber) =>
       members(api, chamber).some((term) => memberKey(term) === playerId),
@@ -1835,7 +1835,7 @@ function holdForFloorVotes(api: CoreAPI): void {
     if (
       !sits ||
       table(api, "floorHolds").get(id) ||
-      choices.get(`${bill.id}|${playerId}`)
+      memberChoiceOn(api, bill.id, playerId)
     )
       continue;
     const held = holdPlayerAt(api, {
