@@ -25,7 +25,6 @@ import {
 } from "../../../src/core2/campaign-day";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { openOffices } from "../../../src/core2/modules/offices";
-import { openRecord } from "../../../src/core2/modules/record";
 import {
   fileCandidacy,
   openContests,
@@ -41,6 +40,7 @@ import { openParties } from "../../../src/core2/modules/parties";
 import { openPress } from "../../../src/core2/modules/press";
 import { viewsModule } from "../../../src/core2/modules/views";
 import { townResidentsByCash } from "../../support/resident-adults-test-kit";
+import { openRecord } from "../../support/open-modules";
 
 const START = "2026-01-05";
 const runSeed =

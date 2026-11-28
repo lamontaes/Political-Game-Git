@@ -36,7 +36,6 @@ import type { CoreState } from "../../../src/core2/types";
 import { lawChain, openLaws } from "../../../src/core2/modules/laws";
 import { openBudgets } from "../../../src/core2/modules/budgets";
 import { openOffices } from "../../../src/core2/modules/offices";
-import { openRecord } from "../../../src/core2/modules/record";
 import {
   fileCandidacy,
   openContests,
@@ -54,6 +53,7 @@ import {
   campaignDayChoices,
   takeCampaignDayChoice,
 } from "../../../src/core2/campaign-day";
+import { openRecord } from "../../support/open-modules";
 
 const START = "2026-01-05";
 const runSeed =

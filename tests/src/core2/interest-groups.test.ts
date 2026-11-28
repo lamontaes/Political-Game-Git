@@ -15,7 +15,6 @@ import { lawInForce, openLaws } from "../../../src/core2/modules/laws";
 import { openOffices, townSeats } from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
-import { openRecord } from "../../../src/core2/modules/record";
 import {
   draftBill,
   employerCosts,
@@ -34,6 +33,7 @@ import {
   searchCorePlaces,
   corePlaceStateIdentities,
 } from "../../../src/core2/place-lookup";
+import { openRecord } from "../../support/open-modules";
 
 const START = "2026-01-05";
 const seed =

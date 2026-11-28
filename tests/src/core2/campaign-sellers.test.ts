@@ -13,7 +13,6 @@ import { buildPopulation } from "../../../src/core2/population";
 import { createLifeCore } from "../../../src/core2/life";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { openOffices } from "../../../src/core2/modules/offices";
-import { openRecord } from "../../../src/core2/modules/record";
 import { openParties } from "../../../src/core2/modules/parties";
 import { openPress } from "../../../src/core2/modules/press";
 import { viewsModule } from "../../../src/core2/modules/views";
@@ -43,6 +42,7 @@ import { coreAPI } from "../../../src/core2/state";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
 import type { CoreState } from "../../../src/core2/types";
 import { townResidentsByCash } from "../../support/resident-adults-test-kit";
+import { openRecord } from "../../support/open-modules";
 
 const PLACES = [
   {

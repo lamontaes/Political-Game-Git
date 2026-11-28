@@ -10,12 +10,12 @@ import {
   HAZARDS,
   hazardFactor,
   hazardRate,
-  openClimate,
   recordedHazardRate,
 } from "../../../src/core2/modules/climate";
 import { countyCode } from "../../../src/core2/modules/disasters";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";
+import { openClimate } from "../../support/open-modules";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const FLOOD = new Set([

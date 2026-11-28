@@ -29,7 +29,6 @@ import declarations from "../data/disasters/declarations.json" with { type: "jso
 import assistance from "../data/disasters/assistance.json" with { type: "json" };
 import households from "../data/disasters/households.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { registerModule } from "../state";
 import { seededUnit } from "../seeded";
 import { hazardOfIncident, stateHazardRate, type Hazard } from "./climate";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
@@ -306,7 +305,7 @@ function schedule(api: CoreAPI): void {
   });
 }
 
-const NATIONAL_EVENTS_MODULE: CoreModule = {
+export const NATIONAL_EVENTS_MODULE: CoreModule = {
   id: NATIONAL_EVENTS_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -333,9 +332,3 @@ const NATIONAL_EVENTS_MODULE: CoreModule = {
     }
   },
 };
-
-/** Install the engine in a world. */
-export function openNationalEvents(core: CoreState): void {
-  if (!core.modules.has(NATIONAL_EVENTS_MODULE_ID))
-    registerModule(core, NATIONAL_EVENTS_MODULE);
-}

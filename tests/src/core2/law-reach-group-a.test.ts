@@ -24,7 +24,6 @@ import {
 import { openOffices, townSeats } from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
-import { openRecord } from "../../../src/core2/modules/record";
 import {
   authorityFor,
   openLegislature,
@@ -66,12 +65,12 @@ import {
 } from "../../../src/core2/law-reach/group-a-voting";
 // After the engines: the outcome web reads this module while it loads.
 import { govMeasure } from "../../../src/core2/gov-measures";
-import { openClimate } from "../../../src/core2/modules/climate";
 import { governmentUnitsForPlace } from "../../../src/core2/reference/government-units";
 import {
   searchCorePlaces,
   corePlaceStateIdentities,
 } from "../../../src/core2/place-lookup";
+import { openClimate, openRecord } from "../../support/open-modules";
 
 const START = "2026-01-05";
 const seed =

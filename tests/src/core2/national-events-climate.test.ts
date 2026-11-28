@@ -13,7 +13,7 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
-import { openClimate, hazardFactor } from "../../../src/core2/modules/climate";
+import { hazardFactor } from "../../../src/core2/modules/climate";
 import {
   enactLaw,
   openLaws,
@@ -22,10 +22,10 @@ import {
 import {
   nationalDisasterDetail,
   nationalEvents,
-  openNationalEvents,
 } from "../../../src/core2/modules/national-events";
 import { buildPopulation } from "../../../src/core2/population";
 import { coreAPI } from "../../../src/core2/state";
+import { openClimate, openNationalEvents } from "../../support/open-modules";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const POWER_PLANTS =

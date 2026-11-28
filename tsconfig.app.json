@@ -34,6 +34,7 @@
     "tests/support/housing-sale-buyer-fixture.ts",
     "tests/support/law-test-start.ts",
     "tests/support/money-traits-kit.ts",
+    "tests/support/open-modules.ts",
     "tests/support/record-test-kit.ts",
     "tests/support/resident-adults-test-kit.ts",
     "tests/support/test-days.ts",
