@@ -3,17 +3,13 @@ import { afterEach, describe, expect, it } from "vitest";
 import { randomBytes } from "node:crypto";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
-import {
-  billPropertyTax,
-  propertyTaxDueDates,
-  registerPropertyTax,
-} from "./housing-property-tax";
+import { billPropertyTax, propertyTaxDueDates } from "./housing-property-tax";
 import { HOUSING_MODULE } from "./modules/housing";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
 import { transferCash } from "./world-transfer";
-import type { CoreInput, Source } from "./types";
+import type { CoreInput, CoreModule, Source } from "./types";
 
 const start = "2021-01-01",
   place = "place:tax-fixture",
@@ -81,13 +77,22 @@ function input(): CoreInput {
   } as CoreInput;
 }
 
-afterEach(() => registerPropertyTax(() => undefined));
+/** The terms the budgets engine would carry as its `propertyTax` field, set per test. */
+let termsNow: NonNullable<CoreModule["propertyTax"]> = () => undefined;
+const TAX_MODULE: CoreModule = {
+  id: "test-property-tax-terms",
+  propertyTax: (api, placeId) => termsNow(api, placeId),
+};
+
+afterEach(() => {
+  termsNow = () => undefined;
+});
 
 describe("property tax bills", () => {
   it("without a law in force, nothing is billed", () => {
     const core = createLifeCore(input(), {
         data: worldCoreData(),
-        modules: [HOUSING_MODULE],
+        modules: [HOUSING_MODULE, TAX_MODULE],
       }),
       api = coreAPI(core);
     advanceCore(core, "2021-01-02");
@@ -110,17 +115,17 @@ describe("property tax bills", () => {
   it.each([false, true])(
     "a 2% cap limits next January's bill for full and counted owners (counted=%s)",
     (counted) => {
-      registerPropertyTax(() => ({
+      termsNow = () => ({
         rate: 0.02,
         assessmentCapShare: 0.02,
         payeeId: county,
         source: src,
-      }));
+      });
       const core = createLifeCore(
           counted ? collapseToTwoLevels(input()) : input(),
           {
             data: worldCoreData(),
-            modules: [HOUSING_MODULE],
+            modules: [HOUSING_MODULE, TAX_MODULE],
           },
         ),
         api = coreAPI(core);
@@ -153,11 +158,11 @@ describe("property tax bills", () => {
   ] as const)(
     "an owner without a mortgage pays %s's installments at the review before each due date, not a twelfth a month (%s)",
     (state, installments, billedMonths) => {
-      registerPropertyTax(() => ({
+      termsNow = () => ({
         rate: 0.02,
         payeeId: county,
         source: src,
-      }));
+      });
       const base = input();
       const core = createLifeCore(
           {
@@ -165,7 +170,7 @@ describe("property tax bills", () => {
             placeMetadata: { housingState: state },
             people: base.people.map((p) => ({ ...p, liquidMinor: 5_000_000 })),
           },
-          { data: worldCoreData(), modules: [HOUSING_MODULE] },
+          { data: worldCoreData(), modules: [HOUSING_MODULE, TAX_MODULE] },
         ),
         api = coreAPI(core);
       advanceCore(core, "2021-01-02");
@@ -200,19 +205,19 @@ describe("property tax bills", () => {
     },
   );
   it("tax an owner can't pay is kept as an arrears row; the next bill adds it, is paid it first, clears the row, and every dollar balances", () => {
-    registerPropertyTax(() => ({
+    termsNow = () => ({
       rate: 0.02,
       payeeId: county,
       lawRowId: "law:property-tax:fixture",
       source: src,
-    }));
+    });
     const base = input();
     const core = createLifeCore(
         {
           ...base,
           people: base.people.map((p) => ({ ...p, liquidMinor: 10_000 })),
         },
-        { data: worldCoreData(), modules: [HOUSING_MODULE] },
+        { data: worldCoreData(), modules: [HOUSING_MODULE, TAX_MODULE] },
       ),
       api = coreAPI(core);
     const all = () =>

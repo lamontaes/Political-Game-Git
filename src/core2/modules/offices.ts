@@ -48,7 +48,7 @@ import {
  * (SG-GOV-territory-legislature-race).
  */
 import { countedResidents, registerElectorate } from "../electorate";
-import { partyName } from "../appointments";
+import { partyName } from "../party-sides";
 import { recordedRaceShare } from "../offices-past-results";
 import { leanedScore } from "../trait-decisions";
 import { coreAPI, fillInPerson, registerModule } from "../state";
@@ -72,9 +72,11 @@ import {
   termStartAfter,
   termStartInYear,
 } from "../elections-calendar";
-import { MOVED_AWAY_EVENT } from "./moves";
+import { MOVED_AWAY_EVENT } from "../moved-away-event";
 import type { OfficialRow } from "./officials";
 import { localOfficesForPlace, type OfficeInput } from "../offices-local";
+
+export { localOfficesForPlace };
 import {
   federalOffices,
   stateOffices,
@@ -689,6 +691,26 @@ export function termOnSeat(api: CoreAPI, seatId: string): TermRow | undefined {
   return servingTermsOnSeat(api, seatId)[0];
 }
 
+/** The terms a seat's holders have left (a seat's history, newest by end date), none where the seat never had a holder. */
+export function endedTermsOnSeat(
+  api: CoreAPI,
+  seatId: string,
+): readonly TermRow[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  return table(api, "terms").query("bySeatStatus", [
+    seatId,
+    "ended",
+  ]) as unknown as TermRow[];
+}
+
+/** The offices that cover the town: its own, its township's and its county's (the `byTown` index). */
+export function townOffices(api: CoreAPI): readonly OfficeInput[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  return table(api, "offices").query("byTown", [
+    true,
+  ]) as unknown as OfficeInput[];
+}
+
 /** A vacancy by its id, or undefined where there is none. */
 export function vacancyById(
   api: CoreAPI,
@@ -850,15 +872,37 @@ function termEnd(
   seat: SeatInput,
   date: string,
 ): string | null {
-  if (!office.termYears) return null;
   const town = table(api, "loaded").get("town") as unknown as
     { stateKey: string; geoid: string } | undefined;
-  const where = {
+  return seatTermEnd({
     office,
+    seat,
     stateKey: office.jurisdiction.startsWith("US-")
       ? office.jurisdiction
       : (town?.stateKey ?? ""),
     placeGeoid: town?.geoid ?? "",
+    date,
+  });
+}
+
+/**
+ * A seat's term end at the opening, from the office and its place alone (`termEnd` reads them
+ * from the world; the century reads them from the build): the start of the term won at the
+ * seat's next regular election on its office's own calendar.
+ */
+export function seatTermEnd(input: {
+  readonly office: OfficeInput;
+  readonly seat: { readonly index: number; readonly electionYear?: number };
+  readonly stateKey: string;
+  readonly placeGeoid: string;
+  readonly date: string;
+}): string | null {
+  const { office, seat, date } = input;
+  if (!office.termYears) return null;
+  const where = {
+    office,
+    stateKey: input.stateKey,
+    placeGeoid: input.placeGeoid,
   };
   const year = seat.electionYear ?? office.nextElectionYear;
   const election =
@@ -3117,7 +3161,8 @@ export {
 } from "./constituent-cases";
 export type { OfficeLevel } from "../offices-local";
 /** A government's title as people say it, read through the executive family's entry. */
-export { partySide } from "../appointments";
+export { partySide } from "../party-sides";
+export { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
 export {
   CORPUS,
   realResult,

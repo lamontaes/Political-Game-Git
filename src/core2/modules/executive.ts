@@ -67,13 +67,8 @@ import {
   townSeats,
   type TermRow,
 } from "./offices";
-import {
-  appointerWeighing,
-  nominateAndConfirm,
-  partySide,
-  type Appointment,
-  type NominationReasons,
-} from "../appointments";
+import { appointerWeighing, nominateAndConfirm, type Appointment, type NominationReasons } from "../appointments";
+import { partySide } from "../party-sides";
 import { drawOfficialIdentity } from "../officials-identity";
 import { personLean } from "../campaign-views";
 import { appointeeHourlyMinor } from "../town-labor-pay";
@@ -112,7 +107,8 @@ import { pairKey } from "../kernel/ids";
 import { headsLocalExecutive } from "../offices-executives";
 export { reviewBoardTerms } from "../central-bank-appointments";
 export type { GenderIdentityKey } from "../gov-rules/types";
-export { nominateAndConfirm, partyName } from "../appointments";
+export { nominateAndConfirm } from "../appointments";
+export { partyName } from "../party-sides";
 export { inflationLeans } from "../central-bank-board";
 export type {
   BoardCandidate,
@@ -121,7 +117,6 @@ export type {
 } from "../central-bank-board";
 export type { BoardAppointer } from "../central-bank-appointments";
 export { placeGovernmentOrganizations } from "../gov-rules/local-governments";
-export { inventedPersonBirthDate } from "../gov-rules/invented-person-age";
 export { municipiosForPlace } from "../gov-rules/county-governing-body-rules";
 export { openOfficialPay } from "./official-pay";
 export { openCases } from "./constituent-cases";

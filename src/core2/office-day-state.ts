@@ -32,20 +32,12 @@ import { sessionYear, type SessionWindow } from "./state-session-calendar";
 import { registerModule } from "./state";
 import { decisionLean, leanedTerm } from "./trait-decisions";
 import { closenessBetween } from "./closeness";
-import {
-  registerSittingCalendar,
-  type SittingCalendar,
-  type SittingDay,
-} from "./sitting-closeness";
+import { type SittingCalendar, type SittingDay } from "./sitting-closeness";
 import { roomTime } from "./modules/people";
-import {
-  chargeOfficeHours,
-  registerOfficeTime,
-  type OfficeTime,
-} from "./modules/work";
+import { chargeOfficeHours, type OfficeTime } from "./modules/work";
 import { personLean, personStance } from "./campaign-views";
 import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
-import { lineForPost, registerLinePayments } from "./budgets-treasury";
+import { lineForPost } from "./budgets-treasury";
 import { outsideGovernment } from "./outside-governments";
 import { stableHash, pairKey } from "./kernel/ids";
 import { addDays, makeIsoDate, weekdayOf } from "./kernel/dates";
@@ -109,6 +101,7 @@ import {
   BUDGETS_MODULE_ID,
   governments,
   setBudgetPriorities,
+  type GovernmentRow,
 } from "./modules/budgets";
 import {
   CASES_MODULE_ID,
@@ -117,10 +110,7 @@ import {
   ownCaseDecision,
 } from "./modules/constituent-cases";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./modules/people";
-import {
-  registerBillIntroduced,
-  registerLeaderRefusalReader,
-} from "./modules/world-legislating";
+import {} from "./modules/world-legislating";
 import { followersOf, outletsHere } from "./modules/press";
 import type { ModuleRow } from "./module-data";
 import type {
@@ -1909,6 +1899,12 @@ export const OFFICE_DAY_STATE_MODULE: CoreModule = {
     // The state budget the governor sends the legislature: the player writes the lines, the character does not.
     { kind: "budget-proposal", byDefault: true },
   ],
+  // A chamber's committees and caucuses sit on the chamber's own days.
+  sittingCalendar: ROOMS,
+  // The per diem a state legislator is owed, which the treasury pays at its close (`linePayments`).
+  linePayments: perDiemLinePayments,
+  // The hours a state legislator's session, committee and caucus days take from their day.
+  officeTime: stateOfficeHoursToday,
   state: {
     schemaVersion: 1,
     tables: {
@@ -1923,16 +1919,22 @@ export const OFFICE_DAY_STATE_MODULE: CoreModule = {
   },
   // The shared office-day engine drives the lifecycle below; a world governor's address comes on its calendar day.
   onCalendarWork: governorAddressDay,
+  // What the world's legislating asks the office day: a leader's hearing for a new bill, and whether a leader refused one.
+  billIntroduced: leaderHearingAsked,
+  leaderRefusalReader: leaderRefused,
 };
 
 // The treasury pays these obligations after revenue arrives and before residual spending.
-registerLinePayments((api, gov) =>
-  api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID) &&
-  gov.level === "state" &&
-  gov.id === lawChain(api).stateKey
+function perDiemLinePayments(
+  api: CoreAPI,
+  gov: GovernmentRow,
+): Record<string, number> {
+  return api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID) &&
+    gov.level === "state" &&
+    gov.id === lawChain(api).stateKey
     ? payPerDiem(api)
-    : {},
-);
+    : {};
+}
 
 registerOfficeActs({
   id: "state-calendar",
@@ -2014,8 +2016,6 @@ registerOfficeActs({
 });
 
 export function openOfficeDayState(core: CoreState): void {
-  registerSittingCalendar(ROOMS);
-  registerOfficeTime(stateOfficeHoursToday);
   if (!core.modules.has(OFFICE_DAY_STATE_MODULE_ID))
     registerModule(core, OFFICE_DAY_STATE_MODULE);
 }
@@ -2141,7 +2141,7 @@ const LEADER_DECISION = "office-day-state.leader-request";
  * party, their tie to the member and their own traits. Registered with the
  * legislating engine, which calls it as each filed change becomes a bill.
  */
-registerBillIntroduced((api, billId) => {
+function leaderHearingAsked(api: CoreAPI, billId: string): void {
   if (!api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID)) return;
   const bill = billOf(api, billId);
   if (!bill || bill.status !== "drafted") return;
@@ -2160,7 +2160,7 @@ registerBillIntroduced((api, billId) => {
   )
     return;
   askLeaderForHearing(api, bill.sponsorId, billId, { schedule: false });
-});
+}
 
 /**
  * How far a bill runs against the person's own position, 0 to 1: the
@@ -2308,15 +2308,16 @@ export function askLeaderForHearing(
 }
 
 // The leader's refused answer keeps the bill off the floor's own order.
-registerLeaderRefusalReader(
-  (api, billId) =>
+function leaderRefused(api: CoreAPI, billId: string): boolean {
+  return (
     api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID) &&
     (
       table(api, "leaderRequests").get(
         `leader-request:${billId}`,
       ) as unknown as LeaderRequestRow | undefined
-    )?.granted === false,
-);
+    )?.granted === false
+  );
+}
 
 /**
  * The member has just offered a deal on a bill whose request the leader

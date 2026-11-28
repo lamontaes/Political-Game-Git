@@ -10,7 +10,7 @@
  */
 import { storyDelivered } from "./modules/news";
 import data from "./data/electorate/parameters.json" with { type: "json" };
-import { nationalParty, partySide } from "./appointments";
+import { nationalParty, partySide } from "./party-sides";
 // The national party of a side, for the century's count (electorate-century.ts).
 export { nationalParty, partySide };
 import { approvalGapPoints } from "./modules/national-opinion";
@@ -20,7 +20,12 @@ import {
   felonyDisenfranchisedShare,
 } from "./law-reach/group-a-voting";
 import { CAMPAIGNS_MODULE_ID } from "./modules/campaigns";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+  servingTermsOnSeat,
+  termsOfPerson,
+} from "./modules/offices";
 import { crimeChange } from "./laws-in-force";
 import { OUTCOME_WEB_MODULE_ID, placeOutcome } from "./modules/outcome-web";
 import { recordAppeal } from "./modules/record";
@@ -325,13 +330,7 @@ export function electorateChange(api: CoreAPI): {
 export function presidentSide(api: CoreAPI): number {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return 0;
   const term = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [
-        "seat:US:president",
-        "serving",
-      ]) as unknown as TermRow[]
+    servingTermsOnSeat(api, "seat:US:president") as unknown as TermRow[]
   )[0];
   return partySide(term?.party ?? null);
 }
@@ -412,14 +411,7 @@ function townConditions(api: CoreAPI, placeId: string) {
 /** Whether a person has held elected office before. */
 function heldOffice(api: CoreAPI, personId: string): boolean {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
-  return (
-    (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("byPerson", [personId]) as unknown as TermRow[]
-    ).length > 0
-  );
+  return (termsOfPerson(api, personId) as unknown as TermRow[]).length > 0;
 }
 
 /**
