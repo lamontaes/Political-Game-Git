@@ -21,7 +21,7 @@ import { OUTLINE_BANK_PARTS } from "../english/outline-planner";
 import { ADDRESS_FACT } from "./opening-facts";
 import { P } from "../core2/parameters";
 import type { CoreState } from "../core2/types";
-import { markWordsStopgap } from "./stopgaps";
+import { markWordsStopgap } from "../core2/stopgaps";
 
 /** One sentence of an address, as its record keeps it. */
 export interface SaidSentence {

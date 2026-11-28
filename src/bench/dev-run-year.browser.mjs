@@ -4,7 +4,7 @@
 // SKIP_SHOT_BEFORE / SKIP_SHOT_AFTER name the screenshot files.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
+import { startLife } from "../../tests/support/start-life.mjs";
 
 const browser = await chromium.launch(
   process.env.BENCH_BROWSER

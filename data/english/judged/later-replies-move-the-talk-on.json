@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 142,
+  "judged": 145,
   "no": {
     "00ta9exztsf": {
       "keys": [
@@ -1276,5 +1276,5 @@
       "why": "'Okay... I'll vote yes' repeats '{bill} has my vote.', 'I won't work against {bill}' repeats 'I'm a no on {bill}', and 'If section {section}... I could vote yes' repeats the section condition, so three of four rehash."
     }
   },
-  "yesHash": "1eoksdn7gh7"
+  "yesHash": "1spnd4gb53l"
 }

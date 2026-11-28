@@ -201,7 +201,7 @@
       "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
       "line": "I won't forget this.",
       "note": "The old line had no insert; this piece says it with one.",
-      "parts": ["scene-talk.close-warn.i-won-t-forget-how-you-vote-on-bill"],
+      "parts": ["scene-talk.close-warn.i-won-t-forget-this-vote-on-bill"],
       "restoredFrom": "scene-talk.close-warn.i-won-t-forget-this"
     },
     {
@@ -230,9 +230,7 @@
       "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
       "line": "You know how this works.",
       "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.follow-threaten.you-know-how-this-works-and-bill-is-no-exception"
-      ],
+      "parts": ["scene-talk.follow-threaten.you-know-how-this-works-on-bill"],
       "restoredFrom": "scene-talk.follow-threaten.you-know-how-this-works"
     },
     {
@@ -242,7 +240,7 @@
       "line": "This is a two-way street. I'll need your vote on mine.",
       "note": "The old line had no insert; this piece says it with one.",
       "parts": [
-        "scene-talk.reply-bargain.this-is-a-two-way-street-you-get-my-vote-on-bill-when-i-get-yours-on-mine"
+        "scene-talk.reply-bargain.this-is-a-two-way-street-on-bill-i-ll-need-your-vote-on-mine"
       ],
       "restoredFrom": "scene-talk.reply-bargain.this-is-a-two-way-street-i-ll-need-your-vote-on-mine"
     },
@@ -297,7 +295,7 @@
       "line": "We have it on the record. I'm just giving you a chance to respond.",
       "note": "The old line had no insert; this piece says it with one.",
       "parts": [
-        "scene-talk.follow-answer.outlet-has-it-on-the-record-i-m-just-giving-you-a-chance-to-respond"
+        "scene-talk.follow-answer.we-have-it-on-the-record-at-outlet-i-m-just-giving-you-a-chance-to-respond"
       ],
       "restoredFrom": "scene-talk.follow-answer.we-have-it-on-the-record-i-m-just-giving-you-a-chance-to-respond"
     },
@@ -352,7 +350,7 @@
       "line": "Even then. It's the right call.",
       "note": "The old line had no insert; this piece says it with one.",
       "parts": [
-        "scene-talk.reply-answer.even-if-it-costs-me-votes-bill-is-the-right-call"
+        "scene-talk.reply-answer.even-then-it-s-the-right-call-on-bill"
       ],
       "restoredFrom": "scene-talk.reply-answer.even-then-it-s-the-right-call"
     },
@@ -394,7 +392,7 @@
       "line": "Then let me answer it on the record.",
       "note": "The old line had no insert; this piece says it with one.",
       "parts": [
-        "scene-talk.reply-answer.then-let-me-answer-outlet-on-the-record"
+        "scene-talk.reply-answer.then-let-me-answer-it-on-the-record-for-outlet"
       ],
       "restoredFrom": "scene-talk.reply-answer.then-let-me-answer-it-on-the-record"
     },

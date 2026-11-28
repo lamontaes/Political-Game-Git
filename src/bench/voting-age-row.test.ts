@@ -7,9 +7,9 @@ import { ageBandOf } from "./whole-figures";
 import parameters from "../core2/data/parameters.json";
 
 const sites = [
-  "m0-check.ts",
-  "m1-10-check.ts",
-  "verify.mjs",
+  "../../scripts/bench/m0-check.ts",
+  "../../scripts/bench/m1-10-check.ts",
+  "../../scripts/bench/verify.mjs",
   "whole-figures.ts",
 ];
 
