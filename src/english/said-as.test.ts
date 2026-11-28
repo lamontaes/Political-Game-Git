@@ -275,3 +275,25 @@ describe("an employer named at the start of a sentence", () => {
     expect(said.texts[1]).toBe("I'm there.");
   });
 });
+
+describe("a plural subject takes a plural verb", () => {
+  it("agrees the engine's plural subjects and leaves singular ones", async () => {
+    const { agreeSubject } = await import("./said-as");
+    expect(
+      agreeSubject("Our roads has slipped 4 percent since I came in."),
+    ).toBe("Our roads have slipped 4 percent since I came in.");
+    expect(agreeSubject("Our air and water has slipped.")).toBe(
+      "Our air and water have slipped.",
+    );
+    expect(
+      agreeSubject("Thanks. Our neighborhoods has slipped a little."),
+    ).toBe("Thanks. Our neighborhoods have slipped a little.");
+    for (const kept of [
+      "Our health care has slipped a little.",
+      "Our news has slipped.",
+      "Our bus has slipped.",
+      "The state of our roads has slipped.",
+    ])
+      expect(agreeSubject(kept)).toBe(kept);
+  });
+});

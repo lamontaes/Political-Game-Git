@@ -345,6 +345,23 @@ export function sentenceStarts(text: string): string {
 }
 
 /**
+ * A plural subject takes a plural verb ("Our roads have slipped", "Our air and
+ * water have slipped"): a sentence that opens on a possessive and a plural
+ * noun phrase, or two nouns joined by "and", then "has", says "have". The
+ * line's own words stay as written; the engine agrees them (CTO, Nov 27, on
+ * "Our roads has slipped": "the fix is the engine's agreement, not an edit").
+ */
+export function agreeSubject(text: string): string {
+  return text.replace(
+    /(^|[.!?]["”]?\s+)((?:Our|Their|My|Your) (?:[\p{L}]+ and [\p{L}]+|(?:[\p{L}]+ ){0,2}[\p{L}]*(?:[^su\s]s|ies))) has\b/gu,
+    (whole, before: string, subject: string) =>
+      /\b(?:news|series|species|physics|economics|politics)$/i.test(subject)
+        ? whole
+        : `${before}${subject} have`,
+  );
+}
+
+/**
  * A person slot left for the said-as reader to word once the whole text is
  * composed: the slot's own case (`{president}`, `{president-object}`,
  * `{president-possessive}`) travels with it, so a slot is never guessed from
