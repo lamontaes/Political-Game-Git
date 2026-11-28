@@ -28,7 +28,7 @@ import { gameStartDate } from "./game-start";
 import { coreAPI } from "./state";
 import { townBodyParties, townRightShare } from "./electorate-places";
 import { OFFICES_MODULE_ID, townSeats } from "./modules/offices";
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 
 const seed = process.env.GOLDEN_PATH_SEED || randomBytes(8).toString("hex");
 console.log(`town-seat-party: seed ${seed}`);

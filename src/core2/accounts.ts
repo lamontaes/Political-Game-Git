@@ -13,11 +13,10 @@
  * accounts.obligation(id); // nextDueAt, arrearsMinor, paidMinor, lastReceipt
  * ```
  */
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, lastDayOfMonth } from "./kernel/dates";
 import type { CashJournalPosting } from "./modules/people";
 import type { CashJournalSourceSlot } from "./journal-state";
 import type { CoreAPI, CoreModule, CoreState, IsoDate, Source } from "./types";
-import { registerWorldMapPart } from "./snapshot";
 import { bookkeeping } from "./bookkeeping";
 
 export const ACCOUNTS_MODULE_ID = "core2-accounts-v1";
@@ -158,7 +157,6 @@ export interface BankDeposit {
 }
 
 const runtimes = new WeakMap<CoreState, Runtime>();
-registerWorldMapPart("core2-accounts", runtimes);
 
 /** Whether a transfer id was already used (in play: this month or last). */
 function usedTransferId(rt: Runtime, date: IsoDate, id: string): boolean {
@@ -671,7 +669,7 @@ export function nextDue(
   const date = new Date(`${at}T00:00:00.000Z`);
   const year = date.getUTCFullYear(),
     month = date.getUTCMonth() + cadence.every,
-    last = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+    last = lastDayOfMonth(year, month + 1);
   return makeIsoDate(
     new Date(Date.UTC(year, month, Math.min(anchorDay, last)))
       .toISOString()
@@ -810,6 +808,7 @@ export function accountsFacade(core: CoreState, api: CoreAPI): Accounts {
 
 export const ACCOUNTS_MODULE: CoreModule = {
   id: ACCOUNTS_MODULE_ID,
+  worldMapParts: { "core2-accounts": { map: runtimes } },
   onDay: settleObligations,
   journalSourceProviders: {
     [SOURCE_KIND]: (api, reference) =>

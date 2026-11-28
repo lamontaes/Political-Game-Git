@@ -18,7 +18,7 @@ import { spanSaid } from "../english/span-words";
 import type { NewsFact } from "./life-news";
 
 /** The situation type that reads these facts. */
-export const CARE_TYPE = "care";
+const CARE_TYPE = "care";
 
 /** The key the health engine keeps an illness's condition under (data/health.json `conditionFactKey`). */
 const CONDITION_FACT_KEY = "condition";

@@ -9,7 +9,7 @@ import questionScopes from "../../data/research/powers-catalog/question-powers.j
 import { wireItem } from "./press-topics";
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { govReport } from "./gov-test-report";
+import { govReport } from "../../scripts/core2/gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
@@ -18,7 +18,8 @@ import { OFFICES_MODULE_ID, openOffices } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
-import { meetingRule, meetsOn } from "./office-day-calendar";
+import { meetsOn } from "./office-day-calendar";
+import { meetingRule } from "./modules/office-day";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { openLegislature, type CommitteeRecord } from "./modules/legislature";
 import { budgetsOf, openBudgets } from "./modules/budgets";

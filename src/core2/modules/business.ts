@@ -14,8 +14,8 @@ import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
 import { carriedLink } from "./outcome-web";
 import { chooseAct } from "../choice";
-import { countedHouseholdSavings, countedPayment } from "../counted-money";
-import { depositsHeld, withdrawSavings } from "../accounts";
+import { countedHouseholdSavings, countedPayment } from "./health";
+import { depositsHeld, withdrawSavings } from "./budgets";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
 import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
@@ -42,17 +42,17 @@ import regions from "../data/regional/regions.json" with { type: "json" };
 import { DEFAULT_BUSINESS_BOOKS_DATA, worldBookRatio } from "../business-books";
 import { worldRate } from "../world-draw";
 import { businessName, businessNameContext } from "../business-names";
-import type { BusinessBooksState } from "../finance-types";
+import type { BusinessBooksState } from "../budgets-treasury";
 import {
   addResidentFlow,
   businessScaleOf,
-  countedHeadcountOf,
-  countedJobsOf,
   outputLostPerYear,
   weightedPayrollMinor,
   purchaseShareOf,
   shiftPurchaseShare,
-} from "../residents-economy";
+} from "./health";
+import { countedHeadcountOf } from "./people";
+import { countedJobsOf } from "./residents";
 import {
   residentFacts,
   countedFundOf,
@@ -61,7 +61,7 @@ import {
 } from "./residents";
 import { foundingLoanLimit, lendForFounding } from "./credit";
 import { registerEmployer, strongestPulls } from "./jobs";
-import { transferCash } from "../world-transfer";
+import { transferCash } from "../budgets-treasury";
 import {
   addRegulatoryCost,
   countyNonattainment,
@@ -84,6 +84,18 @@ import {
   premisesTaxYearMinor,
 } from "./budgets";
 import { PLACE_PRICES_MODULE_ID, businessEnergyLawShare } from "./place-prices";
+export { scaleFirmsToCensus } from "../census-firms";
+export { endLivingPlan, setEverydayPurchase } from "../cost-of-living";
+export {
+  CREDIT_PARAMETERS,
+  bankYes,
+  lendMortgage,
+  monthlyIncome,
+  mortgageRoom,
+} from "./credit";
+export type { WorkPayrollCalendarInput } from "../work-pay-period";
+export { admitPublicPayAuthority } from "../public-work-pay";
+export type { ClaimRow } from "../jobs-benefits";
 
 export { BUSINESS_MODULE_ID };
 export { DEFAULT_BUSINESS_BOOKS_DATA };
@@ -95,6 +107,7 @@ export {
 } from "../business-books-view";
 /** What a business paid by name under a law or tax: every payer engine records it here (business-charges.ts). */
 export { firmCharged } from "../business-charges";
+export { businessName, businessNameContext } from "../business-names";
 /** A household's books as other families read them: its medical debt and what it keeps back for its home. */
 export {
   medicalDebtOf,
@@ -186,6 +199,8 @@ interface Market {
   staff: number;
   /** The incumbents' annual demand, nominal. */
   demandMinor: number;
+  /** How many real firms a record of this market stands for: the incumbents' mean payroll weight (1 at the sample's size). */
+  weight: number;
 }
 
 function store(api: CoreAPI) {
@@ -1883,6 +1898,7 @@ function marketRoom(api: CoreAPI): Market[] {
       demand: number;
       nominal: number;
       capacity: number;
+      weights: number;
       incumbents: string[];
       staff: number;
     }
@@ -1897,6 +1913,7 @@ function marketRoom(api: CoreAPI): Market[] {
       demand: 0,
       nominal: 0,
       capacity: 0,
+      weights: 0,
       incumbents: [],
       staff: 0,
     };
@@ -1904,6 +1921,7 @@ function marketRoom(api: CoreAPI): Market[] {
     row.demand += book.annualDemandMinor / (book.price / book.anchorPrice || 1);
     row.nominal += book.annualDemandMinor;
     row.capacity += book.capacityMinor;
+    row.weights += businessScaleOf(c, id);
     row.incumbents.push(id);
     row.staff += staffNow(c, id);
     out.set(key, row);
@@ -1915,6 +1933,7 @@ function marketRoom(api: CoreAPI): Market[] {
     incumbents: row.incumbents,
     staff: row.staff,
     demandMinor: row.nominal,
+    weight: row.weights / Math.max(1, row.incumbents.length),
   }));
 }
 
@@ -1989,14 +2008,19 @@ function foundings(api: CoreAPI): void {
       monthlyIncome *
         p("macroMonthsPerYear") *
         p("businessFounderLoanIncomeMultiple");
-    return Math.max(0, Math.log((startupCost(api, row) + 1) / (reach + 1)));
+    return Math.max(
+      0,
+      Math.log((startupCost(api, row) / row.weight + 1) / (reach + 1)),
+    );
   };
   /** The owner's prospect against what this person earns now (with a floor for the jobless). */
   const prospect = (row: Market, monthlyIncome: number) => {
     const floor =
       medianPay(row.placeId) * p("businessProspectIncomeFloorShare");
     const income = Math.max(monthlyIncome, floor);
-    return income > 0 ? Math.log((prospectMonthly(api, row) + 1) / income) : 0;
+    return income > 0
+      ? Math.log((prospectMonthly(api, row) / row.weight + 1) / income)
+      : 0;
   };
   const markets = marketRoom(api)
     .filter(
@@ -2269,6 +2293,44 @@ function foundOption(
   };
 }
 
+/**
+ * Whether a market's founding is due this month. A record in a market stands for `weight` real
+ * firms, and one founding of it is `weight` of them opened at once, so a market that attracts a
+ * founder every month would open a firm a month for every record's worth of firms, a flood the
+ * size of the town's weight. The founding builds as a pull of one over the weight a month, as the
+ * jobs engine's turnover builds, and is made when the pull reaches one whole (a market at the
+ * sample's size, weight 1, founds the month a founder is ready, as before).
+ */
+/**
+ * One month's step of a market's founding pull: the pull carried, plus one over the weight when
+ * this is the month's first look, and the founding made (the pull reduced by one) when it reaches
+ * one whole. A market at the sample's size (weight 1) is due every month it is asked.
+ */
+export function foundingPullStep(
+  held: { pull: number; month: string } | undefined,
+  month: string,
+  weight: number,
+): { pull: number; month: string; due: boolean } {
+  if (weight <= 1) return { pull: 0, month, due: true };
+  let pull = (held?.pull ?? 0) + (held?.month === month ? 0 : 1 / weight);
+  const due = pull >= 1;
+  if (due) pull -= 1;
+  return { pull, month, due };
+}
+
+function foundingDue(api: CoreAPI, market: Market): boolean {
+  if (market.weight <= 1) return true;
+  const table = store(api).table("foundingPulls");
+  const key = `${market.placeId}|${market.kindId}`;
+  const step = foundingPullStep(
+    table.get(key) as { pull: number; month: string } | undefined,
+    core(api).date.slice(0, 7),
+    market.weight,
+  );
+  table.put({ id: key, pull: step.pull, month: step.month } as never);
+  return step.due;
+}
+
 function found(
   api: CoreAPI,
   founderId: string,
@@ -2277,6 +2339,7 @@ function found(
 ): boolean {
   const c = core(api),
     p = (key: string) => api.parameter(key);
+  if (!foundingDue(api, market)) return false;
   const kindId = market.kindId;
   const founder = ownerPerson(c, founderId)!.person;
   const id = location
@@ -2776,6 +2839,7 @@ export const BUSINESS_MODULE: PreStartModule = {
       draws: { indexes: { byOrganization: { fields: ["organizationId"] } } },
       trading: {},
       foundings: {},
+      foundingPulls: {},
       successions: {},
       closures: {},
       ages: {},
