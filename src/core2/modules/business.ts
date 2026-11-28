@@ -52,13 +52,13 @@ import {
   shiftPurchaseShare,
 } from "./health";
 import { countedHeadcountOf } from "./people";
-import { countedJobsOf } from "./residents";
+import { countedJobsOf } from "../counted-job-heads";
 import {
   residentFacts,
   countedFundOf,
   residentsRuntime,
   supplierBillsOwed,
-} from "./residents";
+} from "../residents-reads";
 import { foundingLoanLimit, lendForFounding } from "./credit";
 import { registerEmployer, strongestPulls } from "./jobs";
 import { transferCash } from "../budgets-treasury";

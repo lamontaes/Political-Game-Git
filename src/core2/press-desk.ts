@@ -34,7 +34,7 @@ import { reachedBy } from "./modules/laws";
 import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
 import { stancesOf, viewOf, VIEWS_SPEAKER_KEY } from "./modules/views-reads";
 import { VIEWS_MODULE_ID } from "./modules/views-constants";
-import { residentsRuntime } from "./modules/residents";
+import { residentsRuntime } from "./residents-reads";
 import { onContestRoll, VOTING_MODULE_ID } from "./modules/voting";
 import { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./modules/elections";
 import { lawRowById } from "./modules/laws-reads";

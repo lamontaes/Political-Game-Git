@@ -970,6 +970,12 @@
 /src/core2/medical-payer-parts.test.ts @lamontaes
 /src/core2/moves-minors.test.ts @lamontaes
 /src/core2/rerate-counted-job.test.ts @lamontaes
+/src/core2/counted-money-moves.ts @lamontaes
+/src/core2/counted-income-reads.ts @lamontaes
+/src/core2/resident-flows.ts @lamontaes
+/src/core2/counted-job-heads.ts @lamontaes
+/src/core2/resident-households.ts @lamontaes
+/src/core2/resident-schooling.ts @lamontaes
 
 # Homes and the housing market (homes)
 /src/core2/modules/housing.ts @lamontaes

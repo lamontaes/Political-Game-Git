@@ -814,7 +814,15 @@
         "src/core2/prices-reads.ts",
         "src/core2/job-lifecycle.ts",
         "src/core2/work-reads.ts",
-        "src/core2/opening-outside-market.ts"
+        "src/core2/opening-outside-market.ts",
+        "src/core2/opening-employment.ts",
+        "src/core2/town-workplaces.ts",
+        "src/core2/town-pay.ts",
+        "src/core2/opening-capital.ts",
+        "src/core2/living-cost-split.ts",
+        "src/core2/public-payroll.ts",
+        "src/core2/modules/credit.ts",
+        "src/core2/modules/place-prices.ts"
       ],
       "paths": [
         "src/core2/shared-time.ts",
@@ -952,7 +960,13 @@
         "src/core2/counted-income-fifth.ts",
         "src/core2/household-income.ts",
         "src/core2/residents-reads.ts",
-        "src/core2/counted-money-reads.ts"
+        "src/core2/counted-money-reads.ts",
+        "src/core2/counted-money-moves.ts",
+        "src/core2/counted-income-reads.ts",
+        "src/core2/resident-flows.ts",
+        "src/core2/counted-job-heads.ts",
+        "src/core2/resident-households.ts",
+        "src/core2/resident-schooling.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -1211,7 +1225,13 @@
         "src/core2/journal-fold.test.ts",
         "src/core2/medical-payer-parts.test.ts",
         "src/core2/moves-minors.test.ts",
-        "src/core2/rerate-counted-job.test.ts"
+        "src/core2/rerate-counted-job.test.ts",
+        "src/core2/counted-money-moves.ts",
+        "src/core2/counted-income-reads.ts",
+        "src/core2/resident-flows.ts",
+        "src/core2/counted-job-heads.ts",
+        "src/core2/resident-households.ts",
+        "src/core2/resident-schooling.ts"
       ]
     },
     {
@@ -1244,6 +1264,7 @@
         "src/core2/past.ts",
         "src/core2/past-module.ts",
         "src/core2/past-work.ts",
+        "src/core2/past-public.ts",
         "src/core2/past-reads.ts",
         "src/core2/pre-start-history.ts"
       ],
