@@ -64,7 +64,7 @@ import { webReach } from "../outcome-web-reach";
 import { type Subject } from "../laws-in-force";
 import { registerModule } from "../state";
 import { isDemoted } from "../counted-groups";
-import { townPlaceOf } from "./residents";
+import { townPlaceOf } from "../residents-reads";
 import type { Parameter } from "../parameters";
 import type { EntityId } from "../kernel/brands";
 import type {

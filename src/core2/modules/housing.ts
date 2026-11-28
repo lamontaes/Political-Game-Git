@@ -41,7 +41,7 @@ import { transferCash } from "../budgets-treasury";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
 import { realPlaceOf, type CountedHousehold } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
-import { awardYearMinor } from "../household-income";
+import { awardYearMinor, DAYS_PER_YEAR } from "../household-income";
 import { unplacedPoolOf, type ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
 import { latestMacroMonth, macroMonthAt } from "../macro-reads";
@@ -63,7 +63,7 @@ import {
   openingMortgages,
   type MortgageTerms,
 } from "../housing-mortgages";
-import { endFlowPart } from "../residents-economy";
+import { endFlowPart } from "../resident-flows";
 import { withoutOutsideShelter } from "../housing-shelter";
 import { billPropertyTax, stateEffectiveRate } from "../housing-property-tax";
 import {
@@ -98,12 +98,8 @@ import {
   type CompletedRentalOffer,
   renewRentalLeases,
 } from "../housing-occupancy";
-import {
-  DAYS_PER_YEAR,
-  openingUnplaced,
-  regroupHousehold,
-  residentsRuntime,
-} from "./residents";
+import { openingUnplaced, regroupHousehold } from "../resident-households";
+import { residentsRuntime } from "../residents-reads";
 import { LAWS_MODULE_ID, lawChain, lawInForce, webReach } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
