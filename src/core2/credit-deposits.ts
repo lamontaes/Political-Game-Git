@@ -1,5 +1,5 @@
 /** Savings decisions in the existing bank review; all cash uses accounts/postJournal. */
-import { bankDeposit, moveBankDeposit } from "./budgets-treasury";
+import { bankDeposit, moveBankDeposit } from "./accounts";
 import { fundBalance } from "./modules/health";
 import { fundOf } from "./modules/residents";
 import { residentsRuntime } from "./modules/residents";

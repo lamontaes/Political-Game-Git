@@ -73,6 +73,7 @@
         "src/core2/past-history.ts",
         "src/core2/journal.ts",
         "src/core2/journal-state.ts",
+        "src/core2/journal-writes.ts",
         "src/core2/cash-host.ts",
         "src/core2/trait-lean.ts"
       ],
@@ -103,6 +104,7 @@
         "src/core2/past-history.ts",
         "src/core2/journal.ts",
         "src/core2/journal-state.ts",
+        "src/core2/journal-writes.ts",
         "src/core2/cash-host.ts",
         "src/core2/trait-lean.ts"
       ]
@@ -942,11 +944,13 @@
         "src/core2/modules/views-constants.ts",
         "src/core2/sitting-closeness.ts",
         "src/core2/counted-income-fifth.ts",
-        "src/core2/household-income.ts"
+        "src/core2/household-income.ts",
+        "src/core2/residents-reads.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
         "src/core2/modules/residents.ts",
+        "src/core2/residents-reads.ts",
         "src/core2/modules/life.ts",
         "src/core2/modules/moves.ts",
         "src/core2/moved-away-event.ts",
@@ -1226,7 +1230,11 @@
     {
       "id": "past",
       "name": "The past before the start",
-      "entry": ["src/core2/past.ts", "src/core2/past-module.ts"],
+      "entry": [
+        "src/core2/past.ts",
+        "src/core2/past-module.ts",
+        "src/core2/past-work.ts"
+      ],
       "paths": [
         "src/core2/past.ts",
         "src/core2/past-*.ts",

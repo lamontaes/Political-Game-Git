@@ -55,6 +55,7 @@
 /src/core2/past-history.ts @lamontaes
 /src/core2/journal.ts @lamontaes
 /src/core2/journal-state.ts @lamontaes
+/src/core2/journal-writes.ts @lamontaes
 /src/core2/cash-host.ts @lamontaes
 /src/core2/trait-lean.ts @lamontaes
 
@@ -713,6 +714,7 @@
 # Households and people (people)
 /src/core2/modules/people.ts @lamontaes
 /src/core2/modules/residents.ts @lamontaes
+/src/core2/residents-reads.ts @lamontaes
 /src/core2/modules/life.ts @lamontaes
 /src/core2/modules/moves.ts @lamontaes
 /src/core2/moved-away-event.ts @lamontaes

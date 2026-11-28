@@ -36,7 +36,7 @@ import {
   officeSeats,
 } from "./modules/offices";
 import { officialOf } from "./modules/officials";
-import { POLICY_QUESTIONS } from "./policy-answers";
+import { POLICY_QUESTIONS } from "./modules/laws-reads";
 import type { ModuleRow } from "./module-data";
 import {
   pastIdentityName,

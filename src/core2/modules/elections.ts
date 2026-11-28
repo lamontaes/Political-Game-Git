@@ -85,7 +85,6 @@ import { seatParty } from "../candidate-pool";
 import {
   answerVacancyOffer,
   governorTicketStage,
-  registerVacancyOffer,
   servingTermsOf,
   townSeats,
   type GovernorTicketStage,
@@ -638,6 +637,11 @@ const CENTURY_HISTORY: HistorySource = {
 export const ELECTIONS_MODULE: CoreModule = {
   id: ELECTIONS_MODULE_ID,
   history: CENTURY_HISTORY,
+  // A town seat the law fills by appointment may be offered to the player first
+  // (once the town is opened: `openElections` writes its town row).
+  vacancyOffer: (api, input: Parameters<typeof offerSeatToPlayer>[1]) =>
+    table(api, "town").get("town") !== undefined &&
+    offerSeatToPlayer(api, input),
   state: {
     schemaVersion: 1,
     tables: {
@@ -1090,8 +1094,6 @@ export function openElections(core: CoreState): void {
     const contest = contestFor(api, entry);
     if (contest) table(api, "contests").put(contest as unknown as ModuleRow);
   }
-  // A town seat the law fills by appointment may be offered to the player first.
-  registerVacancyOffer(offerSeatToPlayer);
 }
 
 /** The record of an appointing body offering the player a vacant seat (a scene stages from it). */
