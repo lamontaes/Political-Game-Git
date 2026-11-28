@@ -22,7 +22,13 @@ import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 import { printStory, type Story } from "./modules/news";
 import { LEGISLATURE_MODULE_ID } from "./modules/legislature";
-import { OFFICES_MODULE_ID, servingTermsOf } from "./modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  officeById,
+  servingTermsOf,
+  termById,
+  termsOfPerson,
+} from "./modules/offices";
 import { isPublicFigure } from "./past-public";
 import { reachedBy } from "./modules/laws";
 import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
@@ -35,6 +41,7 @@ import {
 import { residentsRuntime } from "./modules/residents";
 import { onContestRoll, VOTING_MODULE_ID } from "./modules/voting";
 import { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./modules/elections";
+import { lawRowById } from "./modules/laws-reads";
 
 /**
  * The facts that name the counted household a record happened to and its
@@ -693,16 +700,13 @@ function isBudgetBill(api: CoreAPI, item: WireItem): boolean {
  */
 export function holdsHighOffice(api: CoreAPI, id: string): boolean {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   // The id names the term the official was first seated on, which a re-election or a move to
   // another seat ends: the terms the person serves now (`servingTermsOf`) are what they hold.
-  const minted = offices
-    .table("terms")
-    .get(id.slice("official:".length)) as unknown as
+  const minted = termById(api, id.slice("official:".length)) as unknown as
     { personId: string } | undefined;
   if (!minted) return false;
   return servingTermsOf(api, minted.personId).some((term) => {
-    const office = offices.table("offices").get(term.officeId) as unknown as
+    const office = officeById(api, term.officeId) as unknown as
       { level?: string } | undefined;
     return office?.level === "federal" || office?.level === "state";
   });
@@ -711,16 +715,15 @@ export function holdsHighOffice(api: CoreAPI, id: string): boolean {
 /** Whether the person serves a term in a local (not a state or federal) office. */
 function servesLocally(api: CoreAPI, personId: string): boolean {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   return (
-    offices.table("terms").query("byPerson", [personId]) as unknown as {
+    termsOfPerson(api, personId) as unknown as {
       status?: string;
       officeId: string;
     }[]
   ).some((term) => {
     if (term.status !== "serving") return false;
     const level = (
-      offices.table("offices").get(term.officeId) as unknown as
+      officeById(api, term.officeId) as unknown as
         { level?: string } | undefined
     )?.level;
     return level !== undefined && level !== "federal" && level !== "state";
@@ -1138,8 +1141,7 @@ export function runDesk(
     : null;
   const bindsTown = (lawId: string): boolean => {
     if (!chainJurisdictions) return true;
-    const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
-      { jurisdiction?: string } | undefined;
+    const row = lawRowById(api, lawId) as { jurisdiction?: string } | undefined;
     return !row?.jurisdiction || chainJurisdictions.has(row.jurisdiction);
   };
   // Who a count's result concerns: the named voters on its roll.
