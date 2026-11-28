@@ -306,7 +306,8 @@
         "src/core2/modules/meetings.ts",
         "src/core2/modules/world-panels.ts",
         "src/core2/modules/bodies-reads.ts",
-        "src/core2/legislature-trait-pack.ts"
+        "src/core2/legislature-trait-pack.ts",
+        "src/core2/modules/leadership.ts"
       ],
       "paths": [
         "src/core2/modules/legislature.ts",
