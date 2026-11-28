@@ -158,7 +158,7 @@
             "then": [
               {
                 "speaker": "the clerk",
-                "text": "Good. Go over each name before February 3. I only take the ones that hold up."
+                "text": "Thank you. Read each name over before February 3, because I strike the ones that fail."
               }
             ]
           },
@@ -183,7 +183,7 @@
             ]
           },
           {
-            "offered": "I haven't, and I'd like to read up on it first. I'll be back before February 3.",
+            "offered": "I'll ask around about how this works, and I'll be back before February 3.",
             "move": "leave",
             "then": []
           }
@@ -362,7 +362,7 @@
             ]
           },
           {
-            "offered": "Not yet. Let me read up on how this works before November 4.",
+            "offered": "Let me read up on how this works before November 4.",
             "move": "leave",
             "then": []
           }
@@ -545,12 +545,12 @@
             "then": [
               {
                 "speaker": "the clerk",
-                "text": "The law sets the number and the day, August 12. I just count them."
+                "text": "That's set by law, 25 names by August 12, and I can't move it."
               }
             ]
           },
           {
-            "offered": "No, I haven't. I'll learn how this works and come back before August 12.",
+            "offered": "I'll learn how this works first and come back before August 12.",
             "move": "leave",
             "then": []
           }
