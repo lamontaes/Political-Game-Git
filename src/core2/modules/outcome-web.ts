@@ -44,7 +44,7 @@ import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { schoolMeasure } from "../school-measures";
-import { propertyTaxRateInForce } from "../housing-property-tax";
+import { propertyTaxRateInForce } from "../housing-reads";
 import { schoolsLineAboveBase } from "../budgets-treasury";
 import { inTownChain } from "../laws-in-force";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "./laws";

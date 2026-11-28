@@ -135,10 +135,12 @@
         "src/core2/modules/recalls.ts",
         "src/core2/elections-calendar.ts",
         "src/core2/modules/candidacy-constants.ts",
-        "src/core2/elections-reads.ts"
+        "src/core2/elections-reads.ts",
+        "src/core2/modules/ballot-measures-reads.ts"
       ],
       "paths": [
         "src/core2/elections-reads.ts",
+        "src/core2/modules/ballot-measures-reads.ts",
         "src/core2/modules/elections.ts",
         "src/core2/modules/voting.ts",
         "src/core2/modules/campaigns.ts",
@@ -592,8 +594,10 @@
         "src/core2/modules/justice-reads.ts",
         "src/core2/modules/outcome-web-reads.ts",
         "src/core2/law-reach/reach-parameters.ts",
+        "src/core2/law-reach/group-a-reads.ts",
         "src/core2/justice-parameters.ts",
-        "src/rules/laws/**"
+        "src/rules/laws/**",
+        "src/core2/social-security-law.ts"
       ],
       "paths": [
         "src/core2/modules/laws.ts",
@@ -825,7 +829,16 @@
         "src/core2/living-cost-split.ts",
         "src/core2/public-payroll.ts",
         "src/core2/modules/credit.ts",
-        "src/core2/modules/place-prices.ts"
+        "src/core2/modules/place-prices.ts",
+        "src/core2/business-books.ts",
+        "src/core2/work-pay-period.ts",
+        "src/core2/country-law.ts",
+        "src/core2/opening-department-pay.ts",
+        "src/core2/opening-public-owner.ts",
+        "src/core2/opening-public-pay.ts",
+        "src/core2/opening-work.ts",
+        "src/core2/opening-payroll-calendar.ts",
+        "src/core2/opening-org-profiles.ts"
       ],
       "paths": [
         "src/core2/shared-time.ts",
@@ -971,6 +984,7 @@
         "src/core2/resident-households.ts",
         "src/core2/resident-outside-sales.ts",
         "src/core2/counted-moves-reads.ts",
+        "src/core2/moves-reads.ts",
         "src/core2/retirement-claims-runtime.ts",
         "src/core2/resident-schooling.ts",
         "src/core2/heard-claims.ts",
@@ -1241,6 +1255,7 @@
         "src/core2/resident-households.ts",
         "src/core2/resident-outside-sales.ts",
         "src/core2/counted-moves-reads.ts",
+        "src/core2/moves-reads.ts",
         "src/core2/retirement-claims-runtime.ts",
         "src/core2/resident-schooling.ts"
       ]
@@ -1257,7 +1272,8 @@
         "src/core2/housing-sale.ts",
         "src/core2/housing-property-tax.ts",
         "src/core2/housing-mortgages.ts",
-        "src/core2/housing-reads.ts"
+        "src/core2/housing-reads.ts",
+        "src/core2/housing-writes.ts"
       ],
       "paths": [
         "src/core2/modules/housing.ts",

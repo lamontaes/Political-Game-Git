@@ -18,7 +18,7 @@ import {
   savingWeight,
 } from "./counted-money-reads";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { nextDue } from "./housing-homeless";
+import { nextDue } from "./housing-reads";
 import { reopenResidentFlow, setResidentFlowAmount } from "./resident-flows";
 import { lawApplied, emitLawEffectLearned } from "./law-reach/applied";
 import { CONSTRUCTION_LAW_KEYS } from "./housing-construction-constants";

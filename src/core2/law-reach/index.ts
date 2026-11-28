@@ -5,7 +5,7 @@
  */
 import { registerGroupA } from "./group-a";
 import { payRedistrictingCommission } from "./group-a-voting";
-import { POLICIES } from "./group-a-records";
+import { POLICIES } from "./group-a-reads";
 import {
   GROUP_B_KEYS,
   groupBPolicy,

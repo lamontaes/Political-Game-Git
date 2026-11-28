@@ -39,7 +39,7 @@ import { onContestRoll, VOTING_MODULE_ID } from "./modules/voting";
 import {
   BALLOT_MEASURES_MODULE_ID,
   measureVoteOf,
-} from "./modules/ballot-measures";
+} from "./modules/ballot-measures-reads";
 import { lawRowById } from "./modules/laws-reads";
 
 /**

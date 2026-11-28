@@ -108,6 +108,8 @@
 # Elections and campaigns (elections)
 /src/core2/elections-reads.ts @lamontaes
 /tests/src/core2/elections-reads.ts @lamontaes
+/src/core2/modules/ballot-measures-reads.ts @lamontaes
+/tests/src/core2/modules/ballot-measures-reads.ts @lamontaes
 /src/core2/modules/elections.ts @lamontaes
 /tests/src/core2/modules/elections.ts @lamontaes
 /src/core2/modules/voting.ts @lamontaes
@@ -1296,6 +1298,8 @@
 /tests/src/core2/resident-outside-sales.ts @lamontaes
 /src/core2/counted-moves-reads.ts @lamontaes
 /tests/src/core2/counted-moves-reads.ts @lamontaes
+/src/core2/moves-reads.ts @lamontaes
+/tests/src/core2/moves-reads.ts @lamontaes
 /src/core2/retirement-claims-runtime.ts @lamontaes
 /tests/src/core2/retirement-claims-runtime.ts @lamontaes
 /src/core2/resident-schooling.ts @lamontaes

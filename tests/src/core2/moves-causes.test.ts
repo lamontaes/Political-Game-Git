@@ -42,13 +42,19 @@ const INACTIVE = "husk";
 const DRAW_MS = 600_000;
 
 it("reads no cap or cutoff parameter", () => {
-  const source = readFileSync(
-    new URL(
-      "./modules/moves.ts",
-      new URL("../../../src/core2/moves-causes.test.ts", import.meta.url).href,
-    ),
-    "utf8",
-  );
+  // modules/moves.ts and the reads it moved to moves-reads.ts (Rings, Nov 28).
+  const source = ["./modules/moves.ts", "./moves-reads.ts"]
+    .map((file) =>
+      readFileSync(
+        new URL(
+          file,
+          new URL("../../../src/core2/moves-causes.test.ts", import.meta.url)
+            .href,
+        ),
+        "utf8",
+      ),
+    )
+    .join("\n");
   for (const key of GONE) {
     expect(MOVES_PARAMETERS[key], key).toBeUndefined();
     expect(source.includes(key), key).toBe(false);

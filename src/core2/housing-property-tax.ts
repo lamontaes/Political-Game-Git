@@ -15,12 +15,13 @@ import taxData from "./data/housing/property-tax.json" with { type: "json" };
 import { countedHouseholdStands, countedPayment } from "./counted-money";
 import { lawApplied } from "./law-reach/applied";
 import type { ModuleTable } from "./module-state";
-import { fieldsOf } from "./module-fields";
 import { isoDateFromParts, lastDayOfMonth, weekdayOf } from "./kernel/dates";
 import { townOutsideOf } from "./opening-outside-market";
 import { placeStateKey } from "./place-map";
 import { transferCash } from "./budgets-treasury";
 import type { CoreAPI, CoreState, Source } from "./types";
+import { terms } from "./housing-reads";
+export { propertyTaxRateInForce } from "./housing-reads";
 
 export interface PropertyTaxTerms {
   /** Annual tax as a share of assessed value. */
@@ -121,32 +122,6 @@ function installmentDue(date: string, due: PropertyTaxDueDates): boolean {
       return at >= date && at < next;
     }),
   );
-}
-
-/**
- * The property tax rate in force where owners are billed, as a share of home
- * value, and the law row it stands on; none until a government's rate is
- * registered.
- */
-export function propertyTaxRateInForce(
-  api: CoreAPI,
-  placeId: string,
-): { share: number; recordId: string | null } | null {
-  // The rate in force is the town's law; other places are not billed by it.
-  if (api.state.placeMetadata?.housingTown !== placeId) return null;
-  const registered = terms(api, placeId);
-  return registered
-    ? { share: registered.rate, recordId: registered.lawRowId ?? null }
-    : null;
-}
-
-/** The rate, cap and payee in force; none where no law is registered (the budgets engine registers it from the law in force). */
-function terms(api: CoreAPI, placeId: string): PropertyTaxTerms | undefined {
-  for (const source of fieldsOf(api.state, "propertyTax")) {
-    const found = source(api, placeId);
-    if (found) return found;
-  }
-  return undefined;
 }
 
 interface AssessmentRow {

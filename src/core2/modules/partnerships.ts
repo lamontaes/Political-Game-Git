@@ -61,7 +61,7 @@ import {
   type GenderIdentityKey,
 } from "../gov-rules/person-identity";
 import { birthCohortGivenName } from "../gov-rules/given-name-cohorts";
-import { inGroupQuarters, livesElsewhere } from "./moves";
+import { inGroupQuarters, livesElsewhere } from "../moves-reads";
 import { takeCoarsePerson } from "./counted-moves";
 import { reviewMentorship } from "./mentorship";
 import { rescueOnset } from "./rescue";

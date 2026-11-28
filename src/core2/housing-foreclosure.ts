@@ -24,7 +24,7 @@ import { householdIncome, residentsRuntime } from "./residents-reads";
 import { leaveCountedHome } from "./housing-homeless";
 import { formerHome } from "./housing-former-home";
 import { homeValueToday } from "./housing-price-level";
-import { listHome } from "./housing-listings";
+import { listHome } from "./housing-writes";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, CoreState } from "./types";
 
