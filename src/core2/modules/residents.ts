@@ -48,7 +48,7 @@ import type {
   Source,
   WorkCommitmentInput,
 } from "../types";
-import { registerSnapshotPart } from "../snapshot";
+import type { SnapshotPart } from "../snapshot";
 import {
   ageBandOf,
   ageOn,
@@ -85,6 +85,7 @@ import { corePlaceByKey } from "../place-lookup";
 import { outsideLaborForce } from "../gov-rules/place-population";
 import { sellHome } from "../housing-sale";
 import { fieldsOf } from "../module-fields";
+import { lookingForWork } from "../jobs-reads";
 import {
   addCountedJob,
   countedJobHeads,
@@ -290,7 +291,7 @@ const runtimes = new WeakMap<CoreState, ResidentsRuntime>();
 /** The core a runtime belongs to, for the counted households' income reads before the first day opens its api. */
 const coreOfRuntime = new WeakMap<ResidentsRuntime, CoreState>();
 // The store is plain columns; the record views over it are rebuilt.
-registerSnapshotPart("core2-residents", {
+const RESIDENTS_SNAPSHOT_PART: SnapshotPart = {
   save: (core) => {
     const rt = runtimes.get(core);
     if (!rt) return undefined;
@@ -335,7 +336,7 @@ registerSnapshotPart("core2-residents", {
     runtimes.set(core, restored);
     coreOfRuntime.set(restored, core);
   },
-});
+};
 
 const COUNTED = COUNTED_ROWS as unknown as Readonly<
   Record<string, { value: number }>
@@ -2572,6 +2573,7 @@ export function residentWageShortfall(
 export const RESIDENTS_MODULE: CoreModule = {
   countedPerson: residentPerson,
   id: RESIDENTS_MODULE_ID,
+  snapshotParts: { "core2-residents": RESIDENTS_SNAPSHOT_PART },
   // The counted people the opening records are admitted once the core exists.
   onOpen: (core, input) => {
     if (input.residents) admitResidents(core, input.residents);
@@ -2813,26 +2815,16 @@ export function residentsPart(
         part.cashMinor += rt.api.accounts().balance(fund);
   }
   // Looking: a seeker's row in either of the jobs engine's tables, each person once.
-  if (core.modules.has("jobs")) {
-    const looked = new Set<string>();
-    for (const table of ["seekers", "countedSeekers"])
-      for (const row of api
-        .moduleState("jobs")
-        .table(table)
-        .rows() as unknown as {
-        personId: string;
-        employed?: boolean;
-      }[]) {
-        const who = heads.get(row.personId);
-        if (row.employed || !who || who.band < 0 || looked.has(row.personId))
-          continue;
-        looked.add(row.personId);
-        const looking = who.looking
-          ? Math.min(who.heads, who.looking.left)
-          : who.heads;
-        if (who.looking) who.looking.left -= looking;
-        part.seekers[who.band]! += looking;
-      }
+  for (const row of lookingForWork(api)) {
+    // The jobs engine skips a hired row in either table; the door keeps a counted one.
+    if ((row as { employed?: boolean }).employed) continue;
+    const who = heads.get(row.personId);
+    if (!who || who.band < 0) continue;
+    const looking = who.looking
+      ? Math.min(who.heads, who.looking.left)
+      : who.heads;
+    if (who.looking) who.looking.left -= looking;
+    part.seekers[who.band]! += looking;
   }
   return part;
 }

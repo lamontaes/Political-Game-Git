@@ -275,15 +275,11 @@
 /src/core2/second-chamber-own-day.test.ts @lamontaes
 /src/core2/sitting-focus.test.ts @lamontaes
 
-# Executives and offices (executive)
-/src/core2/modules/executive.ts @lamontaes
+# Offices and seats (offices)
 /src/core2/modules/offices.ts @lamontaes
 /src/core2/modules/officials.ts @lamontaes
-/src/core2/modules/office-day.ts @lamontaes
 /src/core2/modules/official-pay.ts @lamontaes
-/src/core2/modules/staff.ts @lamontaes
 /src/core2/modules/succession.ts @lamontaes
-/src/core2/modules/constituent-cases.ts @lamontaes
 /src/core2/office-*.ts @lamontaes
 /src/core2/offices-*.ts @lamontaes
 /src/core2/officials-*.ts @lamontaes
@@ -295,28 +291,20 @@
 /src/core2/government-jurisdictions.ts @lamontaes
 /src/core2/government-proper-name.ts @lamontaes
 /src/core2/gov-rules/** @lamontaes
-/src/core2/modules/president-acts.ts @lamontaes
 /src/core2/acting-head.test.ts @lamontaes
 /src/core2/appointee-not-seat-holder.test.ts @lamontaes
 /src/core2/appointer-traits.test.ts @lamontaes
 /src/core2/appointments.test.ts @lamontaes
 /src/core2/cabinet-from-the-state.test.ts @lamontaes
-/src/core2/case-referral-read.test.ts @lamontaes
-/src/core2/constituent-case-family-custody.test.ts @lamontaes
 /src/core2/council-chosen-mayor.test.ts @lamontaes
 /src/core2/county-row-offices.test.ts @lamontaes
 /src/core2/elections-law.test.ts @lamontaes
-/src/core2/emergency-declaration.test.ts @lamontaes
-/src/core2/executive-appoints-known.test.ts @lamontaes
 /src/core2/executive-term-limits.test.ts @lamontaes
-/src/core2/federal-casework.test.ts @lamontaes
 /src/core2/federal-issue-axes.test.ts @lamontaes
 /src/core2/first-term-age-spread.test.ts @lamontaes
 /src/core2/forced-causes.test.ts @lamontaes
 /src/core2/government-proper-name.test.ts @lamontaes
 /src/core2/government-units-incorporated.test.ts @lamontaes
-/src/core2/governor-appointment-job-ends.test.ts @lamontaes
-/src/core2/governor-pick-from-the-state.test.ts @lamontaes
 /src/core2/governor-seated-day.test.ts @lamontaes
 /src/core2/leadership-membership-kept.test.ts @lamontaes
 /src/core2/leadership-rating-reuse.test.ts @lamontaes
@@ -334,20 +322,11 @@
 /src/core2/official-salary-statewide.test.ts @lamontaes
 /src/core2/official-salary-table.test.ts @lamontaes
 /src/core2/officials.test.ts @lamontaes
-/src/core2/president-acts.test.ts @lamontaes
-/src/core2/president-orders.test.ts @lamontaes
-/src/core2/public-post-schedule.test.ts @lamontaes
 /src/core2/recall-for-cause.test.ts @lamontaes
 /src/core2/seat-winner-day.test.ts @lamontaes
 /src/core2/shares.test.ts @lamontaes
 /src/core2/special-election-outside.test.ts @lamontaes
 /src/core2/special-election-seats.test.ts @lamontaes
-/src/core2/staff-absence.test.ts @lamontaes
-/src/core2/staff-counted-employed.test.ts @lamontaes
-/src/core2/staff-never-hires-the-player.test.ts @lamontaes
-/src/core2/staff-no-unpaid-aide.test.ts @lamontaes
-/src/core2/staff-paid-every-place.test.ts @lamontaes
-/src/core2/staff.test.ts @lamontaes
 /src/core2/term-start-history.test.ts @lamontaes
 /src/core2/term-start-true-day.test.ts @lamontaes
 /src/core2/town-seat-party.test.ts @lamontaes
@@ -357,6 +336,31 @@
 /src/core2/staff-dismissal-after-attendance.test.ts @lamontaes
 /src/core2/staff-player-clock.test.ts @lamontaes
 /src/core2/succession.test.ts @lamontaes
+
+# Governing: the officeholder's day (governing)
+/src/core2/modules/executive.ts @lamontaes
+/src/core2/modules/office-day.ts @lamontaes
+/src/core2/modules/staff.ts @lamontaes
+/src/core2/modules/constituent-cases.ts @lamontaes
+/src/core2/modules/president-acts.ts @lamontaes
+/src/core2/case-referral-read.test.ts @lamontaes
+/src/core2/constituent-case-family-custody.test.ts @lamontaes
+/src/core2/emergency-declaration.test.ts @lamontaes
+/src/core2/executive-appoints-known.test.ts @lamontaes
+/src/core2/federal-casework.test.ts @lamontaes
+/src/core2/governor-appointment-job-ends.test.ts @lamontaes
+/src/core2/governor-pick-from-the-state.test.ts @lamontaes
+/src/core2/president-acts.test.ts @lamontaes
+/src/core2/president-orders.test.ts @lamontaes
+/src/core2/public-post-schedule.test.ts @lamontaes
+/src/core2/staff-absence.test.ts @lamontaes
+/src/core2/staff-counted-employed.test.ts @lamontaes
+/src/core2/staff-never-hires-the-player.test.ts @lamontaes
+/src/core2/staff-no-unpaid-aide.test.ts @lamontaes
+/src/core2/staff-paid-every-place.test.ts @lamontaes
+/src/core2/staff.test.ts @lamontaes
+/src/core2/office-day-*.ts @lamontaes
+/src/core2/office-holdover.ts @lamontaes
 
 # Budgets, taxes and public money (budgets)
 /src/core2/modules/budgets.ts @lamontaes

@@ -84,13 +84,19 @@ import {
 } from "./legislature";
 import { filesAhead, filingsOwed, voteAtMeeting } from "./world-legislating";
 import {
-  nextMeeting as nextOnRule,
+  nextMeetingOf,
+  meetingRuleOf,
   bodyPopulation,
   officeDayParameter,
   type MeetingRule,
 } from "../office-day-calendar";
-// The meeting rule, for readers outside the family.
-export { meetingRule, officeDayParameter } from "../office-day-calendar";
+export { officeDayParameter };
+/** A body's meeting rule (by its office's id), for readers outside the family. */
+export const meetingRule = (
+  api: CoreAPI,
+  officeId: string,
+  countyGeoid?: string,
+) => meetingRuleOf(api, officeById(api, officeId), countyGeoid);
 // The federal holidays, for the calendar screen.
 export {
   federalHolidayName,
@@ -544,7 +550,12 @@ export function setStops(
 
 /** The body's next meeting on its rule; a county board's size band reads the town's county. */
 const nextMeeting = (api: CoreAPI, officeId: string, after: string) =>
-  nextOnRule(api, officeId, after, lawChain(api).countyGeoids[0]);
+  nextMeetingOf(
+    api,
+    officeById(api, officeId),
+    after,
+    lawChain(api).countyGeoids[0],
+  );
 
 const dayOffset = (date: string, days: number) =>
   addDays(makeIsoDate(date), days);

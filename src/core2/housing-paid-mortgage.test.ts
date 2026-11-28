@@ -7,7 +7,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import type { MortgageTerms } from "./housing-mortgages";
-import { allMortgageRows } from "./modules/housing";
+import { allMortgageRows } from "./housing-reads";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { residentsRuntime } from "./modules/residents";

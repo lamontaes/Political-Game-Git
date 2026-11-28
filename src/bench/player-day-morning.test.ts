@@ -8,6 +8,7 @@
 import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { advanceToFilingOpen } from "../../tests/support/gov-test-clock";
 import { buildBenchWorld } from "./world";
 import { BenchPlayer } from "./player";
 import { gameStartDate } from "../core2/game-start";
@@ -52,6 +53,8 @@ function openWorld(index: number) {
 /** A local filing (never federal or state) by an adult who holds no seat, from the records. */
 function fileLocal(core: CoreState, adults: readonly { id: string }[]) {
   const api = coreAPI(core);
+  // Every race opens its filing on its own real day, so play to the first.
+  advanceToFilingOpen(core);
   for (const candidate of adults) {
     if (townSeats(api).some((s) => s.holder?.personId === candidate.id))
       continue;

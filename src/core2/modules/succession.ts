@@ -25,7 +25,7 @@ import { nominateAndConfirm } from "../appointments";
 import { partySide } from "../party-sides";
 import { boardAppointer } from "../board-appointer";
 import { campaignParameter } from "../campaign-data";
-import { NATIVITY_FACT } from "../nativity";
+import { NATIVITY_FACT } from "./health";
 import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
 import {
   OFFICIALS_MODULE_ID,
