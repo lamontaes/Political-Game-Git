@@ -45,7 +45,7 @@ const SOURCES: Record<string, Source> = {
     prefix: "scene-talk.",
     slot: "issue",
     filledFrom:
-      "the bill's question, named as the bill catalog records it (the bank's own slot note)",
+      "the question as people say it (questionSaid), the people's words; the check stays on the lines that fill it",
   },
   "bring-it-up {topic}": {
     bank: "bring-it-up",
