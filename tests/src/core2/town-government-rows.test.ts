@@ -20,7 +20,12 @@ import {
 import { placeLocalities } from "../../../src/core2/places";
 import { coreAPI } from "../../../src/core2/state";
 import { governments } from "../../../src/core2/modules/budgets";
-import { budgetInForce } from "../../../src/core2/budgets-treasury";
+import {
+  budgetInForce,
+  treasuryMonthsOf,
+} from "../../../src/core2/budgets-treasury";
+import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
+import { advanceCore } from "../../../src/core2/life";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const hashOf = (label: string) =>
@@ -53,7 +58,12 @@ function drawTown(label: string, states: readonly string[]) {
   );
 }
 
-function checkTownGovernment(label: string, states: readonly string[]): void {
+function checkTownGovernment(
+  label: string,
+  states: readonly string[],
+  /** Run a year and a month and check the treasury met its public payroll. */
+  runYear = false,
+): void {
   const { hash, locality, unit } = drawTown(label, states);
   const where = `${locality.displayName} (${locality.key}), seed ${hash}`;
   const { core } = buildBenchWorld(hash, gameStartDate(), {
@@ -70,6 +80,18 @@ function checkTownGovernment(label: string, states: readonly string[]): void {
     Object.values(lines).reduce((a, b) => a + b, 0);
   expect(sum(budget!.spendingMinor), `${where}: spending`).toBeGreaterThan(0);
   expect(sum(budget!.revenueMinor), `${where}: revenue`).toBeGreaterThan(0);
+  if (runYear) {
+    advanceCore(core, addDays(makeIsoDate(core.date), 400));
+    const months = treasuryMonthsOf(api, city!.id);
+    const collected = months.reduce((n, m) => n + m.collectedMinor, 0);
+    const short = months.reduce((n, m) => n + m.publicPayShortfallMinor, 0);
+    expect(months.length, `${where}: treasury months`).toBeGreaterThan(0);
+    // The municipality's revenue is sized for the residents it governs, so
+    // its opening payroll fits it; a hole that drifts deeper each month fails.
+    expect(short, `${where}: public-pay shortfall`).toBeLessThanOrEqual(
+      collected * 0.05,
+    );
+  }
   console.log(
     `town-government-rows ${where}: ${city!.id} ${city!.name}, spending ${sum(budget!.spendingMinor)}, revenue ${sum(budget!.revenueMinor)}`,
   );
@@ -78,7 +100,7 @@ function checkTownGovernment(label: string, states: readonly string[]): void {
 const ISLAND_MUNICIPALITIES = ["US-GU", "US-MP"];
 
 it(`an island municipality has a government and a budget in a drawn island place, seed ${seed}`, () => {
-  checkTownGovernment("island-municipality", ISLAND_MUNICIPALITIES);
+  checkTownGovernment("island-municipality", ISLAND_MUNICIPALITIES, true);
 }, 300_000);
 
 it(`a town has a government and a budget in a drawn place of any of the 56, seed ${seed}`, () => {

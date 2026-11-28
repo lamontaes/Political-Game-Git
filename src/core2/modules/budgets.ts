@@ -53,6 +53,7 @@ import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import {
   countyGovernmentUnit,
   governmentUnitJurisdictionId,
+  islandMunicipalityResidents,
   type GovernmentUnitType,
 } from "../reference/government-units";
 import {
@@ -1055,7 +1056,9 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
             "municipal",
             townResidents,
           ),
-          residents: townResidents,
+          // An island municipality governs every village it covers; the town
+          // opened is one of them.
+          residents: islandMunicipalityResidents(city.id) ?? townResidents,
         },
         city.id,
         city.unitType,
