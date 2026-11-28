@@ -40,32 +40,37 @@ import { withCountedQuarterPay } from "./pay-by-quarter";
 import type { ResidentFlowInput } from "./residents";
 import type { CoreAPI, CoreState, PersonId, PlaceId, Source } from "./types";
 import {
-  type SplitFlow,
-  claimsCache,
   claimsInGroup,
+  flowScale,
   flowWeights,
   fundBalance,
   fundOf,
-  groupPeople,
   householdById,
+  HOUSING_KINDS,
   placeWeights,
   savingWeight,
-  weigh,
+  type SplitFlow,
+  splitWhole,
+  workersByGroup,
 } from "./counted-money-reads";
 export {
+  claimMoved,
   claimsInGroup,
+  flowScale,
   flowWeights,
   fundBalance,
   fundOf,
+  HOUSING_KINDS,
   peopleInGroup,
+  placeHasGroups,
   placeWeights,
   savingClaim,
   savingWeight,
+  splitWhole,
+  workersByGroup,
 } from "./counted-money-reads";
 
 export const UNKEYED_STOPGAP = "SG-CORE-counted-unkeyed-money";
-
-export const HOUSING_KINDS = new Set(["household.rent", "household.mortgage"]);
 
 /**
  * A counted household's bank savings: its share of its group's deposits, by
@@ -106,38 +111,6 @@ export function countedHouseholdSavings(
   };
 }
 
-/** A household moved from one group to another with `claim`: each group's kept claims change by it. */
-export function claimMoved(
-  rt: ResidentsRuntime,
-  from: number,
-  to: number,
-  claim: number,
-): void {
-  if (from === to) return;
-  const cache = claimsCache(rt);
-  for (const [group, change] of [
-    [from, -claim],
-    [to, claim],
-  ] as const) {
-    const held = cache.get(group);
-    if (held !== undefined) cache.set(group, held + change);
-  }
-}
-
-/** Whether a place has counted groups with people (`placeWeights` is not empty), kept with `groupPeople`. */
-export function placeHasGroups(
-  rt: ResidentsRuntime,
-  placeId: PlaceId,
-): boolean {
-  const people = groupPeople(rt);
-  const held = rt.moneyCache.places;
-  if (held && held.of === people) return held.set.has(placeId);
-  const set = new Set<string>();
-  for (const g of people.keys()) set.add(rt.store.groups[g]!.placeId);
-  rt.moneyCache.places = { of: people, set };
-  return set.has(placeId);
-}
-
 /**
  * The people (counted members times weight) and real households a counted
  * household record stands for, or nothing when the id is not a counted
@@ -155,39 +128,6 @@ export function countedHouseholdStands(
         households: rt!.store.weightOf(h),
       }
     : undefined;
-}
-
-/**
- * How many times a flow's amount is moved: each keyed part stands for as many
- * real households as its household's weight says (one model, two tiers), so a
- * flow of weighted households moves the sum of its parts times their weights;
- * a part nobody keyed is the place's own bill and is not scaled. One for a
- * town whose households each stand for one.
- */
-export function flowScale(rt: ResidentsRuntime, flow: SplitFlow): number {
-  return weigh(rt, flow).scale;
-}
-
-/** Split a whole amount by weights, the cents left by rounding to the largest share. */
-export function splitWhole(
-  amount: number,
-  weights: ReadonlyMap<number, number>,
-): Map<number, number> {
-  const out = new Map<number, number>();
-  const total = [...weights.values()].reduce((n, v) => n + v, 0);
-  if (total <= 0 || amount === 0) return out;
-  let given = 0,
-    largest = -1,
-    largestWeight = -1;
-  for (const [group, weight] of weights) {
-    if (weight <= 0) continue;
-    const part = Math.floor((amount * weight) / total);
-    out.set(group, part);
-    given += part;
-    if (weight > largestWeight) [largest, largestWeight] = [group, weight];
-  }
-  if (largest >= 0) out.set(largest, out.get(largest)! + amount - given);
-  return out;
 }
 
 /**
@@ -372,36 +312,6 @@ export function groupWithholding(
     count: workers,
     lines: kept,
   });
-  return out;
-}
-
-/** Workers a wage flow pays in each group (its jobs; unplaced workers by their share). */
-export function workersByGroup(
-  rt: ResidentsRuntime,
-  flow: SplitFlow,
-): Map<number, number> {
-  const out = new Map<number, number>();
-  if (flow.financeKind === "work.unplaced-residents") {
-    for (const h of rt.store.liveHouseholds())
-      if (
-        h.placeId === flow.placeId &&
-        h.unplacedWorkers > 0 &&
-        !h.quarters === !flow.quarters
-      )
-        out.set(
-          h.group,
-          (out.get(h.group) ?? 0) + h.unplacedWorkers * rt.store.weightOf(h),
-        );
-    return out;
-  }
-  for (const jobId of Object.keys(flow.perDayMinorByJob ?? {})) {
-    const job = rt.jobs.get(jobId);
-    const m = job ? rt.store.countedMember(job.personId) : undefined;
-    if (m === undefined) continue;
-    const h = rt.store.households[rt.store.household[m]!]!;
-    // As many workers as the job is paid for (`weighFlow`).
-    out.set(h.group, (out.get(h.group) ?? 0) + rt.store.headsOfJob(h, jobId));
-  }
   return out;
 }
 

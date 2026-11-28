@@ -206,6 +206,8 @@ for (const [n, kind] of need) {
           ),
         )
       : b.module;
+    // A name the hub imports from the leaf itself is already there.
+    if (module === spec(leaf, leaf)) continue;
     addLeafImport(module, b.imported, n, b.typeOnly || kind === "type");
     continue;
   }
