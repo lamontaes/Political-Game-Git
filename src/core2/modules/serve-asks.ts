@@ -32,7 +32,6 @@ import { workHeld } from "../person-work";
 import { PLATFORM_QUESTIONS, type Stance } from "../campaign-data";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
-import { registerModule } from "../state";
 import type {
   CoreAPI,
   CoreEventInput,
@@ -234,7 +233,7 @@ function movedSince(was: ServeStanding, now: ServeStanding): ServeMoved | null {
   return best;
 }
 
-const SERVE_ASKS_MODULE: CoreModule = {
+export const SERVE_ASKS_MODULE: CoreModule = {
   id: SERVE_ASKS_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -248,11 +247,6 @@ const SERVE_ASKS_MODULE: CoreModule = {
     else answerAsk(api, event);
   },
 };
-
-export function openServeAsks(core: CoreState): void {
-  if (!core.modules.has(SERVE_ASKS_MODULE_ID))
-    registerModule(core, SERVE_ASKS_MODULE);
-}
 
 const table = (api: CoreAPI) =>
   api.moduleState(SERVE_ASKS_MODULE_ID).table("asks");

@@ -5,8 +5,8 @@ import {
   applyForOpening,
   hirePay,
   quitJob,
-  type PositionRow,
 } from "../core2/modules/jobs";
+import { allPositions, hasApplied } from "../core2/jobs-reads";
 import type { CoreState } from "../core2/types";
 
 /**
@@ -19,10 +19,8 @@ import type { CoreState } from "../core2/types";
 export function openingsView(core: CoreState, personId: string) {
   const person = core.people.get(personId);
   if (!person || !core.modules.has(JOBS_MODULE_ID)) return { openings: [] };
-  const rows = coreAPI(core)
-    .moduleState(JOBS_MODULE_ID)
-    .table("positions")
-    .rows() as unknown as PositionRow[];
+  const api = coreAPI(core);
+  const rows = allPositions(api);
   return {
     openings: rows
       .filter((row) => row.status === "open" && row.placeId === person.placeId)
@@ -41,10 +39,7 @@ export function openingsView(core: CoreState, personId: string) {
         // "Listings show actual pay and hours").
         hourlyMinor: hirePay(coreAPI(core), row, personId),
         hoursDaily: core.jobs.get(row.templateJobId)?.hoursDaily ?? null,
-        applied: !!coreAPI(core)
-          .moduleState(JOBS_MODULE_ID)
-          .table("playerApplications")
-          .get(row.id),
+        applied: hasApplied(api, row.id),
       })),
   };
 }

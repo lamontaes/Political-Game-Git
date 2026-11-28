@@ -1,0 +1,24 @@
+{
+  "batch": "loading-card-warmup-names",
+  "note": "The loading card's warm-up step name, graded by the owner Nov 27, 2026, about 5:30 p.m. (docs/coordination/OWNER-DECISIONS.md, 'Names vary too'). Shown the original line and \"Giving the world a head start\", he said: \"Neither of those are good. They both suck.\" Both pieces stay in the bank, held back by these grades; the step name is drawn from the bank's other name pieces, and controls.json keeps the original as the fallback when the bank has no other name for the step.",
+  "grades": [
+    {
+      "i": 0,
+      "grade": "bad",
+      "by": "owner (Nov 27, 2026, about 5:30 p.m.: \"Neither of those are good. They both suck.\")",
+      "line": "Letting the country, the state and the town run two months on their own before your first evening.",
+      "note": "The warm-up step's name; both candidates graded bad. The step's name varies from the bank (\"Names vary too\").",
+      "parts": [
+        "loading-steps.name-warmup.letting-the-country-the-state-and-the-town-run-two-months-on-their-own"
+      ]
+    },
+    {
+      "i": 1,
+      "grade": "bad",
+      "by": "owner (Nov 27, 2026, about 5:30 p.m.: \"Neither of those are good. They both suck.\")",
+      "line": "Giving the world a head start",
+      "note": "The warm-up step's name; both candidates graded bad. The step's name varies from the bank (\"Names vary too\").",
+      "parts": ["loading-steps.name-warmup.giving-the-world-a-head-start"]
+    }
+  ]
+}

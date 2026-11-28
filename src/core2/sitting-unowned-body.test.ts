@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { sittingHours } from "./sitting-closeness";
-import { registerSittingCalendar } from "./sitting-closeness";
-import { createCore } from "./state";
+import { createCore, registerModule } from "./state";
 import type { CoreInput, PersonInput, Source } from "./types";
 
 const source: Source = {
@@ -28,16 +27,6 @@ const person = (id: string): PersonInput => ({
 
 describe("the shared hours of two people in a body no reader owns yet", () => {
   it("are none, and read no reader that is not there", () => {
-    // The sitting readers are one list for the whole process, and a world
-    // being built lists a person's bodies before the engine that keeps them
-    // has opened: the body is listed, no reader owns it, the hours are zero.
-    registerSittingCalendar({
-      owns: () => false,
-      seats: () => [],
-      bodiesOf: () => ["office:fixture:council"],
-      sittings: () => [],
-      contactHoursPerDay: () => 0,
-    });
     const people = [person("person:a"), person("person:b")];
     const core = createCore({
       seed: "sitting-unowned-body",
@@ -56,6 +45,19 @@ describe("the shared hours of two people in a body no reader owns yet", () => {
       calendarDates: [],
       gaps: [],
     } as unknown as CoreInput);
+    // A world being built lists a person's bodies before the engine that
+    // keeps them has opened: the body is listed, no reader owns it, the hours
+    // are zero.
+    registerModule(core, {
+      id: "test-sitting-calendar",
+      sittingCalendar: {
+        owns: () => false,
+        seats: () => [],
+        bodiesOf: () => ["office:fixture:council"],
+        sittings: () => [],
+        contactHoursPerDay: () => 0,
+      },
+    });
     expect(sittingHours(core, "person:a", "person:b")).toBe(0);
   });
 });

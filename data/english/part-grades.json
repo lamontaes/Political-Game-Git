@@ -12,6 +12,7 @@
     "w2-scene-words-inserts",
     "voice-notes-batches-11-19",
     "voice-notes-oct15-28",
+    "loading-card-warmup-names",
     "2026-11-09-batch-2:voice",
     "2026-11-09-batch-3:voice"
   ],
@@ -695,6 +696,22 @@
       "sharedGood": 0,
       "sharedBad": 0,
       "sharedFix": 1
+    },
+    "loading-steps.name-warmup.giving-the-world-a-head-start": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "loading-steps.name-warmup.letting-the-country-the-state-and-the-town-run-two-months-on-their-own": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
     },
     "meeting.procedural.i-could-not-make-today-s-vote": {
       "good": 0,
