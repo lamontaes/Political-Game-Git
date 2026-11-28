@@ -1230,7 +1230,11 @@
     {
       "id": "past",
       "name": "The past before the start",
-      "entry": ["src/core2/past.ts", "src/core2/past-module.ts"],
+      "entry": [
+        "src/core2/past.ts",
+        "src/core2/past-module.ts",
+        "src/core2/past-reads.ts"
+      ],
       "paths": [
         "src/core2/past.ts",
         "src/core2/past-*.ts",
