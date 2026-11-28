@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { carriersOf, fieldsOf } from "./module-fields";
+import { restoreWorld, snapshotWorld } from "./snapshot";
 import { createCore, registerModule } from "./state";
 import type { CoreInput, CoreModule, CoreState } from "./types";
 
@@ -49,6 +50,16 @@ const FIELDS: (keyof CoreModule)[] = [
   "leaderRefusalReader",
   "bribeScope",
   "policyHandlers",
+  "successorProviders",
+  "vacancyOffer",
+  "specialElections",
+  "stopKinds",
+  "boardAppointer",
+  "worldOpen",
+  "adOutlet",
+  "derivedCaches",
+  "snapshotParts",
+  "worldMapParts",
 ];
 
 function world(): CoreState {
@@ -102,5 +113,65 @@ describe("the fields engines read off the installed modules", () => {
     registerModule(a, { id: "only-a", huskIncome: () => 1 });
     expect(fieldsOf(a, "huskIncome")).toHaveLength(1);
     expect(fieldsOf(b, "huskIncome")).toHaveLength(0);
+  });
+
+  it("clears a module's derived caches at the end of a restore, and leaves another world's alone", () => {
+    const core = world();
+    const other = world();
+    const cache = new WeakMap<CoreState, unknown>();
+    registerModule(core, { id: "cached", derivedCaches: () => [cache] });
+    cache.set(core, "built from records");
+    cache.set(other, "another world");
+    restoreWorld(core, snapshotWorld(core));
+    expect(cache.has(core)).toBe(false);
+    expect(cache.get(other)).toBe("another world");
+  });
+
+  it("saves and restores a part an installed module carries, and ignores one a world does not install", () => {
+    const core = world();
+    const other = world();
+    const kept = new WeakMap<CoreState, string>();
+    const module = {
+      id: "with-part",
+      snapshotParts: {
+        "with-part-runtime": {
+          save: (c: CoreState) => kept.get(c) ?? null,
+          restore: (c: CoreState, data: unknown) => {
+            if (typeof data === "string") kept.set(c, data);
+            else kept.delete(c);
+          },
+        },
+      },
+    } as CoreModule;
+    registerModule(core, module);
+    kept.set(core, "built while the world ran");
+    kept.set(other, "another world");
+    const saved = snapshotWorld(core);
+    kept.delete(core);
+    restoreWorld(core, saved);
+    expect(kept.get(core)).toBe("built while the world ran");
+    expect(kept.get(other)).toBe("another world");
+    expect(JSON.stringify(snapshotWorld(other))).not.toContain(
+      "with-part-runtime",
+    );
+  });
+
+  it("saves and restores a world map a module carries", () => {
+    const core = world();
+    const runtimes = new WeakMap<CoreState, { count: number }>();
+    const module = {
+      id: "with-map",
+      worldMapParts: {
+        "with-map-runtime": {
+          map: runtimes,
+        },
+      },
+    } as CoreModule;
+    registerModule(core, module);
+    runtimes.set(core, { count: 3 });
+    const saved = snapshotWorld(core);
+    runtimes.delete(core);
+    restoreWorld(core, saved);
+    expect(runtimes.get(core)).toEqual({ count: 3 });
   });
 });

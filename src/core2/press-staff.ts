@@ -256,6 +256,22 @@ function seatStaff(
       citation: `${input.role.title}'s pay at the press parameters' ${pay}. ${input.source.citation}`,
       source: input.source,
     });
+  // An owner holds the outlet and is on no payroll, but a household with a cost needs an income
+  // behind it: the press ruling's owner income (ownerHouseholdIncomeMinor, from the outlet's profit
+  // and the owner's holdings outside the town) is paid in each month from the outside account, as
+  // an outside-living staff member's pay is, so the household the owner is given does not run
+  // down with nothing coming in (pool item world-press-owners-no-income-evicted).
+  if (!pay) {
+    const outsideAccount = outsideAccountOf(api);
+    if (outsideAccount)
+      payPostFromOutside(api, {
+        personId: id,
+        payerId: outsideAccount,
+        annualMinor: input.parameter("ownerHouseholdIncomeMinor"),
+        citation: `An owner's income at the press parameters' ownerHouseholdIncomeMinor. ${input.source.citation}`,
+        source: input.source,
+      });
+  }
   // Only people living in the town hold a job on the town's payroll path.
   const jobId =
     pay && home === input.townPlaceId

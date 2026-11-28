@@ -7,6 +7,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import type { MortgageTerms } from "./housing-mortgages";
+import { allMortgageRows } from "./modules/housing";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { residentsRuntime } from "./modules/residents";
@@ -64,6 +65,8 @@ it.each(cases)(
     });
     const api = coreAPI(core);
     const table = api.moduleState("housing").table("mortgages");
+    // The housing engine's door reads the same table the engine keeps.
+    expect(allMortgageRows(api)).toHaveLength(table.size);
     const rt = residentsRuntime(core)!;
     const reviewDay = api.parameter("housingReviewDay");
     const checks: Record<string, unknown>[] = [];

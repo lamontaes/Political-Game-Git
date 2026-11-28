@@ -31,6 +31,8 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const SERIES =
   "us-federal-positions:energy-environment.limit-power-plant-carbon";
 const ORDER = "limit-power-plant-carbon";
+/** Places drawn before the test names what it passed over and fails. */
+const MAX_DRAWS = 6;
 
 describe(`the President's federal orders (seed ${seed})`, () => {
   it("keeps the sitting President's weighing of each order, from their own view and the law now", () => {
@@ -73,14 +75,47 @@ describe(`the President's federal orders (seed ${seed})`, () => {
   }, 600_000);
 
   it("is issued only by the person who holds the president's seat: a left-leaning President issues the order and the next, who opposes it, revokes it", () => {
-    const place = drawPlace(`${seed}:orders-issue`, "core2-president-orders");
-    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-      settings: { population: 300 },
-    });
+    // Who holds the presidency on day one is a drawn fact of the world: where
+    // the opening President leans left they issue this very order themselves,
+    // and the fixture President below would only keep it. So draw again, and
+    // name every place passed over (the first draw is the one this test always
+    // made).
+    const passedOver: string[] = [];
+    let found:
+      | {
+          place: ReturnType<typeof drawPlace>;
+          core: ReturnType<typeof buildBenchWorld>["core"];
+        }
+      | undefined;
+    for (let draw = 0; draw < MAX_DRAWS && !found; draw += 1) {
+      const drawn = drawPlace(
+        draw === 0 ? `${seed}:orders-issue` : `${seed}:orders-issue:${draw}`,
+        "core2-president-orders",
+      );
+      const built = buildBenchWorld(drawn.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: drawn.key,
+        settings: { population: 300 },
+      });
+      advanceCore(built.core, addDays(makeIsoDate(built.core.date), 3));
+      if (lawInForce(coreAPI(built.core), SERIES).value === 1) {
+        passedOver.push(
+          `${drawn.name}, ${drawn.state} (seed ${seed}): the opening President had already issued the order`,
+        );
+        continue;
+      }
+      found = { place: drawn, core: built.core };
+    }
+    if (!found)
+      throw new Error(
+        `No drawn place opened without the order already law (base seed ${seed}): ${passedOver.join("; ")}`,
+      );
+    if (passedOver.length)
+      process.stdout.write(
+        `president orders (issue): passed over ${passedOver.join("; ")}\n`,
+      );
+    const { place, core } = found;
     const api = coreAPI(core);
-    advanceCore(core, addDays(makeIsoDate(core.date), 3));
     const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
     const seat = () =>
       (

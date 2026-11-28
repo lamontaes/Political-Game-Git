@@ -11,13 +11,11 @@ import {
   VOTING_MODULE_ID,
   placesOf,
   recountOf,
+  resultOf,
   type ResultRow,
 } from "../core2/modules/voting";
 import { CAMPAIGNS_MODULE_ID, type PollRow } from "../core2/modules/campaigns";
-import {
-  ELECTIONS_MODULE_ID,
-  type FilingRow,
-} from "../core2/modules/elections";
+import { type FilingRow, filingsOfPerson } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 
@@ -35,10 +33,7 @@ export function raceTurnoutFacts(
   if (!core.modules.has(VOTING_MODULE_ID)) return facts;
   const api = coreAPI(core as CoreState);
   const resultId = `result:${contestId}`;
-  const result = api
-    .moduleState(VOTING_MODULE_ID)
-    .table("results")
-    .get(resultId) as unknown as ResultRow | undefined;
+  const result: ResultRow | null = resultOf(api, contestId);
   if (!result?.winnerCandidateId) return facts;
   const winner = result.winnerCandidateId;
   const cast = Object.values(result.totals).reduce((a, b) => a + b, P.zero);
@@ -107,10 +102,7 @@ export function raceReadFacts(
   if (!core.modules.has(VOTING_MODULE_ID)) return facts;
   const api = coreAPI(core as CoreState);
   const resultId = `result:${contestId}`;
-  const result = api
-    .moduleState(VOTING_MODULE_ID)
-    .table("results")
-    .get(resultId) as unknown as ResultRow | undefined;
+  const result: ResultRow | null = resultOf(api, contestId);
   if (!result?.winnerCandidateId) return facts;
   const recount = recountOf(api, contestId);
   // A recount is between the two it names: to any other candidate in the
@@ -146,12 +138,7 @@ export function raceReadFacts(
   if (!rival || cast <= P.zero || !core.modules.has(CAMPAIGNS_MODULE_ID))
     return facts;
   const filingIds = new Set(
-    (
-      api
-        .moduleState(ELECTIONS_MODULE_ID)
-        .table("filings")
-        .query("byPerson", [candidateId]) as unknown as FilingRow[]
-    )
+    (filingsOfPerson(api, candidateId) as unknown as FilingRow[])
       .filter((filing) => filing.contestId === contestId)
       .map((filing) => filing.id),
   );
