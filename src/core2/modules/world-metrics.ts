@@ -18,6 +18,11 @@ import {
   townFiguresByPlace,
 } from "./housing";
 import { allCreditLoans, type CreditLoanRow } from "../credit-reads";
+import {
+  evictionCases,
+  homelessCountOf,
+  housingStockOf,
+} from "../housing-reads";
 import { openClaims } from "../jobs-reads";
 import { foldMonthIntoYear } from "../output-numbers";
 import { laborYearBefore } from "../labor-past";
@@ -156,10 +161,7 @@ export function townMetrics(api: CoreAPI) {
     0,
     "YYYY-MM".length,
   );
-  for (const row of rows(api, HOUSING_MODULE_ID, "cases") as unknown as {
-    householdId: string;
-    judgmentAt?: string;
-  }[]) {
+  for (const row of evictionCases(api)) {
     if (!row.judgmentAt?.startsWith(lastMonth)) continue;
     const placeId =
       c.households.get(row.householdId)?.placeId ??
@@ -218,12 +220,6 @@ export function townMetrics(api: CoreAPI) {
   for (const placeId of labor.keys()) at(placeId);
   const poverty = povertyByPlace(c);
   const people = peopleAndHomes(c, rt);
-  const stock = c.modules.has(HOUSING_MODULE_ID)
-    ? api.moduleState(HOUSING_MODULE_ID).table("stock")
-    : undefined;
-  const homeless = c.modules.has("core2-homeless-count-v1")
-    ? api.moduleState("core2-homeless-count-v1").table("counts")
-    : undefined;
   const housing = c.modules.has(HOUSING_MODULE_ID)
     ? townFiguresByPlace(api, new Set(places.keys()))
     : undefined;
@@ -239,9 +235,8 @@ export function townMetrics(api: CoreAPI) {
         seekers: 0,
         openPositions: 0,
       };
-      const homesHeld = stock?.get(`stock:${placeId}`) as
-        { rentalUnits: number; vacantRental: number } | undefined;
-      const noHome = homeless?.get(placeId) as { homeless: number } | undefined;
+      const homesHeld = housingStockOf(api, placeId);
+      const noHomeCount = homelessCountOf(api, placeId);
       return {
         placeId,
         date: c.date,
@@ -292,7 +287,9 @@ export function townMetrics(api: CoreAPI) {
               vacantRentals: homesHeld.vacantRental,
             }
           : {}),
-        ...(noHome ? { peopleWithoutHome: noHome.homeless } : {}),
+        ...(noHomeCount !== undefined
+          ? { peopleWithoutHome: noHomeCount }
+          : {}),
         // The town's labor market by one counting rule (townLaborByPlace): a
         // counted resident stands for the household's weight.
         ...(hasJobs
