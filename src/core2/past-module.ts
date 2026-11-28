@@ -23,7 +23,12 @@ import type { ModuleRow } from "./module-data";
 import { residenceOn } from "./past-moves";
 import type { HistoryRecord, PreStartModule } from "./pre-start";
 import type { PastClosureRow } from "./past-business";
-import type { HistoryRow, HistoryScope, HistorySource } from "./past-history";
+import {
+  preStartRows,
+  type HistoryRow,
+  type HistoryScope,
+  type HistorySource,
+} from "./past-history";
 import { PAST_MODULE_ID } from "./past-reads";
 import { PAST_LAW_ENACTED, SESSION_FACT } from "./past-reads";
 export { PAST_LAW_ENACTED, SESSION_FACT } from "./past-reads";
@@ -164,6 +169,8 @@ function narrowestMargin(rollCalls: readonly RollCall[]): number {
 const PAST_HISTORY: HistorySource = {
   id: PAST_MODULE_ID,
   *rows(core: CoreState, scope: HistoryScope, ask) {
+    // The pre-start history's own rows come first, as the reader read them.
+    yield* preStartRows(core, scope, ask);
     if (!core.modules.has(PAST_MODULE_ID) || !ask.kinds) return;
     if ("household" in scope || "employer" in scope) return;
     const api = coreAPI(core);

@@ -478,15 +478,6 @@ function recordRows(
     // A person's or household's records: the indexes by person.
     const seen = new Set<string>();
     for (const personId of people) {
-      if (ask.from !== "played")
-        for (const row of preStartHistory(core, { personId }))
-          if (
-            !seen.has(`p:${row.id}`) &&
-            (!kinds || kinds.includes(row.kind))
-          ) {
-            seen.add(`p:${row.id}`);
-            out.push(theirs(personId, row, pastRow(row)));
-          }
       if (ask.from === "past") continue;
       for (const id of core.logByPerson.get(personId) ?? []) {
         const row = core.durableLog.get(id as never);
@@ -507,38 +498,12 @@ function recordRows(
         out.push(logged ? theirs(personId, logged, logRow(logged)) : held);
       }
     }
-    if ("household" in scope && ask.from !== "played")
-      for (const key of TABLE.householdFacts)
-        for (const row of pastRowsNaming(core, key, scope.household))
-          if (
-            !seen.has(`p:${row.id}`) &&
-            (!kinds || kinds.includes(row.kind))
-          ) {
-            seen.add(`p:${row.id}`);
-            out.push(pastRow(row));
-          }
     return out;
   }
   const keep = (row: HistoryRow) =>
     "employer" in scope
       ? namesFact(row, TABLE.employerFacts, scope.employer)
       : inPlaceScope(row, scope, ask);
-  // A read of play alone never walks the past, and a read of the past alone
-  // never walks the log.
-  const pastSet =
-    ask.from === "played"
-      ? []
-      : "employer" in scope
-        ? TABLE.employerFacts.flatMap((key) =>
-            pastRowsNaming(core, key, scope.employer),
-          )
-        : kinds
-          ? kinds.flatMap((kind) => preStartHistory(core, { kind }))
-          : pastRowsOf(core);
-  for (const row of pastSet) {
-    const told = pastRow(row);
-    if (keep(told)) out.push(told);
-  }
   const logIds =
     ask.from === "past"
       ? []
@@ -549,6 +514,60 @@ function recordRows(
     const row = core.durableLog.get(id as never);
     if (!row) continue;
     const told = logRow(row);
+    if (keep(told)) out.push(told);
+  }
+  return out;
+}
+
+/**
+ * The pre-start history's rows in a scope, as the past module's source yields
+ * them (`PAST_MODULE.history`): a person's by their index, a household's
+ * members' (each in the words of the first member who has it) and its own by
+ * the household facts, an employer's by the employer facts, and a place's,
+ * state's or nation's all of them, which the reader's place filter then
+ * narrows. A read of play alone never walks the past.
+ */
+export function preStartRows(
+  core: CoreState,
+  scope: HistoryScope,
+  ask: HistoryAsk,
+): HistoryRow[] {
+  if (ask.from === "played") return [];
+  const out: HistoryRow[] = [];
+  const kinds = ask.kinds;
+  const people = peopleOf(core, scope);
+  if (people.length) {
+    const { life } = sourcesOf(core);
+    const seen = new Set<string>();
+    for (const personId of people)
+      for (const row of preStartHistory(core, { personId }))
+        if (!seen.has(row.id) && (!kinds || kinds.includes(row.kind))) {
+          seen.add(row.id);
+          out.push(inTheirWords(core, life, personId, row, pastRow(row)));
+        }
+    if ("household" in scope)
+      for (const key of TABLE.householdFacts)
+        for (const row of pastRowsNaming(core, key, scope.household))
+          if (!seen.has(row.id) && (!kinds || kinds.includes(row.kind))) {
+            seen.add(row.id);
+            out.push(pastRow(row));
+          }
+    return out;
+  }
+  const keep = (row: HistoryRow) =>
+    "employer" in scope
+      ? namesFact(row, TABLE.employerFacts, scope.employer)
+      : inPlaceScope(row, scope, ask);
+  const pastSet =
+    "employer" in scope
+      ? TABLE.employerFacts.flatMap((key) =>
+          pastRowsNaming(core, key, scope.employer),
+        )
+      : kinds
+        ? kinds.flatMap((kind) => preStartHistory(core, { kind }))
+        : pastRowsOf(core);
+  for (const row of pastSet) {
+    const told = pastRow(row);
     if (keep(told)) out.push(told);
   }
   return out;
