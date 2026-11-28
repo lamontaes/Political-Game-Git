@@ -16,7 +16,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "I'm Michelle Warren, with the Secretary of State, and I take the candidate papers for New Mexico. Which race are you here for?",
+              "text": "I'm with the Secretary of State, and anyone running in New Mexico starts at this counter. Which race?",
               "elements": []
             }
           ],
@@ -32,7 +32,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "I'm Michelle Warren, with the Secretary of State, and I take the candidate papers for New Mexico. Which race are you here for?",
+              "text": "I'm with the Secretary of State, and anyone running in New Mexico starts at this counter. Which race?",
               "elements": []
             },
             {
@@ -44,14 +44,14 @@
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "Jessica Scott got in a few days ago. Counting that name, the list for the U.S. Senate stands at six candidates. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. The duties of the U.S. Senate are published, and I can print a copy for you. Everything has to be back to me by February 3.",
+              "text": "Jessica Scott got in a few days ago. Counting that name, the list for the U.S. Senate stands at six candidates. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. Everything has to be back to me by February 3.",
               "elements": []
             }
           ],
           "offered": [
             "[file] That's all I needed, Michelle. Let's start the papers for the U.S. Senate.",
             "[ask] Who filed after Jessica Scott?",
-            "[ask] Is the race for the U.S. Senate stacked before I even file?",
+            "[ask] Is the field stacked before I even file, Michelle?",
             "[leave] I'd like to think it over, Michelle. I'll be back before February 3."
           ],
           "taken": "pick:contest:seat:US-NM:us-senate:0:2026-11-03"
@@ -62,7 +62,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "I'm Michelle Warren, with the Secretary of State, and I take the candidate papers for New Mexico. Which race are you here for?",
+              "text": "I'm with the Secretary of State, and anyone running in New Mexico starts at this counter. Which race?",
               "elements": []
             },
             {
@@ -74,7 +74,7 @@
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "Jessica Scott got in a few days ago. Counting that name, the list for the U.S. Senate stands at six candidates. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. The duties of the U.S. Senate are published, and I can print a copy for you. Everything has to be back to me by February 3.",
+              "text": "Jessica Scott got in a few days ago. Counting that name, the list for the U.S. Senate stands at six candidates. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. Everything has to be back to me by February 3.",
               "elements": []
             },
             {
@@ -102,7 +102,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "I'm Michelle Warren, with the Secretary of State, and I take the candidate papers for New Mexico. Which race are you here for?",
+              "text": "I'm with the Secretary of State, and anyone running in New Mexico starts at this counter. Which race?",
               "elements": []
             },
             {
@@ -114,7 +114,7 @@
             {
               "n": 3,
               "speaker": "clerk",
-              "text": "Jessica Scott got in a few days ago. Counting that name, the list for the U.S. Senate stands at six candidates. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. The duties of the U.S. Senate are published, and I can print a copy for you. Everything has to be back to me by February 3.",
+              "text": "Jessica Scott got in a few days ago. Counting that name, the list for the U.S. Senate stands at six candidates. You'd face the primary on June 2, and whoever comes out of it goes on to the general on November 3. Everything has to be back to me by February 3.",
               "elements": []
             },
             {
@@ -205,7 +205,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "The filings for Bennettsville come through the municipal election commission, and I handle them. I'm Solomon Castillo. What can I start for you?",
+              "text": "Filings for Bennettsville go through the municipal election commission, right here. What can I start for you?",
               "elements": []
             }
           ],
@@ -221,7 +221,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "The filings for Bennettsville come through the municipal election commission, and I handle them. I'm Solomon Castillo. What can I start for you?",
+              "text": "Filings for Bennettsville go through the municipal election commission, right here. What can I start for you?",
               "elements": []
             },
             {
@@ -240,7 +240,7 @@
           "offered": [
             "[file] That's all I needed, Solomon. Let's start the papers for the council.",
             "[ask] Has anyone filed since Melissa Chan?",
-            "[ask] Is the race for the Bennettsville City Council stacked before I even file?",
+            "[ask] Is the field stacked before I even file, Solomon?",
             "[leave] I'd like to think it over, Solomon. I'll be back before August 21."
           ],
           "taken": "pick:contest:seat:gus2025:174941:council:0:2025-11-04"
@@ -251,7 +251,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "The filings for Bennettsville come through the municipal election commission, and I handle them. I'm Solomon Castillo. What can I start for you?",
+              "text": "Filings for Bennettsville go through the municipal election commission, right here. What can I start for you?",
               "elements": []
             },
             {
@@ -291,7 +291,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "The filings for Bennettsville come through the municipal election commission, and I handle them. I'm Solomon Castillo. What can I start for you?",
+              "text": "Filings for Bennettsville go through the municipal election commission, right here. What can I start for you?",
               "elements": []
             },
             {
@@ -384,7 +384,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Michael Pickett, with the State Election Commission. Anyone running in Tennessee starts at this counter. Which race?",
+              "text": "I'm with the State Election Commission, and anyone running in Tennessee starts at this counter. Which race?",
               "elements": []
             }
           ],
@@ -399,7 +399,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Michael Pickett, with the State Election Commission. Anyone running in Tennessee starts at this counter. Which race?",
+              "text": "I'm with the State Election Commission, and anyone running in Tennessee starts at this counter. Which race?",
               "elements": []
             },
             {
@@ -418,7 +418,7 @@
           "offered": [
             "[file] That's all I needed, Michael. Let's start the papers for the state House in the 8th District.",
             "[ask] Who else is on the list besides Robert Cross?",
-            "[ask] Is the race for the state House in the 8th District stacked before I even file?",
+            "[ask] Is the field stacked before I even file, Michael?",
             "[leave] Let me talk to some people first, Michael. I'll be back before August 12."
           ],
           "taken": "pick:contest:seat:US-TN:lower:008:0:2025-09-26:special"
@@ -429,7 +429,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Michael Pickett, with the State Election Commission. Anyone running in Tennessee starts at this counter. Which race?",
+              "text": "I'm with the State Election Commission, and anyone running in Tennessee starts at this counter. Which race?",
               "elements": []
             },
             {
@@ -469,7 +469,7 @@
             {
               "n": 1,
               "speaker": "clerk",
-              "text": "Michael Pickett, with the State Election Commission. Anyone running in Tennessee starts at this counter. Which race?",
+              "text": "I'm with the State Election Commission, and anyone running in Tennessee starts at this counter. Which race?",
               "elements": []
             },
             {
