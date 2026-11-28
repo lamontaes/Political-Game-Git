@@ -64,7 +64,11 @@ export const LAW_REACH_HOST: CoreModule = {
   // A plain field: the keys are literals, and the money file is read when the treasury asks, because group-a-money.ts may still be loading when this file runs.
   lineAdditions: {
     keys: LINE_ADDITION_KEYS,
-    additions: (api, gov) => reachALineAdditions.additions(api, gov),
+    additions: (api, gov) =>
+      reachALineAdditions.additions(
+        api,
+        gov as Parameters<typeof reachALineAdditions.additions>[1],
+      ),
   },
 };
 
