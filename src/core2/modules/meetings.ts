@@ -64,7 +64,6 @@ import {
   LEGISLATURE_MODULE_ID,
   members,
   provisionStance,
-  registerLegislatureHooks,
   type BillRow,
 } from "./legislature";
 import {
@@ -165,6 +164,11 @@ const MEETINGS_MODULE: CoreModule = {
   // The player answers a debate's invitation in the scene it stages.
   eventKinds: ["scene.reply"],
   onEvent: (api, event) => answerDebateInvitation(api, event),
+  // What the meetings add to the legislature: a public comment before a vote and the room's term in a member's position.
+  legislatureHooks: {
+    beforeVote: { name: "public-comment", run: publicComment },
+    positionTerm: roomTerm,
+  },
 };
 
 const table = (api: CoreAPI, name: string) =>
@@ -234,10 +238,6 @@ function takePart<
 }
 
 export function openMeetings(core: CoreState): void {
-  registerLegislatureHooks({
-    beforeVote: { name: "public-comment", run: publicComment },
-    positionTerm: roomTerm,
-  });
   if (core.modules.has(MEETINGS_MODULE_ID)) return;
   registerModule(core, MEETINGS_MODULE);
   scheduleWeek(coreAPI(core), core.date);

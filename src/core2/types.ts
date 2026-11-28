@@ -1,3 +1,4 @@
+import type { SnapshotPart } from "./snapshot";
 import type { HistorySource } from "./past-history";
 import type { GroupQuartersType } from "./group-quarters-types";
 import type { PurchaseTaxInput } from "./modules/purchase-tax";
@@ -1141,6 +1142,28 @@ export interface CoreModule {
    */
   worldOpen?: (core: CoreState) => void;
   /**
+   * Runtime state this engine keeps outside its tables and the core's records
+   * (a WeakMap keyed by the world, say), by part id: saved with the world and
+   * put back by `restoreWorld`. Read off the installed modules, so an engine
+   * whose module is installed after a restore does not get its part back;
+   * parts of engines installed on first use stay registered by id.
+   */
+  snapshotParts?: Readonly<Record<string, SnapshotPart>>;
+  /**
+   * A runtime kept in a WeakMap keyed by the world, saved as one part by id;
+   * with `rebuild`, a save that holds no such part gets one built from its
+   * records. Same reading as `snapshotParts`.
+   */
+  worldMapParts?: Readonly<
+    Record<
+      string,
+      {
+        readonly map: WeakMap<CoreState, unknown>;
+        readonly rebuild?: (core: CoreState) => unknown;
+      }
+    >
+  >;
+  /**
    * Caches this engine keeps keyed by the world and built from the world's
    * records: a restore refills the same world in place, so each is cleared at
    * the end of every restore and built again on first read. A function, read
@@ -1274,7 +1297,11 @@ export interface CoreModule {
   /** The bills a meeting's agenda holds on a date. */
   meetingAgendaReader?(api: CoreAPI, date: string): readonly string[];
   /** Who testifies on a question: the people its records show are concerned with it. */
-  hearingWitnesses?(api: CoreAPI, bill: unknown): readonly unknown[];
+  hearingWitnesses?(
+    api: CoreAPI,
+    bill: unknown,
+    question: string,
+  ): readonly unknown[];
   /** The leadership engine seats a chamber's committees and their chairs. */
   committeeRoster?(
     api: CoreAPI,

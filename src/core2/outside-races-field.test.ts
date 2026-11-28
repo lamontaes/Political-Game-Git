@@ -17,7 +17,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { partyFieldsNominee } from "./modules/candidacy";
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import { racesOf, contestRightShare } from "./modules/voting";
 import {
   ballot,
