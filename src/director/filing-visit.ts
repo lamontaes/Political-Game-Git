@@ -184,7 +184,14 @@ export function openFilingVisit(
               }
             : {};
         })(),
-        ...clerkFact(core, clerkId),
+        // The counter's narration has named the clerk; the clerk does not say
+        // the name again (Past and Day One, Nov 27: "The Secretary of State
+        // here is Robert Murphy" then "I'm Robert Murphy").
+        ...Object.fromEntries(
+          Object.entries(clerkFact(core, clerkId)).filter(
+            ([key]) => key !== "name",
+          ),
+        ),
       });
   if (greet) visit.lines.push({ speaker: "clerk", ...greet });
   // The seats of one multi-seat district are said the same way, so the player
