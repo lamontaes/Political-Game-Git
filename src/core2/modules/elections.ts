@@ -301,6 +301,7 @@ export interface RequirementCheck {
     | "residency"
     | "party-member"
     | "term-limit"
+    | "one-seat-per-body"
     | "district-residency";
   readonly met: boolean;
   readonly required: string;
@@ -1613,12 +1614,37 @@ export function filingsOfPerson(
 }
 
 /**
+ * A person never holds two seats on one body (owner, Nov 27): a sitting member
+ * may file only for their own seat, for re-election. An at-large body's seats
+ * up on one day are one race (`atLargeGroup`), so a member whose seat is in
+ * the contest's race stands in it; any other seat of the same office is
+ * another seat on their body. A seat of a different office (the mayor's) is
+ * not.
+ */
+export function holdsAnotherSeatOnBody(
+  api: CoreAPI,
+  contest: ContestRow,
+  personId: string,
+): boolean {
+  const race = new Set(atLargeGroup(api, contest).map((row) => row.seatId));
+  race.add(contest.seatId);
+  return (termsOfPerson(api, personId) as unknown as TermRow[]).some(
+    (term) =>
+      term.status === "serving" &&
+      term.officeId === contest.officeId &&
+      !race.has(term.seatId),
+  );
+}
+
+/**
  * The races a person may file for today, the filing counter's choices: the
  * contests open for filing that the player-offices rule offers (`playerContests`),
  * less any race the person already stands in (a filing petitioning or on the
  * ballot, so a race filed in is never offered again). With `filedWith`, only
- * the races whose filings that office takes. No eligibility check is made here;
- * `checkEligibility` answers that for each race.
+ * the races whose filings that office takes. A sitting member is not offered
+ * another seat of their own body (`holdsAnotherSeatOnBody`). The other
+ * eligibility checks are not made here; `checkEligibility` answers them for
+ * each race.
  */
 export function racesOpenTo(
   api: CoreAPI,
@@ -1633,6 +1659,7 @@ export function racesOpenTo(
   return playerContests(api).filter(
     (row) =>
       !standingIn.has(row.id) &&
+      !holdsAnotherSeatOnBody(api, row, personId) &&
       (filedWith === undefined ||
         filingOfficeFor(api, row.id).filedWith === filedWith),
   );
@@ -1842,6 +1869,16 @@ export function checkEligibility(
         "Party nomination rules (data/research/elections/party-nomination-rules-2026.json)",
     });
   }
+  // A person never holds two seats on one body: the clerk refuses a sitting
+  // member's filing for a seat that isn't their own race.
+  if (holdsAnotherSeatOnBody(api, contest, personId))
+    checks.push({
+      rule: "one-seat-per-body",
+      met: false,
+      required: "one seat on a body",
+      actual: "holds another seat on this body",
+      source: "A person never holds two seats on one body (owner, Nov 27)",
+    });
   // A legislative term limit in force (law-reach, group A).
   if (termLimitReached(api, personId, contest.officeId))
     checks.push({
