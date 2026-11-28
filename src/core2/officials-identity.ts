@@ -22,7 +22,7 @@ import {
 import {
   inventedPersonBirthDate,
   type InventedPersonRole,
-} from "./gov-rules/invented-person-age";
+} from "./person-invented-age";
 import { isRealOfficeholderName } from "./officials-names";
 import { makeIsoDate } from "./kernel/dates";
 

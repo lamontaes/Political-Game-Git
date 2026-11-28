@@ -15,6 +15,11 @@
 import { ageInYears } from "./kernel/dates";
 import { stopgap } from "./stopgaps";
 import type { FinanceContractInput } from "./finance-types";
+import {
+  DAYS_PER_YEAR,
+  awardYearMinor,
+  jobYearMinor,
+} from "./household-income";
 import type { ResidentHouseholdRecord } from "./residents";
 import type {
   GroupQuartersType,
@@ -39,6 +44,17 @@ export const countedPlaceOf = (placeId: string) =>
   `${COUNTED_PLACE_PREFIX}${placeId}`;
 export function isDemoted(person: { readonly placeId: string }): boolean {
   return person.placeId.startsWith(COUNTED_PLACE_PREFIX);
+}
+/**
+ * The real place a place id names. A demoted person and a counted household
+ * stand at `counted:<place>` (the rule for who counts as in town); a reader
+ * that needs the place itself asks here and gets `<place>`, and a real place
+ * id comes back as it is.
+ */
+export function realPlaceOf(placeId: string): string {
+  return placeId.startsWith(COUNTED_PLACE_PREFIX)
+    ? placeId.slice(COUNTED_PLACE_PREFIX.length)
+    : placeId;
 }
 
 /** A member's place in the counts. */
@@ -191,9 +207,6 @@ function grown<T extends Int8Array | Uint8Array>(
   next.set(array);
   return next;
 }
-
-/** Days a counted job is paid for in a year, as the residents engine pays it. */
-const DAYS_PER_YEAR = 365;
 
 /** Where a packed trait reader keeps its member (a symbol: not a trait key to for...in). */
 const MEMBER = Symbol("member");
@@ -801,12 +814,12 @@ export class CountedStore {
       }
     const wages = record.jobs
       .filter((job) => job.endsAt === undefined)
-      .reduce((n, job) => n + job.wageDailyMinor * DAYS_PER_YEAR, 0);
+      .reduce((n, job) => n + jobYearMinor(job), 0);
     const incomeContracts = record.contracts.filter(
       (row) => row.recipientIncome,
     );
     const retirement = incomeContracts.reduce(
-      (n, row) => n + (row.amountMinor * 12) / Math.max(1, row.periodMonths),
+      (n, row) => n + awardYearMinor(row),
       0,
     );
     const h: CountedHousehold = {
@@ -1008,6 +1021,8 @@ export function encodeStore(store: CountedStore): unknown {
             "traitViews",
             "peopleViews",
             "factsViews",
+            // An engine's hook, installed again when the engine restores.
+            "weightHook",
             // Cache keys, not state: a restored store starts its own count.
             "version",
             "membersVersion",
@@ -1047,6 +1062,7 @@ export function decodeStore(data: unknown): CountedStore {
         "traitView",
         "traitViews",
         "version",
+        "weightHook",
       ].includes(key)
     )
       continue;

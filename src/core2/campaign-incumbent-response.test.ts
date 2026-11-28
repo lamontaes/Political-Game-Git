@@ -32,7 +32,7 @@ import {
   steppedUpOf,
   type PollRow,
 } from "./modules/campaigns";
-import { threatenedIncumbent } from "./campaign-incumbent-response-test-kit";
+import { threatenedIncumbent } from "../../tests/support/campaign-incumbent-response-test-kit";
 
 describe("the incumbent comes home to campaign when a challenger gains", () => {
   it("an incumbent whose own poll shows the challenger ahead puts in more hours and doors, and keeps the reading once by the poll's id", () => {

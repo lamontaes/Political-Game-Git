@@ -19,7 +19,12 @@ import { pairKey, stableHash } from "./kernel/ids";
 import { bookkeeping } from "./bookkeeping";
 import { campaignParameter, type Stance } from "./campaign-data";
 import { agreementWith } from "./modules/views";
-import { partySide } from "./appointments";
+import {
+  partySide,
+  allOffices,
+  officeSeats,
+  servingTermsOnSeat,
+} from "./modules/offices";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
@@ -27,11 +32,11 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import { CAMPAIGNS_MODULE_ID, parsePlatform } from "./modules/campaigns";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { type TermRow } from "./modules/offices";
 import { voterLean } from "./modules/voting";
 import { holderOf, officialLean, officialOf } from "./modules/officials";
 import type { ModuleRow } from "./module-data";
-import type { OfficeInput } from "./offices-local";
+import type { OfficeInput } from "./modules/offices";
 import type { CoreAPI } from "./types";
 import { placeStateKey } from "./place-map";
 
@@ -160,10 +165,7 @@ function bodyMembers(
   contest: ContestRow,
   method: string,
 ): readonly TermRow[] {
-  const offices = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .rows() as unknown as OfficeInput[];
+  const offices = allOffices(api) as unknown as OfficeInput[];
   const own = offices.find((o) => o.id === contest.officeId);
   const bodies =
     method === "legislature-decides"
@@ -183,17 +185,8 @@ function bodyMembers(
           .sort((a, b) => a.id.localeCompare(b.id))
           .slice(0, 1);
   return bodies.flatMap((body) =>
-    (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("seats")
-        .query("byOffice", [body.id]) as unknown as { id: string }[]
-    ).flatMap(
-      (seat) =>
-        api
-          .moduleState(OFFICES_MODULE_ID)
-          .table("terms")
-          .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[],
+    (officeSeats(api, body.id) as unknown as { id: string }[]).flatMap(
+      (seat) => servingTermsOnSeat(api, seat.id) as unknown as TermRow[],
     ),
   );
 }

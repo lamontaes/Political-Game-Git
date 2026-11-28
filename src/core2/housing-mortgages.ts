@@ -12,7 +12,7 @@
  */
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import acs from "../../data/research/world/acs-2024-owner-mortgage-moved-in-by-county.json" with { type: "json" };
-import type { FinanceContractInput } from "./finance-types";
+import type { FinanceContractInput } from "./modules/finance";
 import type { MacroParameter } from "./macro-model";
 import type { ResidentFlowInput } from "./residents";
 import { economyMonthBefore, pastPriceRatio } from "./housing-price-path";

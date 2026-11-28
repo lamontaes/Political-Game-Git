@@ -29,7 +29,7 @@ Today's Journal (Ali Molina, Arizona, seed c4082209): a picture strip 215 pixels
 
 ## The guards pass it (run on the mock at 1440 by 900)
 
-The `ui-look` scans (`src/bench/ui-look-scan.mjs`, and the four new ones in #10476) run on `#sheet` of `journal.html`:
+The `ui-look` scans (`tests/support/ui-look-scan.mjs`, and the four new ones in #10476) run on `#sheet` of `journal.html`:
 
 | Rule                                                | Result                                                       |
 | --------------------------------------------------- | ------------------------------------------------------------ |

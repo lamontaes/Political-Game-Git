@@ -1,0 +1,470 @@
+{
+  "opens": {
+    "src/bench/bank.ts": {
+      "jobs-businesses": 1,
+      "people": 1
+    },
+    "src/bench/bill-stage.ts": {
+      "executive": 2
+    },
+    "src/bench/budget.ts": {
+      "budgets": 1,
+      "executive": 2
+    },
+    "src/bench/calendar.ts": {
+      "elections": 1
+    },
+    "src/bench/campaign.ts": {
+      "elections": 11,
+      "executive": 2
+    },
+    "src/bench/card.ts": {
+      "executive": 4,
+      "people": 1
+    },
+    "src/bench/dev-force-legislature.ts": {
+      "executive": 2
+    },
+    "src/bench/dev-industries.ts": {
+      "dynamic": 1
+    },
+    "src/bench/dev-mode.ts": {
+      "dynamic": 1,
+      "elections": 1,
+      "executive": 4,
+      "jobs-businesses": 2,
+      "people": 2
+    },
+    "src/bench/dev-trace.ts": {
+      "dynamic": 2,
+      "elections": 2,
+      "news": 1
+    },
+    "src/bench/dev-views/dev-closing.ts": {
+      "jobs-businesses": 4
+    },
+    "src/bench/dev-views/opening.ts": {
+      "elections": 2,
+      "executive": 1
+    },
+    "src/bench/dev-views/voter-lean.ts": {
+      "elections": 1
+    },
+    "src/bench/dev-why.ts": {
+      "dynamic": 1,
+      "jobs-businesses": 1
+    },
+    "src/bench/election-night.ts": {
+      "elections": 2
+    },
+    "src/bench/filing.ts": {
+      "executive": 1
+    },
+    "src/bench/government-bodies.ts": {
+      "elections": 1,
+      "executive": 3
+    },
+    "src/bench/government.ts": {
+      "elections": 6,
+      "executive": 1
+    },
+    "src/bench/law-did.ts": {
+      "laws": 1
+    },
+    "src/bench/legislature.ts": {
+      "executive": 1
+    },
+    "src/bench/map.ts": {
+      "elections": 1
+    },
+    "src/bench/openings.ts": {
+      "jobs-businesses": 2
+    },
+    "src/bench/printed-words.ts": {
+      "dynamic": 1,
+      "jobs-businesses": 1
+    },
+    "src/bench/reached.ts": {
+      "elections": 3,
+      "news": 1
+    },
+    "src/bench/results.ts": {
+      "elections": 2
+    },
+    "src/bench/scene.ts": {
+      "executive": 2,
+      "people": 1
+    },
+    "src/core2/board-appointer.ts": {
+      "executive": 1
+    },
+    "src/core2/budgets-treasury.ts": {
+      "laws": 1
+    },
+    "src/core2/campaign-day.ts": {
+      "bodies": 1
+    },
+    "src/core2/candidate-identity.ts": {
+      "executive": 1
+    },
+    "src/core2/candidate-pool.ts": {
+      "executive": 3,
+      "jobs-businesses": 1,
+      "news": 1
+    },
+    "src/core2/gov-measures.ts": {
+      "elections": 2,
+      "executive": 1
+    },
+    "src/core2/health-displacement.ts": {
+      "jobs-businesses": 1
+    },
+    "src/core2/heard-claims.ts": {
+      "elections": 1
+    },
+    "src/core2/hearer-groups.ts": {
+      "executive": 1
+    },
+    "src/core2/justice-law.ts": {
+      "executive": 3
+    },
+    "src/core2/justice-pretrial.ts": {
+      "dynamic": 1
+    },
+    "src/core2/law-reach/applied.ts": {
+      "dynamic": 1
+    },
+    "src/core2/law-reach/group-a-records.ts": {
+      "executive": 1
+    },
+    "src/core2/law-reach/group-a-voting.ts": {
+      "elections": 1,
+      "executive": 6
+    },
+    "src/core2/law-reach/group-b-people.ts": {
+      "jobs-businesses": 1
+    },
+    "src/core2/medical-bills.ts": {
+      "dynamic": 1
+    },
+    "src/core2/module-state.ts": {
+      "dynamic": 1
+    },
+    "src/core2/modules/budgets.ts": {
+      "executive": 1,
+      "laws": 2
+    },
+    "src/core2/modules/campaigns.ts": {
+      "bodies": 1,
+      "executive": 2,
+      "news": 1
+    },
+    "src/core2/modules/constituent-cases.ts": {
+      "jobs-businesses": 1
+    },
+    "src/core2/modules/counted-demotion.ts": {
+      "elections": 2,
+      "executive": 1,
+      "jobs-businesses": 1
+    },
+    "src/core2/modules/credit.ts": {
+      "people": 1
+    },
+    "src/core2/modules/crime.ts": {
+      "people": 1
+    },
+    "src/core2/modules/filing-clerk.ts": {
+      "executive": 1
+    },
+    "src/core2/modules/grievance.ts": {
+      "jobs-businesses": 2
+    },
+    "src/core2/modules/interest-groups.ts": {
+      "bodies": 1
+    },
+    "src/core2/modules/justice.ts": {
+      "executive": 1
+    },
+    "src/core2/modules/leadership.ts": {
+      "dynamic": 1,
+      "executive": 4
+    },
+    "src/core2/modules/legislature.ts": {
+      "budgets": 2,
+      "elections": 2,
+      "executive": 14
+    },
+    "src/core2/modules/meetings.ts": {
+      "elections": 4
+    },
+    "src/core2/modules/national-opinion.ts": {
+      "executive": 2,
+      "jobs-businesses": 2
+    },
+    "src/core2/modules/office-day.ts": {
+      "bodies": 3
+    },
+    "src/core2/modules/outcome-web.ts": {
+      "clock-places": 1,
+      "dynamic": 2,
+      "elections": 2
+    },
+    "src/core2/modules/place-prices.ts": {
+      "laws": 1
+    },
+    "src/core2/modules/press.ts": {
+      "elections": 6,
+      "executive": 4,
+      "jobs-businesses": 5,
+      "laws": 6,
+      "people": 2
+    },
+    "src/core2/modules/public-action.ts": {
+      "elections": 1,
+      "jobs-businesses": 2
+    },
+    "src/core2/modules/recalls.ts": {
+      "bodies": 2,
+      "laws": 3
+    },
+    "src/core2/modules/record.ts": {
+      "elections": 1
+    },
+    "src/core2/modules/residents.ts": {
+      "jobs-businesses": 1
+    },
+    "src/core2/modules/staff.ts": {
+      "bodies": 2
+    },
+    "src/core2/modules/views.ts": {
+      "elections": 1
+    },
+    "src/core2/modules/voting.ts": {
+      "executive": 29,
+      "jobs-businesses": 1
+    },
+    "src/core2/modules/world-legislating.ts": {
+      "executive": 5,
+      "jobs-businesses": 1
+    },
+    "src/core2/modules/world-metrics.ts": {
+      "dynamic": 1,
+      "jobs-businesses": 1,
+      "people": 2
+    },
+    "src/core2/modules/world-panels.ts": {
+      "clock-places": 1,
+      "dynamic": 1,
+      "jobs-businesses": 1,
+      "people": 1
+    },
+    "src/core2/office-day-acts.ts": {
+      "bodies": 2
+    },
+    "src/core2/office-day-federal.ts": {
+      "bodies": 2,
+      "elections": 1
+    },
+    "src/core2/office-day-state.ts": {
+      "bodies": 1
+    },
+    "src/core2/output-number-readers.ts": {
+      "jobs-businesses": 2
+    },
+    "src/core2/past-bodies.ts": {
+      "executive": 1
+    },
+    "src/core2/past-elections.ts": {
+      "elections": 1
+    },
+    "src/core2/past-laws.ts": {
+      "laws": 1
+    },
+    "src/core2/past-news.ts": {
+      "budgets": 1
+    },
+    "src/core2/past-public.ts": {
+      "elections": 1,
+      "executive": 2
+    },
+    "src/core2/past-school.ts": {
+      "dynamic": 1
+    },
+    "src/core2/person-life.ts": {
+      "jobs-businesses": 1
+    },
+    "src/core2/press-desk.ts": {
+      "bodies": 2,
+      "executive": 2,
+      "laws": 1
+    },
+    "src/core2/press-money.ts": {
+      "dynamic": 4
+    },
+    "src/core2/press-topics.ts": {
+      "bodies": 1,
+      "executive": 2
+    },
+    "src/core2/question-wages.ts": {
+      "laws": 2
+    },
+    "src/core2/resting-stress.ts": {
+      "dynamic": 1
+    },
+    "src/core2/shared-history.ts": {
+      "elections": 2,
+      "people": 1
+    },
+    "src/core2/state.ts": {
+      "dynamic": 2
+    },
+    "src/core2/term-read.ts": {
+      "jobs-businesses": 3
+    },
+    "src/core2/world-poverty.ts": {
+      "jobs-businesses": 1
+    },
+    "src/director/arc-variant.ts": {
+      "dynamic": 3
+    },
+    "src/director/bring-it-up.ts": {
+      "elections": 1
+    },
+    "src/director/cause-facts.ts": {
+      "elections": 2,
+      "executive": 2
+    },
+    "src/director/circumstance.ts": {
+      "news": 1
+    },
+    "src/director/civic-roles.ts": {
+      "elections": 2,
+      "news": 1
+    },
+    "src/director/constituent-help-facts.ts": {
+      "executive": 1,
+      "jobs-businesses": 1,
+      "people": 1
+    },
+    "src/director/conversation.ts": {
+      "bodies": 1,
+      "executive": 2,
+      "jobs-businesses": 1,
+      "laws": 1,
+      "news": 1,
+      "people": 1
+    },
+    "src/director/custody-facts.ts": {
+      "laws": 2
+    },
+    "src/director/door-facts.ts": {
+      "elections": 1
+    },
+    "src/director/doors.ts": {
+      "elections": 2
+    },
+    "src/director/family-stake.ts": {
+      "elections": 1
+    },
+    "src/director/journal.ts": {
+      "bodies": 2,
+      "executive": 2,
+      "laws": 2
+    },
+    "src/director/life-news.ts": {
+      "jobs-businesses": 1
+    },
+    "src/director/local-speeches.ts": {
+      "elections": 1
+    },
+    "src/director/purpose-scene.ts": {
+      "bodies": 3,
+      "budgets": 1,
+      "elections": 9,
+      "executive": 1,
+      "jobs-businesses": 1,
+      "laws": 1,
+      "news": 2
+    },
+    "src/director/race-turnout-facts.ts": {
+      "elections": 1
+    },
+    "src/director/school.ts": {
+      "people": 1
+    },
+    "src/director/sitting-ties.ts": {
+      "elections": 1,
+      "executive": 1
+    },
+    "src/director/speech-outline.ts": {
+      "executive": 5,
+      "jobs-businesses": 2,
+      "laws": 2
+    },
+    "src/director/veto-talk.ts": {
+      "executive": 2
+    },
+    "src/director/who-they-are.ts": {
+      "executive": 4
+    }
+  },
+  "writes": {
+    "src/core2/justice-pretrial.ts": {
+      "dynamic": 2
+    },
+    "src/core2/medical-bills.ts": {
+      "dynamic": 2
+    },
+    "src/core2/press-money.ts": {
+      "dynamic": 2
+    },
+    "src/core2/state.ts": {
+      "dynamic": 1
+    }
+  },
+  "mapWrites": {
+    "src/core2/decision-detail.ts": {
+      "relationships": 1
+    },
+    "src/core2/modules/official-pay.ts": {
+      "jobs": 1
+    },
+    "src/core2/state.ts": {
+      "familyLinks": 4,
+      "households": 11,
+      "husks": 5,
+      "jobs": 3,
+      "memberships": 2,
+      "organizations": 2,
+      "people": 2,
+      "publicOrganizations": 1,
+      "relationships": 1
+    }
+  },
+  "rowEdits": {
+    "src/core2/finance-state.ts": {
+      "JobInput": 1,
+      "PersonState": 2
+    },
+    "src/core2/free-block.ts": {
+      "PersonState": 1
+    },
+    "src/core2/job-lifecycle.ts": {
+      "PersonState": 2
+    },
+    "src/core2/modules/residents.ts": {
+      "OrganizationInput": 1
+    },
+    "src/core2/past-moves.ts": {
+      "PersonState": 1
+    },
+    "src/core2/state.ts": {
+      "JobInput": 2,
+      "PersonState": 28,
+      "Relationship": 7
+    },
+    "src/core2/work-attendance.ts": {
+      "PersonState": 4
+    }
+  }
+}

@@ -12,7 +12,7 @@
 //   BENCH_BROWSER=/opt/pw-browsers/chromium node src/bench/debate-accept.browser.mjs [shots dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { finishTalk } from "./start-life.mjs";
+import { finishTalk } from "../../tests/support/start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;

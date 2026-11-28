@@ -34,7 +34,7 @@ checked: fable 2026-11-10
 
 **Waits on.** world-police-patrol-and-grievance-causes (blocked): the patrol-hours record, the crime-outcome measure and the recorded grievance.
 
-**Files.** src/core2/modules/justice.ts, src/core2/justice-chain.ts, src/core2/justice-incidents.ts (new), src/core2/data/justice/ (new), src/core2/justice-incidents.test.ts (new), docs/design/one-model-two-tiers.md
+**Files.** src/core2/modules/justice.ts, scripts/core2/justice-chain.ts, src/core2/justice-incidents.ts (new), src/core2/data/justice/ (new), src/core2/justice-incidents.test.ts (new), docs/design/one-model-two-tiers.md
 
 **Notes.** Closes the incident prerequisite of the five SG-GOV-REACH-A rows in src/core2/data/stopgaps.json only when the engine reads the law, never by deleting the row. Check docs/coordination/DECISION-REGISTER.md and OWNER-DECISIONS.md before adding any player-facing step. Remainder of gov-justice-incident-records.
 
