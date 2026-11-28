@@ -25,6 +25,16 @@ import type {
   PetitionRow,
 } from "./modules/elections";
 import type { CoreAPI } from "./types";
+import {
+  type CountedHousehold,
+  type CountedStore,
+  isDemoted,
+  ageOn,
+} from "./counted-groups";
+import type { CoreState } from "./types";
+import type { CountedVoter } from "./electorate";
+import { residentsRuntime } from "./residents-reads";
+import { bookkeeping } from "./bookkeeping";
 
 export const ELECTIONS_MODULE_ID = "core2-elections-v1";
 
@@ -433,4 +443,165 @@ export function petitionCirculating(api: CoreAPI, filingId: string): boolean {
     (filing?.status === "petitioning" || filing?.status === "announced") &&
     api.state.date <= petition.due,
   );
+}
+
+const employerOf = (
+  employment: NonNullable<CountedHousehold["employment"]>,
+  id: string,
+) => {
+  const row = employment.find((work) => work.personId === id);
+  return row ? { employerId: row.employerId } : {};
+};
+
+/** A counted member's roles, read from their record (opening-roles.ts). */
+function rolesOf(store: CountedStore, m: number) {
+  const text = (key: string) => {
+    const at = store.roleIx[key]?.[m];
+    return at ? store.text(at) : undefined;
+  };
+  const party = text("partyActivity");
+  const owned = text("ownedEmployerId");
+  return {
+    ...(party ? { partyActivity: Number(party) } : {}),
+    ...(owned ? { ownedEmployerId: owned } : {}),
+  };
+}
+
+const cache = new WeakMap<CoreState, { date: string; rows: CountedVoter[] }>();
+
+/**
+ * Each member of a counted household who is still counted, with their
+ * household: read straight from the counted groups' columns, no record per
+ * person (one model, two tiers). A full person returned to the counts is
+ * counted again.
+ */
+export function eachCountedResident(
+  core: CoreState,
+  visit: (
+    store: CountedStore,
+    h: CountedHousehold,
+    m: number,
+    id: string,
+  ) => void,
+): void {
+  const store = residentsRuntime(core)?.store;
+  if (!store) return;
+  for (const h of store.liveHouseholds())
+    for (const m of store.countedMembers(h)) {
+      const id = store.ids[m]!;
+      const full = core.people.get(id);
+      if (full && !isDemoted(full)) continue;
+      visit(store, h, m, id);
+    }
+}
+
+/**
+ * Each counted store's members in id order (ties by household, then member,
+ * the order the walk visits them): sorted once, each later member placed by
+ * binary search, so a rebuild reads the order instead of sorting its rows.
+ * Kept beside the store, never on it, so it is never saved.
+ */
+const idOrder = new WeakMap<CountedStore, { order: number[]; count: number }>();
+
+function membersById(store: CountedStore): readonly number[] {
+  const ids = store.ids;
+  const household = store.household;
+  const cmp = (a: number, b: number) =>
+    ids[a]!.localeCompare(ids[b]!) || household[a]! - household[b]! || a - b;
+  let held = idOrder.get(store);
+  if (!held) {
+    const order = Array.from({ length: store.memberCount }, (_, m) => m);
+    held = { order: order.sort(cmp), count: store.memberCount };
+    idOrder.set(store, held);
+  }
+  // Members are only ever appended (`addMember`).
+  const order = held.order;
+  for (let m = held.count; m < store.memberCount; m++) {
+    let low = 0;
+    let high = order.length;
+    while (low < high) {
+      const mid = (low + high) >>> 1;
+      if (cmp(order[mid]!, m) > 0) high = mid;
+      else low = mid + 1;
+    }
+    order.splice(low, 0, m);
+  }
+  held.count = store.memberCount;
+  return order;
+}
+
+/**
+ * A walk's rows in the store's id order: the same rows a stable sort by id
+ * gives, since the walk visits by household, then member. With bookkeeping
+ * on, that sort is run too and must agree.
+ */
+export function inIdOrder<Row extends { readonly id: string }>(
+  store: CountedStore | undefined,
+  walked: readonly Row[],
+  slot: Int32Array,
+): Row[] {
+  const rows: Row[] = [];
+  if (store)
+    for (const m of membersById(store)) {
+      const i = slot[m]!;
+      if (i >= 0) rows.push(walked[i]!);
+    }
+  if (bookkeeping()) {
+    const sorted = walked.slice().sort((a, b) => a.id.localeCompare(b.id));
+    if (sorted.length !== rows.length || sorted.some((r, i) => r !== rows[i]))
+      throw new Error("Counted residents left the store's id order.");
+  }
+  return rows;
+}
+
+/** Every counted resident still counted (not filled in), with their record's facts. */
+export function countedResidents(core: CoreState): readonly CountedVoter[] {
+  const hit = cache.get(core);
+  // Kept for the day, until someone is filled in or the people change.
+  const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.store.membersVersion ?? 0}`;
+  if (hit && hit.date === key) return hit.rows;
+  const counted = residentsRuntime(core)?.store;
+  const walked: CountedVoter[] = [];
+  // Each visited member's row in `walked`.
+  const slot = new Int32Array(counted?.memberCount ?? 0).fill(-1);
+  // Each household's scheduled work and best pay, worked out once for its members.
+  let at: CountedHousehold | undefined;
+  const minutes = new Map<string, number>();
+  const hourly = new Map<string, number>();
+  eachCountedResident(core, (store, h, m, id) => {
+    if (h !== at) {
+      at = h;
+      minutes.clear();
+      hourly.clear();
+      for (const c of h.workCommitments) {
+        if (c.endsAt !== undefined && c.endsAt <= core.date) continue;
+        minutes.set(
+          c.personId,
+          (minutes.get(c.personId) ?? 0) + c.expectedWeeklyMinutes,
+        );
+        hourly.set(
+          c.personId,
+          Math.max(hourly.get(c.personId) ?? 0, c.hourlyMinor),
+        );
+      }
+    }
+    walked.push({
+      id,
+      birthDate: store.born[m]!,
+      placeId: store.text(store.placeIx[m]!)!,
+      householdId: h.id,
+      traits: store.packedTraits(m),
+      weeklyMinutes: minutes.get(id) ?? 0,
+      hourlyMinor: hourly.get(id) ?? 0,
+      weight: store.weightOf(h),
+      ...(h.since ? { yearsInPlace: ageOn(h.since, core.date) } : {}),
+      ...(h.employment ? employerOf(h.employment, id) : {}),
+      ...(h.quarters ? { quarters: h.quarters } : {}),
+      ...rolesOf(store, m),
+    });
+    slot[m] = walked.length - 1;
+  });
+  const rows = inIdOrder(counted, walked, slot);
+  cache.set(core, { date: key, rows });
+  return rows;
 }

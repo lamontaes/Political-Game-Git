@@ -8,7 +8,7 @@
 import schoolDays from "./data/school-days.json" with { type: "json" };
 import { stableHash } from "./kernel/ids";
 import { schoolSpans } from "./past-school";
-import { PAST_WORK_SPELL } from "./past-work";
+import { PAST_WORK_SPELL } from "./past-reads";
 import { historyOf } from "./past-history";
 import { parameter } from "./parameters";
 import { coreAPI } from "./state";
