@@ -4,6 +4,7 @@
  * Builds the played world at a place drawn by the seed (all 56) or named by key, advances it, and at each named day
  * prints two reads of the same records:
  *   - the spec's share: seekers over seekers plus the employees on the town's businesses' books;
+ *   - the economy panel's rate at the played town (`townLaborByPlace`, the one pass the Metrics tab, the paper and the panel read);
  *   - the labor-force rate: seekers over seekers plus everyone at work (the books' staff, the full people with a job,
  *     counted workers on a town wage flow and the workers their households place elsewhere);
  * with the seekers by reason and the working-age population. Read-only development tooling.
@@ -20,6 +21,7 @@ import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import { lookingForWork } from "../../src/core2/jobs-reads";
 import { staffCount } from "../../src/core2/modules/jobs";
+import { townLaborByPlace } from "../../src/core2/modules/world-panels";
 import { residentsRuntime } from "../../src/core2/modules/residents";
 import { corePlaceByKey } from "../../src/core2/place-lookup";
 import { drawPlace } from "../core2-year/place";
@@ -84,11 +86,18 @@ function read(day: number) {
       }
     }
   }
+  // The one pass the Metrics tab, the paper and the economy panel read: counted residents weigh their households.
+  const labor = townLaborByPlace(api).get(world.placeId) ?? {
+    employed: 0,
+    seekers: 0,
+    openPositions: 0,
+  };
+  const panelRate = labor.seekers / Math.max(1, labor.seekers + labor.employed);
   const atWork = fullJob + countedAtWork + elsewhere;
   const specShare = seekers.length / Math.max(1, seekers.length + booked);
   const rate = seekers.length / Math.max(1, seekers.length + atWork);
   console.log(
-    `${name} (${placeKey}, seed ${seed}) day ${day}: spec share ${(specShare * 100).toFixed(1)}% (${seekers.length} seeking, ${booked} on the books); labor-force rate ${(rate * 100).toFixed(1)}% (${atWork.toFixed(0)} at work of ${fullWA + countedWA} aged 18 to 64: ${fullJob} full, ${countedAtWork} counted on town wages, ${elsewhere.toFixed(0)} placed elsewhere); ` +
+    `${name} (${placeKey}, seed ${seed}) day ${day}: the economy panel's rate ${(panelRate * 100).toFixed(1)}% (${labor.seekers} looking of ${labor.seekers + labor.employed} in the labor force); spec share ${(specShare * 100).toFixed(1)}% (${seekers.length} seeking, ${booked} on the books); labor-force rate ${(rate * 100).toFixed(1)}% (${atWork.toFixed(0)} at work of ${fullWA + countedWA} aged 18 to 64: ${fullJob} full, ${countedAtWork} counted on town wages, ${elsewhere.toFixed(0)} placed elsewhere); ` +
       [...byReason].map(([k, v]) => `${k} ${v}`).join(", "),
   );
 }
