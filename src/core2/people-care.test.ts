@@ -7,7 +7,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore, availableActs, createLifeCore } from "./life";
 import { careNeedOf, healthReport } from "./modules/health";
 import { parameter } from "./parameters";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import type { CoreState, PersonState } from "./types";
 
 // A grown relative at home draws care from their health and the closeness of

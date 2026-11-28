@@ -10,7 +10,11 @@
  * two, and both are told.
  */
 import { governmentProperName } from "./government-proper-name";
-import { OFFICES_MODULE_ID, servingTermsOf } from "./modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  officeById,
+  servingTermsOf,
+} from "./modules/offices";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
@@ -131,10 +135,9 @@ export function personWorkOf(
   const person = core.people.get(personId as never);
   const held = person?.jobId ? core.jobs.get(person.jobId) : undefined;
   const api = coreAPI(core as CoreState);
-  const table = core.modules.has(OFFICES_MODULE_ID)
-    ? api.moduleState(OFFICES_MODULE_ID).table("offices")
-    : null;
-  const terms = table ? servingTermsOf(api, personId) : [];
+  const terms = core.modules.has(OFFICES_MODULE_ID)
+    ? servingTermsOf(api, personId)
+    : [];
   const offices = [...terms]
     .sort(
       (a, b) =>
@@ -143,7 +146,7 @@ export function personWorkOf(
         ) || a.id.localeCompare(b.id),
     )
     .flatMap((term): PersonOffice[] => {
-      const office = table?.get(term.officeId) as
+      const office = officeById(api, term.officeId) as unknown as
         | {
             title?: string;
             governmentName?: string;

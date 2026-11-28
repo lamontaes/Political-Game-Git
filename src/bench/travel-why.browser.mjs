@@ -7,8 +7,8 @@
 //   BENCH_BROWSER=/opt/pw-browsers/chromium [BENCH_SEED=<seed>] node src/bench/travel-why.browser.mjs [shots dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
-import { devModeOn } from "./dev-setup.mjs";
+import { startLife } from "../../tests/support/start-life.mjs";
+import { devModeOn } from "../../tests/support/dev-setup.mjs";
 
 const [shots] = process.argv.slice(2);
 const DAYS = 60;

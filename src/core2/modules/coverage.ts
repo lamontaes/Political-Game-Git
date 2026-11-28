@@ -59,7 +59,6 @@ import {
   type PlanCareMonth,
 } from "../medical-bills";
 import { coreAPI, registerModule } from "../state";
-import { registerPlanReaders } from "../life-plan-readers";
 import { outsideAccountOf } from "../budgets-treasury";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { gameStartDate } from "../game-start";
@@ -935,6 +934,21 @@ function payPremiums(api: CoreAPI): void {
 }
 
 const COVERAGE_MODULE: CoreModule = {
+  // The views engine's life term reads who holds a plan (src/core2/life-plan-readers.ts).
+  planReaders: {
+    fullPlan: (core, householdId, personId) =>
+      (
+        table(coreAPI(core)).query("byHousehold", [
+          householdId,
+        ]) as unknown as CoverageRow[]
+      ).find((row) => row.personId === personId && row.to === null)?.plan,
+    countedCovered: (core, householdId, placeId) => {
+      const api = coreAPI(core);
+      return countedPlacesOf(api).has(placeId)
+        ? (countedCoverageOf(api, householdId)?.covered ?? 0)
+        : null;
+    },
+  },
   id: COVERAGE_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -968,25 +982,6 @@ const COVERAGE_MODULE: CoreModule = {
 declareSnapshotCovered(COVERAGE_MODULE.id);
 // A row names the journal receipt of its last premium, an ended row too; the
 // journal's fold keeps every receipt a row names (decision-detail.ts).
-// The views engine's life term reads who holds a plan (src/core2/life-plan-readers.ts).
-registerPlanReaders({
-  fullPlan: (core, householdId, personId) =>
-    core.modules.has(COVERAGE_MODULE_ID)
-      ? (
-          table(coreAPI(core)).query("byHousehold", [
-            householdId,
-          ]) as unknown as CoverageRow[]
-        ).find((row) => row.personId === personId && row.to === null)?.plan
-      : null,
-  countedCovered: (core, householdId, placeId) => {
-    if (!core.modules.has(COVERAGE_MODULE_ID)) return null;
-    const api = coreAPI(core);
-    return countedPlacesOf(api).has(placeId)
-      ? (countedCoverageOf(api, householdId)?.covered ?? 0)
-      : null;
-  },
-});
-
 /** The places where the coverage engine keeps counted households' plans, kept for the month. */
 const countedPlaces = new WeakMap<
   object,

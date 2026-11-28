@@ -30,6 +30,7 @@ import { fullHouseholdIncomes } from "../counted-income-fifth";
 import { webReach, type WebPart } from "../outcome-web-reach";
 import { baseOf, publishedBaseOf } from "../outcome-web-model";
 import { OUTCOME_WEB_MODULE_ID } from "./outcome-web";
+import { allWebMonths } from "./outcome-web-reads";
 import { liveCountedCrimeTally } from "./views";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -523,9 +524,7 @@ function run(api: CoreAPI): void {
   api.stopgap("SG-WEB-crime-justice-links-unread");
   // The places the web has a month for; the rest have no factor to read.
   const places = new Set<string>();
-  const web = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");
-  for (const row of web.rows() as unknown as { placeId: string }[])
-    places.add(row.placeId);
+  for (const row of allWebMonths(api)) places.add(row.placeId);
   const todo = [...places]
     .filter((placeId) => !table(api, "months").get(`${placeId}:${month}`))
     .sort();

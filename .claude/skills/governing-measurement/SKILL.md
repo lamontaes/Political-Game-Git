@@ -16,7 +16,7 @@ Phase A's done-when is a count over drawn places (path-check wins a council seat
 
 ## Path-check runners
 
-- **What it is.** `src/bench/path-check.ts` is the headless New Game life. It files where the player may, campaigns, votes and governs, and prints a log. The diagnostic lines are TALLY (totals, named and counted), PLEDGES (door yeses and how they voted), APPEAL (each part of the vote, averaged, for the player and the leading rival), INCUMBENTS (per level: held, ran, won, contested, won contested), and PETITION-DAY and PETITION-DUE on stderr. One place takes 25 to 60 minutes and 6 to 8 GB.
+- **What it is.** `tests/golden-path/path-check.ts` is the headless New Game life. It files where the player may, campaigns, votes and governs, and prints a log. The diagnostic lines are TALLY (totals, named and counted), PLEDGES (door yeses and how they voted), APPEAL (each part of the vote, averaged, for the player and the leading rival), INCUMBENTS (per level: held, ran, won, contested, won contested), and PETITION-DAY and PETITION-DUE on stderr. One place takes 25 to 60 minutes and 6 to 8 GB.
 - **Measurement branches.** `governing/measure-mN` is current main, plus the open PRs being measured, plus diagnostic-only commits cherry-picked onto it. It is never a PR. Name its head in every brief.
 - **The brief, exactly** (send the commands, not a description):
   1. `git fetch origin <branch> && git checkout <branch> && git reset --hard origin/<branch>`, then check that `git log -1 --format=%h` prints the head you named.
@@ -104,6 +104,10 @@ When a played proof shows an engine's reaction never happening (Nov 1: an incumb
 ## Counting who ran in a seat (Nov 15)
 
 Count a seat's filers by filings whose status is not `withdrawn`, and only for seats whose filing deadline has passed on the day you stop. A count that includes withdrawn filings or open windows reads a major party as present or absent wrongly (the first 12-place count of uncontested seats did). A seat has few filers per place, so a share needs many places; say how many seats it rests on. A weight is never moved until a measured share matches a benchmark: derive it from a person's own sum or a source with its spread, and report the result against the benchmark. A filer whose ballot label is empty is not a missing party: a resident the town's monthly party meeting has not met yet has no tie, so the filing carried no label until the meeting tied them days later. Read the label against the person's party on the day you count (`partyOf`) before reporting a seat as missing a major party; 4 of 11 House seats read as missing a party that way and 1 of 11 did once filers took their tie first (#9528). A seat's count by label is a count of tied filers.
+
+## Gotchas
+
+- **A walk that logs "no filing" with `choices []` is the clerk's bank, not the race reader (Nov 27, Sterling, Michigan, seed path-check).** `path-check` printed "no open seat, first council race" and no filing; the race was there (a 5-seat at-large council with the holder running and room for more). The counter had no choices because `wordSceneMove` returned null for `filing-clerk` `greet-counter` and `pick-office`, since the old bank was deleted and Story's replacement was still open. Check the visit's `lines` and `choices` first; the "no open seat" line only means the holder is standing again.
 
 ## Stop condition
 

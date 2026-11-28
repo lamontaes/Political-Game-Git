@@ -3,15 +3,16 @@ import { coreAPI } from "../core2/state";
 import { filingClerkFor } from "../core2/modules/campaigns";
 import { workSpansOf } from "./places";
 import officeHours from "./data/office-hours.json" with { type: "json" };
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { addDays, makeIsoDate, weekdayOf } from "../core2/kernel/dates";
 import {
-  ELECTIONS_MODULE_ID,
   ballot,
   checkEligibility,
+  contestOf,
   filingOfficeFor,
+  filingsOfPerson,
   openContests,
   playerContests,
-  type FilingRow,
+  racesOpenTo,
   type RequirementCheck,
 } from "../core2/modules/elections";
 import {
@@ -131,26 +132,9 @@ export function openBenchFilingVisit(
 ): BenchFilingVisit {
   const api = coreAPI(core);
   // A race the player has already filed in is not offered again (P1,
-  // Commack, New York: the clerk offered the race the player was in).
-  const mine = new Set(
-    (
-      api
-        .moduleState(ELECTIONS_MODULE_ID)
-        .table("filings")
-        .query("byPerson", [playerId]) as unknown as {
-        contestId: string;
-        status: string;
-      }[]
-    )
-      .filter(
-        (row) => row.status === "petitioning" || row.status === "on-ballot",
-      )
-      .map((row) => row.contestId),
-  );
-  const open = playerContests(api).filter(
-    (row) =>
-      !mine.has(row.id) && filingOfficeFor(api, row.id).filedWith === filedWith,
-  );
+  // Commack, New York: the clerk offered the race the player was in); the
+  // elections door holds that rule.
+  const open = racesOpenTo(api, playerId, filedWith);
   // A contest's title is its office, with its district where it has one. Races of the
   // same office are told apart in the choice menu by their seat, election day and
   // holder (`seats` below), never by a code in the title.
@@ -264,17 +248,7 @@ export function openBenchFilingVisit(
   // that filing (Fable A, Nov 13, Miracle Valley, Arizona).
   const filedRow =
     contests.length && mineHere
-      ? (api
-          .moduleState(ELECTIONS_MODULE_ID)
-          .table("contests")
-          .get(mineHere.contestId) as unknown as
-          | {
-              title: string;
-              officeId: string;
-              district?: string | null;
-              level: string;
-            }
-          | undefined)
+      ? contestOf(api, mineHere.contestId)
       : undefined;
   const filedOffice = filedRow
     ? (offices.get(filedRow.officeId) as unknown as OfficeRecord | undefined)
@@ -363,10 +337,7 @@ export function filedHere(
   filedWith: string,
 ): { id: string; status: string; contestId: string } | null {
   const api = coreAPI(core);
-  const filings = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("filings")
-    .query("byPerson", [playerId]) as unknown as FilingRow[];
+  const filings = filingsOfPerson(api, playerId);
   // The filing the player made at this counter comes first: a filing in
   // their name they did not make here (a running mate's place on a ticket,
   // Miracle Valley, Arizona, seed w3-return-1) is not what they came back
@@ -477,7 +448,7 @@ function assumedSpans(
   date: string,
 ): { startMinute: number; endMinute: number }[] {
   const hours = officeHours.estimated;
-  const weekday = new Date(`${date}T12:00:00Z`).getUTCDay();
+  const weekday = weekdayOf(date);
   return hours.weekdays.includes(weekday)
     ? [{ startMinute: hours.opensMinute, endMinute: hours.closesMinute }]
     : [];

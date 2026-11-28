@@ -14,7 +14,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { countyNonattainment } from "./business-operating-rules";
 import { gameStartDate } from "./game-start";
-import { govReport } from "./gov-test-report";
+import { govReport } from "../../scripts/core2/gov-test-report";
 import { setJournalTrace } from "./journal-state";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
