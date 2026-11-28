@@ -38,6 +38,7 @@
 import data from "./data/estates.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { outsideGovernment } from "./modules/executive";
+import { dwellingTenure } from "./housing-reads";
 import { LAWS_MODULE_ID } from "./modules/laws";
 import { coreStateKeyOfPlaceholderId } from "./place-lookup";
 import {
@@ -422,12 +423,9 @@ function homeOfLastOwner(
   const household = c.households.get(person.householdId);
   if (!household || household.memberIds.some((id) => c.people.get(id)?.alive))
     return undefined;
-  const dwelling = api
-    .moduleState("housing")
-    .table("dwellings")
-    .get(`dwelling:${household.id}`) as unknown as
-    { tenure?: string } | undefined;
-  return dwelling?.tenure === "own" ? household.id : undefined;
+  return dwellingTenure(api, household.id)?.tenure === "own"
+    ? household.id
+    : undefined;
 }
 
 export function settleEstate(
