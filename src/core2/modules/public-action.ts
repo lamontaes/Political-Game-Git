@@ -39,6 +39,7 @@ import {
   foundMovement,
   movementGroupId,
   groupDraw,
+  interestGroupOf,
   joinsGroup,
 } from "./interest-groups";
 import { leanedYes } from "../trait-decisions";
@@ -770,10 +771,10 @@ function standMovement(
 ): void {
   const core = api.state as CoreState;
   if (!core.modules.has(INTEREST_GROUPS_MODULE_ID)) return;
-  const standing = api
-    .moduleState(INTEREST_GROUPS_MODULE_ID)
-    .table("groups")
-    .get(movementGroupId(action.placeId, question));
+  const standing = interestGroupOf(
+    api,
+    movementGroupId(action.placeId, question),
+  );
   const organizerId = standing
     ? undefined
     : organizerOf(api, action, participants);
