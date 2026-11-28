@@ -274,6 +274,12 @@ export { seededUnit } from "./seeded";
 
 // The one history, for the engines that run or read it (light imports only:
 // the engines load this entry while the core is still loading).
+export type {
+  HistoryRecord,
+  HistoryWriter,
+  PreStartModule,
+  PreStartWindow,
+} from "./pre-start";
 export {
   coarseSteps,
   ownWindowOf,
@@ -281,12 +287,8 @@ export {
   preStartHistory,
   preStartWindowOf,
   recordPreStartLater,
-  type HistoryRecord,
-  type HistoryWriter,
-  type PreStartModule,
-  type PreStartWindow,
   wholePastOpened,
-} from "./pre-start";
+} from "./pre-start-history";
 // The one history reader: what already happened, for a person, a household,
 // an employer, a place, a state or the nation (src/core2/past-history.ts).
 export {

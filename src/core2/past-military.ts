@@ -13,7 +13,7 @@ import {
   preStartWindowOf,
   recordPreStartLater,
   wholePastOnce,
-} from "./pre-start";
+} from "./pre-start-history";
 import { stopgap } from "./stopgaps";
 import type { HistoryRecord } from "./pre-start";
 import type { CoreState, IsoDate, PersonState } from "./types";

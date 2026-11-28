@@ -375,7 +375,13 @@ const movedText = pieces
 function appendTo(existing: string): string {
   const sf = parse(leaf, existing);
   const lastImport = [...sf.statements].filter(ts.isImportDeclaration).pop();
-  const at = lastImport ? lastImport.getEnd() : 0;
+  // With no import yet, the new ones go after the leaf's opening doc comment.
+  const leadingDoc = /^\/\*\*[\s\S]*?\*\/\n/.exec(existing);
+  const at = lastImport
+    ? lastImport.getEnd()
+    : leadingDoc
+      ? leadingDoc[0].length - 1
+      : 0;
   // A name the leaf already imports is not imported twice.
   const have = new Set<string>();
   for (const st of sf.statements)

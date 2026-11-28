@@ -27,7 +27,7 @@ import {
   preStartWindowOf,
   recordPreStartLater,
   wholePastOnce,
-} from "./pre-start";
+} from "./pre-start-history";
 import { ownPastKind } from "./own-past-kinds";
 import { coreAPI } from "./state";
 import { stopgap } from "./stopgaps";
