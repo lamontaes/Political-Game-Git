@@ -807,7 +807,8 @@
         "src/core2/credit-reads.ts",
         "src/core2/prices-reads.ts",
         "src/core2/job-lifecycle.ts",
-        "src/core2/work-reads.ts"
+        "src/core2/work-reads.ts",
+        "src/core2/opening-outside-market.ts"
       ],
       "paths": [
         "src/core2/shared-time.ts",
