@@ -6158,7 +6158,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.on-any-bill-to-my-answer-to-congress-is-no",
@@ -6181,7 +6182,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.i-will-not-sign-a-bill-to-because-i-believe",
@@ -6210,7 +6212,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.i-believe-and-so-i-oppose-any-bill-to",
@@ -6239,7 +6242,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.on-any-bill-to-my-answer-is-no-and-it-ll-stay-no",
@@ -6262,7 +6266,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.don-t-send-me-a-bill-to-i-won-t-sign-it",
@@ -6285,7 +6290,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.i-m-against-any-bill-to-because-i-believe",
@@ -6314,7 +6320,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.i-believe-so-on-any-bill-to-the-answer-is-no",
@@ -6343,7 +6350,8 @@
       },
       "origin": "authored",
       "author": "Story lead (opening evening, Nov 19)",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.n19-polished-i-will-ask-congress-to-repeal-law-name",
@@ -11599,7 +11607,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["asks-of-lawmakers-in-state-addresses"]
     },
     {
       "key": "opening-speech.ask.i-oppose-any-to-because-and-i-ask-to-reject-it",
@@ -11743,7 +11752,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["asks-of-lawmakers-in-state-addresses"]
     },
     {
       "key": "opening-speech.ask.i-m-against-any-bill-to-because-and-i-ll-veto-it",
@@ -11776,7 +11786,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.i-oppose-any-bill-to-because-and-i-will-veto-it",
@@ -11809,7 +11820,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.salutation.plain-friends-and-neighbors",
@@ -19173,7 +19185,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["asks-of-lawmakers-in-state-addresses"]
     },
     {
       "key": "opening-speech.ask.i-oppose-any-to-and-i-ask-to-reject-it",
@@ -19311,7 +19324,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["asks-of-lawmakers-in-state-addresses"]
     },
     {
       "key": "opening-speech.ask.i-m-against-any-bill-to-and-i-ll-veto-it",
@@ -19338,7 +19352,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.i-oppose-any-bill-to-and-i-will-veto-it",
@@ -19365,7 +19380,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.plain-since-it-seems-to-me-that-belief",
@@ -22488,7 +22504,8 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.any-to-gets-a-no-from-me",
@@ -22557,7 +22574,8 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.i-can-t-get-behind-any-to",
@@ -22626,7 +22644,8 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.i-won-t-put-my-name-on-any-to",
@@ -22695,7 +22714,8 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.i-will-say-no-to-every-to-whoever-brings-it",
@@ -22764,7 +22784,8 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.any-to-will-get-a-no-from-me",
@@ -22833,7 +22854,8 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.i-will-not-lend-my-support-to-any-to",
@@ -22902,7 +22924,8 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.my-name-will-not-appear-on-any-to",
@@ -22971,7 +22994,8 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "opening-speech.ask.plain-i-m-asking-the-legislature-to-to-and-i-m-not-letting-up",
@@ -78992,7 +79016,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["asks-of-lawmakers-in-state-addresses"]
     },
     {
       "key": "opening-speech.ask.i-want-us-to-and-i-ask-to-take-it-up-this-year",
@@ -79052,7 +79077,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["asks-of-lawmakers-in-state-addresses"]
     },
     {
       "key": "opening-speech.ask.i-d-like-us-to-this-year-because",
@@ -79115,7 +79141,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["asks-of-lawmakers-in-state-addresses"]
     },
     {
       "key": "opening-speech.ask.i-d-like-us-to-before-long-and-i-ll-work-for-it",
@@ -79160,7 +79187,8 @@
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["asks-of-lawmakers-in-state-addresses"]
     }
   ]
 }
