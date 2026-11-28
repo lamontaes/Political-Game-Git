@@ -343,8 +343,14 @@ for (const [file, from, to] of PIECEWISE) {
   if (text.includes(from)) writeFileSync(full, text.replace(from, to));
 }
 
+/** The shape of tests/guards/families.json that this script edits. */
+type FamiliesMap = {
+  shared: string[];
+  families: { paths: string[]; entry: string[] }[];
+};
+
 /** What the guards read by path: drop what left src, add what stayed in the game. */
-function editJson(file: string, edit: (data: any) => void): void {
+function editJson<Data>(file: string, edit: (data: Data) => void): void {
   const full = path.join(ROOT, file);
   const data = JSON.parse(readFileSync(full, "utf8"));
   edit(data);
@@ -352,8 +358,8 @@ function editJson(file: string, edit: (data: any) => void): void {
 }
 const outsideSrc = (entry: string) =>
   /^(?:scripts|tests)\//.test(entry) || everMoved.has(entry);
-editJson("tests/guards/families.json", (map) => {
-  map.shared = map.shared.filter((entry: string) => !outsideSrc(entry));
+editJson<FamiliesMap>("tests/guards/families.json", (map) => {
+  map.shared = map.shared.filter((entry) => !outsideSrc(entry));
   // Both were exempt as tooling; they stay exempt (no baseline rises) until
   // item 3 gives each its family.
   for (const stayed of [
@@ -362,8 +368,8 @@ editJson("tests/guards/families.json", (map) => {
   ])
     if (!map.shared.includes(stayed)) map.shared.push(stayed);
   for (const family of map.families) {
-    family.paths = family.paths.filter((entry: string) => !outsideSrc(entry));
-    family.entry = family.entry.filter((entry: string) => !outsideSrc(entry));
+    family.paths = family.paths.filter((entry) => !outsideSrc(entry));
+    family.entry = family.entry.filter((entry) => !outsideSrc(entry));
   }
 });
 for (const file of [
@@ -373,7 +379,7 @@ for (const file of [
   "tests/guards/engine-tables-baseline.json",
 ]) {
   if (!existsSync(path.join(ROOT, file))) continue;
-  editJson(file, (data) => {
+  editJson<Record<string, unknown>>(file, (data) => {
     const strip = (table: Record<string, unknown>) => {
       for (const key of Object.keys(table))
         if (outsideSrc(key)) delete table[key];
@@ -419,7 +425,7 @@ function dropFromOtherGuards(): void {
   );
   if (existsSync(wording)) {
     const data = JSON.parse(readFileSync(wording, "utf8"));
-    for (const [key, table] of Object.entries(data))
+    for (const table of Object.values(data))
       if (table && typeof table === "object" && !Array.isArray(table))
         for (const entry of Object.keys(table))
           if ([...gone].some((file) => entry.startsWith(`${file} :: `)))

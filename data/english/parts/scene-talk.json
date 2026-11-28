@@ -73324,6 +73324,958 @@
         "key": "election-day"
       },
       "elements": ["mayor-wins-by-dozens-and-the-recount-grows-it"]
+    },
+    {
+      "key": "scene-talk.open-greet.can-we-close-the-door-it-s-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Can we close the door? It's about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "bribe-offer",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "key": "favor-asked",
+          "requiresFacts": ["bill", "favor-vote"],
+          "excludesFacts": ["read-public"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.open-greet.can-we-close-the-door"
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-keep-this-short-it-s-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll keep this short. It's about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "bribe-offer",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "key": "favor-asked",
+          "requiresFacts": ["bill", "favor-vote"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.open-greet.i-ll-keep-this-short"
+    },
+    {
+      "key": "scene-talk.open-greet.i-wanted-to-thank-you-in-person-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I wanted to thank you in person about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "bribe-offer",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "key": "favor-asked",
+          "requiresFacts": ["bill", "favor-vote"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"],
+      "restoredFrom": "scene-talk.open-greet.i-wanted-to-thank-you-in-person"
+    },
+    {
+      "key": "scene-talk.close-accept.don-t-make-me-chase-you-about-office",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Don't make me chase you about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "appointment-offer",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "key": "honor",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["appointment-application-asks-your-committee"],
+      "restoredFrom": "scene-talk.close-accept.don-t-make-me-chase-you"
+    },
+    {
+      "key": "scene-talk.close-accept.tomorrow-then-don-t-make-me-chase-you-about-office",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Tomorrow, then. Don't make me chase you about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "appointment-offer",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "key": "honor",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["appointment-application-asks-your-committee"],
+      "restoredFrom": "scene-talk.close-accept.tomorrow-then-don-t-make-me-chase-you"
+    },
+    {
+      "key": "scene-talk.reply-agree.how-could-i-say-no-to-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "How could I say no to {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "appointment-offer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      },
+      "elements": ["appointment-application-asks-your-committee"],
+      "restoredFrom": "scene-talk.reply-agree.how-could-i-say-no"
+    },
+    {
+      "key": "scene-talk.reply-agree.i-slept-on-worse-fine-yes-to-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I slept on worse. Fine. Yes to {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "appointment-offer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "key": "honor",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      },
+      "elements": ["appointment-application-asks-your-committee"],
+      "restoredFrom": "scene-talk.reply-agree.i-slept-on-worse-fine-yes"
+    },
+    {
+      "key": "scene-talk.reply-agree.when-you-put-it-like-that-yes-to-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "When you put it like that, yes to {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "appointment-offer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      },
+      "elements": ["appointment-application-asks-your-committee"],
+      "restoredFrom": "scene-talk.reply-agree.when-you-put-it-like-that-yes"
+    },
+    {
+      "key": "scene-talk.reply-ask.why-me-for-office-we-ve-never-met",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why me for {office}? We've never met.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "appointment-offer",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["appointment-application-asks-your-committee"],
+      "restoredFrom": "scene-talk.reply-ask.why-me-we-ve-never-met"
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-about-office-tuesday",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me sleep on it. I'll call you about {office} Tuesday.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "appointment-offer",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "elements": ["appointment-application-asks-your-committee"],
+      "restoredFrom": "scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-tuesday"
+    },
+    {
+      "key": "scene-talk.follow-bargain.meet-me-halfway-on-bill-and-we-have-a-deal",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "Meet me halfway on {bill}, and we have a deal.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "carry-bill",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      },
+      "elements": ["trade-deal-asked-then-passes-with-both-parties"],
+      "restoredFrom": "scene-talk.follow-bargain.meet-me-halfway-and-we-have-a-deal"
+    },
+    {
+      "key": "scene-talk.reply-decline.i-wish-i-could-on-bill-but-i-can-t",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I wish I could on {bill}, but I can't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "carry-bill",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": ["trade-deal-asked-then-passes-with-both-parties"],
+      "restoredFrom": "scene-talk.reply-decline.i-wish-i-could-but-i-can-t"
+    },
+    {
+      "key": "scene-talk.reply-relent.alright-put-bill-on-the-calendar-i-d-rather-have-the-argument-in-the-open",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Alright. Put {bill} on the calendar. I'd rather have the argument in the open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "hearing-ask",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      },
+      "elements": ["address-claim-leads-to-a-call-for-a-hearing"],
+      "restoredFrom": "scene-talk.reply-relent.all-right-put-it-on-the-calendar-i-d-rather-have-the-argument-in-the-open"
+    },
+    {
+      "key": "scene-talk.reply-relent.alright-you-ve-made-your-case-put-bill-on-the-calendar-i-d-rather-have-this-argu",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Alright, you've made your case. Put {bill} on the calendar. I'd rather have this argument out in the open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "hearing-ask",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "key": "favor-asked",
+          "after": "press",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      },
+      "elements": ["address-claim-leads-to-a-call-for-a-hearing"],
+      "restoredFrom": "scene-talk.reply-relent.alright-youve-made-your-case-put-it-on-the-calendar-id-rather-have-thi"
+    },
+    {
+      "key": "scene-talk.reply-relent.you-ve-worn-me-down-i-ll-set-the-date-for-bill",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "You've worn me down. I'll set the date for {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "hearing-ask",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      },
+      "elements": ["address-claim-leads-to-a-call-for-a-hearing"],
+      "restoredFrom": "scene-talk.reply-relent.you-ve-worn-me-down-i-ll-set-the-date"
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-that-s-all-we-ask-on-bill",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. That's all we ask on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "desk-visit",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["against", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      },
+      "elements": ["a-state-objection-survives-a-second-hearing"],
+      "restoredFrom": "scene-talk.close-thank.thank-you-that-s-all-we-ask"
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-asked-for-time-about-the-budget-the-council-adopted",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has asked for time about the budget the council adopted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "cut-argument",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "key": "cut-heard",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      },
+      "elements": ["budget-tax-rate-vote-fails-and-cuts-follow"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-held-the-post-s-job-for-years-years",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has held the {post}'s job for {years} years.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "cut-argument",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "key": "cut-heard",
+          "requiresFacts": ["years", "post", "name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      },
+      "elements": ["budget-tax-rate-vote-fails-and-cuts-follow"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-wants-to-talk-about-the-budget-the-council-passed",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} wants to talk about the budget the council passed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "cut-argument",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "key": "cut-heard",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      },
+      "elements": ["budget-tax-rate-vote-fails-and-cuts-follow"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-your-post-wants-to-talk-about-one-line-in-the-council-s-budget",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name}, your {post}, wants to talk about one line in the council's budget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "cut-argument",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "post", "name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      },
+      "elements": ["budget-tax-rate-vote-fails-and-cuts-follow"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-call-you-about-cut-after-i-talk-to-the-council-chair",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll call you about {cut} after I talk to the council chair.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "cut-argument",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "key": "cut-heard",
+          "after": "plea",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "cut-heard"
+      },
+      "elements": ["budget-tax-rate-vote-fails-and-cuts-follow"],
+      "restoredFrom": "scene-talk.reply-leave.i-ll-call-you-after-i-talk-to-the-council-chair"
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-sleep-on-it-before-i-answer-you-about-cut",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me sleep on it before I answer you about {cut}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "cut-argument",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "key": "cut-heard",
+          "after": "plea",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "cut-heard"
+      },
+      "elements": ["budget-tax-rate-vote-fails-and-cuts-follow"],
+      "restoredFrom": "scene-talk.reply-leave.let-me-sleep-on-it-before-i-answer"
+    },
+    {
+      "key": "scene-talk.reply-promise.this-is-not-the-end-for-office",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "This is not the end for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "family-loss",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      },
+      "elements": ["a-first-race-lost-then-governor"],
+      "restoredFrom": "scene-talk.reply-promise.this-is-not-the-end"
+    },
+    {
+      "key": "scene-talk.reply-promise.we-will-be-back-for-office",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "We will be back for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "family-loss",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      },
+      "elements": ["a-first-race-lost-then-governor"],
+      "restoredFrom": "scene-talk.reply-promise.we-will-be-back"
+    },
+    {
+      "key": "scene-talk.reply-tell.we-didn-t-win-office",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "We didn't win {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "family-loss",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      },
+      "elements": ["morning-after-the-loss-the-children-comfort-her"],
+      "restoredFrom": "scene-talk.reply-tell.we-didnt-win"
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-everything-you-did-for-office",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for everything you did for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "family-loss",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "elements": ["concession-thanks-the-ones-who-worked"],
+      "restoredFrom": "scene-talk.reply-thank.thank-you-for-everything"
+    },
+    {
+      "key": "scene-talk.narrate-returns-mine.you-came-up-short-this-time-against-winner",
+      "move": "narrate-returns-mine",
+      "kind": "spoken",
+      "text": "You came up short this time against {winner}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "step": "narrate",
+          "move": "returns-mine",
+          "role": "narrator",
+          "key": "election-day",
+          "requiresFacts": ["lost", "winner"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "returns-mine",
+        "key": "election-day"
+      },
+      "elements": ["close-count-ends-in-a-concession"],
+      "restoredFrom": "scene-talk.narrate-returns-mine.you-came-up-short-this-time"
+    },
+    {
+      "key": "scene-talk.reply-answer.i-m-honored-to-win-office",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'm honored to win {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-opponent-thanked-by-office-not-name"],
+      "restoredFrom": "scene-talk.reply-answer.im-honored"
+    },
+    {
+      "key": "scene-talk.reply-answer.then-say-we-didn-t-buy-office-we-knocked-it-door-by-door",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Then say we didn't buy {office}. We knocked it, door by door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "victory-night",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"],
+      "restoredFrom": "scene-talk.reply-answer.then-say-we-didn-t-buy-it-we-knocked-it-door-by-door"
+    },
+    {
+      "key": "scene-talk.state-accept-terms.alright",
+      "move": "state-accept-terms",
+      "kind": "spoken",
+      "text": "Alright.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "step": "state",
+          "move": "accept-terms",
+          "role": "asked",
+          "key": "routine",
+          "requiresFacts": []
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept-terms",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"],
+      "restoredFrom": "scene-talk.state-accept-terms.all-right"
+    },
+    {
+      "key": "scene-talk.state-request.they-taped-it-to-the-door-on-a-thursday-and-it-says-owed-i-ve-read-it-nine-times",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "They taped it to the door on a Thursday, and it says {owed}. I've read it nine times, and I still don't know who I'm supposed to call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "constituent-help.eviction",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "key": "favor-asked",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": ["notice-prompts-return-of-tips"],
+      "restoredFrom": "scene-talk.state-request.they-taped-it-to-the-door-on-a-thursday-i-ve-read-it-nine-times-and-i-still-don"
+    },
+    {
+      "key": "scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Here's what I'd do, and you won't like it. Wait a cycle. Run for {office} when you can win it, not when you want it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "mentor-advice",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "key": "routine",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      },
+      "elements": ["a-first-race-lost-then-governor"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.a-thank-you-doesn-t-weigh-that-much-take-it-back",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "A thank-you doesn't weigh that much. Take it back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "bribe-offer",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "key": "favor-asked",
+          "after": "deflect",
+          "onlyWhen": ["bribe-weight"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      },
+      "elements": ["turning-down-an-offer-politely-keeps-the-door-open"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.a-thank-you-is-a-card-this-is-not-a-card",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "A thank-you is a card. This is not a card.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "bribe-offer",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "key": "favor-asked",
+          "after": "deflect",
+          "onlyWhen": ["bribe-weight"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      },
+      "elements": ["turning-down-an-offer-politely-keeps-the-door-open"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-for-any-price",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not for any price.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "bribe-offer",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "key": "favor-asked",
+          "onlyWhen": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (restoring a liked line, batch 1)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      },
+      "elements": ["turning-down-an-offer-politely-keeps-the-door-open"]
     }
   ]
 }
