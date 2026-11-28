@@ -45,7 +45,7 @@ import {
   setBudgetPriorities,
 } from "./modules/budgets";
 import { CAMPAIGNS_MODULE_ID, touchImpression } from "./modules/campaigns";
-import { personLean } from "./campaign-views";
+import { personLean } from "./modules/campaigns";
 import { agreementWith } from "./modules/views";
 import {
   candidateAnswers,
