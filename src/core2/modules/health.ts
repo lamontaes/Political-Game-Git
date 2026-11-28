@@ -1,9 +1,9 @@
 import healthJson from "../data/health.json" with { type: "json" };
 import { worldRateFactor } from "../world-base-rates";
 import { settleEstate } from "../estates";
+import { HOUSING_STATUS_EVENT } from "../housing-status-event";
 import {
   HEALTH_STATUS_FACTORS,
-  HOUSING_STATUS_EVENT,
   housingHealthFactor,
   type HousingStatus,
 } from "../housing-homeless";
@@ -26,7 +26,7 @@ import {
   deathWebFactor,
   markWaitingHealthLinks,
   youthCannabisWeb,
-} from "../health-web";
+} from "../laws-in-force";
 import {
   assignDeathCause,
   type DeathCause,
@@ -77,6 +77,44 @@ import type {
   PersonState,
   Source,
 } from "../types";
+export { NATIVITY_FACT } from "../nativity";
+export { ageOn } from "../counted-groups";
+export { fundGroups } from "../counted-money";
+export {
+  countedHouseholdSavings,
+  countedPayment,
+  fundBalance,
+} from "../counted-money";
+export {
+  addResidentFlow,
+  businessScaleOf,
+  outputLostPerYear,
+  purchaseShareOf,
+  scaleOutsideSales,
+  shiftPurchaseShare,
+  staffedScale,
+  weightedPayrollMinor,
+} from "../residents-economy";
+export type { OutsideSectorFactor } from "../residents-economy";
+export { countedPersonOf } from "../counted-actor";
+export { appraiseEvent } from "../emotion";
+export { initialPersonState } from "../person-state";
+export type {
+  CashJournalSourceRef,
+  ResolvedCashJournalSource,
+} from "../journal";
+export type {
+  CashJournalPostedMarker,
+  CashJournalSourceProvider,
+  CashJournalSourceSlot,
+} from "../journal-state";
+export { openEstates } from "../estates";
+export { openPublicAction } from "./public-action";
+export { collapseToTwoLevels, fullPeople } from "../residents";
+export { representativeSample } from "../representative-sample";
+export { retellingsOf, speechModule } from "./speech";
+export { DEFAULT_DRIVES_DATA, createDrivesModule, withDrives } from "./drives";
+export { TRAIT_CHANGE_MODULE } from "./trait-change";
 
 /**
  * P10 producer, not a health engine: the existing Ruling 29/38/39 mortality
@@ -150,7 +188,7 @@ interface Severity {
 }
 
 export const DEFAULT_HEALTH_DATA = healthJson as unknown as HealthData;
-export const HEALTH_MODULE_ID = "core2-health-producer-p10-v1";
+const HEALTH_MODULE_ID = "core2-health-producer-p10-v1";
 const RESULTS_OPENING_GAP_STOPGAP = "SG-HEALTH-results-mode-opening-gap";
 
 export interface HealthCase {

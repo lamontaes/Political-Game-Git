@@ -19,7 +19,6 @@ const FILES = [
     .filter((name) => name.endsWith(".json"))
     .sort()
     .map((name) => `src/core2/data/stopgaps/${name}`),
-  "src/director/data/stopgaps.json",
 ];
 
 export type DuplicateKey = { line: number; key: string; firstLine: number };
@@ -91,7 +90,7 @@ describe("a register entry is never glued to another", () => {
     ).toEqual([]);
   });
 
-  it("holds in every stopgap family file and the director's register", () => {
+  it("holds in every stopgap family file", () => {
     const problems: string[] = [];
     for (const file of FILES)
       for (const dup of duplicateKeys(

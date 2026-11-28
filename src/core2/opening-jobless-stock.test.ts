@@ -8,7 +8,7 @@ import {
 } from "./modules/world";
 import { OUTCOME_WEB_MODULE } from "./modules/outcome-web";
 import { coreAPI } from "./state";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import type { CoreAPI } from "./types";
 
 // Pinned places and seeds (skill pinned-tests): a town that opens at its place's rate keeps near it where nothing has changed. The base layoff rate is the nation's, so a place opening well above the nation's rate used to lose its jobless stock to the nation's flows within months (Tanapag 57 to 6 to 18, Maloata 56 to 5 or 6, in a town of 1,500 with no layoffs).

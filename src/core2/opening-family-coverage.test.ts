@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 
 // P10 found only 6,481 of 10,001 residents with any recorded family and
 // 1.5 links per person. A generated opening now records family for nearly

@@ -47,10 +47,7 @@ export interface MeetingFact {
 }
 
 /** The situation types that read these facts. */
-export const MEETING_TYPES: readonly string[] = [
-  "first-meeting",
-  "becoming-friends",
-];
+const MEETING_TYPES: readonly string[] = ["first-meeting", "becoming-friends"];
 
 /** A party the rolls name only as a ballot line, not a party people belong to. */
 const NOT_A_PARTY = /^(blank|others?)$/i;

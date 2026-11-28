@@ -1,0 +1,37 @@
+{
+  "id": "already-registered-with-the-state-but-not-the-clerk",
+  "kind": "detail",
+  "summary": "The story says the person has filed an early state form though the local filing has not opened.",
+  "realLife": "A story said the person had registered a campaign committee, or filed a letter of intent or pre-candidacy papers, with a state office, which is not the same as filing for the ballot.",
+  "sources": [
+    "The News Tribune (Jefferson City, Missouri), 'Announces candidacy for Jefferson City Council', Oct. 27, 2020: https://www.newstribune.com/news/2020/oct/27/schantz-announces-candidacy-jefferson-city-council/",
+    "Peninsula Clarion (Kenai Peninsula, Alaska), 'Longtime Homer resident announces Alaska state House candidacy', Feb. 8, 2022: https://www.peninsulaclarion.com/news/longtime-homer-resident-announces-alaska-state-house-candidacy",
+    "WV MetroNews (Morgantown, West Virginia), 'Announces run for House of Delegates District 82', Jan. 4, 2022: https://wvmetronews.com/2022/01/04/warner-announces-run-for-house-of-delegate-district-82/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "office", "when", "opens"],
+  "gates": [],
+  "weights": {
+    "candidate-announced": 0.5
+  },
+  "inGame": "needs: a campaign-registered record kept apart from the filing record",
+  "issues": ["none"],
+  "turns": [
+    {
+      "name": "no early form",
+      "pulledBy": "the person has filed nothing yet",
+      "writes": "the detail says nothing has been filed anywhere",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "already filed",
+      "pulledBy": "filing has opened and the person filed",
+      "writes": "the detail is replaced by the filing story",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

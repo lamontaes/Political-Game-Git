@@ -6,7 +6,11 @@
 // Run against a fresh bench: node src/bench/talk-history.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { finishTalk, startLife, toReplies } from "./start-life.mjs";
+import {
+  finishTalk,
+  startLife,
+  toReplies,
+} from "../../tests/support/start-life.mjs";
 
 const shots = process.argv[2];
 const browser = await chromium.launch({

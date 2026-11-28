@@ -15,7 +15,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import type { NewsFact } from "./life-news";
 
 /** The situation type that reads these facts. */
-export const MOVE_IN_TYPE = "move-in";
+const MOVE_IN_TYPE = "move-in";
 
 export function moveInFacts(
   core: Readonly<CoreState>,

@@ -30,7 +30,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { placeStateKeys } from "./places";
 import { coreAPI } from "./state";
 import type { CoreAPI } from "./types";
-import { townResidentsByCash } from "./resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 it("has a sourced or estimated row for all 56 places, and the vote stays only where the law keeps it", () => {
   const rows = prisonVoting.places as Record<
