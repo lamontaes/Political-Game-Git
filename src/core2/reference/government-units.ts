@@ -25,6 +25,7 @@ import {
 import { createStableId } from "../kernel/ids";
 import consolidated from "../data/reference/consolidated-county-governments.json" with { type: "json" };
 import islandAreas from "../data/reference/island-area-governments.json" with { type: "json" };
+import territoryPlaces from "../data/places/territory-places.json" with { type: "json" };
 import placeMatches from "../data/reference/government-unit-place-matches.json" with { type: "json" };
 import countyReadings from "../../../data/research/local-government/county-governing-bodies.json" with { type: "json" };
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
@@ -207,6 +208,39 @@ function load(): Index {
   }
   index = { byId, byPlace, byState, byCounty };
   return index;
+}
+
+/** The 2020 Census count of each island-area village, by its Census GEOID. */
+const ISLAND_VILLAGE_POPULATION = new Map(
+  (
+    territoryPlaces.rows as unknown as readonly [
+      string,
+      string,
+      string,
+      string | null,
+      string,
+      number,
+    ][]
+  ).map((row) => [row[4], row[5]] as const),
+);
+
+/**
+ * The residents an island municipality governs: the 2020 counts of every
+ * village it covers (a Northern Marianas municipality governs several, a Guam
+ * village is its own municipality), or null for any other government. The
+ * town the player opens in is one of them, so this is the municipality's,
+ * not that town's.
+ */
+export function islandMunicipalityResidents(unitId: string): number | null {
+  const row = islandAreas.governments.find((g) => g.id === unitId);
+  if (!row) return null;
+  let total = 0;
+  for (const geoid of row.placeGeoids) {
+    const count = ISLAND_VILLAGE_POPULATION.get(geoid);
+    if (count === undefined) return null;
+    total += count;
+  }
+  return total;
 }
 
 /** One catalog government or municipio by its saved identity, or null. */

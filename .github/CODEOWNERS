@@ -538,6 +538,7 @@
 /tests/src/core2/small-town-treasury-payroll.test.ts @lamontaes
 /tests/src/core2/territory-budget.test.ts @lamontaes
 /tests/src/core2/territory-deposits.test.ts @lamontaes
+/tests/src/core2/town-government-rows.test.ts @lamontaes
 /tests/src/core2/town-payers-corporate-tax.test.ts @lamontaes
 /tests/src/core2/treasury-cut-cash-limited.test.ts @lamontaes
 /tests/src/core2/treasury-government-match.test.ts @lamontaes
