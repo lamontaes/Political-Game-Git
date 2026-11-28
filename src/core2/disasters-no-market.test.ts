@@ -17,8 +17,8 @@ import {
   residentsRuntime,
 } from "./modules/residents";
 import { coreAPI } from "./state";
-import { townsWithDamage } from "./tooling/disaster-damage-screen";
-import { generatedOpening } from "./tooling/generated-world";
+import { townsWithDamage } from "../../scripts/core2/tooling/disaster-damage-screen";
+import { generatedOpening } from "./generated-world";
 import type { CoreState, PlaceId } from "./types";
 
 // A disaster declared in a town with no builder and no recorded outside
@@ -150,7 +150,12 @@ it(`pays a disaster's repairs in the damaged town when the player has moved to a
       personIds: [player.id],
       placeId: town!,
       ...(countyId ? { countyId } : {}),
-      householdId: `${player.householdId}:moved:${player.id}:${core.date}`,
+      // A household that is only the player moves whole, under its own id; one
+      // with others splits the player off under a new id (`relocatePeopleV1`).
+      householdId:
+        core.households.get(player.householdId)!.memberIds.length === 1
+          ? player.householdId
+          : `${player.householdId}:moved:${player.id}:${core.date}`,
       source: {
         tag: "ESTIMATED",
         asOf: core.date,

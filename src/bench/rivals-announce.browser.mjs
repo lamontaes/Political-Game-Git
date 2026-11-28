@@ -10,7 +10,7 @@
 //   BENCH_BROWSER=/opt/pw-browsers/chromium node src/bench/rivals-announce.browser.mjs [shots dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { finishTalk, startLife } from "./start-life.mjs";
+import { finishTalk, startLife } from "../../tests/support/start-life.mjs";
 
 const [shots] = process.argv.slice(2);
 const browser = await chromium.launch({

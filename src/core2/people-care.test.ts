@@ -6,8 +6,10 @@ import { closenessBetween } from "./closeness";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore, availableActs, createLifeCore } from "./life";
 import { careNeedOf, healthReport } from "./modules/health";
+import { discretionaryHours } from "./modules/work";
+import { coreAPI } from "./state";
 import { parameter } from "./parameters";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 import type { CoreState, PersonState } from "./types";
 
 // A grown relative at home draws care from their health and the closeness of
@@ -77,10 +79,17 @@ describe("caring for a grown relative at home", () => {
         );
         const asks =
           row.need > 0 && closenessBetween(core, row.actor.id, row.kin.id) > 0;
+        // An offer needs the hours: a person with no free hours today, or one
+        // the day's choices exclude, is offered nothing (`availableActs`).
+        const hasTime =
+          row.actor.discretionaryEligibleV1 !== false &&
+          !core.data.discretionaryIneligibleTiersV1?.includes(row.actor.tier) &&
+          discretionaryHours(coreAPI(core), row.actor.id) >=
+            parameter("careHours");
         expect(
           offered,
-          `${where}: care for ${row.kin.id} by ${row.actor.id} (need ${row.need})`,
-        ).toBe(asks);
+          `${where}: care for ${row.kin.id} by ${row.actor.id} (need ${row.need}, free hours ${discretionaryHours(coreAPI(core), row.actor.id)})`,
+        ).toBe(asks && hasTime);
       }
 
       // The need traces to the relative's health record: a condition held, or

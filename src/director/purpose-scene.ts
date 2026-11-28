@@ -93,7 +93,8 @@ import {
 } from "../english/policy-names";
 import { amountSubjectAt, dollars } from "../english/bill-sections";
 import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
-import { NOTICE_SERVED_EVENT, dwellingTenure } from "../core2/modules/housing";
+import { NOTICE_SERVED_EVENT } from "../core2/modules/housing";
+import { dwellingTenure } from "../core2/housing-reads";
 import {
   NEWS_MODULE_ID,
   NEWS_READ,
@@ -1877,10 +1878,17 @@ function composeBinding(
   }
   if (said.office)
     facts.office = {
-      // Where the body is named for its members the race is for that member
-      // ("alderman"); else the record's title in a sentence.
+      // The race's office as every scene says it, from the one reader the
+      // door knock uses (`officeSaid`; W6, Nov 24: the interview said "the
+      // race for council member" where the knock said "the Greeley City
+      // Council"); else, with no contest on record, the member's title where
+      // the body is named for its members ("alderman"), else the record's.
       text:
-        raceMemberTitle(core, said.contestId) ?? titleInSentence(said.office),
+        (said.contestId
+          ? officeSaid(core, { contestId: said.contestId })?.text
+          : undefined) ??
+        raceMemberTitle(core, said.contestId) ??
+        titleInSentence(said.office),
       sourceRecordIds: [
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),

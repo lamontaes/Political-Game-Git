@@ -22,7 +22,7 @@ checked: fable 2026-11-10
 branch: claude/pool-docs-roadmap-spec-commands
 ---
 
-**What.** Five M3 specs in docs/roadmap/features.json (M3-03, M3-06, M3-07, M3-08 and M3-10) still have `command: null`, so their `passes` can never be set. For each, read the spec's `test` text against the matching test file and write the `command` in the file's existing form, `node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts <test file>` (the form M3-09 uses). Where a test covers only part of the spec text, name both files or leave `passes` false and add a pool item for the missing test. Run each command on a fresh random seed in a drawn place and set `passes` to match the result.
+**What.** Five M3 specs in docs/roadmap/features.json (M3-03, M3-06, M3-07, M3-08 and M3-10) still have `command: null`, so their `passes` can never be set. For each, read the spec's `test` text against the matching test file and write the `command` in the file's existing form, `node node_modules/vitest/vitest.mjs run --config scripts/core2/tooling/vitest.config.ts <test file>` (the form M3-09 uses). Where a test covers only part of the spec text, name both files or leave `passes` false and add a pool item for the missing test. Run each command on a fresh random seed in a drawn place and set `passes` to match the result.
 
 **Cause.** Found in code: `docs/roadmap/features.json` has `"command": null` for M3-03 (line 423), M3-06, M3-07, M3-08 and M3-10. The Oct 29 note records that M3-01, M3-02, M3-04 and M3-05 got commands on the governing branch, and M2-03 and M2-10 already have commands on main.
 

@@ -18,7 +18,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "Three different seeds give three different places in three different states or territories; each builds without error; and every resident on the list exists in the core's records.",
-      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-01",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/bench/m0-check.ts M0-01",
       "passes": true,
       "measuredMilliseconds": 44427
     },
@@ -29,7 +29,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "Over 7 days, every act on the chosen person's record is the character's own recorded answer (Day and Week open no choice list, owner Oct 14, 2026), other residents' lives continue, and an answer nobody was asked for is refused and changes no record.",
-      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-02",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/bench/m0-check.ts M0-02",
       "passes": true,
       "measuredMilliseconds": 20114
     },
@@ -40,7 +40,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "A skip from a random date stops exactly at the earliest of: a moment at or over the 0.50 interrupt line, a fixed commitment that needs the player (a routine work shift the character attends on its own never stops a skip; owner, Oct 12), or an offer with a deadline; it says which one; nothing was skipped past.",
-      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-03",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/bench/m0-check.ts M0-03",
       "passes": true,
       "measuredMilliseconds": 26280
     },
@@ -51,7 +51,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "20 randomly sampled items on screen each open a 'why' with scores and record ids that exist in the core; none is made up for display.",
-      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-04",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/bench/m0-check.ts M0-04",
       "passes": false
     },
     {
@@ -61,7 +61,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "For a fresh life, steps 1-2 show reachable, steps 3-11 show the specific missing module, and the world pieces show 'not in the new core yet' until M1 lands.",
-      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-05",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/bench/m0-check.ts M0-05",
       "passes": true,
       "measuredMilliseconds": 18160
     },
@@ -72,7 +72,7 @@
       "golden_path": "1",
       "package": "M0-people",
       "test": "In a random place, the 18-year-old's parents and siblings follow the kin rules; schools are real schools from the place data (real naming patterns where none exists); every fact shown has a record behind it.",
-      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/m0-life-at-18.test.ts",
+      "command": "node node_modules/vitest/vitest.mjs run --config scripts/core2/tooling/vitest.config.ts src/core2/m0-life-at-18.test.ts",
       "passes": true,
       "measuredMilliseconds": 25327
     },
@@ -83,7 +83,7 @@
       "golden_path": "2",
       "package": "M0-people",
       "test": "Over 91 days in a random place: the player gains new acquaintances through real encounters, at least one grows closer, and visits to parents and siblings fall inside the survey ranges (GSS, ATUS); over years, circle turnover matches a sourced study.",
-      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/m0-meeting-people.test.ts && node --max-old-space-size=8192 --import tsx src/core2/tooling/m0-07-turnover-check.ts",
+      "command": "node node_modules/vitest/vitest.mjs run --config scripts/core2/tooling/vitest.config.ts src/core2/m0-meeting-people.test.ts && node --max-old-space-size=8192 --import tsx scripts/core2/tooling/m0-07-turnover-check.ts",
       "passes": false
     },
     {
@@ -170,7 +170,7 @@
       "golden_path": "world",
       "package": "M1-macro",
       "test": "A one-year run's national figures follow from the states' sum and the central bank's rule (each month's 12-month change in unemployment, prices and payroll jobs, and each quarter's output growth), and the real 5th to 95th percentile of 1990 to the latest year is reported beside them, never a target; a rate decision changes what loans cost in the town; every decision is traceable to the members' reasons, with no random draws.",
-      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-02-check.ts 730",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/core2/tooling/m1-02-check.ts 730",
       "passes": true,
       "longRunning": true,
       "measuredMilliseconds": 86000
@@ -182,7 +182,7 @@
       "golden_path": "world",
       "package": "M1-macro",
       "test": "The first 120 days of the pinned town's world (the check names its own place and seed by design, because the loan-cost witness needs a town with a bank line open at a rate change): the country tier holds all 56 states and the national unemployment is their sum, every board meeting records its members' reasons, and a rate change reprices the town bank's prime-linked lines on its effective date; the two-year version is M1-02 in the long job.",
-      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-02-check.ts 120",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/core2/tooling/m1-02-check.ts 120",
       "passes": true,
       "measuredMilliseconds": 41352
     },
@@ -193,7 +193,7 @@
       "golden_path": "world",
       "package": "M1-regional",
       "test": "In a year, two randomly drawn states diverge plausibly in jobs and wages (each inside the real spread of one-year state changes since 2000); a town's prices and pay follow its region; each state's and metro's starting figures match real data.",
-      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-03-check.ts",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/core2/tooling/m1-03-check.ts",
       "passes": false
     },
     {
@@ -203,7 +203,7 @@
       "golden_path": "world",
       "package": "M1-jobs",
       "test": "Over a year in a random place, unemployment, hiring and quitting stay within real ranges (federal job-turnover data), and every job change on record has a reason.",
-      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-04-check.ts",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/core2/tooling/m1-04-check.ts",
       "passes": false
     },
     {
@@ -213,7 +213,7 @@
       "golden_path": "world",
       "package": "M1-housing",
       "test": "Rents and home prices in a random place fall within real ranges for its region; an eviction happens only from unpaid rent, through the steps that place's law requires.",
-      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-05-check.ts",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/core2/tooling/m1-05-check.ts",
       "passes": false
     },
     {
@@ -223,7 +223,7 @@
       "golden_path": "world",
       "package": "M1-credit",
       "test": "Every loan's money balances from lender to borrower and back; defaults follow borrowers' real circumstances, never a chance roll.",
-      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-06-check.ts",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/core2/tooling/m1-06-check.ts",
       "passes": false
     },
     {
@@ -233,7 +233,7 @@
       "golden_path": "world",
       "package": "M1-budgets-taxes + M1-budgets-programs",
       "test": "In a random place over a year, every level adopts a budget on its real calendar; federal and state money reaches named residents and the town; every dollar balances; spending and taxes per resident fall within real ranges.",
-      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-07-check.ts",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/core2/tooling/m1-07-check.ts",
       "passes": false
     },
     {
@@ -243,7 +243,7 @@
       "golden_path": "world",
       "package": "M1-business",
       "test": "A year's business openings and closings stay within real rates (Census Business Dynamics Statistics); owners' income comes from profit; across multi-year runs, some businesses add locations without being scripted to.",
-      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-08-check.ts",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/core2/tooling/m1-08-check.ts",
       "passes": false
     },
     {
@@ -253,7 +253,7 @@
       "golden_path": "world",
       "package": "M1-renewal",
       "test": "A year's births and moves in a random place stay within that place's real rates; the town's population changes the way real towns do instead of winding down.",
-      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/moves.test.ts",
+      "command": "node node_modules/vitest/vitest.mjs run --config scripts/core2/tooling/vitest.config.ts src/core2/moves.test.ts",
       "passes": false
     },
     {
@@ -263,7 +263,7 @@
       "golden_path": "world",
       "package": "M1-views",
       "test": "In a random place, views match real spreads by age, education, faith and region, checked against state and metro answer keys, so conservatives in two randomly drawn states can differ; a big event shifts the people it touches and no one else.",
-      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/views.test.ts && node --max-old-space-size=8192 --import tsx src/bench/m1-10-check.ts",
+      "command": "node node_modules/vitest/vitest.mjs run --config scripts/core2/tooling/vitest.config.ts src/core2/views.test.ts && node --max-old-space-size=8192 --import tsx scripts/bench/m1-10-check.ts",
       "passes": false
     },
     {
@@ -273,7 +273,7 @@
       "golden_path": "world",
       "package": "M1-drives-economy",
       "test": "Over a year, job losses, evictions and closures form drives at a researched rate, and a drive's target is a real person or institution involved in the event.",
-      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/drives-economy.test.ts && node --max-old-space-size=8192 --import tsx src/bench/m1-11-check.ts",
+      "command": "node node_modules/vitest/vitest.mjs run --config scripts/core2/tooling/vitest.config.ts src/core2/drives-economy.test.ts && node --max-old-space-size=8192 --import tsx scripts/bench/m1-11-check.ts",
       "passes": true,
       "longRunning": true,
       "measuredMilliseconds": 193000
@@ -285,7 +285,7 @@
       "golden_path": "world",
       "package": "M1-officials",
       "test": "Click any official in any state: a full record with personality, history, relationships and the positions behind their votes.",
-      "command": "node --max-old-space-size=8192 --import tsx src/bench/m1-12-check.ts",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/bench/m1-12-check.ts",
       "passes": false
     },
     {
@@ -306,7 +306,7 @@
       "golden_path": "world",
       "package": "M1-other-places",
       "test": "In a year, other places' populations and voters' views change from their own conditions within real ranges, and their public events are recorded with place and date so news (M2-09) can carry them. (Narrowed by the owner, Oct 10: other councils legislating is M3-10; news delivery is M2-09.)",
-      "command": "node --max-old-space-size=8192 --import tsx src/bench/m1-13-check.ts",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/bench/m1-13-check.ts",
       "passes": false
     },
     {
@@ -316,7 +316,7 @@
       "golden_path": "world",
       "package": "M1-history",
       "test": "A new game in a random place opens on its start date; people have recent life events dated in the years before it; the economy's recent path matches real figures; laws in force show their dated changes before the start; governments show prior years' budgets; the load time and size are measured. (Owner, Oct 10: officials' election records and recent laws with their effects are added with M2 and M3.)",
-      "command": "node --max-old-space-size=8192 --import tsx src/bench/m1-14-check.ts",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/bench/m1-14-check.ts",
       "passes": false
     },
     {
@@ -337,7 +337,7 @@
       "golden_path": "3",
       "package": "M2-filing",
       "test": "In a random place, the player goes to that place's real filing office, talks to the person there through dialogue choices, picks an office in the filing overlay, states a platform, gathers any required signatures from real people, files once and is on the ballot; an ineligible player is told the rule in words.",
-      "command": "node --max-old-space-size=8192 --import tsx src/bench/m2-03-check.ts",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/bench/m2-03-check.ts",
       "passes": false
     },
     {
@@ -407,7 +407,7 @@
       "golden_path": "5",
       "package": "M2-elections",
       "test": "In a full election year, state legislative, governor, congressional and presidential races run on the same election engine with fictional candidates, and their winners take office on the real dates.",
-      "command": "node --max-old-space-size=8192 --import tsx src/bench/m2-10-check.ts",
+      "command": "node --max-old-space-size=8192 --import tsx scripts/bench/m2-10-check.ts",
       "passes": false
     },
     {
@@ -427,7 +427,7 @@
       "golden_path": "3",
       "package": "M2-candidates-news",
       "test": "In a random place, every candidate on the ballot filed through their own choice (drives, views, standing, circumstances) with recorded reasons; incumbents decide on another term the same way, with no trait forcing it; an incumbent with a weak record draws a primary challenger.",
-      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/candidacy.test.ts",
+      "command": "node node_modules/vitest/vitest.mjs run --config scripts/core2/tooling/vitest.config.ts src/core2/candidacy.test.ts",
       "passes": true,
       "measuredMilliseconds": 28258
     },
@@ -438,7 +438,7 @@
       "golden_path": "10",
       "package": "M2-candidates-news",
       "test": "In a random place, local outlets report results, laws and big events in engine-written words with nothing invented; specific people hear each story at different times through their own news habits and word of mouth; news from other places arrives later; a story changes a view only where the person trusts the source.",
-      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/news.test.ts",
+      "command": "node node_modules/vitest/vitest.mjs run --config scripts/core2/tooling/vitest.config.ts src/core2/news.test.ts",
       "passes": true,
       "measuredMilliseconds": 40925
     },
@@ -531,7 +531,7 @@
       "golden_path": "9",
       "package": "M3-world-of-governing",
       "test": "In a random place, a bribe or favor is offered or taken only from the people's own traits, money and circumstances; it becomes a crime record with no detection roll and surfaces only through records, a leak or someone who turns; personal, campaign and public money stay separate.",
-      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/corruption.test.ts",
+      "command": "node node_modules/vitest/vitest.mjs run --config scripts/core2/tooling/vitest.config.ts src/core2/corruption.test.ts",
       "passes": true,
       "measuredMilliseconds": 32222
     },
@@ -582,7 +582,7 @@
       "golden_path": "10",
       "package": "M4-words",
       "test": "In a random place, the player gives a speech built from structured choices with an exact wording preview; each listener reacts by who they are and retells it; salient speeches are retold over time, remembered more strongly by people aged about 10 to 30 at the time, and passed to children as weaker secondhand knowledge.",
-      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/speech.test.ts",
+      "command": "node node_modules/vitest/vitest.mjs run --config scripts/core2/tooling/vitest.config.ts src/core2/speech.test.ts",
       "passes": false
     },
     {

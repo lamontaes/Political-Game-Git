@@ -10,7 +10,7 @@
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import controls from "./data/controls.json" with { type: "json" };
-import { finishTalk, startLife } from "./start-life.mjs";
+import { finishTalk, startLife } from "../../tests/support/start-life.mjs";
 
 const [shots] = process.argv.slice(2);
 const words = controls.localRaces;

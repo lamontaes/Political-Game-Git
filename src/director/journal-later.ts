@@ -22,7 +22,12 @@ import {
   BILL_INTRODUCED,
   LEGISLATURE_MODULE_ID,
 } from "../core2/modules/legislature";
-import { OFFICES_MODULE_ID, TERM_HELD } from "../core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  TERM_HELD,
+  officeById,
+} from "../core2/modules/offices";
+import { billById } from "../core2/modules/bodies-reads";
 import { historyOf } from "../core2/past";
 import type { CoreState, IsoDate, PersonId } from "../core2/types";
 
@@ -82,11 +87,10 @@ export function laterRecordsOf(
   );
   const terms: LaterTerm[] = [];
   if (core.modules.has(OFFICES_MODULE_ID)) {
-    const offices = api.moduleState(OFFICES_MODULE_ID);
     for (const term of told) {
       if (term.record !== TERM_HELD) continue;
       const officeId = term.facts?.officeId ?? "";
-      const office = offices.table("offices").get(officeId) as unknown as
+      const office = officeById(api, officeId) as unknown as
         { title?: string; seats?: number } | undefined;
       const said = office ? officePhrase(office) : undefined;
       if (said)
@@ -100,10 +104,9 @@ export function laterRecordsOf(
   }
   const bills: LaterBill[] = [];
   if (core.modules.has(LEGISLATURE_MODULE_ID)) {
-    const table = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
     for (const event of told) {
       if (event.record !== BILL_INTRODUCED) continue;
-      const bill = table.get(event.id) as unknown as BillInput | undefined;
+      const bill = billById(api, event.id) as unknown as BillInput | undefined;
       if (!bill) continue;
       const areas = (bill.provisions ?? []).flatMap((provision) => {
         const key = provision.question ?? provision.series;

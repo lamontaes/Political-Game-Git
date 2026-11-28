@@ -72,6 +72,9 @@ import {
   endPretrial,
   type PretrialRow,
 } from "../justice-pretrial";
+export { reachParameter } from "../law-reach/group-a-records";
+export { openCrime } from "./crime";
+export { openLawReach } from "../law-reach/host";
 
 export const JUSTICE_MODULE_ID = "core2-justice-v1";
 const FINE_KIND = "justice-fine";
@@ -1970,3 +1973,6 @@ export function bribeRefusedBy(
     .get(crimeId) as unknown as CrimeRecord | undefined;
   return crime && !crime.taken ? crime.officialId : undefined;
 }
+
+/** The crime engine's record of a crime against a person or household, read by the director and the press. */
+export { CRIME_EVENT } from "./crime";

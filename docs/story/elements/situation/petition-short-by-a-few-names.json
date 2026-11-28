@@ -1,0 +1,31 @@
+{
+  "id": "petition-short-by-a-few-names",
+  "kind": "situation",
+  "summary": "A candidate learns the petition is short by only a handful of signatures, and that is enough to lose the ballot line.",
+  "realLife": "City clerks in Missouri, New Mexico and California ruled council petitions short by two to seven names.",
+  "sources": [
+    "Southeast Missourian, Cape Girardeau council petition short two signatures: https://www.semissourian.com/news/dillons-cape-council-petition-short-two-signatures-1785481",
+    "Corrales Comment, city council candidate to challenge ballot ruling after falling short by seven signatures: https://corralescomment.com/2025/07/11/city-council-candidate-to-challenge-ballot-ruling-after-falling-short-by-seven-signatures/",
+    "San Jose Inside, council candidate falls two signatures short of qualifying for the 2020 ballot: https://www.sanjoseinside.com/the-fly/san-jose-council-candidate-falls-two-signatures-short-of-qualifying-for-2020-ballot/"
+  ],
+  "fits": ["campaign", "news", "journal"],
+  "slots": ["office", "due"],
+  "gates": ["petition-short"],
+  "weights": {
+    "petition": 1.0
+  },
+  "inGame": "petition-short event, petitionOf (needed, due), the clerk's check, campaign day choices",
+  "usedBy": ["petition-short", "filing-petition"],
+  "turns": [
+    {
+      "turn": "The petition is comfortably over the count",
+      "pull": "early canvass shifts",
+      "writes": "no petition-short scene at all"
+    },
+    {
+      "turn": "The petition is short by many names, not a few",
+      "pull": "a late start",
+      "writes": "a clerk's warning with less hope"
+    }
+  ]
+}

@@ -91,7 +91,7 @@ engine can look it up and obey it.
   lacks); `citation` with the publisher, table, year and URL; `spread` with
   `low`, `high`, `unit` and its own `citation` (the range across places,
   years or cohorts the proof checks against); `estimatedFrom` saying how it
-  was derived. The tripwire (`src/core2/tooling/tripwires.ts`) asks an
+  was derived. The tripwire (`scripts/core2/tooling/tripwires.ts`) asks an
   ESTIMATED row for `estimatedFrom` and a `stopgapId`; a TUNABLE row for a
   spread or an `unmeasured` reason. Keep `stopgapId` on an ESTIMATED row and
   leave its `estimated-parameter` stopgap open until the figure is SOURCED.
@@ -131,8 +131,8 @@ engine can look it up and obey it.
 - **A population rate** (a quit rate, a birth rate, turnout, a share of
   households) calibrates a band the proof reports against. Its row's `spread`
   is the band; `checkRange` points at a target in
-  `src/core2/tooling/calibration-targets.json`, read by
-  `src/core2/tooling/calibration-guard.ts` and the tripwires. The engine never
+  `scripts/core2/tooling/calibration-targets.json`, read by
+  `scripts/core2/tooling/calibration-guard.ts` and the tripwires. The engine never
   reads the rate to decide who quits; the proof counts who did and checks the
   town lands in the band.
 - **A price or an amount** (a fee, a wage, a benefit, a rent) is read by the
@@ -162,7 +162,7 @@ engine can look it up and obey it.
   value and tag) / after (value, tag) / source (publisher, year) / what reads
   it (file and function).
 - Gate line: a builder runs only the tests it wrote or changed (owner, Oct 29); the checker runs `npm run typecheck` and the rest of the gate. Name here: prettier on changed files, the parameter
-  tests (`npx vitest run src/core2/tooling/tripwires.test.ts src/core2/tooling/calibration-guard.test.ts`),
+  tests (`npx vitest run scripts/core2/tooling/tripwires.test.ts scripts/core2/tooling/calibration-guard.test.ts`),
   `npm run zero-dice`, `npx vitest run tests/guards/research-data-has-reader.test.ts`,
   and the test of each engine whose read you touched.
 - A proof run: `buildBenchWorld`, a drawn place from all 56, the seed named,
@@ -202,3 +202,4 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 - Nov 17, 04:08Z (Pins family 18): for a question popular across both parties, carrying the published share would pin it. Fit two strengths once (how strongly lean predicts the stance, and how much the person's own stakes pull) and let the world's share emerge.
 - Nov 17, 21:00Z (History): api.census.gov sent every request to its missing-key or invalid-key page, even with the proxy's injected key and a placeholder `key=`. data.census.gov's table API answered with no key, for example `https://data.census.gov/api/access/data/table?id=ACSDT1Y2024.B25007&g=010XX00US$0400000` (every state).
 - Nov 26 (History, #10377): 28 rent grace periods read from statute went into `data/research/housing/eviction-steps-2026.json` and changed nothing in play. Cause: the housing engine reads `src/core2/data/housing/housing.json`'s `eviction` table, a separate hand-kept copy keyed by the bare state code (`WA`, not `US-WA`). Before calling a sourced figure changed, grep the engine for where it reads that value and write it there, then run a year to see it move.
+- Nov 26 (History, #10377): an engine table that looked like a stale hand copy of a research file was the reconciliation of two research passes. `scripts/research/housing-check.ts` held it to the newer one, `data/research/world/eviction-statute-reads-2026.json`. Before replacing a table with "the research record", grep `scripts/research/*-check.ts` for it: a check names the newer source, and reading the older one alone would undo its corrections. Once a research file gains a reader, lower its folder's count in `scripts/audit/research-data-allowlist.json`, or `research-data-has-reader` fails.

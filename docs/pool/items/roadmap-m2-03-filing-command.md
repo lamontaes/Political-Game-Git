@@ -19,6 +19,6 @@ claimed-at: 2026-10-24T02:13:50.373Z
 
 **Done when.** docs/roadmap/features.json has a command for M2-03 that, in the runner's drawn place, shows a 17-year-old player told the rule that stops them with no way to file, then the same player at 18 filing once with a platform at the place's real filing office, on the ballot by record id, and a second filing refused; run on main with place and seed in the PR body, and failing when filing puts no one on the ballot.
 
-**Files.** src/bench/m2-03-check.ts, docs/roadmap/features.json
+**Files.** scripts/bench/m2-03-check.ts, docs/roadmap/features.json
 
 **Notes.** Split by the M0-M2 lead from roadmap-m2-filing-races-flags (CTO branch).
