@@ -586,6 +586,7 @@
         "src/core2/modules/laws-reads.ts",
         "src/core2/modules/justice-reads.ts",
         "src/core2/modules/outcome-web-reads.ts",
+        "src/core2/law-reach/reach-parameters.ts",
         "src/rules/laws/**"
       ],
       "paths": [
