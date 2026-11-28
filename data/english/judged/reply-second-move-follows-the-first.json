@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 5824,
+  "judged": 5848,
   "no": {
     "02n0jfjsdu2": {
       "keys": [
@@ -17,6 +17,27 @@
         "scene-talk.reply-decline.i-m-not-feeling-right-the-race-for-office-will-have-to-wait"
       ],
       "why": "candidate thanks for support; a decline contradicts it"
+    },
+    "05zwbz8iqfn": {
+      "keys": [
+        "scene-talk.follow-comfort.thanks-for-telling-me-about-about",
+        "scene-talk.reply-tell.about-this-is-our-home-and-i-d-hate-to-see-the-street-change"
+      ],
+      "why": "'Thanks for telling me' acknowledges what was said; re-announcing the issue answers no question and repeats"
+    },
+    "06konv7cabr": {
+      "keys": [
+        "scene-talk.follow-comfort.that-s-fair-thanks-for-being-straight-about-the-race-for-office",
+        "scene-talk.reply-tell.about-we-ve-put-years-into-this-house-and-i-don-t-want-it-changed-around-us"
+      ],
+      "why": "'Thanks for being straight' closes the talk and asks nothing; the reply answers no question"
+    },
+    "08dk46boipm": {
+      "keys": [
+        "scene-talk.follow-comfort.that-s-fair-thanks-for-being-straight-about-the-race-for-office",
+        "scene-talk.reply-tell.about-we-own-our-place-and-i-d-like-others-to-have-the-same-chance"
+      ],
+      "why": "'Thanks for being straight' closes the talk and asks nothing; the reply answers no question"
     },
     "09n93vqvgk5": {
       "keys": [
@@ -53,6 +74,13 @@
       ],
       "why": "asked about the rival's stand; signing does not answer it"
     },
+    "0ml5a8datzr": {
+      "keys": [
+        "scene-talk.follow-comfort.thanks-for-telling-me-about-about",
+        "scene-talk.reply-tell.about-we-own-our-place-and-i-d-like-others-to-have-the-same-chance"
+      ],
+      "why": "'Thanks for telling me' acknowledges what was said; re-announcing the issue answers no question and repeats"
+    },
     "0nu5c3p70b5": {
       "keys": [
         "scene-talk.follow-thank.that-means-a-lot-i-ll-keep-working-for-every-vote-in-place",
@@ -67,6 +95,13 @@
       ],
       "why": "candidate accepted a no; signing at once reverses it with no reason"
     },
+    "10rti3ndwki": {
+      "keys": [
+        "scene-talk.follow-comfort.thanks-for-telling-me-about-about",
+        "scene-talk.reply-tell.it-s-about-for-me-we-own-here-and-i-want-the-street-to-stay-as-it-is"
+      ],
+      "why": "'Thanks for telling me' acknowledges what was said; re-announcing the issue answers no question and repeats"
+    },
     "1524b77vnvj": {
       "keys": [
         "scene-talk.follow-answer.worse-than-our-poll-had-it-it-wasnt-close",
@@ -74,12 +109,26 @@
       ],
       "why": "The aide only states that the loss was not close and asks for nothing, so \"Not yet. I'm not calling...\" answers a request that was never made."
     },
+    "16i4j72h81z": {
+      "keys": [
+        "scene-talk.follow-comfort.thanks-for-telling-me-about-about",
+        "scene-talk.reply-tell.about-we-ve-put-years-into-this-house-and-i-don-t-want-it-changed-around-us"
+      ],
+      "why": "'Thanks for telling me' acknowledges what was said; re-announcing the issue answers no question and repeats"
+    },
     "17on41r46tz": {
       "keys": [
         "scene-talk.follow-press.has-rival-said-where-they-stand-on-about",
         "scene-talk.reply-agree.i-ve-been-laid-up-lately-give-me-the-pen-for-office"
       ],
       "why": "asked about the rival's stand; signing does not answer it"
+    },
+    "1f3b150lia7": {
+      "keys": [
+        "scene-talk.follow-comfort.thanks-for-telling-me-about-about",
+        "scene-talk.reply-tell.it-s-about-for-me-we-got-in-here-and-others-should-be-able-to-as-well"
+      ],
+      "why": "'Thanks for telling me' acknowledges what was said; re-announcing the issue answers no question and repeats"
     },
     "1f59glx3b0l": {
       "keys": [
@@ -109,12 +158,26 @@
       ],
       "why": "candidate accepted a no; signing at once reverses it with no reason"
     },
+    "1qwdop26eo3": {
+      "keys": [
+        "scene-talk.follow-comfort.that-s-fair-thanks-for-being-straight-about-the-race-for-office",
+        "scene-talk.reply-tell.about-we-re-homeowners-and-i-think-more-people-should-get-to-be"
+      ],
+      "why": "'Thanks for being straight' closes the talk and asks nothing; the reply answers no question"
+    },
     "1uvpqze6j3u": {
       "keys": [
         "scene-talk.follow-accept.fair-enough-thanks-for-hearing-me-out-on-the-race-for-office",
         "scene-talk.reply-agree.i-m-not-feeling-right-these-days-i-ll-sign-for-office-though"
       ],
       "why": "candidate accepted a no; signing at once reverses it with no reason"
+    },
+    "1v58xeyf0y2": {
+      "keys": [
+        "scene-talk.follow-comfort.that-s-fair-thanks-for-being-straight-about-the-race-for-office",
+        "scene-talk.reply-tell.it-s-about-for-me-we-got-in-here-and-others-should-be-able-to-as-well"
+      ],
+      "why": "'Thanks for being straight' closes the talk and asks nothing; the reply answers no question"
     },
     "1w7woz3hw4z": {
       "keys": [
@@ -123,6 +186,13 @@
       ],
       "why": "candidate thanks for support; a decline contradicts it"
     },
+    "1yux23sr53w": {
+      "keys": [
+        "scene-talk.follow-comfort.thanks-for-telling-me-about-about",
+        "scene-talk.reply-tell.about-we-re-homeowners-and-i-think-more-people-should-get-to-be"
+      ],
+      "why": "'Thanks for telling me' acknowledges what was said; re-announcing the issue answers no question and repeats"
+    },
     "23ratd29tie": {
       "keys": [
         "scene-talk.follow-thank.that-s-one-more-name-for-my-run-for-office-thank-you",
@@ -130,12 +200,26 @@
       ],
       "why": "resident already signed (candidate thanks); signing again repeats it"
     },
+    "2cr7kw6yxd6": {
+      "keys": [
+        "scene-talk.follow-comfort.that-s-fair-thanks-for-being-straight-about-the-race-for-office",
+        "scene-talk.reply-tell.it-s-about-for-me-we-own-here-and-i-want-the-street-to-stay-as-it-is"
+      ],
+      "why": "'Thanks for being straight' closes the talk and asks nothing; the reply answers no question"
+    },
     "2cxaiia5sbi": {
       "keys": [
         "scene-talk.follow-thank.thank-you-that-helps-me-get-on-the-ballot-for-office",
         "scene-talk.reply-agree.i-ve-been-laid-up-lately-give-me-the-pen-for-office"
       ],
       "why": "resident already signed (candidate thanks); signing again repeats it"
+    },
+    "2dlcmliojdg": {
+      "keys": [
+        "scene-talk.follow-comfort.that-s-fair-thanks-for-being-straight-about-the-race-for-office",
+        "scene-talk.reply-tell.about-this-is-our-home-and-i-d-hate-to-see-the-street-change"
+      ],
+      "why": "'Thanks for being straight' closes the talk and asks nothing; the reply answers no question"
     },
     "2f1zqebamb2": {
       "keys": [
@@ -152,5 +236,5 @@
       "why": "asked whether the rival came by; signing answers nothing asked"
     }
   },
-  "yesHash": "1y12xi5xus7"
+  "yesHash": "1gmyhnk02lj"
 }
