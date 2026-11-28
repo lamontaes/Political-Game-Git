@@ -118,10 +118,12 @@ import type { ModuleRow } from "./module-data";
 import type {
   ActionDefinition,
   CoreAPI,
+  CoreData,
   CoreModule,
   CoreState,
   PersonState,
 } from "./types";
+import { extendData } from "./data";
 import type { ModuleCalendarWork } from "./module-calendar";
 
 export const OFFICE_DAY_STATE_MODULE_ID = "core2-office-day-state-v1";
@@ -131,7 +133,6 @@ import {
   stopsOf,
   officeHost,
 } from "./modules/office-day";
-import { registerOfficeActs } from "./office-day-registry";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 
 const controlled = (api: CoreAPI) =>
@@ -1885,60 +1886,16 @@ export function voteOnStateFloor(
   table(api, "floorHolds").remove(row.id);
 }
 
-export const OFFICE_DAY_STATE_MODULE: CoreModule = {
-  id: OFFICE_DAY_STATE_MODULE_ID,
-  // What the state day adds to what may stop the player.
-  stopKinds: [
-    { kind: "own-hearing", byDefault: true },
-    { kind: "state-of-the-state", byDefault: true },
-    // A vote on the floor of the player's own chamber: the engine never votes for the player.
-    { kind: "state-floor-vote", byDefault: true },
-    // An order the governor's staff brings for signature: issued or set aside by the player, not the character.
-    { kind: "executive-order", byDefault: true },
-    // A cabinet post that stands open: the governor the player plays names who fills it.
-    { kind: "appointment", byDefault: true },
-    // The state budget the governor sends the legislature: the player writes the lines, the character does not.
-    { kind: "budget-proposal", byDefault: true },
-  ],
-  // A chamber's committees and caucuses sit on the chamber's own days.
-  sittingCalendar: ROOMS,
-  // The per diem a state legislator is owed, which the treasury pays at its close (`linePayments`).
-  linePayments: perDiemLinePayments,
-  // The hours a state legislator's session, committee and caucus days take from their day.
-  officeTime: stateOfficeHoursToday,
-  state: {
-    schemaVersion: 1,
-    tables: {
-      entries: { indexes: { byHolder: { fields: ["holderId"] } } },
-      results: { indexes: { byHolder: { fields: ["holderId"] } } },
-      attendance: {},
-      /** A bill on tomorrow's floor that holds the player for their own vote. */
-      floorHolds: {},
-      leaderRequests: { indexes: { byBill: { fields: ["billId"] } } },
-      perDiem: { indexes: { byPerson: { fields: ["personId"] } } },
-    },
-  },
-  // The shared office-day engine drives the lifecycle below; a world governor's address comes on its calendar day.
-  onCalendarWork: governorAddressDay,
-  // What the world's legislating asks the office day: a leader's hearing for a new bill, and whether a leader refused one.
-  billIntroduced: leaderHearingAsked,
-  leaderRefusalReader: leaderRefused,
-};
-
-// The treasury pays these obligations after revenue arrives and before residual spending.
-function perDiemLinePayments(
-  api: CoreAPI,
-  gov: GovernmentRow,
-): Record<string, number> {
-  return api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID) &&
-    gov.level === "state" &&
-    gov.id === lawChain(api).stateKey
-    ? payPerDiem(api)
-    : {};
-}
-
-registerOfficeActs({
-  id: "state-calendar",
+/** What the state day adds to the office day: its acts and their hours, offers, effects and daily and monthly steps. */
+const STATE_LEVEL: {
+  readonly acts: readonly ActionDefinition[];
+  readonly parameters: CoreData["parameters"];
+  readonly providers: NonNullable<CoreModule["offerProviders"]>;
+  readonly handlers: NonNullable<CoreModule["effectHandlers"]>;
+  readonly onDay: (api: CoreAPI) => void;
+  readonly onAfterDay: (api: CoreAPI) => void;
+  readonly onMonth: (api: CoreAPI) => void;
+} = {
   acts: ["state-office-entry", "governor-appointment"].map(
     (id) =>
       ({
@@ -2014,7 +1971,70 @@ registerOfficeActs({
   },
   onAfterDay: startStateDay,
   onMonth: scheduleGovernorAddresses,
-});
+};
+
+export const OFFICE_DAY_STATE_MODULE: CoreModule = {
+  id: OFFICE_DAY_STATE_MODULE_ID,
+  // What the state day adds to what may stop the player.
+  stopKinds: [
+    { kind: "own-hearing", byDefault: true },
+    { kind: "state-of-the-state", byDefault: true },
+    // A vote on the floor of the player's own chamber: the engine never votes for the player.
+    { kind: "state-floor-vote", byDefault: true },
+    // An order the governor's staff brings for signature: issued or set aside by the player, not the character.
+    { kind: "executive-order", byDefault: true },
+    // A cabinet post that stands open: the governor the player plays names who fills it.
+    { kind: "appointment", byDefault: true },
+    // The state budget the governor sends the legislature: the player writes the lines, the character does not.
+    { kind: "budget-proposal", byDefault: true },
+  ],
+  // The state level's acts: offers and effects, the day's, the month's and the after-day's steps, and the acts' rows in the core's data.
+  offerProviders: STATE_LEVEL.providers,
+  effectHandlers: STATE_LEVEL.handlers,
+  onDay: STATE_LEVEL.onDay,
+  onAfterDay: STATE_LEVEL.onAfterDay,
+  onMonth: STATE_LEVEL.onMonth,
+  dataFor: (data) =>
+    extendData(data, {
+      actions: STATE_LEVEL.acts,
+      parameters: STATE_LEVEL.parameters,
+    }),
+  // A chamber's committees and caucuses sit on the chamber's own days.
+  sittingCalendar: ROOMS,
+  // The per diem a state legislator is owed, which the treasury pays at its close (`linePayments`).
+  linePayments: perDiemLinePayments,
+  // The hours a state legislator's session, committee and caucus days take from their day.
+  officeTime: stateOfficeHoursToday,
+  state: {
+    schemaVersion: 1,
+    tables: {
+      entries: { indexes: { byHolder: { fields: ["holderId"] } } },
+      results: { indexes: { byHolder: { fields: ["holderId"] } } },
+      attendance: {},
+      /** A bill on tomorrow's floor that holds the player for their own vote. */
+      floorHolds: {},
+      leaderRequests: { indexes: { byBill: { fields: ["billId"] } } },
+      perDiem: { indexes: { byPerson: { fields: ["personId"] } } },
+    },
+  },
+  // The shared office-day engine drives the lifecycle below; a world governor's address comes on its calendar day.
+  onCalendarWork: governorAddressDay,
+  // What the world's legislating asks the office day: a leader's hearing for a new bill, and whether a leader refused one.
+  billIntroduced: leaderHearingAsked,
+  leaderRefusalReader: leaderRefused,
+};
+
+// The treasury pays these obligations after revenue arrives and before residual spending.
+function perDiemLinePayments(
+  api: CoreAPI,
+  gov: GovernmentRow,
+): Record<string, number> {
+  return api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID) &&
+    gov.level === "state" &&
+    gov.id === lawChain(api).stateKey
+    ? payPerDiem(api)
+    : {};
+}
 
 export function openOfficeDayState(core: CoreState): void {
   if (!core.modules.has(OFFICE_DAY_STATE_MODULE_ID))

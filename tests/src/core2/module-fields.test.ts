@@ -58,6 +58,8 @@ const FIELDS: (keyof CoreModule)[] = [
   "vacancyOffer",
   "specialElections",
   "stopKinds",
+  "onMonth",
+  "duty",
   "boardAppointer",
   "worldOpen",
   "adOutlet",

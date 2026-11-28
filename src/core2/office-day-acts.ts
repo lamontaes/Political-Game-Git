@@ -16,13 +16,13 @@ import type {
   ActOffer,
   CoreAPI,
   CoreData,
+  CoreModule,
   CoreState,
   PersonState,
 } from "./types";
 import type { ModuleRow } from "./module-data";
 import { extendData } from "./data";
 import { daysBetweenText } from "./kernel/dates";
-import { officeActKits, type OfficeActKit } from "./office-day-registry";
 import { reanswerLeaderRequest } from "./office-day-state";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import {
@@ -286,14 +286,24 @@ const LOCAL_PARAMETERS = {
   ),
 } as unknown as CoreData["parameters"];
 
-/** The local level's acts as one kit for the office-day registry. */
-export function localOfficeKit(host: OfficeActHost): OfficeActKit {
+/** What the local level of the office day adds to the engine that carries it: its offers, effects, reasons, monthly step, duty and the acts' rows in the core's data. */
+export function localOfficeFields(
+  host: OfficeActHost,
+): Pick<
+  CoreModule,
+  | "offerProviders"
+  | "effectHandlers"
+  | "reasonProviders"
+  | "onMonth"
+  | "duty"
+  | "dataFor"
+> {
   return {
-    id: "local",
-    acts: OFFICE_ACTS,
-    parameters: LOCAL_PARAMETERS,
-    providers: officeActProviders(host),
+    offerProviders: officeActProviders(host),
     reasonProviders: officeActReasons(host),
+    effectHandlers: officeActHandlers(
+      host,
+    ) as unknown as CoreModule["effectHandlers"],
     onMonth: worldAddresses(host),
     duty: (api, personId) => {
       if (host.officesOf(api, personId).length === 0) return null;
@@ -303,29 +313,22 @@ export function localOfficeKit(host: OfficeActHost): OfficeActKit {
         kinds.length
       );
     },
-    handlers: officeActHandlers(host) as unknown as OfficeActKit["handlers"],
+    // The duty need, the local acts and their hours join the core's data.
+    dataFor: (base) =>
+      extendData(base, {
+        needs: [
+          {
+            id: OFFICE_DUTY_NEED,
+            evaluator: "office-duty",
+            goalKind: "change-condition",
+            parameters: {},
+            stopgapId: "SG-P8-life-utility",
+          },
+        ],
+        actions: [...OFFICE_ACTS],
+        parameters: LOCAL_PARAMETERS as unknown as CoreData["parameters"],
+      }),
   };
-}
-
-/** The core data with every registered level's acts of office and their parameters. */
-export function officeDayData(base: CoreData): CoreData {
-  const kits = officeActKits();
-  return extendData(base, {
-    needs: [
-      {
-        id: OFFICE_DUTY_NEED,
-        evaluator: "office-duty",
-        goalKind: "change-condition",
-        parameters: {},
-        stopgapId: "SG-P8-life-utility",
-      },
-    ],
-    actions: kits.flatMap((kit) => kit.acts),
-    parameters: Object.assign(
-      {},
-      ...kits.map((kit) => kit.parameters ?? {}),
-    ) as CoreData["parameters"],
-  });
 }
 
 // ---- Who may take them ---------------------------------------------------
