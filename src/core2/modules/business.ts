@@ -17,12 +17,12 @@ import { chooseAct } from "../choice";
 import { countedHouseholdSavings } from "../counted-money-moves";
 import { countedPayment } from "../counted-money";
 import { addResidentFlow } from "../resident-flows";
+import { weightedPayrollMinor } from "../residents-economy";
 import {
   outputLostPerYear,
-  weightedPayrollMinor,
   purchaseShareOf,
   shiftPurchaseShare,
-} from "../residents-economy";
+} from "../outside-sales";
 import { depositsHeld, withdrawSavings } from "./budgets";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };

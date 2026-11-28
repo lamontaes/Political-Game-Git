@@ -967,7 +967,8 @@
         "src/core2/resident-flows.ts",
         "src/core2/counted-job-heads.ts",
         "src/core2/resident-households.ts",
-        "src/core2/resident-schooling.ts"
+        "src/core2/resident-schooling.ts",
+        "src/core2/outside-sales.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -1042,6 +1043,7 @@
         "src/core2/resting-stress.ts",
         "src/core2/representative-sample.ts",
         "src/core2/town-households.ts",
+        "src/core2/outside-sales.ts",
         "src/core2/world-poverty.ts",
         "src/core2/heard-claims.ts",
         "src/core2/home-distance.ts",

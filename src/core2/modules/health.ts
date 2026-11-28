@@ -88,14 +88,16 @@ export {
 export {
   addResidentFlow,
   businessScaleOf,
+  staffedScale,
+  weightedPayrollMinor,
+} from "../residents-economy";
+export {
   outputLostPerYear,
   purchaseShareOf,
   scaleOutsideSales,
   shiftPurchaseShare,
-  staffedScale,
-  weightedPayrollMinor,
-} from "../residents-economy";
-export type { OutsideSectorFactor } from "../residents-economy";
+  type OutsideSectorFactor,
+} from "../outside-sales";
 export { countedPersonOf } from "../counted-actor";
 export { appraiseEvent } from "../emotion";
 export { initialPersonState } from "../person-state";

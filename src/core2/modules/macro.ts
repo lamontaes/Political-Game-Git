@@ -84,7 +84,7 @@ import { bookkeeping } from "../bookkeeping";
 import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";
 import type { OutsideSectorFactor } from "./health";
-import { scaleOutsideSales } from "../residents-economy";
+import { scaleOutsideSales } from "../outside-sales";
 import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import { firmStaffing } from "./jobs";
 import { LAWS_MODULE_ID, stateLawInForce } from "./laws";

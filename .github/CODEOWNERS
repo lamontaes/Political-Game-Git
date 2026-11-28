@@ -1075,6 +1075,8 @@
 /tests/src/core2/representative-sample.ts @lamontaes
 /src/core2/town-households.ts @lamontaes
 /tests/src/core2/town-households.ts @lamontaes
+/src/core2/outside-sales.ts @lamontaes
+/tests/src/core2/outside-sales.ts @lamontaes
 /src/core2/world-poverty.ts @lamontaes
 /tests/src/core2/world-poverty.ts @lamontaes
 /src/core2/heard-claims.ts @lamontaes
