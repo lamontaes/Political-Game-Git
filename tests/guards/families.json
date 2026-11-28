@@ -947,13 +947,15 @@
         "src/core2/counted-income-fifth.ts",
         "src/core2/household-income.ts",
         "src/core2/residents-reads.ts",
-        "src/core2/counted-money-reads.ts"
+        "src/core2/counted-money-reads.ts",
+        "src/core2/counted-money-moves.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
         "src/core2/modules/residents.ts",
         "src/core2/residents-reads.ts",
         "src/core2/counted-money-reads.ts",
+        "src/core2/counted-money-moves.ts",
         "src/core2/modules/life.ts",
         "src/core2/modules/moves.ts",
         "src/core2/moved-away-event.ts",

@@ -92,14 +92,14 @@ import {
   countedJobsOf,
   staffedScale,
 } from "../residents-economy";
+import { payGroups } from "../counted-money";
 import {
   chargeGroups,
   fundGroups,
   countedDeposits,
   moveShare,
-  payGroups,
   sweepResidual,
-} from "../counted-money";
+} from "../counted-money-moves";
 import {
   claimMoved,
   claimsInGroup,
