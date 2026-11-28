@@ -20,7 +20,7 @@ import {
 import { openClaims } from "./jobs-reads";
 import { reachParameter } from "./law-reach/reach-parameters";
 import { householdIncome, residentsRuntime } from "./residents-reads";
-import { retirementClaims } from "./modules/retirement-claims";
+import { retirementClaims } from "./retirement-claims-runtime";
 import { awardYearMinor, jobYearMinor } from "./household-income";
 import { coreAPI } from "./state";
 import { sinceOpeningIndex } from "./tax-index";

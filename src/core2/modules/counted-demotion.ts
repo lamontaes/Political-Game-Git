@@ -37,7 +37,7 @@ import {
   returnCommuterPay,
   commuterPeriodPay,
 } from "./residents";
-import { returnClaimToCounts } from "./retirement-claims";
+import { returnClaimToCounts } from "../retirement-claims-runtime";
 import { isSchoolDistrict, type ResidentHouseholdRecord } from "../residents";
 import type { ModuleRow } from "../module-data";
 import type {

@@ -590,6 +590,7 @@
         "src/core2/modules/justice-reads.ts",
         "src/core2/modules/outcome-web-reads.ts",
         "src/core2/law-reach/reach-parameters.ts",
+        "src/core2/justice-parameters.ts",
         "src/rules/laws/**"
       ],
       "paths": [
@@ -967,6 +968,8 @@
         "src/core2/counted-job-heads.ts",
         "src/core2/resident-households.ts",
         "src/core2/resident-outside-sales.ts",
+        "src/core2/counted-moves-reads.ts",
+        "src/core2/retirement-claims-runtime.ts",
         "src/core2/resident-schooling.ts"
       ],
       "paths": [
@@ -1233,6 +1236,8 @@
         "src/core2/counted-job-heads.ts",
         "src/core2/resident-households.ts",
         "src/core2/resident-outside-sales.ts",
+        "src/core2/counted-moves-reads.ts",
+        "src/core2/retirement-claims-runtime.ts",
         "src/core2/resident-schooling.ts"
       ]
     },
