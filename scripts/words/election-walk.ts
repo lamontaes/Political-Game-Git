@@ -141,15 +141,38 @@ director.watch(core, personId!);
 const book = director.ledger.people.get(personId!)!;
 const seen = new Set<string>();
 let told = 0;
+/** Everyone whose books the sweep reads: the filer and their household, whose loss the family-loss scene tells. */
+const household = (
+  core.households.get(core.people.get(personId!)!.householdId)?.memberIds ?? []
+).filter((id) => id !== personId);
+for (const id of household)
+  if (core.people.get(id)?.alive) director.watch(core, id);
+/** Every situation type the director bound to them on an election result, composed one by one (the win's scene, the
+ * concession call, the family's loss), so a result that binds several plays each. */
 const sweep = () => {
-  for (const entry of book.schedule) {
-    const m = book.momentsById.get(entry.momentId);
-    if (!m || seen.has(entry.momentId)) continue;
-    if (m.label !== "cause:event:election-result") continue;
-    const result = purposeScene(core, director, personId!, entry);
-    if (result?.kind !== "composed") continue;
-    seen.add(entry.momentId);
-    if (show(result, `${m.label} on ${core.date}`)) told += 1;
+  for (const who of [personId!, ...household]) {
+    const theirBook = director.ledger.people.get(who);
+    if (!theirBook) continue;
+    for (const entry of theirBook.schedule) {
+      const m = theirBook.momentsById.get(entry.momentId);
+      if (!m || m.label !== "cause:event:election-result") continue;
+      for (const binding of entry.bindings) {
+        const key = `${who}|${entry.momentId}|${binding.typeKey}`;
+        if (seen.has(key)) continue;
+        const result = purposeScene(core, director, who, entry, {
+          typeKey: binding.typeKey,
+        });
+        if (result?.kind !== "composed") continue;
+        seen.add(key);
+        if (
+          show(
+            result,
+            `${m.label} on ${core.date} (${binding.typeKey}, told to ${who === personId ? "the filer" : "a household member"})`,
+          )
+        )
+          told += 1;
+      }
+    }
   }
 };
 const dayBefore = addDays(makeIsoDate(electionDate), -1);
