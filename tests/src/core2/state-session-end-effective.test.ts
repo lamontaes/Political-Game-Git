@@ -31,7 +31,6 @@ import {
   openLegislature,
 } from "../../../src/core2/modules/legislature";
 import { openOffices, townSeats } from "../../../src/core2/modules/offices";
-import { openRecord } from "../../../src/core2/modules/record";
 import type { LawRowInput } from "../../../src/core2/laws-starting";
 import { LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
 import { stateActEffectiveDate } from "../../../src/core2/state-effective-date";
@@ -42,6 +41,7 @@ import {
   medianSessionEnd,
   type SessionEndRow,
 } from "../../../src/rules/laws/effective-date";
+import { openRecord } from "../../support/open-modules";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const DRAWS = 40;

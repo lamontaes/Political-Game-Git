@@ -10,7 +10,6 @@ import {
   HAZARDS,
   type ClimateMonth,
 } from "../../../src/core2/modules/climate";
-import { openClimate } from "../../../src/core2/modules/climate";
 import {
   enactLaw,
   openLaws,
@@ -18,6 +17,7 @@ import {
 } from "../../../src/core2/modules/laws";
 import { STATES } from "../../../src/core2/modules/budgets";
 import { coreAPI } from "../../../src/core2/state";
+import { openClimate } from "../../support/open-modules";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const CARBON_PRICE = "us-policy-positions:environment-energy.price-carbon";

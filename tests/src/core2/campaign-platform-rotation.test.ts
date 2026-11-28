@@ -19,7 +19,6 @@ import { createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { openOffices } from "../../../src/core2/modules/offices";
-import { openRecord } from "../../../src/core2/modules/record";
 import {
   ELECTIONS_MODULE_ID,
   fileCandidacy,
@@ -43,6 +42,7 @@ import { candidateStance } from "../../../src/core2/campaign-stances";
 import { contestPositions } from "../../../src/core2/contest-positions";
 import type { CoreAPI, CoreState } from "../../../src/core2/types";
 import { townResidentsByCash } from "../../support/resident-adults-test-kit";
+import { openRecord } from "../../support/open-modules";
 
 const START = "2026-01-05";
 /** Pinned: the run seed and the three salts name three places, the same every run. */

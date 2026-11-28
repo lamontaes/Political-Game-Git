@@ -40,7 +40,6 @@ import type {
 } from "../../../src/core2/types";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { openOffices } from "../../../src/core2/modules/offices";
-import { openRecord } from "../../../src/core2/modules/record";
 import {
   ballot,
   fileCandidacy,
@@ -70,6 +69,7 @@ import {
   campaignParameter,
   PLATFORM_QUESTIONS,
 } from "../../../src/core2/campaign-data";
+import { openRecord } from "../../support/open-modules";
 
 // Keeps every reached member's recorded cause, not only the player's circle's.
 setKeepEveryonesWhy(true);

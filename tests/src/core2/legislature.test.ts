@@ -36,7 +36,7 @@ import {
 } from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
-import { openRecord, votesOf } from "../../../src/core2/modules/record";
+import { votesOf } from "../../../src/core2/modules/record";
 import {
   BUDGETS_MODULE_ID,
   budgetsOf,
@@ -93,6 +93,7 @@ import {
 import { billCatalog, provisionFor } from "../../../src/core2/bill-catalog";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { seatAct, seatView } from "../../../src/bench/legislature";
+import { openRecord } from "../../support/open-modules";
 
 const START = "2026-01-05";
 const seed =

@@ -18,7 +18,6 @@ import {
 } from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
-import { openRecord } from "../../../src/core2/modules/record";
 import {
   billForm,
   billSections,
@@ -29,6 +28,7 @@ import {
 import type { LawRowInput } from "../../../src/core2/laws-starting";
 import { searchCorePlaces } from "../../../src/core2/place-lookup";
 import { withholdingFor } from "../../../src/core2/tax-withholding";
+import { openRecord } from "../../support/open-modules";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??

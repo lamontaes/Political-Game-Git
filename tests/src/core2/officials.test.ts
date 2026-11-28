@@ -24,7 +24,6 @@ import {
   openElections,
 } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
-import { openRecord } from "../../../src/core2/modules/record";
 import {
   draftBill,
   FEDERAL_HOUSE,
@@ -44,6 +43,7 @@ import {
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
 import { partySide } from "../../../src/core2/party-sides";
 import { realLocalities } from "../../../src/core2/places";
+import { openRecord } from "../../support/open-modules";
 
 const START = "2026-01-05";
 const seed =

@@ -17,7 +17,7 @@
  * the people it reaches.
  */
 import { votesAreTownNews } from "./officials";
-import { coreAPI, registerModule } from "../state";
+import { coreAPI } from "../state";
 import type {
   CoreAPI,
   CoreModule,
@@ -153,10 +153,6 @@ export const RECORD_MODULE: CoreModule = {
     },
   },
 };
-
-export function openRecord(core: CoreState): void {
-  if (!core.modules.has(RECORD_MODULE_ID)) registerModule(core, RECORD_MODULE);
-}
 
 /** A body's vote, on the record: who, on what question, which way. */
 export function recordVote(

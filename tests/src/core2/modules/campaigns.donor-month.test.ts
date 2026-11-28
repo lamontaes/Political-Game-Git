@@ -15,7 +15,6 @@ import { createLifeCore } from "../../../../src/core2/life";
 import { coreAPI } from "../../../../src/core2/state";
 import { lawChain, openLaws } from "../../../../src/core2/modules/laws";
 import { openOffices } from "../../../../src/core2/modules/offices";
-import { openRecord } from "../../../../src/core2/modules/record";
 import {
   fileCandidacy,
   openContests,
@@ -34,6 +33,7 @@ import { openPress } from "../../../../src/core2/modules/press";
 import { viewsModule } from "../../../../src/core2/modules/views";
 import type { CoreState } from "../../../../src/core2/types";
 import { townResidentsByCash } from "../../../support/resident-adults-test-kit";
+import { openRecord } from "../../../support/open-modules";
 
 /** The pinned places: where the cause-finder measured the fault, with the seed it used. */
 const PLACES = [

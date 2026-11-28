@@ -29,7 +29,6 @@ import {
   openCampaigns,
   type PromiseRow,
 } from "../../../src/core2/modules/campaigns";
-import { openRecord } from "../../../src/core2/modules/record";
 import { openParties } from "../../../src/core2/modules/parties";
 import { openVoting } from "../../../src/core2/modules/voting";
 import {
@@ -52,6 +51,7 @@ import {
   corePlaceStateIdentities,
 } from "../../../src/core2/place-lookup";
 import { townResidentsByCash } from "../../support/resident-adults-test-kit";
+import { openRecord } from "../../support/open-modules";
 
 const START = "2026-01-05";
 const seed =
