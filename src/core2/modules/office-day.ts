@@ -72,7 +72,6 @@ import {
   executiveItemVeto,
   executiveLean,
   holdFloorDebate,
-  LEGISLATURE_MODULE_ID,
   memberKey,
   members,
   voteBudgetAtMeeting,
@@ -110,6 +109,7 @@ import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import { fieldsOf } from "../module-fields";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { headsLocalExecutive } from "../offices-executives";
+import { allBills, memberChoiceOn } from "./bodies-reads";
 export { openSuccession } from "./succession";
 
 export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
@@ -1297,10 +1297,7 @@ function castStatedOrAbstain(api: CoreAPI, billId: string): void {
     !chambersOf(api, bill).some((chamber) =>
       members(api, chamber).some(sits(player)),
     ) ||
-    api
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("choices")
-      .get(`${billId}|${player}`)
+    memberChoiceOn(api, billId, player)
   )
     return;
   const position = statedPosition(api, billId, player);
@@ -1391,10 +1388,7 @@ function ownVote(api: CoreAPI, billId: string): void {
   // The stop for this vote, if one held the player, is spent once the vote is counted.
   const stopped = table(api, "voteStops").get(`${billId}|${player}`);
   if (stopped) table(api, "voteStops").remove(`${billId}|${player}`);
-  const chosen = api
-    .moduleState(LEGISLATURE_MODULE_ID)
-    .table("choices")
-    .get(`${billId}|${player}`);
+  const chosen = memberChoiceOn(api, billId, player);
   if (chosen) return;
   // The player pressed "Decide for me" at the meeting: their member's own position.
   if (leftToCharacter.get(api.state)?.has(billId)) {
@@ -1751,18 +1745,15 @@ export function leaveDeskToCharacter(api: CoreAPI, billId: string): BillRow {
 export function deskWaiting(api: CoreAPI, heldOnly = false): BillRow[] {
   const player = playerOf(api);
   if (player === undefined) return [];
-  return (
-    api
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("bills")
-      .rows() as unknown as (BillRow & { signBy?: string })[]
-  ).filter((b) => {
-    if (b.status !== "awaiting-signature") return false;
-    if (tokens.get(api.state)?.has(deskStopId(b.id))) return true;
-    if (heldOnly) return false;
-    const term = executiveOf(api, b.bodyOfficeId).term;
-    return !!term && sits(player)(term);
-  });
+  return (allBills(api) as unknown as (BillRow & { signBy?: string })[]).filter(
+    (b) => {
+      if (b.status !== "awaiting-signature") return false;
+      if (tokens.get(api.state)?.has(deskStopId(b.id))) return true;
+      if (heldOnly) return false;
+      const term = executiveOf(api, b.bodyOfficeId).term;
+      return !!term && sits(player)(term);
+    },
+  );
 }
 
 const deskStopId = (billId: string) => `desk:${billId}`;
