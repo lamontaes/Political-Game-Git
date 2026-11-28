@@ -19,6 +19,7 @@
  * state's counts.
  */
 import { taxIndexOf } from "../tax-index";
+import { householdStatusRow } from "../housing-reads";
 import { placeStateKey } from "../place-map";
 import { createStableId, stableHash } from "../kernel/ids";
 import moveRows from "../data/moves/parameters.json" with { type: "json" };
@@ -435,7 +436,6 @@ function holdsOf(
 }
 
 /** The housing engine's module id (kept here so the moves engine does not import housing). */
-const HOUSING_MODULE = "housing";
 /** How the housing engine's eviction case ids begin (`eviction:<lease>:<date>`). */
 const EVICTION_CASE_PREFIX = "eviction:";
 
@@ -449,9 +449,8 @@ const EVICTION_CASE_PREFIX = "eviction:";
  * rate of leaving for as long as it is without a home.
  */
 function pushesOf(api: CoreAPI, h: CountedHousehold): Record<string, number> {
-  if (h.tenure !== "none" || !api.state.modules.has(HOUSING_MODULE)) return {};
-  const status = api.moduleState(HOUSING_MODULE).table("statuses").get(h.id) as
-    { caseId?: string } | undefined;
+  if (h.tenure !== "none") return {};
+  const status = householdStatusRow(api, h.id);
   if (!status?.caseId?.startsWith(EVICTION_CASE_PREFIX)) return {};
   // stopgapId: SG-WORLD-counted-evicted-push-rate
   return { evicted: MOVES.movesEvictedPull!.value };

@@ -34,7 +34,7 @@ import {
   memberKey,
   openLegislature,
 } from "./modules/legislature";
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
