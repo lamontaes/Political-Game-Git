@@ -43,7 +43,12 @@
     "tests/support/census-scale-closures-support.ts",
     "tests/support/reply-set-check.ts"
   ],
-  "include": ["src", "scripts/core2/**/*.ts", "scripts/bench/**/*.ts"],
+  "include": [
+    "src",
+    "scripts/core2/**/*.ts",
+    "scripts/bench/**/*.ts",
+    "scripts/director/**/*.ts"
+  ],
   "exclude": [
     "src/**/*.test.ts",
     "src/**/*.test.tsx",

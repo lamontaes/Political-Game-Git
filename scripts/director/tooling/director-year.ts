@@ -8,7 +8,7 @@
  * --prepared-input-output <file>`), so the town, seed and player are the
  * core's own. Finance is bound the same way the core's finance year binds it.
  *
- *   npx tsx src/director/tooling/director-year.ts --input <prepared.json>
+ *   npx tsx scripts/director/tooling/director-year.ts --input <prepared.json>
  *     --output <receipt.json> [--through 2022-01-01] [--watch <id> ...]
  *     [--cohort-employer-of <id>] [--timing-only base|director]
  *     [--with-drives true]
@@ -18,19 +18,19 @@
  * they are loaded at run time so this tool does not depend on that package.
  */
 import { readFileSync, writeFileSync } from "node:fs";
-import { isoDateFromParts } from "../../core2/kernel/dates";
-import { advanceCore, createLifeCore } from "../../core2/life";
-import { createOpeningFinance } from "../../core2/opening-finance";
-import { DEFAULT_DATA } from "../../core2/data";
+import { isoDateFromParts } from "../../../src/core2/kernel/dates";
+import { advanceCore, createLifeCore } from "../../../src/core2/life";
+import { createOpeningFinance } from "../../../src/core2/opening-finance";
+import { DEFAULT_DATA } from "../../../src/core2/data";
 import type {
   CoreData,
   CoreInput,
   CoreModule,
   CoreState,
   PersonId,
-} from "../../core2/types";
-import { createDirector, type Director } from "../ledger";
-import { openStopgapCount } from "../../core2/stopgaps";
+} from "../../../src/core2/types";
+import { createDirector, type Director } from "../../../src/director/ledger";
+import { openStopgapCount } from "../../../src/core2/stopgaps";
 
 interface Options {
   input: string;
