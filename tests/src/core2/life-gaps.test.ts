@@ -131,13 +131,19 @@ describe(`the life record's gaps in ${where}`, () => {
         expect(lost!.facts?.office, where).toBeTruthy();
         const card = knownCard(core, core.playerId!, person);
         // The same sentence twice in one year is said once (a person on the ballot for two seats of one office).
-        const line = card.history.find(
-          (row) => row.recordId === race.id || /lost the race/.test(row.text),
-        );
+        // A stretch of life is one telling that keeps every record it joins in
+        // `records`, so the race counts when any line's records hold it; and the
+        // telling must name the race's office in its words (CTO, Nov 28, on
+        // #10377): records alone would be a gap the player cannot see.
+        const line = card.history.find((row) => row.records.includes(race.id));
         expect(
-          line?.text,
-          `${where}: the card of loser ${person} tells the race`,
-        ).toMatch(/lost the race/);
+          line,
+          `${where}: the card of loser ${person} holds the race's record`,
+        ).toBeTruthy();
+        expect(
+          line!.text.toLowerCase(),
+          `${where}: the card of loser ${person} names the office of ${contestId}`,
+        ).toContain(String(lost!.facts?.office).toLowerCase());
         note(
           `life-gaps 1: ${where}; ${person} lost ${contestId} on ${race.date} with ${lost!.facts?.votes ?? "?"} votes to ${lost!.facts?.winnerVotes ?? "?"}: "${line!.text}"; played ${guardDays()} days, ${Math.round((Date.now() - started) / 1000)} s`,
         );
