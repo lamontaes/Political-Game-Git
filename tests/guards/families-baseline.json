@@ -1,4 +1,5 @@
 {
+  "unassigned": [],
   "deepImports": {
     "src/bench/campaign.ts": 2,
     "src/bench/card.ts": 3,
@@ -65,11 +66,8 @@
     "src/core2/opening-key-people.ts": 1,
     "src/core2/opening-public-schools.ts": 2,
     "src/core2/opening-trait-table.ts": 1,
-    "src/core2/past-elections.ts": 1,
-    "src/core2/past-laws.ts": 2,
+    "src/core2/past-laws.ts": 1,
     "src/core2/past-public.ts": 1,
-    "src/core2/past-work.ts": 1,
-    "src/core2/places-elsewhere.ts": 2,
     "src/core2/player-v1.ts": 1,
     "src/core2/population.ts": 9,
     "src/core2/press-desk.ts": 1,
@@ -85,6 +83,5 @@
     "src/english/mined/conversation-bank.ts": 1,
     "src/english/mined/journal-bank.ts": 1,
     "src/english/mined/scene-bank.ts": 2
-  },
-  "unassigned": []
+  }
 }
