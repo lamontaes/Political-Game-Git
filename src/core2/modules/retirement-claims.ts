@@ -18,7 +18,7 @@ import {
 } from "../laws-in-force";
 import { lawApplied } from "../law-reach/applied";
 import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
-import { addResidentFlow, endFlowPart } from "../residents-economy";
+import { addResidentFlow, endFlowPart } from "../resident-flows";
 import { leanedTerm } from "../trait-decisions";
 import { residentsRuntime } from "../residents-reads";
 import { isDemoted } from "../counted-groups";
