@@ -33,6 +33,7 @@
  * moves no money and fills nobody in (two-level population).
  */
 import { DAYS_PER_YEAR } from "../household-income";
+import { dwellingTenure } from "../housing-reads";
 import { MOVED_AWAY_EVENT } from "../moved-away-event";
 import { officeholderIds } from "./offices";
 import { worldRateFactor } from "../world-base-rates";
@@ -79,7 +80,6 @@ import type {
 } from "../types";
 import { placeStateKey } from "../place-map";
 import { ageOfMajority } from "../age-of-majority";
-import { registerReturnedMembersLeave } from "../returned-members-move";
 
 export const MOVES_MODULE_ID = "moves";
 export const MOVES_PARAMETERS = rows as unknown as Readonly<
@@ -394,13 +394,8 @@ function wholeHouseholdGoes(
 
 function ownsHome(api: CoreAPI, householdId: string): boolean {
   const core = api.state as CoreState;
-  if (core.modules.has("housing")) {
-    const row = api
-      .moduleState("housing")
-      .table("dwellings")
-      .get(`dwelling:${householdId}`) as { tenure?: string } | undefined;
-    if (row?.tenure) return row.tenure === "own";
-  }
+  const held = dwellingTenure(api, householdId);
+  if (held) return held.tenure === "own";
   return ownsWithMortgage(core, householdId);
 }
 
@@ -1766,6 +1761,8 @@ export function departuresSeen(core: CoreState): Departure[] {
 
 export const movesModule: CoreModule = {
   id: MOVES_MODULE_ID,
+  // The step that takes returned members' records away with a counted household.
+  returnedMembersLeave,
   state: {
     schemaVersion: 1,
     tables: { state: {}, pulls: {} },
@@ -1879,5 +1876,3 @@ function returnedMembersLeave(
     ),
   });
 }
-
-registerReturnedMembersLeave(returnedMembersLeave);

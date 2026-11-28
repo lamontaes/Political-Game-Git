@@ -32,7 +32,7 @@ import {
 } from "./modules/voting";
 import { breakElectionTie } from "./election-ties";
 import tieRules from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import { partiesHere } from "./modules/parties";
 import { countedChoice, countedResidents } from "./electorate";
 import { electorateParameter } from "./electorate-inputs";
