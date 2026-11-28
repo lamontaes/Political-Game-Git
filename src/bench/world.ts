@@ -65,7 +65,7 @@ import { openOfficials } from "../core2/modules/officials";
 import { openLawReach } from "../core2/modules/justice";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { openStaff } from "../core2/modules/staff";
-import { openServeAsks } from "../core2/modules/serve-asks";
+import { SERVE_ASKS_MODULE } from "../core2/modules/serve-asks";
 import { PROMISES_MODULE } from "../core2/modules/promises";
 import { openLeadership } from "../core2/modules/meetings";
 import { openSuccession } from "../core2/modules/office-day";
@@ -851,7 +851,7 @@ function* benchWorldStages(
   yield "workings";
   openStaff(core);
   // The player asks people to serve, and they answer from their records (brief J).
-  openServeAsks(core);
+  installEngines(core, [SERVE_ASKS_MODULE]);
   openInterestGroups(core);
   openWorldLegislating(core);
   openWorldRaces(core);
