@@ -1322,6 +1322,7 @@
 /tests/src/core2/whole-past.test.ts @lamontaes
 
 # The clock, the world and places (clock-places)
+/tests/src/core2/one-government-one-place.test.ts @lamontaes
 /src/core2/modules/world.ts @lamontaes
 /tests/src/core2/modules/world.ts @lamontaes
 /src/core2/modules/world-metrics.ts @lamontaes

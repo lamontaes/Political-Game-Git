@@ -354,15 +354,21 @@ let territoryPlaces: ReadonlyMap<string, CorePlace> | null = null;
 let territoryByJurisdictionId: ReadonlyMap<EntityId, CorePlace> | null = null;
 let seats: ReadonlyMap<string, SeatRow> | null = null;
 
+/** The Gazetteer's localities, less any an authored place already holds: one government is one place. */
+function heldLocalityRows(): readonly NationwideRow[] {
+  const held = authoredSourceGeoids();
+  return localityRows().filter((row) => !held.has(row[0]));
+}
+
 function nationwideIndex(): ReadonlyMap<string, NationwideRow> {
-  localityIndex ??= new Map(localityRows().map((row) => [row[0], row]));
+  localityIndex ??= new Map(heldLocalityRows().map((row) => [row[0], row]));
   return localityIndex;
 }
 
 function nationwideGeoids(): ReadonlyMap<EntityId, string> {
   if (!geoidByJurisdictionId) {
     const index = new Map<EntityId, string>();
-    for (const [geoid] of localityRows())
+    for (const [geoid] of heldLocalityRows())
       index.set(nationwideJurisdictionId(geoid), geoid);
     geoidByJurisdictionId = index;
   }

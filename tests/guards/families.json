@@ -1333,6 +1333,7 @@
         "src/districts/**"
       ],
       "paths": [
+        "tests/src/core2/one-government-one-place.test.ts",
         "src/core2/modules/world.ts",
         "src/core2/modules/world-metrics.ts",
         "src/core2/labor-past.ts",
