@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Economy (item 2, last two opens): the offices open in modules/budgets.ts and the housing mortgages open in modules/credit.ts go through their owners' doors (offices.ts: officesInJurisdiction, officeSeats, servingTermsOnSeat; housing.ts: allMortgageRows). Re-runnable: prints applied / already / MISSED per edit; exits 1 without writing on a miss."""
+"""Economy (item 2, last two opens): the offices open in modules/budgets.ts goes through the offices engine's doors (officesInJurisdiction, officeSeats, servingTermsOnSeat); the credit.ts mortgages edit is left out until People's leaf housing-reads.ts holds allMortgageRows, because modules/housing.ts adds an import cycle edge. Re-runnable: prints applied / already / MISSED per edit; exits 1 without writing on a miss."""
 import sys
 R="src/core2/modules/"
 EDITS={
@@ -37,7 +37,9 @@ R+"budgets.ts":[
   let office: { id: string; kind: string } | undefined;
   for (const key of keys) {
     if (!key) continue;
-    office = officesInJurisdiction(api, key).find((o) => headsExecutive(o.kind));
+    office = officesInJurisdiction(api, key).find((o) =>
+      headsExecutive(o.kind),
+    );
     if (office) break;
   }
   if (!office) return null;
@@ -46,17 +48,6 @@ R+"budgets.ts":[
     if (term?.personId) return term.personId;
   }
   return null;'''),
-],
-R+"credit.ts":[
-('''  const rows = api
-    .moduleState("housing")
-    .table("mortgages")
-    .rows() as unknown as {
-    holderId: string;
-    householdId: string;
-    balanceMinor: number;
-  }[];''','''  const rows = allMortgageRows(api);'''),
-('import { transferCash } from "../budgets-treasury";','import { transferCash } from "../budgets-treasury";\nimport { allMortgageRows } from "./housing";'),
 ],
 }
 out={};miss=False
