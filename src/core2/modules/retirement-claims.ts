@@ -12,10 +12,8 @@ import { sinceOpeningIndex } from "../tax-index";
 import incomeData from "../data/opening-income.json" with { type: "json" };
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
 import { claimWaitCase, retirementClaimAgeMonths } from "../retirement-claim";
-import {
-  startingSocialSecurityAges,
-  type SocialSecurityAges,
-} from "../laws-in-force";
+import type { SocialSecurityAges } from "../laws-in-force";
+import { startingSocialSecurityAges } from "../social-security-law";
 import { lawApplied } from "../law-reach/applied";
 import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
 import { addResidentFlow, endFlowPart } from "../resident-flows";
