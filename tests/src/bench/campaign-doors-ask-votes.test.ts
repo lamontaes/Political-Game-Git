@@ -12,6 +12,7 @@ import {
 import { advanceCore } from "../../../src/core2/life";
 import {
   fileCandidacy,
+  filingRequirements,
   openContests,
   petitionOf,
 } from "../../../src/core2/modules/elections";
@@ -28,7 +29,7 @@ import { townResidentsByCash } from "../../support/resident-adults-test-kit";
 
 // Owner, Nov 14 (decision card "Switch to asking for votes"): once the petition
 // holds what a campaign gathers (the clerk's count plus the cushion), the
-// player's doors stop asking for signatures and ask for votes. Played in two
+// player's doors stop asking for signatures and ask for votes. Played in three
 // places drawn from all 56 (the Otisville, New York measurement pinned one
 // world, and a change to a press owner's income moved it; CTO, Nov 27: test the
 // behavior, not the pin). After the target, the next door knocked asks for the
@@ -37,7 +38,7 @@ import { townResidentsByCash } from "../../support/resident-adults-test-kit";
 // and its next outing is the one checked. A place with no local petition race
 // in the year is passed over by name.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const WANTED = 2;
+const WANTED = 3;
 const DRAWS = 24;
 
 /** Plays one place; returns why it could not be checked, or null once every assertion ran. */
@@ -160,7 +161,17 @@ it(`the player's doors ask for votes once the petition holds the target (${WANTE
   for (let draw = 0; draw < DRAWS && checked < WANTED; draw += 1) {
     const place = drawPlace(`${seed}:${draw}`, "campaign-doors-ask-votes");
     const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
-    const why = playPlace(place.seed, place.key, where, lastDoor);
+    // A place's law asks a petition of a local race, or its doors have nothing
+    // to switch: read from its filing data before the place is played, as a
+    // walk draws a place where its scene can play.
+    const petitions = ["municipalOffice", "countyOffice"].some(
+      (family) =>
+        filingRequirements(place.state, family as "municipalOffice").petition
+          .basis !== "none-in-law",
+    );
+    const why = petitions
+      ? playPlace(place.seed, place.key, where, lastDoor)
+      : `${where}: its law asks no petition of a local race`;
     process.stdout.write(`DOORS place ${where}: ${why ?? "checked"}\n`);
     if (why) passed.push(why);
     else checked += 1;
@@ -173,4 +184,4 @@ it(`the player's doors ask for votes once the petition holds the target (${WANTE
     process.stdout.write(
       `DOORS target landed on the last door, next outing checked: ${lastDoor.join("; ")}\n`,
     );
-}, 3_000_000);
+}, 1_800_000);
