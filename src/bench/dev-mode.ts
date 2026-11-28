@@ -90,7 +90,13 @@ import {
   members,
   memberKey,
 } from "../core2/modules/legislature";
-import { isOutsideOffice, OFFICES_MODULE_ID } from "../core2/modules/offices";
+import {
+  isOutsideOffice,
+  OFFICES_MODULE_ID,
+  allOffices,
+  officeById,
+  openVacancies,
+} from "../core2/modules/offices";
 import { governmentOfJurisdiction } from "../core2/modules/budgets";
 import { budgetInForce } from "../core2/budgets-treasury";
 import {
@@ -427,21 +433,17 @@ function seatsHeldOpen(
   roster: readonly { readonly seatId: string }[],
 ): number {
   const kinds = new Set(roster.map((term) => term.seatId.split(":")[2]));
-  const vacancies = api.moduleState(OFFICES_MODULE_ID).table("vacancies");
-  return (["open", "awaiting-election"] as const)
-    .flatMap(
-      (status) =>
-        vacancies.query("byStatus", [status]) as unknown as {
-          officeId: string;
-          seatId: string;
-          unheld?: unknown;
-        }[],
-    )
-    .filter(
-      (row) =>
-        row.officeId === chamber ||
-        (row.unheld !== undefined && kinds.has(row.seatId.split(":")[2])),
-    ).length;
+  return (
+    openVacancies(api, ["open", "awaiting-election"]) as unknown as {
+      officeId: string;
+      seatId: string;
+      unheld?: unknown;
+    }[]
+  ).filter(
+    (row) =>
+      row.officeId === chamber ||
+      (row.unheld !== undefined && kinds.has(row.seatId.split(":")[2])),
+  ).length;
 }
 
 function wholeMoney(unit: string | undefined, value: number): void {
@@ -1043,7 +1045,6 @@ export class DevMode {
   bodies() {
     if (!has(this.core, LEGISLATURE_MODULE_ID)) return [];
     const api = this.api;
-    const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
     // Every bill as the legislature's history tells it (`bill.introduced`),
     // each opened by its id.
     return (
@@ -1080,7 +1081,7 @@ export class DevMode {
         .map(({ bill, open }) => ({
           open,
           ...bill,
-          office: offices.get(bill.bodyOfficeId) ?? null,
+          office: officeById(api, bill.bodyOfficeId) ?? null,
           members: members(api, bill.bodyOfficeId).map((term) => {
             const key = memberKey(term);
             return {
@@ -1103,10 +1104,10 @@ export class DevMode {
   lawmakingBodies() {
     if (!has(this.core, LEGISLATURE_MODULE_ID)) return [];
     const api = this.api;
-    const offices = api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .rows() as unknown as { id: string; kind: string }[];
+    const offices = allOffices(api) as unknown as {
+      id: string;
+      kind: string;
+    }[];
     const ids = [
       ...offices.filter((o) => bodyRow(o.kind)).map((o) => o.id),
       FEDERAL_HOUSE,
@@ -2405,10 +2406,7 @@ export class DevMode {
               { officeId?: string } | undefined)
           : undefined;
         const office = contest?.officeId
-          ? this.api
-              .moduleState(OFFICES_MODULE_ID)
-              .table("offices")
-              .get(contest.officeId)
+          ? officeById(this.api, contest.officeId)
           : undefined;
         if (office) return !isOutsideOffice(this.api, office);
       }

@@ -78,7 +78,7 @@ import {
   stateInSentence,
 } from "../director/words";
 import { seatSaid } from "../english/journal-words";
-import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { officeById, seatById } from "../core2/modules/offices";
 import { officeInSentence, personWorkOf, workHeld } from "../core2/person-work";
 import {
   corePlaceByJurisdictionId,
@@ -345,11 +345,10 @@ function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
     // newcomer was filled in with), and their home town. The race's own
     // state or territory goes unsaid; a home outside it is named.
     choices: ticket.choices.map((c) => {
-      const offices = api.moduleState(OFFICES_MODULE_ID);
       const words = controls.runningMate;
       const realmKey = String(
         (
-          offices.table("offices").get(contest.officeId) as unknown as
+          officeById(api, contest.officeId) as unknown as
             { jurisdiction?: string } | undefined
         )?.jurisdiction ?? "",
       );
@@ -362,14 +361,13 @@ function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
       const filledWork = kept && kept.jobId === null ? kept.title : undefined;
       // A seat their record names that they no longer hold: held before.
       const seatOffice = c.seatId
-        ? (offices
-            .table("offices")
-            .get(
-              (
-                offices.table("seats").get(c.seatId) as unknown as
-                  { officeId: string } | undefined
-              )?.officeId ?? "",
-            ) as unknown as { title: string } | undefined)
+        ? (officeById(
+            api,
+            (
+              seatById(api, c.seatId) as unknown as
+                { officeId: string } | undefined
+            )?.officeId ?? "",
+          ) as unknown as { title: string } | undefined)
         : undefined;
       // A job is said only as one person's work: a commuter's job names no
       // work of their own, and an occupation group's plural name ("Editors")
@@ -450,10 +448,7 @@ export interface RaceSaid {
  * all read from the contest and office records.
  */
 export function raceSaid(api: CoreAPI, contest: ContestRow): RaceSaid {
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(contest.officeId) as unknown as
+  const office = officeById(api, contest.officeId) as unknown as
     { seats?: number; bodyName?: string | null } | undefined;
   const today = api.state.date;
   const primaryAhead = !!contest.primaryDate && contest.primaryDate >= today;

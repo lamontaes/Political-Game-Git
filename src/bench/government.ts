@@ -14,6 +14,7 @@ import { faceOf, scenePlace, type PersonFace } from "./scene";
 import {
   officeById,
   officesOfState,
+  servingTermsOf,
   pastElections,
   seatsOfOffices,
   termById,
@@ -342,12 +343,7 @@ export function governmentView(core: CoreState, personId: string) {
     })),
     // Whether the person serves in any office at all, the town's or not (a member of Congress
     // from another district): the Your office tab opens for them (legislation, item 7).
-    holdsOffice: (
-      api
-        .moduleState("core2-offices-v1")
-        .table("terms")
-        .query("byPerson", [personId]) as unknown as { status: string }[]
-    ).some((term) => term.status === "serving"),
+    holdsOffice: servingTermsOf(api, personId).length > 0,
     seats: seats.map(({ office, seat, holder }) => ({
       officeId: office.id,
       title: office.title,
