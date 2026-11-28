@@ -56,6 +56,18 @@ export default tseslint.config(
     },
   },
   {
+    // Runs in Node and drives a browser page: the page callbacks read `document`.
+    files: ["docs/lanes/proof/first-minutes.browser.mjs"],
+    languageOptions: {
+      globals: {
+        URL: "readonly",
+        console: "readonly",
+        document: "readonly",
+        process: "readonly",
+      },
+    },
+  },
+  {
     // The source substrate is evidence; the running game is truth. Nothing that
     // runs the game may read source records directly — a fact reaches the world
     // through a named one-way adapter or not at all.

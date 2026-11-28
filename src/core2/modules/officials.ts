@@ -56,7 +56,7 @@ import {
 } from "./elections";
 import { legislativeDistrictResult } from "../legislative-district-results";
 import { caseShift } from "./views";
-import { partyName, partySide } from "../appointments";
+import { partyName, partySide } from "../party-sides";
 import { drawOfficialIdentity } from "../officials-identity";
 import {
   drawOfficial,
@@ -74,7 +74,7 @@ import { nationalHomeState, recordPresident } from "../officials-president";
 import { researchedHolderParty } from "../offices-holder-parties";
 // The Elections family reads the researched holder party through this entry.
 export { researchedHolderParty } from "../offices-holder-parties";
-export { partySide } from "../appointments";
+export { partySide } from "../party-sides";
 export { drawOfficialIdentity } from "../officials-identity";
 import {
   electedWithGovernorOnTicket,

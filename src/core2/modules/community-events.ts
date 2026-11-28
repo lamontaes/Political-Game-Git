@@ -17,9 +17,9 @@
  * hands them to the Journal, the paper, the director and a person's card, each
  * with the record that made it (the table's row for the event).
  */
-import { coreAPI, registerModule } from "../state";
+import { coreAPI } from "../state";
 import { moduleCalendar } from "../module-calendar";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate, weekdayOf } from "../kernel/dates";
 import {
   communityEventsFor,
   communityPlaceType,
@@ -29,6 +29,24 @@ import { placeJurisdictionId } from "../place-map";
 import type { HistoryRow, HistorySource } from "../past";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, IsoDate, Source } from "../types";
+
+/** The events this year and last year have already been held on a world's first day. */
+function openingEvents(state: CoreState): void {
+  const api = coreAPI(state);
+  const placeKey = state.placeMetadata?.placeKey;
+  const placeId = placeJurisdictionId(placeKey);
+  if (placeKey && placeId) {
+    const placeType = communityPlaceType(placeKey);
+    const year = Number(state.date.slice(0, 4));
+    for (const event of communityEventsFor(placeType))
+      for (const y of [year - 1, year])
+        for (const date of startDatesOf(event.rule, y))
+          if (date <= state.date)
+            writeEvent(api, { eventId: event.id, placeId, placeType }, date);
+  }
+  // The rest of this year's events are booked tomorrow; each later year's on its January 1st.
+  scheduleBooking(state, addDays(makeIsoDate(state.date), 1));
+}
 
 export const COMMUNITY_EVENTS_MODULE_ID = "core2-community-events-v1";
 const BOOK_KIND = "community-events-book-year";
@@ -56,11 +74,8 @@ const table = (api: CoreAPI) =>
 const core = (api: CoreAPI) => api.state as CoreState;
 const pad = (n: number) => String(n).padStart(2, "0");
 const day = (y: number, m: number, d: number) => `${y}-${pad(m)}-${pad(d)}`;
-const weekday = (date: string) => new Date(`${date}T00:00:00Z`).getUTCDay();
-const plus = (date: string, days: number) =>
-  new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000)
-    .toISOString()
-    .slice(0, 10);
+const weekday = weekdayOf;
+const plus = (date: string, days: number) => addDays(makeIsoDate(date), days);
 
 /** The first Saturday on or after a date, or the last one before the end when none is left. */
 function saturdayFrom(date: string, end: string): string {
@@ -246,6 +261,7 @@ export const COMMUNITY_EVENTS_MODULE: CoreModule = {
   // A plain field, not a getter (the finance engine's read check refuses an accessor).
   history: COMMUNITY_EVENTS_HISTORY,
   state: { schemaVersion: 1, tables: { events: {} } },
+  worldOpen: openingEvents,
   onCalendarWork(api, work) {
     if (work.kind === EVENT_KIND)
       return void writeEvent(api, work.payload as Record<string, unknown>);
@@ -259,23 +275,3 @@ export const COMMUNITY_EVENTS_MODULE: CoreModule = {
     );
   },
 };
-
-export function openCommunityEvents(state: CoreState): void {
-  if (state.modules.has(COMMUNITY_EVENTS_MODULE_ID)) return;
-  registerModule(state, COMMUNITY_EVENTS_MODULE);
-  // The events this year and last year have already been held on a world's first day.
-  const api = coreAPI(state);
-  const placeKey = state.placeMetadata?.placeKey;
-  const placeId = placeJurisdictionId(placeKey);
-  if (placeKey && placeId) {
-    const placeType = communityPlaceType(placeKey);
-    const year = Number(state.date.slice(0, 4));
-    for (const event of communityEventsFor(placeType))
-      for (const y of [year - 1, year])
-        for (const date of startDatesOf(event.rule, y))
-          if (date <= state.date)
-            writeEvent(api, { eventId: event.id, placeId, placeType }, date);
-  }
-  // The rest of this year's events are booked tomorrow; each later year's on its January 1st.
-  scheduleBooking(state, addDays(makeIsoDate(state.date), 1));
-}

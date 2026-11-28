@@ -15,7 +15,7 @@ import {
   openingWorkPayrollCalendars,
 } from "../opening-payroll-calendar";
 import { stopgap } from "../stopgaps";
-import { FinanceReadGuard } from "../budgets-treasury";
+import { FinanceReadGuard } from "../finance-plan";
 
 import { careNeedOf } from "./health";
 import type { Parameter } from "../parameters";
@@ -35,6 +35,8 @@ import type {
   WorkScheduleSlot,
 } from "../types";
 import { fieldsOf } from "../module-fields";
+
+export { DEFAULT_WORK_DATA } from "../work-data";
 
 const remainder = (value: number, period: number) =>
   ((value % period) + period) % period;

@@ -1,0 +1,36 @@
+{
+  "id": "body-lists-the-other-seats-up-that-same-year",
+  "kind": "move",
+  "summary": "After the announcement the story walks through every other seat on the ballot and who holds it.",
+  "realLife": "Past the announcement, a story on a ward seat went through each other ward seat up in the cycle, said when each holder was elected and whether term limits let the holder run again.",
+  "sources": [
+    "The News Tribune (Jefferson City, Missouri), 'Announces candidacy for Jefferson City Council', Oct. 27, 2020: https://www.newstribune.com/news/2020/oct/27/schantz-announces-candidacy-jefferson-city-council/",
+    "The News Tribune (Jefferson City, Missouri), 'Holts Summit accountant running for JC school board', Dec. 3, 2025: https://www.newstribune.com/news/2025/dec/03/holts-summit-accountant-running-for-jc-school/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["from", "name", "office", "when", "opens"],
+  "gates": [],
+  "weights": {
+    "candidate-announced": 0.5
+  },
+  "inGame": "needs: the contest list for the body and each seat holder's term count",
+  "issues": ["none"],
+  "turns": [
+    {
+      "name": "one seat only",
+      "pulledBy": "a body with no other seat up",
+      "writes": "the body paragraph is skipped and the story moves to filing",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "holders undecided",
+      "pulledBy": "other holders have not said if they will run",
+      "writes": "each such seat is listed as undecided, not open",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

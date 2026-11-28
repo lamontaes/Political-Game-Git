@@ -11,6 +11,7 @@ import { votesCast } from "../core2/modules/people";
 import { storyOfReadEvent } from "../core2/modules/news";
 import { changesKnownTo } from "../director/bring-it-up";
 import { reachedBy } from "../core2/modules/laws";
+import { filingsOfPerson } from "../core2/modules/elections";
 import { lawRowById } from "../core2/modules/laws-reads";
 
 const has = (core: CoreState, id: string) => core.modules.has(id);
@@ -63,10 +64,7 @@ export function reachedSteps(
         { terms?: { enactedByBill?: unknown } } | undefined
     )?.terms?.enactedByBill === billId;
   const everyFiling = has(core, "core2-elections-v1")
-    ? (api
-        .moduleState("core2-elections-v1")
-        .table("filings")
-        .query("byPerson", [personId]) as unknown as FilingRow[])
+    ? (filingsOfPerson(api, personId) as unknown as FilingRow[])
     : [];
   const filings = everyFiling.filter(
     (row) => row.filedWith !== "incumbent stands again",

@@ -7,6 +7,7 @@
  * counted, is reached as a count, and answers the ask for the vote by the
  * same rule from their record.
  */
+import { advanceToFilingOpen } from "../../tests/support/gov-test-clock";
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -43,6 +44,8 @@ it("an evening of the player's doors fills in only the residents a porch scene c
       twoLevel: true,
       placeKey: place.key,
     });
+    // Every race opens its filing on its own real day, so play to the first.
+    advanceToFilingOpen(core);
     const api = coreAPI(core);
     const adult = [...core.people.values()]
       .filter(

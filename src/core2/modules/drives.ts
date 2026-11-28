@@ -25,7 +25,7 @@ import { initialPersonState } from "../person-state";
 import { fillInPerson, resolveOperation } from "../state";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
 import type { CashJournalPostedMarker } from "../journal-state";
-import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
+import { declareSnapshotCovered } from "../snapshot";
 import type {
   ActOffer,
   ActionDefinition,
@@ -338,7 +338,6 @@ interface PredictedChoice {
  * objects it shares with the core stay shared through the snapshot's refs.
  */
 const runtimes = new WeakMap<CoreState, DrivesRuntime>();
-registerWorldMapPart("core2-drives-runtime", runtimes);
 
 function runtimeFor(readonlyState: Readonly<CoreState>): DrivesRuntime {
   const state = readonlyState as CoreState;
@@ -2557,6 +2556,7 @@ export function createDrivesModule(
   return {
     id: DRIVES_MODULE_ID,
     derivedCaches: () => [causeGroupIds],
+    worldMapParts: { "core2-drives-runtime": { map: runtimes } },
     // One row per cause group, replaced each month: what its counted giving was made of.
     state: { schemaVersion: 1, tables: { [COUNTED_GIVING_TABLE]: {} } },
     // A donation is paid through the cash journal from this module's own canonical record.

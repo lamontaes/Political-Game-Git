@@ -14,7 +14,7 @@
  */
 import type { CoreAPI, CoreState } from "../types";
 import { lawChain, lawInForce } from "../modules/laws";
-import { residentsRuntime } from "../modules/residents";
+import { residentsRuntime } from "../residents-reads";
 import {
   povertyLineDollars,
   reachParameter,
