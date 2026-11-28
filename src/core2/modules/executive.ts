@@ -1,4 +1,4 @@
-import { PAST_WORK_SPELL } from "../past";
+import { PAST_WORK_SPELL } from "../past-work";
 import { historyOf } from "../past";
 import { workedToday } from "./jobs";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";

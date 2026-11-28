@@ -45,7 +45,7 @@
     "src/core2/modules/counted-demotion.ts": 1,
     "src/core2/modules/counted-moves.ts": 1,
     "src/core2/modules/elections.ts": 1,
-    "src/core2/modules/executive.ts": 3,
+    "src/core2/modules/executive.ts": 4,
     "src/core2/modules/finance.ts": 2,
     "src/core2/modules/housing.ts": 1,
     "src/core2/modules/interest-groups.ts": 2,
