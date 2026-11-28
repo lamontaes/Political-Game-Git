@@ -11,7 +11,7 @@ import { randomBytes } from "node:crypto";
 import { appendFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
-import { buildBenchWorld } from "../../bench/world";
+import { buildBenchWorld, NoPlayerHereError } from "../../bench/world";
 import { setBookkeeping } from "../bookkeeping";
 import { gameStartDate } from "../game-start";
 import { coreAPI } from "../state";
@@ -25,14 +25,25 @@ const PLACES = 10;
 describe(`the opening's local seats over ${PLACES} drawn places (seed ${base})`, () => {
   it("rarely go to the player's own household, and never two of them", () => {
     const rows: { where: string; seats: number; family: number }[] = [];
-    for (let at = 0; at < PLACES; at += 1) {
+    const passedOver: string[] = [];
+    // A place where no player can live (every adult in group quarters) is
+    // passed over by name and another is drawn, up to three times the places.
+    for (let at = 0; rows.length < PLACES && at < PLACES * 3; at += 1) {
       const seed = `${base}:${at}`;
       const place = drawPlace(seed, "opening-seats");
       const where = `${place.name} (${place.key}), seed ${seed}`;
-      const { core, playerId } = buildBenchWorld(place.seed, gameStartDate(), {
-        twoLevel: true,
-        placeKey: place.key,
-      });
+      let built: ReturnType<typeof buildBenchWorld>;
+      try {
+        built = buildBenchWorld(place.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: place.key,
+        });
+      } catch (error) {
+        if (!(error instanceof NoPlayerHereError)) throw error;
+        passedOver.push(`${where}: ${error.message}`);
+        continue;
+      }
+      const { core, playerId } = built;
       const api = coreAPI(core);
       const home = new Set(
         core.households.get(core.people.get(playerId! as never)!.householdId)
@@ -61,9 +72,15 @@ describe(`the opening's local seats over ${PLACES} drawn places (seed ${base})`,
       }
       rows.push({ where, seats: local.length, family });
     }
-    const said = rows
+    expect(
+      rows.length,
+      `${PLACES} places checked; passed over: ${passedOver.join("; ")}`,
+    ).toBe(PLACES);
+    const said = `${rows
       .map((row) => `${row.where}: ${row.family} of ${row.seats} seats`)
-      .join("; ");
+      .join(
+        "; ",
+      )}${passedOver.length ? `; passed over: ${passedOver.join("; ")}` : ""}`;
     appendFileSync(
       process.env.OPENING_SEATS_LOG ?? "/dev/null",
       `\nopening-seats (${base}): ${said}`,
