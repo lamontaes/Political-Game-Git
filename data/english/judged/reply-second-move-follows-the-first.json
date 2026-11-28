@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 5774,
+  "judged": 5778,
   "no": {
     "060x6bs2960": {
       "keys": ["scene-talk.reply-agree.i-slept-on-worse-fine-yes-to-office"],
@@ -23,5 +23,5 @@
       "why": "The aide only states that the loss was not close and asks for nothing, so \"Not yet. I'm not calling...\" answers a request that was never made."
     }
   },
-  "yesHash": "07zwj6yzqw6"
+  "yesHash": "0bv5hf7ennl"
 }
