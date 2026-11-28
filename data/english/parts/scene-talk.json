@@ -75850,10 +75850,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-confront.is-the-race-for-office-stacked-before-i-even-file",
+      "key": "scene-talk.reply-confront.is-the-field-stacked-before-i-even-file-clerk",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Is the race for {office} stacked before I even file?",
+      "text": "Is the field stacked before I even file, {clerk}?",
       "uses": [
         {
           "subject": "scene",
@@ -75862,7 +75862,7 @@
           "step": "reply",
           "move": "confront",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["clerk"]
         }
       ],
       "bearing": "braced",
@@ -75876,10 +75876,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-confront.is-office-a-race-i-can-still-win-or-is-it-already-spoken-for",
+      "key": "scene-talk.reply-confront.can-i-still-win-this-one-clerk-or-is-it-already-spoken-for",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Is {office} a race I can still win, or is it already spoken for?",
+      "text": "Can I still win this one, {clerk}, or is it already spoken for?",
       "uses": [
         {
           "subject": "scene",
@@ -75888,7 +75888,7 @@
           "step": "reply",
           "move": "confront",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["clerk"]
         }
       ],
       "bearing": "braced",
@@ -78529,10 +78529,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-ask.who-else-is-on-the-list-for-seat",
+      "key": "scene-talk.reply-ask.who-else-is-on-the-list-clerk",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Who else is on the list for {seat}?",
+      "text": "Who else is on the list, {clerk}?",
       "uses": [
         {
           "subject": "scene",
@@ -78541,7 +78541,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["seat"],
+          "requiresFacts": ["clerk"],
           "excludesFacts": ["count-told"],
           "onlyWhen": ["latest"]
         }
@@ -78557,10 +78557,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-ask.who-else-has-filed-for-seat",
+      "key": "scene-talk.reply-ask.who-else-has-filed-clerk",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Who else has filed for {seat}?",
+      "text": "Who else has filed, {clerk}?",
       "uses": [
         {
           "subject": "scene",
@@ -78569,7 +78569,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["seat"],
+          "requiresFacts": ["clerk"],
           "excludesFacts": ["count-told"],
           "onlyWhen": ["latest"]
         }
@@ -78585,10 +78585,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-ask.is-anyone-else-running-for-seat",
+      "key": "scene-talk.reply-ask.is-anyone-else-running-clerk",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Is anyone else running for {seat}?",
+      "text": "Is anyone else running, {clerk}?",
       "uses": [
         {
           "subject": "scene",
@@ -78597,7 +78597,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["seat"],
+          "requiresFacts": ["clerk"],
           "excludesFacts": ["count-told"],
           "onlyWhen": ["latest"]
         }
@@ -79203,10 +79203,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-ask.so-i-d-be-the-first-for-seat",
+      "key": "scene-talk.reply-ask.so-i-d-be-the-first-clerk",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "So I'd be the first for {seat}?",
+      "text": "So I'd be the first, {clerk}?",
       "uses": [
         {
           "subject": "scene",
@@ -79215,7 +79215,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["seat"],
+          "requiresFacts": ["clerk"],
           "onlyWhen": ["none-filed", "count-told"]
         }
       ],
@@ -79230,10 +79230,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-ask.is-it-really-just-me-for-seat",
+      "key": "scene-talk.reply-ask.is-it-really-just-me-clerk",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Is it really just me for {seat}?",
+      "text": "Is it really just me, {clerk}?",
       "uses": [
         {
           "subject": "scene",
@@ -79242,7 +79242,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["seat"],
+          "requiresFacts": ["clerk"],
           "onlyWhen": ["none-filed", "count-told"]
         }
       ],
@@ -79257,10 +79257,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-ask.nobody-at-all-has-filed-for-seat",
+      "key": "scene-talk.reply-ask.has-nobody-at-all-filed-clerk",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Nobody at all has filed for {seat}?",
+      "text": "Has nobody at all filed, {clerk}?",
       "uses": [
         {
           "subject": "scene",
@@ -79269,7 +79269,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["seat"],
+          "requiresFacts": ["clerk"],
           "onlyWhen": ["none-filed", "count-told"]
         }
       ],
