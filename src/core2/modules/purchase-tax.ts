@@ -19,7 +19,6 @@ import type {
   SalesReceiptNotice,
   Source,
 } from "../types";
-import { registerWorldMapPart } from "../snapshot";
 import { appliedOn, lawApplied } from "../law-reach/applied";
 import { residentsRuntime } from "../residents-reads";
 
@@ -64,7 +63,6 @@ export interface PurchaseTaxState extends PurchaseTaxInput {
 }
 
 const runtimes = new WeakMap<CoreState, Map<string, PurchaseTaxState>>();
-registerWorldMapPart("core2-purchase-tax", runtimes);
 
 /** Sales tax a seller couldn't remit: the next remittance adds it and pays it first. */
 export interface SalesTaxArrears {
@@ -79,7 +77,6 @@ export interface SalesTaxArrears {
 }
 
 const arrearsRuntimes = new WeakMap<CoreState, Map<string, SalesTaxArrears>>();
-registerWorldMapPart("core2-purchase-tax-arrears", arrearsRuntimes);
 
 function arrearsRows(core: CoreState): Map<string, SalesTaxArrears> {
   let rows = arrearsRuntimes.get(core);
@@ -357,6 +354,10 @@ function collect(api: CoreAPI, sale: SalesReceiptNotice): void {
 
 export const PURCHASE_TAX_MODULE: CoreModule = {
   id: PURCHASE_TAX_MODULE_ID,
+  worldMapParts: {
+    "core2-purchase-tax": { map: runtimes },
+    "core2-purchase-tax-arrears": { map: arrearsRuntimes },
+  },
   onSalesReceipt: collect,
   onAfterDay: flushApplied,
 };

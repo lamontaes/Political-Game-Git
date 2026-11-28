@@ -962,22 +962,6 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
   );
 }
 
-/** One household's mortgage as the housing engine keeps it. */
-export interface MortgageRow {
-  readonly id: string;
-  readonly holderId: string;
-  readonly householdId: string;
-  readonly balanceMinor: number;
-  readonly monthsLeft: number;
-  readonly foreclosedAt?: string;
-}
-
-/** Every mortgage the housing engine keeps, named and counted households alike; none before the engine has opened its table. */
-export function allMortgageRows(api: CoreAPI): readonly MortgageRow[] {
-  if (!api.state.modules.has(HOUSING_MODULE_ID)) return [];
-  return store(api).table("mortgages").rows() as unknown as MortgageRow[];
-}
-
 function store(api: CoreAPI) {
   return api.moduleState(HOUSING_MODULE_ID);
 }

@@ -70,7 +70,6 @@ import {
 // The cases engine imports this one; these are read only when a review runs.
 import { caseLoad, recentCasesOf } from "./constituent-cases";
 import {
-  LEGISLATURE_MODULE_ID,
   budgetLineStakes,
   learnStake,
   members,
@@ -78,6 +77,7 @@ import {
   type BillRow,
   type MemberPosition,
 } from "./legislature";
+import { billById } from "./bodies-reads";
 
 export const STAFF_MODULE_ID = "core2-staff-v1";
 /** Relatives living out of town, kept as a name and family ties only. */
@@ -961,10 +961,7 @@ export function briefOnBill(
   billId: string,
 ): { work: WorkRecord; stakes: readonly MemberPosition[] } {
   const staffer = table(api, "staff").get(stafferId) as unknown as StafferRow;
-  const bill = api
-    .moduleState(LEGISLATURE_MODULE_ID)
-    .table("bills")
-    .get(billId) as unknown as BillRow;
+  const bill = billById(api, billId) as unknown as BillRow;
   const question =
     bill.provisions
       .map((p) => provisionStance(api, p)?.question)
@@ -1318,10 +1315,7 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 /** Before a vote, each member with a staffer is briefed on where the others stand. */
 function briefBeforeVote(api: CoreAPI, billId: string): void {
   if (!api.state.modules.has(STAFF_MODULE_ID)) return;
-  const bill = api
-    .moduleState(LEGISLATURE_MODULE_ID)
-    .table("bills")
-    .get(billId) as unknown as BillRow | undefined;
+  const bill = billById(api, billId) as unknown as BillRow | undefined;
   if (!bill) return;
   for (const term of members(api, bill.bodyOfficeId)) {
     if (!term.personId) continue;
