@@ -6,7 +6,7 @@
  */
 import corpus from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { partySide } from "./party-sides";
-import { pastParameter, seededBetween } from "./past-module";
+import { pastParameter, seededBetween } from "./past-reads";
 
 type Corpus = {
   house: {

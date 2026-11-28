@@ -249,7 +249,12 @@ for (const p of [...pieces].reverse()) {
 const restSf = parse(hub, rest);
 const restMentions = new Map<string, "value" | "type">();
 for (const st of restSf.statements) {
-  if (ts.isImportDeclaration(st)) continue;
+  // `export { a } from "./b"` names b's a, not the hub's import of a.
+  if (
+    ts.isImportDeclaration(st) ||
+    (ts.isExportDeclaration(st) && st.moduleSpecifier)
+  )
+    continue;
   for (const [n, k] of mentions(st))
     if (restMentions.get(n) !== "value") restMentions.set(n, k);
 }
@@ -349,23 +354,38 @@ const importLines = [...leafImports]
       return `import type { ${all.map((x) => x.local).join(", ")} } from "${module}";`;
     return `import { ${all.map((x) => (x.typeOnly ? `type ${x.local}` : x.local)).join(", ")} } from "${module}";`;
   });
-const leafText = [
-  `/**\n * ${doc}\n */`,
-  ...importLines,
-  "",
-  pieces
-    .map((p) =>
-      // An unexported declaration the hub still uses is exported for it.
-      !isExported(p.st) && declared(p.st).some((n) => usedBack.includes(n))
-        ? p.text.replace(
-            /^((?:\/\*[\s\S]*?\*\/|\/\/[^\n]*)\s*)*/,
-            (m) => `${m}export `,
-          )
-        : p.text,
-    )
-    .join("\n\n"),
-  "",
-].join("\n");
+const leafPath = path.join(ROOT, leaf);
+const appending = process.argv.includes("--append");
+if (appending && !existsSync(leafPath))
+  throw new Error(`--append needs ${leaf} to exist`);
+const movedText = pieces
+  .map((p) =>
+    // An unexported declaration the hub still uses is exported for it.
+    !isExported(p.st) && declared(p.st).some((n) => usedBack.includes(n))
+      ? p.text.replace(
+          /^((?:\/\*[\s\S]*?\*\/|\/\/[^\n]*)\s*)*/,
+          (m) => `${m}export `,
+        )
+      : p.text,
+  )
+  .join("\n\n");
+/** Appending to a leaf that exists adds the imports it lacks and the pieces at its end. */
+function appendTo(existing: string): string {
+  const sf = parse(leaf, existing);
+  const lastImport = [...sf.statements].filter(ts.isImportDeclaration).pop();
+  const at = lastImport ? lastImport.getEnd() : 0;
+  const added = importLines.filter((l) => !existing.includes(l));
+  return (
+    existing.slice(0, at) +
+    (added.length ? "\n" + added.join("\n") : "") +
+    existing.slice(at).replace(/\n*$/, "\n\n") +
+    movedText +
+    "\n"
+  );
+}
+const leafText = appending
+  ? appendTo(readFileSync(leafPath, "utf8"))
+  : [`/**\n * ${doc}\n */`, ...importLines, "", movedText, ""].join("\n");
 
 // Importers to switch.
 const files = execFileSync("git", ["ls-files", "src"], {
@@ -477,7 +497,7 @@ if (problems.length) {
   process.exit(1);
 }
 if (write) {
-  if (existsSync(path.join(ROOT, leaf)))
+  if (!appending && existsSync(leafPath))
     throw new Error(`${leaf} exists; this script makes a new leaf`);
   writeFileSync(path.join(ROOT, leaf), leafText);
   writeFileSync(path.join(ROOT, hub), rest);

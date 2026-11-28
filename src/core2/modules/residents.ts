@@ -22,7 +22,7 @@ import {
 } from "../accounts";
 import { livingCostParts, outsideCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
-import { openingWorkCommitments } from "./work";
+import { openingWorkCommitments } from "../work-reads";
 import { coreAPI } from "../state";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { notifyCountedWages, notifySalesReceipt } from "./finance";
