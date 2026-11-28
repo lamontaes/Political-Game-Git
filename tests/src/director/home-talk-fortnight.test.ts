@@ -190,13 +190,23 @@ const sentences = (text: string) =>
 it(`two weeks of talk at home hold the telling's rules (seed ${seed})`, () => {
   const labeled = !!(process.env.TALK_PLACE_SEED && process.env.TALK_PLACE_KEY);
   const broken: string[] = [];
+  const passedOver: string[] = [];
   for (let draw = 0; draw < (labeled ? 1 : DRAWS); draw += 1)
-    broken.push(...fortnight(draw));
+    broken.push(...fortnight(draw, passedOver));
   expect(broken).toEqual([]);
+  // A place whose player has no one of the house in the room has no talk at
+  // home to hold to the rules: it is named and passed over, and not every
+  // drawn place may be one.
+  if (passedOver.length)
+    process.stdout.write(`PASSED OVER ${passedOver.join("; ")}\n`);
+  expect(
+    passedOver.length,
+    `every drawn place was passed over (seed ${seed}): ${passedOver.join("; ")}`,
+  ).toBeLessThan(labeled ? 1 : DRAWS);
 }, 3_600_000);
 
 /** Two weeks in one drawn place: what broke, each naming the place and seed. */
-function fortnight(draw: number): string[] {
+function fortnight(draw: number, passedOver: string[]): string[] {
   const { core, director, playerId, where } = build(draw);
   const player = core.people.get(playerId)!;
   const presidentRow = officialsIn(coreAPI(core), "US:president")[0];
@@ -210,6 +220,7 @@ function fortnight(draw: number): string[] {
   const played: string[] = [];
   const lastTopic = new Map<string, number>();
   let talks = 0;
+  let homeEver = false;
   const silent: string[] = [];
   const toldOnce = new Set<string>();
   let typedSeen = 0;
@@ -250,6 +261,7 @@ function fortnight(draw: number): string[] {
           },
         );
         homeToday = true;
+        homeEver = true;
         // A new record of a kind the talk can tell (a day subject not told
         // to the player within its wait) is a talk on offer (lead, Nov 12:
         // a talk is offered when a housemate's records hold something new).
@@ -482,6 +494,8 @@ function fortnight(draw: number): string[] {
   process.stdout.write(
     `HOME-TALK ${where}: ${talks} talks, ${typedSeen} point parts typed by stand, ${silent.length} silent days\n${played.join("\n")}\nSILENT ${where}: ${silent.join("; ") || "none"}\n`,
   );
-  if (!talks) broken.push(`${where}: no talk at home in two weeks`);
+  if (!talks && !homeEver)
+    passedOver.push(`${where}: no one of the household in the room`);
+  else if (!talks) broken.push(`${where}: no talk at home in two weeks`);
   return broken;
 }
