@@ -16,7 +16,6 @@ const FIELDS: (keyof CoreModule)[] = [
   "sittingCalendar",
   "stanceListener",
   "propertyTax",
-  "returnedMembersLeave",
   "assistanceReader",
   "onStoryHeard",
   "doorChoice",

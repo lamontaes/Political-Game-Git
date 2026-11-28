@@ -1227,13 +1227,6 @@ export interface CoreModule {
   stanceListener?: (api: CoreAPI, personId: PersonId, topic: string) => void;
   /** The property tax terms of a place, as the budgets engine keeps them. */
   propertyTax?: (api: CoreAPI, placeId: string) => PropertyTaxTerms | undefined;
-  /** What the moves engine does when a household with returned members leaves a place. */
-  returnedMembersLeave?: (
-    api: CoreAPI,
-    people: readonly PersonState[],
-    fromPlace: string,
-    toUsps: string,
-  ) => void;
   /** What the welfare line pays one household a year (the Census counts public assistance in income). */
   assistanceReader?: (core: CoreState, householdId: string) => number;
   /** Run the moment a person hears a story (the price engine ties a price change to the law the story names). Method form: the engine's `Story` type fits `unknown`. */
