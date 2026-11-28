@@ -24,7 +24,7 @@ import {
 import { openCampaigns } from "../../src/core2/modules/campaigns";
 import { openParties } from "../../src/core2/modules/parties";
 import { openVoting, resultOf } from "../../src/core2/modules/voting";
-import { partySide } from "../../src/core2/appointments";
+import { partySide } from "../../src/core2/party-sides";
 import {
   corePlaceStateIdentities,
   searchCorePlaces,

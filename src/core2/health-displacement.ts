@@ -15,19 +15,11 @@
  * names the approximation). Read-only.
  */
 import { daysBetweenText } from "./kernel/dates";
+import { jobChangesOfKind, jobPaidSince } from "./jobs-reads";
 import type { CoreAPI, CoreState } from "./types";
 
 /** The jobs module's id (modules/jobs.ts JOBS_MODULE_ID, kept here so the health engine imports no jobs code). */
 const JOBS_ID = "jobs";
-
-interface ChangeRow {
-  readonly id: string;
-  readonly personId: string;
-  readonly organizationId: string;
-  readonly jobId: string;
-  readonly kind: string;
-  readonly date: string;
-}
 
 export interface Displacement {
   /** The jobs engine's change record: job-change:<date>:<job>:closure or :layoff. */
@@ -47,14 +39,8 @@ export function displacementsNow(
   const out = new Map<string, Displacement[]>();
   const core = api.state as CoreState;
   if (!core.modules.has(JOBS_ID)) return out;
-  const store = api.moduleState(JOBS_ID);
-  const pay = store.table("pay");
-  const closures = store
-    .table("changes")
-    .query("byKind", ["closure"]) as unknown as ChangeRow[];
-  const layoffs = store
-    .table("changes")
-    .query("byKind", ["layoff"]) as unknown as ChangeRow[];
+  const closures = jobChangesOfKind(api, "closure");
+  const layoffs = jobChangesOfKind(api, "layoff");
   for (const row of [...closures, ...layoffs]) {
     // A counted worker is no full person: the counted tier is a stopgap.
     if (!core.people.has(row.personId)) continue;
@@ -64,7 +50,7 @@ export function displacementsNow(
       .map((id) => core.work.commitments.get(id))
       .find((one) => one?.jobId === row.jobId);
     const since =
-      (pay.get(row.jobId) as { since?: string } | undefined)?.since ??
+      jobPaidSince(api, row.jobId) ??
       commitment?.heldSince ??
       commitment?.startsAt ??
       core.startedAt;

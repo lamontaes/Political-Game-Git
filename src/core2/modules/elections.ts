@@ -40,7 +40,7 @@ import { ACCEPTING_MOVES, REFUSING_MOVES } from "../scene-replies";
 /** The parties module's id and readers, for readers outside the elections family (the director's party veterans, a first meeting's shared party) to take from the family's entry. */
 export { PARTIES_MODULE_ID, partiesHere, partyTie };
 export type { TieRow } from "./parties";
-import { partyName } from "../appointments";
+import { partyName } from "../party-sides";
 import fallbackData from "../data/elections/filing-fallbacks.json" with { type: "json" };
 import playerOffices from "../data/offices/player-offices.json" with { type: "json" };
 import federalQualifications from "../data/elections/federal-qualifications.json" with { type: "json" };

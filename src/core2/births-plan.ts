@@ -7,6 +7,7 @@ import {
 import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
 import type { EntityId } from "./kernel/brands";
 import { healthReport } from "./modules/health";
+import { dwellingTenure } from "./housing-reads";
 import { currentCloseness } from "./closeness";
 import { renewalParameter } from "./births-parameters";
 import { scoreOffers, decisionFromScores } from "./choice";
@@ -17,7 +18,6 @@ import type { ActOffer, ActionDefinition, CoreAPI, PersonState } from "./types";
 
 export const BIRTHS_STOPGAP = "SG-M1-births-circumstances";
 /** The housing engine's module id (read by name: it does not import this one). */
-const HOUSING_MODULE = "housing";
 export interface BirthCouple {
   id: string;
   motherId: string;
@@ -88,14 +88,7 @@ function tenureOf(
   api: CoreAPI,
   householdId: string,
 ): "rent" | "own" | undefined {
-  if (!api.state.modules.has(HOUSING_MODULE)) return undefined;
-  const tenure = (
-    api
-      .moduleState(HOUSING_MODULE)
-      .table("dwellings")
-      .get(`dwelling:${householdId}`) as { tenure?: string } | undefined
-  )?.tenure;
-  return tenure === "rent" || tenure === "own" ? tenure : undefined;
+  return dwellingTenure(api, householdId)?.tenure;
 }
 
 /**

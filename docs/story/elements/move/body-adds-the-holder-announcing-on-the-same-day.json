@@ -1,0 +1,35 @@
+{
+  "id": "body-adds-the-holder-announcing-on-the-same-day",
+  "kind": "move",
+  "summary": "The story pairs the challenger's announcement with the seat holder saying the holder will run again.",
+  "realLife": "A short broadcast story gave a challenger's announcement and, on the same day, the holder telling the station the holder would seek another term, then listed the holder's committee posts and said neither could formally file for months.",
+  "sources": [
+    "KTTC (Rochester, Minnesota), 'Incumbent, candidate announce bids for MN House District 24A', Sept. 10, 2025: https://www.kttc.com/2025/09/10/incumbent-candidate-announce-bids-mn-house-district-24a/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["from", "name", "office", "when", "opens"],
+  "gates": [],
+  "weights": {
+    "candidate-announced": 0.5
+  },
+  "inGame": "the candidate-announced event for each person; the holder's office record and committee seats",
+  "issues": ["none"],
+  "turns": [
+    {
+      "name": "holder silent",
+      "pulledBy": "the holder has said nothing",
+      "writes": "the story says the holder has not said if the holder will run",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "holder retiring",
+      "pulledBy": "the holder has said they will not run",
+      "writes": "the story calls the seat open and drops the pairing",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}
