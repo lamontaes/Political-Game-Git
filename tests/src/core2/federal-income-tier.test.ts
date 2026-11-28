@@ -28,11 +28,9 @@ import {
   taxPaymentsOf,
 } from "../../../src/core2/modules/budgets";
 import { enactLaw, lawChain } from "../../../src/core2/modules/laws";
-import {
-  countryStateParts,
-  countryStates,
-} from "../../../src/core2/modules/macro";
+import { countryStateParts } from "../../../src/core2/modules/macro";
 import { coreAPI } from "../../../src/core2/state";
+import { allCountryStates } from "../../../src/core2/macro-reads";
 
 const place = drawPlace("meet-a1:1", "meetings-floor");
 const LINE = "individualIncomeTax";
@@ -51,7 +49,7 @@ it("the federal income tax follows the tier's withholding, once, under the law i
       .filter((p) => p.line === LINE && p.payerId === "country-workers")
       .sort((a, b) => a.date.localeCompare(b.date));
   const tierIncome = (key: string) =>
-    countryStates(api)
+    allCountryStates(api)
       .find((s) => s.key === key)!
       .whatMoved.at(-1)!.incomeTaxRevenue;
   const run = (days: number) =>
@@ -91,7 +89,7 @@ it("the federal income tax follows the tier's withholding, once, under the law i
   expect(parts.rest.jobs).toBeLessThan(parts.total.jobs);
 
   // A state's income tax change moves that state's collection and not the federal line.
-  const otherKey = countryStates(api).find(
+  const otherKey = allCountryStates(api).find(
     (s) => s.key !== chain.stateKey && tierIncome(s.key) > 0,
   )!.key;
   const otherBefore = tierIncome(otherKey);

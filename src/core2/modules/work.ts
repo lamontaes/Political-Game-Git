@@ -680,6 +680,29 @@ function chargeOfficeTime(api: CoreAPI, excludePersonId?: string): void {
       chargeOfficeHours(api, personId, time.hours, time.sourceId);
 }
 
+/**
+ * One day of work: every scheduled shift is attended or missed by its worker's own decision, then the day's payroll
+ * runs. The module's `onDay` and the controlled person's own day both run it, so the clock's day and the player's day
+ * are one function; the controlled person (when there is one) is left out of the shifts, who are the clock's.
+ */
+export function runWorkDay(
+  api: CoreAPI,
+  decide: (
+    personId: string,
+    offers: readonly ActOffer[],
+    context?: DecisionContext,
+  ) => DecisionResult,
+  refresh: (
+    actor: PersonState,
+    needIds?: readonly string[],
+  ) => DecisionContext | undefined,
+  controlledPersonId?: string,
+): { decisions: number; acts: number } {
+  const attendance = runScheduledWork(api, decide, refresh, controlledPersonId);
+  runWorkPayrollDay(api);
+  return attendance;
+}
+
 export function runScheduledWork(
   api: CoreAPI,
   decide: (
@@ -907,9 +930,7 @@ export const WORK_MODULE: CoreModule = {
     },
   },
   onDay(api, decide, refresh) {
-    const attendance = runScheduledWork(api, decide, refresh);
-    runWorkPayrollDay(api);
-    return attendance;
+    return runWorkDay(api, decide, refresh);
   },
   // Results mode (time nobody watches): attendance is each worker's own dated
   // decision and pay follows it, so a skipped month records no shift and pays

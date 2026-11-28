@@ -13,7 +13,6 @@ import { setJournalTrace } from "../../../src/core2/journal-state";
 import type { CoreState } from "../../../src/core2/types";
 import { lawChain, openLaws } from "../../../src/core2/modules/laws";
 import { openOffices } from "../../../src/core2/modules/offices";
-import { openRecord } from "../../../src/core2/modules/record";
 import {
   fileCandidacy,
   atLargeGroup,
@@ -60,6 +59,7 @@ import {
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { townResidentsByCash } from "../../support/resident-adults-test-kit";
 import { advanceToFilingOpen } from "../../support/gov-test-clock";
+import { openRecord } from "../../support/open-modules";
 
 const START = "2026-01-05";
 const runSeed =

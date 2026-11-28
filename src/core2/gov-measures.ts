@@ -46,7 +46,8 @@ import {
 import { townShare } from "./law-reach/group-b-money";
 import { parameter } from "./parameters";
 import { treasuryParameter } from "./budgets-treasury";
-import { countryOpened, countryStates } from "./modules/macro";
+import { countryOpened } from "./modules/macro";
+import { allCountryStates } from "./macro-reads";
 
 export { GOV_MEASURES };
 
@@ -394,7 +395,7 @@ export function defenseBoostPct(
 function nationalOutputMinor(api: CoreAPI): number | null {
   if (!countryOpened(api)) return null;
   let sold = 0;
-  for (const state of countryStates(api))
+  for (const state of allCountryStates(api))
     for (const row of state.sectors) sold += row.sales;
   return sold > 0
     ? sold * treasuryParameter("monthsPerYear") * parameter("minorPerDollar")

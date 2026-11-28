@@ -24,7 +24,6 @@ import type {
 } from "../../../src/core2/types";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { openOffices } from "../../../src/core2/modules/offices";
-import { openRecord } from "../../../src/core2/modules/record";
 import {
   fileCandidacy,
   openContests,
@@ -44,6 +43,7 @@ import {
 import { openParties } from "../../../src/core2/modules/parties";
 import { openPress } from "../../../src/core2/modules/press";
 import { viewsModule } from "../../../src/core2/modules/views";
+import { openRecord } from "../../support/open-modules";
 
 const START = "2026-01-05";
 /** Places drawn before the test says no case was found. Engineering value. */

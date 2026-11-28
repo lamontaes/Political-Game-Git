@@ -20,10 +20,7 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { ownerOf } from "../../../src/core2/modules/business";
-import {
-  countryStateParts,
-  countryStates,
-} from "../../../src/core2/modules/macro";
+import { countryStateParts } from "../../../src/core2/modules/macro";
 import {
   residentCounts,
   residentsAccountFor,
@@ -33,6 +30,7 @@ import { isDemoted } from "../../../src/core2/counted-groups";
 import { placeStateKey } from "../../../src/core2/place-map";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
+import { allCountryStates } from "../../../src/core2/macro-reads";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const say = (line: string) => process.stdout.write(`${line}\n`);
@@ -130,7 +128,7 @@ it("counts the town inside its state once, and its state's jobs follow the town'
     );
     expect(
       countryProblems({
-        states: [...countryStates(coreAPI(open))],
+        states: [...allCountryStates(coreAPI(open))],
       } as CountryTier),
       `${where}: the tier holds counts that cannot be`,
     ).toEqual([]);

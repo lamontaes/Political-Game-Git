@@ -10,7 +10,6 @@ import { coreAPI, createCore } from "../../../src/core2/state";
 import {
   MACRO_MODULE,
   countryStateNow,
-  countryStates,
   macroCoreData,
   withCentralBank,
 } from "../../../src/core2/modules/macro";
@@ -30,6 +29,7 @@ import {
   type RegionMonth,
 } from "../../../src/core2/regional-model";
 import type { CoreAPI } from "../../../src/core2/types";
+import { allCountryStates } from "../../../src/core2/macro-reads";
 
 const data = macroCoreData();
 const p = (key: string) => parameter(key, data.parameters);
@@ -99,7 +99,7 @@ const latestMonthOf = (api: CoreAPI) =>
 
 /** The tier's jobs in a state today: the sum over its sectors. */
 const tierJobs = (api: CoreAPI, usps: string) =>
-  countryStates(api)
+  allCountryStates(api)
     .find((row) => row.usps === usps)!
     .sectors.reduce((sum, sector) => sum + sector.jobs, 0);
 
@@ -323,7 +323,7 @@ describe("a region reads its state's month in the country tier", () => {
     advanceCore(calm.core, "2026-11-30");
     advanceCore(shaken.core, "2026-11-30");
     expect(latestMonthOf(shaken.api), where).toBe("2026-11");
-    for (const state of countryStates(calm.api))
+    for (const state of allCountryStates(calm.api))
       expect(tierJobs(shaken.api, state.usps), `${where} ${state.usps}`).toBe(
         tierJobs(calm.api, state.usps),
       );

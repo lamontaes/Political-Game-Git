@@ -5940,13 +5940,13 @@
       "reason": "Configuration, authoring, type companion, test, or dynamic loader surface."
     },
     {
-      "file": "src/director/tooling/director-report.ts",
-      "name": "src/director/tooling/director-report.ts",
+      "file": "scripts/director/tooling/director-report.ts",
+      "name": "scripts/director/tooling/director-report.ts",
       "reason": "Configuration, authoring, type companion, test, or dynamic loader surface."
     },
     {
-      "file": "src/director/tooling/director-year.ts",
-      "name": "src/director/tooling/director-year.ts",
+      "file": "scripts/director/tooling/director-year.ts",
+      "name": "scripts/director/tooling/director-year.ts",
       "reason": "Configuration, authoring, type companion, test, or dynamic loader surface."
     },
     {

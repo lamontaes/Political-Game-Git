@@ -253,7 +253,7 @@ function outsideBySector(
   const zero = api.parameter("zero"),
     one = api.parameter("one"),
     hundred = api.parameter("macroHundred");
-  const states = countryStates(api);
+  const states = countryStateRows(api);
   const bases = new Map(
     (
       store(api).table("countryBases").rows() as unknown as CountryStateBase[]
@@ -399,8 +399,8 @@ function writeCountry(api: CoreAPI, tier: CountryTier): void {
       .put(state as unknown as { id: string });
 }
 
-/** Every state's tier row today: its households by fifth and age, its sectors and its ledger. Read-only. */
-export function countryStates(api: CoreAPI): readonly CountryState[] {
+/** Every state's tier row, for the macro engine's own steps (other engines read them through `allCountryStates`). */
+function countryStateRows(api: CoreAPI): readonly CountryState[] {
   return store(api).table("countryStates").rows() as unknown as CountryState[];
 }
 

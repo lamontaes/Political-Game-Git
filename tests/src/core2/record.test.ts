@@ -14,7 +14,6 @@ import { buildPopulation } from "../../../src/core2/population";
 import { createLifeCore } from "../../../src/core2/life";
 import { coreAPI, registerModule } from "../../../src/core2/state";
 import {
-  openRecord,
   recordVote,
   voteRecordId,
   votesOf,
@@ -23,6 +22,7 @@ import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
 import { setKeepEveryonesWhy } from "../../../src/core2/why-kept";
 import { scenario, seed, START } from "../../support/record-test-kit";
 import { drawPlace } from "../../../scripts/core2-year/place";
+import { openRecord } from "../../support/open-modules";
 
 describe("M4-06 the record follows you", () => {
   // A voter's reasons are saved for the player's circle only (Keep it simple,

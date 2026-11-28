@@ -250,6 +250,7 @@
 /tests/src/core2/modules/voter-registration.test.ts @lamontaes
 /tests/src/core2/modules/voting.traits.test.ts @lamontaes
 /tests/src/core2/modules/witness-life.test.ts @lamontaes
+/tests/src/core2/one-seat-per-body.test.ts @lamontaes
 /tests/src/core2/open-seat-when-holder-runs-elsewhere.test.ts @lamontaes
 /tests/src/core2/outlet-endorsement.test.ts @lamontaes
 /tests/src/core2/outside-races-field.test.ts @lamontaes

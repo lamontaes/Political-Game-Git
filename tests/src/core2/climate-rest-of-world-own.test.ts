@@ -5,10 +5,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { buildPopulation } from "../../../src/core2/population";
-import { climateNow, openClimate } from "../../../src/core2/modules/climate";
+import { climateNow } from "../../../src/core2/modules/climate";
 import { setHistoryMode } from "../../../src/core2/modules/elections";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";
+import { openClimate } from "../../support/open-modules";
 
 const seed = process.env.CLIMATE_SEED ?? randomBytes(16).toString("hex");
 const SMALL_TOWN = 30;

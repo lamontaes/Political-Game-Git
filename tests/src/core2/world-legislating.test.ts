@@ -25,7 +25,6 @@ import {
 } from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
-import { openRecord } from "../../../src/core2/modules/record";
 import { meetsOn } from "../../../src/core2/office-day-calendar";
 import { meetingRule } from "../../../src/core2/modules/office-day";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
@@ -48,6 +47,7 @@ import {
   searchCorePlaces,
   corePlaceStateIdentities,
 } from "../../../src/core2/place-lookup";
+import { openRecord } from "../../support/open-modules";
 
 const START = "2026-01-05";
 // Pinned (pinned-tests): the places come from this seed, never the clock, so

@@ -7,7 +7,7 @@ import type {
   HistoryWriter,
   PreStartModule,
   PreStartWindow,
-} from "../pre-start";
+} from "../past-module";
 import { incompatibleOffices } from "../office-incompatibility";
 import {
   historyOf,
@@ -112,7 +112,7 @@ import { drawOfficialIdentity } from "../officials-identity";
 import { seededFineUnit, seededUnit } from "../seeded";
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
-import { POLICY_QUESTIONS } from "../policy-answers";
+import { POLICY_QUESTIONS } from "./laws-reads";
 import reachA from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { isRealOfficeholderName } from "../officials-names";
 import { pressConflict } from "../press-conflict";

@@ -19,13 +19,13 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { createLifeCore } from "../../../src/core2/life";
 import { recordRoll } from "../../../src/core2/modules/legislature";
 import {
-  openRecord,
   voteRecordId,
   votesOf,
   type VoteRecordRow,
 } from "../../../src/core2/modules/record";
 import { buildPopulation } from "../../../src/core2/population";
 import { coreAPI } from "../../../src/core2/state";
+import { openRecord } from "../../support/open-modules";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 

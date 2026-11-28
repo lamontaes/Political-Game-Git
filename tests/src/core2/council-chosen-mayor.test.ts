@@ -20,7 +20,6 @@ import {
 } from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
-import { openRecord } from "../../../src/core2/modules/record";
 import { openLegislature } from "../../../src/core2/modules/legislature";
 import {
   openLeadership,
@@ -31,6 +30,7 @@ import {
   primaryReading,
 } from "../../../src/core2/gov-rules/municipal-government";
 import { readDirectElection } from "../../../src/core2/gov-rules/local-chief-executive-rules";
+import { openRecord } from "../../support/open-modules";
 
 const START = "2026-01-05";
 const seed =

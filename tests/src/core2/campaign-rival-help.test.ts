@@ -45,7 +45,6 @@ import {
 import type { CoreAPI, CoreState, PersonState } from "../../../src/core2/types";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { openOffices } from "../../../src/core2/modules/offices";
-import { openRecord } from "../../../src/core2/modules/record";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
@@ -96,6 +95,7 @@ import {
   PLATFORM_QUESTIONS,
   campaignParameter,
 } from "../../../src/core2/campaign-data";
+import { openRecord } from "../../support/open-modules";
 
 const START = "2026-01-05";
 const runSeed =

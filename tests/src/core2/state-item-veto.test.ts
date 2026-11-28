@@ -1,6 +1,5 @@
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { openElections } from "../../../src/core2/modules/elections";
-import { openRecord } from "../../../src/core2/modules/record";
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildPopulation } from "../../../src/core2/population";
@@ -22,6 +21,7 @@ import {
 } from "../../../src/core2/state-item-veto";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import type { ModuleRow } from "../../../src/core2/module-data";
+import { openRecord } from "../../support/open-modules";
 
 const seed = process.env.OFFICE_STATE_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "office-federal");

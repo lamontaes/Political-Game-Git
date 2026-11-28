@@ -59,7 +59,12 @@ import type {
 } from "../types";
 import { nextMeetingOf } from "../office-day-calendar";
 import { officeById } from "./offices";
-import { SITTING_SHARED_HOURS, type SittingDay } from "../sitting-closeness";
+import {
+  sittingHours,
+  sittingKnownTo,
+  sittingTogether,
+  type SittingDay,
+} from "../sitting-closeness";
 import {
   addDays,
   makeIsoDate,
@@ -93,7 +98,7 @@ import executiveSittings from "../data/legislature/executive-sittings.json" with
 import localExecutiveRules from "../../../data/research/gov/local-executive-introduction-2026.json" with { type: "json" };
 import { placeStateKey } from "../place-map";
 import { seededUnit } from "../seeded";
-import { countryStateMonth, countryStates } from "./macro";
+import { countryStateMonth } from "./macro";
 import type { OfficeLevel } from "./offices";
 import { partySide } from "./offices";
 import { decisionLean, termOfLean } from "../trait-decisions";
@@ -125,6 +130,7 @@ import {
   type Provision,
   type Sitting,
 } from "./legislature";
+import { allCountryStates } from "../macro-reads";
 
 /**
  * A local body's member filings can be held for the player's meeting: the
@@ -256,7 +262,16 @@ export const WORLD_LEGISLATING_MODULE: CoreModule = {
   // The chambers' and town bodies' calendars and seats, and the hours their
   // members have shared sitting together (read when two members' closeness is asked).
   sittingCalendar: SITTING_CALENDAR,
-  sharedHours: SITTING_SHARED_HOURS,
+  // Function declarations, so the field is whole while sitting-closeness.ts is still loading; the kind
+  // is the one its own half-life read uses (COLLEAGUE_KIND there).
+  sharedHours: {
+    hours: sittingHours,
+    known: {
+      kind: "coworker",
+      knownTo: sittingKnownTo,
+      together: sittingTogether,
+    },
+  },
   id: WORLD_LEGISLATING_MODULE_ID,
   // The hours a town body's meetings take from its members' days.
   officeTime: townMeetingHoursToday,
@@ -1900,7 +1915,7 @@ function stateFigures(
   jurisdiction: string,
 ): Record<string, number> | null {
   if (!api.state.modules.has("macro")) return null;
-  const state = countryStates(api).find((row) => row.key === jurisdiction);
+  const state = allCountryStates(api).find((row) => row.key === jurisdiction);
   const month = api.moduleState("macro").table("state").get("macro:state") as
     { latestMonth?: string } | undefined;
   const now =

@@ -245,6 +245,7 @@
         "tests/src/core2/modules/voter-registration.test.ts",
         "tests/src/core2/modules/voting.traits.test.ts",
         "tests/src/core2/modules/witness-life.test.ts",
+        "tests/src/core2/one-seat-per-body.test.ts",
         "tests/src/core2/open-seat-when-holder-runs-elsewhere.test.ts",
         "tests/src/core2/outlet-endorsement.test.ts",
         "tests/src/core2/outside-races-field.test.ts",
@@ -971,7 +972,9 @@
         "src/core2/resident-outside-sales.ts",
         "src/core2/counted-moves-reads.ts",
         "src/core2/retirement-claims-runtime.ts",
-        "src/core2/resident-schooling.ts"
+        "src/core2/resident-schooling.ts",
+        "src/core2/heard-claims.ts",
+        "src/core2/world-poverty.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",

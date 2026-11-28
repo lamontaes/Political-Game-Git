@@ -16,7 +16,6 @@ import { setJournalTrace } from "../../../src/core2/journal-state";
 import type { CoreState } from "../../../src/core2/types";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { openOffices } from "../../../src/core2/modules/offices";
-import { openRecord } from "../../../src/core2/modules/record";
 import { openParties } from "../../../src/core2/modules/parties";
 import { openPress } from "../../../src/core2/modules/press";
 import { viewsModule } from "../../../src/core2/modules/views";
@@ -48,6 +47,7 @@ import {
 } from "../../../src/bench/dev-trace";
 import controls from "../../../src/bench/data/controls.json" with { type: "json" };
 import { townResidentsByCash } from "../../support/resident-adults-test-kit";
+import { openRecord } from "../../support/open-modules";
 
 const START = "2026-01-05";
 const runSeed =

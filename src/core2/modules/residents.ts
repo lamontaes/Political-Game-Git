@@ -2631,6 +2631,10 @@ export function countedHouseholdJobChanged(
   h.wagesMinorYear = store.wagesOf(h);
   store.version++;
   store.touch(h);
+  // A hire takes a member off the ones a household's out-of-town workers are
+  // spread over: what no member is left free to be goes (the fill-in gives
+  // that pay to a member with no job, so a household with none has none).
+  if (job.endsAt === undefined) capUnplacedWork(rt, h, core.date);
 }
 
 /**
@@ -3539,6 +3543,34 @@ function leaveUnplacedWork(
   const members = store.countedMembers(h).filter(open).length;
   if (members > 0)
     shedUnplacedWorkers(rt, h, h.unplacedWorkers / members, date);
+}
+
+/**
+ * A household's out-of-town workers never outnumber its working-age members
+ * without a recorded job (the cap `startRegionalWork` states when it hires):
+ * after a member takes a recorded job, what is over that count leaves through
+ * the one writer. Under the cap nothing leaves, so a hire into a household
+ * whose share still fits its free members moves nothing, and a rehire after
+ * the job ends has nothing to take.
+ */
+function capUnplacedWork(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  date: string,
+): void {
+  if (h.gone || !(h.unplacedWorkers > 0)) return;
+  const from = countedParameter("countedWorkingAgeFrom"),
+    below = countedParameter("countedWorkingAgeBelow");
+  const held = new Set(
+    h.jobs.filter((job) => job.endsAt === undefined).map((j) => j.personId),
+  );
+  const free = rt.store.countedMembers(h).filter((x) => {
+    if (held.has(rt.store.ids[x]!)) return false;
+    const age = ageOn(rt.store.born[x]!, date);
+    return age >= from && age < below;
+  }).length;
+  const over = h.unplacedWorkers - free;
+  if (over > 0) shedUnplacedWorkers(rt, h, over, date);
 }
 
 /** Index counted members by the day they pass the counted working age. */

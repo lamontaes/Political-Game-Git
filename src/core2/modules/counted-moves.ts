@@ -32,7 +32,6 @@ import {
   countryAbroadArrivals,
   countryFlowsIn,
   countryStateMonth,
-  countryStates,
 } from "./macro";
 import { latestMacroMonthId } from "../macro-reads";
 import { regionalLevel, regionalRegistered } from "./regional";
@@ -77,6 +76,7 @@ import {
   countedMoves,
 } from "../counted-moves-reads";
 export { COUNTED_MOVES_MODULE_ID, countedMoves } from "../counted-moves-reads";
+import { allCountryStates } from "../macro-reads";
 
 /** The living members of a counted household who keep their own records: people returned to the counts earlier. */
 function returnedMembersOf(
@@ -265,7 +265,7 @@ export function stateUnemployment(api: CoreAPI): Map<string, number> {
   if (!api.state.modules.has("macro")) return out;
   const latest = latestMacroMonthId(api);
   if (!latest) return out;
-  for (const state of countryStates(api)) {
+  for (const state of allCountryStates(api)) {
     const row = countryStateMonth(api, state.fips, latest);
     if (row) out.set(state.usps, row.unemploymentPct);
   }

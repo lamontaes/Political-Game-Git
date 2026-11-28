@@ -5,7 +5,6 @@ import { coreAPI, createCore } from "../../../src/core2/state";
 import {
   MACRO_MODULE,
   countryOutlook,
-  countryStates,
   linkCreditLineToPrime,
   macroCoreData,
   withCentralBank,
@@ -29,6 +28,7 @@ import { parameter } from "../../../src/core2/parameters";
 import type { CoreInput, CoreModule, Source } from "../../../src/core2/types";
 import { readFileSync } from "node:fs";
 import pmms from "../../../data/research/macro/series/pmms-monthly.json" with { type: "json" };
+import { allCountryStates } from "../../../src/core2/macro-reads";
 
 const data = macroCoreData();
 const p = (key: string) => parameter(key, data.parameters);
@@ -161,7 +161,7 @@ describe("national economy", () => {
       api = coreAPI(core);
     advanceCore(core, "2026-12-31");
     const where = `seed ${seed}`;
-    const states = countryStates(api);
+    const states = allCountryStates(api);
     expect(states, where).toHaveLength(56);
     expect(
       api.moduleState("macro").table("countryStates").rows(),
@@ -285,7 +285,7 @@ describe("national economy", () => {
     // Each state's last point is the state as the tier then keeps it.
     const last = outlook.nation.at(-1)!.month;
     expect(last, where).toBe("2028-01");
-    for (const state of countryStates(api)) {
+    for (const state of allCountryStates(api)) {
       const point = outlook.states[state.usps]!.at(-1)!;
       let people = state.children;
       for (const cell of state.cells) people += cell.people;
