@@ -12,9 +12,17 @@ import { noteEntryCause } from "../state";
 import { townOutsideOf } from "../opening-outside-market";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
-import { carriedLink } from "./outcome-web";
+import { carriedLink } from "../outcome-web-model";
 import { chooseAct } from "../choice";
-import { countedHouseholdSavings, countedPayment } from "./health";
+import { countedHouseholdSavings } from "../counted-money-moves";
+import { countedPayment } from "../counted-money";
+import { addResidentFlow } from "../resident-flows";
+import {
+  outputLostPerYear,
+  weightedPayrollMinor,
+  purchaseShareOf,
+  shiftPurchaseShare,
+} from "../residents-economy";
 import { depositsHeld, withdrawSavings } from "./budgets";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
@@ -44,15 +52,10 @@ import { worldRate } from "../world-draw";
 import { businessName, businessNameContext } from "../business-names";
 import type { BusinessBooksState } from "../budgets-treasury";
 import {
-  addResidentFlow,
+  countedJobsOf,
   businessScaleOf,
-  outputLostPerYear,
-  weightedPayrollMinor,
-  purchaseShareOf,
-  shiftPurchaseShare,
-} from "./health";
-import { countedHeadcountOf } from "./people";
-import { countedJobsOf } from "../counted-job-heads";
+  countedHeadcountOf,
+} from "../counted-job-heads";
 import {
   residentFacts,
   countedFundOf,

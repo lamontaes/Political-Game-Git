@@ -25,7 +25,8 @@ import { servingTerms } from "../offices-reads";
 import { allBusinessOwners } from "../business-reads";
 import { VIEWS_MODULE_ID } from "./views-constants";
 import { ELECTIONS_MODULE_ID, contestOf } from "../elections-reads";
-import { CANDIDACY_MODULE_ID, type CandidacyDecision } from "./candidacy";
+import type { CandidacyDecision } from "./candidacy";
+import { CANDIDACY_MODULE_ID } from "./candidacy-constants";
 import {
   countedFundOf,
   countedSpread,
