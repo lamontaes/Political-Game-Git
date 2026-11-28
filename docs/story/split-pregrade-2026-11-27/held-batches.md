@@ -76,3 +76,22 @@ Closed on GitHub; it is a script and a generated list, not words. Not read.
 ## Addendum, 6:02 p.m.: the W3 walks at drawn places
 
 `door-walk.ts` and `donor-walk.ts` on #10868's head (seed `pw28`, labels a, b, c: Beggs OK, Bijou Hills SD, Chamizal NM, Charlotte Amalie West USVI, Creswell OR, Maunabo PR). Five of the six walks skipped ("no council or board race open for filing in the year", "no seat whose petition needs 25 names"); the sixth (door, Creswell, Oregon) played no talk because the seat needed no petition. So **the three-place play check for W3 could not run**: the walks need a race open for filing or a seat with a petition of 25 names, and none of the six drawn places has one in the walk's year. Side finding for World, not words: at Creswell about 55 people, among them four newspaper owners (`person:press:outlet:newspaper:N…:owner:0`), filed for one board seat.
+
+## Addendum: W2 #10812 reworked (head e6bedf4097), re-graded at three places
+
+Played with the PR's own `scripts/story/filing-packet.mts` (run seed `pq28`; the first place is the world the golden-path check builds from seed `path-check`, Sterling, Michigan, which I swapped in with a scratch edit that is not committed; the other two are drawn: York Harbor, Maine and Homestead Base, Florida). The sameness gate has no recorded input for filing lines (its kinds are the outline planner's addresses), so it was not run; instead the three visits' openers were compared by eye. Three fresh Opus readers graded all 135 lines of a nine-place packet with the owner's own graded lines mixed in unmarked; every plant class was caught by all three readers and both of his passes in the packet (the arrival line, "No argument from me, Logan.") passed all three.
+
+**Better than the first version:** no date is said with its year; the three clerks open differently ("You've found the city clerk…", "You've found the Secretary of State…", "Donald Powell, with the Florida Division of Elections. Anyone running in Florida starts at this counter. Which race?"); "who else" names the latest filer; the counts agree with themselves at Sterling and York Harbor.
+
+**Still fails, in the three real visits (all three readers unless marked):**
+
+- **A regression in the petition step:** the narration no longer asks the question, so the three reply sets answer nothing ("Yes, I know how it works. I'll run my own campaign for the Sterling Village Council." / "No, I haven't."). The narration is only "Back at the counter, Emil finds your papers for the Sterling Village Council and pulls one sheet out." (1.11, 3.11, 5.11, `reply-follows-the-line-before`).
+- **One line wrong against the record:** at Sterling "You're on the list for the council now, after Lisa Anderson, who filed first." comes right after the clerk named Luke Henry as the latest, so the order is off (1.10); "There's nothing to collect before November 4" (1.14) points at the wrong date and "Next comes money." is a fragment.
+- **Homestead Base:** "eight candidates so far, and Stephen Hester was the first, today" (5.4) and "who filed today… That's eight candidates" (5.7) say eight filed the same day the first filed.
+- **"Who else" still names one of the others**, not all (3.7, 5.7).
+- **The same frames across the three visits** (`vary-the-shape`): "You've found the … I'm … Is it a spot on the ballot in … you're after?" (1.1, 3.1), the reply set's shape (1.5, 3.5, 5.5), "Good to know. File me … anyway." and "Then I'll file. X ought to have a real choice." (3.8, 3.9, 5.8, 5.9: the reason gives none with eight candidates in), "You're in. The X now has you and N others." (3.10, 5.10), the identical narration (1.11, 3.11), and the petition answers (3.13 and 5.13, 3.14 and 5.14, 3.15 and 5.15).
+- **Field-like:** "The U.S. Senate is on this ballot. Its duties are published, and I can print them for you." (3.4); "Counting that name" (3.4).
+- **A set of one reply** at Homestead Base (5.2).
+- **"You've found the Secretary of State"** said by a clerk who is not the Secretary (3.1); the readers also flagged the Senate offered to a player they took to be too young; the packet does not show the player's age, so I did not count that one.
+
+32 of 44 real lines fail by all three readers, 7 by two, 4 pass in all three.
