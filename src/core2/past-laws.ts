@@ -23,7 +23,7 @@ import type { GovernmentLevel } from "./government-level";
 import provisionQuestions from "../../data/research/legislature/provision-questions.json" with { type: "json" };
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 import { questionAxis } from "./campaign-views";
-import { memberSupportAt } from "./officials-roster";
+import { memberSupportAt } from "./officials-identity";
 import {
   policyAuthority,
   POLICY_QUESTIONS,

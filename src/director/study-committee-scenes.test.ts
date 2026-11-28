@@ -131,7 +131,7 @@ it(`the paper tells a study committee, and its members are spoken to when it for
     setStops(
       coreAPI(core),
       personId,
-      Object.fromEntries(stopKinds().map((kind) => [kind, false])),
+      Object.fromEntries(stopKinds(core).map((kind) => [kind, false])),
     );
     const book = director.ledger.people.get(personId)!;
     const through = addDays(makeIsoDate(study.sunsetOn), AFTER_REPORT_DAYS);

@@ -12,7 +12,7 @@ import { currentCloseness } from "./closeness";
 import { renewalParameter } from "./births-parameters";
 import { scoreOffers, decisionFromScores } from "./choice";
 import { decisionKinds } from "./trait-decision-table";
-import { OUTCOME_WEB_MODULE_ID } from "./modules/outcome-web";
+import { OUTCOME_WEB_MODULE_ID } from "./outcome-web-model";
 import { webFactorFor } from "./outcome-web-reach";
 import type { ActOffer, ActionDefinition, CoreAPI, PersonState } from "./types";
 

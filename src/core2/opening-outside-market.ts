@@ -7,6 +7,14 @@
  * outside account per place, so every such dollar is reported outside money.
  */
 import { makeIsoDate } from "./kernel/dates";
+
+/** How an outside business is named; re-exported so the past reads it through this jobs-businesses entry. */
+export {
+  businessNameContext,
+  businessNameStyles,
+  fillBusinessName,
+} from "./business-names";
+
 import outsideMarket from "./data/outside-market.json" with { type: "json" };
 import type { ResidentFlowInput, ResidentsInput } from "./residents";
 import type { CoreInput, OrganizationInput, Source } from "./types";

@@ -31,7 +31,7 @@ import { countedVoters, voterLean, weeklyWorkOf } from "./voting";
 import { countedViewOn, viewOn } from "./views";
 
 type CountedVoter = ReturnType<typeof countedVoters>[number];
-import { residentsRuntime } from "./residents";
+import { residentsRuntime } from "../residents-reads";
 import { registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
