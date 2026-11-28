@@ -28,14 +28,9 @@ import {
   type Fact,
   type SceneTalkStep,
 } from "../english/scene-talk-words";
-import { dayOpening } from "../english/day-words";
 import { filedSaid, filedSoFarSaid } from "../english/count-words";
 import { seatSaid, type SeatRecord } from "../english/journal-words";
-import {
-  agencyHeadSaid,
-  agencyNameSaid,
-  counterSaid,
-} from "../english/said-as";
+import { agencyHeadSaid, agencyNameSaid } from "../english/said-as";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { placeCounty } from "../core2/place-map";
 import { describesByRule } from "../core2/filing-rule-office";
@@ -794,20 +789,10 @@ export function counterNarration(
    * papers (owner, Nov 1: "You filled out the forms there").
    */
   filing?: { id: string; status: string } | null,
-  /** The minute of the day the player walks in, so the narrator can name the day. */
-  minuteOfDay?: number,
 ): { text: string; sourceRecordIds: readonly string[] }[] {
   const person = visit.clerkId ? core.people.get(visit.clerkId) : undefined;
   if (!person) return [];
   const facts: Record<string, Fact> = {
-    ...(minuteOfDay !== undefined
-      ? {
-          begins: {
-            text: dayOpening(core.date, minuteOfDay),
-            sourceRecordIds: [clerk.recordId],
-          },
-        }
-      : {}),
     ...(filing
       ? {
           // Back for another race while the first is filed: a return.
@@ -832,11 +817,6 @@ export function counterNarration(
       text: clerk.heads
         ? agencyHeadSaid(clerk.heads)
         : titleInSentence(clerk.title),
-      sourceRecordIds: [clerk.recordId],
-    },
-    // Where the player goes: the clerk's office, or the agency itself.
-    counter: {
-      text: counterSaid(titleInSentence(clerk.title), clerk.heads),
       sourceRecordIds: [clerk.recordId],
     },
   };

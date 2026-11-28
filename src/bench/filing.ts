@@ -330,7 +330,6 @@ export function openBenchFilingVisit(
           // your petition" (Miracle Valley, Arizona, seed w3-return-1); with
           // a filing already here, it is a return.
           back ? mineHere : null,
-          minuteOfDay,
         )
       : [],
     backdrop,

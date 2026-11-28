@@ -74731,10 +74731,10 @@
       ]
     },
     {
-      "key": "scene-talk.state-tell-duty.office-is-on-this-ballot-its-duties-are-published-and-i-can-print-them-for-you",
+      "key": "scene-talk.state-tell-duty.the-duties-of-office-are-published-and-i-can-print-a-copy-for-you",
       "move": "state-tell-duty",
       "kind": "spoken",
-      "text": "{office} is on this ballot. Its duties are published, and I can print them for you.",
+      "text": "The duties of {office} are published, and I can print a copy for you.",
       "uses": [
         {
           "subject": "scene",
@@ -76329,7 +76329,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "opponent"]
+          "requiresFacts": ["seat", "opponent"],
+          "excludesFacts": ["latest"]
         }
       ],
       "bearing": "calm",
@@ -77888,10 +77889,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.there-s-nothing-to-collect-before-vote-day-so-start-by-knocking-on-doors-and-talking-to-voters-next-comes-money",
+      "key": "scene-talk.follow-answer.there-s-nothing-to-collect-so-start-by-knocking-on-doors-and-talking-to-voters-before-vote-day-after-that-you-ll-need-money",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "There's nothing to collect before {vote-day}, so start by knocking on doors and talking to voters. Next comes money.",
+      "text": "There's nothing to collect, so start by knocking on doors and talking to voters before {vote-day}. After that, you'll need money.",
       "uses": [
         {
           "subject": "scene",
@@ -78099,10 +78100,10 @@
       ]
     },
     {
-      "key": "scene-talk.state-greet-counter.you-ve-found-the-where-i-m-name-is-it-a-spot-on-the-ballot-in-place-you-re-after",
+      "key": "scene-talk.state-greet-counter.you-ve-come-to-the-right-office-the-where-i-m-name-is-it-a-spot-on-the-ballot-in-place-you-re-after",
       "move": "state-greet-counter",
       "kind": "spoken",
-      "text": "You've found the {where}. I'm {name}. Is it a spot on the ballot in {place} you're after?",
+      "text": "You've come to the right office, the {where}. I'm {name}. Is it a spot on the ballot in {place} you're after?",
       "uses": [
         {
           "subject": "scene",
@@ -78955,7 +78956,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "opponent"]
+          "requiresFacts": ["seat", "opponent"],
+          "excludesFacts": ["latest"]
         }
       ],
       "bearing": "calm",
@@ -78982,7 +78984,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "opponent"]
+          "requiresFacts": ["seat", "opponent"],
+          "excludesFacts": ["latest"]
         }
       ],
       "bearing": "calm",
@@ -79114,174 +79117,6 @@
         "filing-at-the-clerks-counter",
         "filing-the-first-time-is-new-to-the-clerk"
       ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.begins-you-walk-into-counter-name-looks-up-from-a-stack-of-forms",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{begins}, you walk into {counter}. {name} looks up from a stack of forms.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["begins", "counter", "name", "first-visit"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "filing-the-first-time-is-new-to-the-clerk"
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.the-post-here-is-name-and-this-is-where-the-filing-papers-come-from",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The {post} here is {name}, and this is where the filing papers come from.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["post", "name", "first-visit"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "filing-the-first-time-is-new-to-the-clerk"
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-is-sorting-forms-at-counter-when-you-come-in",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} is sorting forms at {counter} when you come in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "counter", "first-visit"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "filing-the-first-time-is-new-to-the-clerk"
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-is-at-the-desk-when-you-step-inside-counter",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} is at the desk when you step inside {counter}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "counter", "first-visit"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "filing-the-first-time-is-new-to-the-clerk"
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-re-back-at-counter-and-name-looks-up-as-you-come-in",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You're back at {counter}, and {name} looks up as you come in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["counter", "name", "back-again"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      },
-      "elements": ["filing-at-the-clerks-counter"]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.begins-you-re-back-at-counter-with-name-behind-it",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{begins}, you're back at {counter} with {name} behind it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["begins", "counter", "name", "back-again"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (W2, the filing counter)",
-      "date": "2026-11-27",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      },
-      "elements": ["filing-at-the-clerks-counter"]
     },
     {
       "key": "scene-talk.reply-ask.is-opponent-the-only-one-so-far",
@@ -79447,6 +79282,363 @@
         "key": "routine"
       },
       "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-post-here-is-name-and-this-is-where-the-filing-papers-come-from",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The {post} here is {name}, and this is where the filing papers come from.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["post", "name", "first-visit"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-the-post-looks-up-from-a-stack-of-forms-as-you-come-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name}, the {post}, looks up from a stack of forms as you come in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["post", "name", "first-visit"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-step-up-to-the-counter-where-name-the-post-is-sorting-forms",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You step up to the counter, where {name}, the {post}, is sorting forms.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["post", "name", "first-visit"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-the-post-here-and-is-stamping-a-pile-of-forms-when-you-come-up",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is the {post} here, and is stamping a pile of forms when you come up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["post", "name", "first-visit"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-come-back-to-the-counter-and-name-the-post-looks-up-as-you-come-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You come back to the counter, and {name}, the {post}, looks up as you come in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["post", "name", "back-again"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-the-post-nods-as-you-come-back-to-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name}, the {post}, nods as you come back to the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["post", "name", "back-again"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-post-name-looks-up-from-some-forms-as-you-come-back-to-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The {post}, {name}, looks up from some forms as you come back to the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["post", "name", "back-again"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-the-post-glances-up-from-the-desk-as-you-come-back-to-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name}, the {post}, glances up from the desk as you come back to the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["post", "name", "back-again"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-accept.your-papers-are-in-you-re-the-newest-name-on-the-list-for-seat-after-latest",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Your papers are in. You're the newest name on the list for {seat}, after {latest}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["seat", "latest"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-filed-latest-was-the-last-in-for-seat-and-you-come-right-after",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's filed. {latest} was the last in for {seat}, and you come right after.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["seat", "latest"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-accept.you-re-on-the-list-for-seat-now-the-newest-name-after-latest",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "You're on the list for {seat} now, the newest name, after {latest}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["seat", "latest"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-accept.your-papers-are-in-and-your-name-follows-latest-s-on-the-list-for-seat",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Your papers are in, and your name follows {latest}'s on the list for {seat}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["seat", "latest"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.state-tell-duty.if-you-want-the-job-description-for-office-i-can-print-it-for-you",
+      "move": "state-tell-duty",
+      "kind": "spoken",
+      "text": "If you want the job description for {office}, I can print it for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-duty",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "tell-duty",
+        "key": "routine"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
     }
   ]
 }

@@ -6,6 +6,8 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { coreAPI } from "../core2/state";
+import { titleInSentence } from "../director/filing-visit";
+import { agencyHeadSaid } from "../english/said-as";
 import { openBenchFilingVisit } from "./filing";
 import { governmentView } from "./government";
 import { buildBenchWorld } from "./world";
@@ -57,14 +59,21 @@ it("every counter with a clerk is introduced before the clerk speaks", () => {
       `${clerk.givenName} ${clerk.familyName}`,
     );
     expect(visit.intro.map((l) => l.text).join(" ")).toContain("the ");
-    // The narrator names the day (owner, Nov 8: "it says first thing on June
-    // 7th. You head to the clerk's office and speak to ..."): the part of the
-    // day and the date, said as people say it, from the clock.
+    // The narrator names the clerk's post, said as the counter says it (the
+    // day and the place are on the screen, so the narration leaves them out:
+    // owner, Nov 24, "you already know what day and time it is"; CTO, Nov 27,
+    // 8:06 p.m., on #10377: this check requires the name and the title, not
+    // the day or the place).
+    const row = offered().find((c) => c.filingOffice.filedWith === filedWith);
+    const record = row ? filingClerkFor(api, row.contest.id) : null;
+    expect(record, `${filedWith} in ${where}`).not.toBeNull();
     expect(
       visit.intro.map((l) => l.text).join(" "),
       `${filedWith} in ${where}`,
-    ).toMatch(
-      /(First thing on|Late in the morning on|Around noon on|On the afternoon of|Toward evening on|Late on) [A-Z][a-z]+ \d{1,2}(st|nd|rd|th)\b/,
+    ).toContain(
+      record!.heads
+        ? agencyHeadSaid(record!.heads)
+        : titleInSentence(record!.title),
     );
     for (const line of visit.intro) {
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
