@@ -29,7 +29,7 @@ import { interestOf, turnoutRule } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
 import { bookkeeping } from "./bookkeeping";
 import { placeStateKey } from "./place-map";
-import { residentsRuntime } from "./modules/residents";
+import { residentsRuntime } from "./residents-reads";
 import {
   ageOn,
   type CountedHousehold,
