@@ -12,6 +12,7 @@ import {
   atLargeGroup,
   type ContestRow,
   type FilingRow,
+  contestOf,
   filingsInContest,
 } from "../core2/modules/elections";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
@@ -170,7 +171,6 @@ const ELECTION_RESULT = "election-result";
  * in the order the log kept them, each race once.
  */
 function racesCounted(core: CoreState, personId?: string): ContestRow[] {
-  const contests = coreAPI(core).moduleState(ELECTIONS).table("contests");
   const out = new Map<string, ContestRow>();
   for (const event of historyOf(
     core,
@@ -179,7 +179,7 @@ function racesCounted(core: CoreState, personId?: string): ContestRow[] {
   )) {
     const id = event.facts?.contestId;
     const contest = id
-      ? (contests.get(id) as unknown as ContestRow | undefined)
+      ? (contestOf(coreAPI(core), id) as unknown as ContestRow | undefined)
       : undefined;
     if (contest && !out.has(contest.id)) out.set(contest.id, contest);
   }
