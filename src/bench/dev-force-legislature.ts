@@ -19,6 +19,7 @@
  * `scene-forced` and never counts as played.
  */
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { allBills } from "../core2/modules/bodies-reads";
 import {
   askToCarry,
   authorityFor,
@@ -34,7 +35,7 @@ import {
   scheduleVote,
   type Provision,
 } from "../core2/modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
+import { officeById, servingTermsOf } from "../core2/modules/offices";
 import {
   seatCoveringTown,
   seatPlayerInStateOffice,
@@ -98,20 +99,11 @@ export interface LegislatureForce {
 }
 
 const officeKind = (api: CoreAPI, officeId: string) =>
-  (
-    api.moduleState(OFFICES_MODULE_ID).table("offices").get(officeId) as
-      { kind?: string } | undefined
-  )?.kind;
+  officeById(api, officeId)?.kind;
 
 /** The bodies that make law where the person holds a serving seat. */
 function bodiesHeld(api: CoreAPI, personId: string): string[] {
-  return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("byPerson", [personId]) as unknown as TermRow[]
-  )
-    .filter((term) => term.status === "serving")
+  return servingTermsOf(api, personId)
     .map((term) => term.officeId)
     .filter(
       (officeId) =>
@@ -157,10 +149,7 @@ function sectionFor(
     }))
     .filter((section) => authorityFor(api, section).allowed);
   if (!sections.length) return undefined;
-  const drafted = api
-    .moduleState("core2-legislature-v1")
-    .table("bills")
-    .rows().length;
+  const drafted = allBills(api).length;
   return sections[drafted % sections.length];
 }
 

@@ -3,12 +3,12 @@ import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 /** Attendance and earned wages only. Cash settlement belongs to the recorded payday. */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { FinanceReadGuard } from "./finance-plan";
+import { FinanceReadGuard } from "./budgets-treasury";
 import {
   isExplicitlyControlledPersonV1,
   snapshotExplicitControlV1,
 } from "./player-control-state-v1";
-import { carryTraitScores } from "./choice";
+import { carryTraitScores } from "./trait-lean";
 import { workWeekStart } from "./modules/work";
 import { validateDatedWorkResult } from "./work-state";
 import {
@@ -599,10 +599,27 @@ export function recordWorkAttendance(
   api: CoreAPI,
   raw: WorkAttendanceInput,
 ): WorkAttendanceResult {
-  // Play reads the live rows and writes the result; the detached views, the
-  // descriptor and Source guards and the dated-result validator run with
-  // bookkeeping on (tests, the bench), as does the control snapshot that
-  // commit checks; play reads control once, where it decides `detailed`.
+  const read = readAttendance(core, api, raw);
+  const viewed = { ...read, ...viewCommitment(read) };
+  const owned = { ...viewed, ...bindOwner(viewed) };
+  const decided = { ...owned, ...admitDecision(owned) };
+  const priced = { ...decided, ...priceAttendance(decided) };
+  writeActor(priced);
+  writeTotals(priced);
+  writeRollups(priced);
+  writePrimaryTime(priced);
+  writePeriod(priced);
+  writeTrace(priced);
+  priced.batch.commit(priced.controlSnapshot);
+  return priced.caller;
+}
+
+/** The attendance's rows read: the work policy, the commitment, the actor, the job, the previous attendance and the payroll calendar. */
+function readAttendance(
+  core: CoreState,
+  api: CoreAPI,
+  raw: WorkAttendanceInput,
+) {
   const play = !bookkeeping(),
     controlSnapshot = play ? undefined : snapshotExplicitControlV1(core),
     batch = new AttendanceBatch(core, api),
@@ -628,19 +645,53 @@ export function recordWorkAttendance(
       "Attendance has no independently admitted actual payroll calendar.",
     );
   const today = r.mapGet(r.field(work, "timeByPerson"), input.personId);
+  return {
+    core,
+    api,
+    play,
+    controlSnapshot,
+    batch,
+    r,
+    input,
+    work,
+    data,
+    date,
+    zero,
+    one,
+    row,
+    actor,
+    job,
+    previous,
+    calendarId,
+    calendar,
+    today,
+  };
+}
+
+/** The commitment as the validator reads it, and the actor to write. */
+function viewCommitment(a: Read) {
+  const {
+    core,
+    play,
+    r,
+    input,
+    work,
+    zero,
+    one,
+    row,
+    actor,
+    job,
+    previous,
+    calendarId,
+    calendar,
+  } = a;
   let commitment: {
       id: string;
       jobId: string;
       personId: string;
       organizationId: string;
     } = row,
-    actorView = actor,
-    reasons: DecisionResult["selectedReasons"],
-    compactChoice: WorkAttendanceResult["compactChoice"],
-    todayView = today as
-      | { date: string; workMinutes: number; discretionaryMinutes: number }
-      | undefined,
-    viewApi = api;
+    actorView = actor;
   if (!play) {
     // The validator consumes these actual terms and bounded slot geometry, not a
     // detached commitment or unrelated job metadata. Actor replacement still owns
@@ -682,6 +733,23 @@ export function recordWorkAttendance(
         "Attendance has no independently admitted actual payroll calendar.",
       );
   }
+  return { commitment, actorView };
+}
+
+/** Who owns the pay and the schedule, and whether the attendance is kept in detail. */
+function bindOwner(a: Viewed) {
+  const {
+    core,
+    play,
+    controlSnapshot,
+    batch,
+    r,
+    input,
+    zero,
+    one,
+    calendar,
+    actorView,
+  } = a;
   const owner = basis(batch, input.commitmentId, calendar, play),
     ownedCalendarId = r.field(calendar, "id");
   if (!play) {
@@ -697,6 +765,35 @@ export function recordWorkAttendance(
     (play
       ? isExplicitlyControlledPersonV1(core, actorView.id)
       : controlSnapshot!.personId === actorView.id);
+  return { owner, ownedCalendarId, detailed };
+}
+
+/** The selected choice, checked against what the validator reads (or taken as it stands in play). */
+function admitDecision(a: Owned) {
+  const {
+    core,
+    api,
+    play,
+    batch,
+    r,
+    input,
+    work,
+    data,
+    date,
+    zero,
+    one,
+    job,
+    previous,
+    today,
+    commitment,
+    actorView,
+  } = a;
+  let reasons: DecisionResult["selectedReasons"],
+    compactChoice: WorkAttendanceResult["compactChoice"],
+    todayView = today as
+      | { date: string; workMinutes: number; discretionaryMinutes: number }
+      | undefined,
+    viewApi = api;
   if (!play) {
     if (!input.decision)
       throw new Error("Attendance needs its actual shared-score choice.");
@@ -873,6 +970,28 @@ export function recordWorkAttendance(
     reasons = input.decision.selectedReasons;
     compactChoice = input.decision.compactChoice;
   }
+  return { reasons, compactChoice, todayView, viewApi };
+}
+
+/** The attendance priced: its action, the pay period it falls in, what it earns and the result it keeps. */
+function priceAttendance(a: Decided) {
+  const {
+    batch,
+    r,
+    input,
+    work,
+    data,
+    date,
+    zero,
+    one,
+    calendar,
+    commitment,
+    actorView,
+    owner,
+    ownedCalendarId,
+    detailed,
+    compactChoice,
+  } = a;
   const selected = input.decision!.selected!,
     definition = r.field(selected, "definition"),
     offer = {
@@ -951,6 +1070,50 @@ export function recordWorkAttendance(
   const stored = detached(r, full),
     caller = stored,
     nextActor = actorView;
+  return {
+    selected,
+    definition,
+    offer,
+    attendance,
+    monthsPerYear,
+    selectedId,
+    actionKind,
+    attended,
+    before,
+    after,
+    sourceActId,
+    resolved,
+    periodId,
+    periods,
+    ledger,
+    originalPeriod,
+    priorLedger,
+    earned,
+    full,
+    stored,
+    caller,
+    nextActor,
+  };
+}
+
+/** The actor's last choice, act count, acts by kind and this month's act counters. */
+function writeActor(a: Priced) {
+  const {
+    core,
+    play,
+    batch,
+    r,
+    input,
+    date,
+    zero,
+    one,
+    actor,
+    actorView,
+    reasons,
+    selectedId,
+    after,
+    nextActor,
+  } = a;
   nextActor.lastChoice = selectedId;
   nextActor.lastReason = input.reasonKey;
   nextActor.actCount = after;
@@ -1004,6 +1167,27 @@ export function recordWorkAttendance(
     monthKey,
     addMinor(r.mapGet(monthTotals, monthKey) ?? zero, one, zero),
   );
+}
+
+/** The job's totals, the current attendance index, the last attendance and today's time. */
+function writeTotals(a: Priced) {
+  const {
+    play,
+    batch,
+    r,
+    input,
+    work,
+    date,
+    zero,
+    one,
+    previous,
+    detailed,
+    todayView,
+    attended,
+    priorLedger,
+    earned,
+    stored,
+  } = a;
   const totals = r.field(work, "totalsByJob"),
     oldTotals = r.mapGet(totals, input.jobId),
     old = oldTotals && !play ? shallow(r, oldTotals) : oldTotals;
@@ -1062,6 +1246,11 @@ export function recordWorkAttendance(
     discretionaryMinutes:
       todayView?.date === date ? todayView.discretionaryMinutes : zero,
   });
+}
+
+/** The week's rollup for the job. */
+function writeRollups(a: Priced) {
+  const { play, batch, r, input, work, date, zero, one, viewApi, attended } = a;
   const week = workWeekStart(date, viewApi),
     rollupKey = week + ":" + input.jobId,
     rollups = r.field(work, "rollups"),
@@ -1099,6 +1288,11 @@ export function recordWorkAttendance(
     latestReasonKey: input.reasonKey,
   });
   batch.index(r.field(work, "rollupsByWeek"), week, rollupKey);
+}
+
+/** The primary-time total for paid work at the actor's age. */
+function writePrimaryTime(a: Priced) {
+  const { batch, r, input, work, data, date, zero, one, actorView, stored } = a;
   const ageRows = r.array(r.field(data, "activityAgeRows"), zero, one),
     age = ageOnDate(actorView.birthDate, date);
   const ageRow = ageRows.find(
@@ -1121,6 +1315,27 @@ export function recordWorkAttendance(
     ),
     source: priorActivity ? r.field(priorActivity, "source") : stored.source,
   });
+}
+
+/** The payroll ledger, the earned pay period and its indexes. */
+function writePeriod(a: Priced) {
+  const {
+    play,
+    batch,
+    r,
+    work,
+    zero,
+    one,
+    commitment,
+    detailed,
+    resolved,
+    periodId,
+    periods,
+    ledger,
+    originalPeriod,
+    earned,
+    stored,
+  } = a;
   batch.map(ledger, commitment.id, detached(r, earned.ledger));
   // The basis is kept only on a detailed period, so only then is it copied.
   const lastAttendanceBasis = detailed ? omitDecision(stored) : undefined;
@@ -1160,6 +1375,28 @@ export function recordWorkAttendance(
   )
     throw new Error("Original earned period/due index ownership disagrees.");
   batch.index(dueIndex, resolved.dueAt, periodId);
+}
+
+/** The attendance act's trace and what the worker knows of it, kept only when the attendance is watched. */
+function writeTrace(a: Priced) {
+  const {
+    core,
+    play,
+    batch,
+    r,
+    input,
+    date,
+    zero,
+    one,
+    actorView,
+    ownedCalendarId,
+    detailed,
+    offer,
+    selectedId,
+    sourceActId,
+    periodId,
+    stored,
+  } = a;
   if (detailed) {
     const logs = r.field(core, "durableLog");
     if (r.mapHas(logs, sourceActId))
@@ -1211,6 +1448,10 @@ export function recordWorkAttendance(
     });
     batch.map(r.field(core, "knowledgeByPerson"), actorView.id, nextKnown);
   }
-  batch.commit(controlSnapshot);
-  return caller;
 }
+
+type Read = ReturnType<typeof readAttendance>;
+type Viewed = Read & ReturnType<typeof viewCommitment>;
+type Owned = Viewed & ReturnType<typeof bindOwner>;
+type Decided = Owned & ReturnType<typeof admitDecision>;
+type Priced = Decided & ReturnType<typeof priceAttendance>;

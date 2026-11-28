@@ -19,6 +19,6 @@ claimed-at: 2026-10-20T07:43:23.614Z
 
 **Done when.** auditCore2Tripwires over the repository reports zero diagnostics in the stopgap-location-mismatch, stale-stopgap-entry, stopgap-entry-fields, stopgap-entry-status, stopgap-entry-line and unregistered-source-marker classes, with the counts per class in the PR body and the tripwires test passing.
 
-**Files.** src/core2/data/stopgaps.json, src/core2/tooling/tripwires.ts
+**Files.** src/core2/data/stopgaps.json, scripts/core2/tooling/tripwires.ts
 
 **Notes.** Found Oct 20 (claude, session 016wegiN8JnX2MQwcojrnX87) while registering stopgaps for #5555 and #5557, whose own rows I checked against the audit and corrected.

@@ -19,6 +19,6 @@ claimed-at: 2026-11-05T10:11:37.080Z
 
 **Done when.** Gap report county-area count falls from 646 to none; place-map tests pass
 
-**Files.** src/core2/data/places/place-county-by-point.json, src/core2/tooling/place-map-build.ts
+**Files.** src/core2/data/places/place-county-by-point.json, scripts/core2/tooling/place-map-build.ts
 
 **Notes.** TODO

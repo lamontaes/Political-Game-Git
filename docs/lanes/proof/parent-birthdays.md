@@ -59,7 +59,7 @@ Every year is within 20% of the same-machine base; the largest increase is 0.6% 
 
 ## Baseline timeout resolved
 
-The initial golden-path run passed twenty accepted specs, then M1-11 exhausted its remaining 29709ms in the suite-wide 450000ms budget. Replayed separately on corrected source, with the same Piney Mountain, Virginia place (5162738) and world seed bc3f68c98ddb7a2635d7314443dbe6753441e4df8516b3b50ef10c91a73be08d: drives-economy.test.ts passed 5 tests (16.7s), and src/bench/m1-11-check.ts passed its played year (69.4s). No test or timeout changed. Logs: /tmp/lane-2-m1-11-{0,1}.log.
+The initial golden-path run passed twenty accepted specs, then M1-11 exhausted its remaining 29709ms in the suite-wide 450000ms budget. Replayed separately on corrected source, with the same Piney Mountain, Virginia place (5162738) and world seed bc3f68c98ddb7a2635d7314443dbe6753441e4df8516b3b50ef10c91a73be08d: drives-economy.test.ts passed 5 tests (16.7s), and scripts/bench/m1-11-check.ts passed its played year (69.4s). No test or timeout changed. Logs: /tmp/lane-2-m1-11-{0,1}.log.
 
 ## Still required for the path
 

@@ -9,7 +9,7 @@ import {
   type FilingRow,
 } from "../core2/modules/elections";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
-import { partySide } from "../core2/appointments";
+import { partySide } from "../core2/party-sides";
 import { coreAPI } from "../core2/state";
 import { buildBenchWorld } from "./world";
 

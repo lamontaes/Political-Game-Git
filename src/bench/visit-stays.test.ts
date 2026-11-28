@@ -65,7 +65,8 @@ it("a visit lasts through a talk, ends on going home and ends with the day", asy
   for (const other of others.slice(0, 20)) {
     const opened = await ask("POST", `/api/talk/open?otherId=${other}`);
     expect(opened.status, where).toBe(200);
-    const said = (opened.json.lines ?? []).length;
+    // A talk with no line is no talk (owner, Nov 1): the open answers null.
+    const said = (opened.json?.lines ?? []).length;
     expect((await ask("POST", "/api/talk/leave")).status, where).toBe(200);
     if (said) break;
   }

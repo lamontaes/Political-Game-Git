@@ -20,6 +20,6 @@ claimed-at: 2026-10-19T20:03:40.389Z
 
 **Done when.** The check in a drawn place with `buildBenchWorld` reports step 9 with the record id of the read (the engine, the record, the amount or rule it changed) and no place counts step 9 on the took-effect event alone; a test under `tests/golden-path/` builds a law with no reader and asserts step 9 is not reached. The owner plays it: after his law passes, he can see what it changed.
 
-**Files.** src/bench/reached.ts, src/bench/path-check.ts, tests/golden-path/
+**Files.** src/bench/reached.ts, tests/golden-path/path-check.ts, tests/golden-path/
 
 **Notes.** Child of play-golden-path-one-life; can land first on its own.
