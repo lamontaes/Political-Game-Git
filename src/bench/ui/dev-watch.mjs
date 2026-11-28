@@ -189,7 +189,7 @@ export async function devWatchSections({ labels, playerId }) {
       textContent: `${labels.furthest} ${progress.furthestReachedStep ?? labels.none} · ${progress.date}`,
     }),
     el("p", {
-      textContent: `${labels.wholePath}: ${specsText(progress.wholePathSpecs, labels)}`,
+      textContent: `${labels.specs}: ${specsText(progress.wholePathSpecs, labels)}`,
     }),
     el(
       "div",

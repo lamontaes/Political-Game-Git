@@ -33,7 +33,7 @@ import {
   standForPost,
   voteForPost,
 } from "./modules/leadership";
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";

@@ -888,7 +888,6 @@
         "src/core2/modules/people.ts",
         "src/core2/modules/residents.ts",
         "src/core2/modules/life.ts",
-        "src/core2/modules/housing.ts",
         "src/core2/modules/health.ts",
         "src/core2/modules/coverage.ts",
         "src/core2/modules/partnerships.ts",
@@ -898,7 +897,6 @@
         "src/core2/views-keys.ts",
         "src/core2/hearer-groups.ts",
         "src/core2/household-cost.ts",
-        "src/core2/housing-status-event.ts",
         "src/core2/moved-away-event.ts",
         "src/core2/husk-promoters.ts",
         "src/core2/closeness.ts",
@@ -909,9 +907,16 @@
         "src/core2/life-stake-rule.ts",
         "src/core2/coverage-module-id.ts",
         "src/core2/modules/promises.ts",
+        "src/core2/counted-money.ts",
+        "src/core2/counted-groups.ts",
+        "src/core2/residents-economy.ts",
+        "src/core2/residents.ts",
+        "src/core2/births-counted.ts",
+        "src/core2/modules/counted-moves.ts",
         "src/core2/modules/views-constants.ts",
         "src/core2/sitting-closeness.ts",
-        "src/core2/counted-income-fifth.ts"
+        "src/core2/counted-income-fifth.ts",
+        "src/core2/household-income.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -923,13 +928,11 @@
         "src/core2/returned-members-move.ts",
         "src/core2/modules/counted-demotion.ts",
         "src/core2/modules/health.ts",
-        "src/core2/modules/housing.ts",
         "src/core2/modules/school.ts",
         "src/core2/modules/drives.ts",
         "src/core2/modules/trait-change.ts",
         "src/core2/modules/resting-stress.ts",
         "src/core2/modules/retirement-claims.ts",
-        "src/core2/modules/homeless-count.ts",
         "src/core2/modules/coverage.ts",
         "src/core2/modules/views.ts",
         "src/core2/stance-listeners.ts",
@@ -946,8 +949,6 @@
         "src/core2/trait-*.ts",
         "src/core2/trait-effects/**",
         "src/core2/household-*.ts",
-        "src/core2/housing-*.ts",
-        "src/core2/hud-rents.ts",
         "src/core2/health-hazard.ts",
         "src/core2/health-own.ts",
         "src/core2/medical-bills.ts",
@@ -1006,7 +1007,6 @@
         "src/core2/life-stakes.ts",
         "src/core2/coverage-module-id.ts",
         "src/core2/modules/promises.ts",
-        "src/core2/housing-construction-constants.ts",
         "src/core2/modules/views-constants.ts",
         "src/core2/residents-constants.ts",
         "src/core2/attack-grudge.test.ts",
@@ -1073,7 +1073,6 @@
         "src/core2/home-price-level.test.ts",
         "src/core2/home-sale-outside-lender.test.ts",
         "src/core2/home-sale.test.ts",
-        "src/core2/housing.test.ts",
         "src/core2/income-award-follows-person.test.ts",
         "src/core2/integrity-traits-played.traits.test.ts",
         "src/core2/journal-facade.test.ts",
@@ -1135,7 +1134,6 @@
         "src/core2/relatives-distinct-names.test.ts",
         "src/core2/renewal-snapshot.test.ts",
         "src/core2/renewal.test.ts",
-        "src/core2/renter-housing-pull.test.ts",
         "src/core2/representative-sample.test.ts",
         "src/core2/resting-stress.test.ts",
         "src/core2/results-mode-life.test.ts",
@@ -1174,6 +1172,29 @@
         "src/core2/medical-payer-parts.test.ts",
         "src/core2/moves-minors.test.ts",
         "src/core2/rerate-counted-job.test.ts"
+      ]
+    },
+    {
+      "id": "homes",
+      "name": "Homes and the housing market",
+      "entry": [
+        "src/core2/modules/housing.ts",
+        "src/core2/modules/homeless-count.ts",
+        "src/core2/housing-status-event.ts",
+        "src/core2/hud-rents.ts",
+        "src/core2/housing-homeless.ts",
+        "src/core2/housing-sale.ts",
+        "src/core2/housing-property-tax.ts",
+        "src/core2/housing-mortgages.ts",
+        "src/core2/housing-reads.ts"
+      ],
+      "paths": [
+        "src/core2/modules/housing.ts",
+        "src/core2/modules/homeless-count.ts",
+        "src/core2/housing-*.ts",
+        "src/core2/hud-rents.ts",
+        "src/core2/housing.test.ts",
+        "src/core2/renter-housing-pull.test.ts"
       ]
     },
     {
@@ -1226,6 +1247,11 @@
         "src/core2/output-number-readers.ts",
         "src/core2/player-warm-up.ts",
         "src/core2/national-disaster-record.ts",
+        "src/core2/player-v1.ts",
+        "src/core2/player-stops-v1.ts",
+        "src/core2/modules/world-metrics.ts",
+        "src/core2/modules/disasters.ts",
+        "src/core2/coarse-place.ts",
         "src/districts/**"
       ],
       "paths": [

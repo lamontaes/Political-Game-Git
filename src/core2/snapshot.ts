@@ -344,6 +344,21 @@ export function decoder(): (
 }
 
 /**
+ * Every runtime part this world saves: the ones engines registered by id, then
+ * the ones the installed modules carry (`CoreModule.snapshotParts`), in install
+ * order.
+ */
+function partsOf(core: CoreState): [string, SnapshotPart][] {
+  const out = [...parts];
+  for (const carried of fieldsOf(core, "snapshotParts"))
+    for (const entry of Object.entries(carried)) out.push(entry);
+  for (const carried of fieldsOf(core, "worldMapParts"))
+    for (const [id, { map, rebuild }] of Object.entries(carried))
+      out.push([id, worldMapPart(map, rebuild)]);
+  return out;
+}
+
+/**
  * What a world keeps between days, in the three sections a snapshot saves:
  * the core's records (less what the recipe rebuilds), every engine's tables
  * and every engine's runtime part. Dev mode's records proof
@@ -358,7 +373,7 @@ export function worldRecords(core: CoreState): {
   for (const [key, value] of Object.entries(core))
     if (!REBUILT.has(key)) record[key] = value;
   const saved: Record<string, unknown> = {};
-  for (const [id, part] of parts) saved[id] = part.save(core);
+  for (const [id, part] of partsOf(core)) saved[id] = part.save(core);
   return { core: record, modules: moduleStateStores(core), parts: saved };
 }
 
@@ -405,7 +420,7 @@ export function restoreWorld(core: CoreState, snapshot: WorldSnapshot): void {
     string,
     unknown
   >;
-  for (const [id, part] of parts)
+  for (const [id, part] of partsOf(core))
     if (id in savedParts) part.restore(core, savedParts[id]);
     else part.missing?.(core);
   for (const map of derivedCaches) map.delete(core);
@@ -441,12 +456,11 @@ export function registerDerivedCache(map: WeakMap<CoreState, unknown>): void {
  * A runtime kept in a WeakMap keyed by the world, saved as one part. With
  * `rebuild`, a save that holds no such part gets one built from its records.
  */
-export function registerWorldMapPart<T>(
-  id: string,
+export function worldMapPart<T>(
   map: WeakMap<CoreState, T>,
   rebuild?: (core: CoreState) => T | undefined,
-): void {
-  registerSnapshotPart(id, {
+): SnapshotPart {
+  return {
     save: (core) => map.get(core),
     restore: (core, data) => {
       if (data === undefined || data === null) map.delete(core);
@@ -460,5 +474,13 @@ export function registerWorldMapPart<T>(
         else map.set(core, rebuilt);
       },
     }),
-  });
+  };
+}
+
+export function registerWorldMapPart<T>(
+  id: string,
+  map: WeakMap<CoreState, T>,
+  rebuild?: (core: CoreState) => T | undefined,
+): void {
+  registerSnapshotPart(id, worldMapPart(map, rebuild));
 }

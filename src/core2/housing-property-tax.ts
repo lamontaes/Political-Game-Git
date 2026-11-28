@@ -6,8 +6,8 @@
  * faster than the cap (a home bought since is assessed at its price).
  *
  * The rate, the cap and who's paid come from the law in force (OPUS-GOV's
- * `lawInForce(api, "property-tax")` and the county's treasury), registered
- * with `registerPropertyTax` by the budgets engine. Where none is registered
+ * `lawInForce(api, "property-tax")` and the county's treasury), carried by the
+ * budgets engine as its `propertyTax` field. Where no engine carries one
  * nothing is billed. The state's average effective rate still sizes the
  * opening's outside living cost (`stateEffectiveRate`).
  */
@@ -15,6 +15,7 @@ import taxData from "./data/housing/property-tax.json" with { type: "json" };
 import { countedHouseholdStands, countedPayment } from "./counted-money";
 import { lawApplied } from "./law-reach/applied";
 import type { ModuleTable } from "./module-state";
+import { fieldsOf } from "./module-fields";
 import { isoDateFromParts, lastDayOfMonth, weekdayOf } from "./kernel/dates";
 import { townOutsideOf } from "./opening-outside-market";
 import { placeStateKey } from "./place-map";
@@ -47,16 +48,6 @@ export interface PropertyTaxArrearsRow {
 
 const ARREARS_PREFIX = "tax-arrears:";
 const UNNAMED_LAW = "property-tax:unnamed-law-row";
-
-type TermsSource = (
-  api: CoreAPI,
-  placeId: string,
-) => PropertyTaxTerms | undefined;
-let termsSource: TermsSource | undefined;
-
-export function registerPropertyTax(source: TermsSource): void {
-  termsSource = source;
-}
 
 const RATES = taxData.byState as Record<string, number>;
 
@@ -143,7 +134,7 @@ export function propertyTaxRateInForce(
 ): { share: number; recordId: string | null } | null {
   // The rate in force is the town's law; other places are not billed by it.
   if (api.state.placeMetadata?.housingTown !== placeId) return null;
-  const registered = termsSource?.(api, placeId);
+  const registered = terms(api, placeId);
   return registered
     ? { share: registered.rate, recordId: registered.lawRowId ?? null }
     : null;
@@ -151,7 +142,11 @@ export function propertyTaxRateInForce(
 
 /** The rate, cap and payee in force; none where no law is registered (the budgets engine registers it from the law in force). */
 function terms(api: CoreAPI, placeId: string): PropertyTaxTerms | undefined {
-  return termsSource?.(api, placeId);
+  for (const source of fieldsOf(api.state, "propertyTax")) {
+    const found = source(api, placeId);
+    if (found) return found;
+  }
+  return undefined;
 }
 
 interface AssessmentRow {

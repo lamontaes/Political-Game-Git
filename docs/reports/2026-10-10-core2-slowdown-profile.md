@@ -230,9 +230,9 @@ Seconds in the profiled run. File and line come from the AFTER tree; a few share
 | 1   | (root) :0                                               |     42.4 |   103.1 |   +60.6 |
 | 2   | evaluate :0                                             |     34.4 |    86.0 |   +51.6 |
 | 3   | run (node:internal/modules/esm/module_job)              |     34.4 |    86.0 |   +51.6 |
-| 4   | main `scripts/core2/tooling/drives-proof.ts:268`            |     33.7 |    85.4 |   +51.7 |
-| 5   | (anonymous) `scripts/core2/tooling/drives-proof.ts`         |     33.7 |    85.4 |   +51.7 |
-| 6   | run `scripts/core2/tooling/drives-proof.ts:50`              |     27.5 |    78.8 |   +51.3 |
+| 4   | main `scripts/core2/tooling/drives-proof.ts:268`        |     33.7 |    85.4 |   +51.7 |
+| 5   | (anonymous) `scripts/core2/tooling/drives-proof.ts`     |     33.7 |    85.4 |   +51.7 |
+| 6   | run `scripts/core2/tooling/drives-proof.ts:50`          |     27.5 |    78.8 |   +51.3 |
 | 7   | advanceCore `src/core2/life.ts:276`                     |     27.1 |    78.3 |   +51.2 |
 | 8   | runScheduledWork `src/core2/modules/work.ts:307`        |      1.8 |    54.3 |   +52.5 |
 | 9   | settleWorkResult `src/core2/state.ts:724`               |      0.8 |    51.5 |   +50.7 |
