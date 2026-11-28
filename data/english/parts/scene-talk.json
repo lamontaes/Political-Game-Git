@@ -89323,6 +89323,2297 @@
         "key": "election-day"
       },
       "elements": ["mayor-wins-by-dozens-and-the-recount-grows-it"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-the-chair-of-the-party-party-is-at-the-door-when-you-open-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name}, the chair of the {party} Party, is at the door when you open it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-waiting-on-the-porch-when-you-open-the-door",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is waiting on the porch when you open the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-knocks-and-you-let-the-chair-of-the-party-party-into-the-front-room",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} knocks, and you let the chair of the {party} Party into the front room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-seeing-me-i-m-here-for-the-party-party",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for seeing me. I'm here for the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-be-quick-it-s-about-office",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll be quick. It's about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.open-greet.have-you-got-a-few-minutes-it-s-about-the-party-party-and-office",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Have you got a few minutes? It's about the {party} Party and {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["party", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.state-request.nobody-on-our-side-has-filed-for-office-will-you-run",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Nobody on our side has filed for {office}. Will you run?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.state-request.the-party-party-has-no-one-on-the-ballot-for-office-we-d-like-it-to-be-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The {party} Party has no one on the ballot for {office}. We'd like it to be you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["party", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      },
+      "elements": [
+        "a-party-starts-recruiting-for-a-seat",
+        "the-recruit-is-eager-and-able"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.people-in-place-know-you-and-you-re-one-of-ours-would-you-run-for-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "People in {place} know you, and you're one of ours. Would you run for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["place", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.state-request.we-looked-at-who-could-carry-office-for-the-party-party-and-your-name-kept-comin",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We looked at who could carry {office} for the {party} Party, and your name kept coming up. Will you put it on the ballot?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-running-for-office-take",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would running for {office} take?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "run-asked"
+      },
+      "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-i-be-signing-up-for-with-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would I be signing up for with {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "run-asked"
+      },
+      "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-the-party-party-do-for-someone-who-runs",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does the {party} Party do for someone who runs?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "run-asked"
+      },
+      "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-ll-run-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. I'll run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.reply-agree.put-my-name-down-for-office-i-ll-run",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Put my name down for {office}. I'll run.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.reply-agree.if-the-party-party-needs-a-name-on-the-ballot-you-can-have-mine",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "If the {party} Party needs a name on the ballot, you can have mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-run-for-office-not-this-time",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't run for {office}. Not this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-not-the-right-one-for-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm not the right one for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-glad-the-party-party-thought-of-me-but-the-answer-is-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm glad the {party} Party thought of me, but the answer is no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-talk-it-over-at-home-before-i-say-anything-about-office",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me talk it over at home before I say anything about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "stall",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-few-days-to-think-about-office",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a few days to think about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "stall",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-stall.i-d-have-to-see-what-running-for-office-would-do-to-my-own-work-first",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'd have to see what running for {office} would do to my own work first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "stall",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.follow-answer.you-file-your-papers-for-office-and-the-party-party-helps-with-the-rest",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You file your papers for {office}, and the {party} Party helps with the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["office", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "run-asked"
+      },
+      "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+    },
+    {
+      "key": "scene-talk.follow-answer.mostly-it-s-filing-for-office-then-talking-to-the-people-of-place-we-ll-walk-you",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Mostly it's filing for {office}, then talking to the people of {place}. We'll walk you through it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["office", "place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "run-asked"
+      },
+      "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+    },
+    {
+      "key": "scene-talk.follow-answer.get-your-papers-in-for-office-before-filing-closes-the-party-party-will-do-the-r",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Get your papers in for {office} before filing closes. The {party} Party will do the rest alongside you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["office", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "run-asked"
+      },
+      "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+    },
+    {
+      "key": "scene-talk.follow-thank.good-you-ll-have-the-party-party-behind-you-for-office",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. You'll have the {party} Party behind you for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["party", "office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-what-i-hoped-you-d-say-about-office",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's what I hoped you'd say about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.follow-press.if-nobody-runs-for-office-that-seat-goes-without-a-fight",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "If nobody runs for {office}, that seat goes without a fight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.follow-press.filing-for-office-won-t-stay-open-and-the-seat-needs-someone",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Filing for {office} won't stay open, and the seat needs someone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.follow-press.don-t-take-too-long-the-party-party-needs-a-name-for-office",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Don't take too long. The {party} Party needs a name for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "stall",
+          "requiresFacts": ["party", "office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-the-party-party-will-look-for-someone-else-for-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. The {party} Party will look for someone else for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["party", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-talk-it-over-and-let-me-know-about-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. Talk it over, and let me know about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "stall",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-agree.that-s-clear-enough-i-ll-run-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That's clear enough. I'll run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      },
+      "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+    },
+    {
+      "key": "scene-talk.reply-decline.thank-you-for-explaining-but-i-can-t-run-for-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Thank you for explaining, but I can't run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-get-back-to-my-day-thanks-for-asking-about-office",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should get back to my day. Thanks for asking about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-made-your-point-about-office-i-ll-run",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've made your point about {office}. I'll run.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-heard-all-of-it-and-the-answer-for-office-is-still-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I heard all of it, and the answer for {office} is still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go-i-ll-let-you-know-about-office",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. I'll let you know about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-tell-the-others-at-the-party-party-we-ll-be-in-touch",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll tell the others at the {party} Party. We'll be in touch.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-office-needed-someone-and-now-it-has-someone",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. {office} needed someone, and now it has someone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-back-you-the-whole-way-for-office",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll back you the whole way for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "promise",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.close-promise.the-party-party-will-be-there-for-you-from-here-to-election-day",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "The {party} Party will be there for you from here to election day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "promise",
+        "key": "run-asked"
+      },
+      "elements": ["the-recruit-is-eager-and-able"]
+    },
+    {
+      "key": "scene-talk.close-accept.no-hard-feelings-maybe-next-time-for-office",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "No hard feelings. Maybe next time, for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "outcome": "refused",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-the-party-party-will-remember-you-were-asked",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I understand. The {party} Party will remember you were asked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "outcome": "refused",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.close-warn.we-ll-find-someone-else-for-office-i-hoped-it-would-be-you",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "We'll find someone else for {office}. I hoped it would be you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "refused",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.close-warn.every-day-you-wait-is-a-day-the-party-party-doesn-t-have",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Every day you wait is a day the {party} Party doesn't have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "open",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.close-press.don-t-take-too-long-filing-for-office-is-open-now",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Don't take too long. Filing for {office} is open now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.close-press.think-it-over-and-call-me-the-party-party-needs-an-answer-soon",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think it over, and call me. The {party} Party needs an answer soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "outcome": "open",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-the-offer-for-office-stands-while-filing-is-open",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on. The offer for {office} stands while filing is open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.close-accept.of-course-call-me-when-you-ve-decided-about-office",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Of course. Call me when you've decided about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-the-party-party-office-open-and-has-set-out-a-chair-for-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has the {party} Party office open and has set out a chair for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-step-into-the-party-party-office-and-name-looks-up-from-the-desk",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You step into the {party} Party office, and {name} looks up from the desk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-pushes-the-party-party-sign-in-sheet-across-the-desk-as-you-come-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} pushes the {party} Party sign-in sheet across the desk as you come in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "narrate",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.open-greet.come-in-welcome-to-the-party-party",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Come in. Welcome to the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.open-greet.there-you-are-sit-down-and-welcome-to-the-party-party",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "There you are. Sit down, and welcome to the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "greet",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.state-request.welcome-most-people-sign-up-and-we-never-see-them-again-can-we-count-on-you-to-p",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Welcome. Most people sign up and we never see them again. Can we count on you to pitch in for the {party} Party now and then?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.state-request.i-m-glad-you-came-by-would-you-lend-the-party-party-a-hand-when-we-need-one",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm glad you came by. Would you lend the {party} Party a hand when we need one?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.state-request.our-volunteers-keep-the-party-party-running-in-place-can-we-count-on-you-for-an",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Our volunteers keep the {party} Party running in {place}. Can we count on you for an evening or two?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["party", "place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "request",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-put-me-down-for-the-party-party",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, put me down for the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-agree.count-me-in-i-ll-pitch-in-for-the-party-party-when-you-call",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Count me in. I'll pitch in for the {party} Party when you call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-the-party-party-actually-do-around-place",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does the {party} Party actually do around {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["party", "place"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-the-party-party-need-from-me",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would the {party} Party need from me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "ask",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-see-how-it-goes-with-the-party-party-first",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me see how it goes with the {party} Party first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "deflect",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-d-like-to-learn-what-the-party-party-does-before-i-promise-anything",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'd like to learn what the {party} Party does before I promise anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "deflect",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-thank.good-it-means-a-lot-to-have-you-with-the-party-party",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. It means a lot to have you with the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-what-i-like-to-hear-welcome-aboard-the-party-party",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's what I like to hear. Welcome aboard the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-press.even-one-evening-before-the-election-would-help-the-party-party",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Even one evening before the election would help the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "deflect",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-press.we-run-on-people-who-show-up-one-evening-would-mean-a-lot-to-the-party-party",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We run on people who show up. One evening would mean a lot to the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "deflect",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-the-door-to-the-party-party-office-is-open-when-you-re-ready",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. The door to the {party} Party office is open when you're ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "deflect",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-accept.no-pressure-come-by-the-party-party-office-when-you-can",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "No pressure. Come by the {party} Party office when you can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "deflect",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-answer.we-hold-office-held-and-we-mean-to-keep-it-mostly-that-s-knocking-on-doors-an-ev",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We hold {office-held}, and we mean to keep it. Mostly that's knocking on doors. An evening of yours helps more than you'd think.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["office-held"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-answer.we-ve-got-office-held-and-we-work-to-keep-it-come-knock-on-doors-with-us-when-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We've got {office-held}, and we work to keep it. Come knock on doors with us when it's time, or chip in what you can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["office-held"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-answer.we-ve-got-somebody-running-for-race-run-this-time-knock-on-doors-with-them-chip",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We've got somebody running for {race-run} this time. Knock on doors with them, chip in, or just show up at an event.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["race-run"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-answer.right-now-it-s-the-race-run-race-come-out-and-knock-on-doors-for-our-candidate-o",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Right now it's the {race-run} race. Come out and knock on doors for our candidate, or give what you can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["race-run"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.follow-answer.the-party-party-doesn-t-hold-anything-around-here-yet-that-s-why-we-need-people",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The {party} Party doesn't hold anything around here yet. That's why we need people who'll knock on doors and show up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["party-holds-nothing", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.follow-answer.not-much-yet-we-don-t-hold-a-seat-here-if-you-ll-knock-on-doors-with-me-for-the",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Not much, yet. We don't hold a seat here. If you'll knock on doors with me for the {party} Party, that's where it starts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["party-holds-nothing", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      },
+      "elements": ["a-party-starts-recruiting-for-a-seat"]
+    },
+    {
+      "key": "scene-talk.reply-agree.that-s-more-than-i-expected-put-me-down-for-the-party-party",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That's more than I expected. Put me down for the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ll-think-about-what-i-can-give-the-party-party",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll think about what I can give the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "deflect",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-agree.you-re-right-i-ll-come-out-for-the-party-party",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You're right. I'll come out for the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "agree",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-get-going-thanks-for-the-welcome-to-the-party-party",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should get going. Thanks for the welcome to the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-call-you-when-something-comes-up-good-to-have-you-in-the-party-party",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll call you when something comes up. Good to have you in the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-put-your-name-on-the-party-party-list-we-re-glad-you-re-here",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll put your name on the {party} Party list. We're glad you're here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-keep-you-posted-on-what-the-party-party-is-doing",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll keep you posted on what the {party} Party is doing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "promise",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-the-party-party-will-need-people-soon",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it. The {party} Party will need people soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "outcome": "open",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "press",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.close-warn.we-could-use-you-i-hoped-you-d-say-yes-to-the-party-party",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "We could use you. I hoped you'd say yes to the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "open",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-wait-too-long-there-s-plenty-to-do-for-the-party-party",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't wait too long. There's plenty to do for the {party} Party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "open",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (W1, deciding to run)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "warn",
+        "key": "welcomed"
+      },
+      "elements": ["pastor-recruits-by-saying-someone-has-to-step-up"]
     }
   ]
 }

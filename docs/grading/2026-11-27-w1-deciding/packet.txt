@@ -1,0 +1,92 @@
+
+## the ask (composed with stand-in facts: Republican, the state senate, Rainelle)
+  narrator: Pat Rivera knocks, and you let the chair of the Republican Party into the front room.
+  asker: People in Rainelle know you, and you're one of ours. Would you run for the state senate?
+  > [ask] What would I be signing up for with the state senate?
+      asker: You file your papers for the state senate, and the Republican Party helps with the rest.
+      > [agree] That's clear enough. I'll run for the state senate.
+          asker: Good. You'll have the Republican Party behind you for the state senate.
+            (ends: resolved)
+      > [decline] Thank you for explaining, but I can't run for the state senate.
+          asker: I understand. The Republican Party will look for someone else for the state senate.
+            (ends: refused)
+      > [leave] I should get back to my day. Thanks for asking about the state senate.
+            (close, open) Go on. The offer for the state senate stands while filing is open.
+  > [agree] Put my name down for the state senate. I'll run.
+      asker: Good. You'll have the Republican Party behind you for the state senate.
+        (ends: resolved)
+  > [decline] I'm not the right one for the state senate.
+      asker: I understand. The Republican Party will look for someone else for the state senate.
+        (ends: refused)
+  > [stall] Let me talk it over at home before I say anything about the state senate.
+      asker: Fair enough. Talk it over, and let me know about the state senate.
+        (ends: resolved)
+
+## the ask (composed with stand-in facts: Democratic, the county commission, Vanlue)
+  narrator: Pat Rivera knocks, and you let the chair of the Democratic Party into the front room.
+  asker: People in Vanlue know you, and you're one of ours. Would you run for the county commission?
+  > [ask] What would I be signing up for with the county commission?
+      asker: You file your papers for the county commission, and the Democratic Party helps with the rest.
+      > [agree] That's clear enough. I'll run for the county commission.
+          asker: Good. You'll have the Democratic Party behind you for the county commission.
+            (ends: resolved)
+      > [decline] Thank you for explaining, but I can't run for the county commission.
+          asker: I understand. The Democratic Party will look for someone else for the county commission.
+            (ends: refused)
+      > [leave] I should get back to my day. Thanks for asking about the county commission.
+            (close, open) Go on. The offer for the county commission stands while filing is open.
+  > [agree] Put my name down for the county commission. I'll run.
+      asker: Good. You'll have the Democratic Party behind you for the county commission.
+        (ends: resolved)
+  > [decline] I'm not the right one for the county commission.
+      asker: I understand. The Democratic Party will look for someone else for the county commission.
+        (ends: refused)
+  > [stall] Let me talk it over at home before I say anything about the county commission.
+      asker: Fair enough. Talk it over, and let me know about the county commission.
+        (ends: resolved)
+
+## the welcome, Vanlue, Ohio, US-OH (3979534), run seed w1-welcome:0, place seed d7927516f03aa2f368f2ac16a22948c8c42e05bb767ef803d0e08a259507bc5b, Democratic
+  narrator: Sonia pushes the Democratic Party sign-in sheet across the desk as you come in.
+  asker: There you are. Sit down, and welcome to the Democratic Party.
+  asker: Our volunteers keep the Democratic Party running in Vanlue. Can we count on you for an evening or two?
+  > [agree] Count me in. I'll pitch in for the Democratic Party when you call.
+      asker: Good. It means a lot to have you with the Democratic Party.
+        (ends: resolved)
+  > [ask] What does the Democratic Party actually do around Vanlue?
+      asker: We hold a seat on the Vanlue Village Council, and we mean to keep it. Mostly that's knocking on doors. An evening of yours helps more than you'd think.
+      > [agree] That's more than I expected. Put me down for the Democratic Party.
+          asker: That's what I like to hear. Welcome aboard the Democratic Party.
+            (ends: resolved)
+      > [deflect] I'll think about what I can give the Democratic Party.
+          asker: No pressure. Come by the Democratic Party office when you can.
+            (ends: resolved)
+  > [deflect] Let me see how it goes with the Democratic Party first.
+      asker: Fair enough. The door to the Democratic Party office is open when you're ready.
+        (ends: resolved)
+
+## the welcome, Stella, Puerto Rico, US-PR (7280596), run seed w1-welcome:1, place seed 482ea5e2b7b88c6eac88d8e391c373dcc269356627af65a78afe308313733515, Partido Nuevo Progresista
+  narrator: Kenneth has the Partido Nuevo Progresista Party office open and has set out a chair for you.
+  asker: Come in. Welcome to the Partido Nuevo Progresista Party.
+  asker: Our volunteers keep the Partido Nuevo Progresista Party running in Stella. Can we count on you for an evening or two?
+  > [agree] Yes, put me down for the Partido Nuevo Progresista Party.
+      asker: That's what I like to hear. Welcome aboard the Partido Nuevo Progresista Party.
+        (ends: resolved)
+  > [ask] What does the Partido Nuevo Progresista Party actually do around Stella?
+      asker: We've got a seat on the Rincón Municipal Legislature, and we work to keep it. Come knock on doors with us when it's time, or chip in what you can.
+      > [agree] That's more than I expected. Put me down for the Partido Nuevo Progresista Party.
+          asker: Good. It means a lot to have you with the Partido Nuevo Progresista Party.
+            (ends: resolved)
+      > [deflect] I'll think about what I can give the Partido Nuevo Progresista Party.
+          asker: We run on people who show up. One evening would mean a lot to the Partido Nuevo Progresista Party.
+          > [agree] You're right. I'll come out for the Partido Nuevo Progresista Party.
+              asker: That's what I like to hear. Welcome aboard the Partido Nuevo Progresista Party.
+                (ends: resolved)
+          > [leave] I should get going. Thanks for the welcome to the Partido Nuevo Progresista Party.
+                (close, open) Don't wait too long. There's plenty to do for the Partido Nuevo Progresista Party.
+  > [deflect] I'd like to learn what the Partido Nuevo Progresista Party does before I promise anything.
+      asker: We run on people who show up. One evening would mean a lot to the Partido Nuevo Progresista Party.
+      > [agree] You're right. I'll come out for the Partido Nuevo Progresista Party.
+          asker: Good. It means a lot to have you with the Partido Nuevo Progresista Party.
+            (ends: resolved)
+      > [leave] I should get going. Thanks for the welcome to the Partido Nuevo Progresista Party.
+            (close, open) We could use you. I hoped you'd say yes to the Partido Nuevo Progresista Party.

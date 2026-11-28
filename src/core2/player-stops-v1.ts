@@ -1,6 +1,6 @@
 /** Explicit module-owned stop records. Queries invoke no module or numeric callback. */
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { FinanceReadGuard } from "./budgets-treasury";
+import { FinanceReadGuard } from "./finance-plan";
 import { assertFactoryCoreV1 } from "./state";
 import type { CoreState, CoreModule, Source } from "./types";
 import type { WorkMomentV1 } from "./work-spans-v1";

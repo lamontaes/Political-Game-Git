@@ -4,6 +4,9 @@ import type { LawRowInput } from "../laws-starting";
 /** The laws engine's module id; `laws.ts` re-exports it for the engines that already import it there. */
 export const LAWS_MODULE_ID = "core2-laws-v1";
 
+/** The question list the law rows and the platforms answer; re-exported here so the past reads it through the laws entry. */
+export { POLICY_QUESTIONS } from "../policy-answers";
+
 /**
  * The laws engine's read doors: what every other engine, screen and scene asks
  * of the law table. A caller states what it wants, a law by its id, the laws of

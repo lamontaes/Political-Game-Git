@@ -4,6 +4,9 @@
 import { ageOnDate, isoDateFromParts, makeIsoDate } from "./kernel/dates";
 import type { SeededRng } from "./kernel/rng";
 
+/** The canonical name a person of a gender draws; re-exported so the past reads it through this people entry. */
+export { drawCanonicalNameForGender } from "./person-names";
+
 /** A calendar date, "YYYY-MM-DD", checked by `makeIsoDate`. */
 type IsoDate = ReturnType<typeof makeIsoDate>;
 
