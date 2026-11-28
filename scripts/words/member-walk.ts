@@ -5,7 +5,7 @@
  * a chair holding or being asked to hold a hearing (hearing-ask) and a desk visit. Development tooling for the Story
  * thread, shipped play never imports it; the shape of door-walk.ts, reusing walk-places.ts.
  *
- *   node --import tsx scripts/words/member-walk.ts --seed <word> [--label a] [--attempts 12] [--days 120]
+ *   node --import tsx scripts/words/member-walk.ts --seed <word> [--label a] [--attempts 12] [--days 120] [--bills 6] [--seat legislature-lower]
  *
  * The place is drawn from all 56 by seed and label. A resident who sits in a body brings a bill on the question the
  * town is most settled on that the body may decide (the shape of tests/src/director/press-comment-variants.test.ts),
@@ -20,7 +20,11 @@ import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
-import { castMemberVote } from "../../src/core2/modules/legislature";
+import {
+  castMemberVote,
+  committeeRecords,
+} from "../../src/core2/modules/legislature";
+import { townSeats } from "../../src/core2/modules/offices";
 import { electorateSides } from "../../src/core2/modules/voting";
 import { coreAPI } from "../../src/core2/state";
 import type { PersonId } from "../../src/core2/types";
@@ -96,10 +100,22 @@ const show = (result: ReturnType<typeof purposeScene>, head: string) => {
   return true;
 };
 
-const member = [...core.people.values()]
-  .filter((p) => p.alive && p.id.startsWith("person_"))
-  .sort((a, b) => a.id.localeCompare(b.id))
-  .find((p) => seatView(core, p.id).bodies.length > 0);
+/**
+ * `--seat legislature-lower` (or `governor`) plays the holder of that seat of the drawn place instead of a resident of a
+ * town board: a state legislature has committees, where a bill can be held and its sponsor can ask the chair.
+ */
+const wantSeat = option("seat", "");
+const seatHolder = wantSeat
+  ? townSeats(api).find(
+      (row) => row.office.kind === wantSeat && row.holder?.personId,
+    )?.holder?.personId
+  : undefined;
+const member = seatHolder
+  ? core.people.get(seatHolder as PersonId)
+  : [...core.people.values()]
+      .filter((p) => p.alive && p.id.startsWith("person_"))
+      .sort((a, b) => a.id.localeCompare(b.id))
+      .find((p) => seatView(core, p.id).bodies.length > 0);
 if (!member) walk.passOver(where, "no resident sits in a body");
 const me = member!.id as PersonId;
 core.playerId = me;
@@ -156,6 +172,24 @@ if (colleague) {
   }
 }
 console.log(`# COLLEAGUE BILL ${colleagueBill}`);
+// More bills of the member's own (`--bills`, default 1 in all): a committee holds the bills its chair stands against, and a
+// held bill names its sponsor, the cause of hearing-ask (a held bill's sponsor asks the chair); which bills are held is the
+// chair's stand on each question, so the walk brings several.
+const billsWanted = Number(option("bills", "1"));
+const brings: string[] = [bill.id];
+for (const question of questions) {
+  if (brings.length >= billsWanted) break;
+  if (question === brought) continue;
+  const more = seatAct(core, me, {
+    kind: "draft",
+    officeId: body.officeId,
+    question,
+    value: 1,
+  }) as { id: string; status: string };
+  if (more.status === "blocked") continue;
+  brings.push(more.id);
+  console.log(`# MEMBER BILL ${more.id} on ${question}`);
+}
 const townSides = electorateSides(api, brought);
 const side = townSides.yes >= townSides.no ? "no" : "yes";
 castMemberVote(api, bill.id, me, side);
@@ -199,6 +233,11 @@ for (let day = 0; day <= afterDays; day += 1) {
 sweep();
 console.log(
   `# bound but not composed: ${[...notComposed.entries()].map(([k, v]) => `${k} (${v} sweeps)`).join("; ") || "none"}`,
+);
+// What the committee did with the member's bill: heard or held, and who chaired it (a held bill's sponsor can ask the chair).
+const committee = brings.flatMap((id) => committeeRecords(api, id));
+console.log(
+  `# COMMITTEE on the member's bill: ${committee.map((c) => `${c.chamber} ${c.committee}: ${c.heard ? "heard" : "held"}, chair ${c.chairId}, reported ${String(c.reported)}`).join("; ") || "no committee record (the bill went straight to the floor)"}`,
 );
 const typesSeen = new Map<string, number>();
 for (const entry of book.schedule)
