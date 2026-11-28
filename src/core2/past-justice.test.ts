@@ -135,11 +135,12 @@ function checkTown(place: ReturnType<typeof drawPlace>, where: string): number {
           life.some((event) => event.id === row.id && event.life === "law"),
           `${row.id} is told in their life`,
         ).toBe(true);
-    // The card tells the arrest when its history holds a line for the arrest's own record
-    // (its words are the bank's to change, never this check's).
+    // The card tells the arrest when its history holds a line that tells the arrest's own record
+    // (its words are the bank's to change, never this check's). A stretch of life is one telling
+    // that keeps every record it joins in `records`, so a record counts when any line's records hold it.
     if (
-      knownCard(core, core.playerId!, person.id).history.some(
-        (line) => line.recordId === rows[0]!.id,
+      knownCard(core, core.playerId!, person.id).history.some((line) =>
+        line.records.includes(rows[0]!.id),
       )
     )
       toldOnCard += 1;

@@ -91,8 +91,10 @@ const contentRoot = app.isPackaged
  * with the art and data it reads beside it. It runs in a utility process,
  * because building a town holds a thread for tens of seconds and the window
  * must stay responsive; there is no network listener. It reads those files and
- * writes nothing, and the developer routes stay off. Started on the first
- * request so the window opens at once.
+ * writes only the saves and dev mode's proofs (both in the saves folder). The
+ * developer's build route stays off; dev mode's routes answer once the player
+ * turns dev mode on in Options. Started on the first request so the window
+ * opens at once.
  */
 const playApiRoot = app.isPackaged
   ? path.join(process.resourcesPath, "play-api")

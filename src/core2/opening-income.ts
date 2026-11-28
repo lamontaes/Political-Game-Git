@@ -185,15 +185,10 @@ function canonical(value: unknown): string | undefined {
 function same(left: unknown, right: unknown): boolean {
   return canonical(left) === canonical(right);
 }
-
-/**
- * Pure one-time opening retirement records. Generated WHO/PAST is explicit;
- * no current choice, transfer, payment, firm rescue or cash refill happens here.
- */
-export function buildOpeningRetirementIncome(
+function buildOpeningRetirementIncomeChecks(
   input: CoreInput,
   options: OpeningIncomeOptions = {},
-): OpeningIncomeBuild {
+) {
   const data = options.data ?? DEFAULT_OPENING_INCOME_DATA;
   const p = (key: string) => parameter(key, options.parameters ?? PARAMETERS);
   // The shared trait table, read with this build's parameters.
@@ -286,6 +281,45 @@ export function buildOpeningRetirementIncome(
     allPayers.set(row.id, row);
   }
   const places = unique(options.places ?? [], "place");
+  return {
+    data,
+    p,
+    traitData,
+    zero,
+    one,
+    months,
+    values,
+    opening,
+    marker,
+    minor,
+    sum,
+    source,
+    whole,
+    unique,
+    people,
+    households,
+    organizations,
+    jobs,
+    allPayers,
+    places,
+  };
+}
+
+function buildOpeningRetirementIncomeRecords(
+  fromChecks: ReturnType<typeof buildOpeningRetirementIncomeChecks>,
+) {
+  const {
+    zero,
+    people,
+    organizations,
+    sum,
+    minor,
+    opening,
+    households,
+    jobs,
+    source,
+    data,
+  } = fromChecks;
   const factsByPerson = new Map<string, Map<string, PastFact>>();
   const ownerByGeneratedFactId = new Map<string, string>();
   const addedFacts = new Map<string, PastFact[]>();
@@ -353,6 +387,35 @@ export function buildOpeningRetirementIncome(
       "original organization cash",
     );
   }
+  return {
+    factsByPerson,
+    ownerByGeneratedFactId,
+    addedFacts,
+    addedFactIds,
+    originalPeopleCash,
+    originalOrganizationCash,
+  };
+}
+
+function buildOpeningRetirementIncomeHelpers(
+  input: CoreInput,
+  fromChecks: ReturnType<typeof buildOpeningRetirementIncomeChecks>,
+  fromRecords: ReturnType<typeof buildOpeningRetirementIncomeRecords>,
+) {
+  const {
+    zero,
+    opening,
+    source,
+    data,
+    whole,
+    one,
+    months,
+    values,
+    marker,
+    places,
+  } = fromChecks;
+  const { factsByPerson, ownerByGeneratedFactId, addedFacts, addedFactIds } =
+    fromRecords;
 
   const calendarAfterMonths = (date: string, count: number): string => {
     whole(count, "calendar months");
@@ -436,6 +499,33 @@ export function buildOpeningRetirementIncome(
     places.set(placeId, row);
     return row;
   };
+  return {
+    calendarAfterMonths,
+    firstDue,
+    id,
+    priorSource,
+    latest,
+    addFact,
+    placeFor,
+  };
+}
+
+function buildOpeningRetirementIncomeRecipients(
+  options: OpeningIncomeOptions = {},
+  fromChecks: ReturnType<typeof buildOpeningRetirementIncomeChecks>,
+) {
+  const {
+    zero,
+    people,
+    minor,
+    opening,
+    data,
+    whole,
+    months,
+    values,
+    marker,
+    p,
+  } = fromChecks;
   const reportRows: OpeningIncomeRecipient[] = [];
   const incomes: RecordedMonthlyIncome[] = [];
   const generatedPayers = new Map<
@@ -526,6 +616,53 @@ export function buildOpeningRetirementIncome(
       throw new Error(`Conflicting generated payer opening stock: ${payer.id}`);
     makeIsoDate(evidence.startedAt ?? "");
   };
+  return {
+    reportRows,
+    incomes,
+    generatedPayers,
+    usedPayers,
+    explicitlyRecorded,
+    quiet,
+    qualified,
+    validateGeneratedPayer,
+  };
+}
+
+function buildOpeningRetirementIncomePersons(
+  input: CoreInput,
+  options: OpeningIncomeOptions = {},
+  fromChecks: ReturnType<typeof buildOpeningRetirementIncomeChecks>,
+  fromRecords: ReturnType<typeof buildOpeningRetirementIncomeRecords>,
+  fromHelpers: ReturnType<typeof buildOpeningRetirementIncomeHelpers>,
+  fromRecipients: ReturnType<typeof buildOpeningRetirementIncomeRecipients>,
+) {
+  const {
+    zero,
+    people,
+    sum,
+    minor,
+    opening,
+    source,
+    data,
+    one,
+    months,
+    values,
+    marker,
+    p,
+    allPayers,
+    traitData,
+  } = fromChecks;
+  const { factsByPerson } = fromRecords;
+  const { latest, calendarAfterMonths, id, priorSource, addFact, placeFor } =
+    fromHelpers;
+  const {
+    explicitlyRecorded,
+    incomes,
+    quiet,
+    qualified,
+    validateGeneratedPayer,
+    generatedPayers,
+  } = fromRecipients;
 
   for (const person of [...people.values()].sort((left, right) =>
     left.id.localeCompare(right.id),
@@ -812,6 +949,16 @@ export function buildOpeningRetirementIncome(
       source: awardFact.source,
     });
   }
+}
+
+function buildOpeningRetirementIncomePayers(
+  fromChecks: ReturnType<typeof buildOpeningRetirementIncomeChecks>,
+  fromHelpers: ReturnType<typeof buildOpeningRetirementIncomeHelpers>,
+  fromRecipients: ReturnType<typeof buildOpeningRetirementIncomeRecipients>,
+) {
+  const { zero, people, opening, data, marker, allPayers } = fromChecks;
+  const { priorSource } = fromHelpers;
+  const { generatedPayers } = fromRecipients;
 
   for (const [payerId, pool] of generatedPayers) {
     if (people.has(payerId))
@@ -842,6 +989,13 @@ export function buildOpeningRetirementIncome(
       },
     });
   }
+}
+
+function buildOpeningRetirementIncomeContracts(
+  input: CoreInput,
+  fromChecks: ReturnType<typeof buildOpeningRetirementIncomeChecks>,
+) {
+  const { unique } = fromChecks;
   const contracts = unique<OpeningIncomeContract>(
     input.finance?.contracts ?? [],
     "finance contract",
@@ -857,6 +1011,23 @@ export function buildOpeningRetirementIncome(
       throw new Error("Duplicate income contracts for the same award.");
     existingIncomeByAward.set(key, row);
   }
+  return { contracts, existingIncomeByAward };
+}
+
+function buildOpeningRetirementIncomePlan(
+  fromChecks: ReturnType<typeof buildOpeningRetirementIncomeChecks>,
+  fromRecords: ReturnType<typeof buildOpeningRetirementIncomeRecords>,
+  fromHelpers: ReturnType<typeof buildOpeningRetirementIncomeHelpers>,
+  fromRecipients: ReturnType<typeof buildOpeningRetirementIncomeRecipients>,
+  fromContracts: ReturnType<typeof buildOpeningRetirementIncomeContracts>,
+) {
+  const { zero, people, sum, minor, opening, source, data, values, allPayers } =
+    fromChecks;
+  const { factsByPerson, addedFacts } = fromRecords;
+  const { calendarAfterMonths, id, placeFor, firstDue } = fromHelpers;
+  const { incomes, qualified, validateGeneratedPayer, usedPayers, reportRows } =
+    fromRecipients;
+  const { existingIncomeByAward, contracts } = fromContracts;
   const addedContracts: string[] = [];
   let plannedMonthly = zero;
   const seenIncome = new Set<string>();
@@ -978,6 +1149,27 @@ export function buildOpeningRetirementIncome(
       monthlyMinor: income.amountMinor,
     });
   }
+  return { addedContracts, plannedMonthly };
+}
+
+function buildOpeningRetirementIncomeClose(
+  input: CoreInput,
+  fromChecks: ReturnType<typeof buildOpeningRetirementIncomeChecks>,
+  fromRecords: ReturnType<typeof buildOpeningRetirementIncomeRecords>,
+  fromRecipients: ReturnType<typeof buildOpeningRetirementIncomeRecipients>,
+  fromContracts: ReturnType<typeof buildOpeningRetirementIncomeContracts>,
+  fromPlan: ReturnType<typeof buildOpeningRetirementIncomePlan>,
+): OpeningIncomeBuild {
+  const { zero, organizations, sum, data, allPayers } = fromChecks;
+  const {
+    addedFacts,
+    addedFactIds,
+    originalPeopleCash,
+    originalOrganizationCash,
+  } = fromRecords;
+  const { usedPayers, reportRows } = fromRecipients;
+  const { contracts } = fromContracts;
+  const { addedContracts, plannedMonthly } = fromPlan;
   const extraPayers = [...usedPayers]
     .filter((payerId) => !organizations.has(payerId))
     .sort()
@@ -1044,6 +1236,55 @@ export function buildOpeningRetirementIncome(
       gaps: data.gaps,
     },
   };
+}
+
+/**
+ * Pure one-time opening retirement records. Generated WHO/PAST is explicit;
+ * no current choice, transfer, payment, firm rescue or cash refill happens here.
+ */
+export function buildOpeningRetirementIncome(
+  input: CoreInput,
+  options: OpeningIncomeOptions = {},
+): OpeningIncomeBuild {
+  const fromChecks = buildOpeningRetirementIncomeChecks(input, options);
+  const fromRecords = buildOpeningRetirementIncomeRecords(fromChecks);
+  const fromHelpers = buildOpeningRetirementIncomeHelpers(
+    input,
+    fromChecks,
+    fromRecords,
+  );
+  const fromRecipients = buildOpeningRetirementIncomeRecipients(
+    options,
+    fromChecks,
+  );
+  buildOpeningRetirementIncomePersons(
+    input,
+    options,
+    fromChecks,
+    fromRecords,
+    fromHelpers,
+    fromRecipients,
+  );
+  buildOpeningRetirementIncomePayers(fromChecks, fromHelpers, fromRecipients);
+  const fromContracts = buildOpeningRetirementIncomeContracts(
+    input,
+    fromChecks,
+  );
+  const fromPlan = buildOpeningRetirementIncomePlan(
+    fromChecks,
+    fromRecords,
+    fromHelpers,
+    fromRecipients,
+    fromContracts,
+  );
+  return buildOpeningRetirementIncomeClose(
+    input,
+    fromChecks,
+    fromRecords,
+    fromRecipients,
+    fromContracts,
+    fromPlan,
+  );
 }
 
 /**

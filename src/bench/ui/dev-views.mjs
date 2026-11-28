@@ -22,7 +22,14 @@ let listed = null;
  */
 export async function devViewNodes(slot, context = {}, options = {}) {
   const views = options.views ?? (listed ??= send("views"));
-  const load = options.load ?? ((file) => import(`/ui/${file}`));
+  // A relative import with a literal extension, so the client's build bundles every part (the installed
+  // game has no /ui folder to read them from) and the bench's server finds them beside this file.
+  const load =
+    options.load ??
+    ((file) => {
+      const part = file.replace(/\.mjs$/, "");
+      return import(`./${part}.mjs`);
+    });
   const nodes = [];
   for (const view of await views) {
     const part = await load(view.client);

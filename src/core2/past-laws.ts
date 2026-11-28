@@ -22,12 +22,12 @@
 import type { GovernmentLevel } from "./government-level";
 import provisionQuestions from "../../data/research/legislature/provision-questions.json" with { type: "json" };
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
-import { POLICY_QUESTIONS } from "./policy-answers";
 import { questionAxis } from "./campaign-views";
-import { memberSupportAt } from "./officials-roster";
+import { memberSupportAt } from "./officials-identity";
 import {
-  LAWS_MODULE_ID,
   policyAuthority,
+  POLICY_QUESTIONS,
+  type LawRowInput,
   type PolicyLevel,
 } from "./modules/laws";
 import { centuryLaw } from "./modules/elections";
@@ -35,10 +35,9 @@ import { members } from "./modules/legislature";
 import {
   RECORD_MODULE_ID,
   voteRecordId,
+  recordPastVote,
   type VoteRecordRow,
 } from "./modules/record";
-import type { LawRowInput } from "./laws-starting";
-import type { ModuleRow } from "./module-data";
 import type { TermRow } from "./modules/offices";
 import {
   CHAMBER_KINDS,
@@ -67,6 +66,7 @@ import {
 } from "./past-module";
 import { daysBetweenText } from "./kernel/dates";
 import type { CoreAPI } from "./types";
+import { allLawRows } from "./modules/laws-reads";
 
 const SERIES_QUESTION = (
   provisionQuestions as unknown as {
@@ -220,7 +220,6 @@ function recordVotes(
   passed: boolean,
 ): number {
   if (!api.state.modules.has(RECORD_MODULE_ID)) return 0;
-  const votes = api.moduleState(RECORD_MODULE_ID).table("votes");
   let count = 0;
   for (const [ids, way] of [
     [call.yesIds, 1],
@@ -238,7 +237,7 @@ function recordVotes(
         question,
         passed,
       };
-      votes.put(row as unknown as ModuleRow);
+      recordPastVote(api, row);
       count += 1;
     }
   return count;
@@ -434,12 +433,9 @@ export function buildLawHistories(
 ): { histories: readonly LawHistoryRow[]; votes: number } {
   // A starting answer of no means the place has no such law: nothing passed,
   // so there is no enactment, roll call or signer to record.
-  const laws = (
-    api
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .rows() as unknown as LawRowInput[]
-  ).filter((row) => !noSuchLaw(row));
+  const laws = (allLawRows(api) as unknown as LawRowInput[]).filter(
+    (row) => !noSuchLaw(row),
+  );
   const chambers = chambersOf(api);
   const offices = townOffices(api);
   const chambersFor = (level: string): readonly Chamber[] =>

@@ -1,3 +1,4 @@
+import { lastDayOfMonth, weekdayOf } from "../../core2/kernel/dates";
 export type DateValue = string;
 
 type YearlyDay =
@@ -181,11 +182,11 @@ function dayInYear(year: number, day: YearlyDay): DateValue {
   if ("day" in day) return dateFromParts(year, day.month, day.day);
   let date: number;
   if (day.nth > 0) {
-    const first = new Date(Date.UTC(year, day.month - 1, 1)).getUTCDay();
+    const first = weekdayOf(dateFromParts(year, day.month, 1));
     date = 1 + ((day.weekday - first + 7) % 7) + (day.nth - 1) * 7;
   } else {
-    const lastDate = new Date(Date.UTC(year, day.month, 0)).getUTCDate();
-    const last = new Date(Date.UTC(year, day.month - 1, lastDate)).getUTCDay();
+    const lastDate = lastDayOfMonth(year, day.month);
+    const last = weekdayOf(dateFromParts(year, day.month, lastDate));
     date = lastDate - ((last - day.weekday + 7) % 7);
   }
   return addDays(dateFromParts(year, day.month, date), day.plusDays ?? 0);
@@ -214,7 +215,7 @@ function addMonths(date: DateValue, months: number): DateValue {
   const index = month - 1 + months;
   const targetYear = year + Math.floor(index / 12);
   const targetMonth = (index % 12) + 1;
-  const lastDay = new Date(Date.UTC(targetYear, targetMonth, 0)).getUTCDate();
+  const lastDay = lastDayOfMonth(targetYear, targetMonth);
   return dateFromParts(targetYear, targetMonth, Math.min(day, lastDay));
 }
 

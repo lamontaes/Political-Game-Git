@@ -31,17 +31,14 @@ import { splitScreen } from "./ui/split-screen.mjs";
 import { tabBar, chooseTab } from "./ui/tab.mjs";
 import { plate } from "./ui/plate.mjs";
 import { townRow } from "./ui/town-row.mjs";
-import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
+
 import { devBribePanel } from "./ui/dev-bribe.mjs";
 import { devBillsPanel, devPanelsRow } from "./ui/dev-bills.mjs";
 import { devViewNodes } from "./ui/dev-views.mjs";
-import { devBillCard } from "./ui/dev-bill-card.mjs";
+
 import { traceBox } from "./ui/dev-trace-box.mjs";
 import { replyWhy } from "./ui/dev-reply-why.mjs";
-import { devTraceVote } from "./ui/dev-trace-vote.mjs";
-import { devRecordsSection } from "./ui/dev-records.mjs";
-import { devPersonSection } from "./ui/dev-person.mjs";
-import { devMemorySection } from "./ui/dev-memory.mjs";
+
 import { devWatchSections } from "./ui/dev-watch.mjs";
 import { devScenePanel } from "./ui/dev-scene.mjs";
 import { devCampaignPanel } from "./ui/dev-campaign.mjs";
@@ -57,7 +54,7 @@ import {
   restoreColorBlind,
   setColorBlind,
 } from "./ui/palette-setting.mjs";
-import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
+import { factRow, noteLine } from "./ui/list-row.mjs";
 import { picture as pictureFrame } from "./ui/picture.mjs";
 import { select, optionsOf, numberBox, statusLine } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
@@ -89,12 +86,10 @@ import { electionNight as electionNightScreen } from "./ui/election-night.mjs";
 import { rosterScreen } from "./ui/roster-screen.mjs";
 import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
-import { billPaper } from "./ui/bill-paper.mjs";
-import { billFigures } from "./ui/bill-figures.mjs";
-import { billStageSections } from "./ui/bill-stage.mjs";
+
 import { meetingItem } from "./ui/meeting-item.mjs";
-import { draftCard } from "./ui/draft-card.mjs";
-import { line, prose, heading, labeled, smallText } from "./ui/text.mjs";
+
+import { prose, heading, labeled, smallText } from "./ui/text.mjs";
 import { engraveMasthead, readerBody, readerMore } from "./ui/newspaper.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 import {
@@ -117,15 +112,16 @@ import {
   patchNotesScreen,
   seatNumbers,
   voteRows,
-  moneyFigure,
-  deskBill,
-  deskTitle,
-  deskList,
   rosterTitle,
   rosterCols,
   rosterSide,
 } from "./ui/strips.mjs";
 import { playAsList, playAsDetail } from "./ui/play-as.mjs";
+import { campaignParts as campaignPartsIn } from "./ui/campaign-screen.mjs";
+import { seatRows as seatRowsIn } from "./ui/seat-screen.mjs";
+import { openBillPaper as openBillPaperIn } from "./ui/bill-paper-screen.mjs";
+import { officeParts as officePartsIn } from "./ui/office-screen.mjs";
+import { personCardNode as personCardNodeIn } from "./ui/person-card-screen.mjs";
 mountPanelHeads();
 // A sheet's tabs sit in its head row, between its title and its close (the
 // approved Government, People and Metrics mocks).
@@ -169,6 +165,160 @@ const today = () => clockAt?.date ?? me.date;
 let talk;
 let openTab;
 let busy = false;
+
+// What the moved screen builders reach in this page (scripts/screens/split-client.mjs).
+const screenContext = {
+  get $() {
+    return $;
+  },
+  get PERSON_CARD_BUST() {
+    return PERSON_CARD_BUST;
+  },
+  get amount() {
+    return amount;
+  },
+  get amountUnit() {
+    return amountUnit;
+  },
+  get api() {
+    return api;
+  },
+  get billEstimate() {
+    return billEstimate;
+  },
+  get campaignLines() {
+    return campaignLines;
+  },
+  set campaignLines(value) {
+    campaignLines = value;
+  },
+  get campaignResult() {
+    return campaignResult;
+  },
+  set campaignResult(value) {
+    campaignResult = value;
+  },
+  get closeSheet() {
+    return closeSheet;
+  },
+  get controls() {
+    return controls;
+  },
+  get controlsReady() {
+    return controlsReady;
+  },
+  get dateOrValue() {
+    return dateOrValue;
+  },
+  get drawHere() {
+    return drawHere;
+  },
+  get feeToday() {
+    return feeToday;
+  },
+  get keyWords() {
+    return keyWords;
+  },
+  get leanWord() {
+    return leanWord;
+  },
+  get lifeParagraphs() {
+    return lifeParagraphs;
+  },
+  get markLife() {
+    return markLife;
+  },
+  get me() {
+    return me;
+  },
+  get officeParts() {
+    return officeParts;
+  },
+  get onOffToggle() {
+    return onOffToggle;
+  },
+  get openBillPaper() {
+    return openBillPaper;
+  },
+  get openSheet() {
+    return openSheet;
+  },
+  get plain() {
+    return plain;
+  },
+  get playAsks() {
+    return playAsks;
+  },
+  get policyLabel() {
+    return policyLabel;
+  },
+  get post() {
+    return post;
+  },
+  get refresh() {
+    return refresh;
+  },
+  get renderPacket() {
+    return renderPacket;
+  },
+  get reopenTrail() {
+    return reopenTrail;
+  },
+  get roundedMoney() {
+    return roundedMoney;
+  },
+  get row() {
+    return row;
+  },
+  get seatResult() {
+    return seatResult;
+  },
+  set seatResult(value) {
+    seatResult = value;
+  },
+  get seatText() {
+    return seatText;
+  },
+  set seatText(value) {
+    seatText = value;
+  },
+  get setBackdrop() {
+    return setBackdrop;
+  },
+  get showPerson() {
+    return showPerson;
+  },
+  get showStory() {
+    return showStory;
+  },
+  get speechState() {
+    return speechState;
+  },
+  set speechState(value) {
+    speechState = value;
+  },
+  get storyStop() {
+    return storyStop;
+  },
+  get talkTo() {
+    return talkTo;
+  },
+  get ticketSection() {
+    return ticketSection;
+  },
+  get today() {
+    return today;
+  },
+  get trailView() {
+    return trailView;
+  },
+  get volunteerCount() {
+    return volunteerCount;
+  },
+  get voteWords() {
+    return voteWords;
+  },
+};
 
 async function api(path, method = "GET") {
   const response = await fetch(path, { method });
@@ -1758,7 +1908,6 @@ $("talk-next").addEventListener("click", async () => {
   // A story's end hands the room back to the one scene renderer, so the people in it can be
   // clicked to talk again (a story draws them without a click).
   await renderScene();
-  if (landHome()) return;
   if (!$("continue").hidden) $("continue").click();
 });
 // Skip scene ends the address at once; the room is handed back as at its last Continue.
@@ -1768,30 +1917,8 @@ $("talk-skip").addEventListener("click", async () => {
   renderTalk(undefined);
   show("talk", false);
   await renderScene();
-  if (landHome()) return;
   if (!$("continue").hidden) $("continue").click();
 });
-/**
- * The opening's landing at home, once the address ends (played or skipped):
- * the narrator's one line naming the day as people say it, at home (the
- * server words it from the scene bank). True when it is shown.
- */
-let landing = null;
-function landHome() {
-  if (!landing) return false;
-  const line = landing;
-  landing = null;
-  show("talk", true);
-  setWho(undefined, undefined);
-  narrateFirst(
-    [talkLine({ kind: "speech narration", text: line.text })],
-    () => {
-      renderTalk(undefined);
-      show("talk", false);
-    },
-  );
-  return true;
-}
 $("talk-leave").addEventListener("click", async () => {
   if (filing) {
     await post("/api/filing/leave");
@@ -2138,469 +2265,8 @@ function ticketSection(filing, ticket) {
     ),
   );
 }
-async function campaignParts() {
-  const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
-  const parts = [];
-  for (const {
-    filing,
-    contest,
-    campaign,
-    pollSample,
-    pollPrice,
-    petition,
-    outings,
-    standing,
-    debates,
-    team,
-    pictures,
-    runningMate,
-  } of v.campaigns) {
-    const goOut = async (outing, outletId) => {
-      const kindOf = {
-        doors: "canvass",
-        calls: "raise-money",
-        event: "event",
-        forum: "forum",
-        interview: "interview",
-        party: "donor-meeting",
-      };
-      const result = await post(
-        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: kindOf[outing], ...(outletId ? { outletId } : {}) })}`,
-      );
-      // The outing's hours moved the clock: the card shows the new time.
-      if (result.packet) renderPacket(result.packet);
-      campaignLines = (result.calls ?? []).map((call) => call.line);
-      // An evening of calls is a scene (owner: every campaign act is a scene):
-      // the player at the phones, one call per Continue, each person heard by
-      // name with what they gave or why not, then the night's total.
-      if (outing === "calls" && result.callsLine) {
-        campaignResult = result.callsLine;
-        playAsks({
-          asked: result.calls ?? [],
-          summary: result.callsLine,
-          scene: result.scene,
-        });
-        return;
-      }
-      campaignResult = [
-        controls.campaignOutings[outing],
-        result.doorsKnocked
-          ? controls.campaignResults.doors.replace("{n}", result.doorsKnocked)
-          : "",
-        // Doors that opened on a petition's outing, whether asked to sign or
-        // for the vote (the Words lead, Nov 14); "reached" says the people met
-        // and shows where any door asked for the vote.
-        result.answered !== null && result.answered !== undefined
-          ? controls.campaignResults.answered.replace("{n}", result.answered)
-          : "",
-        result.reached &&
-        (result.votesAsked === null ||
-          result.votesAsked === undefined ||
-          result.votesAsked > 0)
-          ? controls.campaignResults.reached.replace("{n}", result.reached)
-          : "",
-        result.raisedMinor ? moneyWords(result.raisedMinor) : "",
-      ]
-        .filter(Boolean)
-        .join(" · ");
-      // An outlet that said no says why, in the words the trail already has
-      // (a refusal with no label there shows the outing's name only).
-      const refusal = {
-        "already-interviewed": controls.campaignUnavailable.interviewed,
-        "no-room": controls.campaignUnavailable.outletsFull,
-      }[result.interview?.reason];
-      if (
-        outing === "interview" &&
-        result.interview?.status === "declined" &&
-        refusal
-      )
-        campaignResult = refusal;
-      // A donor meeting is seen in the host's home, told by what the room gave.
-      if (outing === "party" && result.callsLine)
-        campaignResult = result.callsLine;
-      // Something that came up while out holds the clock: it is shown, as
-      // after Day, so Continue never stands over an empty screen.
-      const moment = storyStop(result.packet);
-      // The doors and the calls are seen where they happen, with the people reached.
-      if (result.scene || moment) closeSheet();
-      if (result.scene) {
-        setBackdrop(result.scene.backdrop);
-        drawHere(result.scene, (p) => talkTo(p.personId));
-      }
-      if (moment) await showStory(moment.recordId);
-      if (!result.scene && !moment) reopenTrail(filing.id);
-    };
-    const act = async (kind, extra = {}) => {
-      campaignLines = [];
-      const result = await post(
-        `/api/campaign/act?${new URLSearchParams({ filingId: filing.id, kind, ...extra })}`,
-      );
-      campaignResult =
-        typeof result.line === "string" && result.setAsideMinor !== undefined
-          ? result.line
-          : result.volunteers !== undefined
-            ? controls.campaignVolunteers.asked
-                .replace("{asked}", String(result.answers.length))
-                .replace(
-                  "{yes}",
-                  String(result.answers.filter((a) => a.yes).length),
-                )
-                .replace("{volunteers}", volunteerCount(result.volunteers))
-            : result.contacted !== undefined
-              ? `${controls.campaignActs[kind] ?? ""}: ${result.contacted} · ${Object.entries(
-                  result.answers,
-                )
-                  .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
-                  .join(" · ")}`
-              : result.reached !== undefined
-                ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
-                : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${moneyWords(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
-      // A volunteer shift is a scene: each person asked is the next Continue.
-      if (kind === "ad" && result.scene) {
-        playAsks({ asked: [], summary: result.line, scene: result.scene });
-        return;
-      }
-      if (
-        (kind === "volunteer" || kind === "endorsement") &&
-        result.answers?.length
-      ) {
-        playAsks({
-          asked: result.answers,
-          summary: campaignResult,
-          scene: result.scene,
-        });
-        return;
-      }
-      // A speech is seen where it was given, with the people it reached.
-      if (result.scene) {
-        closeSheet();
-        setBackdrop(result.scene.backdrop);
-        drawHere(result.scene);
-        return;
-      }
-      reopenTrail(filing.id);
-    };
-    const venue = select({
-      options: (v.venues ?? []).map((place) => ({
-        value: place,
-        label: controls.venues?.[place] ?? "",
-      })),
-    });
-    const button = (label, kind, extra) => {
-      const b = makeButton({ textContent: label });
-      b.addEventListener("click", () =>
-        act(kind, typeof extra === "function" ? extra() : extra),
-      );
-      return b;
-    };
-    // The acts are scenes you go to: each is a place on the trail (the mock's pl-trail), its
-    // hours and why it is out of reach, and Go. Money, the speech and debates open their own
-    // controls beside the list.
-    const T = controls.campaignBoard;
-    const go = (onClick) => ({ label: T.go, onClick });
-    const entries = [
-      ...(outings ?? []).map((choice) => {
-        const why = choice.why
-          ? (controls.campaignUnavailable[choice.why.key] ?? "")
-              .replace("{price}", moneyWords(choice.why.priceMinor ?? 0))
-              .replace("{cash}", moneyWords(choice.why.cashMinor ?? 0))
-          : "";
-        return {
-          group: T.groupOut,
-          title: controls.campaignOutings[choice.outing],
-          picture: choice.picture,
-          load: async () => ({
-            facts: [
-              {
-                label: T.howLong,
-                value: `${choice.hours} ${controls.campaignOutings.hours}`,
-              },
-              // What the doors ask for now: signatures while the petition is
-              // short of its target, votes after it and in a race with none.
-              ...(choice.outing === "doors"
-                ? [
-                    {
-                      label: T.asking,
-                      value: petition?.asksAtDoors
-                        ? T.askingSignatures
-                        : T.askingVotes,
-                    },
-                  ]
-                : []),
-            ],
-            does: why
-              ? [why]
-              : choice.outing === "doors" && petition?.gatherTarget
-                ? [
-                    petition.asksAtDoors
-                      ? T.askingWhySignatures
-                      : T.askingWhyVotes,
-                  ]
-                : [],
-          }),
-          ...(choice.available
-            ? { go: go(() => goOut(choice.outing, choice.outletId)) }
-            : {}),
-        };
-      }),
-      ...[
-        ["volunteer", undefined],
-        ["endorsement", undefined],
-        ["ad", { amountMinor: "5000" }],
-        ["poll", { sampleSize: String(pollSample) }],
-      ].map(([kind, extra]) => ({
-        group: T.groupAsk,
-        title: controls.campaignActs[kind],
-        picture: pictures?.[kind],
-        // A poll's price is said where it is bought, not among where the race stands.
-        load: async () =>
-          kind === "poll" && pollPrice ? { nodes: [line(pollPrice)] } : {},
-        // stopgapId: SG-PLAY-campaign-acts-buttons
-        go: go(() => act(kind, extra)),
-      })),
-      {
-        group: T.groupMoney,
-        title: controls.campaignActs.mail,
-        picture: pictures?.mail,
-        load: async () => {
-          const dollarsOut = numberBox({
-            value: 50,
-            min: 0,
-            step: 1,
-            label: controls.campaignContribute.dollars,
-          });
-          const send = button(controls.campaignActs.mail, "mail", () => ({
-            amountMinor: String(Math.round(Number(dollarsOut.value) * 100)),
-          }));
-          send.dataset.testid = "campaign-mail";
-          return { nodes: [buttonRow(dollarsOut, send)] };
-        },
-      },
-      // Paid circulators gather the signatures a county, district or
-      // statewide race needs outside the town while its petition circulates.
-      ...(petition?.outside
-        ? [
-            {
-              group: T.groupMoney,
-              title: controls.campaignActs.circulators,
-              picture: pictures?.circulators,
-              load: async () => {
-                const dollarsOut = numberBox({
-                  value: 500,
-                  min: 0,
-                  step: 1,
-                  label: controls.campaignContribute.dollars,
-                });
-                const hire = button(
-                  controls.campaignActs.circulators,
-                  "circulators",
-                  () => ({
-                    amountMinor: String(
-                      Math.round(Number(dollarsOut.value) * 100),
-                    ),
-                  }),
-                );
-                hire.dataset.testid = "campaign-circulators";
-                return { nodes: [buttonRow(dollarsOut, hire)] };
-              },
-            },
-          ]
-        : []),
-      {
-        group: T.groupMoney,
-        title: controls.campaignContribute.give,
-        picture: pictures?.contribute,
-        load: async () => {
-          const dollarsIn = numberBox({
-            value: 0,
-            min: 0,
-            step: 1,
-            label: controls.campaignContribute.dollars,
-          });
-          const give = makeButton({
-            textContent: controls.campaignContribute.give,
-          });
-          give.addEventListener("click", () =>
-            act("contribute", {
-              amountMinor: String(Math.round(Number(dollarsIn.value) * 100)),
-            }),
-          );
-          return { nodes: [buttonRow(dollarsIn, give)] };
-        },
-      },
-      {
-        group: T.groupSpeak,
-        title: T.speech,
-        picture: pictures?.speech,
-        load: async () => ({
-          nodes: [
-            speechCard({
-              words: controls.speech,
-              state: speechState,
-              venue,
-              onBegin: async () => {
-                speechState = await post("/api/campaign/speech/begin");
-                reopenTrail(filing.id);
-              },
-              onPick: async (choice) => {
-                speechState = await post(
-                  `/api/campaign/speech/pick?${new URLSearchParams({ key: choice.key })}`,
-                );
-                reopenTrail(filing.id);
-              },
-              onGive: async () => {
-                const result = await post(
-                  `/api/campaign/speech/give?${new URLSearchParams({ filingId: filing.id, venue: venue.value })}`,
-                );
-                speechState = null;
-                campaignResult = `${result.reached} · +${result.warmer} · −${result.cooler} · ${result.retold} ${controls.speech.retold}`;
-                // A speech is seen where it was given, with the people it reached.
-                closeSheet();
-                setBackdrop(result.scene.backdrop);
-                drawHere(result.scene);
-              },
-            }),
-          ],
-        }),
-      },
-      // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
-      ...(debates ?? []).map((debate) => ({
-        group: T.groupSpeak,
-        title: controls.debate.title ?? T.debate,
-        picture: pictures?.debate,
-        load: async () => ({
-          nodes: [
-            debateCard({
-              words: controls.debate,
-              // The day in words ("October 20, 2026"), never the record's digits.
-              debate: { ...debate, date: dateWords(debate.date) },
-              // Yes: the sitting goes on the record, and the director stages it.
-              onAccept: async () => {
-                await post(
-                  `/api/campaign/debate/accept?${new URLSearchParams({
-                    debateId: debate.id,
-                  })}`,
-                );
-                reopenTrail(filing.id);
-              },
-              // No: the debate is held without the player's answers.
-              onDecline: async () => {
-                await post(
-                  `/api/campaign/debate?${new URLSearchParams({
-                    debateId: debate.id,
-                    answers: "[]",
-                  })}`,
-                );
-                reopenTrail(filing.id);
-              },
-            }),
-          ],
-        }),
-      })),
-    ];
-    const trail = [
-      ...travelScreen({
-        entries,
-        // The only list under a trail tile is why the act is out of reach today.
-        labels: { whoIsThere: "", whatICanDo: T.notToday },
-      }),
-      ...(campaignResult ? [line(campaignResult)] : []),
-      ...campaignLines.map((text) => line(text)),
-    ];
-    // The campaign board (the mock's pl-campaign): where the race stands in sentences the
-    // English engine wrote, the money, and the way out onto the trail.
-    // Its card in Travel shows the street the trail starts on, as each act's tile shows its place.
-    const part = { filing, contest, trail, picture: pictures?.doors };
-    const labelsC = controls.campaignBoard ?? {};
-    const out = makeButton({ textContent: labelsC.trail });
-    out.addEventListener("click", () => trailView(part));
-    part.tab = stripBoard({
-      className: "campaign-board",
-      columns: [
-        [
-          stripSection(
-            1,
-            controls.raceStanding.title,
-            ...(standing ?? []).map((text) => introText(text)),
-          ),
-          ...(runningMate ? [ticketSection(filing, runningMate)] : []),
-        ],
-        [
-          stripSection(
-            2,
-            labelsC.money,
-            moneyFigure(moneyWords(campaign.raisedMinor)),
-            dotRows([
-              {
-                label: labelsC.raised,
-                value: moneyWords(campaign.raisedMinor),
-              },
-              { label: labelsC.spent, value: moneyWords(campaign.spentMinor) },
-              { label: labelsC.volunteers, value: String(campaign.volunteers) },
-              { label: labelsC.doors, value: String(campaign.doors) },
-              // The petition record: the signatures held against those the
-              // law asks, and the day they are due (owner, Nov 14: the tab keeps
-              // the running total). A race that asks no signatures shows none.
-              ...(petition?.needed
-                ? [
-                    {
-                      label: labelsC.signatures,
-                      value: (petition.signed >= petition.needed
-                        ? labelsC.signaturesEnough
-                        : labelsC.signaturesHeld
-                      ).replace("{date}", dateWords(petition.due)),
-                    },
-                  ]
-                : []),
-              ...(campaign.endorsements
-                ? [
-                    {
-                      label: labelsC.endorsements,
-                      value: String(campaign.endorsements),
-                    },
-                  ]
-                : []),
-            ]),
-          ),
-        ],
-        [
-          // The inbox: only requests a record holds (a debate the outlet invited you to), each
-          // opening where it is answered; no heading when there is none.
-          ...(debates?.length
-            ? [
-                stripSection(
-                  3,
-                  labelsC.inbox,
-                  ...debates.map((debate) => {
-                    const open = makeButton({ textContent: labelsC.inboxOpen });
-                    open.addEventListener("click", () => trailView(part));
-                    return deskBill(
-                      line(controls.debate?.title ?? labelsC.debate),
-                      line(dateWords(debate.date)),
-                      buttonRow(open),
-                    );
-                  }),
-                ),
-              ]
-            : []),
-          // The team: the people on the campaign's own record, who runs it and who helps.
-          ...(team?.staff.length || team?.volunteers.length
-            ? [
-                stripSection(
-                  4,
-                  labelsC.team,
-                  ...team.staff.map((p) => row(p.name, labelsC.staff)),
-                  ...team.volunteers.map((p) => row(p.name, labelsC.volunteer)),
-                ),
-              ]
-            : []),
-          buttonRow(out),
-        ],
-      ],
-    });
-    parts.push(part);
-  }
-  return parts;
+async function campaignParts(...args) {
+  return campaignPartsIn(screenContext, ...args);
 }
 /**
  * The campaign trail: where the acts are (owner, Oct 20: "campaign acts are
@@ -2877,203 +2543,8 @@ function closePerson() {
  * (owner, Nov 7, item 54, "perfect"). Shown in its own panel by showPerson and inside the
  * People screen beside the roster. Returns null when the person is gone.
  */
-async function personCardNode(
-  person,
-  stillWanted = () => true,
-  openOther = (other) => showPerson(other),
-) {
-  const c = await api(
-    `/api/known?${new URLSearchParams({ id: me.id, other: person.personId })}`,
-  );
-  await controlsReady;
-  if (!stillWanted()) return null;
-  const labels = controls.person;
-  const known = c.publicKnowledge;
-  const stance = voteWords();
-  const pronoun = c.pronouns;
-  const fill = (text) =>
-    text.replace(/\{(\w+)\}/g, (_all, slot) => pronoun?.[slot] ?? "");
-  const heading = (key, theyKey) =>
-    pronoun ? fill(labels[key]) : labels[theyKey ?? key];
-  const capital = (text) => text.charAt(0).toUpperCase() + text.slice(1);
-  const role = [
-    c.relation && capital(c.relation),
-    known?.party,
-    c.age !== null && c.age !== undefined ? `${labels.age} ${c.age}` : null,
-  ]
-    .filter((part) => part !== null && part !== undefined && part !== "")
-    .join(" · ");
-  const sharedLines = (c.shared ?? [])
-    .filter((s) => labels.sharedWords?.[s.kind])
-    .map((s) =>
-      introText(
-        s.name
-          ? `${labels.sharedWords[s.kind]} · ${s.name}`
-          : labels.sharedWords[s.kind],
-      ),
-    );
-  // When you were last in touch and why, read from the tie's own record (the
-  // card's tie row: its latestChange); an event only, never how close you are
-  // (owner, Oct 29: no band word for how someone feels, on any screen); a
-  // person with no tie to you has no line.
-  const change = person.latestChange;
-  const changeLine = change
-    ? introText(
-        [
-          labels.lastInTouch,
-          labels.tieCauses[change.cause],
-          dateWords(change.date),
-        ]
-          .filter(Boolean)
-          .join(" · "),
-      )
-    : null;
-  if (changeLine) sharedLines.push(changeLine);
-  // Their public record, from the past module's public tier: a fact the record does not hold is left out.
-  const recordRows = known
-    ? [
-        ["since", dateOrValue(known.serviceStart)],
-        ["votes", known.votesOnRecord],
-        ["sponsored", known.lawsSponsored],
-        ["signed", known.lawsSigned],
-      ]
-        .filter(([, value]) => value !== null && value !== undefined)
-        .map(([key, value]) => ({
-          label: labels.publicRecord[key],
-          value: String(value),
-        }))
-        .concat(
-          known.positions.map((p) => ({
-            label: policyLabel(p.question),
-            value: p.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
-          })),
-        )
-    : [];
-  const people = peopleSentence(
-    (c.colleagues ?? []).map((k) => ({
-      name: k.name,
-      relation: k.office,
-      onOpen: () => openOther({ personId: k.personId }),
-    })),
-  );
-  const firstColumn = [
-    ...(c.summary?.length
-      ? [
-          stripSection(
-            1,
-            heading("whoIs", "whoAre"),
-            introText(c.summary.join(" ")),
-          ),
-        ]
-      : []),
-    ...(c.traitLines?.length
-      ? [
-          stripSection(
-            2,
-            heading("howISee", "howISeeThem"),
-            perkList(c.traitLines.map((t) => ({ name: t.label }))),
-          ),
-        ]
-      : []),
-    // Where they place themselves politically, once the player has learned it; until then the
-    // card says so (the world still holds the real view).
-    ...(c.view || c.viewUnknown
-      ? [
-          stripSection(
-            2,
-            controls.who.views,
-            introText(
-              c.view
-                ? leanWord(c.view)
-                : pronoun
-                  ? fill(controls.who.viewUnknown)
-                  : controls.who.viewUnknownThey,
-            ),
-            ...(c.viewAbout
-              ? [
-                  introText(
-                    controls.who.viewAbout.replace("{about}", c.viewAbout),
-                  ),
-                ]
-              : []),
-          ),
-        ]
-      : []),
-    ...(sharedLines.length
-      ? [stripSection(5, labels.betweenUs, ...sharedLines)]
-      : []),
-    // Their life from the records, oldest first, as the card has told it since
-    // #6772 and #7090: the card is sent the story and draws it (owner's
-    // playtest, Nov 8).
-    ...(c.history?.length
-      ? [
-          markLife(
-            stripSection(
-              5,
-              capital(heading("lifeStory", "lifeStoryThey")),
-              ...lifeParagraphs(c.history),
-            ),
-          ),
-        ]
-      : []),
-  ];
-  // Their life sits under the bust, in the bust's own column (owner on
-  // People, Nov 16: "still lots of empty space"); with no bust it takes the
-  // second column, beside who they are.
-  const lifeAt = firstColumn.findIndex((node) => node.dataset?.life === "1");
-  const life = lifeAt >= 0 ? firstColumn.splice(lifeAt, 1) : [];
-  const underBust = c.face ? life : [];
-  const secondColumn = [
-    ...(c.face ? [] : life),
-    ...(people
-      ? [stripSection(3, capital(heading("herPeople", "theirPeople")), people)]
-      : []),
-    ...(recordRows.length
-      ? [stripSection(4, labels.publicRecordTitle, dotRows(recordRows))]
-      : []),
-  ];
-  // Dev mode: what they remember, a section only while dev mode is on.
-  const memory = devModeOn()
-    ? await devMemorySection({
-        personId: person.personId,
-        labels: controls.devMemory,
-        dateOf: (iso) => dateWords(iso),
-      })
-    : null;
-  if (memory) secondColumn.push(memory);
-  if (devModeOn())
-    secondColumn.push(
-      await devRecordsSection({
-        personId: person.personId,
-        labels: controls.devRecords,
-      }),
-      await devPersonSection({
-        personId: person.personId,
-        labels: controls.devPerson,
-        onDone: () => refresh(),
-      }),
-      // Views registered from their own files (ui/dev-views.mjs, slot "person").
-      ...(await devViewNodes("person", {
-        personId: person.personId,
-        onDone: () => refresh(),
-      })),
-    );
-  if (!stillWanted()) return null;
-  return {
-    name: c.name,
-    node: stripScreen({
-      name: c.name,
-      role,
-      nameBeside: true,
-      // The approved card's bust stands as tall as its sections (pl-people).
-      bustColumn: PERSON_CARD_BUST,
-      underBust,
-      face: c.face ?? null,
-      columns: secondColumn.length
-        ? [firstColumn, secondColumn]
-        : [firstColumn],
-    }),
-  };
+async function personCardNode(...args) {
+  return personCardNodeIn(screenContext, ...args);
 }
 /** The person card's bust column, in pixels: --card-bust in play.css. */
 const PERSON_CARD_BUST = 440;
@@ -3187,262 +2658,8 @@ function onOffToggle({ attr, on, set, testid, labels }) {
  * pay, next meeting, the posts they name, what they have done), the budget lines they may send
  * and the deals they offer colleagues. Each is empty when the player has none of it.
  */
-async function officeParts() {
-  const v = await api(`/api/office?id=${encodeURIComponent(me.id)}`);
-  if (!v.jobs.length && !v.stops.length)
-    return { seat: [], stops: [], budget: [], deals: [] };
-  const words = controls.officeStops ?? {};
-  const labels = controls.officeScreen ?? {};
-  const paged = (items, { rows, columns, rowHeight, className }) =>
-    pager({
-      items,
-      render: (node) => node,
-      rows,
-      columns,
-      rowHeight,
-      gap: 8,
-      className,
-    });
-  // What stops you: one On and Off switch per kind of vote this seat has. Off, you are away from
-  // that kind of vote: the record has you absent, a bill on your desk waits, nothing is cast for you.
-  const stops = v.stops.length
-    ? [
-        stripSection(
-          1,
-          labels.stops,
-          ...v.stops.map((stop) =>
-            settingRow(
-              stop.key === "meetings" && v.stopsBody
-                ? v.stopsBody
-                : (words.switches?.[stop.key] ?? ""),
-              onOffToggle({
-                attr: "stop",
-                testid: `office-stop-${stop.key}`,
-                labels: controls.options,
-                on: () => stop.on,
-                set: async (wanted) => {
-                  const next = await post(
-                    `/api/office/stops?${new URLSearchParams({ key: stop.key, on: String(wanted) })}`,
-                  );
-                  stop.on =
-                    next.stops.find((s) => s.key === stop.key)?.on ?? wanted;
-                },
-              }),
-            ),
-          ),
-        ),
-      ]
-    : [];
-  const seat = [
-    ...v.jobs.map((job) =>
-      stripSection(
-        1,
-        labels.mySeat,
-        dotRows(
-          [
-            { label: labels.office, value: job.title },
-            {
-              label: labels.pay,
-              value: `${moneyWords(job.annualMinor)} ${words.aYear ?? ""}`,
-            },
-            job.nextMeeting && {
-              label: labels.nextMeeting,
-              value: dateWords(job.nextMeeting),
-            },
-          ].filter(Boolean),
-        ),
-      ),
-    ),
-    // An open town post you appoint: the people it could go to, best first; left on the
-    // official's own choice, the first stands.
-    ...(v.heads?.length
-      ? [
-          stripSection(
-            2,
-            labels.heads,
-            paged(
-              v.heads.map((head) =>
-                listRow(
-                  "office-pick",
-                  { as: "label" },
-                  `${head.title} · ${words.nameHeadPick ?? ""} `,
-                  select({
-                    options: [
-                      { value: "", label: words.ownChoice ?? "" },
-                      // Only someone who may be asked now is offered; a no stands for a while.
-                      ...head.candidates
-                        .filter((c) => c.mayAsk)
-                        .map((c) => ({
-                          value: c.id,
-                          label: (c.work && c.place
-                            ? words.row
-                            : c.place
-                              ? words.rowPlace
-                              : "{name}"
-                          )
-                            .replace("{name}", c.name)
-                            .replace("{work}", c.work ?? "")
-                            .replace("{place}", c.place ?? ""),
-                        })),
-                    ],
-                    // Picking someone asks them (brief J): the sit-down plays, and only
-                    // their yes names them.
-                    onChange: async (nomineeId) => {
-                      if (!nomineeId) return;
-                      const asked = await post(
-                        `/api/office/ask-head?${new URLSearchParams({ post: head.post, nomineeId })}`,
-                      );
-                      if (asked.packet) renderPacket(asked.packet);
-                      const moment = storyStop(asked.packet);
-                      closeSheet();
-                      // The sit-down plays with nothing over it; with no scene, back to Office.
-                      if (asked.story) await showStory(asked.story);
-                      else if (moment) await showStory(moment.recordId);
-                      else await openSheet("office");
-                    },
-                  }),
-                ),
-              ),
-              { rows: 3, columns: 1, rowHeight: 52, className: "office-paged" },
-            ),
-          ),
-        ]
-      : []),
-    // Your staff: the aides who serve now, and the people the staff engine would weigh for the
-    // post with its reasons; Hire runs the engine's own hire, paid from the post's budget line.
-    ...(v.aides?.serving.length || v.aides?.candidates.length
-      ? [
-          stripSection(
-            2,
-            labels.aides,
-            ...v.aides.serving.map((a) => row(a.name, labels.aideRole ?? "")),
-            ...(v.aides.candidates.length
-              ? [
-                  paged(
-                    v.aides.candidates.map((c) => {
-                      const hire = makeButton({ textContent: labels.hire });
-                      hire.addEventListener("click", async () => {
-                        await post(
-                          `/api/office/hire-aide?${new URLSearchParams({ personId: c.id })}`,
-                        );
-                        openSheet("office");
-                      });
-                      const why = Object.entries(c.reasons)
-                        .filter(([, value]) => value > 0)
-                        .map(([key, value]) =>
-                          key === "family"
-                            ? labels.reasons?.family
-                            : `${labels.reasons?.[key] ?? ""} ${Math.round(value * 100)}%`,
-                        )
-                        .join(" · ");
-                      return deskBill(
-                        peopleSentence([
-                          {
-                            name: c.name,
-                            onOpen: () => {
-                              closeSheet();
-                              showPerson({ personId: c.id });
-                            },
-                          },
-                        ]),
-                        line(
-                          `${c.from === "known" ? labels.fromKnown : labels.fromApplicant} · ${why}`,
-                        ),
-                        buttonRow(hire),
-                      );
-                    }),
-                    {
-                      rows: 3,
-                      columns: 1,
-                      rowHeight: 116,
-                      className: "office-paged",
-                    },
-                  ),
-                ]
-              : []),
-          ),
-        ]
-      : []),
-    ...(v.acts.length
-      ? [
-          stripSection(
-            3,
-            labels.acts,
-            paged(
-              v.acts.map((a) =>
-                row(
-                  `${dateWords(a.date)} · ${controls.actions?.[a.kind] ?? ""}`,
-                  a.how === "absent"
-                    ? (words.absent?.[a.detail] ?? "")
-                    : `${a.kind === "vote" ? (words.votes?.[a.detail] ?? a.detail) : a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : a.how === "adjourned" ? ` · ${words.adjourned ?? ""}` : ""}`,
-                ),
-              ),
-              { rows: 4, columns: 1, rowHeight: 48, className: "office-paged" },
-            ),
-          ),
-        ]
-      : []),
-  ];
-  // The budget you may send now: the change to each line, in steps of its amount.
-  const budget = v.budget
-    ? [
-        stripSection(
-          1,
-          controls.budgetEditor.title,
-          paged(
-            v.budget.lines.map((row) =>
-              labeled(
-                `${row.name} ${roundedMoney(row.amountMinor)}`,
-                select({
-                  options: [-20, -10, 0, 10, 20].map((pct) => {
-                    const minor = Math.round((row.amountMinor * pct) / 100);
-                    return {
-                      value: minor,
-                      label: controls.budgetEditor[String(pct)],
-                      selected: row.changeMinor === minor,
-                    };
-                  }),
-                  onChange: async (changeMinor) => {
-                    await post(
-                      `/api/office/budget-line?${new URLSearchParams({ line: row.line, changeMinor })}`,
-                    );
-                  },
-                }),
-              ),
-            ),
-            { rows: 5, columns: 2, rowHeight: 56, className: "office-paged" },
-          ),
-        ),
-      ]
-    : [];
-  // The deal to offer each colleague who votes on a bill of yours when you talk to them.
-  const deals = (v.deals ?? []).map((bill) =>
-    stripSection(
-      2,
-      `${bill.number} · ${controls.deals.title}`,
-      paged(
-        bill.colleagues.map((colleague) =>
-          labeled(
-            colleague.name,
-            select({
-              value: colleague.deal ?? "none",
-              options: ["none", "favor", "back-their-item"].map((deal) => ({
-                value: deal,
-                label: controls.deals[deal],
-              })),
-              onChange: async (deal) => {
-                await post(
-                  `/api/office/deal?${new URLSearchParams({ memberId: colleague.key, deal })}`,
-                );
-              },
-            }),
-          ),
-        ),
-        { rows: 4, columns: 2, rowHeight: 56, className: "office-paged" },
-      ),
-    ),
-  );
-  return { seat, stops, budget, deals };
+async function officeParts(...args) {
+  return officePartsIn(screenContext, ...args);
 }
 
 // ---- The bill on paper: one document, every section clickable ----
@@ -3589,276 +2806,8 @@ async function showRollCall(lawId) {
     ),
   );
 }
-async function openBillPaper(billId, show, back, backLabel) {
-  // Only the newest draw of a page is shown. Two acts close together (a vote,
-  // then calling the question) each redraw the page; the earlier redraw can
-  // finish its reads last, and must not put its older page over the newer one.
-  const mine = (show.draws = (show.draws ?? 0) + 1);
-  const paper = await api(`/api/bill?billId=${encodeURIComponent(billId)}`);
-  const stage = await api(
-    `/api/bill/stage?billId=${encodeURIComponent(billId)}`,
-  );
-  const view = await api(`/api/bill/page?billId=${encodeURIComponent(billId)}`);
-  const words = controls.bill ?? {};
-  const pageWords = controls.billPage ?? {};
-  // The bill's number and its body's name over the room that body works in (the government
-  // screen's own room picture for that body); none when the body has no picture.
-  const band = await api(
-    `/api/government/bodies?${new URLSearchParams({
-      id: me.id,
-      level:
-        view.level === "state" || view.level === "federal"
-          ? view.level
-          : "local",
-      state: /^office:(US-[A-Z]{2}):/.exec(paper.bodyOfficeId ?? "")?.[1] ?? "",
-    })}`,
-  )
-    .then((bodies) => {
-      const rows = [...bodies.legislative, ...bodies.executive];
-      // A federal bill names its chamber by kind ("federal:us-house"); the list names the
-      // viewer's own state's seats of it ("office:US-WA:us-house", or the delegate's).
-      const kind = /^federal:(.+)$/.exec(paper.bodyOfficeId ?? "")?.[1];
-      const body =
-        rows.find((row) => row.officeId === paper.bodyOfficeId) ??
-        (kind &&
-          (rows.find((row) => row.level === "federal" && row.kind === kind) ??
-            rows.find(
-              (row) => row.level === "federal" && row.kind.startsWith(kind),
-            )));
-      return body?.picture
-        ? { picture: body.picture, title: `${paper.spoken} · ${body.name}` }
-        : null;
-    })
-    .catch(() => null);
-  const floor = controls.floor ?? {};
-  // A bill opened inside the meeting or the desk returns to it; a menu has no Back
-  // (owner, Oct 29: "continue and back needs to be removed from every single menu"):
-  // a menu's bill closes with the menu's tabs and close control.
-  const backButton = backLabel
-    ? makeButton({ className: "action", textContent: backLabel })
-    : null;
-  backButton?.addEventListener("click", back);
-  // Where the bill is: the committee's record, what members told you, the floor and
-  // the override, each member by name (ui/bill-stage.mjs). They stand in the
-  // bill's own board, under Where it is.
-  const stageNodes = billStageSections(
-    stage,
-    controls.billStage ?? {},
-    (person) => showPerson({ personId: person.personId }),
-    async (how) => {
-      await api(
-        `/api/bill/vote?${new URLSearchParams({ billId, vote: how })}`,
-        "POST",
-      );
-      await openBillPaper(billId, show, back, backLabel);
-    },
-    {
-      onMove: async (index, direction) => {
-        await api(
-          `/api/bill/amend?${new URLSearchParams({ billId, index, direction })}`,
-          "POST",
-        );
-        await openBillPaper(billId, show, back, backLabel);
-      },
-      onCall: async (item) => {
-        await api(
-          `/api/bill/amendment-vote?${new URLSearchParams({ amendmentId: item.id })}`,
-          "POST",
-        );
-        await openBillPaper(billId, show, back, backLabel);
-      },
-      estimate: (item) =>
-        [
-          item.estimateAfter.workersRaised > 0
-            ? `${item.estimateAfter.workersRaised} ${words.workers ?? ""}`
-            : null,
-          item.estimateAfter.annualPayMinor > 0
-            ? moneyWords(item.estimateAfter.annualPayMinor)
-            : null,
-        ]
-          .filter(Boolean)
-          .join(" · "),
-    },
-    {
-      onDecide: async (how) => {
-        await api(`/api/desk?${new URLSearchParams({ billId, how })}`, "POST");
-        await openBillPaper(billId, show, back, backLabel);
-      },
-    },
-    {
-      onAsk: (index) =>
-        api(`/api/bill/redraft?${new URLSearchParams({ billId, index })}`),
-      onKeep: async (index) => {
-        await api(
-          `/api/bill/redraft?${new URLSearchParams({ billId, index })}`,
-          "POST",
-        );
-        await openBillPaper(billId, show, back, backLabel);
-      },
-      estimate: (redraft) =>
-        [
-          redraft.estimateAfter.workersRaised > 0
-            ? `${redraft.estimateAfter.workersRaised} ${controls.bill?.workers ?? ""}`
-            : null,
-          redraft.estimateAfter.annualPayMinor > 0
-            ? moneyWords(redraft.estimateAfter.annualPayMinor)
-            : null,
-        ]
-          .filter(Boolean)
-          .join(" · "),
-    },
-    {
-      onVote: async (how) => {
-        await api(
-          `/api/bill/override?${new URLSearchParams({ billId, vote: how })}`,
-          "POST",
-        );
-        await openBillPaper(billId, show, back, backLabel);
-      },
-      onCall: async () => {
-        await api(
-          `/api/bill/override-call?${new URLSearchParams({ billId })}`,
-          "POST",
-        );
-        await openBillPaper(billId, show, back, backLabel);
-      },
-    },
-  );
-  if (show.draws !== mine) return;
-  show(
-    ...(backButton ? [backButton] : []),
-    billPaper({
-      spoken: paper.spoken,
-      title: paper.title,
-      sponsor: `${words.sponsor ?? ""} ${paper.sponsor}`,
-      sectionsLabel: words.sections ?? "",
-      whereLabel: words.where ?? "",
-      billLabel: words.bill ?? "",
-      voteLabel: words.vote ?? "",
-      band,
-      stage: stageNodes,
-      estimateLabel: words.estimate ?? "",
-      // The budget lines the bill sets, this year beside last year's.
-      extra: billFigures({
-        view,
-        textOf: (index) => paper.sections[index]?.text ?? paper.title,
-        money: roundedMoney,
-        percent: (value) =>
-          new Intl.NumberFormat("en-US", {
-            style: "percent",
-            maximumFractionDigits: 1,
-          }).format(value / 100),
-        words,
-      }),
-      // Where it is: the committee or body that has it, who filed it and the days, from the page view.
-      where: {
-        heading: view.where.committee
-          ? keyWords(view.where.committee)
-          : view.where.bodyTitle,
-        rows: [
-          view.where.filedBy?.name && {
-            label: pageWords.filedBy,
-            value: view.where.filedBy.name,
-          },
-          view.where.filedOn && {
-            label: pageWords.filedOn,
-            value: dateWords(view.where.filedOn),
-          },
-          view.where.reachedChamberOn && {
-            label: pageWords.reached,
-            value: dateWords(view.where.reachedChamberOn),
-          },
-        ].filter(Boolean),
-      },
-      views: { clean: pageWords.clean, compare: pageWords.compare },
-      amendsLabel: words.amends ?? "",
-      // A phase-in's later steps: what stands until the step takes effect.
-      untilLabel: words.untilThen ?? "",
-      // Each chamber's result as the English engine words it, from the stage view, then the floor's
-      // vote by party and those who cast none, from the page view.
-      votes: [...stage.floor, ...stage.override].map((entry) => {
-        const tally = view.tallies.find(
-          (t) => t.stage === "floor" && t.chamber === entry.chamber,
-        );
-        return {
-          big: entry.result,
-          text: entry.chamberTitle,
-          rows: [
-            ...(tally?.byParty ?? []).map((row) => ({
-              label: row.party ? keyWords(row.party) : pageWords.noParty,
-              value: `${row.yes} ${pageWords.to} ${row.no}`,
-            })),
-            ...(tally?.notVoting
-              ? [{ label: pageWords.notVoting, value: String(tally.notVoting) }]
-              : []),
-          ],
-          // The player's own members in this chamber and the vote each cast
-          // (the page view's yourMembers): a name, then the vote.
-          members: (() => {
-            const mine = (view.yourMembers ?? []).filter(
-              (m) => m.chamber === entry.chamber && m.vote,
-            );
-            return {
-              label: mine.length > 1 ? pageWords.yourMembers : pageWords.yours,
-              rows: mine.map((m) => ({
-                label: m.name,
-                value: controls.billStage?.[m.vote] ?? "",
-              })),
-            };
-          })(),
-        };
-      }),
-      blank: billEstimate(paper, { estimate: {} }),
-      sections: paper.sections.map((section) => ({
-        text: section.text ?? paper.title,
-        estimate: billEstimate(paper, section),
-        inserted: view.sections[section.index]?.inserted ?? null,
-        struck: view.sections[section.index]?.struck ?? null,
-        amends: view.sections[section.index]?.amends?.citation ?? null,
-      })),
-      lines: [
-        paper.authorityWarning,
-        paper.effective,
-        paper.floorDate
-          ? `${floor.takenUp ?? ""} ${dateWords(paper.floorDate)}`
-          : null,
-        paper.decision
-          ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.decidedOn ? ` · ${dateWords(paper.decision.decidedOn)}` : ""}`
-          : null,
-      ],
-    }),
-    // Dev mode: where to introduce it, how each member votes, the margin, then act (fr-dev-bill).
-    ...(devModeOn()
-      ? [
-          await devBillCard({
-            paper,
-            labels: controls.devBill,
-            traceLabel: controls.devTrace.trace,
-            onTrace: async () => {
-              const drawTrace = async (chosen) => {
-                const traced = await api(
-                  `/api/bill/stage?billId=${encodeURIComponent(billId)}`,
-                );
-                show(
-                  backButton,
-                  devTraceVote({
-                    stage: traced,
-                    paper,
-                    labels: controls.devTrace,
-                    words: controls.billStage,
-                    floor: controls.floor,
-                    chosen,
-                    onPick: drawTrace,
-                  }),
-                );
-              };
-              await drawTrace(null);
-            },
-            onDone: () => openBillPaper(billId, show, back, backLabel),
-          }),
-        ].filter(Boolean)
-      : []),
-  );
+async function openBillPaper(...args) {
+  return openBillPaperIn(screenContext, ...args);
 }
 
 // ---- From your seat (steps 6 to 9): draft; the vote is at the meeting ----
@@ -3868,342 +2817,8 @@ async function openBillPaper(billId, show, back, backLabel) {
 let seatResult = "";
 let seatText = [];
 // The tab of Your office the player last used.
-async function seatRows() {
-  const v = await api(`/api/seat?id=${encodeURIComponent(me.id)}`);
-  const parts = await officeParts();
-  const draftNodes = [];
-  // Who to ask to carry an executive's bill: the members, likeliest yes first and marked; a press
-  // asks that member (`/api/seat/act` with `memberId`).
-  const chooseMember = async (body, params) => {
-    const options = await api(
-      `/api/seat/ask-options?${new URLSearchParams(params)}`,
-    );
-    $("sheet-body").replaceChildren(
-      plate(
-        null,
-        line(controls.seat.askWho),
-        ...options.members.map((member) => {
-          const pick = makeButton({
-            className: "action",
-            textContent: member.likely
-              ? `${member.name} · ${controls.seat.askLikely}`
-              : member.name,
-          });
-          pick.dataset.act = "ask-member";
-          pick.addEventListener("click", () =>
-            act({ ...params, memberId: member.key }),
-          );
-          return pick;
-        }),
-      ),
-    );
-  };
-  const act = async (params) => {
-    // The draft card keeps Draft dark for every bill the engine would refuse, so no press
-    // reaches a refusal here; one would be a fault, and it throws as a page error.
-    const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
-    seatText = r.text ?? [];
-    // An executive's bill goes through a member: who was asked and what they said.
-    const askedWord = r.asked
-      ? (() => {
-          const say = r.asked.pronouns;
-          const fill = (line) =>
-            line
-              .replace("{name}", r.asked.name)
-              .replace("{words}", r.asked.reasonWords ?? "")
-              .replace("{subject}", say?.lower ?? "they")
-              .replace("{object}", say?.object ?? "them")
-              .replace("{possessive}", say?.possessive ?? "their");
-          const reasons = say
-            ? controls.seat.askedReasons
-            : controls.seat.askedReasonsThey;
-          const reason = reasons[r.asked.reason];
-          const line = r.asked.carried
-            ? controls.seat.askedCarried
-            : r.asked.reasonWords
-              ? controls.seat.askedRefusedSaid
-              : reason
-                ? controls.seat.askedRefusedBecause.replace("{reason}", reason)
-                : controls.seat.askedRefused;
-          const earlier = r.asked.earlier ?? [];
-          const before = earlier.length
-            ? ` ${(earlier.length === 1
-                ? controls.seat.askedBefore
-                : controls.seat.askedBeforeMore
-              ).replace("{date}", dateWords(earlier.at(-1)))}`
-            : "";
-          return fill(line + before);
-        })()
-      : "";
-    seatResult = r.asked
-      ? askedWord
-      : r.spoken
-        ? `${r.spoken} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
-            r.authority?.some((a) => !a.allowed)
-              ? ` · ${r.authority
-                  .filter((a) => !a.allowed)
-                  .map((a) => controls.authority?.[a.reason] ?? "")
-                  .join("; ")}`
-              : ""
-          }`
-        : "";
-    openSheet("office");
-  };
-  for (const body of v.bodies) {
-    for (const m of body.members) me.names = { ...me.names, [m.key]: m.name };
-    // Every law area, one group each: its policies and budget lines, each with what is in
-    // force today beside the amount you type. Money is typed in dollars and kept in cents.
-    const seat = controls.seat ?? {};
-    const itemKey = (item) =>
-      item.series
-        ? `series:${item.series}`
-        : item.question
-          ? `question:${item.question}`
-          : `line:${item.line}`;
-    const draftBlock = draftCard({
-      today: String(today()).slice(0, 10),
-      words: {
-        title: seat.title ?? "",
-        issue: seat.issue ?? "",
-        today: seat.today ?? "",
-        newAmount: seat.newAmount ?? "",
-        draft: seat.draft ?? "",
-        addStep: seat.addStep ?? "",
-        firstStep: seat.firstStep ?? "",
-        stepDate: seat.stepDate ?? "",
-        risePerYear: seat.risePerYear ?? "",
-        risePercent: seat.risePercent ?? "",
-        riseYears: seat.riseYears ?? "",
-        riseFirstDate: seat.riseFirstDate ?? "",
-        riseBack: seat.riseBack ?? "",
-        riseNeedsAmount: seat.riseNeedsAmount ?? "",
-        risePercentNeeded: seat.risePercentNeeded ?? "",
-        riseYearsNeeded: seat.riseYearsNeeded ?? "",
-        riseDateNeeded: seat.riseDateNeeded ?? "",
-        none: controls.bill?.none ?? "",
-      },
-      groups: (body.menus ?? []).map((menu) => ({
-        name: menu.name,
-        items: menu.items.map((item) => ({
-          value: itemKey(item),
-          label: `${
-            item.series
-              ? policyLabel(item.series)
-              : item.question
-                ? policyLabel(item.question)
-                : item.name
-          }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
-          // What the law in force holds, as the bill's paper cites it: a
-          // yes-or-no question reads Yes or No, as the Issues tab says it.
-          today: item.charge
-            ? feeToday(item.charge)
-            : item.today?.value == null
-              ? null
-              : item.kind === "policy-question"
-                ? item.today.value
-                  ? controls.politics.yes
-                  : controls.politics.no
-                : amount(item.today.value, item.today.unit),
-          // The list's short side note: a fee's yearly take, the card's long line is `today`.
-          aside: item.charge
-            ? (controls.fees?.aside ?? "").replace(
-                "{amount}",
-                roundedMoney(Number(item.charge.yearlyMinor)),
-              )
-            : undefined,
-          unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
-          // As the player types a fee's level, the words the paper will print.
-          say: item.charge ? (typed) => amount(typed, item.unit) : undefined,
-          cents: item.unit?.startsWith("minor") || Boolean(item.line),
-          blocked: item.allowed === false,
-          // A percent a year needs an amount in force above zero to start from.
-          raisable: Number(item.today?.value) > 0,
-          note:
-            item.allowed === false
-              ? (controls.authority?.[item.reason] ?? "")
-              : "",
-        })),
-      })),
-      onDraft: (item, typed, steps = [], rise = null) => {
-        const [kind, key] = [
-          item.value.slice(0, item.value.indexOf(":")),
-          item.value.slice(item.value.indexOf(":") + 1),
-        ];
-        const params = {
-          kind: "draft",
-          officeId: body.officeId,
-          ...(kind === "series"
-            ? { series: key }
-            : kind === "line"
-              ? { line: key }
-              : { question: key }),
-          // A phase-in names each step's amount and day, or a percent a year, its years and
-          // its first day; a single bill, one amount.
-          ...(rise
-            ? {
-                risePercent: String(rise.percent),
-                riseYears: String(rise.years),
-                riseFirstDate: rise.firstDate,
-              }
-            : steps.length
-              ? {
-                  steps: JSON.stringify(
-                    steps.map((step) => ({
-                      value: item.cents
-                        ? Math.round(Number(step.amount) * 100)
-                        : Number(step.amount),
-                      effectiveDate: step.date,
-                    })),
-                  ),
-                }
-              : {
-                  value: item.cents
-                    ? String(Math.round(Number(typed) * 100))
-                    : typed,
-                }),
-        };
-        // An executive's bill goes through a member the player picks: the body's members, the
-        // one the engine would ask marked as the likely yes.
-        if (body.byRequest) chooseMember(body, params);
-        else act(params);
-      },
-    });
-    // The body's line on the board: who sits on it, and the way in to writing
-    // a bill, which takes the whole screen (a list of subjects beside the
-    // chosen one's page). A menu has no Back (owner, Oct 28 and 29): the Your
-    // office tab above it returns to the seat.
-    const write = makeButton({
-      className: "action",
-      textContent: seat.title ?? "",
-    });
-    write.dataset.act = "write-a-bill";
-    write.addEventListener("click", () =>
-      $("sheet-body").replaceChildren(draftBlock),
-    );
-    draftNodes.push(
-      stripSection(
-        2,
-        body.title,
-        line(body.members.map((m) => m.name).join(" · ")),
-        buttonRow(write),
-      ),
-    );
-  }
-  const floor = controls.floor;
-  const labels = controls.officeScreen ?? {};
-  // Your bills, each with its standing, the day it is taken up, how the vote came out and
-  // the paper that opens to read it (the mock's "On my desk").
-  const desk = v.bills.map(({ bill, spoken, votes, tally, floorDate }) => {
-    const open = makeButton({
-      className: "action",
-      textContent: controls.bill?.open ?? "",
-    });
-    open.addEventListener("click", () =>
-      openBillPaper(
-        bill.id,
-        (...nodes) => $("sheet-body").replaceChildren(...nodes),
-        () => openSheet("office"),
-      ),
-    );
-    return deskBill(
-      deskTitle(`${spoken} · ${floor.status[bill.status] ?? ""}`),
-      ...(floorDate
-        ? [line(`${floor.takenUp} ${dateWords(floorDate)}`, "floor-date")]
-        : []),
-      ...(votes.length
-        ? [
-            line(
-              `${floor.voted}: ${tally.yes} ${floor.yes}, ${tally.no} ${floor.no}`,
-              "floor-result",
-            ),
-          ]
-        : []),
-      open,
-    );
-  });
-  const left = (v.incompatibilities ?? []).map((l) =>
-    line(`${dateWords(l.date)} · ${l.left} → ${l.took} · ${l.law}`),
-  );
-  const result = seatResult
-    ? [plate(null, line(seatResult), ...seatText.map((t) => line(t)))]
-    : [];
-  // Office hours: the residents' cases the cases engine opened for this official, each with the
-  // two answers the engine offers; a decision runs the engine's own `handleCase`.
-  const caseWords = controls.officeCases ?? {};
-  const open = await api(
-    `/api/office/cases?id=${encodeURIComponent(me.id)}`,
-  ).catch(() => []);
-  const cases = open.length
-    ? [
-        stripSection(
-          1,
-          labels.officeHours,
-          ...open.map((c) => {
-            const answer = (decision, text) => {
-              const b = makeButton({ textContent: text });
-              b.addEventListener("click", async () => {
-                await post(
-                  `/api/office/case?${new URLSearchParams({ caseId: c.id, decision })}`,
-                );
-                openSheet("office");
-              });
-              return b;
-            };
-            return deskBill(
-              peopleSentence([
-                {
-                  name: c.name,
-                  onOpen: () => {
-                    closeSheet();
-                    showPerson({ personId: c.personId });
-                  },
-                },
-              ]),
-              line(
-                `${caseWords.problems?.[c.problem] ?? ""} · ${caseWords.by} ${dateWords(c.respondBy)}`,
-              ),
-              buttonRow(
-                answer("help", caseWords.help),
-                answer("decline", caseWords.decline),
-              ),
-            );
-          }),
-        ),
-      ]
-    : [];
-  return [
-    stripBoard({
-      className: "office-board",
-      columns: [
-        parts.seat,
-        [
-          ...parts.stops,
-          ...result,
-          ...(desk.length
-            ? [
-                stripSection(
-                  1,
-                  labels.onMyDesk,
-                  desk.length > 3
-                    ? pager({
-                        items: desk,
-                        render: (node) => node,
-                        rows: 3,
-                        columns: 1,
-                        rowHeight: 110,
-                        gap: 10,
-                      })
-                    : deskList(...desk),
-                ),
-              ]
-            : []),
-          ...draftNodes,
-          ...(left.length ? [stripSection(3, labels.left, ...left)] : []),
-        ],
-        [...cases, ...parts.budget, ...parts.deals],
-      ],
-    }),
-  ];
+async function seatRows(...args) {
+  return seatRowsIn(screenContext, ...args);
 }
 
 /** The Kit 13 calendar icon a kind of dated record is drawn with. */
@@ -7993,11 +6608,12 @@ async function enterAs(life, personId) {
  * Loading worth watching (Lane 4, path 3): while the first scene is drawn,
  * the world just built tells its past. A year counter runs through the
  * years of your life; each year writes its lines of your story into the
- * journal and prints the headlines you heard that year; the state's map
- * fills in county by county, your districts last. Everything comes from the
+ * journal. Everything comes from the
  * built world's records (/api/newlife/story, loading.ts). A click, or the
  * end of the years, finishes it. Resolves when it is done.
  */
+/** How long the loading story's last line stays before the card closes (ms). Engineering value, not a game number. */
+const LAST_LINE_MS = 2500;
 function playLoadingStory(story) {
   const panel = $("loading-story");
   const years = story?.years ?? [];
@@ -8014,12 +6630,23 @@ function playLoadingStory(story) {
     const finish = () => {
       window.clearTimeout(timer);
       panel.removeEventListener("click", finish);
+      // Every line shows whole once the story ends: a line still being
+      // written when the years run out or the player clicks is never left
+      // cut mid-word (the CTO, Nov 24: "Utah has its usual prob").
+      journal.classList.add("written");
       $("loading-year").textContent = String(years.at(-1).year);
       resolve();
     };
     panel.addEventListener("click", finish);
     const next = () => {
-      if (at >= years.length) return finish();
+      // The last line is written whole and stays long enough to read before
+      // the card closes (pre-grade round 5, Nov 24: the card closed while
+      // "It's January 2025..." was still fading in).
+      if (at >= years.length) {
+        journal.classList.add("written");
+        timer = window.setTimeout(finish, LAST_LINE_MS);
+        return;
+      }
       const year = years[at];
       // The counter runs up to the year, a year at a time.
       if (shown < year.year) {
@@ -8031,7 +6658,6 @@ function playLoadingStory(story) {
       $("loading-year").textContent = String(year.year);
       journal.append(
         ...year.lines.map((row) => prose(row.text, "loading-line")),
-        ...year.headlines.map((row) => prose(row.headline, "loading-headline")),
       );
       at += 1;
       timer = window.setTimeout(next, step);
@@ -8069,10 +6695,12 @@ function followBuild(bar, onStory) {
   bar.firstElementChild.style.width = "0";
   // A poll still in flight when the build ends leaves the line alone.
   let built = false;
-  // The step's own dry lines (controls.loadingLines), one at a time, a new one every few seconds,
+  // The step's own dry lines (from the build's progress), one at a time, a new one every few seconds,
   // never the same line twice in one load. Each load starts at the next place in the pool, so
   // two loads in a row do not open on the same line.
   let quip = { stage: "", text: "" };
+  // The pools come with the build's progress, said for the place being built.
+  let lines = {};
   const used = new Set();
   let started = 0;
   try {
@@ -8082,7 +6710,7 @@ function followBuild(bar, onStory) {
     // Private windows and blocked storage just start at the top of each pool.
   }
   const nextQuip = (stage) => {
-    const pool = controls.loadingLines?.[stage] ?? [];
+    const pool = lines[stage] ?? [];
     const fresh = pool.filter((line) => !used.has(line));
     if (!fresh.length) return quip.stage === stage ? quip.text : "";
     const text = fresh[started % fresh.length];
@@ -8108,6 +6736,7 @@ function followBuild(bar, onStory) {
   const poll = setInterval(async () => {
     const p = await api("/api/newlife/progress").catch(() => undefined);
     if (p?.story) onStory?.();
+    if (p?.lines) lines = p.lines;
     if (!p || built) return;
     // The step in plain words, and a bar that shows how many steps are done; no counts.
     const at =
@@ -8195,8 +6824,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     };
     show("front", false);
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;
-    // The line that lands the player at home after the address.
-    landing = opening?.home?.landing ?? null;
     // Home that evening (the server's rule for the opening day), with the
     // night's news to pick up, then the first choices pointed out.
     for (const id of ["rings", "card"]) show(id, true);
@@ -8208,8 +6835,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     // and sets the one backdrop the opening loads. The night's news pops up
     // after it opens, so it waits until the speech ends (C5; owner, Nov 7:
     // "News pop-ups wait until the scene ends").
+    // The address scene says its own arrival; nothing lands the player twice
+    // (owner, Nov 23, P7 and P19: "I thought I was sitting at the kitchen table").
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
-    else landHome();
     showNewsSurface(news);
   } catch (error) {
     bar.hidden = true;

@@ -21,7 +21,7 @@ root: none
 
 **What.** At head b718411490d7 the quick golden-path job ran out of its 450 s budget at M2-08. M1-02 (the national economy and central bank, Ridgewood, New Jersey, seed 4f76e802069c3914723aad11a315bab328faf3c66c4ec6e783a1ed7664433966) alone took 78.8 s. Seen: the golden-path table of run 43633208622 and the local timing below.
 
-**Cause.** Found in code: `src/core2/tooling/m1-02-check.ts` plays two years of every economy engine from the start date, about 0.09 s a played day after a 17.6 s build (measured Nov 14: 730 days about 86 s), and where the drawn town had no bank line open at a rate change a draw loop (`drawPlace` up to twelve times) ran further places, each another run.
+**Cause.** Found in code: `scripts/core2/tooling/m1-02-check.ts` plays two years of every economy engine from the start date, about 0.09 s a played day after a 17.6 s build (measured Nov 14: 730 days about 86 s), and where the drawn town had no bank line open at a rate change a draw loop (`drawPlace` up to twelve times) ran further places, each another run.
 
 **Fix.** One change to the check and the rows. The check names its own place and seed by design (Ridgewood, as above: a bank line is open at the first rate change on 2025-01-23) and its draw loop is deleted; it fails naming the place and the seed if the pin has no witness. It takes the days to play as an argument. Two rows run it: M1-02Q, 120 days in the quick job (37 s measured; it holds the first two rate changes, 2025-01-23 and 2025-03-20, with their votes, reasons and repricing), and M1-02, the two years, 730 days, in the long job with every assertion kept. Premise change, stated by the Account lead: the two years are the game's own played days, so the two-year check belongs in the long job; nothing it asserts is cut.
 
@@ -33,6 +33,6 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/tooling/m1-02-check.ts, docs/roadmap/features.json, scripts/core2-guard/policies.json
+**Files.** scripts/core2/tooling/m1-02-check.ts, docs/roadmap/features.json, scripts/core2-guard/policies.json
 
 **Notes.** Clause 1 of the check is unchecked by the owner's Nov 8 ruling. Filed by hand. Seen: M1-02Q at 37 s and the 730-day run at about 86 s in this container.

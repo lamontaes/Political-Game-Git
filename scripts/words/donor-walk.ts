@@ -4,7 +4,8 @@
  *
  *   node --import tsx scripts/words/donor-walk.ts --seed <word> [--label a] [--unseated] [--state] [--gifts 3]
  *
- * The place is drawn from all 56 by seed and label. Bills are drafted before the body of a race counted
+ * The place is drawn from all 56 by seed and label; a place with no race to play is passed over by name
+ * and the next is drawn, up to `--attempts` (default 12). Bills are drafted before the body of a race counted
  * in the year (as donor-ask-scene.test.ts does), the player (a sitting member of that body, else a
  * resident who files) campaigns to the night before the count, and each gift that became a moment for
  * them is composed with purposeScene. The gift's own record is then composed again for each variant
@@ -48,6 +49,7 @@ import { type TreeNode } from "../../src/director/scene-talk";
 import variantFile from "../../src/director/data/arc-variants.json" with { type: "json" };
 import bank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { drawPlace } from "../core2-year/place";
+import { walkPlaces } from "./walk-places";
 
 const option = (name: string, fallback: string) => {
   const at = process.argv.indexOf(`--${name}`);
@@ -56,6 +58,8 @@ const option = (name: string, fallback: string) => {
 const seed = option("seed", "");
 if (!seed) throw new Error("--seed <word> is required");
 const label = option("label", "a");
+
+const walk = walkPlaces(option, label);
 const unseated = process.argv.includes("--unseated");
 // A state legislature, whose bills go to committees and two chambers, in place of the town's own board.
 const state = process.argv.includes("--state");
@@ -64,8 +68,9 @@ const seenOut = option("seen-out", "");
 const YEAR = 365;
 
 setBookkeeping(false);
-const place = drawPlace(seed, `donor-walk:${label}`);
+const place = drawPlace(seed, `donor-walk:${walk.drawLabel}`);
 const where = `${place.name} (${place.key}), seed ${place.seed}`;
+
 console.log(`# PLACE ${where}`);
 const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
   twoLevel: true,
@@ -96,8 +101,7 @@ const race = open().find(
     ),
 );
 if (!race) {
-  console.log("SKIP: no council or board race open for filing in the year");
-  process.exit(0);
+  walk.passOver(where, "no council or board race open for filing in the year");
 }
 const body = members(api, race.officeId);
 const sponsor = body[0]!;
@@ -157,8 +161,7 @@ if (!candidateId)
     }
   }
 if (!candidateId) {
-  console.log("SKIP: nobody could file");
-  process.exit(0);
+  walk.passOver(where, "nobody could file");
 }
 core.playerId = candidateId;
 const seated = body.some((t) => memberKey(t) === candidateId);

@@ -19,6 +19,6 @@ claimed-at: 2026-11-05T02:32:43.809Z
 
 **Done when.** Gap report county-area count falls from 712 to 646; place-map tests and guards pass.
 
-**Files.** src/core2/tooling/place-map-build.ts
+**Files.** scripts/core2/tooling/place-map-build.ts
 
 **Notes.** TODO

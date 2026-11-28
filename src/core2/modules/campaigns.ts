@@ -13,6 +13,7 @@
  * Views come from a stand-in until OPUS-PEOPLE's views engine lands
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
+import { carriersOf } from "../module-fields";
 import { shareValue } from "../shares";
 import { lawApplied } from "../law-reach/applied";
 import { outsideMarketAccount, townOutsideOf } from "../opening-outside-market";
@@ -22,7 +23,7 @@ import {
   customPolitics,
   registerElectorate,
 } from "../electorate";
-import { partySide } from "../appointments";
+import { partySide, termById, officeById } from "./offices";
 import { residentsRuntime } from "./residents";
 import { registerDerivedCache } from "../snapshot";
 import { discretionaryHours } from "./work";
@@ -62,15 +63,15 @@ import {
   makeIsoDate,
   daysBetweenText as daysBetween,
 } from "../kernel/dates";
-import { townDistrict } from "../offices-state";
+import { townDistrict } from "./offices";
 import { worldLevel } from "../world-draw";
 import { basePlaces, wideElectorate } from "../race-places";
 import { logistic } from "../kernel/deterministic-math";
 import { OPENING_CARRY } from "../turnout";
-import { transferCash } from "../world-transfer";
+import { transferCash } from "../budgets-treasury";
 import { notifySalesReceipt } from "./finance";
 import { filingClerkFor } from "./filing-clerk";
-import { medianTransactionBalance } from "../starting-cash";
+import { medianTransactionBalance } from "./budgets";
 import { districtLean, groupAgreement, personLean } from "../campaign-views";
 import {
   campaignParameter,
@@ -152,6 +153,37 @@ import {
   type PetitionSigner,
   worldSwing,
 } from "./elections";
+export {
+  STANCE_LOADINGS,
+  groupStance,
+  personLean,
+  popularity,
+} from "../campaign-views";
+export type { StanceProfile } from "../campaign-views";
+export { filingClerkFor } from "./filing-clerk";
+export { choosesPresident } from "../electorate-places";
+export {
+  joinParty,
+  nextPartyMeeting,
+  openParties,
+  partyAgreement,
+  partyMemberIds,
+  partyStands,
+} from "./parties";
+export { campaignDayChoices } from "../campaign-day";
+export { enrichCivicInputs } from "../civic-inputs";
+export { openInterestGroups } from "./interest-groups";
+export { openBallotMeasures } from "./ballot-measures";
+export { openRecalls } from "./recalls";
+export {
+  NATIONAL_ENGAGEMENT,
+  countedResidents,
+  countedResidentsOf,
+  engagementOf,
+} from "../electorate";
+export { StanceReader, candidateStance } from "../campaign-stances";
+export { publicOffset, questionAxis } from "../campaign-views";
+export { withMembershipDues } from "../membership-dues";
 export { refreshOfficeStaff } from "../civic-inputs";
 export { electionsParameter } from "../elections-calendar";
 
@@ -885,11 +917,9 @@ function recordTilted(
     : undefined;
   if (!filing || !contest?.incumbentTermId) return shares;
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return shares;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const term = offices
-    .table("terms")
-    .get(contest.incumbentTermId) as unknown as TermRow | undefined;
-  const office = offices.table("offices").get(contest.officeId) as unknown as
+  const term = termById(api, contest.incumbentTermId) as unknown as
+    TermRow | undefined;
+  const office = officeById(api, contest.officeId) as unknown as
     { jurisdiction?: string } | undefined;
   if (!term || !office?.jurisdiction) return shares;
   // A state's or the country's office is read where it serves; a town's, a
@@ -982,18 +1012,17 @@ export interface DoorVisit {
  * Who a voter would vote for in a contest today, by the ballot's own appeal
  * rule (their earlier word at a door included, and a counted resident's visit
  * just now), or null for nobody or a voter who can't vote in it; undefined
- * where the world counts no ballots. The voting engine registers it when it
- * opens (it reads this module, so this module cannot import it).
+ * where the world counts no ballots. The voting module carries it as
+ * `doorChoice` (it reads this module, so this module cannot import it).
  */
-type DoorChoice = (
+function doorChoiceOf(
   api: CoreAPI,
   voterId: string,
   contestId: string,
   visit?: DoorVisit,
-) => string | null | undefined;
-let doorChoice: DoorChoice | null = null;
-export function registerDoorChoice(choice: DoorChoice): void {
-  doorChoice = choice;
+): string | null | undefined {
+  const carrier = carriersOf(api.state, "doorChoice")[0];
+  return carrier?.doorChoice!(api, voterId, contestId, visit);
 }
 
 /**
@@ -1020,7 +1049,7 @@ function answerAtDoor(
   // for now, after the visit (their own appeal, an earlier word at a door
   // included, so a resident who gave a rival their word tells this one no);
   // without the voting engine, when the visit left them warm.
-  const choice = doorChoice?.(api, voterId, campaign.contestId, visit);
+  const choice = doorChoiceOf(api, voterId, campaign.contestId, visit);
   const yes =
     choice === undefined ? warmth > 0 : choice === campaign.candidateId;
   if (!yes) return;
@@ -3579,13 +3608,14 @@ export function signReason(
 
 /**
  * Whether a person is on the count's roll today (the roll the clerk checks a
- * petition against). The voting engine registers it when it opens (it reads
+ * petition against). The voting module carries it as `petitionRoll` (it reads
  * this module, so this module cannot import it).
  */
-type PetitionRoll = (api: CoreAPI, personId: string) => boolean;
-let onPetitionRoll: PetitionRoll | null = null;
-export function registerPetitionRoll(roll: PetitionRoll): void {
-  onPetitionRoll = roll;
+function petitionRollOf(
+  api: CoreAPI,
+): ((api: CoreAPI, personId: string) => boolean) | undefined {
+  const carrier = carriersOf(api.state, "petitionRoll")[0];
+  return carrier && ((a, id) => carrier.petitionRoll!(a, id));
 }
 
 /**
@@ -3599,10 +3629,11 @@ export function registerPetitionRoll(roll: PetitionRoll): void {
  */
 export function signaturesToGather(api: CoreAPI, filingId: string): number {
   const needed = petitionOf(api, filingId)?.needed ?? 0;
-  if (!needed || !onPetitionRoll) return needed;
+  const onRoll = petitionRollOf(api);
+  if (!needed || !onRoll) return needed;
   let off = 0;
   for (const signer of petitionSigners(api, filingId))
-    if (!onPetitionRoll(api, signer.personId)) off += 1;
+    if (!onRoll(api, signer.personId)) off += 1;
   return needed + off;
 }
 
@@ -5483,16 +5514,11 @@ export function statementSpeechPrefix(
   return `speech:${candidateId}:${date}:`;
 }
 
-/** Where an ad is bought: an outlet and its followers (the press registers it). */
-let adOutlet:
-  | ((api: CoreAPI) => {
-      organizationId: string;
-      followerIds: readonly string[];
-      countedFollowers: number;
-    } | null)
-  | null = null;
-export function registerAdOutlet(fn: typeof adOutlet): void {
-  adOutlet = fn;
+/** Where an ad is bought: the outlet and its followers, from the press module that carries `adOutlet` (the first one installed in this world). */
+function adOutlet(api: CoreAPI) {
+  return (
+    carriersOf(api.state as CoreState, "adOutlet")[0]?.adOutlet?.(api) ?? null
+  );
 }
 
 /**
@@ -5509,7 +5535,7 @@ export function adAudience(
   /** Counted adults the ad reaches, by the same rule times their count. */
   readonly countedViewers: number;
 } | null {
-  const outlet = adOutlet?.(api) ?? null;
+  const outlet = adOutlet(api);
   if (!outlet) return null;
   const contacts = Math.floor(
     (amount / 1000) * campaignParameter("adContactsPerThousandMinor"),
@@ -5537,7 +5563,7 @@ export function adTimeForSale(api: CoreAPI): boolean {
   return (
     (api.state as CoreState).modules.has(CAMPAIGNS_MODULE_ID) &&
     table(api, "town").get("town") !== undefined &&
-    (adOutlet?.(api) ?? null) !== null
+    adOutlet(api) !== null
   );
 }
 
@@ -8224,10 +8250,8 @@ function holdsTheSeat(
     : undefined;
   if (!contest?.incumbentTermId || !api.state.modules.has(OFFICES_MODULE_ID))
     return false;
-  const term = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .get(contest.incumbentTermId) as unknown as TermRow | undefined;
+  const term = termById(api, contest.incumbentTermId) as unknown as
+    TermRow | undefined;
   return term?.status === "serving" && term.personId === personId;
 }
 

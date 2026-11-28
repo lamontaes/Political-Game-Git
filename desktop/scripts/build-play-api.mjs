@@ -27,7 +27,10 @@ import { build } from "vite";
 
 const desktopRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const repoRoot = path.dirname(desktopRoot);
-const outDir = path.join(desktopRoot, "staged", "play-api");
+// PLAY_API_OUT_DIR is for a test that builds its own copy, so it never touches the one packaging reads.
+const outDir = process.env.PLAY_API_OUT_DIR
+  ? path.resolve(process.env.PLAY_API_OUT_DIR)
+  : path.join(desktopRoot, "staged", "play-api");
 
 // new URL("literal" | `literal/${…}`, import.meta.url)
 const LOOKUP =

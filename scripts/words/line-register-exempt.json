@@ -50,12 +50,6 @@
       "reads": []
     },
     {
-      "file": "src/bench/m2-10-seating.ts",
-      "name": "seatingProblems",
-      "reason": "Seating check's problem list; read only by the developer check m2-10-check.ts and its test.",
-      "reads": []
-    },
-    {
       "file": "src/director/reach.ts",
       "name": "reachReport",
       "reason": "A scene-reach report for developers; read only by its test and the scene-year script.",

@@ -17,11 +17,11 @@
  * to the workforce office. Either way the resident's view of the official
  * moves, as a cause their next ballot reads.
  */
-import { ageInYears } from "../kernel/dates";
+import { ageInYears, addDaysText as addDays } from "../kernel/dates";
 import { coreAPI, fillInPerson, registerModule } from "../state";
-import { fundBalance } from "../counted-money";
+import { fundBalance } from "./health";
 import { closenessBetween } from "../closeness";
-import { engagementOf } from "../electorate";
+import { engagementOf } from "./campaigns";
 import type {
   CoreAPI,
   CoreModule,
@@ -41,9 +41,10 @@ import { countedLean } from "./views";
 import { keepsWhy } from "../why-kept";
 import { STAFF_MODULE_ID, staffDecision } from "./staff";
 import { JOBS_MODULE_ID, recordReferral } from "./jobs";
+import { allCountedSeekers } from "../jobs-reads";
 import { referCustody, servingCustodyOf } from "./justice";
 import { residentsRuntime } from "./residents";
-import { makeCase, SPEECH_MODULE_ID } from "./speech";
+import { makeCase, SPEECH_MODULE_ID } from "./people";
 import problemQuestions from "../data/constituent-cases/problem-questions.json" with { type: "json" };
 import SCENE_ENDINGS from "../data/constituent-cases/scene-endings.json" with { type: "json" };
 
@@ -140,11 +141,6 @@ export interface CaseSeeker {
 const VISIT_HOURS = 0.05;
 
 const table = (api: CoreAPI) => api.moduleState(CASES_MODULE_ID).table("cases");
-
-const addDays = (date: string, days: number) =>
-  new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000)
-    .toISOString()
-    .slice(0, 10);
 
 const ageOn = (p: Pick<PersonState, "birthDate">, date: string) =>
   ageInYears(p.birthDate, date);
@@ -402,13 +398,7 @@ function countedOutOfWork(
   if (!rt || !state.modules.has(JOBS_MODULE_ID)) return [];
   const date = state.date;
   const adultAge = api.parameter("votingAge");
-  const seekers = api
-    .moduleState(JOBS_MODULE_ID)
-    .table("countedSeekers")
-    .query("all", [true]) as unknown as {
-    personId: string;
-    placeId: string;
-  }[];
+  const seekers = allCountedSeekers(api);
   const store = rt.store;
   const share = new Map<number, number>();
   const out: ReturnType<typeof countedOutOfWork> = [];

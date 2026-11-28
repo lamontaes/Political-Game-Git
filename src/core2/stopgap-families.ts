@@ -33,6 +33,7 @@ import f_nation from "./data/stopgaps/nation.json" with { type: "json" };
 import f_office from "./data/stopgaps/office.json" with { type: "json" };
 import f_officials from "./data/stopgaps/officials.json" with { type: "json" };
 import f_p10 from "./data/stopgaps/p10.json" with { type: "json" };
+import f_p13 from "./data/stopgaps/p13.json" with { type: "json" };
 import f_p15 from "./data/stopgaps/p15.json" with { type: "json" };
 import f_p8 from "./data/stopgaps/p8.json" with { type: "json" };
 import f_people from "./data/stopgaps/people.json" with { type: "json" };
@@ -44,6 +45,7 @@ import f_school from "./data/stopgaps/school.json" with { type: "json" };
 import f_screens from "./data/stopgaps/screens.json" with { type: "json" };
 import f_speed from "./data/stopgaps/speed.json" with { type: "json" };
 import f_state from "./data/stopgaps/state.json" with { type: "json" };
+import f_story from "./data/stopgaps/story.json" with { type: "json" };
 import f_traits from "./data/stopgaps/traits.json" with { type: "json" };
 import f_web from "./data/stopgaps/web.json" with { type: "json" };
 import f_wire from "./data/stopgaps/wire.json" with { type: "json" };
@@ -81,6 +83,7 @@ export const STOPGAP_FAMILIES: Record<string, readonly unknown[]> = {
   "office.json": f_office,
   "officials.json": f_officials,
   "p10.json": f_p10,
+  "p13.json": f_p13,
   "p15.json": f_p15,
   "p8.json": f_p8,
   "people.json": f_people,
@@ -92,6 +95,7 @@ export const STOPGAP_FAMILIES: Record<string, readonly unknown[]> = {
   "screens.json": f_screens,
   "speed.json": f_speed,
   "state.json": f_state,
+  "story.json": f_story,
   "traits.json": f_traits,
   "web.json": f_web,
   "wire.json": f_wire,
