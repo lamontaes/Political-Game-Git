@@ -99,6 +99,9 @@ Tonight the CTO approved more entry files than one front door per engine, so no 
 
 ## Moves held for breaking the rings (no baseline rises, 8:21 a.m.)
 
+**Nov 27, 8:21 p.m.: the Rings session (Opus) now breaks the rings,** the ring half of Core item 11, at the owner's ask. Narrowing the widened entries stays with the finisher. Rings posts on #10377 as each ring breaks and frees the moves below, and the CTO folds them. Its goal is in cto-notes/goals/2026-11-27-1617/rings-main.txt on the CTO's Mac. At train 3's fold3/nov27, cf145db4, the biggest ring has 211 files and 1,153 edges.
+
+
 - **World #10803:** press.ts split by concern (+58 cycle edges, +12 ring files). It comes after the ring around ./press is broken.
 - **Core #10792:** item 8's fill-in as its own file (+4 edges, +1 ring file), and its two `core.jobs` writes go through jobs' door (item 7).
 - **Core #10752:** `modules/official-pay.ts` reaching jobs' door through `job-lifecycle.ts` (+1 edge).
