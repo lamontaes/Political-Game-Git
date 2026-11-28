@@ -52,6 +52,7 @@ import {
   nationalExecutive,
 } from "../core2/offices-executives";
 import { allBills, billById } from "../core2/modules/bodies-reads";
+import { allContests } from "../core2/modules/elections";
 
 const LOCAL_LEVELS = new Set(["city", "township", "county"]);
 /** A town's own government before the county's. */
@@ -357,12 +358,7 @@ function comingUpFor(
   // calendar's own lines (the English engine's words), for its contests.
   const contests = new Set(
     api.state.modules.has(ELECTIONS)
-      ? (
-          api
-            .moduleState(ELECTIONS)
-            .table("contests")
-            .rows() as unknown as ContestRow[]
-        )
+      ? (allContests(api) as unknown as ContestRow[])
           .filter((c) => c.officeId === office.id)
           .map((c) => c.id)
       : [],
