@@ -5,6 +5,7 @@
  * sees when the first door opens. Played world, a place and seed nobody
  * chose; the player is 17 on day one, so every contest's age check is unmet.
  */
+import { advanceToFilingOpen } from "../../tests/support/gov-test-clock";
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -28,6 +29,8 @@ it(`names the day a player turns the age a contest asks in ${place.name} (${plac
     twoLevel: true,
     placeKey: place.key,
   });
+  // Every race opens its filing on its own real day, so play to the first.
+  advanceToFilingOpen(world.core);
   const me = world.playerId!;
   const born = world.core.people.get(me)!.birthDate;
   const contests = governmentView(world.core, me).contests;
