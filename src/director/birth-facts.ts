@@ -10,7 +10,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import type { NewsFact } from "./life-news";
 
 /** The situation type that reads these facts. */
-export const NEW_BABY_TYPE = "new-baby";
+const NEW_BABY_TYPE = "new-baby";
 
 const BIRTH_KIND = "person-birth";
 

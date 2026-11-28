@@ -14,7 +14,7 @@ import {
   thirdsLogOdds,
   weightOf,
   withTraitWeight,
-} from "../trait-test-kit";
+} from "../../../tests/support/trait-test-kit";
 import { decisionLean } from "../trait-decisions";
 import { meetingParameter, townHallDrives } from "./meetings";
 import type { CoreAPI, CoreState } from "../types";

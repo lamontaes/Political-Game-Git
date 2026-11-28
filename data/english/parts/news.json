@@ -636,28 +636,6 @@
       }
     },
     {
-      "key": "news.law-amount-passed.a-law-passed-date-leaves-the-measure-in-place-at",
-      "move": "law-amount-passed",
-      "kind": "written",
-      "text": "A law passed {date} leaves the {measure} in {place} at {to}.",
-      "uses": [
-        {
-          "move": "law-amount-passed",
-          "subject": "news",
-          "role": "law-amount-passed",
-          "choice": "lede",
-          "requiresFacts": ["same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.law-amount-passed.place-set-the-measure-at-to-in-a-law-passed",
       "move": "law-amount-passed",
       "kind": "written",
@@ -667,7 +645,8 @@
           "move": "law-amount-passed",
           "subject": "news",
           "role": "law-amount-passed",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -688,7 +667,8 @@
           "move": "law-amount-passed",
           "subject": "news",
           "role": "law-amount-passed",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -710,7 +690,8 @@
           "subject": "news",
           "role": "law-amount-passed",
           "choice": "lede",
-          "requiresFacts": ["federal"]
+          "requiresFacts": ["federal"],
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -733,7 +714,8 @@
           "subject": "news",
           "role": "law-amount-passed",
           "choice": "lede",
-          "requiresFacts": ["federal"]
+          "requiresFacts": ["federal"],
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -744,28 +726,6 @@
         "key": "news-received"
       },
       "elements": ["the-federal-minimum-wage-is-seven-twenty-five"]
-    },
-    {
-      "key": "news.law-amount-passed.congress-voted-date-to-leave-the-measure-at-to",
-      "move": "law-amount-passed",
-      "kind": "written",
-      "text": "Congress voted {date} to leave the {measure} at {to}.",
-      "uses": [
-        {
-          "move": "law-amount-passed",
-          "subject": "news",
-          "role": "law-amount-passed",
-          "choice": "lede",
-          "requiresFacts": ["same", "federal"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
     },
     {
       "key": "news.law-passed.place-adopted-the-law-date",
@@ -890,10 +850,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "nightclub-sues-before-an-earlier-last-call",
-        "governor-presses-for-standalone-bill-then-signs-it"
-      ]
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-when.it-goes-into-force-on-starts",
@@ -916,10 +873,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "nightclub-sues-before-an-earlier-last-call",
-        "governor-presses-for-standalone-bill-then-signs-it"
-      ]
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-when.people-will-live-under-it-from-starts",
@@ -942,10 +896,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "nightclub-sues-before-an-earlier-last-call",
-        "governor-presses-for-standalone-bill-then-signs-it"
-      ]
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.life-death.name-died-on-date",
@@ -1002,6 +953,28 @@
       "move": "life-death",
       "kind": "written",
       "text": "{name}, {age}, of {place}, has died. The date was {date}.",
+      "uses": [
+        {
+          "move": "life-death",
+          "subject": "news",
+          "role": "life.death",
+          "choice": "lede",
+          "requiresFacts": ["age", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.life-death.name-age-of-place-died-on-date",
+      "move": "life-death",
+      "kind": "written",
+      "text": "{name}, {age}, of {place}, died on {date}.",
       "uses": [
         {
           "move": "life-death",
@@ -1656,10 +1629,7 @@
       "tag": {
         "move": "announce-result"
       },
-      "elements": [
-        "neighbors-sue-after-the-council-upholds-a-staff-approval",
-        "tie-vote-approves-plate-cameras-with-two-year-term"
-      ]
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.budget.the-budget-sets-money-aside-for-purpose",
@@ -1680,7 +1650,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.organization-closed.subject-shut-down-in-year",
@@ -1702,10 +1673,7 @@
         "move": "deliver-news",
         "key": "loss"
       },
-      "elements": [
-        "a-plant-closes-and-the-household-splits-for-the-pension",
-        "business-closes-story"
-      ]
+      "elements": ["business-closes-story"]
     },
     {
       "key": "news.law-took-effect.measure-went-into-force-on-date",
@@ -1729,10 +1697,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "annual-law-roundup-on-the-effective-date",
-        "grocers-sell-off-bag-stock-before-the-stricter-rule"
-      ]
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-took-effect.measure-went-into-force-in-place-on-date",
@@ -1755,10 +1720,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "warehouse-fills-while-textile-buyers-retreat",
-        "grocers-sell-off-bag-stock-before-the-stricter-rule"
-      ]
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-took-effect.the-federal-measure-went-into-force-on-date",
@@ -1781,7 +1743,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["the-federal-minimum-wage-is-seven-twenty-five"]
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-took-effect.measure-was-signed-into-law-on-date",
@@ -1804,11 +1766,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "governor-presses-for-standalone-bill-then-signs-it",
-        "school-funding-formula-asked-then-signed-in-the-budget",
-        "trade-deal-asked-then-passes-with-both-parties"
-      ]
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.the-law-began-to-apply-in-place-on-date",
@@ -1830,11 +1788,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "grocers-sell-off-bag-stock-before-the-stricter-rule",
-        "shopper-calls-the-bag-rule-a-nuisance-then-complies",
-        "annual-law-roundup-on-the-effective-date"
-      ]
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.place-began-living-under-the-law-on-date",
@@ -1856,11 +1810,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "grocers-sell-off-bag-stock-before-the-stricter-rule",
-        "shopper-calls-the-bag-rule-a-nuisance-then-complies",
-        "annual-law-roundup-on-the-effective-date"
-      ]
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.the-law-applies-in-place-from-date",
@@ -1882,11 +1832,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "grocers-sell-off-bag-stock-before-the-stricter-rule",
-        "shopper-calls-the-bag-rule-a-nuisance-then-complies",
-        "annual-law-roundup-on-the-effective-date"
-      ]
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.the-law-went-into-force-on-date",
@@ -1908,11 +1854,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "grocers-sell-off-bag-stock-before-the-stricter-rule",
-        "shopper-calls-the-bag-rule-a-nuisance-then-complies",
-        "annual-law-roundup-on-the-effective-date"
-      ]
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.the-law-gives-place-purpose",
@@ -1934,7 +1876,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.the-law-went-into-force-on-date-and-replaced-the",
@@ -1957,51 +1900,162 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["grocers-sell-off-bag-stock-before-the-stricter-rule"]
+      "elements": ["law-takes-effect-story"]
     },
     {
-      "key": "news.law-amount.a-law-that-began-date-leaves-the-measure-in-place",
-      "move": "law-amount",
+      "key": "news.law.the-law-took-effect-in-place-on-date",
+      "move": "law",
       "kind": "written",
-      "text": "A law that began {date} leaves the {measure} in {place} at {to}.",
+      "text": "The {law} took effect in {place} on {date}.",
       "uses": [
         {
-          "move": "law-amount",
+          "move": "law",
           "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["same"]
+          "role": "law",
+          "choice": "lede"
         }
       ],
       "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
+      "author": "the news writer",
+      "date": "2026-11-24",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
-      "key": "news.law-amount.the-measure-holds-at-to-after-a-law-that-began",
-      "move": "law-amount",
+      "key": "news.law.place-has-been-under-the-law-since-date",
+      "move": "law",
       "kind": "written",
-      "text": "The {measure} holds at {to} after a law that began {date}.",
+      "text": "{place} has been under the {law} since {date}.",
       "uses": [
         {
-          "move": "law-amount",
+          "move": "law",
           "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["same"]
+          "role": "law",
+          "choice": "lede"
         }
       ],
       "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
+      "author": "the news writer",
+      "date": "2026-11-24",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "news.law.in-place-the-law-has-been-the-rule-since-date",
+      "move": "law",
+      "kind": "written",
+      "text": "In {place}, the {law} has been the rule since {date}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "news.law.the-law-took-effect-on-date-in-place-and-the-rule-it-replace",
+      "move": "law",
+      "kind": "written",
+      "text": "The {law} took effect on {date} in {place}, and the rule it replaced no longer applies.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede",
+          "requiresFacts": ["ended"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "news.law.place-put-the-law-into-effect-on-date",
+      "move": "law",
+      "kind": "written",
+      "text": "{place} put the {law} into effect on {date}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "news.law.the-law-is-in-effect-in-place-as-of-date",
+      "move": "law",
+      "kind": "written",
+      "text": "The {law} is in effect in {place} as of {date}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "news.law.since-date-the-law-has-been-in-effect-in-place",
+      "move": "law",
+      "kind": "written",
+      "text": "Since {date}, the {law} has been in effect in {place}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-amount.the-measure-in-place-was-changed-on-date-from-from",
@@ -2013,7 +2067,8 @@
           "move": "law-amount",
           "subject": "news",
           "role": "law-amount",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -2140,7 +2195,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.roll-call.designation-was-approved-count",
@@ -2162,7 +2218,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.roll-call.members-passed-designation-by-count",
@@ -2184,7 +2241,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.roll-call.designation-was-defeated-count",
@@ -2206,7 +2264,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.roll-call.members-voted-down-the-law-count",
@@ -2228,7 +2287,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.roll-call.the-law-did-not-pass-count",
@@ -2250,7 +2310,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.committee.the-committee-committee-sent-designation-to-the-floor-count",
@@ -2756,10 +2817,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "budget-tax-rate-vote-fails-and-cuts-follow",
-        "state-aid-cut-midyear-freezes-town-hiring"
-      ]
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-line.place-will-spend-money-less-on-purpose",
@@ -2782,10 +2840,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "budget-tax-rate-vote-fails-and-cuts-follow",
-        "state-aid-cut-midyear-freezes-town-hiring"
-      ]
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-line.the-purpose-budget-in-place-was-raised-by-money",
@@ -2808,7 +2863,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["board-restores-some-laid-off-teachers-and-raises-levy"]
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-line.place-will-spend-money-more-on-purpose",
@@ -2831,7 +2886,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["board-restores-some-laid-off-teachers-and-raises-levy"]
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-adopted.place-will-put-money-toward-purpose-the-biggest-line-in",
@@ -2852,7 +2907,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-adopted.the-new-budget-for-place-gives-money-to-purpose",
@@ -2873,7 +2929,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-adopted.purpose-gets-money-in-the-budget-for-place",
@@ -2894,7 +2951,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-adopted.place-adopted-a-budget-with-money-for-purpose",
@@ -2916,9 +2974,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "library-budget-fails-by-11-then-passes-and-the-floor-reopens"
-      ]
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.jobs-report.area-reported-unemployment-of-percent-for-month",
@@ -3161,10 +3217,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "plainclothes-patrols-added-after-a-burglary-meeting",
-        "chief-says-most-offenders-come-from-outside-town"
-      ]
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "news.conditions.place-had-fewer-break-ins-this-month-than-last",
@@ -3186,7 +3239,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "news.conditions.robberies-in-place-went-up-this-month",
@@ -3315,6 +3369,672 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.the-jobless-rate-in-place-rose-to-percent-from-from",
+      "move": "conditions",
+      "kind": "written",
+      "text": "The jobless rate in {place} rose to {percent} from {from}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.more-people-in-place-are-out-of-work-the-rate-is-percent-up-",
+      "move": "conditions",
+      "kind": "written",
+      "text": "More people in {place} are out of work: the rate is {percent}, up from {from}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-is-at-percent-unemployment-up-from-from",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} is at {percent} unemployment, up from {from}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.the-jobless-rate-in-place-fell-to-percent-from-from",
+      "move": "conditions",
+      "kind": "written",
+      "text": "The jobless rate in {place} fell to {percent} from {from}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.fewer-people-in-place-are-out-of-work-the-rate-is-percent-do",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Fewer people in {place} are out of work: the rate is {percent}, down from {from}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-is-at-percent-unemployment-down-from-from",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} is at {percent} unemployment, down from {from}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.break-ins-rose-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Break-ins rose in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
+    },
+    {
+      "key": "news.conditions.police-in-place-saw-more-break-ins-this-month-than-the-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Police in {place} saw more break-ins this month than the month before.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
+    },
+    {
+      "key": "news.conditions.there-were-more-burglaries-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "There were more burglaries in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
+    },
+    {
+      "key": "news.conditions.break-ins-fell-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Break-ins fell in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
+    },
+    {
+      "key": "news.conditions.police-in-place-saw-fewer-break-ins-this-month-than-the-mont",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Police in {place} saw fewer break-ins this month than the month before.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
+    },
+    {
+      "key": "news.conditions.there-were-fewer-burglaries-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "There were fewer burglaries in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
+    },
+    {
+      "key": "news.conditions.robberies-rose-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Robberies rose in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-police-saw-more-robberies-this-month-than-last",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} police saw more robberies this month than last.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.more-people-in-place-were-robbed-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "More people in {place} were robbed this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.robberies-fell-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Robberies fell in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-police-saw-fewer-robberies-this-month-than-last",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} police saw fewer robberies this month than last.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.fewer-people-in-place-were-robbed-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Fewer people in {place} were robbed this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.assaults-rose-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Assaults rose in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["assault", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.more-assaults-were-reported-in-place-this-month-than-last",
+      "move": "conditions",
+      "kind": "written",
+      "text": "More assaults were reported in {place} this month than last.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["assault", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-police-saw-a-rise-in-assaults-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} police saw a rise in assaults this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["assault", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.assaults-fell-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Assaults fell in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["assault", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.fewer-assaults-were-reported-in-place-this-month-than-last",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Fewer assaults were reported in {place} this month than last.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["assault", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-police-saw-a-drop-in-assaults-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} police saw a drop in assaults this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["assault", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.vandalism-rose-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Vandalism rose in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.more-cases-of-vandalism-were-reported-in-place-than-last-mon",
+      "move": "conditions",
+      "kind": "written",
+      "text": "More cases of vandalism were reported in {place} than last month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-police-saw-a-rise-in-vandalism-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} police saw a rise in vandalism this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.vandalism-fell-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Vandalism fell in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.fewer-cases-of-vandalism-were-reported-in-place-than-last-mo",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Fewer cases of vandalism were reported in {place} than last month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-police-saw-a-drop-in-vandalism-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} police saw a drop in vandalism this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -3481,10 +4201,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "town-hall-counts-the-room",
-        "town-hall-story-from-the-event"
-      ]
+      "elements": ["town-hall-story-from-the-event"]
     },
     {
       "key": "news.town-hall.name-met-residents-at-a-town-hall-on-date",
@@ -3506,10 +4223,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "a-member-calls-a-town-hall-after-a-zoning-vote",
-        "town-hall-story-from-the-event"
-      ]
+      "elements": ["town-hall-story-from-the-event"]
     },
     {
       "key": "news.town-hall.office-name-answered-questions-from-the-public-on-date",
@@ -3531,10 +4245,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "a-resident-asks-how-many-rentals-you-own",
-        "town-hall-story-from-the-event"
-      ]
+      "elements": ["town-hall-story-from-the-event"]
     },
     {
       "key": "news.body-meeting.the-body-had-number-items-on-its-agenda-on-date",
@@ -4104,7 +4815,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["pattern-a25-the-seat-your-patron-leaves"]
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy.the-office-seat-is-vacant-after-name-died",
@@ -4127,7 +4838,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["pattern-a25-the-seat-your-patron-leaves"]
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy.name-gave-up-the-office-seat",
@@ -4150,10 +4861,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "resignation-after-budget-vote",
-        "appointed-to-a-seat-when-its-holder-moves-away"
-      ]
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy.no-one-holds-the-office-seat-for-now",
@@ -4175,10 +4883,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "pattern-a40-the-empty-chair",
-        "even-full-attendance-cannot-fill-the-board"
-      ]
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.appointed.by-picked-name-for-post",
@@ -5059,10 +5764,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "business-closes-story",
-        "a-plant-closes-and-the-household-splits-for-the-pension"
-      ]
+      "elements": ["business-closes-story"]
     },
     {
       "key": "news.staff-cut.subject-cut-number-jobs",
@@ -5202,7 +5904,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.founded.name-began-a-business-in-place",
@@ -5401,10 +6107,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "first-home-bought-with-a-veterans-benefit",
-        "home-bought-years-after-the-wedding"
-      ]
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.home-sale.the-family-family-now-owns-a-home-in-place",
@@ -5426,10 +6129,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "first-home-bought-with-a-veterans-benefit",
-        "home-bought-years-after-the-wedding"
-      ]
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.homes-built.number-new-houses-went-up-in-place",
@@ -5474,7 +6174,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homeless-count.place-took-a-count-of-people-who-have-no-home",
@@ -5710,7 +6411,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.letter.name-of-place-wrote-the-paper-to-back-the-law",
@@ -5954,7 +6656,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.retirement.name-of-place-stopped-working-for-good-on-date",
@@ -5976,7 +6679,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.retirement.name-stopped-working-for-good-on-date",
@@ -5997,7 +6701,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.retirement.name-left-government-for-good-on-date",
@@ -6019,7 +6724,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.retirement.name-has-retired-after-years-years-in-the-service-of",
@@ -6041,7 +6747,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.anniversary.subject-first-opened-in-place-years-years-ago-this-week",
@@ -6585,10 +7292,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "warehouse-fills-while-textile-buyers-retreat",
-        "grocers-sell-off-bag-stock-before-the-stricter-rule"
-      ]
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-rule.a-law-on-the-measure-began-on-date",
@@ -6610,10 +7314,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "warehouse-fills-while-textile-buyers-retreat",
-        "grocers-sell-off-bag-stock-before-the-stricter-rule"
-      ]
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.budget-adopted.congress-passed-the-year-federal-budget",
@@ -6635,7 +7336,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-adopted.the-year-federal-budget-became-law",
@@ -6657,7 +7359,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.bail.a-judge-ordered-name-to-stay-in-jail-until-the",
@@ -6701,7 +7404,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.member-vote.name-voted-in-favor-of-designation",
@@ -6723,7 +7427,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.member-vote.office-name-voted-no-on-designation-the-law",
@@ -6746,10 +7451,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "dissenter-from-the-winning-bloc",
-        "board-member-voted-against-and-is-criticized"
-      ]
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.member-vote.name-voted-against-designation",
@@ -6772,10 +7474,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "dissenter-from-the-winning-bloc",
-        "board-member-voted-against-and-is-criticized"
-      ]
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.claim-check.we-compared-what-name-said-about-issue-with-the-public",
@@ -6838,7 +7537,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-purpose.it-is-about-purpose",
@@ -6859,7 +7559,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-bill.it-was-passed-as-designation",
@@ -7219,7 +7920,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["pattern-a25-the-seat-your-patron-leaves"]
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy.a-post-from-place-left-office-leaving-the-seat-vacant",
@@ -7242,10 +7943,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "resignation-after-budget-vote",
-        "pattern-a40-the-empty-chair"
-      ]
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy.a-post-from-place-is-out-of-office-and-the",
@@ -7268,10 +7966,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "pattern-a40-the-empty-chair",
-        "even-full-attendance-cannot-fill-the-board"
-      ]
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.exposed.the-records-say-name-accepted-a-bribe-in-office",
@@ -7293,7 +7988,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.exposed.the-records-say-name-the-office-accepted-a-bribe",
@@ -7315,7 +8011,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.exposed.the-records-say-name-voted-on-a-public-contract-for",
@@ -7338,11 +8035,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "no-bid-contract-with-ties-story",
-        "lede-pairs-the-sum-with-the-dispute",
-        "paper-trail-link-by-link"
-      ]
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.exposed.the-records-say-name-voted-on-a-public-contract-for-2",
@@ -7365,11 +8058,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "no-bid-contract-with-ties-story",
-        "lede-pairs-the-sum-with-the-dispute",
-        "paper-trail-link-by-link"
-      ]
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.exposed.records-show-name-voted-on-a-contract-for-firm-for",
@@ -7391,7 +8080,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.exposed.name-has-again-voted-on-a-contract-for-firm-the",
@@ -7413,7 +8103,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.took-office.a-new-post-from-place-has-been-sworn-in",
@@ -7692,7 +8383,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-request.name-sent-congress-a-spending-plan-with-less-for-purpose",
@@ -7714,7 +8406,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-request.name-sent-congress-a-spending-plan-with-more-for-purpose",
@@ -7736,7 +8429,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.joint-address.name-gave-a-speech-to-both-houses-of-congress",
@@ -8540,7 +9234,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.roll-call-next.it-was-a-vote-of-the-body",
@@ -8562,7 +9257,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.introduced-sponsor.name-sponsored-it",
@@ -9232,7 +9928,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.meeting-bill.the-items-included-designation-about-purpose",
@@ -9254,7 +9951,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.profile-office.name-is-office",
@@ -9387,11 +10085,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "party-caucus-fills-the-seat",
-        "council-interviews-before-filling-a-seat",
-        "vacant-seat-second-ballot"
-      ]
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy-fill.a-replacement-will-be-picked-by-the-by",
@@ -9414,11 +10108,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "party-caucus-fills-the-seat",
-        "council-interviews-before-filling-a-seat",
-        "vacant-seat-second-ballot"
-      ]
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy-fill.the-by-will-name-a-replacement-and-then-a-special",
@@ -9441,7 +10131,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["pattern-c06-when-the-empty-seat-s-vote-is-held"]
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy-fill.a-special-election-will-follow-once-the-by-names-a",
@@ -9464,7 +10154,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["pattern-c06-when-the-empty-seat-s-vote-is-held"]
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy-fill.the-successor-moves-into-the-seat-under-the-rules",
@@ -9486,7 +10176,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy-election.the-special-election-will-be-held-when",
@@ -9836,7 +10527,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-reach.it-reaches-everyone-in-place",
@@ -9858,7 +10550,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.death-place.name-was-a-resident-of-place",
@@ -10130,10 +10823,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "crime-lede-police-still-on-scene",
-        "police-log-by-day-with-type-time-and-block"
-      ]
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.a-house-in-place-was-burglarized-on-date-the-ordinal",
@@ -10156,10 +10846,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "chief-says-first-in-a-while-then-trend",
-        "cluster-of-break-ins-links-the-lead-to-the-log"
-      ]
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.police-recorded-a-property-crime-in-place-on-date",
@@ -10204,7 +10891,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.property-was-vandalized-in-place-on-date",
@@ -10227,10 +10915,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "arrests-come-months-after-a-vandalism-spree",
-        "arrest-follows-a-week-of-damaged-cars"
-      ]
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.property-was-vandalized-in-place-on-date-the-ordinal-case",
@@ -10252,7 +10937,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.a-person-in-place-was-robbed-on-date",
@@ -10297,7 +10983,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.crime.a-person-in-place-was-assaulted-on-date",
@@ -10342,7 +11029,514 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.burglars-broke-into-a-house-in-place-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "Burglars broke into a house in {place} on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.a-home-in-place-was-broken-into-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "A home in {place} was broken into on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.a-burglary-was-reported-in-place-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "A burglary was reported in {place} on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.someone-broke-into-a-house-in-place-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "Someone broke into a house in {place} on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.on-date-a-house-in-place-was-broken-into-the-ordinal-burglar",
+      "move": "crime",
+      "kind": "written",
+      "text": "On {date}, a house in {place} was broken into, the {ordinal} burglary this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.someone-vandalized-property-in-place-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "Someone vandalized property in {place} on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.property-in-place-was-damaged-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "Property in {place} was damaged on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.on-date-place-had-its-ordinal-case-of-vandalism-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "On {date}, {place} had its {ordinal} case of vandalism this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.a-robbery-was-reported-in-place-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "A robbery was reported in {place} on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["robbery"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.someone-in-place-was-robbed-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "Someone in {place} was robbed on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["robbery"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.place-police-took-a-report-of-a-robbery-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} police took a report of a robbery on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["robbery"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.on-date-place-had-its-ordinal-robbery-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "On {date}, {place} had its {ordinal} robbery this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.the-robbery-in-place-on-date-was-the-ordinal-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "The robbery in {place} on {date} was the {ordinal} this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.an-assault-was-reported-in-place-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "An assault was reported in {place} on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["assault"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.someone-in-place-was-attacked-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "Someone in {place} was attacked on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["assault"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.place-police-took-a-report-of-an-assault-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} police took a report of an assault on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["assault"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.on-date-place-had-its-ordinal-assault-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "On {date}, {place} had its {ordinal} assault this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["assault", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.the-assault-in-place-on-date-was-the-ordinal-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "The assault in {place} on {date} was the {ordinal} this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["assault", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.place-had-a-break-in-on-date-the-ordinal-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} had a break-in on {date}, the {ordinal} this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.place-had-a-robbery-on-date-the-ordinal-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} had a robbery on {date}, the {ordinal} this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.place-had-an-assault-on-date-the-ordinal-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} had an assault on {date}, the {ordinal} this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["assault", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
+    },
+    {
+      "key": "news.crime.place-had-a-case-of-vandalism-on-date-the-ordinal-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} had a case of vandalism on {date}, the {ordinal} this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.graduation.graduates-of-the-number-seniors-in-place-finished-school",
@@ -10501,7 +11695,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["builder-scene-on-site"]
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.subject-completed-one-new-home-in-place",
@@ -10524,7 +11718,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["builder-scene-on-site"]
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.number-new-apartments-were-completed-in-place",
@@ -10547,10 +11741,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "projects-as-a-list-with-address-type-and-count",
-        "figures-attributed-to-a-named-source"
-      ]
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.number-new-homes-were-completed-in-place-and-affordable-are",
@@ -10572,7 +11763,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.subject-completed-number-new-apartments-in-place-after-starting-work",
@@ -10595,7 +11787,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": ["figures-attributed-to-a-named-source"]
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.subject-built-a-new-home-that-was-completed-in-place",
@@ -10617,7 +11809,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.all-number-of-the-new-homes-in-place-are-priced",
@@ -10639,7 +11832,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.work-started-in-began-and-produced-number-new-homes-in",
@@ -10661,7 +11855,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.home-sale.the-family-family-paid-money-for-a-home-in-place",
@@ -10683,7 +11878,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.home-sale.a-home-in-place-was-sold-for-money-to-the",
@@ -10705,7 +11901,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.home-sale.the-family-family-put-down-down-on-a-home-in",
@@ -10727,7 +11924,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.home-sale.the-family-family-had-been-renting-and-now-owns-a",
@@ -10749,7 +11947,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.home-sale.the-family-family-bought-a-home-in-place-with-a",
@@ -10771,7 +11970,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.birth.name-was-born-in-place-on-date-the-child-of",
@@ -10860,7 +12060,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.organization-opened.subject-began-business-with-staff-on-staff",
@@ -10882,7 +12086,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.founded.name-started-a-business-in-industry",
@@ -10957,7 +12165,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-spending.the-budget-calls-for-spending-in-spending-and-revenue-in",
@@ -10979,7 +12188,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-largest.purpose-is-the-biggest-item-at-money",
@@ -11001,7 +12211,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.council-vote.the-body-took-a-vote-on-date-count",
@@ -11024,10 +12235,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "neighbors-sue-after-the-council-upholds-a-staff-approval",
-        "tie-vote-approves-plate-cameras-with-two-year-term"
-      ]
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.council-vote.the-body-voted-count-on-date",
@@ -11050,10 +12258,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "neighbors-sue-after-the-council-upholds-a-staff-approval",
-        "tie-vote-approves-plate-cameras-with-two-year-term"
-      ]
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.vote-margin.it-passed-by-margin-votes",
@@ -11077,10 +12282,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "vote-margin-right-after-the-scene",
-        "board-undoes-layoffs-counting-on-hoped-for-state-money"
-      ]
+      "elements": ["council-vote-story", "vote-margin-right-after-the-scene"]
     },
     {
       "key": "news.vote-margin.it-failed-by-short-by-votes",
@@ -11103,11 +12305,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "pattern-b7-01-are-you-still-with-us",
-        "library-budget-fails-by-11-then-passes-and-the-floor-reopens",
-        "failed-override-puts-the-library-on-the-list"
-      ]
+      "elements": ["council-vote-story", "vote-margin-right-after-the-scene"]
     },
     {
       "key": "news.unfilled.nobody-filed-for-office-so-no-one-won",
@@ -11180,10 +12378,7 @@
         "move": "announce-result",
         "key": "news-received"
       },
-      "elements": [
-        "police-log-by-day-with-type-time-and-block",
-        "police-back-watch-groups-but-warn-against-vigilantes"
-      ]
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.police-log.in-month-number-reports-reached-place-police-mostly-crimes",
@@ -11206,10 +12401,7 @@
         "move": "announce-result",
         "key": "news-received"
       },
-      "elements": [
-        "police-log-by-day-with-type-time-and-block",
-        "police-back-watch-groups-but-warn-against-vigilantes"
-      ]
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.police-log.place-police-took-number-reports-of-crimes-in-month",
@@ -11232,10 +12424,7 @@
         "move": "announce-result",
         "key": "news-received"
       },
-      "elements": [
-        "police-log-by-day-with-type-time-and-block",
-        "police-back-watch-groups-but-warn-against-vigilantes"
-      ]
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.police-log.police-in-place-took-a-single-report-in-month",
@@ -11257,7 +12446,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.honor.name-won-the-place-spelling-bee-this-year",
@@ -11279,7 +12469,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "news.honor.a-student-from-place-took-first-in-this-year-s",
@@ -11302,7 +12493,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "news.honor.name-took-the-regional-spelling-bee-and-moves-on-to",
@@ -11324,7 +12516,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "news.honor.a-student-from-place-took-the-regional-spelling-bee-and",
@@ -11347,7 +12540,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "news.honor.number-seniors-from-place-have-signed-with-division-i-teams",
@@ -11369,7 +12563,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "news.honor.name-signed-with-a-division-i-team",
@@ -11391,7 +12586,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "news.honor.a-senior-from-place-signed-with-a-division-i-team",
@@ -11413,7 +12609,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "news.endorsement.subject-gave-name-its-endorsement-for-office",
@@ -12240,11 +13437,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "residents-hold-a-meeting-for-hours",
-        "rate-rise-cut-to-a-quarter-after-residents-rally",
-        "crowd-count-lede-tied-to-a-clock"
-      ]
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.public-action.people-protested-issue-in-place-on-date",
@@ -12268,11 +13461,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "residents-hold-a-meeting-for-hours",
-        "rate-rise-cut-to-a-quarter-after-residents-rally",
-        "crowd-count-lede-tied-to-a-clock"
-      ]
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.public-action.number-workers-in-place-stopped-work-on-date-over-issue",
@@ -12295,10 +13484,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "strike-over-break-times-and-safety",
-        "city-strike-ends-with-modest-raises-and-lost-pay"
-      ]
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.public-action.workers-in-place-stopped-work-on-date-over-issue",
@@ -12322,11 +13508,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "strike-over-break-times-and-safety",
-        "city-strike-ends-with-modest-raises-and-lost-pay",
-        "education-strike-in-an-otherwise-good-term"
-      ]
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.local-address.name-gave-the-yearly-state-address-to-lawmakers-on-date",
@@ -12568,7 +13750,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.public-action.number-people-showed-up-in-place-on-date-pleased-with",
@@ -12590,7 +13773,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.public-action.people-in-place-met-on-date-to-celebrate-how-area",
@@ -12612,7 +13796,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.public-action.place-residents-showed-up-on-date-pleased-with-area",
@@ -12634,7 +13819,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.exposed.the-records-say-name-offered-an-official-money-for-a",
@@ -12656,7 +13842,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.exposed.an-official-says-name-offered-a-bribe-and-the-records",
@@ -12678,7 +13865,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.exposed.the-records-say-name-the-office-offered-a-public-official",
@@ -12700,7 +13888,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.address-response.name-replied-to-the-address-from-opponent-and-objected-to",
@@ -12875,7 +14064,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.public-action.neighbors-from-place-who-protested-issue-are-now-a-standing",
@@ -12897,7 +14087,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.cabinet-nominated.by-chose-name-for-office-and-the-senate-will-vote",
@@ -13135,10 +14326,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "pattern-c06-when-the-empty-seat-s-vote-is-held",
-        "pattern-a25-the-seat-your-patron-leaves"
-      ]
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.signed-next.the-body-may-still-override-the-veto",
@@ -13383,7 +14571,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.took-office-cause.before-died-in-office-on-vacated-and-the-seat-opened",
@@ -16012,7 +17201,11 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.organization.opened.subject-has-opened-in-place",
@@ -16034,7 +17227,216 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
+    },
+    {
+      "key": "news.organization.opened.subject-opened-its-doors",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} opened its doors.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
+    },
+    {
+      "key": "news.organization.opened.subject-is-open-for-business",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} is open for business.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
+    },
+    {
+      "key": "news.organization.opened.subject-started-taking-customers",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} started taking customers.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
+    },
+    {
+      "key": "news.organization.opened.subject-opened-its-doors-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} opened its doors in {place}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
+    },
+    {
+      "key": "news.organization.opened.place-has-a-new-business-subject",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{place} has a new business, {subject}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
+    },
+    {
+      "key": "news.organization.opened.subject-set-up-shop-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} set up shop in {place}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
+    },
+    {
+      "key": "news.organization.opened.owner-opened-subject-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{owner} opened {subject} in {place}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["owner", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
+    },
+    {
+      "key": "news.organization.opened.a-new-business-subject-opened-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "A new business, {subject}, opened in {place}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "news.honor.the-regional-bee-comes-soon",
@@ -16123,10 +17525,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "chief-says-first-in-a-while-then-trend",
-        "police-back-watch-groups-but-warn-against-vigilantes"
-      ]
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.police-log.place-police-logged-number-reports-in-month",
@@ -16149,10 +17548,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "police-log-by-day-with-type-time-and-block",
-        "police-back-watch-groups-but-warn-against-vigilantes"
-      ]
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.police-log.there-were-number-police-reports-in-place-in-month",
@@ -16175,10 +17571,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "police-log-by-day-with-type-time-and-block",
-        "police-back-watch-groups-but-warn-against-vigilantes"
-      ]
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.police-log.month-saw-number-reports-to-place-police",
@@ -16201,10 +17594,7 @@
         "move": "deliver-news",
         "key": "news-received"
       },
-      "elements": [
-        "police-log-by-day-with-type-time-and-block",
-        "police-back-watch-groups-but-warn-against-vigilantes"
-      ]
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "news.police-log.extra-more-than-in-a-usual-month",

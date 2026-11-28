@@ -11,7 +11,7 @@ import { buildBenchWorld } from "./world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
-import { gatherSignatures } from "../core2/campaign-petition-kit";
+import { gatherSignatures } from "../../tests/support/campaign-petition-kit";
 import { coreAPI } from "../core2/state";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
@@ -29,7 +29,7 @@ import {
 } from "../core2/modules/meetings";
 import { lawChain } from "../core2/modules/laws";
 import { campaignView, debateAccept, debateAnswer } from "./campaign";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??

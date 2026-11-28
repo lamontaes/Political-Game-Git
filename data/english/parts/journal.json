@@ -167,7 +167,12 @@
       "date": "2026-11-15",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b7-01-are-you-still-with-us",
+        "a-question-counted-as-a-pledge",
+        "explain-vote-by-prior-pledge"
+      ]
     },
     {
       "key": "journal.scene-line-petition-going-out.i-went-out-for-more-names-on-my-office-petition",
@@ -193,7 +198,12 @@
       "date": "2026-11-15",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "petition-the-hustle-before-the-deadline",
+        "neighbor-with-a-clipboard",
+        "a-paid-gatherers-twelve-hour-day-yields-few-names-an-hour"
+      ]
     },
     {
       "key": "journal.scene-line-petition-not-today.other-said-my-petition-was-short-i-let-it-wait",
@@ -219,7 +229,8 @@
       "date": "2026-11-15",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names", "petition-can-be-contested"]
     },
     {
       "key": "journal.scene-line-petition-not-today.clerk-said-my-office-petition-was-short-i-waited",
@@ -245,7 +256,8 @@
       "date": "2026-11-15",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names", "petition-can-be-contested"]
     },
     {
       "key": "journal.school-line-started.i-went-to-school",
@@ -299,7 +311,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "journal.school-line-started.i-was-enrolled-at-school",
@@ -326,7 +339,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "journal.school-line-started.i-sat-in-class-at-school",
@@ -541,7 +555,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "finished-high-school-in-the-bad-years",
+        "pattern-b5-07-the-day-after-the-threshold",
+        "graduates-then-straight-to-work-in-the-family-business"
+      ]
     },
     {
       "key": "journal.life-school-finished-passed.i-got-my-diploma-at-school",
@@ -567,7 +586,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "finished-high-school-in-the-bad-years",
+        "pattern-b5-07-the-day-after-the-threshold",
+        "graduates-then-straight-to-work-in-the-family-business"
+      ]
     },
     {
       "key": "journal.life-school-finished-passed.i-finished-high-school-at-school",
@@ -593,7 +617,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "finished-high-school-in-the-bad-years",
+        "pattern-b5-07-the-day-after-the-threshold",
+        "graduates-then-straight-to-work-in-the-family-business"
+      ]
     },
     {
       "key": "journal.life-school-finished-left.i-left-school-without-a-diploma",
@@ -702,7 +731,12 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "pattern-a17-the-boss-who-hands-you-the-work",
+        "pattern-b5-08-the-call-with-an-offer",
+        "first-job-taken-to-help-the-family"
+      ]
     },
     {
       "key": "journal.work-line-started.i-took-a-job-with-employer",
@@ -733,7 +767,12 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "pattern-a17-the-boss-who-hands-you-the-work",
+        "pattern-b5-08-the-call-with-an-offer",
+        "first-job-taken-to-help-the-family"
+      ]
     },
     {
       "key": "journal.work-line-started.employer-hired-me",
@@ -764,7 +803,12 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "pattern-a17-the-boss-who-hands-you-the-work",
+        "pattern-b5-08-the-call-with-an-offer",
+        "first-job-taken-to-help-the-family"
+      ]
     },
     {
       "key": "journal.work-line-started.i-joined-employer",
@@ -795,7 +839,12 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "pattern-a17-the-boss-who-hands-you-the-work",
+        "pattern-b5-08-the-call-with-an-offer",
+        "first-job-taken-to-help-the-family"
+      ]
     },
     {
       "key": "journal.work-other-started.relation-got-a-job",
@@ -821,7 +870,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "first-job-taken-to-help-the-family",
+        "pattern-b5-08-the-call-with-an-offer"
+      ]
     },
     {
       "key": "journal.work-other-started.relation-started-work",
@@ -847,7 +900,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "first-job-taken-to-help-the-family",
+        "pattern-b5-08-the-call-with-an-offer"
+      ]
     },
     {
       "key": "journal.work-other-started.relation-took-a-job",
@@ -873,7 +930,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "first-job-taken-to-help-the-family",
+        "pattern-b5-08-the-call-with-an-offer"
+      ]
     },
     {
       "key": "journal.work-line-again.i-found-work-again-at-employer",
@@ -900,7 +961,12 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-job-at-the-same-pay-after-a-layoff",
+        "reemployment-two-thirds-after-layoff",
+        "asking-a-friend-for-a-lead-after-a-layoff"
+      ]
     },
     {
       "key": "journal.work-line-again.employer-took-me-on",
@@ -927,7 +993,11 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-job-at-the-same-pay-after-a-layoff",
+        "reemployment-two-thirds-after-layoff"
+      ]
     },
     {
       "key": "journal.work-line-again.i-went-back-to-work-for-employer",
@@ -954,7 +1024,11 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-job-at-the-same-pay-after-a-layoff",
+        "reemployment-two-thirds-after-layoff"
+      ]
     },
     {
       "key": "journal.work-line-again.i-found-work-again-in-place",
@@ -981,7 +1055,12 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-job-at-the-same-pay-after-a-layoff",
+        "reemployment-two-thirds-after-layoff",
+        "asking-a-friend-for-a-lead-after-a-layoff"
+      ]
     },
     {
       "key": "journal.work-line-lost.employer-let-me-go",
@@ -1012,7 +1091,12 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "layoff-reason-position-abolished",
+        "laid-off-as-the-hard-times-begin",
+        "layoff-the-supervisor-walks-the-line"
+      ]
     },
     {
       "key": "journal.work-line-lost.i-was-laid-off-from-employer",
@@ -1043,7 +1127,12 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "layoff-reason-position-abolished",
+        "laid-off-as-the-hard-times-begin",
+        "layoff-the-supervisor-walks-the-line"
+      ]
     },
     {
       "key": "journal.work-line-lost.employer-let-me-go-and-i-was-out-of-work",
@@ -1074,7 +1163,12 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "layoff-reason-position-abolished",
+        "laid-off-as-the-hard-times-begin",
+        "layoff-the-supervisor-walks-the-line"
+      ]
     },
     {
       "key": "journal.work-line-lost.employer-ended-my-job",
@@ -1105,7 +1199,12 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "layoff-reason-position-abolished",
+        "laid-off-as-the-hard-times-begin",
+        "layoff-the-supervisor-walks-the-line"
+      ]
     },
     {
       "key": "journal.work-line-on.i-left-employer-for-a-job-at-next",
@@ -1131,7 +1230,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-plant-closes-and-the-household-splits-for-the-pension",
+        "pattern-c42-leaving-before-the-term-ends",
+        "choose-the-job-that-covers-a-child"
+      ]
     },
     {
       "key": "journal.work-line-on.i-went-from-employer-to-next",
@@ -1157,7 +1261,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-plant-closes-and-the-household-splits-for-the-pension",
+        "pattern-c42-leaving-before-the-term-ends"
+      ]
     },
     {
       "key": "journal.work-line-on.i-quit-employer-and-took-a-job-at-next",
@@ -1183,7 +1291,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-plant-closes-and-the-household-splits-for-the-pension",
+        "pattern-c42-leaving-before-the-term-ends",
+        "choose-the-job-that-covers-a-child"
+      ]
     },
     {
       "key": "journal.work-line-stopped.i-stopped-working-at-employer-when-named-was-born",
@@ -1287,7 +1400,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "retirement-told-with-what-came-after",
+        "retirement-said-with-the-age"
+      ]
     },
     {
       "key": "journal.work-line-retired.i-retired-after-my-years-at-employer",
@@ -1313,7 +1430,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "retirement-told-with-what-came-after",
+        "retirement-said-with-the-age"
+      ]
     },
     {
       "key": "journal.work-line-retired.i-left-employer-and-retired",
@@ -1339,7 +1460,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "retirement-told-with-what-came-after",
+        "retirement-said-with-the-age"
+      ]
     },
     {
       "key": "journal.money-line-short.i-went-unpaid",
@@ -1365,7 +1490,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "cleaner-traces-gap-to-payroll-app",
+        "client-reimbursement-holds-up-care-pay",
+        "intern-asks-for-last-hours"
+      ]
     },
     {
       "key": "journal.money-line-short.i-wasnt-paid",
@@ -1391,7 +1521,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "cleaner-traces-gap-to-payroll-app",
+        "client-reimbursement-holds-up-care-pay",
+        "intern-asks-for-last-hours"
+      ]
     },
     {
       "key": "journal.money-line-short.pay-never-came",
@@ -1417,7 +1552,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "cleaner-traces-gap-to-payroll-app",
+        "client-reimbursement-holds-up-care-pay",
+        "intern-asks-for-last-hours"
+      ]
     },
     {
       "key": "journal.family-line-born.named-was-born",
@@ -1448,7 +1588,12 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "a-birth-recorded-by-its-size",
+        "pattern-b6-04-news-of-a-baby"
+      ]
     },
     {
       "key": "journal.family-line-born.we-welcomed-named",
@@ -1479,7 +1624,12 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "a-birth-recorded-by-its-size",
+        "pattern-b6-04-news-of-a-baby"
+      ]
     },
     {
       "key": "journal.family-line-born.named-came-into-the-world",
@@ -1510,7 +1660,12 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "a-birth-recorded-by-its-size",
+        "pattern-b6-04-news-of-a-baby"
+      ]
     },
     {
       "key": "journal.family-line-born.i-became-a-parent-when-named-was-born",
@@ -1541,7 +1696,8 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.death-line-died.other-died",
@@ -1568,7 +1724,12 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "father-dies-and-a-sibling-becomes-the-earner",
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "pattern-a25-the-seat-your-patron-leaves"
+      ]
     },
     {
       "key": "journal.death-line-died.other-passed-away",
@@ -1595,7 +1756,12 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "father-dies-and-a-sibling-becomes-the-earner",
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "pattern-a25-the-seat-your-patron-leaves"
+      ]
     },
     {
       "key": "journal.death-line-died.i-lost-other",
@@ -1622,7 +1788,11 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "pattern-a37-the-seat-and-the-funeral",
+        "pattern-b5-04-someone-dying-someone-buried"
+      ]
     },
     {
       "key": "journal.home-met-met.i-met-other-in-place",
@@ -1648,7 +1818,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "partners-met-at-school",
+        "meet-a-party-worker-while-out-alone"
+      ]
     },
     {
       "key": "journal.home-met-met.other-and-i-met-in-place",
@@ -1674,7 +1848,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "partners-met-at-school",
+        "meet-a-party-worker-while-out-alone"
+      ]
     },
     {
       "key": "journal.home-met-met.i-first-saw-other-in-place",
@@ -1726,7 +1904,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "parents-divorce-and-the-child-is-told-late",
+        "age-of-the-child-when-the-parents-split"
+      ]
     },
     {
       "key": "journal.home-parent-apart-parent-apart.named-lived-in-another-home",
@@ -1752,7 +1934,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "parents-divorce-and-the-child-is-told-late",
+        "age-of-the-child-when-the-parents-split"
+      ]
     },
     {
       "key": "journal.home-parent-apart-parent-apart.named-kept-a-separate-home",
@@ -1778,7 +1964,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "parents-divorce-and-the-child-is-told-late",
+        "age-of-the-child-when-the-parents-split"
+      ]
     },
     {
       "key": "journal.home-line-moved.i-moved-to-place",
@@ -1805,7 +1995,12 @@
       "tag": {
         "move": "tell",
         "key": "departure"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "marriage-is-the-reason-for-the-move",
+        "six-million-left-the-south"
+      ]
     },
     {
       "key": "journal.home-line-moved.we-moved-to-place",
@@ -1832,7 +2027,12 @@
       "tag": {
         "move": "tell",
         "key": "departure"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "marriage-is-the-reason-for-the-move",
+        "six-million-left-the-south"
+      ]
     },
     {
       "key": "journal.home-line-moved.we-moved-back-to-place",
@@ -1859,7 +2059,8 @@
       "tag": {
         "move": "tell",
         "key": "departure"
-      }
+      },
+      "elements": ["unreliable-assistance-shapes-the-move-after-college"]
     },
     {
       "key": "journal.home-line-moved.i-came-to-place",
@@ -1886,7 +2087,12 @@
       "tag": {
         "move": "tell",
         "key": "departure"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "marriage-is-the-reason-for-the-move",
+        "six-million-left-the-south"
+      ]
     },
     {
       "key": "journal.moved-other-away.relation-moved-away",
@@ -1912,7 +2118,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-plant-closes-and-the-household-splits-for-the-pension",
+        "town-loses-its-hospital-and-a-family-moves",
+        "six-million-left-the-south"
+      ]
     },
     {
       "key": "journal.moved-other-away.relation-left-town",
@@ -1938,7 +2149,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-plant-closes-and-the-household-splits-for-the-pension",
+        "town-loses-its-hospital-and-a-family-moves",
+        "six-million-left-the-south"
+      ]
     },
     {
       "key": "journal.moved-other-away.relation-moved-out",
@@ -1964,7 +2180,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-plant-closes-and-the-household-splits-for-the-pension",
+        "town-loses-its-hospital-and-a-family-moves",
+        "six-million-left-the-south"
+      ]
     },
     {
       "key": "journal.home-line-evicted.i-was-evicted",
@@ -1991,7 +2212,8 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": ["parents-lose-their-home-when-the-bank-closes"]
     },
     {
       "key": "journal.home-line-evicted.they-evicted-me",
@@ -2018,7 +2240,11 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "pattern-b5-06-the-one-you-fell-out-with",
+        "parents-lose-their-home-when-the-bank-closes"
+      ]
     },
     {
       "key": "journal.home-line-evicted.we-were-evicted",
@@ -2045,7 +2271,11 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "parents-lose-their-home-when-the-bank-closes",
+        "pattern-b5-02-the-notice-and-the-days-after"
+      ]
     },
     {
       "key": "journal.home-other-evicted.relation-was-evicted",
@@ -2072,7 +2302,8 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": ["parents-lose-their-home-when-the-bank-closes"]
     },
     {
       "key": "journal.home-other-evicted.relation-was-put-out",
@@ -2099,7 +2330,8 @@
       "tag": {
         "move": "tell",
         "key": "loss"
-      }
+      },
+      "elements": ["parents-lose-their-home-when-the-bank-closes"]
     },
     {
       "key": "journal.contact-line-saw.i-met-other",
@@ -2125,7 +2357,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "meet-a-party-worker-while-out-alone"
+      ]
     },
     {
       "key": "journal.contact-line-saw.i-saw-other",
@@ -2177,7 +2413,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
     },
     {
       "key": "journal.contact-line-saw.i-talked-to-other",
@@ -2203,7 +2440,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "resident-keeps-the-canvasser-at-one-door",
+        "resident-who-is-not-on-the-list-talks-for-forty-minutes"
+      ]
     },
     {
       "key": "journal.contact-line-saw.i-stopped-to-see-other",
@@ -2255,7 +2496,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "new-assignment-after-leadership-vote",
+        "pattern-a10-the-mentor-who-makes-a-call"
+      ]
     },
     {
       "key": "journal.scene-line-favor-owed.other-did-me-a-favor",
@@ -2281,7 +2526,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "new-assignment-after-leadership-vote",
+        "pattern-a10-the-mentor-who-makes-a-call"
+      ]
     },
     {
       "key": "journal.scene-line-favor-owed.other-helped-me-and-i-owe-it",
@@ -2307,7 +2556,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "new-assignment-after-leadership-vote",
+        "pattern-a10-the-mentor-who-makes-a-call"
+      ]
     },
     {
       "key": "journal.scene-line-meeting-set.other-and-i-set-a-time-to-meet",
@@ -2333,7 +2586,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "coffee-with-a-friend-considering-a-run",
+        "coffee-before-taking-the-chair"
+      ]
     },
     {
       "key": "journal.scene-line-meeting-set.i-put-a-meeting-with-other-on-the-calendar",
@@ -2359,7 +2616,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "coffee-with-a-friend-considering-a-run",
+        "coffee-before-taking-the-chair"
+      ]
     },
     {
       "key": "journal.scene-line-meeting-set.i-agreed-to-meet-other",
@@ -2385,7 +2646,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "coffee-with-a-friend-considering-a-run",
+        "coffee-before-taking-the-chair"
+      ]
     },
     {
       "key": "journal.scene-line-promise.i-made-other-a-promise",
@@ -2411,7 +2676,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-question-counted-as-a-pledge",
+        "pattern-c38-the-promise-and-the-bill-on-your-desk",
+        "explain-vote-by-prior-pledge"
+      ]
     },
     {
       "key": "journal.scene-line-promise.i-gave-other-my-word",
@@ -2437,7 +2707,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-question-counted-as-a-pledge",
+        "pattern-c38-the-promise-and-the-bill-on-your-desk",
+        "explain-vote-by-prior-pledge"
+      ]
     },
     {
       "key": "journal.scene-line-promise.other-had-my-word",
@@ -2463,7 +2738,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-question-counted-as-a-pledge",
+        "pattern-c38-the-promise-and-the-bill-on-your-desk",
+        "explain-vote-by-prior-pledge"
+      ]
     },
     {
       "key": "journal.scene-line-relationship-strained.other-and-i-parted-with-words-between-us",
@@ -2489,7 +2769,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b5-06-the-one-you-fell-out-with",
+        "a-father-asks-if-you-hate-the-liberals-too",
+        "a-teen-democrat-and-her-factory-dad"
+      ]
     },
     {
       "key": "journal.scene-line-relationship-strained.other-and-i-left-things-unsettled",
@@ -2515,7 +2800,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b5-06-the-one-you-fell-out-with",
+        "a-father-asks-if-you-hate-the-liberals-too",
+        "a-teen-democrat-and-her-factory-dad"
+      ]
     },
     {
       "key": "journal.scene-line-relationship-strained.other-and-i-ended-the-talk-without-agreeing",
@@ -2541,7 +2831,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b5-06-the-one-you-fell-out-with",
+        "a-father-asks-if-you-hate-the-liberals-too",
+        "a-teen-democrat-and-her-factory-dad"
+      ]
     },
     {
       "key": "journal.scene-line-trust-lost.other-caught-me-in-a-lie",
@@ -2567,7 +2862,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-c22-the-secret-comes-out",
+        "pattern-b6-06-trust-broken-in-front-of-people"
+      ]
     },
     {
       "key": "journal.scene-line-trust-lost.other-learned-i-hadnt-told-the-truth",
@@ -2593,7 +2892,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-c22-the-secret-comes-out",
+        "pattern-b6-06-trust-broken-in-front-of-people"
+      ]
     },
     {
       "key": "journal.scene-line-trust-lost.i-wasnt-straight-with-other",
@@ -2619,7 +2922,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-c22-the-secret-comes-out",
+        "pattern-b6-06-trust-broken-in-front-of-people"
+      ]
     },
     {
       "key": "journal.health-line-ill.i-got-sick",
@@ -2646,7 +2953,8 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-a31-taken-ill-before-election-day"]
     },
     {
       "key": "journal.health-line-ill.i-was-ill",
@@ -2673,7 +2981,8 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-a31-taken-ill-before-election-day"]
     },
     {
       "key": "journal.health-line-ill.i-got-ill",
@@ -2700,7 +3009,8 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-a31-taken-ill-before-election-day"]
     },
     {
       "key": "journal.health-other-ill.relation-was-sick",
@@ -2727,7 +3037,12 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      }
+      },
+      "elements": [
+        "local-conditions-prompt-first-protest",
+        "pattern-a25-the-seat-your-patron-leaves",
+        "save-paid-time-off-for-the-next-family-illness"
+      ]
     },
     {
       "key": "journal.health-other-ill.relation-got-sick",
@@ -2754,7 +3069,12 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      }
+      },
+      "elements": [
+        "local-conditions-prompt-first-protest",
+        "pattern-a25-the-seat-your-patron-leaves",
+        "save-paid-time-off-for-the-next-family-illness"
+      ]
     },
     {
       "key": "journal.health-other-ill.relation-was-ill",
@@ -2781,7 +3101,12 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      }
+      },
+      "elements": [
+        "local-conditions-prompt-first-protest",
+        "pattern-a25-the-seat-your-patron-leaves",
+        "save-paid-time-off-for-the-next-family-illness"
+      ]
     },
     {
       "key": "journal.office-line-filed.i-filed-to-run-for-office",
@@ -2807,7 +3132,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "pattern-a12-the-last-day-to-file",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
     },
     {
       "key": "journal.office-line-filed.i-put-my-name-in-for-office",
@@ -2833,7 +3163,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "pattern-a12-the-last-day-to-file",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
     },
     {
       "key": "journal.office-line-filed.i-filed-my-papers-for-office",
@@ -2859,7 +3194,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "pattern-a12-the-last-day-to-file",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
     },
     {
       "key": "journal.office-line-filed.i-signed-up-to-run-for-office",
@@ -2885,7 +3225,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "pattern-a12-the-last-day-to-file",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
     },
     {
       "key": "journal.memoir-againWait.i-hadnt-had-a-paycheck-since-last-employer",
@@ -2911,7 +3256,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-long-gap-without-work-deepens-the-pay-loss",
+        "job-seeker-explains-their-savings-are-running-out"
+      ]
     },
     {
       "key": "journal.memoir-againWait.it-was-my-first-paycheck-since-last-employer",
@@ -2937,7 +3286,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-long-gap-without-work-deepens-the-pay-loss",
+        "job-seeker-explains-their-savings-are-running-out"
+      ]
     },
     {
       "key": "journal.memoir-againWait.last-employer-was-the-last-place-that-paid-me",
@@ -2963,7 +3316,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-long-gap-without-work-deepens-the-pay-loss",
+        "job-seeker-explains-their-savings-are-running-out"
+      ]
     },
     {
       "key": "journal.memoir-hard.i-had-no-job-after-lost-employer",
@@ -2989,7 +3346,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b5-02-the-notice-and-the-days-after",
+        "laid-off-as-the-hard-times-begin",
+        "job-seeker-explains-their-savings-are-running-out"
+      ]
     },
     {
       "key": "journal.memoir-hard.i-was-out-of-work-after-lost-employer",
@@ -3015,7 +3377,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b5-02-the-notice-and-the-days-after",
+        "laid-off-as-the-hard-times-begin",
+        "job-seeker-explains-their-savings-are-running-out"
+      ]
     },
     {
       "key": "journal.memoir-hard.i-had-no-work-after-lost-employer",
@@ -3041,7 +3408,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b5-02-the-notice-and-the-days-after",
+        "laid-off-as-the-hard-times-begin",
+        "job-seeker-explains-their-savings-are-running-out"
+      ]
     },
     {
       "key": "journal.memoir-deathIllness.name-had-been-after-illness",
@@ -3067,7 +3439,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b5-04-someone-dying-someone-buried",
+        "pattern-a25-the-seat-your-patron-leaves"
+      ]
     },
     {
       "key": "journal.memoir-deathIllness.name-had-been-after-illness-before-the-end",
@@ -3093,7 +3469,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b5-04-someone-dying-someone-buried",
+        "pattern-a25-the-seat-your-patron-leaves"
+      ]
     },
     {
       "key": "journal.memoir-movedFrom.i-came-here-from-moved-from",
@@ -3119,7 +3499,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "six-million-left-the-south"
+      ]
     },
     {
       "key": "journal.memoir-movedFrom.i-had-been-living-in-moved-from-before-that",
@@ -3145,7 +3529,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "six-million-left-the-south"
+      ]
     },
     {
       "key": "journal.memoir-movedFrom.we-came-from-moved-from",
@@ -3171,7 +3559,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "six-million-left-the-south"
+      ]
     },
     {
       "key": "journal.memoir-movedWith.moved-with-came-with-me",
@@ -3197,7 +3589,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-plant-closes-and-the-household-splits-for-the-pension"
+      ]
     },
     {
       "key": "journal.memoir-movedWith.moved-with-moved-with-me",
@@ -3223,7 +3619,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-plant-closes-and-the-household-splits-for-the-pension"
+      ]
     },
     {
       "key": "journal.memoir-movedWith.i-brought-moved-with-along",
@@ -3249,7 +3649,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-plant-closes-and-the-household-splits-for-the-pension"
+      ]
     },
     {
       "key": "journal.memoir-birthFirst.firstborn-was-my-first-child",
@@ -3275,7 +3679,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-birthFirst.firstborn-was-our-first",
@@ -3301,7 +3706,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-birthFirst.firstborn-was-the-first-child-we-had",
@@ -3327,7 +3733,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.home-livelihood.other-works-as-job",
@@ -3353,7 +3760,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "spouse-takes-leave-from-a-senior-job-for-the-race",
+        "son-runs-the-farm-while-the-father-campaigns"
+      ]
     },
     {
       "key": "journal.home-livelihood.other-has-a-job-as-job",
@@ -3379,7 +3790,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "spouse-takes-leave-from-a-senior-job-for-the-race",
+        "son-runs-the-farm-while-the-father-campaigns"
+      ]
     },
     {
       "key": "journal.home-livelihood.other-earns-a-living-as-job",
@@ -3405,7 +3820,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "spouse-takes-leave-from-a-senior-job-for-the-race",
+        "son-runs-the-farm-while-the-father-campaigns"
+      ]
     },
     {
       "key": "journal.home-livelihood-at.other-works-as-job-at-employer",
@@ -3431,7 +3850,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "spouse-takes-leave-from-a-senior-job-for-the-race",
+        "son-runs-the-farm-while-the-father-campaigns"
+      ]
     },
     {
       "key": "journal.home-livelihood-at.other-is-job-at-employer",
@@ -3457,7 +3880,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "spouse-takes-leave-from-a-senior-job-for-the-race",
+        "son-runs-the-farm-while-the-father-campaigns"
+      ]
     },
     {
       "key": "journal.home-livelihood-at.other-has-a-job-at-employer-as-job",
@@ -3483,7 +3910,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "spouse-takes-leave-from-a-senior-job-for-the-race",
+        "son-runs-the-farm-while-the-father-campaigns"
+      ]
     },
     {
       "key": "journal.home-livelihood-since.other-has-worked-at-employer-since-i-was-age",
@@ -3509,7 +3940,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["years-elections-and-rank-after-the-lede"]
     },
     {
       "key": "journal.home-livelihood-since.other-is-job-at-employer-and-started-there-when-i-was-age",
@@ -3561,7 +3993,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["years-elections-and-rank-after-the-lede"]
     },
     {
       "key": "journal.home-livelihood-moved.other-left-from-for-employer-when-i-was-age",
@@ -3587,7 +4020,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-plant-closes-and-the-household-splits-for-the-pension",
+        "the-jobs-were-in-the-cities"
+      ]
     },
     {
       "key": "journal.home-livelihood-moved.when-i-was-age-other-went-from-from-to-employer",
@@ -3613,7 +4050,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-plant-closes-and-the-household-splits-for-the-pension",
+        "the-jobs-were-in-the-cities"
+      ]
     },
     {
       "key": "journal.home-livelihood-moved.other-moved-from-from-to-employer-as-job-when-i-was-age",
@@ -3639,7 +4080,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-plant-closes-and-the-household-splits-for-the-pension",
+        "the-jobs-were-in-the-cities"
+      ]
     },
     {
       "key": "journal.home-livelihood-office.other-serves-as-office-for-employer",
@@ -3665,7 +4110,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a38-the-paid-post-or-the-seat",
+        "unpaid-seat-or-city-paycheck"
+      ]
     },
     {
       "key": "journal.home-livelihood-office.other-holds-the-office-of-office-for-employer",
@@ -3691,7 +4140,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a38-the-paid-post-or-the-seat",
+        "unpaid-seat-or-city-paycheck"
+      ]
     },
     {
       "key": "journal.home-livelihood-office.other-is-office-for-employer",
@@ -3717,7 +4170,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a38-the-paid-post-or-the-seat",
+        "unpaid-seat-or-city-paycheck"
+      ]
     },
     {
       "key": "journal.home-livelihood-office-plain.other-serves-as-office",
@@ -3743,7 +4200,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "library-trustee-remains-until-successor-arrives",
+        "vacant-seat-second-ballot"
+      ]
     },
     {
       "key": "journal.home-livelihood-office-plain.other-holds-the-office-of-office",
@@ -3769,7 +4230,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "library-trustee-remains-until-successor-arrives",
+        "vacant-seat-second-ballot"
+      ]
     },
     {
       "key": "journal.home-livelihood-office-plain.other-is-office",
@@ -3795,7 +4260,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "library-trustee-remains-until-successor-arrives",
+        "vacant-seat-second-ballot"
+      ]
     },
     {
       "key": "journal.home-livelihood-office-and-job.other-serves-as-office-for-employer-and-works-as-job-at-workplace",
@@ -3821,7 +4290,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["retire-from-teaching-to-serve-and-the-wife-keeps-teaching"]
     },
     {
       "key": "journal.home-livelihood-office-and-job.other-is-office-for-employer-and-also-works-as-job-at-workplace",
@@ -3847,7 +4317,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "retire-from-teaching-to-serve-and-the-wife-keeps-teaching",
+        "son-runs-the-farm-while-the-father-campaigns"
+      ]
     },
     {
       "key": "journal.home-livelihood-office-and-job.other-is-job-at-workplace-and-serves-as-office-for-employer",
@@ -3873,7 +4347,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "retire-from-teaching-to-serve-and-the-wife-keeps-teaching",
+        "son-runs-the-farm-while-the-father-campaigns"
+      ]
     },
     {
       "key": "journal.home-livelihood-office-plain-and-job.other-serves-as-office-and-works-as-job",
@@ -3899,7 +4377,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "retire-from-teaching-to-serve-and-the-wife-keeps-teaching",
+        "son-runs-the-farm-while-the-father-campaigns"
+      ]
     },
     {
       "key": "journal.home-livelihood-office-plain-and-job.other-is-office-and-also-works-as-job",
@@ -3925,7 +4407,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["retire-from-teaching-to-serve-and-the-wife-keeps-teaching"]
     },
     {
       "key": "journal.home-livelihood-office-plain-and-job.other-works-as-job-and-serves-as-office",
@@ -3951,7 +4434,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "retire-from-teaching-to-serve-and-the-wife-keeps-teaching",
+        "son-runs-the-farm-while-the-father-campaigns"
+      ]
     },
     {
       "key": "journal.home-livelihood-office-plain-and-job.other-serves-as-office-and-works-as-job-at-workplace",
@@ -3977,7 +4464,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["retire-from-teaching-to-serve-and-the-wife-keeps-teaching"]
     },
     {
       "key": "journal.home-livelihood-seat.other-sits-on-body",
@@ -4003,7 +4491,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "library-trustee-remains-until-successor-arrives",
+        "one-public-seat-among-the-raisin-trade"
+      ]
     },
     {
       "key": "journal.home-livelihood-seat.other-holds-a-seat-on-body",
@@ -4029,7 +4521,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "library-trustee-remains-until-successor-arrives",
+        "one-public-seat-among-the-raisin-trade"
+      ]
     },
     {
       "key": "journal.home-livelihood-seat.other-serves-on-body",
@@ -4055,7 +4551,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "library-trustee-remains-until-successor-arrives",
+        "one-public-seat-among-the-raisin-trade"
+      ]
     },
     {
       "key": "journal.home-livelihood-seat-and-job.other-sits-on-body-and-works-as-job-at-workplace",
@@ -4081,7 +4581,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["retire-from-teaching-to-serve-and-the-wife-keeps-teaching"]
     },
     {
       "key": "journal.home-livelihood-seat-and-job.other-holds-a-seat-on-body-and-is-job-at-workplace",
@@ -4107,7 +4608,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "retire-from-teaching-to-serve-and-the-wife-keeps-teaching",
+        "son-runs-the-farm-while-the-father-campaigns"
+      ]
     },
     {
       "key": "journal.home-livelihood-seat-and-job.other-serves-on-body-and-also-works-as-job-at-workplace",
@@ -4133,7 +4638,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["retire-from-teaching-to-serve-and-the-wife-keeps-teaching"]
     },
     {
       "key": "journal.home-livelihood-seat-and-job-plain.other-sits-on-body-and-works-as-job",
@@ -4159,7 +4665,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["retire-from-teaching-to-serve-and-the-wife-keeps-teaching"]
     },
     {
       "key": "journal.home-livelihood-seat-and-job-plain.other-holds-a-seat-on-body-and-also-works-as-job",
@@ -4185,7 +4692,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["retire-from-teaching-to-serve-and-the-wife-keeps-teaching"]
     },
     {
       "key": "journal.home-livelihood-seat-and-job-plain.other-serves-on-body-and-is-job",
@@ -4211,7 +4719,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["retire-from-teaching-to-serve-and-the-wife-keeps-teaching"]
     },
     {
       "key": "journal.home-parents-met-where-they-lived.my-parents-set-up-a-home-in-place",
@@ -4237,7 +4746,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["home-bought-years-after-the-wedding"]
     },
     {
       "key": "journal.home-parents-met-where-they-lived.my-parents-made-their-home-in-place",
@@ -4263,7 +4773,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["home-bought-years-after-the-wedding"]
     },
     {
       "key": "journal.home-parents-met-where-they-lived.my-parents-started-their-household-in-place",
@@ -4315,7 +4826,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "journal.home-parents-met-hometown.my-parents-first-met-in-place",
@@ -4341,7 +4853,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "journal.home-parents-met-hometown.place-is-where-my-parents-met",
@@ -4367,7 +4880,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "journal.home-parents-met-school.my-parents-met-at-school",
@@ -4393,7 +4907,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "journal.home-parents-met-school.my-parents-first-met-at-school",
@@ -4419,7 +4934,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "journal.home-parents-met-school.school-is-where-my-parents-met",
@@ -4445,7 +4961,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "journal.home-raised-by-raised-by.named-raised-me",
@@ -4471,7 +4988,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "every-lesson-from-the-campaign-stop-retold-at-dinner",
+        "a-word-banned-at-the-supper-table"
+      ]
     },
     {
       "key": "journal.home-raised-by-raised-by.i-grew-up-at-home-with-named",
@@ -4497,7 +5018,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "every-lesson-from-the-campaign-stop-retold-at-dinner",
+        "a-word-banned-at-the-supper-table"
+      ]
     },
     {
       "key": "journal.home-raised-by-raised-by.named-brought-me-up",
@@ -4523,7 +5048,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "every-lesson-from-the-campaign-stop-retold-at-dinner",
+        "a-word-banned-at-the-supper-table"
+      ]
     },
     {
       "key": "journal.home-sibling-born.named-was-born-after-me",
@@ -4549,7 +5078,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "journal.home-sibling-born.named-came-along-after-me",
@@ -4575,7 +5105,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b5-06-the-one-you-fell-out-with",
+        "bus-money-becomes-breakfast-money"
+      ]
     },
     {
       "key": "journal.home-sibling-born.named-is-younger-than-i-am",
@@ -4601,7 +5135,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b5-06-the-one-you-fell-out-with",
+        "bus-money-becomes-breakfast-money"
+      ]
     },
     {
       "key": "journal.home-sibling-older.named-was-born-before-me",
@@ -4627,7 +5165,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "journal.home-sibling-older.named-is-older-than-i-am",
@@ -4653,7 +5192,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "journal.home-sibling-older.named-was-already-here-when-i-was-born",
@@ -4679,7 +5219,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "journal.home-sibling-twin.named-was-born-the-same-day-i-was",
@@ -4783,7 +5324,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b5-06-the-one-you-fell-out-with",
+        "bus-money-becomes-breakfast-money"
+      ]
     },
     {
       "key": "journal.home-siblings-born.named-came-after-me",
@@ -4809,7 +5354,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "journal.home-siblings-born.named-are-younger-than-i-am",
@@ -4835,7 +5381,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b5-06-the-one-you-fell-out-with",
+        "bus-money-becomes-breakfast-money"
+      ]
     },
     {
       "key": "journal.home-siblings-older.named-were-born-before-me",
@@ -4861,7 +5411,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "journal.home-siblings-older.named-are-older-than-i-am",
@@ -4887,7 +5438,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "journal.home-siblings-older.named-were-already-here-when-i-was-born",
@@ -4913,7 +5465,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "journal.life-line-came-of-age.i-turned-eighteen",
@@ -4939,7 +5492,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "first-vote-at-eighteen",
+        "coming-of-age-brings-a-say-in-local-elections"
+      ]
     },
     {
       "key": "journal.life-line-came-of-age.i-could-vote",
@@ -4965,7 +5522,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "first-vote-at-eighteen",
+        "coming-of-age-brings-a-say-in-local-elections"
+      ]
     },
     {
       "key": "journal.life-line-came-of-age.voting-age-came",
@@ -4991,7 +5552,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "first-vote-at-eighteen",
+        "coming-of-age-brings-a-say-in-local-elections"
+      ]
     },
     {
       "key": "journal.home-line-born.i-was-born-in-place",
@@ -5017,7 +5582,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["hometown-question-has-one-factual-answer"]
     },
     {
       "key": "journal.home-line-born.my-family-lived-in-place-when-i-was-born",
@@ -5043,7 +5609,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["hometown-question-has-one-factual-answer"]
     },
     {
       "key": "journal.home-line-born.place-is-where-i-was-born",
@@ -5069,7 +5636,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["hometown-question-has-one-factual-answer"]
     },
     {
       "key": "journal.memoir-whenAge.when-i-was-age",
@@ -5199,7 +5767,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "spouse-lists-reasons-then-jokes-you-might-lose",
+        "porch-offer-to-step-aside-for-spouse",
+        "pattern-a12-the-last-day-to-file"
+      ]
     },
     {
       "key": "journal.memoir-decided.i-decided-i-would-run-for-office",
@@ -5225,7 +5798,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "spouse-lists-reasons-then-jokes-you-might-lose",
+        "porch-offer-to-step-aside-for-spouse",
+        "pattern-a12-the-last-day-to-file"
+      ]
     },
     {
       "key": "journal.memoir-decided.i-made-the-decision-to-run-for-office",
@@ -5251,7 +5829,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "spouse-lists-reasons-then-jokes-you-might-lose",
+        "porch-offer-to-step-aside-for-spouse",
+        "pattern-a12-the-last-day-to-file"
+      ]
     },
     {
       "key": "journal.memoir-decided.i-decided-to-run-for-office-in-the-election-on-election",
@@ -5277,7 +5860,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "spouse-lists-reasons-then-jokes-you-might-lose",
+        "porch-offer-to-step-aside-for-spouse",
+        "pattern-a12-the-last-day-to-file"
+      ]
     },
     {
       "key": "journal.memoir-hook.name-came-into-my-life-again-later",
@@ -5407,7 +5995,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["narrow-loss-then-a-clear-win-in-the-rematch"]
     },
     {
       "key": "journal.memoir-revise.name-and-i-crossed-paths-again-after-that",
@@ -5433,7 +6022,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["narrow-loss-then-a-clear-win-in-the-rematch"]
     },
     {
       "key": "journal.memoir-revise.name-was-someone-i-met-again-afterward",
@@ -5459,7 +6049,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["narrow-loss-then-a-clear-win-in-the-rematch"]
     },
     {
       "key": "journal.memoir-remember.i-knew-name",
@@ -5563,7 +6154,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "journal.memoir-became.name-became-office",
@@ -5589,7 +6181,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a25-the-seat-your-patron-leaves",
+        "vacant-seat-second-ballot",
+        "pattern-a02-the-seat-comes-to-you"
+      ]
     },
     {
       "key": "journal.memoir-became.name-is-office-now",
@@ -5615,7 +6212,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a25-the-seat-your-patron-leaves",
+        "vacant-seat-second-ballot",
+        "pattern-a02-the-seat-comes-to-you"
+      ]
     },
     {
       "key": "journal.memoir-became.name-went-on-to-serve-as-office",
@@ -5641,7 +6243,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a25-the-seat-your-patron-leaves",
+        "vacant-seat-second-ballot",
+        "pattern-a02-the-seat-comes-to-you"
+      ]
     },
     {
       "key": "journal.memoir-became.he-became-office",
@@ -5667,7 +6274,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a25-the-seat-your-patron-leaves",
+        "vacant-seat-second-ballot",
+        "pattern-a02-the-seat-comes-to-you"
+      ]
     },
     {
       "key": "journal.memoir-became.she-became-office",
@@ -5693,7 +6305,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a25-the-seat-your-patron-leaves",
+        "vacant-seat-second-ballot",
+        "pattern-a02-the-seat-comes-to-you"
+      ]
     },
     {
       "key": "journal.memoir-meantFriend.we-were-friends",
@@ -5719,7 +6336,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-a29-a-friend-files-for-the-same-seat"]
     },
     {
       "key": "journal.memoir-meantFriend.we-stayed-friends",
@@ -5745,7 +6363,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["high-school-friends-drift-after-the-last-day"]
     },
     {
       "key": "journal.memoir-meantFriend.we-got-along",
@@ -5797,7 +6416,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a29-a-friend-files-for-the-same-seat",
+        "narrow-loss-then-a-clear-win-in-the-rematch"
+      ]
     },
     {
       "key": "journal.memoir-meantRival.we-weren-t-friends",
@@ -5849,7 +6472,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a29-a-friend-files-for-the-same-seat",
+        "narrow-loss-then-a-clear-win-in-the-rematch"
+      ]
     },
     {
       "key": "journal.memoir-joinCause.because-of-that",
@@ -6031,7 +6658,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "pattern-b5-04-someone-dying-someone-buried"
+      ]
     },
     {
       "key": "journal.memoir-deathAge.other-was-death-age-at-the-time",
@@ -6057,7 +6688,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "pattern-b5-04-someone-dying-someone-buried"
+      ]
     },
     {
       "key": "journal.memoir-deathAge.other-was-death-age-that-day",
@@ -6083,7 +6718,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "pattern-b5-04-someone-dying-someone-buried"
+      ]
     },
     {
       "key": "journal.memoir-deathBoth.other-was-death-age-and-had-been-after-illness",
@@ -6109,7 +6748,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-a25-the-seat-your-patron-leaves"]
     },
     {
       "key": "journal.memoir-deathBoth.other-had-been-after-illness-and-was-death-age",
@@ -6135,7 +6775,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a25-the-seat-your-patron-leaves",
+        "father-dies-and-a-sibling-becomes-the-earner"
+      ]
     },
     {
       "key": "journal.memoir-deathBoth.other-was-death-age-after-being-after-illness-for-a-time",
@@ -6161,7 +6805,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a25-the-seat-your-patron-leaves",
+        "father-dies-and-a-sibling-becomes-the-earner"
+      ]
     },
     {
       "key": "journal.memoir-schoolFor.i-had-been-there-for-school-for",
@@ -6343,7 +6991,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "pattern-b6-04-news-of-a-baby"
+      ]
     },
     {
       "key": "journal.memoir-birthAge.name-came-along-when-i-was-age-then",
@@ -6369,7 +7021,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "pattern-b6-04-news-of-a-baby"
+      ]
     },
     {
       "key": "journal.memoir-birthAge.age-then-was-my-age-when-name-arrived",
@@ -6395,7 +7051,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "births-and-deaths-in-the-family-set-down-plainly",
+        "pattern-b6-04-news-of-a-baby"
+      ]
     },
     {
       "key": "journal.memoir-movedAge.i-was-age-then-when-i-moved",
@@ -6499,7 +7159,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "first-pay-told-as-a-weekly-or-hourly-sum",
+        "a-page-wage-pays-for-a-basement-room"
+      ]
     },
     {
       "key": "journal.memoir-firstPay.wage-an-hour-was-my-first-pay",
@@ -6525,7 +7189,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "first-pay-told-as-a-weekly-or-hourly-sum",
+        "a-page-wage-pays-for-a-basement-room"
+      ]
     },
     {
       "key": "journal.memoir-firstPay.employer-started-me-at-wage-an-hour",
@@ -6551,7 +7219,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "first-pay-told-as-a-weekly-or-hourly-sum",
+        "a-page-wage-pays-for-a-basement-room"
+      ]
     },
     {
       "key": "journal.memoir-againPay.employer-offered-wage-an-hour",
@@ -6577,7 +7249,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "laid-off-workers-new-job-pays-less-per-hour",
+        "half-of-rehired-laid-off-workers-earn-less",
+        "new-job-at-the-same-pay-after-a-layoff"
+      ]
     },
     {
       "key": "journal.memoir-againPay.wage-an-hour-was-the-pay-there",
@@ -6603,7 +7280,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "new-job-at-the-same-pay-after-a-layoff",
+        "laid-off-workers-new-job-pays-less-per-hour"
+      ]
     },
     {
       "key": "journal.memoir-againPay.wage-an-hour-was-what-the-job-paid",
@@ -6629,7 +7310,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "new-job-at-the-same-pay-after-a-layoff",
+        "laid-off-workers-new-job-pays-less-per-hour"
+      ]
     },
     {
       "key": "journal.memoir-againPay.wage-an-hour-was-more-than-the-paid-more-than-before",
@@ -6655,7 +7340,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["half-of-rehired-laid-off-workers-earn-less"]
     },
     {
       "key": "journal.memoir-againPay.wage-an-hour-was-less-than-the-paid-less-than-before",
@@ -6681,7 +7367,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "laid-off-workers-new-job-pays-less-per-hour",
+        "half-of-rehired-laid-off-workers-earn-less"
+      ]
     },
     {
       "key": "journal.memoir-againFelt.span-had-gone-by-without-a-job",
@@ -6707,7 +7397,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-long-gap-without-work-deepens-the-pay-loss",
+        "job-seeker-explains-their-savings-are-running-out",
+        "some-laid-off-workers-stop-looking-and-leave-the-labor-force"
+      ]
     },
     {
       "key": "journal.memoir-againFelt.span-passed-between-jobs",
@@ -6733,7 +7428,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-long-gap-without-work-deepens-the-pay-loss",
+        "job-seeker-explains-their-savings-are-running-out"
+      ]
     },
     {
       "key": "journal.memoir-againFelt.span-was-how-long-i-was-out-of-work",
@@ -6759,7 +7458,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-long-gap-without-work-deepens-the-pay-loss",
+        "job-seeker-explains-their-savings-are-running-out",
+        "some-laid-off-workers-stop-looking-and-leave-the-labor-force"
+      ]
     },
     {
       "key": "journal.memoir-letGoHeld.held-was-how-long-i-stayed-at-employer",
@@ -6875,7 +7579,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["laid-off-workers-new-job-pays-less-per-hour"]
     },
     {
       "key": "journal.memoir-letGoPay.wage-an-hour-was-my-pay-at-employer",
@@ -6901,7 +7606,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["laid-off-workers-new-job-pays-less-per-hour"]
     },
     {
       "key": "journal.memoir-letGoPay.employer-was-paying-me-wage-an-hour",
@@ -6927,7 +7633,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["laid-off-workers-new-job-pays-less-per-hour"]
     },
     {
       "key": "journal.memoir-movedPay.at-next-i-was-paid-wage-an-hour",
@@ -6953,7 +7660,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "laid-off-workers-new-job-pays-less-per-hour",
+        "half-of-rehired-laid-off-workers-earn-less"
+      ]
     },
     {
       "key": "journal.memoir-movedPay.the-job-at-next-paid-wage-an-hour",
@@ -6979,7 +7690,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "first-pay-told-as-a-weekly-or-hourly-sum",
+        "laid-off-workers-new-job-pays-less-per-hour",
+        "half-of-rehired-laid-off-workers-earn-less"
+      ]
     },
     {
       "key": "journal.memoir-movedPay.my-pay-at-next-was-wage-an-hour",
@@ -7005,7 +7721,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "first-pay-told-as-a-weekly-or-hourly-sum",
+        "laid-off-workers-new-job-pays-less-per-hour",
+        "half-of-rehired-laid-off-workers-earn-less"
+      ]
     },
     {
       "key": "journal.memoir-movedPay.next-paid-wage-an-hour-up-from-paid-more-than",
@@ -7031,7 +7752,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["half-of-rehired-laid-off-workers-earn-less"]
     },
     {
       "key": "journal.memoir-movedPay.next-paid-wage-an-hour-down-from-paid-less-than",
@@ -7057,7 +7779,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["laid-off-workers-new-job-pays-less-per-hour"]
     },
     {
       "key": "journal.memoir-togetherFor.that-was-together-ago",
@@ -7165,7 +7888,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "victory-night-situation",
+        "the-first-loss-comes-before-the-first-win",
+        "pattern-a02-the-seat-comes-to-you"
+      ]
     },
     {
       "key": "journal.office-own-won.i-was-elected-office",
@@ -7195,7 +7923,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "victory-night-situation",
+        "the-first-loss-comes-before-the-first-win",
+        "pattern-a02-the-seat-comes-to-you"
+      ]
     },
     {
       "key": "journal.office-own-won.i-won-the-election-for-office",
@@ -7225,7 +7958,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "victory-night-situation",
+        "the-first-loss-comes-before-the-first-win",
+        "pattern-a02-the-seat-comes-to-you"
+      ]
     },
     {
       "key": "journal.office-own-lost.i-lost-the-race-for-office",
@@ -7255,7 +7993,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-four-year-olds-advice-after-the-loss",
+        "morning-after-the-loss-the-children-comfort-her",
+        "lincoln-lost-his-first-race"
+      ]
     },
     {
       "key": "journal.office-own-lost.i-lost-the-election-for-office",
@@ -7285,7 +8028,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-four-year-olds-advice-after-the-loss",
+        "morning-after-the-loss-the-children-comfort-her",
+        "lincoln-lost-his-first-race"
+      ]
     },
     {
       "key": "journal.office-own-lost.i-didn-t-win-the-race-for-office",
@@ -7315,7 +8063,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-four-year-olds-advice-after-the-loss",
+        "morning-after-the-loss-the-children-comfort-her",
+        "lincoln-lost-his-first-race"
+      ]
     },
     {
       "key": "journal.office-own-won-close.i-won-the-race-for-office-and-it-was-close",
@@ -7345,7 +8098,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a36-your-people-or-theirs",
+        "pattern-b32-the-long-count"
+      ]
     },
     {
       "key": "journal.office-own-won-close.the-race-for-office-was-close-and-i-won",
@@ -7375,7 +8132,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a36-your-people-or-theirs",
+        "pattern-b32-the-long-count"
+      ]
     },
     {
       "key": "journal.office-own-won-close.i-won-office-by-a-small-margin-and-it-was-close",
@@ -7405,7 +8166,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a36-your-people-or-theirs",
+        "pattern-b32-the-long-count"
+      ]
     },
     {
       "key": "journal.office-own-lost-close.i-lost-the-race-for-office-and-it-was-close",
@@ -7435,7 +8200,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "narrow-loss-then-a-clear-win-in-the-rematch",
+        "lost-by-a-handful-of-votes-to-a-write-in",
+        "losing-campaign-says-the-margin-is-too-close-to-call"
+      ]
     },
     {
       "key": "journal.office-own-lost-close.the-race-for-office-was-close-and-i-lost",
@@ -7465,7 +8235,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "narrow-loss-then-a-clear-win-in-the-rematch",
+        "lost-by-a-handful-of-votes-to-a-write-in",
+        "losing-campaign-says-the-margin-is-too-close-to-call"
+      ]
     },
     {
       "key": "journal.office-own-lost-close.i-lost-office-by-a-small-margin-and-it-was-close",
@@ -7495,7 +8270,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "narrow-loss-then-a-clear-win-in-the-rematch",
+        "lost-by-a-handful-of-votes-to-a-write-in",
+        "losing-campaign-says-the-margin-is-too-close-to-call"
+      ]
     },
     {
       "key": "journal.office-own-won-wide.i-won-the-race-for-office-and-it-wasn-t-close",
@@ -7525,7 +8305,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "winner-share-and-margin-in-one-paragraph",
+        "narrow-loss-then-a-clear-win-in-the-rematch"
+      ]
     },
     {
       "key": "journal.office-own-won-wide.the-race-for-office-wasn-t-close-and-i-won",
@@ -7555,7 +8339,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "winner-share-and-margin-in-one-paragraph",
+        "narrow-loss-then-a-clear-win-in-the-rematch"
+      ]
     },
     {
       "key": "journal.office-own-won-wide.i-won-office-by-a-wide-margin-and-it-wasn-t-close",
@@ -7585,7 +8373,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "winner-share-and-margin-in-one-paragraph",
+        "narrow-loss-then-a-clear-win-in-the-rematch"
+      ]
     },
     {
       "key": "journal.office-own-lost-wide.i-lost-the-race-for-office-and-it-wasn-t-close",
@@ -7615,7 +8407,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a35-the-loss-that-makes-friends",
+        "lincoln-lost-his-first-race"
+      ]
     },
     {
       "key": "journal.office-own-lost-wide.the-race-for-office-wasn-t-close-and-i-lost",
@@ -7645,7 +8441,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a35-the-loss-that-makes-friends",
+        "lincoln-lost-his-first-race"
+      ]
     },
     {
       "key": "journal.office-own-lost-wide.i-lost-office-by-a-wide-margin-and-it-wasn-t-close",
@@ -7675,7 +8475,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-a35-the-loss-that-makes-friends",
+        "lincoln-lost-his-first-race"
+      ]
     },
     {
       "key": "journal.office-other-won.other-won-the-race-for-office",
@@ -7705,7 +8509,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "winner-share-and-margin-in-one-paragraph",
+        "the-first-loss-comes-before-the-first-win"
+      ]
     },
     {
       "key": "journal.office-other-won.other-was-elected-office",
@@ -7735,7 +8543,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "the-first-loss-comes-before-the-first-win",
+        "failed-reform-precedes-a-bigger-opportunity"
+      ]
     },
     {
       "key": "journal.office-other-won.other-ran-for-office-and-won",
@@ -7765,7 +8577,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-first-race-lost-then-governor",
+        "winner-share-and-margin-in-one-paragraph"
+      ]
     },
     {
       "key": "journal.office-other-lost.other-lost-the-race-for-office",
@@ -7795,7 +8611,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "close-count-ends-in-a-concession",
+        "a-late-count-flips-the-lead-and-the-trailer-concedes",
+        "narrow-loss-then-a-clear-win-in-the-rematch"
+      ]
     },
     {
       "key": "journal.office-other-lost.other-didn-t-win-the-race-for-office",
@@ -7825,7 +8646,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "close-count-ends-in-a-concession",
+        "a-late-count-flips-the-lead-and-the-trailer-concedes",
+        "narrow-loss-then-a-clear-win-in-the-rematch"
+      ]
     },
     {
       "key": "journal.office-other-lost.other-ran-for-office-and-lost",
@@ -7855,7 +8681,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "lincoln-lost-his-first-race",
+        "a-first-race-lost-then-governor"
+      ]
     },
     {
       "key": "journal.office-line-petition-checked.my-petition-for-office-had-valid-good-names-it-needed-needed",
@@ -7881,7 +8711,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "petition-short-by-a-few-names",
+        "petition-struck-names-decide-it",
+        "a-signature-challenge-leaves-a-candidate-short"
+      ]
     },
     {
       "key": "journal.office-line-petition-checked.my-petition-for-office-counted-valid-good-names-with-needed-needed",
@@ -7907,7 +8742,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "petition-short-by-a-few-names",
+        "petition-struck-names-decide-it",
+        "a-signature-challenge-leaves-a-candidate-short"
+      ]
     },
     {
       "key": "journal.office-line-petition-checked.my-petition-for-office-went-through-a-check-valid-good-names-needed-needed",
@@ -7933,7 +8773,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "petition-short-by-a-few-names",
+        "petition-struck-names-decide-it",
+        "a-signature-challenge-leaves-a-candidate-short"
+      ]
     },
     {
       "key": "journal.office-line-petition-checked.other-s-petition-for-office-had-valid-good-names-it-needed-needed",
@@ -7959,7 +8804,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "petition-short-by-a-few-names",
+        "petition-struck-names-decide-it",
+        "a-signature-challenge-leaves-a-candidate-short"
+      ]
     },
     {
       "key": "journal.office-line-petition-checked.other-had-valid-good-names-on-the-petition-for-office-with-needed-needed",
@@ -7985,7 +8835,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "petition-short-by-a-few-names",
+        "petition-struck-names-decide-it",
+        "a-signature-challenge-leaves-a-candidate-short"
+      ]
     },
     {
       "key": "journal.office-line-petition-checked.the-petition-other-filed-for-office-had-valid-good-names-it-needed-needed",
@@ -8011,7 +8866,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "petition-short-by-a-few-names",
+        "petition-struck-names-decide-it",
+        "a-signature-challenge-leaves-a-candidate-short"
+      ]
     },
     {
       "key": "journal.office-line-volunteer-shift.other-knocked-on-doors-doors-in-the-race-for-office",
@@ -8037,7 +8897,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "door-count-is-how-people-measure-effort",
+        "rain-and-wind-do-not-stop-the-shift",
+        "canvass-shift-with-no-conversation"
+      ]
     },
     {
       "key": "journal.office-line-volunteer-shift.in-the-race-for-office-other-knocked-on-doors-doors-in-one-evening",
@@ -8063,7 +8928,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "door-count-is-how-people-measure-effort",
+        "rain-and-wind-do-not-stop-the-shift",
+        "canvass-shift-with-no-conversation"
+      ]
     },
     {
       "key": "journal.office-line-volunteer-shift.other-spent-an-evening-on-doors-doors-in-the-race-for-office",
@@ -8089,7 +8959,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "door-count-is-how-people-measure-effort",
+        "rain-and-wind-do-not-stop-the-shift",
+        "canvass-shift-with-no-conversation"
+      ]
     },
     {
       "key": "journal.office-line-volunteer-shift.a-volunteer-knocked-on-doors-doors-in-the-race-for-office",
@@ -8115,7 +8990,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "door-count-is-how-people-measure-effort",
+        "rain-and-wind-do-not-stop-the-shift",
+        "canvass-shift-with-no-conversation"
+      ]
     },
     {
       "key": "journal.office-line-volunteer-shift.one-evening-doors-doors-were-knocked-on-for-office",
@@ -8141,7 +9021,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "door-count-is-how-people-measure-effort",
+        "rain-and-wind-do-not-stop-the-shift",
+        "canvass-shift-with-no-conversation"
+      ]
     },
     {
       "key": "journal.office-line-volunteer-shift.a-volunteer-worked-doors-doors-one-evening-for-office",
@@ -8167,7 +9052,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "door-count-is-how-people-measure-effort",
+        "rain-and-wind-do-not-stop-the-shift",
+        "canvass-shift-with-no-conversation"
+      ]
     },
     {
       "key": "journal.office-line-law-learned.i-learned-that-law-was-in-effect",
@@ -8193,7 +9083,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "annual-law-roundup-on-the-effective-date",
+        "warehouse-fills-while-textile-buyers-retreat"
+      ]
     },
     {
       "key": "journal.office-line-law-learned.i-found-out-law-was-now-in-effect",
@@ -8219,7 +9113,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "annual-law-roundup-on-the-effective-date",
+        "warehouse-fills-while-textile-buyers-retreat"
+      ]
     },
     {
       "key": "journal.office-line-law-learned.i-was-told-law-was-in-effect",
@@ -8245,7 +9143,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "annual-law-roundup-on-the-effective-date",
+        "warehouse-fills-while-textile-buyers-retreat"
+      ]
     },
     {
       "key": "journal.office-line-law-learned.i-learned-there-was-a-law-on-topic",
@@ -8271,7 +9173,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "annual-law-roundup-on-the-effective-date",
+        "warehouse-fills-while-textile-buyers-retreat"
+      ]
     },
     {
       "key": "journal.office-line-law-learned.i-found-out-a-law-on-topic-was-in-effect",
@@ -8297,7 +9203,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "annual-law-roundup-on-the-effective-date",
+        "warehouse-fills-while-textile-buyers-retreat"
+      ]
     },
     {
       "key": "journal.office-line-law-learned.i-was-told-a-law-on-topic-was-in-effect",
@@ -8323,7 +9233,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "annual-law-roundup-on-the-effective-date",
+        "warehouse-fills-while-textile-buyers-retreat"
+      ]
     },
     {
       "key": "journal.office-line-took-office.i-took-office-as-office",
@@ -8349,7 +9263,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b41-the-oath",
+        "repeat-the-oath-at-the-clerks-prompt",
+        "pattern-b50-the-promise-on-day-one"
+      ]
     },
     {
       "key": "journal.office-line-took-office.i-was-sworn-in-as-office",
@@ -8375,7 +9294,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b41-the-oath",
+        "repeat-the-oath-at-the-clerks-prompt",
+        "pattern-b50-the-promise-on-day-one"
+      ]
     },
     {
       "key": "journal.office-line-took-office.i-started-my-term-as-office",
@@ -8401,7 +9325,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b41-the-oath",
+        "repeat-the-oath-at-the-clerks-prompt",
+        "pattern-b50-the-promise-on-day-one"
+      ]
     },
     {
       "key": "journal.office-line-took-office.i-took-the-oath-of-office-for-office",
@@ -8427,7 +9356,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b41-the-oath",
+        "repeat-the-oath-at-the-clerks-prompt",
+        "pattern-b50-the-promise-on-day-one"
+      ]
     },
     {
       "key": "journal.office-other-took-office.other-took-office-as-office",
@@ -8453,7 +9387,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "repeat-the-oath-at-the-clerks-prompt",
+        "pattern-b41-the-oath",
+        "oath-waits-for-speaker"
+      ]
     },
     {
       "key": "journal.office-other-took-office.other-was-sworn-in-as-office",
@@ -8479,7 +9418,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "repeat-the-oath-at-the-clerks-prompt",
+        "pattern-b41-the-oath",
+        "oath-waits-for-speaker"
+      ]
     },
     {
       "key": "journal.office-other-took-office.other-started-a-term-as-office",
@@ -8505,7 +9449,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "repeat-the-oath-at-the-clerks-prompt",
+        "pattern-b41-the-oath",
+        "oath-waits-for-speaker"
+      ]
     },
     {
       "key": "journal.home-line-bought.i-bought-property",
@@ -8531,7 +9480,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["home-bought-years-after-the-wedding"]
     },
     {
       "key": "journal.home-line-bought.we-bought-property",
@@ -8557,7 +9507,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["home-bought-years-after-the-wedding"]
     },
     {
       "key": "journal.home-line-bought.bought-a-house",
@@ -8583,7 +9534,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["home-bought-years-after-the-wedding"]
     },
     {
       "key": "journal.home-other-bought.relation-bought-a-house",
@@ -8609,7 +9561,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["home-bought-years-after-the-wedding"]
     },
     {
       "key": "journal.home-other-bought.relation-bought-a-home-of-their-own",
@@ -8635,7 +9588,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["home-bought-years-after-the-wedding"]
     },
     {
       "key": "journal.home-other-bought.relation-became-a-homeowner",
@@ -8661,7 +9615,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["home-bought-years-after-the-wedding"]
     },
     {
       "key": "journal.work-line-founded.i-founded-business",
@@ -8843,7 +9798,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "petition-the-hustle-before-the-deadline",
+        "neighbor-with-a-clipboard",
+        "a-paid-gatherers-twelve-hour-day-yields-few-names-an-hour"
+      ]
     },
     {
       "key": "journal.scene-line-petition-going-out.i-set-out-to-collect-more-names-for-office",
@@ -8869,7 +9829,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "petition-the-hustle-before-the-deadline",
+        "neighbor-with-a-clipboard",
+        "a-paid-gatherers-twelve-hour-day-yields-few-names-an-hour"
+      ]
     },
     {
       "key": "journal.scene-line-petition-going-out.my-office-petition-went-out-again-for-signatures",
@@ -8895,7 +9860,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "petition-the-hustle-before-the-deadline",
+        "neighbor-with-a-clipboard",
+        "a-paid-gatherers-twelve-hour-day-yields-few-names-an-hour"
+      ]
     },
     {
       "key": "journal.scene-line-petition-going-out.i-talked-with-other-then-went-out-for-more-names",
@@ -8921,7 +9891,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "petition-the-hustle-before-the-deadline",
+        "neighbor-with-a-clipboard",
+        "a-paid-gatherers-twelve-hour-day-yields-few-names-an-hour"
+      ]
     },
     {
       "key": "journal.scene-line-petition-not-today.i-held-off-on-more-names-for-my-office-petition",
@@ -8947,7 +9922,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names", "petition-can-be-contested"]
     },
     {
       "key": "journal.scene-line-petition-not-today.i-left-my-office-petition-for-another-day",
@@ -8973,7 +9949,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names"]
     },
     {
       "key": "journal.scene-line-petition-not-today.other-told-me-the-petition-was-short-and-i-held-off",
@@ -8999,7 +9976,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["petition-short-by-a-few-names", "petition-can-be-contested"]
     },
     {
       "key": "journal.scene-line-side-word-for.i-told-other-i-would-back-about",
@@ -9025,7 +10003,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b7-01-are-you-still-with-us",
+        "a-question-counted-as-a-pledge",
+        "explain-vote-by-prior-pledge"
+      ]
     },
     {
       "key": "journal.scene-line-side-word-for.other-had-my-word-on-about",
@@ -9051,7 +10034,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b7-01-are-you-still-with-us",
+        "a-question-counted-as-a-pledge",
+        "explain-vote-by-prior-pledge"
+      ]
     },
     {
       "key": "journal.scene-line-side-word-for.i-agreed-with-other-to-back-about",
@@ -9077,7 +10065,12 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b7-01-are-you-still-with-us",
+        "a-question-counted-as-a-pledge",
+        "explain-vote-by-prior-pledge"
+      ]
     }
   ]
 }

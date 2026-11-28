@@ -2,7 +2,7 @@
 // Loading worth watching, in a real browser on the bench (npm run bench):
 // New Game in a place chosen in the creator (LOAD_PLACE "State|Town", default
 // Storrs, Connecticut, the fixed town for path 3) shows, while the first scene is drawn, the world's story panel: a
-// year counter that moves, journal lines and headlines that appear, and a
+// year counter that moves, journal lines that appear, and a
 // story told in words, with no map. At 1440x900, 1280x800 and 1024x768 the
 // panel sits inside the window, nothing is drawn past it and nothing in it
 // scrolls. LOAD_SHOTS saves a

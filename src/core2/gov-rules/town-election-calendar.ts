@@ -5,8 +5,8 @@
  * `nominations/filing-gap.ts`.
  */
 import nominationRules from "../../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
-import { makeIsoDate } from "../kernel/dates";
-import type { IsoDate } from "./types";
+import { addDays, nthWeekdayOfMonth } from "../kernel/dates";
+import type { IsoDate } from "../kernel/brands";
 
 /**
  * ESTIMATED FROM AVERAGE, pending research question
@@ -43,11 +43,6 @@ export const FILING_LEAD_SOURCE =
 
 /** The Tuesday after the first Monday in November of a year. */
 export function novemberGeneralElectionDay(year: number): IsoDate {
-  // November 2 through 8: the first Tuesday that follows a Monday in November.
-  for (let day = 2; day <= 8; day += 1) {
-    const date = new Date(Date.UTC(year, 10, day));
-    if (date.getUTCDay() === 2)
-      return makeIsoDate(date.toISOString().slice(0, 10));
-  }
-  throw new Error(`No November election day found in ${year}.`);
+  // November 2 through 8: the day after the first Monday.
+  return addDays(nthWeekdayOfMonth(year, 11, 1, 1), 1);
 }

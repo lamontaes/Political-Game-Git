@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { fileURLToPath } from "node:url";
 import { mkdirSync, writeFileSync } from "node:fs";
-import { playOpening } from "../../../src/bench/start-life.mjs";
+import { playOpening } from "../../../tests/support/start-life.mjs";
 import { chromium } from "playwright";
 const root = fileURLToPath(
   new URL("../../../test-results/lane-2-first-minutes/", import.meta.url),

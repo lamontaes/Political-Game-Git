@@ -11,15 +11,19 @@
  * Labor and Commerce, and Transportation), the seat the lying thread's played
  * files use. Pinned by rooms/find.mts on the scratch branch: Wednesday Jan 29
  * 2025 is a floor day with committees and no caucus; Tuesday Jan 28 has the
- * caucus. Seat 031 (a Republican) sits on Finance and Health with the
- * player; seat 020 (a Democrat) sits on Finance with both. The player stays
- * away from Finance on Jan 29 through the office day's own `doEntry`, the
- * call the player's press makes; seat 020 attends as every character does.
+ * caucus. The two colleagues are found in the world, not named by seat: one
+ * of the other party who sits on Finance and Health with the player, and one
+ * of the player's own party who sits on Finance (the world's history decides
+ * which seat holds which party, so a seat number is not a party). The player
+ * stays away from Finance on Jan 29 through the office day's own `doEntry`,
+ * the call the player's press makes; the party colleague attends as every
+ * character does.
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
-import { halfLifeDays, sittingHoursByBody } from "./closeness";
+import { halfLifeDays } from "./closeness";
+import { sittingHoursByBody } from "./sitting-closeness";
 import { knownAmong } from "./encounters";
 import { gameStartDate } from "./game-start";
 import { makeIsoDate } from "./kernel/dates";
@@ -59,9 +63,6 @@ it("committees and caucuses are rooms of the sitting reader, and a day the playe
   const office = stateOfficeOf(api, player)!;
   expect(office.officeId).toBe(chamber);
   expect(player.split(":")[5]).toBe("016");
-  const named = (n: string) => ids.find((id) => id.split(":")[5] === n)!;
-  const other = named("031");
-  const party = named("020");
   const finance = `${chamber}:committee:finance`;
   const health = `${chamber}:committee:health`;
   const caucus = `${chamber}:caucus:${office.party}`;
@@ -70,6 +71,27 @@ it("committees and caucuses are rooms of the sitting reader, and a day the playe
   const roster = seatedCommittees(api, chamber).find(
     (c) => c.committee === "finance",
   )!.memberIds;
+  const healthRoster = seatedCommittees(api, chamber).find(
+    (c) => c.committee === "health",
+  )!.memberIds;
+  const partyOf = new Map(
+    members(api, chamber).map((t) => [memberKey(t), t.party] as const),
+  );
+  // The colleagues, found in the world: someone of the other party on Finance
+  // and Health with the player, and someone of the player's party on Finance.
+  const other = ids.find(
+    (id) =>
+      id !== player &&
+      roster.includes(id) &&
+      healthRoster.includes(id) &&
+      partyOf.get(id) !== office.party,
+  )!;
+  const party = ids.find(
+    (id) =>
+      id !== player && roster.includes(id) && partyOf.get(id) === office.party,
+  )!;
+  expect(other, "no other-party member on Finance and Health").toBeDefined();
+  expect(party, "no party colleague on Finance").toBeDefined();
   for (const id of [player, other, party]) expect(roster).toContain(id);
   const fade = Math.pow(
     2,

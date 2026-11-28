@@ -30,7 +30,6 @@ import {
   type HistoryRecord,
 } from "./pre-start";
 import type {
-  CoreModule,
   CoreState,
   IsoDate,
   LogRecord,
@@ -167,16 +166,12 @@ export interface HistorySource {
 }
 
 /**
- * An engine module that keeps a table of what it did hands it to the reader
- * as `history`, the way a module hands the pre-start run its `preStart`
- * pass (src/core2/pre-start.ts): the reader reads the installed modules, so
- * no engine registers anything and this family imports none of them.
+ * The installed engines' history sources: the person's life (`life`) and the
+ * rest. An engine that keeps a table of what it did hands it to the reader as
+ * its module's `history` (CoreModule), the way a module hands the pre-start
+ * run its `preStart` pass: the reader reads the installed modules, so no
+ * engine registers anything.
  */
-export interface HistoryModule extends CoreModule {
-  history?: HistorySource;
-}
-
-/** The installed engines' history sources: the person's life (`life`) and the rest. */
 function sourcesOf(core: CoreState): {
   life?: HistorySource;
   others: HistorySource[];
@@ -184,7 +179,7 @@ function sourcesOf(core: CoreState): {
   let life: HistorySource | undefined;
   const others: HistorySource[] = [];
   for (const module of core.modules.values()) {
-    const source = (module as HistoryModule).history;
+    const source = module.history;
     if (!source) continue;
     if (source.life) life = source;
     else others.push(source);
