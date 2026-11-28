@@ -12,7 +12,7 @@ import stateOfficeResearch from "../../data/research/offices/state-offices.json"
 import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import { setBookkeeping } from "./bookkeeping";
 import { centuryLegislatures } from "./electorate-century";
 import { gameStartDate } from "./game-start";
