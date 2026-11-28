@@ -814,7 +814,15 @@
         "src/core2/prices-reads.ts",
         "src/core2/job-lifecycle.ts",
         "src/core2/work-reads.ts",
-        "src/core2/opening-outside-market.ts"
+        "src/core2/opening-outside-market.ts",
+        "src/core2/opening-employment.ts",
+        "src/core2/town-workplaces.ts",
+        "src/core2/town-pay.ts",
+        "src/core2/opening-capital.ts",
+        "src/core2/living-cost-split.ts",
+        "src/core2/public-payroll.ts",
+        "src/core2/modules/credit.ts",
+        "src/core2/modules/place-prices.ts"
       ],
       "paths": [
         "src/core2/shared-time.ts",
