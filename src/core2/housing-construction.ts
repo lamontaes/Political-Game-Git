@@ -17,7 +17,7 @@
  */
 import construction from "./data/housing/construction.json" with { type: "json" };
 import type { ModuleTable } from "./module-state";
-import { residentsRuntime } from "./modules/residents";
+import { residentsRuntime } from "./residents-reads";
 import { webFactorFor } from "./outcome-web-reach";
 import { carriedLink } from "./modules/outcome-web";
 import { stableHash } from "./kernel/ids";

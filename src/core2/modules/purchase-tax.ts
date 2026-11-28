@@ -20,7 +20,7 @@ import type {
   Source,
 } from "../types";
 import { appliedOn, lawApplied } from "../law-reach/applied";
-import { residentsRuntime } from "./residents";
+import { residentsRuntime } from "../residents-reads";
 
 export const PURCHASE_TAX_MODULE_ID = "core2-purchase-tax-v1";
 

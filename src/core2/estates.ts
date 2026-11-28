@@ -56,7 +56,7 @@ import { closenessBetween } from "./closeness";
 import { leanedYes } from "./trait-decisions";
 import type { ModuleRow } from "./module-data";
 import { personOrFillIn, registerModule } from "./state";
-import { residentPerson, residentsRuntime } from "./modules/residents";
+import { residentPerson, residentsRuntime } from "./residents-reads";
 import { countedPayment } from "./counted-money";
 import { isDemoted } from "./counted-groups";
 import {

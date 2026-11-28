@@ -10,7 +10,7 @@
  */
 import { ageOn } from "./counted-groups";
 import { stableHash } from "./kernel/ids";
-import { residentsRuntime } from "./modules/residents";
+import { residentsRuntime } from "./residents-reads";
 import { parameter } from "./parameters";
 import type { CoreState, HouseholdInput, PersonId, PersonInput } from "./types";
 
