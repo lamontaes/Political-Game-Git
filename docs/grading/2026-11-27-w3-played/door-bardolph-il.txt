@@ -1,0 +1,182 @@
+# PLACE Bardolph, Illinois (1703675), seed 7c3f64503cbc625711cbea882ae821516ec87cdb96d244a2872c9d5d4f35b8fa
+# filed person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 in contest:seat:gus2025:194543:board:0:2026-11-03: petition needs 60
+# PLAYER person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 filed filing:contest:seat:gus2025:194543:board:0:2026-11-03:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 on 2025-09-08; petition due 2025-11-03; walking 116 days
+
+## circumstance:door-petition on 2025-09-10: ask-signature.plain; facts: name, first, place, stranger, day-after, daytime, morning, self, office, vote-day, due, about, side-for, view-question, office-decides, why-home, would-not-sign, rival, rival-signed, stand, stand-apart, read-own-illness, read-close
+   fact due = November 3  [petition:filing:contest:seat:gus2025:194543:board:0:2026-11-03:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0]
+   fact about = apartments in single-family neighborhoods  [views:stances:person_219047fff660db3c:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+   fact would-not-sign = yes  [cause:person_219047fff660db3c:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-09:1 petition:filing:contest:seat:gus2025:194543:board:0:2026-11-03:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0]
+   fact rival = George Gibson  [contest:seat:gus2025:194543:board:0:2026-11-03 filing:contest:seat:gus2025:194543:board:0:2026-11-03:person_e1bc7c3575993a20 person_e1bc7c3575993a20]
+   fact rival-signed = yes  [filing:contest:seat:gus2025:194543:board:0:2026-11-03:person_e1bc7c3575993a20 petition:filing:contest:seat:gus2025:194543:board:0:2026-11-03:person_e1bc7c3575993a20]
+   fact stand = say no to apartments in single-family neighborhoods  [cause:person_219047fff660db3c:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-09:1 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+   fact stand-apart = yes  [cause:person_219047fff660db3c:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-09:1 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+Melanie Petersen: I'm Melanie, running for board member in District 1 against George Gibson. Would you sign?   <scene-talk.state-request.i-m-self-running-for-office-against-rival-would-you-sign>
+  Mira Suarez: Not today, thanks. I don't know enough about the race for board member in District 1.   <scene-talk.reply-decline.not-today-thanks-i-don-t-know-enough-about-the-race-for-office>
+  > YOU press [accept]: Fair enough. Thanks for hearing me out on the race for board member in District 1.   <scene-talk.follow-accept.fair-enough-thanks-for-hearing-me-out-on-the-race-for-office>
+      [END would-not-sign]
+  > YOU press [press]: It only puts me on the ballot for board member in District 1. You'd still vote your own way.   <scene-talk.follow-press.it-only-puts-me-on-the-ballot-for-office-you-d-still-vote-your-own-way>
+      Mira Suarez: My answer's the same. Good luck in the race for board member in District 1.   <scene-talk.reply-decline.my-answer-s-the-same-good-luck-in-the-race-for-office>
+      > YOU press [accept]: Fair enough. I'm collecting until November 3 if you change your mind.   <scene-talk.follow-accept.fair-enough-i-m-collecting-until-due-if-you-change-your-mind>
+          [END would-not-sign]
+      > YOU press [promise]: I'll come back before November 3. Take your time.   <scene-talk.follow-promise.i-ll-come-back-before-due-take-your-time>
+          [END promised-to-look]
+  > YOU press [ask]: What matters most to you in the race for board member in District 1?   <scene-talk.follow-ask.what-matters-most-to-you-in-the-race-for-office>
+      Mira Suarez: Apartments in single-family neighborhoods. We own here, and others should get the same chance.   <scene-talk.reply-tell.about-we-own-here-and-others-should-get-the-same-chance>
+      > YOU press [promise]: I'll look hard at apartments in single-family neighborhoods and come back.   <scene-talk.follow-promise.i-ll-look-hard-at-about-and-come-back>
+          [END promised-to-look]
+      > YOU press [comfort]: Thanks for telling me about apartments in single-family neighborhoods.   <scene-talk.follow-comfort.thanks-for-telling-me-about-about>
+          [END would-not-sign-told]
+
+## circumstance:door-petition on 2025-09-13: ask-signature.plain; facts: name, first, place, stranger, day-after, daytime, morning, self, office, vote-day, due, about, side-for, view-question, office-decides, why-home, signed, rival, stand, stand-apart, read-close
+   fact due = November 3  [petition:filing:contest:seat:gus2025:194543:board:0:2026-11-03:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0]
+   fact about = apartments in single-family neighborhoods  [views:stances:person_5d2ed1c53e754f14:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+   fact signed = yes  [cause:person_5d2ed1c53e754f14:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-12:1 petition:filing:contest:seat:gus2025:194543:board:0:2026-11-03:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0]
+   fact rival = George Gibson  [contest:seat:gus2025:194543:board:0:2026-11-03 filing:contest:seat:gus2025:194543:board:0:2026-11-03:person_e1bc7c3575993a20 person_e1bc7c3575993a20]
+   fact stand = say no to apartments in single-family neighborhoods  [cause:person_5d2ed1c53e754f14:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-12:1 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+   fact stand-apart = yes  [cause:person_5d2ed1c53e754f14:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-12:1 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+Melanie Petersen: I'm Melanie, trying to get on the ballot for board member in District 1. Would you sign?   <scene-talk.state-request.i-m-self-trying-to-get-on-the-ballot-for-office-would-you-sign>
+  Devon Villegas: Alright. I'll sign for board member in District 1 right here.   <scene-talk.reply-agree.alright-i-ll-sign-for-office-right-here>
+  > YOU press [thank]: Thank you. That helps me get on the ballot for board member in District 1.   <scene-talk.follow-thank.thank-you-that-helps-me-get-on-the-ballot-for-office>
+      [END signed]
+  > YOU press [ask]: What should the race for board member in District 1 be about?   <scene-talk.follow-ask.what-should-the-race-for-office-be-about>
+      Devon Villegas: Apartments in single-family neighborhoods. We own here, and others should get the same chance.   <scene-talk.reply-tell.about-we-own-here-and-others-should-get-the-same-chance>
+      > YOU press [promise]: I'll come back and ask about the race for board member in District 1.   <scene-talk.follow-promise.i-ll-come-back-and-ask-about-the-race-for-office>
+          [END promised-to-look]
+      > YOU press [comfort]: Thanks for telling me about apartments in single-family neighborhoods.   <scene-talk.follow-comfort.thanks-for-telling-me-about-about>
+          [END signed-and-told]
+
+## circumstance:door-petition on 2025-09-16: ask-signature.sick; facts: name, first, place, stranger, day-after, daytime, morning, self, office, vote-day, due, about, side-for, view-question, office-decides, why-rent, rent, signed, rival, stand, stand-apart, read-own-illness, read-close
+   fact due = November 3  [petition:filing:contest:seat:gus2025:194543:board:0:2026-11-03:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0]
+   fact about = an affordable-housing requirement for new buildings  [views:stances:person_3bcf213857f22341:us-policy-positions:housing-land-use.inclusionary-requirement]
+   fact signed = yes  [cause:person_3bcf213857f22341:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-15:1 petition:filing:contest:seat:gus2025:194543:board:0:2026-11-03:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0]
+   fact rival = George Gibson  [contest:seat:gus2025:194543:board:0:2026-11-03 filing:contest:seat:gus2025:194543:board:0:2026-11-03:person_e1bc7c3575993a20 person_e1bc7c3575993a20]
+   fact stand = say no to an affordable-housing requirement for new buildings  [cause:person_3bcf213857f22341:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-15:1 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.inclusionary-requirement]
+   fact stand-apart = yes  [cause:person_3bcf213857f22341:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-15:1 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.inclusionary-requirement]
+Melanie Petersen: I'm Melanie. I need names by November 3 to run for board member in District 1. Would you sign?   <scene-talk.state-request.i-m-self-i-need-names-by-due-to-run-for-office-would-you-sign>
+  Wendy Fowler: I haven't been well. I'll sign for board member in District 1, though.   <scene-talk.reply-agree.i-haven-t-been-well-i-ll-sign-for-office-though>
+  > YOU press [thank]: Thank you. That's one more before November 3.   <scene-talk.follow-thank.thank-you-that-s-one-more-before-due>
+      [END signed]
+  > YOU press [ask]: How are you feeling? The race for board member in District 1 can wait.   <scene-talk.follow-ask.how-are-you-feeling-the-race-for-office-can-wait>
+      Wendy Fowler: I haven't been well. It's hard to think about the race for board member in District 1.   <scene-talk.reply-tell.i-haven-t-been-well-it-s-hard-to-think-about-the-race-for-office>
+      > YOU press [promise]: I hope you're well soon. I'll come back about the race for board member in District 1.   <scene-talk.follow-promise.i-hope-you-re-well-soon-i-ll-come-back-about-the-race-for-office>
+          [END promised-to-look]
+      > YOU press [comfort]: I'm sorry you've been sick. The race for board member in District 1 is the last thing you need at the door.   <scene-talk.follow-comfort.i-m-sorry-you-ve-been-sick-the-race-for-office-is-the-last-thing-you-need-at-the-door>
+          [END signed-and-told]
+
+## circumstance:door-first on 2025-09-19: ask-support.same-party; facts: name, first, place, stranger, day-after, daytime, morning, self, office, vote-day, about, side-against, view-question, office-decides, why-home, rival, stand, stand-with, read-own-illness, read-household-illness, read-close, read-same-party
+   fact about = apartments in single-family neighborhoods  [views:stances:person_276fcbf9f10592fd:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+   fact rival = George Gibson  [contest:seat:gus2025:194543:board:0:2026-11-03 filing:contest:seat:gus2025:194543:board:0:2026-11-03:person_e1bc7c3575993a20 person_e1bc7c3575993a20]
+   fact stand = say no to apartments in single-family neighborhoods  [cause:person_276fcbf9f10592fd:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-18:2 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+   fact stand-with = yes  [cause:person_276fcbf9f10592fd:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-18:2 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+Melanie Petersen: Hi, I'm Melanie. I'm running for board member in District 1. Can I count on your vote?   <scene-talk.state-request.hi-i-m-self-i-m-running-for-office-can-i-count-on-your-vote>
+  Miriam Keller: Same party, same side. I'll be there March 17, 2026.   <scene-talk.reply-agree.same-party-same-side-i-ll-be-there-vote-day>
+  > YOU press [thank]: Thanks. I'll see you on March 17, 2026.   <scene-talk.follow-thank.thanks-i-ll-see-you-on-vote-day>
+      [END promised-vote]
+  > YOU press [ask]: What do you want from our side in the race for board member in District 1?   <scene-talk.follow-ask.what-do-you-want-from-our-side-in-the-race-for-office>
+      Miriam Keller: Win the race for board member in District 1 for our side, and don't make me regret it.   <scene-talk.reply-tell.win-the-race-for-office-for-our-side-and-don-t-make-me-regret-it>
+      [END promised-vote-told]
+
+## circumstance:door-first on 2025-09-22: ask-support.plain; facts: name, first, place, stranger, day-after, daytime, morning, self, office, vote-day, about, side-against, view-question, office-decides, why-home, rival, stand, stand-with, read-own-illness, read-close
+   fact about = apartments in single-family neighborhoods  [views:stances:person_6f268bb4def7349b:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+   fact rival = George Gibson  [contest:seat:gus2025:194543:board:0:2026-11-03 filing:contest:seat:gus2025:194543:board:0:2026-11-03:person_e1bc7c3575993a20 person_e1bc7c3575993a20]
+   fact stand = say no to apartments in single-family neighborhoods  [cause:person_6f268bb4def7349b:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-21:1 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+   fact stand-with = yes  [cause:person_6f268bb4def7349b:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-21:1 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+Melanie Petersen: I'm Melanie. The vote for board member in District 1 is March 17, 2026. Can I count on you?   <scene-talk.state-request.i-m-self-the-vote-for-office-is-vote-day-can-i-count-on-you>
+  Peter McBride: I'll vote for you over George Gibson.   <scene-talk.reply-agree.i-ll-vote-for-you-over-rival>
+  > YOU press [thank]: Thank you. I'll earn it before March 17, 2026.   <scene-talk.follow-thank.thank-you-i-ll-earn-it-before-vote-day>
+      [END promised-vote]
+  > YOU press [ask]: What matters most to you in the race for board member in District 1?   <scene-talk.follow-ask.what-matters-most-to-you-in-the-race-for-office>
+      Peter McBride: Apartments in single-family neighborhoods. We own here, and I worry about the street.   <scene-talk.reply-tell.about-we-own-here-and-i-worry-about-the-street>
+      > YOU press [promise]: I'll come back before March 17, 2026.   <scene-talk.follow-promise.i-ll-come-back-before-vote-day>
+          [END promised-to-look]
+      > YOU press [comfort]: Thanks for telling me about apartments in single-family neighborhoods.   <scene-talk.follow-comfort.thanks-for-telling-me-about-about>
+          [END promised-vote-told]
+
+## circumstance:door-first on 2025-09-25: ask-support.lost-job; facts: name, first, place, stranger, day-after, daytime, morning, self, office, vote-day, about, side-for, view-question, office-decides, why-home, rival, stand, stand-apart, read-laid-off, read-close
+   fact about = apartments in single-family neighborhoods  [views:stances:person_4d9b034c86abe6de:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+   fact rival = George Gibson  [contest:seat:gus2025:194543:board:0:2026-11-03 filing:contest:seat:gus2025:194543:board:0:2026-11-03:person_e1bc7c3575993a20 person_e1bc7c3575993a20]
+   fact stand = say no to apartments in single-family neighborhoods  [cause:person_4d9b034c86abe6de:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-24:2 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+   fact stand-apart = yes  [cause:person_4d9b034c86abe6de:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-24:2 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+Melanie Petersen: I'm Melanie, running for board member in District 1. I'd like your vote on March 17, 2026.   <scene-talk.state-request.i-m-self-running-for-office-i-d-like-your-vote-on-vote-day>
+  John Webster: I haven't decided who gets my vote for board member in District 1. Ask me closer to March 17, 2026.   <scene-talk.reply-decline.i-haven-t-decided-who-gets-my-vote-for-office-ask-me-closer-to-vote-day>
+  > YOU press [accept]: Fair enough. I'll come back before March 17, 2026.   <scene-talk.follow-accept.fair-enough-i-ll-come-back-before-vote-day>
+      [END will-not-vote]
+  > YOU press [press]: What would it take to earn your vote for board member in District 1?   <scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office>
+      John Webster: I've heard you out. I'm still deciding my vote for board member in District 1.   <scene-talk.reply-decline.i-ve-heard-you-out-i-m-still-deciding-my-vote-for-office>
+      > YOU press [accept]: Fair enough. I'll come back before March 17, 2026.   <scene-talk.follow-accept.fair-enough-i-ll-come-back-before-vote-day>
+          [END will-not-vote]
+      > YOU press [promise]: I'll look hard at apartments in single-family neighborhoods and come back.   <scene-talk.follow-promise.i-ll-look-hard-at-about-and-come-back>
+          [END promised-to-look]
+
+## circumstance:door-petition on 2025-09-26: ask-signature.sick; facts: name, first, place, stranger, day-after, daytime, morning, self, office, vote-day, due, about, side-against, view-question, office-decides, why-home, signed, rival, stand, stand-with, read-own-illness, read-close
+   fact due = November 3  [petition:filing:contest:seat:gus2025:194543:board:0:2026-11-03:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0]
+   fact about = apartments in single-family neighborhoods  [views:stances:person_f97aa2209b05232c:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+   fact signed = yes  [cause:person_f97aa2209b05232c:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-25:1 petition:filing:contest:seat:gus2025:194543:board:0:2026-11-03:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0]
+   fact rival = George Gibson  [contest:seat:gus2025:194543:board:0:2026-11-03 filing:contest:seat:gus2025:194543:board:0:2026-11-03:person_e1bc7c3575993a20 person_e1bc7c3575993a20]
+   fact stand = say no to apartments in single-family neighborhoods  [cause:person_f97aa2209b05232c:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-25:1 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+   fact stand-with = yes  [cause:person_f97aa2209b05232c:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-25:1 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+Melanie Petersen: Hi, I'm Melanie. I'm running for board member in District 1. Would you sign my petition?   <scene-talk.state-request.hi-i-m-self-i-m-running-for-office-would-you-sign-my-petition>
+  Mark Welch: I haven't been well. I'll sign for board member in District 1, though.   <scene-talk.reply-agree.i-haven-t-been-well-i-ll-sign-for-office-though>
+  > YOU press [thank]: That's one more name for my run for board member in District 1. Thank you.   <scene-talk.follow-thank.that-s-one-more-name-for-my-run-for-office-thank-you>
+      [END signed]
+  > YOU press [ask]: How are you feeling? The race for board member in District 1 can wait.   <scene-talk.follow-ask.how-are-you-feeling-the-race-for-office-can-wait>
+      Mark Welch: I haven't been well. It's hard to think about the race for board member in District 1.   <scene-talk.reply-tell.i-haven-t-been-well-it-s-hard-to-think-about-the-race-for-office>
+      > YOU press [promise]: I hope you're well soon. I'll come back about the race for board member in District 1.   <scene-talk.follow-promise.i-hope-you-re-well-soon-i-ll-come-back-about-the-race-for-office>
+          [END promised-to-look]
+      > YOU press [comfort]: I'm sorry you've been sick. The race for board member in District 1 is the last thing you need at the door.   <scene-talk.follow-comfort.i-m-sorry-you-ve-been-sick-the-race-for-office-is-the-last-thing-you-need-at-the-door>
+          [END signed-and-told]
+
+## circumstance:door-first on 2025-09-28: ask-support.sick; facts: name, first, place, stranger, day-after, daytime, morning, self, office, vote-day, about, side-against, view-question, office-decides, why-home, rival, stand, stand-with, read-own-illness, read-close
+   fact about = apartments in single-family neighborhoods  [views:stances:person_91d94c7387de4c48:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+   fact rival = George Gibson  [contest:seat:gus2025:194543:board:0:2026-11-03 filing:contest:seat:gus2025:194543:board:0:2026-11-03:person_e1bc7c3575993a20 person_e1bc7c3575993a20]
+   fact stand = say no to apartments in single-family neighborhoods  [cause:person_91d94c7387de4c48:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-27:1 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+   fact stand-with = yes  [cause:person_91d94c7387de4c48:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-09-27:1 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+Melanie Petersen: I'm Melanie, running for board member in District 1 against George Gibson. Can I count on you?   <scene-talk.state-request.i-m-self-running-for-office-against-rival-can-i-count-on-you>
+  Clara Collins: I haven't been well, but I'll vote for you on March 17, 2026.   <scene-talk.reply-agree.i-haven-t-been-well-but-i-ll-vote-for-you-on-vote-day>
+  > YOU press [thank]: That means a lot. I'll keep working for every vote in Bardolph.   <scene-talk.follow-thank.that-means-a-lot-i-ll-keep-working-for-every-vote-in-place>
+      [END promised-vote]
+  > YOU press [ask]: How are you feeling? The race for board member in District 1 can wait.   <scene-talk.follow-ask.how-are-you-feeling-the-race-for-office-can-wait>
+      Clara Collins: I haven't been well. It's hard to think about the race for board member in District 1.   <scene-talk.reply-tell.i-haven-t-been-well-it-s-hard-to-think-about-the-race-for-office>
+      > YOU press [promise]: I hope you're well soon. I'll come back about the race for board member in District 1.   <scene-talk.follow-promise.i-hope-you-re-well-soon-i-ll-come-back-about-the-race-for-office>
+          [END promised-to-look]
+      > YOU press [comfort]: I'm sorry you've been sick. The race for board member in District 1 is the last thing you need at the door.   <scene-talk.follow-comfort.i-m-sorry-you-ve-been-sick-the-race-for-office-is-the-last-thing-you-need-at-the-door>
+          [END promised-vote-told]
+
+## circumstance:door-first on 2025-10-03: ask-support.sick; facts: name, first, place, stranger, day-after, daytime, morning, self, office, vote-day, about, side-for, view-question, office-decides, why-home, rival, rival-signed, stand, stand-apart, read-own-illness, read-close
+   fact about = apartments in single-family neighborhoods  [views:stances:person_d33fbff1c89c3000:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+   fact rival = George Gibson  [contest:seat:gus2025:194543:board:0:2026-11-03 filing:contest:seat:gus2025:194543:board:0:2026-11-03:person_e1bc7c3575993a20 person_e1bc7c3575993a20]
+   fact rival-signed = yes  [filing:contest:seat:gus2025:194543:board:0:2026-11-03:person_e1bc7c3575993a20 petition:filing:contest:seat:gus2025:194543:board:0:2026-11-03:person_e1bc7c3575993a20]
+   fact stand = say no to apartments in single-family neighborhoods  [cause:person_d33fbff1c89c3000:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-10-02:1 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+   fact stand-apart = yes  [cause:person_d33fbff1c89c3000:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-10-02:1 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones]
+Melanie Petersen: Hi, I'm Melanie. I'm running for board member in District 1. Can I count on your vote?   <scene-talk.state-request.hi-i-m-self-i-m-running-for-office-can-i-count-on-your-vote>
+  Katherine King: I haven't been well. I can't think about the race for board member in District 1 right now.   <scene-talk.reply-decline.i-haven-t-been-well-i-can-t-think-about-the-race-for-office-right-now>
+  > YOU press [accept]: Understood. Thanks for hearing me out on the race for board member in District 1.   <scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office>
+      [END will-not-vote]
+  > YOU press [press]: Has George Gibson been by yet?   <scene-talk.follow-press.has-rival-been-by-yet>
+      Katherine King: I've heard you out. I'm still deciding my vote for board member in District 1.   <scene-talk.reply-decline.i-ve-heard-you-out-i-m-still-deciding-my-vote-for-office>
+      [END pressed-them]
+  > YOU press [ask]: How are you feeling? The race for board member in District 1 can wait.   <scene-talk.follow-ask.how-are-you-feeling-the-race-for-office-can-wait>
+      Katherine King: I haven't been well. It's hard to think about the race for board member in District 1.   <scene-talk.reply-tell.i-haven-t-been-well-it-s-hard-to-think-about-the-race-for-office>
+      > YOU press [promise]: I hope you're well soon. I'll come back about the race for board member in District 1.   <scene-talk.follow-promise.i-hope-you-re-well-soon-i-ll-come-back-about-the-race-for-office>
+          [END promised-to-look]
+      > YOU press [comfort]: I'm sorry you've been sick. The race for board member in District 1 is the last thing you need at the door.   <scene-talk.follow-comfort.i-m-sorry-you-ve-been-sick-the-race-for-office-is-the-last-thing-you-need-at-the-door>
+          [END will-not-vote-told]
+
+## circumstance:door-first on 2025-10-06: ask-support.plain; facts: name, first, place, stranger, day-after, daytime, morning, self, office, vote-day, about, side-for, view-question, office-decides, why-rent, rent, rival, stand, stand-apart, read-close
+   fact about = an affordable-housing requirement for new buildings  [views:stances:person_266e76a529056ac1:us-policy-positions:housing-land-use.inclusionary-requirement]
+   fact rival = George Gibson  [contest:seat:gus2025:194543:board:0:2026-11-03 filing:contest:seat:gus2025:194543:board:0:2026-11-03:person_e1bc7c3575993a20 person_e1bc7c3575993a20]
+   fact stand = say no to an affordable-housing requirement for new buildings  [cause:person_266e76a529056ac1:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-10-05:1 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.inclusionary-requirement]
+   fact stand-apart = yes  [cause:person_266e76a529056ac1:person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0:2025-10-05:1 person:press:outlet:television:3:jurisdiction_fba6907d2a2f86a4:reporter:0 us-policy-positions:housing-land-use.inclusionary-requirement]
+Melanie Petersen: I'm Melanie. The vote for board member in District 1 is March 17, 2026. Can I count on you?   <scene-talk.state-request.i-m-self-the-vote-for-office-is-vote-day-can-i-count-on-you>
+  James Wise: I care about an affordable-housing requirement for new buildings. I haven't heard enough from you.   <scene-talk.reply-decline.i-care-about-about-i-haven-t-heard-enough-from-you>
+  > YOU press [accept]: Fair enough. Think about an affordable-housing requirement for new buildings, and I'll see you March 17, 2026.   <scene-talk.follow-accept.fair-enough-think-about-about-and-i-ll-see-you-vote-day>
+      [END will-not-vote]
+  > YOU press [press]: Here's where I am. I'd say no to an affordable-housing requirement for new buildings.   <scene-talk.follow-press.here-s-where-i-am-i-d-stand>
+      James Wise: I've thought about an affordable-housing requirement for new buildings. I'm still not sure.   <scene-talk.reply-decline.i-ve-thought-about-about-i-m-still-not-sure>
+      > YOU press [accept]: Fair enough. Think about an affordable-housing requirement for new buildings, and I'll see you March 17, 2026.   <scene-talk.follow-accept.fair-enough-think-about-about-and-i-ll-see-you-vote-day>
+          [END will-not-vote]
+      > YOU press [promise]: I'll come back before March 17, 2026.   <scene-talk.follow-promise.i-ll-come-back-before-vote-day>
+          [END promised-to-look]
+
+# DONE Bardolph, Illinois (1703675), seed 7c3f64503cbc625711cbea882ae821516ec87cdb96d244a2872c9d5d4f35b8fa: circumstance:door-petition|decline|ask-signature.plain x1; circumstance:door-petition|agree|ask-signature.plain x1; circumstance:door-petition|agree|ask-signature.sick x2; circumstance:door-first|agree|ask-support.same-party x1; circumstance:door-first|agree|ask-support.plain x1; circumstance:door-first|decline|ask-support.lost-job x1; circumstance:door-first|agree|ask-support.sick x1; circumstance:door-first|decline|ask-support.sick x1; circumstance:door-first|decline|ask-support.plain x1; last day 2026-01-01
+done 0

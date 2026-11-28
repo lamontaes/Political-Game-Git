@@ -36,6 +36,7 @@
  * are their own unit (SG-LIVES-partner-counted).
  */
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
+import { dwellingTenure } from "../housing-reads";
 import { createStableId } from "../kernel/ids";
 import { SeededRng } from "../kernel/rng";
 import {
@@ -513,13 +514,7 @@ function isTownPerson(core: CoreState, row: Readonly<PersonState>): boolean {
 }
 
 function ownsHome(api: CoreAPI, householdId: string): boolean {
-  const core = api.state as CoreState;
-  if (!core.modules.has("housing")) return false;
-  const row = api
-    .moduleState("housing")
-    .table("dwellings")
-    .get(`dwelling:${householdId}`) as { tenure?: string } | undefined;
-  return row?.tenure === "own";
+  return dwellingTenure(api, householdId)?.tenure === "own";
 }
 
 /**

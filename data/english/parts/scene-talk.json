@@ -19964,7 +19964,9 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["signed", "read-own-illness", "office"]
+          "requiresFacts": ["signed", "read-own-illness", "office"],
+          "setsFacts": ["sick-said"],
+          "excludesFacts": ["sick-said"]
         }
       ],
       "bearing": "calm",
@@ -20214,7 +20216,9 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["read-own-illness", "vote-day"]
+          "requiresFacts": ["read-own-illness", "vote-day"],
+          "setsFacts": ["sick-said"],
+          "excludesFacts": ["sick-said"]
         }
       ],
       "bearing": "calm",
@@ -20475,7 +20479,8 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["read-own-illness", "office"],
-          "excludesFacts": ["door-pressed"]
+          "excludesFacts": ["door-pressed", "sick-said"],
+          "setsFacts": ["sick-said"]
         }
       ],
       "bearing": "guarded",
@@ -21818,7 +21823,9 @@
           "step": "reply",
           "move": "tell",
           "role": "asked",
-          "requiresFacts": ["read-own-illness", "office"]
+          "requiresFacts": ["read-own-illness", "office"],
+          "setsFacts": ["sick-said"],
+          "excludesFacts": ["sick-said"]
         },
         {
           "subject": "scene",
@@ -21827,7 +21834,9 @@
           "step": "reply",
           "move": "tell",
           "role": "asked",
-          "requiresFacts": ["read-own-illness", "office"]
+          "requiresFacts": ["read-own-illness", "office"],
+          "setsFacts": ["sick-said"],
+          "excludesFacts": ["sick-said"]
         }
       ],
       "bearing": "tender",
@@ -73324,6 +73333,684 @@
         "key": "election-day"
       },
       "elements": ["mayor-wins-by-dozens-and-the-recount-grows-it"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ve-been-under-the-weather-but-i-ll-sign-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I've been under the weather, but I'll sign for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["signed", "read-own-illness", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-not-feeling-right-these-days-i-ll-sign-for-office-though",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm not feeling right these days. I'll sign for {office}, though.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["signed", "read-own-illness", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-agree.sick-as-i-ve-been-i-ll-still-sign-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Sick as I've been, I'll still sign for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["signed", "read-own-illness", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ve-been-laid-up-lately-give-me-the-pen-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I've been laid up lately. Give me the pen for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["signed", "read-own-illness", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ve-been-under-the-weather-but-i-ll-vote-for-you-on-vote-day",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I've been under the weather, but I'll vote for you on {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["read-own-illness", "vote-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-not-well-and-i-ll-still-be-there-for-you-on-vote-day",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm not well, and I'll still be there for you on {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["read-own-illness", "vote-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-agree.sick-or-not-i-ll-vote-for-you-on-vote-day",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Sick or not, I'll vote for you on {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["read-own-illness", "vote-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ve-been-laid-up-but-you-have-my-vote-on-vote-day",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I've been laid up, but you have my vote on {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["read-own-illness", "vote-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ve-been-under-the-weather-i-can-t-think-about-the-race-for-office-right-now",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I've been under the weather. I can't think about the race for {office} right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["read-own-illness", "office"],
+          "excludesFacts": ["door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-not-feeling-right-the-race-for-office-will-have-to-wait",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm not feeling right. The race for {office} will have to wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["read-own-illness", "office"],
+          "excludesFacts": ["door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ve-been-laid-up-lately-so-office-is-not-on-my-mind",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I've been laid up lately, so {office} is not on my mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["read-own-illness", "office"],
+          "excludesFacts": ["door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-decline.sick-as-i-am-i-can-t-give-the-race-for-office-any-thought",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Sick as I am, I can't give the race for {office} any thought.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["read-own-illness", "office"],
+          "excludesFacts": ["door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ve-been-under-the-weather-it-s-hard-to-think-about-the-race-for-office",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I've been under the weather. It's hard to think about the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["read-own-illness", "office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["read-own-illness", "office"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-not-feeling-right-so-the-race-for-office-isn-t-on-my-mind",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm not feeling right, so the race for {office} isn't on my mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["read-own-illness", "office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["read-own-illness", "office"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-tell.being-sick-has-taken-it-out-of-me-the-race-for-office-is-hard-to-think-about",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Being sick has taken it out of me. The race for {office} is hard to think about.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["read-own-illness", "office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["read-own-illness", "office"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ve-been-laid-up-and-the-race-for-office-is-the-last-thing-on-my-mind",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I've been laid up, and the race for {office} is the last thing on my mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["read-own-illness", "office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["read-own-illness", "office"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (W3, the sick door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      },
+      "elements": ["most-doors-on-a-list-stay-closed"]
+    },
+    {
+      "key": "scene-talk.reply-tell.about-we-ve-put-years-into-this-house-and-i-don-t-want-it-changed-around-us",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{about}? We've put years into this house, and I don't want it changed around us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-against", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-against", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (W3, the door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      },
+      "elements": ["neighbors-speak-at-a-hearing-and-the-project-shrinks"]
+    },
+    {
+      "key": "scene-talk.reply-tell.it-s-about-for-me-we-own-here-and-i-want-the-street-to-stay-as-it-is",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's {about} for me. We own here, and I want the street to stay as it is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-against", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-against", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (W3, the door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      },
+      "elements": ["neighbors-speak-at-a-hearing-and-the-project-shrinks"]
+    },
+    {
+      "key": "scene-talk.reply-tell.about-this-is-our-home-and-i-d-hate-to-see-the-street-change",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{about}. This is our home, and I'd hate to see the street change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-against", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-against", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (W3, the door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      },
+      "elements": ["neighbors-speak-at-a-hearing-and-the-project-shrinks"]
+    },
+    {
+      "key": "scene-talk.reply-tell.about-we-own-our-place-and-i-d-like-others-to-have-the-same-chance",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{about}? We own our place, and I'd like others to have the same chance.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-for", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-for", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (W3, the door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      },
+      "elements": ["apartments-have-their-own-front-doors"]
+    },
+    {
+      "key": "scene-talk.reply-tell.it-s-about-for-me-we-got-in-here-and-others-should-be-able-to-as-well",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's {about} for me. We got in here, and others should be able to as well.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-for", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-for", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (W3, the door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      },
+      "elements": ["apartments-have-their-own-front-doors"]
+    },
+    {
+      "key": "scene-talk.reply-tell.about-we-re-homeowners-and-i-think-more-people-should-get-to-be",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{about}. We're homeowners, and I think more people should get to be.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-for", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["side-for", "why-home", "about"],
+          "setsFacts": ["about-said"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (W3, the door)",
+      "date": "2026-11-28",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      },
+      "elements": ["apartments-have-their-own-front-doors"]
     }
   ]
 }

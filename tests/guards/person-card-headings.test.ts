@@ -4,14 +4,17 @@ import { describe, expect, it } from "vitest";
 
 /**
  * A person card's headings never show a slot (play-person-card-heading-shows-object-slot;
- * player-screen-text): `personCardNode` in src/bench/play.mjs words each heading with
+ * player-screen-text): `personCardNode` in src/bench/ui/person-card-screen.mjs (moved out of play.mjs by the client split) words each heading with
  * `heading(key, theyKey)`, which fills the label's slots from the card's pronouns and,
  * for someone the card says "they" of (no pronoun words), shows `labels[theyKey ?? key]`
  * as written. That label must have no slot left in it, or the screen prints
  * "How I see {object}".
  */
 const ROOT = path.resolve(__dirname, "../..");
-const play = readFileSync(path.join(ROOT, "src/bench/play.mjs"), "utf8");
+const play = readFileSync(
+  path.join(ROOT, "src/bench/ui/person-card-screen.mjs"),
+  "utf8",
+);
 const labels = (
   JSON.parse(
     readFileSync(path.join(ROOT, "src/bench/data/controls.json"), "utf8"),
@@ -19,7 +22,7 @@ const labels = (
 ).person;
 
 describe("the person card's headings", () => {
-  const start = play.indexOf("async function personCardNode(");
+  const start = play.indexOf("export async function personCardNode(");
   const body = play.slice(start, play.indexOf("\n}\n", start));
   const calls = [
     ...body.matchAll(/\bheading\(\s*"(\w+)"\s*(?:,\s*"(\w+)"\s*)?\)/g),

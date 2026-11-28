@@ -1,0 +1,220 @@
+# PLACE Hinton, West Virginia (5437636), seed e248718eaa4c19c298621e2a8c7a22e1e685d423615bdfb7eb4459115c669bfe
+# PLAYER person_0424359522cb0dac, a sitting member of the body; race contest:seat:gus2025:177039:council:0:2025-04-01 on 2025-04-01
+# 38 of 102 residents gave on 2025-01-20
+
+## as it came: campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100: purpose donor-ask.friend; scores ["friend:1.82","small:0.62","large:0.33","plain:0.30","again:0.00"]
+   fact donor-bill = the Transit First Funding Ordinance  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100]
+   fact employer = the Buyers and sellers outside the town  [job:commuter:person_0424369522cb0f5f:2025-01-21 outside-market:jurisdiction_718ce62bbf78f417]
+   fact about = shifting highway money to transit  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100]
+   fact side-against = against  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424369522cb0f5f campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100]
+   fact gift-biggest = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100 filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac|person_0424369522cb0f5f]
+   fact gift-weight = the biggest check you've had  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100 filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac|person_0424369522cb0f5f]
+   fact bill-filed = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3]
+   fact bill-stage = filed and waiting  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3]
+   fact votes-on-it = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac]
+   fact your-side = for  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit]
+   fact stand-apart = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit]
+   fact kin = Dawn  [person_0424369522cb0f5f person_0424359522cb0dac]
+   fact stranger = Dawn  [person_0424369522cb0f5f]
+   fact tie-friend = Dawn  [person_0424359522cb0dac:person_0424369522cb0f5f]
+Narrator: Dawn puts $211 on the record as a gift between friends, then says there is something else.
+Dawn Miranda: You're family. I wouldn't bring the Transit First Funding Ordinance to you if it didn't matter.   <scene-talk.state-request.you-re-family-i-wouldn-t-bring-bill-to-you-if-it-didn-t-matter>
+  > YOU press [offer]: Have someone from the Buyers and sellers outside the town bring it to my office. I'll make the time.   <scene-talk.reply-offer.have-someone-from-employer-bring-it-to-my-office-i-ll-make-the-time>
+      Dawn Miranda: That works. I'll call your office about the Transit First Funding Ordinance.   <scene-talk.follow-thank.that-works-i-ll-call-your-office-about-bill>
+      [END process]
+  > YOU press [decline]: I hear what the Buyers and sellers outside the town faces. We just see shifting highway money to transit differently.   <scene-talk.reply-decline.i-hear-what-employer-faces-we-just-see-about-differently>
+      Dawn Miranda: People at the Buyers and sellers outside the town are counting on you to stop the Transit First Funding Ordinance.   <scene-talk.follow-plea.people-at-employer-are-counting-on-you-to-stop-bill>
+      > YOU press [decline]: I'll be voting for the Transit First Funding Ordinance. I'd rather tell you now.   <scene-talk.reply-decline.i-ll-be-voting-your-side-bill-i-d-rather-tell-you-now>
+          Dawn Miranda: Think of the Buyers and sellers outside the town's people before you commit on the Transit First Funding Ordinance.   <scene-talk.follow-plea.think-of-employer-s-people-before-you-commit-on-bill>
+          [END hearing-only] close: Then we see the Transit First Funding Ordinance differently. I'll make my case elsewhere. <scene-talk.close-accept.then-we-see-bill-differently-i-ll-make-my-case-elsewhere>
+      > YOU press [leave]: I have to get to the floor. Write to me on the Transit First Funding Ordinance.   <scene-talk.reply-leave.i-have-to-get-to-the-floor-write-to-me-on-bill>
+          [END put-off] close: The Transit First Funding Ordinance is filed and waiting. I'll check back when it moves. <scene-talk.close-press.bill-is-bill-stage-i-ll-check-back-when-it-moves>
+  > YOU press [apologize]: I'm sorry. I can't promise anything on the Transit First Funding Ordinance. You should hear it from me.   <scene-talk.reply-apologize.i-m-sorry-i-can-t-promise-anything-on-bill-you-should-hear-it-from-me>
+      Dawn Miranda: I understand. I'll keep making the case on the Transit First Funding Ordinance.   <scene-talk.follow-accept.i-understand-i-ll-keep-making-the-case-on-bill>
+      [END put-off]
+   GAPS: donor-ask.friend/menu/ask after root of a request has no ask reply; donor-ask.friend/reply/agree after plea; donor-ask.friend/reply/agree after request
+
+## the same gift read as a large one: purpose donor-ask.friend; scores ["friend:1.60","large:1.55","plain:0.30","again:0.00","small:0.00"]
+   fact donor-bill = the Transit First Funding Ordinance  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy1]
+   fact employer = the Buyers and sellers outside the town  [job:commuter:person_0424369522cb0f5f:2025-01-21 outside-market:jurisdiction_718ce62bbf78f417]
+   fact about = shifting highway money to transit  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy1]
+   fact side-against = against  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424369522cb0f5f campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy1]
+   fact gift-biggest = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy1 filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac|person_0424369522cb0f5f]
+   fact gift-weight = the biggest check you've had  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy1 filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac|person_0424369522cb0f5f]
+   fact bill-filed = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy1 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3]
+   fact bill-stage = filed and waiting  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy1 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3]
+   fact votes-on-it = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy1 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac]
+   fact your-side = for  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy1 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit]
+   fact stand-apart = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy1 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit]
+   fact kin = Dawn  [person_0424369522cb0f5f person_0424359522cb0dac]
+   fact stranger = Dawn  [person_0424369522cb0f5f]
+   fact tie-friend = Dawn  [person_0424359522cb0dac:person_0424369522cb0f5f]
+Narrator: Dawn puts $9,000,000 on the record as a gift between friends, then says there is something else.
+Dawn Miranda: You're family. I wouldn't bring the Transit First Funding Ordinance to you if it didn't matter.   <scene-talk.state-request.you-re-family-i-wouldn-t-bring-bill-to-you-if-it-didn-t-matter>
+  > YOU press [offer]: Have someone from the Buyers and sellers outside the town bring it to my office. I'll make the time.   <scene-talk.reply-offer.have-someone-from-employer-bring-it-to-my-office-i-ll-make-the-time>
+      Dawn Miranda: That works. I'll call your office about the Transit First Funding Ordinance.   <scene-talk.follow-thank.that-works-i-ll-call-your-office-about-bill>
+      [END process]
+  > YOU press [decline]: I hear what the Buyers and sellers outside the town faces. We just see shifting highway money to transit differently.   <scene-talk.reply-decline.i-hear-what-employer-faces-we-just-see-about-differently>
+      Dawn Miranda: People at the Buyers and sellers outside the town are counting on you to stop the Transit First Funding Ordinance.   <scene-talk.follow-plea.people-at-employer-are-counting-on-you-to-stop-bill>
+      > YOU press [decline]: I'll be voting for the Transit First Funding Ordinance. I'd rather tell you now.   <scene-talk.reply-decline.i-ll-be-voting-your-side-bill-i-d-rather-tell-you-now>
+          Dawn Miranda: Think of the Buyers and sellers outside the town's people before you commit on the Transit First Funding Ordinance.   <scene-talk.follow-plea.think-of-employer-s-people-before-you-commit-on-bill>
+          [END hearing-only] close: Then I'll take it to the people at the Buyers and sellers outside the town. <scene-talk.close-accept.then-i-ll-take-it-to-the-people-at-employer>
+      > YOU press [leave]: I have to get to the floor. Write to me on the Transit First Funding Ordinance.   <scene-talk.reply-leave.i-have-to-get-to-the-floor-write-to-me-on-bill>
+          [END put-off] close: The Transit First Funding Ordinance is filed and waiting. I'll check back when it moves. <scene-talk.close-press.bill-is-bill-stage-i-ll-check-back-when-it-moves>
+  > YOU press [apologize]: I'm sorry. I can't promise anything on the Transit First Funding Ordinance. You should hear it from me.   <scene-talk.reply-apologize.i-m-sorry-i-can-t-promise-anything-on-bill-you-should-hear-it-from-me>
+      Dawn Miranda: I understand. I'll keep making the case on the Transit First Funding Ordinance.   <scene-talk.follow-accept.i-understand-i-ll-keep-making-the-case-on-bill>
+      [END put-off]
+   GAPS: donor-ask.friend/menu/ask after root of a request has no ask reply; donor-ask.friend/reply/agree after plea; donor-ask.friend/reply/agree after request
+
+## the same gift read as a small one: purpose donor-ask.friend; scores ["friend:1.85","small:1.03","plain:0.30","again:0.00","large:0.00"]
+   fact donor-bill = the Transit First Funding Ordinance  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy2]
+   fact employer = the Buyers and sellers outside the town  [job:commuter:person_0424369522cb0f5f:2025-01-21 outside-market:jurisdiction_718ce62bbf78f417]
+   fact about = shifting highway money to transit  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy2]
+   fact side-against = against  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424369522cb0f5f campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy2]
+   fact gift-biggest = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy2 filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac|person_0424369522cb0f5f]
+   fact gift-weight = the biggest check you've had  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy2 filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac|person_0424369522cb0f5f]
+   fact bill-filed = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy2 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3]
+   fact bill-stage = filed and waiting  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy2 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3]
+   fact votes-on-it = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy2 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac]
+   fact your-side = for  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy2 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit]
+   fact stand-apart = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy2 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit]
+   fact kin = Dawn  [person_0424369522cb0f5f person_0424359522cb0dac]
+   fact stranger = Dawn  [person_0424369522cb0f5f]
+   fact tie-friend = Dawn  [person_0424359522cb0dac:person_0424369522cb0f5f]
+Narrator: Dawn gave $25 to your campaign without being asked. Now Dawn is asking.
+Dawn Miranda: You're family. I wouldn't bring the Transit First Funding Ordinance to you if it didn't matter.   <scene-talk.state-request.you-re-family-i-wouldn-t-bring-bill-to-you-if-it-didn-t-matter>
+  > YOU press [offer]: Have someone from the Buyers and sellers outside the town bring it to my office. I'll make the time.   <scene-talk.reply-offer.have-someone-from-employer-bring-it-to-my-office-i-ll-make-the-time>
+      Dawn Miranda: Thank you. I'll have someone from the Buyers and sellers outside the town call.   <scene-talk.follow-thank.thank-you-i-ll-have-someone-from-employer-call>
+      [END process]
+  > YOU press [decline]: I'll be voting for the Transit First Funding Ordinance. I'd rather tell you now.   <scene-talk.reply-decline.i-ll-be-voting-your-side-bill-i-d-rather-tell-you-now>
+      Dawn Miranda: Think of the Buyers and sellers outside the town's people before you commit on the Transit First Funding Ordinance.   <scene-talk.follow-plea.think-of-employer-s-people-before-you-commit-on-bill>
+      > YOU press [decline]: I hear what the Buyers and sellers outside the town faces. We just see shifting highway money to transit differently.   <scene-talk.reply-decline.i-hear-what-employer-faces-we-just-see-about-differently>
+          Dawn Miranda: People at the Buyers and sellers outside the town are counting on you to stop the Transit First Funding Ordinance.   <scene-talk.follow-plea.people-at-employer-are-counting-on-you-to-stop-bill>
+          [END hearing-only] close: Then I'll take it to the people at the Buyers and sellers outside the town. <scene-talk.close-accept.then-i-ll-take-it-to-the-people-at-employer>
+      > YOU press [leave]: I have to get to the floor. Write to me on the Transit First Funding Ordinance.   <scene-talk.reply-leave.i-have-to-get-to-the-floor-write-to-me-on-bill>
+          [END put-off] close: The Transit First Funding Ordinance is filed and waiting. I'll check back when it moves. <scene-talk.close-press.bill-is-bill-stage-i-ll-check-back-when-it-moves>
+  > YOU press [apologize]: I'm sorry, Dawn. I can't make that promise.   <scene-talk.reply-apologize.i-m-sorry-donor-first-i-can-t-make-that-promise>
+      Dawn Miranda: I understand. I'll keep making the case on the Transit First Funding Ordinance.   <scene-talk.follow-accept.i-understand-i-ll-keep-making-the-case-on-bill>
+      [END put-off]
+   GAPS: donor-ask.friend/menu/ask after root of a request has no ask reply; donor-ask.friend/reply/agree after plea; donor-ask.friend/reply/agree after request
+
+## the closest tie in town gives (closeness 0.99): purpose donor-ask.friend; scores ["friend:1.68","large:0.63","plain:0.30","small:0.27","again:0.00"]
+   fact donor-bill = the Transit First Funding Ordinance  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy3]
+   fact employer = the Buyers and sellers outside the town  [job:commuter:person_0424369522cb0f5f:2025-01-21 outside-market:jurisdiction_718ce62bbf78f417]
+   fact about = shifting highway money to transit  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy3]
+   fact side-against = against  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424369522cb0f5f campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy3]
+   fact gift-biggest = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy3 filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac|person_0424369522cb0f5f]
+   fact gift-weight = the biggest check you've had  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy3 filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac|person_0424369522cb0f5f]
+   fact bill-filed = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy3 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3]
+   fact bill-stage = filed and waiting  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy3 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3]
+   fact votes-on-it = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy3 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac]
+   fact your-side = for  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy3 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit]
+   fact stand-apart = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy3 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit]
+   fact kin = Dawn  [person_0424369522cb0f5f person_0424359522cb0dac]
+   fact stranger = Dawn  [person_0424369522cb0f5f]
+   fact tie-friend = Dawn  [person_0424359522cb0dac:person_0424369522cb0f5f]
+Narrator: Dawn puts $3,000 on the record as a gift between friends, then says there is something else.
+Dawn Miranda: You're family. I wouldn't bring the Transit First Funding Ordinance to you if it didn't matter.   <scene-talk.state-request.you-re-family-i-wouldn-t-bring-bill-to-you-if-it-didn-t-matter>
+  > YOU press [offer]: Have someone from the Buyers and sellers outside the town bring it to my office. I'll make the time.   <scene-talk.reply-offer.have-someone-from-employer-bring-it-to-my-office-i-ll-make-the-time>
+      Dawn Miranda: Thank you. I'll have someone from the Buyers and sellers outside the town call.   <scene-talk.follow-thank.thank-you-i-ll-have-someone-from-employer-call>
+      [END process]
+  > YOU press [decline]: I'll be voting for the Transit First Funding Ordinance. I'd rather tell you now.   <scene-talk.reply-decline.i-ll-be-voting-your-side-bill-i-d-rather-tell-you-now>
+      Dawn Miranda: People at the Buyers and sellers outside the town are counting on you to stop the Transit First Funding Ordinance.   <scene-talk.follow-plea.people-at-employer-are-counting-on-you-to-stop-bill>
+      > YOU press [decline]: I hear what the Buyers and sellers outside the town faces. We just see shifting highway money to transit differently.   <scene-talk.reply-decline.i-hear-what-employer-faces-we-just-see-about-differently>
+          Dawn Miranda: Think of the Buyers and sellers outside the town's people before you commit on the Transit First Funding Ordinance.   <scene-talk.follow-plea.think-of-employer-s-people-before-you-commit-on-bill>
+          [END hearing-only] close: Then we see the Transit First Funding Ordinance differently. I'll make my case elsewhere. <scene-talk.close-accept.then-we-see-bill-differently-i-ll-make-my-case-elsewhere>
+      > YOU press [leave]: I have to get to the floor. Write to me on the Transit First Funding Ordinance.   <scene-talk.reply-leave.i-have-to-get-to-the-floor-write-to-me-on-bill>
+          [END put-off] close: The Transit First Funding Ordinance is filed and waiting. I'll check back when it moves. <scene-talk.close-press.bill-is-bill-stage-i-ll-check-back-when-it-moves>
+  > YOU press [apologize]: I'm sorry. I can't promise anything on the Transit First Funding Ordinance. You should hear it from me.   <scene-talk.reply-apologize.i-m-sorry-i-can-t-promise-anything-on-bill-you-should-hear-it-from-me>
+      Dawn Miranda: I understand. I'll keep making the case on the Transit First Funding Ordinance.   <scene-talk.follow-accept.i-understand-i-ll-keep-making-the-case-on-bill>
+      [END put-off]
+   GAPS: donor-ask.friend/menu/ask after root of a request has no ask reply; donor-ask.friend/reply/agree after plea; donor-ask.friend/reply/agree after request
+
+## donor person_0424369522cb0f5f's gift: purpose donor-ask.friend; scores ["friend:1.82","small:0.89","plain:0.30","again:0.00","large:0.00"]
+   fact donor-bill = the Transit First Funding Ordinance  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy4]
+   fact employer = the Buyers and sellers outside the town  [job:commuter:person_0424369522cb0f5f:2025-01-21 outside-market:jurisdiction_718ce62bbf78f417]
+   fact about = shifting highway money to transit  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy4]
+   fact side-against = against  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424369522cb0f5f campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy4]
+   fact gift-biggest = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy4 filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac|person_0424369522cb0f5f]
+   fact gift-weight = the biggest check you've had  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy4 filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac|person_0424369522cb0f5f]
+   fact bill-filed = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy4 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3]
+   fact bill-stage = filed and waiting  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy4 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3]
+   fact votes-on-it = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy4 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac]
+   fact your-side = for  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy4 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit]
+   fact stand-apart = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy4 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit]
+   fact kin = Dawn  [person_0424369522cb0f5f person_0424359522cb0dac]
+   fact stranger = Dawn  [person_0424369522cb0f5f]
+   fact tie-friend = Dawn  [person_0424359522cb0dac:person_0424369522cb0f5f]
+Narrator: Dawn gave $211 to your campaign without being asked. Now Dawn is asking.
+Dawn Miranda: You're family. I wouldn't bring the Transit First Funding Ordinance to you if it didn't matter.   <scene-talk.state-request.you-re-family-i-wouldn-t-bring-bill-to-you-if-it-didn-t-matter>
+  > YOU press [offer]: Have someone from the Buyers and sellers outside the town bring it to my office. I'll make the time.   <scene-talk.reply-offer.have-someone-from-employer-bring-it-to-my-office-i-ll-make-the-time>
+      Dawn Miranda: That works. I'll call your office about the Transit First Funding Ordinance.   <scene-talk.follow-thank.that-works-i-ll-call-your-office-about-bill>
+      [END process]
+  > YOU press [decline]: I'll be voting for the Transit First Funding Ordinance. I'd rather tell you now.   <scene-talk.reply-decline.i-ll-be-voting-your-side-bill-i-d-rather-tell-you-now>
+      Dawn Miranda: Think of the Buyers and sellers outside the town's people before you commit on the Transit First Funding Ordinance.   <scene-talk.follow-plea.think-of-employer-s-people-before-you-commit-on-bill>
+      > YOU press [decline]: I hear what the Buyers and sellers outside the town faces. We just see shifting highway money to transit differently.   <scene-talk.reply-decline.i-hear-what-employer-faces-we-just-see-about-differently>
+          Dawn Miranda: People at the Buyers and sellers outside the town are counting on you to stop the Transit First Funding Ordinance.   <scene-talk.follow-plea.people-at-employer-are-counting-on-you-to-stop-bill>
+          [END hearing-only] close: Then I'll take it to the people at the Buyers and sellers outside the town. <scene-talk.close-accept.then-i-ll-take-it-to-the-people-at-employer>
+      > YOU press [leave]: I have to get to the floor. Write to me on the Transit First Funding Ordinance.   <scene-talk.reply-leave.i-have-to-get-to-the-floor-write-to-me-on-bill>
+          [END put-off] close: The Transit First Funding Ordinance is filed and waiting. I'll check back when it moves. <scene-talk.close-press.bill-is-bill-stage-i-ll-check-back-when-it-moves>
+  > YOU press [apologize]: I'm sorry, Dawn. I can't make that promise.   <scene-talk.reply-apologize.i-m-sorry-donor-first-i-can-t-make-that-promise>
+      Dawn Miranda: I understand. I'll keep making the case on the Transit First Funding Ordinance.   <scene-talk.follow-accept.i-understand-i-ll-keep-making-the-case-on-bill>
+      [END put-off]
+   GAPS: donor-ask.friend/menu/ask after root of a request has no ask reply; donor-ask.friend/reply/agree after plea; donor-ask.friend/reply/agree after request
+
+## donor person_cb08dfee3cc030cd's gift: purpose donor-ask.friend; scores ["friend:1.82","small:0.90","plain:0.30","again:0.00","large:0.00"]
+   fact donor-bill = the Transit First Funding Ordinance  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy5]
+   fact employer = Walls's Kitchen  [work-relationship_7548c3fbdf96ac64 organization_52d239faef4463b8]
+   fact about = shifting highway money to transit  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy5]
+   fact side-against = against  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_cb08dfee3cc030cd campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy5]
+   fact bill-filed = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy5 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3]
+   fact bill-stage = filed and waiting  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy5 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3]
+   fact votes-on-it = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy5 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac]
+   fact your-side = for  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy5 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit]
+   fact stand-apart = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy5 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit]
+   fact kin = Claire  [person_cb08dfee3cc030cd person_0424359522cb0dac]
+   fact stranger = Claire  [person_cb08dfee3cc030cd]
+   fact tie-friend = Claire  [person_0424359522cb0dac:person_cb08dfee3cc030cd]
+Narrator: Claire gave $194 to your campaign without being asked. Now Claire is asking.
+Claire Miranda: You're family. I wouldn't bring the Transit First Funding Ordinance to you if it didn't matter.   <scene-talk.state-request.you-re-family-i-wouldn-t-bring-bill-to-you-if-it-didn-t-matter>
+  > YOU press [offer]: Have someone from Walls's Kitchen bring it to my office. I'll make the time.   <scene-talk.reply-offer.have-someone-from-employer-bring-it-to-my-office-i-ll-make-the-time>
+      Claire Miranda: That works. I'll call your office about the Transit First Funding Ordinance.   <scene-talk.follow-thank.that-works-i-ll-call-your-office-about-bill>
+      [END process]
+  > YOU press [decline]: I'll be voting for the Transit First Funding Ordinance. I'd rather tell you now.   <scene-talk.reply-decline.i-ll-be-voting-your-side-bill-i-d-rather-tell-you-now>
+      Claire Miranda: Think of Walls's Kitchen's people before you commit on the Transit First Funding Ordinance.   <scene-talk.follow-plea.think-of-employer-s-people-before-you-commit-on-bill>
+      > YOU press [decline]: I hear what Walls's Kitchen faces. We just see shifting highway money to transit differently.   <scene-talk.reply-decline.i-hear-what-employer-faces-we-just-see-about-differently>
+          Claire Miranda: People at Walls's Kitchen are counting on you to stop the Transit First Funding Ordinance.   <scene-talk.follow-plea.people-at-employer-are-counting-on-you-to-stop-bill>
+          [END hearing-only] close: Fine. I'll make my case on shifting highway money to transit somewhere else. <scene-talk.close-accept.fine-i-ll-make-my-case-on-about-somewhere-else>
+      > YOU press [leave]: I have to get to the floor. Write to me on the Transit First Funding Ordinance.   <scene-talk.reply-leave.i-have-to-get-to-the-floor-write-to-me-on-bill>
+          [END put-off] close: The Transit First Funding Ordinance is filed and waiting. I'll check back when it moves. <scene-talk.close-press.bill-is-bill-stage-i-ll-check-back-when-it-moves>
+  > YOU press [apologize]: I'm sorry, Claire. I can't make that promise.   <scene-talk.reply-apologize.i-m-sorry-donor-first-i-can-t-make-that-promise>
+      Claire Miranda: I understand. I'll keep making the case on the Transit First Funding Ordinance.   <scene-talk.follow-accept.i-understand-i-ll-keep-making-the-case-on-bill>
+      [END put-off]
+   GAPS: donor-ask.friend/menu/ask after root of a request has no ask reply; donor-ask.friend/reply/agree after plea; donor-ask.friend/reply/agree after request
+
+## donor person_f7bafc78061e0158's gift: purpose donor-ask.small; scores ["small:1.82","plain:0.30","friend:0.10","again:0.00","large:0.00"]
+   fact donor-bill = the Transit First Funding Ordinance  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy6]
+   fact employer = the West Virginia State Offices in Hinton  [work-relationship_0b24d9cf1bbc34ba organization_d617d87b3099e163]
+   fact about = shifting highway money to transit  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy6]
+   fact side-against = against  [bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_f7bafc78061e0158 campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy6]
+   fact bill-filed = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy6 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3]
+   fact bill-stage = filed and waiting  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy6 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3]
+   fact votes-on-it = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy6 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac]
+   fact your-side = for  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy6 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit]
+   fact stand-apart = yes  [campaign-gift:filing:contest:seat:gus2025:177039:council:0:2025-04-01:person_0424359522cb0dac:person_0424369522cb0f5f:2025-01-20:21100~copy6 bill:office:gus2025:177039:council:2025-01-20:person_0424359522cb0dac:3 person_0424359522cb0dac us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit]
+   fact stranger = John  [person_f7bafc78061e0158]
+Narrator: John sent $14 to your campaign and has come to say so in person.
+John Raymond: Nobody asks people like me what we think. I'm asking you to hear me on the Transit First Funding Ordinance.   <scene-talk.state-request.nobody-asks-people-like-me-what-we-think-i-m-asking-you-to-hear-me-on>
+  > YOU press [offer]: Have someone from the West Virginia State Offices in Hinton bring it to my office. I'll make the time.   <scene-talk.reply-offer.have-someone-from-employer-bring-it-to-my-office-i-ll-make-the-time>
+      John Raymond: Thank you. I'll have someone from the West Virginia State Offices in Hinton call.   <scene-talk.follow-thank.thank-you-i-ll-have-someone-from-employer-call>
+      [END process]
+  > YOU press [decline]: I hear what the West Virginia State Offices in Hinton faces. We just see shifting highway money to transit differently.   <scene-talk.reply-decline.i-hear-what-employer-faces-we-just-see-about-differently>
+      John Raymond: Then I'll take shifting highway money to transit to somebody who'll hear it.   <scene-talk.follow-accept.then-i-ll-take-about-to-somebody-who-ll-hear-it>
+      [END hearing-only]
+  > YOU press [deflect]: The Transit First Funding Ordinance isn't on a committee's list yet. Ask me when it is.   <scene-talk.reply-deflect.bill-isn-t-on-a-committee-s-list-yet-ask-me-when-it-is>
+      John Raymond: Think of the West Virginia State Offices in Hinton's people before you commit on the Transit First Funding Ordinance.   <scene-talk.follow-plea.think-of-employer-s-people-before-you-commit-on-bill>
+      > YOU press [decline]: I'll be voting for the Transit First Funding Ordinance. I'd rather tell you now.   <scene-talk.reply-decline.i-ll-be-voting-your-side-bill-i-d-rather-tell-you-now>
+          John Raymond: Then I'll take shifting highway money to transit to somebody who'll hear it.   <scene-talk.follow-accept.then-i-ll-take-about-to-somebody-who-ll-hear-it>
+          [END hearing-only]
+      > YOU press [leave]: I have to get to the floor. Write to me on the Transit First Funding Ordinance.   <scene-talk.reply-leave.i-have-to-get-to-the-floor-write-to-me-on-bill>
+          [END put-off] close: People at the West Virginia State Offices in Hinton will hear how you answered on the Transit First Funding Ordinance. <scene-talk.close-warn.people-at-employer-will-hear-how-you-answered-on-bill>

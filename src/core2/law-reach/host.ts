@@ -58,7 +58,10 @@ export const LAW_REACH_HOST: CoreModule = {
   treasuryRule: reviewFiscalRules,
   linePayments: benefitLinePayments,
   // The laws that raised a line by their own amount, so the treasury can record whom their share of the line pays.
-  lineAdditions: reachALineAdditions,
+  // Read when the treasury asks, not at load: group-a-money.ts may still be loading when this file runs.
+  get lineAdditions() {
+    return reachALineAdditions;
+  },
 };
 
 export function openLawReach(core: CoreState): void {
