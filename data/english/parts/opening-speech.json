@@ -3682,6 +3682,30 @@
       "date": "2026-11-17"
     },
     {
+      "key": "opening-speech.salutation.n19-polished-chief-justice-speaker-addressed-members-of-congress-my-fello",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Chief Justice, {speaker-addressed}, members of Congress, my fellow Americans.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-addressed"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "part": "opener"
+      },
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (opening evening, Nov 19)",
+      "date": "2026-11-19"
+    },
+    {
       "key": "opening-speech.salutation.n19-polished-speaker-addressed-distinguished-guests-and-my-fellow-citizen",
       "move": "salutation",
       "kind": "spoken",
@@ -27214,6 +27238,3165 @@
       "date": "2026-11-19"
     },
     {
+      "key": "opening-speech.oath.this-oath-asks-me-to-answer-for-hardest",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "This oath asks me to answer for {hardest}.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-both-took-an-oath-today",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I both took an oath today, and we mean it. We will persevere.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "solemn",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-this-oath-in-the-name-of-home",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took this oath in the name of {home-state} and of the whole nation. This hour calls for steady hands.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-swore-today-to-meet-hardest-with-honest-work",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore today to meet {hardest} with honest work.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "solemn",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-an-oath-today-and-it-covers-hardest",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took an oath today, and it covers {hardest} too.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-both-took-an-oath-today-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I both took an oath today, and we mean it. I will persist.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-this-oath-in-the-name-of-home-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took this oath in the name of {home-state} and of the whole nation. I will persist.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-swore-today-to-protect-the-gains-on-best",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore today to protect the gains on {best}.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.this-oath-asks-me-to-answer-for-hardest-hope",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "This oath asks me to answer for {hardest}. Hope is warranted.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-both-took-an-oath-today-3",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I both took an oath today, and we mean it. Hope is warranted.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-this-oath-in-the-name-of-home-3",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took this oath in the name of {home-state} and of the whole nation. Hope is warranted.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-i-took-today-means-no-coasting-on",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I took today means no coasting on {best}.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-includes-keeping-faith-with-the-work-on",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath includes keeping faith with the work on {best}.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-both-took-an-oath-today-4",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I both took an oath today, and we mean it. Thank you.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-this-oath-in-the-name-of-home-4",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took this oath in the name of {home-state} and of the whole nation. Thank you.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.this-oath-asks-me-to-answer-for-hardest-thank",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "This oath asks me to answer for {hardest}. Thank you.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-vice-president-and-i-swore-is-a",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath {vice-president} and I swore is a promise to you.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "solemn",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-this-oath-in-the-name-of-home-5",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took this oath in the name of {home-state} and of the whole nation. We remember.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "solemn",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-i-just-took-binds-me-to-every",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I just took binds me to every family facing {hardest}. Our hearts are heavy today.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-swore-my-oath-next-to-vice-president-object",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore my oath next to {vice-president-object}, with the grieving in my heart.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president-object"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.this-oath-means-i-owe-you-real-effort-on",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "This oath means I owe you real effort on {hardest}.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-i-just-took-binds-me-to-every-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I just took binds me to every family facing {hardest}. Every step will be measured.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-both-took-an-oath-today-5",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I both took an oath today, and we mean it. Every step will be measured.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-took-one-oath-and-we",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I took one oath, and we will keep it together.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-this-oath-in-the-name-of-home-6",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took this oath in the name of {home-state} and of the whole nation. Every step will be measured.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-belongs-to-home-state-and-to-everyone",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath belongs to {home-state} and to everyone else equally. Judge the results.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-swore-today-as-a-person-from-home-state",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore today as a person from {home-state}, for all Americans. Measure the work.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-includes-keeping-faith-with-the-work-on-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath includes keeping faith with the work on {best}. Measure the work.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-i-took-today-means-no-coasting-on-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I took today means no coasting on {best}. Judge the results.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-swore-today-to-protect-the-gains-on-best-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore today to protect the gains on {best}. Every promise will have a deadline.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-swore-today-to-take-on-hardest",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore today to take on {hardest}.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-both-took-the-oath-and",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I both took the oath, and we're serious. We'll hold on.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "solemn",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-the-oath-for-home-state-and-for",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took the oath for {home-state}, and for everybody else too. I won't sugarcoat it.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-today-means-i-answer-for-hardest",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath today means I answer for {hardest}.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "solemn",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-i-took-covers-hardest-too-i-m",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I took covers {hardest}, too. I'm not budging.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-both-took-the-oath-and-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I both took the oath, and we're serious. I'm not budging.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-the-oath-for-home-state-and-for-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took the oath for {home-state}, and for everybody else too. I'm not budging.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-means-keeping-best-going",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath means keeping {best} going.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-i-took-covers-hardest-too-good-days",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I took covers {hardest}, too. Good days ahead.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-both-took-the-oath-and-3",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I both took the oath, and we're serious. Good days ahead.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-the-oath-for-home-state-and-for-3",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took the oath for {home-state}, and for everybody else too. Good days ahead.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-means-keeping-best-going-good-days-ahead",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath means keeping {best} going. Good days ahead.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-means-keeping-best-going-thank-you-all",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath means keeping {best} going. Thank you all.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-both-took-the-oath-and-4",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I both took the oath, and we're serious. Thank you all.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-the-oath-for-home-state-and-for-4",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took the oath for {home-state}, and for everybody else too. Thank you all.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-i-took-covers-hardest-too-thank-you",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I took covers {hardest}, too. Thank you all.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-swore-today-and-we-ll",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I swore today, and we'll keep our word.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "solemn",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-the-oath-for-home-state-and-for-5",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took the oath for {home-state}, and for everybody else too. We're with you.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "solemn",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-just-took-an-oath-and-hardest-is-part",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I just took an oath, and {hardest} is part of the job. My heart's heavy, too.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-swore-today-beside-vice-president-object-thinking-of",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore today beside {vice-president-object}, thinking of the families who are grieving.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president-object"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-i-took-covers-hardest-too",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I took covers {hardest}, too.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-just-took-an-oath-and-hardest-is-part-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I just took an oath, and {hardest} is part of the job. Plain steps, plain results.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-both-took-the-oath-and-5",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I both took the oath, and we're serious. Plain steps, plain results.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-both-took-the-oath-and-6",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I both took the oath, and we're serious.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-the-oath-for-home-state-and-for-6",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took the oath for {home-state}, and for everybody else too. Plain steps, plain results.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-m-from-home-state-and-my-oath-is",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I'm from {home-state}, and my oath is to the whole country. Count on details.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-goes-further-than-home-state-it-covers",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath goes further than {home-state}; it covers everyone. Somebody will answer for each step.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-means-keeping-best-going-plain-steps-plain",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath means keeping {best} going. Plain steps, plain results.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-i-took-covers-best-and-i-ll",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I took covers {best}, and I'll honor it. You'll see results.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-an-oath-and-i-won-t-coast",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took an oath, and I won't coast on {best}. Count on details.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-serve-all-americans-on-hardest",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will serve all Americans on {hardest}.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-serve-every-american-on-hardest-whoever-they",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will serve every American on {hardest}, whoever they voted for. Stay steady.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-serve-every-american-we-will",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I serve every American. We will meet it with resolve.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "solemn",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.we-will-hold-on-to-the-progress-on-best",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "We will hold on to the progress on {best} through this strain. We will meet it with resolve.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "solemn",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.on-hardest-i-answer-to-all-of-you",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "On {hardest}, I answer to all of you.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-serve-every-american-excuses-will",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I serve every American. Excuses will not move me.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-govern-for-every-state-home-state-included-excuses",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I govern for every state, {home-state} included. Excuses will not move me.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-share-best-with-every-american-excuses-will",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will share {best} with every American. Excuses will not move me.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-serve-every-american-look-ahead",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I serve every American. Look ahead.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-share-best-with-every-american-there-is",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will share {best} with every American. There is much to look forward to.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-serve-all-americans-on-hardest-there-is",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will serve all Americans on {hardest}. There is much to look forward to.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-govern-for-every-state-home-state-included-look",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I govern for every state, {home-state} included. Look ahead.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-share-best-with-every-american-we-are",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will share {best} with every American. We are grateful.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-serve-every-american-now-we",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I serve every American. Now we build on it.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-serve-all-americans-on-hardest-now-we",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will serve all Americans on {hardest}. Now we build on it.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-govern-for-every-state-home-state-included-now",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I govern for every state, {home-state} included. Now we build on it.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-serve-every-american-we-mourn",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I serve every American. We mourn them.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "solemn",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-govern-for-every-state-home-state-included-we",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I govern for every state, {home-state} included. We remember those we lost.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "solemn",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-serve-all-americans-on-hardest-we-grieve",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will serve all Americans on {hardest}. We grieve.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-serve-every-american-we-grieve",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I serve every American. We grieve.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-serve-all-americans-on-hardest-measure-the",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will serve all Americans on {hardest}. Measure the work.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-serve-all-americans-on-hardest-i-will",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will serve all Americans on {hardest}. I will keep the steps clear.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-serve-every-american-i-will",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I serve every American. I will keep the steps clear.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-serve-every-american-hold-us",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I serve every American. Hold us to it.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-govern-for-every-state-home-state-included-i",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I govern for every state, {home-state} included. I will keep the steps clear.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-govern-for-every-state-home-state-included-hold",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I govern for every state, {home-state} included. Hold us to it.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-share-best-with-every-american-i-will",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will share {best} with every American. I will keep the steps clear.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-share-best-with-every-american-hold-us",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will share {best} with every American. Hold us to it.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.on-hardest-you-re-all-my-people",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "On {hardest}, you're all my people.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-ll-take-on-hardest-for-those-who-didn",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I'll take on {hardest} for those who didn't vote for me, too. Stay with me.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-don-t-ask-how-anyone",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I don't ask how anyone voted. It's going to take all of us.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "solemn",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.we-won-t-lose-best-while-things-are-hard",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "We won't lose {best} while things are hard. Stick together.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "solemn",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.hardest-hits-everybody-so-i-work-for-everybody",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{hardest} hits everybody, so I work for everybody.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-don-t-ask-how-anyone-2",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I don't ask how anyone voted. I'm ready for the fight.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-m-from-home-state-and-i-ll-serve",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I'm from {home-state}, and I'll serve everybody, voter or not. I'm ready for the fight.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.if-best-is-working-it-s-working-for-everybody",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "If {best} is working, it's working for everybody.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-won-t-leave-anyone-out",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I won't leave anyone out.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.if-best-is-working-it-s-working-for-everybody-2",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "If {best} is working, it's working for everybody. We can do this.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.you-may-not-have-voted-for-me-but-i",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "You may not have voted for me, but I'll work on {hardest} for you. We can do this.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-m-from-home-state-and-i-ll-serve-2",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I'm from {home-state}, and I'll serve everybody, voter or not. We can do this.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-won-t-pick-favorites-when-it-comes-to",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I won't pick favorites when it comes to {best}.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-don-t-ask-how-anyone-3",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I don't ask how anyone voted. Now let's get to work.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.you-may-not-have-voted-for-me-but-i-2",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "You may not have voted for me, but I'll work on {hardest} for you. Now let's get to work.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-m-from-home-state-but-i-work-for",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I'm from {home-state}, but I work for every state.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-don-t-ask-how-anyone-4",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I don't ask how anyone voted.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "solemn",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-m-from-home-state-and-i-ll-serve-3",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I'm from {home-state}, and I'll serve everybody, voter or not. We won't forget those we lost.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "solemn",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.you-may-not-have-voted-for-me-but-i-3",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "You may not have voted for me, but I'll work on {hardest} for you. We mourn together.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-m-from-home-state-and-i-ll-serve-4",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I'm from {home-state}, and I'll serve everybody, voter or not.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.on-hardest-you-re-all-my-people-you-ll",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "On {hardest}, you're all my people. You'll see results.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-don-t-ask-how-anyone-5",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I don't ask how anyone voted. Let's keep score together.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-work-for-everybody-not-just",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I work for everybody, not just our voters. Facts will lead, not hunches.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-m-from-home-state-and-i-ll-serve-5",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I'm from {home-state}, and I'll serve everybody, voter or not. Let's keep score together.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.we-argue-in-home-state-then-we-help-each",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "We argue in {home-state}, then we help each other, and I'll do the same here. Facts will lead, not hunches.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.if-best-is-working-it-s-working-for-everybody-3",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "If {best} is working, it's working for everybody. Let's keep score together.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-won-t-pick-favorites-when-it-comes-to-2",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I won't pick favorites when it comes to {best}. Facts will lead, not hunches.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-want-best-to-reach-everybody-not-just-my",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I want {best} to reach everybody, not just my voters. You'll see results.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-ll-serve-everybody-and-i-ll-ask-vice",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I'll serve everybody, and I'll ask {vice-president-object} to do the same. We mourn together.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president-object"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
       "key": "opening-speech.creed.we-trust-people-to-meet-hardest",
       "move": "creed",
       "kind": "spoken",
@@ -48977,6 +52160,1748 @@
       "date": "2026-11-19"
     },
     {
+      "key": "opening-speech.oath.this-oath-asks-me-to-answer-for-hardest-we",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "This oath asks me to answer for {hardest}. We will answer this together.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-belongs-to-home-state-and-to-everyone-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath belongs to {home-state} and to everyone else equally.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.this-oath-means-i-owe-you-real-effort-on-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "This oath means I owe you real effort on {hardest}. I will persist.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-an-oath-today-and-it-covers-hardest-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took an oath today, and it covers {hardest} too. No retreat.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-includes-keeping-faith-with-the-work-on-3",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath includes keeping faith with the work on {best}. We will not be turned back.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-an-oath-today-and-it-covers-hardest-3",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took an oath today, and it covers {hardest} too. We will rise.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.this-oath-means-i-owe-you-real-effort-on-3",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "This oath means I owe you real effort on {hardest}. Hope is warranted.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-i-just-took-binds-me-to-every-3",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I just took binds me to every family facing {hardest}. Better days are coming.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-swore-today-to-meet-hardest-with-honest-work-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore today to meet {hardest} with honest work. The country has always found a way.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-vice-president-and-i-swore-is-a-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath {vice-president} and I swore is a promise to you. We will rise.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-i-took-today-means-no-coasting-on-3",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I took today means no coasting on {best}. Thank you.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-i-swore-reaches-beyond-home-state-to",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I swore reaches beyond {home-state} to every corner of the country. Gratitude is where I start.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-took-an-oath-today-and-it-covers-hardest-4",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took an oath today, and it covers {hardest} too. We grieve.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-vice-president-and-i-swore-is-a-3",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath {vice-president} and I swore is a promise to you. We grieve.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.this-oath-asks-me-to-answer-for-hardest-measure",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "This oath asks me to answer for {hardest}. Measure the work.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-both-took-an-oath-today-6",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I both took an oath today, and we mean it.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-i-took-covers-hardest-too-we-ll",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I took covers {hardest}, too. We'll get through it together.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-swore-today-and-we-ll-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I swore today, and we'll keep our word. Let's stay steady.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-swore-today-to-take-on-hardest-watch-me",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore today to take on {hardest}. Watch me.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-swore-today-to-hold-on-to-what-s",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore today to hold on to what's working on {best}. Nobody's stalling this.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-swore-today-to-hold-on-to-what-s-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore today to hold on to what's working on {best}. This country always figures it out.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-means-keeping-best-going-keep-the-faith",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath means keeping {best} going. Keep the faith.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-swore-today-to-hold-on-to-what-s-3",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore today to hold on to what's working on {best}. Good days ahead.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-i-took-covers-best-and-i-ll-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I took covers {best}, and I'll honor it.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-swore-today-and-we-ll-3",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I swore today, and we'll keep our word. This country always figures it out.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-swore-today-and-we-ll-4",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I swore today, and we'll keep our word. Keep the faith.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-swore-today-to-hold-on-to-what-s-4",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore today to hold on to what's working on {best}. I'm thankful, first of all.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-made-a-promise-today-and",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I made a promise today, and we'll keep it.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-today-means-i-answer-for-hardest-hold",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath today means I answer for {hardest}. Hold your people close.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-goes-further-than-home-state-it-covers-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath goes further than {home-state}; it covers everyone. Hold your people close.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-ll-keep-my-oath-by-working-on-hardest",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I'll keep my oath by working on {hardest}.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.vice-president-and-i-swore-today-and-we-ll-5",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{vice-president} and I swore today, and we'll keep our word. You'll see results.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-work-on-hardest-for-those-who-opposed",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will work on {hardest} for those who opposed me too.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-serve-every-american-hold-steady",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I serve every American. Hold steady.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-serve-all-americans-on-hardest-no-retreat",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will serve all Americans on {hardest}. No retreat.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-come-from-home-state-and-i-serve-all",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I come from {home-state}, and I serve all, not only my voters. The people did not send me to wait.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-share-best-with-every-american-look-ahead",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will share {best} with every American. Look ahead.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-share-best-with-every-american",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will share {best} with every American.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.the-good-news-on-best-belongs-to-everyone-whatever",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "The good news on {best} belongs to everyone, whatever their vote. Look ahead.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-will-not-ask-how-anyone",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I will not ask how anyone voted. We will rise.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-will-not-ask-how-anyone-2",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I will not ask how anyone voted. There is much to look forward to.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-serve-every-american-on-hardest-whoever-they-2",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will serve every American on {hardest}, whoever they voted for. Now we build on it.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-serve-every-american-we-are",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I serve every American. We are grateful.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-govern-for-every-state-home-state-included-we-2",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I govern for every state, {home-state} included. We mourn them.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-govern-for-every-state-home-state-included",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I govern for every state, {home-state} included.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-will-not-ask-how-anyone-3",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I will not ask how anyone voted. We grieve.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-will-serve-every-american-whatever",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I will serve every American, whatever their vote. Sorrow humbles us all.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.every-american-hurt-by-hardest-is-my-concern-vote",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "Every American hurt by {hardest} is my concern, vote or no vote. We will measure, adjust, and measure again.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-serve-every-american",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I serve every American.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.you-may-not-have-voted-for-me-but-i-4",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "You may not have voted for me, but I'll work on {hardest} for you. There's no time to lose.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.on-hardest-you-re-all-my-people-stick-together",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "On {hardest}, you're all my people. Stick together.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-won-t-leave-anyone-out-2",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I won't leave anyone out. Stick together.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-don-t-check-ballots-before-i-help-on",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I don't check ballots before I help on {hardest}. Watch me.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-ll-treat-everyone-the-same-whether-they-re",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I'll treat everyone the same, whether they're from {home-state} or not. Watch me.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.hardest-hits-everybody-so-i-work-for-everybody-i",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{hardest} hits everybody, so I work for everybody. I see good mornings coming.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-don-t-check-ballots-before-i-help-on-2",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I don't check ballots before I help on {hardest}.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.on-hardest-you-re-all-my-people-we-can",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "On {hardest}, you're all my people. We can do this.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-ll-take-on-hardest-for-those-who-didn-2",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I'll take on {hardest} for those who didn't vote for me, too. Keep the faith.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-ll-serve-everybody-and-i-ll-ask-vice-2",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I'll serve everybody, and I'll ask {vice-president-object} to do the same. We can do this.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president-object"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.hardest-hits-everybody-so-i-work-for-everybody-the",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{hardest} hits everybody, so I work for everybody. The hard part starts today.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-won-t-leave-anyone-out-3",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I won't leave anyone out. We're grateful.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "victory",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-won-t-leave-anyone-out-4",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I won't leave anyone out. We miss them.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.hardest-hits-everybody-so-i-work-for-everybody-this",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{hardest} hits everybody, so I work for everybody. This kind of sorrow humbles all of us.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.on-hardest-you-re-all-my-people-we-miss",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "On {hardest}, you're all my people. We miss them.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.on-hardest-you-re-all-my-people-check-our",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "On {hardest}, you're all my people. Check our work.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.on-hardest-you-re-all-my-people-let-s",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "On {hardest}, you're all my people. Let's keep score together.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-ll-serve-everybody-and-i-ll-ask-vice-3",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I'll serve everybody, and I'll ask {vice-president-object} to do the same. Let's keep score together.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president-object"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
       "key": "opening-speech.creed.we-believe-hard-times-with-hardest-call-for-lighter",
       "move": "creed",
       "kind": "spoken",
@@ -53709,6 +58634,474 @@
       "date": "2026-11-19"
     },
     {
+      "key": "opening-speech.oath.i-swore-today-as-a-person-from-home-state-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore today as a person from {home-state}, for all Americans.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "combative",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.this-oath-asks-me-to-build-on-the-progress",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "This oath asks me to build on the progress on {best}.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-swore-today-to-protect-the-gains-on-best-3",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore today to protect the gains on {best}. Hope is warranted.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-swore-today-to-protect-the-gains-on-best-4",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore today to protect the gains on {best}. We will rise.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-belongs-to-home-state-and-to-everyone-3",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath belongs to {home-state} and to everyone else equally. We will rise.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-i-swore-reaches-beyond-home-state-to-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I swore reaches beyond {home-state} to every corner of the country.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-belongs-to-home-state-and-to-everyone-4",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath belongs to {home-state} and to everyone else equally. Hope is warranted.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-serve-every-american-on-hardest-whoever-they-3",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will serve every American on {hardest}, whoever they voted for. There is much to look forward to.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-serve-every-american-on-hardest-whoever-they-4",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will serve every American on {hardest}, whoever they voted for.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-serve-all-americans-on-hardest-look-ahead",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will serve all Americans on {hardest}. Look ahead.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-serve-every-american-on-hardest-whoever-they-5",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will serve every American on {hardest}, whoever they voted for. Look ahead.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-serve-every-american-on-hardest-whoever-they-6",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will serve every American on {hardest}, whoever they voted for. We remember those we lost.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.the-good-news-on-best-belongs-to-everyone-whatever-2",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "The good news on {best} belongs to everyone, whatever their vote. I will keep the steps clear.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-carry-home-state-with-me-and-i-serve",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I carry {home-state} with me, and I serve those who disagree with me as well. Hold us to it.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.we-ll-hold-on-to-best-through-this",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "We'll hold on to {best} through this.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "crisis",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-m-from-home-state-but-i-work-for-2",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I'm from {home-state}, but I work for every state. We miss them.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-m-working-for-everybody-with-vice-president-object",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I'm working for everybody, with {vice-president-object} next to me. This kind of sorrow humbles all of us.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president-object"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-m-from-home-state-but-i-work-for-3",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I'm from {home-state}, but I work for every state. Check our work.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
       "key": "opening-speech.creed.we-are-a-country-that-lifts-up-people-in-2",
       "move": "creed",
       "kind": "spoken",
@@ -54567,6 +59960,58 @@
       "date": "2026-11-19"
     },
     {
+      "key": "opening-speech.creed.let-s-keep-best-out-of-the-party-fight",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "Let's keep {best} out of the party fight.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-other", "best"],
+          "tie": "stand"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-creed",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.creed.i-answer-to-home-state-and-the-whole-country-3",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I answer to {home-state} and the whole country, not a team. Hope is something we do together.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-other", "home-state"],
+          "tie": "stand"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-creed",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
       "key": "opening-speech.creed.i-answer-to-people-not-a-party-on-hardest-2",
       "move": "creed",
       "kind": "spoken",
@@ -55243,6 +60688,58 @@
       "date": "2026-11-19"
     },
     {
+      "key": "opening-speech.unity.i-come-from-home-state-and-i-serve-all-2",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I come from {home-state}, and I serve all, not only my voters. Look ahead.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-will-govern-for-every-state-home-state-and",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I will govern for every state, {home-state} and the rest alike. Look ahead.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
       "key": "opening-speech.occasion.my-home-in-home-state-reminds-me-whom-this",
       "move": "occasion",
       "kind": "spoken",
@@ -55391,6 +60888,292 @@
       "addressKind": "hopeful",
       "piece": {
         "of": "opening-occasion",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-swore-today-to-take-on-hardest-keep-the",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore today to take on {hardest}. Keep the faith.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-ll-keep-my-oath-by-working-on-hardest-2",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I'll keep my oath by working on {hardest}. Good days ahead.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.i-just-took-an-oath-and-hardest-is-part-3",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I just took an oath, and {hardest} is part of the job. I've got a lot of hope.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.the-oath-i-took-covers-hardest-too-we-ve",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I took covers {hardest}, too. We've earned some optimism.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-goes-further-than-home-state-it-covers-3",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath goes further than {home-state}; it covers everyone. This country always figures it out.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.oath.my-oath-goes-further-than-home-state-it-covers-4",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "My oath goes further than {home-state}; it covers everyone.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-m-from-home-state-but-i-work-for-4",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I'm from {home-state}, but I work for every state. Look ahead, folks.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["home-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.you-may-not-have-voted-for-me-but-best",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "You may not have voted for me, but {best} is yours too. Look ahead, folks.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-want-best-to-reach-everybody-not-just-my-2",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I want {best} to reach everybody, not just my voters. Keep the faith.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.i-won-t-pick-favorites-when-it-comes-to-3",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I won't pick favorites when it comes to {best}. I see good mornings coming.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["best"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.unity.vice-president-and-i-won-t-leave-anyone-out-5",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "{vice-president} and I won't leave anyone out. Look ahead, folks.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "addressKind": "hopeful",
+      "piece": {
+        "of": "opening-unity",
         "part": "core",
         "required": true
       },
