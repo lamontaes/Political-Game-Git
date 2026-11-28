@@ -1,4 +1,6 @@
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
+import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
 import { gameStartDate } from "../../../src/core2/game-start";
@@ -21,22 +23,42 @@ import {
 } from "../../../src/core2/modules/campaigns";
 import { petitionSigners } from "../../../src/core2/modules/elections";
 import { campaignDay } from "../../../src/bench/campaign";
-import { buildBenchWorld } from "../../../src/bench/world";
+import { buildBenchWorld, NoPlayerHereError } from "../../../src/bench/world";
 import { townResidentsByCash } from "../../support/resident-adults-test-kit";
 
 // Owner, Nov 14 (decision card "Switch to asking for votes"): once the petition
 // holds what a campaign gathers (the clerk's count plus the cushion), the
-// player's doors stop asking for signatures and ask for votes. Pinned to
-// Otisville, New York (T47's measurement).
-const PLACE = "3655673";
-const SEED = "580915c55b122496eedbb4aef26193e639a89d50e6df380c1a1073abc59559a5";
+// player's doors stop asking for signatures and ask for votes. Played in two
+// places drawn from all 56 (the Otisville, New York measurement pinned one
+// world, and a change to a press owner's income moved it; CTO, Nov 27: test the
+// behavior, not the pin). After the target, the next door knocked asks for the
+// vote: in the same outing if doors remain, else in the next outing (CTO,
+// Nov 28, by realism); a place whose target lands on the last door is named,
+// and its next outing is the one checked. A place with no local petition race
+// in the year is passed over by name.
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const WANTED = 2;
+const DRAWS = 24;
 
-it(`the player's doors ask for votes once the petition holds the target (Otisville NY, seed ${SEED})`, () => {
-  setBookkeeping(false);
-  const { core } = buildBenchWorld(SEED, gameStartDate(), {
-    twoLevel: true,
-    placeKey: PLACE,
-  });
+/** Plays one place; returns why it could not be checked, or null once every assertion ran. */
+function playPlace(
+  placeSeed: string,
+  PLACE: string,
+  where: string,
+  lastDoor: string[],
+): string | null {
+  let built: ReturnType<typeof buildBenchWorld>;
+  try {
+    built = buildBenchWorld(placeSeed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: PLACE,
+    });
+  } catch (error) {
+    // A place where no player can live is passed over by name.
+    if (!(error instanceof NoPlayerHereError)) throw error;
+    return `${where}: ${error.message}`;
+  }
+  const { core } = built;
   const api = coreAPI(core);
   const local = () =>
     openContests(api).filter(
@@ -71,9 +93,14 @@ it(`the player's doors ask for votes once the petition holds the target (Otisvil
     }
     if (filed) break;
   }
-  expect(filed, `no petition race at Otisville by ${start}`).toBeTruthy();
-  const { personId, filingId } = filed!;
+  if (!filed) return `${where}: no petition race by ${start}`;
+  const { personId, filingId } = filed;
   const target = signaturesToGather(api, filingId);
+  // An outing knocks 45 doors, so twelve outings cannot gather more than 540
+  // signatures even if every door signs: a larger target (1,004 at Chevy
+  // Chase, Maryland) cannot show the switch here, and the place is passed over.
+  if (target > 12 * 45)
+    return `${where}: target ${target} is beyond twelve outings' doors`;
   const doorSigned = () =>
     petitionSigners(api, filingId).filter((s) => s.via === "door").length;
   const days: string[] = [];
@@ -92,8 +119,14 @@ it(`the player's doors ask for votes once the petition holds the target (Otisvil
     if (asking) {
       // The outing that reaches the target shows both: the signed and the
       // doors after it that asked for the vote.
-      if (!petitionAsksAtDoors(api, filingId))
-        expect(out.votesAsked!, days.at(-1)).toBeGreaterThan(0);
+      if (!petitionAsksAtDoors(api, filingId)) {
+        // The target landed in this outing: the doors after it ask for the
+        // vote; if it landed on the last door, no door remains, so the place
+        // is named and the next outing (the branch below) is the one checked.
+        if (out.votesAsked! > 0)
+          expect(out.votesAsked!, days.at(-1)).toBeGreaterThan(0);
+        else lastDoor.push(`${where}: ${days.at(-1)}`);
+      }
       expect(out.signed, days.at(-1)).not.toBeNull();
       expect(before, days.at(-1)).toBeLessThan(target);
     } else {
@@ -107,8 +140,37 @@ it(`the player's doors ask for votes once the petition holds the target (Otisvil
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
   }
   process.stdout.write(
-    `DOORS SWITCH ${filingId} target ${target}\n  ${days.join("\n  ")}\n`,
+    `DOORS SWITCH ${where} ${filingId} target ${target}\n  ${days.join("\n  ")}\n`,
   );
+  // Twelve outings reach a small target, not a large one (1,004 signatures at
+  // Chevy Chase, Maryland): where the petition is still open and short, the
+  // place cannot show the switch in this many outings and is passed over.
+  if (!switched && core.date <= petitionOf(api, filingId)!.due)
+    return `${where}: target ${target} not reached in 12 outings (${doorSigned()} door signers)`;
   expect(switched, days.join("\n")).toBe(true);
   expect(petitionAsksAtDoors(api, filingId)).toBe(false);
-}, 180_000);
+  return null;
+}
+
+it(`the player's doors ask for votes once the petition holds the target (${WANTED} drawn places, seed ${seed})`, () => {
+  setBookkeeping(false);
+  const passed: string[] = [];
+  const lastDoor: string[] = [];
+  let checked = 0;
+  for (let draw = 0; draw < DRAWS && checked < WANTED; draw += 1) {
+    const place = drawPlace(`${seed}:${draw}`, "campaign-doors-ask-votes");
+    const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
+    const why = playPlace(place.seed, place.key, where, lastDoor);
+    process.stdout.write(`DOORS place ${where}: ${why ?? "checked"}\n`);
+    if (why) passed.push(why);
+    else checked += 1;
+  }
+  expect(
+    checked,
+    `${WANTED} places needed; passed over: ${passed.join("; ")}`,
+  ).toBe(WANTED);
+  if (lastDoor.length)
+    process.stdout.write(
+      `DOORS target landed on the last door, next outing checked: ${lastDoor.join("; ")}\n`,
+    );
+}, 3_000_000);
