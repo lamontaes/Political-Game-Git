@@ -14,14 +14,13 @@ import {
 } from "./life";
 import { parameter } from "./parameters";
 import { assertFactoryCoreV1, coreAPI, resolveOperation } from "./state";
-import { runWorkPayrollDay } from "./work-payroll-dispatch";
 import {
   WORK_MODULE,
   commitWorkChoice,
   notifyWorkChoice,
   prepareWorkChoice,
   recordDiscretionaryActivity,
-  runScheduledWork,
+  runWorkDay,
   verifyWorkChoiceV1,
 } from "./modules/work";
 import type { PreparedWorkChoice } from "./modules/work";
@@ -548,14 +547,7 @@ export function runControlledDay(
     // The controlled person's own shifts are the clock's; everyone else's
     // run as in any day.
     ownDay: new Map([
-      [
-        WORK_MODULE.id,
-        () => {
-          const count = runScheduledWork(api, decide, refresh, personId);
-          runWorkPayrollDay(api);
-          return count;
-        },
-      ],
+      [WORK_MODULE.id, () => runWorkDay(api, decide, refresh, personId)],
     ]),
   });
 }
