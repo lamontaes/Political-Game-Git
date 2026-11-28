@@ -26,19 +26,16 @@ import senateClasses from "../../../data/research/offices/senate-classes-2026.js
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
 import { workFromHome } from "../places";
-import {
-  registerHuskIdentity,
-  registerHuskPromoter,
-  registerUnbuiltHolders,
-  recordBackgroundPerson,
-} from "../husk-promoters";
+import { recordBackgroundPerson } from "../husk-promoters";
 import type { RecordedIdentity } from "../state";
 import type {
   CoreAPI,
   CoreModule,
   CoreState,
+  PersonId,
   PersonState,
   Source,
+  UnbuiltHolders,
 } from "../types";
 import { makeIsoDate } from "../kernel/dates";
 import { openingTemperaments } from "../opening-personality";
@@ -134,8 +131,58 @@ export interface OfficialRow {
   };
 }
 
+/**
+ * Another place's unopened holders live by the same mortality rule as
+ * everyone: the health engine books their illness and death from who they
+ * are (their term's birth date and home state, their draw's traits), and
+ * their death writes only its result: the term ends and the seat falls
+ * vacant, filled by the place's own law. Nobody is built (CTO, Nov 18
+ * 15:04Z). Moves are not read for them: a husk never moved either.
+ */
+const UNBUILT_OFFICIALS: UnbuiltHolders = {
+  // The terms table only grows: a new count is a new holder to book.
+  marker: (core) =>
+    core.modules.has(OFFICIALS_MODULE_ID)
+      ? coreAPI(core).moduleState(OFFICES_MODULE_ID).table("terms").size
+      : -1,
+  ids: (core) => {
+    if (!core.modules.has(OFFICIALS_MODULE_ID)) return [];
+    const api = coreAPI(core);
+    const offices = api.moduleState(OFFICES_MODULE_ID);
+    const outside = new Map<string, boolean>();
+    return (
+      offices
+        .table("terms")
+        .query("byStatus", ["serving"]) as unknown as TermRow[]
+    )
+      .filter((term) => {
+        if (term.personId) return false;
+        if (!outside.has(term.officeId))
+          outside.set(
+            term.officeId,
+            isOutsideOffice(api, offices.table("offices").get(term.officeId)),
+          );
+        return outside.get(term.officeId)!;
+      })
+      .map((term) => `official:${term.id}`);
+  },
+  holds: (core, personId) =>
+    core.modules.has(OFFICIALS_MODULE_ID) &&
+    unopenedTerm(coreAPI(core), personId) !== undefined,
+  died: (core, personId, deathRecordId) => {
+    const api = coreAPI(core);
+    const term = unopenedTerm(api, personId);
+    if (term?.status === "serving")
+      vacateSeat(api, term.seatId, "death", undefined, deathRecordId);
+  },
+};
+
 export const OFFICIALS_MODULE: CoreModule = {
   id: OFFICIALS_MODULE_ID,
+  // Another state's officials nobody has opened: a person built from the record, who they are, and the holders kept as names.
+  huskPromoter: promoteOutsideOfficial,
+  huskIdentity: huskIdentityOfOfficial,
+  unbuiltHolders: UNBUILT_OFFICIALS,
   state: {
     schemaVersion: 1,
     tables: {
@@ -1030,8 +1077,8 @@ function promoteOutsideOfficial(
   colleagues(api, new Set([personId]));
   return person;
 }
-registerHuskPromoter(promoteOutsideOfficial);
-registerHuskIdentity((core, personId) => {
+/** Who another place's official is (an opened husk's identity, or an unopened term's and draw), so the health engine can book their illness and death. */
+function huskIdentityOfOfficial(core: CoreState, personId: PersonId) {
   if (!core.modules.has(OFFICIALS_MODULE_ID)) return undefined;
   const api = coreAPI(core);
   const husk = officialOf(api, personId)?.husk;
@@ -1050,7 +1097,7 @@ registerHuskIdentity((core, personId) => {
         traits: unopenedDraw(api, term).traits,
       }
     : undefined;
-});
+}
 
 function officialIdentity(api: CoreAPI, seed: string, spec: Spec) {
   const drawn = drawOfficialIdentity({
@@ -1477,52 +1524,6 @@ function unopenedStance(
   const term = unopenedTerm(api, memberId);
   return term ? unopenedDraw(api, term) : undefined;
 }
-
-/**
- * Another place's unopened holders live by the same mortality rule as
- * everyone: the health engine books their illness and death from who they
- * are (their term's birth date and home state, their draw's traits), and
- * their death writes only its result: the term ends and the seat falls
- * vacant, filled by the place's own law. Nobody is built (CTO, Nov 18
- * 15:04Z). Moves are not read for them: a husk never moved either.
- */
-registerUnbuiltHolders({
-  // The terms table only grows: a new count is a new holder to book.
-  marker: (core) =>
-    core.modules.has(OFFICIALS_MODULE_ID)
-      ? coreAPI(core).moduleState(OFFICES_MODULE_ID).table("terms").size
-      : -1,
-  ids: (core) => {
-    if (!core.modules.has(OFFICIALS_MODULE_ID)) return [];
-    const api = coreAPI(core);
-    const offices = api.moduleState(OFFICES_MODULE_ID);
-    const outside = new Map<string, boolean>();
-    return (
-      offices
-        .table("terms")
-        .query("byStatus", ["serving"]) as unknown as TermRow[]
-    )
-      .filter((term) => {
-        if (term.personId) return false;
-        if (!outside.has(term.officeId))
-          outside.set(
-            term.officeId,
-            isOutsideOffice(api, offices.table("offices").get(term.officeId)),
-          );
-        return outside.get(term.officeId)!;
-      })
-      .map((term) => `official:${term.id}`);
-  },
-  holds: (core, personId) =>
-    core.modules.has(OFFICIALS_MODULE_ID) &&
-    unopenedTerm(coreAPI(core), personId) !== undefined,
-  died: (core, personId, deathRecordId) => {
-    const api = coreAPI(core);
-    const term = unopenedTerm(api, personId);
-    if (term?.status === "serving")
-      vacateSeat(api, term.seatId, "death", undefined, deathRecordId);
-  },
-});
 
 /** The parts of an official's position on a bill that are theirs alone. */
 export interface OfficialParts {

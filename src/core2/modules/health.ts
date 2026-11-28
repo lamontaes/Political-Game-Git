@@ -62,7 +62,6 @@ import {
   huskIncomeOf,
   unbuiltHolderEngines,
   unbuiltHolderOf,
-  type UnbuiltHolders,
 } from "../husk-promoters";
 import { personOrFillIn } from "../state";
 import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
@@ -76,6 +75,7 @@ import type {
   PersonId,
   PersonState,
   Source,
+  UnbuiltHolders,
 } from "../types";
 export { NATIVITY_FACT } from "../nativity";
 export { ageOn } from "../counted-groups";
@@ -942,7 +942,7 @@ function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
     // everyone's are (`admitUnbuilt` books the ones seated later).
     ...[
       ...core.husks.keys(),
-      ...[...unbuiltHolderEngines()].flatMap((holders) => [
+      ...[...unbuiltHolderEngines(core)].flatMap((holders) => [
         ...holders.ids(core),
       ]),
     ].flatMap((id) => {
@@ -1025,7 +1025,7 @@ function admitHusks(api: CoreAPI, data: HealthData, row: HealthRuntime) {
 function admitUnbuilt(api: CoreAPI, data: HealthData, row: HealthRuntime) {
   const core = api.state as CoreState;
   const today = makeIsoDate(api.state.date);
-  for (const holders of unbuiltHolderEngines()) {
+  for (const holders of unbuiltHolderEngines(core)) {
     const marker = holders.marker(core);
     if (row.seenUnbuilt.get(holders) === marker) continue;
     row.seenUnbuilt.set(holders, marker);

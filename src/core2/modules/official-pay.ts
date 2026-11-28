@@ -33,7 +33,6 @@ import { coreAPI, registerModule } from "../state";
 import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
 import { notePublicPay, outsideAccountOf } from "../budgets-treasury";
 import { OFFICIALS_MODULE_ID, officialOf, type OfficialRow } from "./officials";
-import { registerHuskIncome } from "../husk-promoters";
 import {
   addDays,
   daysBetween,
@@ -41,7 +40,13 @@ import {
   daysBetweenText,
 } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
-import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonId,
+  Source,
+} from "../types";
 import { giveLivingCost, spendLivingCost } from "../official-living";
 import payFacts from "../../../data/source/official-office-pay/facts.json" with { type: "json" };
 import { outsideGovernment } from "../outside-governments";
@@ -575,11 +580,12 @@ export function payPostFromOutside(
   return true;
 }
 
-registerHuskIncome((core, personId) => {
+/** What another place's official is paid in a year, from the seat, so the health engine ranks them by income as it ranks a person. */
+function huskIncomeOfOfficial(core: CoreState, personId: PersonId) {
   const api = coreAPI(core);
   const row = officialOf(api, personId);
   return row?.husk ? officialSalary(row, api)?.annualMinor : undefined;
-});
+}
 
 /** Seat new officials, and end the post of anyone whose term ended. */
 function review(api: CoreAPI): void {
@@ -608,6 +614,7 @@ const seenOfficials = new WeakMap<object, number>();
 
 export const OFFICIAL_PAY_MODULE: CoreModule = {
   id: OFFICIAL_PAY_MODULE_ID,
+  huskIncome: huskIncomeOfOfficial,
   state: { schemaVersion: 1, tables: { pay: {} } },
   // An official who died is paid no more: their row ends the day they die,
   // read from the death's record, not on a later payday (one after the
