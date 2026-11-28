@@ -20,12 +20,15 @@ import { drawPlace } from "./golden-path/place";
  * the economy panel read), is read at places drawn from all 56, and the year's flows are counted in heads from the
  * seeker rows once a week. Two relationships are read against the cited flows, not a target rate:
  *
- * - entries over exits for the year, against the CPS gross flows' ratio. The flows the parameters cite
- *   (`pastWorkLayoffsPerQuarter`: 0.96 percent of employment a month into unemployment; `jobsContinueBaseline`: of the
- *   unemployed, 26 percent employed and 25 percent out of the labor force the next month) leave the unemployed stock
- *   level over the cited window (UNEMPLOY mean 6,657 thousand, Jan 2023 to Oct 2026), so the ratio is 1.
  * - the median completed search in weeks, against the cited median of 10.1 weeks (FRED UEMPMED, 2025;
- *   `data/research/labor/unemployment-duration-and-reservation-wage.json`).
+ *   `data/research/labor/unemployment-duration-and-reservation-wage.json`). A search that ends the same month for
+ *   everyone (the old find pull) reads 19 weeks; one that differs by person reads 9 to 11.
+ *
+ * The year's entries over exits in heads is printed beside it and not asserted: the cited flows leave the unemployed
+ * stock level, so their ratio is 1, but a place that opens below its own equilibrium rightly takes in more than it
+ * lets out while it climbs to it, and across five seeds the ratio runs 0.75 to 1.18 after the fix and 1.03 to 1.13
+ * before it, so no tolerance on it separates the two (the Nov 28 review asked for the relationship; this is what it
+ * showed).
  *
  * A place whose labor force is under 500 heads moves by points from one counted household, so it is passed over and
  * named; the test reports how many of its draws held 500 or more.
@@ -34,14 +37,6 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const MIN_LABOR_FORCE = 500;
 const WANTED = 3;
 const DRAWS = 8;
-/** The cited flows' entries over exits. */
-const CPS_ENTRIES_OVER_EXITS = 1;
-/**
- * TUNABLE: how far a place's year may sit above that ratio. Checked against three places at seed oo1 and the one
- * before this fix: entries over exits 1.04 to 1.07 before, 0.93 to 1.00 after; the lumpiness of one counted household
- * in a labor force of 500 is about 0.5 points of the stock's flow, so 0.02 leaves room for it and not for a climb.
- */
-const RATIO_SPREAD = 0.02;
 const CPS_MEDIAN_WEEKS = 10.1;
 /**
  * TUNABLE: the factor the completed median may sit from the cited median. Checked against the same places: 1.9 times
@@ -52,10 +47,11 @@ const CPS_MEDIAN_WEEKS = 10.1;
 const MEDIAN_FACTOR = 1.5;
 
 describe("the out-of-work stock over a played year", () => {
-  it(`keeps entries and exits in the cited flows' ratio at ${WANTED} drawn places (seed ${seed})`, () => {
+  it(`keeps the median completed search near the cited median at ${WANTED} drawn places (seed ${seed})`, () => {
     setBookkeeping(false);
     const passedOver: string[] = [];
     const read: string[] = [];
+    const failures: string[] = [];
     let used = 0;
     let big = 0;
     for (let i = 0; i < DRAWS; i += 1) {
@@ -142,22 +138,18 @@ describe("the out-of-work stock over a played year", () => {
       read.push(
         `${label}: ${(first.rate * 100).toFixed(1)}% on day 2, ${(last.rate * 100).toFixed(1)}% on day 365 (${first.force} to ${last.force} in the labor force); ${entered.toFixed(0)} heads entered and ${left.toFixed(0)} left (ratio ${ratio.toFixed(2)}); median completed search ${median.toFixed(1)} weeks`,
       );
-      expect(
-        ratio,
-        `${label}: ${entered.toFixed(0)} heads entered the stock and ${left.toFixed(0)} left in the year`,
-      ).toBeLessThanOrEqual(CPS_ENTRIES_OVER_EXITS + RATIO_SPREAD);
-      expect(
-        median,
-        `${label}: the median completed search was ${median.toFixed(1)} weeks against the cited ${CPS_MEDIAN_WEEKS}`,
-      ).toBeGreaterThanOrEqual(CPS_MEDIAN_WEEKS / MEDIAN_FACTOR);
-      expect(
-        median,
-        `${label}: the median completed search was ${median.toFixed(1)} weeks against the cited ${CPS_MEDIAN_WEEKS}`,
-      ).toBeLessThanOrEqual(CPS_MEDIAN_WEEKS * MEDIAN_FACTOR);
+      if (
+        median < CPS_MEDIAN_WEEKS / MEDIAN_FACTOR ||
+        median > CPS_MEDIAN_WEEKS * MEDIAN_FACTOR
+      )
+        failures.push(
+          `${label}: the median completed search was ${median.toFixed(1)} weeks against the cited ${CPS_MEDIAN_WEEKS}`,
+        );
     }
     process.stdout.write(
       `out-of-work year, seed ${seed}: ${big} of ${DRAWS} draws held ${MIN_LABOR_FORCE} or more in the labor force\n  ${read.join("\n  ")}\n  passed over: ${passedOver.join("; ") || "none"}\n`,
     );
+    expect(failures, `seed ${seed}`).toEqual([]);
     expect(
       used,
       `fewer than ${WANTED} places held ${MIN_LABOR_FORCE} in the labor force; passed over: ${passedOver.join("; ")}`,
