@@ -3,4 +3,4 @@ id: screens-client-split-script
 impact: none
 ---
 
-A re-runnable script that moves the client's big screen builders out of play.mjs; it changes no game file until it is run.
+The client's five largest screen builders moved out of play.mjs into ui modules (scripts/screens/split-client.mjs, applied); the screens draw the same nodes.

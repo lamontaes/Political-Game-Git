@@ -19,7 +19,7 @@ import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { campaignParameter } from "./campaign-data";
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import { memberKey, members } from "./modules/legislature";
 import { vacateSeat } from "./modules/offices";
 import {
