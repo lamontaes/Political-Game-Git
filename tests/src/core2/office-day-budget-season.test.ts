@@ -107,7 +107,7 @@ it("the executive's budget act opens in its season and its changes are what the 
       tried.push(`${where}: no mayor or city government`);
       continue;
     }
-    const mayorId = memberKey(mayor.holder!);
+    let mayorId = memberKey(mayor.holder!);
     // Go to the first day of the season: the lead time before the next fiscal year.
     const lead = api.parameter("budgetProposalLeadDays");
     const year = Number(core.date.slice(0, 4));
@@ -118,6 +118,15 @@ it("the executive's budget act opens in its season and its changes are what the 
     const open = addDays(makeIsoDate(next), -(lead - 1));
     if (core.date < open) advanceCore(core, open);
     if (core.date > open) continue;
+    // The seat's holder on the day the season opens: a term may have turned over since the world opened.
+    const seated = townSeats(api).find(
+      (s) => s.office.kind === "mayor" && s.holder?.personId,
+    );
+    if (!seated) {
+      tried.push(`${where}: no mayor on ${open}`);
+      continue;
+    }
+    mayorId = memberKey(seated.holder!);
     const due = budgetProposalDue(api, officeHost, mayorId);
     expect(due, `${where}: the season opened on ${open}`).not.toBeNull();
     expect(
@@ -603,7 +612,7 @@ it("as mayor, a budget the council amends is voted at the amended amount, and th
       tried.push(`${where}: no mayor or city government`);
       continue;
     }
-    const mayorId = memberKey(mayor.holder!);
+    let mayorId = memberKey(mayor.holder!);
     const lead = api.parameter("budgetProposalLeadDays");
     const year = Number(core.date.slice(0, 4));
     const next =
@@ -613,6 +622,15 @@ it("as mayor, a budget the council amends is voted at the amended amount, and th
     const open = addDays(makeIsoDate(next), -(lead - 1));
     if (core.date < open) advanceCore(core, open);
     if (core.date > open) continue;
+    // The seat's holder on the day the season opens: a term may have turned over since the world opened.
+    const seated = townSeats(api).find(
+      (s) => s.office.kind === "mayor" && s.holder?.personId,
+    );
+    if (!seated) {
+      tried.push(`${where}: no mayor on ${open}`);
+      continue;
+    }
+    mayorId = memberKey(seated.holder!);
     expect(
       budgetProposalDue(api, officeHost, mayorId),
       `${where}: the season opened on ${open}`,
