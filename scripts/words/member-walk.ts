@@ -47,6 +47,10 @@ const TARGETS: Record<string, string> = {
   "bill-held-chair": "hearing-ask",
   "hold-chair-sought": "hearing-ask",
   "desk-visit": "desk-visit",
+  // Staged beside them when a colleague brings a bill: a cosponsor asked, a vote asked or sought.
+  "bill-sign-on": "cosponsor-ask",
+  "vote-asked": "vote-asked",
+  "vote-sought": "vote-sought",
 };
 const VOTE_DAYS = 120;
 
@@ -127,6 +131,29 @@ if (bill.status === "blocked")
   );
 if (!core.durableLog.has(`office.introduced:${bill.id}`))
   walk.passOver(where, `${bill.status}, no introduction record`);
+// A colleague of the same body brings a bill of their own on another question (the cause of bill-carry: a member of
+// the player's body who introduced a bill asks the player to carry it with them).
+const colleague = [...core.people.values()]
+  .filter((p) => p.alive && p.id.startsWith("person_") && p.id !== me)
+  .sort((a, b) => a.id.localeCompare(b.id))
+  .find((p) =>
+    seatView(core, p.id).bodies.some((row) => row.officeId === body.officeId),
+  );
+let colleagueBill = "none (no other resident sits in the body)";
+if (colleague) {
+  for (const question of questions.filter((q) => q !== brought)) {
+    const other = seatAct(core, colleague.id as PersonId, {
+      kind: "draft",
+      officeId: body.officeId,
+      question,
+      value: 1,
+    }) as { id: string; status: string };
+    if (other.status === "blocked") continue;
+    colleagueBill = `${other.id} (${colleague.id}) on ${question}`;
+    break;
+  }
+}
+console.log(`# COLLEAGUE BILL ${colleagueBill}`);
 const townSides = electorateSides(api, brought);
 const side = townSides.yes >= townSides.no ? "no" : "yes";
 castMemberVote(api, bill.id, me, side);
