@@ -17,7 +17,7 @@ import data from "./data/laws/public-pay-floor.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
 import { jobsAt } from "./law-reach/group-b-money";
-import { reachParameter } from "./law-reach/group-b-people";
+import { reachParameter } from "./law-reach/reach-parameters";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import {
   LAWS_MODULE_ID,
