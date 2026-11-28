@@ -33,4 +33,4 @@ checked: fable 2026-11-10
 
 **Waits on.** people-protected-traits-on-record-part-1-race-on-record, and world-housing-landlord-owners (which gives each rental a recorded owner who decides; this part adds the weighing of a tenant to that owner's decision and builds no second owner).
 
-**Files.** src/core2/modules/housing.ts, src/core2/types.ts, src/core2/law-wiring-rights-env.test.ts
+**Files.** src/core2/modules/housing.ts, src/core2/types.ts, tests/src/core2/law-wiring-rights-env.test.ts

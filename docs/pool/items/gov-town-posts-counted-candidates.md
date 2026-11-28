@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 
 **Done when.** In one buildBenchWorld of a small drawn place, seed named, every department post the town's form names is filled at the opening or the record names why no adult could take it, and a counted resident named to a post is filled in with the job and pay the post's record shows, by record id.
 
-**Files.** src/core2/modules/executive.ts, src/core2/executive.test.ts
+**Files.** src/core2/modules/executive.ts, tests/src/core2/executive.test.ts
 
 **Notes.** Filed Oct 25 by the traits lead while counting the opening's appointment weighings (traits-audit-opening-appointments).
 

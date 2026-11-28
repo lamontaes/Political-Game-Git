@@ -20,6 +20,6 @@ claimed-at: 2026-11-07T23:48:30.344Z
 
 **Done when.** A generated-world test finds the federal opening prohibition, drafts and signs repeal and restoration through Congress, and preserves both state prohibition and state permission without creating state retail eligibility from federal permission. Break-it, ten fresh draws and a new game pass, with place and replay in the PR. Disclose that staged desks do not prove votes and criminal enforcement is not added.
 
-**Files.** data/research/powers-catalog/question-powers.json,data/research/laws/starting-law-2026/business-commerce.json,src/core2/modules/laws.ts,src/core2/law-reach/group-a.ts,src/core2/law-reach/group-a-records.ts,src/core2/data/laws/reach-group-a.json,src/core2/data/legislature/bill-catalog.json,src/core2/federal-cannabis-scope.test.ts
+**Files.** data/research/powers-catalog/question-powers.json,data/research/laws/starting-law-2026/business-commerce.json,src/core2/modules/laws.ts,src/core2/law-reach/group-a.ts,src/core2/law-reach/group-a-records.ts,src/core2/data/laws/reach-group-a.json,src/core2/data/legislature/bill-catalog.json,tests/src/core2/federal-cannabis-scope.test.ts
 
 **Notes.** Astra, Nov 7; bounded two-hour unit. Statutory text fetched from Cornell LII and Raich from the official Library of Congress US Reports scan. Section 903 retains state law absent positive conflict; removing state penalties does not repeal federal criminal law. DC appropriations restrictions remain a separate limitation.

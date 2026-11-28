@@ -1,6 +1,6 @@
 ---
 id: gov-prestart-government-test-red-on-main
-title: "src/core2/pre-start-government.test.ts is red on clean main: 'Cannot read properties of undefined (reading find)'"
+title: "tests/src/core2/pre-start-government.test.ts is red on clean main: 'Cannot read properties of undefined (reading find)'"
 area: gov
 kind: bug
 priority: 1
@@ -24,9 +24,9 @@ seen-by: second-session-1
 seen-at: 2026-11-11T00:20:39.903Z
 ---
 
-**What.** On clean main on Nov 10 (after #8116, before the life record pull requests), `npx vitest run src/core2/pre-start-government.test.ts` fails its one test, 'lists how an official reached their seat before the start, by record id', with 'TypeError: Cannot read properties of undefined (reading find)'. A helper on a branch from an earlier main saw the same test fail as `personCard(...).seats` being undefined, so the card the test reads no longer carries the field it expects (the person card's list of seats). Either the card stopped returning seats for that person or the test reads a card shape that has since changed. The test draws its own place; the run printed no place or seed before the error.
+**What.** On clean main on Nov 10 (after #8116, before the life record pull requests), `npx vitest run tests/src/core2/pre-start-government.test.ts` fails its one test, 'lists how an official reached their seat before the start, by record id', with 'TypeError: Cannot read properties of undefined (reading find)'. A helper on a branch from an earlier main saw the same test fail as `personCard(...).seats` being undefined, so the card the test reads no longer carries the field it expects (the person card's list of seats). Either the card stopped returning seats for that person or the test reads a card shape that has since changed. The test draws its own place; the run printed no place or seed before the error.
 
-**Cause.** Found in code: src/core2/pre-start-government.test.ts (line 38) reads personCard(core, holder).seats, but personCard in src/bench/card.ts (line 45) returns no seats field, while knownCard (line 1019, seats at line 1211) does.
+**Cause.** Found in code: tests/src/core2/pre-start-government.test.ts (line 38) reads personCard(core, holder).seats, but personCard in src/bench/card.ts (line 45) returns no seats field, while knownCard (line 1019, seats at line 1211) does.
 
 **Fix.** Change the test to read the card a click opens (knownCard) and say so in the PR; if the life-record work moves seats, read them from its reader instead. Never skip the test.
 
@@ -34,11 +34,11 @@ seen-at: 2026-11-11T00:20:39.903Z
 
 **Rules.** Red main comes first (owner, Oct 15): this red is fixed at its root on its own pull request before other work. No hand-written player text in code and screens show record data: if the card dropped an official's seats, that is a loss on a screen the player reads and is fixed in the card; if only the test's reading is stale, the test is fixed and the pull request says which. A test is never skipped or deleted to get green.
 
-**Done when.** `npx vitest run src/core2/pre-start-government.test.ts` passes on main in three drawn places named with their seeds, and the pull request says which side was wrong. A second session opens an official's card in the running game in a drawn place and reads how they reached their seat before the start, with the record opening in dev mode's Trace.
+**Done when.** `npx vitest run tests/src/core2/pre-start-government.test.ts` passes on main in three drawn places named with their seeds, and the pull request says which side was wrong. A second session opens an official's card in the running game in a drawn place and reads how they reached their seat before the start, with the record opening in dev mode's Trace.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/pre-start-government.test.ts, src/bench/card.ts, src/core2/modules/offices.ts
+**Files.** tests/src/core2/pre-start-government.test.ts, src/bench/card.ts, src/core2/modules/offices.ts
 
 **Notes.** Not checked: which commit turned it red. The life record's first step (#8115, open) rewrites the card's history assembly; this failure is on main without it. Skill red-main says how to take it from here.
 

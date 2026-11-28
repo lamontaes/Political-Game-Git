@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) a counted worker's retirement and a counted job search each appear with the chooser's recorded reasons by record id, the jobs tests pass, and the tripwire test shows SG-WORLD-jobs-counted-choices resolved. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/data/stopgaps.json, src/core2/jobs.test.ts
+**Files.** src/core2/modules/jobs.ts, src/core2/data/stopgaps.json, tests/src/core2/jobs.test.ts
 
 **Notes.** Split from world-stopgap-jobs-faked-mechanic. Of its six rows, layoff-decider, agreement-pinned and counted-retiree-income are resolved on main; offer-deadline-reminder is carried by world-jobs-offer-deadline-held and world-jobs-offer-deadline-reminder; opening-seekers by world-jobs-opening-seekers-row.
 

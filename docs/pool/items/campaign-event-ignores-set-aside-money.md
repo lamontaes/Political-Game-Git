@@ -22,7 +22,7 @@ source: found on the clean train at I Liyang, Northern Mariana Islands, Nov 14, 
 
 **Cause.** Measured: with the seed and place above, a run of the played world with a log in `spend` for the first campaign (the filing ending fe688fb1a6ea92c4) showed raised 70,500, spent 69,091 and the account at 1,409 with 12,930 set aside for circulators; the two events on 2025-09-23 and 2025-09-29 had each paid the 24,075 venue price when the account held more than the price but less than the price plus the circulators' fund (raised 70,100, spent 40,546, circulators 17,400, so 11,656 free). Found in code: `campaignDayOpen` offers the evening ("event" and "forum") when the account's cash is at least the venue's price (`affords` in src/core2/campaign-day.ts), and the rival's day (`rivalDay`, `takeCampaignDayChoice` from `campaignTurn`) takes it; the campaign's own books (`freeMinor`) already exclude the money set aside for circulators, a poll and an event, but the day's choice read the whole account.
 
-**Fix.** One new function `eveningMoneyMinor` in src/core2/modules/campaigns.ts (the account's cash less the circulators' fund and the poll fund; the event fund is the evening's own) read by both `affords` and the choices' cash fact in src/core2/campaign-day.ts, so the screen's control, its reason line and the rival's choice agree. Test src/core2/campaign-event-money.test.ts, pinned at the place and seed above: fails on the train (the world stops), passes with the change, and checks each campaign's account covers its circulators' fund.
+**Fix.** One new function `eveningMoneyMinor` in src/core2/modules/campaigns.ts (the account's cash less the circulators' fund and the poll fund; the event fund is the evening's own) read by both `affords` and the choices' cash fact in src/core2/campaign-day.ts, so the screen's control, its reason line and the rival's choice agree. Test tests/src/core2/campaign-event-money.test.ts, pinned at the place and seed above: fails on the train (the world stops), passes with the change, and checks each campaign's account covers its circulators' fund.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -32,6 +32,6 @@ source: found on the clean train at I Liyang, Northern Mariana Islands, Nov 14, 
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-day.ts, src/core2/campaign-event-money.test.ts
+**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-day.ts, tests/src/core2/campaign-event-money.test.ts
 
 **Notes.** Filed by hand on the branch of the PR that fixes it. The ad and mail buys read `raisedMinor - spentMinor` for what they may spend, not `freeMinor`, but both are capped by the turn's budget, which is a share of the free money, so they did not cause this stop; they may deserve the same read and are left alone here.

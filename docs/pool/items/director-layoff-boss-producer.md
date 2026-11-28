@@ -18,7 +18,7 @@ claimed-at: 2026-10-16T19:47:45.599Z
 
 **Rules.** No dice; the chain is the acceptance (cause record to scene to journal line); one rule, all 56 places; an effect is a read (the director reads the counterpart when it binds the boss).
 
-**Done when.** In a one-year run of a drawn place, a worker with no household laid off gets a layoff scene at work with the boss named, traced to the layoff record id; a worker with a household still gets the one family scene at home. A test in `src/director/director.test.ts` covers both.
+**Done when.** In a one-year run of a drawn place, a worker with no household laid off gets a layoff scene at work with the boss named, traced to the layoff record id; a worker with a household still gets the one family scene at home. A test in `tests/src/director/director.test.ts` covers both.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/housing.ts, src/director/data/situation-types.json
 

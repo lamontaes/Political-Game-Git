@@ -17,9 +17,9 @@ claimed-at:
 
 **Rules.** Wire to the world: the scene fires from the legislature's own record of a trade it really made, read by the director, and the colleague is the bill's sponsor on record. Ask why: the scene names its cause record, which names the trade's bill and chamber. One rule, all 56 places: the test draws places from all 56 until one has a committee trade whose member is a full person.
 
-**Done when.** src/director/vote-confirmed-scene.test.ts in the played world (buildBenchWorld), on places drawn from all 56 with a seed nobody chose, watches the legislators who are full people and shows each vote-promise record firing the member's vote-confirmed scene with the bill's sponsor as the colleague, composed in the lines that play with the your-promise fact citing the record id and a statement naming the record's bill.
+**Done when.** tests/src/director/vote-confirmed-scene.test.ts in the played world (buildBenchWorld), on places drawn from all 56 with a seed nobody chose, watches the legislators who are full people and shows each vote-promise record firing the member's vote-confirmed scene with the bill's sponsor as the colleague, composed in the lines that play with the your-promise fact citing the record id and a statement naming the record's bill.
 
-**Files.** src/core2/modules/legislature.ts, src/director/data/director.json, src/director/data/situation-types.json, src/director/purpose-scene.ts, src/director/vote-confirmed-scene.test.ts
+**Files.** src/core2/modules/legislature.ts, src/director/data/director.json, src/director/data/situation-types.json, src/director/purpose-scene.ts, tests/src/director/vote-confirmed-scene.test.ts
 
 **Notes.** Builds on the branch of words-staff-news-bill-lost, which carries the bargain scenes (#5949) and the rest of that chain; the PR carries the chain until it merges.
 

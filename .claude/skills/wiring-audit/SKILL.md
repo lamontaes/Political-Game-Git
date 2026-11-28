@@ -33,7 +33,7 @@ Write the standard before measuring. Each point is shown by record ids in a draw
 Build twin worlds from one seed, with only the thing under test changed (a law enacted against a null law, a cause shifted, traits flattened or mirrored). First prove that unchanged twins match exactly; then report every record kind that moved. Existing checkers:
 
 - `scripts/law-wiring/{catalog,check,matrix,year}.ts`;
-- `src/core2/outcome-web-twins.test.ts` with `scripts/outcome-web/effect-matrix.ts`;
+- `tests/src/core2/outcome-web-twins.test.ts` with `scripts/outcome-web/effect-matrix.ts`;
 - `scripts/traits/trait-wiring-{audit,matrix}.ts` with `trait-calibrate.ts`.
 
 Reuse them; don't build a parallel one.

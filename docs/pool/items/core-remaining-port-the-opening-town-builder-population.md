@@ -17,7 +17,7 @@ claimed-at: 2026-10-15T22:52:03.121Z
 
 **Rules.** Replace, never layer: each ported piece deletes the old scaffolding in the same change. One model, two tiers: the opening fills full people only where they matter and holds the rest as counts that match the records. One rule, all 56 places: checked in a drawn place, with place facts in data. Build only what the golden path needs, per Keep it simple.
 
-**Done when.** In a drawn place (name and seed in the PR body) the opening builds with no import from the old engine in population.ts, opening-employment.ts and opening-work.ts, and a one-year played world (buildBenchWorld) shows a job and a pay record id read by the jobs engine. The test in src/core2/population.test.ts and the golden path suite pass and the PR body counts the old files removed. The owner plays it: start a new game and the town looks the same as before.
+**Done when.** In a drawn place (name and seed in the PR body) the opening builds with no import from the old engine in population.ts, opening-employment.ts and opening-work.ts, and a one-year played world (buildBenchWorld) shows a job and a pay record id read by the jobs engine. The test in tests/src/core2/population.test.ts and the golden path suite pass and the PR body counts the old files removed. The owner plays it: start a new game and the town looks the same as before.
 
 **Files.** src/core2/population.ts, src/core2/opening-employment.ts, src/core2/opening-work.ts, docs/design/core2-porting-plan.md, docs/coordination/core.md
 

@@ -30,10 +30,10 @@ checked: fable 2026-11-10
 
 **Rules.** One model, two tiers: a filled-in person matches what the records already say and is the same person every time they are clicked. No dice: kin come from the seeded tables, the same for the same household. Ask why: each kin fact names the record that earns it.
 
-**Done when.** A second session, in buildBenchWorld in a drawn place and a seed the builder did not choose, runs a test beside src/core2/fill-in-people.test.ts that fills in a counted person twice from two fresh worlds with the same seed and sees identical kin ids and temperament, with the kin named by record id.
+**Done when.** A second session, in buildBenchWorld in a drawn place and a seed the builder did not choose, runs a test beside tests/src/core2/fill-in-people.test.ts that fills in a counted person twice from two fresh worlds with the same seed and sees identical kin ids and temperament, with the kin named by record id.
 
 **Waits on.** core-light-opening-kin-only-kept.
 
-**Files.** src/core2/state.ts, src/core2/residents.ts, src/core2/opening-kin.ts, src/core2/opening-personality.ts, src/core2/fill-in-people.test.ts
+**Files.** src/core2/state.ts, src/core2/residents.ts, src/core2/opening-kin.ts, src/core2/opening-personality.ts, tests/src/core2/fill-in-people.test.ts
 
 **Notes.** Do after the opening stops building kin for counted households.

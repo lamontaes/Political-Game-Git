@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No hand-written player text: the line is composed by the English engine from the refusal record, not written in a screen. Ask why: the line cites the recorded district and the candidate's recorded home.
 
-**Done when.** In the played world, a candidate who lives outside a council ward files for that ward in a drawn place, and `src/director/filing-visit.test.ts` shows the clerk's line naming the ward and the refusal record id, with no fixed text in the screen.
+**Done when.** In the played world, a candidate who lives outside a council ward files for that ward in a drawn place, and `tests/src/director/filing-visit.test.ts` shows the clerk's line naming the ward and the refusal record id, with no fixed text in the screen.
 
 **Files.** src/core2/modules/filing-clerk.ts, src/director/filing-visit.ts
 

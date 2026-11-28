@@ -34,4 +34,4 @@ branch: claude/project-thread-irab2z
 
 **Waits on.** Nothing.
 
-**Files.** src/english/scene-talk-words.ts, src/english/bank-parts.ts, src/english/only-when.test.ts, data/english/pulled.json
+**Files.** src/english/scene-talk-words.ts, src/english/bank-parts.ts, tests/src/english/only-when.test.ts, data/english/pulled.json

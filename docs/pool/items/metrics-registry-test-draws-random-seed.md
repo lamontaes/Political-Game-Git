@@ -18,7 +18,7 @@ root: rc10-screens-keep-own-facts
 source: Account lead thread "Show last year on the metrics", Nov 14
 ---
 
-**What.** `src/bench/metrics-registry.test.ts` draws one of its two places at random, so it is red or green by draw. For one draw the played town has no government of its own. The fix goes in the test file and the budgets engine, not in the screen. Seen: Metrics' budget heading and the Budgets tab in a drawn place.
+**What.** `tests/src/bench/metrics-registry.test.ts` draws one of its two places at random, so it is red or green by draw. For one draw the played town has no government of its own. The fix goes in the test file and the budgets engine, not in the screen. Seen: Metrics' budget heading and the Budgets tab in a drawn place.
 
 **Cause.** Measured: seed 9ca49eb7074e5581, Fananganan, Northern Mariana Islands, `buildBenchWorld(seed, gameStartDate(), { twoLevel: true })`, run to 2026-03-25: the assertion at the town-government line (`town?.jurisdictionId` equals the place) gets undefined. Red the same way on train head 8bb1ff9d without any Metrics change. Why `budgetView(core, playerId).townGovernmentId` names no government there is not yet found.
 
@@ -32,6 +32,6 @@ source: Account lead thread "Show last year on the metrics", Nov 14
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/metrics-registry.test.ts, src/core2/modules/budgets.ts, src/bench/budget.ts
+**Files.** tests/src/bench/metrics-registry.test.ts, src/core2/modules/budgets.ts, src/bench/budget.ts
 
 **Notes.** Nov 15, Account lead thread "Show last year on the metrics": cause found by reading, not an engine fault. The four territories (Guam, the U.S. Virgin Islands, American Samoa, the Northern Marianas) have no town government in the game, by the owner's ruling (Nov 14: they get local government after early access, with a notice), so `townGovernment` finds none and Metrics has no budget section there. The test now names two places with one seed each (Washington, Kansas, a named regression for notices served in the start year, and Everett, Georgia), no fallbacks, and a named territory test (Fananganan, seed 9ca49eb7074e5581, three months). The long tests' time is played days, said in their comments, with limits near twice the time measured.

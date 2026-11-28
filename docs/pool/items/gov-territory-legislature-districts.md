@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** One rule, all 56 places: the territories get the same district reader as the states, from data. Research before building: each district list cites the commission page.
 
-**Done when.** A second session, in a one-year run of the played world (buildBenchWorld) in a drawn territory and a seed named, finds a legislative seat record naming its district and sitting member from data, and src/core2/offices-state.test.ts checking each of the four territories' seat count against its cited source.
+**Done when.** A second session, in a one-year run of the played world (buildBenchWorld) in a drawn territory and a seed named, finds a legislative seat record naming its district and sitting member from data, and tests/src/core2/offices-state.test.ts checking each of the four territories' seat count against its cited source.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/offices-state.ts, src/core2/offices-state.test.ts, src/core2/data/stopgaps/gov.json, data/research/offices/state-offices.json
+**Files.** src/core2/offices-state.ts, tests/src/core2/offices-state.test.ts, src/core2/data/stopgaps/gov.json, data/research/offices/state-offices.json
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-GOV-territory-legislature-districts.
 

@@ -18,10 +18,10 @@ root: none
 source: Account lead, Nov 16 01:26Z
 ---
 
-**What.** src/director/press-comment-context.test.ts draws a seed at random unless GOLDEN_PATH_SEED is set, tries up to 12 places at run time, and has a limit of 1,800,000 ms. The pinned-test rules allow neither. Its runs on #9584 at 690f17e4 took 94.8 s at rank-m4 (Salem, Ohio), 13.9 s at yes-vote-3 (Downs, Kansas) and 16.2 s at yes-vote-6 (Bagdad, Arizona).
+**What.** tests/src/director/press-comment-context.test.ts draws a seed at random unless GOLDEN_PATH_SEED is set, tries up to 12 places at run time, and has a limit of 1,800,000 ms. The pinned-test rules allow neither. Its runs on #9584 at 690f17e4 took 94.8 s at rank-m4 (Salem, Ohio), 13.9 s at yes-vote-3 (Downs, Kansas) and 16.2 s at yes-vote-6 (Bagdad, Arizona).
 Seen: on #9584's gate runs.
 
-**Cause.** Found in code: src/director/press-comment-context.test.ts, its `seed` constant reads `randomBytes` when GOLDEN_PATH_SEED is unset, and its `ATTEMPTS` loop calls `drawPlace` up to 12 times.
+**Cause.** Found in code: tests/src/director/press-comment-context.test.ts, its `seed` constant reads `randomBytes` when GOLDEN_PATH_SEED is unset, and its `ATTEMPTS` loop calls `drawPlace` up to 12 times.
 
 **Fix.** Pin its places by name with their seeds in the test file (Downs, Kansas yes-vote-3:0 and Bagdad, Arizona yes-vote-6:0 are found and quick), drop the run-time draw and the attempts loop, and bring the limit to about twice the slowest measured run, alone and beside.
 
@@ -33,6 +33,6 @@ Seen: on #9584's gate runs.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/press-comment-context.test.ts
+**Files.** tests/src/director/press-comment-context.test.ts
 
 **Notes.**

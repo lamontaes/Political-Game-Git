@@ -22,6 +22,6 @@ claimed-at: 2026-10-26T21:36:01.625Z
 
 **Time box.** 3 hours. Model: Sonnet, no helpers.
 
-**Files.** src/core2/tax-withholding.ts, src/core2/tax-withholding.test.ts, src/core2/law-wiring-taxes.test.ts
+**Files.** src/core2/tax-withholding.ts, tests/src/core2/tax-withholding.test.ts, tests/src/core2/law-wiring-taxes.test.ts
 
 **Notes.** Merger 1, 2026-10-26: base and PR boundary outputs saved in merger1-state/5649-0458/zero-rate-edge.jsonl. Both collect 4,000 at value 0; PR correctly collects 4,400 at value 4.4 whereas base collects 4,000. Confirm the generated-world route before claiming player impact.

@@ -31,12 +31,12 @@ Seen: dev mode, a person's past, shows the arrest pull moved by their own reliab
 
 **Done when.**
 
-- `src/core2/past-justice-own-reliability.test.ts` passes at a drawn place (the test draws its place from all 56 and names it and its seed) and fails on old code (the less steady person is arrested no more often than the steadier one).
+- `tests/src/core2/past-justice-own-reliability.test.ts` passes at a drawn place (the test draws its place from all 56 and names it and its seed) and fails on old code (the less steady person is arrested no more often than the steadier one).
 - `past-justice.test.ts` and the no-steering guard pass.
 - A second session sees a steadier and a less steady adult of one town with different pasts in dev mode.
 
 **Waits on.** Nothing.
 
-**Files.** `src/core2/past-justice.ts`, `src/core2/data/past/parameters.json`, `src/core2/past-justice-own-reliability.test.ts`.
+**Files.** `src/core2/past-justice.ts`, `src/core2/data/past/parameters.json`, `tests/src/core2/past-justice-own-reliability.test.ts`.
 
 **Notes.** Nov 17 (Lives): only this row of family 21's 18 is in this pull request; the strength is quoted from memory of Moffitt and others (2011) and needs a researcher's check.

@@ -19,7 +19,7 @@ claimed-at:
 
 **Rules.** An effect is a read, not a record: no question enters Congress's pool until another engine reads its enacted answer. Replace, never layer: the part that admits the questions deletes the stopgap call and its marker. No dice: Congress files from members' reasons and the law in force. One rule, all 56 places: federal questions are data keyed by question and no state is named.
 
-**Done when.** All four parts are done: in a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 with a seed the builder did not choose, background Congress files and passes a federal-only bill whose enacted law row is read by a named engine, shown by bill and law record ids in src/core2/world-legislating-federal.test.ts, and SG-GOV-federal-proposal-coverage is resolved in src/core2/data/stopgaps.json.
+**Done when.** All four parts are done: in a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 with a seed the builder did not choose, background Congress files and passes a federal-only bill whose enacted law row is read by a named engine, shown by bill and law record ids in tests/src/core2/world-legislating-federal.test.ts, and SG-GOV-federal-proposal-coverage is resolved in src/core2/data/stopgaps.json.
 
 **Files.** docs/pool/items/gov-federal-questions-answers-stances.md, docs/pool/items/gov-federal-questions-money-readers.md, docs/pool/items/gov-federal-questions-rule-readers.md, docs/pool/items/gov-federal-questions-admitted.md
 

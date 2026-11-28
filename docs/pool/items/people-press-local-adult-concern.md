@@ -21,7 +21,7 @@ claimed-at: 2026-11-04T10:50:29.054Z
 
 **Done when.** In a generated world drawn from all 56 with town and replay printed, the real interview question reader excludes child and outside stances, includes weighted local adults, and retains a named adult's natural story cause. The focused check fails on the original reader. A fresh New Game passes and four serial years stay within twenty percent of the same-host base.
 
-**Files.** src/core2/modules/press.ts; src/core2/press-local-concern.test.ts; compact lane proof and release declaration
+**Files.** src/core2/modules/press.ts; tests/src/core2/press-local-concern.test.ts; compact lane proof and release declaration
 
 **Notes.** Looked first: parent is claimed by Lane 2; pool search finds no equivalent press concern correction. This narrows the next split to an existing-reader repair, leaving packed-group caching until actual delivery uses it. No Lane 1, core state, guard or screen edit.
 

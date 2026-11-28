@@ -24,7 +24,7 @@ merged-at: 2026-11-11T15:04:33.584Z
 
 **What.** The staff engine's review hires aides for every town officeholder except the player, since no engine decides for the controlled person, and no bench control calls the hire, so a player who wins a seat never has an aide. Every scene cast from the officeholder's staff then skips the player: the staffer bringing a story against them, the aide at the desk, a referred constituent case. The office screen should list the people the staff engine would weigh for the player, with the reasons it gives, and let the player hire one, paid from the same post the engine's hires are.
 
-**Cause.** Found in code: `staffReview` in src/core2/modules/staff.ts (line 1202) filters out `state.playerId` (line 1225), and `hireStaff` (line 700), `staffCandidates` (line 401) and `hireReasons` (line 679) are called only from src/bench/office-two-stakes.test.ts, never from the bench screens.
+**Cause.** Found in code: `staffReview` in src/core2/modules/staff.ts (line 1202) filters out `state.playerId` (line 1225), and `hireStaff` (line 700), `staffCandidates` (line 401) and `hireReasons` (line 679) are called only from tests/src/bench/office-two-stakes.test.ts, never from the bench screens.
 
 **Fix.** On the player's office screen list the candidates `staffCandidates` returns with the reasons `hireReasons` gives, and add a Hire control that calls `hireStaff` through a handler route, paid from the same post the engine's hires are. Control names come from src/bench/data/controls.json.
 

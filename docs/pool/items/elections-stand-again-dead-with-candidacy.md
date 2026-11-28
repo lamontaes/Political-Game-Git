@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: an incumbent stands again or retires for their age, record and temperament, never a roll. Wire to the world: the decision must run in a played election window, not only in a unit test that calls it directly.
 
-**Done when.** scripts/traits/trait-wiring-audit.ts with TRAIT_AUDIT_ELECTION=1 on one year of buildBenchWorld in a drawn place whose window holds a race, seed named, shows voting.stand-again with calls above zero and an incumbent's record id, and src/core2/modules/campaigns.traits.test.ts still passes.
+**Done when.** scripts/traits/trait-wiring-audit.ts with TRAIT_AUDIT_ELECTION=1 on one year of buildBenchWorld in a drawn place whose window holds a race, seed named, shows voting.stand-again with calls above zero and an incumbent's record id, and tests/src/core2/modules/campaigns.traits.test.ts still passes.
 
 **Files.** src/core2/modules/voting.ts, src/core2/modules/candidacy.ts
 

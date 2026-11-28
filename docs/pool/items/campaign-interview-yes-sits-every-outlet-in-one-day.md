@@ -34,6 +34,6 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/press.ts, src/core2/press-invitations-one-a-day.test.ts
+**Files.** src/core2/modules/press.ts, tests/src/core2/press-invitations-one-a-day.test.ts
 
 **Notes.** Evidence: /mnt/project-files/words-lead/campaign-events/report-1.md and runs/.

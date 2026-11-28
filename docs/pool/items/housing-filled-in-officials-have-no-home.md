@@ -19,7 +19,7 @@ checked: Account lead 2026-11-14
 source: Account lead T45, Nov 14 2026, red on the clean train 998ba95bf5 and on #9084 alike
 ---
 
-**What.** At the opening, every officeholder filled in from another state's or territory's office (one governor per state and territory, 45 in Burnet, Texas, replay 6e32d4b3c4eb3d6e, and again at replay 2925bf019bedef90) has a full household and no `dwelling:<household>` row in housing. Each one's household is `household:official:term:seat:US-<state>:governor:2025-01-20`, placed at the state (US-AR, US-AZ and so on). Nothing pays their rent or mortgage, nothing holds their home's value, and a scene at their home has no room to read. `src/core2/housing-ready-at-opening.test.ts` fails on the train for this reason ("opening homes exist before first advance: expected [ …(45) ] to deeply equal []"). Seen: in dev mode, open another state's governor (for example from the national news or the governors' list) and go to their home; the home has no condition, value or tenure.
+**What.** At the opening, every officeholder filled in from another state's or territory's office (one governor per state and territory, 45 in Burnet, Texas, replay 6e32d4b3c4eb3d6e, and again at replay 2925bf019bedef90) has a full household and no `dwelling:<household>` row in housing. Each one's household is `household:official:term:seat:US-<state>:governor:2025-01-20`, placed at the state (US-AR, US-AZ and so on). Nothing pays their rent or mortgage, nothing holds their home's value, and a scene at their home has no room to read. `tests/src/core2/housing-ready-at-opening.test.ts` fails on the train for this reason ("opening homes exist before first advance: expected [ …(45) ] to deeply equal []"). Seen: in dev mode, open another state's governor (for example from the national news or the governors' list) and go to their home; the home has no condition, value or tenure.
 
 **Cause.** Measured: Burnet TX, seed 6e32d4b3c4eb3d6e, 940 full households, 45 without a dwelling, all `household:official:…`, one for each state and territory other than the town's own. Found in code: `fillInIdentity` (src/core2/state.ts, around line 2704) makes the household `household:<identity id>` at the identity's place (the state), and `openHousing` (src/core2/modules/housing.ts) opens dwellings only for the places housing keeps stock for, so a household placed at a state code gets none. The housing engine has no later hook for a household made after it opens.
 
@@ -33,7 +33,7 @@ source: Account lead T45, Nov 14 2026, red on the clean train 998ba95bf5 and on 
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/state.ts, src/core2/modules/housing.ts, src/core2/housing-ready-at-opening.test.ts
+**Files.** src/core2/state.ts, src/core2/modules/housing.ts, tests/src/core2/housing-ready-at-opening.test.ts
 
 **Notes.** Filed by Account lead T45 on its branch at the Account lead's request.
 

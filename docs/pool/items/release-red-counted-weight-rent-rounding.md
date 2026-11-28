@@ -17,8 +17,8 @@ claimed-at: 2026-10-20T12:34:51.727Z
 
 **Rules.** Wire to the world: a counted group pays its rent times its weight, the same rule as a full household. Every dollar balances. No dice.
 
-**Done when.** In the same place and seed (play the test with CWM_SEED and CWM_KEY set) the weight-3 household's rent is within the test's rounding slack of the single household's rent times 3, the test passes there, and src/core2/counted-weight-money.test.ts passes on six random draws.
+**Done when.** In the same place and seed (play the test with CWM_SEED and CWM_KEY set) the weight-3 household's rent is within the test's rounding slack of the single household's rent times 3, the test passes there, and tests/src/core2/counted-weight-money.test.ts passes on six random draws.
 
-**Files.** src/core2/counted-weight-money.test.ts, src/core2/residents.ts
+**Files.** tests/src/core2/counted-weight-money.test.ts, src/core2/residents.ts
 
 **Notes.** Seen once in 12 runs while fixing #5331 (fixer PR #5677); the check is on main, not in that PR.

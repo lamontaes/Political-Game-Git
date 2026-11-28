@@ -32,10 +32,10 @@ Seen: on the election-day ballot panel of the page, in the replay at New Haven, 
 
 **Rules.** Replace, never layer; no new route and no new state.
 
-**Done when.** A second session plays a drawn place to election day, votes, and finds no ballot race button left in the page and no "polls aren't open" error in the page's error list on later Day presses; src/bench/polling.browser.mjs pins it (it fails with the old page and passes with the new one).
+**Done when.** A second session plays a drawn place to election day, votes, and finds no ballot race button left in the page and no "polls aren't open" error in the page's error list on later Day presses; tests/src/bench/polling.browser.mjs pins it (it fails with the old page and passes with the new one).
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.mjs, src/bench/polling.browser.mjs
+**Files.** src/bench/play.mjs, tests/src/bench/polling.browser.mjs
 
 **Notes.** Built by T56 on the Account lead's fault report.

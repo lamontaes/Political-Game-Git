@@ -35,10 +35,10 @@ Seen: every drawn world on main seats governors from the calibration corpus and 
 
 **Rules.** No dice: each office goes to the side the one count gives it from the state's lean, the candidates and the year's tide, never a roll. Replace, never layer: the real record is read only under the "today" setting.
 
-**Done when.** A second session starts a new game at 1440x900 in a drawn place it writes down with its seed, opens dev mode's "How this world opened" and sees the governors on day one by party from the century; the town's governor and statewide officers hold the century's seats, and src/core2/electorate-century-states.test.ts passes.
+**Done when.** A second session starts a new game at 1440x900 in a drawn place it writes down with its seed, opens dev mode's "How this world opened" and sees the governors on day one by party from the century; the town's governor and statewide officers hold the century's seats, and tests/src/core2/electorate-century-states.test.ts passes.
 
 **Waits on.** history-congress-from-the-century (#9834), which this branch is stacked on.
 
-**Files.** src/core2/electorate-century.ts, src/core2/data/history/century.json, src/bench/dev-views/opening.ts, src/bench/dev-views/opening-sources.json, src/core2/electorate-century-states.test.ts (new), src/core2/electorate-century-congress.test.ts
+**Files.** src/core2/electorate-century.ts, src/core2/data/history/century.json, src/bench/dev-views/opening.ts, src/bench/dev-views/opening-sources.json, tests/src/core2/electorate-century-states.test.ts (new), tests/src/core2/electorate-century-congress.test.ts
 
 **Notes.** Filed by the History lane, Nov 17, 2026. The state legislatures are PR 3b, after the CTO's line on counting other states' chambers as results.

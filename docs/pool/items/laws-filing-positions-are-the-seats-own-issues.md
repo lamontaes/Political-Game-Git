@@ -27,6 +27,6 @@ claimed-at: 2026-10-27T07:09:55.079Z
 
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
-**Files.** src/core2/campaign-views.ts, src/bench/filing.ts, src/bench/play.mjs, src/bench/filing.browser.mjs
+**Files.** src/core2/campaign-views.ts, src/bench/filing.ts, src/bench/play.mjs, tests/src/bench/filing.browser.mjs
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "that looks like a dev panel. I don't know why that's there, but that's an example of a submenu that I mean." The panel's dev text (raw dates, "AGE 35 / 18", the residency line) is play-stop-02-developer-text-on-play-screens-b and play-screens-codes-and-iso-dates. Filing with every position blank and no prompt is recorded here as seen; no ruling says what should happen, so the CTO asks if it matters once the list is right. Lead: laws-effects (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).

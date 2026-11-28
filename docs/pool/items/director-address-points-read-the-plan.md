@@ -24,7 +24,7 @@ Seen: the opening evening at Raysal WV (seed home-evening:0), Aubrey TX, Pembert
 
 **Cause.** Found in code: `addressPoints` in `src/director/opening-facts.ts` rebuilt each point from the address's sentences alone and kept a policy point only when a sentence carried its noun phrase, verb phrase and stance. An address that asks to be held to a question ("You know what I'm asking for on forgiving student loans, so hold me to it.") names the question in its record ids but states no stance in that sentence, so the point was dropped, while the outline's own record of the point (`opening.points`, the planner's side) held it the whole time. A view computed its own version of a fact the record already kept.
 
-**Fix.** `addressPoints` reads the outline's planned points for every question a sentence names and fills what the sentence left out: the President's side from the plan, the noun and verb phrases from the question's names. A planned point no sentence names stays out (it was never said aloud). Unit test `src/director/opening-facts.test.ts`.
+**Fix.** `addressPoints` reads the outline's planned points for every question a sentence names and fills what the sentence left out: the President's side from the plan, the noun and verb phrases from the question's names. A planned point no sentence names stays out (it was never said aloud). Unit test `tests/src/director/opening-facts.test.ts`.
 
 **Time box.** 2 hours.
 
@@ -34,6 +34,6 @@ Seen: the opening evening at Raysal WV (seed home-evening:0), Aubrey TX, Pembert
 
 **Waits on.** Nothing.
 
-**Files.** src/director/opening-facts.ts, src/director/opening-facts.test.ts
+**Files.** src/director/opening-facts.ts, tests/src/director/opening-facts.test.ts
 
 **Notes.** Nov 18 (Story): on the train the Raysal housemate now opens with "The President came out against forgiving student loans. I'm glad. Does that sound right to you?" and two replies; the words are the train's, and the cut's rebuild of these lines is a separate first report (#9750).

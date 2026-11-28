@@ -32,6 +32,6 @@ source: Account lead measurement, Nov 15, 2026 (contested win through the campai
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/voting.ts, src/core2/modules/candidacy.ts, src/core2/campaign-real-race-played.test.ts
+**Files.** src/core2/modules/voting.ts, src/core2/modules/candidacy.ts, tests/src/core2/campaign-real-race-played.test.ts
 
 **Notes.** Account lead, Nov 15. The contested-win case for the Journal test was not staged: the test's win is Duryea, Pennsylvania (`jpr-pin:37`), an at-large seat won without campaigning. Five of the ten were petition short before any campaigning could count; that is the petition-short builder's (#9536).

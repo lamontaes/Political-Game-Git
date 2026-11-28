@@ -17,7 +17,7 @@ claimed-at: 2026-11-04T02:54:52.505Z
 
 **Rules.** An effect is a read: the press keeps the comment, and the paper's story of the record reads it. No hand-written player text. One rule, all 56 places.
 
-**Done when.** In two drawn places (buildBenchWorld), a resident council member drafts a bill, answers or refuses the reporter's press-interview scene, and the paper's story of office.introduced quotes them or says they declined, citing the scene reply's id; src/director/comment-printed.test.ts passes on a fresh seed.
+**Done when.** In two drawn places (buildBenchWorld), a resident council member drafts a bill, answers or refuses the reporter's press-interview scene, and the paper's story of office.introduced quotes them or says they declined, citing the scene reply's id; tests/src/director/comment-printed.test.ts passes on a fresh seed.
 
 **Files.** src/core2/modules/press.ts, src/bench/printed-words.ts, src/english/english-newscast.ts, src/director/purpose-scene.ts, data/english/parts/news.json
 

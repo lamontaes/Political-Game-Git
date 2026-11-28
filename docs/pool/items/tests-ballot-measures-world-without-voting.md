@@ -18,7 +18,7 @@ effort: medium
 source: views thread, Nov 15 (seen while gating the counted-carry change)
 ---
 
-**What.** The test "a real measure is decided by named voters and the rest of the state, and passing makes it law" in src/core2/ballot-measures.test.ts throws "Module has no registered state." when the measure is counted on Nov 3, 2026. Its world opens laws, offices, elections, campaigns and ballot measures, but not the voting engine. Since voter registration became a record (34f6a355, Nov 14), a measure's turnout reads each voter's registration from the voting engine's tables, so the count stops. Seen: Guards: the measure count's test, which no longer reaches the result it checks.
+**What.** The test "a real measure is decided by named voters and the rest of the state, and passing makes it law" in tests/src/core2/ballot-measures.test.ts throws "Module has no registered state." when the measure is counted on Nov 3, 2026. Its world opens laws, offices, elections, campaigns and ballot measures, but not the voting engine. Since voter registration became a record (34f6a355, Nov 14), a measure's turnout reads each voter's registration from the voting engine's tables, so the count stops. Seen: Guards: the measure count's test, which no longer reaches the result it checks.
 
 **Cause.** Found in code: `countMeasure` (src/core2/modules/ballot-measures.ts, line 200) calls `turnoutOn`, which calls `decideTurnout`, then `registrationReading` and `registrations` (src/core2/modules/voting.ts, lines 3436 to 3519), then `ensureKeptOff` (src/core2/electorate-registration.ts, line 219), which reads the voting engine's table. The test's world never opens that engine. Red on the train at 892427ec at `GOLDEN_PATH_SEED=views-measure-1` and at every seed tried, with or without the counted-carry change.
 
@@ -32,6 +32,6 @@ source: views thread, Nov 15 (seen while gating the counted-carry change)
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/ballot-measures.test.ts
+**Files.** tests/src/core2/ballot-measures.test.ts
 
 **Notes.** Nov 15 (views thread): found while gating the counted-carry change; the stack runs from `countMeasure` to `ensureKeptOff`.

@@ -30,11 +30,11 @@ checked: fable 2026-11-10
 
 **Rules.** Wire to the world: a dispensary is a business with a named owner, staff and books, and its receipt goes through the sales receipt to the treasury. An effect is a read: place-prices reads the dispensary rows when it routes the spending, and the law is read through `lawInForce` each month. No dice: founding follows the demand, the owner's savings and the law, never a chance. One rule, all 56 places: legality and licensing come from each place's law data, with no place named. One model, two tiers: counted households' spending reaches the same dispensaries by the same split. Replace, never layer: the retail-wide split is deleted.
 
-**Done when.** A second session, not the builder, runs a one-year played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 where the sales law is enacted after the opening, with a seed the builder did not choose (both named). A dispensary business record id is founded, its receipts carry the sales tax in force into a treasury ledger record id, and SG-GOV-REACH-A-cannabis-market is resolved in src/core2/data/stopgaps/gov.json; src/core2/cannabis-sales-law.test.ts covers it.
+**Done when.** A second session, not the builder, runs a one-year played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 where the sales law is enacted after the opening, with a seed the builder did not choose (both named). A dispensary business record id is founded, its receipts carry the sales tax in force into a treasury ledger record id, and SG-GOV-REACH-A-cannabis-market is resolved in src/core2/data/stopgaps/gov.json; tests/src/core2/cannabis-sales-law.test.ts covers it.
 
 **Waits on.** Nothing (laws-cannabis-adult-use-record is done).
 
-**Files.** src/core2/modules/business.ts, src/core2/modules/place-prices.ts, src/core2/data/business-books.json, src/core2/data/stopgaps/gov.json, src/core2/cannabis-sales-law.test.ts
+**Files.** src/core2/modules/business.ts, src/core2/modules/place-prices.ts, src/core2/data/business-books.json, src/core2/data/stopgaps/gov.json, tests/src/core2/cannabis-sales-law.test.ts
 
 **Notes.** Part of laws-cannabis-dispensaries-adult-use (the WORLD half). Waits on the adult-use record so the buyers are named.
 

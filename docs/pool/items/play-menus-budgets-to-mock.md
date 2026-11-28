@@ -27,7 +27,7 @@ claimed-at: 2026-10-30T02:46:20.621Z
 
 **Screenshot.** Budgets at 1440 by 900 from a drawn place, beside the mock.
 
-**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/ui/chart.mjs, src/bench/ui/plate.mjs, src/bench/data/controls.json, src/director/words.ts, src/bench/government.ts, src/bench/government-bodies.ts, src/bench/budgets.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/ui/chart.mjs, src/bench/ui/plate.mjs, src/bench/data/controls.json, src/director/words.ts, src/bench/government.ts, src/bench/government-bodies.ts, tests/src/bench/budgets.browser.mjs
 
 **Notes.** Filed by the CTO, Oct 30 03:25, the eighth screen of the menu redesign. Review: words (src/director/words.ts). Read: OWNER-DECISIONS Oct 29 22:45 and 23:00 (bars that count records are not the no-meter ruling); searched the pool: budget screen, properName (no twin).
 

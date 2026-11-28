@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** In a played world (`buildBenchWorld`, a place drawn from all 56 with the seed named) a federal budget both chambers pass has the president's signature or veto on the record, and a national outlet prints that act, named by the bill and story record ids. A test in `src/core2/budget-desk.test.ts` runs it in a drawn place. The owner plays it: reads the news after the budget vote and sees the president sign it.
+**Done when.** In a played world (`buildBenchWorld`, a place drawn from all 56 with the seed named) a federal budget both chambers pass has the president's signature or veto on the record, and a national outlet prints that act, named by the bill and story record ids. A test in `tests/src/core2/budget-desk.test.ts` runs it in a drawn place. The owner plays it: reads the news after the budget vote and sees the president sign it.
 
 **Files.** docs/pool/items/gov-president-signs-budget.md and the files that pull request #4613 changes on claude/president-signs-budget
 

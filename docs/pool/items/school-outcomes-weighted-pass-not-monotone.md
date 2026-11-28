@@ -21,6 +21,6 @@ claimed-at: 2026-10-27T01:40:48.683Z
 
 **Time box.** 3 hours. Model: Sonnet, no helpers.
 
-**Files.** src/core2/school-outcomes.ts, src/core2/school-outcomes-spending-web.test.ts
+**Files.** src/core2/school-outcomes.ts, tests/src/core2/school-outcomes-spending-web.test.ts
 
 **Notes.** TODO

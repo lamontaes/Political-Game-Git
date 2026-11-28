@@ -32,4 +32,4 @@ root: rc10-screens-keep-own-facts
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/law-reach/group-a-staffing.ts, src/core2/law-wiring-government.test.ts, src/core2/budget-line-staffing.test.ts, src/core2/budget-line-schools-staffing.test.ts, src/core2/budget-line-staffing-year.test.ts
+**Files.** src/core2/law-reach/group-a-staffing.ts, tests/src/core2/law-wiring-government.test.ts, tests/src/core2/budget-line-staffing.test.ts, tests/src/core2/budget-line-schools-staffing.test.ts, tests/src/core2/budget-line-staffing-year.test.ts

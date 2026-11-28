@@ -17,9 +17,9 @@ claimed-at:
 
 **Rules.** This is a game, not a spreadsheet: choosing a party and a platform is the player's act at filing and must be reachable. Keep normal hit testing; no forced clicks.
 
-**Done when.** On the bench in a drawn place at 1440 by 900, with the filing panel open, every stand's menu and the party picker are the topmost element at their own centers (src/bench/filing.browser.mjs), and the check fails with the old styles; place and seed named.
+**Done when.** On the bench in a drawn place at 1440 by 900, with the filing panel open, every stand's menu and the party picker are the topmost element at their own centers (tests/src/bench/filing.browser.mjs), and the check fails with the old styles; place and seed named.
 
-**Files.** src/bench/play.css, src/bench/filing.browser.mjs
+**Files.** src/bench/play.css, tests/src/bench/filing.browser.mjs
 
 **Notes.** TODO
 

@@ -32,4 +32,4 @@ source: "Owner, Nov 16 01:58Z (cmsg_01TQLdz583SA7sRfRB4dFowZ3UgS4n8K2932PQhmyxdR
 
 **Waits on.** dev-mode-views-register-from-their-own-files (#9619).
 
-**Files.** src/bench/dev-industries.ts, src/bench/dev-industries.test.ts, src/bench/dev-industries.browser.mjs, src/bench/dev-views/industries.ts, src/bench/ui/dev-industries.mjs, src/bench/play.css, src/core2/modules/business.ts (re-exports), src/core2/business-books-view.ts (import).
+**Files.** src/bench/dev-industries.ts, tests/src/bench/dev-industries.test.ts, tests/src/bench/dev-industries.browser.mjs, src/bench/dev-views/industries.ts, src/bench/ui/dev-industries.mjs, src/bench/play.css, src/core2/modules/business.ts (re-exports), src/core2/business-books-view.ts (import).

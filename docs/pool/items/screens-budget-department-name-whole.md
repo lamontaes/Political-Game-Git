@@ -22,7 +22,7 @@ merged-at: 2026-11-25T00:47:50.422Z
 **What.** Carryover N16-66 (the CTO catch from the Nov 16 sitting): a cut-off budget label, and heads on only some rows. On Politics, Budgets a long department name such as Housing and community development lost its last word and its head ran over it.
 Seen: Politics, Budgets, the town level, at 1440 by 900. Seen: Politics, Budgets, the town level, Housing and community development whole with its head, after. Guards: budget-rows-whole.browser.mjs
 
-**Cause.** Measured: `node src/bench/budget-rows-whole.browser.mjs` against `npm run bench` on b8312379 fails "the department name is cut off"; on drawn Gloster, Mississippi, Boise City, Idaho and Leipsic, Delaware the row for Housing and community development has its name clipped at a fixed 50 px. The .bsdept rule in src/bench/play.css fixes the row at height 50px and clamps the name to two lines, so a three-line name or a name with a head under it is cut. Heads on only some rows is the record: departments without an appointed head have none to show.
+**Cause.** Measured: `node tests/src/bench/budget-rows-whole.browser.mjs` against `npm run bench` on b8312379 fails "the department name is cut off"; on drawn Gloster, Mississippi, Boise City, Idaho and Leipsic, Delaware the row for Housing and community development has its name clipped at a fixed 50 px. The .bsdept rule in src/bench/play.css fixes the row at height 50px and clamps the name to two lines, so a three-line name or a name with a head under it is cut. Heads on only some rows is the record: departments without an appointed head have none to show.
 
 **Fix.** Make the row min-height 50px and drop the two-line clamp so the row grows to its name and its head; add budget-rows-whole.browser.mjs.
 
@@ -34,4 +34,4 @@ Seen: Politics, Budgets, the town level, at 1440 by 900. Seen: Politics, Budgets
 
 **Waits on.** Nothing; builds on the Budgets history fix in #10361.
 
-**Files.** src/bench/play.css,src/bench/budget-rows-whole.browser.mjs (new)
+**Files.** src/bench/play.css,tests/src/bench/budget-rows-whole.browser.mjs (new)

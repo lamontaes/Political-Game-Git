@@ -19,6 +19,6 @@ claimed-at: 2026-11-07T23:18:33.217Z
 
 **Done when.** A generated-world regression proves opening-tax repeal stops its withholding, restoration returns the prior schedule, repeated reviews are stable, and an independent later tax act survives. Actual authorized state bill drafts exercise the policy route where a state has a tax; a no-tax draw is reported rather than skipped. Break-it, ten fresh draws and a new game pass. Federal catalog expansion remains a separate sourced unit until its full enactment path is exact.
 
-**Files.** src/core2/law-reach/group-b-money.ts,src/core2/opening-income-tax-reversal.test.ts
+**Files.** src/core2/law-reach/group-b-money.ts,tests/src/core2/opening-income-tax-reversal.test.ts
 
 **Notes.** Astra, Nov 7. Bounded two-hour unit after #7335; no helpers. Read OWNER-DECISIONS top, DECISION-REGISTER, prior-rulings/economy and LAW; searched pool and docs for income-tax repeal. Existing tax family items concern effect attribution, not this opening-law transition. 26 USC 1 fetched for the separate federal reach work; do not treat its old subsection tables as current rates.

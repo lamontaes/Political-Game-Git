@@ -31,11 +31,11 @@ branch: claude/pool-core-every-life-partner-from-counts
 
 **Rules.** Two-level population: the partner is one of the people the counts already hold where they live, taken out of the counts as they become full. One model, two tiers: a counted place gives a counted single adult of fitting age and sex, and a state's coarse age bands give up one person in the partner's band. No dice: who is taken follows the partner's age and sex from the CPS age gap, seeded by the pair.
 
-**Done when.** A second session, in a generated world of a drawn place (place and seed named), runs a year and sees the counted people of each place or state that a partner came from lower by exactly the partners taken from it, and the total population including full people unchanged by partnerships. src/core2/partnerships.test.ts shows it in three draws.
+**Done when.** A second session, in a generated world of a drawn place (place and seed named), runs a year and sees the counted people of each place or state that a partner came from lower by exactly the partners taken from it, and the total population including full people unchanged by partnerships. tests/src/core2/partnerships.test.ts shows it in three draws.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/partnerships.ts, src/core2/modules/counted-moves.ts, src/core2/modules/residents.ts, src/core2/partnerships.test.ts
+**Files.** src/core2/modules/partnerships.ts, src/core2/modules/counted-moves.ts, src/core2/modules/residents.ts, tests/src/core2/partnerships.test.ts
 
 **Notes.** Filed by the lives lead, Nov 1, on the speed lead's point after the unit 4 ablation (PR #7082).
 

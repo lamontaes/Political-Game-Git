@@ -33,6 +33,6 @@ checked: meetings and floor builder 2026-11-14
 
 **Waits on.** Nothing.
 
-**Files.** src/english/bill-names.ts, src/english/bill-names.test.ts
+**Files.** src/english/bill-names.ts, tests/src/english/bill-names.test.ts
 
 **Notes.** Seen: second words reader's read of #9194, Nov 14.

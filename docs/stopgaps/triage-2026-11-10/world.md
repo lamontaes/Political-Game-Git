@@ -16,7 +16,7 @@ Register: `src/core2/data/stopgaps/world.json`, 50 stand-ins. Checked against ma
 2. Wider-population people are handled by rules that differ from a full person's (`weight-release-jobless-not-seeking`, `counted-owner-pulls`, `new-home-buyers`), which shows in the Metrics numbers and the town's businesses and houses.
 3. Workers quit far less than in real life (`jobs-quit-rate-uncalibrated`), which flattens the jobs numbers on Metrics.
 
-**One exception.** `SG-WORLD-business-compliance-cost` is dropped by the test but its register row stays open: `src/core2/stopgap-hits-module-calls.test.ts` requires its hit, and a checker may not change a test. Whoever drops it edits that test in the same change. (The page's counts still list it as dropped.)
+**One exception.** `SG-WORLD-business-compliance-cost` is dropped by the test but its register row stays open: `tests/src/core2/stopgap-hits-module-calls.test.ts` requires its hit, and a checker may not change a test. Whoever drops it edits that test in the same change. (The page's counts still list it as dropped.)
 
 ## Borderline, for the owner
 
@@ -116,7 +116,7 @@ Register: `src/core2/data/stopgaps/world.json`, 50 stand-ins. Checked against ma
 - `SG-WORLD-housing-eviction-day-counting`: src/core2/modules/housing.ts:1035-1036 (marker); days added as calendar days at 1783 (`addDays(makeIsoDate(c.date), Math.max(1, law.noticeDays))`), 1960 and 2485. `dayType` is already recorded in data/research/world/eviction-statute-reads-2026.json (e.g. line 29 business, 109 court).
 - `SG-WORLD-weight-release-jobless-not-seeking`: src/core2/counted-groups.ts:630 (marker where the jobs keep the heads they stood for and the gained people stand for no job).
 - `SG-WORLD-fill-in-fractional-sole-job`: src/core2/modules/residents.ts:2302 (marker). Under one head of difference; the employer's staffing review then judges it as any job.
-- `SG-WORLD-pr-counted-renter-income-third`: src/core2/housing-calibration.test.ts:53-54 (`pinnedHomeless: 17`, the marker is in the test). The dropped item world-counted-renter-income-puerto-rico-third was merged into world-counted-households-transfer-income (Nov 10 pool redo), which names the ACS figures and the repro.
+- `SG-WORLD-pr-counted-renter-income-third`: tests/src/core2/housing-calibration.test.ts:53-54 (`pinnedHomeless: 17`, the marker is in the test). The dropped item world-counted-renter-income-puerto-rico-third was merged into world-counted-households-transfer-income (Nov 10 pool redo), which names the ACS figures and the repro.
 - `SG-WORLD-jobs-public-pay-growth`: src/core2/modules/jobs.ts:2739 (`if (!business) stopgap(...)`), 2740 (`earns` is true only for a business employer).
 - `SG-WORLD-roster-no-2024-vote`: src/core2/electorate-places.ts:552 (marker on `heldInWorld`). The real 2026 holder is sourced; a world only changes seats a swing carries across even. May stay. realistic-elections-per-world is a different gap (the vote totals).
 - `SG-WORLD-small-dollar-one-lender`: src/core2/modules/credit.ts:1819-1821 (marker; `smallDollarData.products[lender.product]`). A town-level lender estimate is fine until consumer-credit laws (SG-GOV-REACH-A-consumer-credit, T1) need storefront counts.

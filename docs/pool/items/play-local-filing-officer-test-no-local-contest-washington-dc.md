@@ -16,9 +16,9 @@ source: found by the #9153 carry thread, Nov 14
 lead: wire-elections
 ---
 
-**What.** `src/bench/local-filing-officer.test.ts` ("every local filing counter has someone at it, a county board of elections too") fails with `no local contest: expected 0 to be greater than 0` at Washington, District of Columbia (1150000) for run seed `bb83b91bbe339e955bb33a98b185a62cf4cc1e925ed060d19c4437b98b15e1d4` (place seed `9dc64f386725e980a43066f6dd85fb3c78ca922877d0dfdaf3b6374ecaa3de12`). The same failure happens on the clean train b7ed6337, so it is not from any change on top. The test draws its seed when `GOLDEN_PATH_SEED` is not set, so it is red only when a draw lands on a place with no local contest open in the window it looks at. Seen: the filing counters of a drawn place whose local races are not open.
+**What.** `tests/src/bench/local-filing-officer.test.ts` ("every local filing counter has someone at it, a county board of elections too") fails with `no local contest: expected 0 to be greater than 0` at Washington, District of Columbia (1150000) for run seed `bb83b91bbe339e955bb33a98b185a62cf4cc1e925ed060d19c4437b98b15e1d4` (place seed `9dc64f386725e980a43066f6dd85fb3c78ca922877d0dfdaf3b6374ecaa3de12`). The same failure happens on the clean train b7ed6337, so it is not from any change on top. The test draws its seed when `GOLDEN_PATH_SEED` is not set, so it is red only when a draw lands on a place with no local contest open in the window it looks at. Seen: the filing counters of a drawn place whose local races are not open.
 
-**Cause.** Measured: Washington, District of Columbia (1150000), place seed 9dc64f386725e980a43066f6dd85fb3c78ca922877d0dfdaf3b6374ecaa3de12, on the train at 53e4b29fe8, the world as `buildBenchWorld` opens it: 11 contests, and none in a local family. The District's own offices are filed as a state's: Mayor, Attorney General, Chairman of the Council and the State Board of Education seat are `statewideExecutive` (`contest:seat:US-DC:mayor:2026-11-03` and the rest), and the Council's seats are `stateLegislative` (`contest:seat:US-DC:unicameral:At-Large:0:2026-11-03` and four more). The contest builder skipped nothing: filing for them opens January 17, 2026. The test keeps only `municipalOffice` and `countyOffice` (`LOCAL`, src/bench/local-filing-officer.test.ts, line 33), the same two families `isLocalFamily` names (src/core2/modules/elections.ts), so in the District its list is empty.
+**Cause.** Measured: Washington, District of Columbia (1150000), place seed 9dc64f386725e980a43066f6dd85fb3c78ca922877d0dfdaf3b6374ecaa3de12, on the train at 53e4b29fe8, the world as `buildBenchWorld` opens it: 11 contests, and none in a local family. The District's own offices are filed as a state's: Mayor, Attorney General, Chairman of the Council and the State Board of Education seat are `statewideExecutive` (`contest:seat:US-DC:mayor:2026-11-03` and the rest), and the Council's seats are `stateLegislative` (`contest:seat:US-DC:unicameral:At-Large:0:2026-11-03` and four more). The contest builder skipped nothing: filing for them opens January 17, 2026. The test keeps only `municipalOffice` and `countyOffice` (`LOCAL`, tests/src/bench/local-filing-officer.test.ts, line 33), the same two families `isLocalFamily` names (src/core2/modules/elections.ts), so in the District its list is empty.
 
 **Fix.** The District's own offices are its local races, read from the place's record and never from its name.
 
@@ -33,8 +33,8 @@ lead: wire-elections
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/local-filing-officer.test.ts
+**Files.** tests/src/bench/local-filing-officer.test.ts
 
-**Notes.** Reproduce: `GOLDEN_PATH_SEED=bb83b91bbe339e955bb33a98b185a62cf4cc1e925ed060d19c4437b98b15e1d4 npx vitest run --dir . src/bench/local-filing-officer.test.ts`.
+**Notes.** Reproduce: `GOLDEN_PATH_SEED=bb83b91bbe339e955bb33a98b185a62cf4cc1e925ed060d19c4437b98b15e1d4 npx vitest run --dir . tests/src/bench/local-filing-officer.test.ts`.
 
 The test draws its seed at run time (`GOLDEN_PATH_SEED` or a random one), so once the cause is found it needs pinning to named places and fixed seeds with an explicit timeout (skill `pinned-tests`), Washington, D.C. at the seed above among them. No assertion is loosened. Cause found by Fable B, Nov 15, 2026, with a probe that lists the contests a District world opens with.

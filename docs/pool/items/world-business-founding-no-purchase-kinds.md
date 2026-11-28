@@ -31,11 +31,11 @@ branch: claude/pool-world-business-founding-no-purchase-kinds
 
 **Rules.** Wire to the world: a firm that sells to residents sells a kind of good the residents engine records, from the sector's own row. Estimate, never UNKNOWN: a missing kind is filled from the sector's real purchase kinds, not skipped. One rule, all 56 places: the check draws its place and names it with the seed.
 
-**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, a drawn place, seed named in the PR body) and sees a professional-services founding enter the resident market with at least one purchase kind, named by organization record id; the candidacy calibration run that found it (CALIBRATION_RUN=1 with the stay-out pull at 3.8, seeds c1 to c6) reaches its count without this error; a test beside src/core2/business.test.ts covers it. On screen: nothing yet; it would show on Jobs and study, and News, and nothing there reads it.
+**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, a drawn place, seed named in the PR body) and sees a professional-services founding enter the resident market with at least one purchase kind, named by organization record id; the candidacy calibration run that found it (CALIBRATION_RUN=1 with the stay-out pull at 3.8, seeds c1 to c6) reaches its count without this error; a test beside tests/src/core2/business.test.ts covers it. On screen: nothing yet; it would show on Jobs and study, and News, and nothing there reads it.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/business.ts, src/core2/modules/residents.ts, src/core2/business.test.ts
+**Files.** src/core2/modules/business.ts, src/core2/modules/residents.ts, tests/src/core2/business.test.ts
 
 **Notes.** TODO Released from idle draft #5217 by the CTO, Oct 26.
 

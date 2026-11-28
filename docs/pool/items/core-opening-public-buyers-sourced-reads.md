@@ -31,11 +31,11 @@ branch: claude/pool-core-opening-public-buyers-sourced-reads
 
 **Rules.** One rule, all 56 places: the shares come from the per-state table in data, territories at its median, and no state is named in logic. Sliding scales and causes: the share scales the budget smoothly, never a cutoff. An effect is a read, not a record: the public custodial contract and its payments to the building-services firm must move with the new share.
 
-**Done when.** A second session, not the builder, plays a one-year buildBenchWorld in a drawn place with a building-services firm (place and seed named in the PR body) and opens the public custodial agreement: its monthly budget equals the state's share for its buyer type times the place's public-building spending, shown by agreement and payment record ids. A test in src/core2/opening-customers.test.ts covers a county-only buyer and a county-plus-municipal pair, and SG-P8-opening-public-owner-history and SG-P8-opening-public-owner-coverage are resolved in src/core2/data/stopgaps/p8.json.
+**Done when.** A second session, not the builder, plays a one-year buildBenchWorld in a drawn place with a building-services firm (place and seed named in the PR body) and opens the public custodial agreement: its monthly budget equals the state's share for its buyer type times the place's public-building spending, shown by agreement and payment record ids. A test in tests/src/core2/opening-customers.test.ts covers a county-only buyer and a county-plus-municipal pair, and SG-P8-opening-public-owner-history and SG-P8-opening-public-owner-coverage are resolved in src/core2/data/stopgaps/p8.json.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/opening-customers.ts, src/core2/opening-public-owner.ts, src/core2/data/opening-customers.json, src/core2/data/stopgaps/p8.json, src/core2/opening-customers.test.ts, data/research/core/census-2022-local-public-buildings-by-government-type.json, data/research/core/census-gus-2021-county-identity-continuity.json
+**Files.** src/core2/opening-customers.ts, src/core2/opening-public-owner.ts, src/core2/data/opening-customers.json, src/core2/data/stopgaps/p8.json, tests/src/core2/opening-customers.test.ts, data/research/core/census-2022-local-public-buildings-by-government-type.json, data/research/core/census-gus-2021-county-identity-continuity.json
 
 **Notes.** TODO
 

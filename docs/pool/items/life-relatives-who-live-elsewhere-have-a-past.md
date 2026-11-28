@@ -34,4 +34,4 @@ claimed-at: 2026-11-10T23:19:06.835Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/people.ts, src/core2/past-school.ts, src/core2/past-work.ts, src/core2/past-moves.ts, src/core2/whole-past.test.ts, src/bench/card.ts
+**Files.** src/core2/modules/people.ts, src/core2/past-school.ts, src/core2/past-work.ts, src/core2/past-moves.ts, tests/src/core2/whole-past.test.ts, src/bench/card.ts

@@ -33,4 +33,4 @@ checked: fable 2026-11-10
 
 **Waits on.** Parts 1 and 2 (elections-county-race-sees-only-the-town-part-1-seeded-county-tail, elections-county-race-sees-only-the-town-part-2-weigh-the-tail).
 
-**Files.** src/core2/modules/candidacy.ts, src/core2/data/candidacy/parameters.json, src/core2/county-race-county-votes.test.ts
+**Files.** src/core2/modules/candidacy.ts, src/core2/data/candidacy/parameters.json, tests/src/core2/county-race-county-votes.test.ts

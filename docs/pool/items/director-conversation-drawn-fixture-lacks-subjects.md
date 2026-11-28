@@ -17,8 +17,8 @@ claimed-at: 2026-10-27T08:04:39.246Z
 
 **Rules.** One rule, all 56 places: choose eligible actors and subjects from opening input records before testing behavior, without selecting by observed conversation output. Keep assertions nonempty and retain the independent failing root; never skip a missing subject or redraw after a result.
 
-**Done when.** The full src/director/conversation.test.ts file passes on the named Gibson seed and three independent drawn places with seeds named in the PR, while each existing assertion still exercises its intended subject and a disabled behavior fails the relevant assertion.
+**Done when.** The full tests/src/director/conversation.test.ts file passes on the named Gibson seed and three independent drawn places with seeds named in the PR, while each existing assertion still exercises its intended subject and a disabled behavior fails the relevant assertion.
 
-**Files.** src/director/conversation.test.ts, src/director/conversation.ts
+**Files.** tests/src/director/conversation.test.ts, src/director/conversation.ts
 
 **Notes.** TODO

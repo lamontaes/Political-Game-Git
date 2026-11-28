@@ -32,11 +32,11 @@ merged-at: 2026-11-12T22:44:47.888Z
 
 **Rules.** One model, two tiers: a counted household's cash is one fact, so the decision and the payment it causes read the same cash. No dice: the decision reads that cash, never a draw. Replace, never layer: the second cash reading is deleted, not kept beside the first.
 
-**Done when.** A second session runs the seed 11 case in `src/core2/renewal.test.ts` at place 5400748 with no cash filter and it passes. In a played world in that place and in one more drawn place (names and seeds written down) it finds the same household's trip decision and its payment reading the same cash, by decision row and journal entry. A counted group that cannot pay does not end the pregnancy, and the "trip-lengthened-by-restriction" row is written when the group pays under the law.
+**Done when.** A second session runs the seed 11 case in `tests/src/core2/renewal.test.ts` at place 5400748 with no cash filter and it passes. In a played world in that place and in one more drawn place (names and seeds written down) it finds the same household's trip decision and its payment reading the same cash, by decision row and journal entry. A counted group that cannot pay does not end the pregnancy, and the "trip-lengthened-by-restriction" row is written when the group pays under the law.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/births-counted.ts, src/core2/counted-money.ts, src/core2/renewal.test.ts
+**Files.** src/core2/births-counted.ts, src/core2/counted-money.ts, tests/src/core2/renewal.test.ts
 
 **Notes.** Found by red main Nov 2 behind renewal seed 11 (fails on main). Branch fixer/red-main-renewal-counted has only a cash filter in the test, which fixes nothing here; do not merge it. Probe recipe: log group, moved, lawPaid at the lawApplied line in births-counted.ts (about 1134).
 

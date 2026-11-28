@@ -17,8 +17,8 @@ claimed-at: 2026-10-25T15:57:27.496Z
 
 **Rules.** One model, two tiers: counted residents and full people are each counted once, a counted resident for its household's weight. Estimate, never UNKNOWN. Read-only screens spend no game time.
 
-**Done when.** On the bench's play screen, a new life in a town drawn from all 56 (place and seed named) shows News's Jobs here with the employed no more than the town's people aged 16 and over, and the open count equal to the open positions of the town's employers, with before and after screenshots in the PR; src/bench/economy-jobs-here.test.ts passes in a random draw from all 56 and fails on main with the same seed.
+**Done when.** On the bench's play screen, a new life in a town drawn from all 56 (place and seed named) shows News's Jobs here with the employed no more than the town's people aged 16 and over, and the open count equal to the open positions of the town's employers, with before and after screenshots in the PR; tests/src/bench/economy-jobs-here.test.ts passes in a random draw from all 56 and fails on main with the same seed.
 
-**Files.** src/core2/modules/world-panels.ts, src/bench/economy.ts, src/bench/economy-jobs-here.test.ts
+**Files.** src/core2/modules/world-panels.ts, src/bench/economy.ts, tests/src/bench/economy-jobs-here.test.ts
 
 **Notes.** Split from play-stop-09-jobs-here-count-too-high on Oct 25 by the speed lead, as Merger 1 suggested on PR 6037: this item carries the fix; play-stop-09 stays open for the owner's installed-build acceptance.

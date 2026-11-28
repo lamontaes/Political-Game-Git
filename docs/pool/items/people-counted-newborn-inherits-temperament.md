@@ -17,8 +17,8 @@ claimed-at: 2026-10-25T11:29:17.436Z
 
 **Rules.** One model, two tiers: a counted birth uses the full person's inheritance rule on the counted parents' packed traits. No dice: the seed generates who exists, the parents' traits shape the child.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and seed named), a counted birth's baby record carries traits computed from its parents' packed traits by record id, and src/core2/births-counted.test.ts shows two counted babies of different parents getting different inherited centers.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and seed named), a counted birth's baby record carries traits computed from its parents' packed traits by record id, and tests/src/core2/births-counted.test.ts shows two counted babies of different parents getting different inherited centers.
 
-**Files.** src/core2/births-counted.ts, src/core2/births-counted.test.ts, src/core2/data/stopgaps.json
+**Files.** src/core2/births-counted.ts, tests/src/core2/births-counted.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-PW8-counted-newborn-temperament.

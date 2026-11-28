@@ -18,9 +18,9 @@ effort: medium
 root: none
 ---
 
-**What.** src/bench/dev-acceptance.test.ts builds its one world from a random seed each run, so whether it passes, and how long it takes, depends on the draw. On the laws thread's gate for #9638 (head 59aee364) it ran for 1,307 seconds without finishing and was stopped. The seed was not kept, so the draw it hung on is unknown. A tester running dev mode's acceptance cannot tell a real fault from a slow or broken draw. Guards: dev mode's laws, bills and scenes routes, which a player in dev mode uses.
+**What.** tests/src/bench/dev-acceptance.test.ts builds its one world from a random seed each run, so whether it passes, and how long it takes, depends on the draw. On the laws thread's gate for #9638 (head 59aee364) it ran for 1,307 seconds without finishing and was stopped. The seed was not kept, so the draw it hung on is unknown. A tester running dev mode's acceptance cannot tell a real fault from a slow or broken draw. Guards: dev mode's laws, bills and scenes routes, which a player in dev mode uses.
 
-**Cause.** Found in code: src/bench/dev-acceptance.test.ts line 34, `const seed = process.env.DEV_MODE_SEED ?? randomBytes(8).toString("hex")`, followed by `buildBenchWorld(seed, gameStartDate(), { twoLevel: true })` with no place key. Its tests have limits of 120 to 900 seconds each (lines 125 to 378), adding up to more than an hour for the file, so a slow draw runs on instead of failing. The pinned-tests rule requires named places with fixed seeds.
+**Cause.** Found in code: tests/src/bench/dev-acceptance.test.ts line 34, `const seed = process.env.DEV_MODE_SEED ?? randomBytes(8).toString("hex")`, followed by `buildBenchWorld(seed, gameStartDate(), { twoLevel: true })` with no place key. Its tests have limits of 120 to 900 seconds each (lines 125 to 378), adding up to more than an hour for the file, so a slow draw runs on instead of failing. The pinned-tests rule requires named places with fixed seeds.
 
 **Fix.** Pin the file to named places and seeds found by a script outside the test (pinned-tests and drawn-place-tests skills): one place per case it needs, each named in the file's header, with its limit near twice its slower time alone or beside another test. Print the place and seed in every failure message. Then find the slow case. Run the old random draw about five times, recording each seed and time, so whatever made one draw run past 1,300 s is named, and file its own item if it is an engine fault.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/dev-acceptance.test.ts
+**Files.** tests/src/bench/dev-acceptance.test.ts

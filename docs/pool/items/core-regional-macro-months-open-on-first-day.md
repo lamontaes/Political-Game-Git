@@ -20,7 +20,7 @@ root: none
 
 **What.** In a world built by `buildBenchWorld` the regional module's months table and the macro module's months table hold no rows at creation, and hold 15 and 49 rows after the first day's step, with real history back to 2021. A screen, a paper line or a speech read before that first step sees a country and a state with no record, though a real place on that date has years of them. Seen: Blades, Delaware (1006730), seed a7c13e:1, read at 2025-01-20 with 0 and 0 rows, and at 2025-01-22 with 15 regional months (2021-12 to 2025-01) and 49 macro months (2021-01 to 2025-01).
 
-**Cause.** Measured: at Blades, Delaware, seed a7c13e:1 (the test src/core2/term-read-figures.test.ts advances a day first for this reason), both tables are written by the modules' opening on the first step, not when the world is built; the state and country term read (src/core2/term-read.ts `figuredRead`) reads them and so reads nothing until a day has passed.
+**Cause.** Measured: at Blades, Delaware, seed a7c13e:1 (the test tests/src/core2/term-read-figures.test.ts advances a day first for this reason), both tables are written by the modules' opening on the first step, not when the world is built; the state and country term read (src/core2/term-read.ts `figuredRead`) reads them and so reads nothing until a day has passed.
 
 **Fix.** Needs cause. Run the same opening (`openRegional` and the macro opening, with the real history they already read) at world creation, so day 0 has the records a real day has; no second writer.
 
@@ -32,6 +32,6 @@ root: none
 
 **Waits on.** core-outcome-web-follows-only-the-played-town.
 
-**Files.** src/core2/modules/regional.ts, src/core2/modules/macro.ts, src/core2/day-zero.test.ts (the day-zero table list).
+**Files.** src/core2/modules/regional.ts, src/core2/modules/macro.ts, tests/src/core2/day-zero.test.ts (the day-zero table list).
 
 **Notes.** Filed Nov 14 by hand with the PR that reads them.

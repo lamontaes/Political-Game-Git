@@ -26,7 +26,7 @@ Register: `src/core2/data/stopgaps/laws.json`. 11 rows were open. Nothing was bu
 
 ## Evidence
 
-- state-party-loyalty-target: src/core2/modules/officials.ts:1437-1440 (`weight("statePartyLoyalty")` is one shared value); `src/core2/party-loyalty.test.ts:145` reads it. Live item laws-party-loyalty-roll-calls (open, standard 2, M); laws-party-loyalty-roll-call-weighing was dropped into it. Register line moved to officials.ts:1437.
+- state-party-loyalty-target: src/core2/modules/officials.ts:1437-1440 (`weight("statePartyLoyalty")` is one shared value); `tests/src/core2/party-loyalty.test.ts:145` reads it. Live item laws-party-loyalty-roll-calls (open, standard 2, M); laws-party-loyalty-roll-call-weighing was dropped into it. Register line moved to officials.ts:1437.
 - grocery-exemption-local-base: src/core2/modules/budgets.ts:1067-1080 (`exemptionFor` takes the state's exemption first for every level). sales-tax.json has no such field; local-starting-law README lists local samples as not researched. Shelf-price item prices-sales-tax-shifts-to-shelf-price is about pass-through, not this.
 - lobbying-period-unspecified: src/core2/law-reach/group-a-voting.ts:741-745 (`period ?? reachParameter("lobbyingCoolingOffYears")`); parameter at src/core2/data/laws/reach-group-a-parameters.json:174 is ESTIMATED, NCSL 2024, spread 1 to 2.
 - neighbor-law-starting: src/core2/modules/world-legislating.ts:475-476 (`neighborPull` reads `POLICY_QUESTIONS[...].answers`, the starting law). Only the town's state legislates; coarse state legislatures are in the country-tier items.

@@ -32,11 +32,11 @@ merged-at: 2026-11-13T01:37:43.815Z
 
 **Rules.** Speed (owner, Oct 29): old records fold once play no longer reads them. The governing lead agreed on Nov 1 at 21:22 UTC, keyed on the player's contests: every row of any contest the player filed in stays, rivals' included, because the played-year proof and the incumbent-response unit read them; the rest go at the race-close step. Replace, never layer: the drop runs in the close step that already drops door rows.
 
-**Done when.** A second session runs `npm run speed:year -- --seed long-1 --years 4` (Ringgold, Louisiana, a drawn place) on main and the branch, one process each, and sees dev mode's records proof identical in every table except campaigns gifts, endorsements, polls and steppedUp, with row counts in the PR body. src/core2/campaign-doors-fold.test.ts in a drawn place named with its seed shows a closed race's rows gone and a contest the player filed in keeping all of its rows.
+**Done when.** A second session runs `npm run speed:year -- --seed long-1 --years 4` (Ringgold, Louisiana, a drawn place) on main and the branch, one process each, and sees dev mode's records proof identical in every table except campaigns gifts, endorsements, polls and steppedUp, with row counts in the PR body. tests/src/core2/campaign-doors-fold.test.ts in a drawn place named with its seed shows a closed race's rows gone and a contest the player filed in keeping all of its rows.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-doors-fold.test.ts
+**Files.** src/core2/modules/campaigns.ts, tests/src/core2/campaign-doors-fold.test.ts
 
 **Notes.** lead: speed. Round four; stacked on core-long-run-closed-race-rows-fold (speed/fold-doors).
 

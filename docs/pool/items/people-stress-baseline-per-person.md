@@ -24,4 +24,4 @@ claimed-at:
 
 **Notes.** Ruling in OWNER-DECISIONS.md, Oct 16 evening (acting CTO ruling, owner to overrule). Closes the owner-decision item `owner-stress-mood-scale`.
 
-Sent back 2026-10-16 from PR #4831 (branch claude/stress-baseline-per-person-s5): src/core2/resting-stress.test.ts fails on this branch merged with current main: expected 0.178 to be greater than 0.284; finish on that branch, merge main into it first.
+Sent back 2026-10-16 from PR #4831 (branch claude/stress-baseline-per-person-s5): tests/src/core2/resting-stress.test.ts fails on this branch merged with current main: expected 0.178 to be greater than 0.284; finish on that branch, merge main into it first.

@@ -19,7 +19,7 @@ source: Account lead thread S2 while carrying PR 8941, Nov 14, 2026; asked for b
 checked: S2 2026-11-14
 ---
 
-**What.** The lost-job talk has a layoff telling ("{employer} let me go {when}") that is only composed, never played: the closure is staged through the business engine's `closeBusinessByChoice` in `src/director/job-lost-talk-played.test.ts`, but no act lays off one named worker. Seen: a played layoff telling at a pinned place.
+**What.** The lost-job talk has a layoff telling ("{employer} let me go {when}") that is only composed, never played: the closure is staged through the business engine's `closeBusinessByChoice` in `tests/src/director/job-lost-talk-played.test.ts`, but no act lays off one named worker. Seen: a played layoff telling at a pinned place.
 
 **Cause.** Found in code: `src/core2/modules/jobs.ts` writes a layoff as a record decided inside the jobs engine from a firm's demand and `layoffPerQuarter` (the record kinds "layoff" and "staff-shed" near line 387); the module exports no act that ends a named worker's job for a layoff, so a test would have to write the record by hand.
 
@@ -33,6 +33,6 @@ checked: S2 2026-11-14
 
 **Waits on.** PR 9122 on the train.
 
-**Files.** src/core2/modules/jobs.ts, src/director/job-lost-talk-played.test.ts
+**Files.** src/core2/modules/jobs.ts, tests/src/director/job-lost-talk-played.test.ts
 
 **Notes.** Also needed by the Work and school scenes thread's layoff-at-work scene (Account lead, Nov 14).

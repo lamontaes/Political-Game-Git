@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/renewal.ts, src/core2/renewal.test.ts, data/research/core/opening-pregnancy-2024.json, scripts/research/core-year.ts, src/core2/data/stopgaps/m1.json
+**Files.** src/core2/modules/renewal.ts, tests/src/core2/renewal.test.ts, data/research/core/opening-pregnancy-2024.json, scripts/research/core-year.ts, src/core2/data/stopgaps/m1.json
 
 **Notes.** TODO
 

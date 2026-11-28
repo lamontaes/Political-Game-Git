@@ -34,7 +34,7 @@ checked: fable 2026-11-10
 
 **Waits on.** core-country-tier-ledgers-replace-outside-budgets, for states beyond the player's own; the dates part waits on nothing.
 
-**Files.** src/bench/play.mjs, src/bench/budget.ts, src/bench/budgets.browser.mjs, src/bench/play.css
+**Files.** src/bench/play.mjs, src/bench/budget.ts, tests/src/bench/budgets.browser.mjs, src/bench/play.css
 
 **You will see.** Budgets lets you pick any state, your county or your town, shows the budget's dates, and looks more like The Political Process.
 

@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** A person not named in a public-comment record gets no hearing scene from it, a person named in it still does, the hearing-scenes test passes in the town drawn from the seed that failed, and the director tests pass.
 
-**Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/director/cause-names.test.ts.
+**Files.** src/director/scheduling.ts, src/director/data/situation-types.json, tests/src/director/cause-names.test.ts.
 
 **Notes.** Adds a match condition `causeNames` that requires the cause record to name the moment's person; other scene types are untouched.
 

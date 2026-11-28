@@ -31,11 +31,11 @@ checked: fable 2026-11-10
 
 **Rules.** Replace, never layer: the direct table write is deleted in the same change. Placeholders: never close a row by deleting it; mark it resolved and name the reader. Wire to the world: another engine reads the seated term in a one-year run. Numbers stay in the parameter table.
 
-**Done when.** A second session starts dev mode's custom start as a sitting state officeholder in a drawn state (state and seed named), sees the player seated with the previous holder's party kept, and a one-year played-world run shows the engine reading the seated term (the new term's record id appears in the offices table and the state day). The row SG-STATE-dev-seat-player is marked resolved in src/core2/data/stopgaps/state.json, not deleted, and a test in src/core2/office-day-state.test.ts covers the replaced term with positive assertions.
+**Done when.** A second session starts dev mode's custom start as a sitting state officeholder in a drawn state (state and seed named), sees the player seated with the previous holder's party kept, and a one-year played-world run shows the engine reading the seated term (the new term's record id appears in the offices table and the state day). The row SG-STATE-dev-seat-player is marked resolved in src/core2/data/stopgaps/state.json, not deleted, and a test in tests/src/core2/office-day-state.test.ts covers the replaced term with positive assertions.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/office-day-state.ts, src/core2/data/stopgaps/state.json, src/core2/office-day-state.test.ts
+**Files.** src/core2/office-day-state.ts, src/core2/data/stopgaps/state.json, tests/src/core2/office-day-state.test.ts
 
 **Notes.** First row: Dev mode's custom start as a sitting state officeholder ends the seat's serving term and writes the player's term into the offices engine's table directly, keeping the previous holder's party; it is not reached in ordina
 Sent back 2026-10-20 from PR #5247 (branch claude/pool-state-seat-person-2): Morning check failed because stopgap row SG-STATE-dev-seat-player was deleted from stopgaps.json instead of marked resolved; finish on that branch, merge main into it first.

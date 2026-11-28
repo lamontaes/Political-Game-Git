@@ -30,7 +30,7 @@ branch:
 1. **Compose.** Use the scene composer from words-run-filing-clerk-lines-are-composed (step 1, in `wordSceneMove`).
 2. **The facts.** Pass `reader-side` (`for` or `against`, the sign of the reader's `viewOn` the story's question, or none near zero by the views engine's own threshold) and `player-side` the same way for the player, each citing the views records. A story with no question passes neither.
 3. **The parts.** The reader's telling (`state/tell`): add reasons by `reader-side` naming `{story}`, at least 6 each. The reader's answers (`follow/*`) and closes: a core naming `{story}` or `{outlet}`, at least 6 per move.
-4. **The replies.** Up to four, each a different move, at least 8 wordings each, each naming `{story}`: agree (offered only where `player-side` matches `reader-side`), disagree (only where they differ), ask what it means here (`ask`, naming `{place}`), and put it off (`deflect`). `expectUpToFourDifferent` (src/director/reply-set-check.ts) passes.
+4. **The replies.** Up to four, each a different move, at least 8 wordings each, each naming `{story}`: agree (offered only where `player-side` matches `reader-side`), disagree (only where they differ), ask what it means here (`ask`, naming `{place}`), and put it off (`deflect`). `expectUpToFourDifferent` (tests/support/reply-set-check.ts) passes.
 5. **What it writes back.** On agree or disagree, the reader learns the player's view on the question through `learnView` (src/director/view-learned.ts) with the stance record, so the reader's card and a later talk read it. That clears `SG-WORDS-story-read-talk-moves-nothing`: delete its marker in purpose-scene.ts and its row in the director's stopgap file, src/director/data/stopgaps.json, in the same change. `replyInScene` still writes `scene.reply` with the ending. Name the record ids in the pull request.
 6. **Delete what this replaces, with every reference.** The 64 lines with no insert under `story-read`. None is graded good, and none serves another purpose. Then `npm run words:grade` and `npm run words:rules` twice.
 7. **Lower the guard's count** for `scene-talk` in tests/guards/english/line-inserts-baseline.json.
@@ -44,7 +44,7 @@ branch:
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/purpose-scene.ts, src/director/data/stopgaps.json, src/director/view-learned.ts, src/director/reply-set-check.ts, src/director/data/situation-types.json, src/english/scene-talk-words.ts, src/english/question-names.ts, src/core2/modules/views.ts, data/english/parts/scene-talk.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/purpose-scene.ts, src/director/data/stopgaps.json, src/director/view-learned.ts, tests/support/reply-set-check.ts, src/director/data/situation-types.json, src/english/scene-talk-words.ts, src/english/question-names.ts, src/core2/modules/views.ts, data/english/parts/scene-talk.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 110 lines, 64 with no insert and not excused. Three today: "I saw it. They've got it about right.", "Yeah. I've been thinking the same thing for a while.", "I did, and I'm glad someone finally said it."
 

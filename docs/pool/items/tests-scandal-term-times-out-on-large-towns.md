@@ -13,13 +13,13 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** src/core2/scandal-term.test.ts builds a drawn town with bookkeeping on and had no timeout of its own, so in a large town the build alone passes the suite's 30 second default and the test fails with 'Test timed out in 30000ms' while passing in a smaller town. It failed in two runs of the s-to-w sweep and in one of three standalone reruns on clean main. The assertions are not at fault.
+**What.** tests/src/core2/scandal-term.test.ts builds a drawn town with bookkeeping on and had no timeout of its own, so in a large town the build alone passes the suite's 30 second default and the test fails with 'Test timed out in 30000ms' while passing in a smaller town. It failed in two runs of the s-to-w sweep and in one of three standalone reruns on clean main. The assertions are not at fault.
 
 **Rules.** Tests draw a random place from all 56 and name place and seed; a test that builds a world sets its own timeout like its neighbors.
 
-**Done when.** src/core2/scandal-term.test.ts keeps a measured explicit timeout (currently main’s 300 seconds; do not raise it without measurements), and passes in six consecutive random draws by npx vitest run, with the place and seed named in any failure. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Done when.** tests/src/core2/scandal-term.test.ts keeps a measured explicit timeout (currently main’s 300 seconds; do not raise it without measurements), and passes in six consecutive random draws by npx vitest run, with the place and seed named in any failure. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
-**Files.** src/core2/scandal-term.test.ts
+**Files.** tests/src/core2/scandal-term.test.ts
 
 **Notes.** TODO
 

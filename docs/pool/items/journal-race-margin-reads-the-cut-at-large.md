@@ -31,4 +31,4 @@ root: none
 
 **Waits on.** director-concession-received-plays-for-the-loser (adds `outIds`, `race` and `seats`).
 
-**Files.** src/director/journal.ts, src/director/journal-race-margin.test.ts
+**Files.** src/director/journal.ts, tests/src/director/journal-race-margin.test.ts

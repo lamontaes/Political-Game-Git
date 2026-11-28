@@ -33,6 +33,6 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/director/purpose-scene.ts, data/english/parts/scene-talk.json, src/director/accusation-variants.test.ts
+**Files.** src/director/purpose-scene.ts, data/english/parts/scene-talk.json, tests/src/director/accusation-variants.test.ts
 
 **Notes.** Nov 19 (Story): filed from the writer's probe; 8 narration rows for betrayal and accusation wait on claude/story-lines-home-bank6a-3.

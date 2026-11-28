@@ -18,9 +18,9 @@ source: split from world-jobs-counted-choices by pool feeder Oct 20
 
 **Rules.** One model, two tiers: a counted group is read with the same offers and reasons as a full person, times its count; a counted worker who is filled in made the same choice a full one would. No dice: the shares come from scored offers and the carried remainder, with no random draw. Replace, never layer: the four hand-built score functions and `strongestPulls` in jobs.ts are deleted in the same change, and SG-WORLD-jobs-counted-choices is narrowed to the business and credit callers. Speed: the chooser runs per group, not per person; a year must not run more than 20 percent slower than its base. Ask why: a counted quit or retirement keeps its group's recorded reasons by job-change record id.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, both named in the PR body) counted retirements, quits and starts of looking appear as job-change records with the group's recorded reasons, the totals per group match the old summed-pull totals within the carried remainder before the old code is deleted, and a full worker and a counted worker with the same record score identically. Proved by src/core2/jobs.test.ts and src/core2/jobs-layoff-counted.test.ts.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, both named in the PR body) counted retirements, quits and starts of looking appear as job-change records with the group's recorded reasons, the totals per group match the old summed-pull totals within the carried remainder before the old code is deleted, and a full worker and a counted worker with the same record score identically. Proved by tests/src/core2/jobs.test.ts and tests/src/core2/jobs-layoff-counted.test.ts.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/choice.ts, src/core2/jobs.test.ts
+**Files.** src/core2/modules/jobs.ts, src/core2/choice.ts, tests/src/core2/jobs.test.ts
 
 **Notes.** Split from world-jobs-counted-choices Oct 20. The business and credit modules also call strongestPulls (business-close, found, business-borrow); that is the next part.
 

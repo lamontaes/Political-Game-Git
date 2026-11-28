@@ -48,11 +48,11 @@ U2 makes each legislature's and council's laws its own, so that once unit U3 ope
   - laws.ts:508 passes every jurisdiction's `local-sales-tax-average` rows. Once another state has one, a town with no local sales-tax row would take whichever state's row comes first.
 - **Today:** no change.
 - **Tests it touches:**
-  - src/core2/laws.test.ts:412-470
+  - tests/src/core2/laws.test.ts:412-470
   - law-enacted-over-scheduled.test.ts, laws-carry-forward.test.ts, laws-in-force-every-question.test.ts
   - withholding-outside-governments.test.ts
-  - law-wiring-prices.test.ts, purchase-tax.test.ts, src/bench/issues-tax-levels.test.ts
-- **Proof (new `src/core2/in-town-chain.test.ts`):** draw a place with `drawPlace(seed, "in-town-chain")` and build `lawChainForPlace(place.key)`.
+  - law-wiring-prices.test.ts, purchase-tax.test.ts, tests/src/bench/issues-tax-levels.test.ts
+- **Proof (new `tests/src/core2/in-town-chain.test.ts`):** draw a place with `drawPlace(seed, "in-town-chain")` and build `lawChainForPlace(place.key)`.
   - `inTownChain` is true for every level.
   - It is false for another state key drawn from `placeStateKeys()` (never the town's), for `place:<another geoid>`, and for `chain.townPlaceId`. A place id is not a law key.
   - `resolveLawInForce("sales-tax")`, given another state's `local-sales-tax-average` row ordered first, still gives the town's city level the town's state's row.
@@ -95,7 +95,7 @@ U2 makes each legislature's and council's laws its own, so that once unit U3 ope
   - state-session-end-effective.test.ts:208-264
   - vote-level.test.ts:56-75
   - laws.test.ts:117
-- **Proof (new `src/core2/body-jurisdiction.test.ts`):** draw places, a bounded number of times.
+- **Proof (new `tests/src/core2/body-jurisdiction.test.ts`):** draw places, a bounded number of times.
   - For every offices row with `coversTown !== false`, the result is a chain level.
   - It also equals c9b60ce1ed's `billJurisdiction` rule, written into the test as the oracle, except in the board-county case, which the test names.
   - Keep drawing until one place has a county-level board and no county law level, and one has a township board. Find them by these data properties, never by a state's name.
@@ -203,7 +203,7 @@ U2 makes each legislature's and council's laws its own, so that once unit U3 ope
   - legislature.test.ts, modules/legislature.traits.test.ts
   - world-legislating.test.ts:52, :269, :341
   - floor-every-bill.test.ts, session-moot-bills.test.ts:43
-  - src/director/desk-scene.test.ts, src/director/journal-signing.test.ts
+  - src/director/desk-scene.test.ts, tests/src/director/journal-signing.test.ts
 - **Proof (new `src/core2/settledness-own-body.test.ts`):** enact a row dated today at another state's key.
   - The settledness of a chain bill on that series does not change.
   - A bill in that state's chamber (step 3's offices row) reads it as fresh.
@@ -231,7 +231,7 @@ U2 makes each legislature's and council's laws its own, so that once unit U3 ope
 - **Tests:**
   - record-vote-per-question.test.ts:108-119
   - legislature-sections.test.ts, income-tax-schedule.test.ts, bill-section-cite.test.ts
-  - src/english/bill-sections.test.ts
+  - tests/src/english/bill-sections.test.ts
   - legislature.test.ts, floor-every-bill.test.ts
   - withholding-outside-governments.test.ts (now runs through the shared helper)
 - **Proof:** in the edge fixture, a wage bill before the other state's chamber is measured against that state's own floor.

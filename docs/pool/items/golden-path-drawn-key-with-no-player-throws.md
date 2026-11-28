@@ -33,4 +33,4 @@ Seen: the golden-path-year job of #9795, spec M1-11 at Spink Colony, South Dakot
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/world.ts, src/bench/new-game-passover.test.ts
+**Files.** src/bench/world.ts, tests/src/bench/new-game-passover.test.ts

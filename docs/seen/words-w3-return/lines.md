@@ -1,6 +1,6 @@
 # Back at the filing counter, a week after filing (Words builder W3, Nov 13, 2026)
 
-Played on the bench at 1440x900 by a scratch script that follows `src/bench/filing.browser.mjs`: a new life, a grown resident, the first race at the first filing office in Travel, filed, a week on with dev mode, then back through Travel. Before is main at 9ed6e438b7; after is `claude/words-w3-counter-return`. Seeds are `SEED=w3-return-N`.
+Played on the bench at 1440x900 by a scratch script that follows `tests/src/bench/filing.browser.mjs`: a new life, a grown resident, the first race at the first filing office in Travel, filed, a week on with dev mode, then back through Travel. Before is main at 9ed6e438b7; after is `claude/words-w3-counter-return`. Seeds are `SEED=w3-return-N`.
 
 ## w3-return-1
 

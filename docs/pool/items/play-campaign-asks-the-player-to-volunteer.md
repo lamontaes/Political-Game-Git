@@ -38,6 +38,6 @@ Seen: Beesleys Point, New Jersey (seed 1c0c38ab-cccf-45f2-943d-b108847e2981), El
 
 **Waits on.** Story's `volunteer-ask` scene and lines.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-volunteer-ask.test.ts (new), src/core2/data/opening/day-zero.json
+**Files.** src/core2/modules/campaigns.ts, tests/src/core2/campaign-volunteer-ask.test.ts (new), src/core2/data/opening/day-zero.json
 
 **Notes.** Filed and built by the Blockers lane, Nov 17. Replaces the plan in #9744 for this road.

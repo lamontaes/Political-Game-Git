@@ -36,4 +36,4 @@ checked: account lead 2026-11-14
 
 **Files.** src/core2/modules/voting.ts, src/core2/modules/elections.ts, src/core2/modules/campaigns.ts, src/core2/race-places.ts, src/core2/data/elections/petition-rules.json, src/bench/campaign.ts, src/bench/play.mjs
 
-**Notes.** Built on the train branch (claude/project-thread-lhbwzt). Pinned test: src/core2/petition-statewide.test.ts (Edgar WI seed edgar-petition-1; Fort Payne AL seed fort-payne-petition-1).
+**Notes.** Built on the train branch (claude/project-thread-lhbwzt). Pinned test: tests/src/core2/petition-statewide.test.ts (Edgar WI seed edgar-petition-1; Fort Payne AL seed fort-payne-petition-1).

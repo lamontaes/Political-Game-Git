@@ -18,7 +18,7 @@ effort: medium
 source: Views thread, Nov 15 (gate of #9434 on the train at ff9703d7)
 ---
 
-**What.** `src/core2/modules/constituent-cases-warmth.test.ts`, "a real election's counted ballots carry the warmth, up for a helped case and down for a declined one", fails on the train at ff9703d7 and on #9434's head the same way: "Rock Ridge, Connecticut (0965160), seed kw-6: ballots cooled by a declined case: expected 0 to be greater than 0". Seen: a test red on the clean train at its own seed.
+**What.** `tests/src/core2/modules/constituent-cases-warmth.test.ts`, "a real election's counted ballots carry the warmth, up for a helped case and down for a declined one", fails on the train at ff9703d7 and on #9434's head the same way: "Rock Ridge, Connecticut (0965160), seed kw-6: ballots cooled by a declined case: expected 0 to be greater than 0". Seen: a test red on the clean train at its own seed.
 
 **Cause.** Needs cause. Looked at: the message. Over its 26 played months no counted ballot carries a negative case warmth. Either no counted resident's case with a candidate on the ballot was declined, or a declined case's warmth no longer reaches the counted ballot (`countedWarmths` in src/core2/modules/voting.ts). Neither is checked yet.
 
@@ -32,7 +32,7 @@ source: Views thread, Nov 15 (gate of #9434 on the train at ff9703d7)
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/constituent-cases-warmth.test.ts, src/core2/modules/voting.ts
+**Files.** tests/src/core2/modules/constituent-cases-warmth.test.ts, src/core2/modules/voting.ts
 
 **Notes.**
 

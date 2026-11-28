@@ -24,7 +24,7 @@ Lines (as of 2026-10-15, from the status file):
 
 **Rules.** Wire to the world: a hook is confirmed only when a generated world shows the other engine reading it. One rule, all 56 places: the Dennisville fix is checked in a drawn place and the sample id is removed from data, not special-cased. Look before you ask: read DECISION-REGISTER.md and OWNER-DECISIONS.md before the four questions go to the owner.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named) each named hook is shown read by record id, the Dennisville treasurer candidate is a New Jersey person, and a state act enacted in play is shown overriding or not overriding a scheduled rate per the rule written down. The test in src/core2/budgets.test.ts passes. The owner plays it: pass a state tax change and see the rate his town pays move on the date.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named) each named hook is shown read by record id, the Dennisville treasurer candidate is a New Jersey person, and a state act enacted in play is shown overriding or not overriding a scheduled rate per the rule written down. The test in tests/src/core2/budgets.test.ts passes. The owner plays it: pass a state tax change and see the rate his town pays move on the date.
 
 **Files.** src/core2/modules/budgets.ts, src/core2/modules/housing.ts, src/core2/modules/regional.ts, src/core2/births-counted.ts, docs/coordination/OWNER-DECISIONS.md, docs/coordination/OPUS-CORE.md
 

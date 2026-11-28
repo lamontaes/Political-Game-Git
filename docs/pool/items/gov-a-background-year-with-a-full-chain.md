@@ -35,7 +35,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/world-legislating.ts, src/core2/modules/interest-groups.ts, src/core2/modules/corruption.ts, src/core2/modules/legislature.ts, src/core2/world-legislating.test.ts, scripts/research/bribe-chain-years.ts
+**Files.** src/core2/modules/world-legislating.ts, src/core2/modules/interest-groups.ts, src/core2/modules/corruption.ts, src/core2/modules/legislature.ts, tests/src/core2/world-legislating.test.ts, scripts/research/bribe-chain-years.ts
 
 **Notes.** Checklist line from OPUS-GOV.md; verify against main before starting.
 

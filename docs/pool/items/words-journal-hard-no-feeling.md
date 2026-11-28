@@ -21,7 +21,7 @@ seen-at: 2026-11-11T03:14:01.756Z
 
 **Done when.** journal-bank.test.ts' no-feeling check passes for these words (its remaining failure is memoir-meant-friend); the printed death line in New London, New Hampshire has no feeling line.
 
-**Files.** data/english/parts/journal.json, src/director/journal.ts, src/english/mined/journal-bank.test.ts
+**Files.** data/english/parts/journal.json, src/director/journal.ts, tests/src/english/mined/journal-bank.test.ts
 
 **Time box.** 1 hour.
 

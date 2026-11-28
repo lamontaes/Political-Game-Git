@@ -19,7 +19,7 @@ claimed-at:
 
 **Rules.** One rule, all 56 places: opening hours by kind of place in a parameter table, never by name. No dice. An unregistered stand-in is a defect: the day-start minute is a registered stopgap until a person's own wake time is read.
 
-**Done when.** src/bench/player-day-morning.test.ts passes in a drawn place (Day twice lands on consecutive mornings, Week seven days on, a three-hour canvass moves the clock three hours); a test shows nobody but the household cast at home between bedtime and morning and no business backdrop at an hour it is closed; the stopgap row names playerDayStartMinute and its marker sits on the read.
+**Done when.** tests/src/bench/player-day-morning.test.ts passes in a drawn place (Day twice lands on consecutive mornings, Week seven days on, a three-hour canvass moves the clock three hours); a test shows nobody but the household cast at home between bedtime and morning and no business backdrop at an hour it is closed; the stopgap row names playerDayStartMinute and its marker sits on the read.
 
 **Time box.** 4 hours; if not done, push what exists, open the draft PR, write the handoff.
 

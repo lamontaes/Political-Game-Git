@@ -19,6 +19,6 @@ claimed-at: 2026-11-01T18:51:32.258Z
 
 **Done when.** The campaign day and the press desk share one week count that reads only the outlet's last seven days. A candidate's interviews for one race come from their own index. The four-year Ringgold proof shows zero differing tables against main; npm run speed:year -- --seed long-1 --years 4 on main and on the branch, one process each, keeps dev mode's records proof identical in every table of the played world at year 4 in the played world (buildBenchWorld), the tests the PR names pass, with the times in the PR body.
 
-**Files.** src/core2/campaign-day.ts, src/core2/modules/press.ts, src/core2/press.test.ts
+**Files.** src/core2/campaign-day.ts, src/core2/modules/press.ts, tests/src/core2/press.test.ts
 
 **Notes.** TODO

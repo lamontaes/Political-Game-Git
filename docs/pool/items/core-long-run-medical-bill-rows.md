@@ -19,6 +19,6 @@ claimed-at: 2026-11-09T17:01:12.873Z
 
 **Done when.** In play a row of a household not billed this month, owing nothing and holding no debt record, is removed on the monthly pass, and a row that still owes stays; a test shows both, with every row kept when bookkeeping is on; speed:year --seed mont1 --place 5046000 --years 2 records proof against the same main differs only in core2-coverage-v1.medicalBills.
 
-**Files.** src/core2/medical-bills.ts, src/core2/medical-bill-rows.test.ts
+**Files.** src/core2/medical-bills.ts, tests/src/core2/medical-bill-rows.test.ts
 
 **Notes.** TODO

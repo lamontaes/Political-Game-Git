@@ -31,8 +31,8 @@ root: rc3-thin-life-record
 
 **Rules.** No dice: the colleague's lean and what they already did for the player decide. No stopgap: nothing is capped or flagged.
 
-**Done when.** A second session on main, in a place and seed it names, sees a plea carry a yes once and the same colleague refuse the next ask; and at place 3069713 (world seed above) by the player's own presses, a plea carries a colleague who stood against the bill, writes one favor row, `favorWorth` reads 0, and the same colleague on another bill the same evening gives the plain no; Dev mode's Trace on the row shows the reply, "still owed" and the worth. Not claimed: that a played life reaches `settleObligation` (the call-in is played only by the campaign's endorsement ask, `src/core2/favor-called-in.test.ts`), so a debt counting again once repaid is proved there, not here.
+**Done when.** A second session on main, in a place and seed it names, sees a plea carry a yes once and the same colleague refuse the next ask; and at place 3069713 (world seed above) by the player's own presses, a plea carries a colleague who stood against the bill, writes one favor row, `favorWorth` reads 0, and the same colleague on another bill the same evening gives the plain no; Dev mode's Trace on the row shows the reply, "still owed" and the worth. Not claimed: that a played life reaches `settleObligation` (the call-in is played only by the campaign's endorsement ask, `tests/src/core2/favor-called-in.test.ts`), so a debt counting again once repaid is proved there, not here.
 
 **Waits on.** Nothing. The player sees the debt taken on in the plea's reply, and the no on the next ask.
 
-**Files.** src/core2/modules/legislature.ts; src/bench/dev-trace.ts; src/director/favor-carried-once.test.ts (new)
+**Files.** src/core2/modules/legislature.ts; src/bench/dev-trace.ts; tests/src/director/favor-carried-once.test.ts (new)

@@ -16,8 +16,8 @@ source: added with npm run pool -- add
 
 **Rules.** The chain is the acceptance: verify the owning engine numeric factor against the producer web effects and follow the lived event to a positive stance, moment and spoken line. One rule, all 56 places: retain the independent root, twelve-draw bound and unfiltered place selection; no convenient replacement seed or changed rates.
 
-**Done when.** src/core2/effects-end-to-end.test.ts passes in this merger environment on an independent root without reducing its default draws or 150 met households, and records the drawn place, cause, web month, crime factor and victimization, cited stance change, director moment and ordinary dialogue by their record ids. A real consumer-factor break fails on the same root with unchanged assertions; the parent proof and screenshot item remain open.
+**Done when.** tests/src/core2/effects-end-to-end.test.ts passes in this merger environment on an independent root without reducing its default draws or 150 met households, and records the drawn place, cause, web month, crime factor and victimization, cited stance change, director moment and ordinary dialogue by their record ids. A real consumer-factor break fails on the same root with unchanged assertions; the parent proof and screenshot item remain open.
 
-**Files.** src/core2/effects-end-to-end.test.ts
+**Files.** tests/src/core2/effects-end-to-end.test.ts
 
 **Notes.** TODO

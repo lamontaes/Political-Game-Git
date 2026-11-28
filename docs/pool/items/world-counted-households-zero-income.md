@@ -18,7 +18,7 @@ claimed-at: 2026-10-27T23:20:11.881Z
 
 **Rules.** One model, two tiers: a counted household is read with the same rule as a full one; estimate, never zero; no dice.
 
-**Done when.** In a drawn bench world, the poverty share of every place with counted households sits within the researched state range, by record id. A test names the place and seed, and `src/core2/world-poverty.test.ts` still passes.
+**Done when.** In a drawn bench world, the poverty share of every place with counted households sits within the researched state range, by record id. A test names the place and seed, and `tests/src/core2/world-poverty.test.ts` still passes.
 
 **Files.** src/core2/world-poverty.ts, src/core2/modules/residents.ts
 

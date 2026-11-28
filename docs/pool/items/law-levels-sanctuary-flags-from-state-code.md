@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** data/research/laws/starting-law-2026/justice-public-safety.json, data/research/laws/starting-law-2026/question-order.json, src/core2/data/legislature/bill-catalog.json, src/core2/data/legislature/series-powers.json, src/core2/law-wiring-immigration.test.ts
+**Files.** data/research/laws/starting-law-2026/justice-public-safety.json, data/research/laws/starting-law-2026/question-order.json, src/core2/data/legislature/bill-catalog.json, src/core2/data/legislature/series-powers.json, tests/src/core2/law-wiring-immigration.test.ts
 
 **Notes.** State Sessions Nov 6: one fetch pass found no usable source. NCSL (state-and-local-enforcement-of-federal-immigration-laws) returned 403, the ILRC and Justice Department pages I guessed returned 404, and state legislature pages were not tried because no statute URL was known. Nothing changed in the data. Next: read each state's code directly (start with AL AZ AR IN IA KS LA MS MO MT NH NC ND SC WV for the anti-sanctuary side and CO MA RI VT for the limiting side). The report's lists are leads, not sources.
 

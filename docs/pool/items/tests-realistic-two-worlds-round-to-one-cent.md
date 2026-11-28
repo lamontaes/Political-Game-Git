@@ -18,7 +18,7 @@ effort: medium
 source: "World-opening thread, Nov 16, gating the recorded-share change on train3"
 ---
 
-**What.** `src/core2/realistic-not-real.test.ts`, "household money ... (audit rows 14 to 18)", fails at REALISTIC_SEED=637e415cfd281725 (Coinjock, North Carolina, 3713500) with "row 15: expected 188469 not to be 188469". The two worlds `637e415cfd281725:a` and `:b` each open a three-person household's monthly living costs at 188,469 cents against the published 172,500. It is red on train3 c0f54ca0 without any other change. Guards: the realistic-not-real guard (`npm run guards`, two-seeds-differ), which goes red by draw.
+**What.** `tests/src/core2/realistic-not-real.test.ts`, "household money ... (audit rows 14 to 18)", fails at REALISTIC_SEED=637e415cfd281725 (Coinjock, North Carolina, 3713500) with "row 15: expected 188469 not to be 188469". The two worlds `637e415cfd281725:a` and `:b` each open a three-person household's monthly living costs at 188,469 cents against the published 172,500. It is red on train3 c0f54ca0 without any other change. Guards: the realistic-not-real guard (`npm run guards`, two-seeds-differ), which goes red by draw.
 
 **Cause.** Measured: with `worldOffsetUnit(seed, "world-living-cost-level")`: the two worlds draw sizes 0.887464 and 0.887491, so the levels differ by about 0.0000018. That difference times 172,500 is under half a cent, and `worldMonthlyHouseholdLivingCosts` (src/core2/reference/living-costs-data.ts) rounds to the cent, so the two worlds land on the same value. Over 20,000 random seed pairs, 2 had sizes within 0.0001 of each other, about what an even draw gives, so the seeded unit mixes properly. The test asks two continuous draws never to land on the same rounded cent, and that fails by chance about once in ten thousand runs per checked figure. The fault is in the test, not the engine.
 
@@ -32,6 +32,6 @@ source: "World-opening thread, Nov 16, gating the recorded-share change on train
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/realistic-not-real.test.ts
+**Files.** tests/src/core2/realistic-not-real.test.ts
 
 **Notes.**

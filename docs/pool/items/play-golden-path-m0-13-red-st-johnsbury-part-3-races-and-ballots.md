@@ -35,6 +35,6 @@ branch: claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-3-races-and-bal
 
 **Waits on.** Nothing. The re-run its first part was to make is done (Nov 10, main cb25bfa5c8) and is in the Cause.
 
-**Files.** src/core2/modules/campaigns.ts, tests/golden-path/played-world.node-test.ts, src/core2/campaign-turn.test.ts
+**Files.** src/core2/modules/campaigns.ts, tests/golden-path/played-world.node-test.ts, tests/src/core2/campaign-turn.test.ts
 
 **Notes.** Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 22:49 UTC) on branch claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-3-races-and-ballots.

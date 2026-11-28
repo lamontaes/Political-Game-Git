@@ -19,6 +19,6 @@ claimed-at: 2026-11-07T21:24:43.077Z
 
 **Done when.** A generated-world test in a drawn place prints replay and law record ids. With general home rule off, a specific rent-rule grant allows the city to draft; withdrawing it bars that draft; restoring it allows it again. Assert the actual grant/bar record as the authority source. Treat DC's single government as its recorded alias, not a fabricated separate town.
 
-**Files.** src/core2/policy-authority.ts,src/core2/specific-local-grants.test.ts
+**Files.** src/core2/policy-authority.ts,tests/src/core2/specific-local-grants.test.ts
 
 **Notes.** Astra follow-up to the law-levels goal and the played Hamburg route. Two-hour time box, one session, no helpers. No new legal power is invented: this reads the specific state law already written by #7314.

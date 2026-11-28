@@ -19,7 +19,7 @@ claimed-at: 2026-10-27T20:15:17.597Z
 
 **Rules.** No hand-written player text: the sentences come from an English bank keyed by trait and strength. Replace, never layer: the trait rows and the Talk button are deleted. One model, two tiers: the same sentence rule reads a filled-in person's traits wherever they come from.
 
-**Done when.** In a drawn place (name the place and seed), src/bench/person-card.browser.mjs passes on a restarted bench and asserts the card has no Talk button, no text Deliberation, Sociability or Neither, much, and a sentence of at least six words about the person; a 1440x900 screenshot is in the PR body beside the before shot.
+**Done when.** In a drawn place (name the place and seed), tests/src/bench/person-card.browser.mjs passes on a restarted bench and asserts the card has no Talk button, no text Deliberation, Sociability or Neither, much, and a sentence of at least six words about the person; a 1440x900 screenshot is in the PR body beside the before shot.
 
 **Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
 
@@ -27,7 +27,7 @@ claimed-at: 2026-10-27T20:15:17.597Z
 
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
-**Files.** src/bench/play.mjs, src/bench/card.ts, data/english/parts, src/bench/person-card.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/card.ts, data/english/parts, tests/src/bench/person-card.browser.mjs
 
 **Notes.** Reading: OWNER-DECISIONS.md (Oct 27 afternoon screens rulings), DECISION-REGISTER.md, prior-rulings/, docs/play-first/LAW.md section 1; docs/ searched for the screen name. Principles: docs/design/screens/principles-2026-10-27.md.
 
