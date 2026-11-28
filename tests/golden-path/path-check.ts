@@ -43,6 +43,7 @@ import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { benchScene } from "../../src/bench/scene";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import {
+  atLargeGroup,
   ballot,
   incumbentOf,
   petitionCirculating,
@@ -390,8 +391,17 @@ function stand(): { held: boolean; takesOffice: string | null } {
   liveUntil(day);
   liveUntil(addDays(makeIsoDate(day), 1));
   const races = electionResults(w.core, me);
-  const result = resultOf(coreAPI(w.core), enterable.contest.id);
-  const won = result?.winnerId === me;
+  // A body's at-large seats up on one day are one race (`atLargeGroup`): the
+  // count seats the top finishers, each holder keeping their own seat first,
+  // so a player who tops the field can be seated in another seat's contest
+  // than the one they filed in. They won if any seat of the race is theirs.
+  const night = coreAPI(w.core);
+  const race = atLargeGroup(night, enterable.contest).map((c) =>
+    resultOf(night, c.id),
+  );
+  const seated = race.find((row) => row?.winnerId === me);
+  const result = seated ?? resultOf(night, enterable.contest.id);
+  const won = !!seated;
   log.push(
     `election night ${day}: ${races.length} races, ${won ? "the player won" : "the player did not win"}${shares(result)}`,
   );

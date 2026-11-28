@@ -47,6 +47,7 @@ import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./modules/budgets";
 import { ballotOf, resultOf } from "./modules/voting";
 import { openLaws } from "./modules/laws";
 import { levelMayDecide } from "./modules/world-legislating";
+import { applyPastSessionLaws, pastSessionLaws } from "./past-sessions";
 import { campaignDayChoices } from "./campaign-day";
 import { questionAxis } from "./campaign-views";
 import { createLifeCore } from "./life";
@@ -335,17 +336,26 @@ it("a contest lists only the questions its seat's government decides, and a play
   );
 }, 1_800_000);
 
-/** Whether the drawn place's state lets its towns decide none of the platform questions, read from a small world with only its laws open. */
-function townsDecideNoQuestion(placeKey: string): boolean {
+/**
+ * Whether the drawn place's state lets its towns decide none of the platform
+ * questions, read from a small world with its laws open and the state's last
+ * sitting applied, on the place's own world seed (the laws a sitting enacted
+ * differ by seed, and so does what a town may decide).
+ */
+function townsDecideNoQuestion(placeKey: string, worldSeed: string): boolean {
   const core = createLifeCore(
     buildPopulation({
-      seed,
+      seed: worldSeed,
       placeKey,
       startedAt: gameStartDate(),
       minimumPeople: 20,
     }),
   );
   openLaws(core);
+  applyPastSessionLaws(
+    core,
+    pastSessionLaws(worldSeed, placeKey, gameStartDate()),
+  );
   const api = coreAPI(core);
   return !PLATFORM_QUESTIONS.some((q) => levelMayDecide(api, "city", q));
 }
@@ -363,6 +373,11 @@ function noQuestionTown(place: ReturnType<typeof drawPlace>): string | null {
     placeKey: place.key,
   });
   const api = coreAPI(core);
+  // The draw's test world (laws only) can say a state lets its towns decide no
+  // question where the played world, with the state's laws in force, lets them
+  // (Hyde Park, Vermont); a place is checked on the world it is built in.
+  if (PLATFORM_QUESTIONS.some((q) => levelMayDecide(api, "city", q)))
+    return `${where}: the built world's towns decide a platform question`;
   const atFiling = checkAtFiling(api, where);
   const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   const officeOf = (contest: ContestRow) =>
@@ -521,7 +536,7 @@ it("a town whose state lets it decide no platform question still campaigns on it
     }
     for (let draw = 0; draw < 200 && !checked && tried.length < 8; draw += 1) {
       const place = drawPlace(`${seed}:${draw}`, "contest-positions-none");
-      if (!townsDecideNoQuestion(place.key)) continue;
+      if (!townsDecideNoQuestion(place.key, place.seed)) continue;
       const passedOver = noQuestionTown(place);
       if (passedOver) tried.push(passedOver);
       else checked = true;
