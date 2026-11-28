@@ -287,6 +287,7 @@ export interface RequirementCheck {
     | "residency"
     | "party-member"
     | "term-limit"
+    | "one-seat-per-body"
     | "district-residency";
   readonly met: boolean;
   readonly required: string;
