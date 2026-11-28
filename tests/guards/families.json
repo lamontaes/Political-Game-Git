@@ -1236,6 +1236,7 @@
       "entry": [
         "src/core2/past.ts",
         "src/core2/past-module.ts",
+        "src/core2/past-work.ts",
         "src/core2/past-reads.ts"
       ],
       "paths": [

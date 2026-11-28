@@ -6,7 +6,7 @@
  * the law row in force for that jurisdiction on the day, so a bill that
  * changes the exemption or the rate changes what the next estate pays.
  */
-import { LAWS_MODULE_ID } from "./modules/laws";
+import { LAWS_MODULE_ID } from "./modules/laws-reads";
 import type { LawRowInput } from "./laws-starting";
 import type { CoreAPI } from "./types";
 

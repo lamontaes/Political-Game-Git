@@ -16,6 +16,9 @@ import { decisionKinds } from "./trait-decision-table";
 import { probeCallerSite, traitProbe } from "./trait-probe";
 import type { Affect, CoreState, PersonState } from "./types";
 
+/** A person's education and faith from their record; re-exported so the past reads it through this people entry. */
+export { profileFor } from "./opening-profile";
+
 /** The audit's probe, for engines that report an outcome beside a lean. */
 export { traitProbe };
 

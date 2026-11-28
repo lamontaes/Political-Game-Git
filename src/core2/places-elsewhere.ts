@@ -14,10 +14,10 @@ import {
   businessNameContext,
   businessNameStyles,
   fillBusinessName,
-} from "./business-names";
+} from "./opening-outside-market";
 import { stableHash } from "./kernel/ids";
 import { SeededRng } from "./kernel/rng";
-import { drawCanonicalNameForGender } from "./person-names";
+import { drawCanonicalNameForGender } from "./person-invented-age";
 import {
   coreStateKeyOfPlaceholderId,
   corePlaceByJurisdictionId,
