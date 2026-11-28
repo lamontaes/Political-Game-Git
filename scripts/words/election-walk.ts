@@ -218,6 +218,24 @@ while (packet.kind !== "complete") {
   } as never);
 }
 sweep();
+/** What the director bound on the election result, for the filer and each household member, and whether each composed. */
+for (const who of [personId!, ...household]) {
+  const theirBook = director.ledger.people.get(who);
+  const bound = (theirBook?.schedule ?? []).flatMap((entry) =>
+    theirBook?.momentsById.get(entry.momentId)?.label ===
+    "cause:event:election-result"
+      ? entry.bindings.map((binding) => {
+          const result = purposeScene(core, director, who, entry, {
+            typeKey: binding.typeKey,
+          });
+          return `${binding.typeKey} (${result ? result.kind : "none"})`;
+        })
+      : [],
+  );
+  console.log(
+    `# on the result, bound to ${who === personId ? "the filer" : `household member ${who}`}: ${bound.join(", ") || "nothing"}`,
+  );
+}
 const night = electionNight(core, personId!);
 if (night && shownNight !== core.date) {
   shownNight = core.date;
