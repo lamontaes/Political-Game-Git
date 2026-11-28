@@ -86,6 +86,7 @@ import {
   weekOf,
   type FederalChamber,
 } from "./office-day-federal-calendar";
+import { billById, memberChoiceOn } from "./modules/bodies-reads";
 
 const PARAMETERS = (
   federalParameters as unknown as {
@@ -316,10 +317,7 @@ function chamberOfBill(api: CoreAPI, bodyOfficeId: string): string | null {
 }
 
 const chose = (api: CoreAPI, billId: string, memberId: string) =>
-  api
-    .moduleState(LEGISLATURE_MODULE_ID)
-    .table("choices")
-    .get(`${billId}|${memberId}`) !== undefined;
+  memberChoiceOn(api, billId, memberId) !== undefined;
 
 const floorHold = (billId: string) => `federal-floor:${billId}`;
 const whipHold = (billId: string) => `federal-whip:${billId}`;
@@ -364,10 +362,8 @@ function eveOfVotes(api: CoreAPI, personId: string): void {
       else answerWhip(api, personId, billId);
     }
     const own =
-      (
-        api.moduleState(LEGISLATURE_MODULE_ID).table("bills").get(billId) as
-          { sponsorId?: string } | undefined
-      )?.sponsorId === personId;
+      (billById(api, billId) as { sponsorId?: string } | undefined)
+        ?.sponsorId === personId;
     if (stops[own ? "own-bill-vote" : "floor-vote"]) {
       holdFederal(
         api,
