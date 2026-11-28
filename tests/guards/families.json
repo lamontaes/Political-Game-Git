@@ -1247,6 +1247,11 @@
         "src/core2/output-number-readers.ts",
         "src/core2/player-warm-up.ts",
         "src/core2/national-disaster-record.ts",
+        "src/core2/player-v1.ts",
+        "src/core2/player-stops-v1.ts",
+        "src/core2/modules/world-metrics.ts",
+        "src/core2/modules/disasters.ts",
+        "src/core2/coarse-place.ts",
         "src/districts/**"
       ],
       "paths": [
