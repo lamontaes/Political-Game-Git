@@ -31,7 +31,6 @@
     "grievance.onDay",
     "core2-employer-taxes-v1.onDay",
     "p13-story-director.onAfterDay",
-    "core2-office-day-v1.onAfterDay",
     "core2-press-v1.onDay",
     "core2-office-day-state-v1.onAfterDay",
     "core2-office-day-federal-v1.onDay",
