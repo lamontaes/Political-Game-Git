@@ -22,12 +22,13 @@
 import type { GovernmentLevel } from "./government-level";
 import provisionQuestions from "../../data/research/legislature/provision-questions.json" with { type: "json" };
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
-import { POLICY_QUESTIONS } from "./policy-answers";
 import { questionAxis } from "./campaign-views";
 import { memberSupportAt } from "./officials-roster";
 import {
   LAWS_MODULE_ID,
   policyAuthority,
+  POLICY_QUESTIONS,
+  type LawRowInput,
   type PolicyLevel,
 } from "./modules/laws";
 import { centuryLaw } from "./modules/elections";
@@ -35,10 +36,9 @@ import { members } from "./modules/legislature";
 import {
   RECORD_MODULE_ID,
   voteRecordId,
+  recordPastVote,
   type VoteRecordRow,
 } from "./modules/record";
-import type { LawRowInput } from "./laws-starting";
-import type { ModuleRow } from "./module-data";
 import type { TermRow } from "./modules/offices";
 import {
   CHAMBER_KINDS,
@@ -220,7 +220,6 @@ function recordVotes(
   passed: boolean,
 ): number {
   if (!api.state.modules.has(RECORD_MODULE_ID)) return 0;
-  const votes = api.moduleState(RECORD_MODULE_ID).table("votes");
   let count = 0;
   for (const [ids, way] of [
     [call.yesIds, 1],
@@ -238,7 +237,7 @@ function recordVotes(
         question,
         passed,
       };
-      votes.put(row as unknown as ModuleRow);
+      recordPastVote(api, row);
       count += 1;
     }
   return count;

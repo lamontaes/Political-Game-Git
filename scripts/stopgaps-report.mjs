@@ -7,10 +7,7 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-export const REGISTRIES = [
-  "src/core2/data/stopgaps",
-  "src/director/data/stopgaps.json",
-];
+export const REGISTRIES = ["src/core2/data/stopgaps"];
 export const KINDS = ["behavior", "figure", "text", "art", "unclassified"];
 
 // First match wins, so the specific families sit above the generic "estimated-" and "-gap" ones.

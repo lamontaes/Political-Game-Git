@@ -4,11 +4,11 @@ import type {
   WorkPayrollGroupReceipt,
 } from "./work-payroll-cash";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { drawSavingsToCover } from "./accounts";
+import { drawSavingsToCover } from "./budgets-treasury";
 import { withQuarterPay } from "./pay-by-quarter";
-import { cashJournalParameters } from "./cash-host";
-import { FinancePlanningSession, FinanceReadGuard } from "./finance-plan";
-import { ensureFinanceCashModule } from "./finance-cash";
+import { cashJournalParameters } from "./budgets-treasury";
+import { FinancePlanningSession, FinanceReadGuard } from "./budgets-treasury";
+import { ensureFinanceCashModule } from "./budgets-treasury";
 import { admittedWorkPayrollCalendarMatches } from "./work-attendance";
 import {
   ensureWorkPayrollCashModule,
