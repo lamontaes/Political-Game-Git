@@ -93,7 +93,8 @@ import {
 } from "../english/policy-names";
 import { amountSubjectAt, dollars } from "../english/bill-sections";
 import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
-import { NOTICE_SERVED_EVENT, dwellingTenure } from "../core2/modules/housing";
+import { NOTICE_SERVED_EVENT } from "../core2/modules/housing";
+import { dwellingTenure } from "../core2/housing-reads";
 import {
   NEWS_MODULE_ID,
   NEWS_READ,

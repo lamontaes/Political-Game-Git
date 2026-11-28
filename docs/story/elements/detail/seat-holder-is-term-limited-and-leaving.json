@@ -1,0 +1,37 @@
+{
+  "id": "seat-holder-is-term-limited-and-leaving",
+  "kind": "detail",
+  "summary": "The story says the current holder of the seat cannot run again, so the seat is open.",
+  "realLife": "A story named the seat's holder as in a last allowed term, explained how many terms the office allows, so the seat opens at the next election.",
+  "sources": [
+    "The News Tribune (Jefferson City, Missouri), 'Announces candidacy for Jefferson City Council', Oct. 27, 2020: https://www.newstribune.com/news/2020/oct/27/schantz-announces-candidacy-jefferson-city-council/",
+    "The News Tribune (Jefferson City, Missouri), 'Local businessman intends to run for Missouri House', July 1, 2025: https://www.newstribune.com/news/2025/jul/01/local-businessman-intends-to-run-for-missouri/",
+    "The News Tribune (Jefferson City, Missouri), 'Retired engineer announces plan to run for state House', July 10, 2025: https://www.newstribune.com/news/2025/jul/10/retired-engineer-announces-plan-to-run-for-state/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "office", "when", "opens"],
+  "gates": [],
+  "weights": {
+    "candidate-announced": 0.5
+  },
+  "inGame": "the contest's office holder and their terms served, read from the office record",
+  "issues": ["none"],
+  "turns": [
+    {
+      "name": "holder may run again",
+      "pulledBy": "the holder has terms left",
+      "writes": "the detail says the holder could seek another term",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "holder running for other office",
+      "pulledBy": "the holder has declared elsewhere",
+      "writes": "the detail says the holder is leaving to run for another office",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

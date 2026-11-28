@@ -64,7 +64,6 @@ import salesTaxBase from "../data/laws/sales-tax-base.json" with { type: "json" 
 import propertyTaxCaps from "../data/laws/property-tax-caps.json" with { type: "json" };
 import {
   PROPERTY_TAX_AVERAGE_SOURCE,
-  registerPropertyTax,
   stateEffectiveRate,
 } from "../housing-property-tax";
 import { placeStateKey } from "../place-map";
@@ -465,6 +464,8 @@ function budgetHistory(
 
 const BUDGETS_MODULE: PreStartModule = {
   id: BUDGETS_MODULE_ID,
+  // The property tax terms in force, from the law, for the housing engine's bills.
+  propertyTax: (api, placeId) => propertyTaxTerms(api, placeId),
   preStart: { phase: "government", run: budgetHistory },
   // What a bill that moved a federal grant line adds to the line a state, county or town spends that grant on.
   budgetPassThrough: grantPassThrough,
@@ -1176,7 +1177,6 @@ function baseExemptions(
  * are exempt where a grocery exemption is law. Re-run when a sales-tax law takes effect.
  */
 export function syncSalesTax(api: CoreAPI): void {
-  registerPropertyTax(propertyTaxTerms);
   taxCollector(api);
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
   const answer = lawInForce(api, "sales-tax");

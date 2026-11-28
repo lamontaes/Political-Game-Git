@@ -4876,6 +4876,27 @@
       }
     },
     {
+      "key": "headlines.owner-changed.subject-under-new-ownership",
+      "move": "owner-changed",
+      "kind": "written",
+      "text": "{subject} under new ownership",
+      "uses": [
+        {
+          "move": "owner-changed",
+          "subject": "headline",
+          "role": "owner-changed",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.organization-opened.subject-welcomes-first-customers",
       "move": "organization-opened",
       "kind": "written",
