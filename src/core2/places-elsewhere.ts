@@ -17,7 +17,7 @@ import {
 } from "./business-names";
 import { stableHash } from "./kernel/ids";
 import { SeededRng } from "./kernel/rng";
-import { drawCanonicalNameForGender } from "./person-names";
+import { drawCanonicalNameForGender } from "./person-invented-age";
 import {
   coreStateKeyOfPlaceholderId,
   corePlaceByJurisdictionId,
