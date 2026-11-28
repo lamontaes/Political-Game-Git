@@ -249,7 +249,12 @@ for (const p of [...pieces].reverse()) {
 const restSf = parse(hub, rest);
 const restMentions = new Map<string, "value" | "type">();
 for (const st of restSf.statements) {
-  if (ts.isImportDeclaration(st)) continue;
+  // `export { a } from "./b"` names b's a, not the hub's import of a.
+  if (
+    ts.isImportDeclaration(st) ||
+    (ts.isExportDeclaration(st) && st.moduleSpecifier)
+  )
+    continue;
   for (const [n, k] of mentions(st))
     if (restMentions.get(n) !== "value") restMentions.set(n, k);
 }

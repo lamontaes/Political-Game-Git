@@ -6,7 +6,7 @@ import { availableActs } from "../life";
 import { extendData } from "../data";
 import { appraiseEvent } from "../emotion";
 import { parameter, parameterValues } from "../parameters";
-import { discretionaryHours } from "./work";
+import { discretionaryHours } from "../work-reads";
 import {
   closenessBetween,
   currentCloseness,
