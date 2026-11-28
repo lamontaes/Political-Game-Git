@@ -2,6 +2,12 @@
 
 The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
+## Nov 27, 2026, 8:06 p.m.: conflict flagged, the day and place in scene narration (CTO, by the most-recent rule)
+
+- **Nov 8** (the filing counter): "it says first thing on June 7th. You head to the clerk's office...". It's held by src/bench/filing-intro.test.ts, which required the date in every counter's opening.
+- **Nov 24** (the same wording in another scene, "Late in the morning on January 21st, you knock"): "no ... you already know what day and time it is. Like, it says it on your thing". That's rule `no-day-or-place-in-narration`.
+- **The Nov 24 ruling governs** (the most recent wins). Scene narration doesn't say the day or the place, because the player card shows both. filing-intro.test.ts now requires the clerk's name and title instead. Applied to W2, the filing counter (#10812).
+
 ## Nov 27, 2026, about 5:30 p.m.: the loading card's step names vary too (owner; recorded by the CTO)
 
 - Shown the warm-up step's two texts, the original "Letting the country, the state and the town run two months on their own before your first evening." and Story split's "Giving the world a head start": **"Neither of those are good. They both suck."**
