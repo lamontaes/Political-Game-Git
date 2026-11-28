@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { holdsCatalogName } from "../../../src/english/composed-checks";
+import questionNames from "../../../data/english/question-names.json" with { type: "json" };
 
 /**
  * A person never names a policy by the bill catalog's name or the question's
@@ -39,13 +40,6 @@ const SOURCES: Record<string, Source> = {
     slot: "about",
     filledFrom:
       "the address point's `about`, which opening-facts.ts reads from questionAbout (the question's noun phrase)",
-  },
-  "scene-talk {issue}": {
-    bank: "scene-talk",
-    prefix: "scene-talk.",
-    slot: "issue",
-    filledFrom:
-      "the question as people say it (questionSaid), the people's words; the check stays on the lines that fill it",
   },
   "bring-it-up {topic}": {
     bank: "bring-it-up",
@@ -108,5 +102,79 @@ describe("spoken lines that name a policy by the catalog's words", () => {
         "So she finally wants to tax the rich. About time somebody said it.",
       ),
     ).toBeNull();
+  });
+});
+
+/**
+ * scene-talk's {issue} (owner, Nov 24: "No person would say that"). The slot
+ * holds the question as people say it, so the check is on the fill, not on
+ * the bank (a bank line that holds {issue} is fine; what fills it must be
+ * the people's words):
+ *  (a) every place that fills {issue} reads questionSaid, never questionAbout
+ *      (the catalog's noun phrase); the fill sites are pinned by file and
+ *      count, so a new one fails until it is added here;
+ *  (b) every question that can fill it has its own `said` (questionSaid falls
+ *      back to `about` when it has none, question-names.ts);
+ *  (c) every `said` passes holdsCatalogName.
+ */
+const FILL_SITES: Record<string, number> = {
+  "src/director/purpose-scene.ts": 6,
+  "src/director/floor-debate-facts.ts": 1,
+  "src/director/promise-talk.ts": 1,
+};
+const NAMES = questionNames.names as Record<
+  string,
+  { about: string; said?: string }
+>;
+
+describe("scene-talk {issue} is filled with the question as people say it", () => {
+  for (const [file, count] of Object.entries(FILL_SITES)) {
+    it(`${file}: its ${count} fill site${count === 1 ? "" : "s"} read questionSaid, never questionAbout`, () => {
+      const text = readFileSync(path.join(ROOT, file), "utf8");
+      const sites = [
+        ...text.matchAll(/facts\.issue = (?:fact\((\w+)\)|\{\s*text: (\w+),)/g),
+      ];
+      expect(
+        sites.length,
+        `${file}: the fill sites of {issue} are pinned here; add the new one (it must read questionSaid)`,
+      ).toBe(count);
+      const ids = [...new Set(sites.map((site) => site[1] ?? site[2]))];
+      for (const id of ids) {
+        const defs = [...text.matchAll(new RegExp(`const ${id} =[^;]*;`, "g"))];
+        expect(defs.length, `${file}: no definition of ${id}`).toBeGreaterThan(
+          0,
+        );
+        for (const def of defs) {
+          expect(def[0], `${file}: ${id} must read questionSaid`).toContain(
+            "questionSaid(",
+          );
+          expect(
+            def[0],
+            `${file}: ${id} must not read questionAbout`,
+          ).not.toContain("questionAbout(");
+        }
+      }
+    });
+  }
+
+  it("every question has its own said, with no fallback to its about", () => {
+    expect(
+      Object.entries(NAMES)
+        .filter(([, row]) => !row.said?.trim())
+        .map(([question]) => question),
+      "give these questions a `said` in data/english/question-names.json (Story)",
+    ).toEqual([]);
+  });
+
+  it("no question's said holds a catalog name", () => {
+    expect(
+      Object.entries(NAMES)
+        .filter(([, row]) => row.said && holdsCatalogName(row.said))
+        .map(
+          ([question, row]) =>
+            `${question}: "${row.said}" holds "${holdsCatalogName(row.said!)}"`,
+        ),
+      "say these as people do in data/english/question-names.json (Story)",
+    ).toEqual([]);
   });
 });
