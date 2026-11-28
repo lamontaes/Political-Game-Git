@@ -2,15 +2,36 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 5883,
+  "judged": 5885,
   "no": {
+    "0og4sk6q40k": {
+      "keys": [
+        "scene-talk.state-tell.now-the-signatures-signatures-of-them-from-voters-here-by-due-have-you-run-a-cam",
+        "scene-talk.reply-leave.let-me-find-out-how-this-works-first-i-ll-be-back-before-due"
+      ],
+      "why": "declines the clerk's offer to walk them through in order to go find out how it works, which contradicts the offer"
+    },
     "1524b77vnvj": {
       "keys": [
         "scene-talk.follow-answer.worse-than-our-poll-had-it-it-wasnt-close",
         "scene-talk.reply-refuse.not-yet-i-m-not-calling-opponent-until-the-count-is-certain"
       ],
       "why": "The aide only states that the loss was not close and asks for nothing, so \"Not yet. I'm not calling...\" answers a request that was never made."
+    },
+    "166axzbzdse": {
+      "keys": [
+        "scene-talk.follow-refuse.that-s-set-by-law-signatures-names-by-due-and-i-can-t-move-it",
+        "scene-talk.reply-leave.i-ll-think-about-it-i-have-until-due"
+      ],
+      "why": "nothing was offered to think about; clerk only said the rule can't move"
+    },
+    "1cd1ljswaq0": {
+      "keys": [
+        "scene-talk.follow-refuse.the-number-and-the-day-due-come-from-the-law-i-only-count-what-s-handed-in",
+        "scene-talk.reply-leave.i-ll-think-about-it-i-have-until-due"
+      ],
+      "why": "'I'll think about it' answers nothing; clerk stated a fixed rule, offered no choice"
     }
   },
-  "yesHash": "07n4omctk3t"
+  "yesHash": "02b8sm9uhmo"
 }

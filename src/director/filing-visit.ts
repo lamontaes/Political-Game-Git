@@ -187,7 +187,15 @@ export function openFilingVisit(
         ...clerkFact(core, clerkId),
       });
   if (greet) visit.lines.push({ speaker: "clerk", ...greet });
+  // The seats of one multi-seat district are said the same way, so the player
+  // is offered the office once (readers, Nov 27: the same reply listed twice).
+  const offered = new Set<string>();
   for (const contest of contests) {
+    const officeSaid = seatSaid(contest.seat ?? { title: contest.title }, {
+      asMember: true,
+    });
+    if (offered.has(officeSaid)) continue;
+    offered.add(officeSaid);
     const line = visitLine(
       core,
       visit,
@@ -195,9 +203,7 @@ export function openFilingVisit(
       "pick-office",
       {
         office: {
-          text: seatSaid(contest.seat ?? { title: contest.title }, {
-            asMember: true,
-          }),
+          text: officeSaid,
           sourceRecordIds: [contest.id],
         },
       },

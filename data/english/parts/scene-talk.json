@@ -77922,10 +77922,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-leave.no-i-haven-t-i-ll-learn-how-this-works-and-come-back-before-due",
+      "key": "scene-talk.reply-leave.i-ll-learn-how-this-works-first-and-come-back-before-due",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "No, I haven't. I'll learn how this works and come back before {due}.",
+      "text": "I'll learn how this works first and come back before {due}.",
       "uses": [
         {
           "subject": "scene",
@@ -78999,10 +78999,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.reply-leave.not-yet-let-me-find-out-how-this-works-first-and-i-ll-be-back-before-due",
+      "key": "scene-talk.reply-leave.let-me-find-out-how-this-works-first-i-ll-be-back-before-due",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Not yet. Let me find out how this works first, and I'll be back before {due}.",
+      "text": "Let me find out how this works first. I'll be back before {due}.",
       "uses": [
         {
           "subject": "scene",
@@ -79029,10 +79029,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-leave.i-haven-t-and-i-d-like-to-read-up-on-it-first-i-ll-be-back-before-due",
+      "key": "scene-talk.reply-leave.i-d-like-to-read-up-on-it-first-and-i-ll-be-back-before-due",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I haven't, and I'd like to read up on it first. I'll be back before {due}.",
+      "text": "I'd like to read up on it first, and I'll be back before {due}.",
       "uses": [
         {
           "subject": "scene",
@@ -79059,10 +79059,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-leave.no-i-haven-t-i-ll-learn-how-this-works-before-vote-day",
+      "key": "scene-talk.reply-leave.i-ll-learn-how-this-works-first-before-vote-day",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "No, I haven't. I'll learn how this works before {vote-day}.",
+      "text": "I'll learn how this works first, before {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -79089,10 +79089,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-leave.not-yet-let-me-read-up-on-how-this-works-before-vote-day",
+      "key": "scene-talk.reply-leave.let-me-read-up-on-how-this-works-before-vote-day",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Not yet. Let me read up on how this works before {vote-day}.",
+      "text": "Let me read up on how this works before {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -79639,6 +79639,253 @@
         "filing-at-the-clerks-counter",
         "filing-the-first-time-is-new-to-the-clerk"
       ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-ask-around-about-how-this-works-and-i-ll-be-back-before-due",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll ask around about how this works, and I'll be back before {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "due"],
+          "excludesFacts": ["no-petition", "round-two"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-read-each-name-over-before-due-because-i-strike-the-ones-that-fail",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. Read each name over before {due}, because I strike the ones that fail.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["due", "signatures"],
+          "setsFacts": ["round-two"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-thank.good-every-name-needs-checking-before-due-and-i-only-count-the-ones-that-hold-up",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. Every name needs checking before {due}, and I only count the ones that hold up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["due", "signatures"],
+          "setsFacts": ["round-two"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-thank.all-right-look-the-names-over-before-due-the-ones-that-don-t-check-out-don-t-count",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "All right. Look the names over before {due}. The ones that don't check out don't count.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "agree",
+          "requiresFacts": ["due", "signatures"],
+          "setsFacts": ["round-two"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.begin-with-signatures-since-doors-are-the-surest-way-to-get-them-after-that-comes-money-the-outlet-sells-ad-space-and-covers-who-is-running",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Begin with signatures, since doors are the surest way to get them. After that comes money: the {outlet} sells ad space and covers who is running.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["first-filing", "signatures", "outlet"],
+          "excludesFacts": ["no-petition"],
+          "setsFacts": ["round-two"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.get-the-signatures-first-by-knocking-on-doors-and-sitting-at-a-table-where-people-shop-then-money-the-outlet-sells-ad-space-and-sends-reporters-to-cover-the-race",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Get the signatures first by knocking on doors and sitting at a table where people shop. Then money: the {outlet} sells ad space and sends reporters to cover the race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["first-filing", "signatures", "outlet"],
+          "excludesFacts": ["no-petition"],
+          "setsFacts": ["round-two"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "petition-struck-names-decide-it",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-refuse.the-number-and-the-day-due-come-from-the-law-i-only-count-what-s-handed-in",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "The number and the day, {due}, come from the law. I only count what's handed in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.signatures-signatures-just-to-get-on-the-ballot",
+          "requiresFacts": ["signatures", "due"],
+          "excludesFacts": ["no-petition"],
+          "setsFacts": ["round-two"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
+    },
+    {
+      "key": "scene-talk.follow-refuse.that-s-set-by-law-signatures-names-by-due-and-i-can-t-move-it",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "That's set by law, {signatures} names by {due}, and I can't move it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.signatures-signatures-just-to-get-on-the-ballot",
+          "requiresFacts": ["signatures", "due"],
+          "excludesFacts": ["no-petition"],
+          "setsFacts": ["round-two"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "refuse",
+        "key": "filed"
+      },
+      "elements": ["filing-at-the-clerks-counter"]
     }
   ]
 }
