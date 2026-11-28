@@ -75,7 +75,6 @@ import {
   learnStake,
   members,
   provisionStance,
-  registerLegislatureHooks,
   type BillRow,
   type MemberPosition,
 } from "./legislature";
@@ -158,12 +157,13 @@ const STAFF_MODULE: CoreModule = {
     if (work.kind === "staff-dismiss") dismissDue(api, work);
     else staffReview(api, work);
   },
+  // What the staff add to the legislature: the brief a member is given before a vote.
+  legislatureHooks: {
+    beforeVote: { name: "staff-brief", run: briefBeforeVote },
+  },
 };
 
 export function openStaff(core: CoreState): void {
-  registerLegislatureHooks({
-    beforeVote: { name: "staff-brief", run: briefBeforeVote },
-  });
   if (core.modules.has(STAFF_MODULE_ID)) return;
   registerModule(core, STAFF_MODULE);
   scheduleReview(coreAPI(core), core.date);

@@ -1,0 +1,37 @@
+{
+  "id": "filing-dates-and-the-fee-at-the-end",
+  "kind": "detail",
+  "summary": "The story ends with the days filing runs, the fee, the election day and when the winner starts.",
+  "realLife": "A last paragraph gave the days the sign-up window runs, the small fee, the election day, the runoff day and the day the winner's term starts.",
+  "sources": [
+    "The Decatur Daily via Yahoo News (Decatur, Alabama), 'Co-founder seeks Decatur City Council seat in District 1', May 21, 2025: https://www.yahoo.com/news/standing-power-co-founder-seeks-231500285.html",
+    "The News Tribune (Jefferson City, Missouri), 'Local businessman intends to run for Missouri House', July 1, 2025: https://www.newstribune.com/news/2025/jul/01/local-businessman-intends-to-run-for-missouri/",
+    "The News Tribune (Jefferson City, Missouri), 'Retired engineer announces plan to run for state House', July 10, 2025: https://www.newstribune.com/news/2025/jul/10/retired-engineer-announces-plan-to-run-for-state/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "office", "when", "opens"],
+  "gates": [],
+  "weights": {
+    "candidate-announced": 0.5
+  },
+  "inGame": "the contest's filing-opens day and election day; needs: the fee and term start on the office row",
+  "issues": ["none"],
+  "turns": [
+    {
+      "name": "no fee",
+      "pulledBy": "the place charges no fee",
+      "writes": "the paragraph gives only the days",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "runoff possible",
+      "pulledBy": "the place has a runoff round",
+      "writes": "the paragraph adds the runoff day",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

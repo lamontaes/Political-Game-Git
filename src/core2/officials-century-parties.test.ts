@@ -14,7 +14,7 @@ import { gameStartDate } from "./game-start";
 import { createLifeCore } from "./life";
 import { allOfficials, openOfficials } from "./modules/officials";
 import { openOffices } from "./modules/offices";
-import { partySide } from "./appointments";
+import { partySide } from "./party-sides";
 import { buildPopulation } from "./population";
 import { coreAPI } from "./state";
 

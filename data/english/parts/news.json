@@ -911,6 +911,28 @@
       }
     },
     {
+      "key": "news.life-death.name-age-of-place-has-died-the-date-was-date",
+      "move": "life-death",
+      "kind": "written",
+      "text": "{name}, {age}, of {place}, has died. The date was {date}.",
+      "uses": [
+        {
+          "move": "life-death",
+          "subject": "news",
+          "role": "life.death",
+          "choice": "lede",
+          "requiresFacts": ["age", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.life-death.name-age-of-place-died-on-date",
       "move": "life-death",
       "kind": "written",
@@ -7304,6 +7326,27 @@
       "move": "law-bill",
       "kind": "written",
       "text": "It was passed as {designation}.",
+      "uses": [
+        {
+          "move": "law-bill",
+          "subject": "news",
+          "role": "law-bill",
+          "choice": "context"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-bill.the-bill-number-was-designation",
+      "move": "law-bill",
+      "kind": "written",
+      "text": "The bill number was {designation}.",
       "uses": [
         {
           "move": "law-bill",
