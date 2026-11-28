@@ -9,7 +9,7 @@
  * no one is named.
  */
 import type { CoreAPI, CoreState } from "../types";
-import { townSeats } from "./offices";
+import { townSeats } from "../offices-reads";
 import { lawChain } from "./laws";
 import {
   agencyHeadsIn,

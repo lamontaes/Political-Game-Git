@@ -21,7 +21,7 @@ import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
 import { stableHash } from "../kernel/ids";
 import { lastTogether } from "../closeness";
 import { endLivingPlan } from "./business";
-import { servingTerms } from "./offices";
+import { servingTerms } from "../offices-reads";
 import { allBusinessOwners } from "../business-reads";
 import { VIEWS_MODULE_ID } from "./views-constants";
 import { ELECTIONS_MODULE_ID, contestOf } from "./elections";
