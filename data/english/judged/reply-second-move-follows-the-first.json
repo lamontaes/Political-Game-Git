@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 5885,
+  "judged": 5897,
   "no": {
     "0og4sk6q40k": {
       "keys": [
@@ -10,6 +10,13 @@
         "scene-talk.reply-leave.let-me-find-out-how-this-works-first-i-ll-be-back-before-due"
       ],
       "why": "declines the clerk's offer to walk them through in order to go find out how it works, which contradicts the offer"
+    },
+    "0xt33ugh0dk": {
+      "keys": [
+        "scene-talk.follow-answer.ask-the-people-you-already-know-first-family-coworkers-the-neighbors-you-wave-to-signatures-names-come-faster-from-people-who-know-you-money-can-wait-until-the-names-are-in",
+        "scene-talk.reply-leave.thanks-that-helps-i-ll-start-knocking-on-doors-in-place"
+      ],
+      "why": "clerk says ask people you already know first; reply plans door-knocking across town, which contradicts that advice"
     },
     "1524b77vnvj": {
       "keys": [
@@ -31,7 +38,21 @@
         "scene-talk.reply-leave.i-ll-think-about-it-i-have-until-due"
       ],
       "why": "'I'll think about it' answers nothing; clerk stated a fixed rule, offered no choice"
+    },
+    "22p2z464ilc": {
+      "keys": [
+        "scene-talk.follow-answer.carry-a-clipboard-everywhere-you-go-and-ask-every-voter-you-meet-signatures-sounds-like-a-lot-but-a-good-table-at-a-shop-gets-you-a-long-way-then-you-can-turn-to-money",
+        "scene-talk.reply-leave.thanks-that-helps-i-ll-start-knocking-on-doors-in-place"
+      ],
+      "why": "clerk advised a clipboard and a table at a shop; door-knocking does not follow from that advice"
+    },
+    "2ewo08qgtt9": {
+      "keys": [
+        "scene-talk.follow-answer.pick-a-few-streets-in-place-and-walk-them-on-a-weekend-most-people-will-sign-for-a-candidate-who-asks-them-face-to-face-after-the-names-are-in-think-about-money",
+        "scene-talk.reply-leave.thanks-i-ll-start-tomorrow-and-have-it-back-before-due"
+      ],
+      "why": "clerk says walk the streets on a weekend; 'start tomorrow' ignores that timing, and 'it' has no referent in the line"
     }
   },
-  "yesHash": "02b8sm9uhmo"
+  "yesHash": "1k4mr0c1df1"
 }
