@@ -1,12 +1,12 @@
 /**
  * Every town whose records name a municipal government has a government row
- * for it, in its state or in an island area (gov-island-municipality-no-government):
- * the budgets engine looks the town's units up by the town's own record, not by
- * its Census code, which a territory place's key is not. An island municipality
- * has a government, a budget in force funded by its area's local aid, and the
- * council's and mayor's pay has a payer. Played worlds, places nobody chose,
- * with the seed named; a draw whose place holds no municipal unit is named and
- * passed over.
+ * for it, in its state or in an island area: the budgets engine looks the
+ * town's units up by the town's own record, not by its Census code, which a
+ * territory place's key is not. An island municipality has a government, a
+ * budget in force sized by the residents it governs (every village it covers)
+ * and funded by its area's local aid, and its treasury meets its public
+ * payroll over a year. Played worlds, places nobody chose, with the seed
+ * named; a draw whose place holds no municipal unit is named and passed over.
  */
 import { createHash, randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
