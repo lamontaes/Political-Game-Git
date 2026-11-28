@@ -230,9 +230,6 @@
     "src/core2/office-day-state.ts": {
       "bodies": 1
     },
-    "src/core2/output-number-readers.ts": {
-      "jobs-businesses": 2
-    },
     "src/core2/past-bodies.ts": {
       "offices": 1
     },
