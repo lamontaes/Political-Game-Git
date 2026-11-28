@@ -187,6 +187,24 @@ it("a contest lists only the questions its seat's government decides, and a play
       tried.push(`${where}: no contest for ${missing.join(", ")}`);
       continue;
     }
+    // A town decides its own budget (asserted below), so the place must hold a
+    // budget for the council's own government. Some places' councils have no
+    // government in the budgets engine (an island municipality in a territory:
+    // its governments are the federal and the territory's only), so there is no
+    // budget to offer lines from; those are passed over by name.
+    const councilLevel = found.council!.office.level;
+    if (
+      councilLevel !== "federal" &&
+      councilLevel !== "state" &&
+      !governments(api).some(
+        (row) => row.level === (councilLevel === "county" ? "county" : "city"),
+      )
+    ) {
+      tried.push(
+        `${where}: the council ${found.council!.office.id} has no government in the budgets engine, so no budget lines`,
+      );
+      continue;
+    }
     const districtKind =
       KINDS[place.state.slice(place.state.lastIndexOf("-") + 1)]
         ?.jurisdictionKind;
