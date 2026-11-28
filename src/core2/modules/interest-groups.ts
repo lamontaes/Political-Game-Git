@@ -1079,6 +1079,14 @@ export function groupsHere(api: CoreAPI): readonly GroupRow[] {
   return table(api, "groups").rows() as unknown as GroupRow[];
 }
 
+/** One group by its id, or undefined where none is kept under it. */
+export function interestGroupOf(
+  api: CoreAPI,
+  groupId: string,
+): GroupRow | undefined {
+  return table(api, "groups").get(groupId) as unknown as GroupRow | undefined;
+}
+
 export function meetingsOn(
   api: CoreAPI,
   billId: string,
