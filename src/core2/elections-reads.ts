@@ -35,6 +35,7 @@ import type { CoreState } from "./types";
 import type { CountedVoter } from "./electorate";
 import { residentsRuntime } from "./residents-reads";
 import { bookkeeping } from "./bookkeeping";
+import type { TieRow, PartyRow, PartyMeetingRow } from "./modules/parties";
 
 export const ELECTIONS_MODULE_ID = "core2-elections-v1";
 
@@ -604,4 +605,32 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
   const rows = inIdOrder(counted, walked, slot);
   cache.set(core, { date: key, rows });
   return rows;
+}
+
+export const PARTIES_MODULE_ID = "core2-parties-v1";
+
+export function partyTie(api: CoreAPI, personId: string): TieRow | null {
+  return (
+    (api
+      .moduleState(PARTIES_MODULE_ID)
+      .table("ties")
+      .get(personId) as unknown as TieRow | undefined) ?? null
+  );
+}
+
+export function partiesHere(api: CoreAPI): readonly PartyRow[] {
+  return api
+    .moduleState(PARTIES_MODULE_ID)
+    .table("parties")
+    .rows() as unknown as PartyRow[];
+}
+
+export function partyMeetings(
+  api: CoreAPI,
+  partyId: string,
+): readonly PartyMeetingRow[] {
+  return api
+    .moduleState(PARTIES_MODULE_ID)
+    .table("meetings")
+    .query("byParty", [partyId]) as unknown as PartyMeetingRow[];
 }

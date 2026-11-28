@@ -30,8 +30,6 @@ function claimant(
     count: countedWeight(core, personId),
   };
 }
-import type { LawInForceAnswer } from "./laws-in-force";
-import type { LawRowInput } from "./laws-in-force";
 import {
   residentFacts,
   residentsRuntime,
@@ -55,6 +53,8 @@ import type {
   PlaceId,
   Source,
 } from "./types";
+import { DAYS_PER_WEEK, NO_PROGRAM, unemploymentTermsOf } from "./jobs-reads";
+export { unemploymentTermsOf } from "./jobs-reads";
 
 export interface UnemploymentTerms {
   readonly hasProgram: boolean;
@@ -99,34 +99,6 @@ export interface ClaimRow {
   endReason?: "hired" | "exhausted" | "no-payer" | "left";
 }
 
-const DAYS_PER_WEEK = 7;
-const QUARTERS_PER_YEAR = 4;
-
-function lawSource(row: LawRowInput, asOf: string): Source {
-  const where = Array.isArray(row.source)
-    ? row.source.join(" ; ")
-    : (row.source as string);
-  const citation = `${row.id}: ${where}`;
-  return row.estimate
-    ? { tag: "ESTIMATED", asOf, citation, estimatedFrom: citation }
-    : { tag: "SOURCED", asOf, citation };
-}
-
-const NO_PROGRAM = (asOf: string): UnemploymentTerms => ({
-  hasProgram: false,
-  weeklyShare: 0,
-  weeklyMaximumMinor: 0,
-  maxWeeks: 0,
-  waitingWeek: false,
-  minimumBasePeriodMinor: 0,
-  source: {
-    tag: "ESTIMATED",
-    asOf,
-    citation: "No unemployment insurance law is in force here.",
-    estimatedFrom: "The laws module's starting law records no program.",
-  },
-});
-
 /**
  * The state's unemployment insurance as the law in force records it (the
  * laws module's `unemployment-insurance` and `unemployment-weekly-maximum`
@@ -143,72 +115,6 @@ export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
     (key) => api.parameter(key),
     asOf,
   );
-}
-
-/**
- * The same terms from any state's law answers: the town reads its own state's,
- * and the country tier reads every state's (one rule, two tiers).
- */
-export function unemploymentTermsOf(
-  program: LawInForceAnswer,
-  maximumAnswer: LawInForceAnswer,
-  parameter: (key: string) => number,
-  asOf: string,
-): UnemploymentTerms {
-  const row = program.governing;
-  const t = row?.terms as
-    | {
-        waitingWeek?: boolean;
-        maxWeeks?: number | null;
-        weeklyBenefitFraction?: number | null;
-        weeklyBenefitBasisQuarters?: number | null;
-        baseEarnings?: {
-          minimumBasePeriodWages?: number | null;
-          minimumHighQuarterWages?: number | null;
-        };
-      }
-    | undefined;
-  const maximum = maximumAnswer.value;
-  // The enacted amount is availability. The starting research also carries
-  // a hasProgram field, but retaining its formula must not override repeal.
-  if (!row || !t || row.value !== 1) return NO_PROGRAM(asOf);
-  if (typeof t.maxWeeks !== "number" || maximum === null)
-    return NO_PROGRAM(asOf);
-  const minor = parameter("minorPerDollar");
-  const quarterWeeks =
-    parameter("jobsDaysPerYear") / DAYS_PER_WEEK / QUARTERS_PER_YEAR;
-  const quarters = t.weeklyBenefitBasisQuarters ?? undefined;
-  // A fraction of the basis wages is a share of weekly pay once the basis's
-  // weeks are counted; a row that gives none falls to the program's median.
-  const weeklyShare =
-    typeof t.weeklyBenefitFraction === "number" && quarters !== undefined
-      ? t.weeklyBenefitFraction * (quarters === 0 ? 1 : quarters * quarterWeeks)
-      : parameter("jobsBenefitWeeklyShare");
-  const wages =
-    t.baseEarnings?.minimumBasePeriodWages ??
-    t.baseEarnings?.minimumHighQuarterWages;
-  return {
-    hasProgram: true,
-    weeklyShare,
-    ...(typeof t.weeklyBenefitFraction === "number" && quarters !== undefined
-      ? {
-          weeklyFraction: t.weeklyBenefitFraction,
-          basisQuarters: quarters,
-        }
-      : {}),
-    weeklyMaximumMinor: maximum * minor,
-    maxWeeks: t.maxWeeks,
-    waitingWeek: t.waitingWeek === true,
-    minimumBasePeriodMinor:
-      typeof wages === "number"
-        ? Math.round(wages * minor)
-        : parameter("jobsBenefitMinimumBasePeriodMinor"),
-    lawId: row.id,
-    ...(maximumAnswer.governing
-      ? { maximumLawId: maximumAnswer.governing.id }
-      : {}),
-    source: lawSource(row, asOf),
-  };
 }
 
 function weeksAfter(date: string, weeks: number): string {

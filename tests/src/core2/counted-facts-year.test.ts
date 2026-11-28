@@ -29,6 +29,8 @@ afterAll(() => {
 const ENGINES = [
   "src/core2/modules/jobs.ts",
   "src/core2/jobs-benefits.ts",
+  // jobs-benefits.ts's unemployment terms moved here (Rings, Nov 28).
+  "src/core2/jobs-reads.ts",
   "src/core2/modules/employer-taxes.ts",
   "src/core2/modules/credit.ts",
   "src/core2/modules/business.ts",

@@ -16,7 +16,7 @@ import { payRentAssistance } from "../housing-assistance";
 import { governmentUnitsForState } from "../reference/government-units";
 import { placeCounty, placeStateKey } from "../place-map";
 import { householdDailyCostMinor } from "../household-cost";
-import { fullRelativesOf } from "../births-counted";
+import { fullRelativesOf } from "../residents-reads";
 import {
   corePlaceByKey,
   corePlaceByJurisdictionId,

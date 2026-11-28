@@ -18,7 +18,12 @@ describe("deaths come from the one hazard curve and the people's own records", (
   });
   it("no world factor or state ratio scales deaths in either tier", () => {
     expect(BASE_RATE_TABLES).not.toContain("mortality");
-    for (const file of ["births-counted.ts", "modules/health.ts"])
+    // births-counted.ts's fullRelativesOf moved to residents-reads.ts (Rings, Nov 28).
+    for (const file of [
+      "births-counted.ts",
+      "residents-reads.ts",
+      "modules/health.ts",
+    ])
       expect(
         readFileSync(
           new URL(

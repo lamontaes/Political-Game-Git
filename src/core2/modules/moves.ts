@@ -51,7 +51,7 @@ import {
   hardshipReason,
 } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
-import { sellHome } from "../housing-sale";
+import { sellHome } from "../housing-writes";
 import { endLivingPlan } from "./business";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { currentCloseness } from "../closeness";

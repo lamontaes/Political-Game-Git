@@ -14,7 +14,7 @@ import type {
 } from "./country-model";
 import federalLines from "./data/country/federal-lines.json" with { type: "json" };
 import spending from "../../data/research/federal/federal-spending-by-state-fy2024.json" with { type: "json" };
-import { unemploymentTermsOf } from "./jobs-benefits";
+import { unemploymentTermsOf } from "./jobs-reads";
 import { withholdingFor } from "./budgets-treasury";
 import { resolveLawInForce, type LawInForceAnswer } from "./laws-in-force";
 import { stateOpeningLawRows } from "./modules/laws";
