@@ -11,6 +11,7 @@
  * Households pay by their living cost and businesses' own charges are inside
  * it (stopgap SG-GOV-service-charges-by-living-cost).
  */
+import { governmentResidents } from "./modules/budgets";
 import charges from "../../data/research/money/service-charges-2022.json" with { type: "json" };
 import {
   budgetInForce,
@@ -305,8 +306,8 @@ export function syncServiceCharges(api: CoreAPI): void {
         : base.services;
     // The people the town models pay their part; the rest of what the
     // government's residents pay stays the outside account's.
-    const residents =
-      gov.level === "city" ? Math.max(modeled, gov.residents) : gov.residents;
+    const live = governmentResidents(api, gov);
+    const residents = gov.level === "city" ? Math.max(modeled, live) : live;
     const modeledShare = residents > 0 ? Math.min(1, modeled / residents) : 0;
     const target = Math.round((annual * modeledShare) / months);
     // Sewer and trash is charged to its users: flat per dwelling and per firm,

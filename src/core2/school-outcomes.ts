@@ -28,6 +28,7 @@
  * some college, from the day normal time ends (collegeOf), which the jobs
  * engine reads when it prices a hire.
  */
+import { governmentResidents } from "./modules/budgets";
 import data from "./data/school/outcomes.json" with { type: "json" };
 import { ageOn } from "./counted-groups";
 import { countedJobHeads, countedJobsOf } from "./residents-economy";
@@ -895,14 +896,17 @@ export function recordSchoolSpending(
   let perResident = 0;
   const lines: string[] = [];
   for (const gov of governments(api)) {
-    if ((gov.level !== "city" && gov.level !== "county") || !gov.residents)
+    if (
+      (gov.level !== "city" && gov.level !== "county") ||
+      !governmentResidents(api, gov)
+    )
       continue;
     const budget = [...budgetsOf(api, gov.id)]
       .filter((row) => row.startsOn <= core.date)
       .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0];
     const line = budget?.spendingMinor["schools"];
     if (!budget || !line) continue;
-    perResident += line / gov.residents;
+    perResident += line / governmentResidents(api, gov);
     lines.push(budget.id);
   }
   if (!perResident) return null;

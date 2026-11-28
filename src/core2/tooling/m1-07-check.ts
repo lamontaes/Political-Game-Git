@@ -55,6 +55,7 @@ import {
   budgetsOf,
   governments,
   localFiscalYearStart,
+  governmentResidents,
 } from "../modules/budgets";
 import { buildPlayedWorld, monthsAfter, playYear } from "./m1-played-year";
 import {
@@ -147,7 +148,7 @@ function expectedStart(gov: (typeof govs)[number]): string | undefined {
   return localFiscalYearStart(
     stateKey,
     gov.level === "county" ? "county" : "municipal",
-    gov.residents,
+    governmentResidents(api, gov),
   );
 }
 const adopted: Record<string, unknown>[] = [];
@@ -332,13 +333,14 @@ if (coverage === "territory") {
   );
   const state = govs.find((g) => g.level === "state")!;
   const stateBudget = inForce(state.id);
-  if (!(expected > 0) || !stateBudget || !(state.residents > 0))
+  if (!(expected > 0) || !stateBudget || !(governmentResidents(api, state) > 0))
     unchecked.push(
       `${stateKey}: spending per resident (no published territory figure, budget in force or residents to compare)`,
     );
   else {
-    const spending = sum(stateBudget.spendingMinor) / 100 / state.residents;
-    const actual = paidOut(state) / 100 / state.residents;
+    const spending =
+      sum(stateBudget.spendingMinor) / 100 / governmentResidents(api, state);
+    const actual = paidOut(state) / 100 / governmentResidents(api, state);
     if (spending < expected * 0.85 || spending > expected * 1.15)
       fail(
         `territory spending (budget): ${spending.toFixed(0)} dollars per resident is outside 15 percent of the published ${expected.toFixed(0)} (ESTIMATED island-area all-funds spending, FY2025)`,
@@ -360,11 +362,14 @@ if (coverage === "territory") {
 else {
   const state = govs.find((g) => g.level === "state")!;
   const stateBudget = inForce(state.id);
-  if (stateBudget && state.residents > 0) {
+  if (stateBudget && governmentResidents(api, state) > 0) {
     const taxes =
-      sum(stateBudget.revenueMinor, TAX_LINES) / 100 / state.residents;
-    const spending = sum(stateBudget.spendingMinor) / 100 / state.residents;
-    const actual = paidOut(state) / 100 / state.residents;
+      sum(stateBudget.revenueMinor, TAX_LINES) /
+      100 /
+      governmentResidents(api, state);
+    const spending =
+      sum(stateBudget.spendingMinor) / 100 / governmentResidents(api, state);
+    const actual = paidOut(state) / 100 / governmentResidents(api, state);
     within("state taxes (budget)", taxes, bounds("state", "taxes"));
     within("state spending (budget)", spending, bounds("state", "expenditure"));
     within(
@@ -389,13 +394,17 @@ else {
       all = true;
     for (const gov of locals) {
       const budget = inForce(gov.id);
-      if (!budget || gov.residents <= 0) {
+      if (!budget || governmentResidents(api, gov) <= 0) {
         all = false;
         continue;
       }
-      taxes += sum(budget.revenueMinor, TAX_LINES) / 100 / gov.residents;
-      spending += sum(budget.spendingMinor) / 100 / gov.residents;
-      actual += paidOut(gov) / 100 / gov.residents;
+      taxes +=
+        sum(budget.revenueMinor, TAX_LINES) /
+        100 /
+        governmentResidents(api, gov);
+      spending +=
+        sum(budget.spendingMinor) / 100 / governmentResidents(api, gov);
+      actual += paidOut(gov) / 100 / governmentResidents(api, gov);
     }
     const both = all && locals.length === 2;
     // With only one of the two local governments in the world, the other's share is not modeled: only the upper bound holds.
@@ -456,7 +465,8 @@ for (const gov of govs) {
   const opening = rows[0];
   const closing = rows.at(-1);
   // The federal government's residents are the nation's (the budgets leave its own at zero).
-  const residents = gov.level === "federal" ? usPopulation : gov.residents;
+  const residents =
+    gov.level === "federal" ? usPopulation : governmentResidents(api, gov);
   if (!opening || !closing || !(residents > 0)) {
     unchecked.push(
       `${gov.level} ${gov.id}: no budget in force or no residents for its per-resident taxes and spending`,

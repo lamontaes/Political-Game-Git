@@ -133,16 +133,19 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
   let countyPeople = county
     ? Number(COUNTY_POPULATION.get(county)?.split(",")[0])
     : NaN;
-  // The town's recorded population, else the people the opening generated for it.
-  const recorded = Number(input.placeMetadata?.referencePopulation);
+  const counts = new Map<string, number>();
+  for (const row of input.organizations)
+    counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
+  const placeId = [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
+  if (!placeId) return undefined;
+  // The town's people at the opening: the people the opening generated, counted records times the households each stands for.
+  const weight = input.residents?.weights?.[placeId] ?? 1;
   const townPeople =
-    recorded > 0
-      ? recorded
-      : input.people.length +
-        (input.residents?.households ?? []).reduce(
-          (n, row) => n + row.people.length,
-          0,
-        );
+    input.people.length +
+    (input.residents?.households ?? []).reduce(
+      (n, row) => n + row.people.length * weight,
+      0,
+    );
   if (!(townPeople > 0)) return undefined;
   if (!(deposits > 0) || !(countyPeople > 0)) {
     // No county deposit row for this place (American Samoa has no FDIC branch): deposits per resident, estimated.
@@ -152,11 +155,6 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
     deposits = perPerson * townPeople;
     countyPeople = townPeople;
   }
-  const counts = new Map<string, number>();
-  for (const row of input.organizations)
-    counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
-  const placeId = [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
-  if (!placeId) return undefined;
   // The county's published deposits are the center; this world's banks hold a
   // level drawn from its seed (realistic, not real; owner, Oct 27).
   const depositsMinor = Math.round(

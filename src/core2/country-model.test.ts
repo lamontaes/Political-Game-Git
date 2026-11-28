@@ -12,6 +12,7 @@ import {
   startingLawReader,
 } from "./country-law";
 import { publishedStateStake } from "./budget-stakes";
+import spendingResearch from "../../data/research/federal/federal-spending-by-state-fy2024.json" with { type: "json" };
 import federalBudget from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import {
   COUNTRY_AGE_BANDS,
@@ -94,6 +95,7 @@ const federalOf = (raised: Readonly<Record<string, number>> = {}) =>
     },
     (stateKey, line) => publishedStateStake(stateKey, `budget-line:${line}`),
     1,
+    spendingResearch.population,
   );
 const BASE_FEDERAL = federalOf();
 const lawOf = (change?: Change, index?: TaxIndex, federal = BASE_FEDERAL) =>

@@ -14,6 +14,7 @@
  * their own ordinances from this same rule, so a body has one set of meeting
  * dates.
  */
+import { townPopulation } from "./live-population";
 import intervals from "../../data/research/local-government/council-meeting-intervals.json" with { type: "json" };
 import bases from "../../data/research/money/public-budget-bases.json" with { type: "json" };
 import rows from "./data/office-day/parameters.json" with { type: "json" };
@@ -65,7 +66,7 @@ export function bodyPopulation(
   kind: string,
   countyGeoid: string | undefined,
 ): number {
-  const town = Number(api.state.placeMetadata.referencePopulation);
+  const town = townPopulation(api);
   if (kind.startsWith("county-")) {
     const people = countyGeoid ? COUNTY_PEOPLE[countyGeoid] : undefined;
     if (people) return people;

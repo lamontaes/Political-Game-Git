@@ -34,6 +34,7 @@ import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { stateLawInForce } from "./laws";
 import { carriedLink, WEB_LINKS } from "./outcome-web";
 import { residentsOf, STATES } from "./budgets";
+import { statePopulation } from "../live-population";
 
 export const CLIMATE_MODULE_ID = "climate";
 const RUN_KIND = "climate-month";
@@ -70,18 +71,21 @@ const table = (api: CoreAPI, name: string) =>
   api.moduleState(CLIMATE_MODULE_ID).table(name);
 const monthOf = (date: string) => date.slice(0, "YYYY-MM".length);
 
-/** The weights of the country's states: each state's people over all of them. */
-function stateWeights(): [string, number][] {
+/** The weights of the country's states: each state's people today over all of them (the world's own count; before the tier opens, the count it opens from). */
+function stateWeights(api: CoreAPI): [string, number][] {
   const rows = Object.entries(STATES)
-    .map(([key, base]) => [key, residentsOf(base)] as [string, number])
+    .map(
+      ([key, base]) =>
+        [key, statePopulation(api, key) ?? residentsOf(base)] as [
+          string,
+          number,
+        ],
+    )
     .filter(([, people]) => people > 0)
     .sort((a, b) => a[0].localeCompare(b[0]));
   const total = rows.reduce((n, [, people]) => n + people, 0);
   return rows.map(([key, people]) => [key, people / total]);
 }
-let weights: [string, number][] | undefined;
-/** The weights, built on first use (the state bases are not loaded yet when this file is, in some import orders). */
-const weightsOf = () => (weights ??= stateWeights());
 
 /** A law cause's change since the day the world opened, as of `lag` months before today (0 where unrecorded). */
 function lawChange(
@@ -116,7 +120,7 @@ const CARBON_LINKS = [
 /** The country's CO2 against the opening's: each carbon law's size per law, in each state, by people. */
 function usIndex(api: CoreAPI): number {
   let index = 0;
-  for (const [stateKey, weight] of weightsOf()) {
+  for (const [stateKey, weight] of stateWeights(api)) {
     let factor = 1;
     for (const link of CARBON_LINKS)
       factor *=

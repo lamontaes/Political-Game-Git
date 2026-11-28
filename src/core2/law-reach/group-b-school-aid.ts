@@ -9,6 +9,7 @@
  * (budgets-treasury.ts), and the town pays its schools line from it, which
  * the school engine reads (school-outcomes.ts, school-budget-line.ts).
  */
+import { governmentResidents } from "../modules/budgets";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
 import {
@@ -68,7 +69,7 @@ export function schoolAidNeed(stateKey: string, regionId?: string): number {
 function poolPerResident(api: CoreAPI): number {
   const local = bases.places[lawChain(api).stateKey]?.local?.spending?.schools;
   const state = governments(api).find((g) => g.level === "state");
-  if (!local || !state?.residents) return 0;
+  if (!local || !state || !governmentResidents(api, state)) return 0;
   return (
     reachParameter("equalizedFundingSpendingShare") *
     local *
@@ -85,7 +86,9 @@ function poolPerResident(api: CoreAPI): number {
  */
 export function schoolAidPool(api: CoreAPI): number {
   const state = governments(api).find((g) => g.level === "state");
-  return Math.round(poolPerResident(api) * (state?.residents ?? 0));
+  return Math.round(
+    poolPerResident(api) * (state ? governmentResidents(api, state) : 0),
+  );
 }
 
 /** The schools aid each of the town's own governments gets, in minor units, by government id. */
@@ -108,15 +111,18 @@ export function schoolAidShares(api: CoreAPI): Map<string, number> {
     )
       continue;
     const budget = budgetInForce(api, gov.id);
-    if (!budget || !gov.residents) continue;
+    const residents = governmentResidents(api, gov);
+    if (!budget || !residents) continue;
     const line = lineWithoutBills(api, gov, budget.fiscalYear, "schools");
-    if (line > 0) carrying.push({ gov, perResident: line / gov.residents });
+    if (line > 0) carrying.push({ gov, perResident: line / residents });
   }
   const carried = carrying.reduce((n, c) => n + c.perResident, 0);
   for (const { gov, perResident: own } of carrying)
     out.set(
       gov.id,
-      Math.round(perResident * need * gov.residents * (own / carried)),
+      Math.round(
+        perResident * need * governmentResidents(api, gov) * (own / carried),
+      ),
     );
   return out;
 }

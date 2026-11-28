@@ -13,6 +13,7 @@
  *   repeal takes the same amount back out.
  *   The housing line pays its rent assistance in the housing engine (housing-assistance.ts).
  */
+import { governmentResidents } from "../modules/budgets";
 import { paidLeaveProgram, paidLeavePremium } from "../paid-leave";
 import { lawApplied } from "./applied";
 import type { CoreAPI, CoreState } from "../types";
@@ -312,7 +313,7 @@ function lineAddition(input: {
         target: "group",
         engine: BUDGETS_MODULE_ID,
         what: input.what,
-        count: gov.residents,
+        count: governmentResidents(api, gov),
       });
     }
   };

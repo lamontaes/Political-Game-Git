@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import table from "./data/world/community-events.json" with { type: "json" };
 import { drawPlace } from "../../scripts/core2-year/place";
-import { placeLocalities, placeStateKeys } from "./places";
+import { corePlaceByKey } from "./place-lookup";
+import { placeReferencePopulation } from "./gov-rules/place-population";
 import {
   COMMUNITY_PLACE_TYPES,
   communityEventsFor,
-  communityPlaceType,
   communityPlaceTypeForPopulation,
 } from "./community-events-table";
 
@@ -23,17 +23,14 @@ describe("community events by place type", () => {
     }
   });
 
-  it("resolves every locality of all 56 jurisdictions to a type that holds events", () => {
-    const keys = placeStateKeys();
-    expect(keys.length).toBe(56);
-    for (const state of keys) {
-      const rows = placeLocalities(state);
-      expect(rows.length, state).toBeGreaterThan(0);
-      for (const row of rows) {
-        const type = communityPlaceType(row.key);
-        expect(COMMUNITY_PLACE_TYPES, row.key).toContain(type);
-        expect(communityEventsFor(type).length, row.key).toBeGreaterThan(0);
-      }
+  it("resolves every population, from a hamlet to the largest city, to a type that holds events", () => {
+    for (const population of [0, 1, 800, 4_000, 20_000, 120_000, 8_000_000]) {
+      const type = communityPlaceTypeForPopulation(population);
+      expect(COMMUNITY_PLACE_TYPES, String(population)).toContain(type);
+      expect(
+        communityEventsFor(type).length,
+        String(population),
+      ).toBeGreaterThan(0);
     }
   });
 
@@ -48,7 +45,12 @@ describe("community events by place type", () => {
     "a drawn place holds dated or season-ruled events (%s)",
     (seed) => {
       const draw = drawPlace(seed, "community-events");
-      const type = communityPlaceType(draw.key);
+      const type = communityPlaceTypeForPopulation(
+        placeReferencePopulation(
+          corePlaceByKey(draw.key)?.sourceGeoid ?? "",
+          draw.seed,
+        )?.value ?? 0,
+      );
       const events = communityEventsFor(type);
       expect(
         events.length,

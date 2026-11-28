@@ -14,6 +14,7 @@
     "src/core2/parameters.ts",
     "src/core2/stopgaps.ts",
     "src/core2/seeded.ts",
+    "src/core2/live-population.ts",
     "src/core2/world-base-rates.ts",
     "src/core2/scene-replies.ts",
     "src/core2/shares.ts",

@@ -11,7 +11,7 @@
     "src/core2/starting-cash.ts": 1
   },
   "unlabeledRows": {
-    "src/core2/data/budgets/treasury-spending.json": 13,
+    "src/core2/data/budgets/treasury-spending.json": 12,
     "src/core2/data/business/parameters.json": 38,
     "src/core2/data/campaigns/parameters.json": 265,
     "src/core2/data/candidacy/benchmarks.json": 17,

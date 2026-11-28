@@ -131,10 +131,17 @@ it(`another state's budget reads its ledger in the country tier, and its own tax
     sales(after!),
     `${where}: ${after!.id} sales tax ${sales(after!)} against ${sales(before!)} left alone`,
   ).toBeGreaterThan(sales(before!));
+  // The lines the tier does not model are the published dollars a resident times the residents
+  // the budget was written on: the state's own people, which the raise itself can move. The
+  // dollars a resident are the same in both worlds.
+  expect(after!.residents, `${where}: ${after!.id} residents`).toBeGreaterThan(
+    0,
+  );
   for (const line of ["propertyTax", "chargesAndFees", "federalAid"])
-    expect(after!.revenueMinor[line], `${where}: ${after!.id} ${line}`).toBe(
-      before!.revenueMinor[line],
-    );
+    expect(
+      after!.revenueMinor[line]! / after!.residents!,
+      `${where}: ${after!.id} ${line} a resident`,
+    ).toBeCloseTo(before!.revenueMinor[line]! / before!.residents!, 4);
   process.stdout.write(
     `OUTSIDE BUDGETS ${where}: ${stateKey} sales tax ${rate}% raised to ${rate + RAISE}%; ${after!.id} (${after!.ledgerId}) general sales tax ${sales(after!)} against ${sales(before!)} left alone; ${later.length} rows read the tier\n`,
   );

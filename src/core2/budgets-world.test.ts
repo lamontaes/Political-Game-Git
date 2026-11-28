@@ -57,6 +57,7 @@ describe(`each world's opening budgets (${where})`, () => {
         row.fiscalYear,
         row.adoptedOn,
         row.adoptedBy,
+        row.residents!,
       );
       for (const side of ["revenueMinor", "spendingMinor"] as const)
         for (const [line, value] of Object.entries(row[side])) {

@@ -36,6 +36,7 @@
  * at 6e9df72b it is red again. Both red rows are expected failures (it.fails)
  * that name their items.
  */
+import { placeReferencePopulation } from "./gov-rules/place-population";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import housingParameters from "./data/housing/parameters.json" with { type: "json" };
@@ -128,17 +129,15 @@ describe("group quarters in the played world", { timeout: 750_000 }, () => {
         "699ba32e2ba2dbfca445ba8ce32f5b6b504de63eb4b81c18db5aa95b075ca764",
       filingCheck: false,
       institutions: false,
-      fails: "tests-group-quarters-room-neither-opened-nor-admitted",
     },
     // Red at f26c10de, green at 800ae520, red again on the Train at
-    // 6e9df72b (Nov 16).
+    // 6e9df72b (Nov 16); green on #9943's head (Nov 18), so it is a plain row again.
     {
       key: "5437948",
       worldSeed:
         "a4c19fc64e5227305fec46c6dbde9b82c542f0de603825ab6e966a3140d4a8c9",
       filingCheck: false,
       institutions: true,
-      fails: "tests-group-quarters-met-room-returns-without-group-tenure",
     },
   ];
   const title =
@@ -205,7 +204,10 @@ describe("group quarters in the played world", { timeout: 750_000 }, () => {
     // Each type against this world's share of the Census count.
     const census = placeGroupQuarters(key);
     const published = publishedOf(key);
-    const world = Number(core.placeMetadata?.referencePopulation);
+    const world = placeReferencePopulation(
+      corePlaceByKey(key)!.sourceGeoid!,
+      core.seed,
+    )!.value;
     // The sample the opening drew (the target, or the whole town where it
     // is smaller) against the one the weight implies: whole households
     // overshoot the target a little, and each counted person stands for
