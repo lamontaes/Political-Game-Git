@@ -7,10 +7,10 @@
  */
 import { describe, expect, it } from "vitest";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
-import { closenessBetween, registerSharedHours } from "../closeness";
+import { closenessBetween } from "../closeness";
 import { createLifeCore } from "../life";
 import { buildPopulation } from "../population";
-import { coreAPI } from "../state";
+import { coreAPI, registerModule } from "../state";
 import { RUN_SEED } from "../../../tests/support/trait-test-kit";
 import { drawPlace } from "../../../tests/golden-path/place";
 import { deliverSpeech, speechModule } from "./speech";
@@ -125,13 +125,17 @@ describe(`how a speech lands in ${place.name} (seed ${SEED})`, () => {
     expect(pair, "two with no tie row").toBeDefined();
     const { listener, speaker } = pair!;
     const strangers = standing(listener.id, speaker.id);
-    // The hook sittings use: an engine's own record of time two people spent together.
-    registerSharedHours((_, a, b) =>
-      (a === listener.id && b === speaker.id) ||
-      (a === speaker.id && b === listener.id)
-        ? 300
-        : 0,
-    );
+    // The field sittings carry: an engine's own record of time two people spent together.
+    registerModule(core, {
+      id: "test-shared-hours",
+      sharedHours: {
+        hours: (_, a, b) =>
+          (a === listener.id && b === speaker.id) ||
+          (a === speaker.id && b === listener.id)
+            ? 300
+            : 0,
+      },
+    });
     const colleagues = standing(listener.id, speaker.id);
     console.log(
       `shared hours: ${place.name}, seed ${SEED}, ${listener.id} and ${speaker.id}: standing ${strangers.toFixed(4)} as strangers, ${colleagues.toFixed(4)} with 300 shared hours`,
