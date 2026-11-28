@@ -28,8 +28,8 @@
 import { questionAxis } from "./campaign-views";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./modules/budgets";
-import { LAWS_MODULE_ID } from "./modules/laws";
-import { OFFICES_MODULE_ID, officeById } from "./modules/offices";
+import { LAWS_MODULE_ID } from "./modules/laws-reads";
+import { OFFICES_MODULE_ID, officeById } from "./offices-reads";
 import { levelMayDecide } from "./modules/world-legislating";
 import { stanceReader } from "./campaign-stances";
 import type { OfficeLevel } from "./modules/offices";

@@ -33,4 +33,4 @@ checked: fable 2026-11-10
 
 **Waits on.** world-home-turnover-part-1-measure-sales-now, world-counted-renters-buy, world-buyer-pays-the-selling-household, world-home-sales-set-the-town-price.
 
-**Files.** src/core2/modules/housing.ts, src/core2/data/housing/parameters.json, src/core2/housing.test.ts
+**Files.** src/core2/modules/housing.ts, src/core2/data/housing/parameters.json, tests/src/core2/housing.test.ts

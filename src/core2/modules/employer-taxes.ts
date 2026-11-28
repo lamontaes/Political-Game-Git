@@ -23,8 +23,8 @@ import type { ModuleRow } from "../module-data";
 import type { CashJournalSourceSlot } from "../journal-state";
 import { lawChain, lawInForce, lawInForceToday } from "./laws";
 import { lawApplied } from "../law-reach/applied";
-import { residentFacts, residentsRuntime } from "./residents";
-import { businessScaleOf, countedHeadsOf } from "../residents-economy";
+import { residentFacts, residentsRuntime } from "../residents-reads";
+import { businessScaleOf, countedHeadsOf } from "../counted-job-heads";
 import { countedPayment, paydayLaw } from "../counted-money";
 import { withholdingFor } from "../tax-withholding";
 import {

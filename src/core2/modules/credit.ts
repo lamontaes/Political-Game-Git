@@ -44,6 +44,7 @@ import {
   leanedByKinds,
 } from "../trait-decisions";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
+import { allMortgageRows } from "../housing-reads";
 import { transferCash } from "../budgets-treasury";
 import { strongestPulls } from "./jobs";
 import type { ActOffer } from "../types";
@@ -470,14 +471,7 @@ export function heldMortgages(api: CoreAPI, bankId: string) {
     if (counted) openingHeld.set(c, opening);
   }
   let now = 0;
-  const rows = api
-    .moduleState("housing")
-    .table("mortgages")
-    .rows() as unknown as {
-    holderId: string;
-    householdId: string;
-    balanceMinor: number;
-  }[];
+  const rows = allMortgageRows(api);
   // Before housing opens its table, the opening balances stand.
   if (!rows.length) return { now: opening, opening };
   for (const row of rows)

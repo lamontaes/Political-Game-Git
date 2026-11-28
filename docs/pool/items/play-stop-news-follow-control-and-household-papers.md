@@ -37,4 +37,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/press.ts, src/bench/archive-words.ts, src/bench/handler.ts, src/bench/world.ts, src/bench/play.mjs, src/bench/ui/news-board.mjs, src/bench/data/controls.json, src/bench/news-follow.test.ts (new)
+**Files.** src/core2/modules/press.ts, src/bench/archive-words.ts, src/bench/handler.ts, src/bench/world.ts, src/bench/play.mjs, src/bench/ui/news-board.mjs, src/bench/data/controls.json, tests/src/bench/news-follow.test.ts (new)

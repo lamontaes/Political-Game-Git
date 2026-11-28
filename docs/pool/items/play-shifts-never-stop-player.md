@@ -19,7 +19,7 @@ claimed-at:
 
 **Rules.** Replace, never layer: the work-boundary query, its acknowledgment plumbing and the bench's shift-stop branch and labels are deleted, not left beside the new path. Speed: a year is not slower.
 
-**Done when.** In a drawn place built with buildBenchWorld, a working character advanced day by day for two weeks through the bench has zero stops without a module and the job's attendance moves on (`src/bench/shifts-never-stop.test.ts`, place and seed named), shown by a before and after bench screenshot.
+**Done when.** In a drawn place built with buildBenchWorld, a working character advanced day by day for two weeks through the bench has zero stops without a module and the job's attendance moves on (`tests/src/bench/shifts-never-stop.test.ts`, place and seed named), shown by a before and after bench screenshot.
 
 **Time box.** 2 hours.
 

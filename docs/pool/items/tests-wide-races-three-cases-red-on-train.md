@@ -18,8 +18,8 @@ effort: medium
 source: views thread, Nov 16 (gate of the held-over seat change)
 ---
 
-**What.** src/core2/wide-races.test.ts fails three of its seven cases on the Train at ef708196: the national pool of governors and statewide officers, the stand-in that may not add candidates to a wide race, and the edge fixture whose empty race should be a holdover. The test draws its seed with randomBytes and its places with drawPlace at run time, so each run plays different places, but the same three cases failed at both places seen. Nobody has traced why yet.
-Seen: Parksley, Virginia (5160680), seed 722d272ef9f1615c, and Fort Meade, Maryland (2429400), seed cf0c570998e71b75, by `npx vitest run src/core2/wide-races.test.ts`.
+**What.** tests/src/core2/wide-races.test.ts fails three of its seven cases on the Train at ef708196: the national pool of governors and statewide officers, the stand-in that may not add candidates to a wide race, and the edge fixture whose empty race should be a holdover. The test draws its seed with randomBytes and its places with drawPlace at run time, so each run plays different places, but the same three cases failed at both places seen. Nobody has traced why yet.
+Seen: Parksley, Virginia (5160680), seed 722d272ef9f1615c, and Fort Meade, Maryland (2429400), seed cf0c570998e71b75, by `npx vitest run tests/src/core2/wide-races.test.ts`.
 
 **Cause.** Needs cause. Looked at: the run named under Seen, red on a clean checkout of the Train head ef70819622c9bc399e73c39e928c226e1f35afee and on the held-over seat branch alike, so the held-over seat change did not cause it.
 
@@ -33,7 +33,7 @@ Seen: Parksley, Virginia (5160680), seed 722d272ef9f1615c, and Fort Meade, Maryl
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/wide-races.test.ts
+**Files.** tests/src/core2/wide-races.test.ts
 
 **Notes.**
 

@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** One model, two tiers: the counted group runs by the full person's candidacy rule times its count, and the filled-in runner matches the group. No dice: running follows resources, ambition and standing, never a roll. One rule, all 56 places: no place or office level is named in logic beyond what the jurisdiction data says.
 
-**Done when.** A second session, not the builder, runs a one-year played world (`buildBenchWorld`) in a drawn place and seed (both named). A state legislative race there has a candidate filled in from a counted group outside the town, named by record id with the candidacy reasons, and the test in src/core2/candidacy-in-play.test.ts checks it. The stopgap row SG-GOV-wide-resident-pool is resolved.
+**Done when.** A second session, not the builder, runs a one-year played world (`buildBenchWorld`) in a drawn place and seed (both named). A state legislative race there has a candidate filled in from a counted group outside the town, named by record id with the candidacy reasons, and the test in tests/src/core2/candidacy-in-play.test.ts checks it. The stopgap row SG-GOV-wide-resident-pool is resolved.
 
 **Waits on.** Nothing to start. core-race-candidates-who-runs (candidates for out-of-town races) and elections-out-party-fields-district-seats (the out-party's candidate for a district seat) change the same pool of who runs beyond the town: read both first, and build one chooser, not a third.
 
-**Files.** src/core2/modules/candidacy.ts, src/core2/candidacy-in-play.test.ts, src/core2/data/stopgaps/gov.json
+**Files.** src/core2/modules/candidacy.ts, tests/src/core2/candidacy-in-play.test.ts, src/core2/data/stopgaps/gov.json
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-GOV-wide-resident-pool.
 

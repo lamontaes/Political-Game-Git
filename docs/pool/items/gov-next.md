@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** No hand-written player text: control names come from src/bench/data/controls.json and speech lines from the English engine's banks. An effect is a read: each act is read by the voters' views or the campaign tallies by record id. Wire to the world: each act moves votes, money or relationships in a generated world. This is a game, not a spreadsheet: no filing-form or paperwork step is added. Replace, never layer: any bench stand-in for these acts is deleted in the same change.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), the player from /play files for a local seat, knocks doors, asks for a donation, gives a staged speech and joins a party, and each act appears as a record id read by the voters' views or the campaign tallies; the browser spec src/bench/campaign.browser.mjs walks the controls. The owner plays it: runs a door-to-door day and sees who he met. The 1672x941 screenshot still requires the owner's approval before that gameplay work is merged.
+**Done when.** In a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), the player from /play files for a local seat, knocks doors, asks for a donation, gives a staged speech and joins a party, and each act appears as a record id read by the voters' views or the campaign tallies; the browser spec tests/src/bench/campaign.browser.mjs walks the controls. The owner plays it: runs a door-to-door day and sees who he met. The 1672x941 screenshot still requires the owner's approval before that gameplay work is merged.
 
 **Files.** src/bench/campaign.ts, src/bench/data/controls.json, src/bench/play.mjs, src/core2/campaign-day.ts, src/director/speech-builder.ts
 
@@ -30,6 +30,6 @@ Oct 20 (pool feeder): spec written; the three children exist (words-speech-part-
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (roll-up; remaining work is play-first-13-campaign-screen-to-mock-b).
 
-**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. This is a roll-up whose children are finished: play-speech-builder and play-join-party are done, words-speech-part-words is dropped, and src/bench/campaign.browser.mjs and src/director/speech-builder.ts exist. The whole-day play is now the seen-in-game check of those items.
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. This is a roll-up whose children are finished: play-speech-builder and play-join-party are done, words-speech-part-words is dropped, and tests/src/bench/campaign.browser.mjs and src/director/speech-builder.ts exist. The whole-day play is now the seen-in-game check of those items.
 
 **Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

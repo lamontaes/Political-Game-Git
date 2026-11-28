@@ -19,15 +19,15 @@ claimed-at: 2026-10-24T04:50:25.859Z
 
 **Done when.** In a drawn place (buildBenchWorld, seed named in the PR body) one played year shows one bail posted, with the journal entry ids for the move out of the person's account and into the court's, and the return at disposition; the justice tests (npm test -- src/core2/justice) pass.
 
-**Files.** src/core2/justice-pretrial.ts, src/core2/modules/justice.ts, src/core2/justice-pretrial.test.ts, src/core2/data/justice/parameters.json, src/core2/data/stopgaps.json
+**Files.** src/core2/justice-pretrial.ts, src/core2/modules/justice.ts, tests/src/core2/justice-pretrial.test.ts, src/core2/data/justice/parameters.json, src/core2/data/stopgaps.json
 
 **Notes.** Found from PR 5200, merged Oct 19 23:26 UTC. The files are the ones that PR touched: gh api repos/lamontaes/Political-Game-Git/pulls/5200/files. The id uses the justice prefix from the owner's ask; its area is gov. Claim released Oct 23: branch idle since Oct 20.
 
-Built: posted bail posts a journal entry person to treasury (`bail:<case>`), returned at trial (`bail-return:<case>`); test in src/core2/justice-pretrial.test.ts. Held by the prosecuting government's treasury, not a separate court account (none exists).
+Built: posted bail posts a journal entry person to treasury (`bail:<case>`), returned at trial (`bail-return:<case>`); test in tests/src/core2/justice-pretrial.test.ts. Held by the prosecuting government's treasury, not a separate court account (none exists).
 
 Taken over Oct 23 at the owner's request from glm/justice-bail-moves-the-cash, whose session ran out of usage with no branch pushed. Its last finding: a played year of its drawn place opened no justice case at all, so no bail was posted; the remaining work is that witness, not the journal code.
 
-Sent back 2026-10-23 from PR #5847 (branch claude/sleepy-carson-f8omzd): Normal main integration conflicts in src/core2/office-day-clemency.test.ts after the Eaton repair #5779; preserve its pinned/random review-eve proof together with the new hearing timing, and rerun the bail/plea chain checks; finish on that branch, merge main into it first.
+Sent back 2026-10-23 from PR #5847 (branch claude/sleepy-carson-f8omzd): Normal main integration conflicts in tests/src/core2/office-day-clemency.test.ts after the Eaton repair #5779; preserve its pinned/random review-eve proof together with the new hearing timing, and rerun the bail/plea chain checks; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5847 (branch claude/sleepy-carson-f8omzd): The only positive bail witness injects up to 600 bribe offers, while all seven ordinary years post no bail; retain the fixture but supply the ordinary producer-to-journal chain or preserve it as unfinished bounded work; finish on that branch, merge main into it first.
 

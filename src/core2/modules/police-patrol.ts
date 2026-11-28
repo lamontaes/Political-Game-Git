@@ -18,7 +18,6 @@
  * budget. Every paid police-line hour counts as patrol (see the stopgap
  * SG-WORLD-patrol-all-police-hours).
  */
-import { registerModule } from "../state";
 import { moduleCalendar } from "../module-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
@@ -155,8 +154,18 @@ function run(api: CoreAPI): void {
   }
 }
 
-const PATROL_MODULE: CoreModule = {
+export const PATROL_MODULE: CoreModule = {
   id: PATROL_MODULE_ID,
+  // The month's row is written on the 5th: this month's if it is still ahead.
+  worldOpen: (state) => {
+    const today = state.date;
+    scheduleOn(
+      state,
+      today.slice(-2) <= SCHEDULE_DAY
+        ? `${monthOf(today)}-${SCHEDULE_DAY}`
+        : nextRunAfter(today),
+    );
+  },
   state: {
     schemaVersion: 1,
     tables: { months: {} },
@@ -199,19 +208,6 @@ function scheduleOn(state: CoreState, date: string): void {
     },
     sourceRecordIds: ["patrol:months"],
   });
-}
-
-export function openPatrol(state: CoreState): void {
-  if (state.modules.has(PATROL_MODULE_ID)) return;
-  registerModule(state, PATROL_MODULE);
-  // The month's row is written on the 5th: this month's if it is still ahead.
-  const today = state.date;
-  scheduleOn(
-    state,
-    today.slice(-2) <= SCHEDULE_DAY
-      ? `${monthOf(today)}-${SCHEDULE_DAY}`
-      : nextRunAfter(today),
-  );
 }
 
 /** A place's patrol-hours row for a month (YYYY-MM), by its id. */

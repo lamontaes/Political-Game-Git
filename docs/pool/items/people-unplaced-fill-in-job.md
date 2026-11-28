@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** In a one-year played world built with buildBenchWorld in a place drawn from all 56, an unplaced counted worker is filled in and has the outside-employer job by record id. A named test proves one pay obligation, the replacement of the aggregate income flow, and the resulting pay and withheld-tax journal records, with the place and independent seed in the PR body. The changed-file checks pass without a weakened tolerance or unexplained timeout increase. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
-**Files.** src/core2/modules/residents.ts, src/core2/opening-outside-market.ts, src/core2/unplaced-fill-in-job.test.ts, src/core2/data/stopgaps.json
+**Files.** src/core2/modules/residents.ts, src/core2/opening-outside-market.ts, tests/src/core2/unplaced-fill-in-job.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Acceptance reconstructed from the existing item title and PR #5076 commuter scope when reopening its placeholder body; this does not accept the unrelated redistricting work.
 

@@ -20,7 +20,7 @@
  * unbought; it is never a debt. Each seller's sale goes through the sales tax
  * at the seller's place, so sales-tax laws still collect.
  */
-import { transfer } from "./budgets-treasury";
+import { transfer } from "./accounts";
 import { daysBetween, makeIsoDate, lastDayOfMonth } from "./kernel/dates";
 import type { FinanceContractInput } from "./modules/finance";
 import type { CoreAPI, CoreState, IsoDate, Source } from "./types";

@@ -28,8 +28,8 @@ source: left over from the pay floor work (#8939), which stopped city pay floors
 
 **Rules.** One engine per mechanic. No dice. Replace, never layer.
 
-**Done when.** A second session sees it in the running game: in a drawn place and seed the builder did not choose, with a city bargaining law in force and no state or federal one, town police and fire jobs rise at the next contract date and the school district's jobs do not (the same teacher's pay on the people screen, before and after the date); with a state law in force both rise. The test in src/core2/law-reach-bargaining.test.ts fails before and passes after.
+**Done when.** A second session sees it in the running game: in a drawn place and seed the builder did not choose, with a city bargaining law in force and no state or federal one, town police and fire jobs rise at the next contract date and the school district's jobs do not (the same teacher's pay on the people screen, before and after the date); with a state law in force both rise. The test in tests/src/core2/law-reach-bargaining.test.ts fails before and passes after.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/law-reach/group-a-bargaining.ts, src/core2/public-pay-floor.ts, src/core2/law-reach-bargaining.test.ts, src/core2/data/stopgaps/gov.json
+**Files.** src/core2/law-reach/group-a-bargaining.ts, src/core2/public-pay-floor.ts, tests/src/core2/law-reach-bargaining.test.ts, src/core2/data/stopgaps/gov.json

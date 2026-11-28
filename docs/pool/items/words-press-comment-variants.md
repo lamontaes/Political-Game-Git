@@ -18,7 +18,7 @@ claimed-at: 2026-11-09T09:00:00.000Z
 
 **Rules.** One engine for every kind of scene (`arc-variant.ts`). No dice, no thresholds: scores slide. Weights are TUNABLE under SG-STORY-arc-variant-weights, whose notes list the gaps (a question the survey has no item for reads nothing; no outlet-lean record; no unprinted-accusation record).
 
-**Done when.** src/director/press-comment-variants.test.ts, in a town of a drawn place and seed where a member votes against the town on a bill, shows the reporter's call playing the variant with the highest score with the member's vote record among its reads and the town-against read equal to the electorate's margin, and controlled causes on the same two people moving to hostile, friendly, scandal and national by the margin, the earlier talks, the stories against the member and the outlet's tier; src/director/arc-variant.test.ts composes every press-comment variant whole.
+**Done when.** tests/src/director/press-comment-variants.test.ts, in a town of a drawn place and seed where a member votes against the town on a bill, shows the reporter's call playing the variant with the highest score with the member's vote record among its reads and the town-against read equal to the electorate's margin, and controlled causes on the same two people moving to hostile, friendly, scandal and national by the margin, the earlier talks, the stories against the member and the outlet's tier; tests/src/director/arc-variant.test.ts composes every press-comment variant whole.
 
 **Files.** src/director/arc-variant.ts, src/director/purpose-scene.ts, src/director/data/arc-variants.json, data/english/parts/scene-talk.json, src/director/data/stopgaps.json
 

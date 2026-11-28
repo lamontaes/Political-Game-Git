@@ -23,7 +23,7 @@ The check inspects every retained delivery row through the year for finite net c
 - Four serial years PASS on Diomede, Alaska 0219060 / 76002fe87b2a4f99, host 4c46091479ea. Base main7eb96e8fb7: 12.8 / 16.4 / 15.5 / 23.6 seconds. Head6572bd523c: 14.4 / 16.6 / 18.5 / 18.9 seconds. Changes: +12.50% / +1.22% / +19.35% / −19.92%. Both exit0; every year stays under120 seconds and within20%. No concurrent heavy work.
 - Every yearly fingerprint differs. This is a behavior change: the press reads the new views, so later world records can differ. The timing JSON lists every differing table; no unchanged-world or direct counted-ballot causality claim is made. Both runs retain the runner's warning that uncovered engines contribute table proofs only. Raw receipts, log hashes and production hashes identify the exact comparison.
 
-Commands use OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" and NODE_OPTIONS=--max-old-space-size=8192. Focused run: npm exec -- vitest run src/core2/counted-policy-delivery.test.ts --maxWorkers=1 --disableConsoleIntercept --reporter=verbose, GOLDEN_PATH_SEED=1870fc0775be33c1. Logs and temporary countercheck wrapper remain in /tmp/lane-2-policy-reach-*; attached JSON and final timing retain the portable evidence.
+Commands use OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" and NODE_OPTIONS=--max-old-space-size=8192. Focused run: npm exec -- vitest run tests/src/core2/counted-policy-delivery.test.ts --maxWorkers=1 --disableConsoleIntercept --reporter=verbose, GOLDEN_PATH_SEED=1870fc0775be33c1. Logs and temporary countercheck wrapper remain in /tmp/lane-2-policy-reach-*; attached JSON and final timing retain the portable evidence.
 
 ## Scope left open
 

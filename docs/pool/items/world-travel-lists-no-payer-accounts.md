@@ -27,10 +27,10 @@ source: Owner, Nov 16, 2026 playtest ("Grano, North Dakota retirement-income pay
 
 **Rules.** Wire to the world: the list reads the town's organization records and the one data file that names the payer records. No dice: no roll decides what is listed.
 
-**Done when.** In a drawn place and a seed the builder did not choose, no Travel row is a payer record, and in a town stripped to its player-tied places the account is still not listed, shown in `src/bench/travel-biggest-workplaces.test.ts`; a second session sees Travel in Grano, North Dakota (place key 3832580) with no account tile.
+**Done when.** In a drawn place and a seed the builder did not choose, no Travel row is a payer record, and in a town stripped to its player-tied places the account is still not listed, shown in `tests/src/bench/travel-biggest-workplaces.test.ts`; a second session sees Travel in Grano, North Dakota (place key 3832580) with no account tile.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/places.ts, src/bench/travel-biggest-workplaces.test.ts
+**Files.** src/bench/places.ts, tests/src/bench/travel-biggest-workplaces.test.ts
 
 **Notes.** The owner's example is one payer record; the rule covers every payer record the funding data names.

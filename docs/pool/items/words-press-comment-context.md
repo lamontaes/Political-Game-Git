@@ -19,9 +19,9 @@ claimed-at: 2026-11-10T04:00:00.000Z
 
 **Rules.** No hand-written player text outside the banks. Wire to the world: the fact is read from the bill and the cause record, never typed. One rule, all 56 places.
 
-**Done when.** src/director/press-comment-context.test.ts, in a drawn place, plays a member's vote, composes the reporter's call with a `story` cited to the bill and vote records, says all five arcs from those facts, and finds the national opening naming the story and no line leaning on "the paragraph", "your neighbors" or an unintroduced claim; director.test.ts, the families guard and the English guards pass.
+**Done when.** tests/src/director/press-comment-context.test.ts, in a drawn place, plays a member's vote, composes the reporter's call with a `story` cited to the bill and vote records, says all five arcs from those facts, and finds the national opening naming the story and no line leaning on "the paragraph", "your neighbors" or an unintroduced claim; director.test.ts, the families guard and the English guards pass.
 
-**Files.** src/director/purpose-scene.ts, data/english/parts/scene-talk.json, data/english/grade-map.json, src/director/press-comment-context.test.ts
+**Files.** src/director/purpose-scene.ts, data/english/parts/scene-talk.json, data/english/grade-map.json, tests/src/director/press-comment-context.test.ts
 
 **Time box.** 1 hour.
 

@@ -17,8 +17,8 @@ claimed-at: 2026-10-27T21:45:25.657Z
 
 **Rules.** This is a game, not a spreadsheet: a bookkeeping date the owner ruled out is removed, not reworded; replace, never layer, so the label goes from the controls in the same change.
 
-**Done when.** In a drawn place (name the place and seed), src/bench/person-card.browser.mjs passes on a restarted bench and asserts the card shows no 'Last talked' text; a screenshot of the card is in the PR body beside the before shot.
+**Done when.** In a drawn place (name the place and seed), tests/src/bench/person-card.browser.mjs passes on a restarted bench and asserts the card shows no 'Last talked' text; a screenshot of the card is in the PR body beside the before shot.
 
-**Files.** src/bench/play.mjs, src/bench/data/controls.json, src/bench/person-card.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/data/controls.json, tests/src/bench/person-card.browser.mjs
 
 **Notes.** OWNER-DECISIONS Oct 27, 5 PM. lead: play-first.

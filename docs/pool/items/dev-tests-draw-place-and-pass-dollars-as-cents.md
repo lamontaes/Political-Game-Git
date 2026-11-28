@@ -19,7 +19,7 @@ source: vote-reasons thread, gate of #9646 on Train ef708196, Nov 16; Account le
 merged-at: 2026-11-17T19:43:18.152Z
 ---
 
-**What.** On Train ef708196, three tests are red, with and without #9646. They fail with the seeds the gate drew: src/bench/dev-chair.test.ts (DEV_MODE_SEED e8c451896b2115d7, Princeton, New Jersey), src/bench/dev-discharge.test.ts (4d1e24c1e726a8a8, Reading, Michigan) and src/bench/dev-discharge-state.test.ts (38091ae4983cb645). With other seeds they pass. All three throw "An amount of money in a law is in whole cents." from `wholeMoney` (src/bench/dev-mode.ts line 364) inside `DevMode.introduce`, before any vote is held.
+**What.** On Train ef708196, three tests are red, with and without #9646. They fail with the seeds the gate drew: tests/src/bench/dev-chair.test.ts (DEV_MODE_SEED e8c451896b2115d7, Princeton, New Jersey), tests/src/bench/dev-discharge.test.ts (4d1e24c1e726a8a8, Reading, Michigan) and tests/src/bench/dev-discharge-state.test.ts (38091ae4983cb645). With other seeds they pass. All three throw "An amount of money in a law is in whole cents." from `wholeMoney` (src/bench/dev-mode.ts line 364) inside `DevMode.introduce`, before any vote is held.
 Seen: the gate log of #9646 and a replay of each seed with the base dev-mode.ts.
 
 **Cause.** Found in code: src/bench/dev-mode.ts `wholeMoney` (line 364) refuses the value. Each test introduces `minimum-wage` with `value: 30 + n / 10` (dev-chair.test.ts line 39, dev-discharge-state.test.ts line 55, dev-discharge.test.ts line 41). `introduce` takes the unit from the first `minimum-wage` law row in the world that has a unit (dev-mode.ts line 1038). Where that unit is a minor (cents) unit, a value with a tenth is refused. Whether such a row exists depends on the drawn place, and the place and seed come from `randomBytes` at run time (dev-chair.test.ts line 14, dev-discharge.test.ts line 15, dev-discharge-state.test.ts line 17), so the test goes red or green with the draw. dev-acceptance.test.ts already passes whole cents (`3000 + count`).
@@ -34,6 +34,6 @@ Seen: the gate log of #9646 and a replay of each seed with the base dev-mode.ts.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/dev-chair.test.ts, src/bench/dev-discharge.test.ts, src/bench/dev-discharge-state.test.ts
+**Files.** tests/src/bench/dev-chair.test.ts, tests/src/bench/dev-discharge.test.ts, tests/src/bench/dev-discharge-state.test.ts
 
 **Notes.**

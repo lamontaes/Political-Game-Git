@@ -33,4 +33,4 @@ checked:
 
 **Waits on.** #9137 folded; the Words lead's slogan marks.
 
-**Files.** src/english/group-names.ts, src/english/group-names.test.ts, data/english/group-causes.json, data/english/group-names.json
+**Files.** src/english/group-names.ts, tests/src/english/group-names.test.ts, data/english/group-causes.json, data/english/group-names.json

@@ -29,8 +29,8 @@ merged-at: 2026-11-15T22:55:52.026Z
 
 **Rules.** No hand-written player text: the word is the form's own, from the English engine's bill names. One rule, all 56 places: the guard draws its place and names it with its seed. Replace, never layer: the page stops joining the number itself.
 
-**Done when.** A second session, on main, in a drawn place, steps in as a local body member (Advanced), drafts a bill from Your office and sees "Ordinance …" (or the form's word for that body) on the desk, in the deals heading, beside the bill in Bills and on its page, never a bare "2025-1"; and a campaign's debate card reads its day in words. `src/bench/bill-numbers-worded.test.ts` passes in a drawn place.
+**Done when.** A second session, on main, in a drawn place, steps in as a local body member (Advanced), drafts a bill from Your office and sees "Ordinance …" (or the form's word for that body) on the desk, in the deals heading, beside the bill in Bills and on its page, never a bare "2025-1"; and a campaign's debate card reads its day in words. `tests/src/bench/bill-numbers-worded.test.ts` passes in a drawn place.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/bill-stage.ts, src/bench/legislature.ts, src/bench/office.ts, src/bench/play.mjs, src/bench/bill-numbers-worded.test.ts (new)
+**Files.** src/bench/bill-stage.ts, src/bench/legislature.ts, src/bench/office.ts, src/bench/play.mjs, tests/src/bench/bill-numbers-worded.test.ts (new)

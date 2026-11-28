@@ -19,6 +19,6 @@ claimed-at: 2026-11-07T22:11:55.242Z
 
 **Done when.** A generated world from an unchosen replay drafts an authorized state repeal and restoration; the normal bill enactment writer retains all program terms and the benefit reader stops and restores new-claim eligibility. Break-it check, ten fresh draws and new-game check. Explicitly report places without an existing program as requiring a separate establishment provision.
 
-**Files.** scripts/research/build-bill-catalog.py,src/core2/data/legislature/bill-catalog.json,src/core2/data/legislature/series-powers.json,src/core2/modules/legislature.ts,src/core2/jobs-benefits.ts,src/core2/unemployment-program-reversal.test.ts
+**Files.** scripts/research/build-bill-catalog.py,src/core2/data/legislature/bill-catalog.json,src/core2/data/legislature/series-powers.json,src/core2/modules/legislature.ts,src/core2/jobs-benefits.ts,tests/src/core2/unemployment-program-reversal.test.ts
 
 **Notes.** Astra child of draft #7330, bounded to repeal and restoration of an existing program. Two-hour unit; no helpers. Territorial program establishment remains a separate real gap, not an audit exclusion.

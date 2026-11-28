@@ -12,6 +12,8 @@ import {
   atLargeGroup,
   type ContestRow,
   type FilingRow,
+  contestOf,
+  filingsInContest,
 } from "../core2/modules/elections";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import { historyOf } from "../core2/past";
@@ -78,10 +80,10 @@ export function electionResults(core: CoreState, playerId: string) {
   for (const contest of contests) {
     const result = resultOf(api, contest.id);
     if (!result) continue;
-    const filings = api
-      .moduleState(ELECTIONS)
-      .table("filings")
-      .query("byContest", [contest.id]) as unknown as (FilingRow & {
+    const filings = filingsInContest(
+      api,
+      contest.id,
+    ) as unknown as (FilingRow & {
       party?: string | null;
     })[];
     const party = new Map(
@@ -169,7 +171,6 @@ const ELECTION_RESULT = "election-result";
  * in the order the log kept them, each race once.
  */
 function racesCounted(core: CoreState, personId?: string): ContestRow[] {
-  const contests = coreAPI(core).moduleState(ELECTIONS).table("contests");
   const out = new Map<string, ContestRow>();
   for (const event of historyOf(
     core,
@@ -178,7 +179,7 @@ function racesCounted(core: CoreState, personId?: string): ContestRow[] {
   )) {
     const id = event.facts?.contestId;
     const contest = id
-      ? (contests.get(id) as unknown as ContestRow | undefined)
+      ? (contestOf(coreAPI(core), id) as unknown as ContestRow | undefined)
       : undefined;
     if (contest && !out.has(contest.id)) out.set(contest.id, contest);
   }

@@ -17,9 +17,9 @@ claimed-at: 2026-10-20T00:53:45.335Z
 
 **Rules.** Wire to the world: a change counts only when it is on main where the build reads it, and this item is that rule applied to a merge that landed on a branch and never reached main.
 
-**Done when.** git log origin/main --oneline | grep -i archive-law-budget-ledes shows the merge of the new PR, and npm test -- src/bench/archive-words.test.ts passes on main; the item words-archive-law-budget-ledes then shows done with the new PR number, and the archived lede test is the test that proves it.
+**Done when.** git log origin/main --oneline | grep -i archive-law-budget-ledes shows the merge of the new PR, and npm test -- tests/src/bench/archive-words.test.ts passes on main; the item words-archive-law-budget-ledes then shows done with the new PR number, and the archived lede test is the test that proves it.
 
-**Files.** src/bench/archive-words.ts, src/bench/archive-words.test.ts, data/english/parts/news.json, docs/release/changes/words-archive-law-ledes.md
+**Files.** src/bench/archive-words.ts, tests/src/bench/archive-words.test.ts, data/english/parts/news.json, docs/release/changes/words-archive-law-ledes.md
 
 **Notes.** Found Oct 19. Carried by the new PR (its number is in the item once opened). The parent branch is 54b5d4c; its diff against main is only the four files listed.
 

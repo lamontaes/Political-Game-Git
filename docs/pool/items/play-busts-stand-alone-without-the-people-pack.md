@@ -33,8 +33,8 @@ checked: fable 2026-11-11
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/bust.ts, art/busts/v1/manifest.json, src/bench/whole-figures.ts, src/bench/scene.ts, src/bench/appearance.ts, src/bench/ui/face.mjs, src/bench/ui/strips.mjs, src/bench/play.mjs, src/bench/bust.test.ts, src/bench/government.test.ts, src/core2/opening-origin.test.ts
+**Files.** src/bench/bust.ts, art/busts/v1/manifest.json, src/bench/whole-figures.ts, src/bench/scene.ts, src/bench/appearance.ts, src/bench/ui/face.mjs, src/bench/ui/strips.mjs, src/bench/play.mjs, tests/src/bench/bust.test.ts, tests/src/bench/government.test.ts, tests/src/core2/opening-origin.test.ts
 
 **Notes.** The files marked new arrive with #8442; they are not on main as this item is written.
 
-Waits on cleared (Nov 11, 2026, cause finder for Fable B): #8442 and #8448 closed without merging, but the bust bank is on main all the same (src/bench/bust.ts, src/bench/ui/bust.mjs, src/bench/bust.test.ts and art/busts/v1/manifest.json all exist on main), so nothing is waited on and the files are no longer new.
+Waits on cleared (Nov 11, 2026, cause finder for Fable B): #8442 and #8448 closed without merging, but the bust bank is on main all the same (src/bench/bust.ts, src/bench/ui/bust.mjs, tests/src/bench/bust.test.ts and art/busts/v1/manifest.json all exist on main), so nothing is waited on and the files are no longer new.

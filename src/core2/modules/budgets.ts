@@ -34,7 +34,11 @@ import { headsExecutive } from "../offices-executives";
 import priorGrowth from "../data/budgets/prior-year-growth.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { keepsWhy } from "../why-kept";
-import { OFFICES_MODULE_ID } from "./offices";
+import {
+  officeSeats,
+  officesInJurisdiction,
+  servingTermsOnSeat,
+} from "./offices";
 import { lawApplied, TREASURY_ORGANIZATION_PREFIX } from "../law-reach/applied";
 import type {
   HistoryWriter,
@@ -49,6 +53,7 @@ import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import {
   countyGovernmentUnit,
   governmentUnitJurisdictionId,
+  islandMunicipalityResidents,
   type GovernmentUnitType,
 } from "../reference/government-units";
 import {
@@ -64,7 +69,6 @@ import salesTaxBase from "../data/laws/sales-tax-base.json" with { type: "json" 
 import propertyTaxCaps from "../data/laws/property-tax-caps.json" with { type: "json" };
 import {
   PROPERTY_TAX_AVERAGE_SOURCE,
-  registerPropertyTax,
   stateEffectiveRate,
 } from "../housing-property-tax";
 import { placeStateKey } from "../place-map";
@@ -129,9 +133,6 @@ function sittingExecutiveOf(
   api: CoreAPI,
   gov: Pick<GovernmentRow, "id" | "organizationId" | "jurisdictionId">,
 ): string | null {
-  // A world without the offices module has no one to name.
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   // The offices name a local government by its unit (the treasury's
   // government key), a state by its key and the nation as "US".
   const keys = [
@@ -140,28 +141,18 @@ function sittingExecutiveOf(
     gov.id,
     gov.jurisdictionId,
   ];
+  // A world without the offices module has no one to name: the doors read none.
   let office: { id: string; kind: string } | undefined;
   for (const key of keys) {
     if (!key) continue;
-    office = (
-      offices.table("offices").query("byJurisdiction", [key]) as unknown as {
-        id: string;
-        kind: string;
-      }[]
-    ).find((o) => headsExecutive(o.kind));
+    office = officesInJurisdiction(api, key).find((o) =>
+      headsExecutive(o.kind),
+    );
     if (office) break;
   }
   if (!office) return null;
-  for (const seat of offices
-    .table("seats")
-    .query("byOffice", [office.id]) as unknown as { id: string }[]) {
-    const term = (
-      offices
-        .table("terms")
-        .query("bySeatStatus", [seat.id, "serving"]) as unknown as {
-        personId: string;
-      }[]
-    )[0];
+  for (const seat of officeSeats(api, office.id)) {
+    const term = servingTermsOnSeat(api, seat.id)[0];
     if (term?.personId) return term.personId;
   }
   return null;
@@ -465,6 +456,8 @@ function budgetHistory(
 
 const BUDGETS_MODULE: PreStartModule = {
   id: BUDGETS_MODULE_ID,
+  // The property tax terms in force, from the law, for the housing engine's bills.
+  propertyTax: (api, placeId) => propertyTaxTerms(api, placeId),
   preStart: { phase: "government", run: budgetHistory },
   // What a bill that moved a federal grant line adds to the line a state, county or town spends that grant on.
   budgetPassThrough: grantPassThrough,
@@ -853,7 +846,33 @@ const FEDERAL_ROW: BaseRow = {
 };
 /** Every government's base row for a place, by row name: the nation's and the place's own. */
 function baseRowsOf(stateKey: string): Partial<Record<BaseRowName, BaseRow>> {
-  return { federal: FEDERAL_ROW, ...bases.places[stateKey]?.governments };
+  const own = bases.places[stateKey]?.governments;
+  return { federal: FEDERAL_ROW, ...islandMunicipalityRow(own), ...own };
+}
+
+/**
+ * An island area's municipality (Guam's villages, the Northern Marianas'
+ * municipalities) has no published budget: the Census finance files cover the
+ * states, so the area's file holds a government row for the area alone. Its
+ * municipalities are funded by what the area's legislature appropriates to
+ * them, so the row is that appropriation, the area's own local aid a resident:
+ * the municipality's intergovernmental revenue, spent on its administration
+ * (council, mayor and departments).
+ * stopgapId: SG-GOV-island-municipality-budget
+ */
+function islandMunicipalityRow(
+  own: Partial<Record<BaseRowName, BaseRow>> | undefined,
+): Partial<Record<"city", BaseRow>> {
+  const aid = own?.state?.spending.localAid;
+  if (own?.city || !aid) return {};
+  return {
+    city: {
+      revenue: { intergovernmental: aid },
+      spending: { administration: aid },
+      stopgapId: "SG-GOV-island-municipality-budget",
+      source: own.state?.source,
+    },
+  };
 }
 
 /** A government's year at the published bases (calibration; play reads `budgetFor`). */
@@ -967,7 +986,12 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
   // The town's own government: its city or village, or where the place has
   // none, the township that governs it.
   // (the same units the town's offices are seated for).
-  const local = placeLocalGovernmentUnits(corePlaceByKey(geoid));
+  // The town's own record names its units (a territory's key is not its Census
+  // code); a county-scope place stays looked up by the code its chain ends on.
+  const own = corePlaceByKey(chain.placeKey);
+  const local = placeLocalGovernmentUnits(
+    own?.scope === "locality" ? own : corePlaceByKey(geoid),
+  );
   const city = local.municipal[0] ?? local.townships[0];
   const county = chain.countyGeoids[0];
   const countyUnit = county ? countyGovernmentUnit(county) : null;
@@ -1032,7 +1056,9 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
             "municipal",
             townResidents,
           ),
-          residents: townResidents,
+          // An island municipality governs every village it covers; the town
+          // opened is one of them.
+          residents: islandMunicipalityResidents(city.id) ?? townResidents,
         },
         city.id,
         city.unitType,
@@ -1176,7 +1202,6 @@ function baseExemptions(
  * are exempt where a grocery exemption is law. Re-run when a sales-tax law takes effect.
  */
 export function syncSalesTax(api: CoreAPI): void {
-  registerPropertyTax(propertyTaxTerms);
   taxCollector(api);
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
   const answer = lawInForce(api, "sales-tax");

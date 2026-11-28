@@ -33,6 +33,6 @@ checked: fable 2026-11-10
 
 **Waits on.** core-life-record (the list and the one reader the journal will read).
 
-**Files.** src/director/journal.ts, src/director/journal.test.ts, data/english, src/core2/modules/legislature.ts
+**Files.** src/director/journal.ts, tests/src/director/journal.test.ts, data/english, src/core2/modules/legislature.ts
 
 **Notes.** Filed by the governing lead, Oct 29, from the M3-02 command (branch governing/m3-spec-commands). src/director and data/english are the Words session's: ask Words first and get `Review: words`. Favors being collected later is a separate gap (the work order: `obligationsOf` has no caller).

@@ -18,9 +18,9 @@ effort: medium
 source: "found by T54 gating world-counted-renters-buy (#9117) on Train 88b5b879, Nov 15; Account lead's ruling 10:37Z"
 ---
 
-**What.** `src/core2/estates-counted-kin.test.ts` ("pays a counted child of the dead and fills them in") takes `GOLDEN_PATH_SEED` or `randomBytes(8)` as its seed, then loops `drawPlace(`${seed}:${draw}`, "estate-counted-kin")` up to eight times, building a played world each time, until it finds a case. The pinned-tests rule forbids this: a test names its place and seed, runs about a minute, and stages a rare event through the game's own path instead of waiting for one. Seen: on the gate for #9117 it timed out at 30 minutes (1,800,000 ms), and a failure cannot be rerun on a clean base because the next run draws different worlds.
+**What.** `tests/src/core2/estates-counted-kin.test.ts` ("pays a counted child of the dead and fills them in") takes `GOLDEN_PATH_SEED` or `randomBytes(8)` as its seed, then loops `drawPlace(`${seed}:${draw}`, "estate-counted-kin")` up to eight times, building a played world each time, until it finds a case. The pinned-tests rule forbids this: a test names its place and seed, runs about a minute, and stages a rare event through the game's own path instead of waiting for one. Seen: on the gate for #9117 it timed out at 30 minutes (1,800,000 ms), and a failure cannot be rerun on a clean base because the next run draws different worlds.
 
-**Cause.** Found in code: lines 17 to 23 of src/core2/estates-counted-kin.test.ts (the random seed and the `for (let draw = 0; draw < 8; draw += 1)` loop over `buildBenchWorld`).
+**Cause.** Found in code: lines 17 to 23 of tests/src/core2/estates-counted-kin.test.ts (the random seed and the `for (let draw = 0; draw < 8; draw += 1)` loop over `buildBenchWorld`).
 
 **Fix.** Pin one named place and seed where a counted household with a counted child exists on day one, as `opening-kin-cash.test.ts` pins Bastrop, Louisiana (2204685, `drawPlace("c3","home-price-paths")`), and stage the death through the game's own path (the estates engine's own death call on a named counted parent), so the test runs once, in about a minute, with an explicit timeout near twice its measured time. Keep every assertion it has now.
 
@@ -32,4 +32,4 @@ source: "found by T54 gating world-counted-renters-buy (#9117) on Train 88b5b879
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/estates-counted-kin.test.ts
+**Files.** tests/src/core2/estates-counted-kin.test.ts

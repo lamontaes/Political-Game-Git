@@ -34,4 +34,4 @@ Seen: nothing under src/bench read the promises engine's tables on head 29d14ee1
 
 **Waits on.** core-promises-kept-and-settled-by-the-engine (#9568); dev-mode-views-register-from-their-own-files (#9619) and dev-mode-why-a-voter-leans (#9628), which hold the registration point and the person slot.
 
-**Files.** src/core2/modules/promises.ts, src/bench/dev-views/promises.ts (new), src/bench/ui/dev-promises.mjs (new), src/director/promises.test.ts
+**Files.** src/core2/modules/promises.ts, src/bench/dev-views/promises.ts (new), src/bench/ui/dev-promises.mjs (new), tests/src/director/promises.test.ts

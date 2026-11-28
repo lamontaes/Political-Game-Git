@@ -3,11 +3,11 @@
  * game time or writes a record. Words come from the English engine; these
  * return record data only.
  */
-import { nationalPanel } from "./macro";
+import { nationalPanel } from "../macro-reads";
 import { regionalLevel, regionName } from "./regional";
-import { countedResidents } from "./campaigns";
+import { countedResidents } from "../elections-reads";
 import { JOBS_DATA, type PositionRow } from "./jobs";
-import { residentsRuntime } from "./residents";
+import { residentsRuntime } from "../residents-reads";
 import { outsideLaborForce } from "../gov-rules/place-population";
 import type { CoreAPI, CoreState } from "../types";
 

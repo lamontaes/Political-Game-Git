@@ -30,22 +30,19 @@
  */
 import data from "./data/school/outcomes.json" with { type: "json" };
 import { ageOn } from "./counted-groups";
-import { countedJobHeads, countedJobsOf } from "./residents-economy";
+import { countedJobHeads, countedJobsOf } from "./counted-job-heads";
 import { fullHouseholdIncomes } from "./counted-income-fifth";
 import {
   countedHouseholdsByPlace,
   groupKeyOf,
-  incomeBandOn,
   residentsRuntime,
-} from "./modules/residents";
+} from "./residents-reads";
+import { incomeBandOn } from "./counted-income-reads";
 import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./modules/budgets";
-import {
-  COUNTED_MOVES_MODULE_ID,
-  countedMoves,
-  type MoveRecord,
-} from "./modules/counted-moves";
-import { carriedLink, placeOutcome } from "./modules/outcome-web";
-import { baseOf } from "./laws-in-force";
+import type { MoveRecord } from "./modules/counted-moves";
+import { COUNTED_MOVES_MODULE_ID, countedMoves } from "./counted-moves-reads";
+import { placeOutcome } from "./modules/outcome-web-reads";
+import { baseOf, carriedLink } from "./outcome-web-model";
 import { webReach } from "./outcome-web-reach";
 import { putOutputNumber } from "./output-numbers";
 import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "./school-measures";

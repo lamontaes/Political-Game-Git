@@ -34,10 +34,10 @@ Seen: `data/research/offices/legislature-party-counts-2026.json` lists them unde
 
 **Rules.** One rule for all 56 places; no dice; research sets the roster, the century sets the outcome.
 
-**Done when.** A second session starts a new game in a territory with a partisan legislature (Guam, the Virgin Islands or the Northern Marianas), writes down the place and seed, turns dev mode on, opens Politics, Metrics, and sees "The state legislature on day one" give the territory's chamber by party from the century. At drawn worlds the three chambers are elected through the century and differ between worlds, and src/core2/electorate-century-legislatures.test.ts passes.
+**Done when.** A second session starts a new game in a territory with a partisan legislature (Guam, the Virgin Islands or the Northern Marianas), writes down the place and seed, turns dev mode on, opens Politics, Metrics, and sees "The state legislature on day one" give the territory's chamber by party from the century. At drawn worlds the three chambers are elected through the century and differ between worlds, and tests/src/core2/electorate-century-legislatures.test.ts passes.
 
 **Waits on.** history-state-places-from-the-century (#9969), which this branch is stacked on.
 
-**Files.** data/research/offices/legislature-party-counts-2026.json, src/core2/electorate-century.ts, src/core2/data/stopgaps/hist.json, src/core2/electorate-century-legislatures.test.ts
+**Files.** data/research/offices/legislature-party-counts-2026.json, src/core2/electorate-century.ts, src/core2/data/stopgaps/hist.json, tests/src/core2/electorate-century-legislatures.test.ts
 
 **Notes.** Filed by the History lane, Nov 17, 2026. Play still does not race a territory's legislative seats after day one (SG-GOV-territory-legislature-race, voting.ts:6859): a territory has no counted places in play. That is the territories' people (family 5).

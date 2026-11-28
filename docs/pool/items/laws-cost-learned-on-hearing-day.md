@@ -22,6 +22,6 @@ claimed-at: 2026-10-27T18:49:21.000Z
 
 **Time box.** 2 hours.
 
-**Files.** src/core2/modules/place-prices.ts, src/core2/modules/news.ts, src/core2/place-prices-learned.test.ts
+**Files.** src/core2/modules/place-prices.ts, src/core2/modules/news.ts, tests/src/core2/place-prices-learned.test.ts
 
 **Notes.** Unit A of #5968, ported to today's main by a helper of the laws-and-effects lead.

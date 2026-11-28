@@ -19,7 +19,7 @@ claimed-at: 2026-11-01T14:37:34.847Z
 
 **Rules.** No hand-written player text: the names come from the budgets data the budgets screen reads, one source for the fact, and no key reaches a player screen (player-screen-text).
 
-**Done when.** The test src/bench/seat-catalog.test.ts, in a buildBenchWorld drawn place with its seed named, asserts that no budget line in a member's drafting menus has a colon or an internal camel-case key in its name; it fails on main and passes on the branch.
+**Done when.** The test tests/src/bench/seat-catalog.test.ts, in a buildBenchWorld drawn place with its seed named, asserts that no budget line in a member's drafting menus has a colon or an internal camel-case key in its name; it fails on main and passes on the branch.
 
 **Time box.** 1 hour.
 
@@ -27,7 +27,7 @@ claimed-at: 2026-11-01T14:37:34.847Z
 
 **Screenshot.** None needed: the test reads the same menu rows the screen draws.
 
-**Files.** src/bench/legislature.ts, src/bench/seat-catalog.test.ts
+**Files.** src/bench/legislature.ts, tests/src/bench/seat-catalog.test.ts
 
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `golden/draft-list-names` is kept; claiming this item takes it over.
 

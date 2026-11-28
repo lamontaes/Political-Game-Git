@@ -33,8 +33,9 @@
  * moves no money and fills nobody in (two-level population).
  */
 import { DAYS_PER_YEAR } from "../household-income";
+import { dwellingTenure } from "../housing-reads";
 import { MOVED_AWAY_EVENT } from "../moved-away-event";
-import { officeholderIds } from "./offices";
+import { officeholderIds } from "../offices-reads";
 import { worldRateFactor } from "../world-base-rates";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import {
@@ -50,7 +51,7 @@ import {
   hardshipReason,
 } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
-import { sellHome } from "../housing-sale";
+import { sellHome } from "../housing-writes";
 import { endLivingPlan } from "./business";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { currentCloseness } from "../closeness";
@@ -63,7 +64,6 @@ import { webReach } from "../outcome-web-reach";
 import { type Subject } from "../laws-in-force";
 import { registerModule } from "../state";
 import { isDemoted } from "../counted-groups";
-import { townPlaceOf } from "./residents";
 import type { Parameter } from "../parameters";
 import type { EntityId } from "../kernel/brands";
 import type {
@@ -75,11 +75,16 @@ import type {
   CoreState,
   PersonId,
   PersonState,
-  Source,
 } from "../types";
 import { placeStateKey } from "../place-map";
 import { ageOfMajority } from "../age-of-majority";
-import { registerReturnedMembersLeave } from "../returned-members-move";
+import {
+  INACTIVE_TIER,
+  inGroupQuarters,
+  livesElsewhere,
+  playedTown,
+} from "../moves-reads";
+export { inGroupQuarters, livesElsewhere } from "../moves-reads";
 
 export const MOVES_MODULE_ID = "moves";
 export const MOVES_PARAMETERS = rows as unknown as Readonly<
@@ -90,7 +95,6 @@ const STOPGAP = "SG-P15-moves-weights";
 const ELSEWHERE_STOPGAP = "SG-LIVES-elsewhere-not-into-town";
 const OWNER_STOPGAP = "SG-P15-moves-owners-stay";
 const TAX_STOPGAP = "SG-WEB-moves-full-tax-pull";
-const INACTIVE_TIER = "husk";
 
 type Rates = Readonly<Record<string, number>>;
 const RATES = moverRates as unknown as {
@@ -315,36 +319,6 @@ function inTown(core: CoreState, id: PersonId): boolean {
 }
 
 /**
- * Someone living a life elsewhere at low intensity: alive, of the inactive
- * tier, in a real place outside the played town's full-detail places, and not
- * back in the counts (the counted engines carry those).
- */
-export function livesElsewhere(
-  core: CoreState,
-  person: Readonly<PersonState>,
-): boolean {
-  return (
-    person.alive &&
-    person.tier === INACTIVE_TIER &&
-    !isDemoted(person) &&
-    !playedTown(core, person.placeId) &&
-    placeStateKey(person.placeId) !== null
-  );
-}
-
-const townByCore = new WeakMap<CoreState, { town: string | undefined }>();
-
-/** The played town: its own place (looked up once per world) and any full-detail place. */
-function playedTown(core: CoreState, placeId: string): boolean {
-  let held = townByCore.get(core);
-  if (!held) {
-    held = { town: townPlaceOf(core) };
-    townByCore.set(core, held);
-  }
-  return core.focusPlaceIds.has(placeId) || held.town === placeId;
-}
-
-/**
  * Whether another person is where this person lives: in town for a resident;
  * for someone living elsewhere, alive in the same place.
  */
@@ -394,13 +368,8 @@ function wholeHouseholdGoes(
 
 function ownsHome(api: CoreAPI, householdId: string): boolean {
   const core = api.state as CoreState;
-  if (core.modules.has("housing")) {
-    const row = api
-      .moduleState("housing")
-      .table("dwellings")
-      .get(`dwelling:${householdId}`) as { tenure?: string } | undefined;
-    if (row?.tenure) return row.tenure === "own";
-  }
+  const held = dwellingTenure(api, householdId);
+  if (held) return held.tenure === "own";
   return ownsWithMortgage(core, householdId);
 }
 
@@ -629,18 +598,6 @@ function diminishing(api: CoreAPI, n: number): number {
 /** Whether a person decides for themselves where they live: they are of age where they live. */
 function decidesAlone(api: CoreAPI, person: Readonly<PersonState>): boolean {
   return ageOf(api, person) >= ageOfMajority(person.placeId);
-}
-
-/**
- * Whether a person lives in group quarters (a dormitory, a cell, a barracks
- * or a nursing-home room): an institution admits and discharges them, so no
- * household's pull to leave moves them, full or counted alike.
- */
-export function inGroupQuarters(
-  core: CoreState,
-  person: Readonly<PersonState>,
-): boolean {
-  return core.households.get(person.householdId)?.quarters !== undefined;
 }
 
 /**
@@ -1813,71 +1770,3 @@ export const movesModule: CoreModule = {
     },
   },
 };
-
-/**
- * The people of a departed counted household who keep their own records
- * leave with it: their records move to the state the household went to, as a
- * full mover's do (`destinationFor`'s state basis), and the move is
- * told as a full mover's is, so every engine holding their records lets them
- * go (a search for work, an office, a party). Without it a record stayed in
- * the counted town with no household behind it, a hire named that person, and
- * the press's fill-in of the new hire stopped the game (pool item
- * core-press-staff-counted-job-not-resident; Montpelier, Vermont, seed mont1,
- * 2027; South Hero, Vermont, seed 9bf1ede27ce5a00e).
- */
-function returnedMembersLeave(
-  api: CoreAPI,
-  people: readonly PersonState[],
-  fromPlace: string,
-  toUsps: string,
-): void {
-  if (!people.length) return;
-  const core = api.state as CoreState;
-  const date = core.date;
-  const destination =
-    coreStateJurisdiction(`US-${toUsps}`)?.id ??
-    coreStateJurisdiction(placeStateKey(fromPlace) ?? "")?.id;
-  if (!destination) return;
-  const source: Source = {
-    tag: "ESTIMATED",
-    asOf: date,
-    citation: `Moved away with their counted household (${toUsps}).`,
-    estimatedFrom: "Counted moves: the household's destination state",
-  };
-  // One relocation per household record they share.
-  const byHousehold = new Map<string, PersonState[]>();
-  for (const person of people)
-    byHousehold.set(person.householdId, [
-      ...(byHousehold.get(person.householdId) ?? []),
-      person,
-    ]);
-  for (const [householdId, movers] of byHousehold) {
-    const ids = movers.map((person) => person.id);
-    const home = core.households.get(householdId);
-    const whole =
-      home?.memberIds
-        .filter((id) => core.people.get(id)?.alive)
-        .every((id) => ids.includes(id as PersonId)) ?? false;
-    api.relocatePeopleV1({
-      personIds: ids,
-      placeId: destination,
-      householdId: whole ? householdId : `${householdId}:moved:${date}`,
-      source,
-    });
-  }
-  api.emit({
-    id: `${MOVED_AWAY_EVENT}:counted:${people[0]!.id}:${date}`,
-    date,
-    kind: MOVED_AWAY_EVENT,
-    personIds: people.map((person) => person.id),
-    placeId: fromPlace,
-    publicRecord: false,
-    topic: destination,
-    source,
-    facts: Object.fromEntries(
-      people.map((person) => [`person:${person.id}:residence`, destination]),
-    ),
-  });
-}
-
-registerReturnedMembersLeave(returnedMembersLeave);

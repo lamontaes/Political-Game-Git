@@ -23,7 +23,7 @@ checked:
 
 **Cause.** Found in code: `composeBinding` in src/director/purpose-scene.ts has no block for these causes. `argument` and `reconciliation` stage from a tie turn (`labelPrefix: "tie:"`, `threadTurn` soured or grew, src/director/data/situation-types.json), and no fact names the record that turned the tie. `apology` stages from `family.quarrel` (src/core2/modules/quarrel.ts), whose `missedId` names the credit engine's missed payment and its `loanKind`. `paymentSaid` (src/english/payment-words.ts) names only the `personal` kind, and promise-talk relies on it returning null for the rest.
 
-**Fix.** Add a quarrel facts function beside letterFacts in src/director. For `apology`, it names the payment from the missed payment's loan kind, through a wording row for every loan kind in data/english/payment-words.json, kept apart from the promise rule's named kinds. For `argument` and `reconciliation`, it names what turned the tie: the ledger moment's cause record behind the soured turn, as the scene's `happened` fact. Then the Story session writes the three scenes' lines, and their keys leave `CUT_PURPOSES` in src/director/scene-talk.test.ts.
+**Fix.** Add a quarrel facts function beside letterFacts in src/director. For `apology`, it names the payment from the missed payment's loan kind, through a wording row for every loan kind in data/english/payment-words.json, kept apart from the promise rule's named kinds. For `argument` and `reconciliation`, it names what turned the tie: the ledger moment's cause record behind the soured turn, as the scene's `happened` fact. Then the Story session writes the three scenes' lines, and their keys leave `CUT_PURPOSES` in tests/src/director/scene-talk.test.ts.
 
 **Time box.** 3 hours for the facts. The lines follow on their own branch.
 
@@ -33,6 +33,6 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/director/purpose-scene.ts, src/director/quarrel-facts.ts (new), data/english/payment-words.json, src/director/scene-talk.test.ts
+**Files.** src/director/purpose-scene.ts, src/director/quarrel-facts.ts (new), data/english/payment-words.json, tests/src/director/scene-talk.test.ts
 
 **Notes.** Nov 18 (Story): filed from the bank 5 writer's probes at Rockville, IN (seed "p1"), where staged `family.quarrel` and tie records gave packets with no cause fact.

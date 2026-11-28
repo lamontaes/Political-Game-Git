@@ -19,6 +19,6 @@ claimed-at: 2026-11-04T18:25:24.961Z
 
 **Done when.** On the seed that failed the test passes: a winner's night is composed from the count with the runner-up as the opponent.
 
-**Files.** src/director/victory-night.test.ts
+**Files.** tests/src/director/victory-night.test.ts
 
 **Notes.** TODO

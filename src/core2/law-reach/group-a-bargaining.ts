@@ -25,7 +25,7 @@ import {
 import {
   publicEmployerBoundLevel,
   publicEmployerLevel,
-} from "../public-pay-floor";
+} from "../modules/laws-reads";
 import type { LawLevelName } from "../laws-starting";
 import type { CoreAPI, CoreState, Source } from "../types";
 import { jobsAt } from "./group-b-money";

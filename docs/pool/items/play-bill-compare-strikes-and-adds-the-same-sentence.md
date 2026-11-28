@@ -25,7 +25,7 @@ merged-at: 2026-11-15T23:25:59.780Z
 
 **Cause.** Found in code: the bill page's view (`billPageView` in src/bench/bill-stage.ts) builds a section's struck side by wording the bill's own section a second time with the law in force's value put in (`clauseOf` with `value: before.value`), and the English engine words a yes-or-no section with a value of 0 or less as a repeal (src/english/bill-sections.ts, `repeal = p.operation ? p.operation === "repeal" : p.value <= 0`). So where no rule is in force (0), the struck side read "the rules now in force on ... are repealed": a false account of the law today, and word for word the bill's own sentence when the bill repeals. A section drafted from a catalog policy also carries `operation`, which the English engine reads before the value, so the struck side could repeat the bill's operation. Replayed in Lino Lakes, Minnesota (bench seed `046d2235-27df-4daa-a680-423d6f24d0d7`, Advanced as council member Astrid Shelton, two weeks run): Ordinance 2025-1 struck and added "the rules now in force on highway money used for transit are repealed" (its section 2), and its section 1 struck a repeal of immigration-cooperation rules that were not in force; Ordinance 2025-3's section 2 the same for limits on rent increases. Were those rules in force that day: no. The bills' own records give the law in force as 0 for each repealed question (`billForm(...).sections[i].before.value`), so the council filed, and passed, repeals of rules not in force; that is the world's filing, filed as its own item (`core-world-files-repeals-of-rules-not-in-force`).
 
-**Fix.** The struck side strikes only a rule in force: a yes-or-no section with a law in force above 0, worded by its own value without the bill's catalog operation; with none in force it strikes nothing, and the Compare view shows only what the bill adds. Rates and amounts keep their struck side as before. A browser check (src/bench/bill-compare-differs.browser.mjs) reads every bill in Politics, Bills and fails on a struck sentence equal to the added one.
+**Fix.** The struck side strikes only a rule in force: a yes-or-no section with a law in force above 0, worded by its own value without the bill's catalog operation; with none in force it strikes nothing, and the Compare view shows only what the bill adds. Rates and amounts keep their struck side as before. A browser check (tests/src/bench/bill-compare-differs.browser.mjs) reads every bill in Politics, Bills and fails on a struck sentence equal to the added one.
 
 **Time box.** 2 hours for one Sonnet session to find the cause and write it here. When it runs out, write what was read and stop.
 
@@ -35,6 +35,6 @@ merged-at: 2026-11-15T23:25:59.780Z
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/bill-stage.ts, src/bench/ui/bill-paper.mjs, src/english/bill-sections.ts, src/bench/bill-compare-differs.browser.mjs (new)
+**Files.** src/bench/bill-stage.ts, src/bench/ui/bill-paper.mjs, src/english/bill-sections.ts, tests/src/bench/bill-compare-differs.browser.mjs (new)
 
 **Notes.** Written by the lead (Fable B), Nov 11, 2026, from a forty-day walk as a council member on main 382123f701. The same walk showed the meeting itself working: the player was held at the council's meeting of February 4 with three ordinances to read, speak on and vote (pull request #8807).

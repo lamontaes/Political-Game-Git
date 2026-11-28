@@ -6,7 +6,7 @@ import { availableActs } from "../life";
 import { extendData } from "../data";
 import { appraiseEvent } from "../emotion";
 import { parameter, parameterValues } from "../parameters";
-import { discretionaryHours } from "./work";
+import { discretionaryHours } from "../work-reads";
 import {
   closenessBetween,
   currentCloseness,
@@ -18,14 +18,14 @@ import { setTraitProbe, traitProbe } from "../trait-probe";
 import { bookkeeping } from "../bookkeeping";
 import { keepsWhy } from "../why-kept";
 import { adTimeForSale, buyAdTime } from "./campaigns";
-import { residentCounts, residentsAccountFor } from "./residents";
+import { residentCounts, residentsAccountFor } from "../residents-reads";
 import { countedPersonOf } from "../counted-actor";
 import { isDemoted } from "../counted-groups";
 import { initialPersonState } from "../person-state";
 import { fillInPerson, resolveOperation } from "../state";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
 import type { CashJournalPostedMarker } from "../journal-state";
-import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
+import { declareSnapshotCovered } from "../snapshot";
 import type {
   ActOffer,
   ActionDefinition,
@@ -338,7 +338,6 @@ interface PredictedChoice {
  * objects it shares with the core stay shared through the snapshot's refs.
  */
 const runtimes = new WeakMap<CoreState, DrivesRuntime>();
-registerWorldMapPart("core2-drives-runtime", runtimes);
 
 function runtimeFor(readonlyState: Readonly<CoreState>): DrivesRuntime {
   const state = readonlyState as CoreState;
@@ -2557,6 +2556,7 @@ export function createDrivesModule(
   return {
     id: DRIVES_MODULE_ID,
     derivedCaches: () => [causeGroupIds],
+    worldMapParts: { "core2-drives-runtime": { map: runtimes } },
     // One row per cause group, replaced each month: what its counted giving was made of.
     state: { schemaVersion: 1, tables: { [COUNTED_GIVING_TABLE]: {} } },
     // A donation is paid through the cash journal from this module's own canonical record.

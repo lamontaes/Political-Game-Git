@@ -20,7 +20,7 @@ claimed-at:
 
 **Done when.** In a played year (`buildBenchWorld`, every module installed) in places drawn from all 56 with seeds the builder did not choose, named in the PR body, `scripts/law-wiring/check.ts` and `scripts/law-wiring/matrix.ts` grade each of the eight laws above wired on all nine links in `docs/reports/law-wiring-matrix.json`, and the family test names, for each of them, its `lawApplied` record id, the journal entry of its money and the person, household or organization reached. **On screen.** Nothing yet.
 
-**Files.** scripts/law-wiring/check.ts, src/core2/law-wiring-health-schools.test.ts, src/core2/law-reach/group-b-money.ts, src/core2/world-poverty.ts
+**Files.** scripts/law-wiring/check.ts, tests/src/core2/law-wiring-health-schools.test.ts, src/core2/law-reach/group-b-money.ts, src/core2/world-poverty.ts
 
 **Notes.** Laws lead, Oct 26. PR #6026 moves to this item; `laws-nine-links-health-schools` stays open for the three lines and vouchers.
 

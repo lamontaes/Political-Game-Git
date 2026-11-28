@@ -35,7 +35,7 @@ Duplicate of core-speed-contact-offers-grow-with-ties (Oct 25 audit). Same Bedfo
 
 **Done when.** In a drawn place such as Bedford, Wyoming, `buildBenchWorld` with every module installed runs three played years on one process; the third year takes no more than 1.2 times the first, measured by the bench timing on the same machine, and the holders' chosen acts match the unbounded run by record id.
 
-**Files.** src/core2/modules/drives.ts, src/core2/drives.test.ts
+**Files.** src/core2/modules/drives.ts, tests/src/core2/drives.test.ts
 
 **Notes.** Body filled Oct 19 (claude) from the title and the repo's engine layout; the claimant should sharpen it.
 

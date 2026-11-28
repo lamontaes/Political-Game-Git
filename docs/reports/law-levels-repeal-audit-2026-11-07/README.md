@@ -36,5 +36,5 @@ This is exhaustive drafting coverage for the loaded current rows, not a complete
 Reproduce one draw (the command prints every route):
 
 ```sh
-OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192 GOLDEN_PATH_SEED=c4c8bc63e3d8fcd2 npm exec -- vitest run src/core2/starting-law-repeal-routes.test.ts --reporter=verbose
+OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192 GOLDEN_PATH_SEED=c4c8bc63e3d8fcd2 npm exec -- vitest run tests/src/core2/starting-law-repeal-routes.test.ts --reporter=verbose
 ```

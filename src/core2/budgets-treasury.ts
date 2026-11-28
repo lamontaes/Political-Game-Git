@@ -389,11 +389,13 @@ function townResidents(api: CoreAPI): number {
 
 /** The town's residents as a share of the government's (1 for the town's own). */
 export function townShareOf(api: CoreAPI, gov: GovernmentRow): number {
-  if (gov.level === "city") return 1;
+  // A city governs the town and no more, except an island municipality, which
+  // governs every village it covers (its row is sized by all of them).
   const residents =
     gov.level === "federal"
       ? treasuryParameter("usResidents2024")
       : gov.residents;
+  if (gov.level === "city" && !(residents > townResidents(api))) return 1;
   return residents > 0 ? Math.min(1, townResidents(api) / residents) : 0;
 }
 

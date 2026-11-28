@@ -45,12 +45,25 @@ export default tseslint.config(
       "scripts/cleanup/*.mjs",
       "scripts/guards/no-doc-proof-images*.mjs",
       "scripts/heavy/suite-times.mjs",
+      "scripts/move-tests.node-test.mjs",
     ],
     languageOptions: {
       globals: {
         Buffer: "readonly",
         URL: "readonly",
         console: "readonly",
+        process: "readonly",
+      },
+    },
+  },
+  {
+    // Runs in Node and drives a browser page: the page callbacks read `document`.
+    files: ["docs/lanes/proof/first-minutes.browser.mjs"],
+    languageOptions: {
+      globals: {
+        URL: "readonly",
+        console: "readonly",
+        document: "readonly",
         process: "readonly",
       },
     },

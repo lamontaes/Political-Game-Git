@@ -1,3 +1,4 @@
+import type { SnapshotPart } from "./snapshot";
 import type { HistorySource } from "./past-history";
 import type { GroupQuartersType } from "./group-quarters-types";
 import type { PurchaseTaxInput } from "./modules/purchase-tax";
@@ -1091,6 +1092,24 @@ export interface PropertyTaxTerms {
   readonly source: Source;
 }
 
+/**
+ * A provider of who succeeds an office's holder, as a `CoreModule` field: the
+ * input's `previous` is the offices engine's own term row (`unknown` here, so
+ * types.ts imports no engine), and the method form lets a provider declare
+ * its own narrower type for it.
+ */
+export type SuccessorProviderOf = {
+  bivarianceHack(
+    api: CoreAPI,
+    input: { readonly seatId: string; readonly previous: unknown },
+  ): {
+    readonly personId: string;
+    readonly party: string | null;
+    readonly reached: string;
+    readonly then?: () => void;
+  } | null;
+}["bivarianceHack"];
+
 export interface CoreModule {
   id: string;
   state?: ModuleStateDefinition;
@@ -1141,6 +1160,28 @@ export interface CoreModule {
    */
   worldOpen?: (core: CoreState) => void;
   /**
+   * Runtime state this engine keeps outside its tables and the core's records
+   * (a WeakMap keyed by the world, say), by part id: saved with the world and
+   * put back by `restoreWorld`. Read off the installed modules, so an engine
+   * whose module is installed after a restore does not get its part back;
+   * parts of engines installed on first use stay registered by id.
+   */
+  snapshotParts?: Readonly<Record<string, SnapshotPart>>;
+  /**
+   * A runtime kept in a WeakMap keyed by the world, saved as one part by id;
+   * with `rebuild`, a save that holds no such part gets one built from its
+   * records. Same reading as `snapshotParts`.
+   */
+  worldMapParts?: Readonly<
+    Record<
+      string,
+      {
+        readonly map: WeakMap<CoreState, unknown>;
+        readonly rebuild?: (core: CoreState) => unknown;
+      }
+    >
+  >;
+  /**
    * Caches this engine keeps keyed by the world and built from the world's
    * records: a restore refills the same world in place, so each is cleared at
    * the end of every restore and built again on first read. A function, read
@@ -1186,13 +1227,6 @@ export interface CoreModule {
   stanceListener?: (api: CoreAPI, personId: PersonId, topic: string) => void;
   /** The property tax terms of a place, as the budgets engine keeps them. */
   propertyTax?: (api: CoreAPI, placeId: string) => PropertyTaxTerms | undefined;
-  /** What the moves engine does when a household with returned members leaves a place. */
-  returnedMembersLeave?: (
-    api: CoreAPI,
-    people: readonly PersonState[],
-    fromPlace: string,
-    toUsps: string,
-  ) => void;
   /** What the welfare line pays one household a year (the Census counts public assistance in income). */
   assistanceReader?: (core: CoreState, householdId: string) => number;
   /** Run the moment a person hears a story (the price engine ties a price change to the law the story names). Method form: the engine's `Story` type fits `unknown`. */
@@ -1274,7 +1308,11 @@ export interface CoreModule {
   /** The bills a meeting's agenda holds on a date. */
   meetingAgendaReader?(api: CoreAPI, date: string): readonly string[];
   /** Who testifies on a question: the people its records show are concerned with it. */
-  hearingWitnesses?(api: CoreAPI, bill: unknown): readonly unknown[];
+  hearingWitnesses?(
+    api: CoreAPI,
+    bill: unknown,
+    question: string,
+  ): readonly unknown[];
   /** The leadership engine seats a chamber's committees and their chairs. */
   committeeRoster?(
     api: CoreAPI,
@@ -1321,26 +1359,10 @@ export interface CoreModule {
    * Offices' five, proposed by Core from the signatures of the register
    * functions they replace, because Offices has not posted its own (Nov 27):
    * rename any of them until a registry moves onto it. Terms, seats and
-   * vacancies are the offices engine's own rows, so they are `unknown`. The
-   * level acts kit (`registerOfficeActs`) is a bundle of fields `CoreModule`
-   * already has (`onDay`, `offerProviders`, `effectHandlers`), so it is not a
-   * field here: Offices lists what is left of it.
+   * vacancies are the offices engine's own rows, so they are `unknown`.
    */
   /** Who succeeds an office kind's holder, by office kind: the person, their party and how they were reached, or null. */
-  successorProviders?: Readonly<
-    Record<
-      string,
-      (
-        api: CoreAPI,
-        input: { readonly seatId: string; readonly previous: unknown },
-      ) => {
-        readonly personId: string;
-        readonly party: string | null;
-        readonly reached: string;
-        readonly then?: () => void;
-      } | null
-    >
-  >;
+  successorProviders?: Readonly<Record<string, SuccessorProviderOf>>;
   /** Offers a vacant seat to the person this engine answers for (the player, the elections engine); true when taken. */
   vacancyOffer?(
     api: CoreAPI,
@@ -1355,6 +1377,26 @@ export interface CoreModule {
   specialElections?(api: CoreAPI, race: unknown): boolean;
   /** The moments a level adds to what may stop the player. */
   stopKinds?: readonly { readonly kind: string; readonly byDefault: boolean }[];
+  /**
+   * What a level of the office day does on the first of each month, after the
+   * stipends. The office day runs it for every module that carries it, in
+   * install order.
+   */
+  onMonth?: (api: CoreAPI) => void;
+  /**
+   * A level's own step in the office day's day: the office day runs it for
+   * every module that carries it, after its payday work, inside its own day.
+   */
+  onOfficeDay?: (api: CoreAPI) => void;
+  /** A level's own step after the office day's day: run by the office day for every module that carries it. */
+  onOfficeAfterDay?: (api: CoreAPI) => void;
+  /**
+   * How much of the seat's scheduled work has come due for a holder, from
+   * nothing to one; null where the person holds no seat of this level. The
+   * "duty" need reads the largest across the modules that carry it, so the
+   * seat's work ranks beside the person's other needs from their own record.
+   */
+  duty?: (api: CoreAPI, personId: string) => number | null;
   /** Picks one of the candidates for a central bank board vacancy and gives its reasons; nothing when no one is confirmed. */
   boardAppointer?(
     api: CoreAPI,

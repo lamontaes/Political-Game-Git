@@ -19,12 +19,12 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import foreclosureData from "./data/housing/foreclosure.json" with { type: "json" };
 import { stopgap } from "./stopgaps";
 import { transferCash } from "./budgets-treasury";
-import { endFlowPart } from "./residents-economy";
-import { householdIncome, residentsRuntime } from "./modules/residents";
+import { endFlowPart } from "./resident-flows";
+import { householdIncome, residentsRuntime } from "./residents-reads";
 import { leaveCountedHome } from "./housing-homeless";
 import { formerHome } from "./housing-former-home";
 import { homeValueToday } from "./housing-price-level";
-import { listHome } from "./housing-listings";
+import { listHome } from "./housing-writes";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, CoreState } from "./types";
 

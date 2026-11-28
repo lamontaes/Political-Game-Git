@@ -25,17 +25,17 @@ branch: claude/pool-research-local-income-tax-authority-dc-territories
 
 **Cause.** Measured: src/core2/data/laws/starting-law.json has 50 `local-income-tax-authority` rows (the 50 states) and none for D.C., Puerto Rico, Guam, the Virgin Islands, American Samoa or the Northern Mariana Islands (laws lead, Oct 25; drawn place Marueno, Puerto Rico, seed 9c7e770e2a46c5dccabd59cb3672b93dd63dfe83).
 
-**Fix.** Research each of the six places' rule on local income taxes with quote and URL, add the six rows through scripts/research/build-starting-law.py, remove the redraw in src/core2/law-wiring-taxes.test.ts, and make the test read the new rows.
+**Fix.** Research each of the six places' rule on local income taxes with quote and URL, add the six rows through scripts/research/build-starting-law.py, remove the redraw in tests/src/core2/law-wiring-taxes.test.ts, and make the test read the new rows.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
 **Rules.** Research before building: quoted sources, fetched. One rule, all 56 places: the six rows live in starting-law.json keyed by place, never named in logic. Estimate, never UNKNOWN: where no provision speaks to it the row is ESTIMATED with its reason.
 
-**Done when.** A second session opens src/core2/data/laws/starting-law.json and finds a sourced or estimated `local-income-tax-authority` row for all six places, each with its citation, and runs src/core2/law-wiring-taxes.test.ts on a seed that draws one of the six (named in the PR) with the redraw for 'a state local income tax authority row' removed, seeing it pass by record id in that drawn place. On screen: none by design.
+**Done when.** A second session opens src/core2/data/laws/starting-law.json and finds a sourced or estimated `local-income-tax-authority` row for all six places, each with its citation, and runs tests/src/core2/law-wiring-taxes.test.ts on a seed that draws one of the six (named in the PR) with the redraw for 'a state local income tax authority row' removed, seeing it pass by record id in that drawn place. On screen: none by design.
 
 **Waits on.** Nothing.
 
-**Files.** scripts/research/build-starting-law.py, src/core2/data/laws/starting-law.json, src/core2/law-wiring-taxes.test.ts
+**Files.** scripts/research/build-starting-law.py, src/core2/data/laws/starting-law.json, tests/src/core2/law-wiring-taxes.test.ts
 
 **Notes.** Laws lead, Oct 25, from PR #5649.
 

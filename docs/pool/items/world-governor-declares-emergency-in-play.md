@@ -20,6 +20,6 @@ claimed-at: 2026-11-04T03:30:35.008Z
 
 **Done when.** In a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a year with a recorded disaster in a state whose governor holds the power shows an emergency-declared record naming the governor, the state budget line moved by the recorded amount, and a test that fails when the call is removed.
 
-**Files.** src/core2/modules/executive.ts, src/core2/modules/disasters.ts, src/core2/emergency-declaration.test.ts
+**Files.** src/core2/modules/executive.ts, src/core2/modules/disasters.ts, tests/src/core2/emergency-declaration.test.ts
 
 **Notes.** Evidence in docs/design/scenes/from-life/executive-record-gaps.md: declareEmergency has no caller outside tests. Lead laws-effects.

@@ -20,6 +20,6 @@ claimed-at: 2026-11-04T03:03:16.889Z
 
 **Done when.** In a drawn place built with buildBenchWorld and the seed it prints, a minimum-wage bill drafted through seatAct in two dated steps has a fiscal note whose yearly pay is each step's raise over the step before for the open commitments under it, named by commitment id and step date, and the bill paper shows the same figure.
 
-**Files.** src/core2/modules/legislature.ts, src/bench/phase-in.test.ts
+**Files.** src/core2/modules/legislature.ts, tests/src/bench/phase-in.test.ts
 
 **Notes.** TODO

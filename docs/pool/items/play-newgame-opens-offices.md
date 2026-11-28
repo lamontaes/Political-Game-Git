@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Wire to the world. One rule, all 56 places. Replace, never layer: one way to open a world.
 
-**Done when.** A game from newGame in a drawn place lists office.seat-reached records through preStartHistory, in src/core2/pre-start-government.test.ts, with the place and seed named.
+**Done when.** A game from newGame in a drawn place lists office.seat-reached records through preStartHistory, in tests/src/core2/pre-start-government.test.ts, with the place and seed named.
 
 **Files.** src/core2/saves.ts, src/bench/world.ts
 

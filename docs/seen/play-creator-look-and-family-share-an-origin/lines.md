@@ -10,6 +10,6 @@ The rule is by how people are related, not by who shares the house. The player's
 
 `people-before-*.png` and `people-after-*.png` are the People screen with the first family card open, before (train head) and after (this branch), one pair per place. In each "after" picture the player's relatives (Raymond Valenzuela, father, in Eldorado PA; Samantha Todd, daughter, in Hollandale MN; the family in Litchfield IL) are drawn in the player's deep tone. The "before" pictures show the same creator choice with the family in the place's drawn tone.
 
-Partner and housemates are proved in `src/bench/creator-origin.test.ts` (pinned places Liberty MS, Eldorado PA, Litchfield IL, Midland LA, a 1980-born woman): Carlos (partner, Liberty MS) and James (partner, Midland LA) keep their drawn origin while their children and the player take the chosen one. With the rule set to "everyone in the household", the test goes red at the partner in Liberty MS.
+Partner and housemates are proved in `tests/src/bench/creator-origin.test.ts` (pinned places Liberty MS, Eldorado PA, Litchfield IL, Midland LA, a 1980-born woman): Carlos (partner, Liberty MS) and James (partner, Midland LA) keep their drawn origin while their children and the player take the chosen one. With the rule set to "everyone in the household", the test goes red at the partner in Liberty MS.
 
 Those in each picture who are not family keep the place's own mix.

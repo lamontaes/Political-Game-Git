@@ -5,14 +5,13 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
-import { officeActKits } from "../../src/core2/office-day-registry";
 import { worldRecords } from "../../src/core2/snapshot";
 import baseline from "./daily-register-baseline.json";
 
 /**
  * Not everything every day, and summaries are automatic (owner, Nov 10;
  * .agents/rules/cadence-and-summaries.md). Every daily step an engine runs
- * (a module's or an office kit's onDay or onAfterDay) and every table a world
+ * (a module's onDay or onAfterDay) and every table a world
  * keeps (each core field, module table and world part, as dev mode's records
  * proof sees them) has a line in docs/design/daily-register.md. A daily step,
  * or a table of kind `grows`, is approved by name by the coordinator or the
@@ -64,10 +63,9 @@ describe("the daily register", () => {
   for (const module of core.modules.values()) {
     if (module.onDay) steps.push(`${module.id}.onDay`);
     if (module.onAfterDay) steps.push(`${module.id}.onAfterDay`);
-  }
-  for (const kit of officeActKits()) {
-    if (kit.onDay) steps.push(`office-kit:${kit.id}.onDay`);
-    if (kit.onAfterDay) steps.push(`office-kit:${kit.id}.onAfterDay`);
+    // A level's steps inside the office day's day run by the office day.
+    if (module.onOfficeDay) steps.push(`${module.id}.onOfficeDay`);
+    if (module.onOfficeAfterDay) steps.push(`${module.id}.onOfficeAfterDay`);
   }
   const records = worldRecords(core);
   const tables = [

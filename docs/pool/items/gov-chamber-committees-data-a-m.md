@@ -18,9 +18,9 @@ source: split from gov-stopgap-legislature-committees-assumed-data by pool feede
 
 **Rules.** Research before building: every row cites the chamber's rules or committee page and a number from memory stays ESTIMATED. One rule, all 56 places: the file covers every chamber in its half and logic names none. Estimate, never UNKNOWN: a chamber with no found list keeps the national nine marked ESTIMATED. An effect is a read, not a record: the rows are read by the committee router and the leadership seating. American English everywhere in committee name keys.
 
-**Done when.** chamber-committees.json has a row for every chamber in these places with a source and retrieval date; a test in src/core2/legislature-committees.test.ts checks every catalog topic is heard by some committee in each chamber, and a one-year run of the played world (buildBenchWorld) in a drawn place from this half with a seed the builder did not choose sends its bills to the chamber's own committees, shown by bill and committee record ids.
+**Done when.** chamber-committees.json has a row for every chamber in these places with a source and retrieval date; a test in tests/src/core2/legislature-committees.test.ts checks every catalog topic is heard by some committee in each chamber, and a one-year run of the played world (buildBenchWorld) in a drawn place from this half with a seed the builder did not choose sends its bills to the chamber's own committees, shown by bill and committee record ids.
 
-**Files.** src/core2/data/legislature/chamber-committees.json, src/core2/legislature-committees.test.ts
+**Files.** src/core2/data/legislature/chamber-committees.json, tests/src/core2/legislature-committees.test.ts
 
 **Notes.** Oct 20 (pool feeder): part 2 of 3 of gov-stopgap-legislature-committees-assumed-data. Nebraska is unicameral (one row), so the half covers about 47 chambers. Congress is built from federal-committees.json in the reader part.
 

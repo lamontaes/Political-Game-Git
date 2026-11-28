@@ -13,11 +13,11 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-20T23:04:23.058Z
 ---
 
-**What.** src/core2/budget-desk.test.ts failed at line 62: the president signed or vetoed the federal budget, but no national outlet printed a story about it. The press desk weighed the act as touching only the few people it named, and a serving president is not a full person, so the story carried no renown. A budget the executive signs or vetoes must count every follower of the outlet as involved, and a serving federal or state official named on the record must count toward renown.
+**What.** tests/src/core2/budget-desk.test.ts failed at line 62: the president signed or vetoed the federal budget, but no national outlet printed a story about it. The press desk weighed the act as touching only the few people it named, and a serving president is not a full person, so the story carried no renown. A budget the executive signs or vetoes must count every follower of the outlet as involved, and a serving federal or state official named on the record must count toward renown.
 
 **Rules.** An effect is a read, not a record: the signature is read by the press desk when it picks stories, and the printed story reaches followers through the news engine. One model, two tiers: counted followers are involved by the same rule as named ones.
 
-**Done when.** src/core2/budget-desk.test.ts passes in a played world built with buildBenchWorld in a drawn place: the president's signature or veto of the federal budget is recorded, a national outlet prints at least one story on it, and the PR body names the place, seed and story record id.
+**Done when.** tests/src/core2/budget-desk.test.ts passes in a played world built with buildBenchWorld in a drawn place: the president's signature or veto of the federal budget is recorded, a national outlet prints at least one story on it, and the PR body names the place, seed and story record id.
 
 **Files.** src/core2/press-desk.ts, src/core2/press-topics.ts, docs/release/changes/gov-budget-signing-reaches-the-press.md
 

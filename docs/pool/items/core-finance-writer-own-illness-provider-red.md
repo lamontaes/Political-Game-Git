@@ -19,6 +19,6 @@ claimed-at: 2026-10-21T21:44:06.358Z
 
 **Done when.** All 27 finance-writer-contract.test.ts cases pass, including the four previously failing work-admission cases, with their actual committed WorkResult, closure-evidence and finite-cash assertions preserved. Run that test file by path and the changed-file checks; the repair must not hide an absent provider behind a default zero or suppress the tested work path.
 
-**Files.** src/core2/finance-writer-contract.test.ts, src/core2/modules/work.ts, src/core2/choice.ts
+**Files.** tests/src/core2/finance-writer-contract.test.ts, src/core2/modules/work.ts, src/core2/choice.ts
 
 **Notes.** Reproduced on clean frozen main af83f0e661 and on the main-integrated cleanup head: can resolve closure from an actual quiet committed WorkResult; preserves closure evidence when a returned receipt is modified; does not borrow or pay when worker admission cannot commit; funds wages across approved lines with a shared finite lender. All four throw Unregistered reason provider: work.own-illness at choice.ts:364 through freeAttendance in finance-writer-contract.test.ts:390. The other 23 finance cases pass. This baseline failure is separate from removal of the unused funding-plan calculator.

@@ -30,7 +30,7 @@ branch:
 1. **The estimate never repeats the section.** In `billEstimate`, `prose` is the bill's own cost note (`paper.estimate.note`) when it has one, and nothing otherwise. Never `section.text`.
 2. **A section with no figure says so in worded text from the controls,** not in code: add `bill.noFigure` to src/bench/data/controls.json ("No dollar figure. This section changes a rule, not an amount.") and show it when `lines` and `compare` are both empty and there is no note.
 3. **One section, no "Sections" box.** In src/bench/ui/bill-paper.mjs, draw the list of sections only when the bill has two or more. With one, the underlined sentence in the text is the section and is what the player clicks.
-4. **Check.** Extend src/bench/bill-screens.browser.mjs: on a drafted bill with one yes-or-no section in a drawn place, the section's text appears once on the page, and the estimate column holds the no-figure line.
+4. **Check.** Extend tests/src/bench/bill-screens.browser.mjs: on a drafted bill with one yes-or-no section in a drawn place, the section's text appears once on the page, and the estimate column holds the no-figure line.
 
 **Time box.** 2 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -40,6 +40,6 @@ branch:
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.mjs, src/bench/ui/bill-paper.mjs, src/bench/data/controls.json, src/bench/bill-screens.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/ui/bill-paper.mjs, src/bench/data/controls.json, tests/src/bench/bill-screens.browser.mjs
 
 **Notes.** What a yes-or-no law would do to people (how many it covers, what it costs them) is a different item: play-bill-estimate-has-no-reach-for-a-yes-or-no-law, which needs its cause found first.

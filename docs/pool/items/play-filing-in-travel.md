@@ -19,7 +19,7 @@ claimed-at: 2026-10-16T03:32:33.153Z
 
 **Done when.** The branch merges clean with main and the Travel screen lists the filing office of the drawn place (name it and the seed) with its real requirements in words, no raw ids and no 'undefined'. A full-window screenshot at 1672x941 of the finished screen is attached to the PR and merged on the owner's yes; a browser spec for the screen (a new `src/bench/<screen>.browser.mjs` beside `sheets.browser.mjs`) opens it in a drawn place and fails on a raw id or the word undefined. The owner plays it: opens Travel, goes to the filing office and files.
 
-**Files.** src/bench/play.mjs, src/bench/filing.ts, src/bench/data/controls.json, src/bench/sheets.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/filing.ts, src/bench/data/controls.json, tests/src/bench/sheets.browser.mjs
 
 **Notes.** One PR per screen; gate: browser spec for the screen.
 Sent back 2026-10-15 from PR #4298 (branch play/filing-in-travel): code conflict with main in src/bench/play.mjs, src/bench/data/controls.json; finish on that branch, merge main into it first.

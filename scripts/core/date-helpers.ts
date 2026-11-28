@@ -11,7 +11,7 @@
  *
  * and adds the import (a `DAY_MS` that only they used is removed by hand: lint names it). The nth-weekday copies are rewritten by hand, each
  * checked against the helper over the years the game runs
- * (src/core2/kernel/dates-weekdays.test.ts). Formatting is left as it is.
+ * (tests/src/core2/kernel/dates-weekdays.test.ts). Formatting is left as it is.
  *
  *   node --import tsx scripts/core/date-helpers.ts          rewrite
  *   node --import tsx scripts/core/date-helpers.ts --plan   list the files only
@@ -109,7 +109,9 @@ for (const file of files) {
   const original = readFileSync(path.join(ROOT, file), "utf8");
   const names = new Set<string>();
   // A file with its own `weekdayOf` or `lastDayOfMonth` would call itself: by hand.
-  if (/(?:function|const)\s+(?:weekdayOf|lastDayOfMonth|addDays)\b/.test(original)) {
+  if (
+    /(?:function|const)\s+(?:weekdayOf|lastDayOfMonth|addDays)\b/.test(original)
+  ) {
     skipped.push(`${file} (names its own helper)`);
     continue;
   }

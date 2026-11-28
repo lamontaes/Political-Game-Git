@@ -20,6 +20,6 @@ lead: governing
 
 **Done when.** In a one-year run of the played world (buildBenchWorld, drawn place and seed named), every out-of-town press person still at their outlet holds a pay record and is paid each month by journal entry id, none holds $0 because no pay came, and SG-PEOPLE-press-national-payroll is resolved.
 
-**Files.** src/core2/press-staff.ts, src/core2/modules/official-pay.ts, src/core2/press-staff.test.ts, src/core2/data/stopgaps.json
+**Files.** src/core2/press-staff.ts, src/core2/modules/official-pay.ts, tests/src/core2/press-staff.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** TODO

@@ -37,8 +37,9 @@
  */
 import data from "./data/estates.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
-import { outsideGovernment } from "./modules/executive";
-import { LAWS_MODULE_ID } from "./modules/laws";
+import { outsideGovernment } from "./outside-governments";
+import { dwellingTenure } from "./housing-reads";
+import { LAWS_MODULE_ID } from "./modules/laws-reads";
 import { coreStateKeyOfPlaceholderId } from "./place-lookup";
 import {
   assessEstateTaxes,
@@ -55,15 +56,15 @@ import { closenessBetween } from "./closeness";
 import { leanedYes } from "./trait-decisions";
 import type { ModuleRow } from "./module-data";
 import { personOrFillIn, registerModule } from "./state";
-import { residentPerson, residentsRuntime } from "./modules/residents";
+import { residentPerson, residentsRuntime } from "./residents-reads";
 import { countedPayment } from "./counted-money";
 import { isDemoted } from "./counted-groups";
 import {
   endRecipientIncomeAtDeath,
   handOverContractsAtDeath,
-} from "./budgets-treasury";
+} from "./finance-state";
 import { addDays, makeIsoDate, daysBetweenText } from "./kernel/dates";
-import { homeSaleOf, recordEstatePaid, sellHome } from "./housing-sale";
+import { homeSaleOf, recordEstatePaid, sellHome } from "./housing-writes";
 import type {
   CoreAPI,
   CoreModule,
@@ -422,12 +423,9 @@ function homeOfLastOwner(
   const household = c.households.get(person.householdId);
   if (!household || household.memberIds.some((id) => c.people.get(id)?.alive))
     return undefined;
-  const dwelling = api
-    .moduleState("housing")
-    .table("dwellings")
-    .get(`dwelling:${household.id}`) as unknown as
-    { tenure?: string } | undefined;
-  return dwelling?.tenure === "own" ? household.id : undefined;
+  return dwellingTenure(api, household.id)?.tenure === "own"
+    ? household.id
+    : undefined;
 }
 
 export function settleEstate(

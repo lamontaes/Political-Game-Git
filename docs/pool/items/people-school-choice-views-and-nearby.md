@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** Look before you ask: read DECISION-REGISTER.md and OWNER-DECISIONS.md for any ruling on school choice before putting the question. No dice: any factor that enters is a record the choice reads, never a roll.
 
-**Done when.** OWNER-DECISIONS.md holds the question under Open or a ruling under Ruled, a test in src/core2/private-tuition-reenroll.test.ts reads any factor ruled in by record id in a played world from buildBenchWorld in a drawn place, and the stopgap row names what remains.
+**Done when.** OWNER-DECISIONS.md holds the question under Open or a ruling under Ruled, a test in tests/src/core2/private-tuition-reenroll.test.ts reads any factor ruled in by record id in a played world from buildBenchWorld in a drawn place, and the stopgap row names what remains.
 
 **Files.** docs/coordination/OWNER-DECISIONS.md, src/core2/opening-private-tuition.ts
 

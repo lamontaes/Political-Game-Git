@@ -1,0 +1,36 @@
+{
+  "id": "lede-notes-how-many-months-until-the-primary",
+  "kind": "move",
+  "summary": "The lede puts the announcement against how far away the primary still is.",
+  "realLife": "A state House story opened by saying the primary was about ten months away yet one person was already preparing a run, then gave the seat's long-time holder and the district's make-up.",
+  "sources": [
+    "StateCollege.com (State College, Pennsylvania), 'Announces candidacy for 77th state House district', July 3, 2025: https://www.statecollege.com/articles/political-news/womer-announces-candidacy-for-77th-state-house-district/",
+    "The News Tribune (Jefferson City, Missouri), 'Holts Summit accountant running for JC school board', Dec. 3, 2025: https://www.newstribune.com/news/2025/dec/03/holts-summit-accountant-running-for-jc-school/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["from", "name", "office", "when", "opens"],
+  "gates": [],
+  "weights": {
+    "candidate-announced": 0.5
+  },
+  "inGame": "the candidate-announced event and the contest's election day; the months between is computed from the two",
+  "issues": ["none"],
+  "turns": [
+    {
+      "name": "election close",
+      "pulledBy": "less than three months to election day",
+      "writes": "the lede drops the distance and leads with the person",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "election far away",
+      "pulledBy": "a year or more to election day",
+      "writes": "the lede stresses how early it is",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

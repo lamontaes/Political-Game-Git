@@ -17,8 +17,8 @@ claimed-at: 2026-10-27T23:48:19.971Z
 
 **Rules.** No dice: the scene comes from a recorded sitting, and the household member cast is the one with the closest tie, the record id breaking a tie. Sliding scales and causes: the evening is the core's own workEveningStartMinute, and scenes space by a TUNABLE parameter, never a roll. One rule, all 56 places. Speed: the ledger reads the day's meeting rows through the office-day table, never a scan of history.
 
-**Done when.** In a played world (buildBenchWorld) in a drawn place with the seed named, a one-year test in src/director/circumstance.test.ts where the player is a sitting member of a local body stages family-absence at home on the day of an evening sitting, citing the meeting record id and casting a household member, and the scene web shows one fewer row waiting on a producer.
+**Done when.** In a played world (buildBenchWorld) in a drawn place with the seed named, a one-year test in tests/src/director/circumstance.test.ts where the player is a sitting member of a local body stages family-absence at home on the day of an evening sitting, citing the meeting record id and casting a household member, and the scene web shows one fewer row waiting on a producer.
 
-**Files.** src/director/away.ts, src/director/ledger.ts, src/director/data/circumstances.json, src/director/data/situation-types.json, src/director/circumstance.test.ts
+**Files.** src/director/away.ts, src/director/ledger.ts, src/director/data/circumstances.json, src/director/data/situation-types.json, tests/src/director/circumstance.test.ts
 
 **Notes.** TODO

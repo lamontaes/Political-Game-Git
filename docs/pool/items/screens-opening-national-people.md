@@ -17,7 +17,7 @@ claimed-at: 2026-10-28T00:53:52.022Z
 
 **Rules.** Replace, never layer: the town stage and the state legislators are deleted from the opening's data with their picture rules, not hidden; one rule, all 56 places: the stages read the key-people list for every place.
 
-**Done when.** In a drawn place (name the place and seed), src/bench/opening-tags.test.ts and src/director/opening-story.test.ts pass and assert no council member or state legislator is pointed out and the sequence is president, Congress, state, family; before and after screenshots are in the PR body.
+**Done when.** In a drawn place (name the place and seed), src/bench/opening-tags.test.ts and tests/src/director/opening-story.test.ts pass and assert no council member or state legislator is pointed out and the sequence is president, Congress, state, family; before and after screenshots are in the PR body.
 
 **Files.** src/director/data/opening-story.json, src/director/opening-sequence.ts, src/bench/data/opening-pictures.json, src/bench/opening-tags.test.ts
 

@@ -30,14 +30,11 @@ import defenseContracts from "../../data/research/federal/defense-contracts-by-s
 import { GOV_MEASURES } from "./gov-measure-keys";
 import type { CoreAPI, CoreState } from "./types";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
-import {
-  ELECTIONS_MODULE_ID,
-  ballot,
-  isLocalFamily,
-  type ContestRow,
-} from "./modules/elections";
+import type { ContestRow } from "./modules/elections";
+import { ELECTIONS_MODULE_ID, ballot, isLocalFamily } from "./elections-reads";
 import { VOTING_MODULE_ID, resultOf, type ResultRow } from "./modules/voting";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import type { TermRow } from "./modules/offices";
+import { OFFICES_MODULE_ID } from "./offices-reads";
 import {
   BUDGETS_MODULE_ID,
   baseBudget,
@@ -49,7 +46,8 @@ import {
 import { townShare } from "./law-reach/group-b-money";
 import { parameter } from "./parameters";
 import { treasuryParameter } from "./budgets-treasury";
-import { countryOpened, countryStates } from "./modules/macro";
+import { countryOpened } from "./macro-reads";
+import { allCountryStates } from "./macro-reads";
 
 export { GOV_MEASURES };
 
@@ -397,7 +395,7 @@ export function defenseBoostPct(
 function nationalOutputMinor(api: CoreAPI): number | null {
   if (!countryOpened(api)) return null;
   let sold = 0;
-  for (const state of countryStates(api))
+  for (const state of allCountryStates(api))
     for (const row of state.sectors) sold += row.sales;
   return sold > 0
     ? sold * treasuryParameter("monthsPerYear") * parameter("minorPerDollar")

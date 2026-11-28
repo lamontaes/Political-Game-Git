@@ -19,7 +19,7 @@ source: Red desk, Nov 13 (merger reports of campaign-turn "rich rival" on #7365,
 merged-at: 2026-11-13T04:07:34.233Z
 ---
 
-**What.** `src/core2/campaign-turn.test.ts`, "a rich rival holds an event on a day it is offered and a poor one does not", fails on clean main at five of six fresh seeds, among them 96a4487c4d8bc8a9 (Harlan, Indiana), 713d5cab02562c08 (Springfield, West Virginia) and c4a8a37f22dc5ee2 (Devola, Ohio): "expected null to be 'event'" at its last line. The rich rival's day does choose the event (`rivalDay` gives `act: "event"`), but the campaign turn holds none in the town. Seen: a rich rival's turn holds the event it chose, in the town or elsewhere in its race.
+**What.** `tests/src/core2/campaign-turn.test.ts`, "a rich rival holds an event on a day it is offered and a poor one does not", fails on clean main at five of six fresh seeds, among them 96a4487c4d8bc8a9 (Harlan, Indiana), 713d5cab02562c08 (Springfield, West Virginia) and c4a8a37f22dc5ee2 (Devola, Ohio): "expected null to be 'event'" at its last line. The rich rival's day does choose the event (`rivalDay` gives `act: "event"`), but the campaign turn holds none in the town. Seen: a rich rival's turn holds the event it chose, in the town or elsewhere in its race.
 
 **Cause.** Found in code: since acddb8fb57 (Speed, Nov 8), `campaignTurn` in src/core2/modules/campaigns.ts holds a world candidate's event in the town only when `heldInTown` says so: a county, district or state race adds the town's share of its voters (`townShareOfRace`) to `townEventCredit` and holds an event here when that reaches one. The case files for the first contest open, a U.S. House or Senate seat in these places, whose town share is under a thousandth, and its last check predates that rule.
 
@@ -33,4 +33,4 @@ merged-at: 2026-11-13T04:07:34.233Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/campaign-turn.test.ts
+**Files.** tests/src/core2/campaign-turn.test.ts

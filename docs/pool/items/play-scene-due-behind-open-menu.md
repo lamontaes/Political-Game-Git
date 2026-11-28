@@ -28,7 +28,7 @@ Seen: Morgan's Point Resort, Texas (seed 77755ec2-084d-49e2-bc03-0abf10a781d6), 
 
 1. One closer, `closeCards` in src/bench/play.mjs, closes the person card, the news reader, a term's card and the open menu.
 2. `showStory`, a held stop or election morning in `act`, and election night in `refresh` call it before they draw.
-3. A new browser check, src/bench/scene-closes-open-card.browser.mjs, presses Day, opens People before the day lands, and plays days until a scene comes due.
+3. A new browser check, tests/src/bench/scene-closes-open-card.browser.mjs, presses Day, opens People before the day lands, and plays days until a scene comes due.
 
 **Time box.** 2 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -38,6 +38,6 @@ Seen: Morgan's Point Resort, Texas (seed 77755ec2-084d-49e2-bc03-0abf10a781d6), 
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.mjs, src/bench/scene-closes-open-card.browser.mjs (new)
+**Files.** src/bench/play.mjs, tests/src/bench/scene-closes-open-card.browser.mjs (new)
 
 **Notes.** Filed and built by the Blockers lane, Nov 16, on branch claude/blockers-scene-behind-card.

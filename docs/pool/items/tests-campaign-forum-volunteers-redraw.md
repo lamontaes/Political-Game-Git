@@ -20,6 +20,6 @@ claimed-at: 2026-10-30T07:45:00.499Z
 
 **Done when.** campaign-day.test.ts and campaigns.test.ts each redraw (seed, seed:1, and so on, up to a bound) until the player can file for a town or county race and, for the volunteers test, three willing volunteers exist, naming the place and seed used; with GOLDEN_PATH_SEED set to the Wahiawa run seed the forum test passes on a later draw; each file passes on five fresh draws in a row.
 
-**Files.** src/core2/campaign-day.test.ts, src/core2/campaigns.test.ts
+**Files.** tests/src/core2/campaign-day.test.ts, tests/src/core2/campaigns.test.ts
 
 **Notes.** TODO

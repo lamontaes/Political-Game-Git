@@ -28,7 +28,10 @@ import {
 } from "./index";
 import { benefitLinePayments } from "./group-b-money";
 import { reachALineAdditions } from "./group-a-money";
-import { REACH_A_MODULE_ID } from "./group-a-records-constants";
+import {
+  LINE_ADDITION_KEYS,
+  REACH_A_MODULE_ID,
+} from "./group-a-records-constants";
 import {
   REACH_B_MODULE_ID,
   STANDING_BENEFIT_PROGRAMS,
@@ -58,7 +61,15 @@ export const LAW_REACH_HOST: CoreModule = {
   treasuryRule: reviewFiscalRules,
   linePayments: benefitLinePayments,
   // The laws that raised a line by their own amount, so the treasury can record whom their share of the line pays.
-  lineAdditions: reachALineAdditions,
+  // A plain field: the keys are literals, and the money file is read when the treasury asks, because group-a-money.ts may still be loading when this file runs.
+  lineAdditions: {
+    keys: LINE_ADDITION_KEYS,
+    additions: (api, gov) =>
+      reachALineAdditions.additions(
+        api,
+        gov as Parameters<typeof reachALineAdditions.additions>[1],
+      ),
+  },
 };
 
 export function openLawReach(core: CoreState): void {

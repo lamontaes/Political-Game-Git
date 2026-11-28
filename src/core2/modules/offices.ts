@@ -7,7 +7,7 @@ import type {
   HistoryWriter,
   PreStartModule,
   PreStartWindow,
-} from "../pre-start";
+} from "../past-module";
 import { incompatibleOffices } from "../office-incompatibility";
 import {
   historyOf,
@@ -48,10 +48,11 @@ import {
  * (SG-GOV-territory-legislature-race).
  */
 import { countedResidents, registerElectorate } from "../electorate";
-import { partyName } from "../appointments";
+import { partyName } from "../party-sides";
 import { recordedRaceShare } from "../offices-past-results";
 import { leanedScore } from "../trait-decisions";
 import { coreAPI, fillInPerson, registerModule } from "../state";
+import { carriersOf } from "../module-fields";
 import { makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreState, PersonId, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -111,13 +112,34 @@ import { drawOfficialIdentity } from "../officials-identity";
 import { seededFineUnit, seededUnit } from "../seeded";
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
-import { POLICY_QUESTIONS } from "../policy-answers";
+import { POLICY_QUESTIONS } from "./laws-reads";
 import reachA from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { isRealOfficeholderName } from "../officials-names";
 import { pressConflict } from "../press-conflict";
 import { researchedHolderParty } from "../offices-holder-parties";
+import {
+  OFFICES_MODULE_ID,
+  OFFICIALS_ID,
+  isOutsideOffice,
+  officeById,
+  servingTermsOf,
+  table,
+} from "../offices-reads";
+export {
+  OFFICES_MODULE_ID,
+  allOffices,
+  isOutsideOffice,
+  officeById,
+  officeholderIds,
+  officesInJurisdiction,
+  seatsOfOffices,
+  servingTerms,
+  servingTermsOf,
+  termById,
+  termsOfPerson,
+  townSeats,
+} from "../offices-reads";
 
-export const OFFICES_MODULE_ID = "core2-offices-v1";
 /** How a holder in office the day the world opened reached their seat, as their term records it. */
 const OPENING_REACHED = "in office at the opening";
 
@@ -168,7 +190,7 @@ export interface VacancyRow {
   readonly cause: string;
   readonly rule: VacancyRule;
   readonly status: "open" | "filled" | "awaiting-election" | "offered";
-  /** Offered to someone by the appointing body (`registerVacancyOffer`): how they would reach the seat. */
+  /** Offered to someone by the appointing body (by a module's `vacancyOffer`): how they would reach the seat. */
   readonly offeredReached?: string;
   /** The term that ended when the seat fell vacant: dev mode's Trace names who left and how. */
   readonly vacatedTermId?: string;
@@ -375,6 +397,8 @@ const OFFICES_HISTORY: HistorySource = {
 
 export const OFFICES_MODULE: PreStartModule = {
   id: OFFICES_MODULE_ID,
+  // A town's Vice Mayor takes a vacated Mayor's seat where the town's law says so.
+  successorProviders: { mayor: viceMayorSuccessor },
   // A plain field, not a getter: the finance engine's read check walks the
   // modules and refuses an accessor (src/core2/finance-plan.ts, directRead).
   history: OFFICES_HISTORY,
@@ -435,10 +459,6 @@ const source = (citation: string, date: string, estimate: boolean): Source =>
     ? { tag: "ESTIMATED", citation, asOf: date, estimatedFrom: citation }
     : { tag: "SOURCED", citation, asOf: date };
 
-function table(api: CoreAPI, name: string) {
-  return api.moduleState(OFFICES_MODULE_ID).table(name);
-}
-
 /**
  * A term the offices engine seated with no record of its race (the federal
  * executive's) keeps the race the century held for it, so its share is read
@@ -460,31 +480,6 @@ export function setSeatElectionYear(
 ): void {
   const seat = table(api, "seats").get(seatId);
   if (seat) table(api, "seats").put({ ...seat, electionYear });
-}
-
-/**
- * Whether an office belongs to another place: its jurisdiction is a state or
- * territory other than the town's own. A federal office (the President, the
- * Vice President, Congress) is never another place's, and neither is a local
- * one. The one test every engine reads for "another place's office", by
- * jurisdiction, never by whether the office covers the town (a territory town
- * casts no electoral votes, and a district elsewhere in the town's own state
- * does not cover it, yet both are the town's).
- */
-export function isOutsideOffice(
-  api: CoreAPI,
-  office: object | null | undefined,
-): boolean {
-  const row = office as
-    | { readonly level?: unknown; readonly jurisdiction?: unknown }
-    | null
-    | undefined;
-  if (!row || row.level === "federal") return false;
-  const jurisdiction = String(row.jurisdiction ?? "");
-  if (!jurisdiction.startsWith("US-")) return false;
-  const town = (table(api, "loaded").get("town") as { stateKey?: string })
-    ?.stateKey;
-  return jurisdiction !== town;
 }
 
 /**
@@ -549,27 +544,6 @@ export function enforceIncompatibility(
   }
 }
 
-/** The terms a person is serving now: the one reader of "what office does this person hold". */
-export function servingTermsOf(
-  api: CoreAPI,
-  personId: string,
-): readonly TermRow[] {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-  return (
-    table(api, "terms").query("byPerson", [personId]) as unknown as TermRow[]
-  ).filter((term) => term.status === "serving");
-}
-
-/** An office by its id (its title, level, jurisdiction and rule), or undefined where there is none. */
-export function officeById(
-  api: CoreAPI,
-  officeId: string,
-): OfficeInput | undefined {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
-  return table(api, "offices").get(officeId) as unknown as
-    OfficeInput | undefined;
-}
-
 /** A seat by its id, or undefined where there is none. */
 export function seatById(api: CoreAPI, seatId: string): SeatInput | undefined {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
@@ -583,43 +557,6 @@ export function officeOfSeat(
 ): OfficeInput | undefined {
   const seat = seatById(api, seatId);
   return seat ? officeById(api, seat.officeId) : undefined;
-}
-
-/** A term by its id (serving or ended), or undefined where there is none. */
-export function termById(api: CoreAPI, termId: string): TermRow | undefined {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
-  return table(api, "terms").get(termId) as unknown as TermRow | undefined;
-}
-
-/** Every term a person has held or holds, serving and ended (`servingTermsOf` is the ones still serving). */
-export function termsOfPerson(
-  api: CoreAPI,
-  personId: string,
-): readonly TermRow[] {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-  return table(api, "terms").query("byPerson", [
-    personId,
-  ]) as unknown as TermRow[];
-}
-
-/** Every office the offices engine keeps, in its table's order. */
-export function allOffices(api: CoreAPI): readonly OfficeInput[] {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-  return table(api, "offices").rows() as unknown as OfficeInput[];
-}
-
-/**
- * The offices of one jurisdiction (a state's key, `US`, or a local government's id) as the table holds
- * them now. A read only: `officesOfState` also creates another state's offices on first read.
- */
-export function officesInJurisdiction(
-  api: CoreAPI,
-  jurisdiction: string,
-): readonly OfficeInput[] {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-  return table(api, "offices").query("byJurisdiction", [
-    jurisdiction,
-  ]) as unknown as OfficeInput[];
 }
 
 /** The seats of one office, in the table's order. */
@@ -649,14 +586,6 @@ export function allTerms(api: CoreAPI): readonly TermRow[] {
 export function termCount(api: CoreAPI): number {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return 0;
   return table(api, "terms").size;
-}
-
-/** Every term serving now. */
-export function servingTerms(api: CoreAPI): readonly TermRow[] {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-  return table(api, "terms").query("byStatus", [
-    "serving",
-  ]) as unknown as TermRow[];
 }
 
 /** The terms serving in one office (every seat of it). */
@@ -739,9 +668,6 @@ export function openVacancies(
   );
 }
 
-// The officials engine imports this entry, so its rows are read by module id here.
-const OFFICIALS_ID = "core2-officials-v1";
-
 /** Who holds a seat now, from both stores that answer it. */
 export interface SeatHolder {
   readonly seatId: string;
@@ -800,31 +726,6 @@ export function seatsHeldBy(api: CoreAPI, personId: string): readonly string[] {
     if (row && row.ended === null) seats.add(row.seatId);
   }
   return [...seats];
-}
-
-const officeholdersByCore = new WeakMap<
-  CoreState,
-  { date: string; ids: Set<string> }
->();
-
-/**
- * Every person who holds a seat today, through either store: the officials
- * engine's seated members and the offices engine's serving terms that name
- * a person. Kept for the day, so a reader asking per person stays cheap.
- */
-export function officeholderIds(api: CoreAPI): ReadonlySet<string> {
-  const core = api.state as CoreState;
-  const held = officeholdersByCore.get(core);
-  if (held?.date === core.date) return held.ids;
-  const ids = new Set<string>();
-  if (core.modules.has(OFFICIALS_ID))
-    for (const row of api.moduleState(OFFICIALS_ID).table("officials").rows())
-      if (row.ended === null) ids.add(row.id as string);
-  if (core.modules.has(OFFICES_MODULE_ID))
-    for (const row of table(api, "terms").query("byStatus", ["serving"]))
-      if (typeof row.personId === "string") ids.add(row.personId);
-  officeholdersByCore.set(core, { date: core.date, ids });
-  return ids;
 }
 
 /**
@@ -2117,52 +2018,6 @@ export function officesOfState(
   ]) as unknown as OfficeInput[];
 }
 
-/** Each seat of the given offices with its current holder. */
-export function seatsOfOffices(
-  api: CoreAPI,
-  offices: readonly OfficeInput[],
-): readonly {
-  readonly office: OfficeInput;
-  readonly seat: SeatInput;
-  readonly holder: TermRow | null;
-}[] {
-  const out = [];
-  for (const office of offices)
-    for (const seat of table(api, "seats").query("byOffice", [
-      office.id,
-    ]) as unknown as SeatInput[]) {
-      const holder = (table(api, "terms").query("bySeatStatus", [
-        seat.id,
-        "serving",
-      ])[0] ?? null) as TermRow | null;
-      out.push({ office, seat, holder });
-    }
-  return out;
-}
-
-/** Every office whose seats cover the town, with each seat's current holder. */
-export function townSeats(api: CoreAPI): readonly {
-  readonly office: OfficeInput & { readonly vacancyRule: VacancyRule };
-  readonly seat: SeatInput;
-  readonly holder: TermRow | null;
-}[] {
-  const out = [];
-  for (const office of table(api, "offices").query("byTown", [
-    true,
-  ]) as unknown as (OfficeInput & { vacancyRule: VacancyRule })[])
-    for (const seat of table(api, "seats").query("byOffice", [
-      office.id,
-    ]) as unknown as SeatInput[]) {
-      if (!seat.coversTown) continue;
-      const holder = (table(api, "terms").query("bySeatStatus", [
-        seat.id,
-        "serving",
-      ])[0] ?? null) as TermRow | null;
-      out.push({ office, seat, holder });
-    }
-  return out;
-}
-
 /** End the seat's term and fill the vacancy the way the office's rule says. */
 export function vacateSeat(
   api: CoreAPI,
@@ -2430,7 +2285,21 @@ export type SuccessorProvider = (
   readonly reached: string;
   readonly then?: () => void;
 } | null;
-const successorProviders = new Map<string, SuccessorProvider>();
+
+/** The provider that names a successor for an office kind: the first installed module that carries one (`successorProviders`). */
+function successorFor(
+  api: CoreAPI,
+  officeKind: string,
+): SuccessorProvider | undefined {
+  for (const carrier of carriersOf(
+    api.state as CoreState,
+    "successorProviders",
+  ))
+    // The field's `previous` is `unknown` (types.ts imports no engine); the offices engine's row is the term.
+    if (carrier.successorProviders?.[officeKind])
+      return carrier.successorProviders[officeKind] as SuccessorProvider;
+  return undefined;
+}
 
 /**
  * A town's Vice Mayor takes its vacated Mayor's seat where the town's law
@@ -2484,15 +2353,6 @@ function viceMayorSuccessor(
     },
   };
 }
-
-/** The engine that names a successor for an office kind registers here. */
-export function registerSuccessorProvider(
-  officeKind: string,
-  provider: SuccessorProvider,
-): void {
-  successorProviders.set(officeKind, provider);
-}
-registerSuccessorProvider("mayor", viceMayorSuccessor);
 
 /**
  * A vacancy filled by appointment (or by the stand-in for a special election)
@@ -2754,7 +2614,7 @@ function fillVacancy(
   if (rule.method === "remains-vacant") return vacancy;
   // The person the law names, where an engine reads the line.
   const named = previous.identity
-    ? successorProviders.get(office.kind)?.(api, {
+    ? successorFor(api, office.kind)?.(api, {
         seatId: seat.id,
         previous: previous as TermRow,
       })
@@ -2776,13 +2636,20 @@ function fillVacancy(
     );
   if (rule.method === "appointment") {
     const reached = `appointed by ${rule.appointedBy ?? "the appointing authority"}`;
-    // The body may offer the seat first to someone it would not seat unasked (the player): the seat
-    // waits on their answer (`answerVacancyOffer`).
+    // The body may offer the seat first to someone it would not seat unasked (the player, who takes
+    // a seat only by their own choice: owner, Oct 14, "the engine offers, the player decides"; Nov
+    // 16, "you can only be appointed to council, like the playable offices"). Any installed module's
+    // `vacancyOffer` may; the seat then waits on their answer (`answerVacancyOffer`).
     if (
       offering &&
       !vacancy.unheld &&
-      [...vacancyOffers.values()].some((offer) =>
-        offer(api, { office, seat, vacancyId: vacancy.id, reached }),
+      carriersOf(api.state as CoreState, "vacancyOffer").some((carrier) =>
+        carrier.vacancyOffer!(api, {
+          office,
+          seat,
+          vacancyId: vacancy.id,
+          reached,
+        }),
       )
     )
       return { ...vacancy, status: "offered", offeredReached: reached };
@@ -2791,41 +2658,15 @@ function fillVacancy(
   return scheduleSpecialElection(api, office, seat, vacancy, previous);
 }
 
-type SpecialElectionOpener = (
-  api: CoreAPI,
-  race: {
-    readonly vacancyId: string;
-    readonly seatId: string;
-    readonly electionDate: string;
-    readonly termEnd: string | null;
-    /** A seat the offices engine keeps no term for (another state's member of Congress). */
-    readonly unheld?: VacancyRow["unheld"];
-  },
-) => boolean;
-/**
- * An engine that may offer a vacant seat, filled by appointment, to someone the appointing body does not
- * seat unasked: the player, who takes a seat only by their own choice (owner, Oct 14: the engine
- * offers, the player decides; Nov 16: "you can only be appointed to council, like the playable
- * offices"). True when it made an offer; the vacancy then waits on `answerVacancyOffer`.
- */
-export type VacancyOffer = (
-  api: CoreAPI,
-  input: {
-    readonly office: OfficeInput;
-    readonly seat: SeatInput;
-    readonly vacancyId: string;
-    readonly reached: string;
-  },
-) => boolean;
-const vacancyOffers = new Map<string, VacancyOffer>();
-/** An engine offers vacant seats to the person it answers for (the elections engine, the player). */
-export function registerVacancyOffer(
-  offer: VacancyOffer,
-  name = "player",
-): void {
-  vacancyOffers.set(name, offer);
+/** A seat awaiting its special election, as a module's `specialElections` is asked to open a race for it. */
+interface SpecialRace {
+  readonly vacancyId: string;
+  readonly seatId: string;
+  readonly electionDate: string;
+  readonly termEnd: string | null;
+  /** A seat the offices engine keeps no term for (another state's member of Congress). */
+  readonly unheld?: VacancyRow["unheld"];
 }
-
 /**
  * The answer to an offered seat: a yes seats the person for the rest of the vacated term, with the
  * appointing body's reason; a no fills it as the rule does when nobody is offered it. Returns the
@@ -2889,22 +2730,15 @@ export function answerVacancyOffer(
   return filled;
 }
 
-/** Each engine that opens real races for a seat awaiting a special election, by name. */
-const specialOpeners = new Map<string, SpecialElectionOpener>();
-/** The first engine that takes the seat opens its race; none leaves the stand-in. */
-function specialElections(
-  api: CoreAPI,
-  race: Parameters<SpecialElectionOpener>[1],
-): boolean {
-  for (const open of specialOpeners.values()) if (open(api, race)) return true;
+/**
+ * The first installed module that carries `specialElections` and takes the
+ * seat opens its race (the voting engine: the town's own seats, then the races
+ * the world counts); none leaves the stand-in.
+ */
+function specialElections(api: CoreAPI, race: SpecialRace): boolean {
+  for (const carrier of carriersOf(api.state as CoreState, "specialElections"))
+    if (carrier.specialElections!(api, race)) return true;
   return false;
-}
-/** An engine opens a real race for the seats it counts (the town's own, the world's). */
-export function registerSpecialElections(
-  open: SpecialElectionOpener,
-  name = "town",
-): void {
-  specialOpeners.set(name, open);
 }
 
 /**
@@ -3179,7 +3013,7 @@ export {
 } from "./constituent-cases";
 export type { OfficeLevel } from "../offices-local";
 /** A government's title as people say it, read through the executive family's entry. */
-export { partySide } from "../appointments";
+export { partySide } from "../party-sides";
 export { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
 export {
   CORPUS,
@@ -3188,7 +3022,6 @@ export {
   worldWinnerShare,
   type PastRace,
 } from "../offices-past-results";
-export { nextMeeting } from "../office-day-calendar";
 
 const ticketPlaces = (
   stateOfficesResearch as unknown as {

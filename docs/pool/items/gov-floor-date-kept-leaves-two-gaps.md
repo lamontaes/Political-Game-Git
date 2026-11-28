@@ -32,6 +32,6 @@ root: none
 
 **Waits on.** gov-state-floor-never-takes-up-the-players-bill (the kept date).
 
-**Files.** src/core2/modules/world-legislating.ts, src/core2/bill-floor-date-gaps.test.ts (new)
+**Files.** src/core2/modules/world-legislating.ts, tests/src/core2/bill-floor-date-gaps.test.ts (new)
 
-**Notes.** Reported by the floor-date builder before #9459 was marked ready; the sha was not moved at the Account lead's word. Pinned tests: src/core2/bill-floor-date-gaps.test.ts, one at Holiday Lakes, Texas and one at a Florida place whose legislature convenes March 4; both fail without the fix. Played in the running game: the refusal, then the sitting's opening day.
+**Notes.** Reported by the floor-date builder before #9459 was marked ready; the sha was not moved at the Account lead's word. Pinned tests: tests/src/core2/bill-floor-date-gaps.test.ts, one at Holiday Lakes, Texas and one at a Florida place whose legislature convenes March 4; both fail without the fix. Played in the running game: the refusal, then the sitting's opening day.

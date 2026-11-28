@@ -20,7 +20,7 @@ claimed-at:
 branch: claude/project-thread-sew1gc
 ---
 
-**What.** `src/bench/printed-police-log.test.ts` pinned four drawn places to show the police log's space sliding with the town's usual. The fourth, Surrency, Georgia (seed pl4), was pinned on the premise that it reports crime in more than one closed month; it now reports in one, so the test's "a month was compared" check is red there. Seen: Surrency's paper prints its one police log with no comparison, which is right for a town with no earlier reports.
+**What.** `tests/src/bench/printed-police-log.test.ts` pinned four drawn places to show the police log's space sliding with the town's usual. The fourth, Surrency, Georgia (seed pl4), was pinned on the premise that it reports crime in more than one closed month; it now reports in one, so the test's "a month was compared" check is red there. Seen: Surrency's paper prints its one police log with no comparison, which is right for a town with no earlier reports.
 
 **Cause.** Measured: Surrency, Georgia (1374852), seed pl4, 330 played days: one report in July and none in any other closed month, so the one wire month has no usual and no vsUsual. First red at train commit f1fd6bcd79 (the fold of #9385, the cabinet change); green at 6044737f (the paper's builder, bisecting).
 
@@ -34,6 +34,6 @@ branch: claude/project-thread-sew1gc
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/printed-police-log.test.ts
+**Files.** tests/src/bench/printed-police-log.test.ts
 
 **Notes.** Released by next (2026-11-18): no push to claude/project-thread-sew1gc since 2026-11-15 19:13 UTC, more than twice its 2-hour time box. Continue on branch claude/project-thread-sew1gc.

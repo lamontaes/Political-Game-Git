@@ -16,11 +16,11 @@
  */
 import { householdDailyCostMinor } from "./household-cost";
 import { hudStateRentRow } from "./hud-rents";
-import { medianTransactionBalance } from "./modules/budgets";
+import { medianTransactionBalance } from "./starting-cash";
 import { seededNormal } from "./officials-roster";
 import { outsideGovernment } from "./outside-governments";
 import { outsideAccountOf } from "./budgets-treasury";
-import { homePaidDailyMinor } from "./modules/housing";
+import { homePaidDailyMinor } from "./housing-reads";
 import { placeStateKey } from "./place-map";
 import type { CoreAPI } from "./types";
 

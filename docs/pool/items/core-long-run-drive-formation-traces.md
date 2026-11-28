@@ -19,6 +19,6 @@ claimed-at: 2026-11-09T08:20:38.049Z
 
 **Done when.** In play a drive keeps only the trace of the response that formed it; with bookkeeping on it keeps all; a test shows both and the same drive strength either way; speed:year --seed mont1 --place 5046000 --years 2 records proof against main differs only in core2-drives-runtime.
 
-**Files.** src/core2/modules/drives.ts, src/core2/drives.test.ts
+**Files.** src/core2/modules/drives.ts, tests/src/core2/drives.test.ts
 
 **Notes.** TODO

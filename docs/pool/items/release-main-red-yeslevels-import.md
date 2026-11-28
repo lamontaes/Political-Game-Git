@@ -17,8 +17,8 @@ claimed-at: 2026-10-28T03:22:25.092Z
 
 **Rules.** Replace, never layer: bargaining reads the laws engine's one yesLevels; no alias is put back in group-a-records. One source per fact: whether a policy is law here has one reader.
 
-**Done when.** The bench starts on the fix (npm run bench answers /api/title), tsc reports nothing in src/core2/law-reach, and src/core2/law-reach-bargaining.test.ts loads and runs in a drawn place with its seed named in the PR body.
+**Done when.** The bench starts on the fix (npm run bench answers /api/title), tsc reports nothing in src/core2/law-reach, and tests/src/core2/law-reach-bargaining.test.ts loads and runs in a drawn place with its seed named in the PR body.
 
-**Files.** src/core2/law-reach/group-a-bargaining.ts, src/core2/law-reach-bargaining.test.ts
+**Files.** src/core2/law-reach/group-a-bargaining.ts, tests/src/core2/law-reach-bargaining.test.ts
 
 **Notes.** TODO

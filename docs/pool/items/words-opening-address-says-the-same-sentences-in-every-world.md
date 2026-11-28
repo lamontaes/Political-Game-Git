@@ -31,7 +31,7 @@ branch: claude/words-opening-address-versions
 2. **Every piece that speaks of the country, Congress, the states or families carries a slot from the address's own facts:** the year's figures and claims (`countryFacts`), what a priority is about and what the President would do (`standFacts`: `about`, `to`), the President's home state, the Vice President's name. Declare each slot in the bank's `slots` map. A piece with nothing to insert is one that cannot stand as a sentence alone.
 3. **The address names what it is asking Congress for.** The `to-congress` and `ask` pieces name the first priority (`{about}`, `{to}`), and when the President has no priority they name the year's hardest figure instead, so no address is all ceremony.
 4. **Delete the pieces this replaces,** and any the owner graded bad, with every reference; a good-graded piece is never deleted. Then `npm run words:grade`, and `npm run words:rules` twice. Lower `opening-speech` in tests/guards/english/line-inserts-baseline.json to what the test asks for.
-5. **A test on drawn worlds** (src/english/english-opening-speech.test.ts or the address's own test): across ten drawn worlds no whole sentence appears in more than two addresses, every address carries at least two figures or names from its world, and the addresses name at least three different policy points between them once pull request 8380 (Congress files on the research list) is on main; before that, the test says how many it found and does not fail on that count.
+5. **A test on drawn worlds** (tests/src/english/english-opening-speech.test.ts or the address's own test): across ten drawn worlds no whole sentence appears in more than two addresses, every address carries at least two figures or names from its world, and the addresses name at least three different policy points between them once pull request 8380 (Congress files on the research list) is on main; before that, the test says how many it found and does not fail on that count.
 
 **Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -41,7 +41,7 @@ branch: claude/words-opening-address-versions
 
 **Waits on.** Nothing.
 
-**Files.** src/director/opening-story.ts, src/english/english-composition.ts, src/english/english-opening-speech.ts, src/english/english-opening-speech.test.ts, src/director/data/opening-address.json, data/english/parts/opening-speech.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/opening-story.ts, src/english/english-composition.ts, src/english/english-opening-speech.ts, tests/src/english/english-opening-speech.test.ts, src/director/data/opening-address.json, data/english/parts/opening-speech.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Written by Fable B (2026-11-11) from a read of main at 3de4e2f423 and two addresses played in the running game that night. How many policy points an address has depends on the President holding views on federal questions, which pull requests 8589 (the cause) and 8380 (the build) cover; this item does not wait on them, and step 5 says how its test treats the count. The pieces under data/english/parts are drafted by the builder in the pull request with `Review: words` unless the CTO says the Story session writes them.
 

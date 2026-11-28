@@ -41,11 +41,11 @@ import {
   reachOn,
 } from "../core2/modules/laws";
 import { inForceOn, inTownChain, LAW_SERIES } from "../core2/laws-in-force";
-import type { LawRowInput } from "../core2/laws-starting";
-import { POLICY_QUESTIONS } from "../core2/policy-answers";
+import type { LawRowInput } from "../core2/laws-in-force";
+import { POLICY_QUESTIONS } from "../core2/modules/laws";
 import { POLICIES as REACH_A_POLICIES } from "../core2/law-reach/group-a-records";
 import { GROUP_B_KEYS } from "../core2/law-reach/group-b";
-import { jobsAt } from "../core2/law-reach/group-b-money";
+import { jobsAt } from "../core2/laws-in-force";
 import { organizationName } from "../core2/past";
 import { lawReach } from "../core2/law-reach/applied";
 import {
@@ -90,13 +90,20 @@ import {
   members,
   memberKey,
 } from "../core2/modules/legislature";
-import { isOutsideOffice, OFFICES_MODULE_ID } from "../core2/modules/offices";
+import {
+  isOutsideOffice,
+  OFFICES_MODULE_ID,
+  allOffices,
+  officeById,
+  openVacancies,
+} from "../core2/modules/offices";
 import { governmentOfJurisdiction } from "../core2/modules/budgets";
 import { budgetInForce } from "../core2/budgets-treasury";
 import {
   ELECTIONS_MODULE_ID,
   petitionOf,
   playerContests,
+  contestOf,
 } from "../core2/modules/elections";
 import {
   campaignFor,
@@ -147,6 +154,8 @@ import {
   billById,
   memberChoiceOn,
 } from "../core2/modules/bodies-reads";
+import { allCreditLoans } from "../core2/credit-reads";
+import { placePriceRules } from "../core2/prices-reads";
 
 /** The mark every dev-mode write carries. */
 /** The events a run can stop on, each as the record kinds the game logs when it happens. */
@@ -426,21 +435,17 @@ function seatsHeldOpen(
   roster: readonly { readonly seatId: string }[],
 ): number {
   const kinds = new Set(roster.map((term) => term.seatId.split(":")[2]));
-  const vacancies = api.moduleState(OFFICES_MODULE_ID).table("vacancies");
-  return (["open", "awaiting-election"] as const)
-    .flatMap(
-      (status) =>
-        vacancies.query("byStatus", [status]) as unknown as {
-          officeId: string;
-          seatId: string;
-          unheld?: unknown;
-        }[],
-    )
-    .filter(
-      (row) =>
-        row.officeId === chamber ||
-        (row.unheld !== undefined && kinds.has(row.seatId.split(":")[2])),
-    ).length;
+  return (
+    openVacancies(api, ["open", "awaiting-election"]) as unknown as {
+      officeId: string;
+      seatId: string;
+      unheld?: unknown;
+    }[]
+  ).filter(
+    (row) =>
+      row.officeId === chamber ||
+      (row.unheld !== undefined && kinds.has(row.seatId.split(":")[2])),
+  ).length;
 }
 
 function wholeMoney(unit: string | undefined, value: number): void {
@@ -1042,7 +1047,6 @@ export class DevMode {
   bodies() {
     if (!has(this.core, LEGISLATURE_MODULE_ID)) return [];
     const api = this.api;
-    const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
     // Every bill as the legislature's history tells it (`bill.introduced`),
     // each opened by its id.
     return (
@@ -1079,7 +1083,7 @@ export class DevMode {
         .map(({ bill, open }) => ({
           open,
           ...bill,
-          office: offices.get(bill.bodyOfficeId) ?? null,
+          office: officeById(api, bill.bodyOfficeId) ?? null,
           members: members(api, bill.bodyOfficeId).map((term) => {
             const key = memberKey(term);
             return {
@@ -1102,10 +1106,10 @@ export class DevMode {
   lawmakingBodies() {
     if (!has(this.core, LEGISLATURE_MODULE_ID)) return [];
     const api = this.api;
-    const offices = api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .rows() as unknown as { id: string; kind: string }[];
+    const offices = allOffices(api) as unknown as {
+      id: string;
+      kind: string;
+    }[];
     const ids = [
       ...offices.filter((o) => bodyRow(o.kind)).map((o) => o.id),
       FEDERAL_HOUSE,
@@ -1838,7 +1842,7 @@ export class DevMode {
   smallDollarLoans() {
     if (!has(this.core, "credit")) return [];
     return (
-      this.api.moduleState("credit").table("loans").rows() as unknown as {
+      allCreditLoans(this.api) as unknown as {
         id: string;
         kind: string;
         askedMinor?: number;
@@ -2400,16 +2404,11 @@ export class DevMode {
         has(this.core, OFFICES_MODULE_ID)
       ) {
         const contest = has(this.core, ELECTIONS_MODULE_ID)
-          ? (this.api
-              .moduleState(ELECTIONS_MODULE_ID)
-              .table("contests")
-              .get(facts.contestId) as { officeId?: string } | undefined)
+          ? (contestOf(this.api, facts.contestId) as
+              { officeId?: string } | undefined)
           : undefined;
         const office = contest?.officeId
-          ? this.api
-              .moduleState(OFFICES_MODULE_ID)
-              .table("offices")
-              .get(contest.officeId)
+          ? officeById(this.api, contest.officeId)
           : undefined;
         if (office) return !isOutsideOffice(this.api, office);
       }
@@ -2777,9 +2776,7 @@ export class DevMode {
           )
         : [],
       budgets: budgetView(this.core, this.player?.personId ?? "").governments,
-      prices: has(this.core, "place-prices")
-        ? api.moduleState("place-prices").table("rules").rows()
-        : [],
+      prices: placePriceRules(api),
       news: newsItems(this.core)
         .filter((row) => row.date >= from)
         .slice(0, 200),

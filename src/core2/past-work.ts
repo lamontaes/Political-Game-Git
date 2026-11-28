@@ -24,11 +24,9 @@
  * (`pastWorkFor`), read against the openings the full people left.
  */
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
-import { decisionLean, traitLeanBetween } from "./trait-decisions";
-import jobsJson from "./data/jobs/jobs.json" with { type: "json" };
 import veterans from "./data/past/veterans-acs-2024.json" with { type: "json" };
-import { profileFor } from "./opening-profile";
-import { countedHeadcountOf } from "./residents-economy";
+import { profileFor } from "./trait-decisions";
+import { countedHeadcountOf } from "./counted-job-heads";
 import { placeStateKey } from "./place-map";
 import { SeededRng } from "./kernel/rng";
 import {
@@ -36,6 +34,7 @@ import {
   onCalendar,
   SCHOOL_STAGE_CALENDAR,
 } from "./past-school-calendar";
+import type { HistoryRecord, HistoryWriter, PreStartWindow } from "./pre-start";
 import {
   coarseSteps,
   grainDate,
@@ -44,10 +43,7 @@ import {
   preStartWindowOf,
   recordPreStartLater,
   wholePastOnce,
-  type HistoryRecord,
-  type HistoryWriter,
-  type PreStartWindow,
-} from "./pre-start";
+} from "./pre-start-history";
 import { ownPastKind } from "./own-past-kinds";
 import { pastArrestOf, type PrisonTerm } from "./past-justice";
 import { residenceOn } from "./past-moves";
@@ -68,8 +64,24 @@ import type {
   PersonState,
   Source,
 } from "./types";
+import {
+  PAST_WORK_SPELL,
+  findPerQuarter,
+  layoffPerQuarter,
+  quitPerQuarter,
+  workAgeFactor,
+  workLeans,
+} from "./past-reads";
+export {
+  PAST_WORK_SPELL,
+  findAgeFactor,
+  findPerQuarter,
+  layoffPerQuarter,
+  quitPerQuarter,
+  workAgeFactor,
+  workLeans,
+} from "./past-reads";
 
-export const PAST_WORK_SPELL = ownPastKind("person.work-spell");
 /** The tier of relatives living elsewhere: kept out of the run over everyone, opened one at a time. */
 const ELSEWHERE_TIER = "husk";
 export const PAST_WORK_OUT = ownPastKind("person.out-of-work");
@@ -156,14 +168,6 @@ interface RunState {
   jailed?: boolean;
   served?: boolean;
 }
-
-/** The jobs engine's actions by option id: the act kinds its chooser weighs. */
-const JOB_ACTIONS: Readonly<Record<string, { actKinds: readonly string[] }>> =
-  Object.fromEntries(
-    Object.values(
-      jobsJson.actions as Record<string, { id: string; actKinds: string[] }>,
-    ).map((row) => [row.id, row]),
-  );
 
 const source = (api: CoreAPI, citation: string): Source => ({
   tag: "ESTIMATED",
@@ -442,29 +446,6 @@ export function prisonTermOf(
   return term;
 }
 
-/**
- * A person's scaled lean (about -1 to 1) in one of the jobs engine's
- * decisions: the employer's formula decision by its own act kinds, a
- * worker's chooser decision by the act kinds of the jobs engine's actions.
- * The decisions' own weights are in their own units (years of tenure, score);
- * how far a lean moves a quarter's pull is `pastWorkTraitSpread`.
- */
-const lean = (
-  core: CoreState,
-  person: PersonState,
-  decisionId: string,
-  toward: string,
-  over: string,
-) =>
-  decisionId === "jobs.value-worker"
-    ? decisionLean(core, person, decisionId, toward, over)
-    : traitLeanBetween(
-        core,
-        person,
-        JOB_ACTIONS[toward]!.actKinds,
-        JOB_ACTIONS[over]!.actKinds,
-      );
-
 /** The quarterly pull toward finding work in a month, for a person's lean. */
 function findRate(
   api: CoreAPI,
@@ -483,100 +464,6 @@ function findRate(
  * their traits' lean in the jobs engine's own decision; a pull adds up and an
  * event happens when it reaches one whole, never by a roll.
  */
-
-/** How the pull to leave or be let go falls with age (the steady rate at the reference age). */
-export function workAgeFactor(api: CoreAPI, age: number): number {
-  const p = (key: string) => api.parameter(key);
-  return Math.pow(
-    Math.max(age, p("pastWorkYoungestAge")) / p("pastWorkAgeReferenceYears"),
-    -p("pastWorkAgeElasticity"),
-  );
-}
-
-/**
- * How finding work slows with age past the reference age (CPS mean weeks
- * unemployed run longer for the old); nobody finds faster for being young.
- * One factor for the pre-start run and the lives in play
- * (stopgapId: SG-LABOR-find-age-estimated).
- */
-export function findAgeFactor(api: CoreAPI, age: number): number {
-  const p = (key: string) => api.parameter(key);
-  stopgap("SG-LABOR-find-age-estimated");
-  return Math.pow(
-    Math.max(age, p("pastWorkFindAgeReferenceYears")) /
-      p("pastWorkFindAgeReferenceYears"),
-    -p("pastWorkFindAgeElasticity"),
-  );
-}
-
-/** Layoffs a quarter: JOLTS's rate, raised by a rise in unemployment (points over the quarter). */
-export function layoffPerQuarter(
-  api: CoreAPI,
-  rise: number,
-  lean: number,
-  ageFactor: number,
-): number {
-  const p = (key: string) => api.parameter(key);
-  return (
-    p("pastWorkLayoffsPerQuarter") *
-    (1 + p("pastWorkLayoffRisePerPoint") * rise) *
-    Math.exp(p("pastWorkTraitSpread") * lean) *
-    ageFactor
-  );
-}
-
-/** Moves to another job a quarter: JOLTS's quits, fewer when work is scarce (mean over now) and when the pay is better. */
-export function quitPerQuarter(
-  api: CoreAPI,
-  meanOverNow: number,
-  lean: number,
-  payRatio: number,
-  ageFactor: number,
-): number {
-  const p = (key: string) => api.parameter(key);
-  return (
-    p("pastWorkQuitsPerQuarter") *
-    Math.pow(meanOverNow, p("pastWorkQuitUnemploymentElasticity")) *
-    Math.exp(p("pastWorkTraitSpread") * lean) *
-    Math.pow(payRatio, -p("pastWorkQuitPayElasticity")) *
-    ageFactor
-  );
-}
-
-/** Finding work a quarter: CPS's spells out of work, longer when work is scarce. */
-export function findPerQuarter(
-  api: CoreAPI,
-  meanOverNow: number,
-  lean: number,
-  /** The seeker's age in years; omitted, no age effect (the reference age's rate). */
-  age?: number,
-): number {
-  const p = (key: string) => api.parameter(key);
-  return (
-    p("pastWorkFindsPerQuarter") *
-    (age === undefined ? 1 : findAgeFactor(api, age)) *
-    Math.pow(meanOverNow, p("pastWorkFindUnemploymentElasticity")) *
-    Math.exp(p("pastWorkTraitSpread") * lean)
-  );
-}
-
-/** A person's traits' leans in the jobs engine's three working-life decisions. */
-export function workLeans(
-  core: CoreState,
-  person: PersonState,
-): { layoffLean: number; quitLean: number; applyLean: number } {
-  return {
-    layoffLean: lean(core, person, "jobs.value-worker", "let-go", "keep"),
-    quitLean: lean(
-      core,
-      person,
-      "jobs.review-worker",
-      "jobs-look",
-      "jobs-stay",
-    ),
-    applyLean: lean(core, person, "jobs.apply", "jobs-apply", "jobs-wait"),
-  };
-}
 
 function planOf(
   api: CoreAPI,

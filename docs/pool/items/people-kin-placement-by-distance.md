@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** One rule, all 56 places: the proximity share is read from the per-place table keyed by postal code, never a state named in logic. Research before building: the Pew shares check the town's totals and never decide where one relative lives; each person's own move record does.
 
-**Done when.** A second session runs a one-year buildBenchWorld in a drawn place from all 56 (seed named), sees a relative of a resident living out of state with a recorded state, and sees a relative matched to another resident of the town; scripts/research/people-year.ts reports the share of residents whose living parent lives in their county beside the Pew share for that place, and src/core2/opening-kin.test.ts covers a relative matched to a resident.
+**Done when.** A second session runs a one-year buildBenchWorld in a drawn place from all 56 (seed named), sees a relative of a resident living out of state with a recorded state, and sees a relative matched to another resident of the town; scripts/research/people-year.ts reports the share of residents whose living parent lives in their county beside the Pew share for that place, and tests/src/core2/opening-kin.test.ts covers a relative matched to a resident.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/opening-kin.ts, src/core2/data/opening-kin.json, data/research/people/pew-extended-family-proximity-2021.json, data/research/people/pew-parent-proximity-2005.json, scripts/research/people-year.ts, src/core2/opening-kin.test.ts
+**Files.** src/core2/opening-kin.ts, src/core2/data/opening-kin.json, data/research/people/pew-extended-family-proximity-2021.json, data/research/people/pew-parent-proximity-2005.json, scripts/research/people-year.ts, tests/src/core2/opening-kin.test.ts
 
 **Notes.** TODO
 

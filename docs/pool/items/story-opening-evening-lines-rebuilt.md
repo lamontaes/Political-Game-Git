@@ -29,7 +29,7 @@ checked:
 
 **Rules.** No hand-written player text in code; words come from the banks (`scene-standard`). Talk is dialogue only; people say how it feels and never the figure (owner, `owners-words-to-threads`). The English guards' rules: a question names its subject, no stock phrases, no short reply that says nothing of its own.
 
-**Done when.** A second session, in a drawn place with a housemate of 16 or more on the branch, clicks the housemate on the opening evening and the housemate raises a point of this world's address with a stand and offers two replies; the guards in `tests/guards/english/` and `src/director/conversation-address-talk.test.ts` are green; three drawn worlds' first talks are posted as screenshots on the Story thread for the CTO's read.
+**Done when.** A second session, in a drawn place with a housemate of 16 or more on the branch, clicks the housemate on the opening evening and the housemate raises a point of this world's address with a stand and offers two replies; the guards in `tests/guards/english/` and `tests/src/director/conversation-address-talk.test.ts` are green; three drawn worlds' first talks are posted as screenshots on the Story thread for the CTO's read.
 
 **Waits on.** director-address-points-read-the-plan (the engine fix this branch is stacked on).
 

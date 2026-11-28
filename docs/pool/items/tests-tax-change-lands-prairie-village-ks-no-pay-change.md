@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** src/core2/tax-change-lands.test.ts, "Prairie Village, Kansas: a city income tax lands on named workers as a felt change", fails with GOLDEN_PATH_SEED=8a0da6fd2c90c338: a worker felt the new tax is false ("passed over Prairie Village, Kansas: no kept pay record changed"). The test adds a city income tax and then reads which workers felt it. Guards: a city income tax shows in named workers' pay.
+**What.** tests/src/core2/tax-change-lands.test.ts, "Prairie Village, Kansas: a city income tax lands on named workers as a felt change", fails with GOLDEN_PATH_SEED=8a0da6fd2c90c338: a worker felt the new tax is false ("passed over Prairie Village, Kansas: no kept pay record changed"). The test adds a city income tax and then reads which workers felt it. Guards: a city income tax shows in named workers' pay.
 
 **Cause.** Found in code: two causes. (1) A paycheck's why is kept only for the player's circle and people in focus (`keepsWhy`, src/core2/why-kept.ts); the test sets bookkeeping off and focuses no one, so where nobody in the player's circle is paid in town (Prairie Village, seed 8aadc4ea...) no pay record is kept and none can change. (2) With workers in focus, `landWithholdingChange` (src/core2/modules/budgets.ts) compared a paycheck with the last of any kind and measured the whole take, so a council member's stipend (taxed on other lines than a job) and a commuter's pay (a graduated line falling) landed as felt gains from a city tax: mood +0.29, +0.21 and +0.08 against a law that took money.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/tax-change-lands.test.ts, src/core2/modules/budgets.ts
+**Files.** tests/src/core2/tax-change-lands.test.ts, src/core2/modules/budgets.ts

@@ -4,9 +4,10 @@
  * appointee (a full term can't be renewed, 12 U.S.C. 242); a reserve bank
  * president is reappointed every five years until the System's retirement
  * age. The appointer chooses among seeded candidates: the president with the
- * Senate's consent (`board-appointer.ts`, registered with
- * `registerBoardAppointer` when the government opens). A world with no
- * appointer leaves each member in place until a successor is named.
+ * Senate's consent (`board-appointer.ts`, carried as the `boardAppointer`
+ * field of the succession engine's module once the government is open). A
+ * world whose modules carry none leaves each member in place until a
+ * successor is named.
  */
 import { ageInYears } from "./kernel/dates";
 import {
@@ -20,6 +21,7 @@ import {
 import type { MacroParameter } from "./macro-model";
 import type { ModuleTable } from "./module-state";
 import { fillInIdentity } from "./state";
+import { carriersOf } from "./module-fields";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 /** Picks one of the candidates and gives its reasons; nothing when no one is confirmed. */
@@ -29,11 +31,6 @@ export type BoardAppointer = (
   candidates: readonly BoardCandidate[],
   sitting: readonly BoardMember[],
 ) => { index: number; reasons: Readonly<Record<string, number>> } | undefined;
-let appointer: BoardAppointer | undefined;
-
-export function registerBoardAppointer(next: BoardAppointer | undefined): void {
-  appointer = next;
-}
 
 function ageOn(birthDate: string, date: string): number {
   return ageInYears(birthDate, date);
@@ -71,7 +68,8 @@ export function reviewBoardTerms(
     } else {
       const candidates = boardCandidates(core.seed, vacancy, p);
       const others = sitting.filter((row) => row.id !== ended.id);
-      const pick = appointer?.(api, vacancy, candidates, others);
+      const carrier = carriersOf(core, "boardAppointer")[0];
+      const pick = carrier?.boardAppointer?.(api, vacancy, candidates, others);
       // No one confirmed: the member stays on until a successor is (the Federal Reserve Act's holdover).
       if (!pick) {
         members.put({

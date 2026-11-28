@@ -8,7 +8,7 @@
 
 - `src/core2/business-books-view.ts` → `src/core2/modules/employer-taxes.ts` [budgets]
 - `src/core2/business-operating-rules.ts` → `src/core2/residents-economy.ts` [people]
-- `src/core2/census-scale-closures-support.ts` → `src/bench/world.ts` [screens]
+- `tests/support/census-scale-closures-support.ts` → `src/bench/world.ts` [screens]
 - `src/core2/credit-deposits.ts` → `src/core2/accounts.ts` [budgets]
 - `src/core2/credit-deposits.ts` → `src/core2/counted-money.ts` [people]
 - `src/core2/credit-deposits.ts` → `src/core2/residents-economy.ts` [people]
@@ -418,7 +418,7 @@
 - `src/director/opening-story.ts` → `src/core2/opening-key-people.ts` [people]
 - `src/director/purpose-scene.ts` → `src/core2/campaign-views.ts` [elections]
 - `src/director/purpose-scene.ts` → `src/core2/modules/interest-groups.ts` [elections]
-- `src/director/tooling/director-year.ts` → `src/core2/opening-finance.ts` [jobs-businesses]
+- `scripts/director/tooling/director-year.ts` → `src/core2/opening-finance.ts` [jobs-businesses]
 
 **left as it was: moving it through the other engine's entry broke a load-order check (a file that loads alone on main fails), or the name is read while the module loads, or the entry already exports a different symbol under that name, or it is a default or namespace import** (1):
 

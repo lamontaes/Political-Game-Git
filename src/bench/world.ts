@@ -22,7 +22,7 @@ import { defaultPreStart } from "../core2/saves";
 import { createDirector, type Director } from "../director/ledger";
 import { wordPrintedStory } from "./archive-words";
 import {
-  openClimate,
+  CLIMATE_MODULE,
   WORLD_MODULES,
   withWorldEconomy,
   worldCoreData,
@@ -46,13 +46,13 @@ import {
 import { openCampaigns } from "../core2/modules/campaigns";
 import { openParties } from "../core2/modules/campaigns";
 import { openVoting, openWorldRaces } from "../core2/modules/voting";
-import { openRecord } from "../core2/modules/record";
+import { RECORD_MODULE } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
 import { openOutsideBudgets } from "../core2/budgets-treasury";
 import { openOfficialPay } from "../core2/modules/executive";
 import { openCrime } from "../core2/modules/justice";
-import { openPatrol } from "../core2/modules/police-patrol";
-import { openCommunityEvents } from "../core2/modules/community-events";
+import { PATROL_MODULE } from "../core2/modules/police-patrol";
+import { COMMUNITY_EVENTS_MODULE } from "../core2/modules/community-events";
 import { openCoverage } from "../core2/modules/coverage";
 import { openHomelessCount } from "../core2/modules/coverage";
 import { openGrievance } from "../core2/modules/people";
@@ -65,16 +65,16 @@ import { openOfficials } from "../core2/modules/officials";
 import { openLawReach } from "../core2/modules/justice";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { openStaff } from "../core2/modules/staff";
-import { openServeAsks } from "../core2/modules/serve-asks";
+import { SERVE_ASKS_MODULE } from "../core2/modules/serve-asks";
 import { PROMISES_MODULE } from "../core2/modules/promises";
 import { openLeadership } from "../core2/modules/meetings";
 import { openSuccession } from "../core2/modules/office-day";
 import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/campaigns";
 import { openPublicAction } from "../core2/modules/health";
-import { openNationalOpinion } from "../core2/modules/national-opinion";
+import { NATIONAL_OPINION_MODULE } from "../core2/modules/national-opinion";
 import { FEDERAL_COURTS_MODULE } from "../core2/modules/federal-courts";
-import { openNationalEvents } from "../core2/modules/national-events";
+import { NATIONAL_EVENTS_MODULE } from "../core2/modules/national-events";
 import {
   openSittingSessions,
   openWorldLegislating,
@@ -812,7 +812,7 @@ function* benchWorldStages(
   openCampaigns(core);
   openParties(core);
   openVoting(core);
-  openRecord(core);
+  installEngines(core, [RECORD_MODULE]);
   yield "budgets";
   openBudgets(core);
   // Every other state's budget, in the same store, moved by the state's own economy.
@@ -825,9 +825,9 @@ function* benchWorldStages(
   // Crimes that happen to households, from the national rates and the web's factors (OPUS-CORE).
   openCrime(core);
   // The hours the police line pays its staff, a row per place and month.
-  openPatrol(core);
+  installEngines(core, [PATROL_MODULE]);
   // The town's year of community events, booked on the calendar.
-  openCommunityEvents(core);
+  installEngines(core, [COMMUNITY_EVENTS_MODULE]);
   openEstates(core);
   openEmployerTaxes(core);
   yield "legislature";
@@ -851,7 +851,7 @@ function* benchWorldStages(
   yield "workings";
   openStaff(core);
   // The player asks people to serve, and they answer from their records (brief J).
-  openServeAsks(core);
+  installEngines(core, [SERVE_ASKS_MODULE]);
   openInterestGroups(core);
   openWorldLegislating(core);
   openWorldRaces(core);
@@ -863,10 +863,9 @@ function* benchWorldStages(
   // The town's strikes, protests and rallies, from how its term reads by area.
   openPublicAction(core);
   // The country's approval of its president, from the economy and what happened.
-  openNationalOpinion(core);
+  installEngines(core, [NATIONAL_OPINION_MODULE]);
   // What happens in the rest of the country, as results (disasters from FEMA's record).
-  openNationalEvents(core);
-  openClimate(core);
+  installEngines(core, [NATIONAL_EVENTS_MODULE, CLIMATE_MODULE]);
   // The officeholder's day (OFFICE-LOCAL): each local body's own meeting
   // calendar, the meeting as a scene, the player's chosen stops and the
   // character's own votes and desk decisions when the player does not stop.

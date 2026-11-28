@@ -17,7 +17,7 @@ import moverRates from "../../data/research/migration/mover-rates-acs-2024.json"
 import moveRows from "./data/moves/parameters.json" with { type: "json" };
 import { addDays, ageInYears, makeIsoDate } from "./kernel/dates";
 import { SeededRng } from "./kernel/rng";
-import { openingTenureOf } from "./modules/housing";
+import { openingTenureOf } from "./housing-reads";
 import { placeStateKey } from "./place-map";
 import { parameter as p } from "./parameters";
 import type { CoreInput, HouseholdInput, IsoDate, PersonInput } from "./types";

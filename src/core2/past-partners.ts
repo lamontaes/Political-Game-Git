@@ -42,7 +42,7 @@ import {
   preStartWindowOf,
   recordPreStartLater,
   wholePastOnce,
-} from "./pre-start";
+} from "./pre-start-history";
 import { coreAPI } from "./state";
 import type { HistoryRecord } from "./pre-start";
 import type { CoreState, IsoDate, PersonId, PersonState } from "./types";

@@ -20,12 +20,12 @@ import {
   nameCorpusVersionForPlace,
   PLACE_NAMES_V1_VERSION,
 } from "./gov-rules/names-data";
-import { isRealOfficeholderName } from "./modules/executive";
+import { isRealOfficeholderName } from "./officials-names";
+import { giveLivingCost } from "./official-living";
+import { payPostFromOutside } from "./modules/official-pay";
 import { fillInIdentity, fillInPerson } from "./state";
-import { countedResidents } from "./modules/campaigns";
+import { countedResidents } from "./elections-reads";
 import { startPublicJob } from "./public-payroll";
-import { giveLivingCost } from "./modules/executive";
-import { payPostFromOutside } from "./modules/executive";
 import { outsideAccountOf } from "./budgets-treasury";
 import staffJson from "./data/press/staff.json" with { type: "json" };
 import mastheadsJson from "./data/press/mastheads.json" with { type: "json" };

@@ -27,7 +27,7 @@ claimed-at: 2026-11-01T23:36:33.548Z
 
 **Screenshot.** Parties before and after, in a territory and a state.
 
-**Files.** src/bench/play.mjs, src/bench/parties-map.browser.mjs, src/bench/play-party.test.ts
+**Files.** src/bench/play.mjs, src/bench/parties-map.browser.mjs, tests/src/bench/play-party.test.ts
 
 **Notes.** Filed by the CTO from the owner's v0.73.0 playtest, second batch (Nov 1, 22:40 UTC, five screenshots, a game in the U.S. Virgin Islands). Read: OWNER-DECISIONS (Oct 29 menus redesigned the way Government was; Oct 29 Political Process baseline; one history), the pool for twins.
 

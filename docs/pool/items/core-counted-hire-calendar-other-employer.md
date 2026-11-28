@@ -17,9 +17,9 @@ claimed-at: 2026-10-24T16:53:03.066Z
 
 **Rules.** Fix at the cause, the way a full hire does it: the hire's calendar is the employer's own copy of the role's. Speed: no more than one kept calendar per employer and role calendar.
 
-**Done when.** Paris, Arkansas (seed ew20oct26) plays 400 days in buildBenchWorld without the throw, and in a played year of a drawn place every counted household's work commitment names a kept calendar of its own employer, checked in src/core2/counted-household-jobs.test.ts, which fails with the fix removed.
+**Done when.** Paris, Arkansas (seed ew20oct26) plays 400 days in buildBenchWorld without the throw, and in a played year of a drawn place every counted household's work commitment names a kept calendar of its own employer, checked in tests/src/core2/counted-household-jobs.test.ts, which fails with the fix removed.
 
-**Files.** src/core2/modules/jobs.ts,src/core2/counted-household-jobs.test.ts
+**Files.** src/core2/modules/jobs.ts,tests/src/core2/counted-household-jobs.test.ts
 
 **Notes.** Found Oct 24 by the effects lead when the year-long twin check crashed in Paris, Arkansas. The counted-jobs fix that keeps a counted hire on payroll (core-counted-household-jobs-in-step) reached main inside #5609; this is its gap.
 

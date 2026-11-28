@@ -52,6 +52,8 @@ const trackedSet = new Set(tracked);
 /** Written in pieces: a path in a comment or string here would be a pointer the pointer guard counts. */
 const CORE = ["src", "core2"].join("/") + "/";
 const TOOLING = `${CORE}tooling/`;
+/** The director's two report tools: no game file imports them, so they go to scripts (the CTO's line of Nov 28, 3:58 a.m.). */
+const DIRECTOR_TOOLING = ["src", "director", "tooling"].join("/") + "/";
 const BENCH = ["src", "bench"].join("/") + "/";
 const SUPPORT = "tests/support/";
 const REPORTS = "scripts/core2/";
@@ -61,6 +63,8 @@ const CHECKS =
 /** A file's new home, or null when it stays. `"delete"` removes it. */
 function destination(file: string): string | "delete" | null {
   const base = path.posix.basename(file);
+  if (file.startsWith(DIRECTOR_TOOLING))
+    return `scripts/director/tooling/${file.slice(DIRECTOR_TOOLING.length)}`;
   if (file.startsWith(TOOLING)) {
     const rest = file.slice(TOOLING.length);
     if (rest === "tsconfig.json") return "delete";
@@ -293,7 +297,7 @@ const PIECEWISE: [file: string, from: string, to: string][] = [
   // section 7).
   // `voting-age-row.test.ts` reads three of the moved checks by name, beside itself.
   [
-    "src/bench/voting-age-row.test.ts",
+    "tests/src/bench/voting-age-row.test.ts",
     `  "m0-check.ts",
   "m1-10-check.ts",
   "verify.mjs",`,
@@ -303,7 +307,7 @@ const PIECEWISE: [file: string, from: string, to: string][] = [
   ],
   // `voting-age-row.test.ts` reads three of the moved checks by name, beside itself.
   [
-    "src/bench/voting-age-row.test.ts",
+    "tests/src/bench/voting-age-row.test.ts",
     `  "m0-check.ts",
   "m1-10-check.ts",
   "verify.mjs",`,
@@ -343,17 +347,25 @@ for (const [file, from, to] of PIECEWISE) {
   if (text.includes(from)) writeFileSync(full, text.replace(from, to));
 }
 
+/** The shape of tests/guards/families.json that this script edits. */
+type FamiliesMap = {
+  shared: string[];
+  families: { paths: string[]; entry: string[] }[];
+};
+
 /** What the guards read by path: drop what left src, add what stayed in the game. */
-function editJson(file: string, edit: (data: any) => void): void {
+function editJson<Data>(file: string, edit: (data: Data) => void): void {
   const full = path.join(ROOT, file);
   const data = JSON.parse(readFileSync(full, "utf8"));
   edit(data);
   writeFileSync(full, JSON.stringify(data, null, 2) + "\n");
 }
+// The test mover's mirror (tests/src) stays: its entries are the tests' families, and this script may run after it.
 const outsideSrc = (entry: string) =>
-  /^(?:scripts|tests)\//.test(entry) || everMoved.has(entry);
-editJson("tests/guards/families.json", (map) => {
-  map.shared = map.shared.filter((entry: string) => !outsideSrc(entry));
+  (/^(?:scripts|tests)\//.test(entry) && !entry.startsWith("tests/src/")) ||
+  everMoved.has(entry);
+editJson<FamiliesMap>("tests/guards/families.json", (map) => {
+  map.shared = map.shared.filter((entry) => !outsideSrc(entry));
   // Both were exempt as tooling; they stay exempt (no baseline rises) until
   // item 3 gives each its family.
   for (const stayed of [
@@ -362,8 +374,8 @@ editJson("tests/guards/families.json", (map) => {
   ])
     if (!map.shared.includes(stayed)) map.shared.push(stayed);
   for (const family of map.families) {
-    family.paths = family.paths.filter((entry: string) => !outsideSrc(entry));
-    family.entry = family.entry.filter((entry: string) => !outsideSrc(entry));
+    family.paths = family.paths.filter((entry) => !outsideSrc(entry));
+    family.entry = family.entry.filter((entry) => !outsideSrc(entry));
   }
 });
 for (const file of [
@@ -373,7 +385,7 @@ for (const file of [
   "tests/guards/engine-tables-baseline.json",
 ]) {
   if (!existsSync(path.join(ROOT, file))) continue;
-  editJson(file, (data) => {
+  editJson<Record<string, unknown>>(file, (data) => {
     const strip = (table: Record<string, unknown>) => {
       for (const key of Object.keys(table))
         if (outsideSrc(key)) delete table[key];
@@ -419,7 +431,7 @@ function dropFromOtherGuards(): void {
   );
   if (existsSync(wording)) {
     const data = JSON.parse(readFileSync(wording, "utf8"));
-    for (const [key, table] of Object.entries(data))
+    for (const table of Object.values(data))
       if (table && typeof table === "object" && !Array.isArray(table))
         for (const entry of Object.keys(table))
           if ([...gone].some((file) => entry.startsWith(`${file} :: `)))
@@ -511,7 +523,11 @@ function editTsconfig(): void {
   const add = (list: string[], entries: string[]) => {
     for (const entry of entries) if (!list.includes(entry)) list.push(entry);
   };
-  add(config.include, ["scripts/core2/**/*.ts", "scripts/bench/**/*.ts"]);
+  add(config.include, [
+    "scripts/core2/**/*.ts",
+    "scripts/bench/**/*.ts",
+    "scripts/director/**/*.ts",
+  ]);
   add(config.exclude, [
     "scripts/core2/**/*.test.ts",
     "scripts/bench/**/*.test.ts",

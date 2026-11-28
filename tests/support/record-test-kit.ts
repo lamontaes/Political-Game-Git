@@ -35,13 +35,18 @@ import {
 } from "../../src/core2/modules/campaigns";
 import { openParties } from "../../src/core2/modules/parties";
 import { fileRunners, weighContest } from "../../src/core2/modules/candidacy";
-import { ballotOf, holdElection, openVoting } from "../../src/core2/modules/voting";
-import { openRecord, promisesOf, recordVote } from "../../src/core2/modules/record";
+import {
+  ballotOf,
+  holdElection,
+  openVoting,
+} from "../../src/core2/modules/voting";
+import { promisesOf, recordVote } from "../../src/core2/modules/record";
 import { openPress } from "../../src/core2/modules/press";
 import { PLATFORM_QUESTIONS } from "../../src/core2/campaign-data";
 import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
 import { drawPlace } from "../../scripts/core2-year/place";
 import { townResidentsByCash } from "./resident-adults-test-kit";
+import { openRecord } from "./open-modules";
 
 export const START = "2026-01-05";
 /** How far before election day the rival's own turn is played. */

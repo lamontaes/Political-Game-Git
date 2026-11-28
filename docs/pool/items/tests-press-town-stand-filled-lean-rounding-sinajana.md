@@ -18,9 +18,9 @@ effort: medium
 source: views thread, Nov 14 (seen while gating #9224)
 ---
 
-**What.** `src/core2/press-town-stand.test.ts` is red at Sinajana, Guam, with the seed below. It expects a counted adult filled in to keep exactly the lean they were counted with, and their lean comes out a few trillionths different. The player would not see a difference that small; it means the two tiers compute the same lean by two routes, where the one-model rule says one. Guards: the town-stand read the paper prints.
+**What.** `tests/src/core2/press-town-stand.test.ts` is red at Sinajana, Guam, with the seed below. It expects a counted adult filled in to keep exactly the lean they were counted with, and their lean comes out a few trillionths different. The player would not see a difference that small; it means the two tiers compute the same lean by two routes, where the one-model rule says one. Guards: the town-stand read the paper prints.
 
-**Cause.** Measured: `PRESS_STAND_SEED=115fffe5d3098cb5 npx vitest run src/core2/press-town-stand.test.ts` fails with "Sinajana, Guam (territory:GU:sinajana), seed 115fffe5d3098cb5:0: expected -1.30765206104056 to be -1.3076520610448898". It fails on the train at 628ff74d and before views-from-life cut 1 at 3076c608, so it is older than that work. The two values differ by about 4e-12. That points to the counted lean (`countedLean` in `src/core2/modules/views.ts`) and the filled-in view's lean (`viewOf(...).lean`, set in `fillInPerson`) adding the same terms in a different order, not to a different rule; not yet traced to the line.
+**Cause.** Measured: `PRESS_STAND_SEED=115fffe5d3098cb5 npx vitest run tests/src/core2/press-town-stand.test.ts` fails with "Sinajana, Guam (territory:GU:sinajana), seed 115fffe5d3098cb5:0: expected -1.30765206104056 to be -1.3076520610448898". It fails on the train at 628ff74d and before views-from-life cut 1 at 3076c608, so it is older than that work. The two values differ by about 4e-12. That points to the counted lean (`countedLean` in `src/core2/modules/views.ts`) and the filled-in view's lean (`viewOf(...).lean`, set in `fillInPerson`) adding the same terms in a different order, not to a different rule; not yet traced to the line.
 
 **Fix.** Find where `fillInPerson` sets the new person's view lean and have it take the counted record's lean value as computed (`countedLean`), not recompute it, so both tiers hold one number. Do not loosen the test's exact check.
 
@@ -32,8 +32,8 @@ source: views thread, Nov 14 (seen while gating #9224)
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/state.ts (fillInPerson), src/core2/modules/views.ts (countedLean), src/core2/press-town-stand.test.ts
+**Files.** src/core2/state.ts (fillInPerson), src/core2/modules/views.ts (countedLean), tests/src/core2/press-town-stand.test.ts
 
 **Notes.** Nov 14 (claude, views thread): found while gating #9224; red on the clean train at the same seed.
 
-Nov 15 (views thread): also red on the train at ff9703d7 with PRESS_STAND_SEED=318a8084f65ed310, at Alpena, South Dakota (4601020): expected -0.07952562577173783, got -0.07952562590133504 (src/core2/press-town-stand.test.ts:84).
+Nov 15 (views thread): also red on the train at ff9703d7 with PRESS_STAND_SEED=318a8084f65ed310, at Alpena, South Dakota (4601020): expected -0.07952562577173783, got -0.07952562590133504 (tests/src/core2/press-town-stand.test.ts:84).

@@ -1,8 +1,13 @@
 import type { CoreAPI } from "../types";
 import type { LawRowInput } from "../laws-starting";
+import { default as data } from "../data/laws/public-pay-floor.json";
+import type { LawLevelName } from "../laws-starting";
 
 /** The laws engine's module id; `laws.ts` re-exports it for the engines that already import it there. */
 export const LAWS_MODULE_ID = "core2-laws-v1";
+
+/** The question list the law rows and the platforms answer; re-exported here so the past reads it through the laws entry. */
+export { POLICY_QUESTIONS } from "../policy-answers";
 
 /**
  * The laws engine's read doors: what every other engine, screen and scene asks
@@ -60,4 +65,32 @@ export function enactmentRowsOfSeries<T = unknown>(
     .moduleState(LAWS_MODULE_ID)
     .table("enactments")
     .query("bySeries", [series]) as unknown as readonly T[];
+}
+
+export const EMPLOYER_LEVELS = data.employerLevels as Readonly<
+  Record<string, LawLevelName>
+>;
+
+/** The highest level whose floors reach a class that is a government of its own (a school district). */
+export const BOUND_BY = data.boundBy as unknown as Readonly<
+  Record<string, LawLevelName>
+>;
+
+/**
+ * The highest level of government whose public-employee laws (a pay floor,
+ * bargaining) reach a public employer class: its own level, except a school
+ * district, a government of its own that only state and federal laws reach.
+ * `publicEmployerLevel` below is where it is funded from.
+ */
+export function publicEmployerBoundLevel(
+  classification: string,
+): LawLevelName | undefined {
+  return BOUND_BY[classification] ?? EMPLOYER_LEVELS[classification];
+}
+
+/** The level of government a public employer class belongs to (who funds it), if it is one. */
+export function publicEmployerLevel(
+  classification: string,
+): LawLevelName | undefined {
+  return EMPLOYER_LEVELS[classification];
 }

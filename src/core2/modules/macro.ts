@@ -9,9 +9,8 @@
 import { taxIndexOf } from "../tax-index";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { chooseAct } from "../choice";
-import { reviewBoardTerms } from "./executive";
+import { reviewBoardTerms } from "../central-bank-appointments";
 import { DEFAULT_DATA, extendData } from "../data";
-import macroParameters from "../data/macro/parameters.json" with { type: "json" };
 import {
   BOARD,
   RATE_PULL_PROVIDER,
@@ -28,7 +27,6 @@ import {
 } from "../central-bank-board";
 import {
   MACRO_HISTORY_SOURCE,
-  checkBands,
   historyMonths,
   monthKey,
   shiftMonth,
@@ -38,7 +36,6 @@ import {
   type NationFigures,
   type MacroParameter,
 } from "../macro-model";
-import countryParameters from "../data/country/parameters.json" with { type: "json" };
 import {
   countryLaw,
   federalSpendingReader,
@@ -81,14 +78,15 @@ export {
   type CountryState,
 } from "../country-model";
 import { bookkeeping } from "../bookkeeping";
-import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";
-import { scaleOutsideSales, type OutsideSectorFactor } from "./health";
+import type { OutsideSectorFactor } from "./health";
+import { scaleOutsideSales } from "../resident-outside-sales";
 import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import { firmStaffing } from "./jobs";
 import { LAWS_MODULE_ID, stateLawInForce } from "./laws";
 import { openingRegionMonths, stateFigures } from "../regional-model";
-import { coarseSteps, type PreStartModule } from "../pre-start";
+import type { PreStartModule } from "../pre-start";
+import { coarseSteps } from "../pre-start-history";
 import {
   LATEST_MONTH_LAG,
   REGIONAL_PARAMETERS,
@@ -100,27 +98,24 @@ import {
 } from "./regional";
 import type { CoreAPI, CoreData, CoreInput, CoreState, Source } from "../types";
 import { CUSTOM_ECONOMY_KEY } from "./macro-constants";
-export { CUSTOM_ECONOMY_KEY };
-export const MACRO_MODULE_ID = "macro";
-/** The national economy's numbers: the central bank's and the published past's, and the country tier's (data/country). */
-export const MACRO_PARAMETERS = {
-  ...macroParameters,
-  ...countryParameters,
-} as unknown as Readonly<Record<string, Parameter>>;
-const STATE_ID = "macro:state";
-const COUNTRY_ID = "country";
+import {
+  MACRO_PARAMETERS,
+  type MacroStateRow,
+  STATE_ID,
+  countryOpened,
+  params,
+  readState,
+} from "../macro-reads";
+export { MACRO_PARAMETERS, countryOpened, nationalPanel } from "../macro-reads";
 
-interface MacroStateRow {
-  id: string;
-  openedAt: string;
-  openingMonth: string;
-  latestMonth: string;
-  /** Target-range midpoint in force. */
-  policyRatePct: number;
-  placeIds: string[];
-  /** The states' sums at the opening: the national figures since are the opening month's times how far these have moved. */
-  countryBase: NationFigures;
+export const MACRO_MODULE_ID = "macro";
+
+function store(api: CoreAPI) {
+  return api.moduleState(MACRO_MODULE_ID);
 }
+export { CUSTOM_ECONOMY_KEY };
+
+const COUNTRY_ID = "country";
 
 /** One state's figures at the opening, kept so its regions can be read against them. */
 export interface CountryStateBase {
@@ -148,18 +143,6 @@ function recordSource(api: CoreAPI): Source {
     asOf: api.state.date,
     citation: (MACRO_HISTORY_SOURCE as Source).citation,
   };
-}
-
-function params(api: CoreAPI): MacroParameter {
-  return (key) => api.parameter(key);
-}
-
-function store(api: CoreAPI) {
-  return api.moduleState(MACRO_MODULE_ID);
-}
-
-function readState(api: CoreAPI): MacroStateRow | undefined {
-  return store(api).table("state").get(STATE_ID) as MacroStateRow | undefined;
 }
 
 function dated(api: CoreAPI, estimatedFrom: string): Source {
@@ -251,7 +234,7 @@ function outsideBySector(
   const zero = api.parameter("zero"),
     one = api.parameter("one"),
     hundred = api.parameter("macroHundred");
-  const states = countryStates(api);
+  const states = countryStateRows(api);
   const bases = new Map(
     (
       store(api).table("countryBases").rows() as unknown as CountryStateBase[]
@@ -397,8 +380,8 @@ function writeCountry(api: CoreAPI, tier: CountryTier): void {
       .put(state as unknown as { id: string });
 }
 
-/** Every state's tier row today: its households by fifth and age, its sectors and its ledger. Read-only. */
-export function countryStates(api: CoreAPI): readonly CountryState[] {
+/** Every state's tier row, for the macro engine's own steps (other engines read them through `allCountryStates`). */
+function countryStateRows(api: CoreAPI): readonly CountryState[] {
   return store(api).table("countryStates").rows() as unknown as CountryState[];
 }
 
@@ -1333,23 +1316,6 @@ export interface CountryOutlook {
 
 const OUTLOOK_PROBLEMS_KEPT = 8;
 
-/**
- * The country some years on if nothing else changes: a copy of every state's counts, stepped by
- * the same month the game steps (`stepCountry`, `countryMacroMonth`) under the law in force
- * today, with today's board meeting on its own calendar and each member voting by the rule they
- * vote by in play. Read-only: it writes no record and moves no date, so it is what the tier
- * would do, not what the town will (the town and county held in full stay as they are today).
- */
-/** Whether the national economy has opened: it opens on the game's first day, and there is no outlook before it. */
-export function countryOpened(api: CoreAPI): boolean {
-  // A world built without the economy (the law-reach tests' small worlds) has no tier: the same
-  // test the outside-money reader makes. The game's worlds always install it (modules/world.ts).
-  return (
-    (api.state as CoreState).modules.has(MACRO_MODULE_ID) &&
-    readState(api) !== undefined
-  );
-}
-
 /** The tier's own check for counts that cannot be (negative, more working than people, jobs not matching workers); empty before the economy opens. */
 export function countryTierProblems(api: CoreAPI): string[] {
   return readState(api) ? countryProblems(readCountry(api)) : [];
@@ -1491,25 +1457,6 @@ export function countryOutlook(api: CoreAPI, months: number): CountryOutlook {
     }
   }
   return out;
-}
-
-/** What the bench's national panel shows: each month against its band, each meeting with every vote's reasons. Read-only. */
-export function nationalPanel(api: CoreAPI) {
-  const snap = store(api).snapshot();
-  const months = snap.tables.months as unknown as MacroMonth[];
-  const votes = snap.tables.votes as unknown as { meetingId: string }[];
-  return {
-    months,
-    bands: checkBands(months, params(api)),
-    meetings: (snap.tables.meetings as unknown as { id: string }[]).map(
-      (meeting) => ({
-        ...meeting,
-        votes: votes.filter((vote) => vote.meetingId === meeting.id),
-      }),
-    ),
-    members: snap.tables.members,
-    repricings: snap.tables.repricings,
-  };
 }
 
 // Re-exported so the people family reads the tier's flows through this entry (families guard).

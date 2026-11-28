@@ -16,25 +16,31 @@
 import { OUTCOME_MONTH_KIND } from "./outcome-news-constants";
 import briefs from "./data/press/briefs.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { questionAxis } from "./modules/campaigns";
+import { questionAxis } from "./campaign-views";
 import { closenessBetween, feelingBetween, grudgeBetween } from "./closeness";
 import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 import { printStory, type Story } from "./modules/news";
 import { LEGISLATURE_MODULE_ID } from "./modules/legislature";
-import { OFFICES_MODULE_ID, servingTermsOf } from "./modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  officeById,
+  servingTermsOf,
+  termById,
+  termsOfPerson,
+} from "./offices-reads";
 import { isPublicFigure } from "./past-public";
 import { reachedBy } from "./modules/laws";
 import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
-import {
-  stancesOf,
-  viewOf,
-  VIEWS_MODULE_ID,
-  VIEWS_SPEAKER_KEY,
-} from "./modules/views";
-import { residentsRuntime } from "./modules/residents";
+import { stancesOf, viewOf, VIEWS_SPEAKER_KEY } from "./modules/views-reads";
+import { VIEWS_MODULE_ID } from "./modules/views-constants";
+import { residentsRuntime } from "./residents-reads";
 import { onContestRoll, VOTING_MODULE_ID } from "./modules/voting";
-import { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./modules/elections";
+import {
+  BALLOT_MEASURES_MODULE_ID,
+  measureVoteOf,
+} from "./modules/ballot-measures-reads";
+import { lawRowById } from "./modules/laws-reads";
 
 /**
  * The facts that name the counted household a record happened to and its
@@ -693,16 +699,13 @@ function isBudgetBill(api: CoreAPI, item: WireItem): boolean {
  */
 export function holdsHighOffice(api: CoreAPI, id: string): boolean {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   // The id names the term the official was first seated on, which a re-election or a move to
   // another seat ends: the terms the person serves now (`servingTermsOf`) are what they hold.
-  const minted = offices
-    .table("terms")
-    .get(id.slice("official:".length)) as unknown as
+  const minted = termById(api, id.slice("official:".length)) as unknown as
     { personId: string } | undefined;
   if (!minted) return false;
   return servingTermsOf(api, minted.personId).some((term) => {
-    const office = offices.table("offices").get(term.officeId) as unknown as
+    const office = officeById(api, term.officeId) as unknown as
       { level?: string } | undefined;
     return office?.level === "federal" || office?.level === "state";
   });
@@ -711,16 +714,15 @@ export function holdsHighOffice(api: CoreAPI, id: string): boolean {
 /** Whether the person serves a term in a local (not a state or federal) office. */
 function servesLocally(api: CoreAPI, personId: string): boolean {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   return (
-    offices.table("terms").query("byPerson", [personId]) as unknown as {
+    termsOfPerson(api, personId) as unknown as {
       status?: string;
       officeId: string;
     }[]
   ).some((term) => {
     if (term.status !== "serving") return false;
     const level = (
-      offices.table("offices").get(term.officeId) as unknown as
+      officeById(api, term.officeId) as unknown as
         { level?: string } | undefined
     )?.level;
     return level !== undefined && level !== "federal" && level !== "state";
@@ -751,6 +753,319 @@ const tieOrder = (a: WireItem, b: WireItem): number => tieRule(a, b).order;
  * One week at an outlet: each reporter, in turn, weighs the fresh items its
  * outlet has not printed and files their best, up to their week's count.
  */
+/** One week's wire item for an outlet, scored by what makes it news there. */
+interface DeskRow {
+  readonly item: WireItem;
+  readonly proximity: number;
+  readonly readerCare: number;
+  readonly people: number;
+  readonly renown: number;
+}
+
+/** What one desk run shares between its steps: the rows, what is taken, the room a level has, and the stories so far. */
+interface DeskScoring {
+  readonly p: (key: string) => number;
+  readonly base: readonly DeskRow[];
+  readonly taken: Set<string>;
+  readonly bills: Set<string>;
+  readonly racesTold: Set<string>;
+  readonly out: PrintedStory[];
+  readonly hasRoom: (item: Pick<WireItem, "level">) => boolean;
+  readonly spend: (item: Pick<WireItem, "level">) => void;
+}
+
+/** One reporter files their stories from the week's rows, the best of what is left. */
+function fileReporterStories(
+  api: CoreAPI,
+  ctx: DeskContext,
+  outlet: DeskOutlet,
+  reporterId: string,
+  { p, base, taken, bills, racesTold, out, hasRoom, spend }: DeskScoring,
+): void {
+  if (!api.state.people.get(reporterId)?.alive) return;
+  // Briefs are the column's, never a reporter's story.
+  const scored = base
+    .filter((row) => !taken.has(row.item.id) && !BRIEF_KINDS.has(row.item.kind))
+    .map((row) => {
+      const drive = driveTerm(api, reporterId, row.item);
+      return {
+        ...row,
+        drive,
+        score:
+          row.proximity *
+          (1 +
+            p("storyReaderCareWeight") * row.readerCare +
+            p("storyPeopleWeight") * row.people +
+            p("storyRenownWeight") * row.renown +
+            p("storyDriveWeight") * drive),
+      };
+    })
+    .sort((a, b) => b.score - a.score || tieOrder(a.item, b.item))
+    // One gift story and one endorsement story a race, the best of its
+    // week's records, before any slot is spent on the rest.
+    .filter((row, at, all) => {
+      const race = raceTold(row.item);
+      return (
+        !race ||
+        (!racesTold.has(race) &&
+          all.findIndex((other) => raceTold(other.item) === race) === at)
+      );
+    });
+  const count = Math.min(
+    p(
+      outlet.tier === "national"
+        ? "nationalStoriesPerReporterWeek"
+        : "storiesPerReporterWeek",
+    ),
+    scored.length,
+  );
+  let rank = 0;
+  for (const row of scored) {
+    if (rank >= count) break;
+    if (taken.has(row.item.id)) continue;
+    // The space a level's stories have at this outlet: the rest of the
+    // week goes to the levels its audience is more of.
+    if (!hasRoom(row.item)) continue;
+    rank += 1;
+    // A local body's sitting is covered whole: the reporter who files one
+    // of its votes files the others it took that day, one story a bill, as
+    // a paper reports a meeting's actions (a county board member's
+    // ordinance went unprinted behind the same board's three housing and
+    // policing votes, Cooper Landing, Alaska, seed 12edebda89d90d033822).
+    // An election night is covered whole the same way: the reporter who
+    // files one of the races the town counted that day files the others,
+    // one story a seat, as a paper prints the night's results (the mayor's
+    // race took every outlet's week and the council race it was counted
+    // with went unprinted, Searsboro, Iowa, seed de4ef0f8ff6efdfb:agree:15).
+    const sitting =
+      sittingVote(row.item) || row.item.kind === "election-result"
+        ? scored.filter(
+            (other) =>
+              other === row ||
+              (!taken.has(other.item.id) && sameSitting(row.item, other.item)),
+          )
+        : [row];
+    for (const one of sitting) {
+      taken.add(one.item.id);
+      const race = raceTold(one.item);
+      if (race) racesTold.add(race);
+      // One story a bill: a failed bill's vote and its failure are one.
+      // One story a race: the seats of a race that fills several at once
+      // are one count, told once (Words lead, Nov 13, rule 30).
+      const billId = String(
+        one.item.facts?.billId ?? one.item.facts?.race ?? one.item.id,
+      );
+      if (bills.has(billId)) continue;
+      bills.add(billId);
+      spend(one.item);
+      out.push(
+        printItem(api, ctx, outlet, reporterId, one.item, {
+          proximity: one.proximity,
+          readerCare: one.readerCare,
+          people: one.people,
+          renown: one.renown,
+          drive: one.drive,
+          score: one.score,
+          rank,
+          weighed: scored.length,
+          ...(one === row ? {} : { sitting: row.item.id }),
+        }),
+      );
+    }
+  }
+}
+
+/** The briefs column, and the week's sittings that took up nothing in one brief after it. */
+function fileBriefsColumn(
+  api: CoreAPI,
+  ctx: DeskContext,
+  outlet: DeskOutlet,
+  filer: string,
+  routine: readonly WireItem[],
+  { p, base, taken, out, hasRoom, spend }: DeskScoring,
+): void {
+  const column = base
+    .filter(
+      (row) =>
+        !taken.has(row.item.id) &&
+        BRIEF_KINDS.has(row.item.kind) &&
+        usualSpace(row.item, p) > 0 &&
+        (!RECORD_BRIEFS.has(row.item.kind) ||
+          wellOverUsual(row.item) ||
+          // The town's one log runs in its paper of record, and once: if
+          // the record changed hands after another outlet printed it, the
+          // new record does not print it again.
+          (outlet.id === ctx.recordOutletId?.() &&
+            !ctx.printedAnywhere?.(row.item.id))),
+    )
+    .map((row) => ({
+      ...row,
+      score:
+        usualSpace(row.item, p) *
+        row.proximity *
+        (1 +
+          p("storyReaderCareWeight") * row.readerCare +
+          p("storyPeopleWeight") * row.people +
+          p("storyRenownWeight") * row.renown),
+    }))
+    .sort((a, b) => b.score - a.score || tieOrder(a.item, b.item));
+  const space = p("briefsPerOutletWeek");
+  let rank = 0;
+  for (const row of column) {
+    if (rank >= space) break;
+    if (!hasRoom(row.item)) continue;
+    rank += 1;
+    taken.add(row.item.id);
+    spend(row.item);
+    out.push(
+      printItem(api, ctx, outlet, filer, row.item, {
+        proximity: row.proximity,
+        readerCare: row.readerCare,
+        people: row.people,
+        renown: row.renown,
+        drive: 0,
+        score: row.score,
+        rank,
+        weighed: column.length,
+      }),
+    );
+  }
+  // The week's sittings that took up nothing, in one brief after the
+  // column: each body named once, however often it sat.
+  const weekAgo = addDays(
+    makeIsoDate(api.state.date),
+    -api.parameter("daysPerWeek"),
+  );
+  const sat = routine
+    .filter((item) => item.date > weekAgo)
+    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+  const bodies = [
+    ...new Set(sat.flatMap((item) => item.facts?.officeId ?? [])),
+  ];
+  if (bodies.length && hasRoom({ level: "town" })) {
+    const proximity = p(PROXIMITY.town);
+    spend({ level: "town" });
+    out.push(
+      printItem(
+        api,
+        ctx,
+        outlet,
+        filer,
+        {
+          id: `${MEETINGS_WEEK_KIND}:${outlet.id}:${api.state.date}`,
+          kind: MEETINGS_WEEK_KIND,
+          date: api.state.date,
+          level: "town",
+          topic: MEETINGS_WEEK_KIND,
+          desiredChange: "met",
+          ending: false,
+          subjectIds: [],
+          facts: {
+            officeIds: bodies.join(","),
+            meetingIds: sat.map((item) => item.id).join(","),
+            // The day the week's first such sitting met, which the brief
+            // is dated by, so no two weeks print the same line.
+            sittingDate: sat[0]!.date,
+          },
+        },
+        {
+          proximity,
+          readerCare: 0,
+          people: 0,
+          renown: 0,
+          drive: 0,
+          score: proximity,
+          rank: column.length + 1,
+          weighed: column.length + 1,
+        },
+      ),
+    );
+  }
+}
+
+/** The week's letters, each in the writer's own voice. */
+function fileLetters(
+  api: CoreAPI,
+  ctx: DeskContext,
+  outlet: DeskOutlet,
+  letters: readonly WireItem[],
+  { p, out, hasRoom, spend }: DeskScoring,
+): void {
+  for (const item of letters) {
+    const writer = item.subjectIds[0];
+    if (!writer || !api.state.people.get(writer)?.alive) continue;
+    // A county paper prints the town's letters in the town's share of its
+    // readers, as it does the town's stories.
+    if (!hasRoom(item)) continue;
+    spend(item);
+    const proximity = p(PROXIMITY.town);
+    out.push(
+      printItem(
+        api,
+        ctx,
+        outlet,
+        // A letter is printed under its writer's name.
+        writer,
+        item,
+        {
+          proximity,
+          readerCare: 0,
+          people: 0,
+          renown: 0,
+          drive: 0,
+          score: proximity,
+          rank: 1,
+          weighed: letters.length,
+        },
+        {
+          slant: {
+            slant: Math.min(1, Number(item.facts?.strength ?? 0)),
+            reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
+          },
+          facts: { [VIEWS_SPEAKER_KEY]: writer },
+        },
+      ),
+    );
+  }
+}
+
+/** The outlet's own endorsements of the week, under the name of the head who weighed the race. */
+function fileOwnEndorsements(
+  api: CoreAPI,
+  ctx: DeskContext,
+  outlet: DeskOutlet,
+  ownEndorsements: readonly WireItem[],
+  { p, out }: DeskScoring,
+): void {
+  for (const item of ownEndorsements) {
+    const head = item.facts?.speakerId;
+    if (!head || !api.state.people.get(head)?.alive) continue;
+    const proximity = p(
+      (outlet.tier === "national" ? NATIONAL_PROXIMITY : PROXIMITY)[item.level],
+    );
+    out.push(
+      printItem(
+        api,
+        ctx,
+        outlet,
+        head,
+        item,
+        {
+          proximity,
+          readerCare: 0,
+          people: 0,
+          renown: 0,
+          drive: 0,
+          score: proximity,
+          rank: 1,
+          weighed: ownEndorsements.length,
+        },
+        { facts: { [VIEWS_SPEAKER_KEY]: head } },
+      ),
+    );
+  }
+}
+
 export function runDesk(
   api: CoreAPI,
   ctx: DeskContext,
@@ -825,8 +1140,7 @@ export function runDesk(
     : null;
   const bindsTown = (lawId: string): boolean => {
     if (!chainJurisdictions) return true;
-    const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
-      { jurisdiction?: string } | undefined;
+    const row = lawRowById(api, lawId) as { jurisdiction?: string } | undefined;
     return !row?.jurisdiction || chainJurisdictions.has(row.jurisdiction);
   };
   // Who a count's result concerns: the named voters on its roll.
@@ -989,102 +1303,18 @@ export function runDesk(
   const spend = (item: Pick<WireItem, "level">) => {
     if (room?.has(item.level)) room.set(item.level, room.get(item.level)! - 1);
   };
-  for (const reporterId of outlet.reporterIds) {
-    if (!api.state.people.get(reporterId)?.alive) continue;
-    // Briefs are the column's, never a reporter's story.
-    const scored = base
-      .filter(
-        (row) => !taken.has(row.item.id) && !BRIEF_KINDS.has(row.item.kind),
-      )
-      .map((row) => {
-        const drive = driveTerm(api, reporterId, row.item);
-        return {
-          ...row,
-          drive,
-          score:
-            row.proximity *
-            (1 +
-              p("storyReaderCareWeight") * row.readerCare +
-              p("storyPeopleWeight") * row.people +
-              p("storyRenownWeight") * row.renown +
-              p("storyDriveWeight") * drive),
-        };
-      })
-      .sort((a, b) => b.score - a.score || tieOrder(a.item, b.item))
-      // One gift story and one endorsement story a race, the best of its
-      // week's records, before any slot is spent on the rest.
-      .filter((row, at, all) => {
-        const race = raceTold(row.item);
-        return (
-          !race ||
-          (!racesTold.has(race) &&
-            all.findIndex((other) => raceTold(other.item) === race) === at)
-        );
-      });
-    const count = Math.min(
-      p(
-        outlet.tier === "national"
-          ? "nationalStoriesPerReporterWeek"
-          : "storiesPerReporterWeek",
-      ),
-      scored.length,
-    );
-    let rank = 0;
-    for (const row of scored) {
-      if (rank >= count) break;
-      if (taken.has(row.item.id)) continue;
-      // The space a level's stories have at this outlet: the rest of the
-      // week goes to the levels its audience is more of.
-      if (!hasRoom(row.item)) continue;
-      rank += 1;
-      // A local body's sitting is covered whole: the reporter who files one
-      // of its votes files the others it took that day, one story a bill, as
-      // a paper reports a meeting's actions (a county board member's
-      // ordinance went unprinted behind the same board's three housing and
-      // policing votes, Cooper Landing, Alaska, seed 12edebda89d90d033822).
-      // An election night is covered whole the same way: the reporter who
-      // files one of the races the town counted that day files the others,
-      // one story a seat, as a paper prints the night's results (the mayor's
-      // race took every outlet's week and the council race it was counted
-      // with went unprinted, Searsboro, Iowa, seed de4ef0f8ff6efdfb:agree:15).
-      const sitting =
-        sittingVote(row.item) || row.item.kind === "election-result"
-          ? scored.filter(
-              (other) =>
-                other === row ||
-                (!taken.has(other.item.id) &&
-                  sameSitting(row.item, other.item)),
-            )
-          : [row];
-      for (const one of sitting) {
-        taken.add(one.item.id);
-        const race = raceTold(one.item);
-        if (race) racesTold.add(race);
-        // One story a bill: a failed bill's vote and its failure are one.
-        // One story a race: the seats of a race that fills several at once
-        // are one count, told once (Words lead, Nov 13, rule 30).
-        const billId = String(
-          one.item.facts?.billId ?? one.item.facts?.race ?? one.item.id,
-        );
-        if (bills.has(billId)) continue;
-        bills.add(billId);
-        spend(one.item);
-        out.push(
-          printItem(api, ctx, outlet, reporterId, one.item, {
-            proximity: one.proximity,
-            readerCare: one.readerCare,
-            people: one.people,
-            renown: one.renown,
-            drive: one.drive,
-            score: one.score,
-            rank,
-            weighed: scored.length,
-            ...(one === row ? {} : { sitting: row.item.id }),
-          }),
-        );
-      }
-    }
-  }
+  const scoring: DeskScoring = {
+    p,
+    base,
+    taken,
+    bills,
+    racesTold,
+    out,
+    hasRoom,
+    spend,
+  };
+  for (const reporterId of outlet.reporterIds)
+    fileReporterStories(api, ctx, outlet, reporterId, scoring);
   // The briefs column (owner, Oct 29: side stories, "a line or two"): a
   // local outlet prints the short items from the town's own records that its
   // reporters left (data/press/briefs.json), the most read first, up to its
@@ -1092,174 +1322,16 @@ export function runDesk(
   const filer = outlet.reporterIds.find(
     (id) => api.state.people.get(id)?.alive,
   );
-  if (outlet.tier !== "national" && filer) {
-    const column = base
-      .filter(
-        (row) =>
-          !taken.has(row.item.id) &&
-          BRIEF_KINDS.has(row.item.kind) &&
-          usualSpace(row.item, p) > 0 &&
-          (!RECORD_BRIEFS.has(row.item.kind) ||
-            wellOverUsual(row.item) ||
-            // The town's one log runs in its paper of record, and once: if
-            // the record changed hands after another outlet printed it, the
-            // new record does not print it again.
-            (outlet.id === ctx.recordOutletId?.() &&
-              !ctx.printedAnywhere?.(row.item.id))),
-      )
-      .map((row) => ({
-        ...row,
-        score:
-          usualSpace(row.item, p) *
-          row.proximity *
-          (1 +
-            p("storyReaderCareWeight") * row.readerCare +
-            p("storyPeopleWeight") * row.people +
-            p("storyRenownWeight") * row.renown),
-      }))
-      .sort((a, b) => b.score - a.score || tieOrder(a.item, b.item));
-    const space = p("briefsPerOutletWeek");
-    let rank = 0;
-    for (const row of column) {
-      if (rank >= space) break;
-      if (!hasRoom(row.item)) continue;
-      rank += 1;
-      taken.add(row.item.id);
-      spend(row.item);
-      out.push(
-        printItem(api, ctx, outlet, filer, row.item, {
-          proximity: row.proximity,
-          readerCare: row.readerCare,
-          people: row.people,
-          renown: row.renown,
-          drive: 0,
-          score: row.score,
-          rank,
-          weighed: column.length,
-        }),
-      );
-    }
-    // The week's sittings that took up nothing, in one brief after the
-    // column: each body named once, however often it sat.
-    const weekAgo = addDays(
-      makeIsoDate(api.state.date),
-      -api.parameter("daysPerWeek"),
-    );
-    const sat = routine
-      .filter((item) => item.date > weekAgo)
-      .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
-    const bodies = [
-      ...new Set(sat.flatMap((item) => item.facts?.officeId ?? [])),
-    ];
-    if (bodies.length && hasRoom({ level: "town" })) {
-      const proximity = p(PROXIMITY.town);
-      spend({ level: "town" });
-      out.push(
-        printItem(
-          api,
-          ctx,
-          outlet,
-          filer,
-          {
-            id: `${MEETINGS_WEEK_KIND}:${outlet.id}:${api.state.date}`,
-            kind: MEETINGS_WEEK_KIND,
-            date: api.state.date,
-            level: "town",
-            topic: MEETINGS_WEEK_KIND,
-            desiredChange: "met",
-            ending: false,
-            subjectIds: [],
-            facts: {
-              officeIds: bodies.join(","),
-              meetingIds: sat.map((item) => item.id).join(","),
-              // The day the week's first such sitting met, which the brief
-              // is dated by, so no two weeks print the same line.
-              sittingDate: sat[0]!.date,
-            },
-          },
-          {
-            proximity,
-            readerCare: 0,
-            people: 0,
-            renown: 0,
-            drive: 0,
-            score: proximity,
-            rank: column.length + 1,
-            weighed: column.length + 1,
-          },
-        ),
-      );
-    }
-  }
+  if (outlet.tier !== "national" && filer)
+    fileBriefsColumn(api, ctx, outlet, filer, routine, scoring);
   // The week's letter, in the writer's own voice: the change it argues is
   // the writer's, and its readers are moved by their standing with the
   // writer, as with a reporter's story.
-  for (const item of letters) {
-    const writer = item.subjectIds[0];
-    if (!writer || !api.state.people.get(writer)?.alive) continue;
-    // A county paper prints the town's letters in the town's share of its
-    // readers, as it does the town's stories.
-    if (!hasRoom(item)) continue;
-    spend(item);
-    const proximity = p(PROXIMITY.town);
-    out.push(
-      printItem(
-        api,
-        ctx,
-        outlet,
-        // A letter is printed under its writer's name.
-        writer,
-        item,
-        {
-          proximity,
-          readerCare: 0,
-          people: 0,
-          renown: 0,
-          drive: 0,
-          score: proximity,
-          rank: 1,
-          weighed: letters.length,
-        },
-        {
-          slant: {
-            slant: Math.min(1, Number(item.facts?.strength ?? 0)),
-            reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
-          },
-          facts: { [VIEWS_SPEAKER_KEY]: writer },
-        },
-      ),
-    );
-  }
+  fileLetters(api, ctx, outlet, letters, scoring);
   // The outlet's own endorsements of the week, under the name of
   // the head who weighed the race, its readers moved by their standing with
   // them.
-  for (const item of ownEndorsements) {
-    const head = item.facts?.speakerId;
-    if (!head || !api.state.people.get(head)?.alive) continue;
-    const proximity = p(
-      (outlet.tier === "national" ? NATIONAL_PROXIMITY : PROXIMITY)[item.level],
-    );
-    out.push(
-      printItem(
-        api,
-        ctx,
-        outlet,
-        head,
-        item,
-        {
-          proximity,
-          readerCare: 0,
-          people: 0,
-          renown: 0,
-          drive: 0,
-          score: proximity,
-          rank: 1,
-          weighed: ownEndorsements.length,
-        },
-        { facts: { [VIEWS_SPEAKER_KEY]: head } },
-      ),
-    );
-  }
+  fileOwnEndorsements(api, ctx, outlet, ownEndorsements, scoring);
   return out;
 }
 

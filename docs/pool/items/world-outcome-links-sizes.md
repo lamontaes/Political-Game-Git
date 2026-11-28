@@ -17,9 +17,9 @@ claimed-at: 2026-10-20T13:16:06.683Z
 
 **Rules.** Research before building: real data calibrates the size and never decides one person's outcome. Estimate, never UNKNOWN: a size starts from the real average with a per-world spread and its source.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) a sized link moves its outcome after its cause changes, shown by the link key, the cause record id and the web's month record id, and the unbuilt count in links.json falls by the number sized; the test in src/core2/outcome-web.test.ts passes.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) a sized link moves its outcome after its cause changes, shown by the link key, the cause record id and the web's month record id, and the unbuilt count in links.json falls by the number sized; the test in tests/src/core2/outcome-web.test.ts passes.
 
-**Files.** data/research/outcome-web/links.json, src/core2/outcome-web.test.ts
+**Files.** data/research/outcome-web/links.json, tests/src/core2/outcome-web.test.ts
 
 **Notes.** Split from core-stopgap-outcome-web-faked-mechanic. Source: the 41 `size-not-set` links, e.g. police-to-low-level-arrests, class-size-to-scores, eviction-to-homelessness.
 Sent back 2026-10-20 from PR #5207 (branch claude/outcome-sizes-g08lgv): Merge conflict with main in docs/pool/items/world-water-violations-producer.md; finish on that branch, merge main into it first.

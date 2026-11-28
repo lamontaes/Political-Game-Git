@@ -29,4 +29,4 @@ claimed-at: 2026-10-27T05:52:15.616Z
 
 **Files.** src/core2/press-desk.ts, src/core2/press-topics.ts
 
-**Notes.** One candidate cause to weigh: give an amount law the reader care of the policy question that sets the same law (the minimum wage and `raise-minimum-wage`, through `src/core2/question-wages.ts`), and size "people" by the workers the law-reach records name as paid under the new floor. The wording side is built: `src/bench/printed-words.test.ts` words Ohio's change ("Ohio minimum wage rises to $11.00 / The minimum wage in Ohio went from $10.70 to $11.00 on January 1, 2026.") once a story exists.
+**Notes.** One candidate cause to weigh: give an amount law the reader care of the policy question that sets the same law (the minimum wage and `raise-minimum-wage`, through `src/core2/question-wages.ts`), and size "people" by the workers the law-reach records name as paid under the new floor. The wording side is built: `tests/src/bench/printed-words.test.ts` words Ohio's change ("Ohio minimum wage rises to $11.00 / The minimum wage in Ohio went from $10.70 to $11.00 on January 1, 2026.") once a story exists.

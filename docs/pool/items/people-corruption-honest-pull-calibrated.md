@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: whether an official takes a bribe comes from their need, their tie and their traits, never a roll; Wire to the world: a taken bribe must reach justice and the press in a played year.
 
-**Done when.** In a one-year buildBenchWorld run of a drawn place with a bill carrying employer costs, at least one bribe is taken by a low-integrity official and reaches a justice or press record by id, src/core2/corruption.test.ts and the trait-wiring audit show the calibrated odds between thirds. **On screen.** Nothing yet: it would show on News, and nothing there reads it.
+**Done when.** In a one-year buildBenchWorld run of a drawn place with a bill carrying employer costs, at least one bribe is taken by a low-integrity official and reaches a justice or press record by id, tests/src/core2/corruption.test.ts and the trait-wiring audit show the calibrated odds between thirds. **On screen.** Nothing yet: it would show on News, and nothing there reads it.
 
 **Files.** src/core2/modules/corruption.ts, src/core2/data/corruption/parameters.json
 
@@ -35,4 +35,4 @@ Sent back 2026-10-23 from PR #5737 (branch claude/honest-pull): the required one
 
 Claim released by the Oct 25 audit: no push in 72 hours (branch claude/honest-pull last pushed Oct 21; PR #5737 stays open for the next builder).
 
-**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/core2/modules/corruption.ts exports takeValues (line 192) and weighs a take against its own corruptionTakeHonestPull (src/core2/data/corruption/parameters.json, fitted Oct 24 on fourteen drawn towns); src/core2/corruption-calibration.test.ts checks the honest-third against least-honest-third odds against Pletzer 2019, and src/core2/corruption.test.ts draws three places with at least two taken bribes and follows a told bribe to the press (line 207). A second session should replay the item's done-when in the running game before the CTO drops it.
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/core2/modules/corruption.ts exports takeValues (line 192) and weighs a take against its own corruptionTakeHonestPull (src/core2/data/corruption/parameters.json, fitted Oct 24 on fourteen drawn towns); tests/src/core2/corruption-calibration.test.ts checks the honest-third against least-honest-third odds against Pletzer 2019, and tests/src/core2/corruption.test.ts draws three places with at least two taken bribes and follows a told bribe to the press (line 207). A second session should replay the item's done-when in the running game before the CTO drops it.

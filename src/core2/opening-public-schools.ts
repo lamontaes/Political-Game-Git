@@ -22,7 +22,7 @@ import type {
   OrganizationInput,
   WorkCommitmentInput,
 } from "./types";
-import type { WorkPayrollCalendarInput } from "./work-pay-period";
+import type { WorkPayrollCalendarInput } from "./modules/business";
 import { outsideLaborForce } from "./gov-rules/place-population";
 
 export interface PublicSchoolDistrictReceipt {

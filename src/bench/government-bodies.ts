@@ -20,6 +20,8 @@ import {
   seatsOfOffices,
   townSeats,
   type TermRow,
+  officeById,
+  allOffices,
 } from "../core2/modules/offices";
 import {
   floorCountOf,
@@ -50,6 +52,7 @@ import {
   nationalExecutive,
 } from "../core2/offices-executives";
 import { allBills, billById } from "../core2/modules/bodies-reads";
+import { allContests } from "../core2/modules/elections";
 
 const LOCAL_LEVELS = new Set(["city", "township", "county"]);
 /** A town's own government before the county's. */
@@ -135,10 +138,7 @@ function roomPlace(office: Office, usps: string | null): string {
 export function officeRoom(core: CoreState, officeId: string): string | null {
   const api = coreAPI(core);
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(officeId) as unknown as
+  const office = officeById(api, officeId) as unknown as
     (Office & { jurisdiction?: string }) | undefined;
   if (!office) return null;
   const state = /^US-([A-Z]{2})/.exec(office.jurisdiction ?? "")?.[1] ?? null;
@@ -160,10 +160,7 @@ export function governmentRoom(
   const api = coreAPI(core);
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
   const body = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .rows() as unknown as (Office & { jurisdiction?: string })[]
+    allOffices(api) as unknown as (Office & { jurisdiction?: string })[]
   )
     .filter(
       (office) =>
@@ -361,12 +358,7 @@ function comingUpFor(
   // calendar's own lines (the English engine's words), for its contests.
   const contests = new Set(
     api.state.modules.has(ELECTIONS)
-      ? (
-          api
-            .moduleState(ELECTIONS)
-            .table("contests")
-            .rows() as unknown as ContestRow[]
-        )
+      ? (allContests(api) as unknown as ContestRow[])
           .filter((c) => c.officeId === office.id)
           .map((c) => c.id)
       : [],
@@ -425,12 +417,9 @@ export function governmentBodies(
   // state's members of Congress.
   const national =
     level === "federal"
-      ? (
-          api
-            .moduleState(OFFICES_MODULE_ID)
-            .table("offices")
-            .rows() as unknown as Office[]
-        ).filter((o) => nationalExecutive(o.kind))
+      ? (allOffices(api) as unknown as Office[]).filter((o) =>
+          nationalExecutive(o.kind),
+        )
       : [];
   const rows: SeatRow[] =
     level === "local"

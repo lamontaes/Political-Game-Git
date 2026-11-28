@@ -30,11 +30,11 @@ checked: fable 2026-11-10
 
 **Rules.** Wire to the world: the place is where the person's own records put them at the canvass hour (their job's shift, a public building's open hours), never a drawn place. One rule, all 56 places: the places come from each town's own workplaces and buildings. No dice: who is met is the day's door ranking, and where is their schedule.
 
-**Done when.** A second session plays a year in a drawn place from `buildBenchWorld` (place and seed written down) with the player canvassing, and finds at least one canvass scene staged outside a resident's workplace on a day their shift covers the canvass hour, citing the door's campaign record id and the job record id. It also finds a canvass scene still staged at the door on a day the resident is home. `src/director/circumstance.test.ts` covers both.
+**Done when.** A second session plays a year in a drawn place from `buildBenchWorld` (place and seed written down) with the player canvassing, and finds at least one canvass scene staged outside a resident's workplace on a day their shift covers the canvass hour, citing the door's campaign record id and the job record id. It also finds a canvass scene still staged at the door on a day the resident is home. `tests/src/director/circumstance.test.ts` covers both.
 
 **Waits on.** Nothing. This item builds the engine's side itself as part 1 (a canvass reaching a resident away from home, with where recorded).
 
-**Files.** src/core2/modules/campaigns.ts, src/director/doors.ts, src/director/scheduling.ts, src/director/data/circumstances.json, src/director/circumstance.test.ts, src/bench/story.ts
+**Files.** src/core2/modules/campaigns.ts, src/director/doors.ts, src/director/scheduling.ts, src/director/data/circumstances.json, tests/src/director/circumstance.test.ts, src/bench/story.ts
 
 **Notes.** Waits on integration-day-lands-on-morning-and-places-keep-hours for a place's hours. Owner's words: OWNER-DECISIONS, Oct 27, 5 PM Eastern.
 

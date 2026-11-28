@@ -35,10 +35,10 @@ Seen: every drawn world on main seats Congress from data/research/offices/legisl
 
 **Rules.** No dice: each seat goes to the side the one count gives it from the place's lean, the candidates and the year's tide, never a roll. Replace, never layer: the real roster is read only under the "today" setting.
 
-**Done when.** A second session starts a new game at 1440x900 in a drawn place it writes down with its seed, opens dev mode's "How this world opened" and sees Congress on day one with each chamber's seats by party and the century's Congresses; the town's senators and House member hold the century's seats, and src/core2/electorate-century-congress.test.ts passes.
+**Done when.** A second session starts a new game at 1440x900 in a drawn place it writes down with its seed, opens dev mode's "How this world opened" and sees Congress on day one with each chamber's seats by party and the century's Congresses; the town's senators and House member hold the century's seats, and tests/src/core2/electorate-century-congress.test.ts passes.
 
 **Waits on.** history-president-from-the-century (#9820), which this branch is stacked on.
 
-**Files.** src/core2/electorate-century.ts, src/core2/electorate.ts, src/core2/modules/voting.ts, src/core2/electorate-places.ts, src/core2/modules/offices.ts, src/core2/modules/elections.ts, src/core2/past-elections.ts, src/bench/dev-views/opening.ts, src/core2/electorate-century-congress.test.ts (new)
+**Files.** src/core2/electorate-century.ts, src/core2/electorate.ts, src/core2/modules/voting.ts, src/core2/electorate-places.ts, src/core2/modules/offices.ts, src/core2/modules/elections.ts, src/core2/past-elections.ts, src/bench/dev-views/opening.ts, tests/src/core2/electorate-century-congress.test.ts (new)
 
 **Notes.** Filed by the History lane, Nov 17, 2026.

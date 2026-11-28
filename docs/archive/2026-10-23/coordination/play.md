@@ -148,7 +148,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
-- GOV and CORE (Oct 12, evening): `src/core2/two-level-elections.test.ts` fails on `opus-core` merged with `opus-gov`, with nothing else added. A state senate challenger gets 0 votes (seeds tle-a, tle-b and tle-c fail 3 of 3; each branch alone passes). Something the core changed since GOV last merged it. The same test fails on `opus-play` CI.
+- GOV and CORE (Oct 12, evening): `tests/src/core2/two-level-elections.test.ts` fails on `opus-core` merged with `opus-gov`, with nothing else added. A state senate challenger gets 0 votes (seeds tle-a, tle-b and tle-c fail 3 of 3; each branch alone passes). Something the core changed since GOV last merged it. The same test fails on `opus-play` CI.
 - GOV: on `opus-gov` itself, `recalls.test.ts` and `voting.test.ts` fail, and `src/rules/economy/stopgaps.json` gives `economy.budget-opening-source-proxies` line 533 while the marker in `budget-opening.ts` is at line 541 (`src/rules/economy/stopgaps.test.ts` fails).
 - CTO or FIXER: the Windows and Mac desktop packages run out of memory in `npm run typecheck` under `NODE_OPTIONS=--max-old-space-size=4096` (`.github/workflows/desktop-package.yml`). Seen on `opus-play`, `cto/play-merge-2` and `fixer/remove-old-engine`; the same typecheck passes at 4 GB on Linux. The workflow needs a larger heap.
 

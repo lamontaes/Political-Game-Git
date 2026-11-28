@@ -30,11 +30,11 @@ checked: fable 2026-11-10
 
 **Rules.** An effect is a read, not a record: a commuter flow nobody reads is a placeholder, so the split lands with its reader. One model, two tiers: counted households carry the weights in both flows. No dice: shares come from the place's LODES row; a territory takes the national average marked ESTIMATED. Replace, never layer: the single flow is replaced, not kept beside the two.
 
-**Done when.** A second session, on main in a place drawn from all 56 with a seed the builder did not choose, plays a year in dev mode and reads the place's counted workers paid by two flows (in-town industries and commuters) by flow id, whose workers sum to the old flow's and whose commuter share follows the place's LODES row, and sees the nonresident tax or a law-reach count read the commuter flow. The existing src/core2/counted-weight-unplaced.test.ts passes.
+**Done when.** A second session, on main in a place drawn from all 56 with a seed the builder did not choose, plays a year in dev mode and reads the place's counted workers paid by two flows (in-town industries and commuters) by flow id, whose workers sum to the old flow's and whose commuter share follows the place's LODES row, and sees the nonresident tax or a law-reach count read the commuter flow. The existing tests/src/core2/counted-weight-unplaced.test.ts passes.
 
 **Waits on.** world-commuters-in-opening.
 
-**Files.** src/core2/residents.ts, src/core2/modules/residents.ts, src/core2/counted-money.ts, src/core2/modules/counted-demotion.ts, src/core2/commuting-shares.ts, src/core2/law-reach/group-b-people.ts, src/core2/counted-weight-unplaced.test.ts
+**Files.** src/core2/residents.ts, src/core2/modules/residents.ts, src/core2/counted-money.ts, src/core2/modules/counted-demotion.ts, src/core2/commuting-shares.ts, src/core2/law-reach/group-b-people.ts, tests/src/core2/counted-weight-unplaced.test.ts
 
 **Notes.** Found Oct 20 (claude/political-game-pool-yucp92-vv) while claiming world-lodes-commutes. The consumers of the unplaced flow are in src/core2/modules/residents.ts (lines near 308, 524, 583, 1706), counted-moves.ts, counted-money.ts, counted-demotion.ts and law-reach/group-b-people.ts; the flow is matched by finance kind in most and by id prefix in counted-weight-unplaced.test.ts. The LODES file keeps only live-work, live-out and work-in totals, not destination places, so the commute destination is a recorded account, not a named town, until the origin-destination matrix is kept. Claim released Oct 23: branch gone.
 

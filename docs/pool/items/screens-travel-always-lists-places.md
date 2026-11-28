@@ -19,7 +19,7 @@ claimed-at: 2026-10-27T19:56:39.669Z
 
 **Rules.** This is a game, not a spreadsheet: a closed place is listed as closed, never hidden, so the player learns why. No hand-written player text: open and closed words come from the controls and English data. Replace, never layer: the subheading line is deleted, not hidden. One rule, all 56 places: destinations come from the drawn place's records.
 
-**Done when.** In a drawn place on the opening night at 8:30 p.m. (name the place and seed), src/bench/travel.browser.mjs passes on a restarted bench and asserts at least three destinations are listed with an open-or-closed word each and no line reading you are at home; a 1440x900 screenshot is in the PR body beside the before shot.
+**Done when.** In a drawn place on the opening night at 8:30 p.m. (name the place and seed), tests/src/bench/travel.browser.mjs passes on a restarted bench and asserts at least three destinations are listed with an open-or-closed word each and no line reading you are at home; a 1440x900 screenshot is in the PR body beside the before shot.
 
 **Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
 
@@ -27,7 +27,7 @@ claimed-at: 2026-10-27T19:56:39.669Z
 
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
-**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/map.ts, src/bench/travel.browser.mjs, src/bench/data/controls.json
+**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/map.ts, tests/src/bench/travel.browser.mjs, src/bench/data/controls.json
 
 **Notes.** Reading: OWNER-DECISIONS.md (Oct 27 afternoon screens rulings), DECISION-REGISTER.md, prior-rulings/, docs/play-first/LAW.md section 1; docs/ searched for the screen name. Principles: docs/design/screens/principles-2026-10-27.md.
 

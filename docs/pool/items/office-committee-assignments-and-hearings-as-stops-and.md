@@ -31,11 +31,11 @@ checked: fable 2026-11-10
 
 **Rules.** An effect is a read, not a record: the hearing reads the bill's sections and the members' stances, and the assignment reads the leader's decision. Ask why: each assignment and each hearing outcome keeps its reasons by record id. One rule, all 56 places: committee structure comes from src/core2/data/legislature/committees.json and state data, and no state is named in code. No hand-written player text: chair questions and witness lines come from the English engine's banks (data/english/parts/hearing.json). No dice: attendance and testimony follow interests and traits.
 
-**Done when.** A second session starts a state legislator in a drawn state (buildBenchWorld, place and seed named in the PR body), sees a learn-your-seat scene on the day the player is seated, and later an attend-the-hearing stop when their committee hears a bill, with the chair's question worded from the hearing bank. A state-day result in src/core2/office-day-state.test.ts lists the committee: assignment record id and a hearing record id with witness ids and the chair's question. Skipping the hearing lets the character act, and the day records that.
+**Done when.** A second session starts a state legislator in a drawn state (buildBenchWorld, place and seed named in the PR body), sees a learn-your-seat scene on the day the player is seated, and later an attend-the-hearing stop when their committee hears a bill, with the chair's question worded from the hearing bank. A state-day result in tests/src/core2/office-day-state.test.ts lists the committee: assignment record id and a hearing record id with witness ids and the chair's question. Skipping the hearing lets the character act, and the day records that.
 
 **Waits on.** words-hearing-chair-question (the hearing bank needs a question move and a reader in the story director).
 
-**Files.** src/core2/office-day-state.ts, src/core2/office-day-registry.ts, src/core2/legislature-committees.ts, src/core2/data/legislature/committees.json, src/core2/office-day-state.test.ts
+**Files.** src/core2/office-day-state.ts, src/core2/office-day-registry.ts, src/core2/legislature-committees.ts, src/core2/data/legislature/committees.json, tests/src/core2/office-day-state.test.ts
 
 **Notes.** Checklist line from OFFICE-STATE.md; verify against main before starting.
 

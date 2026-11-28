@@ -9,7 +9,7 @@
  * no one is named.
  */
 import type { CoreAPI, CoreState } from "../types";
-import { townSeats } from "./offices";
+import { townSeats } from "../offices-reads";
 import { lawChain } from "./laws";
 import {
   agencyHeadsIn,
@@ -20,12 +20,12 @@ import {
   RULE_FILING_OFFICER_POST,
 } from "./executive";
 import { describesByRule } from "../filing-rule-office";
+import type { ContestRow } from "./elections";
 import {
   ELECTIONS_MODULE_ID,
   filingOfficeFor,
   filingRequirements,
-  type ContestRow,
-} from "./elections";
+} from "../elections-reads";
 
 /** Whether the data gives a contest's filing office as a rule, not a name. */
 function givenAsRule(api: CoreAPI, contest: ContestRow): boolean {

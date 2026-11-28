@@ -19,6 +19,6 @@ claimed-at: 2026-11-07T22:02:17.656Z
 
 **Done when.** A generated-world regression drawn from all 56 proves no calibration row is stored as law or scheduled as a law taking effect, the sales-tax reader keeps the same sourced amount and state scope, and an authorized local rate replaces that estimate where local tax power exists. Test fails before the producer split, passes ten fresh draws and a new-game check. The strict repeal audit no longer fails on a statistical row left in the law table.
 
-**Files.** scripts/research/build-starting-law.py,src/core2/data/laws/starting-law.json,src/core2/laws-starting.ts,src/core2/modules/laws.ts,src/core2/modules/legislature.ts,src/core2/sales-tax-calibration.test.ts
+**Files.** scripts/research/build-starting-law.py,src/core2/data/laws/starting-law.json,src/core2/laws-starting.ts,src/core2/modules/laws.ts,src/core2/modules/legislature.ts,tests/src/core2/sales-tax-calibration.test.ts
 
 **Notes.** Astra bounded child of draft #7330. Two-hour time box, one session, no helpers. Existing law-wiring catalog already says this average is not a law. This corrects its producer/record classification, not the unrelated remaining unemployment-insurance route.

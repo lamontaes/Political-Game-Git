@@ -30,10 +30,10 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: held or released follows the law in force, the defendant's liquid cash and the charge, never a roll. An effect is a read, not a record: the pretrial row is read by the custody step and by the jail count the budget reads. One rule, all 56 places: the bail law and the bail figures are data by place. One model, two tiers: counted defendants wait by the same rule times their count. Estimate, never UNKNOWN: a bail figure starts from the real average with a spread and its source in the parameter table.
 
-**Done when.** A second session, not the builder, runs a one-year played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (both named). A poor ordinary defendant from a fight incident is held where cash bail is law and freed when it is ended, shown by the incident id, case id, pretrial row id and statute id; src/core2/justice-pretrial.test.ts proves it.
+**Done when.** A second session, not the builder, runs a one-year played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (both named). A poor ordinary defendant from a fight incident is held where cash bail is law and freed when it is ended, shown by the incident id, case id, pretrial row id and statute id; tests/src/core2/justice-pretrial.test.ts proves it.
 
 **Waits on.** gov-justice-incident-producer (the incident records); justice-bail-moves-the-cash is done.
 
-**Files.** src/core2/justice-pretrial.ts, src/core2/modules/justice.ts, src/core2/public-safety.ts, src/core2/data/justice/parameters.json, src/core2/justice-pretrial.test.ts
+**Files.** src/core2/justice-pretrial.ts, src/core2/modules/justice.ts, src/core2/public-safety.ts, src/core2/data/justice/parameters.json, tests/src/core2/justice-pretrial.test.ts
 
 **Notes.** Oct 20 (pool feeder): spec written; PR #5200 already holds charged officials (SG-GOV-REACH-A-pretrial narrowed), so the remaining work is ordinary defendants, which need the incident producer; the open bail-cash bug justice-bail-moves-the-cash should land first or in the same area.

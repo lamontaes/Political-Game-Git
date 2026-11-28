@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/director/opening-story.ts, src/director/data/opening-address.json, data/english/parts/opening-speech.json, src/director/opening-address.test.ts, src/director/opening-address-kinds.test.ts
+**Files.** src/director/opening-story.ts, src/director/data/opening-address.json, data/english/parts/opening-speech.json, tests/src/director/opening-address.test.ts, tests/src/director/opening-address-kinds.test.ts
 
 **Notes.** From the Fable audit, Pillar 5 ("The opening address (measured)"). The audit puts no place beside this quote; its only played opening was the browser life in Blodgett Landing, New Hampshire, where a journal pop-up also appeared over the address. No seed was kept, so the repro is a drawn opening with a hopeful address and a President whose first priority is a law not in force.
 
