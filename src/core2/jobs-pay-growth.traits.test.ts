@@ -17,7 +17,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { JOBS_MODULE_ID, type RaiseRow } from "./modules/jobs";
 import { residentsRuntime } from "./modules/residents";
-import { testPlace } from "./money-traits-kit";
+import { testPlace } from "../../tests/support/money-traits-kit";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 

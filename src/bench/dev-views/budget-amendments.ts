@@ -5,9 +5,9 @@ import {
 } from "../../core2/modules/budgets";
 import {
   billJurisdiction,
-  LEGISLATURE_MODULE_ID,
   type BillRow,
 } from "../../core2/modules/legislature";
+import { allBills } from "../../core2/modules/bodies-reads";
 import { townGovernment } from "../../core2/output-number-readers";
 import type { DevView } from "../dev-views";
 
@@ -55,12 +55,7 @@ const view: DevView = {
           : undefined;
       if (!gov) return { government: null };
       const room = amendmentRoom(api, gov.id);
-      const bills = (
-        api
-          .moduleState(LEGISLATURE_MODULE_ID)
-          .table("bills")
-          .rows() as unknown as BillRow[]
-      )
+      const bills = (allBills(api) as unknown as BillRow[])
         .filter(
           (bill) =>
             governmentOfJurisdiction(api, billJurisdiction(api, bill))?.id ===

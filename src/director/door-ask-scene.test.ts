@@ -25,7 +25,7 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 import { viewQuestionKey } from "./view-learned";
 import type { TreeNode } from "./scene-talk";
 import type { ScheduleEntry } from "./scheduling";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // A door the player's own canvass knocks, where the resident's agreement is
 // the day's strongest, plays as the player's ask: the player asks for their
@@ -37,7 +37,10 @@ import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 // names.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const ATTEMPTS = 4;
-const WEEKS = 52;
+// A place's local filing opens on its own calendar day, past a year out at
+// some places (Starkweather, North Dakota, seed 6651a5023745c86a), so the wait
+// is two years.
+const WEEKS = 104;
 const DAYS = 10;
 const LABELS = [
   "circumstance:door-first",

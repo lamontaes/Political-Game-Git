@@ -349,5 +349,59 @@
     "addedBy": "opus-lr (Life records builder)",
     "addedAt": "2026-11-13",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-opening-goal-words",
+    "kind": "hand-written-bank",
+    "file": "src/director/data/opening-story.json",
+    "line": 1,
+    "whatItFakes": "Which of the bill catalog's policy names read as an action the President can ask Congress for, listed by their first word.",
+    "why": "The opening address needs the President's own issues as a {goal} now; the catalog names some questions as actions (\"raise minimum wage\") and some as things (\"paid family leave\"). Resolved Oct 24 (words/opening-speech-per-world): the address asks for each question by its spoken ask in data/english/question-names.json (questionTo), the same name office scenes use; the action-word list is deleted.",
+    "addedBy": "director/opening-story",
+    "addedAt": "2026-10-14",
+    "replacement": "An action phrase on each policy question in OPUS-GOV's bill catalog, or a mined goal phrase per question from OPUS-WORDS.",
+    "status": "resolved",
+    "area": "director"
+  },
+  {
+    "id": "SG-PEOPLE-address-register",
+    "kind": "hand-written-bank",
+    "file": "src/director/opening-story.ts",
+    "line": 1,
+    "whatItFakes": "The register card the President's opening address composes under: election night's public-address card stands in for a President's address.",
+    "why": "The engine has no register card for a State of the Union or an inaugural address yet (docs/coordination/words.md); the mined sentences need a public-address card to compose. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
+    "addedBy": "director/opening-story",
+    "addedAt": "2026-10-14",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A President's-address register card in src/english/speech-registers.ts (OPUS-PEOPLE).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3",
+    "area": "director"
+  },
+  {
+    "id": "SG-PEOPLE-newscast-register",
+    "kind": "hand-written-bank",
+    "file": "src/director/opening-story.ts",
+    "line": 1,
+    "whatItFakes": "The register card the evening news composes under: the press briefing's card stands in for a newscast.",
+    "why": "Resolved Oct 28 by deletion: the opening's own newscast writer (newsStory, townStory) is gone (trim-main-every-duplicate-deleted, row W2 of docs/reports/duplicates-on-main-2026-10-28.md); the night's news is to come from the press path's stories. It stood in because the engine had no register card for a newscast (docs/coordination/words.md).",
+    "addedBy": "director/opening-story",
+    "addedAt": "2026-10-14",
+    "replacement": "A newscast register card in src/english/speech-registers.ts (OPUS-PEOPLE).",
+    "status": "resolved",
+    "area": "director"
+  },
+  {
+    "id": "SG-PEOPLE-poll-workers",
+    "kind": "missing-producer",
+    "file": "src/director/polling-place.ts",
+    "line": 1,
+    "whatItFakes": "Nobody works the polling place: the election-day scene shows the voter and the household members who may vote, with no poll workers.",
+    "why": "The elections engine records no polling place for a precinct and no one who works it; the scene's poll-workers role needs that record. Resolved Oct 16, 2026 (elections-poll-workers): the voting engine's pollingPlaceOf names who works each precinct's polls (named adults ranked by duty, interest in politics and free hours, as many as EAVS 2022's poll workers per voting location), and the polling-place visit carries pollingPlaceId and pollWorkerIds from it.",
+    "addedBy": "director/scenes-and-filters",
+    "addedAt": "2026-10-14",
+    "replacement": "GOV's polling-place record (`polling-place:<precinct>` with `pollWorkerIds`), read by the poll-workers fill.",
+    "status": "resolved",
+    "area": "director"
   }
 ]

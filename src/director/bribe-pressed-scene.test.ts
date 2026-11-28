@@ -14,7 +14,7 @@ import {
 import { coreAPI, registerModule } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
+import { townResidentsByCash } from "../../tests/support/resident-adults-test-kit";
 
 // The open threat (owner, Nov 8: "subtle and open threats"). Someone offers the
 // player's seat a bribe through the corruption engine; the player hands it

@@ -13,7 +13,7 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../tests/golden-path/place";
-import { sidesByAgreement } from "./campaign-platform-test-kit";
+import { sidesByAgreement } from "../../tests/support/campaign-platform-test-kit";
 import { questionAxis } from "./campaign-views";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { countedResidents } from "./electorate";

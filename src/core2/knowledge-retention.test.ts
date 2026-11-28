@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { piecesInput } from "./core-pieces-fixture";
+import { piecesInput } from "../../tests/support/core-pieces-fixture";
 import { createLifeCore } from "./life";
 import { setBookkeeping } from "./bookkeeping";
 import { forgetOldExperiences } from "./knowledge-retention";

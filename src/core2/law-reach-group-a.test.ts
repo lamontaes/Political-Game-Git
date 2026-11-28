@@ -8,8 +8,8 @@
 import type { GovernmentLevel } from "./government-level";
 import { createHash } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
-import { govReport } from "./gov-test-report";
-import { repealStartingAnswers } from "./law-test-start";
+import { govReport } from "../../scripts/core2/gov-test-report";
+import { repealStartingAnswers } from "../../tests/support/law-test-start";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";

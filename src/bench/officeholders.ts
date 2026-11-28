@@ -6,7 +6,8 @@ import { coreAPI } from "../core2/state";
 import {
   OFFICES_MODULE_ID,
   isOutsideOffice,
-  type TermRow,
+  officeById,
+  servingTerms,
 } from "../core2/modules/offices";
 import type { CoreState } from "../core2/types";
 
@@ -14,22 +15,14 @@ import type { CoreState } from "../core2/types";
 export function officeholders(core: CoreState) {
   if (!core.modules.has(OFFICES_MODULE_ID)) return [];
   const api = coreAPI(core);
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   const seen = new Set<string>();
-  return (offices.table("terms").rows() as unknown as TermRow[])
-    .filter((term) => term.status === "serving" && term.personId)
+  return servingTerms(api)
+    .filter((term) => term.personId)
     .flatMap((term) => {
       const personId = term.personId!;
       // One row a person: the first office they hold.
       if (seen.has(personId)) return [];
-      const office = offices.table("offices").get(term.officeId) as
-        | {
-            title?: string;
-            level?: string;
-            governmentName?: string;
-            jurisdiction?: string;
-          }
-        | undefined;
+      const office = officeById(api, term.officeId);
       if (!office?.title) return [];
       // Another state's chambers and governor are held as results only: their
       // state's laws and budgets are not run in this world, so stepping in

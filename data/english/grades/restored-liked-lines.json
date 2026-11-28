@@ -207,37 +207,6 @@
       "restoredFrom": "scene-talk.open-greet.i-wanted-to-thank-you-in-person"
     },
     {
-      "i": 22,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "A thank-you doesn't weigh that much. Take it back.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.reply-refuse.a-thank-you-doesn-t-weigh-bribe-weight-take-it-back"
-      ],
-      "restoredFrom": "scene-talk.reply-refuse.a-thank-you-doesn-t-weigh-that-much-take-it-back"
-    },
-    {
-      "i": 23,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "A thank-you is a card. This is not a card.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.reply-refuse.a-thank-you-is-a-card-bribe-weight-is-not-a-card"
-      ],
-      "restoredFrom": "scene-talk.reply-refuse.a-thank-you-is-a-card-this-is-not-a-card"
-    },
-    {
-      "i": 24,
-      "grade": "good",
-      "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
-      "line": "Not for any price.",
-      "note": "The old line had no insert; this piece says it with one.",
-      "parts": ["scene-talk.reply-refuse.not-for-any-price-and-not-on-bill"],
-      "restoredFrom": "scene-talk.reply-refuse.not-for-any-price"
-    },
-    {
       "i": 25,
       "grade": "good",
       "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
@@ -263,7 +232,7 @@
       "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
       "line": "How could I say no?",
       "note": "The old line had no insert; this piece says it with one.",
-      "parts": ["scene-talk.reply-agree.how-could-i-say-no-i-ll-take-office"],
+      "parts": ["scene-talk.reply-agree.how-could-i-say-no-to-office"],
       "restoredFrom": "scene-talk.reply-agree.how-could-i-say-no"
     },
     {
@@ -272,9 +241,7 @@
       "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
       "line": "I slept on worse. Fine. Yes.",
       "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.reply-agree.i-slept-on-worse-fine-yes-i-ll-take-office"
-      ],
+      "parts": ["scene-talk.reply-agree.i-slept-on-worse-fine-yes-to-office"],
       "restoredFrom": "scene-talk.reply-agree.i-slept-on-worse-fine-yes"
     },
     {
@@ -284,7 +251,7 @@
       "line": "When you put it like that, yes.",
       "note": "The old line had no insert; this piece says it with one.",
       "parts": [
-        "scene-talk.reply-agree.when-you-put-it-like-that-yes-i-ll-take-office"
+        "scene-talk.reply-agree.when-you-put-it-like-that-yes-to-office"
       ],
       "restoredFrom": "scene-talk.reply-agree.when-you-put-it-like-that-yes"
     },
@@ -304,7 +271,7 @@
       "line": "Let me sleep on it. I'll call you Tuesday.",
       "note": "The old line had no insert; this piece says it with one.",
       "parts": [
-        "scene-talk.reply-leave.let-me-sleep-on-office-i-ll-call-you-tuesday"
+        "scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-about-office-tuesday"
       ],
       "restoredFrom": "scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-tuesday"
     },
@@ -325,9 +292,7 @@
       "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
       "line": "I wish I could, but I can't.",
       "note": "The old line had no insert; this piece says it with one.",
-      "parts": [
-        "scene-talk.reply-decline.i-wish-i-could-back-bill-but-i-can-t"
-      ],
+      "parts": ["scene-talk.reply-decline.i-wish-i-could-on-bill-but-i-can-t"],
       "restoredFrom": "scene-talk.reply-decline.i-wish-i-could-but-i-can-t"
     },
     {
@@ -390,7 +355,7 @@
       "line": "Let me sleep on it before I answer.",
       "note": "The old line had no insert; this piece says it with one.",
       "parts": [
-        "scene-talk.reply-leave.let-me-sleep-on-that-cut-of-cut-before-i-answer"
+        "scene-talk.reply-leave.let-me-sleep-on-it-before-i-answer-you-about-cut"
       ],
       "restoredFrom": "scene-talk.reply-leave.let-me-sleep-on-it-before-i-answer"
     },
@@ -459,7 +424,7 @@
       "line": "Then say we didn't buy it. We knocked it, door by door.",
       "note": "The old line had no insert; this piece says it with one.",
       "parts": [
-        "scene-talk.reply-answer.then-say-we-didn-t-buy-it-we-won-office-door-by-door"
+        "scene-talk.reply-answer.then-say-we-didn-t-buy-office-we-knocked-it-door-by-door"
       ],
       "restoredFrom": "scene-talk.reply-answer.then-say-we-didn-t-buy-it-we-knocked-it-door-by-door"
     },
@@ -469,7 +434,7 @@
       "by": "owner (graded the old words); carried to this piece Nov 27, 2026 (the owner, 10:15 a.m.: bring them back)",
       "line": "Alright.",
       "note": "The old line had no insert; this piece says it with one.",
-      "parts": ["scene-talk.state-accept-terms.alright-i-ll-see-about-office"],
+      "parts": ["scene-talk.state-accept-terms.alright"],
       "restoredFrom": "scene-talk.state-accept-terms.all-right"
     },
     {
