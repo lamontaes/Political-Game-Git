@@ -592,6 +592,7 @@
         "src/core2/modules/justice-reads.ts",
         "src/core2/modules/outcome-web-reads.ts",
         "src/core2/law-reach/reach-parameters.ts",
+        "src/core2/law-reach/group-a-reads.ts",
         "src/core2/justice-parameters.ts",
         "src/rules/laws/**"
       ],
