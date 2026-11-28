@@ -37,7 +37,7 @@ import {
   type Hazard,
 } from "./climate";
 import type { ModuleRow } from "../module-data";
-import { dwellingKind, ownedHomes } from "./housing";
+import { dwellingKind, ownedHomes } from "../housing-reads";
 import {
   countedMovesRunning,
   moveCountedHouseholdAway,

@@ -34,6 +34,6 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/scene.ts, src/bench/places.ts, src/bench/home-and-work-agree.test.ts (new)
+**Files.** src/bench/scene.ts, src/bench/places.ts, tests/src/bench/home-and-work-agree.test.ts (new)
 
 **Notes.** Found by the lead, Nov 11, 09:40 UTC, while fixing the visit that did not last (a talk at a place put the player back at home). Until that fix the kitchen was shown over the workplace's clock, which is how the same parent was seen in both. Related: words-home-day-talk-reads-the-hour-and-whose-day-it-was (the talk that same parent then has).

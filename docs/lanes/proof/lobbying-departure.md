@@ -10,7 +10,7 @@ These are term fixtures in generated worlds, not natural-election proof. No law 
 
 The strengthened test passed in Sunset, Utah (4974480), replay ece921f700fd6e2e, world 7a29a0b888252fcedfff66d38a9c1dea9c9682ce22d1e3b33afee32ae9c52847, resident person_5d76f7409de3bb48. Restoring only the old reader fails continuous service (returns a bar); restoring only the old law loader fails the required provision. Corrected bytes restored after each. Logs: /tmp/lane-2-lobby-resident-{reader,law}-ablation.log.
 
-Each command uses OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14", NODE_OPTIONS=--max-old-space-size=8192 and GOLDEN_PATH_SEED=<replay>: npm test -- src/core2/lobbying-departure.test.ts --maxWorkers=1. Fresh logs: /tmp/lane-2-lobby-resident-fresh/.
+Each command uses OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14", NODE_OPTIONS=--max-old-space-size=8192 and GOLDEN_PATH_SEED=<replay>: npm test -- tests/src/core2/lobbying-departure.test.ts --maxWorkers=1. Fresh logs: /tmp/lane-2-lobby-resident-fresh/.
 
 | Town (key)                              | Replay           | World seed                                                       | Resident                | Result |
 | --------------------------------------- | ---------------- | ---------------------------------------------------------------- | ----------------------- | ------ |

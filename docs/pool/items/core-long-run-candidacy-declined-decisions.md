@@ -19,6 +19,6 @@ claimed-at: 2026-11-09T17:52:42.660Z
 
 **Done when.** In play a declined decision in a race decided more than candidacyDecisionRetentionDays ago is gone after the next first of the month, and a decision to run in the same race stays; with bookkeeping on both stay; a test shows both; speed:year --seed mont1 --place 5046000 --years 2 records proof against the same main differs only in candidacy.decisions.
 
-**Files.** src/core2/modules/candidacy.ts, src/core2/data/parameters.json, src/core2/candidacy-decision-retention.test.ts
+**Files.** src/core2/modules/candidacy.ts, src/core2/data/parameters.json, tests/src/core2/candidacy-decision-retention.test.ts
 
 **Notes.** TODO

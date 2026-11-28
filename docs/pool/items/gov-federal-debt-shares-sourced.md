@@ -17,8 +17,8 @@ claimed-at: 2026-10-15T22:35:32.539Z
 
 **Rules.** Estimate, never UNKNOWN: until read, the shares stay ESTIMATED with their spread. Every number lives in the parameter table, tagged SOURCED with citation. No dice: the shares set how a loan is split, never which lender a person picks.
 
-**Done when.** The shares in src/core2/data/budgets/federal-debt.json carry the table's name and quarter and sum to one. The federal debt test (src/core2/federal-debt.test.ts) still passes in a random place and seed, and a one-year run of the played world (buildBenchWorld) still borrows from all nine groups, with the largest holder paid the most interest.
+**Done when.** The shares in src/core2/data/budgets/federal-debt.json carry the table's name and quarter and sum to one. The federal debt test (tests/src/core2/federal-debt.test.ts) still passes in a random place and seed, and a one-year run of the played world (buildBenchWorld) still borrows from all nine groups, with the largest holder paid the most interest.
 
-**Files.** src/core2/data/budgets/federal-debt.json, src/core2/federal-debt.test.ts
+**Files.** src/core2/data/budgets/federal-debt.json, tests/src/core2/federal-debt.test.ts
 
 **Notes.** Added by the session that built gov-outside-revenue-borrowing (PR #4484). The group names may need to change to follow the table's rows.

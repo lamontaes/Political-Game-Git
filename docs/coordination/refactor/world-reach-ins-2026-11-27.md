@@ -18,13 +18,13 @@ The CTO's 2:16 a.m. addition to World's item 1: count the reach-ins into the clo
 
 ## The ten non-test importers (the baseline's share)
 
-| Non-entry file                       | Imported by (not a test)                                                                    | Whose file              |
-| ------------------------------------ | ------------------------------------------------------------------------------------------- | ----------------------- |
-| `src/core2/player-v1.ts`             | `src/bench/m0-check.ts`, `src/bench/places.ts`, `src/bench/player.ts`, `src/bench/scene.ts` | Screens' (the bench)    |
-| `src/core2/modules/world-metrics.ts` | `src/core2/modules/outcome-web.ts`                                                          | Lawmaking's             |
-| `src/core2/player-stops-v1.ts`       | `src/core2/modules/office-day.ts`, `src/director/ledger.ts`                                 | Offices' and Story's    |
-| `src/core2/modules/disasters.ts`     | `src/core2/modules/executive.ts`                                                            | Offices'                |
-| `src/core2/coarse-place.ts`          | `src/core2/modules/voting.ts`, `src/core2/office-day-federal-president.ts`                  | Elections' and Offices' |
+| Non-entry file                       | Imported by (not a test)                                                                        | Whose file              |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------- | ----------------------- |
+| `src/core2/player-v1.ts`             | `scripts/bench/m0-check.ts`, `src/bench/places.ts`, `src/bench/player.ts`, `src/bench/scene.ts` | Screens' (the bench)    |
+| `src/core2/modules/world-metrics.ts` | `src/core2/modules/outcome-web.ts`                                                              | Lawmaking's             |
+| `src/core2/player-stops-v1.ts`       | `src/core2/modules/office-day.ts`, `src/director/ledger.ts`                                     | Offices' and Story's    |
+| `src/core2/modules/disasters.ts`     | `src/core2/modules/executive.ts`                                                                | Offices'                |
+| `src/core2/coarse-place.ts`          | `src/core2/modules/voting.ts`, `src/core2/office-day-federal-president.ts`                      | Elections' and Offices' |
 
 `calendar.ts` and `modules/climate.ts` are imported only by tests.
 

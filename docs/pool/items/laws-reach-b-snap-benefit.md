@@ -31,11 +31,11 @@ merged-at: 2026-11-12T23:46:20.534Z
 
 **Rules.** An effect is a read, not a record: another engine must read what the law writes, at the moment it decides or pays. One model, two tiers: counted households get the same rule times their count. Numbers are tagged SOURCED, ESTIMATED or TUNABLE in the parameter table.
 
-**Done when.** A second session, not the builder, replays the Caliente, Nevada (3208500) world on seed 97de418c56d113d5 on main and sees: when a non-payee adult of household_0898e50f43a0ccf9 is stopped by the work requirement, the household's next benefit is lower by that person's share, by obligation record id, and a stopped payee no longer stops the whole household. The same holds in a second drawn place (place and seed named), counted households follow the same rule times their count, and a test in src/core2/law-reach-group-b.test.ts covers both.
+**Done when.** A second session, not the builder, replays the Caliente, Nevada (3208500) world on seed 97de418c56d113d5 on main and sees: when a non-payee adult of household_0898e50f43a0ccf9 is stopped by the work requirement, the household's next benefit is lower by that person's share, by obligation record id, and a stopped payee no longer stops the whole household. The same holds in a second drawn place (place and seed named), counted households follow the same rule times their count, and a test in tests/src/core2/law-reach-group-b.test.ts covers both.
 
 **Waits on.** Nothing. The owner question about a baseline SNAP benefit is moot after PR #5652.
 
-**Files.** src/core2/law-reach/group-b-money.ts, src/core2/law-reach/group-b-food-aid.ts, src/core2/law-reach/group-b.ts, src/core2/data/stopgaps/gov.json, src/core2/law-reach-group-b.test.ts
+**Files.** src/core2/law-reach/group-b-money.ts, src/core2/law-reach/group-b-food-aid.ts, src/core2/law-reach/group-b.ts, src/core2/data/stopgaps/gov.json, tests/src/core2/law-reach-group-b.test.ts
 
 Sent back 2026-10-20 from PR #5443 (branch claude/snap-benefit): the played-year test returns early where no SNAP law is in force; redraw instead; finish on that branch, merge main into it first.
 

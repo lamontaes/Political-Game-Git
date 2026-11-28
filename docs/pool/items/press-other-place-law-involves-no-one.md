@@ -15,7 +15,7 @@ lead: laws
 model: opus
 effort: medium
 root: rc1-world-outside-town
-source: red on main in src/director/opening-story.test.ts, found by the federal views helper on Nov 11, 2026
+source: red on main in tests/src/director/opening-story.test.ts, found by the federal views helper on Nov 11, 2026
 checked:
 claimed-at: 2026-11-11T08:30:00.000Z
 branch: claude/red-press-other-state-law
@@ -31,10 +31,10 @@ branch: claude/red-press-other-state-law
 
 **Rules.** One rule, all 56 places: the chain is read from the laws engine, no state is named. No dice.
 
-**Done when.** src/core2/press-other-state-law.test.ts passes on a fresh draw and on the named case; undone, the named case fails with a South Carolina law's story at a people term above 0. A second session on main, in a drawn place it writes down with its seed, reads the national stories of a new life's first six weeks in dev mode and finds no other state's law printed above the President's address for reach.
+**Done when.** tests/src/core2/press-other-state-law.test.ts passes on a fresh draw and on the named case; undone, the named case fails with a South Carolina law's story at a people term above 0. A second session on main, in a drawn place it writes down with its seed, reads the national stories of a new life's first six weeks in dev mode and finds no other state's law printed above the President's address for reach.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/press-desk.ts, src/core2/press-other-state-law.test.ts (new)
+**Files.** src/core2/press-desk.ts, tests/src/core2/press-other-state-law.test.ts (new)
 
 **Notes.** The address also ties a cabinet nomination in the week of January 27 and loses on the alphabet; that half is press-address-ties-break-on-the-alphabet.

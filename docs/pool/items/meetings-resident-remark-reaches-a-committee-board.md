@@ -22,7 +22,7 @@ source: found by a fresh draw while carving gov-held-meeting-decides-as-unheld (
 
 **Cause.** Found in code: a board larger than `committeeOfTheWholeMaximum` runs the committee-stage hooks on the day the filings go on the agenda (`holdCommittee` in src/core2/modules/legislature.ts calls `runBeforeVote(api, billId, "committee")`), and `public-comment` is one of them (hooksRun on the bill lists it). The remark is taken at the meeting, a day later, after the hook has already run and been marked done (reproduced in Jaguas), so `publicComment` in src/core2/modules/meetings.ts, which makes the members meet each speaker on the record, never sees it. The same bill's hooks run on the meeting day for a body with no committee, where the resident's remark lands in time.
 
-**Fix.** Let a remark made after the hook has run reach the members the same way: when a resident speaks (`speakOnItem` in src/core2/modules/office-day.ts), if the bill's public-comment hook has already run, run the part that makes the members meet the speakers for that remark once, by the one function `publicComment` calls (no second path for meeting people). Keep the test's pass-over in src/core2/office-day-attend.test.ts ("a resident marks a posted meeting…") only for bills where the hook has not yet run, and add Jaguas as a kept place that must pass.
+**Fix.** Let a remark made after the hook has run reach the members the same way: when a resident speaks (`speakOnItem` in src/core2/modules/office-day.ts), if the bill's public-comment hook has already run, run the part that makes the members meet the speakers for that remark once, by the one function `publicComment` calls (no second path for meeting people). Keep the test's pass-over in tests/src/core2/office-day-attend.test.ts ("a resident marks a posted meeting…") only for bills where the hook has not yet run, and add Jaguas as a kept place that must pass.
 
 **Time box.** 2 hours
 
@@ -32,4 +32,4 @@ source: found by a fresh draw while carving gov-held-meeting-decides-as-unheld (
 
 **Waits on.** gov-held-meeting-decides-as-unheld
 
-**Files.** src/core2/modules/office-day.ts, src/core2/modules/meetings.ts, src/core2/office-day-attend.test.ts
+**Files.** src/core2/modules/office-day.ts, src/core2/modules/meetings.ts, tests/src/core2/office-day-attend.test.ts

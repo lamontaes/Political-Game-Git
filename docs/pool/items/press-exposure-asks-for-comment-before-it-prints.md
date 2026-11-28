@@ -26,13 +26,13 @@ source: Account lead builder, Nov 15, found while placing the Words lead's day w
 
 **Time box.** 3 hours, one Opus session at medium.
 
-**Rules.** Ask why: the run day and the printed story cite the exposure and the scheduled run by record id. Tests pinned to named places and seeds (src/core2/press-owners.test.ts, src/core2/press-conflict-exposed.test.ts).
+**Rules.** Ask why: the run day and the printed story cite the exposure and the scheduled run by record id. Tests pinned to named places and seeds (tests/src/core2/press-owners.test.ts, tests/src/core2/press-conflict-exposed.test.ts).
 
-**Done when.** A second session has a bribe leaked in a drawn town with a reporter: the exposure is on the record the day it is found and the story is neither in print nor on the wire; the story prints on the run day, then goes on the wire for the other outlets (src/core2/press-exposure-held.test.ts).
+**Done when.** A second session has a bribe leaked in a drawn town with a reporter: the exposure is on the record the day it is found and the story is neither in print nor on the wire; the story prints on the run day, then goes on the wire for the other outlets (tests/src/core2/press-exposure-held.test.ts).
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json, src/core2/press-owners.test.ts, src/core2/press-conflict-exposed.test.ts, src/core2/press-exposure-held.test.ts
+**Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json, tests/src/core2/press-owners.test.ts, tests/src/core2/press-conflict-exposed.test.ts, tests/src/core2/press-exposure-held.test.ts
 
 **Notes.**
 

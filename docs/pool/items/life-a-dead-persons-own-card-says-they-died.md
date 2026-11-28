@@ -35,6 +35,6 @@ branch: claude/pool-life-a-dead-persons-own-card-says-they-died
 
 **Waits on.** Nothing to build. The sentence shows in the game once Story's pieces for it are on main.
 
-**Files.** src/core2/data/life/remembered.json, src/core2/person-life.ts, src/core2/person-life.test.ts, src/bench/card.ts, data/english/parts/person-history.json
+**Files.** src/core2/data/life/remembered.json, src/core2/person-life.ts, tests/src/core2/person-life.test.ts, src/bench/card.ts, data/english/parts/person-history.json
 
 **Notes.** Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:38 UTC) on branch claude/pool-life-a-dead-persons-own-card-says-they-died.

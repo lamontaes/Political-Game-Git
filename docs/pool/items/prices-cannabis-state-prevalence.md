@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** One rule, all 56 places: the share comes from the per-place table keyed by postal code, never a state named in logic. One model, two tiers: a counted group reads the same state share times its count as a named adult does. No dice: the share calibrates who uses cannabis at generation and never a purchase.
 
-**Done when.** A second session (not the builder) plays the played world (`buildBenchWorld`, a drawn place from all 56, seed named) and finds that the share of named adults 21 and over recorded as users and the counted groups' weight both read the town's state row of the table, shown by src/core2/cannabis-sales-law.test.ts with the place, its row and a named adult's person id. The session reports the town's row beside the national 23.17 percent it replaced.
+**Done when.** A second session (not the builder) plays the played world (`buildBenchWorld`, a drawn place from all 56, seed named) and finds that the share of named adults 21 and over recorded as users and the counted groups' weight both read the town's state row of the table, shown by tests/src/core2/cannabis-sales-law.test.ts with the place, its row and a named adult's person id. The session reports the town's row beside the national 23.17 percent it replaced.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/place-prices.ts, src/core2/data/prices/parameters.json, data/research/laws/samhsa-2024-cannabis-past-year.json, src/core2/cannabis-sales-law.test.ts
+**Files.** src/core2/modules/place-prices.ts, src/core2/data/prices/parameters.json, data/research/laws/samhsa-2024-cannabis-past-year.json, tests/src/core2/cannabis-sales-law.test.ts
 
 **On screen.** Nothing yet: it would show on Politics, then Issues and Government, and nothing there reads it.
 

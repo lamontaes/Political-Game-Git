@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 
 **Done when.** On the recorded Rio del Mar seed 761a6f6af12d05ad and three freshly drawn places named with seeds, journal.test.ts passes with positive move-line assertions tied to the moved person and record id; a deliberately wrong subject or missing move still fails.
 
-**Files.** src/director/journal.test.ts
+**Files.** tests/src/director/journal.test.ts
 
 **Notes.** Merger 1 measured while reviewing PR #6041: PR16pass/2fail; clean base journal13pass/2samefail. Baseline log in merger1-state/6041-2222/main-journal.log; move regex failure main line452 and whole-journal I assertion main line564. Separate from #6113 seed2803 death/school/moment fixes.
 

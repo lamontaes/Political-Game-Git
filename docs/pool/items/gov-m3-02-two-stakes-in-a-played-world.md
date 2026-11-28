@@ -20,6 +20,6 @@ claimed-at: 2026-11-04T03:10:51.478Z
 
 **Done when.** A test in a drawn place built with buildBenchWorld and the seed it prints has the player, sitting on their town's body with a drafted bill, learn one colleague's stake by talking to them and a second by their record or an aide's brief, through the office acts; both stakes are on the record by bill and member id and the office panel shows them; the M3-02 command names the test file.
 
-**Files.** src/bench/office.ts, src/bench/office-deals.test.ts, src/core2/modules/legislature.ts, src/core2/modules/staff.ts
+**Files.** src/bench/office.ts, tests/src/bench/office-deals.test.ts, src/core2/modules/legislature.ts, src/core2/modules/staff.ts
 
 **Notes.** Filed by the governing lead, Oct 29, from the M3-02 command (branch governing/m3-spec-commands). Phase B of the governing order adds "what colleagues told you plus your aide's estimate before a vote" (Oct 29); build this as its first unit. src/bench is the lane's; ask before editing.

@@ -29,8 +29,8 @@ checked: fable 2026-11-10
 
 **Rules.** One model, two tiers: a counted group is paid by the same rule as a named worker, times its count, with no pseudo-person per group. Speed: a year stays within 20 percent of its base. Replace, never layer: no second path is left beside the one ledger shape.
 
-**Done when.** A second session, not the builder, runs the new test in src/core2/work-payroll-cash.test.ts: one group with a head count is paid through the ledger and its totals equal the head count times one worker's pay, by ledger record id, in a drawn place of the played world.
+**Done when.** A second session, not the builder, runs the new test in tests/src/core2/work-payroll-cash.test.ts: one group with a head count is paid through the ledger and its totals equal the head count times one worker's pay, by ledger record id, in a drawn place of the played world.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/work-payroll-cash.ts, src/core2/work-payroll-cash.test.ts, src/core2/work-pay-period.ts
+**Files.** src/core2/work-payroll-cash.ts, tests/src/core2/work-payroll-cash.test.ts, src/core2/work-pay-period.ts

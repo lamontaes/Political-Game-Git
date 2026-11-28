@@ -9,7 +9,7 @@
 import { taxIndexOf } from "../tax-index";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { chooseAct } from "../choice";
-import { reviewBoardTerms } from "./executive";
+import { reviewBoardTerms } from "../central-bank-appointments";
 import { DEFAULT_DATA, extendData } from "../data";
 import macroParameters from "../data/macro/parameters.json" with { type: "json" };
 import {
@@ -83,7 +83,8 @@ export {
 import { bookkeeping } from "../bookkeeping";
 import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";
-import { scaleOutsideSales, type OutsideSectorFactor } from "./health";
+import type { OutsideSectorFactor } from "./health";
+import { scaleOutsideSales } from "../residents-economy";
 import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import { firmStaffing } from "./jobs";
 import { LAWS_MODULE_ID, stateLawInForce } from "./laws";

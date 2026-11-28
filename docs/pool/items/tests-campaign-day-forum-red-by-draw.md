@@ -18,7 +18,7 @@ source: "Interview check thread, Nov 15, 2026, gating the outlet-of-record chang
 root: none
 ---
 
-**What.** `src/core2/campaign-day.test.ts`, "hosts a forum", fails with "the commonest question is answered from the platform: expected undefined to be -1". It failed on the clean train 53e4b29f and on the outlet-of-record branch at different drawn places, so it turns a gate red by draw. Seen: a builder's or the train's gate goes red on a test nobody's change touched.
+**What.** `tests/src/core2/campaign-day.test.ts`, "hosts a forum", fails with "the commonest question is answered from the platform: expected undefined to be -1". It failed on the clean train 53e4b29f and on the outlet-of-record branch at different drawn places, so it turns a gate red by draw. Seen: a builder's or the train's gate goes red on a test nobody's change touched.
 
 **Cause.** Measured: Bieber, California (0606336), run seed dbc530fbe5beccdc8988e26aa2a57a7885069941e008133870c3fcbad9a593aa, on the outlet-of-record branch; Weiser, Idaho (1686140), run seed 19878114cb0260522b883db8abfe4f2ac575f42e44b6ceca5ce69f4cb66e31f9, draw :4, on the clean train.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/campaign-day.test.ts
+**Files.** tests/src/core2/campaign-day.test.ts

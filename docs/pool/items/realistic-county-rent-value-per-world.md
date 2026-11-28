@@ -17,7 +17,7 @@ claimed-at: 2026-10-28T01:30:18.125Z
 
 **Rules.** No dice: the offsets are seeded generation of the starting world, drawn once from the world's seed, never an actor's outcome. One rule, all 56 places: every county and island area gets the same rule from the housing parameter table.
 
-**Done when.** In two played worlds (buildBenchWorld) on drawn places and seeds, the county's rent and value differ from the published medians and leases read them by record id, and src/core2/housing-world.test.ts fails when any county opens on its published median or two seeds give the same one.
+**Done when.** In two played worlds (buildBenchWorld) on drawn places and seeds, the county's rent and value differ from the published medians and leases read them by record id, and tests/src/core2/housing-world.test.ts fails when any county opens on its published median or two seeds give the same one.
 
 **Files.** src/core2/modules/housing.ts, src/core2/data/housing/parameters.json
 

@@ -23,7 +23,7 @@ checked: fable 2026-11-10
 
 **Cause.** Design: docs/coordination/OWNER-DECISIONS.md, Nov 8, about 7:15 p.m. (weather is basic climate change through the effect map) and the open row SG-CORE-disasters-from-records in src/core2/data/stopgaps/core.json.
 
-**Fix.** Resolve the stopgap row with the resolving change named, and extend src/core2/disaster-weather.test.ts to follow the chain by record id.
+**Fix.** Resolve the stopgap row with the resolving change named, and extend tests/src/core2/disaster-weather.test.ts to follow the chain by record id.
 
 **Time box.** 2 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Feeds: world-disasters-from-conditions (which waits on it); the disaster chain the weather test states.
 
@@ -33,4 +33,4 @@ checked: fable 2026-11-10
 
 **Waits on.** world-disasters-from-conditions-part-1-damage-to-named-buildings, world-disasters-from-conditions-part-2-repairs-and-insurance-over-months, world-disasters-from-conditions-part-3-aid-on-real-obligation-dates.
 
-**Files.** src/core2/data/stopgaps/core.json, src/core2/disaster-weather.test.ts
+**Files.** src/core2/data/stopgaps/core.json, tests/src/core2/disaster-weather.test.ts

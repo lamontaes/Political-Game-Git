@@ -10,7 +10,7 @@ claimed-by: story/red-journal-tests
 pr: #8119
 blocked-on:
 lead: words
-source: src/director/journal.test.ts and journal-story.test.ts red on clean main at seeds 11 and 222 (Nov 10)
+source: tests/src/director/journal.test.ts and journal-story.test.ts red on clean main at seeds 11 and 222 (Nov 10)
 claimed-at: 2026-11-10T08:00:00.000Z
 merged-at: 2026-11-10T07:18:33.119Z
 seen-by: second-session-2
@@ -21,6 +21,6 @@ seen-at: 2026-11-11T02:58:07.088Z
 
 **Done when.** journal.test.ts and journal-story.test.ts pass at seeds 11, 222 and 3333.
 
-**Files.** src/director/local-address.ts, src/director/journal.test.ts
+**Files.** src/director/local-address.ts, tests/src/director/journal.test.ts
 
 **Notes.** Seen in the game (2026-11-11, second-session-2): drawn test worlds, seeds 11, 222, 3333, seed 11, 222, 3333, main 67947ae8: journal.test.ts and journal-story.test.ts passed 22 of 22 at seeds 11, 222 and 3333, though seed 3333 took about 18 minutes

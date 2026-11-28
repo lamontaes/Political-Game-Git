@@ -27,6 +27,6 @@ claimed-at: 2026-10-27T01:22:41.165Z
 
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
-**Files.** src/bench/play.css, src/bench/play.html, src/bench/creator-fields.browser.mjs
+**Files.** src/bench/play.css, src/bench/play.html, tests/src/bench/creator-fields.browser.mjs
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "I don't like just the gold Our Civic Duty with like no delineation between that and the menu other than the change in the font." New owner instruction in playtest; CTO to record in OWNER-DECISIONS.md. Panel markup is in #front of src/bench/play.html. Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).

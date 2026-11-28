@@ -31,11 +31,11 @@ branch: claude/pool-play-campaigns-sheet-speech-pager-races-columns-debate-date
 
 **Rules.** No hand-written player text: the debate date reads in words from the controls or the English engine, never as an ISO string. Also player-screen-text (dates read in words); screen-to-mock (one shared part per control, panels fit the window); a fix lands where the failure reproduces: a bench restarted on main in a drawn place, named with its seed.
 
-**Done when.** A second session, in a drawn place named with its seed, on a restarted bench, picks four speech parts without pressing Continue on the sheet pager, sees the local races list one race per row, and reads the debate date like a spoken date; src/bench/four-screens.browser.mjs passes without its pager click.
+**Done when.** A second session, in a drawn place named with its seed, on a restarted bench, picks four speech parts without pressing Continue on the sheet pager, sees the local races list one race per row, and reads the debate date like a spoken date; tests/src/bench/four-screens.browser.mjs passes without its pager click.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.mjs, src/bench/campaign.ts, src/bench/ui/campaign-acts.mjs, src/bench/play.css, src/bench/four-screens.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/campaign.ts, src/bench/ui/campaign-acts.mjs, src/bench/play.css, tests/src/bench/four-screens.browser.mjs
 
 **Notes.** Filed by the play-first lane Oct 27 from PR 6357. lead: play-first. milestone: play-first. Read: OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW; searched docs/pool/items for campaigns pager and local races: play-local-races-on-screen is the older done item for the block's content.
 

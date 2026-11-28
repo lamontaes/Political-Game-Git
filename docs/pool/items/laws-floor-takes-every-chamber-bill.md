@@ -22,6 +22,6 @@ claimed-at: 2026-10-27T05:07:57.486Z
 
 **Time box.** 3 hours, the laws-and-effects lead.
 
-**Files.** src/core2/modules/world-legislating.ts, src/core2/modules/legislature.ts, src/core2/floor-every-bill.test.ts
+**Files.** src/core2/modules/world-legislating.ts, src/core2/modules/legislature.ts, tests/src/core2/floor-every-bill.test.ts
 
 **Notes.** Split from laws-player-bill-reaches-the-floor on Oct 27, which keeps the screen half (the lane's `src/bench`) and the matrix row naming the screen.

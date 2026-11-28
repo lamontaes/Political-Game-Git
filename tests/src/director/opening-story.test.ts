@@ -1,0 +1,145 @@
+import { randomBytes } from "node:crypto";
+import { describe, expect, it } from "vitest";
+import { buildBenchWorld } from "../../../src/bench/world";
+import { openingFrames } from "../../../src/bench/opening";
+import { BenchPlayer } from "../../../src/bench/player";
+import { storyScene } from "../../../src/bench/story";
+import { drawPlace } from "../../../scripts/core2-year/place";
+import { advanceCore } from "../../../src/core2/life";
+import { coreAPI } from "../../../src/core2/state";
+import { NEWS_MODULE_ID } from "../../../src/core2/modules/news";
+import { PRESS_MODULE_ID } from "../../../src/core2/modules/press";
+import { PRESIDENT_FACT } from "../../../src/core2/officials-president";
+
+import { subjectsBetween } from "../../../src/director/conversation";
+
+import { OPENING_ADDRESS_EVENT } from "../../../src/director/opening-story";
+import { ADDRESS_FACT } from "../../../src/director/opening-facts";
+
+// The opening told as a story (owner, Oct 14, 2026), in the world the player
+// gets: `buildBenchWorld`, two-level, on a fresh seed and a place drawn from
+// all 56 (GOLDEN_PATH_SEED pins one). The address says only mined sentences
+// with the world's records in their slots, names a place only from the
+// President's campaign visits, and is a public record the news engine
+// carries and the household can bring up.
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const place = drawPlace(seed, "opening-story");
+const date = process.env.OPENING_STORY_DATE ?? "2025-01-20";
+console.log(
+  `opening story: seed ${seed}, ${place.name} (${place.key}), ${date}`,
+);
+
+describe("the opening story", () => {
+  const world = buildBenchWorld(place.seed, date, {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const { core, director } = world;
+  const playerId = world.playerId!;
+  const story = director.ledger.opening!;
+  it("is inaugural only on the offices engine's inauguration record", () => {
+    const sworn = core.eventIds.has(`inauguration:${core.date}`);
+    expect(story.speechKind).toBe(sworn ? "inaugural" : "state-of-the-union");
+    // The world opens on Inauguration Day by default: the record is there.
+    if (date === "2025-01-20") expect(sworn).toBe(true);
+  });
+
+  it("names no place of the player's: the address is national only", () => {
+    const president = core.people.get(story.president.id)!;
+    // Owner, Oct 27: "nothing about your state". No sentence is put to the
+    // governors or names a town the President visited.
+    for (const sentence of story.address.sentences)
+      expect(String(sentence.level), sentence.text).not.toMatch(
+        /^(governors|towns)$/,
+      );
+    // The name card is the office alone: the President's home state is read
+    // as where the player is (owner, Oct 26).
+    const card = openingFrames(core, playerId, story).speaker;
+    expect(card.detail).toEqual([]);
+    const kinds = new Set((president.pastFacts ?? []).map((row) => row.kind));
+    expect(kinds.has(PRESIDENT_FACT.homeState)).toBe(true);
+    expect(kinds.has(PRESIDENT_FACT.elected)).toBe(true);
+  });
+
+  it("is a public record the news carries and a subject at home", () => {
+    const api = coreAPI(core);
+    // Where the press runs, its reporters decide what becomes a story, and
+    // every public record goes on its wire (src/core2/modules/press.ts);
+    // without it, the news module files the record itself.
+    const stored = (core.modules.has(PRESS_MODULE_ID)
+      ? api.moduleState(PRESS_MODULE_ID).table("wire").get(story.id)
+      : api
+          .moduleState(NEWS_MODULE_ID)
+          .table("stories")
+          .get(story.id)) as unknown as { kind: string } | undefined;
+    expect(stored?.kind).toBe(OPENING_ADDRESS_EVENT);
+    // The player saw the address: it is theirs to bring up at home.
+    const other = story.home.memberIds.find((id) => id !== playerId);
+    if (other)
+      expect(
+        subjectsBetween(core, playerId, other).some(
+          (row) => row.kind === "address" && row.aboutId === story.id,
+        ),
+      ).toBe(true);
+  });
+  // The cut of Nov 17 removed the address's causes, so the opening evening was
+  // one line and the family talked about a speech the player never saw (the
+  // owner, Nov 19, via the CTO on #9750): the address plays as a scene again.
+  it("plays as the director's address scene at home, in the President's words", () => {
+    const here = `${place.name} (${place.key}), seed ${seed}`;
+    new BenchPlayer(core, director).select(playerId);
+    const book = director.ledger.people.get(playerId)!;
+    const entry = book.schedule.find((row) =>
+      row.bindings.some((binding) => binding.typeKey === "address"),
+    );
+    expect(entry, `${here}: no address scene staged`).toBeTruthy();
+    expect(entry!.outcome, here).toMatch(/^scene/);
+    const moment = book.momentsById.get(entry!.momentId)!;
+    expect(moment.causeId, here).toBe(story.id);
+    const binding = entry!.bindings.find((row) => row.typeKey === "address")!;
+    expect(binding.setting.kind, here).toBe("home");
+    const audience = binding.roles.find((row) => row.role === "audience")!;
+    expect(audience.personIds, here).toContain(playerId);
+    const scene = storyScene(core, director, playerId, entry!.momentId, 1230);
+    expect(scene.speech?.speakerId, here).toBe(story.president.id);
+    expect(scene.speech?.text, here).toBe(story.address.text);
+  }, 600_000);
+
+  it("is never talked about with someone who did not see or hear it, by their record of it", () => {
+    // What the player never saw can't be talked about (CTO, Nov 19 05:06Z on
+    // #9750): the speech's talk is gated on the listener's own record of it.
+    const other = story.home.memberIds.find((id) => id !== playerId);
+    if (!other) return;
+    const known = core.knowledgeByPerson.get(playerId)!;
+    const kept = known.get(ADDRESS_FACT.event);
+    expect(kept?.value, "the player who watched has the record").toBe(story.id);
+    known.delete(ADDRESS_FACT.event);
+    try {
+      const raised = subjectsBetween(core, other, playerId, director).filter(
+        (row) => row.kind === "address" || row.kind === "address-point",
+      );
+      expect(raised.map((row) => row.id)).toEqual([]);
+    } finally {
+      known.set(ADDRESS_FACT.event, kept!);
+    }
+  });
+
+  it("is printed by the press as national news within weeks, for readers to read", () => {
+    const api = coreAPI(core);
+    if (!core.modules.has(PRESS_MODULE_ID)) return;
+    const press = api.moduleState(PRESS_MODULE_ID);
+    expect(
+      (press.table("wire").get(story.id) as unknown as { level: string })
+        ?.level,
+    ).toBe("nation");
+    const at = new Date(`${core.date}T00:00:00Z`);
+    for (let day = 0; day < 28; day += 1) {
+      at.setUTCDate(at.getUTCDate() + 1);
+      advanceCore(core, at.toISOString().slice(0, 10));
+    }
+    const printed = (
+      press.table("stories").rows() as unknown as { wireId: string }[]
+    ).filter((row) => row.wireId === story.id);
+    expect(printed.length, `${place.name}; seed ${seed}`).toBeGreaterThan(0);
+  }, 600_000);
+});

@@ -18,11 +18,11 @@ effort: medium
 root: none
 ---
 
-**What.** src/core2/budgets-charges-payers.test.ts fails by draw on the clean train: the installment of a government's service-user charges row is not the twelfth the test expects, so the row the treasury shows for what other service users owe differs from what the test says it should. Guards: the charges the town's treasury page shows for what other service users pay, so the page and the engine agree.
+**What.** tests/src/core2/budgets-charges-payers.test.ts fails by draw on the clean train: the installment of a government's service-user charges row is not the twelfth the test expects, so the row the treasury shows for what other service users owe differs from what the test says it should. Guards: the charges the town's treasury page shows for what other service users pay, so the page and the engine agree.
 
 **Cause.** Measured: on the clean train 8bb1ff9d, Mountain View, North Carolina (3744770), seed d346536e297211ab4479baa8d8128082e9b0c44dc60fc8655d9e05988f0d6385, row treasury-charges:chargesAndFees:service-users:county:37035:2025-02-01: expected 2310424296 to be 2250794127 (about 2.6 percent over). Also red on PR #9308 at Ridgefield, Connecticut (0963900), seed ec8137afc0317e6c9b1699d874e3619b50852cc49ea2cede1917b987fd15f90b, row ...:place:0963900:2025-02-01: expected 24299102 to be 23708834. Not yet traced to a line.
 
-**Fix.** Trace which of the installment's inputs (the plan's charges line, what the town already paid, a month's rounding) the test leaves out, then either fix the engine where it double counts or correct the test's expectation with the reason, in the engine that owns the row (src/core2/budgets-charges-payers.test.ts line 103 reads it).
+**Fix.** Trace which of the installment's inputs (the plan's charges line, what the town already paid, a month's rounding) the test leaves out, then either fix the engine where it double counts or correct the test's expectation with the reason, in the engine that owns the row (tests/src/core2/budgets-charges-payers.test.ts line 103 reads it).
 
 **Time box.** 3 hours for one opus session.
 
@@ -32,7 +32,7 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/budgets-charges-payers.test.ts, src/core2/budgets-treasury.ts
+**Files.** tests/src/core2/budgets-charges-payers.test.ts, src/core2/budgets-treasury.ts
 
 **Notes.** Found while building PR #9308 (fee levels by bill). Red on the clean train head 8bb1ff9d as well as on that PR.
 

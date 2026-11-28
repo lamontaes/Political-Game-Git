@@ -17,9 +17,9 @@ claimed-at: 2026-10-20T05:44:17.663Z
 
 **Rules.** Estimate, never UNKNOWN: an owner's savings and living cost start from the real average for a household at their wealth, marked ESTIMATED with source and spread. Wire to the world: the weekly spending and the draw from the outlet post on the journal. One model, two tiers: the owner's household uses the shared household helper every other household uses.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, both named in the PR body), every outlet owner record holds cash and a living cost on day one, the journal shows their weekly spending and at least one draw from their outlet by record id, and src/core2/press-owner-household.test.ts fails without the change.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, both named in the PR body), every outlet owner record holds cash and a living cost on day one, the journal shows their weekly spending and at least one draw from their outlet by record id, and tests/src/core2/press-owner-household.test.ts fails without the change.
 
-**Files.** src/core2/modules/press.ts, src/core2/press-staff.ts, src/core2/official-living.ts, src/core2/press-owner-household.test.ts, src/core2/data/press/parameters.json
+**Files.** src/core2/modules/press.ts, src/core2/press-staff.ts, src/core2/official-living.ts, tests/src/core2/press-owner-household.test.ts, src/core2/data/press/parameters.json
 
 **Notes.** Oct 20 (pool feeder): write-up filled from PR #5050's body; the open question in it (other income for a local owner) is left out under 'build only what the golden path needs'.
 Sent back 2026-10-20 from PR #5050 (branch claude/press-owner-household): the campaign-interview test excludes newly affected owners and staff so it passes; cover their filing eligibility explicitly and preserve interview assertions; finish on that branch, merge main into it first.

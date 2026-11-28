@@ -17,8 +17,8 @@ claimed-at: 2026-10-20T00:57:57.521Z
 
 **Rules.** An effect is a read: a policy that reaches no one must not record a person row. One rule, all 56 places: the check draws a place and names the seed.
 
-**Done when.** The group B test, run with the seed and place above and then in a freshly drawn place of the played world (buildBenchWorld), passes with no open person row for the graduated-income-tax policy, shown by the openPeople assertion in src/core2/law-reach-group-b.test.ts.
+**Done when.** The group B test, run with the seed and place above and then in a freshly drawn place of the played world (buildBenchWorld), passes with no open person row for the graduated-income-tax policy, shown by the openPeople assertion in tests/src/core2/law-reach-group-b.test.ts.
 
-**Files.** src/core2/law-reach-group-b.test.ts, src/core2/law-reach/group-b.ts
+**Files.** tests/src/core2/law-reach-group-b.test.ts, src/core2/law-reach/group-b.ts
 
 **Notes.** Found Oct 20 while testing the keyed-benefit change (PR #5356); it did not reproduce on the rerun, so it may predate that change. Done by #5363 from the claimed branch, merged Oct 20 (reconcile Oct 23).

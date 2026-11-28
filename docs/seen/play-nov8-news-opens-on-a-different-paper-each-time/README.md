@@ -1,6 +1,6 @@
 # News opens on the same paper every time: before and after
 
-Pool item `play-nov8-news-opens-on-a-different-paper-each-time`, PR #8521. Pictures at 1440x900 on the bench, News on day one and after four weeks of play (dev mode's run, 7 days each), same seed before (`origin/main`) and after (this branch). Replay the after side with `NEWS_SEED=<seed> BENCH_BROWSER=<chromium> node src/bench/news-paper.browser.mjs <shots dir>`; the tab in front is read from the board's `data-outlet`.
+Pool item `play-nov8-news-opens-on-a-different-paper-each-time`, PR #8521. Pictures at 1440x900 on the bench, News on day one and after four weeks of play (dev mode's run, 7 days each), same seed before (`origin/main`) and after (this branch). Replay the after side with `NEWS_SEED=<seed> BENCH_BROWSER=<chromium> node tests/src/bench/news-paper.browser.mjs <shots dir>`; the tab in front is read from the board's `data-outlet`.
 
 | Place                   | Seed                                   | Before                                                          | After                                                         |
 | ----------------------- | -------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------- |

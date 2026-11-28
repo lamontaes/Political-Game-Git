@@ -30,11 +30,11 @@ checked: fable 2026-11-10
 
 **Rules.** An effect is a read, not a record: the reach row is read at the moment of the hire, and the refusal is read by the next applicant's turn and by the complaint. No dice: refusal follows from the law row and the recorded reasons. One rule, all 56 places: the ban comes from the place's law data, not from code that names a place. This is a game, not a spreadsheet: the applicant meets a refusal as a story line told by the English engine, never a form. Replace, never layer: the employer half of SG-GOV-REACH-A-discrimination is narrowed to rentals. Ask why: the refusal answers why by reasons record, law id and reach row id.
 
-**Done when.** A second session (not the builder) runs a test in src/core2/jobs.test.ts and a one-year world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), and sees an applicant whose pick cited a protected trait in a place with the ban get a job-change record carrying the law reason and reach row id while the employer's next applicant is hired, the same decision stand in a place without the ban, and the stopgap row name only rentals. On screen: nothing yet; it would show on Politics, Issues and Government, and nothing there reads it.
+**Done when.** A second session (not the builder) runs a test in tests/src/core2/jobs.test.ts and a one-year world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), and sees an applicant whose pick cited a protected trait in a place with the ban get a job-change record carrying the law reason and reach row id while the employer's next applicant is hired, the same decision stand in a place without the ban, and the stopgap row name only rentals. On screen: nothing yet; it would show on Politics, Issues and Government, and nothing there reads it.
 
 **Waits on.** world-hiring-bias-reasons (which in turn waits on world-employer-attitude-table).
 
-**Files.** src/core2/modules/jobs.ts, src/core2/law-reach/group-a-records.ts, src/core2/jobs-age-bias.ts, src/core2/data/stopgaps/gov.json, src/core2/jobs.test.ts
+**Files.** src/core2/modules/jobs.ts, src/core2/law-reach/group-a-records.ts, src/core2/jobs-age-bias.ts, src/core2/data/stopgaps/gov.json, tests/src/core2/jobs.test.ts
 
 **Notes.** Split from world-sale-eligibility-reads (an L item) on Oct 19; the owner's ruling is in docs/coordination/OWNER-DECISIONS.md, "Employer passing over an applicant (#5102)": the owner's traits and views read against the applicant's record, with the reasons recorded; a discrimination ban refuses a decision whose recorded reasons cite a protected trait. Stopgap SG-GOV-REACH-A-discrimination.
 

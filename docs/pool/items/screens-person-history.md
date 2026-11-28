@@ -19,6 +19,6 @@ claimed-at:
 
 **Done when.** A click on the People map opens the card, whose History section lists the person's dated records oldest first with the viewer's own birth as 'You were born', shown by card-history.test.ts on a drawn place, people.browser.mjs passing, and a screenshot from a drawn place.
 
-**Files.** src/bench/card.ts, data/english/parts/person-history.json, src/english/screen-words.ts, src/bench/play.mjs, src/bench/people.browser.mjs
+**Files.** src/bench/card.ts, data/english/parts/person-history.json, src/english/screen-words.ts, src/bench/play.mjs, tests/src/bench/people.browser.mjs
 
 **Notes.** TODO

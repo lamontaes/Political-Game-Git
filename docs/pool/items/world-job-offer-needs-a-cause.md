@@ -28,10 +28,10 @@ source: Owner, Nov 16, 2026 ("I didn't even apply for one."), crew line #9747, i
 
 **Rules.** The `wire-to-the-world` rule applies: the offer reads the player's known and kin records and application. No dice: the employer's pick is still the best-placed applicant by fit, with no roll.
 
-**Done when.** In a drawn place and a seed the builder did not choose, every job offer to the player has a maker the player knows or an opening the player applied to, shown by offer id and person id in `src/core2/jobs-player-offer-cause.test.ts`; a second session sees the same in the running game.
+**Done when.** In a drawn place and a seed the builder did not choose, every job offer to the player has a maker the player knows or an opening the player applied to, shown by offer id and person id in `tests/src/core2/jobs-player-offer-cause.test.ts`; a second session sees the same in the running game.
 
 **Waits on.** A screen where the player applies to an opening (Screens lane).
 
-**Files.** src/core2/modules/jobs.ts, src/core2/modules/staff.ts, src/core2/jobs-player-offer-cause.test.ts, src/core2/jobs-player-offers.test.ts, src/core2/staff-never-hires-the-player.test.ts
+**Files.** src/core2/modules/jobs.ts, src/core2/modules/staff.ts, tests/src/core2/jobs-player-offer-cause.test.ts, tests/src/core2/jobs-player-offers.test.ts, tests/src/core2/staff-never-hires-the-player.test.ts
 
 **Notes.** Owner's earlier rulings: "The player can apply or get a job through someone they know, and can be turned down" (prior-rulings/economy.md); "a job offer comes through a person and a scene or not at all" (Oct 27).

@@ -27,6 +27,6 @@ claimed-at: 2026-10-30T06:51:04.933Z
 
 **Screenshot.** Your office before and after at 1440 by 900.
 
-**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/data/controls.json, src/bench/bill-screens.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/data/controls.json, tests/src/bench/bill-screens.browser.mjs
 
 **Notes.** Filed by the CTO, Oct 30 04:10, at the lane's yes (the lane builder: no item or ORDER line existed; searched the pool, no match). The lane takes it after #6861 and #6879, once the stack has landed. Read: OWNER-DECISIONS Oct 29 22:45; prior-rulings/screens.md.

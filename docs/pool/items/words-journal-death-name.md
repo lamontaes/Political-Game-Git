@@ -19,7 +19,7 @@ seen-at: 2026-11-11T01:26:04.144Z
 
 **What.** The death story said the relative's name in two sentences. People carry a gender for choosing "his", "her" or "their" (`looks.gender`), but the journal has no subject-pronoun table ("he", "she", "they"), and no pronoun is guessed from a name. So the age and the illness are one sentence naming the person once: "John was 56 years old and had been seriously ill." A row's `follow` entry may now name alternatives ("a|b|c"): the first that the facts let be worded is told, here the sentence that names both facts, else the age alone, else the illness alone.
 
-**Done when.** src/director/journal-death-school.test.ts prints the death entry with the name once; journal.test.ts, journal-story.test.ts, the English and families guards pass.
+**Done when.** tests/src/director/journal-death-school.test.ts prints the death entry with the name once; journal.test.ts, journal-story.test.ts, the English and families guards pass.
 
 **Files.** src/director/journal.ts, src/director/data/journal-rows.json, data/english/parts/journal.json
 

@@ -18,7 +18,7 @@ import {
   veteransIncomeByHousehold,
 } from "./modules/laws";
 import { openClaims } from "./jobs-reads";
-import { reachParameter } from "./laws-in-force";
+import { reachParameter } from "./law-reach/reach-parameters";
 import { householdIncome, residentsRuntime } from "./residents-reads";
 import { retirementClaims } from "./modules/retirement-claims";
 import { awardYearMinor, jobYearMinor } from "./household-income";

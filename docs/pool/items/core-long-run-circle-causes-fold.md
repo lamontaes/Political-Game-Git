@@ -17,7 +17,7 @@ claimed-at: 2026-10-30T07:10:50.785Z
 
 **Rules.** Speed and the Oct 30 01:55 bar (records kept stay flat over a save). Keep it simple: the circle's why is kept as their last reasons, not every contact (CTO, Oct 30 03:05). Replace, never layer.
 
-**Done when.** Circle voters' causes fold at a race's close and on January 1 with each member's last causesKeptPerCandidate causes per candidate and every fact-named cause kept in foldedCauses; src/core2/campaign-causes-fold.test.ts passes in a drawn place; a 4-year speed:year run of seed long-1 on main and on the branch differs in dev mode's records proof only in the three causes tables, with the rows before and after in the PR body.
+**Done when.** Circle voters' causes fold at a race's close and on January 1 with each member's last causesKeptPerCandidate causes per candidate and every fact-named cause kept in foldedCauses; tests/src/core2/campaign-causes-fold.test.ts passes in a drawn place; a 4-year speed:year run of seed long-1 on main and on the branch differs in dev mode's records proof only in the three causes tables, with the rows before and after in the PR body.
 
 **Files.** src/core2/modules/campaigns.ts, src/core2/data/campaigns/parameters.json
 

@@ -40,11 +40,14 @@ import {
   reachParameter,
   reachTable,
 } from "./group-a-records";
+import {
+  FACIAL_KEY,
+  LINE_ADDITION_KEYS,
+  PARKS_KEY,
+} from "./group-a-records-constants";
 
 export const LEAVE_KEY =
   "us-policy-positions:labor-workforce.paid-family-leave";
-const PARKS_KEY =
-  "us-policy-positions:civil-family-community.dedicated-parks-funding";
 
 const LEVEL_ORDER = ["federal", "state", "county", "township", "city"];
 
@@ -194,9 +197,6 @@ export function leavePremiumsOf(
 
 // --- a law that adds to a budget line ------------------------------------------------
 
-const FACIAL_KEY =
-  "us-policy-positions:technology-privacy.restrict-government-facial-recognition";
-
 /**
  * A law that adds a share of a budget line at each level that says yes
  * (dedicated parks funding, the police department's oversight duties under a
@@ -341,7 +341,7 @@ export const facialRecognition = lineAddition(FACIAL_LINE);
 // added share of each payment reached (budgets-treasury.ts). The law reach's
 // host carries it (`lineAdditions`).
 export const reachALineAdditions = {
-  keys: [PARKS_LINE.key, FACIAL_LINE.key],
+  keys: LINE_ADDITION_KEYS,
   additions: (api: CoreAPI, gov: GovernmentRow) =>
     [PARKS_LINE, FACIAL_LINE].flatMap((law) => {
       const row = mechanicRow(api, `${law.key}:${gov.level}`);

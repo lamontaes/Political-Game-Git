@@ -28,8 +28,8 @@ root: none
 
 **Rules.** Replace, never layer: the separate count for a ticket office is removed, not left beside. One rule, all 56 places: the office list is the research row, no state named. No dice. Speed: no extra count; the ticket race row is written from the governor race's result.
 
-**Done when.** A second session runs a played world for four years in a drawn place with a seed it did not choose, finds an election year with a governor race in a ticket state (naming that state by the research row), and sees, by race record id, the lieutenant governor seated in the governor's winning party on the same day in every ticket state that year, including the town's own state when it is one. A test in `src/core2/offices-every-legislature.test.ts` fails on main for the opposite-party case. `SG-GOV-outside-ticket-raced-alone` is resolved in `src/core2/data/stopgaps/gov.json`.
+**Done when.** A second session runs a played world for four years in a drawn place with a seed it did not choose, finds an election year with a governor race in a ticket state (naming that state by the research row), and sees, by race record id, the lieutenant governor seated in the governor's winning party on the same day in every ticket state that year, including the town's own state when it is one. A test in `tests/src/core2/offices-every-legislature.test.ts` fails on main for the opposite-party case. `SG-GOV-outside-ticket-raced-alone` is resolved in `src/core2/data/stopgaps/gov.json`.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/voting.ts, src/core2/offices-every-legislature.test.ts, data/research/offices/state-offices.json, src/core2/data/stopgaps/gov.json
+**Files.** src/core2/modules/voting.ts, tests/src/core2/offices-every-legislature.test.ts, data/research/offices/state-offices.json, src/core2/data/stopgaps/gov.json

@@ -22,7 +22,7 @@ merged-at: 2026-11-24T12:42:25.734Z
 **What.** The CTO, Nov 24 06:46Z, caught that the lower half of the News panel is empty (Bloomsbury and Roaring Spring). News took the whole window by design, so a short list of headlines and one story left the rest of the panel blank, the dead space the owner has ruled out since Oct 27.
 Seen: News at 1440 by 900. Seen: News, a panel that ends under its headlines and story, after. Guards: news-panel-fits.browser.mjs
 
-**Cause.** Measured: `node src/bench/news-panel-fits.browser.mjs` against `npm run bench` on main fails "the News panel has 244px empty under its content" (and 129px) on drawn places. openSheet in src/bench/play.mjs lists news among the screens that take the window (the fits class is withheld), so the panel is full height whatever it holds.
+**Cause.** Measured: `node tests/src/bench/news-panel-fits.browser.mjs` against `npm run bench` on main fails "the News panel has 244px empty under its content" (and 129px) on drawn places. openSheet in src/bench/play.mjs lists news among the screens that take the window (the fits class is withheld), so the panel is full height whatever it holds.
 
 **Fix.** Remove news from that list so the sheet fits its content up to the window height, its two columns still scrolling inside themselves when a paper has many headlines; add news-panel-fits.browser.mjs.
 
@@ -34,4 +34,4 @@ Seen: News at 1440 by 900. Seen: News, a panel that ends under its headlines and
 
 **Waits on.** Nothing
 
-**Files.** src/bench/play.mjs,src/bench/news-panel-fits.browser.mjs (new)
+**Files.** src/bench/play.mjs,tests/src/bench/news-panel-fits.browser.mjs (new)

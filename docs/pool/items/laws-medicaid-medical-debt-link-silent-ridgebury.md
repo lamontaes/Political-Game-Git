@@ -19,6 +19,6 @@ claimed-at: 2026-10-21T11:12:55.982Z
 
 **Done when.** The pinned Ridgebury world passes law-wiring-health-schools.test.ts, or the PR names by record why the medical-debt link has no cause there and the test's place draw accounts for it.
 
-**Files.** src/core2/law-wiring-health-schools.test.ts, src/core2/data/outcome-web/
+**Files.** tests/src/core2/law-wiring-health-schools.test.ts, src/core2/data/outcome-web/
 
 **Notes.** TODO

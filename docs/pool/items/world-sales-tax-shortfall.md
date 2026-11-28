@@ -18,6 +18,6 @@ source: "reissue item 9; overnight pool item 11"
 
 **Done when.** The test passes on seed cto1; run with --dir src so stale copies under .claude/worktrees are not picked up.
 
-**Files.** src/core2/budgets.test.ts, budgets.ts, budgets-treasury.ts
+**Files.** tests/src/core2/budgets.test.ts, budgets.ts, budgets-treasury.ts
 
 **Notes.** Pre-existing on main.

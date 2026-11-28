@@ -30,10 +30,10 @@ checked: fable 2026-11-10
 
 **Rules.** An effect is a read, not a record: the charging step reads `lawInForce` on the incident date, so the storage duty changes a charge rather than sitting on the adult as a flag. No dice: the charge follows the incident facts, the household's firearm record and the law in force, never a roll. One rule, all 56 places: the law and each state's firearm rate are data and no place is named in code. One model, two tiers: counted owning households with a child are charged as a group by the same rule times their count. Ask why: the charge cites the incident id, the household id and the law row id.
 
-**Done when.** A second session, not the builder, runs a one-year played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (both named). A weapon incident in an owning household with a child ends in a charge against the named adult where the law is in force and in none where it is not, shown by incident id, household id, case record id and the law row id; src/core2/justice-incidents.test.ts (new) proves it and src/core2/death-cause-firearm-homicide.test.ts still passes.
+**Done when.** A second session, not the builder, runs a one-year played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (both named). A weapon incident in an owning household with a child ends in a charge against the named adult where the law is in force and in none where it is not, shown by incident id, household id, case record id and the law row id; src/core2/justice-incidents.test.ts (new) proves it and tests/src/core2/death-cause-firearm-homicide.test.ts still passes.
 
 **Waits on.** gov-justice-incident-producer (the weapon incident record).
 
-**Files.** src/core2/modules/justice.ts, src/core2/firearm-ownership.ts, src/core2/law-reach/group-a-records.ts, src/core2/public-safety.ts, src/core2/death-cause-firearm-homicide.test.ts, src/core2/justice-incidents.test.ts (new)
+**Files.** src/core2/modules/justice.ts, src/core2/firearm-ownership.ts, src/core2/law-reach/group-a-records.ts, src/core2/public-safety.ts, tests/src/core2/death-cause-firearm-homicide.test.ts, src/core2/justice-incidents.test.ts (new)
 
 **Notes.** Oct 20 (pool feeder): spec written; the stopgap row SG-GOV-REACH-A-firearms is already resolved (firearm-ownership.ts, counted households by rate), so this is only the charge when a child reaches the gun, which waits for the weapon incident from gov-justice-incident-producer.

@@ -16,8 +16,8 @@ source: added with npm run pool -- add
 
 **Rules.** No dice: the money comes from donors' and the candidate's own reasons, never a roll. Research before building: real local campaign receipts and venue costs check the totals. One model, two tiers: counted donors give by the same rule times their count.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, places drawn from all 56 with seeds named) a candidate who holds no seat holds an event from the campaign day without any test fixture paying them, and src/bench/campaign-day-controls.test.ts asserts the event unconditionally with its cause ids.
+**Done when.** In a one-year run of the played world (buildBenchWorld, places drawn from all 56 with seeds named) a candidate who holds no seat holds an event from the campaign day without any test fixture paying them, and tests/src/bench/campaign-day-controls.test.ts asserts the event unconditionally with its cause ids.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/data/campaigns/parameters.json, src/bench/campaign-day-controls.test.ts
+**Files.** src/core2/modules/campaigns.ts, src/core2/data/campaigns/parameters.json, tests/src/bench/campaign-day-controls.test.ts
 
 **Notes.** Found finishing play-campaign-interview-and-event-without-seat (PR #5710). A test rewrite that asserts the event unconditionally is in that session's scratchpad; it failed in every place for lack of funds.

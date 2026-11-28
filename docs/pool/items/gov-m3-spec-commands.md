@@ -20,6 +20,6 @@ claimed-at: 2026-10-29T22:45:54.494Z
 
 **Done when.** docs/roadmap/features.json gives M3-01, M3-02, M3-04 and M3-05 a command whose files exist under the root vite config and that tests/golden-path/runner.mjs validates; passes stays false; each uncovered clause has a pool item with lead governing; the six candidate tests that ignored GOLDEN_PATH_SEED read it.
 
-**Files.** docs/roadmap/features.json, src/bench/bill-paper.test.ts, src/core2/office-day-desk.test.ts, src/core2/budget-desk.test.ts
+**Files.** docs/roadmap/features.json, tests/src/bench/bill-paper.test.ts, tests/src/core2/office-day-desk.test.ts, tests/src/core2/budget-desk.test.ts
 
 **Notes.** TODO

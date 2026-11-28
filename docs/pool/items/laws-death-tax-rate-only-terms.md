@@ -19,6 +19,6 @@ claimed-at: 2026-10-25T19:00:45.217Z
 
 **Done when.** A named test draws a state with no baseline death tax, adopts both taxes by rate only and proves the state and estate or heir record ids and the expected positive tax amounts. It completes within a measured limit or uses a lighter positive fixture beside its drawn-place case. The rate-only fallback has a retained registered stopgap and marker, and the changed-file checks pass.
 
-**Files.** src/core2/laws-death-taxes.ts, src/core2/laws-death-taxes.test.ts, src/core2/data/stopgaps.json
+**Files.** src/core2/laws-death-taxes.ts, tests/src/core2/laws-death-taxes.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Sent back 2026-10-23 from PR #5744 (branch claude/law-wiring-death-tax-terms): the new rate-only death-tax test hit the default 30-second timeout and no later commit supplies the measured limit or lighter proof; finish on that branch, merge main into it first.

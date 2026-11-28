@@ -12,7 +12,7 @@ sibling-names.test.ts passed in Mazomanie and Madison, New York. Restoring both 
 
 ## Drawn lives
 
-Each command uses OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14", NODE_OPTIONS=--max-old-space-size=8192 and GOLDEN_PATH_SEED=<replay>: npm test -- src/core2/sibling-names.test.ts --maxWorkers=1. Each invocation checks a fresh drawn town plus the pinned Mazomanie regression. The table counts only the fresh towns. Per-run logs and exit codes: /tmp/lane-2-sibling-fresh/.
+Each command uses OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14", NODE_OPTIONS=--max-old-space-size=8192 and GOLDEN_PATH_SEED=<replay>: npm test -- tests/src/core2/sibling-names.test.ts --maxWorkers=1. Each invocation checks a fresh drawn town plus the pinned Mazomanie regression. The table counts only the fresh towns. Per-run logs and exit codes: /tmp/lane-2-sibling-fresh/.
 
 | Town                          | Place key | Replay           | World seed                                                       | Result |
 | ----------------------------- | --------- | ---------------- | ---------------------------------------------------------------- | ------ |

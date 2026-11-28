@@ -29,8 +29,8 @@ merged-at: 2026-11-13T05:40:34.954Z
 
 **Rules.** Replace, never layer: the desk's old name is replaced where it was said, not kept beside the new one. One rule, all 56 places: the rule reads only the tabs and what the screen has shown.
 
-**Done when.** A second session, in a drawn place on main whose stories are all on the desk (North Hyde Park, Vermont, place 5050725, creator seed a6b481a5-c6c9-432b-8cca-c0463c518da8), opens News: it opens on "Around town" with its stories, and no tab inside News is named "News"; `src/bench/news-open.test.ts` passes.
+**Done when.** A second session, in a drawn place on main whose stories are all on the desk (North Hyde Park, Vermont, place 5050725, creator seed a6b481a5-c6c9-432b-8cca-c0463c518da8), opens News: it opens on "Around town" with its stories, and no tab inside News is named "News"; `tests/src/bench/news-open.test.ts` passes.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/ui/news-open.mjs, src/bench/play.mjs, src/bench/data/controls.json, src/bench/news-open.test.ts
+**Files.** src/bench/ui/news-open.mjs, src/bench/play.mjs, src/bench/data/controls.json, tests/src/bench/news-open.test.ts

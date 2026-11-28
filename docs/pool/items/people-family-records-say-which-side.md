@@ -23,7 +23,7 @@ checked: not yet
 
 **Cause.** Found in code: `familyRelation` in `src/core2/closeness.ts` returns only "grandparent" or "aunt-or-uncle" from the `family:*` past facts; the fact holds the other person but not the parent it runs through.
 
-**Fix.** Where the opening family is written, record on each grandparent, aunt or uncle fact the parent it runs through (the id of the player's parent they are the parent or sibling of). Then `familyTakesChosenOrigin` gives such a relative that parent's origin, and the grandparent or aunt or uncle of the parent who kept the drawn origin keeps it. Extend `src/bench/creator-origin.test.ts` with a grandparent on each side.
+**Fix.** Where the opening family is written, record on each grandparent, aunt or uncle fact the parent it runs through (the id of the player's parent they are the parent or sibling of). Then `familyTakesChosenOrigin` gives such a relative that parent's origin, and the grandparent or aunt or uncle of the parent who kept the drawn origin keeps it. Extend `tests/src/bench/creator-origin.test.ts` with a grandparent on each side.
 
 **Time box.** 4 hours, one Opus session. When it runs out, push what passes and say so.
 
@@ -35,6 +35,6 @@ checked: not yet
 
 **On screen.** The People screen's faces for grandparents, aunts and uncles.
 
-**Files.** src/core2/closeness.ts, src/core2/family-origin.ts, the opening family writer in src/core2, src/bench/creator-origin.test.ts.
+**Files.** src/core2/closeness.ts, src/core2/family-origin.ts, the opening family writer in src/core2, tests/src/bench/creator-origin.test.ts.
 
 **Notes.** Filed by hand from #9351 (two-parent look), which leaves these relatives unchanged.

@@ -6,7 +6,9 @@ import { affectAt } from "./emotion";
 import { compactQuietWorkResults } from "./work-state";
 import { chooseAct, decisionFromScores, scoreOffers } from "./choice";
 import { compactOriginalAnswer } from "./compact-choice";
-import { FinanceReadGuard } from "./budgets-treasury";
+import { FinanceReadGuard } from "./finance-plan";
+import { ACCOUNTS_MODULE } from "./accounts";
+import { PURCHASE_TAX_MODULE } from "./modules/purchase-tax";
 import { planFreeTime, takePlannedActs, type PlannedAct } from "./free-block";
 import {
   isExplicitlyControlledPersonV1,
@@ -28,10 +30,8 @@ import { LIFE_MODULE } from "./modules/life";
 import { PEOPLE_MODULE } from "./modules/people";
 import { FINANCE_MODULE } from "./modules/finance";
 import { RESIDENTS_MODULE } from "./modules/residents";
-import { ACCOUNTS_MODULE } from "./budgets-treasury";
 import { COUNTED_MOVES_MODULE } from "./modules/counted-moves";
 import { COUNTED_DEMOTION_MODULE } from "./modules/counted-demotion";
-import { PURCHASE_TAX_MODULE } from "./budgets-treasury";
 import { RETIREMENT_CLAIMS_MODULE } from "./modules/retirement-claims";
 import { SCHOOL_MODULE } from "./modules/school";
 import { DISASTERS_MODULE } from "./modules/disasters";

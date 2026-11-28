@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T21:40:21.176Z
 
 **Rules.** "An effect is a read, not a record": the past term dates are read by the officials' history and the term-limit count, so they must come from the rule. "One rule, all 56 places": the day comes from the state's row in data/elections/term-starts.json, never from a name in the code.
 
-**Done when.** In a played world from buildBenchWorld in a drawn place with a read start clause, every past governor term record starts on the day the rule gives for its year, checked in src/core2/elections-law.test.ts against the term record ids.
+**Done when.** In a played world from buildBenchWorld in a drawn place with a read start clause, every past governor term record starts on the day the rule gives for its year, checked in tests/src/core2/elections-law.test.ts against the term record ids.
 
 **Files.** src/core2/modules/offices.ts, src/core2/elections-calendar.ts
 

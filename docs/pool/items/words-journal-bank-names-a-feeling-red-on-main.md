@@ -19,9 +19,9 @@ effort: low
 root: rc4-hand-written-words
 ---
 
-**What.** On clean main at 047abba2c1, src/english/mined/journal-bank.test.ts fails one test of two: 'names no feeling anywhere in the bank' finds the piece journal.memoir-meant-friend.that-made-me-glad ('That made me glad.') in data/english/parts/journal.json, which matches the test's own list of feeling words (glad). Command: npx vitest run src/english/mined/journal-bank.test.ts. The piece has been in the bank since at least Nov 5, so either the test is newly reached or a recent journal change stopped holding the piece out; not checked which.
+**What.** On clean main at 047abba2c1, tests/src/english/mined/journal-bank.test.ts fails one test of two: 'names no feeling anywhere in the bank' finds the piece journal.memoir-meant-friend.that-made-me-glad ('That made me glad.') in data/english/parts/journal.json, which matches the test's own list of feeling words (glad). Command: npx vitest run tests/src/english/mined/journal-bank.test.ts. The piece has been in the bank since at least Nov 5, so either the test is newly reached or a recent journal change stopped holding the piece out; not checked which.
 
-**Cause.** Found in code: data/english/parts/journal.json (line 4287, key journal.memoir-meant-friend.that-made-me-glad, text "That made me glad.") matches the feeling words that the test "names no feeling anywhere in the bank" in src/english/mined/journal-bank.test.ts refuses (the word is "glad").
+**Cause.** Found in code: data/english/parts/journal.json (line 4287, key journal.memoir-meant-friend.that-made-me-glad, text "That made me glad.") matches the feeling words that the test "names no feeling anywhere in the bank" in tests/src/english/mined/journal-bank.test.ts refuses (the word is "glad").
 
 **Fix.** Story rewrites the memoir line from the records without naming a feeling (owner ruling, Nov 10, docs/coordination/OWNER-DECISIONS.md: the Journal names no feelings); do not weaken the test.
 
@@ -29,11 +29,11 @@ root: rc4-hand-written-words
 
 **Rules.** Red main comes first (owner, Oct 15). No hand-written player text in code: the fix is in the bank, written by Story (one writer per bank file), not in the screen. The journal names no feeling, as the test says; never weaken the test to get green.
 
-**Done when.** A second session, not the builder, runs `npx vitest run src/english/mined/journal-bank.test.ts` on main and sees both tests pass, then plays a year in a drawn place (place and seed named) to a memoir line of this move and reads a line that names no feeling and cites its records.
+**Done when.** A second session, not the builder, runs `npx vitest run tests/src/english/mined/journal-bank.test.ts` on main and sees both tests pass, then plays a year in a drawn place (place and seed named) to a memoir line of this move and reads a line that names no feeling and cites its records.
 
 **Waits on.** Nothing. Words work is split by role (owner, Nov 10): Story writes the line.
 
-**Files.** data/english/parts/journal.json, src/english/mined/journal-bank.test.ts, src/english/mined/journal-bank.ts
+**Files.** data/english/parts/journal.json, tests/src/english/mined/journal-bank.test.ts, src/english/mined/journal-bank.ts
 
 **Notes.** The same test fails the same way on the words machine's branches (pull requests 8114, 8117, 8124), which do not touch that piece.
 

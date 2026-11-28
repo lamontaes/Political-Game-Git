@@ -59,7 +59,12 @@ import type {
 } from "../types";
 import { nextMeetingOf } from "../office-day-calendar";
 import { officeById } from "./offices";
-import { SITTING_SHARED_HOURS, type SittingDay } from "../sitting-closeness";
+import {
+  sittingHours,
+  sittingKnownTo,
+  sittingTogether,
+  type SittingDay,
+} from "../sitting-closeness";
 import {
   addDays,
   makeIsoDate,
@@ -256,7 +261,16 @@ export const WORLD_LEGISLATING_MODULE: CoreModule = {
   // The chambers' and town bodies' calendars and seats, and the hours their
   // members have shared sitting together (read when two members' closeness is asked).
   sittingCalendar: SITTING_CALENDAR,
-  sharedHours: SITTING_SHARED_HOURS,
+  // Function declarations, so the field is whole while sitting-closeness.ts is still loading; the kind
+  // is the one its own half-life read uses (COLLEAGUE_KIND there).
+  sharedHours: {
+    hours: sittingHours,
+    known: {
+      kind: "coworker",
+      knownTo: sittingKnownTo,
+      together: sittingTogether,
+    },
+  },
   id: WORLD_LEGISLATING_MODULE_ID,
   // The hours a town body's meetings take from its members' days.
   officeTime: townMeetingHoursToday,

@@ -27,6 +27,6 @@ claimed-at: 2026-10-30T03:05:16.654Z
 
 **Screenshot.** People's web and list at 1440 by 900.
 
-**Files.** src/bench/ui/people-web.mjs, src/bench/play.mjs, src/bench/play.css, src/bench/card.ts, src/bench/circle.ts, src/bench/circle-changes.test.ts, src/bench/data/controls.json, src/bench/people.browser.mjs
+**Files.** src/bench/ui/people-web.mjs, src/bench/play.mjs, src/bench/play.css, src/bench/card.ts, src/bench/circle.ts, src/bench/circle-changes.test.ts, src/bench/data/controls.json, tests/src/bench/people.browser.mjs
 
 **Notes.** Filed by the CTO, Oct 30 03:35, under the Oct 29 23:00 ruling. Read: OWNER-DECISIONS Oct 29 23:00; DECISION-REGISTER OCD-LIFE-008; the People mock README (no circle marks in the mock); searched the pool: five closest, closer this year (no twin).

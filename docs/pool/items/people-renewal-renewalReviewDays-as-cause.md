@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Sliding scales and causes: nothing flips at a threshold and world events happen from causes, so a couple's decision is re-read when a record it weighs changes, not on a quarterly clock. No dice: no chance picks a pregnancy; the couple's own scores decide on the day they are re-read.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named), every renewal plan record (core2-renewal-v1 plans, id coupleId:plan:date) names the record whose change prompted its review, no plan is dated by a 91-day step alone, and src/core2/births-plan.test.ts gains a test that a job loss prompts a review on its day; renewalReviewDays is removed or kept only as a registered fallback.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named), every renewal plan record (core2-renewal-v1 plans, id coupleId:plan:date) names the record whose change prompted its review, no plan is dated by a 91-day step alone, and tests/src/core2/births-plan.test.ts gains a test that a job loss prompts a review on its day; renewalReviewDays is removed or kept only as a registered fallback.
 
 **Files.** src/core2/modules/renewal.ts, src/core2/data/renewal/parameters.json, src/core2/data/stopgaps.json
 

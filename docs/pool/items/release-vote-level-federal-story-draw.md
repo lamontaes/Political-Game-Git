@@ -19,7 +19,7 @@ claimed-at: 2026-10-23T21:03:09.416Z
 
 **Done when.** On a main-integrated head, the exact seed passes the complete vote-level.test.ts and a fresh drawn-place run also passes; name the national outlet, printed story and federal wire IDs and explain the root cause. Retain the named township regression alongside drawn coverage.
 
-**Files.** src/core2/vote-level.test.ts, src/core2/press-topics.ts, src/core2/modules/press.ts
+**Files.** tests/src/core2/vote-level.test.ts, src/core2/press-topics.ts, src/core2/modules/press.ts
 
 **Notes.** Found while gating PR #5827 on 2026-10-23. The unchanged second case failed in about 70 seconds on both integrated PR and clean frozen main. Prior release-red-vote-level-organizing-filed is done and already counts opening chamber IDs; this recurrence remains.
 

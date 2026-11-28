@@ -19,7 +19,7 @@ claimed-at: 2026-10-24T01:31:18.142Z
 
 **Done when.** A test beside housing-homeless.test.ts plays 400 days in buildBenchWorld in the place and seed that stopped and in a drawn place, with the place and seed named in every failure message, and every open lease has at least one living payer by contract id.
 
-**Files.** src/core2/housing-homeless.ts, src/core2/housing-rehouse-left-household.test.ts
+**Files.** src/core2/housing-homeless.ts, tests/src/core2/housing-rehouse-left-household.test.ts
 
 **Notes.** TODO
 

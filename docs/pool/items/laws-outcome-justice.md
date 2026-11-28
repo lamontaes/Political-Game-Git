@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T21:54:42.984Z
 
 **Rules.** The chain is the acceptance: the law record, the defendant, the hold and the release are all named by id. No dice: the hold comes from the law in force and the defendant's own cash against an estimated bail. One rule, all 56 places: the law is read through lawInForce for the drawn place.
 
-**Done when.** In a played world in a drawn place (buildBenchWorld, seed named in the test output), src/core2/justice-pretrial.test.ts shows a poor defendant held with cash bail law and freed when it is ended, citing the statute id. The owner plays it: a charged official sits out the wait for trial unless the state ended cash bail.
+**Done when.** In a played world in a drawn place (buildBenchWorld, seed named in the test output), tests/src/core2/justice-pretrial.test.ts shows a poor defendant held with cash bail law and freed when it is ended, citing the statute id. The owner plays it: a charged official sits out the wait for trial unless the state ended cash bail.
 
 **Files.** src/core2/justice-pretrial.ts, src/core2/modules/justice.ts, src/core2/data/justice/parameters.json, src/core2/data/stopgaps.json
 

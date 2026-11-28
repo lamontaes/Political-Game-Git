@@ -36,6 +36,6 @@ seen-at: 2026-11-11T00:00:34.704Z
 
 **Waits on.** core-fast-clock-part-1-a-results-mode-for-skipped-time.
 
-**Files.** src/core2/modules/health.ts, src/core2/life.ts, src/core2/results-mode-vitals.test.ts (new)
+**Files.** src/core2/modules/health.ts, src/core2/life.ts, tests/src/core2/results-mode-vitals.test.ts (new)
 
 **Notes.** Seen in the game (2026-11-11, second-session-1): Colchester, Connecticut, seed 3f0b7a9c2d1e4865a0b1, main c330c7fe8fe102d9e3932836b4e5a307cb26d32d: Test printed deaths 273 day by day and 273 skipped, births 443 vs 449, people 24298 vs 24115, and the ill household member died 2025-04-01 with a cause; in the browser Skip 1 year in Ponce, Puerto Rico (seed 835bc84d-d3db-4c92-92e3-08c18fed5ed9) moved the date a year and took 63.0 seconds, Skip 5 took 327.4 seconds.

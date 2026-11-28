@@ -31,11 +31,11 @@ checked: fable 2026-11-10
 
 **Rules.** Estimate, never UNKNOWN: until named depositors exist the funding starts from the real deposit-to-loan average with a spread and a source. Wire to the world: the bank's books must balance. Replace, never layer: the fake is deleted in the same change, and a row is never closed by deleting it without the mechanic. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE.
 
-**Done when.** A second session, on main in a drawn place (place and seed named in the PR body) and in Ingram, Texas with seed bank-probe-7a1, plays 40 days in dev mode, opens the bank's books, and sees the opening mortgages backed by deposit records of neighbors' savings by record id, with the balance sheet balancing. The test in src/core2/housing-mortgages.test.ts and the stopgap tripwire test show SG-WORLD-opening-mortgage-funding resolved.
+**Done when.** A second session, on main in a drawn place (place and seed named in the PR body) and in Ingram, Texas with seed bank-probe-7a1, plays 40 days in dev mode, opens the bank's books, and sees the opening mortgages backed by deposit records of neighbors' savings by record id, with the balance sheet balancing. The test in tests/src/core2/housing-mortgages.test.ts and the stopgap tripwire test show SG-WORLD-opening-mortgage-funding resolved.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/credit.ts, src/core2/data/stopgaps/world.json, src/core2/housing-mortgages.test.ts
+**Files.** src/core2/modules/credit.ts, src/core2/data/stopgaps/world.json, tests/src/core2/housing-mortgages.test.ts
 
 **Notes.** First row: The bank holds opening mortgages whose original funding is an unmatched opening liability, not named customer deposits. New savings deposits are actual journal transfers and are accounted for separately. Claim released Oct 23: branch gone.
 

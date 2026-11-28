@@ -17,7 +17,7 @@ claimed-at: 2026-10-16T19:46:56.444Z
 
 **Rules.** No dice: the new payer is the household's oldest living adult, not a draw. An effect is a read: the flow reads who is alive on the day it falls due. Replace, never layer: the dead payer's flow is moved or ended, not shadowed by a second flow. One model, two tiers: a counted household's flow follows the same rule as a full one. One rule, all 56 places.
 
-**Done when.** In a one-year played world (buildBenchWorld, a place drawn from all 56 with a seed the builder did not choose, both named in the PR body) a resident with cash and living kin dies, the household's living-cost flow is paid by a living adult from the next due date, the dead person's account is unchanged until probate closes, and an `estate.settled` record names the heirs by person id and the estate the account held. A test in src/core2/estate-living-costs.test.ts proves it and fails on current main.
+**Done when.** In a one-year played world (buildBenchWorld, a place drawn from all 56 with a seed the builder did not choose, both named in the PR body) a resident with cash and living kin dies, the household's living-cost flow is paid by a living adult from the next due date, the dead person's account is unchanged until probate closes, and an `estate.settled` record names the heirs by person id and the estate the account held. A test in tests/src/core2/estate-living-costs.test.ts proves it and fails on current main.
 
 **Files.** src/core2/modules/residents.ts, src/core2/residents.ts, src/core2/estates.ts
 

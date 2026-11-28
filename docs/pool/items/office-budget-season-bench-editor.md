@@ -17,8 +17,8 @@ claimed-at: 2026-10-20T07:51:36.925Z
 
 **Rules.** Replace, never layer: the direct setBudgetPriorities call in the bench is removed once the editor prepares the act, and the old route behavior goes with it. An effect is a read: the council or board must read the sent priorities when it votes the budget, so the editor is proven by the vote, not by the prepared row. This is a game, not a spreadsheet: one control per line and one send, no form. No hand-written player text: line names come from line-names.json through lineName and any season words from the English engine. One rule, all 56 places: the season dates come from each government's fiscalYearStart, never a named place.
 
-**Done when.** A test beside src/bench/office-deals.test.ts (budget-editor.test.ts) draws a place from all 56 with buildBenchWorld in a one-year played-world run on a seed the builder did not choose, makes the player the mayor, edits two lines outside the season (refused or only prepared) and inside it (prepared), runs the propose-budget act, and shows the council's vote reading those lines by the priorities record id and a budget record id.
+**Done when.** A test beside tests/src/bench/office-deals.test.ts (budget-editor.test.ts) draws a place from all 56 with buildBenchWorld in a one-year played-world run on a seed the builder did not choose, makes the player the mayor, edits two lines outside the season (refused or only prepared) and inside it (prepared), runs the propose-budget act, and shows the council's vote reading those lines by the priorities record id and a budget record id.
 
-**Files.** src/bench/budget.ts, src/bench/handler.ts, src/bench/play.mjs, src/bench/budget-editor.test.ts
+**Files.** src/bench/budget.ts, src/bench/handler.ts, src/bench/play.mjs, tests/src/bench/budget-editor.test.ts
 
 **Notes.** Oct 20 (pool feeder): spec written; the blocker office-budget-season-mayor-act is done, and the bench still bypasses the act with a direct write (budget.ts setPriority).

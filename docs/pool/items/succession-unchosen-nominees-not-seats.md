@@ -17,8 +17,8 @@ claimed-at: 2026-10-17T04:13:13.390Z
 
 **Rules.** Ask why: the passed-over nominees stay on the record (the choice's reasons name them). No dice.
 
-**Done when.** After a vice-presidential vacancy in a one-year run of the played world (Millersburg, Pennsylvania, seed 26ae22cd0efa reproduces it), the roster holds the three nominees with the two not chosen marked never seated, and the all-places seats check passes. A test in `src/core2/succession.test.ts` states the marking.
+**Done when.** After a vice-presidential vacancy in a one-year run of the played world (Millersburg, Pennsylvania, seed 26ae22cd0efa reproduces it), the roster holds the three nominees with the two not chosen marked never seated, and the all-places seats check passes. A test in `tests/src/core2/succession.test.ts` states the marking.
 
-**Files.** src/core2/modules/succession.ts, src/core2/modules/officials.ts, scripts/core2-year/all-places-worker.ts, src/core2/succession.test.ts
+**Files.** src/core2/modules/succession.ts, src/core2/modules/officials.ts, scripts/core2-year/all-places-worker.ts, tests/src/core2/succession.test.ts
 
 **Notes.** Found by the oct17main 56-place run on main (55 of 56 places pass all four checks).

@@ -29,8 +29,8 @@ checked:
 
 **Rules.** Follow the standing rule "Wire to the world" and the other standing rules in AGENTS.md; one engine files candidates, so the player's person goes through the same filing as any other person.
 
-**Done when.** At Sherrodsville (key 3972242) with seed "scan-25", a player who never filed hears no race or filing as their own news through the week after the 2025-11-04 vote, and a housemate who filed through the game's own filing (`fileForOffice`) hears their own race (`src/director/home-talk-own-race-only.test.ts`, both tests pinned there). A second session on main plays the same place with the filing route and sees the house talk about the player's race only after the player presses file.
+**Done when.** At Sherrodsville (key 3972242) with seed "scan-25", a player who never filed hears no race or filing as their own news through the week after the 2025-11-04 vote, and a housemate who filed through the game's own filing (`fileForOffice`) hears their own race (`tests/src/director/home-talk-own-race-only.test.ts`, both tests pinned there). A second session on main plays the same place with the filing route and sees the house talk about the player's race only after the player presses file.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/conversation.ts, src/director/home-talk-own-race-only.test.ts
+**Files.** src/director/conversation.ts, tests/src/director/home-talk-own-race-only.test.ts

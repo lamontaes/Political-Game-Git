@@ -29,11 +29,11 @@ branch: claude/pool-words-meeting-minutes-from-the-record
 
 **Rules.** Wire to the world: every topic is the bill or agenda item on the meeting's record and every member on the roll call is named from the vote record. An effect is a read, not a record: the minutes are read by a screen or the paper. No hand-written player text: only these bank pieces and new bank pieces word them.
 
-**Done when.** A second session, not the builder, plays a one-year run of the played world (buildBenchWorld) in a drawn place from all 56 (place and seed named), opens a past meeting on the body's page in Politics and reads minutes that discuss the meeting's agenda item and name the members who voted against it, by record id, with a screenshot at 1440x900. A test beside src/english/bill-paper-words.test.ts proves the wording, and SG-WORDS-minutes-no-reader is deleted.
+**Done when.** A second session, not the builder, plays a one-year run of the played world (buildBenchWorld) in a drawn place from all 56 (place and seed named), opens a past meeting on the body's page in Politics and reads minutes that discuss the meeting's agenda item and name the members who voted against it, by record id, with a screenshot at 1440x900. A test beside tests/src/english/bill-paper-words.test.ts proves the wording, and SG-WORDS-minutes-no-reader is deleted.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/data/situation-types.json, src/english/screen-words.ts, src/english/bill-paper-words.test.ts, src/director/data/stopgaps.json
+**Files.** src/director/data/situation-types.json, src/english/screen-words.ts, tests/src/english/bill-paper-words.test.ts, src/director/data/stopgaps.json
 
 **Notes.** Added Nov 8 by the Story session with the restore of the owner's liked lines (`scripts/dialogue-batch/liked-lines-kept.test.ts`). The graded keys stay in a bank until a scene reads them.
 

@@ -27,6 +27,6 @@ claimed-at: 2026-10-30T03:45:47.433Z
 
 **Screenshot.** Patch notes before and after at 1440 by 900.
 
-**Files.** src/bench/patch-notes.ts, src/bench/patch-notes.test.ts, src/bench/play.mjs, src/bench/play.css, src/bench/data/controls.json, src/bench/title-patch-notes.browser.mjs
+**Files.** src/bench/patch-notes.ts, tests/src/bench/patch-notes.test.ts, src/bench/play.mjs, src/bench/play.css, src/bench/data/controls.json, tests/src/bench/title-patch-notes.browser.mjs
 
 **Notes.** Filed by the CTO, Oct 30 04:00, the tenth screen of the menu redesign (Options already sits on one plate with no text block and is left as it is). Read: prior-rulings/screens.md items 22 and conflict 11; OWNER-DECISIONS Oct 29 22:45 and the Oct 28 subtitle ruling; searched the pool: patch notes (play-stop-13, screens-title-continue-name-only and the release items are other subjects; no twin).

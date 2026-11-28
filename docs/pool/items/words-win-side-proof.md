@@ -24,7 +24,7 @@ The test fix: swearing-in-scene.test.ts expected the journal to print the offici
 
 **Not proven.** The new race-told row (two days after, for a player who ran) was proven in a lost race (Cleveland, Utah, #8109). The winning run was uncontested and its race-told came from the original row for another count. Winning a contested race as an unknown 18-year-old was rare: eleven drawn races (seeds w1, w2, w3) lost, nine of them with one rival or an incumbent running.
 
-**Done when.** `GOLDEN_PATH_SEED=72 npx vitest run src/director/swearing-in-scene.test.ts` passes; src/director/victory-night.test.ts passes (seed 71, Charlottesville, Virginia).
+**Done when.** `GOLDEN_PATH_SEED=72 npx vitest run src/director/swearing-in-scene.test.ts` passes; tests/src/director/victory-night.test.ts passes (seed 71, Charlottesville, Virginia).
 
 **Files.**
 

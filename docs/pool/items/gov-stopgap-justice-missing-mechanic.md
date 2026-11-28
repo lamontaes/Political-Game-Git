@@ -31,11 +31,11 @@ checked: fable 2026-11-10
 
 **Rules.** No hand-written player text: the offer, the hearing and the verdict are worded by the English engine, and the screen shows record data and control names. Replace, never layer: the trait-decided plea and report for the player are deleted, and only non-player people use pleaOn and reportReasons. An effect is a read, not a record: the choice row is read by considerReport and the case step the day they decide. The chain is the acceptance: the offer, the pick, the case record, the sentence and the director's scene are all named by record id. No dice: a non-player defendant still weighs the plea from their own traits and the evidence.
 
-**Done when.** A second session, in a one-year run of the played world (buildBenchWorld, every module installed) in a place drawn from all 56 with a seed the builder did not choose, finds a case against the player's character showing an open plea offer, the player's choice row, and a trial or conviction that follows the pick, each by record id with the director scene; src/core2/justice-player.test.ts proves it and SG-GOV-justice-player-choices is resolved in src/core2/data/stopgaps/gov.json.
+**Done when.** A second session, in a one-year run of the played world (buildBenchWorld, every module installed) in a place drawn from all 56 with a seed the builder did not choose, finds a case against the player's character showing an open plea offer, the player's choice row, and a trial or conviction that follows the pick, each by record id with the director scene; tests/src/core2/justice-player.test.ts proves it and SG-GOV-justice-player-choices is resolved in src/core2/data/stopgaps/gov.json.
 
 **Waits on.** Nothing (words-justice-hearing-verdict-bank is done).
 
-**Files.** src/core2/modules/justice.ts, src/core2/player-control-state-v1.ts, src/core2/justice-player.test.ts, src/core2/data/stopgaps/gov.json
+**Files.** src/core2/modules/justice.ts, src/core2/player-control-state-v1.ts, tests/src/core2/justice-player.test.ts, src/core2/data/stopgaps/gov.json
 
 **Notes.** First row: The player's report and plea are decided by the character's own traits and the case's reads, like anyone else's, instead of being offered to the player.
 

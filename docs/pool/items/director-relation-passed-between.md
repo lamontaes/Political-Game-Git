@@ -30,10 +30,10 @@ checked: words lead 2026-11-15
 
 **Rules.** Replace, never layer. No dice. Wire to the world: the pinned test advances a day at Sheridan WY seed 7 and reads the records.
 
-**Done when.** A second session, on main, at a drawn place from all 56 (named in the check), has a person come to the player in a scene, answers it, waits a day, and sees that person's next scene not open with the stranger's line; the Journal or Trace names the `scene-reply:` record. src/director/relation-facts.test.ts passes.
+**Done when.** A second session, on main, at a drawn place from all 56 (named in the check), has a person come to the player in a scene, answers it, waits a day, and sees that person's next scene not open with the stranger's line; the Journal or Trace names the `scene-reply:` record. tests/src/director/relation-facts.test.ts passes.
 
 **Waits on.** director-relation-facts-one-reader (#9411).
 
-**Files.** src/director/relation-facts.ts, src/director/purpose-scene.ts, src/director/data/scene-talk-rules.json, data/english/parts/scene-talk.json, src/director/relation-facts.test.ts
+**Files.** src/director/relation-facts.ts, src/director/purpose-scene.ts, src/director/data/scene-talk-rules.json, data/english/parts/scene-talk.json, tests/src/director/relation-facts.test.ts
 
 **Notes.** Opens more placements: Words lead writes the lines that require `helped-before` or `refused-before`; none are added here. Open: "Got a second?" (job-ask opener) is not yet placed by these facts.

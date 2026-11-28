@@ -12,7 +12,7 @@ const receipt = await runCommand(
     "run",
     "--config",
     "scripts/core2/tooling/vitest.config.ts",
-    "src/core2/focus.test.ts",
+    "tests/src/core2/focus.test.ts",
   ],
   { cwd: process.cwd(), milliseconds: policies.prMilliseconds },
 );

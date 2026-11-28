@@ -17,7 +17,7 @@ claimed-at: 2026-10-26T23:08:08.218Z
 
 **Rules.** One rule, all 56 places: the delegate or resident commissioner of D.C., Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands is the player's own member of the House exactly as a state's representative is, from the offices data. Estimate, never UNKNOWN.
 
-**Done when.** In buildBenchWorld in a place drawn from D.C. and the five territories (bounded draws that fail when they run out), townSeats has the delegate's seat over the town, keyPeopleOf names its holder with reason own-us-representative, and src/bench/government-own-members.test.ts asserts one member of the House for every drawn place, named by record id.
+**Done when.** In buildBenchWorld in a place drawn from D.C. and the five territories (bounded draws that fail when they run out), townSeats has the delegate's seat over the town, keyPeopleOf names its holder with reason own-us-representative, and tests/src/bench/government-own-members.test.ts asserts one member of the House for every drawn place, named by record id.
 
 **Time box.** 3 hours. Model: Sonnet, no helpers.
 

@@ -129,7 +129,7 @@ Sources read: `docs/coordination/OWNER-DECISIONS.md`, `docs/play-first/LAW.md`, 
 
 - **Ruling.** "And these should all be able to be reversed as well." (Nov 7; quoted in item 3.) Repealing a fresh law follows the body's own rules from data; where there are none, a sliding reluctance from how recently and by how much it passed; no fixed cooldown (Oct 14; recorded).
 - **Status: partly.**
-  - Done: every active starting law has a reversal draft (#7330, `src/core2/starting-law-repeal-routes.test.ts`); every bill-catalog policy has a reverse operation (enact and repeal, raise and lower, expand and restrict).
+  - Done: every active starting law has a reversal draft (#7330, `tests/src/core2/starting-law-repeal-routes.test.ts`); every bill-catalog policy has a reverse operation (enact and repeal, raise and lower, expand and restrict).
   - Done: a state's bar on its towns is itself a law (#7314); a federal mandate governs and Congress can repeal it (#7316, #7322).
   - Done: the state town-ban vote, on and off, was played: Hamburg, New Jersey, replay `8d5e52aae98296b1` (S3 bars local rent rules 117-0, S4 restores them 83-37, and the town's row returns) (#7323, merged Nov 7). But its report and screenshots stayed on the Astra branch. `docs/reports/law-levels-state-reversal-2026-11-07/` is not on main; only the Congress report is.
   - Open: `law-levels-death-tax-zero-restoration` (estate and inheritance tax bills must restore their schedules after a zero). It is claimed by the stopped Astra session on `astra/death-tax-restoration`.

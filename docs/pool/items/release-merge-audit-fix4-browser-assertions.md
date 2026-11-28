@@ -17,9 +17,9 @@ claimed-at: 2026-10-26T10:20:40.989Z
 
 **Rules.** Wire to the world: run the existing bench and real filing flow in a place drawn from all 56, and require a nonempty checked row. Replace, never layer: assert exactly one of each named outing and absence of the old Today heading without skipping or narrowing assertions.
 
-**Done when.** Main is normally merged and the changed-file checks pass in the merger's own environment. In a drawn place from all 56, src/bench/campaign.browser.mjs passes against that bench; the PR body names the place, seed, checked head, and result. The browser test requires at least one applicable campaign row, no Today heading, and exactly one Knock on doors, Hold an event, Ask for an interview, and Call donors control per checked row.
+**Done when.** Main is normally merged and the changed-file checks pass in the merger's own environment. In a drawn place from all 56, tests/src/bench/campaign.browser.mjs passes against that bench; the PR body names the place, seed, checked head, and result. The browser test requires at least one applicable campaign row, no Today heading, and exactly one Knock on doors, Hold an event, Ask for an interview, and Call donors control per checked row.
 
-**Files.** src/bench/campaign.browser.mjs, docs/release/changes/audit-fix4-campaigns-browser-check.md
+**Files.** tests/src/bench/campaign.browser.mjs, docs/release/changes/audit-fix4-campaigns-browser-check.md
 
 **Notes.** TODO
 

@@ -17,8 +17,8 @@ claimed-at: 2026-10-20T05:36:59.327Z
 
 **Rules.** No dice: the tax follows the law in force and the purchases made; Every dollar balances: the collected tax is exactly the treasuries' receipts; One rule, all 56 places: the check runs in the drawn place with the seed named, nothing is named in code.
 
-**Done when.** With GOLDEN_PATH_SEED set to 3c95bb8562a14177f929263165b4517d25ed5263bf83f68c84dead5d0aae3069 the test in src/core2/budgets.test.ts passes in Venturia, North Dakota, because the cause is fixed in the engine rather than the place skipped, and the budgets tests pass in a fresh random draw.
+**Done when.** With GOLDEN_PATH_SEED set to 3c95bb8562a14177f929263165b4517d25ed5263bf83f68c84dead5d0aae3069 the test in tests/src/core2/budgets.test.ts passes in Venturia, North Dakota, because the cause is fixed in the engine rather than the place skipped, and the budgets tests pass in a fresh random draw.
 
-**Files.** src/core2/budgets.test.ts, src/core2/modules/budgets.ts, src/core2/purchase-tax.ts
+**Files.** tests/src/core2/budgets.test.ts, src/core2/modules/budgets.ts, src/core2/purchase-tax.ts
 
 **Notes.** TODO

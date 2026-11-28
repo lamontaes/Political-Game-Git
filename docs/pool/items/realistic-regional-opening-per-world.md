@@ -17,7 +17,7 @@ claimed-at: 2026-10-28T00:15:17.343Z
 
 **Rules.** No dice: each state's offsets are seeded generation of the starting world, drawn once from the world's seed, never an actor's outcome. One rule, all 56 places: every state and territory gets the same rule from data, and its metros move with it.
 
-**Done when.** In two played worlds (buildBenchWorld) on drawn places and seeds, the jobs report's region record id prints a rate that differs from the published one, and src/core2/regional.test.ts fails when two seeds or the published figures give the same unemployment, jobs, pay or price level for any region.
+**Done when.** In two played worlds (buildBenchWorld) on drawn places and seeds, the jobs report's region record id prints a rate that differs from the published one, and tests/src/core2/regional.test.ts fails when two seeds or the published figures give the same unemployment, jobs, pay or price level for any region.
 
 **Files.** src/core2/regional-model.ts, src/core2/modules/regional.ts, src/core2/data/regional/parameters.json
 

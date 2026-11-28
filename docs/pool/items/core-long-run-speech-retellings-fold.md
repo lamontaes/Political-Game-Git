@@ -17,7 +17,7 @@ claimed-at: 2026-10-30T07:38:04.221Z
 
 **Rules.** Speed and the Oct 30 01:55 bar (records kept stay flat over a save); CTO, Oct 30 04:14: a fold keeps what play reads, with each reader's window agreed by its owner.
 
-**Done when.** Each day the retellings of speeches given speechRetellingKeptDays before (a TUNABLE parameter, 30) are dropped, found through a byDate index on addresses with no scan, and the speech's address row stays; src/core2/speech-retellings-fold.test.ts shows the retellings kept through the last day and gone the day after; a 2-year speed:year run of seed long-1 on main and on the branch differs in dev mode's records proof only in speech.retellings, with the rows in the PR body.
+**Done when.** Each day the retellings of speeches given speechRetellingKeptDays before (a TUNABLE parameter, 30) are dropped, found through a byDate index on addresses with no scan, and the speech's address row stays; tests/src/core2/speech-retellings-fold.test.ts shows the retellings kept through the last day and gone the day after; a 2-year speed:year run of seed long-1 on main and on the branch differs in dev mode's records proof only in speech.retellings, with the rows in the PR body.
 
 **Files.** src/core2/modules/speech.ts, src/core2/data/speech/parameters.json
 

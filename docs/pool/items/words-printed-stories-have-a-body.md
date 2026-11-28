@@ -20,7 +20,7 @@ claimed-at: 2026-10-29T19:21:37.381Z
 
 **Done when.** In a played year of a drawn place, printed law and election stories carry a body of the lede plus one or two sentences the record gives (the law's subject, the bill it came from, the race's opponent); News prints them; printed-words.test.ts fails when no printed story in the year has a body or a body repeats a sentence.
 
-**Files.** src/english/english-newscast.ts, src/bench/archive-words.ts, src/bench/printed-words.ts, data/english/parts/news.json, src/bench/printed-words.test.ts
+**Files.** src/english/english-newscast.ts, src/bench/archive-words.ts, src/bench/printed-words.ts, data/english/parts/news.json, tests/src/bench/printed-words.test.ts
 
 **Notes.** Filed by the words lead on Oct 28.
 

@@ -19,7 +19,7 @@ source: Merger codex-1251 on #8928, Nov 12 23:24Z (printed-news red by draw, NEW
 merged-at: 2026-11-13T04:07:24.330Z
 ---
 
-**What.** In Arial, South Carolina (NEWS_SEED=484cc751bef6ccc5) and Lakeville, Connecticut (w3-open-fresh-1), News opens on the home paper, which has printed nothing, while a station or network the player follows has stories they heard and have not read. The player sees an empty page and has to find the news tab by tab; `src/bench/printed-news.browser.mjs` fails "News lists no story" on main in both. Seen: the News sheet's first page, on a new life's June 1, 2025.
+**What.** In Arial, South Carolina (NEWS_SEED=484cc751bef6ccc5) and Lakeville, Connecticut (w3-open-fresh-1), News opens on the home paper, which has printed nothing, while a station or network the player follows has stories they heard and have not read. The player sees an empty page and has to find the news tab by tab; `tests/src/bench/printed-news.browser.mjs` fails "News lists no story" on main in both. Seen: the News sheet's first page, on a new life's June 1, 2025.
 
 **Cause.** Found in code: `news` in src/bench/play.mjs opened on `newsTab` (the last tab chosen) or else the first tab, which is the home paper by rank, whether it had anything or not. Nothing on the screen knew what the player had read. And the open sheet redraws on the day's refresh, so a rule that marks a page read when shown would move the page under the player.
 
@@ -33,4 +33,4 @@ merged-at: 2026-11-13T04:07:24.330Z
 
 **Waits on.** #8982 (the empty-page lines; this branch is stacked on it).
 
-**Files.** src/bench/play.mjs, src/bench/ui/news-open.mjs, src/bench/news-open.test.ts
+**Files.** src/bench/play.mjs, src/bench/ui/news-open.mjs, tests/src/bench/news-open.test.ts

@@ -30,10 +30,10 @@ checked: sonnet 2026-11-14
 
 **Rules.** Wire to the world: the fix goes through the engines a played world uses and a case that fails for its own reason stays failing until fixed, never loosened or skipped; one rule, all 56 places: the cases keep drawing places and name each place and seed.
 
-**Done when.** A second session, not the builder, runs `npx vitest run src/core2/law-reach-group-b.test.ts` on main in a drawn place and seed it names (buildBenchWorld not needed, the test builds the world) and sees the named cases pass with their assertions unchanged, with the record ids each case writes named.
+**Done when.** A second session, not the builder, runs `npx vitest run tests/src/core2/law-reach-group-b.test.ts` on main in a drawn place and seed it names (buildBenchWorld not needed, the test builds the world) and sees the named cases pass with their assertions unchanged, with the record ids each case writes named.
 
 **Waits on.** The group B setup fix folding.
 
-**Files.** src/core2/law-reach-group-b.test.ts; src/core2/law-reach/group-b-money.ts
+**Files.** tests/src/core2/law-reach-group-b.test.ts; src/core2/law-reach/group-b-money.ts
 
 **Notes.** Found while fixing tests-law-reach-group-b-fails-in-setup.

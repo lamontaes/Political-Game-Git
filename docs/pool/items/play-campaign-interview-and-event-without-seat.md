@@ -17,9 +17,9 @@ claimed-at:
 
 **Rules.** Screens show record data and control names; no hand-written player text (words from the English engine). This is a game, not a spreadsheet: each is one choice with a scene, not a form. An effect is a read: the interview and the event move the race through the engine's causes.
 
-**Done when.** In a played world (buildBenchWorld) in a drawn place and seed named in the PR body, a candidate with no seat takes the interview choice and the event choice from the campaign view by control name, each writes the engine's own act and cause records named by id, and src/bench/campaign-day-controls.test.ts asserts both.
+**Done when.** In a played world (buildBenchWorld) in a drawn place and seed named in the PR body, a candidate with no seat takes the interview choice and the event choice from the campaign view by control name, each writes the engine's own act and cause records named by id, and tests/src/bench/campaign-day-controls.test.ts asserts both.
 
-**Files.** src/bench/campaign.ts, src/bench/campaign-day-controls.test.ts, src/bench/data/controls.json
+**Files.** src/bench/campaign.ts, tests/src/bench/campaign-day-controls.test.ts, src/bench/data/controls.json
 
 **Notes.** Filed by fs11vb from the Oct 20 merge audit, fix 4 (which allowed filing the gap as its own item).
 

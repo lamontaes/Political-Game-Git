@@ -18,7 +18,7 @@ claimed-at: 2026-10-17T01:02:30.420Z
 
 **Rules.** Wire to the world: a legal sale must move a dollar through the receipt in every place whose law legalizes it, not one example state. An effect is a read, not a record: the sales tax engine reads the receipt at the moment it collects. One model, two tiers: counted buyers pay with the same rule as full people. One rule, all 56 places: legality and rates come from each place's law data.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56 where cannabis is legal, seed named) a cannabis sale receipt record id carries the sales tax in force and the treasury ledger record id receives it. The test in src/core2/purchase-tax.test.ts or src/core2/law-reach-group-b.test.ts covers it. The owner plays it: pass the legalization law and read the tax revenue line in the budget.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56 where cannabis is legal, seed named) a cannabis sale receipt record id carries the sales tax in force and the treasury ledger record id receives it. The test in tests/src/core2/purchase-tax.test.ts or tests/src/core2/law-reach-group-b.test.ts covers it. The owner plays it: pass the legalization law and read the tax revenue line in the budget.
 
 **Files.** src/core2/modules/purchase-tax.ts, src/core2/law-reach/group-b.ts, src/core2/data/laws/
 

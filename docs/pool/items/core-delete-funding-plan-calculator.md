@@ -18,6 +18,6 @@ source: split from core-stopgap-parameters-authored-finance-policy for PR #5375
 
 **Done when.** Repository searches of src, data, tests and scripts find no remaining references to planBusinessFunding, FundingPlanInput or the four removed reason ids. business-books.test.ts, finance-writer-contract.test.ts and tooling/tripwires.test.ts pass. finishFinanceDay still reads businessRepaymentShare through the existing policy key, estimateCreditLimit remains tested, and SG-P8-business-books-credit-policy stays registered and open for the live repayment policy.
 
-**Files.** src/core2/business-books.ts, src/core2/business-books.test.ts, src/core2/data/business-books.json, src/core2/data/stopgaps.json
+**Files.** src/core2/business-books.ts, tests/src/core2/business-books.test.ts, src/core2/data/business-books.json, src/core2/data/stopgaps.json
 
 **Notes.** The parent item and its one-year acceptance remain intact. This bounded item tracks only the unused-code cleanup already implemented in PR #5375.

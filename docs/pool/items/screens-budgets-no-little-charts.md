@@ -21,7 +21,7 @@ source: added with npm run pool -- add
 **What.** The CTO, Nov 24 06:46Z, caught that every department on Politics, Budgets draws a trend line. The owner ruled on Nov 5 data, never charts, and Metrics line was approved only on click (Nov 12). Budgets already carries Last year and Since last year as figures.
 Seen: Politics, Budgets, a department and the government totals, at 1440 by 900. Seen: Budgets, a department with Last year as figures and no line, after. Guards: budgets-history.browser.mjs
 
-**Cause.** Measured: `node src/bench/budgets-history.browser.mjs` (the added assertion, with budgets drawing history) fails on main; after 40 played weeks on drawn Kennewick, Washington the department page and both totals each draw a line (3 svg.trend-line). The Budgets sheet in src/bench/play.mjs passes each record history to trendLine through a local history helper at the department page and the revenue and spending totals.
+**Cause.** Measured: `node tests/src/bench/budgets-history.browser.mjs` (the added assertion, with budgets drawing history) fails on main; after 40 played weeks on drawn Kennewick, Washington the department page and both totals each draw a line (3 svg.trend-line). The Budgets sheet in src/bench/play.mjs passes each record history to trendLine through a local history helper at the department page and the revenue and spending totals.
 
 **Fix.** Delete the history helper, its three calls and the trendLine import from play.mjs; Last year and Since last year rows stay as the figures. Metrics keeps its line through metrics-screen.mjs.
 
@@ -33,4 +33,4 @@ Seen: Politics, Budgets, a department and the government totals, at 1440 by 900.
 
 **Waits on.** Nothing
 
-**Files.** src/bench/play.mjs,src/bench/budgets-history.browser.mjs
+**Files.** src/bench/play.mjs,tests/src/bench/budgets-history.browser.mjs

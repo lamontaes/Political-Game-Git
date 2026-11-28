@@ -18,9 +18,9 @@ claimed-at:
 
 **Rules.** Replace, never layer: the participant-average sizing is deleted when the formula replaces it, not kept beside it. Placeholders: the row is closed only because the mechanic is built. An effect is a read, not a record: the claim must read the law and the earnings record, and the account must read the award. One model, two tiers: the proof covers a full and a counted claimant. This is a game, not a spreadsheet: spouse, survivor and earnings-test benefits are a question for the owner in the PR body, not a feature.
 
-**Done when.** After both parts are done, a one-year run of buildBenchWorld in a drawn place from all 56 (place and seed named in the PR body, a seed the builder did not choose) shows a full and a counted claimant each starting an award by claim record id sized from their earnings record by the law row, no stopgap hit for SG-CORE-retirement-claims-in-play, the row resolved in stopgaps.json, and src/core2/retirement-claims.test.ts passing.
+**Done when.** After both parts are done, a one-year run of buildBenchWorld in a drawn place from all 56 (place and seed named in the PR body, a seed the builder did not choose) shows a full and a counted claimant each starting an award by claim record id sized from their earnings record by the law row, no stopgap hit for SG-CORE-retirement-claims-in-play, the row resolved in stopgaps.json, and tests/src/core2/retirement-claims.test.ts passing.
 
-**Files.** src/core2/modules/retirement-claims.ts, src/core2/data/stopgaps.json, src/core2/retirement-claims.test.ts
+**Files.** src/core2/modules/retirement-claims.ts, src/core2/data/stopgaps.json, tests/src/core2/retirement-claims.test.ts
 
 **Notes.** First row: People who reach their claim age during play, full or counted, start a Social Security award sized like the opening's (a participant-average amount scaled by modeled covered months), paid monthly by the place's outside p
 

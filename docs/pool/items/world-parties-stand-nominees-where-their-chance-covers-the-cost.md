@@ -21,7 +21,7 @@ lead: world
 
 **Cause.** Found in code: `decide` in `src/core2/modules/voting.ts` built its candidate list from both parties of the seat unconditionally (`parties.map(candidateInputs)`).
 
-**Fix.** In a century world the list holds only the parties whose chance of taking the seat covers what standing a nominee costs (`partyFieldsNominee` in `candidacy.ts`: the normal curve at the seat's lean over the swing spread, against `candidacyPartyStandingCost`, ESTIMATED). A race always keeps at least one side. The town's own statewide races (`fileNominees`) are the next unit. `src/core2/outside-races-field.test.ts` draws places, plays the first general election and checks each race's major-party votes against the rule.
+**Fix.** In a century world the list holds only the parties whose chance of taking the seat covers what standing a nominee costs (`partyFieldsNominee` in `candidacy.ts`: the normal curve at the seat's lean over the swing spread, against `candidacyPartyStandingCost`, ESTIMATED). A race always keeps at least one side. The town's own statewide races (`fileNominees`) are the next unit. `tests/src/core2/outside-races-field.test.ts` draws places, plays the first general election and checks each race's major-party votes against the rule.
 
 **Time box.** 3 hours.
 
@@ -31,4 +31,4 @@ lead: world
 
 **Waits on.** The challenger's-odds change (its swing spread).
 
-**Files.** src/core2/modules/candidacy.ts, src/core2/modules/voting.ts, src/core2/data/candidacy/parameters.json, src/core2/outside-races-field.test.ts
+**Files.** src/core2/modules/candidacy.ts, src/core2/modules/voting.ts, src/core2/data/candidacy/parameters.json, tests/src/core2/outside-races-field.test.ts

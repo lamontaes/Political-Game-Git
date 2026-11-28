@@ -1,6 +1,6 @@
 # The bill screens (play-vote-and-bill-screens-redesign, bill half)
 
-Bench 1440×900, Brookside, Delaware (County of New Castle commission), seed `4d50e1f88df997f9`. Replay: `BENCH_SEED=4d50e1f88df997f9 SHOTS_DIR=<dir> node src/bench/bill-screens.browser.mjs`.
+Bench 1440×900, Brookside, Delaware (County of New Castle commission), seed `4d50e1f88df997f9`. Replay: `BENCH_SEED=4d50e1f88df997f9 SHOTS_DIR=<dir> node tests/src/bench/bill-screens.browser.mjs`.
 
 - `draft-before.png` (main): the draft line is a dropdown named by its group ("Highways"), a bare 0 and Draft; no current amount, no unit.
 - `draft-after.png`: a Draft a bill card: the issue, "In force today 0%" beside "The new amount 2 %", and Draft.

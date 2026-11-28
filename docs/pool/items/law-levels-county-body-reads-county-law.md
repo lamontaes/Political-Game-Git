@@ -19,6 +19,6 @@ claimed-at: 2026-11-06T17:36:30.374Z
 
 **Done when.** provisionStance reads the body's own jurisdiction (billJurisdiction) for the amount in force; a drawn-place test shows a county rate and the town's give different readings.
 
-**Files.** src/core2/modules/legislature.ts,src/core2/county-body-reads-county-law.test.ts
+**Files.** src/core2/modules/legislature.ts,tests/src/core2/county-body-reads-county-law.test.ts
 
 **Notes.** TODO

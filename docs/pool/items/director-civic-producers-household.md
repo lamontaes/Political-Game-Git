@@ -17,7 +17,7 @@ claimed-at: 2026-10-15T23:16:57.588Z
 
 **Rules.** No dice: a scene fires from a recorded cause, never a roll, and a quiet day fires nothing. The chain is the acceptance: each fired scene is traced from its cause record to the scene to the journal line. One rule, all 56 places: a random place and seed from all 56, named. Speed: the ledger acts on the day a record is written, never by scanning the world each day.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a household with a lost job or an eviction gets exactly one scene for the cause, traced to its record id, and a test in src/director/director.test.ts proves no cause stages two. The owner plays it: he loses a job and sees one scene.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a household with a lost job or an eviction gets exactly one scene for the cause, traced to its record id, and a test in tests/src/director/director.test.ts proves no cause stages two. The owner plays it: he loses a job and sees one scene.
 
 **Files.** src/director/scheduling.ts, src/director/data/situation-types.json
 

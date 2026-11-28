@@ -21,7 +21,7 @@ seen-at: 2026-11-11T02:35:31.685Z
 
 **Rules.** No new engine. Each sentence is at most ten words, requires its facts by its slots, and invents no helper or feeling the records lack. No dice.
 
-**Done when.** src/director/journal-work-stories.test.ts plays a drawn world for a year and prints the work entries written, each with its past-work record ids, none of them "After ... out of work"; the English and families guards pass.
+**Done when.** tests/src/director/journal-work-stories.test.ts plays a drawn world for a year and prints the work entries written, each with its past-work record ids, none of them "After ... out of work"; the English and families guards pass.
 
 **Files.** src/director/journal.ts, src/director/data/journal-rows.json, src/english/journal-words.ts, data/english/parts/journal.json, src/director/data/stopgaps.json
 

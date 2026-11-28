@@ -30,11 +30,11 @@ checked: fable 2026-11-10
 
 **Rules.** No hand-written player text: the occasion is worded by the English engine from the record's kind, with any new piece authored into data/english/parts with origin and author, never typed in code. Ask why: the line cites the speech record id and the occasion record id it rests on. An effect is a read, not a record: the director reads the occasion fact when it builds the scene, and a fact no scene reads is a placeholder. One rule, all 56 places: occasions are record kinds, never named venues or towns.
 
-**Done when.** A second session, not the builder, runs the test in src/director/director.test.ts over a one-year played world (buildBenchWorld, a drawn place from all 56, seed named) that gives a speech through the bench's speechGive at two kinds of occasion and sees a listener's journal line or scene name each, by the speech record id and the occasion record id; a speech with no occasion fact words without one and does not crash.
+**Done when.** A second session, not the builder, runs the test in tests/src/director/director.test.ts over a one-year played world (buildBenchWorld, a drawn place from all 56, seed named) that gives a speech through the bench's speechGive at two kinds of occasion and sees a listener's journal line or scene name each, by the speech record id and the occasion record id; a speech with no occasion fact words without one and does not crash.
 
 **Waits on.** core-speech-heard-occasion.
 
-**Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/english/english-composition.ts, src/director/director.test.ts, src/core2/modules/speech.ts
+**Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/english/english-composition.ts, tests/src/director/director.test.ts, src/core2/modules/speech.ts
 
 **Notes.** Checked Oct 20: No speech:occasion fact exists anywhere in src; it needs director-speech-builder-occasion first, and a built speech must first be given in play (giveBuiltSpeech has no caller outside tests). Nothing to build until a producer gives a built speech in play; the occasion would then be a record id (the rally, hearing or meeting it was given at), never typed text.
 

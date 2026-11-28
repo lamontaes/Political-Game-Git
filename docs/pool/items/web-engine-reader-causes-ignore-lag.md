@@ -31,10 +31,10 @@ merged-at: 2026-11-12T21:48:36.922Z
 
 **Rules.** Standing rule "an effect is a read, not a record": the web reads the cause on the month its lag points to, not today's value. Standing rule "one rule, all 56 places": the fix names no place and is checked in a drawn one.
 
-**Done when.** A second session plays buildBenchWorld in the Prescott, Michigan seed a91c03e7d2b84f10 or a drawn place it chose (named), raises a county property tax in January 2025, and sees rent move from the January 2026 row and not before, named by the web's row id; src/core2/outcome-web.test.ts has a case that fails without the change.
+**Done when.** A second session plays buildBenchWorld in the Prescott, Michigan seed a91c03e7d2b84f10 or a drawn place it chose (named), raises a county property tax in January 2025, and sees rent move from the January 2026 row and not before, named by the web's row id; tests/src/core2/outcome-web.test.ts has a case that fails without the change.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/outcome-web.ts, src/core2/outcome-web.test.ts
+**Files.** src/core2/modules/outcome-web.ts, tests/src/core2/outcome-web.test.ts
 
 **Notes.** Laws lead, Oct 25, from PR #5649.

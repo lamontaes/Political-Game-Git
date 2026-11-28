@@ -30,11 +30,11 @@ checked: fable 2026-11-10
 
 **Rules.** One model, two tiers: the same bar, applied to a group's convicted count, as to a full person. Real rates check totals and never pick one person's outcome. One rule, all 56 places. An effect is a read, not a record: the electorate reads the groups' conviction counts when it counts voters.
 
-**Done when.** A second session, not the builder, runs a one-year played world (`buildBenchWorld`) in a drawn place from all 56 and a seed the builder did not choose, both named. The counted electorate's barred count comes from the groups' conviction counts and the restoration law in force, shown by group ids, and the state's real share is reported next to the total with its spread (a figure to report, not a pass mark). SG-GOV-REACH-A-convictions is resolved and the test in src/core2/law-reach-group-a.test.ts passes. Nothing on screen reads it yet beyond the election night results.
+**Done when.** A second session, not the builder, runs a one-year played world (`buildBenchWorld`) in a drawn place from all 56 and a seed the builder did not choose, both named. The counted electorate's barred count comes from the groups' conviction counts and the restoration law in force, shown by group ids, and the state's real share is reported next to the total with its spread (a figure to report, not a pass mark). SG-GOV-REACH-A-convictions is resolved and the test in tests/src/core2/law-reach-group-a.test.ts passes. Nothing on screen reads it yet beyond the election night results.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/law-reach/group-a-voting.ts, src/core2/modules/justice.ts, src/core2/counted-groups.ts, src/core2/electorate-inputs.ts, src/core2/data/elections/felony-disenfranchisement.json, src/core2/law-reach-group-a.test.ts
+**Files.** src/core2/law-reach/group-a-voting.ts, src/core2/modules/justice.ts, src/core2/counted-groups.ts, src/core2/electorate-inputs.ts, src/core2/data/elections/felony-disenfranchisement.json, tests/src/core2/law-reach-group-a.test.ts
 
 **Notes.** Split from laws-stopgap-reach-group-a-missing-record. The named-person half is in the group A voting PR (barredFromVoting). Claim released Oct 23: branch idle since Oct 19.
 
