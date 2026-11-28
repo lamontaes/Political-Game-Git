@@ -21,7 +21,7 @@ import {
   type GovernmentRow,
 } from "../modules/budgets";
 import { countedStaffOf, residentsRuntime } from "../residents-reads";
-import { countedJobsOf } from "../residents-economy";
+import { countedJobsOf } from "../counted-job-heads";
 import {
   fundedOpenings,
   layOffCounted,

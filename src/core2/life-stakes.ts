@@ -27,7 +27,7 @@ import { decisionLean, decisionTraitWeight } from "./trait-decisions";
 import { fullHouseholdIncomes, incomeBandOn } from "./counted-income-fifth";
 import { coreAPI } from "./state";
 import publicPay from "./data/laws/public-pay-floor.json" with { type: "json" };
-import { householdIncome, residentsRuntime } from "./modules/residents";
+import { householdIncome, residentsRuntime } from "./residents-reads";
 import { planReaders } from "./life-plan-readers";
 import type { CountedHousehold } from "./counted-groups";
 import type { CoreState, PersonState } from "./types";

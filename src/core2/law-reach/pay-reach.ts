@@ -6,8 +6,8 @@
  * `add` for each job the engine raised, then `flush` once.
  */
 import { lawApplied } from "./applied";
-import { residentsRuntime } from "../modules/residents";
-import { countedJobHeads } from "../modules/residents";
+import { residentsRuntime } from "../residents-reads";
+import { countedJobHeads } from "../counted-job-heads";
 import type { CoreAPI, CoreState, JobInput } from "../types";
 
 /**

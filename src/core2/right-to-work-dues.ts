@@ -16,7 +16,7 @@ import { worldUnionRatePct } from "./union-rate";
 import type { CoreAPI, CoreState } from "./types";
 import { lawChain, lawInForce } from "./modules/laws";
 import { residentsRuntime } from "./residents-reads";
-import { setResidentFlowAmount } from "./residents-economy";
+import { setResidentFlowAmount } from "./resident-flows";
 import { lawApplied } from "./law-reach/applied";
 import { reachParameter, REACH_A_MODULE_ID } from "./law-reach/group-a-records";
 

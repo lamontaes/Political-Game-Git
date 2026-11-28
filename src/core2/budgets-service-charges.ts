@@ -28,7 +28,7 @@ import {
 import { registerWorldMapPart } from "./snapshot";
 import { lawChain, lawInForce } from "./modules/laws";
 import { FEE_LEVEL_BASELINE, FEE_LEVEL_SERVICES } from "./fee-levels";
-import { monthlyLivingCostMinor, residentsRuntime } from "./modules/residents";
+import { monthlyLivingCostMinor, residentsRuntime } from "./residents-reads";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, CoreState } from "./types";
 
