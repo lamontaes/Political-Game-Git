@@ -19,7 +19,7 @@ import construction from "./data/housing/construction.json" with { type: "json" 
 import type { ModuleTable } from "./module-state";
 import { residentsRuntime } from "./modules/residents";
 import { webFactorFor } from "./outcome-web-reach";
-import { carriedLink } from "./modules/outcome-web";
+import { carriedLink } from "./outcome-web-model";
 import { stableHash } from "./kernel/ids";
 import { transferCash } from "./budgets-treasury";
 import { lawApplied } from "./law-reach/applied";

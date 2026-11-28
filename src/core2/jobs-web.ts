@@ -16,7 +16,7 @@ import { ageOn, MemberState, type CountedStore } from "./counted-groups";
 import { citizenShareOf } from "./modules/voting";
 import { lawChain } from "./modules/laws";
 import { firstHeldPretrial } from "./modules/justice";
-import { carriedLink } from "./modules/outcome-web";
+import { carriedLink } from "./outcome-web-model";
 import { completedMonthsBetween, makeIsoDate } from "./kernel/dates";
 import type { HouseholdKind } from "./counted-groups";
 import { parameter } from "./parameters";
