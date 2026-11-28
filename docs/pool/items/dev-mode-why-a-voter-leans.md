@@ -28,8 +28,8 @@ source: owner, Nov 16 00:59Z (every trace in dev mode); views thread
 
 **Rules.** Ask why: a tester reads each voter's lean and choice from the records the races read, by record id.
 
-**Done when.** A second session opens a person's card in dev mode in a drawn place and finds "Why they lean" with the lean races read, the views row and, once filing has closed, each race's appeal with the first choice; the test src/bench/dev-views/voter-lean.test.ts passes at its pinned place.
+**Done when.** A second session opens a person's card in dev mode in a drawn place and finds "Why they lean" with the lean races read, the views row and, once filing has closed, each race's appeal with the first choice; the test tests/src/bench/dev-views/voter-lean.test.ts passes at its pinned place.
 
 **Waits on.** PR #9619 (the one registration point).
 
-**Files.** src/bench/dev-views/voter-lean.ts (new), src/bench/dev-views/voter-lean.test.ts (new), src/bench/ui/voter-lean.mjs (new), src/bench/ui/dev-views.mjs, src/bench/play.mjs
+**Files.** src/bench/dev-views/voter-lean.ts (new), tests/src/bench/dev-views/voter-lean.test.ts (new), src/bench/ui/voter-lean.mjs (new), src/bench/ui/dev-views.mjs, src/bench/play.mjs

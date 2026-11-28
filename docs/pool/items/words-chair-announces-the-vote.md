@@ -30,10 +30,10 @@ checked: fable 2026-11-10
 
 **Rules.** No hand-written player text: the words come from the bank piece address.chair-run-meeting.the-motion-carries, and a failed question needs its own piece. Wire to the world: the chair's line reads the bill's recorded roll, never a typed result. Ask why: the scene cites the vote record it announces.
 
-**Done when.** A second session plays a one-year run of buildBenchWorld in a drawn place from all 56 (place and seed named) and sees a bill that passes on a recorded roll get a chair turn saying 'The motion carries.' with the vote record id, and a bill that fails get its own failed-question line and not that one; a test beside src/director/scene-talk.test.ts proves it, and SG-WORDS-address-no-reader is deleted.
+**Done when.** A second session plays a one-year run of buildBenchWorld in a drawn place from all 56 (place and seed named) and sees a bill that passes on a recorded roll get a chair turn saying 'The motion carries.' with the vote record id, and a bill that fails get its own failed-question line and not that one; a test beside tests/src/director/scene-talk.test.ts proves it, and SG-WORDS-address-no-reader is deleted.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/data/situation-types.json, src/director/purpose-scene.ts, src/director/scene-talk.test.ts, src/director/data/stopgaps.json
+**Files.** src/director/data/situation-types.json, src/director/purpose-scene.ts, tests/src/director/scene-talk.test.ts, src/director/data/stopgaps.json
 
 **Notes.** Added Nov 8 by the Story session with the restore of the owner's liked lines (`scripts/dialogue-batch/liked-lines-kept.test.ts`). The graded keys stay in a bank until a scene reads them.

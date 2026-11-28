@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice; an effect is a read (another engine must read what is written); one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place, a state legislator's vote cites a stance from their views, with the stance record id and how they learned of the matter, and a case made to them moves it, shown by a test in src/core2/views.test.ts.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place, a state legislator's vote cites a stance from their views, with the stance record id and how they learned of the matter, and a case made to them moves it, shown by a test in tests/src/core2/views.test.ts.
 
 **Files.** src/core2/modules/officials.ts, src/core2/modules/world-legislating.ts, src/core2/modules/views.ts
 

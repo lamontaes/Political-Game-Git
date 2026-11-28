@@ -36,4 +36,4 @@ checked: account lead 2026-11-14
 
 **Files.** src/core2/modules/candidacy.ts, src/core2/opening-roles.ts, src/core2/counted-groups.ts, src/core2/electorate.ts, src/core2/data/stopgaps/lives.json
 
-**Notes.** Pinned test src/core2/civic-roles.test.ts (Edgar WI 5522550, seed civic-roles-1).
+**Notes.** Pinned test tests/src/core2/civic-roles.test.ts (Edgar WI 5522550, seed civic-roles-1).

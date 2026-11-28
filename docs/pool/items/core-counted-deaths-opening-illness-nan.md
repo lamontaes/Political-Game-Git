@@ -17,8 +17,8 @@ claimed-at: 2026-10-19T17:54:53.736Z
 
 **Rules.** Sliding scales and causes: a counted death follows from an illness record and the person's health, never from a monthly chance. One model, two tiers: a counted person's illnesses and deaths read by the same rule as a full person's, times their count.
 
-**Done when.** In the played world (`buildBenchWorld`, a drawn place and a seed the builder did not choose) the first four months show at least half the deaths the tables expect, with the illnesses under way booked at the opening by record id; the test `src/core2/counted-deaths-opening.test.ts` states this and fails on main.
+**Done when.** In the played world (`buildBenchWorld`, a drawn place and a seed the builder did not choose) the first four months show at least half the deaths the tables expect, with the illnesses under way booked at the opening by record id; the test `tests/src/core2/counted-deaths-opening.test.ts` states this and fails on main.
 
-**Files.** src/core2/births-counted.ts, src/core2/counted-deaths-opening.test.ts
+**Files.** src/core2/births-counted.ts, tests/src/core2/counted-deaths-opening.test.ts
 
 **Notes.** Body repaired Oct 17 (claude) from the pull request's description; the fix is in that pull request.

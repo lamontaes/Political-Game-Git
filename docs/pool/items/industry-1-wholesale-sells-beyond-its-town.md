@@ -32,4 +32,4 @@ source: "Owner, Nov 16 01:58Z (cmsg_01TQLdz583SA7sRfRB4dFowZ3UgS4n8K2932PQhmyxdR
 
 **Waits on.** industry-0-a-utility-sells-beyond-its-town (#9579; this branch is stacked on its head 7deed8ee).
 
-**Files.** src/core2/data/outside-market.json, src/core2/opening-outside-market.ts, src/core2/wholesale-outside-buyers.test.ts (new).
+**Files.** src/core2/data/outside-market.json, src/core2/opening-outside-market.ts, tests/src/core2/wholesale-outside-buyers.test.ts (new).

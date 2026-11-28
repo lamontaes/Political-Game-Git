@@ -34,6 +34,6 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** src/english/bill-names.ts, src/english/bill-names.test.ts, src/director/budget-bill-titles.test.ts (new)
+**Files.** src/english/bill-names.ts, tests/src/english/bill-names.test.ts, tests/src/director/budget-bill-titles.test.ts (new)
 
 **Notes.** Two one-line bills for the same line in the same direction still share a title (their numbers differ).

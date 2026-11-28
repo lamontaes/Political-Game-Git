@@ -17,7 +17,7 @@ claimed-at: 2026-10-21T02:25:41.551Z
 
 **Rules.** No dice: a job ends from a cause record (a quit, a layoff, a closure, a death), never a shared date. The chain is the acceptance: follow one departing reporter from the cause to the job's end. Ask why: the reason a person left is answered by record.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, press staff departures are spread over the year by their causes and no more than a few share a date unless one cause record names them, and a test in src/core2/press-turnover.test.ts or jobs tests states it. The owner plays it: reads the paper's staff list through the year and sees people leave one at a time.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, press staff departures are spread over the year by their causes and no more than a few share a date unless one cause record names them, and a test in tests/src/core2/press-turnover.test.ts or jobs tests states it. The owner plays it: reads the paper's staff list through the year and sees people leave one at a time.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/press.ts, src/core2/press-staff.ts
 

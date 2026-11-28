@@ -30,11 +30,11 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: whether and when an executive signs follows the power the state gives them, their recorded traits and the disaster on record, never a percentage. Wire to the world: the order is read by the budgets engine, which moves a line, and by the director. One rule, all 56 places: the power comes from the state's own law in the table and no place is named.
 
-**Done when.** A second session, on main in a drawn place and a seed the builder did not choose, plays a year with a recorded disaster in a place whose law gives local executives the power, and sees a local emergency record naming the executive and the disaster by record id, with a budget line moved by a recorded amount. A test in src/core2/emergency-declaration.test.ts fails when the order is not written.
+**Done when.** A second session, on main in a drawn place and a seed the builder did not choose, plays a year with a recorded disaster in a place whose law gives local executives the power, and sees a local emergency record naming the executive and the disaster by record id, with a budget line moved by a recorded amount. A test in tests/src/core2/emergency-declaration.test.ts fails when the order is not written.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/executive.ts, data/research/executive/executive-powers-2026.json, src/core2/data/executive/emergency.json, src/core2/emergency-declaration.test.ts
+**Files.** src/core2/modules/executive.ts, data/research/executive/executive-powers-2026.json, src/core2/data/executive/emergency.json, tests/src/core2/emergency-declaration.test.ts
 
 **Notes.** Evidence in docs/design/scenes/from-life/disaster-first-hours.md. Lead laws-effects. Words does not build engine records.
 

@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** No dice: cadence and lines follow records and traits. An effect is a read, not a record. No hand-written player text: lines are worded by the English engine. One rule, all 56 places.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place, seed named) a member's town halls fall on the cadence, by act record id, and a test beside src/core2/office-day-federal.test.ts covers it. The owner plays it: holds a town hall a few times a year, not every week.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place, seed named) a member's town halls fall on the cadence, by act record id, and a test beside tests/src/core2/office-day-federal.test.ts covers it. The owner plays it: holds a town hall a few times a year, not every week.
 
 **Files.** src/core2/office-day-federal.ts, src/core2/modules/office-day.ts
 

@@ -70,14 +70,16 @@ export function importsOf(file: string, source: string): string[] {
 
 /** The test files beside the source: each belongs to the family that answers for its failing. */
 export function testFiles(): string[] {
-  return execFileSync("git", ["ls-files", ...ROOTS], {
-    cwd: ROOT,
-    encoding: "utf8",
-  })
+  return execFileSync(
+    "git",
+    ["ls-files", ...ROOTS, ...ROOTS.map((root) => `tests/${root}`)],
+    { cwd: ROOT, encoding: "utf8" },
+  )
     .split("\n")
     .filter(
       (file) =>
-        SOURCE.test(file) && /\.(test|spec|browser)\.(ts|tsx|mjs)$/.test(file),
+        SOURCE.test(file.replace(/^tests\//, "")) &&
+        /\.(test|spec|browser)\.(ts|tsx|mjs)$/.test(file),
     );
 }
 

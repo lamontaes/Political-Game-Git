@@ -17,9 +17,9 @@ claimed-at: 2026-10-20T20:28:55.406Z
 
 **Rules.** An effect is a read, not a record: the event is written by the core call and read by the births engine when it decides a pregnancy. One model, two tiers: the same couple rule for full and counted people. No dice: a birth follows the couple's reviewed reasons, never a percentage.
 
-**Done when.** In a played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body), two single adults made partners with setPartnersV1 after sharing a household have an active row in the births engine's couples table by link id the next day, with the mother and the other parent named by person id, and src/core2/family-link-change.test.ts asserts it.
+**Done when.** In a played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body), two single adults made partners with setPartnersV1 after sharing a household have an active row in the births engine's couples table by link id the next day, with the mother and the other parent named by person id, and tests/src/core2/family-link-change.test.ts asserts it.
 
-**Files.** src/core2/modules/renewal.ts, src/core2/family-link-change.test.ts
+**Files.** src/core2/modules/renewal.ts, tests/src/core2/family-link-change.test.ts
 
 **Notes.** TODO
 

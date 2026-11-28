@@ -19,6 +19,6 @@ claimed-at: 2026-11-04T11:08:17.823Z
 
 **Done when.** In a played world in a place drawn from all 56 (name and seed printed), a decided county contest's result counts the rest of the town's county by its place record id beside the town's named and counted voters, a town race does not, and the test fails when the county is taken out of the race's places; a second fresh draw passes.
 
-**Files.** src/core2/race-places.ts, src/core2/county-race-county-votes.test.ts
+**Files.** src/core2/race-places.ts, tests/src/core2/county-race-county-votes.test.ts
 
 **Notes.** Lane 1, Nov 4: built on governing/county-votes.

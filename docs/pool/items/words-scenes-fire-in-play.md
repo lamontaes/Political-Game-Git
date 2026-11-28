@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Wire to the world: a scene fires from a recorded cause and its choice is read by another engine, by record id. No dice: what fires and who is cast follow records, traits and relationships, never a roll.
 
-**Done when.** In a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a year of play shows scenes with a purpose firing from their cause records on the play screen, worded by the English engine, each naming the record ids and game-world numbers behind it, with a test beside src/director/played-talks.test.ts.
+**Done when.** In a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a year of play shows scenes with a purpose firing from their cause records on the play screen, worded by the English engine, each naming the record ids and game-world numbers behind it, with a test beside tests/src/director/played-talks.test.ts.
 
 **Files.** src/director/scheduling.ts, src/director/scene-talk.ts, src/english/scene-talk-words.ts, src/bench/
 

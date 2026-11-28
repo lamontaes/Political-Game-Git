@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice; an effect is a read; one rule, all 56 places; ask why (record ids); the chain is the acceptance.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, bills go to different committees whose members' votes differ, shown by bill id, committee id and the vote record ids of members on each committee, and a test in src/core2/legislature.test.ts covers it.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, bills go to different committees whose members' votes differ, shown by bill id, committee id and the vote record ids of members on each committee, and a test in tests/src/core2/legislature.test.ts covers it.
 
 **Files.** src/core2/modules/legislature.ts, src/core2/legislature-committees.ts
 

@@ -17,7 +17,7 @@ claimed-at: 2026-10-15T23:58:32.463Z
 
 **Rules.** An effect is a read, not a record: the layoff must end the job row the wage flow pays, so the paycheck stops. One model, two tiers: a counted worker and a full worker are laid off by the same rule. Replace, never layer: one place decides which book a job is in, not two.
 
-**Done when.** In a played world (`buildBenchWorld`, the place `drawPlace("s3", "bg-chain")`, seed `c23f0b6bb40a7005b7a409173f34051beae98737968ab4cf921d68ea6c0e6e62`, Dorset, Vermont, from the game start date) a 365-day run completes with the layoff on November 1, 2025 ending that job and its wage flow, named by the job id. A test in src/core2/jobs.test.ts or a new src/core2 test runs the year in a drawn place and fails on the old code. The owner plays it: skip a year in any town and it does not stop.
+**Done when.** In a played world (`buildBenchWorld`, the place `drawPlace("s3", "bg-chain")`, seed `c23f0b6bb40a7005b7a409173f34051beae98737968ab4cf921d68ea6c0e6e62`, Dorset, Vermont, from the game start date) a 365-day run completes with the layoff on November 1, 2025 ending that job and its wage flow, named by the job id. A test in tests/src/core2/jobs.test.ts or a new src/core2 test runs the year in a drawn place and fails on the old code. The owner plays it: skip a year in any town and it does not stop.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/residents-economy.ts, src/core2/modules/residents.ts
 

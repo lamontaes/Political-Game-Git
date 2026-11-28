@@ -21,7 +21,7 @@ checked:
 
 **What.** The cut of Nov 17 emptied the narrator's bank of scene openings, so a record-placed scene (news at home, a layoff, a funeral, a race lost) opened with no narration. These are the first lines the owner sees on his first evening. Seen: the opening lines of every scene the director stages from a record.
 
-**Cause.** Measured: `data/english/parts/scene-words.json` fell from 274 lines to 4 on the cut (#10063, head 9cbbb0d1b1), and `src/director/director.test.ts` "takes a second cause the same day into the sitting already staged" failed with "expected 0 to be greater than 0" on the narration, shown by `npx vitest run src/director/director.test.ts -t "second cause"`.
+**Cause.** Measured: `data/english/parts/scene-words.json` fell from 274 lines to 4 on the cut (#10063, head 9cbbb0d1b1), and `tests/src/director/director.test.ts` "takes a second cause the same day into the sitting already staged" failed with "expected 0 to be greater than 0" on the narration, shown by `npx vitest run tests/src/director/director.test.ts -t "second cause"`.
 
 **Fix.** Write the bank again with new words, from each scene type's pattern in docs/story/scene-patterns.json. That means arrivals by setting (alone and with another person), leads by scene type, cause lines by cause, and the openings. The readers are src/director/scene.ts and src/director/cause-facts.ts.
 

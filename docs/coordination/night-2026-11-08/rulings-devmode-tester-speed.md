@@ -25,7 +25,7 @@ How to read this:
 Not a conflict:
 
 - Oct 14 (recorded, OD:697): "no skip-ahead control" for the player. Nov 8's "run X days or until" is a dev control. Oct 14 night (OD:797) also lets a player skip quiet days.
-- The twin checker requires twins with no change to match exactly (`src/core2/outcome-web-twins.test.ts:7-9`). That's zero dice. The owner's drift comes from the law's own knock-on chains.
+- The twin checker requires twins with no change to match exactly (`tests/src/core2/outcome-web-twins.test.ts:7-9`). That's zero dice. The owner's drift comes from the law's own knock-on chains.
 
 ---
 
@@ -140,7 +140,7 @@ As of 07:05 UTC: branch `tester/law-harness` has 2 commits, no PR, and is 19 com
 
 **T4. Twin worlds still drift.** "they should still drift because there are other circumstances. You know, someone may die earlier." (Nov 8; `rulings-nov8.md` #11)
 
-- **Partly.** The twin checker exists (`src/core2/outcome-web-twins.test.ts`). It needs twins with no change to match exactly, which is correct.
+- **Partly.** The twin checker exists (`tests/src/core2/outcome-web-twins.test.ts`). It needs twins with no change to match exactly, which is correct.
 - Do: run several pairs per big law in different places. Report what shows up in most pairs, not one pair.
 
 **T5. Report what merged, what emerged, and VITAL STATISTICS.** "on each update please tell me if anything has emerged... just tell me what the change did." "how did this impact the wider world? This is the simulation part I'm excited for." "i meant merged but keep this too." (Sept 28, 10:39 to 11 p.m.; mem random-places-and-emergence-reports; REG:1228)
@@ -213,7 +213,7 @@ As of 07:05 UTC: branch `speed/profile-2026-11-08` has one commit (`scripts/spee
 
 **S4. Keep the result, not the reasoning.** "there's no reason to index or keep everything" (Oct 8, 4:51 p.m.; mem). Nov 5 (OD:12): "it's slowing down because it is generating every record of every state and city passing laws but it is keeping those records instead of fitting them to the simulation. you dont need to do a whole huge record keeping thing. just simulate based on the people there and then you can fill in the gaps based on what was simulated when things need to be generated. generate on demand"
 
-- **Partly.** Done: the Nov 5 finish-line test (`src/core2/state-sessions.test.ts:18-93`): at least 40 states change a law, and a roll call built on demand twice comes out the same and adds up. Also done: other states' officials stay counted (#7359), and strangers' campaign records fold to a summary (#7367).
+- **Partly.** Done: the Nov 5 finish-line test (`tests/src/core2/state-sessions.test.ts:18-93`): at least 40 states change a law, and a roll call built on demand twice comes out the same and adds up. Also done: other states' officials stay counted (#7359), and strangers' campaign records fold to a summary (#7367).
 - Still growing: Montpelier's election year adds 1.45 million records. Campaign folded causes go from 94,150 to 595,258 and relationships from 43,366 to 241,231 (speed brief; #7360, #7361).
 - Do: fold those three tables first. Never generate detail and throw it away; recorded at OD:15, that costs the same time.
 

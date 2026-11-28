@@ -35,6 +35,6 @@ branch:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/campaigns.ts, src/bench/campaign.ts, src/core2/campaign-set-aside.test.ts
+**Files.** src/core2/modules/campaigns.ts, src/bench/campaign.ts, tests/src/core2/campaign-set-aside.test.ts
 
 **Notes.** Filed Nov 14 by the Account lead. The speech-afterward test (src/director/speech-afterward.test.ts (removed)) hit it at its drawn seed ecd28aa5c524d71bea0b3b25208b3f7a3e316826, third place; the same fault shows at I Liyang MP per the filing-fee builder.

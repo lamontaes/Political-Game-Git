@@ -17,7 +17,7 @@ claimed-at: 2026-10-28T16:38:14.630Z
 
 **Rules.** No dice: the seeded move line in opening-kin.ts is deleted; the move happens when the person's own pull reaches one whole move, from their age, ties and recorded job losses. Replace, never layer: the generated move date and its readers move to the run's record in the same change. One rule, all 56 places: the origin comes from the IRS table and the person's relatives, never a named place. Speed: a town's year stays under two minutes and within 20% of main.
 
-**Done when.** In buildBenchWorld in a drawn place (place and seed in the PR body), each full adult who came to the county has a person.moved-in record by record id with its origin place and the record that pushed it (a past-work layoff id or the life-stage month), the Journal tells the move from that record, the past-work spells before it are in the origin place, a second seed in the same place shows different moves, a test in src/core2/past-moves.test.ts passes, and npm run speed:year stays under two minutes.
+**Done when.** In buildBenchWorld in a drawn place (place and seed in the PR body), each full adult who came to the county has a person.moved-in record by record id with its origin place and the record that pushed it (a past-work layoff id or the life-stage month), the Journal tells the move from that record, the past-work spells before it are in the origin place, a second seed in the same place shows different moves, a test in tests/src/core2/past-moves.test.ts passes, and npm run speed:year stays under two minutes.
 
 **Files.** src/core2/opening-kin.ts, src/core2/past-work.ts, src/core2/modules/moves.ts, src/core2/past-family.ts, src/director/conversation.ts, src/director/journal.ts
 

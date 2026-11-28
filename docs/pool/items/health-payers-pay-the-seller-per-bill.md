@@ -33,6 +33,6 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/medical-bills.ts, src/core2/medical-payer-parts.test.ts
+**Files.** src/core2/medical-bills.ts, tests/src/core2/medical-payer-parts.test.ts
 
 **Notes.** Danville's clinic reaches about 42 percent of plan after this, West Union's 100 to 120 percent, Lewiston's 270 to 400 percent (items world-one-clinic-bills-a-whole-city and health-residential-care-paid-per-resident). The care home's flat outside-sales row stays until residential care has its own payer.

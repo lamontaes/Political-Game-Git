@@ -1,6 +1,6 @@
 # A bill before Congress has its paper, before and after
 
-Red on main: `src/english/bill-sections.test.ts`, "H.R. 14: expected null to be truthy", in Wildwood, Tennessee (`BILL_SECTIONS_SEED=b76a4edbac167a54`). Congress files bills on every federal question in `data/research/campaigns/federal-questions-2026.json`. Twelve of the 27 had no words in `data/english/bill-sections.json`, so such a bill had no title and no sections.
+Red on main: `tests/src/english/bill-sections.test.ts`, "H.R. 14: expected null to be truthy", in Wildwood, Tennessee (`BILL_SECTIONS_SEED=b76a4edbac167a54`). Congress files bills on every federal question in `data/research/campaigns/federal-questions-2026.json`. Twelve of the 27 had no words in `data/english/bill-sections.json`, so such a bill had no title and no sections.
 
 Each picture is the bench at 1440x900 (`npm run bench`, page `/play`). The steps:
 

@@ -30,11 +30,11 @@ checked: fable 2026-11-10
 
 **Rules.** An effect is a read, not a record: the director or the news reads the move record by id. No hand-written player text: the lines come from the English engine. One rule, all 56 places. The chain is the acceptance: follow one move to the rent change, the person and the journal line.
 
-**Done when.** A second session, on main in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), plays a year in dev mode and finds a move record id in the director's ledger or the journal for a named person, reads the journal line about a neighbor moving into the new building, and, in a place with rent stabilization, finds a lease renewal record carrying the capped rent and the law id. A test beside src/core2/housing-pipeline.test.ts covers the read.
+**Done when.** A second session, on main in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), plays a year in dev mode and finds a move record id in the director's ledger or the journal for a named person, reads the journal line about a neighbor moving into the new building, and, in a place with rent stabilization, finds a lease renewal record carrying the capped rent and the law id. A test beside tests/src/core2/housing-pipeline.test.ts covers the read.
 
 **Waits on.** core-life-record.
 
-**Files.** src/director/data/director.json, src/director/data/journal-rows.json, src/core2/housing-occupancy.ts, src/core2/housing-pipeline.test.ts
+**Files.** src/director/data/director.json, src/director/data/journal-rows.json, src/core2/housing-occupancy.ts, tests/src/core2/housing-pipeline.test.ts
 
 **Notes.** The director and journal data and the words belong to the Words and director line; take the producer from there. Split from world-new-homes-moves-not-reached.
 

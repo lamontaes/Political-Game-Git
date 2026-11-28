@@ -17,8 +17,8 @@ claimed-at:
 
 **Rules.** One model, two tiers: every reader of a business figure multiplies by the weight the same way. Wire to the world: the deposits and the cash on hand move on the journal, shown in a played world.
 
-**Done when.** In a world built with buildBenchWorld and played 120 days at the sample size and at Census scale, in Opelika, Alabama (0157048, seed op1) and in a place drawn from all 56 above 10,000 people (seed named), the town's deposits per weighted flow at Census scale are within a factor of two either way of the same town's ratio at the sample size, with the three largest banks' own ratios printed by organization id, in src/core2/deposit-reserve-weighted.test.ts. **On screen.** Nothing yet.
+**Done when.** In a world built with buildBenchWorld and played 120 days at the sample size and at Census scale, in Opelika, Alabama (0157048, seed op1) and in a place drawn from all 56 above 10,000 people (seed named), the town's deposits per weighted flow at Census scale are within a factor of two either way of the same town's ratio at the sample size, with the three largest banks' own ratios printed by organization id, in tests/src/core2/deposit-reserve-weighted.test.ts. **On screen.** Nothing yet.
 
-**Files.** src/core2/credit-deposits.ts, src/core2/residents-economy.ts, src/core2/deposit-reserve-weighted.test.ts
+**Files.** src/core2/credit-deposits.ts, src/core2/residents-economy.ts, tests/src/core2/deposit-reserve-weighted.test.ts
 
 **Notes.** Fixer, Oct 27: split from the original item after Merger 1's send-back of PR #5791. The per-business, one-year proof stays in `world-deposit-reserve-reads-unweighted-costs`.

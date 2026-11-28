@@ -17,8 +17,8 @@ claimed-at: 2026-10-25T17:39:07.393Z
 
 **Rules.** Replace, never layer: one solid rule for reading screens replaces the per-layout overrides.
 
-**Done when.** src/bench/panels.browser.mjs passes in a drawn place on the first evening (the menu, News, Politics Government and a person card each opaque, no backdrop blur, text at WCAG AA 4.5 to 1) with the place and seed named and screenshots inspected, and fails on main's styles.
+**Done when.** tests/src/bench/panels.browser.mjs passes in a drawn place on the first evening (the menu, News, Politics Government and a person card each opaque, no backdrop blur, text at WCAG AA 4.5 to 1) with the place and seed named and screenshots inspected, and fails on main's styles.
 
-**Files.** src/bench/play.css, src/bench/panels.browser.mjs
+**Files.** src/bench/play.css, tests/src/bench/panels.browser.mjs
 
 **Notes.** TODO

@@ -29,7 +29,7 @@ checked:
 
 **Rules.** The simulation is the one layer that knows (owner, Oct 28). No dice: the reason follows the records. Talk says how it feels, never the figure (owner, Nov 11). Money talk only when the household's real books make it matter (CTO, Nov 18 08:47Z).
 
-**Done when.** A second session, in a played opening evening at a drawn place, a housemate who rents, lives with a relative the point touches, or read a story on it raises the point with that reason, and the dev mode Trace names the lease, the relative's person record or the story's record. `src/director/conversation-address-talk.test.ts` gains a case that finds each reason by drawing places and names what it passed over.
+**Done when.** A second session, in a played opening evening at a drawn place, a housemate who rents, lives with a relative the point touches, or read a story on it raises the point with that reason, and the dev mode Trace names the lease, the relative's person record or the story's record. `tests/src/director/conversation-address-talk.test.ts` gains a case that finds each reason by drawing places and names what it passed over.
 
 **Waits on.** Nothing.
 

@@ -29,10 +29,10 @@ Seen: after a presidential election in the town, the web's turnout for the town 
 
 **Rules.** One rule, all 56 places: every kept outcome carries the same way. No dice: a level moves only by its links and the town's own records. Everything comes from the simulation: the published level is read once, as the opening.
 
-**Done when.** A second session starts the bench in a drawn place that votes for President, plays past the November 2028 election, and sees in dev mode's web month rows that the town's turnout stands on its own count (the row's source is the result row) and that the next month carries on from it. `npx vitest run src/core2/outcome-web-carries-played.test.ts` passes there (set WEB_CARRIES_SEED to replay) and fails on main's `recordMonth`.
+**Done when.** A second session starts the bench in a drawn place that votes for President, plays past the November 2028 election, and sees in dev mode's web month rows that the town's turnout stands on its own count (the row's source is the result row) and that the next month carries on from it. `npx vitest run tests/src/core2/outcome-web-carries-played.test.ts` passes there (set WEB_CARRIES_SEED to replay) and fails on main's `recordMonth`.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/outcome-web.ts, src/core2/voting-module-id.ts (new), src/core2/outcome-web-carries-played.test.ts (new), src/core2/data/stopgaps/web.json
+**Files.** src/core2/modules/outcome-web.ts, src/core2/voting-module-id.ts (new), tests/src/core2/outcome-web-carries-played.test.ts (new), src/core2/data/stopgaps/web.json
 
 **Notes.** Left for the family's next pull request: pin 3 (budget causes measured above the Census base: `gov-measures.ts` and `school-budget-line.ts`), pin 4 (the deficit's denominator from 2024 output, `gov-measures.ts`), pin 5 (the opening levels and the poor-road base, `place-prices.ts` 90), and more movers from engines' own records (coverage from the coverage records, crime from the crime months).

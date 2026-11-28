@@ -22,7 +22,7 @@ merged-at: 2026-11-24T05:04:19.829Z
 **What.** The owner, Nov 23 (P31), said: it is the same thing with the city and state on the loading screen. The card is 400 px wide, so a place like Los Altos, Texas wraps its title onto two lines.
 Seen: the loading card at the top left of the title screen at 1440 by 900 while a new world loads. Seen: the loading card top left, title on one line, after. Guards: loading.browser.mjs
 
-**Cause.** Measured: `node src/bench/loading.browser.mjs` against `npm run bench` on main 2b7b3b28, with the new assertion, fails "1440x900: the place title wraps" for Storrs, Connecticut. The .menu rule in src/bench/play.css fixes the card at width 400px with 28px padding, leaving 340px, and #front.loading adds no width or nowrap rule.
+**Cause.** Measured: `node tests/src/bench/loading.browser.mjs` against `npm run bench` on main 2b7b3b28, with the new assertion, fails "1440x900: the place title wraps" for Storrs, Connecticut. The .menu rule in src/bench/play.css fixes the card at width 400px with 28px padding, leaving 340px, and #front.loading adds no width or nowrap rule.
 
 **Fix.** In src/bench/play.css give #front.loading width max-content with min-width 400px and white-space nowrap on its title; add the one-line assertion to loading.browser.mjs.
 
@@ -34,4 +34,4 @@ Seen: the loading card at the top left of the title screen at 1440 by 900 while 
 
 **Waits on.** Nothing
 
-**Files.** src/bench/play.css,src/bench/loading.browser.mjs
+**Files.** src/bench/play.css,tests/src/bench/loading.browser.mjs

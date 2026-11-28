@@ -17,8 +17,8 @@ claimed-at: 2026-11-03T22:34:21.659Z
 
 **Rules.** Wire to the world: every household has one dwelling record the housing engine reads, not a default; one rule for all 56 places; two-level population: a counted household is read by the same rule as a full one.
 
-**Done when.** src/bench/room-condition.test.ts passes with GOLDEN_PATH_SEED=b2 (Norcross, Minnesota) and on three fresh drawn places, each named with its place and seed in the PR body, and a one-day buildBenchWorld run shows a dwelling row for every household, by count
+**Done when.** tests/src/bench/room-condition.test.ts passes with GOLDEN_PATH_SEED=b2 (Norcross, Minnesota) and on three fresh drawn places, each named with its place and seed in the PR body, and a one-day buildBenchWorld run shows a dwelling row for every household, by count
 
-**Files.** src/core2/modules/housing.ts,src/bench/scene.ts,src/bench/room-condition.test.ts
+**Files.** src/core2/modules/housing.ts,src/bench/scene.ts,tests/src/bench/room-condition.test.ts
 
 **Notes.** lead: fixer. Found by the standing red-main owner Oct 29 18:00 UTC while fixing the stale matching-rooms assertion in room-condition.test.ts (PR fixer/red-main-room-condition). Read: OWNER-DECISIONS (Oct 28 matching rooms), searched docs/pool/items for dwelling, housing: no twin.

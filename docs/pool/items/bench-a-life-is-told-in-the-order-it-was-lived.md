@@ -34,6 +34,6 @@ merged-at: 2026-11-13T07:45:07.984Z
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/ui/strips.mjs, src/bench/card-life.test.ts
+**Files.** src/bench/ui/strips.mjs, tests/src/bench/card-life.test.ts
 
 **Notes.** Built by the Life records builder (opus-lr), Nov 13.

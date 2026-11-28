@@ -17,8 +17,8 @@ claimed-at: 2026-11-04T09:44:51.986Z
 
 **Rules.** Owner, Oct 29: menus never scroll; things inside page. Use the shared pager and controls (screen-to-mock); replace, never layer: one fit for every sheet, not one per screen.
 
-**Done when.** src/bench/menus-no-scroll.browser.mjs passes in three towns twice each: every rail menu and tab at 1440x900 and 1024x768, nothing running past its foot (Budgets reported until the owner answers); screenshots of Parties, Government and News at both sizes.
+**Done when.** tests/src/bench/menus-no-scroll.browser.mjs passes in three towns twice each: every rail menu and tab at 1440x900 and 1024x768, nothing running past its foot (Budgets reported until the owner answers); screenshots of Parties, Government and News at both sizes.
 
-**Files.** src/bench/play.mjs, src/bench/ui/newspaper.mjs, src/bench/menus-no-scroll.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/ui/newspaper.mjs, tests/src/bench/menus-no-scroll.browser.mjs
 
 **Notes.** lead: Lane 4 (path 11).

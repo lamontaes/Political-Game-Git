@@ -6,7 +6,7 @@
 // beside the new amount, and reads the bill, whose estimate shows today's amount beside the new one.
 // Builds a world with the Advanced start (a place drawn from the seed) and steps in as a
 // member of a body. BENCH_SEED replays a world; SHOTS_DIR saves the screens.
-// Run against a fresh bench: node src/bench/meeting.browser.mjs
+// Run against a fresh bench: node tests/src/bench/meeting.browser.mjs
 import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
 import { chromium } from "playwright";

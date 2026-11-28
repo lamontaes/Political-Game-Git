@@ -31,10 +31,10 @@ branch: claude/project-thread-q8djlu
 
 **Rules.** Wire to the world: every heading and section is worded from the bill's own records, and the sourced words in enacting-clauses.json stay unchanged. One rule, all 56 places: no state is named in logic, and the test walks every body's words.
 
-**Done when.** Seen: a second session composes bills at three drawn places and reads that a repeal's heading says repeal and every section's first line is one sentence; src/english/bill-sections.test.ts walks all 56 bodies' enacting words, the federal form and the local form.
+**Done when.** Seen: a second session composes bills at three drawn places and reads that a repeal's heading says repeal and every section's first line is one sentence; tests/src/english/bill-sections.test.ts walks all 56 bodies' enacting words, the federal form and the local form.
 
 **Waits on.** laws-bill-short-and-long-title-forms (#9184) folding into the train.
 
-**Files.** src/english/bill-sections.ts, data/english/bill-sections.json, src/english/bill-sections.test.ts
+**Files.** src/english/bill-sections.ts, data/english/bill-sections.json, tests/src/english/bill-sections.test.ts
 
 **Notes.** Filed Nov 14 by the Account lead from the Words lead's two findings. #9178 (stages of a bill) does not touch these files.

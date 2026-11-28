@@ -33,4 +33,4 @@ checked: sonnet 2026-11-14
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/press-topics.ts, src/core2/press-desk.ts, src/core2/press-gift-level.test.ts (new)
+**Files.** src/core2/press-topics.ts, src/core2/press-desk.ts, tests/src/core2/press-gift-level.test.ts (new)

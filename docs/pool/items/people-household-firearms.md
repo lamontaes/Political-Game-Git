@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: the law decides who is reached; the seeded draw only decides which households own a gun. One rule, all 56 places: the rate is state data with its source. Estimate, never UNKNOWN: a state without a survey rate takes the national rate, marked ESTIMATED.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) the storage duty is recorded on the adults of gun-owning households with a child and on no one else, shown by household record ids, and the share of owning households matches the state's survey rate within its spread; SG-GOV-REACH-A-firearms is resolved and the test in src/core2/law-reach-group-a.test.ts passes.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) the storage duty is recorded on the adults of gun-owning households with a child and on no one else, shown by household record ids, and the share of owning households matches the state's survey rate within its spread; SG-GOV-REACH-A-firearms is resolved and the test in tests/src/core2/law-reach-group-a.test.ts passes.
 
 **Files.** src/core2/law-reach/group-a-records.ts, src/core2/population.ts, src/core2/data/stopgaps.json
 

@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** Sliding scales and causes: a fire happens from a hazard the home and household records carry, never a monthly chance, and real rates check totals but never pick one home's fire. Wire to the world: a fire moves money (repairs, insurance claims) and people (a displaced household), proven in a played year. One rule, all 56 places.
 
-**Done when.** A second session (not the builder) plays a year of `buildBenchWorld` in three places drawn from all 56 (place and seed named) and finds home fires recorded with their cause read from the housing records, each citing its home and the household it displaced and moving money by journal id; the yearly count per 1,000 homes is reported beside the national rate the item's research cites. The press prints a month's fires in the police and fire log (screenshot at 1440x900 of News), checked by a test in src/core2 and by src/bench/printed-words.test.ts.
+**Done when.** A second session (not the builder) plays a year of `buildBenchWorld` in three places drawn from all 56 (place and seed named) and finds home fires recorded with their cause read from the housing records, each citing its home and the household it displaced and moving money by journal id; the yearly count per 1,000 homes is reported beside the national rate the item's research cites. The press prints a month's fires in the police and fire log (screenshot at 1440x900 of News), checked by a test in src/core2 and by tests/src/bench/printed-words.test.ts.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/public-safety.ts, src/core2/modules/housing.ts, src/core2/modules/press.ts, src/bench/printed-words.ts, src/bench/printed-words.test.ts
+**Files.** src/core2/public-safety.ts, src/core2/modules/housing.ts, src/core2/modules/press.ts, src/bench/printed-words.ts, tests/src/bench/printed-words.test.ts
 
 **Notes.** Filed by Words (words-paper-and-journal-everyday-life): the fire half of the police and fire log waits on this record. Words wires the log once a fire record exists.

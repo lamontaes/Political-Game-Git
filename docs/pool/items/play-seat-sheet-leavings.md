@@ -17,9 +17,9 @@ claimed-at:
 
 **Rules.** An effect is a read, not a record: the sheet shows records the offices engine and the bill title wrote and spends no game time. No hand-written player text: every label is a control name and every sentence comes from the English engine. Replace, never layer: the old section label that printed a raw line id is deleted.
 
-**Done when.** A bench test in src/bench/seat-leavings.test.ts builds the played world in a drawn place (buildBenchWorld, seed named in the PR body), has the President accept a Senate seat, and finds the incompatibility record id with the law's citation in the seat view.
+**Done when.** A bench test in tests/src/bench/seat-leavings.test.ts builds the played world in a drawn place (buildBenchWorld, seed named in the PR body), has the President accept a Senate seat, and finds the incompatibility record id with the law's citation in the seat view.
 
-**Files.** src/bench/legislature.ts, src/bench/play.mjs, src/bench/seat-leavings.test.ts
+**Files.** src/bench/legislature.ts, src/bench/play.mjs, tests/src/bench/seat-leavings.test.ts
 
 **Notes.** Split out of PR #4608 (the Government change) because the seat sheet is Play-owned; it needs the offices engine's incompatibility record from that PR.
 

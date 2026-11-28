@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** src/core2/law-wiring-taxes.test.ts, "applies each law to people, groups and treasuries, moves money, and ends on repeal", fails in Dennis, Massachusetts (2516740) with GOLDEN_PATH_SEED=f090a9034b487078ca7c3d2a2c1a40207804ca4e: laws with no applied record after play are ["us-policy-positions:fiscal.cap-property-tax-growth"]. The test passes the cap, plays about half a year, and then asks which laws left an applied record. Guards: the property tax cap reaches homeowners' bills in a played world.
+**What.** tests/src/core2/law-wiring-taxes.test.ts, "applies each law to people, groups and treasuries, moves money, and ends on repeal", fails in Dennis, Massachusetts (2516740) with GOLDEN_PATH_SEED=f090a9034b487078ca7c3d2a2c1a40207804ca4e: laws with no applied record after play are ["us-policy-positions:fiscal.cap-property-tax-growth"]. The test passes the cap, plays about half a year, and then asks which laws left an applied record. Guards: the property tax cap reaches homeowners' bills in a played world.
 
 **Cause.** Found in code: two causes, both in the test's setup, none in the game. (1) The test passed the growth cap at the town's own level, but Massachusetts bars its places from making that cap (`localPowerBarred`, starting law `preempts`), so the town's act is void, the cap stays 0 and `propertyTaxTerms` registers no assessment cap. Measured at the seed: levels federal, state, county, township, city; barred true; the act at the city leaves the governing row at the state's starting row, value 0. (2) Behind it, the estate case picked the richest person with heirs: a House member (official:seat:US-CA:us-house:41) whose only heir, a partner aged 37 (person_55958daf6e076808), died of heart disease on 2025-10-25, inside the 270 days probate waits. With no heir the estate escheats and is assessed on nothing (`distribute` in src/core2/estates.ts, 26 U.S.C. 2055(a)(1)), so the estate tax paid was 0. Ordinary mortality, no bug in the estate code.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/law-wiring-taxes.test.ts
+**Files.** tests/src/core2/law-wiring-taxes.test.ts

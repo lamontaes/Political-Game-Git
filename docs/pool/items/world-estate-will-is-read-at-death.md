@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/estates.ts, src/core2/estates-played-heirs.test.ts (new cases)
+**Files.** src/core2/estates.ts, tests/src/core2/estates-played-heirs.test.ts (new cases)

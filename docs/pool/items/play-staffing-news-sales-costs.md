@@ -17,8 +17,8 @@ claimed-at: 2026-10-17T00:34:42.442Z
 
 **Rules.** An effect is a read: the sheet reads the record's own facts, never a private benefit claim. No hand-written player text: the sheet shows control names and record data. Replace, never layer: the generic facts row stays for every other kind of record.
 
-**Done when.** In a played year in a drawn place (buildBenchWorld, seed named in the PR body) a layoff in the news shows the employer's name, the jobs lost, its sales and its costs, by record id, and a test in `src/core2/press-public-facts.test.ts` covers the wire item and the printed story.
+**Done when.** In a played year in a drawn place (buildBenchWorld, seed named in the PR body) a layoff in the news shows the employer's name, the jobs lost, its sales and its costs, by record id, and a test in `tests/src/core2/press-public-facts.test.ts` covers the wire item and the printed story.
 
-**Files.** src/core2/press-topics.ts, src/core2/press-desk.ts, src/bench/calendar.ts, src/bench/play.mjs, src/core2/press-public-facts.test.ts
+**Files.** src/core2/press-topics.ts, src/core2/press-desk.ts, src/bench/calendar.ts, src/bench/play.mjs, tests/src/core2/press-public-facts.test.ts
 
-**Notes.** The finished code and its test are in commit 5081de743c on branch claude/world-layoffs-proof (PR #4591, which the merger asked to split by area). Take them from there: `git show 5081de743c -- src/bench/calendar.ts src/bench/play.mjs src/core2/press-desk.ts src/core2/press-topics.ts src/core2/press-public-facts.test.ts`. The Government area owns the press files and the Play area owns the bench files; whoever takes this needs both areas' agreement, or splits it into two items.
+**Notes.** The finished code and its test are in commit 5081de743c on branch claude/world-layoffs-proof (PR #4591, which the merger asked to split by area). Take them from there: `git show 5081de743c -- src/bench/calendar.ts src/bench/play.mjs src/core2/press-desk.ts src/core2/press-topics.ts tests/src/core2/press-public-facts.test.ts`. The Government area owns the press files and the Play area owns the bench files; whoever takes this needs both areas' agreement, or splits it into two items.

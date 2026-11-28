@@ -19,7 +19,7 @@ claimed-at: 2026-10-27T05:41:05.100Z
 
 **Rules.** Serves LAW.md §1 (OD Oct 24: one Advanced link beneath Start a life; Oct 26: one dev mode, no questionnaire). Wire to the world: the picker reads the world's own serving terms in the offices module, never a list written in code. One rule, all 56 places: any drawn place builds; the picker names no state. This is a game, not a spreadsheet: the controls come from `src/bench/ui/`.
 
-**Done when.** In a drawn place at 1440x900, `src/bench/advanced.browser.mjs` passes: New game shows Start a life and Advanced and no Custom world, New world or Watch the world; Advanced builds a world with no creator step; the picker lists officeholders read from the world's serving terms, each with its office title; choosing one makes that person the player (the player card names them and their office shows under Politics); shown by a screenshot with the place and seed.
+**Done when.** In a drawn place at 1440x900, `tests/src/bench/advanced.browser.mjs` passes: New game shows Start a life and Advanced and no Custom world, New world or Watch the world; Advanced builds a world with no creator step; the picker lists officeholders read from the world's serving terms, each with its office title; choosing one makes that person the player (the player card names them and their office shows under Politics); shown by a screenshot with the place and seed.
 
 **Time box.** 4 hours; if not done, push what exists, open the draft PR, write the handoff.
 
@@ -27,7 +27,7 @@ claimed-at: 2026-10-27T05:41:05.100Z
 
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
-**Files.** src/bench/play.html, src/bench/play.mjs, src/bench/handler.ts, src/bench/officeholders.ts, src/bench/advanced.browser.mjs, src/bench/data/controls.json
+**Files.** src/bench/play.html, src/bench/play.mjs, src/bench/handler.ts, src/bench/officeholders.ts, tests/src/bench/advanced.browser.mjs, src/bench/data/controls.json
 
 **Notes.** Supersedes the Custom world and New world buttons (replace, never layer). Officials whose term names no person yet (statewide and federal officials not filled in) are not listed until the engine fills them in; that is a core item for the laws and effects lead (`needs-from: laws-effects`). Place choice stays with the seed's draw. Lead: play-first (lane agent 5, Oct 27; docs/play-first/ORDER.md).
 Merged Oct 27 in PR #6232; awaiting the owner's installed-build check

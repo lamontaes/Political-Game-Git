@@ -28,10 +28,10 @@ source: owner decision card, Nov 14 12:57Z ("Yes, add Leave this job")
 
 **Rules.** Nothing is cast for the player: the farewell scene is the game's own, after the player's press. Money moves only through the existing job and payroll records. No dice. Replace, never layer: the monthly leave and the player's leave share one function.
 
-**Done when.** A second session, on main, in a drawn place from all 56 (named with its seed), takes a job offered by the jobs engine, works it, presses Leave this job on the Jobs tab, and sees: the job gone from the card, no shift worked after that day, the employer's staff one fewer and its need for the role one more, and the farewell with the former coworkers on the schedule (`money:job-left`, never `money:job-ended`). The pinned test src/core2/jobs-player-quits.test.ts passes.
+**Done when.** A second session, on main, in a drawn place from all 56 (named with its seed), takes a job offered by the jobs engine, works it, presses Leave this job on the Jobs tab, and sees: the job gone from the card, no shift worked after that day, the employer's staff one fewer and its need for the role one more, and the farewell with the former coworkers on the schedule (`money:job-left`, never `money:job-ended`). The pinned test tests/src/core2/jobs-player-quits.test.ts passes.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/job-lifecycle.ts, src/core2/state.ts, src/core2/types.ts, src/bench/handler.ts, src/bench/openings.ts, src/bench/card.ts, src/bench/play.mjs, src/bench/data/controls.json, src/core2/jobs-player-quits.test.ts
+**Files.** src/core2/modules/jobs.ts, src/core2/job-lifecycle.ts, src/core2/state.ts, src/core2/types.ts, src/bench/handler.ts, src/bench/openings.ts, src/bench/card.ts, src/bench/play.mjs, src/bench/data/controls.json, tests/src/core2/jobs-player-quits.test.ts
 
 **Notes.** Words line for the one new string went to the Words lead with the played examples. Not built here: leaving a public post or an office (it resigns through the executive or offices engine), and an owner closing or selling their business.

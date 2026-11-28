@@ -30,7 +30,7 @@ checked:
 
 **Rules.** No dice. One rule, all 56 places: the check draws its place and names it with the seed. Real failure rates calibrate, never target.
 
-**Done when.** A second session plays a 1,095-day world at Skagway with the seed above and two drawn places, and every live business whose staff fell to zero either posts a job within two monthly reviews or closes, named by organization id; a test beside src/core2/market-entry-opening-staff.test.ts covers it; a year of `speed:year` is within 20% of its base. On screen: the town's business list and its jobs.
+**Done when.** A second session plays a 1,095-day world at Skagway with the seed above and two drawn places, and every live business whose staff fell to zero either posts a job within two monthly reviews or closes, named by organization id; a test beside tests/src/core2/market-entry-opening-staff.test.ts covers it; a year of `speed:year` is within 20% of its base. On screen: the town's business list and its jobs.
 
 **Waits on.** world-founded-business-outside-sales-flow-starts-at-zero (on the train).
 

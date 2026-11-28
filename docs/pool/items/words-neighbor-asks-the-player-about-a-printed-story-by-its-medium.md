@@ -33,4 +33,4 @@ checked: m3 2026-11-15
 
 **Waits on.** The #9352 fold.
 
-**Files.** src/director/conversation.ts,data/english/parts/conversation.json,src/director/data/conversation-rules.json,src/director/outlet-ask-talk.test.ts (new)
+**Files.** src/director/conversation.ts,data/english/parts/conversation.json,src/director/data/conversation-rules.json,tests/src/director/outlet-ask-talk.test.ts (new)

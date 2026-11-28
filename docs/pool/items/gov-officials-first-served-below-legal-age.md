@@ -17,7 +17,7 @@ claimed-at: 2026-10-18T15:28:32.277Z
 
 **Rules.** The Constitution decides eligibility, never a roll: the age is data from the clause. No dice: the start is the later of the drawn start and the birthday. One rule, all 56 places: the check runs over every place's roster.
 
-**Done when.** In the played world (`buildBenchWorld`, a drawn place and seed, Clayton, Idaho with seed ft1 among them) no official's age on the first day of service is below the age their office asks, and `src/core2/officials-first-term-age.test.ts` states it and fails on main.
+**Done when.** In the played world (`buildBenchWorld`, a drawn place and seed, Clayton, Idaho with seed ft1 among them) no official's age on the first day of service is below the age their office asks, and `tests/src/core2/officials-first-term-age.test.ts` states it and fails on main.
 
 **Files.** src/core2/modules/officials.ts
 

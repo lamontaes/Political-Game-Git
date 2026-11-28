@@ -29,7 +29,7 @@ checked: fable 2026-11-10
 
 **Rules.** One rule, all 56 places: the appointing hand comes from the chamber's row in data, never a state named in logic. No dice: the appointer still chooses members from its own ratings of them (party, closeness, interest), never a draw. An effect is a read, not a record: committeeStage reads the roster the appointer seated at the moment a bill is referred.
 
-**Done when.** A second session, in a played world (buildBenchWorld) in a drawn place from all 56 with a seed the builder did not choose, finds the drawn state's chambers seat their committees by the hand their research row names (leadership committee record ids such as office:<chamber>:finance with assignedBy matching the row), and the test in src/core2/leadership.test.ts shows a chamber whose row names the majority leader seated by the majority leader.
+**Done when.** A second session, in a played world (buildBenchWorld) in a drawn place from all 56 with a seed the builder did not choose, finds the drawn state's chambers seat their committees by the hand their research row names (leadership committee record ids such as office:<chamber>:finance with assignedBy matching the row), and the test in tests/src/core2/leadership.test.ts shows a chamber whose row names the majority leader seated by the majority leader.
 
 **Waits on.** Nothing.
 

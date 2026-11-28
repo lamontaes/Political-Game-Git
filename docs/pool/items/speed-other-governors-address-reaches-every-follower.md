@@ -33,4 +33,4 @@ root: rc5-full-detail-every-day
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/office-day-state.ts; src/core2/modules/speech.ts; src/bench/world-state-address.test.ts
+**Files.** src/core2/office-day-state.ts; src/core2/modules/speech.ts; tests/src/bench/world-state-address.test.ts

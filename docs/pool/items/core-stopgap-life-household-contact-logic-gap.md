@@ -35,7 +35,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/life.ts, src/core2/data/stopgaps/p8.json, src/core2/life-contact-frequency.test.ts
+**Files.** src/core2/modules/life.ts, src/core2/data/stopgaps/p8.json, tests/src/core2/life-contact-frequency.test.ts
 
 **Notes.** First row: Shared residence and need for company do not yet reliably produce household contact before distant acquaintance offers.
 

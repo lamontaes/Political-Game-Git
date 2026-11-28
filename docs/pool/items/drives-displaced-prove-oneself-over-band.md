@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: each worker's own traits, age, money and the job they lost decide the response; real rates check the total and never pick one person's outcome. One rule, all 56 places: the fix must hold in every drawn place, and the check's band and assertions stay as they are.
 
-**Done when.** GOLDEN_PATH_SEED and GOLDEN_PATH_PLACE_KEY above make node --max-old-space-size=8192 --import tsx scripts/bench/m1-11-check.ts pass in North Canton, with the cause named by file and line in the PR, and it passes in Steamboat Springs, Colorado (0873825) and three more drawn places named with seeds; src/core2/drives-economy.test.ts passes unchanged.
+**Done when.** GOLDEN_PATH_SEED and GOLDEN_PATH_PLACE_KEY above make node --max-old-space-size=8192 --import tsx scripts/bench/m1-11-check.ts pass in North Canton, with the cause named by file and line in the PR, and it passes in Steamboat Springs, Colorado (0873825) and three more drawn places named with seeds; tests/src/core2/drives-economy.test.ts passes unchanged.
 
 **Files.** src/core2/modules/drives.ts, src/core2/data/drives.json, src/core2/data/parameters.json
 

@@ -35,11 +35,11 @@ claimed-at: 2026-11-12
 
 **Rules.** Replace, never layer; no hand-written player text in code (words in controls.json, whole-figures.json and the bank's manifest names); the owner's menu look (a selected tab a lit brass fill, no hairline rings, no boxes, no captions).
 
-**Done when.** A second session, on main at 1440x900, opens New game for a woman and a man each in a drawn place from Random place (named in the check's output), sees Everyday and Formal tabs under the shared rows, sees the bust wear a whole top on Everyday and the shirt (tie, jacket as chosen) on Formal, steps the Top row and sees the bust change, begins the life and sees the player's bust in that top away from work. src/bench/creator-look-tabs.browser.mjs passes on a fresh bench, and the creator unit test passes.
+**Done when.** A second session, on main at 1440x900, opens New game for a woman and a man each in a drawn place from Random place (named in the check's output), sees Everyday and Formal tabs under the shared rows, sees the bust wear a whole top on Everyday and the shirt (tie, jacket as chosen) on Formal, steps the Top row and sees the bust change, begins the life and sees the player's bust in that top away from work. tests/src/bench/creator-look-tabs.browser.mjs passes on a fresh bench, and the creator unit test passes.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/bust.ts, src/bench/appearance.ts, src/bench/handler.ts, src/bench/play.mjs, src/bench/play.css, src/bench/data/controls.json, src/bench/data/whole-figures.json, art/busts/v1/manifest.json, src/bench/creator-look-tabs.browser.mjs (new)
+**Files.** src/bench/bust.ts, src/bench/appearance.ts, src/bench/handler.ts, src/bench/play.mjs, src/bench/play.css, src/bench/data/controls.json, src/bench/data/whole-figures.json, art/busts/v1/manifest.json, tests/src/bench/creator-look-tabs.browser.mjs (new)
 
 **You will see.** Under Skin, Hair and Hair color, two tabs: Everyday shows your top and its color, Formal your shirt, tie and jacket, and the bust beside the form changes clothes as you switch.
 

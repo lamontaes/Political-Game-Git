@@ -33,4 +33,4 @@ root: rc3-thin-life-record
 
 **Waits on.** The Words lead's lines for the walk and the reasons; #9609. The player sees it as the scene after a hold, the reopened hearing on the calendar, and the hold staying with the reason heard.
 
-**Files.** src/director/data/situation-types.json; src/director/data/purpose-arcs.json; src/director/purpose-scene.ts; src/core2/modules/legislature.ts; src/core2/data/stopgaps/law.json; src/director/hold-chair-sought.test.ts (new)
+**Files.** src/director/data/situation-types.json; src/director/data/purpose-arcs.json; src/director/purpose-scene.ts; src/core2/modules/legislature.ts; src/core2/data/stopgaps/law.json; tests/src/director/hold-chair-sought.test.ts (new)

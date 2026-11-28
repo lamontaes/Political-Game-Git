@@ -36,7 +36,7 @@ Creve Coeur, Illinois (seed pl5) shows the same class: four TV stations and two 
 
 **Rules.** No dice. One rule, all 56 places: no named place or size threshold in code. Estimate, never UNKNOWN: market audiences come from the published counts already loaded (data/research/press/local-news-2026.json).
 
-**Done when.** At a village (pinned: Fairmont, Nebraska, seed fair01) the market's stations other than the outlet of record do not seek the village board's races or print its government, and the outlet of record does; at a suburb (pinned: Creve Coeur, Illinois, seed creve01) the same; in a city (pinned: Omaha, Nebraska, seed omaha01) every station still weighs the leading candidates as news. `src/core2/press-audience.test.ts` shows all three. A filed player at a village or suburb still gets an invitation before election day, from the outlet of record. A second session plays a campaign in a drawn place of under 2,000 people on main, names its seed, and sees no run of street meetings with reporters.
+**Done when.** At a village (pinned: Fairmont, Nebraska, seed fair01) the market's stations other than the outlet of record do not seek the village board's races or print its government, and the outlet of record does; at a suburb (pinned: Creve Coeur, Illinois, seed creve01) the same; in a city (pinned: Omaha, Nebraska, seed omaha01) every station still weighs the leading candidates as news. `tests/src/core2/press-audience.test.ts` shows all three. A filed player at a village or suburb still gets an invitation before election day, from the outlet of record. A second session plays a campaign in a drawn place of under 2,000 people on main, names its seed, and sees no run of street meetings with reporters.
 
 **Waits on.** Nothing.
 

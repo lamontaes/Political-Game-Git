@@ -35,6 +35,6 @@ branch:
 
 **Waits on.** words-election-notice-printed, which builds the notice itself.
 
-**Files.** src/core2/modules/voting.ts, src/core2/data/parameters.json, data/research/elections/filing-requirements.json, src/core2/election-notice.test.ts
+**Files.** src/core2/modules/voting.ts, src/core2/data/parameters.json, data/research/elections/filing-requirements.json, tests/src/core2/election-notice.test.ts
 
 **Notes.** Filed Nov 14 by the Account lead on the coordinator's ask. No research was fetched in this thread; the source field for the estimate says so.

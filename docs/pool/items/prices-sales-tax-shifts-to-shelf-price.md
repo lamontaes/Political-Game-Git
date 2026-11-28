@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** Research before building: fetch and quote the sources; research calibrates the share and its spread and never decides one actor's outcome. Replace, never layer: the tax-inclusive split is changed, not run beside a second price path. One rule, all 56 places. Every number lives in a parameter table tagged SOURCED or ESTIMATED.
 
-**Done when.** A second session (not the builder) plays a year of `buildBenchWorld` in a drawn place (place and seed named) with the grocery exemption enacted and a control world without it: named buyers' grocery spending falls by the pass-through share of the exempted tax, named by journal id, and the sellers' remittances fall by the full exempted tax. The parameter is tagged with its quotes. src/core2/law-wiring-prices.test.ts and src/core2/prices-web.test.ts pass.
+**Done when.** A second session (not the builder) plays a year of `buildBenchWorld` in a drawn place (place and seed named) with the grocery exemption enacted and a control world without it: named buyers' grocery spending falls by the pass-through share of the exempted tax, named by journal id, and the sellers' remittances fall by the full exempted tax. The parameter is tagged with its quotes. tests/src/core2/law-wiring-prices.test.ts and tests/src/core2/prices-web.test.ts pass.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/budgets.ts, src/core2/modules/purchase-tax.ts, src/core2/data/laws/reach-group-b-parameters.json, src/core2/law-wiring-prices.test.ts, src/core2/prices-web.test.ts
+**Files.** src/core2/modules/budgets.ts, src/core2/modules/purchase-tax.ts, src/core2/data/laws/reach-group-b-parameters.json, tests/src/core2/law-wiring-prices.test.ts, tests/src/core2/prices-web.test.ts
 
 **On screen.** Nothing yet: it would show on Politics, then Budgets, and nothing there reads it.
 

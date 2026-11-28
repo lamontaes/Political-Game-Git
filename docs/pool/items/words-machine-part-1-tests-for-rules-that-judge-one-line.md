@@ -37,6 +37,6 @@ seen-at: 2026-11-11T03:29:23.719Z
 
 **Waits on.** Pull request 8154 on main.
 
-**Files.** data/english/line-rules.json, src/english/line-rules.ts, src/english/line-rules.test.ts, data/english/pulled.json
+**Files.** data/english/line-rules.json, src/english/line-rules.ts, tests/src/english/line-rules.test.ts, data/english/pulled.json
 
 **Notes.** Seen in the game (2026-11-11, second-session-2): Whiting, Indiana (scene-year draw), seed sy-0428053f, main 170bd92c: words:rules ran twice with no file change and Conflicts reads None; adding 'Talk to you soon' to a bank line failed the English guards by rule no-talk-to-you-soon; a year of 55 scenes ran with nothing pulled playing

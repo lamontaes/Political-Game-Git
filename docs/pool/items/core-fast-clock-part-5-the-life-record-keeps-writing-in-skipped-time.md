@@ -35,7 +35,7 @@ branch: claude/pool-core-fast-clock-part-5-the-life-record-keeps-writing-in-skip
 
 **Waits on.** core-fast-clock-part-1-a-results-mode-for-skipped-time, core-fast-clock-part-2-births-deaths-and-illness-in-skipped-time and core-fast-clock-part-3-prices-pay-and-jobs-in-skipped-time.
 
-**Files.** src/core2/person-life.ts (new), src/core2/life.ts, src/core2/results-mode.test.ts (new)
+**Files.** src/core2/person-life.ts (new), src/core2/life.ts, tests/src/core2/results-mode.test.ts (new)
 
 **Notes (Fable B, Nov 10).** The life record's own steps, which this part also waited on, are on main (pull requests #8115 and #8139, which holds #8123), so Waits on now names only the three fast clock parts.
 

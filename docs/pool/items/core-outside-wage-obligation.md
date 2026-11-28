@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56 and a seed the builder did not choose, both named in the PR body), a filled-in jobless adult takes an outside job by record id, is paid on schedule from the outside account with withholding posted to the treasuries, and the household's journal reads it; the counted-weight-money test passes at its original tolerance, and any timeout change carries its measured reason. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
-**Files.** src/core2/opening-outside-market.ts, src/core2/public-work-pay.ts, src/core2/modules/residents.ts, src/core2/modules/counted-demotion.ts, src/core2/counted-weight-money.test.ts, src/core2/data/stopgaps.json
+**Files.** src/core2/opening-outside-market.ts, src/core2/public-work-pay.ts, src/core2/modules/residents.ts, src/core2/modules/counted-demotion.ts, tests/src/core2/counted-weight-money.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Sent back Oct 20 from PR #5076 (branch claude/peaceful-ritchie-03780x): loosened tolerance in counted-weight-money.test.ts, unstated timeout increases in two tests, and new features added to src/simulation; finish on that branch, merge main into it first. Unblocked Oct 23: core-commuter-job-fill-in is done (#5613).
 

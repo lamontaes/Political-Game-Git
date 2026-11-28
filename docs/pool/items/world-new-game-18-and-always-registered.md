@@ -28,10 +28,10 @@ source: Owner's Desk answers, Nov 16, 2026 ("18, unless you pick another age."; 
 
 **Rules.** The `wire-to-the-world` rule applies: the player's age picks the resident through the town's own people records, and registration is read from the rolls' own record for townspeople. No dice: the age is the owner's answer and the pick is nearest age.
 
-**Done when.** In a drawn place and a seed the builder did not choose, a new game with no age picked has an 18-year-old player and a staged never-registered player is still on the rolls, shown in `src/bench/new-game-default-age.test.ts` and `src/core2/player-always-registered.test.ts`; a second session sees age 18 on a new game's card.
+**Done when.** In a drawn place and a seed the builder did not choose, a new game with no age picked has an 18-year-old player and a staged never-registered player is still on the rolls, shown in `tests/src/bench/new-game-default-age.test.ts` and `tests/src/core2/player-always-registered.test.ts`; a second session sees age 18 on a new game's card.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/world.ts, src/core2/electorate-registration.ts, src/bench/new-game-default-age.test.ts, src/core2/player-always-registered.test.ts
+**Files.** src/bench/world.ts, src/core2/electorate-registration.ts, tests/src/bench/new-game-default-age.test.ts, tests/src/core2/player-always-registered.test.ts
 
 **Notes.** Handoff's branch `claude/project-thread-dvz2zo` started the age default; this builds it through the one birthday path. "Take every count off the screens" is posted for Screens on #9747.

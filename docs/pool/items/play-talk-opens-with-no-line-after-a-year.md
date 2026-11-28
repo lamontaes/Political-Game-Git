@@ -34,7 +34,7 @@ Probe (working copy only, undone): changing line 2231 to always call `bringItUp`
 
 **Rules.** An effect is a read, not a record: the guard reads `openConversation` and writes nothing. No hand-written player text: no line is written in code. Ask why: the cause above is by file and line and by the drawn place's own ids. One engine per mechanic: the scene and the room use the one talkable read.
 
-**Done when.** A second session starts a game in a drawn place it names with its seed, plays a year, and opens a talk with each member of the player's household, both by clicking them in the room and by playing each of the year's scenes with a housemate to its end: every talk that opens has a line, and a person with nothing to say opens no talk box. A test in a drawn place (in the style of src/bench/mark-gap.test.ts, naming the place and seed) plays 56 weeks and fails on any scene whose talk opens with no line.
+**Done when.** A second session starts a game in a drawn place it names with its seed, plays a year, and opens a talk with each member of the player's household, both by clicking them in the room and by playing each of the year's scenes with a housemate to its end: every talk that opens has a line, and a person with nothing to say opens no talk box. A test in a drawn place (in the style of tests/src/bench/mark-gap.test.ts, naming the place and seed) plays 56 weeks and fails on any scene whose talk opens with no line.
 
 **Waits on.** Nothing.
 

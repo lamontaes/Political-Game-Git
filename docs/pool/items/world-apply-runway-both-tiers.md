@@ -18,6 +18,6 @@ source: added with npm run pool -- add
 
 **Done when.** In a drawn place named with its seed, actual unemployed seeker records in each tier show different needs for different household runways, the shorter runway higher; jobs-apply-need-varies.test.ts checks both tiers and unchanged need across fill-in, and world-apply-and-buy-reasons-vary stays open for home buying.
 
-**Files.** src/core2/modules/jobs.ts,src/core2/jobs-apply-need-varies.test.ts
+**Files.** src/core2/modules/jobs.ts,tests/src/core2/jobs-apply-need-varies.test.ts
 
 **Notes.** Bounded applying slice split by Merger 0 for PR #5812 on Oct 25; its original item remains open for the home-buying half.

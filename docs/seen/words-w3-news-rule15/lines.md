@@ -8,7 +8,7 @@ Before is main at 9ed6e438b7; after is `claude/words-w3-news-rule15`. Seeds are 
 - **Richmond, Utah (`w3-r15-3`), the Richmond Dispatch:** before "Nothing in print yet.", after "Nothing here yet."
 - **Aua, American Samoa (`w3-r15-1`):** no empty page on day one, passed over.
 
-## The endorsement brief (`src/bench/endorsement-brief.test.ts`, as worded)
+## The endorsement brief (`tests/src/bench/endorsement-brief.test.ts`, as worded)
 
 | Place                                             | Headline                                                           | Body                                                                                                      |
 | ------------------------------------------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |

@@ -8,7 +8,7 @@
 
 - `src/core2/business-books-view.ts` → `src/core2/modules/employer-taxes.ts` [budgets]
 - `src/core2/business-operating-rules.ts` → `src/core2/residents-economy.ts` [people]
-- `src/core2/census-scale-closures-support.ts` → `src/bench/world.ts` [screens]
+- `tests/support/census-scale-closures-support.ts` → `src/bench/world.ts` [screens]
 - `src/core2/credit-deposits.ts` → `src/core2/accounts.ts` [budgets]
 - `src/core2/credit-deposits.ts` → `src/core2/counted-money.ts` [people]
 - `src/core2/credit-deposits.ts` → `src/core2/residents-economy.ts` [people]

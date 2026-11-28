@@ -33,4 +33,4 @@ checked: fable 2026-11-11
 
 **Waits on.** play-bill-page-cuts-off-the-vote-and-play-as-offers-empty-offices (#8542), whose bill page this screen holds.
 
-**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/ui/roster-screen.mjs, src/bench/ui/pager.mjs, src/bench/data/controls.json, src/bench/bill-stage.browser.mjs, src/bench/bill-committee.browser.mjs, src/bench/bill-override.browser.mjs, src/bench/bill-state.browser.mjs, src/bench/dev-acceptance.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/play.css, src/bench/ui/roster-screen.mjs, src/bench/ui/pager.mjs, src/bench/data/controls.json, tests/src/bench/bill-stage.browser.mjs, tests/src/bench/bill-committee.browser.mjs, tests/src/bench/bill-override.browser.mjs, tests/src/bench/bill-state.browser.mjs, tests/src/bench/dev-acceptance.browser.mjs

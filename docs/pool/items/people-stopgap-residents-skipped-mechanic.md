@@ -18,7 +18,7 @@ after:
 
 **Rules.** Wire to the world: the draw moves lender cash to the employer's account and then to the workers by journal record, interest accruing on the facility. No dice: the draw happens because cash is short and the line has room. An effect is a read, not a record: the credit engine reads the draw as borrowing and the workers are paid on payday. Replace, never layer: the shortfall-only path for employers with a line and the stopgap marker are deleted. One model, two tiers: the same draw covers counted wage flows and full ones. Every dollar balances.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a place drawn from all 56 with a seed the builder did not choose, both named in the PR body) a counted employer with a credit line and too little cash on a named payday draws the shortfall as a credit-draw journal record id, its workers are paid in full by record id, the facility balance rises by the draw, and no residents.wages shortfall is recorded for that day. A test in src/core2/finance-cash.test.ts and src/core2/residents.test.ts proves it.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a place drawn from all 56 with a seed the builder did not choose, both named in the PR body) a counted employer with a credit line and too little cash on a named payday draws the shortfall as a credit-draw journal record id, its workers are paid in full by record id, the facility balance rises by the draw, and no residents.wages shortfall is recorded for that day. A test in tests/src/core2/finance-cash.test.ts and tests/src/core2/residents.test.ts proves it.
 
 **Files.** src/core2/finance-cash.ts, src/core2/modules/residents.ts, src/core2/state.ts, src/core2/data/stopgaps.json
 

@@ -34,7 +34,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/public-safety.ts, src/core2/law-wiring-justice.test.ts
+**Files.** src/core2/public-safety.ts, tests/src/core2/law-wiring-justice.test.ts
 
 **Notes.** Independent same-seed baseline and PR comparison: both fail identically with extra person_76c8e949a5f5bbaa, person_76c8ea49a5f5bd5d, person_f502f74bd53befa1, person_f502f84bd53bf154. Preserve existing claims on release-suite-red-list-core2 and people-household-firearms.
 

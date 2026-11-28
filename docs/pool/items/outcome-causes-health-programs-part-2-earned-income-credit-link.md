@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** Wire to the world: an effect is a read, not a record, so the outcome is read by the engine that owns it through outcomeWebFactor or a kept measure that views and news read. No dice: the cause record moves the outcome by the link's researched size, never a roll. One rule, all 56 places: place facts live in data. One engine per mechanic: pay the credit through the existing benefit engine, not a new payer. Every dollar balances.
 
-**Done when.** A second session runs a one-year played world (buildBenchWorld) in a drawn place and a seed the builder did not choose (both named in the PR body) and sees an eligible household receive the credit on the journal, the place's credit dollars rise, and low birthweight move after the link's lag, named by payment record id, the link key and the web month record id. coverage.json shows eitc-to-low-birthweight under wired and src/core2/outcome-web.test.ts lists it as built.
+**Done when.** A second session runs a one-year played world (buildBenchWorld) in a drawn place and a seed the builder did not choose (both named in the PR body) and sees an eligible household receive the credit on the journal, the place's credit dollars rise, and low birthweight move after the link's lag, named by payment record id, the link key and the web month record id. coverage.json shows eitc-to-low-birthweight under wired and tests/src/core2/outcome-web.test.ts lists it as built.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/jobs-benefits.ts, src/core2/modules/outcome-web.ts, src/core2/data/outcome-web/outcome-web.json, src/core2/data/outcome-web/coverage.json, src/core2/outcome-web.test.ts
+**Files.** src/core2/jobs-benefits.ts, src/core2/modules/outcome-web.ts, src/core2/data/outcome-web/outcome-web.json, src/core2/data/outcome-web/coverage.json, tests/src/core2/outcome-web.test.ts
 
 **Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have built a credit payment and a birthweight link; no player sees birthweight, and the credit would add a payment path beside the money system that exists.

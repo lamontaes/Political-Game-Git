@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** In a drawn place where the player runs against someone they never met, the journal the day after the count has a line sourced by the election-result record id, won and lost, named with place, seed and record id; journal tests pass.
 
-**Files.** src/director/journal.ts, src/director/journal.test.ts
+**Files.** src/director/journal.ts, tests/src/director/journal.test.ts
 
 **Notes.** TODO
 Claim released Oct 25: branch never pushed (`words/journal-own-race-unknown-rival`).

@@ -34,6 +34,6 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.mjs, src/bench/ui/metrics-change.mjs, src/bench/metrics-change.test.ts
+**Files.** src/bench/play.mjs, src/bench/ui/metrics-change.mjs, tests/src/bench/metrics-change.test.ts
 
 **Notes.** Filed Nov 13, 2026 by Account lead T38.

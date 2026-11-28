@@ -29,10 +29,10 @@ checked: fable 2026-11-10
 
 **Rules.** Replace, never layer: the layer that loses is deleted, not kept beside the winner. Wire to the world: every household's rent and bill still posts the same dollars on the journal, shown in a played year. Speed: a year must stay within 20 percent of its base, measured on the same machine.
 
-**Done when.** A second session, in a generated world of a drawn place (place and seed named), sees a retiree's monthly claim post from the finance layer by journal record id with the award fact it names, and src/core2/retirement-claims.test.ts passes. No `addObligation` call remains in src/core2/modules/retirement-claims.ts.
+**Done when.** A second session, in a generated world of a drawn place (place and seed named), sees a retiree's monthly claim post from the finance layer by journal record id with the award fact it names, and tests/src/core2/retirement-claims.test.ts passes. No `addObligation` call remains in src/core2/modules/retirement-claims.ts.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/retirement-claims.ts, src/core2/finance-cash.ts, src/core2/retirement-claims.test.ts
+**Files.** src/core2/modules/retirement-claims.ts, src/core2/finance-cash.ts, tests/src/core2/retirement-claims.test.ts
 
 Nov 14 (claude, people-views-stances-from-life): measured in play, a counted retiree filled in loses their retirement income in `fullHouseholdIncomes` (src/core2/counted-income-fifth.ts), the reader the crime, medical-bill, school and views engines take a household's income fifth from: Marshfield, Massachusetts (2538820), world seed 75d9b7ad36560f47b03a252ae33001b88ec529e8f4871fa480acf053c7642a78, person_ea440ca012abcbcc read $33,156 a year counted and $0 filled in; person_17c8a01c5b83c434 $68,842 and $35,938. Neither `core.finance.contracts` nor `incomeContractsByPerson` holds their award after `fillInPerson`, which matches this item's cause (the fill-in re-entry is an obligation). This item's fix closes it.

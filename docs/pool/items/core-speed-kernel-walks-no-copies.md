@@ -31,6 +31,6 @@ Bisected, Oct 24 (speed lead), on base 185d76d7ce: with only the household walk 
 
 Claim released by the Oct 25 audit: no push in 72 hours (branch claude/speed-live-households last pushed Oct 21).
 
-**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into core-speed-module-table-play-path. Measured Oct 24 inside the noise (Long Hill m7b 0.941 then 1.005; Stanardsville 0.964, 0.985, 1.015) and its module-table list-cache half was replaced by the branch behind core-speed-module-table-play-path, which says "whose part it replaces". The kept item now takes the one-result-object counted-household walk and its defect in counted-demotion (src/core2/counted-demotion.test.ts failing on Lawrence, New York, seed 69fb54d718cc69e358245405c6c5c465).
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into core-speed-module-table-play-path. Measured Oct 24 inside the noise (Long Hill m7b 0.941 then 1.005; Stanardsville 0.964, 0.985, 1.015) and its module-table list-cache half was replaced by the branch behind core-speed-module-table-play-path, which says "whose part it replaces". The kept item now takes the one-result-object counted-household walk and its defect in counted-demotion (tests/src/core2/counted-demotion.test.ts failing on Lawrence, New York, seed 69fb54d718cc69e358245405c6c5c465).
 
 **Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `core-speed-module-table-play-path`, which carries this item's remaining work.

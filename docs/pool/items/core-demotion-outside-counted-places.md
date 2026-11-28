@@ -19,6 +19,6 @@ claimed-at: 2026-10-23T22:31:13.446Z
 
 **Done when.** The demotion review leaves a household living where no counts are kept as filled in; counted-demotion.test.ts reproduces the crash without the fix (a filled-in household moved to the state jurisdiction) and passes with it; the Brandsville, Missouri world runs a full year.
 
-**Files.** src/core2/modules/counted-demotion.ts, src/core2/counted-demotion.test.ts
+**Files.** src/core2/modules/counted-demotion.ts, tests/src/core2/counted-demotion.test.ts
 
 **Notes.** TODO

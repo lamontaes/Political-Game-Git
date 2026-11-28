@@ -45,7 +45,7 @@ two says it, once.
    `promiseSubject`. A slot name already used in that bank with another
    meaning (for example `held` or `body`) gets a new name such as
    `meeting-held`.
-5. **The test.** Pin it in `src/director/promises.test.ts` with `world(draw,
+5. **The test.** Pin it in `tests/src/director/promises.test.ts` with `world(draw,
 label)`: one place kept and one broken, the next talk played with every
    answer branch (`talkOf`), and every place passed over named.
 

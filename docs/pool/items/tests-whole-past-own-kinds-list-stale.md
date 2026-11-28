@@ -19,7 +19,7 @@ checked: Account lead 2026-11-14
 source: Account lead T45, Nov 14 2026, red on the clean train 998ba95bf5 and on #9084 alike
 ---
 
-**What.** `src/core2/whole-past.test.ts` case 6, "the world's own history did not move", fails in Mapleton, Pennsylvania (4247248), WHOLE_SEED=f273f1c135fa76d5: "justice.arrested-before:person_2081d4eb81cb15ba is dated 1961-01-22, before 2007-01-01". A person's own arrest record may be dated before the window; the world's history may not. Seen: no player-visible effect; the test is red on the train whenever the drawn place has a resident arrested before 2007.
+**What.** `tests/src/core2/whole-past.test.ts` case 6, "the world's own history did not move", fails in Mapleton, Pennsylvania (4247248), WHOLE_SEED=f273f1c135fa76d5: "justice.arrested-before:person_2081d4eb81cb15ba is dated 1961-01-22, before 2007-01-01". A person's own arrest record may be dated before the window; the world's history may not. Seen: no player-visible effect; the test is red on the train whenever the drawn place has a resident arrested before 2007.
 
 **Cause.** Measured: Mapleton PA, seed f273f1c135fa76d5, same message on the clean train 998ba95bf5 and on #9084. Measured again Nov 14 with the place and seed pinned (WHOLE_SEED, WHOLE_PLACE_KEY): Myrtle Beach SC (4549075), seed 212fb832c73e5744, and Gloversville NY (3629443), seed fbc94e233b873eba, fail the same way on the clean train af211faaae and on #9149 at 42b9a45e ("school.finished:<person> is dated 1959-05-29 / 1947-05-30, before 2007-01-01"), so a person's own school.finished is another kind the stale list misses. Found in code: the test lists own-past kinds by hand (`OWN_KINDS`, whole-past.test.ts line 25: work-spell, out-of-work, moved-in, school.started). The engine's list is `isOwnPastKind` (src/core2/own-past-kinds.ts), which past-justice.ts, past-health.ts and past-moves.ts fill as they load (justice.arrested-before and the others, school.finished, health.hospital-stay, person.moved-within). The test never learned those kinds.
 
@@ -33,6 +33,6 @@ source: Account lead T45, Nov 14 2026, red on the clean train 998ba95bf5 and on 
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/whole-past.test.ts
+**Files.** tests/src/core2/whole-past.test.ts
 
 **Notes.** Filed by Account lead T45 on its branch at the Account lead's request.

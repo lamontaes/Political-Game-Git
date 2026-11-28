@@ -19,7 +19,7 @@ source: Red desk, Nov 13 (Account lead T7 on #8928, comment 6842671869)
 merged-at: 2026-11-13T05:12:09.979Z
 ---
 
-**What.** `src/bench/dev-outlook.test.ts` fails on clean main in nearly every drawn place: Hagåtña, Guam (DEV_MODE_SEED=407cf5672cb2f1da), El Chaparral, Texas (bb4c89efc75cd75a), Ash Grove, Missouri (24bc87d3e7e66f9c) and Bruning, Nebraska (776a993f8b09cf32). Dev mode's outlook says the country's next 20 years could not be (`couldBe` false) with no problem listed, because its dollars drift by 0.005% (4.9e-5 against a bound of 1e-9). Seen: dev mode's outlook says the country could be, and its money adds up.
+**What.** `tests/src/bench/dev-outlook.test.ts` fails on clean main in nearly every drawn place: Hagåtña, Guam (DEV_MODE_SEED=407cf5672cb2f1da), El Chaparral, Texas (bb4c89efc75cd75a), Ash Grove, Missouri (24bc87d3e7e66f9c) and Bruning, Nebraska (776a993f8b09cf32). Dev mode's outlook says the country's next 20 years could not be (`couldBe` false) with no problem listed, because its dollars drift by 0.005% (4.9e-5 against a bound of 1e-9). Seen: dev mode's outlook says the country could be, and its money adds up.
 
 **Cause.** Found in code: since #8333 (2b98cee96e, Nov 10; drift 1.1e-14 before it, 4.9e-5 with it), `stepCountry` in src/core2/country-model.ts takes the played places' part out of their state before it steps and puts it back after. `takeOutPart` scales the state's books by its people (`scaleWithPeople`) and each sector's by its jobs (`scaleWithJobs`), and `putInPart` scales them back by the ratio after the step. The rest of the state moved during the step, so the two factors do not cancel, and the state's cash, owners' income and sector cash change by a little every month (`countryMoney`).
 

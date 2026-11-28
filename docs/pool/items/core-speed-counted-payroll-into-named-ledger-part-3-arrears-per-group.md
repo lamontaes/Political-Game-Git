@@ -33,4 +33,4 @@ checked: fable 2026-11-10
 
 **Waits on.** core-speed-counted-payroll-into-named-ledger-part-2-employer-calendar-settlement.
 
-**Files.** src/core2/counted-money.ts, src/core2/work-payroll-cash.ts, src/core2/work-payroll-cash.test.ts
+**Files.** src/core2/counted-money.ts, src/core2/work-payroll-cash.ts, tests/src/core2/work-payroll-cash.test.ts

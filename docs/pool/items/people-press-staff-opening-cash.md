@@ -17,8 +17,8 @@ claimed-at: 2026-10-16T19:45:30.123Z
 
 **Rules.** Estimate, never UNKNOWN: the balance is the survey median for the person's pay, marked as an estimate with its source. Replace, never layer: use the starting-cash rule the residents use, not a second formula. One rule, all 56 places.
 
-**Done when.** In a played world (buildBenchWorld) in a drawn place from all 56 (place and seed in the PR body), every press employee with a salary holds an opening balance from the survey rule, by person record id, and the test in src/core2/opening-resident-cash.test.ts no longer needs to skip ids that start with person:press.
+**Done when.** In a played world (buildBenchWorld) in a drawn place from all 56 (place and seed in the PR body), every press employee with a salary holds an opening balance from the survey rule, by person record id, and the test in tests/src/core2/opening-resident-cash.test.ts no longer needs to skip ids that start with person:press.
 
 **Files.** src/core2/modules/press.ts, src/core2/press-staff.ts, src/core2/starting-cash.ts
 
-**Notes.** Found by src/core2/opening-resident-cash.test.ts, which skips the press's people for now. Related: people-officials-living-costs (named officeholders, PR #4757) is the same gap for officials.
+**Notes.** Found by tests/src/core2/opening-resident-cash.test.ts, which skips the press's people for now. Related: people-officials-living-costs (named officeholders, PR #4757) is the same gap for officials.

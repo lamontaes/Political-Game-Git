@@ -16,8 +16,8 @@ source: found by a Claude session building laws-family-school-vouchers (control 
 
 **Rules.** An effect is a read; one model, two tiers (a measure of the counted tier alone loses households as they are filled in).
 
-**Done when.** `src/core2/residents-fill-in-purchases.test.ts` (a drawn place, filled-in households, every seller's total across both tiers unchanged) passes.
+**Done when.** `tests/src/core2/residents-fill-in-purchases.test.ts` (a drawn place, filled-in households, every seller's total across both tiers unchanged) passes.
 
-**Files.** src/core2/residents-fill-in-purchases.test.ts (new, test only).
+**Files.** tests/src/core2/residents-fill-in-purchases.test.ts (new, test only).
 
 **Notes.** Found by the school-vouchers builder (#4449) measuring the counted flow alone: its voucher is re-sized monthly to the counted tuition, so it falls as households are filled in while the same tuition is paid by full households. Whether a voucher should also follow full households' plans is that item's call (laws-family-school-vouchers); nothing here blocks it.

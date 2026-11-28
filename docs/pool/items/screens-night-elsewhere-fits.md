@@ -33,6 +33,6 @@ Seen: Hampstead, Maryland, the night of Nov 3, 2026, on main.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.css, src/bench/play.mjs, src/bench/election-day.browser.mjs
+**Files.** src/bench/play.css, src/bench/play.mjs, tests/src/bench/election-day.browser.mjs
 
 **Notes.** Crew line #9747. The candidate's own night (the count by place, "I won", the opponent's call, what's next) is the rest of pl-night.

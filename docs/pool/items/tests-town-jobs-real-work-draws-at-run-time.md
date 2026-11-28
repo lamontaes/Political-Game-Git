@@ -18,9 +18,9 @@ effort: medium
 source: "Industries thread, Nov 16 (the gate on #9627)"
 ---
 
-**What.** `src/core2/town-jobs-real-work.test.ts` picks a fresh random seed every run (`randomBytes(8)` unless `TOWN_JOBS_SEED` is set) and draws its two places from it. On #9627's gate it failed once and passed on the next run at the same head and on the base; the failure line named the place and the world seed but not the outer seed, so the draw could not be replayed and the fault could not be found. Seen: one red run of the test on the wholesale branch, head 4ca75594, Nov 16, not reproduced since.
+**What.** `tests/src/core2/town-jobs-real-work.test.ts` picks a fresh random seed every run (`randomBytes(8)` unless `TOWN_JOBS_SEED` is set) and draws its two places from it. On #9627's gate it failed once and passed on the next run at the same head and on the base; the failure line named the place and the world seed but not the outer seed, so the draw could not be replayed and the fault could not be found. Seen: one red run of the test on the wholesale branch, head 4ca75594, Nov 16, not reproduced since.
 
-**Cause.** Found in code: `src/core2/town-jobs-real-work.test.ts`, line 41, `const seed = process.env.TOWN_JOBS_SEED ?? randomBytes(8).toString("hex")`; the `where` string of each assertion holds `place.seed` but not `seed`, so `drawPlace(`${seed}:${draw}`, ...)` cannot be redone from the message.
+**Cause.** Found in code: `tests/src/core2/town-jobs-real-work.test.ts`, line 41, `const seed = process.env.TOWN_JOBS_SEED ?? randomBytes(8).toString("hex")`; the `where` string of each assertion holds `place.seed` but not `seed`, so `drawPlace(`${seed}:${draw}`, ...)` cannot be redone from the message.
 
 **Fix.** Pin the test to two named places with fixed seeds (found by a script outside the test, as the pinned-tests skill says), keeping every check it makes, and file the run-time draw's hunt for faults as a separate script if it is still wanted. The player sees it only as a game that offers jobs from the first week; the check guards that.
 
@@ -32,6 +32,6 @@ source: "Industries thread, Nov 16 (the gate on #9627)"
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/town-jobs-real-work.test.ts
+**Files.** tests/src/core2/town-jobs-real-work.test.ts
 
 **Notes.** Nov 16 04:00Z: red a second time, run beside day-zero and the wholesaler test on dfa99f94 (67.6 s), green alone a minute later on the same head; the seed of the red run is again lost, which is the defect.

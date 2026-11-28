@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** Wire to the world: the campaign's money must land on a recorded seller organization whose books another engine reads, never a stand-in, in all 56 places. One rule, all 56 places: the seller lookup reads per-place counts from the research file, never a state named in code.
 
-**Done when.** A second session plays one year of buildBenchWorld in a drawn place from all 56 (name and seed written down) with the player running a campaign, and finds every campaign poll, mailing and event paying a recorded organization that is not a stand-in, named by record id, with postage on a Postal Service organization's account. `core.stopgapHits` holds none of the three seller stopgap ids and `src/core2/campaigns.test.ts` passes.
+**Done when.** A second session plays one year of buildBenchWorld in a drawn place from all 56 (name and seed written down) with the player running a campaign, and finds every campaign poll, mailing and event paying a recorded organization that is not a stand-in, named by record id, with postage on a Postal Service organization's account. `core.stopgapHits` holds none of the three seller stopgap ids and `tests/src/core2/campaigns.test.ts` passes.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/campaigns.ts, data/research/elections/cbp-2023-campaign-sellers.json, src/core2/data/stopgaps/gov.json, src/core2/campaigns.test.ts
+**Files.** src/core2/modules/campaigns.ts, data/research/elections/cbp-2023-campaign-sellers.json, src/core2/data/stopgaps/gov.json, tests/src/core2/campaigns.test.ts
 
 **Notes.** Built Nov 14 on the train (lead ruling: a town with no fitting business pays the town's outside account, not a county or state firm; the unused county counts file stays calibration only). Postage is always paid outside. Rows removed: SG-GOV-campaign-pollster-seller, SG-GOV-campaign-mail-seller, SG-GOV-campaign-venue-seller. The outside payment is `campaign-purchase` in outside-flows.json.
 
