@@ -47,6 +47,7 @@ import { purposeScene } from "../../src/director/purpose-scene";
 import { type TreeNode } from "../../src/director/scene-talk";
 import variantFile from "../../src/director/data/arc-variants.json" with { type: "json" };
 import bank from "../../data/english/parts/scene-talk.json" with { type: "json" };
+import { spawnSync } from "node:child_process";
 import { drawPlace } from "../core2-year/place";
 
 const option = (name: string, fallback: string) => {
@@ -56,6 +57,35 @@ const option = (name: string, fallback: string) => {
 const seed = option("seed", "");
 if (!seed) throw new Error("--seed <word> is required");
 const label = option("label", "a");
+
+// A place without what this walk needs is passed over by name and the next place is drawn (the way the
+// golden-path draws pass over a place that cannot play the case); the seed and every place passed over
+// are printed, so a run replays. Attempt 0 draws exactly the place the walk always drew.
+const attempt = Number(option("attempt", "0"));
+const ATTEMPTS = Number(option("attempts", "12"));
+const drawLabel = attempt ? `${label}:${attempt}` : label;
+const PASS_OVER = 3;
+// The walk runs one place per process so a passed-over place's world is freed before the next is built.
+if (!process.argv.includes("--child")) {
+  const args = process.argv.slice(2);
+  for (let n = 0; n < ATTEMPTS; n += 1) {
+    const run = spawnSync(
+      process.execPath,
+      [
+        ...process.execArgv,
+        process.argv[1]!,
+        ...args,
+        "--child",
+        "--attempt",
+        String(n),
+      ],
+      { stdio: "inherit" },
+    );
+    if (run.status !== PASS_OVER) process.exit(run.status ?? 1);
+  }
+  console.log(`SKIP: none of ${ATTEMPTS} drawn places had it`);
+  process.exit(0);
+}
 const unseated = process.argv.includes("--unseated");
 // A state legislature, whose bills go to committees and two chambers, in place of the town's own board.
 const state = process.argv.includes("--state");
@@ -64,8 +94,13 @@ const seenOut = option("seen-out", "");
 const YEAR = 365;
 
 setBookkeeping(false);
-const place = drawPlace(seed, `donor-walk:${label}`);
+const place = drawPlace(seed, `donor-walk:${drawLabel}`);
 const where = `${place.name} (${place.key}), seed ${place.seed}`;
+
+function passOver(reason: string): never {
+  console.log(`# PASSED OVER ${where}: ${reason}`);
+  process.exit(PASS_OVER);
+}
 console.log(`# PLACE ${where}`);
 const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
   twoLevel: true,
@@ -96,8 +131,7 @@ const race = open().find(
     ),
 );
 if (!race) {
-  console.log("SKIP: no council or board race open for filing in the year");
-  process.exit(0);
+  passOver("no council or board race open for filing in the year");
 }
 const body = members(api, race.officeId);
 const sponsor = body[0]!;
@@ -157,8 +191,7 @@ if (!candidateId)
     }
   }
 if (!candidateId) {
-  console.log("SKIP: nobody could file");
-  process.exit(0);
+  passOver("nobody could file");
 }
 core.playerId = candidateId;
 const seated = body.some((t) => memberKey(t) === candidateId);

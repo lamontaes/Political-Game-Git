@@ -36,6 +36,7 @@ import type { PersonId } from "../../src/core2/types";
 import { purposeScene } from "../../src/director/purpose-scene";
 import { speechAct, speechOccasion } from "../../src/director/scheduling";
 import type { TreeNode } from "../../src/director/scene-talk";
+import { spawnSync } from "node:child_process";
 import { drawPlace } from "../core2-year/place";
 
 const option = (name: string, fallback: string) => {
@@ -45,6 +46,35 @@ const option = (name: string, fallback: string) => {
 const seed = option("seed", "");
 if (!seed) throw new Error("--seed <word> is required");
 const label = option("label", "a");
+
+// A place without what this walk needs is passed over by name and the next place is drawn (the way the
+// golden-path draws pass over a place that cannot play the case); the seed and every place passed over
+// are printed, so a run replays. Attempt 0 draws exactly the place the walk always drew.
+const attempt = Number(option("attempt", "0"));
+const ATTEMPTS = Number(option("attempts", "12"));
+const drawLabel = attempt ? `${label}:${attempt}` : label;
+const PASS_OVER = 3;
+// The walk runs one place per process so a passed-over place's world is freed before the next is built.
+if (!process.argv.includes("--child")) {
+  const args = process.argv.slice(2);
+  for (let n = 0; n < ATTEMPTS; n += 1) {
+    const run = spawnSync(
+      process.execPath,
+      [
+        ...process.execArgv,
+        process.argv[1]!,
+        ...args,
+        "--child",
+        "--attempt",
+        String(n),
+      ],
+      { stdio: "inherit" },
+    );
+    if (run.status !== PASS_OVER) process.exit(run.status ?? 1);
+  }
+  console.log(`SKIP: none of ${ATTEMPTS} drawn places had it`);
+  process.exit(0);
+}
 const minNeed = Number(option("min-need", "25"));
 const leadMonths = Number(option("lead-months", "0"));
 const afterWindow = Number(option("after-window", "60"));
@@ -56,8 +86,13 @@ const LABELS = [
 ];
 
 setBookkeeping(false);
-const place = drawPlace(seed, `door-walk:${label}`);
+const place = drawPlace(seed, `door-walk:${drawLabel}`);
 const where = `${place.name} (${place.key}), seed ${place.seed}`;
+
+function passOver(reason: string): never {
+  console.log(`# PASSED OVER ${where}: ${reason}`);
+  process.exit(PASS_OVER);
+}
 console.log(`# PLACE ${where}`);
 const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
   twoLevel: true,
@@ -221,8 +256,7 @@ for (const row of adults.slice(0, 60)) {
   if (filing) break;
 }
 if (!filing || !personId) {
-  console.log(`SKIP: no seat whose petition needs ${minNeed} names`);
-  process.exit(0);
+  passOver(`no seat whose petition needs ${minNeed} names`);
 }
 const due = petitionOf(api, filing.id)!.due;
 const days =
