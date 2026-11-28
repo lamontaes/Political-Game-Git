@@ -144,6 +144,13 @@ describe(`no stop traps the player (seed ${seed})`, () => {
         ordersDecide(core, item.entryId, "issue");
         return true;
       }
+      // A bill on the president's desk: the desk screen's own choice, as the
+      // governor's case clears it (here, leaving it to the character).
+      const bill = deskWaiting(api)[0];
+      if (bill) {
+        leaveDeskToCharacter(api, bill.id);
+        return true;
+      }
       if (!heldFederal(api).includes(NOMINATIONS)) return false;
       for (const post of nominationsView(core))
         leavePostOpen(api, president!, post.post);
