@@ -828,7 +828,16 @@
         "src/core2/living-cost-split.ts",
         "src/core2/public-payroll.ts",
         "src/core2/modules/credit.ts",
-        "src/core2/modules/place-prices.ts"
+        "src/core2/modules/place-prices.ts",
+        "src/core2/business-books.ts",
+        "src/core2/work-pay-period.ts",
+        "src/core2/country-law.ts",
+        "src/core2/opening-department-pay.ts",
+        "src/core2/opening-public-owner.ts",
+        "src/core2/opening-public-pay.ts",
+        "src/core2/opening-work.ts",
+        "src/core2/opening-payroll-calendar.ts",
+        "src/core2/opening-org-profiles.ts"
       ],
       "paths": [
         "src/core2/shared-time.ts",
