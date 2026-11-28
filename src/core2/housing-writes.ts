@@ -5,6 +5,12 @@ import { countOffered } from "./housing-price-level";
 import type { CoreAPI } from "./types";
 import type { Zoning, ConstructionLawIds } from "./housing-construction";
 import type { ModuleTable } from "./module-state";
+import type { CoreState } from "./types";
+import type { HomeSale } from "./housing-sale";
+import type { ModuleRow } from "./module-data";
+import { townOutsideOf } from "./opening-outside-market";
+import type { MortgageRow } from "./housing-foreclosure";
+import { formerHome } from "./housing-former-home";
 
 const HOUSING = "housing";
 
@@ -146,4 +152,144 @@ export function takeNewHome(
   )?.builderId;
   stock.put({ ...row, newHomesForSale: row.newHomesForSale - 1 });
   return builder;
+}
+
+/** An estate's home sale records probate's close and whom the estate paid. */
+export function recordEstatePaid(
+  api: CoreAPI,
+  sale: HomeSale,
+  settledEventId: string,
+  paid: readonly { readonly toId: string; readonly amountMinor: number }[],
+): void {
+  table(api, "sales").put({
+    ...sale,
+    settledEventId,
+    paid: paid.map((row) => ({ ...row })),
+  } as unknown as ModuleRow);
+}
+
+/** A household's home sale on a date, if it sold. */
+export function homeSaleOf(
+  api: CoreAPI,
+  householdId: string,
+): HomeSale | undefined {
+  if (!api.state.modules.has(HOUSING)) return undefined;
+  // Only a household whose home went on the market has a sale.
+  const home = table(api, "dwellings").get(`dwelling:${householdId}`) as
+    { tenure?: string; basis?: string } | undefined;
+  if (home?.basis !== "sale") return undefined;
+  return (table(api, "sales").rows() as unknown as HomeSale[])
+    .filter((row) => row.householdId === householdId)
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .at(-1);
+}
+
+/**
+ * Puts the household's home on the market, for what a buyer will pay. It
+ * stays the household's (or its estate's) until a buyer takes it; its
+ * mortgage stops being billed and is paid off, with interest for the months
+ * it waited, from the sale. Returns the sale, or undefined when the household
+ * owns no recorded home (or already has it on the market).
+ */
+export function sellHome(
+  api: CoreAPI,
+  householdId: string,
+  reasonKey: string,
+  estate?: { decedentId: string; deathEventId: string },
+  /**
+   * A counted household's home: the households its record stands for, the
+   * place it is in, and the account its surplus goes to (its group's, for the
+   * counted dead); none, the surplus leaves town with it.
+   */
+  counted?: {
+    readonly placeId: string;
+    readonly weight: number;
+    readonly surplusAccountId?: string;
+  },
+): HomeSale | undefined {
+  if (!api.state.modules.has(HOUSING)) return undefined;
+  const c = api.state as CoreState;
+  const dwelling = table(api, "dwellings").get(`dwelling:${householdId}`) as
+    | {
+        tenure?: string;
+        kind?: string;
+        valueMinor?: number;
+        priceLevel?: number;
+      }
+    | undefined;
+  if (dwelling?.tenure !== "own") return undefined;
+  const household = c.households.get(householdId);
+  const placeId = counted?.placeId ?? household?.placeId;
+  if (!placeId) return undefined;
+  const times = counted?.weight ?? 1;
+  const market = townOutsideOf(c.organizations.values(), placeId);
+  // The estate, or the household's first living member, is paid; a counted record has no account of its own, so the outside market takes the buyer's money for it and passes it on the same day.
+  const payeeId = counted
+    ? market?.id
+    : (estate?.decedentId ??
+      household?.memberIds.find((id) => c.people.get(id)?.alive) ??
+      household?.memberIds[0]);
+  if (!payeeId) return undefined;
+  const mortgages = (
+    table(api, "mortgages").rows() as unknown as MortgageRow[]
+  ).filter((row) => row.householdId === householdId && row.balanceMinor > 0);
+  for (const mortgage of mortgages) {
+    table(api, "mortgages").put({
+      ...mortgage,
+      listedAt: c.date,
+    } as unknown as ModuleRow);
+    // The household stops paying it month by month: it is paid off from the sale.
+    if (
+      c.finance.contracts.has(mortgage.id) &&
+      !c.finance.contracts.get(mortgage.id)!.endedAt
+    )
+      api.endStandingContract(mortgage.id);
+  }
+  const stamp = `${householdId}:${c.date}`;
+  table(api, "dwellings").put(
+    formerHome(dwelling, {
+      householdId,
+      tenure: "listed",
+      basis: "sale",
+      date: c.date,
+    }) as unknown as ModuleRow,
+  );
+  const sale: HomeSale = {
+    id: `home-sale:${stamp}`,
+    householdId,
+    placeId,
+    date: c.date,
+    status: "listed",
+    homes: times,
+    homesLeft: times,
+    payeeId,
+    ...(counted?.surplusAccountId
+      ? { surplusAccountId: counted.surplusAccountId }
+      : {}),
+    homeValueMinor: dwelling.valueMinor ?? 0,
+    ...(dwelling.priceLevel !== undefined
+      ? { homePriceLevel: dwelling.priceLevel }
+      : {}),
+    mortgageIds: mortgages.map((row) => row.id),
+    priceMinor: 0,
+    owedMinor: Math.round(
+      mortgages.reduce((sum, row) => sum + row.balanceMinor, 0) * times,
+    ),
+    toLenderMinor: 0,
+    surplusMinor: 0,
+    lossMinor: 0,
+    reasonKey,
+    ...(estate
+      ? { decedentId: estate.decedentId, deathEventId: estate.deathEventId }
+      : {}),
+  };
+  table(api, "sales").put(sale as unknown as ModuleRow);
+  // A home offered this month, for sale until a buyer takes it: the place's price level weighs it against the month's buyers.
+  listHome(api, placeId, times, sale.id, payeeId, {
+    valueMinor: sale.homeValueMinor,
+    ...(sale.homePriceLevel !== undefined
+      ? { priceLevel: sale.homePriceLevel }
+      : {}),
+  });
+  return sale;
 }

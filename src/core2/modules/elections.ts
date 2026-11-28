@@ -33,7 +33,7 @@ import {
   partiesHere,
   partyMeetings,
   partyTie,
-} from "./parties";
+} from "../elections-reads";
 import { ACCEPTING_MOVES, REFUSING_MOVES } from "../scene-replies";
 
 /** The parties module's id and readers, for readers outside the elections family (the director's party veterans, a first meeting's shared party) to take from the family's entry. */

@@ -50,8 +50,13 @@ import {
 } from "../trait-decisions";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, ageInYears, makeIsoDate } from "../kernel/dates";
-
-export const PARTIES_MODULE_ID = "core2-parties-v1";
+import { PARTIES_MODULE_ID, partiesHere, partyTie } from "../elections-reads";
+export {
+  PARTIES_MODULE_ID,
+  partiesHere,
+  partyMeetings,
+  partyTie,
+} from "../elections-reads";
 
 export interface PartyRow {
   readonly id: string;
@@ -737,15 +742,6 @@ function playerSaidYes(api: CoreAPI, playerId: string, date: string): boolean {
   return held?.answer === "yes";
 }
 
-export function partyTie(api: CoreAPI, personId: string): TieRow | null {
-  return (
-    (api
-      .moduleState(PARTIES_MODULE_ID)
-      .table("ties")
-      .get(personId) as unknown as TieRow | undefined) ?? null
-  );
-}
-
 /**
  * The people a party's membership holds: tied to it and members of its
  * organization (joining as an act writes both; the yearly weighing writes the
@@ -767,13 +763,6 @@ export function partyMemberIds(api: CoreAPI, partyId: string): string[] {
       ),
     )
     .map((t) => t.personId);
-}
-
-export function partiesHere(api: CoreAPI): readonly PartyRow[] {
-  return api
-    .moduleState(PARTIES_MODULE_ID)
-    .table("parties")
-    .rows() as unknown as PartyRow[];
 }
 
 export interface PartyMeetingRow {
@@ -1310,14 +1299,4 @@ export function partyStands(
     )
     .slice(0, limit)
     .map((entry) => ({ question: entry.question, favors: entry.position > 0 }));
-}
-
-export function partyMeetings(
-  api: CoreAPI,
-  partyId: string,
-): readonly PartyMeetingRow[] {
-  return api
-    .moduleState(PARTIES_MODULE_ID)
-    .table("meetings")
-    .query("byParty", [partyId]) as unknown as PartyMeetingRow[];
 }

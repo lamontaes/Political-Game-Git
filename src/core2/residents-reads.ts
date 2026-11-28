@@ -44,6 +44,7 @@ import {
 import { corePlaceByKey } from "./place-lookup";
 import { makeIsoDate } from "./kernel/dates";
 import { DAYS_PER_YEAR } from "./household-income";
+import type { CoreAPI } from "./types";
 
 export const runtimes = new WeakMap<CoreState, ResidentsRuntime>();
 
@@ -609,4 +610,22 @@ export function countedFundOf(
   if (!rt || ix === undefined || !rt.api) return undefined;
   const h = rt.store.households[ix]!;
   return h.gone || h.group < 0 ? undefined : fundOf(rt.api, rt, h.group);
+}
+
+/**
+ * The full, living people who list a counted relative (a husk) as family or
+ * hold a tie to them, sorted. The opening records each full person's tie to a
+ * counted relative (state.ts, with openingClosenessHours), so the grief
+ * reader and the eviction notice find it.
+ */
+export function fullRelativesOf(api: CoreAPI, huskId: string): string[] {
+  const husk = api.state.husks.get(huskId);
+  const witnesses = new Set(husk?.familyIds ?? []);
+  for (const key of api.state.relationshipsByPerson.get(huskId) ?? []) {
+    const tie = api.state.relationships.get(key);
+    if (tie) witnesses.add(tie.actorId === huskId ? tie.otherId : tie.actorId);
+  }
+  return [...witnesses]
+    .filter((id) => id !== huskId && api.state.people.get(id)?.alive)
+    .sort();
 }
