@@ -15,7 +15,7 @@ import { daysBetweenText as daysBetween, makeIsoDate } from "../kernel/dates";
 import { householdStatusRow } from "../housing-reads";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { countedPlaceOf, isDemoted, type Tenure } from "../counted-groups";
-import { workedToday } from "./jobs";
+import { workedToday } from "../job-lifecycle";
 import { addCountedJob } from "../residents-economy";
 import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
 import { stableHash } from "../kernel/ids";

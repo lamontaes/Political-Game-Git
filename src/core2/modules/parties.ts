@@ -20,7 +20,7 @@ import calibration from "../../../data/source/electoral-calibration-2024/corpus.
 import delegates from "../../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import nomination from "../../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import parameters from "../data/campaigns/parameters.json" with { type: "json" };
-import { partySide } from "./offices";
+import { partySide } from "../party-sides";
 import { worldRoster, worldSwing } from "../electorate-places";
 import { centuryParties, centuryStateVote } from "../electorate-century";
 import { stanceLean } from "./officials";
