@@ -49,6 +49,22 @@ export function householdStatusRow(
     HousingStatusRow | undefined;
 }
 
+/** One household's mortgage as the housing engine keeps it. */
+export interface MortgageRow {
+  readonly id: string;
+  readonly holderId: string;
+  readonly householdId: string;
+  readonly balanceMinor: number;
+  readonly monthsLeft: number;
+  readonly foreclosedAt?: string;
+}
+
+/** Every mortgage the housing engine keeps, named and counted households alike; none before the engine has opened its table. */
+export function allMortgageRows(api: CoreAPI): readonly MortgageRow[] {
+  if (!kept(api, HOUSING_ID)) return [];
+  return housing(api).table("mortgages").rows() as unknown as MortgageRow[];
+}
+
 /** A place's rental stock as the housing engine keeps it (units, and how many of them are vacant). */
 export interface HousingStockRow {
   readonly id: string;

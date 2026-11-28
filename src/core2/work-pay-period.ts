@@ -1,7 +1,7 @@
 /** Proposed internal payroll arithmetic. This helper never writes cash or grants authority. */
 import { bookkeeping } from "./bookkeeping";
 import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
-import { FinanceReadGuard } from "./budgets-treasury";
+import { FinanceReadGuard } from "./finance-plan";
 import type { IsoDate } from "./kernel/brands";
 import type { Source, WorkAttendanceResult } from "./types";
 
