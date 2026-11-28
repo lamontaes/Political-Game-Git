@@ -946,11 +946,11 @@
         "src/core2/births-counted.ts",
         "src/core2/modules/counted-moves.ts",
         "src/core2/modules/views-constants.ts",
+        "src/core2/modules/record-writes.ts",
         "src/core2/sitting-closeness.ts",
         "src/core2/counted-income-fifth.ts",
         "src/core2/household-income.ts",
         "src/core2/residents-reads.ts",
-        "src/core2/modules/record-writes.ts",
         "src/core2/counted-money-reads.ts"
       ],
       "paths": [
