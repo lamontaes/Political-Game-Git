@@ -60,6 +60,7 @@
 /src/core2/trait-lean.ts @lamontaes
 
 # Elections and campaigns (elections)
+/src/core2/elections-reads.ts @lamontaes
 /src/core2/modules/elections.ts @lamontaes
 /src/core2/modules/voting.ts @lamontaes
 /src/core2/modules/campaigns.ts @lamontaes

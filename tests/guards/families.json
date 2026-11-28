@@ -134,9 +134,11 @@
         "src/core2/modules/ballot-measures.ts",
         "src/core2/modules/recalls.ts",
         "src/core2/elections-calendar.ts",
-        "src/core2/modules/candidacy-constants.ts"
+        "src/core2/modules/candidacy-constants.ts",
+        "src/core2/elections-reads.ts"
       ],
       "paths": [
+        "src/core2/elections-reads.ts",
         "src/core2/modules/elections.ts",
         "src/core2/modules/voting.ts",
         "src/core2/modules/campaigns.ts",
