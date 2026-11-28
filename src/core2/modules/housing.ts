@@ -132,6 +132,8 @@ import type {
   JobInput,
   Source,
 } from "../types";
+import { DWELLINGS_KEY } from "../housing-reads";
+export { openingTenureOf } from "../housing-reads";
 
 export const HOUSING_MODULE_ID = "housing";
 /** The record a household is served notice by: pay what is owed or leave. */
@@ -364,7 +366,7 @@ export function publishedRentValueOf(
     NATIONAL.rentValue;
   return [row?.[0] || state[0], row?.[1] || state[1]];
 }
-const DWELLINGS_KEY = "housingDwellings";
+
 /** The year each owner bought its home (the opening's draw from ACS B25038), read by the housing history. */
 const HOME_BOUGHT_KEY = "housingHomeBought";
 /** Housing's numbers with the economy's and credit's beside them (the price path and the mortgages read both). */
@@ -655,20 +657,6 @@ export function expectedRenterHouseholds(
   const tenure = tenureOfTown(town, c.seed);
   if (!tenure || !rentValueOf(town.county, c.seed)[0]) return 0;
   return homes.length - Math.round((homes.length * tenure[1]) / tenure[0]);
-}
-
-/** Each town home's tenure as the opening wrote it (`withHousing`), by household id; empty before it. */
-export function openingTenureOf(world: {
-  readonly placeMetadata?: Readonly<Record<string, string>>;
-}): ReadonlyMap<string, "own" | "rent"> {
-  const rows = JSON.parse(world.placeMetadata?.[DWELLINGS_KEY] ?? "[]") as [
-    string,
-    string,
-  ][];
-  const tenure = new Map<string, "own" | "rent">();
-  for (const [id, kind] of rows)
-    if (kind === "own" || kind === "rent") tenure.set(id, kind);
-  return tenure;
 }
 
 export function withHousing(input: CoreInput): CoreInput {

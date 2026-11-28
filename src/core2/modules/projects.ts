@@ -23,7 +23,7 @@ import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./budgets";
 import { contractsOf, type ContractAwardRow } from "./contracts";
-import { ownerOf } from "./business";
+import { ownerOfBusiness as ownerOf } from "../business-reads";
 import { lawChain } from "./laws";
 
 export const PROJECTS_MODULE_ID = "core2-public-projects-v1";

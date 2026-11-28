@@ -22,7 +22,7 @@ import {
 } from "../accounts";
 import { livingCostParts, outsideCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
-import { openingWorkCommitments } from "./work";
+import { openingWorkCommitments } from "../work-reads";
 import { coreAPI } from "../state";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { notifyCountedWages, notifySalesReceipt } from "./finance";
@@ -94,25 +94,27 @@ import {
 } from "../residents-economy";
 import {
   chargeGroups,
+  fundGroups,
+  countedDeposits,
+  moveShare,
+  payGroups,
+  sweepResidual,
+} from "../counted-money";
+import {
   claimMoved,
   claimsInGroup,
   savingClaim,
   savingWeight,
   flowWeights,
-  fundGroups,
   HOUSING_KINDS,
   fundBalance,
-  countedDeposits,
   fundOf,
-  moveShare,
-  payGroups,
   peopleInGroup,
   flowScale,
   splitWhole,
   placeHasGroups,
-  sweepResidual,
   workersByGroup,
-} from "../counted-money";
+} from "../counted-money-reads";
 
 import { DAYS_PER_YEAR } from "../household-income";
 import { residentPerson, runtimes } from "../residents-reads";

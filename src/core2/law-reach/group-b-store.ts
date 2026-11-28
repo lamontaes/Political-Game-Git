@@ -14,7 +14,7 @@
  * different name, and no policy key is in both.
  */
 import { coreAPI, registerModule } from "../state";
-import { reachParameter } from "./group-b-people";
+import { reachParameter } from "./reach-parameters";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";

@@ -29,7 +29,7 @@ import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { GovernmentRow } from "./budgets";
-import { ownerOf } from "./business";
+import { ownerOfBusiness as ownerOf } from "../business-reads";
 import {
   CORRUPTION_MODULE_ID,
   considerBribe,

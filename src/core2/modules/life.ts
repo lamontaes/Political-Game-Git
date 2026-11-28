@@ -1,7 +1,7 @@
 import { makeIsoDate, daysBetweenText } from "../kernel/dates";
 import { addDays } from "../kernel/dates";
 import { ENCOUNTERS, meetAtJoin, meetAtVisit } from "../encounters";
-import { plannedWorkMinutesOnDate } from "./work";
+import { plannedWorkMinutesOnDate } from "../work-reads";
 import { closenessBetween } from "../closeness";
 import { VIEWS_MODULE_ID, stanceRow } from "./views";
 import { appraiseEvent, affectAt } from "../emotion";

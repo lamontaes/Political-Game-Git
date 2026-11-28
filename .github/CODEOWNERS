@@ -715,6 +715,7 @@
 /src/core2/modules/people.ts @lamontaes
 /src/core2/modules/residents.ts @lamontaes
 /src/core2/residents-reads.ts @lamontaes
+/src/core2/counted-money-reads.ts @lamontaes
 /src/core2/modules/life.ts @lamontaes
 /src/core2/modules/moves.ts @lamontaes
 /src/core2/moved-away-event.ts @lamontaes

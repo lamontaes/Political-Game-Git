@@ -21,7 +21,7 @@ import {
   hoursLost,
 } from "./closeness";
 import { parameter } from "./parameters";
-import { plannedWorkMinutesOnDate } from "./modules/work";
+import { plannedWorkMinutesOnDate } from "./work-reads";
 import { careNeedOf } from "./modules/health";
 import freeBlockJson from "./data/free-block.json" with { type: "json" };
 import { resolveOperation } from "./state";
