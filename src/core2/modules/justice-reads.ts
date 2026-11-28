@@ -1,12 +1,12 @@
 import type { CoreAPI } from "../types";
-import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
-import { CRIME_MODULE_ID, type CrimeMonth } from "./crime";
-import {
-  JUSTICE_MODULE_ID,
-  type CaseRow,
-  type CustodyRow,
-  type SentenceRow,
-} from "./justice";
+import type { CrimeRecord } from "./corruption";
+import type { CrimeMonth } from "./crime";
+import type { CaseRow, CustodyRow, SentenceRow } from "./justice";
+
+/** The justice engines' module ids; justice.ts, crime.ts and corruption.ts re-export them. */
+export const JUSTICE_MODULE_ID = "core2-justice-v1";
+export const CRIME_MODULE_ID = "core2-crime-v1";
+export const CORRUPTION_MODULE_ID = "corruption";
 
 /**
  * Justice's read doors: a case, a sentence and a custody stay from the courts,

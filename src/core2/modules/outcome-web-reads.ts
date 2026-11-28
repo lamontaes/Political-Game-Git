@@ -1,6 +1,8 @@
 import type { CoreAPI } from "../types";
-import { OUTCOME_WEB_MODULE_ID } from "../outcome-web-model";
 import type { WebMonth } from "./outcome-web";
+
+/** The outcome web's module id; outcome-web-model.ts re-exports it. */
+export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
 
 /**
  * The outcome web's read doors: the months the web kept for a place. Callers
