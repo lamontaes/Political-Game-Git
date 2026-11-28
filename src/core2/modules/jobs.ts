@@ -1324,6 +1324,13 @@ function reviewEmployers(api: CoreAPI): void {
     .table("employers")
     .query("all", [true]) as unknown as EmployerRow[]) {
     const book = c.finance.businesses.get(row.id);
+    // A closed business posts no work: its openings are withdrawn (one held for the player's answer stands until they give it), so the matching and the town's open-position count stop reading them.
+    if (book?.closedAt)
+      for (const position of openPositions(api, row.id))
+        if (!position.offeredTo)
+          store(api)
+            .table("positions")
+            .put({ ...position, status: "withdrawn" });
     if (!book || book.closedAt) continue;
     const jobs = currentJobs(api, row.id),
       // A position held for the player's answer goes first, so it is the last withdrawn: never while they decide.

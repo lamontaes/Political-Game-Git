@@ -232,4 +232,52 @@ describe("a closed employer's counted workers", () => {
       }
     }
   });
+  it("posts no work: its openings are withdrawn at the next review", () => {
+    const drawn = drawPlace();
+    const core = createLifeCore(input(drawn.key), {
+        data,
+        modules: [JOBS_MODULE],
+      }),
+      api = coreAPI(core);
+    openLaws(core);
+    const book = {
+      organizationId: employer,
+      kindId: "manufacturing",
+      annualDemandMinor: 0,
+      capacityMinor: 1,
+    } as unknown as BusinessBooksState;
+    core.finance.businesses.set(employer, book);
+    const jobs = api.moduleState("jobs");
+    jobs.table("employers").put({
+      id: employer,
+      isEmployer: true,
+      openingStaff: 0,
+      need: 0,
+      mix: {},
+    } as never);
+    advanceCore(core, "2021-02-10");
+    const posting = {
+      id: `position:${employer}:1`,
+      organizationId: employer,
+      placeId: place,
+      templateJobId: "none",
+      title: "Operator",
+      occupation: "occupation:operator",
+      hourlyMinor: 1500,
+      openedAt: "2021-02-10",
+      status: "open",
+      heads: 1,
+    };
+    jobs.table("positions").put(posting as never);
+    closeBusinessByChoice(core, api, {
+      organizationId: employer,
+      ownerAccountId: api.accounts().main(residentsId),
+      reasonKey: "retiring",
+      source: src,
+    });
+    advanceCore(core, "2021-04-15");
+    expect(jobs.table("positions").get(posting.id)).toMatchObject({
+      status: "withdrawn",
+    });
+  });
 });
