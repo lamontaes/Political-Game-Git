@@ -314,6 +314,10 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     },
   },
   onCalendarWork: officeDayCalendar,
+  onAfterDay(api) {
+    for (const module of carriersOf(api.state as CoreState, "onOfficeAfterDay"))
+      module.onOfficeAfterDay!(api);
+  },
   needEvaluators: {
     // The duty of the seat a person holds: the most that any level's kit says
     // has come due, zero for someone who holds none.
@@ -338,9 +342,14 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     }
     if (payday) {
       payStipends(api);
-      for (const module of carriersOf(api.state as CoreState, "onMonth"))
-        module.onMonth!(api);
+      // The other levels' months, then the local one: the order the acts registered in.
+      const months = carriersOf(api.state as CoreState, "onMonth");
+      for (const module of months)
+        if (module !== OFFICE_DAY_MODULE) module.onMonth!(api);
+      OFFICE_DAY_MODULE.onMonth!(api);
     }
+    for (const module of carriersOf(api.state as CoreState, "onOfficeDay"))
+      module.onOfficeDay!(api);
     return undefined;
   },
   // What the office day adds to the legislature: the player's own vote, the desk's arrival, the budget meeting, the committee that waits for a meeting and the meetings' agenda.

@@ -1988,11 +1988,11 @@ export const OFFICE_DAY_STATE_MODULE: CoreModule = {
     // The state budget the governor sends the legislature: the player writes the lines, the character does not.
     { kind: "budget-proposal", byDefault: true },
   ],
-  // The state level's acts: offers and effects, the day's, the month's and the after-day's steps, and the acts' rows in the core's data.
+  // The state level's acts: offers and effects, the office day's, the month's and the after-day's steps, and the acts' rows in the core's data.
   offerProviders: STATE_LEVEL.providers,
   effectHandlers: STATE_LEVEL.handlers,
-  onDay: STATE_LEVEL.onDay,
-  onAfterDay: STATE_LEVEL.onAfterDay,
+  onOfficeDay: STATE_LEVEL.onDay,
+  onOfficeAfterDay: STATE_LEVEL.onAfterDay,
   onMonth: STATE_LEVEL.onMonth,
   dataFor: (data) =>
     extendData(data, {

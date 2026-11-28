@@ -1384,6 +1384,13 @@ export interface CoreModule {
    */
   onMonth?: (api: CoreAPI) => void;
   /**
+   * A level's own step in the office day's day: the office day runs it for
+   * every module that carries it, after its payday work, inside its own day.
+   */
+  onOfficeDay?: (api: CoreAPI) => void;
+  /** A level's own step after the office day's day: run by the office day for every module that carries it. */
+  onOfficeAfterDay?: (api: CoreAPI) => void;
+  /**
    * How much of the seat's scheduled work has come due for a holder, from
    * nothing to one; null where the person holds no seat of this level. The
    * "duty" need reads the largest across the modules that carry it, so the

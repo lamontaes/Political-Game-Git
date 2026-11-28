@@ -63,6 +63,9 @@ describe("the daily register", () => {
   for (const module of core.modules.values()) {
     if (module.onDay) steps.push(`${module.id}.onDay`);
     if (module.onAfterDay) steps.push(`${module.id}.onAfterDay`);
+    // A level's steps inside the office day's day run by the office day.
+    if (module.onOfficeDay) steps.push(`${module.id}.onOfficeDay`);
+    if (module.onOfficeAfterDay) steps.push(`${module.id}.onOfficeAfterDay`);
   }
   const records = worldRecords(core);
   const tables = [
