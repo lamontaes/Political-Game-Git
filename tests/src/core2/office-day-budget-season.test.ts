@@ -202,16 +202,18 @@ it("the executive's budget act opens in its season and its changes are what the 
     ).toEqual([`priorities:${city.id}`]);
     // Sent: the act is not offered again this season.
     expect(budgetProposalDue(api, officeHost, mayorId), where).toBeNull();
-    // What each line fell short at the last close before the year starts:
-    // the first month under the new budget pays it on top of its twelfth.
     advanceCore(core, addDays(makeIsoDate(next), -1));
+    // The council votes the budget at the year's start with the executive's changes in its bill.
+    advanceCore(core, addDays(makeIsoDate(next), 1));
+    // What each line fell short at the last close under the old budget: the
+    // first month under the new budget pays it on top of its twelfth. The close
+    // on the year's first day still runs under the old budget (it closes the
+    // old year's last month, before the vote), so this is read after it.
     const arrearsBefore =
       (
         api.moduleState(BUDGETS_MODULE_ID).table("arrears").get(city.id) as
           { lines: Record<string, number> } | undefined
       )?.lines ?? {};
-    // The council votes the budget at the year's start with the executive's changes in its bill.
-    advanceCore(core, addDays(makeIsoDate(next), 1));
     // The budget bill the council voted carries the executive's line change, sponsored by the executive.
     const bill = (
       api
@@ -456,7 +458,10 @@ it("the executive's budget act opens in its season and its changes are what the 
     expect(person!.gained, `${where}: ${person!.receiptId}`).toBeGreaterThan(0);
     // The rest of the year: the amended line stays in force and every month
     // under it pays the firm its purchases.
-    advanceCore(core, addDays(gameStartDate(), 365));
+    // (A year's close may already be past the game's first anniversary where
+    // the fiscal year starts in January: the clock is never moved back.)
+    const through = addDays(gameStartDate(), 365);
+    if (core.date < through) advanceCore(core, through);
     const under = treasuryMonthsOf(api, city.id).filter(
       (m) => m.budgetId === adopted!.id,
     );
@@ -639,20 +644,20 @@ it("as mayor, a budget the council amends is voted at the amended amount, and th
       budgetProposalDue(api, officeHost, mayorId),
       `${where}: the season opened on ${open}`,
     ).not.toBeNull();
-    const spending = budgetsOf(api, city.id)[0]!.spendingMinor;
-    const line = Object.keys(spending).sort(
-      (a, b) => spending[b]! - spending[a]! || a.localeCompare(b),
-    )[0];
-    if (!line) {
+    // The mayor asks for a change on every line (a council backs a change on
+    // the biggest line alone, so a draw almost never amends it); the vote
+    // then amends the ones its members oppose, and one of those is followed.
+    const lines = Object.keys(budgetsOf(api, city.id)[0]!.spendingMinor).sort();
+    if (!lines.length) {
       tried.push(`${where}: the city budget has no lines`);
       continue;
     }
     // The player's route, as in the case above.
-    budgetLinePick(core, mayorId, line, 1_000_000);
+    for (const l of lines) budgetLinePick(core, mayorId, l, 1_000_000);
     officeActHandlers(officeHost)["propose-budget"]!(api, mayorId, {} as never);
-    expect(budgetPriorities(api, city.id)?.changes, where).toEqual({
-      [line]: 1_000_000,
-    });
+    expect(budgetPriorities(api, city.id)?.changes, where).toEqual(
+      Object.fromEntries(lines.map((l) => [l, 1_000_000])),
+    );
     advanceCore(core, addDays(makeIsoDate(next), 1));
     const adopted = budgetsOf(api, city.id).find(
       (b) => b.adoptedOn === next || b.startsOn === next,
@@ -665,15 +670,18 @@ it("as mayor, a budget the council amends is voted at the amended amount, and th
       );
       continue;
     }
-    const halved = amendments.find(
-      (a) => a.line === line && a.how === "halved",
-    );
-    if (!halved) {
+    // A change the council halved passes at the halved amount; one it halved
+    // as far as the negotiation goes is dropped and passes at nothing.
+    const cut =
+      amendments.find((a) => a.how === "halved") ??
+      amendments.find((a) => a.how === "dropped");
+    if (!cut) {
       tried.push(
-        `${where}: amended, ${line} not cut (${JSON.stringify(adopted!.adoptedBy)})`,
+        `${where}: amended, no line cut (${JSON.stringify(adopted!.adoptedBy)})`,
       );
       continue;
     }
+    const line = cut.line;
     // The proposal, its hearing and the bill the council voted.
     const fiscalYear = Number(next.slice(0, 4));
     const hearing = budgetHearingOf(api, city.id, fiscalYear);
@@ -685,7 +693,7 @@ it("as mayor, a budget the council amends is voted at the amended amount, and th
       .get(hearing!.billId) as unknown as BillRow;
     expect(bill.sponsorId, where).toBe(mayorId);
     // The amended amount: what the vote reduced it to, which is not what was sent.
-    const amended = 1_000_000 / 2 ** halved.times;
+    const amended = cut.how === "halved" ? 1_000_000 / 2 ** cut.times : 0;
     expect(amended, where).toBeLessThan(1_000_000);
     // The bill the council voted carries the amended amount, not the one sent
     // (the sent amount is the one the mayor's priorities held, asserted above).
@@ -693,7 +701,7 @@ it("as mayor, a budget the council amends is voted at the amended amount, and th
       bill.provisions.find((p) => p.kind === "budget-line" && p.line === line)
         ?.value,
       `${where}: the bill carries the amended amount`,
-    ).toBe(amended);
+    ).toBe(cut.how === "halved" ? amended : undefined);
     const previous = budgetsOf(api, city.id)
       .filter((b) => b.id !== adopted!.id && b.startsOn < next)
       .sort((x, y) => x.startsOn.localeCompare(y.startsOn))
@@ -702,9 +710,11 @@ it("as mayor, a budget the council amends is voted at the amended amount, and th
       previous,
       `${where}: the budget before ${adopted!.id}`,
     ).toBeDefined();
+    // Apart from what a registered pass-through adds to each year's line.
+    const withoutThrough = (b: typeof adopted) =>
+      (b!.spendingMinor[line] ?? 0) - (b!.passThroughMinor?.[line] ?? 0);
     expect(
-      (adopted!.spendingMinor[line] ?? 0) -
-        (previous!.spendingMinor[line] ?? 0),
+      withoutThrough(adopted) - withoutThrough(previous),
       `${where}: ${line} moved by the amended amount, ${adopted!.adoptedBy}`,
     ).toBe(amended);
     // The treasury pays the amended line: the first month under it owes the
