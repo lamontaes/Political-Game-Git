@@ -69,10 +69,12 @@ import {
   viewsModule,
 } from "../../../src/core2/modules/views";
 import {
+  candidatePlatform,
   candidateStance,
   stanceReader,
 } from "../../../src/core2/campaign-stances";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
+import { contestPositions } from "../../../src/core2/contest-positions";
 import { townResidentsByCash } from "../../support/resident-adults-test-kit";
 import { openRecord } from "../../support/open-modules";
 
@@ -119,6 +121,8 @@ function world(salt: string) {
 function twoCandidates(
   api: CoreAPI,
   core: CoreState,
+  /** Only residents with a stand on the seat's questions file, for a case that needs a platform. */
+  withStands = false,
 ): { you: FilingRow; rival: FilingRow } | null {
   // Every race opens its filing on its own real day: move to the first day
   // one is open in this place (gov-test-clock), as a player would wait.
@@ -138,8 +142,17 @@ function twoCandidates(
       Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
   );
   for (const contest of openContests(api)) {
+    const positions = withStands ? contestPositions(api, contest) : [];
     const filed: FilingRow[] = [];
     for (const adult of adults) {
+      // A stand needs a reason in the candidate's own record
+      // (`platformScores`), so only a resident with one on this seat's
+      // questions can run on a platform.
+      if (
+        withStands &&
+        !candidatePlatform(api, adult.id, null, positions).length
+      )
+        continue;
       const result = fileCandidacy(api, {
         personId: adult.id,
         contestId: contest.id,
@@ -169,11 +182,13 @@ function worldWithPair(
       pair: NonNullable<ReturnType<typeof twoCandidates>>;
     },
   ) => string | null,
+  /** Only residents with a stand on the seat's questions file (twoCandidates). */
+  withStands = false,
 ) {
   const tried: string[] = [];
   for (let attempt = 0; attempt < 8; attempt += 1) {
     const w = world(`${salt}:${attempt}`);
-    const pair = twoCandidates(w.api, w.core);
+    const pair = twoCandidates(w.api, w.core, withStands);
     if (!pair) {
       tried.push(`${w.where}: no two candidates for the first contest`);
       continue;
@@ -406,20 +421,24 @@ describe("campaigns that raise and spend", () => {
     // A rival whose campaign could hold an event if it could pay the venue:
     // a platform with a stance and a live candidate, read from the choice's
     // facts with money given to it. A campaign with no platform is passed over.
-    const { core, api, where, pair } = worldWithPair("rival-event", (w) => {
-      const bank = w.core.organizations.get(
-        campaignFor(w.api, w.pair.rival.id).organizationId,
-      )!;
-      const had = bank.liquidMinor;
-      bank.liquidMinor = 50_000_000_00;
-      const offered = campaignDayChoices(w.api, w.pair.rival.id, true).find(
-        (c) => c.kind === "event",
-      );
-      bank.liquidMinor = had;
-      return offered?.available
-        ? null
-        : `no event could be offered (${JSON.stringify(offered?.facts ?? {})})`;
-    });
+    const { core, api, where, pair } = worldWithPair(
+      "rival-event",
+      (w) => {
+        const bank = w.core.organizations.get(
+          campaignFor(w.api, w.pair.rival.id).organizationId,
+        )!;
+        const had = bank.liquidMinor;
+        bank.liquidMinor = 50_000_000_00;
+        const offered = campaignDayChoices(w.api, w.pair.rival.id, true).find(
+          (c) => c.kind === "event",
+        );
+        bank.liquidMinor = had;
+        return offered?.available
+          ? null
+          : `no event could be offered (${JSON.stringify(offered?.facts ?? {})})`;
+      },
+      true,
+    );
     const filing = pair.rival;
     const campaign = campaignFor(api, filing.id);
     const candidate = core.people.get(campaign.candidateId)!;
