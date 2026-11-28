@@ -593,7 +593,6 @@
         "src/core2/modules/outcome-web-reads.ts",
         "src/core2/law-reach/reach-parameters.ts",
         "src/core2/law-reach/group-a-reads.ts",
-        "src/core2/justice-parameters.ts",
         "src/rules/laws/**",
         "src/core2/social-security-law.ts"
       ],
@@ -1495,7 +1494,8 @@
         "src/core2/modules/crime.ts",
         "src/core2/modules/corruption.ts",
         "src/core2/justice-law.ts",
-        "src/core2/firearm-ownership.ts"
+        "src/core2/firearm-ownership.ts",
+        "src/core2/justice-parameters.ts"
       ],
       "paths": [
         "src/core2/modules/justice.ts",
