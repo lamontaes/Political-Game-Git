@@ -54,6 +54,7 @@ import {
   type LawChain,
   type LawRowInput,
 } from "../laws-starting";
+import type { EnactedAuthority, LawInForceAnswer } from "../laws-in-force";
 import {
   inForceOn,
   rowsCarriedToStart,
@@ -61,9 +62,7 @@ import {
   LAW_SERIES,
   resolveLawInForce,
   lawRowIsLater,
-  type EnactedAuthority,
-  type LawInForceAnswer,
-} from "../laws-in-force";
+} from "../laws-resolve";
 
 /**
  * How a law's effect reaches a person through the outcome web: the web's factor

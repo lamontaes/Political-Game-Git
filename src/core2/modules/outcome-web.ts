@@ -46,7 +46,7 @@ import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { schoolMeasure } from "../school-measures";
 import { propertyTaxRateInForce } from "../housing-reads";
 import { schoolsLineAboveBase } from "../budgets-treasury";
-import { inTownChain } from "../laws-in-force";
+import { inTownChain } from "../laws-resolve";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "./laws";
 import {
   budgetLineAddedPct,
