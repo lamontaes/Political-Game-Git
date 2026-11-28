@@ -38,14 +38,13 @@ import {
   type CampaignRow,
   type CauseRow,
 } from "./modules/campaigns";
+import type { ContestRow, FilingRow } from "./modules/elections";
 import {
   ELECTIONS_MODULE_ID,
   petitionCirculating,
   campaigning,
-  type ContestRow,
   raceAhead,
-  type FilingRow,
-} from "./modules/elections";
+} from "./elections-reads";
 import { VOTING_MODULE_ID, resultOf } from "./modules/voting";
 import {
   answerInterview,

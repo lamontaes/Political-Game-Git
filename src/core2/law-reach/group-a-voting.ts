@@ -51,7 +51,7 @@ import {
   termLimitReachedBy,
   type TermRow,
 } from "../modules/offices";
-import { ELECTIONS_MODULE_ID } from "../modules/elections";
+import { ELECTIONS_MODULE_ID } from "../elections-reads";
 import {
   convictionsOf,
   inCustody,
